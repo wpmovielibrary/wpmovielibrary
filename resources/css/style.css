@@ -1,0 +1,60 @@
+div#single-movie {
+	margin-bottom: 20px;
+}
+
+div#single-movie div.poster {
+	float: left;
+	margin-right: 10px;
+}
+
+div#single-movie .scrap {
+	font-size: 14px;
+}
+
+div#single-movie span.field-name {
+	font-weight: bold;
+}
+
+div#single-movie hr {
+    border: 0;
+    height: 1px;
+    margin: 10px 0 10px 0;
+    background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+    background-image: -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+    background-image: -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+    background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+}
+
+div#single-movie div.clear {
+	clear: both;
+}
+
+div#rating div.rating-stars {
+	display: inline-block;
+	width: 70px;
+	height: 14px;
+}
+
+div#rating div.stars0 {
+	background: url('../images/ratings.png') 0 0px no-repeat;
+}
+
+div#rating div.stars1 {
+	background: url('../images/ratings.png') 0 -14px no-repeat;
+}
+
+div#rating div.stars2 {
+	background: url('../images/ratings.png') 0 -28px no-repeat;
+}
+
+div#rating div.stars3 {
+	background: url('../images/ratings.png') 0 -42px no-repeat;
+}
+
+div#rating div.stars4 {
+	background: url('../images/ratings.png') 0 -56px no-repeat;
+}
+
+div#rating div.stars5 {
+	background: url('../images/ratings.png') 0 -70px no-repeat;
+}

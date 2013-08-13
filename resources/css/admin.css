@@ -1,0 +1,40 @@
+#tmdb_data {
+	margin-top: 1.5em;
+}
+
+.list-table {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	/*padding: 1em;*/
+	width: 100%;
+}
+
+.list-table th {
+	background: #ececec;
+}
+
+.list-table td {
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #fff;
+	margin: 0;
+	padding: 0.25em 0.5em;
+}
+
+.tmdb_select_movie {
+	display: inline-block;
+	height: 18em;
+	padding: 0.25em;
+	text-align: center;
+	width: 12.5em;
+}
+
+.tmdb_select_movie img {
+	border-radius: 4px;
+	box-shadow: 0 1px 1px #333;
+	max-height: 16em;
+	max-width: 12.5em;
+}
+
+.tmdb_select_movie em {
+	display: block;
+}
