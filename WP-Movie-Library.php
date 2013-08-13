@@ -45,6 +45,8 @@ class WPMovieLibrary {
 		$this->plugin_path = plugin_dir_path( __FILE__ );
 		$this->views_path   = $this->plugin_path . 'views';
 
+		$this->APIKey = file_get_contents( $this->plugin_path . 'api.key' );
+
 		# fields to be fetched from imdb
 		$this->tmdb_fields = array(
 			'id',
@@ -58,22 +60,24 @@ class WPMovieLibrary {
 			'runtime',
 			'genres',
 			'casts',
-			'release_date'
+			'release_date',
+			'images'
 		);
 
 		$this->meta_data = array(
-			'title'         => __( 'Title', 'wp_movie_library' ),
-			'tagline'       => __( 'Tagline', 'wp_movie_library' ),
-			'overview'      => __( 'Overview', 'wp_movie_library' ),
-			'director'      => __( 'Director', 'wp_movie_library' ),
-			'production'    => __( 'Production', 'wp_movie_library' ),
-			'country'       => __( 'Country', 'wp_movie_library' ),
-			'language'      => __( 'Language', 'wp_movie_library' ),
-			'runtime'       => __( 'Runtime', 'wp_movie_library' ),
-			'genres'        => __( 'Genres', 'wp_movie_library' ),
-			'cast'          => __( 'Cast', 'wp_movie_library' ),
-			'crew'          => __( 'Crew', 'wp_movie_library' ),
-			'release_date'  => __( 'Release Date', 'wp_movie_library' )
+			'title'         => array( 'title' => __( 'Title', 'wp_movie_library' ) ),
+			'tagline'       => array( 'title' => __( 'Tagline', 'wp_movie_library' ) ),
+			'overview'      => array( 'title' => __( 'Overview', 'wp_movie_library' ) ),
+			'director'      => array( 'title' => __( 'Director', 'wp_movie_library' ) ),
+			'production'    => array( 'title' => __( 'Production', 'wp_movie_library' ) ),
+			'country'       => array( 'title' => __( 'Country', 'wp_movie_library' ) ),
+			'language'      => array( 'title' => __( 'Language', 'wp_movie_library' ) ),
+			'runtime'       => array( 'title' => __( 'Runtime', 'wp_movie_library' ) ),
+			'genres'        => array( 'title' => __( 'Genres', 'wp_movie_library' ) ),
+			'cast'          => array( 'title' => __( 'Cast', 'wp_movie_library' ) ),
+			'crew'          => array( 'title' => __( 'Crew', 'wp_movie_library' ) ),
+			'release_date'  => array( 'title' => __( 'Release Date', 'wp_movie_library' ) ),
+			'images'        => array( 'title' => __( 'Images', 'wp_movie_library' ), 'type' => 'hidden' )
 		);
 
 		# HOOKS AND FILTERS START
@@ -85,30 +89,35 @@ class WPMovieLibrary {
 		add_action( 'init', array( $this, 'wpml_post_type' ) );
 
 		# add menu items
-		add_action( 'admin_menu', array($this, 'wpml_admin_menus' ) );
+		add_action( 'admin_menu', array( $this, 'wpml_admin_menus' ) );
 		
 		# meta_boxes
-		add_action( 'add_meta_boxes', array($this, 'wpml_meta_box' ) );
+		add_action( 'add_meta_boxes', array( $this, 'wpml_meta_box' ) );
 
 		# save imdb_id on save
-		//add_action( 'publish_movie', array($this, 'wpml_fetch_meta_data' ) );
-		add_action( 'save_post', array($this, 'wpml_save_tmdb_data' ) );
+		//add_action( 'publish_movie', array( $this, 'wpml_fetch_meta_data' ) );
+		add_action( 'save_post', array( $this, 'wpml_save_tmdb_data' ) );
+		//add_action( 'transition_post_status', array( $this, 'wpml_autosave_tmdb_data' ), 10, 3 );
 
 		# css
-		add_filter( 'wp_head', array($this, 'wpml_style' ) );
+		add_filter( 'wp_head', array( $this, 'wpml_style' ) );
 
 		# admin header
-		add_filter( 'admin_head', array($this, 'wpml_admin_header' ) );
+		add_filter( 'admin_head', array( $this, 'wpml_admin_header' ) );
 
 		# the_content filter
-		add_filter( 'the_content', array($this, 'wpml_content_filter' ) );
+		add_filter( 'the_content', array( $this, 'wpml_content_filter' ) );
 
 		# register widgets
-		add_action( 'widgets_init', array($this, 'wpml_widgets' ) );
+		add_action( 'widgets_init', array( $this, 'wpml_widgets' ) );
 
-		add_action( 'wp_ajax_tmdb_search', array($this, 'wpml_tmdb_search_callback' ) );
-		add_action( 'wp_ajax_nopriv_tmdb_search', array($this, 'wpml_tmdb_search_callback' ) );
-		add_action( 'wp_ajax_ajax_tmdb_search', array($this, 'wpml_tmdb_search_callback' ) );
+		# Ajax callbacks
+		add_action( 'wp_ajax_tmdb_search', array( $this, 'wpml_tmdb_search_callback' ) );
+		add_action( 'wp_ajax_nopriv_tmdb_search', array( $this, 'wpml_tmdb_search_callback' ) );
+		add_action( 'wp_ajax_ajax_tmdb_search', array( $this, 'wpml_tmdb_search_callback' ) );
+		add_action( 'wp_ajax_tmdb_save_image', array( $this, 'wpml_tmdb_save_image_callback' ) );
+		add_action( 'wp_ajax_nopriv_tmdb_save_image', array( $this, 'wpml_tmdb_save_image_callback' ) );
+		add_action( 'wp_ajax_ajax_tmdb_save_image', array( $this, 'wpml_tmdb_save_image_callback' ) );
 	}
 
 	/**
@@ -250,36 +259,10 @@ class WPMovieLibrary {
 	 */
 	public function wpml_meta_box_html( $post, $metabox ) {
 
-		$meta = get_post_meta( $post->ID, 'wpml_tmdb_data' );
-		$v    = $meta[0];
-?>
-		<select id="tmdb_search_type" name="tmdb_search_type">
-			<option value="title" selected="selected"><?php _e( 'Movie Title', 'wp_movie_library' ); ?></option>
-			<option value="id"><?php _e( 'TMDb ID', 'wp_movie_library' ); ?></option>
-		</select>
-		<input id="tmdb_query" type="text" name="tmdb_query" value="" />
-		<input id="tmdb_search" name="tmdb_search" type="button" class="button button-primary button-small" value="<?php _e( 'Fetch data', 'wp_movie_library' ); ?>" />
+		$meta  = get_post_meta( $post->ID, 'wpml_tmdb_data' );
+		$value = ( isset( $meta[0] ) && '' != $meta[0] ? $meta[0] : array() );
 
-		<div id="tmdb_data">
-		</div>
-
-		<table class="list-table">
-			<thead>
-				<tr>
-					<th><?php _e( 'Type', 'wp_movie_library' ); ?></th>
-					<th><?php _e( 'Value', 'wp_movie_library' ); ?></th>
-				</tr>
-			</thead>
-			<tbody>
-<?php foreach ( $this->meta_data as $slug => $meta ) : ?>
-				<tr>
-					<td><?php echo $meta; ?></td>
-					<td><input id="tmdb_data_<?php echo $slug; ?>" type="text" name="tmdb_data[<?php echo $slug; ?>]" value="<?php echo ( $v[$slug] ? $v[$slug] : '' ); ?>" size="64" /></td>
-				</tr>
-<?php endforeach; ?>
-			</tbody>
-		</table>
-<?php
+		require $this->views_path . '/wpml-tmdb-metabox.php';
 	}
 
 	/**
@@ -353,6 +336,9 @@ class WPMovieLibrary {
 		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
 			return false;
 
+		if ( ! isset( $_POST['tmdb_data'] ) || '' == $_POST['tmdb_data'] )
+			return false;
+
 		$post = get_post( $post_id );
 		if ( 'movie' != get_post_type( $post ) )
 			return false;
@@ -360,36 +346,22 @@ class WPMovieLibrary {
 		update_post_meta( $post_id, 'wpml_tmdb_data', $_POST['tmdb_data'] );
 	}
 
-	/**
-	 * 
-	 * 
-	 * @since WPMovieLibrary 1.0
-	 */
-	public function wpml_content_filter($content) {
-		$post_type = get_post_type();
+	public function wpml_save_tmdb_image( $image, $post_id ) {
+		//$upload = media_sideload_image( $image, $post_id );
+		//return ( is_object( $upload ) ? false : true );
+		return 'true';
+	}
 
-		# apply filter only if post type is 'movie'
-		if ( $post_type == 'movie' ) {
-			global $post;
+	public function wpml_tmdb_save_image_callback() {
 
-			# get plugin options to use in the view
-			$plugin_options = $this->wpml_get_plugin_options();
+		$image   = ( isset( $_GET['image'] )   && '' != $_GET['image']   ? $_GET['image']   : '' );
+		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
 
-			$fields_to_display = $plugin_options['fields_to_display'];
+		if ( '' == $image || '' == $post_id )
+			return false;
 
-			# display excerpt or full text?
-			$archive_display_mode = $plugin_options['archive_display_mode'];
-
-			if ( $archive_display_mode == 'excerpt' ) {
-				$excerpt_length = (int)$plugin_options['excerpt_length'];
-			}
-
-			# load view
-			require $this->views_path . '/wpml-content-movie.php';
-		} else {
-			# if it's not movie type post, don't touch the content
-			return $content;
-		}
+		echo $this->wpml_save_tmdb_image( $image, $post_id );
+		die();
 	}
 
 	public function wpml_tmdb_search_callback() {
@@ -437,9 +409,11 @@ class WPMovieLibrary {
 
 	private function wpml_get_movie_by_id( $id ) {
 		require_once $this->plugin_path . 'lib/wpml-tmdb.php';
-		$tmdb = new TMDb( $this->APIKey, 'fr', false, 'https://' );
-		$movie = $tmdb->getMovie( $id );
-		$casts = $tmdb->getMovieCast( $id );
+		$tmdb   = new TMDb( $this->APIKey, 'fr', false, 'https://' );
+		$movie  = $tmdb->getMovie( $id );
+		$casts  = $tmdb->getMovieCast( $id );
+		$images = $tmdb->getMovieImages( $id, '' );
+		$images = ( count( $images ) ? array( 'images' => $images['backdrops'] ) : array() );
 
 		foreach ( $casts['crew'] as $i => $c ) {
 			switch ( $c['job'] ) {
@@ -468,10 +442,42 @@ class WPMovieLibrary {
 			}
 		}
 
-		$movie = array_merge( $movie, $casts );
+		$movie = array_merge( $movie, $casts, $images );
 
 		header('Content-type: application/json');
 		echo json_encode( $movie );
+	}
+
+	/**
+	 * 
+	 * 
+	 * @since WPMovieLibrary 1.0
+	 */
+	public function wpml_content_filter($content) {
+		$post_type = get_post_type();
+
+		# apply filter only if post type is 'movie'
+		if ( $post_type == 'movie' ) {
+			global $post;
+
+			# get plugin options to use in the view
+			$plugin_options = $this->wpml_get_plugin_options();
+
+			$fields_to_display = $plugin_options['fields_to_display'];
+
+			# display excerpt or full text?
+			$archive_display_mode = $plugin_options['archive_display_mode'];
+
+			if ( $archive_display_mode == 'excerpt' ) {
+				$excerpt_length = (int)$plugin_options['excerpt_length'];
+			}
+
+			# load view
+			require $this->views_path . '/wpml-content-movie.php';
+		} else {
+			# if it's not movie type post, don't touch the content
+			return $content;
+		}
 	}
 
 	/**
@@ -492,13 +498,16 @@ class WPMovieLibrary {
 	public function wpml_admin_header() {
 
 		wp_register_style( 'wpml-admin', $this->plugin_url . '/resources/css/admin.css', array(), false, 'all' );
+		wp_register_style( 'jquery-ui-progressbar', $this->plugin_url . '/resources/css/jquery-ui-progressbar.min.css', array(), false, 'all' );
 		wp_enqueue_style( 'wpml-admin' );
+		wp_enqueue_style( 'jquery-ui-progressbar' );
 
 		wp_register_script( 'wpml-ajax', $this->plugin_url . '/resources/js/application.js', '', false, '' );
 		wp_enqueue_script( 'wpml-ajax' );
 		wp_localize_script( 'wpml-ajax', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 
 		wp_enqueue_script( 'jquery-ui-sortable' );
+		wp_enqueue_script( 'jquery-ui-progressbar' );
 	}
 
 	/**

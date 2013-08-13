@@ -5,7 +5,6 @@
 .list-table {
 	border: 1px solid #ddd;
 	border-radius: 3px;
-	/*padding: 1em;*/
 	width: 100%;
 }
 
@@ -38,3 +37,75 @@
 .tmdb_select_movie em {
 	display: block;
 }
+
+.button-loading {
+	background-image: url(../../../../../wp-admin/images/wpspin_light.gif) !important;
+	background-position: 4px 2px !important;
+	background-repeat: no-repeat !important;
+	background-size: 14px !important;
+	padding-left: 24px !important;
+}
+
+.tmbd_movie_images {
+	background: #fff;
+	border: 1px solid #ccc;
+	display: inline-block;
+	height: 8em;
+	margin: 0.25em;
+	padding: 0.25em;
+	position: relative;
+	width: 12.5em;
+}
+
+.tmbd_movie_images a {
+	background: white url(../../../../../wp-admin/images/xit.gif) 0 0 no-repeat;
+	border-radius: 0em;
+	height: 0.8em;
+	position: absolute;
+	right: 0.25em;
+	bottom: 0.2em;
+	width: 0.8em;
+}
+
+.tmbd_movie_image_remove:hover {
+	background-position: -10px 0;
+}
+
+#tmdb_save_images {
+	display: none;
+}
+
+.ui-progressbar {
+	margin-top: 1.5em;
+	position: relative;
+}
+
+.progress-label {
+	position: absolute;
+	left: 50%;
+	top: 4px;
+	font-weight: bold;
+	text-shadow: 1px 1px 0 #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

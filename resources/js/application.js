@@ -1,5 +1,8 @@
 jQuery(document).ready(function($) {
-	$("input#tmdb_search").click(function(e) {
+
+	cloudfront = 'http://d3gtl9l2a4fn1j.cloudfront.net/';
+
+	$('input#tmdb_search').click(function(e) {
 		e.preventDefault();
 		$.ajax({
 			type: 'GET',
@@ -13,7 +16,6 @@ jQuery(document).ready(function($) {
 				ct = xhr.getResponseHeader("content-type") || "";
 				r  = response;
 				if ( ct.indexOf('json') > -1 ) {
-					console.log(r);
 					populate_movie(r);
 				}
 				else if ( ct.indexOf('html') > -1 ) {
@@ -36,27 +38,104 @@ jQuery(document).ready(function($) {
 						});
 					});
 				}
-			}
+			},
+			beforeSend: function() {
+				$('input#tmdb_search').addClass('button-loading');
+			},
+			complete: function() {
+				$('input#tmdb_search').removeClass('button-loading');
+			},
 		});
 	});
 
 	populate_movie = function(data) {
 		//m = $.parseJSON(data);
 		m = data;
-		jQuery('.list-table input').each(function() {
+		jQuery('.list-table input[type=text], .list-table input[type=hidden]').each(function() {
 			$this = $(this);
+			$(this).val('');
 			_id = this.id.replace('tmdb_data_','');
 			if ( Array.isArray( m[_id] ) ) {
-				_v = [];
-				$.each(m[_id], function() {
-					_v.push( $this.val() + this.name );
-				});
-				_v = _v.join(', ');
+				if ( _id == 'images' ) {
+					populate_movie_images(m.images);
+				}
+				else {
+					_v = [];
+					$.each(m[_id], function() {
+						_v.push( $this.val() + this.name );
+					});
+					$(this).val(_v.join(', '));
+				}
 			}
 			else {
-				_v  = ( m[_id] != null ? m[_id] : '' );
+				_v = ( m[_id] != null ? m[_id] : '' );
+				$(this).val(_v);
 			}
-			$(this).val(_v);
+			$('.list-table').show();
 		});
+	}
+
+	populate_movie_images = function(images) {
+
+		$('#progressbar').remove();
+		$('#tmdb_data_images').val('');
+		$('#tmdb_data_images').after('<div id="tmdb_data_images_preview" />');
+
+		_v = [];
+		$.each(m.images, function() {
+			url   = cloudfront+'t/p/w'+this.width+this.file_path;
+			url_  = cloudfront+'t/p/w150'+this.file_path;
+			html  = '<div class="tmbd_movie_images">';
+			html += '<a href="#" class="tmbd_movie_image_remove"></a>';
+			html += '<img src=\''+url_+'\' data-tmdb=\''+JSON.stringify(this)+'\' alt=\'\' />';
+			html += '</div>';
+			$('#tmdb_data_images_preview').append(html);
+			_v.push(url);
+		});
+		$('#tmdb_data_images').val(_v.join(','));
+
+		$('.tmbd_movie_image_remove').click(function(e) {
+			e.preventDefault();
+			$(this).parent('.tmbd_movie_images').remove();
+			_v = [];
+			$('.tmbd_movie_images').each(function() {
+				j = $.parseJSON($(this).find('img').attr('data-tmdb'));
+				_v.push(cloudfront+'t/p/w'+j.width+j.file_path);
+			});
+			$('#tmdb_data_images').val(_v.join(','));
+		});
+
+		$('#tmdb_save_images').click(function(e) {
+			e.preventDefault();
+			img = $('#tmdb_data_images').val().split(',');
+			total = img.length;
+			$('#tmdb_data_images_preview').html('<div id="progressbar"><div class="progress-label">...</div></div>');
+			$('#progressbar').progressbar();
+			$.each(img, function(i) {
+				i = i+1;
+				$.ajax({
+					type: 'GET',
+					url: ajax_object.ajax_url,
+					data: {
+						action: 'tmdb_save_image',
+						image: this,
+						post_id: $('#post_ID').val()
+					},
+					success: function(_r) {
+						v = $('#tmdb_data_images').val();
+						$('#tmdb_data_images').val(v.replace(img,''));
+					},
+					complete: function() {
+						$('#progressbar').progressbar({
+							value: ( ( 100 / total ) * i )
+						});
+						$('.progress-label').text(i+' / '+total);
+					}
+				});
+			});
+			$('.progress-label').empty();
+		});
+		
+		$('#tmdb_save_images').show();
 	}
 });
