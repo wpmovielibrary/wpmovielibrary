@@ -2,6 +2,19 @@ jQuery(document).ready(function($) {
 
 	cloudfront = 'http://d3gtl9l2a4fn1j.cloudfront.net/';
 
+	if ( $('#tmdb-settings').length > 0 )
+		$('#tmdb-settings').accordion();
+
+	if ( $('#tmdb-tabs-settings').length > 0 )
+		$('#tmdb-tabs-settings').tabs();
+
+	$('input#tmdb_empty').click(function(e) {
+		e.preventDefault();
+		$('.list-table input[type=text], .list-table input[type=hidden]').val('');
+		$('#tmdb_save_images').hide();
+		$('#tmdb_data_images_preview').remove();
+	});
+
 	$('input#tmdb_search').click(function(e) {
 		e.preventDefault();
 		$.ajax({
@@ -19,7 +32,7 @@ jQuery(document).ready(function($) {
 					populate_movie(r);
 				}
 				else if ( ct.indexOf('html') > -1 ) {
-					$('#tmdb_data').html(r);
+					$('#tmdb_data').append(r);
 					$('.tmdb_select_movie a').click(function(e) {
 						e.preventDefault();
 						id = this.id.replace('tmdb_','');
@@ -32,7 +45,8 @@ jQuery(document).ready(function($) {
 								data: id
 							},
 							success: function(_r) {
-								$('#tmdb_data').empty();
+								$('#tmdb_data > *').not('p').remove();
+								$('#tmdb_data').hide();
 								populate_movie(_r);
 							}
 						});
@@ -51,7 +65,7 @@ jQuery(document).ready(function($) {
 	populate_movie = function(data) {
 		//m = $.parseJSON(data);
 		m = data;
-		jQuery('.list-table input[type=text], .list-table input[type=hidden]').each(function() {
+		$('.list-table input[type=text], .list-table input[type=hidden]').each(function() {
 			$this = $(this);
 			$(this).val('');
 			_id = this.id.replace('tmdb_data_','');
@@ -71,7 +85,7 @@ jQuery(document).ready(function($) {
 				_v = ( m[_id] != null ? m[_id] : '' );
 				$(this).val(_v);
 			}
-			$('.list-table').show();
+			$('.list-table, .button-empty').show();
 		});
 	}
 

@@ -1,3 +1,7 @@
+
+/* WPML Notice
+ ****************************************************/
+
 .wpml {
 	background: url(../assets/gradient.png) center top repeat-x;
 	border-color: #5b6b8b !important;
@@ -15,6 +19,51 @@
 	color: #faaeae;
 }
 
+
+/* #TMDb Tabs Settings
+ ****************************************************/
+
+#tmdb-tabs-settings h4 {
+    margin: 0.25em 0;
+}
+
+#tmdb-tabs-settings.ui-widget-content {
+	border-width: 0 !important;
+}
+
+#tmdb-tabs-settings > ul > li > a {
+	outline: none;
+}
+
+#tmdb-tabs-settings h4 .ui-icon {
+	display: inline-block;
+	margin: 0.25em 0 -0.25em 0;
+}
+
+.tmdb-settings tr:nth-child(even) {
+	background: #f6f6f6;
+}
+
+#tmdb-tabs-settings .update-nag {
+	padding: 1em 1.5em;
+	text-align: left;
+}
+
+#tmdb-tabs-settings .update-nag .ui-icon {
+	display: inline-block;
+	margin: 0.25em 0 -0.25em 0;
+}
+
+#restore_default {
+	font-size: 1.2em;
+	height: auto;
+	padding: 0.5em 3em;
+}
+
+
+/* #TMDb Meta Box
+ ****************************************************/
+
 #tmdbstuff table,
 #tmdbstuff input,
 #tmdbstuff textarea {
@@ -29,15 +78,27 @@
 }
 
 #tmdbstuff table {
-	margin: 0;
+	border-color: #dfdfdf;
+	background-color: #f9f9f9;
+	margin: 2em 0 0 0;
 	width: 100%;
 	border-width: 1px;
 	border-style: solid;
 	border-spacing: 0;
 }
 
+#tmdbstuff thead th {
+	background-color: #f1f1f1;
+}
+
 #tmdbstuff tr {
 	vertical-align: top;
+}
+
+#tmdbstuff th.left,
+#tmdbstuff td.left {
+	padding: 0.5em 1em;
+	width: 25%;
 }
 
 #tmdbstuff table input,
@@ -47,27 +108,14 @@
 	margin: 8px;
 }
 
-#tmdbstuff th.left,
-#tmdbstuff td.left {
-	padding: 0.5em 1em;
-	width: 25%;
-}
-
-#tmdbstuff table {
-	border-color: #ccc;
-}
-
-#tmdbstuff table {
-	border-color: #dfdfdf;
-	background-color: #f9f9f9;
-}
-
-#tmdbstuff thead th {
-	background-color: #f1f1f1;
-}
-
 #tmdb_data {
+	display: none;
 	margin-top: 1.5em;
+}
+
+.button-empty {
+	display: none;
+	float: right;
 }
 
 .tmdb_select_movie {
@@ -103,9 +151,15 @@
 	display: inline-block;
 	height: 8em;
 	margin: 0.25em;
+	overflow: hidden;
 	padding: 0.25em;
 	position: relative;
-	width: 12.5em;
+	width: 12em;
+}
+
+.tmbd_movie_images img {
+	height: auto;
+	width: 100%;
 }
 
 .tmbd_movie_images a {
@@ -127,7 +181,7 @@
 }
 
 .ui-progressbar {
-	margin-top: 1.5em;
+	margin: 1em 1.5em 1em 0.5em;
 	position: relative;
 }
 
