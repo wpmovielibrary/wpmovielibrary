@@ -40,10 +40,6 @@
 	margin: 0.25em 0 -0.25em 0;
 }
 
-.tmdb-settings tr:nth-child(even) {
-	background: #f6f6f6;
-}
-
 #tmdb-tabs-settings .update-nag {
 	padding: 1em 1.5em;
 	text-align: left;
@@ -58,6 +54,19 @@
 	font-size: 1.2em;
 	height: auto;
 	padding: 0.5em 3em;
+}
+
+.tmdb-settings tr:nth-child(even) {
+	background: #f6f6f6;
+}
+
+.tmdb-settings {
+	margin-bottom: 2em;
+}
+
+.ui-tabs-panel h4 {
+	border-bottom: 1px solid #efefef;
+	padding: 1em 0.5em;
 }
 
 

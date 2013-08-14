@@ -12,11 +12,33 @@ jQuery(document).ready(function($) {
 		e.preventDefault();
 		$('.list-table input[type=text], .list-table input[type=hidden]').val('');
 		$('#tmdb_save_images').hide();
-		$('#tmdb_data_images_preview').remove();
+		$('#tmdb_data > *, .tmdb_select_movie, .tmdb_movie_images').remove();
+	});
+
+	$('input#APIKey_check').click(function(e) {
+		e.preventDefault();
+		$.ajax({
+			type: 'GET',
+			url: ajax_object.ajax_url,
+			data: {
+				action: 'tmdb_api_key_check',
+				key: $('input#APIKey').val()
+			},
+			success: function(response) {
+				
+			},
+			beforeSend: function() {
+				$('input#APIKey_check').addClass('button-loading');
+			},
+			complete: function() {
+				$('input#APIKey_check').removeClass('button-loading');
+			},
+		});
 	});
 
 	$('input#tmdb_search').click(function(e) {
 		e.preventDefault();
+		$('#tmdb_data > *, .tmdb_select_movie').remove();
 		$.ajax({
 			type: 'GET',
 			url: ajax_object.ajax_url,
@@ -32,7 +54,7 @@ jQuery(document).ready(function($) {
 					populate_movie(r);
 				}
 				else if ( ct.indexOf('html') > -1 ) {
-					$('#tmdb_data').append(r);
+					$('#tmdb_data').append(r).show();
 					$('.tmdb_select_movie a').click(function(e) {
 						e.preventDefault();
 						id = this.id.replace('tmdb_','');

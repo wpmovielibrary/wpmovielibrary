@@ -21,9 +21,7 @@ endif;
 		<input id="tmdb_search" name="tmdb_search" type="button" class="button button-secondary button-small" value="<?php _e( 'Fetch data', 'wp_movie_library' ); ?>" />
 		<input id="tmdb_empty" name="tmdb_empty" type="button" class="button button-secondary button-small button-empty" value="<?php _e( 'Empty Results', 'wp_movie_library' ); ?>" />
 
-		<div id="tmdb_data">
-			<p><strong><?php _e( 'Find movie on TMDb:', 'wpml' ); ?></strong></p>
-		</div>
+		<div id="tmdb_data"></div>
 
 		<table class="list-table"<?php echo ( ! count( $value ) ? ' style="display:none"' : '' ); ?>>
 			<thead>

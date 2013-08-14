@@ -108,14 +108,20 @@ class WPMovieLibrary {
 		$this->plugin_path = plugin_dir_path( __FILE__ );
 
 		$this->wpml_settings = array(
+			'wpml' => array(
+				'name' => $this->plugin_name,
+				'url'  => $this->plugin_url,
+				'path' => $this->plugin_path,
+			),
 			'tmdb' => array(
 				'settings' => array(
-					'APIKey' => '',
-					'lang'   => 'en',
-					'scheme' => 'https',
-					'poster_size' => 'original',
-					'images_size' => 'original',
-					'images_max'  => 12,
+					'APIKey'          => '',
+					'lang'            => 'en',
+					'scheme'          => 'https',
+					'poster_size'     => 'original',
+					'poster_featured' => 1,
+					'images_size'     => 'original',
+					'images_max'      => 12,
 				),
 				'fields' => array(
 					'id'                    => array( 'title' => __( 'TMDb ID', 'wp_movie_library' ) ),
@@ -174,6 +180,8 @@ class WPMovieLibrary {
 		// New Movie metabox
 		add_action( 'add_meta_boxes', array( $this, 'wpml_meta_box' ) );
 
+		$this->tmdb = new WPML_TMDb( $this->wpml_o('tmdb-settings') );
+
 		// Movie save
 		add_action( 'save_post', array( $this->tmdb, 'wpml_save_tmdb_data' ) );
 
@@ -187,15 +195,16 @@ class WPMovieLibrary {
 		add_action( 'wp_ajax_tmdb_search', array( $this->tmdb, 'wpml_tmdb_search_callback' ) );
 		add_action( 'wp_ajax_nopriv_tmdb_search', array( $this->tmdb, 'wpml_tmdb_search_callback' ) );
 		add_action( 'wp_ajax_ajax_tmdb_search', array( $this->tmdb, 'wpml_tmdb_search_callback' ) );
+
 		add_action( 'wp_ajax_tmdb_save_image', array( $this->tmdb, 'wpml_tmdb_save_image_callback' ) );
 		add_action( 'wp_ajax_nopriv_tmdb_save_image', array( $this->tmdb, 'wpml_tmdb_save_image_callback' ) );
 		add_action( 'wp_ajax_ajax_tmdb_save_image', array( $this->tmdb, 'wpml_tmdb_save_image_callback' ) );
 
+		add_action( 'wp_ajax_tmdb_api_key_check', array( $this->tmdb, 'wpml_tmdb_api_key_check_callback' ) );
+
 		// Define custom functionality. Read more about actions and filters: http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters
 		//add_action( 'TODO', array( $this, 'action_method_name' ) );
 		//add_filter( 'TODO', array( $this, 'filter_method_name' ) );
-
-		$this->tmdb = new WPML_TMDb( $this->wpml_o('tmdb-settings') );
 
 	}
 
@@ -474,7 +483,6 @@ class WPMovieLibrary {
 
 		if ( isset( $_POST['submit'] ) && '' != $_POST['submit'] ) {
 
-			print_r( $_POST );
 			$supported = array_keys( $this->wpml_o( 'tmdb-settings' ) );
 			foreach ( $_POST as $key => $setting ) {
 				if ( in_array( $key, $supported ) ) {

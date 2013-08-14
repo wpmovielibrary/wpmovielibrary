@@ -58,6 +58,7 @@
 				</table>
 			</div>
 			<div id="fragment-2">
+				<h4>Poster Settings</h4>
 				<table class="form-table tmdb-settings">
 					<tbody>
 						<tr valign="top">
@@ -74,6 +75,22 @@
 								<p class="description"><?php _e( 'Movie Poster size. Default is TMDb&rsquo;s original size.', 'wpml' ); ?></p>
 							</td>
 						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label for="poster_featured"><?php _e( 'Add Posters As Thumbnails', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<input type="radio" name="poster_featured" value="1" <?php checked( $this->wpml_o('tmdb-settings-poster_featured'), 1 ); ?>/> <?php _e( 'Use Posters as Movies Thumbnails', 'wpml' ); ?>
+								<input type="radio" name="poster_featured" value="0" <?php checked( $this->wpml_o('tmdb-settings-poster_featured'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?>
+								<p class="description"><?php _e( 'Using posters as movies thumbnails will automatically import new movies&rsquo; poster and set them as post featured image.', 'wpml' ); ?></p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<h4>Images Settings</h4>
+
+				<table class="form-table tmdb-settings">
+					<tbody>
 						<tr valign="top">
 							<th scope="row">
 								<label for="images_size"><?php _e( 'Images Default Size', 'wpml' ); ?></label>
@@ -94,7 +111,7 @@
 							</th>
 							<td>
 								<input id="images_max" type="text" name="images_max" value="<?php echo $this->wpml_o('tmdb-settings-images_max'); ?>" size="4" maxlength="2" />
-								<p class="description"><?php _e( 'Maximum amount of images to fetch. Especially useful if you activated automatic images import.', 'wpml' ); ?></p>
+								<p class="description"><?php _e( 'Maximum amount of images to fetch. Especially useful if you activated automatic images import. Default is12, set at 0 to fetch all images.', 'wpml' ); ?></p>
 							</td>
 						</tr>
 					</tbody>

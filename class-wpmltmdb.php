@@ -37,6 +37,12 @@ class WPML_TMDb extends WPMovieLibrary {
 			return $this->scheme . '://';
 	}
 
+	private function wpml_api_key_check( $key ) {
+		$_tmdb = new TMDb( $key, $this->lang, false, $this->scheme );
+		$data = $_tmdb->getConfiguration();
+		return $data;
+	}
+
 	public function wpml_save_tmdb_data( $post_id ) {
 
 		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
@@ -56,6 +62,28 @@ class WPML_TMDb extends WPMovieLibrary {
 		//$upload = media_sideload_image( $image, $post_id );
 		//return ( is_object( $upload ) ? false : true );
 		return 'true';
+	}
+
+
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *                             Callbacks
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	public function wpml_tmdb_api_key_check_callback() {
+
+		if ( ! isset( $_GET['key'] ) || '' == $_GET['key'] || 32 !== strlen( $_GET['key'] ) )
+			die();
+
+		$data = $this->wpml_api_key_check( esc_attr( $_GET['key'] ) );
+
+		if ( isset( $data['status_code'] ) && 7 === $data['status_code'] )
+			echo '<span>'.__( 'Invalid API key - You must be granted a valid key', 'wpml' ).'</span>';
+		else
+			echo '<span>'.__( 'Valid API key - Save your settings and have fun!', 'wpml' ).'</span>';
+
+		die();
 	}
 
 	public function wpml_tmdb_save_image_callback() {
@@ -89,25 +117,38 @@ class WPML_TMDb extends WPMovieLibrary {
 	private function wpml_get_movie_by_title( $title ) {
 
 		$data = $this->tmdb->searchMovie( $title );
-		$ret = '';
 
-		if ( $data['total_results'] > 1 ) {
+		if ( 1 == $data['total_results'] ) {
+			$this->wpml_get_movie_by_id( $data['results'][0]['id'] );
+		}
+		else if ( $data['total_results'] > 1 ) {
+
+			$ret  = '<p><strong>';
+			$ret .= __( 'Your request showed multiple results. Select your movie in the list or try another search:', 'wpml' );
+			$ret .= '</strong></p>';
+
 			foreach ( $data['results'] as $movie ) {
+
 				$ret .= '<div class="tmdb_select_movie">';
 				$ret .= '<a id="tmdb_'.$movie['id'].'" href="#">';
+
 				if ( $movie['poster_path'] != null )
 					$ret .= '<img src="http://d3gtl9l2a4fn1j.cloudfront.net/t/p/w150/'.$movie['poster_path'].'" alt="'.$movie['title'].'" />';
 				else
-					$ret .= '<img src="'.WPML_URL.'/resources/images/no_poster.png" alt="'.$movie['title'].'" />';
+					$ret .= '<img src="'.$this->wpml_o('wpml-url').'/assets/no_poster.png" alt="'.$movie['title'].'" />';
+
 				$ret .= '<em>'.$movie['title'].'</em>';
 				$ret .= '<input type=\'hidden\' value=\''.json_encode( $movie ).'\' />';
 				$ret .= '</div>';
 			}
+
 			echo $ret;
 		}
 		else {
-			$this->wpml_get_movie_by_id( $data['results'][0]['id'] );
+			echo '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p>';
+			echo '<p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>';
 		}
+		
 	}
 
 	private function wpml_get_movie_by_id( $id ) {
@@ -115,7 +156,13 @@ class WPML_TMDb extends WPMovieLibrary {
 		$movie  = $this->tmdb->getMovie( $id );
 		$casts  = $this->tmdb->getMovieCast( $id );
 		$images = $this->tmdb->getMovieImages( $id, '' );
-		$images = ( count( $images ) ? array( 'images' => $images['backdrops'] ) : array() );
+		$images = $images['backdrops'];
+
+		$images_max = $this->wpml_o('tmdb-settings-images_max');
+		if ( $images_max > 0 && count( $images ) > $images_max )
+			$images = array_slice( $images, 0, $images_max );
+
+		$images = array( 'images' => $images );
 
 		foreach ( $casts['crew'] as $i => $c ) {
 			switch ( $c['job'] ) {
