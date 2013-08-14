@@ -1,22 +1,73 @@
+.wpml {
+	background: url(../assets/gradient.png) center top repeat-x;
+	border-color: #5b6b8b !important;
+	color: #fff;
+	padding: 0.75em 1.5em !important;
+	text-shadow: 0px 2px 4px #124;
+}
+
+.updated.wpml a {
+	font-weight: bold;
+	color: #fff;
+}
+
+.wpml a:hover {
+	color: #faaeae;
+}
+
+#tmdbstuff table,
+#tmdbstuff input,
+#tmdbstuff textarea {
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	border-width: 1px;
+	border-style: solid;
+}
+
+#tmdbstuff thead th {
+	padding: 5px 8px 8px;
+}
+
+#tmdbstuff table {
+	margin: 0;
+	width: 100%;
+	border-width: 1px;
+	border-style: solid;
+	border-spacing: 0;
+}
+
+#tmdbstuff tr {
+	vertical-align: top;
+}
+
+#tmdbstuff table input,
+#tmdbstuff table select,
+#tmdbstuff table textarea {
+	width: 96%;
+	margin: 8px;
+}
+
+#tmdbstuff th.left,
+#tmdbstuff td.left {
+	padding: 0.5em 1em;
+	width: 25%;
+}
+
+#tmdbstuff table {
+	border-color: #ccc;
+}
+
+#tmdbstuff table {
+	border-color: #dfdfdf;
+	background-color: #f9f9f9;
+}
+
+#tmdbstuff thead th {
+	background-color: #f1f1f1;
+}
+
 #tmdb_data {
 	margin-top: 1.5em;
-}
-
-.list-table {
-	border: 1px solid #ddd;
-	border-radius: 3px;
-	width: 100%;
-}
-
-.list-table th {
-	background: #ececec;
-}
-
-.list-table td {
-	border-bottom: 1px solid #ddd;
-	border-top: 1px solid #fff;
-	margin: 0;
-	padding: 0.25em 0.5em;
 }
 
 .tmdb_select_movie {
