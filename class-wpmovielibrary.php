@@ -140,19 +140,18 @@ class WPMovieLibrary {
 				)
 			),
 			'meta_data' => array(
-				'title'                 => array( 'title' => __( 'Title', 'wp_movie_library' ) ),
-				'tagline'               => array( 'title' => __( 'Tagline', 'wp_movie_library' ) ),
-				'overview'              => array( 'title' => __( 'Overview', 'wp_movie_library' ) ),
-				'director'              => array( 'title' => __( 'Director', 'wp_movie_library' ) ),
-				'production'            => array( 'title' => __( 'Production', 'wp_movie_library' ) ),
-				'country'               => array( 'title' => __( 'Country', 'wp_movie_library' ) ),
-				'language'              => array( 'title' => __( 'Language', 'wp_movie_library' ) ),
-				'runtime'               => array( 'title' => __( 'Runtime', 'wp_movie_library' ) ),
-				'genres'                => array( 'title' => __( 'Genres', 'wp_movie_library' ) ),
-				'cast'                  => array( 'title' => __( 'Cast', 'wp_movie_library' ) ),
-				'crew'                  => array( 'title' => __( 'Crew', 'wp_movie_library' ) ),
-				'release_date'          => array( 'title' => __( 'Release Date', 'wp_movie_library' ) ),
-				'images'                => array( 'title' => __( 'Images', 'wp_movie_library' ), 'type' => 'hidden' )
+				'title'                 => array( 'title' => __( 'Title', 'wp_movie_library' ), 'type' => 'text' ),
+				'tagline'               => array( 'title' => __( 'Tagline', 'wp_movie_library' ), 'type' => 'textarea' ),
+				'overview'              => array( 'title' => __( 'Overview', 'wp_movie_library' ), 'type' => 'textarea' ),
+				'director'              => array( 'title' => __( 'Director', 'wp_movie_library' ), 'type' => 'text' ),
+				'production'            => array( 'title' => __( 'Production', 'wp_movie_library' ), 'type' => 'text' ),
+				'country'               => array( 'title' => __( 'Country', 'wp_movie_library' ), 'type' => 'text' ),
+				'language'              => array( 'title' => __( 'Language', 'wp_movie_library' ), 'type' => 'text' ),
+				'runtime'               => array( 'title' => __( 'Runtime', 'wp_movie_library' ), 'type' => 'text' ),
+				'genres'                => array( 'title' => __( 'Genres', 'wp_movie_library' ), 'type' => 'textarea' ),
+				'cast'                  => array( 'title' => __( 'Cast', 'wp_movie_library' ), 'type' => 'textarea' ),
+				'crew'                  => array( 'title' => __( 'Crew', 'wp_movie_library' ), 'type' => 'textarea' ),
+				'release_date'          => array( 'title' => __( 'Release Date', 'wp_movie_library' ), 'type' => 'text' )
 			),
 		);
 
@@ -201,6 +200,8 @@ class WPMovieLibrary {
 		add_action( 'wp_ajax_ajax_tmdb_save_image', array( $this->tmdb, 'wpml_tmdb_save_image_callback' ) );
 
 		add_action( 'wp_ajax_tmdb_api_key_check', array( $this->tmdb, 'wpml_tmdb_api_key_check_callback' ) );
+
+		add_action( 'wp_ajax_tmdb_set_featured', array( $this->tmdb, 'wpml_tmdb_set_featured_callback' ) );
 
 		// Define custom functionality. Read more about actions and filters: http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters
 		//add_action( 'TODO', array( $this, 'action_method_name' ) );
@@ -380,7 +381,23 @@ class WPMovieLibrary {
 		wp_enqueue_script( 'jquery-ui-tabs' );
 
 		wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'js/admin.js', __FILE__ ), array( 'jquery' ), $this->version );
-		wp_localize_script( $this->plugin_slug . '-admin-script', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+		wp_localize_script(
+			$this->plugin_slug . '-admin-script', 'ajax_object',
+			array(
+				'ajax_url'           => admin_url( 'admin-ajax.php' ),
+				'images_added'       => __( 'Images uploaded!', 'wpml' ),
+				'base_url_small'     => $this->tmdb->wpml_tmdb_get_base_url( 'image', 'small' ),
+				'base_url_original'  => $this->tmdb->wpml_tmdb_get_base_url( 'image', 'original' ),
+				'search_movie_title' => __( 'Searching movie', 'wpml' ),
+				'search_movie'       => __( 'Fetching movie data', 'wpml' ),
+				'set_featured'       => __( 'Setting featured image…', 'wpml' ),
+				'images_added'       => __( 'Importing images…', 'wpml' ),
+				'save_image'         => __( 'Saving Images…', 'wpml' ),
+				'poster'             => __( 'Poster', 'wpml' ),
+				'done'               => __( 'Done!', 'wpml' ),
+				'oops'               => __( 'Oops… Did something went wrong?', 'wpml' )
+			)
+		);
 	}
 
 	/**
