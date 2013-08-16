@@ -65,7 +65,7 @@ jQuery(document).ready(function($) {
 				r  = response;
 				if ( ct.indexOf('json') > -1 ) {
 					populate_movie(r);
-					set_featured(r.poster_path);
+					set_featured(r.movieer_path);
 				}
 				else if ( ct.indexOf('html') > -1 ) {
 					$('#tmdb_data').append(r).show();
@@ -83,6 +83,106 @@ jQuery(document).ready(function($) {
 				$('input#tmdb_search').removeClass('button-loading');
 			},
 		});
+	});
+
+	// Status
+
+	$('#movie-status-select').siblings('a.edit-movie-status').click(function() {
+		if ( $('#movie-status-select').is(":hidden") ) {
+			$('#movie-status-select').slideDown('fast');
+			$(this).hide();
+		}
+		return false;
+	});
+
+	$('.save-movie-status', '#movie-status-select').click(function() {
+		$('#movie-status-select').slideUp('fast');
+		$('#movie-status-select').siblings('a.edit-movie-status').show();
+		$('#movie-status-display').text($('#movie_status > option:selected').text());
+		return false;
+	});
+
+	$('.cancel-movie-status', '#movie-status-select').click(function() {
+		$('#movie-status-select').slideUp('fast');
+		$('#movie_status').val($('#hidden_movie_status').val());
+		$('#movie-status-display').text($('#hidden_movie_status').val());
+		$('#movie-status-select').siblings('a.edit-movie-status').show();
+		
+		return false;
+	});
+
+	// Media
+
+	$('#movie-media-select').siblings('a.edit-movie-media').click(function() {
+		if ( $('#movie-media-select').is(":hidden") ) {
+			$('#movie-media-select').slideDown('fast');
+			$(this).hide();
+		}
+		return false;
+	});
+
+	$('.save-movie-media', '#movie-media-select').click(function() {
+		$('#movie-media-select').slideUp('fast');
+		$('#movie-media-select').siblings('a.edit-movie-media').show();
+		$('#movie-media-display').text($('#movie_media > option:selected').text());
+		return false;
+	});
+
+	$('.cancel-movie-media', '#movie-media-select').click(function() {
+		$('#movie-media-select').slideUp('fast');
+		$('#movie_media').val($('#hidden_movie_media').val());
+		$('#movie-media-display').text($('#hidden_movie_media').val());
+		$('#movie-media-select').siblings('a.edit-movie-media').show();
+		
+		return false;
+	});
+
+	// Rating
+
+	$('#movie-rating-select').siblings('a.edit-movie-rating').click(function() {
+		if ( $('#movie-rating-select').is(":hidden") ) {
+			$('#movie_rating_display').hide();
+			$('#movie-rating-select').slideDown('fast');
+			$(this).hide();
+		}
+		return false;
+	});
+
+	$('.save-movie-rating', '#movie-rating-select').click(function() {
+		var n = $('.star.s').last().prop('id').replace('star-','');
+		$('#movie-rating-select').slideUp('fast');
+		$('#movie-rating-select').siblings('a.edit-movie-rating').show();
+		$('#movie_rating_display').removeClass().addClass('stars-'+n).show();
+		$('#hidden_movie_rating').val(n);
+		return false;
+	});
+
+	$('.cancel-movie-rating', '#movie-rating-select').click(function() {
+		$('#movie-rating-select').slideUp('fast');
+		$('#movie_media').val($('#hidden_movie_media').val());
+		$('#movie-rating-display').text($('#hidden_movie_media').val());
+		$('#movie-rating-select').siblings('a.edit-movie-rating').show();
+		$('#movie_rating_display').show();
+		return false;
+	});
+
+	$('.star').not('.s').hover(
+		function() {
+			$(this).addClass('on');
+			$(this).prevAll().addClass('on');
+			$(this).nextAll().removeClass('on');
+		},
+		function() {
+			$(this).removeClass('on');
+			$(this).nextAll().removeClass('on');
+		}
+	);
+
+	$('.star').click(function() {
+		$('.star').removeClass('s');
+		$(this).addClass('s');
+		$(this).prevAll().addClass('s');
+		$(this).nextAll().removeClass('s');
 	});
 
 	populate_movie = function(data) {
@@ -172,7 +272,7 @@ jQuery(document).ready(function($) {
 				data: {
 					action: 'tmdb_save_image',
 					image: this,
-					post_id: $('#post_ID').val(),
+					movie_id: $('#movie_ID').val(),
 					title: title+' − Photo '+i
 				},
 				success: function(_r) {
@@ -219,8 +319,8 @@ jQuery(document).ready(function($) {
 			data: {
 				action: 'tmdb_set_featured',
 				image: image,
-				post_id: $('#post_ID').val(),
-				title: title+' − '+ajax_object.poster
+				movie_id: $('#movie_ID').val(),
+				title: title+' − '+ajax_object.movieer
 			},
 			success: function(r) {
 				if ( r ) {

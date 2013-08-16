@@ -176,9 +176,10 @@ class WPMovieLibrary {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
-		// New Movie metabox
-		add_action( 'add_meta_boxes', array( $this, 'wpml_meta_box' ) );
+		// New Movie metaboxes
+		add_action( 'add_meta_boxes', array( $this, 'wpml_metaboxes' ) );
 
+		// Load TMDb API Class
 		$this->tmdb = new WPML_TMDb( $this->wpml_o('tmdb-settings') );
 
 		// Movie save
@@ -348,7 +349,7 @@ class WPMovieLibrary {
 			'show_in_menu'       => true,
 			'has_archive'        => true,
 			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
-			'menu_icon'          => $this->plugin_url . '/assets/movie-icon.png',
+			'menu_icon'          => $this->plugin_url . '/assets/icon-movie.png',
 			'menu_position'      => 5
 		);
 
@@ -426,23 +427,38 @@ class WPMovieLibrary {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * 
+	 * Register WPML Metaboxes
 	 * 
 	 * @since    1.0.0
 	 */
-	public function wpml_meta_box() {
-		add_meta_box( 'tmdbstuff', __( 'TMDb − The Movie Database', 'wp_movie_library' ), array( $this, 'wpml_meta_box_html' ), 'movie', 'normal', 'high', null );
+	public function wpml_metaboxes() {
+		add_meta_box( 'tmdbstuff', __( 'TMDb − The Movie Database', 'wpml' ), array( $this, 'wpml_metabox_tmdb' ), 'movie', 'normal', 'high', null );
+		add_meta_box( 'wpml', __( 'Movie Library − Details', 'wpml' ), array( $this, 'wpml_metabox_details' ), 'movie', 'side', 'default', null );
 	}
 
 	/**
-	 * 
+	 * Main Metabox: TMDb API results.
+	 * Display a large Metabox below post editor to fetch and edit movie
+	 * informations using the TMDb API.
 	 * 
 	 * @since    1.0.0
 	 */
-	public function wpml_meta_box_html( $post, $metabox ) {
+	public function wpml_metabox_tmdb( $post, $metabox ) {
 		$meta  = get_post_meta( $post->ID, 'wpml_tmdb_data' );
 		$value = ( isset( $meta[0] ) && '' != $meta[0] ? $meta[0] : array() );
-		include_once( 'views/metabox.php' );
+		include_once( 'views/metabox-tmdb.php' );
+	}
+
+	/**
+	 * Left side Metabox: Movie details.
+	 * Used to handle Movies-related details.
+	 * 
+	 * @since    1.0.0
+	 */
+	public function wpml_metabox_details( $post, $metabox ) {
+		$meta  = get_post_meta( $post->ID, 'wpml_details' );
+		$value = ( isset( $meta[0] ) && '' != $meta[0] ? $meta[0] : array() );
+		include_once( 'views/metabox-details.php' );
 	}
 
 
@@ -461,8 +477,8 @@ class WPMovieLibrary {
 
 		add_submenu_page(
 			'edit.php?post_type=movie',
-			__( 'Options', 'wp_movie_library' ),
-			__( 'Options', 'wp_movie_library' ),
+			__( 'Options', 'wpml' ),
+			__( 'Options', 'wpml' ),
 			'manage_options',
 			'settings',
 			array( $this, 'wpml_admin_page' )
@@ -470,16 +486,16 @@ class WPMovieLibrary {
 		// TODO: implement import/export features
 		// add_submenu_page(
 		// 	'edit.php?post_type=movie',
-		// 	__( 'Import Movies', 'wp_movie_library' ),
-		// 	__( 'Import Movies', 'wp_movie_library' ),
+		// 	__( 'Import Movies', 'wpml' ),
+		// 	__( 'Import Movies', 'wpml' ),
 		// 	'manage_options',
 		// 	'import',
 		// 	array( $this, 'wpml_import_page' )
 		// );
 		// add_submenu_page(
 		// 	'edit.php?post_type=movie',
-		// 	__( 'Export Movies', 'wp_movie_library' ),
-		// 	__( 'Export Movies', 'wp_movie_library' ),
+		// 	__( 'Export Movies', 'wpml' ),
+		// 	__( 'Export Movies', 'wpml' ),
 		// 	'manage_options',
 		// 	'export',
 		// 	array( $this, 'wpml_export_page' )
