@@ -112,7 +112,7 @@ class WPML_TMDb extends WPMovieLibrary {
 		if ( 'movie' != get_post_type( $post ) )
 			return false;
 
-		update_post_meta( $post_id, 'wpml_tmdb_data', $_POST['tmdb_data'] );
+		update_post_meta( $post_id, '_wpml_movie_data', $_POST['tmdb_data'] );
 	}
 
 
@@ -210,7 +210,7 @@ class WPML_TMDb extends WPMovieLibrary {
 				$ret .= '<a id="tmdb_'.$movie['id'].'" href="#">';
 
 				if ( $movie['poster_path'] != null )
-					$ret .= '<img src="'.$this->config['poster_url'][$this->wpml_o('tmdb-settings-poster_size')].$movie['poster_path'].'" alt="'.$movie['title'].'" />';
+					$ret .= '<img src="'.$this->config['poster_url']['small'].$movie['poster_path'].'" alt="'.$movie['title'].'" />';
 				else
 					$ret .= '<img src="'.$this->wpml_o('wpml-url').'/assets/no_poster.png" alt="'.$movie['title'].'" />';
 
@@ -233,6 +233,7 @@ class WPML_TMDb extends WPMovieLibrary {
 		$movie  = $this->tmdb->getMovie( $id, $lang );
 		$casts  = $this->tmdb->getMovieCast( $id );
 		$images = $this->tmdb->getMovieImages( $id, '' );
+
 		$poster = $images['posters'][0];
 		$images = $images['backdrops'];
 
@@ -242,32 +243,20 @@ class WPML_TMDb extends WPMovieLibrary {
 
 		$images = array( 'images' => $images );
 
-		foreach ( $casts['crew'] as $i => $c ) {
-			switch ( $c['job'] ) {
-				case 'Director':
-					$movie['director'][] = $c;
-					unset( $casts['crew'][$i] );
-					break;
-				case 'Author':
-					$movie['author'][] = $c;
-					unset( $casts['crew'][$i] );
-					break;
-				case 'Producer':
-					$movie['production'][] = $c;
-					unset( $casts['crew'][$i] );
-					break;
-				case 'Director of Photography':
-					$movie['photography'][] = $c;
-					unset( $casts['crew'][$i] );
-					break;
-				case 'Original Music Composer':
-					$movie['soundtrack'][] = $c;
-					unset( $casts['crew'][$i] );
-					break;
-				default:
-					break;
+		$crew = array();
+		$_d = $this->wpml_o('tmdb-default_fields');
+		$_c = array_keys( $_d );
+
+		foreach ( $casts['crew'] as $c ) {
+			$_r = array_search( $c['job'], array_values( $_d ) );
+			if ( false !== $_r ) {
+				$movie[ $_c[ $_r ] ][] = $c;
 			}
 		}
+
+		$casts = array(
+			'cast' => $casts['cast']
+		);
 
 		$movie = array_merge( $movie, $casts, $images );
 

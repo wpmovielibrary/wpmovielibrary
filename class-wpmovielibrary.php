@@ -98,6 +98,14 @@ class WPMovieLibrary {
 	protected $tmdb = null;
 
 	/**
+	 * TMDb API.
+	 *
+	 * @since    1.0.0
+	 * @var      array
+	 */
+	public $wpml_crew = null;
+
+	/**
 	 * Initialize WPMovieLibrary.
 	 *
 	 * @since     1.0.0
@@ -123,39 +131,61 @@ class WPMovieLibrary {
 					'images_size'     => 'original',
 					'images_max'      => 12,
 				),
-				'fields' => array(
-					'id'                    => array( 'title' => __( 'TMDb ID', 'wp_movie_library' ) ),
-					'imdb_id'               => array( 'title' => __( 'IMDb ID', 'wp_movie_library' ) ),
-					'title'                 => array( 'title' => __( 'Title', 'wp_movie_library' ) ),
-					'tagline'               => array( 'title' => __( 'Tagline', 'wp_movie_library' ) ),
-					'overview'              => array( 'title' => __( 'Overview', 'wp_movie_library' ) ),
-					'production_companies'  => array( 'title' => __( 'Production Companies', 'wp_movie_library' ) ),
-					'production_countries'  => array( 'title' => __( 'Production Countries', 'wp_movie_library' ) ),
-					'spoken_languages'      => array( 'title' => __( 'Language', 'wp_movie_library' ) ),
-					'runtime'               => array( 'title' => __( 'Runtime', 'wp_movie_library' ) ),
-					'genres'                => array( 'title' => __( 'Genres', 'wp_movie_library' ) ),
-					'casts'                 => array( 'title' => __( 'Cast &amp; Crew', 'wp_movie_library' ) ),
-					'release_date'          => array( 'title' => __( 'Release Date', 'wp_movie_library' ) ),
-					'images'                => array( 'title' => __( 'Movie Images', 'wp_movie_library' ) )
+				'default_fields' => array(
+					'director'     => 'Director',
+					'producer'     => 'Producer',
+					'photgraphy'   => 'Director of Photography',
+					'composer'     => 'Original Music Composer',
+					'author'       => 'Author',
+					'writer'       => 'Writer',
+					'actors'       => 'Actors'
 				)
-			),
-			'meta_data' => array(
-				'title'                 => array( 'title' => __( 'Title', 'wp_movie_library' ), 'type' => 'text' ),
-				'tagline'               => array( 'title' => __( 'Tagline', 'wp_movie_library' ), 'type' => 'textarea' ),
-				'overview'              => array( 'title' => __( 'Overview', 'wp_movie_library' ), 'type' => 'textarea' ),
-				'director'              => array( 'title' => __( 'Director', 'wp_movie_library' ), 'type' => 'text' ),
-				'production'            => array( 'title' => __( 'Production', 'wp_movie_library' ), 'type' => 'text' ),
-				'country'               => array( 'title' => __( 'Country', 'wp_movie_library' ), 'type' => 'text' ),
-				'language'              => array( 'title' => __( 'Language', 'wp_movie_library' ), 'type' => 'text' ),
-				'runtime'               => array( 'title' => __( 'Runtime', 'wp_movie_library' ), 'type' => 'text' ),
-				'genres'                => array( 'title' => __( 'Genres', 'wp_movie_library' ), 'type' => 'textarea' ),
-				'cast'                  => array( 'title' => __( 'Cast', 'wp_movie_library' ), 'type' => 'textarea' ),
-				'crew'                  => array( 'title' => __( 'Crew', 'wp_movie_library' ), 'type' => 'textarea' ),
-				'release_date'          => array( 'title' => __( 'Release Date', 'wp_movie_library' ), 'type' => 'text' )
 			),
 		);
 
+		// Load settings or register new ones
 		$this->wpml_default_settings();
+
+		// Basic movie default fields
+		$this->wpml_meta = array(
+			'title'                => array( 'title' => __( 'Title', 'wpml' ), 'type' => 'text' ),
+			'overview'             => array( 'title' => __( 'Overview', 'wpml' ), 'type' => 'textarea' ),
+			'production_companies' => array( 'title' => __( 'Production', 'wpml' ), 'type' => 'text' ),
+			'production_countries' => array( 'title' => __( 'Country', 'wpml' ), 'type' => 'text' ),
+			'spoken_languages'     => array( 'title' => __( 'Languages', 'wpml' ), 'type' => 'text' ),
+			'runtime'              => array( 'title' => __( 'Runtime', 'wpml' ), 'type' => 'text' ),
+			'genres'               => array( 'title' => __( 'Genres', 'wpml' ), 'type' => 'text' ),
+			'release_date'         => array( 'title' => __( 'Release Date', 'wpml' ), 'type' => 'text' )
+		);
+
+		$this->wpml_movie_details = array(
+			'movie_media'   => array(
+				'title' => __( 'Title', 'wpml' ),
+				'options' => array(
+					'dvd'   => __( 'DVD', 'wpml' ),
+					'vod'   => __( 'VOD', 'wpml' ),
+					'vhs'   => __( 'VHS', 'wpml' ),
+					'other' => __( 'Other', 'wpml' ),
+				),
+				'default' => array(
+					'dvd'   => __( 'DVD', 'wpml' ),
+				),
+			),
+			'movie_status'  => array(
+				'title' => __( 'Overview', 'wpml' ),
+				'options' => array(
+					'available' => __( 'Available', 'wpml' ),
+					'loaned'    => __( 'Loaned', 'wpml' ),
+					'scheduled' => __( 'Scheduled', 'wpml' ),
+				),
+				'default' => array(
+					'available' => __( 'Available', 'wpml' ),
+				)
+			)
+		);
+
+		// Load TMDb API Class
+		$this->tmdb = new WPML_TMDb( $this->wpml_o('tmdb-settings') );
 
 		// Load plugin text domain, movie post type, default config
 		add_action( 'init', array( $this, 'wpml_load_plugin_textdomain' ) );
@@ -179,9 +209,6 @@ class WPMovieLibrary {
 		// New Movie metaboxes
 		add_action( 'add_meta_boxes', array( $this, 'wpml_metaboxes' ) );
 
-		// Load TMDb API Class
-		$this->tmdb = new WPML_TMDb( $this->wpml_o('tmdb-settings') );
-
 		// Movie save
 		add_action( 'save_post', array( $this->tmdb, 'wpml_save_tmdb_data' ) );
 
@@ -192,13 +219,11 @@ class WPMovieLibrary {
 		// add_action( 'widgets_init', array( $this, 'wpml_widgets' ) );
 
 		// Ajax callbacks
+		add_action( 'wp_ajax_wpml_save_details', array( $this, 'wpml_save_details_callback' ) );
+
 		add_action( 'wp_ajax_tmdb_search', array( $this->tmdb, 'wpml_tmdb_search_callback' ) );
-		add_action( 'wp_ajax_nopriv_tmdb_search', array( $this->tmdb, 'wpml_tmdb_search_callback' ) );
-		add_action( 'wp_ajax_ajax_tmdb_search', array( $this->tmdb, 'wpml_tmdb_search_callback' ) );
 
 		add_action( 'wp_ajax_tmdb_save_image', array( $this->tmdb, 'wpml_tmdb_save_image_callback' ) );
-		add_action( 'wp_ajax_nopriv_tmdb_save_image', array( $this->tmdb, 'wpml_tmdb_save_image_callback' ) );
-		add_action( 'wp_ajax_ajax_tmdb_save_image', array( $this->tmdb, 'wpml_tmdb_save_image_callback' ) );
 
 		add_action( 'wp_ajax_tmdb_api_key_check', array( $this->tmdb, 'wpml_tmdb_api_key_check_callback' ) );
 
@@ -422,6 +447,30 @@ class WPMovieLibrary {
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
+	 *                             Callbacks
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	public function wpml_save_details_callback() {
+
+		$post_id      = ( isset( $_POST['post_id'] )      && '' != $_POST['post_id']      ? $_POST['post_id']      : '' );
+		$wpml_details = ( isset( $_POST['wpml_details'] ) && '' != $_POST['wpml_details'] ? $_POST['wpml_details'] : '' );
+
+		if ( '' == $post_id || '' == $wpml_details )
+			return false;
+
+		$post = get_post( $post_id );
+		if ( 'movie' != get_post_type( $post ) )
+			return false;
+
+		update_post_meta( $post_id, '_wpml_movie_media', $wpml_details['media'] );
+		update_post_meta( $post_id, '_wpml_movie_status', $wpml_details['status'] );
+		update_post_meta( $post_id, '_wpml_movie_rating', $wpml_details['rating'] );
+	}
+
+
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
 	 *                             Meta Boxes
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -444,8 +493,12 @@ class WPMovieLibrary {
 	 * @since    1.0.0
 	 */
 	public function wpml_metabox_tmdb( $post, $metabox ) {
-		$meta  = get_post_meta( $post->ID, 'wpml_tmdb_data' );
+
+		$meta  = get_post_meta( $post->ID, '_wpml_movie_data' );
 		$value = ( isset( $meta[0] ) && '' != $meta[0] ? $meta[0] : array() );
+
+		
+
 		include_once( 'views/metabox-tmdb.php' );
 	}
 
@@ -456,8 +509,16 @@ class WPMovieLibrary {
 	 * @since    1.0.0
 	 */
 	public function wpml_metabox_details( $post, $metabox ) {
-		$meta  = get_post_meta( $post->ID, 'wpml_details' );
-		$value = ( isset( $meta[0] ) && '' != $meta[0] ? $meta[0] : array() );
+
+		$v = get_post_meta( $post->ID, '_wpml_movie_status', true );
+		$movie_status = ( isset( $v ) && '' != $v ? $v : key( $this->wpml_movie_details['movie_status']['default'] ) );
+
+		$v = get_post_meta( $post->ID, '_wpml_movie_media', true );
+		$movie_media  = ( isset( $v ) && '' != $v ? $v : key( $this->wpml_movie_details['movie_media']['default'] ) );
+
+		$v = get_post_meta( $post->ID, '_wpml_movie_rating', true );
+		$movie_rating = ( isset( $v ) && '' != $v ? $v : 0 );
+
 		include_once( 'views/metabox-details.php' );
 	}
 

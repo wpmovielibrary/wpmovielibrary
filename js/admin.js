@@ -12,7 +12,8 @@ jQuery(document).ready(function($) {
 		e.preventDefault();
 		$('.list-table input[type=text], .list-table input[type=hidden], .list-table textarea').val('');
 		$('#tmdb_save_images').hide();
-		$('#tmdb_data > *, .tmdb_select_movie, .tmdb_movie_images, #progressbar').remove();
+		$('.tmdb_select_movie, .tmdb_movie_images, #progressbar').remove();
+		$('#tmdb_data').empty();
 		tmdb_clear_status();
 	});
 
@@ -65,14 +66,14 @@ jQuery(document).ready(function($) {
 				r  = response;
 				if ( ct.indexOf('json') > -1 ) {
 					populate_movie(r);
-					set_featured(r.movieer_path);
+					set_featured(r.poster_path);
 				}
 				else if ( ct.indexOf('html') > -1 ) {
 					$('#tmdb_data').append(r).show();
 					$('.tmdb_select_movie a').click(function(e) {
 						e.preventDefault();
 						id = this.id.replace('tmdb_','');
-						search_movie();
+						search_movie(id);
 					});
 				}
 			},
@@ -153,7 +154,7 @@ jQuery(document).ready(function($) {
 		$('#movie-rating-select').slideUp('fast');
 		$('#movie-rating-select').siblings('a.edit-movie-rating').show();
 		$('#movie_rating_display').removeClass().addClass('stars-'+n).show();
-		$('#hidden_movie_rating').val(n);
+		$('#movie_rating, #hidden_movie_rating').val(n);
 		return false;
 	});
 
@@ -185,6 +186,10 @@ jQuery(document).ready(function($) {
 		$(this).nextAll().removeClass('s');
 	});
 
+	$('input#wpml_save').click(function() {
+		save_wpml_details();
+	});
+
 	populate_movie = function(data) {
 		m = data;
 		$('.list-table input[type=text], .list-table input[type=hidden], .list-table textarea').each(function() {
@@ -193,16 +198,23 @@ jQuery(document).ready(function($) {
 			$type = $(this).prop('type');
 			
 			_id = this.id.replace('tmdb_data_','');
-			if ( Array.isArray( m[_id] ) ) {
-				if ( _id == 'images' ) {
-					populate_movie_images(m.images);
+			if ( typeof m[_id] == "object" ) {
+				if ( Array.isArray( m[_id] ) ) {
+					if ( _id == 'images' ) {
+						populate_movie_images(m.images);
+					}
+					else {
+						_v = [];
+						$.each(m[_id], function() {
+							_v.push( $this.val() + this.name );
+						});
+						$(this).val(_v.join(', '));
+					}
 				}
 				else {
-					_v = [];
+					console.log(m[_id]);
 					$.each(m[_id], function() {
-						_v.push( $this.val() + this.name );
 					});
-					$(this).val(_v.join(', '));
 				}
 			}
 			else {
@@ -272,7 +284,7 @@ jQuery(document).ready(function($) {
 				data: {
 					action: 'tmdb_save_image',
 					image: this,
-					movie_id: $('#movie_ID').val(),
+					post_id: $('#post_ID').val(),
 					title: title+' − Photo '+i
 				},
 				success: function(_r) {
@@ -288,6 +300,28 @@ jQuery(document).ready(function($) {
 		$('.progress-label').empty();
 	}
 
+	save_wpml_details = function() {
+		$.ajax({
+			type: 'POST',
+			url: ajax_object.ajax_url,
+			data: {
+				action: 'wpml_save_details',
+				post_id: $('#post_ID').val(),
+				wpml_details: {
+					media: $('#movie_media').val(),
+					status: $('#movie_status').val(),
+					rating: $('#movie_rating').val()
+				}
+			},
+			beforeSend: function() {
+				$('input#wpml_save').addClass('button-loading');
+			},
+			complete: function() {
+				$('input#wpml_save').removeClass('button-loading');
+			},
+		});
+	}
+
 	search_movie = function(id) {
 		$.ajax({
 			type: 'GET',
@@ -301,13 +335,20 @@ jQuery(document).ready(function($) {
 				$('#tmdb_data > *').not('p').remove();
 				$('#tmdb_data').hide();
 				populate_movie(_r);
-			}
+				set_featured(_r.poster_path);
+			},
+			beforeSend: function() {
+				$('input#tmdb_search').addClass('button-loading');
+			},
+			complete: function() {
+				$('input#tmdb_search').removeClass('button-loading');
+			},
 		});
 	}
 
 	set_featured = function(image) {
 
-		if ( wp.media.featuredImage.get() > -1 )
+		if ( wp.media.featuredImage.get() > 0 )
 			return false;
 
 		tmdb_status(ajax_object.set_featured);
@@ -319,8 +360,8 @@ jQuery(document).ready(function($) {
 			data: {
 				action: 'tmdb_set_featured',
 				image: image,
-				movie_id: $('#movie_ID').val(),
-				title: title+' − '+ajax_object.movieer
+				post_id: $('#post_ID').val(),
+				title: title+' − '+ajax_object.poster
 			},
 			success: function(r) {
 				if ( r ) {

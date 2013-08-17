@@ -107,18 +107,21 @@
 	margin: 2em 0 0 0;
 }
 
-#tmdbstuff .tmdb_data {
-	width: 60%;
+#tmdbstuff .tmdb_meta {
+	width: 56%;
+}
+
+#tmdbstuff .tmdb_crew {
+	margin-left: 2%;
+	width: 42%;
 }
 
 #tmdbstuff .tmdb_images_preview {
-	margin-left: 2%;
-	width: 38%;
+	width: 100%;
 }
 
 #tmdbstuff .tmdb_images_preview td {
-    padding: 0.5em 0 !important;
-    text-align: center !important;
+    padding: 0.5em !important;
 }
 
 #tmdb_save_images {
@@ -178,10 +181,19 @@
 
 .button-loading {
 	background-image: url(../../../../../wp-admin/images/wpspin_light.gif) !important;
-	background-position: 4px 2px !important;
 	background-repeat: no-repeat !important;
+}
+
+.button-small.button-loading {
+	background-position: 4px 2px !important;
 	background-size: 14px !important;
 	padding-left: 24px !important;
+}
+
+.button-large.button-loading {
+	background-position: 6px 6px !important;
+	background-size: 16px !important;
+	padding-left: 2.25em !important;
 }
 
 .tmdb_movie_images {
