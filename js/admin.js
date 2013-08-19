@@ -11,8 +11,8 @@ jQuery(document).ready(function($) {
 	$('input#tmdb_empty').click(function(e) {
 		e.preventDefault();
 		$('.list-table input[type=text], .list-table input[type=hidden], .list-table textarea').val('');
-		$('#tmdb_save_images').hide();
-		$('.tmdb_select_movie, .tmdb_movie_images, #progressbar').remove();
+		$('#tmdb_save_images, #progressbar').hide();
+		$('.tmdb_select_movie, .tmdb_movie_images').remove();
 		$('#tmdb_data').empty();
 		tmdb_clear_status();
 	});
@@ -227,7 +227,6 @@ jQuery(document).ready(function($) {
 
 	populate_movie_images = function(images) {
 
-		$('#progressbar').remove();
 		$('#tmdb_data_images').val('');
 
 		_v = [];
@@ -266,13 +265,9 @@ jQuery(document).ready(function($) {
 		title = $('#tmdb_data_title').val();
 		total = img.length;
 
-		$('#tmdb_images_preview').html('<div id="progressbar"><div class="progress-label">…</div></div>');
 		$('#progressbar').progressbar({
-			value: false,
-			complete: function() {
-				$('.progress-label').text(ajax_object.images_added);
-			}
-		});
+			value: false
+		}).show();
 
 		d = 1;
 		$.each(img, function(i) {
@@ -290,14 +285,17 @@ jQuery(document).ready(function($) {
 				success: function(_r) {
 					v = $('#tmdb_data_images').val();
 					$('#tmdb_data_images').val(v.replace(img,''));
+					
+				},
+				complete: function() {
+					$('#progressbar').progressbar({
+						value: ( $('#progressbar').progressbar('value') + ( 100 / total ) )
+					});
+					$('.progress-label').text($('#progressbar').progressbar('value') + '%');
 				}
 			});
-			$('#progressbar').progressbar({
-				value: ( ( 100 / total ) * i )
-			});
-			$('.progress-label').text(i+' / '+total);
 		});
-		$('.progress-label').empty();
+		$('.tmdb_movie_images').remove();
 	}
 
 	save_wpml_details = function() {

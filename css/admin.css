@@ -116,19 +116,6 @@
 	width: 42%;
 }
 
-#tmdbstuff .tmdb_images_preview {
-	width: 100%;
-}
-
-#tmdbstuff .tmdb_images_preview td {
-    padding: 0.5em !important;
-}
-
-#tmdb_save_images {
-	margin: 0.5em 0 0 0;
-	width: 90%;
-}
-
 #tmdbstuff thead th {
 	background-color: #f1f1f1;
 }
@@ -196,16 +183,31 @@
 	padding-left: 2.25em !important;
 }
 
+#tmdbstuff .tmdb_images_preview {
+	width: 100%;
+	/*text-align: center;*/
+}
+
+#tmdbstuff .tmdb_images_preview td {
+    padding: 0.5em !important;
+}
+
+#tmdb_save_images {
+	float: right !important;
+	margin: 0.5em 0 0 0;
+	width: auto !important;
+}
+
 .tmdb_movie_images {
 	background: #fff;
 	border: 1px solid #ccc;
 	display: inline-block;
-	height: 8em;
+	height: 10em;
 	margin: 0.25em;
 	overflow: hidden;
 	padding: 0.25em;
 	position: relative;
-	width: 12em;
+	width: 16em;
 }
 
 .tmdb_movie_images img {
@@ -231,15 +233,19 @@
 	display: none;
 }
 
+#progressbar {
+	display: none;
+}
+
 .ui-progressbar {
 	margin: 1em auto;
 	position: relative;
-	width: 90%;
+	width: 50%;
 }
 
 .progress-label {
 	position: absolute;
-	left: 50%;
+	left: 46%;
 	top: 4px;
 	font-weight: bold;
 	text-shadow: 1px 1px 0 #fff;

@@ -71,13 +71,16 @@ endif;
 			<tbody>
 				<tr>
 					<td>
-						<input id="tmdb_save_images" name="tmdb_save_images" type="button" class="button button-secondary button-small" value="<?php _e( 'Import Images', 'wpml' ); ?>" />
 						<input id="tmdb_data_images" type="hidden" name="tmdb_data[images]" value='<?php echo ( isset( $value[$slug] ) && '' != $value[$slug] ? $value[$slug] : '' ); ?>' size="64" />
+						<div id="progressbar"><div class="progress-label">0</div></div>
 					</td>
 				</tr>
 				<tr>
 					<td id="tmdb_images_preview"></td>
 				</tr>
+					<td>
+						<input id="tmdb_save_images" name="tmdb_save_images" type="button" class="button button-secondary button-large" value="<?php _e( 'Import Images', 'wpml' ); ?>" />
+					</td>
 			</tbody>
 		</table>
 

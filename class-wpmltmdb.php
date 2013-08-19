@@ -55,6 +55,13 @@ class WPML_TMDb extends WPMovieLibrary {
 		$this->config = $this->wpml_tmdb_config();
 	}
 
+	/**
+	 * Validity check on selected API scheme.
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    string    Scheme if valid, default https.
+	 */
 	private function wpml_scheme_check() {
 		if ( ! in_array( $this->scheme, array( 'http', 'https' ) ) )
 			return 'https://';
@@ -62,6 +69,15 @@ class WPML_TMDb extends WPMovieLibrary {
 			return $this->scheme . '://';
 	}
 
+	/**
+	 * Set up TMDb config.
+	 * Sends a request to the API to fetch images and posters default sizes
+	 * and generate various size-based urls for posters and backdrops.
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    array    TMDb config
+	 */
 	private function wpml_tmdb_config() {
 		$tmdb_config = $this->tmdb->getConfig();
 
@@ -90,29 +106,35 @@ class WPML_TMDb extends WPMovieLibrary {
 		return $wpml_tmdb_config;
 	}
 
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *                             Methods
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * Test the submitted API key using a dummy TMDb instance to fetch
+	 * API's configuration. Return the request result array.
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    array    API configuration request result
+	 */
 	private function wpml_api_key_check( $key ) {
 		$_tmdb = new TMDb( $key, $this->lang, false, $this->scheme );
 		$data = $_tmdb->getConfiguration();
 		return $data;
 	}
 
+	/**
+	 * Generate base url for requested image type and size.
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    string    base url
+	 */
 	public function wpml_tmdb_get_base_url( $type, $size ) {
 		return $this->config[ $type . '_url' ][ $size ];
-	}
-
-	public function wpml_save_tmdb_data( $post_id ) {
-
-		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
-			return false;
-
-		if ( ! isset( $_POST['tmdb_data'] ) || '' == $_POST['tmdb_data'] )
-			return false;
-
-		$post = get_post( $post_id );
-		if ( 'movie' != get_post_type( $post ) )
-			return false;
-
-		update_post_meta( $post_id, '_wpml_movie_data', $_POST['tmdb_data'] );
 	}
 
 
@@ -122,6 +144,13 @@ class WPML_TMDb extends WPMovieLibrary {
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	/**
+	 * API check callback. Check key validity and return a status.
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    array    API check validity result
+	 */
 	public function wpml_tmdb_api_key_check_callback() {
 
 		if ( ! isset( $_GET['key'] ) || '' == $_GET['key'] || 32 !== strlen( $_GET['key'] ) )
@@ -137,19 +166,13 @@ class WPML_TMDb extends WPMovieLibrary {
 		die();
 	}
 
-	public function wpml_tmdb_save_image_callback() {
-
-		$image   = ( isset( $_GET['image'] )   && '' != $_GET['image']   ? $_GET['image']   : '' );
-		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
-		$title   = ( isset( $_GET['title'] )   && '' != $_GET['title']   ? $_GET['title']   : '' );
-
-		if ( '' == $image || '' == $post_id )
-			return false;
-
-		echo $this->wpml_image_upload( $image, $post_id, $title );
-		die();
-	}
-
+	/**
+	 * Search callback
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    string    HTML output
+	 */
 	public function wpml_tmdb_search_callback() {
 
 		$type = ( isset( $_GET['type'] ) && '' != $_GET['type'] ? $_GET['type'] : '' );
@@ -167,19 +190,6 @@ class WPML_TMDb extends WPMovieLibrary {
 		die();
 	}
 
-	public function wpml_tmdb_set_featured_callback() {
-
-		$image   = ( isset( $_GET['image'] )   && '' != $_GET['image']   ? $_GET['image']   : '' );
-		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
-		$title   = ( isset( $_GET['title'] )   && '' != $_GET['title']   ? $_GET['title']   : '' );
-
-		if ( '' == $image || '' == $post_id || 1 != $this->wpml_o('tmdb-settings-poster_featured') )
-			return false;
-
-		echo $this->wpml_set_image_as_featured( $image, $post_id, $title );
-		die();
-	}
-
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
@@ -187,6 +197,23 @@ class WPML_TMDb extends WPMovieLibrary {
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	/**
+	 * List all movies matching submitted title using the API's search
+	 * method.
+	 * 
+	 * If no result were returned, display a notification. More than one
+	 * results means the search is not accurate, display first results in
+	 * case one of them matches the search and add a notification to try a
+	 * more specific search. If only on movie showed up, it should be the
+	 * one, call the API using the movie ID.
+	 * 
+	 * If more than one result, all movies listed will link to a new AJAX
+	 * call to load the movie by ID.
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    string    HTML formatted results.
+	 */
 	private function wpml_get_movie_by_title( $title, $lang ) {
 
 		$data = $this->tmdb->searchMovie( $title, 1, $lang );
@@ -225,9 +252,18 @@ class WPML_TMDb extends WPMovieLibrary {
 			echo '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p>';
 			echo '<p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>';
 		}
-		
 	}
 
+	/**
+	 * Get movie by ID. Load casts and images too.
+	 * 
+	 * Return a JSON string containing fetched data. Apply some filtering
+	 * to extract specific crew jobs like director or producer.
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    string    JSON formatted results.
+	 */
 	private function wpml_get_movie_by_id( $id, $lang ) {
 
 		$movie  = $this->tmdb->getMovie( $id, $lang );
@@ -262,70 +298,6 @@ class WPML_TMDb extends WPMovieLibrary {
 
 		header('Content-type: application/json');
 		echo json_encode( $movie );
-	}
-
-	/**
-	 * Set the image as featured image.
-	 * 
-	 * @param int $image The ID of the image to set as featured
-	 * @param int $post_id The post ID the image is to be associated with
-	 * 
-	 * @return string|WP_Error Populated HTML img tag on success
-	 * 
-	 * @since   1.0.0
-	 */
-	private function wpml_set_image_as_featured( $image, $post_id, $title ) {
-
-		$size = $this->wpml_o('tmdb-settings-poster_size');
-		$file = $this->config['poster_url'][ $size ] . $image;
-
-		$image = $this->wpml_image_upload( $file, $post_id, $title );
-
-		if ( is_object( $image ) )
-			return false;
-		else
-			return $image;
-	}
-
-	/**
-	 * Media Sideload Image revisited
-	 * This is basically an override function for WP media_sideload_image
-	 * modified to return the uploaded attachment ID instead of HTML img
-	 * tag.
-	 * 
-	 * @see http://codex.wordpress.org/Function_Reference/media_sideload_image
-	 * 
-	 * @param string $file The URL of the image to download
-	 * @param int $post_id The post ID the media is to be associated with
-	 * @param string $title Optional. Title of the image
-	 * 
-	 * @return string|WP_Error Populated HTML img tag on success
-	 * 
-	 * @since   1.0.0
-	 */
-	private function wpml_image_upload( $file, $post_id, $title = null ) {
-
-	        if ( empty( $file ) )
-			return false;
-
-		$tmp   = download_url( $file );
-
-		preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches );
-		$file_array['name'] = basename( $matches[0] );
-		$file_array['tmp_name'] = $tmp;
-
-		if ( is_wp_error( $tmp ) ) {
-			@unlink( $file_array['tmp_name'] );
-			$file_array['tmp_name'] = '';
-		}
-
-		$id = media_handle_sideload( $file_array, $post_id, $title );
-		if ( is_wp_error( $id ) ) {
-			@unlink( $file_array['tmp_name'] );
-			return print_r( $id, true );
-		}
-
-		return $id;
 	}
 
 

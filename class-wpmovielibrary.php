@@ -210,24 +210,21 @@ class WPMovieLibrary {
 		add_action( 'add_meta_boxes', array( $this, 'wpml_metaboxes' ) );
 
 		// Movie save
-		add_action( 'save_post', array( $this->tmdb, 'wpml_save_tmdb_data' ) );
+		add_action( 'save_post', array( $this, 'wpml_save_tmdb_data' ) );
 
 		// Movie content
-		add_filter( 'the_content', array( $this->tmdb, 'wpml_content_filter' ) );
+		// add_filter( 'the_content', array( $this->tmdb, 'wpml_content_filter' ) );
 
 		// register widgets
 		// add_action( 'widgets_init', array( $this, 'wpml_widgets' ) );
 
 		// Ajax callbacks
 		add_action( 'wp_ajax_wpml_save_details', array( $this, 'wpml_save_details_callback' ) );
+		add_action( 'wp_ajax_tmdb_save_image', array( $this, 'wpml_save_image_callback' ) );
+		add_action( 'wp_ajax_tmdb_set_featured', array( $this, 'wpml_set_featured_image_callback' ) );
 
 		add_action( 'wp_ajax_tmdb_search', array( $this->tmdb, 'wpml_tmdb_search_callback' ) );
-
-		add_action( 'wp_ajax_tmdb_save_image', array( $this->tmdb, 'wpml_tmdb_save_image_callback' ) );
-
 		add_action( 'wp_ajax_tmdb_api_key_check', array( $this->tmdb, 'wpml_tmdb_api_key_check_callback' ) );
-
-		add_action( 'wp_ajax_tmdb_set_featured', array( $this->tmdb, 'wpml_tmdb_set_featured_callback' ) );
 
 		// Define custom functionality. Read more about actions and filters: http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters
 		//add_action( 'TODO', array( $this, 'action_method_name' ) );
@@ -417,7 +414,7 @@ class WPMovieLibrary {
 				'search_movie_title' => __( 'Searching movie', 'wpml' ),
 				'search_movie'       => __( 'Fetching movie data', 'wpml' ),
 				'set_featured'       => __( 'Setting featured image…', 'wpml' ),
-				'images_added'       => __( 'Importing images…', 'wpml' ),
+				'images_added'       => __( 'Images added!', 'wpml' ),
 				'save_image'         => __( 'Saving Images…', 'wpml' ),
 				'poster'             => __( 'Poster', 'wpml' ),
 				'done'               => __( 'Done!', 'wpml' ),
@@ -447,10 +444,89 @@ class WPMovieLibrary {
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
+	 *                             Methods
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * Set the image as featured image.
+	 * 
+	 * @param int $image The ID of the image to set as featured
+	 * @param int $post_id The post ID the image is to be associated with
+	 * 
+	 * @return string|WP_Error Populated HTML img tag on success
+	 * 
+	 * @since   1.0.0
+	 */
+	private function wpml_set_image_as_featured( $image, $post_id, $title ) {
+
+		$size = $this->wpml_o('tmdb-settings-poster_size');
+		$file = $this->tmdb->config['poster_url'][ $size ] . $image;
+
+		$image = $this->wpml_image_upload( $file, $post_id, $title );
+
+		if ( is_object( $image ) )
+			return false;
+		else
+			return $image;
+	}
+
+	/**
+	 * Media Sideload Image revisited
+	 * This is basically an override function for WP media_sideload_image
+	 * modified to return the uploaded attachment ID instead of HTML img
+	 * tag.
+	 * 
+	 * @see http://codex.wordpress.org/Function_Reference/media_sideload_image
+	 * 
+	 * @param string $file The URL of the image to download
+	 * @param int $post_id The post ID the media is to be associated with
+	 * @param string $title Optional. Title of the image
+	 * 
+	 * @return string|WP_Error Populated HTML img tag on success
+	 * 
+	 * @since   1.0.0
+	 */
+	private function wpml_image_upload( $file, $post_id, $title = null ) {
+
+	        if ( empty( $file ) )
+			return false;
+
+		$tmp   = download_url( $file );
+
+		preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches );
+		$file_array['name'] = basename( $matches[0] );
+		$file_array['tmp_name'] = $tmp;
+
+		if ( is_wp_error( $tmp ) ) {
+			@unlink( $file_array['tmp_name'] );
+			$file_array['tmp_name'] = '';
+		}
+
+		$id = media_handle_sideload( $file_array, $post_id, $title );
+		if ( is_wp_error( $id ) ) {
+			@unlink( $file_array['tmp_name'] );
+			return print_r( $id, true );
+		}
+
+		return $id;
+	}
+
+
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
 	 *                             Callbacks
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	/**
+	 * Save movie details: media, status, rating.
+	 * 
+	 * Although values are submitted as array each value is stored in a
+	 * dedicated post meta.
+	 *
+	 * @since     1.0.0
+	 */
 	public function wpml_save_details_callback() {
 
 		$post_id      = ( isset( $_POST['post_id'] )      && '' != $_POST['post_id']      ? $_POST['post_id']      : '' );
@@ -466,6 +542,85 @@ class WPMovieLibrary {
 		update_post_meta( $post_id, '_wpml_movie_media', $wpml_details['media'] );
 		update_post_meta( $post_id, '_wpml_movie_status', $wpml_details['status'] );
 		update_post_meta( $post_id, '_wpml_movie_rating', $wpml_details['rating'] );
+	}
+
+	/**
+	 * Upload a movie image.
+	 * 
+	 * Extract params from $_POST values. Image URL and post ID are
+	 * required, title is optional. If no title is submitted file's
+	 * basename will be used as image name.
+	 * 
+	 * @param string $image Image url
+	 * @param int $post_id ID of the post the image will be attached to
+	 * @param string $title Post title to use as image title to avoir crappy TMDb images names.
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    string    Uploaded image ID
+	 */
+	public function wpml_save_image_callback() {
+
+		$image   = ( isset( $_GET['image'] )   && '' != $_GET['image']   ? $_GET['image']   : '' );
+		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
+		$title   = ( isset( $_GET['title'] )   && '' != $_GET['title']   ? $_GET['title']   : '' );
+
+		if ( '' == $image || '' == $post_id )
+			return false;
+
+		echo $this->wpml_image_upload( $image, $post_id, $title );
+		die();
+	}
+
+	/**
+	 * Upload an image and set it as featured image of the submitted post.
+	 * 
+	 * Extract params from $_POST values. Image URL and post ID are
+	 * required, title is optional. If no title is submitted file's
+	 * basename will be used as image name.
+	 * 
+	 * Return the uploaded image ID to updated featured image preview in
+	 * editor.
+	 * 
+	 * @param string $image Image url
+	 * @param int $post_id ID of the post the image will be attached to
+	 * @param string $title Post title to use as image title to avoir crappy TMDb images names.
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    string    Uploaded image ID
+	 */
+	public function wpml_set_featured_image_callback() {
+
+		$image   = ( isset( $_GET['image'] )   && '' != $_GET['image']   ? $_GET['image']   : '' );
+		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
+		$title   = ( isset( $_GET['title'] )   && '' != $_GET['title']   ? $_GET['title']   : '' );
+
+		if ( '' == $image || '' == $post_id || 1 != $this->wpml_o('tmdb-settings-poster_featured') )
+			return false;
+
+		echo $this->wpml_set_image_as_featured( $image, $post_id, $title );
+		die();
+	}
+
+	/**
+	 * Save TMDb fetched data.
+	 *
+	 * @since     1.0.0
+	 */
+	public function wpml_save_tmdb_data( $post_id ) {
+
+		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
+			return false;
+
+		if ( ! isset( $_POST['tmdb_data'] ) || '' == $_POST['tmdb_data'] )
+			return false;
+
+		$post = get_post( $post_id );
+		if ( 'movie' != get_post_type( $post ) )
+			return false;
+
+		update_post_meta( $post_id, '_wpml_movie_data', $_POST['tmdb_data'] );
 	}
 
 
@@ -608,19 +763,6 @@ class WPMovieLibrary {
 	public function wpml_export_page() {
 		// TODO: implement export
 		// include_once( 'views/export.php' );
-	}
-
-	/**
-	 * NOTE:  Actions are points in the execution of a page or process
-	 *        lifecycle that WordPress fires.
-	 *
-	 *        WordPress Actions: http://codex.wordpress.org/Plugin_API#Actions
-	 *        Action Reference:  http://codex.wordpress.org/Plugin_API/Action_Reference
-	 *
-	 * @since    1.0.0
-	 */
-	public function action_method_name() {
-		// TODO: Define your action hook callback here
 	}
 
 
