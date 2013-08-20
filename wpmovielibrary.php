@@ -33,6 +33,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 require_once( plugin_dir_path( __FILE__ ) . 'class-wpmovielibrary.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'class-wpmltmdb.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'class-wpmllisttable.php' );
 
 register_activation_hook( __FILE__, array( 'WPMovieLibrary', 'activate' ) );
 register_deactivation_hook( __FILE__, array( 'WPMovieLibrary', 'deactivate' ) );

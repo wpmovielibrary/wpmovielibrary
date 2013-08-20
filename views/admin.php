@@ -1,5 +1,5 @@
-<div class="wrap">
-	<h2><?php _e("Plugin Options"); ?></h2>
+<div id="wpml-settings" class="wrap">
+	<h2><?php _e( 'Plugin Options', 'wpml' ); ?></h2>
 	
 	<?php if ( isset($this->msg_settings) ) { ?>
 	<div id="setting-error-settings_updated" class="updated settings-error"> 
@@ -9,16 +9,18 @@
 
 	<?php //if ( ! $this->wpml_get_api_key() ) $this->wpml_activate_notice( null ); ?>
 
-	<form method="post">
+	<div id="wpml-tabs">
 
-		<div id="tmdb-tabs-settings">
+		<form method="post">
+
 			<ul>
-			    <li><a href="#fragment-1"><h4><span class="ui-icon ui-icon-gear"></span> <?php _e( 'TMDb API Settings', 'wpml' ); ?></h4></a></li>
-			    <li><a href="#fragment-2"><h4><span class="ui-icon ui-icon-wrench"></span> <?php _e( 'WPMovieLibrary Settings', 'wpml' ); ?></h4></a></li>
-			    <li style="float:right"><a href="#fragment-3"><h4><span class="ui-icon ui-icon-closethick"></span> <?php _e( 'Restore Default Settings', 'wpml' ); ?></h4></a></li>
+			    <li><a href="#fragment-1"><h4><span class="ui-icon ui-icon-gear"></span> <?php _e( 'TMDb API', 'wpml' ); ?></h4></a></li>
+			    <li><a href="#fragment-2"><h4><span class="ui-icon ui-icon-wrench"></span> <?php _e( 'WPMovieLibrary', 'wpml' ); ?></h4></a></li>
+			    <li style="float:right"><a href="#fragment-3"><h4><span class="ui-icon ui-icon-closethick"></span> <?php _e( 'Restore', 'wpml' ); ?></h4></a></li>
 			</ul>
+
 			<div id="fragment-1">
-				<table class="form-table tmdb-settings">
+				<table class="form-table wpml-settings">
 					<tbody>
 						<tr valign="top">
 							<th scope="row">
@@ -57,9 +59,11 @@
 					</tbody>
 				</table>
 			</div>
+
 			<div id="fragment-2">
-				<h4>Poster Settings</h4>
-				<table class="form-table tmdb-settings">
+
+				<h4><?php _e( 'Poster Settings', 'wpml' ); ?></h4>
+				<table class="form-table wpml-settings">
 					<tbody>
 						<tr valign="top">
 							<th scope="row">
@@ -87,9 +91,9 @@
 						</tr>
 					</tbody>
 				</table>
-				<h4>Images Settings</h4>
 
-				<table class="form-table tmdb-settings">
+				<h4><?php _e( 'Images Settings', 'wpml' ); ?></h4>
+				<table class="form-table wpml-settings">
 					<tbody>
 						<tr valign="top">
 							<th scope="row">
@@ -117,7 +121,10 @@
 					</tbody>
 				</table>
 			</div>
+
 			<div id="fragment-3">
+
+				<h4><?php _e( 'Restore Default Settings', 'wpml' ); ?></h4>
 				<p class="update-nag">
 					<span class="ui-icon ui-icon-alert"></span>
 					<?php _e( 'You may want to restore WPMovieLibrary default settings.', 'wpml' ); ?>
@@ -127,10 +134,15 @@
 					<input id="restore_default" type="submit" name="restore_default" class="button button-secondary button-large" value="Restore" />
 				</p>
 			</div>
-		</div>
 
-		<p class="submit">
-			<input type="submit" id="submit" name="submit" class="button-primary" value="Save Changes" />
-		</p>
-	</form>
+			<p class="submit">
+				<input type="submit" id="submit" name="submit" class="button-primary" value="Save Changes" />
+			</p>
+
+		</form>
+
+	</div>
+
+	<?php include_once $this->plugin_path . 'views/help.php'; ?>
+
 </div>

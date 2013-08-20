@@ -1,12 +1,14 @@
 jQuery(document).ready(function($) {
 
-	cloudfront = 'http://d3gtl9l2a4fn1j.cloudfront.net/';
+	/*if ( $('#wpml-settings').length > 0 )
+		$('#wpml-settings').accordion();*/
 
-	if ( $('#tmdb-settings').length > 0 )
-		$('#tmdb-settings').accordion();
+	if ( $('#wpml-tabs').length > 0 )
+		$('#wpml-tabs').tabs();
 
-	if ( $('#tmdb-tabs-settings').length > 0 )
-		$('#tmdb-tabs-settings').tabs();
+	$('#wpml-import input#doaction').click(function(e) {
+		console.log('ping');
+	});
 
 	$('input#tmdb_empty').click(function(e) {
 		e.preventDefault();
@@ -211,11 +213,10 @@ jQuery(document).ready(function($) {
 						$(this).val(_v.join(', '));
 					}
 				}
-				else {
-					console.log(m[_id]);
+				/*else {
 					$.each(m[_id], function() {
 					});
-				}
+				}*/
 			}
 			else {
 				_v = ( m[_id] != null ? m[_id] : '' );
@@ -246,7 +247,7 @@ jQuery(document).ready(function($) {
 			_v = [];
 			$('.tmdb_movie_images').each(function() {
 				j = $.parseJSON($(this).find('img').attr('data-tmdb'));
-				_v.push(cloudfront+'t/p/w'+j.width+j.file_path);
+				_v.push(ajax_object.base_url_original+j.file_path);
 			});
 			$('#tmdb_data_images').val(_v.join(','));
 		});

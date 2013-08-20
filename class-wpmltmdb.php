@@ -216,6 +216,8 @@ class WPML_TMDb extends WPMovieLibrary {
 	 */
 	private function wpml_get_movie_by_title( $title, $lang ) {
 
+		$title = $this->wpml_clean_search_title( $title );
+
 		$data = $this->tmdb->searchMovie( $title, 1, $lang );
 
 		if ( ! isset( $data['total_results'] ) ) {

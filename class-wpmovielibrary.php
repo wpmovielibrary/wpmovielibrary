@@ -512,6 +512,124 @@ class WPMovieLibrary {
 		return $id;
 	}
 
+	public function wpml_import_movie_list() {
+
+		$this->wpml_import_movies();
+
+		$movies = $this->wpml_get_imported_movies();
+
+		$list = new WPML_List_Table( $movies );
+		$list->prepare_items(); 
+		$list->display();
+	}
+
+	public function wpml_import_movies() {
+
+		if ( ! isset( $_POST['wpml_import_list'] ) || '' == $_POST['wpml_import_list'] )
+			return false;
+
+		$movies = explode( ',', $_POST['wpml_import_list'] );
+		$movies = array_map( array( $this, 'wpml_prepare_movie_import_title' ), $movies );
+
+		foreach ( $movies as $i => $movie )
+			$this->wpml_import_movie( $movie['movietitle'] );
+
+		return true;
+	}
+
+	/**
+	 * Save a temporary 'movie' post type for submitted title.
+	 * 
+	 * This is used to save movies submitted from a list before any
+	 * alteration is made by user. Posts will be kept as 'import-draft'
+	 * for 24 hours and then destroyed on the next plugin init.
+	 * 
+	 * @param string $title Movie title.
+	 * 
+	 * @return int Newly created post ID if everything worked, 0 if no post created.
+	 *
+	 * @since     1.0.0
+	 */
+	private function wpml_import_movie( $title ) {
+
+		$post_date     = current_time('mysql');
+		$post_date     = wp_checkdate( substr( $post_date, 5, 2 ), substr( $post_date, 8, 2 ), substr( $post_date, 0, 4 ), $post_date );
+		$post_date_gmt = get_gmt_from_date( $post_date );
+		$post_author   = get_current_user_id();
+		$post_content  = null;
+		$post_title    = apply_filters( 'the_title', $title );
+
+		$pages = get_page_by_title( $post_title, OBJECT, 'movie' );
+
+		if ( ! is_null( $pages ) )
+			$_ID = $pages->ID;
+		else
+			$_ID = '';
+
+		$_post = array(
+			'ID'             => $_ID,
+			'comment_status' => 'closed',
+			'ping_status'    => 'closed',
+			'post_author'    => $post_author,
+			'post_content'   => $post_content,
+			'post_date'      => $post_date,
+			'post_date_gmt'  => $post_date_gmt,
+			'post_name'      => sanitize_title( $post_title ),
+			'post_status'    => 'import-draft',
+			'post_title'     => $post_title,
+			'post_type'      => 'movie'
+		);
+
+		$id = wp_insert_post( $_post, true );
+
+		if ( is_wp_error( $id ) )
+			return $id->get_error_message();
+		else
+			return $id;
+	}
+
+	public function wpml_prepare_movie_import_title( $title ) {
+		return array(
+			'ID'         => 0,
+			'poster'     => '',
+			'movietitle' => $title,
+			'director'   => '',
+			'tmdb_id'    => ''
+		);
+	}
+
+	public function wpml_get_imported_movies() {
+
+		$columns = array();
+
+		$posts = get_posts( array(
+			'orderby'     => 'post_title',
+			'post_type'   => 'movie',
+			'post_status' => 'import-draft'
+		) );
+
+		if ( false !== $posts ) {
+			foreach ( $posts as $post ) {
+				$columns[$post->ID] = array(
+					'ID'         => $post->ID,
+					'poster'     => get_post_meta( $post->ID, '_wp_attached_file', true ),
+					'movietitle' => $post->post_title,
+					'director'   => get_post_meta( $post->ID, '_wpml_tmdb_director', true ),
+					'tmdb_id'    => get_post_meta( $post->ID, '_wpml_tmdb_id', true )
+				);
+			}
+		}
+
+		array_unique( $columns );
+
+		return $columns;
+	}
+
+	public function wpml_clean_search_title( $query ) {
+		$s = trim( $query );
+		$s = preg_replace( '/[^\p{L}\p{N}\s]/u', '', $s );
+		return $s;
+	}
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
@@ -693,29 +811,28 @@ class WPMovieLibrary {
 
 		add_submenu_page(
 			'edit.php?post_type=movie',
+			__( 'Import Movies', 'wpml' ),
+			__( 'Import Movies', 'wpml' ),
+			'manage_options',
+			'import',
+			array( $this, 'wpml_import_page' )
+		);
+		add_submenu_page(
+			'edit.php?post_type=movie',
+			__( 'Export Movies', 'wpml' ),
+			__( 'Export Movies', 'wpml' ),
+			'manage_options',
+			'export',
+			array( $this, 'wpml_export_page' )
+		);
+		add_submenu_page(
+			'edit.php?post_type=movie',
 			__( 'Options', 'wpml' ),
 			__( 'Options', 'wpml' ),
 			'manage_options',
 			'settings',
 			array( $this, 'wpml_admin_page' )
 		);
-		// TODO: implement import/export features
-		// add_submenu_page(
-		// 	'edit.php?post_type=movie',
-		// 	__( 'Import Movies', 'wpml' ),
-		// 	__( 'Import Movies', 'wpml' ),
-		// 	'manage_options',
-		// 	'import',
-		// 	array( $this, 'wpml_import_page' )
-		// );
-		// add_submenu_page(
-		// 	'edit.php?post_type=movie',
-		// 	__( 'Export Movies', 'wpml' ),
-		// 	__( 'Export Movies', 'wpml' ),
-		// 	'manage_options',
-		// 	'export',
-		// 	array( $this, 'wpml_export_page' )
-		// );
 	}
 
 	/**
@@ -752,7 +869,7 @@ class WPMovieLibrary {
 	 */
 	public function wpml_import_page() {
 		// TODO: implement import
-		// include_once( 'views/import.php' );
+		include_once( 'views/import.php' );
 	}
 
 	/**

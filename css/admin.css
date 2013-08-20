@@ -19,32 +19,76 @@
 	color: #faaeae;
 }
 
+/* #WPML-Help
+ ****************************************************/
+
+#wpml-help {
+	color: #666;
+	float: left;
+	margin-left: 2%;
+	min-height: 8em;
+	width: 26%;
+}
+
+#wpml-help .ui-widget-header {
+	border-radius: 4px;
+	color: #444;
+	margin-top: 3px;
+	padding: 14px 16px;
+	text-shadow: 1px 1px 0 #efefef;
+}
+
+#wpml-help p {
+	text-align: justify;
+}
+
+#wpml-help ul {
+	list-style: circle;
+	margin-left: 24px;
+}
+
+
 /* #TMDb Tabs Settings
  ****************************************************/
 
-#tmdb-tabs-settings h4 {
-    margin: 0.25em 0;
+#wpml-tabs .wp-list-table a {
+	color: #21759B;
 }
 
-#tmdb-tabs-settings.ui-widget-content {
+#wpml-tabs .wp-list-table .delete a {
+	color: #BC0B0B;
+}
+
+#wpml-tabs .wp-list-table a:hover,
+#wpml-tabs .wp-list-table a:focus {
+	color: #D54E21;
+}
+
+#wpml-tabs h4 {
+	margin: 0.25em 0;
+}
+
+#wpml-tabs.ui-widget-content {
 	border-width: 0 !important;
+	float: left;
+	width: 70%;
 }
 
-#tmdb-tabs-settings > ul > li > a {
+#wpml-tabs > ul > li > a {
 	outline: none;
 }
 
-#tmdb-tabs-settings h4 .ui-icon {
+#wpml-tabs h4 .ui-icon {
 	display: inline-block;
 	margin: 0.25em 0 -0.25em 0;
 }
 
-#tmdb-tabs-settings .update-nag {
+#wpml-tabs .update-nag {
 	padding: 1em 1.5em;
 	text-align: left;
 }
 
-#tmdb-tabs-settings .update-nag .ui-icon {
+#wpml-tabs .update-nag .ui-icon {
 	display: inline-block;
 	margin: 0.25em 0 -0.25em 0;
 }
@@ -55,11 +99,11 @@
 	padding: 0.5em 3em;
 }
 
-.tmdb-settings tr:nth-child(even) {
+.wpml-settings tr:nth-child(even) {
 	background: #f6f6f6;
 }
 
-.tmdb-settings {
+.wpml-settings {
 	margin-bottom: 2em;
 }
 
@@ -251,6 +295,18 @@
 	text-shadow: 1px 1px 0 #fff;
 }
 
+/* #WPML 
+ ****************************************************/
+
+#wpml_import {
+	max-width: 56em;
+	width: 100%;
+}
+
+#wpml_import_list {
+	height: 12em;
+	width: 100%;
+}
 
 /* #TMDb Meta Box
  ****************************************************/
