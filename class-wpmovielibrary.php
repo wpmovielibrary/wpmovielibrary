@@ -591,10 +591,10 @@ class WPMovieLibrary {
 	public function wpml_prepare_movie_import_title( $title ) {
 		return array(
 			'ID'         => 0,
-			'poster'     => '',
+			'poster'     => '--',
 			'movietitle' => $title,
-			'director'   => '',
-			'tmdb_id'    => ''
+			'director'   => '--',
+			'tmdb_id'    => '--'
 		);
 	}
 
@@ -602,21 +602,26 @@ class WPMovieLibrary {
 
 		$columns = array();
 
-		$posts = get_posts( array(
-			'orderby'     => 'post_title',
+		$args = array(
+			'posts_per_page' => -1,
 			'post_type'   => 'movie',
 			'post_status' => 'import-draft'
-		) );
+		);
 
-		if ( false !== $posts ) {
-			foreach ( $posts as $post ) {
-				$columns[$post->ID] = array(
-					'ID'         => $post->ID,
-					'poster'     => get_post_meta( $post->ID, '_wp_attached_file', true ),
-					'movietitle' => $post->post_title,
-					'director'   => get_post_meta( $post->ID, '_wpml_tmdb_director', true ),
-					'tmdb_id'    => get_post_meta( $post->ID, '_wpml_tmdb_id', true )
-				);
+		query_posts( $args );
+
+		if ( have_posts() ) {
+			while ( have_posts() ) {
+				the_post();
+				if ( 'import-draft' == get_post_status() ) {
+					$columns[ get_the_ID() ] = array(
+						'ID'         => get_the_ID(),
+						'poster'     => get_post_meta( get_the_ID(), '_wp_attached_file', true ),
+						'movietitle' => get_the_title(),
+						'director'   => get_post_meta( get_the_ID(), '_wpml_tmdb_director', true ),
+						'tmdb_id'    => get_post_meta( get_the_ID(), '_wpml_tmdb_id', true )
+					);
+				}
 			}
 		}
 

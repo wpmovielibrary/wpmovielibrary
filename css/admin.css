@@ -64,6 +64,11 @@
 	color: #D54E21;
 }
 
+#wpml-tabs .wp-list-table #ID,
+#wpml-tabs .wp-list-table #tmdb_id {
+	width: 6em;
+}
+
 #wpml-tabs h4 {
 	margin: 0.25em 0;
 }
