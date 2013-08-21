@@ -1,5 +1,5 @@
 
-		<div class="wpml_details" id="wpml_details">
+		<div id="wpml-details" class="wpml-details">
 
 			<div id="minor-publishing">
 
@@ -11,7 +11,7 @@
 						<a href="#movie_status" class="edit-movie-status hide-if-no-js"><?php _e( 'Edit', 'wpml' ); ?></a>
 
 						<div id="movie-status-select" class="hide-if-js">
-							<input type="hidden" name="hidden_movie_status" id="hidden_movie_status" value="<?php echo $status; ?>">
+							<input type="hidden" name="hidden_movie_status" id="hidden_movie_status" value="<?php echo $movie_status; ?>">
 							<select name="wpml_details[movie_status]" id="movie_status">
 <?php foreach ( $this->wpml_movie_details['movie_status']['options'] as $slug => $status ) : ?>
 								<option value="<?php echo $slug; ?>" <?php selected( $status, $movie_status ); ?>><?php echo $status; ?></option>
@@ -29,7 +29,7 @@
 						<a href="#movie_media" class="edit-movie-media hide-if-no-js"><?php _e( 'Edit', 'wpml' ); ?></a>
 
 						<div id="movie-media-select" class="hide-if-js">
-							<input type="hidden" name="hidden_movie_media" id="hidden_movie_media" value="<?php echo $media; ?>">
+							<input type="hidden" name="hidden_movie_media" id="hidden_movie_media" value="<?php echo $movie_media; ?>">
 							<select name="wpml_details[movie_media]" id="movie_media">
 <?php foreach ( $this->wpml_movie_details['movie_media']['options'] as $slug => $media ) : ?>
 								<option value="<?php echo $slug; ?>" <?php selected( $media, $movie_media ); ?>><?php echo $media; ?></option>

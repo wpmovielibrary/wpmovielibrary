@@ -9,7 +9,15 @@
 		</ul>
 
 		<div id="fragment-1">
+
+			<p><?php _e( 'Here are the movies you previously updated but didn’t save. You can save them, edit them individually or apply bulk actions.', 'wpml' ); ?></p>
+
 <?php $this->wpml_import_movie_list(); ?>
+
+			<p style="text-align:right">
+				<input type="button" id="wpml_empty" name="wpml_empty" class="button button-secondary button-large" value="<?php _e( 'Empty All', 'wpml' ); ?>" />
+				<input type="submit" id="wpml_save_imported" name="wpml_save_imported" class="button button-primary button-large" value="<?php _e( 'Save Movies', 'wpml' ); ?>" />
+			</p>
 		</div>
 
 		<div id="fragment-2">
@@ -27,7 +35,9 @@
 						</tr>
 						<tr valign="top">
 							<th scope="row"></th>
-							<td style="text-align:right"><input type="submit" id="wpml_importer" name="wpml_importer" class="button button-seconday button-large" value="<?php _e( 'Import Movies', 'wpml' ); ?>" /></td>
+							<td style="text-align:right">
+								<input type="submit" id="wpml_importer" name="wpml_importer" class="button button-secondary button-large" value="<?php _e( 'Import Movies', 'wpml' ); ?>" />
+							</td>
 						</tr>
 					</tbody>
 				</table>

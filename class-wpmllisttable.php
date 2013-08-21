@@ -81,13 +81,25 @@ class WPML_List_Table extends WP_List_Table {
 		return ( $order === 'asc' ) ? $result : -$result;
 	}
  
-	function column_movietitle($item){
+	function column_movietitle( $item ) {
+
 		$actions = array(
-			'edit'      => sprintf('<a href="?page=%s&action=%s&movie=%s">Edit</a>',$_REQUEST['page'],'edit',$item['ID']),
-			'delete'    => sprintf('<a href="?page=%s&action=%s&movie=%s">Delete</a>',$_REQUEST['page'],'delete',$item['ID']),
+			'edit'      => sprintf('<a href="?page=%s&action=%s&movie=%s">%s</a>', $_REQUEST['page'], 'edit', $item['ID'], __( 'Edit', 'wpml' ) ),
+			'delete'    => sprintf('<a href="?page=%s&action=%s&movie=%s">%s</a>', $_REQUEST['page'], 'delete', $item['ID'], __( 'Delete', 'wpml' ) ),
 		);
+
+		$inline_item = '';
 		
-		return sprintf('%1$s %2$s', $item['movietitle'], $this->row_actions($actions) );
+
+		return sprintf('<span class="movie_title">%1$s</span> %2$s', $item['movietitle'], $this->row_actions($actions) );
+	}
+ 
+	function column_director( $item ) {
+		return sprintf('<span class="movie_director">%1$s</span>', $item['director'] );
+	}
+ 
+	function column_tmdb_id( $item ) {
+		return sprintf('<span class="movie_tmdb_id">%1$s</span>', $item['tmdb_id'] );
 	}
 	
 	function get_bulk_actions() {

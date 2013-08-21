@@ -64,9 +64,13 @@
 	color: #D54E21;
 }
 
-#wpml-tabs .wp-list-table #ID,
-#wpml-tabs .wp-list-table #tmdb_id {
+#wpml-tabs .wp-list-table #ID {
 	width: 6em;
+}
+
+#wpml-tabs .wp-list-table #tmdb_id,
+#wpml-tabs .wp-list-table #poster {
+	width: 8em;
 }
 
 #wpml-tabs h4 {
@@ -220,6 +224,12 @@
 	background-repeat: no-repeat !important;
 }
 
+.button.button-loading {
+	background-position: 4px 4px !important;
+	background-size: 14px !important;
+	padding-left: 24px !important;
+}
+
 .button-small.button-loading {
 	background-position: 4px 2px !important;
 	background-size: 14px !important;
@@ -313,10 +323,31 @@
 	width: 100%;
 }
 
+.wpml-import-movie-select {
+	
+}
+
+.wpml-import-movie-select .tmdb_select_movies {
+	max-height: 7.75em;
+	overflow-y: scroll;
+}
+
+.wpml-import-movie-select .tmdb_select_movie {
+	float: left;
+	font-size: 0.9em;
+	height: 12em;
+	width: 6em;
+}
+
+.wpml-import-movie-select .tmdb_select_movie img {
+	max-height: 8em;
+	max-width: 6em;
+}
+
 /* #TMDb Meta Box
  ****************************************************/
 
-.wpml_details {
+.wpml-details {
     
 }
 

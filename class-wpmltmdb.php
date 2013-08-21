@@ -229,7 +229,22 @@ class WPML_TMDb extends WPMovieLibrary {
 		}
 		else if ( $data['total_results'] > 1 ) {
 
-			$ret  = '<p><strong>';
+			$ret = array(
+				'result' => 'movies',
+				'p'      => '<p><strong>'.__( 'Your request showed multiple results. Select your movie in the list or try another search:', 'wpml' ).'</strong></p>',
+				'movies' => array()
+			);
+
+			foreach ( $data['results'] as $movie ) {
+				$ret['movies'][] = array(
+					'id'     => $movie['id'],
+					'poster' => ( ! is_null( $movie['poster_path'] ) ? $this->config['poster_url']['small'].$movie['poster_path'] : $this->wpml_o('wpml-url').'/assets/no_poster.png' ),
+					'title'  => $movie['title'],
+					'json'   => json_encode( $movie )
+				);
+			}
+
+			/*$ret  = '<p><strong>';
 			$ret .= __( 'Your request showed multiple results. Select your movie in the list or try another search:', 'wpml' );
 			$ret .= '</strong></p>';
 
@@ -248,11 +263,22 @@ class WPML_TMDb extends WPMovieLibrary {
 				$ret .= '</div>';
 			}
 
-			echo $ret;
+			echo $ret;*/
+
+			header('Content-type: application/json');
+			echo json_encode( $ret );
 		}
 		else {
-			echo '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p>';
-			echo '<p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>';
+			$ret = array(
+				'result' => 'empty',
+				'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>',
+			);
+
+			header('Content-type: application/json');
+			echo json_encode( $ret );
+
+			/*echo '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p>';
+			echo '<p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>';*/
 		}
 	}
 
@@ -297,6 +323,7 @@ class WPML_TMDb extends WPMovieLibrary {
 		);
 
 		$movie = array_merge( $movie, $casts, $images );
+		$movie['result'] = 'movie';
 
 		header('Content-type: application/json');
 		echo json_encode( $movie );
