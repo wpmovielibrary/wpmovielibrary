@@ -517,8 +517,9 @@ class WPMovieLibrary {
 		$this->wpml_import_movies();
 
 		$movies = $this->wpml_get_imported_movies();
+		$meta   = array_merge( $this->wpml_meta, $this->wpml_o('tmdb-default_fields') );
 
-		$list = new WPML_List_Table( $movies );
+		$list = new WPML_List_Table( $movies, $meta );
 		$list->prepare_items(); 
 		$list->display();
 	}

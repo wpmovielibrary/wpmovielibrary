@@ -15,7 +15,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 
 class WPML_List_Table extends WP_List_Table {
 
-	function __construct( $columns ) {
+	function __construct( $columns, $metadata ) {
 
 		global $status, $page;
 
@@ -24,6 +24,8 @@ class WPML_List_Table extends WP_List_Table {
 			'plural'    => __( 'movies', 'mylisttable' ),
 			'ajax'      => false
 		) );
+
+		$this->metadata = $metadata;
 
 		$this->columns = $columns;
 
@@ -80,6 +82,14 @@ class WPML_List_Table extends WP_List_Table {
 		// Send final sort direction to usort
 		return ( $order === 'asc' ) ? $result : -$result;
 	}
+	
+	function column_cb( $item ) {
+		    return sprintf( '<input type="checkbox" id="post_%s" name="movie[]" value="%s" />', $item['ID'], $item['ID'] );
+	}
+ 
+	function column_ID( $item ) {
+		return sprintf('<span class="movie_ID">%1$s</span>', $item['ID'] );
+	}
  
 	function column_movietitle( $item ) {
 
@@ -89,9 +99,11 @@ class WPML_List_Table extends WP_List_Table {
 		);
 
 		$inline_item = '';
-		
+		foreach ( $this->metadata as $slug => $meta )
+			$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_'.$slug.'" type="hidden" name="tmdb[p_'.$item['ID'].']['.$slug.']" value="" />';
+		$inline_item = '<div id="p_'.$item['ID'].'_tmdb_data">'.$inline_item.'</div>';
 
-		return sprintf('<span class="movie_title">%1$s</span> %2$s', $item['movietitle'], $this->row_actions($actions) );
+		return sprintf('<span class="movie_title">%1$s</span> %2$s %3$s', $item['movietitle'], $this->row_actions( $actions ), $inline_item );
 	}
  
 	function column_director( $item ) {
@@ -108,12 +120,6 @@ class WPML_List_Table extends WP_List_Table {
 			'tmdb_data' => __( 'Fetch data from TMDb', 'wpml' ),
 		);
 		return $actions;
-	}
-	
-	function column_cb( $item ) {
-		    return sprintf(
-			    '<input type="checkbox" name="movie[]" value="%s" />', $item['ID']
-		    );
 	}
 	
 	function prepare_items() {
