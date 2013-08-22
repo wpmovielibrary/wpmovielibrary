@@ -199,6 +199,28 @@ class WPML_TMDb extends WPMovieLibrary {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
+	 * Cache method for _wpml_get_movie_by_title.
+	 * 
+	 * @see _wpml_get_movie_by_title()
+	 * 
+	 * @since     1.0.0
+	 */
+	private function wpml_get_movie_by_title( $title, $lang, $_id = null ) {
+
+		$movies = get_transient("movie_$title");
+
+		if ( false === $movies ) {
+			$movies = $this->_wpml_get_movie_by_title( $title, $lang, $_id );
+			set_transient("movies_$title", $movies, 3600 * 24);
+		}
+
+		header('Content-type: application/json');
+		echo json_encode( $movies );
+
+		return true;
+	}
+
+	/**
 	 * List all movies matching submitted title using the API's search
 	 * method.
 	 * 
@@ -212,25 +234,27 @@ class WPML_TMDb extends WPMovieLibrary {
 	 * call to load the movie by ID.
 	 *
 	 * @since     1.0.0
-	 *
-	 * @return    string    HTML formatted results.
 	 */
-	private function wpml_get_movie_by_title( $title, $lang, $_id = null ) {
+	private function _wpml_get_movie_by_title( $title, $lang, $_id = null ) {
 
 		$title = $this->wpml_clean_search_title( $title );
 
 		$data = $this->tmdb->searchMovie( $title, 1, $lang );
 
 		if ( ! isset( $data['total_results'] ) ) {
-			echo '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p>';
-			echo '<p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>';
+			$movies = array(
+				'result' => 'empty',
+				'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>',
+				'_id'    => $_id
+			);
 		}
 		else if ( 1 == $data['total_results'] ) {
 			$this->wpml_get_movie_by_id( $data['results'][0]['id'], $lang );
+			return true;
 		}
 		else if ( $data['total_results'] > 1 ) {
 
-			$ret = array(
+			$movies = array(
 				'result' => 'movies',
 				'p'      => '<p><strong>'.__( 'Your request showed multiple results. Select your movie in the list or try another search:', 'wpml' ).'</strong></p>',
 				'movies' => array(),
@@ -238,7 +262,7 @@ class WPML_TMDb extends WPMovieLibrary {
 			);
 
 			foreach ( $data['results'] as $movie ) {
-				$ret['movies'][] = array(
+				$movies['movies'][] = array(
 					'id'     => $movie['id'],
 					'poster' => ( ! is_null( $movie['poster_path'] ) ? $this->config['poster_url']['small'].$movie['poster_path'] : $this->wpml_o('wpml-url').'/assets/no_poster.png' ),
 					'title'  => $movie['title'],
@@ -246,44 +270,38 @@ class WPML_TMDb extends WPMovieLibrary {
 					'_id'    => $_id
 				);
 			}
-
-			/*$ret  = '<p><strong>';
-			$ret .= __( 'Your request showed multiple results. Select your movie in the list or try another search:', 'wpml' );
-			$ret .= '</strong></p>';
-
-			foreach ( $data['results'] as $movie ) {
-
-				$ret .= '<div class="tmdb_select_movie">';
-				$ret .= '<a id="tmdb_'.$movie['id'].'" href="#">';
-
-				if ( $movie['poster_path'] != null )
-					$ret .= '<img src="'.$this->config['poster_url']['small'].$movie['poster_path'].'" alt="'.$movie['title'].'" />';
-				else
-					$ret .= '<img src="'.$this->wpml_o('wpml-url').'/assets/no_poster.png" alt="'.$movie['title'].'" />';
-
-				$ret .= '<em>'.$movie['title'].'</em>';
-				$ret .= '<input type=\'hidden\' value=\''.json_encode( $movie ).'\' />';
-				$ret .= '</div>';
-			}
-
-			echo $ret;*/
-
-			header('Content-type: application/json');
-			echo json_encode( $ret );
 		}
 		else {
-			$ret = array(
+			$movies = array(
 				'result' => 'empty',
 				'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>',
 				'_id'    => $_id
 			);
-
-			header('Content-type: application/json');
-			echo json_encode( $ret );
-
-			/*echo '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p>';
-			echo '<p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>';*/
 		}
+
+		return $movies;
+	}
+
+	/**
+	 * Cache method for _wpml_get_movie_by_id.
+	 * 
+	 * @see _wpml_get_movie_by_id()
+	 * 
+	 * @since     1.0.0
+	 */
+	private function wpml_get_movie_by_id( $id, $lang, $_id = null ) {
+
+		$movie = get_transient("movie_$id");
+
+		if ( false === $movie ) {
+			$movie = $this->_wpml_get_movie_by_id( $id, $lang, $_id );
+			set_transient("movie_$id", $movie, 3600 * 24);
+		}
+
+		header('Content-type: application/json');
+		echo json_encode( $movie );
+
+		return true;
 	}
 
 	/**
@@ -296,7 +314,7 @@ class WPML_TMDb extends WPMovieLibrary {
 	 *
 	 * @return    string    JSON formatted results.
 	 */
-	private function wpml_get_movie_by_id( $id, $lang, $_id = null ) {
+	private function _wpml_get_movie_by_id( $id, $lang, $_id = null ) {
 
 		$movie  = $this->tmdb->getMovie( $id, $lang );
 		$casts  = $this->tmdb->getMovieCast( $id );
@@ -330,8 +348,7 @@ class WPML_TMDb extends WPMovieLibrary {
 		$movie['result'] = 'movie';
 		$movie['_id'] = $_id;
 
-		header('Content-type: application/json');
-		echo json_encode( $movie );
+		return $movie;
 	}
 
 
