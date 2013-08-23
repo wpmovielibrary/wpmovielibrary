@@ -409,7 +409,11 @@ class WPMovieLibrary {
 			array(
 				'ajax_url'           => admin_url( 'admin-ajax.php' ),
 				'images_added'       => __( 'Images uploaded!', 'wpml' ),
+				'base_url_xxsmall'   => $this->tmdb->wpml_tmdb_get_base_url( 'poster', 'xx-small' ),
+				'base_url_xsmall'    => $this->tmdb->wpml_tmdb_get_base_url( 'poster', 'x-small' ),
 				'base_url_small'     => $this->tmdb->wpml_tmdb_get_base_url( 'image', 'small' ),
+				'base_url_medium'    => $this->tmdb->wpml_tmdb_get_base_url( 'image', 'medium' ),
+				'base_url_full'      => $this->tmdb->wpml_tmdb_get_base_url( 'image', 'full' ),
 				'base_url_original'  => $this->tmdb->wpml_tmdb_get_base_url( 'image', 'original' ),
 				'search_movie_title' => __( 'Searching movie', 'wpml' ),
 				'search_movie'       => __( 'Fetching movie data', 'wpml' ),

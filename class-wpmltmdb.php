@@ -137,6 +137,17 @@ class WPML_TMDb extends WPMovieLibrary {
 		return $this->config[ $type . '_url' ][ $size ];
 	}
 
+	/**
+	 * Application/JSON headers content-type.
+	 * If no header was sent previously, send new header.
+	 *
+	 * @since     1.0.0
+	 */
+	private function wpml_json_header() {
+		if ( false === headers_sent() )
+			header('Content-type: application/json');
+	}
+
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
@@ -214,10 +225,8 @@ class WPML_TMDb extends WPMovieLibrary {
 			set_transient("movies_$title", $movies, 3600 * 24);
 		}
 
-		header('Content-type: application/json');
+		$this->wpml_json_header();
 		echo json_encode( $movies );
-
-		return true;
 	}
 
 	/**
@@ -237,9 +246,8 @@ class WPML_TMDb extends WPMovieLibrary {
 	 */
 	private function _wpml_get_movie_by_title( $title, $lang, $_id = null ) {
 
-		$title = $this->wpml_clean_search_title( $title );
-
-		$data = $this->tmdb->searchMovie( $title, 1, $lang );
+		$title  = $this->wpml_clean_search_title( $title );
+		$data   = $this->tmdb->searchMovie( $title, 1, $lang );
 
 		if ( ! isset( $data['total_results'] ) ) {
 			$movies = array(
@@ -249,8 +257,7 @@ class WPML_TMDb extends WPMovieLibrary {
 			);
 		}
 		else if ( 1 == $data['total_results'] ) {
-			$this->wpml_get_movie_by_id( $data['results'][0]['id'], $lang );
-			return true;
+			$movies = $this->wpml_get_movie_by_id( $data['results'][0]['id'], $lang, $_id, false );
 		}
 		else if ( $data['total_results'] > 1 ) {
 
@@ -289,7 +296,7 @@ class WPML_TMDb extends WPMovieLibrary {
 	 * 
 	 * @since     1.0.0
 	 */
-	private function wpml_get_movie_by_id( $id, $lang, $_id = null ) {
+	private function wpml_get_movie_by_id( $id, $lang, $_id = null, $echo = true ) {
 
 		$movie = get_transient("movie_$id");
 
@@ -298,10 +305,15 @@ class WPML_TMDb extends WPMovieLibrary {
 			set_transient("movie_$id", $movie, 3600 * 24);
 		}
 
-		header('Content-type: application/json');
-		echo json_encode( $movie );
+		$movie['_id'] = $_id;
 
-		return true;
+		if ( true === $echo ) {
+			$this->wpml_json_header();
+			echo json_encode( $movie );
+		}
+		else {
+			return $movie;
+		}
 	}
 
 	/**

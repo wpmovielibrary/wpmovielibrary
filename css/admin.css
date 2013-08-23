@@ -73,6 +73,11 @@
 	width: 8em;
 }
 
+#wpml-tabs .wp-list-table .poster img {
+	border-radius: 2px;
+	height: 4em;
+}
+
 #wpml-tabs h4 {
 	margin: 0.25em 0;
 }

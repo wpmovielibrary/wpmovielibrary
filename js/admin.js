@@ -448,7 +448,7 @@ wpml = {
 						tmdb_data.style.display = 'none';
 						wpml.movie.populate(response);
 						wpml.movie.images.set_featured(response.poster_path);*/
-						console.log(response);
+						wpml.import.populate(response);
 				},
 				beforeSend: function() {
 					$('input#tmdb_search').addClass('button-loading');
@@ -464,7 +464,7 @@ wpml = {
 
 			$('.movies > tbody input[type=checkbox]:checked').each(function(i) {
 
-				post_id = this.value;
+				post_id = this.value;	// Set post_id for search_movie
 				tr      = $(this).parents('tr');
 				tr.prop('id', 'p_'+post_id);
 
@@ -480,11 +480,35 @@ wpml = {
 			
 		},
 		
-		populate_movie: function(data) {
-			console.log(data);
-			$.each(data, function() {
-				//TODO: populate fields and spans
+		populate: function(data) {
+
+			var tr     = $('#p_'+post_id);
+			var fields = $('#p_'+post_id+'_tmdb_data input')
+
+			data.images = [];
+
+			fields.each(function(i, field) {
+
+				//field  = this;
+				f_name = field.id.replace('p_'+post_id+'_tmdb_data_','');
+				
+				if ( Array.isArray( data[f_name] ) && data[f_name].length ) {
+					var _v = [];
+					$.each(data[f_name], function() {
+						_v.push( field.value + this.name );
+					});
+					field.value = _v.join(', ');
+				}
+				else {
+					var _v = ( data[f_name] != null ? data[f_name] : '' );
+					field.value = _v;
+				}
 			});
+
+			tr.find('.poster').html('<img src="'+ajax_object.base_url_xxsmall+data.poster_path+'" alt="'+data.title+'" />');
+			tr.find('.movie_title').text(data.title);
+			tr.find('.movie_director').text($('#p_'+post_id+'_tmdb_data_director').val());
+			tr.find('.movie_tmdb_id').text(data.id);
 		},
 		
 		populate_select_list: function(data) {
@@ -493,7 +517,7 @@ wpml = {
 
 			$.each(data.movies, function() {
 				html += '<div class="tmdb_select_movie">';
-				html += '	<a id="tmdb_'+this.id+'" href="#">';
+				html += '	<a id="tmdb_'+this.id+'" href="#'+data._id+'">';
 				html += '		<img src="'+this.poster+'" alt="'+this.title+'" />';
 				html += '		<em>'+this.title+'</em>';
 				html += '	</a>';
@@ -520,19 +544,21 @@ wpml = {
 				},
 				success: function(response) {
 
-					tr = $('#p_'+response._id);
-					wpml.import.target = tr;
+					wpml.import.target = $('#p_'+response._id); // Update the target for populates
 
 					if ( response.result == 'movie' ) {
-						wpml.import.populate_movie(response);
+						wpml.import.populate(response);
 					}
 					else if ( response.result == 'movies' ) {
 						wpml.import.populate_select_list(response);
 
 						$('.tmdb_select_movie a').unbind('click').bind('click', function(e) {
 							e.preventDefault();
-							_id = this.id.replace('tmdb_','');
-							wpml.import.get_movie(_id);
+							
+							post_id = this.hash.replace('#',''); // Update post_id so that get_movie will find the target TR
+							tmdb_id = this.id.replace('tmdb_','');
+							wpml.import.get_movie(tmdb_id);
+							$(this).parents('.wpml-import-movie-select').remove();
 						});
 					}
 				},
