@@ -40,9 +40,13 @@ jQuery(document).ready(function($) {
 		});
 	});
 
-	$('#wpml-import input#doaction').click(function(e) {
+	$('#wpml-import input#doaction, #wpml-import input#doaction2').click(function(e) {
 
-		action = $(this).prev('select[name=action]');
+		e.preventDefault();
+		n = this.id.replace('do','');
+		action = $(this).prev('select[name='+n+']');
+		$(this).addClass('loader');
+
 		if ( ! action.length || 'tmdb_data' != action.val() ) {
 			console.log('!action');
 			return false;
@@ -186,7 +190,7 @@ wpml = {
 						while (tmdb_data.lastChild) tmdb_data.removeChild(tmdb_data.lastChild);
 						tmdb_data.style.display = 'none';
 						wpml.movie.populate(response);
-						wpml.movie.images.set_featured(response.poster_path);
+						wpml.movie.images.set_featured(response.poster_path, null, response.title);
 				},
 				beforeSend: function() {
 					$('input#tmdb_search').addClass('button-loading');
@@ -298,7 +302,7 @@ wpml = {
 				success: function(response) {
 					if ( response.result == 'movie' ) {
 						wpml.movie.populate(response);
-						wpml.movie.images.set_featured(response.poster_path);
+						wpml.movie.images.set_featured(response.poster_path, null, response.title);
 					}
 					else if ( response.result == 'movies' ) {
 						wpml.movie.populate_select_list(response);
@@ -395,13 +399,14 @@ wpml = {
 
 			},
 
-			set_featured: function(image) {
+			set_featured: function(image, id, title) {
 
 				if ( ! $('#wpml-tmdb') || wp.media.featuredImage.get() > 0 )
 					return false;
 
 				wpml.status.set(ajax_object.set_featured);
-				title = $('#tmdb_data_title').val();
+				var title   = title || $('#tmdb_data_title').val();
+				var post_id = id || $('#post_ID').val();
 
 				$.ajax({
 					type: 'GET',
@@ -409,7 +414,7 @@ wpml = {
 					data: {
 						action: 'tmdb_set_featured',
 						image: image,
-						post_id: $('#post_ID').val(),
+						post_id: post_id,
 						title: title+' − '+ajax_object.poster
 					},
 					success: function(r) {
@@ -443,18 +448,15 @@ wpml = {
 					_id: post_id
 				},
 				success: function(response) {
-						/*tmdb_data = document.getElementById('tmdb_data');
-						while (tmdb_data.lastChild) tmdb_data.removeChild(tmdb_data.lastChild);
-						tmdb_data.style.display = 'none';
-						wpml.movie.populate(response);
-						wpml.movie.images.set_featured(response.poster_path);*/
 						wpml.import.populate(response);
 				},
 				beforeSend: function() {
-					$('input#tmdb_search').addClass('button-loading');
+					$('input.loader').addClass('button-loading');
+					$('#p_'+post_id).find('.poster').addClass('loading');
 				},
 				complete: function() {
-					$('input#tmdb_search').removeClass('button-loading');
+					$('input.loader').removeClass('button-loading');
+					$('.poster.loading').removeClass('loading');
 				},
 			});
 
@@ -482,15 +484,15 @@ wpml = {
 		
 		populate: function(data) {
 
-			var tr     = $('#p_'+post_id);
-			var fields = $('#p_'+post_id+'_tmdb_data input')
+			var tr     = $('#p_'+data._id);
+			var fields = $('#p_'+data._id+'_tmdb_data input')
 
 			data.images = [];
 
 			fields.each(function(i, field) {
 
 				//field  = this;
-				f_name = field.id.replace('p_'+post_id+'_tmdb_data_','');
+				f_name = field.id.replace('p_'+data._id+'_tmdb_data_','');
 				
 				if ( Array.isArray( data[f_name] ) && data[f_name].length ) {
 					var _v = [];
@@ -505,9 +507,13 @@ wpml = {
 				}
 			});
 
+			$('#p_'+data._id+'_tmdb_data_tmdb_id').val(data.id);
+			$('#p_'+data._id+'_tmdb_data_post_id').val(data._id);
+			$('#p_'+data._id+'_tmdb_data_poster').val(data.poster_path);
+
 			tr.find('.poster').html('<img src="'+ajax_object.base_url_xxsmall+data.poster_path+'" alt="'+data.title+'" />');
 			tr.find('.movie_title').text(data.title);
-			tr.find('.movie_director').text($('#p_'+post_id+'_tmdb_data_director').val());
+			tr.find('.movie_director').text($('#p_'+data._id+'_tmdb_data_director').val());
 			tr.find('.movie_tmdb_id').text(data.id);
 		},
 		
@@ -563,10 +569,10 @@ wpml = {
 					}
 				},
 				beforeSend: function() {
-					$('input#doaction').addClass('button-loading');
+					$('input.loader').addClass('button-loading');
 				},
 				complete: function() {
-					$('input#doaction').removeClass('button-loading');
+					$('input.loader').removeClass('button-loading loader');
 				},
 			});
 

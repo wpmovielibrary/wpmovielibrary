@@ -10,14 +10,19 @@
 
 		<div id="fragment-1">
 
-			<p><?php _e( 'Here are the movies you previously updated but didn’t save. You can save them, edit them individually or apply bulk actions.', 'wpml' ); ?></p>
+			<p><?php _e( 'Here are the movies you previously updated but didn’t save. You can save them, edit them individually or apply bulk actions. Posters are automatically saved and set as featured images, but images are not. Use the bulk action to import, but be aware that it can take some time if you select a lot of movies. Don’t forget to save your imports when you’re done!', 'wpml' ); ?></p>
+
+			<form method="post">
 
 <?php $this->wpml_import_movie_list(); ?>
 
-			<p style="text-align:right">
-				<input type="button" id="wpml_empty" name="wpml_empty" class="button button-secondary button-large" value="<?php _e( 'Empty All', 'wpml' ); ?>" />
-				<input type="submit" id="wpml_save_imported" name="wpml_save_imported" class="button button-primary button-large" value="<?php _e( 'Save Movies', 'wpml' ); ?>" />
-			</p>
+				<p style="text-align:right">
+					<input type="button" id="wpml_empty" name="wpml_empty" class="button button-secondary button-large" value="<?php _e( 'Empty All', 'wpml' ); ?>" />
+					<input type="submit" id="wpml_save_imported" name="wpml_save_imported" class="button button-primary button-large" value="<?php _e( 'Save Movies', 'wpml' ); ?>" />
+				</p>
+
+			</form>
+
 		</div>
 
 		<div id="fragment-2">

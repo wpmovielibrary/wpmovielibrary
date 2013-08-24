@@ -134,7 +134,7 @@ class WPMovieLibrary {
 				'default_fields' => array(
 					'director'     => 'Director',
 					'producer'     => 'Producer',
-					'photgraphy'   => 'Director of Photography',
+					'photography'  => 'Director of Photography',
 					'composer'     => 'Original Music Composer',
 					'author'       => 'Author',
 					'writer'       => 'Writer',
@@ -191,6 +191,10 @@ class WPMovieLibrary {
 		add_action( 'init', array( $this, 'wpml_load_plugin_textdomain' ) );
 		add_action( 'init', array( $this, 'wpml_register_post_type' ) );
 		add_action( 'init', array( $this, 'wpml_default_settings' ) );
+
+		// Movie poster in admin movies list
+		add_filter('manage_posts_columns', array( $this, 'wpml_movies_columns_head' ) );
+		add_action('manage_posts_custom_column', array( $this, 'wpml_movies_columns_content' ), 10, 2 );
 
 		// Notice missing API key
 		add_action( 'admin_notices', array( $this, 'wpml_activate_notice' ) );
@@ -303,7 +307,7 @@ class WPMovieLibrary {
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
-	 *                  Styles, Scripts, Custom Post Types
+	 *                          Styles, Scripts
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -335,6 +339,13 @@ class WPMovieLibrary {
 			
 		}
 	}
+
+
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *                         Custom Post Types
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
 	 * Register a 'movie' custom post type
@@ -379,6 +390,29 @@ class WPMovieLibrary {
 	}
 
 	/**
+	 * 
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    string    Return early if no settings page is registered.
+	 */
+	public function wpml_get_featured_image( $post_id ) {
+		$_id = get_post_thumbnail_id( $post_id );
+		$img = ( $_id ? wp_get_attachment_image_src( $_id, 'thumbnail' ) : array( $this->plugin_url . '/assets/no_poster.png' ) ); 
+		return $img[0];
+	}
+
+	public function wpml_movies_columns_head( $defaults ) {
+		$defaults['poster'] = __( 'Poster', 'wpml' );
+		return $defaults;
+	}
+	
+	public function wpml_movies_columns_content( $column_name, $post_id ) {
+		if ( $column_name == 'poster' )
+			echo '<img src="'.$this->wpml_get_featured_image( $post_id ).'" alt="" />';
+	}
+
+	/**
 	 * Register and enqueue admin-specific style sheet.
 	 *
 	 * @since     1.0.0
@@ -398,7 +432,11 @@ class WPMovieLibrary {
 	 *
 	 * @return    null    Return early if no settings page is registered.
 	 */
-	public function enqueue_admin_scripts() {
+	public function enqueue_admin_scripts( $hook_suffix ) {
+
+		if ( 'movie_page_import' == $hook_suffix )
+			wp_enqueue_media();
+
 		wp_enqueue_script( 'jquery-ui-sortable' );
 		wp_enqueue_script( 'jquery-ui-progressbar' );
 		wp_enqueue_script( 'jquery-ui-tabs' );
@@ -736,19 +774,37 @@ class WPMovieLibrary {
 	 *
 	 * @since     1.0.0
 	 */
-	public function wpml_save_tmdb_data( $post_id ) {
+	public function wpml_save_tmdb_data( $post_id, $tmdb_data = null ) {
 
 		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
-			return false;
-
-		if ( ! isset( $_POST['tmdb_data'] ) || '' == $_POST['tmdb_data'] )
 			return false;
 
 		$post = get_post( $post_id );
 		if ( 'movie' != get_post_type( $post ) )
 			return false;
 
-		update_post_meta( $post_id, '_wpml_movie_data', $_POST['tmdb_data'] );
+		if ( ! is_null( $tmdb_data ) && count( $tmdb_data ) ) {
+
+			// Save TMDb data
+			update_post_meta( $post_id, '_wpml_movie_data', $tmdb_data );
+
+			// Set poster as featured image
+			$id = $this->wpml_set_image_as_featured( $tmdb_data['poster'], $post_id, $tmdb_data['title'] . ' − ' . __( 'Poster', 'wpml' ) );
+			update_post_meta( $post_id, '_thumbnail_id', $id );
+
+			// Switch status from import draft to published
+			if ( 'import-draft' == get_post_status( $post_id ) ) {
+				wp_update_post( array(
+					'ID' => $post_id,
+					'post_name'   => sanitize_title_with_dashes( $tmdb_data['title'] ),
+					'post_status' => 'publish',
+					'post_title'  => $tmdb_data['title'],
+				) );
+			}
+		}
+		else if ( isset( $_POST['tmdb_data'] ) && '' == $_POST['tmdb_data'] ) {
+			update_post_meta( $post_id, '_wpml_movie_data', $_POST['tmdb_data'] );
+		}
 	}
 
 
@@ -779,8 +835,6 @@ class WPMovieLibrary {
 
 		$meta  = get_post_meta( $post->ID, '_wpml_movie_data' );
 		$value = ( isset( $meta[0] ) && '' != $meta[0] ? $meta[0] : array() );
-
-		
 
 		include_once( 'views/metabox-tmdb.php' );
 	}
@@ -878,7 +932,16 @@ class WPMovieLibrary {
 	 * @since    1.0.0
 	 */
 	public function wpml_import_page() {
-		// TODO: implement import
+
+		if ( isset( $_POST['wpml_save_imported'] ) && '' != $_POST['wpml_save_imported'] && isset( $_POST['tmdb'] ) && count( $_POST['tmdb'] ) ) {
+
+			foreach ( $_POST['tmdb'] as $tmdb_data ) {
+				if ( 0 != $tmdb_data['tmdb_id'] ) {
+					$this->wpml_save_tmdb_data( $tmdb_data['post_id'], $tmdb_data );
+				}
+			}
+		}
+
 		include_once( 'views/import.php' );
 	}
 

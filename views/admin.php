@@ -86,7 +86,7 @@
 							<td>
 								<input type="radio" name="poster_featured" value="1" <?php checked( $this->wpml_o('tmdb-settings-poster_featured'), 1 ); ?>/> <?php _e( 'Use Posters as Movies Thumbnails', 'wpml' ); ?>
 								<input type="radio" name="poster_featured" value="0" <?php checked( $this->wpml_o('tmdb-settings-poster_featured'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?>
-								<p class="description"><?php _e( 'Using posters as movies thumbnails will automatically import new movies&rsquo; poster and set them as post featured image.', 'wpml' ); ?></p>
+								<p class="description"><?php _e( 'Using posters as movies thumbnails will automatically import new movies&rsquo; poster and set them as post featured image. This setting doesn’t affect movie import by list where posters are automatically saved and set as featured image.', 'wpml' ); ?></p>
 							</td>
 						</tr>
 					</tbody>

@@ -98,9 +98,13 @@ class WPML_List_Table extends WP_List_Table {
 			'delete'    => sprintf('<a href="?page=%s&action=%s&movie=%s">%s</a>', $_REQUEST['page'], 'delete', $item['ID'], __( 'Delete', 'wpml' ) ),
 		);
 
-		$inline_item = '';
+		$inline_item  = '<input id="p_'.$item['ID'].'_tmdb_data_post_id" type="hidden" name="tmdb[p_'.$item['ID'].'][post_id]" value="'.$item['ID'].'" />';
+		$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_tmdb_id" type="hidden" name="tmdb[p_'.$item['ID'].'][tmdb_id]" value="0" />';
+		$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_poster" type="hidden" name="tmdb[p_'.$item['ID'].'][poster]" value="" />';
+
 		foreach ( $this->metadata as $slug => $meta )
 			$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_'.$slug.'" type="hidden" name="tmdb[p_'.$item['ID'].']['.$slug.']" value="" />';
+
 		$inline_item = '<div id="p_'.$item['ID'].'_tmdb_data">'.$inline_item.'</div>';
 
 		return sprintf('<span class="movie_title">%1$s</span> %2$s %3$s', $item['movietitle'], $this->row_actions( $actions ), $inline_item );
@@ -133,14 +137,18 @@ class WPML_List_Table extends WP_List_Table {
 		$per_page = 20;
 		$current_page = $this->get_pagenum();
 		$total_items = count( $this->columns );
-		
+		$total_pages = ceil( $total_items / $per_page );
+
+		$columns = array_slice( $this->columns, ( ( $current_page - 1 ) * $per_page ), $per_page );
+
 		$this->set_pagination_args(
 			array(
 				'total_items' => $total_items,
+				'total_pages' => $total_pages,
 				'per_page'    => $per_page
 			)
 		);
-		$this->items = $this->columns;
+		$this->items = $columns;
 	}
  
 }

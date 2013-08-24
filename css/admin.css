@@ -73,7 +73,11 @@
 	width: 8em;
 }
 
-#wpml-tabs .wp-list-table .poster img {
+#wpml-tabs .wp-list-table .poster.loading {
+	background: url(../assets/loading.gif) 0 16px no-repeat;
+}
+
+.wp-list-table .poster img {
 	border-radius: 2px;
 	height: 4em;
 }
