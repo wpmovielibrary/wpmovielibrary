@@ -1,0 +1,59 @@
+body.wpmovielibrary {
+	background: #00293b url(../assets/bg.jpg) center top fixed no-repeat;
+	position: relative;
+}
+
+#wpmovielibrary {
+	margin-top: 2em;
+}
+
+#wpmovielibrary .brand {
+	/*background: #fff;
+	padding-top: 2em;
+	padding-bottom: 2em;*/
+}
+
+#wpmovielibrary .brand #brand {
+	color: rgba(0, 41, 59, 0.9);
+	font-family: 'Exo', sans-serif;
+	font-size: 1.5em;
+	font-weight: lighter;
+	/*margin: 48px 24px 24px 32px;*/
+	position: relative;
+}
+
+#wpmovielibrary #brand::after {
+	color: rgba(255, 255, 255, 0.01);
+	content: attr(title);
+	position: absolute;
+	left: 3px;
+	text-shadow: 0 0 0;
+	top: 3px;
+}
+
+#wpmovielibrary #brand::before {
+	color: rgba(255, 255, 255, 0.05);
+	content: attr(title);
+	position: absolute;
+	left: 2px;
+	text-shadow: 0 0 0;
+	top: 2px;
+}
+
+#wpmovielibrary .search {
+	/*background: #00293b;
+	padding-top: 2em;
+	padding-bottom: 2em;*/
+}
+
+.movie {
+	float: left;
+	height: 19em;
+	width: 14em;
+}
+
+.movie > img {
+	border-radius: 0 !important;
+	height: 100%;
+	width: 100%;
+}

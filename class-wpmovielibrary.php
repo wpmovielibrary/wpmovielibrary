@@ -217,7 +217,8 @@ class WPMovieLibrary {
 		add_action( 'save_post', array( $this, 'wpml_save_tmdb_data' ) );
 
 		// Movie content
-		// add_filter( 'the_content', array( $this->tmdb, 'wpml_content_filter' ) );
+		add_filter( 'the_content', array( $this, 'wpml_library_view' ) );
+		add_filter( 'page_template', array( $this, 'wpml_library_template' ) );
 
 		// register widgets
 		// add_action( 'widgets_init', array( $this, 'wpml_widgets' ) );
@@ -269,6 +270,32 @@ class WPMovieLibrary {
 	 * @param    boolean    $network_wide    True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog.
 	 */
 	public static function activate( $network_wide ) {
+
+		global $wpdb;
+
+		$page = $wpdb->get_results(
+			$wpdb->prepare(
+				'SELECT * FROM '.$wpdb->posts.' WHERE post_title = %s OR post_name = %s',
+				'WPMovieLibrary',
+				'movies'
+			)
+		);
+
+		if ( count( $page ) > 0 )
+			return true;
+
+		wp_insert_post(
+			array(
+				'comment_status' => 'closed',
+				'ping_status'    => 'closed',
+				'post_author'    => get_current_user_id(),
+				'post_content'   => '',
+				'post_name'      => 'movies',
+				'post_status'    => 'publish',
+				'post_title'     => 'WPMovieLibrary',
+				'post_type'      => 'page'
+			)
+		);
 	}
 
 	/**
@@ -411,9 +438,9 @@ class WPMovieLibrary {
 	 *
 	 * @return    string    Featured image URL
 	 */
-	public function wpml_get_featured_image( $post_id ) {
+	public function wpml_get_featured_image( $post_id, $size = 'thumbnail' ) {
 		$_id = get_post_thumbnail_id( $post_id );
-		$img = ( $_id ? wp_get_attachment_image_src( $_id, 'thumbnail' ) : array( $this->plugin_url . '/assets/no_poster.png' ) ); 
+		$img = ( $_id ? wp_get_attachment_image_src( $_id, $size ) : array( $this->plugin_url . '/assets/no_poster.png' ) ); 
 		return $img[0];
 	}
 
@@ -506,7 +533,8 @@ class WPMovieLibrary {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-		wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'css/public.css', __FILE__ ), array(), $this->version );
+		//wp_enqueue_style( 'foundation', plugins_url( 'css/foundation.min.css', __FILE__ ), array(), $this->version );
+		wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'css/style.css', __FILE__ ), array(), $this->version );
 	}
 
 	/**
@@ -518,12 +546,411 @@ class WPMovieLibrary {
 		wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'js/public.js', __FILE__ ), array( 'jquery' ), $this->version );
 	}
 
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *                             Callbacks
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * Delete movie
+	 * 
+	 * Remove imported movies draft and attachment from database
+	 *
+	 * @since     1.0.0
+	 * 
+	 * @return     boolean     deletion status
+	 */
+	public function wpml_delete_movie_callback() {
+
+		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
+
+		echo $this->wpml_delete_movie( $post_id );
+		die();
+	}
+
+	/**
+	 * Save movie details: media, status, rating.
+	 * 
+	 * Although values are submitted as array each value is stored in a
+	 * dedicated post meta.
+	 *
+	 * @since     1.0.0
+	 */
+	public function wpml_save_details_callback() {
+
+		$post_id      = ( isset( $_POST['post_id'] )      && '' != $_POST['post_id']      ? $_POST['post_id']      : '' );
+		$wpml_details = ( isset( $_POST['wpml_details'] ) && '' != $_POST['wpml_details'] ? $_POST['wpml_details'] : '' );
+
+		if ( '' == $post_id || '' == $wpml_details )
+			return false;
+
+		$post = get_post( $post_id );
+		if ( 'movie' != get_post_type( $post ) )
+			return false;
+
+		update_post_meta( $post_id, '_wpml_movie_media', $wpml_details['media'] );
+		update_post_meta( $post_id, '_wpml_movie_status', $wpml_details['status'] );
+		update_post_meta( $post_id, '_wpml_movie_rating', $wpml_details['rating'] );
+	}
+
+	/**
+	 * Upload a movie image.
+	 * 
+	 * Extract params from $_POST values. Image URL and post ID are
+	 * required, title is optional. If no title is submitted file's
+	 * basename will be used as image name.
+	 * 
+	 * @param string $image Image url
+	 * @param int $post_id ID of the post the image will be attached to
+	 * @param string $title Post title to use as image title to avoir crappy TMDb images names.
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    string    Uploaded image ID
+	 */
+	public function wpml_save_image_callback() {
+
+		$image   = ( isset( $_GET['image'] )   && '' != $_GET['image']   ? $_GET['image']   : '' );
+		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
+		$title   = ( isset( $_GET['title'] )   && '' != $_GET['title']   ? $_GET['title']   : '' );
+
+		if ( '' == $image || '' == $post_id )
+			return false;
+
+		echo $this->wpml_image_upload( $image, $post_id, $title );
+		die();
+	}
+
+	/**
+	 * Upload an image and set it as featured image of the submitted post.
+	 * 
+	 * Extract params from $_POST values. Image URL and post ID are
+	 * required, title is optional. If no title is submitted file's
+	 * basename will be used as image name.
+	 * 
+	 * Return the uploaded image ID to updated featured image preview in
+	 * editor.
+	 * 
+	 * @param string $image Image url
+	 * @param int $post_id ID of the post the image will be attached to
+	 * @param string $title Post title to use as image title to avoir crappy TMDb images names.
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    string    Uploaded image ID
+	 */
+	public function wpml_set_featured_image_callback() {
+
+		$image   = ( isset( $_GET['image'] )   && '' != $_GET['image']   ? $_GET['image']   : '' );
+		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
+		$title   = ( isset( $_GET['title'] )   && '' != $_GET['title']   ? $_GET['title']   : '' );
+
+		if ( '' == $image || '' == $post_id || 1 != $this->wpml_o('tmdb-settings-poster_featured') )
+			return false;
+
+		echo $this->wpml_set_image_as_featured( $image, $post_id, $title );
+		die();
+	}
+
+
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *                             Meta Boxes
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * Register WPML Metaboxes
+	 * 
+	 * @since    1.0.0
+	 */
+	public function wpml_metaboxes() {
+		add_meta_box( 'tmdbstuff', __( 'TMDb − The Movie Database', 'wpml' ), array( $this, 'wpml_metabox_tmdb' ), 'movie', 'normal', 'high', null );
+		add_meta_box( 'wpml', __( 'Movie Library − Details', 'wpml' ), array( $this, 'wpml_metabox_details' ), 'movie', 'side', 'default', null );
+	}
+
+	/**
+	 * Main Metabox: TMDb API results.
+	 * Display a large Metabox below post editor to fetch and edit movie
+	 * informations using the TMDb API.
+	 * 
+	 * @since    1.0.0
+	 */
+	public function wpml_metabox_tmdb( $post, $metabox ) {
+
+		$meta  = get_post_meta( $post->ID, '_wpml_movie_data' );
+		$value = ( isset( $meta[0] ) && '' != $meta[0] ? $meta[0] : array() );
+
+		include_once( 'views/metabox-tmdb.php' );
+	}
+
+	/**
+	 * Left side Metabox: Movie details.
+	 * Used to handle Movies-related details.
+	 * 
+	 * @since    1.0.0
+	 */
+	public function wpml_metabox_details( $post, $metabox ) {
+
+		$v = get_post_meta( $post->ID, '_wpml_movie_status', true );
+		$movie_status = ( isset( $v ) && '' != $v ? $v : key( $this->wpml_movie_details['movie_status']['default'] ) );
+
+		$v = get_post_meta( $post->ID, '_wpml_movie_media', true );
+		$movie_media  = ( isset( $v ) && '' != $v ? $v : key( $this->wpml_movie_details['movie_media']['default'] ) );
+
+		$v = get_post_meta( $post->ID, '_wpml_movie_rating', true );
+		$movie_rating = ( isset( $v ) && '' != $v ? $v : 0 );
+
+		include_once( 'views/metabox-details.php' );
+	}
+
+
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *                     Settings, Import/Export Pages
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * Register the administration menu for this plugin into the WordPress Dashboard menu.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_admin_menu() {
+
+		add_submenu_page(
+			'edit.php?post_type=movie',
+			__( 'Import Movies', 'wpml' ),
+			__( 'Import Movies', 'wpml' ),
+			'manage_options',
+			'import',
+			array( $this, 'wpml_import_page' )
+		);
+		add_submenu_page(
+			'edit.php?post_type=movie',
+			__( 'Export Movies', 'wpml' ),
+			__( 'Export Movies', 'wpml' ),
+			'manage_options',
+			'export',
+			array( $this, 'wpml_export_page' )
+		);
+		add_submenu_page(
+			'edit.php?post_type=movie',
+			__( 'Options', 'wpml' ),
+			__( 'Options', 'wpml' ),
+			'manage_options',
+			'settings',
+			array( $this, 'wpml_admin_page' )
+		);
+	}
+
+	/**
+	 * Render options page.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_admin_page() {
+
+		if ( isset( $_POST['restore_default'] ) && '' != $_POST['restore_default'] ) {
+			$this->wpml_default_settings( true );
+			$this->msg_settings = __( 'Default Settings have been restored.', 'wpml' );
+		}
+
+		if ( isset( $_POST['submit'] ) && '' != $_POST['submit'] ) {
+
+			$supported = array_keys( $this->wpml_o( 'tmdb-settings' ) );
+			foreach ( $_POST as $key => $setting ) {
+				if ( in_array( $key, $supported ) ) {
+					$this->wpml_o( 'tmdb-settings-'.esc_attr( $key ), esc_attr( $setting ) );
+				}
+			}
+
+			$this->msg_settings = __( 'Settings saved.', 'wpml' );
+		}
+
+		include_once( 'views/admin.php' );
+	}
+
+	/**
+	 * Render movie import page
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_import_page() {
+
+		if ( isset( $_POST['wpml_save_imported'] ) && '' != $_POST['wpml_save_imported'] && isset( $_POST['tmdb'] ) && count( $_POST['tmdb'] ) ) {
+
+			foreach ( $_POST['tmdb'] as $tmdb_data ) {
+				if ( 0 != $tmdb_data['tmdb_id'] ) {
+					$this->wpml_save_tmdb_data( $tmdb_data['post_id'], $tmdb_data );
+				}
+			}
+		}
+
+		include_once( 'views/import.php' );
+	}
+
+	/**
+	 * Render movie export page
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_export_page() {
+		// TODO: implement export
+		// include_once( 'views/export.php' );
+	}
+
+
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *                           Library View
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	public function wpml_library_template( $page_template ) {
+
+		if ( is_page( 'WPMovieLibrary' ) || is_page( 'movies' ) )
+			$page_template = $this->plugin_path . '/views/library.php';
+
+		return $page_template;
+	}
+
+	public function wpml_library_view( $content ) {
+
+		if ( is_page( 'WPMovieLibrary' ) || is_page( 'movies' ) ) {
+
+			$movies = $this->wpml_get_movies();
+
+			include_once( 'views/library.php' );
+		}
+
+		return '';
+	}
+
+
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *                              Options
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * Get TMDb API if available
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_get_api_key() {
+		$api_key = $this->wpml_o('tmdb-settings-APIKey');
+		return ( '' != $api_key ? $api_key : false );
+	}
+
+	/**
+	 * Built-in option finder/modifier
+	 * Default behavior with no empty search and value params results in
+	 * returning the complete WPML options' list.
+	 * 
+	 * If a search query is specified, navigate through the options'
+	 * array and return the asked option if existing, empty string if it
+	 * doesn't exist.
+	 * 
+	 * If a replacement value is specified and the search query is valid,
+	 * update WPML options with new value.
+	 * 
+	 * Return can be string, boolean or array. If search, return array or
+	 * string depending on search result. If value, return boolean true on
+	 *  success, false on failure.
+	 * 
+	 * @param    string        Search query for the option: 'aaa-bb-c'. Default none.
+	 * @param    string        Replacement value for the option. Default none.
+	 * 
+	 * @return   string/boolean/array        option array of string, boolean on update.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_o( $search = '', $value = null ) {
+
+		$options = get_option( $this->plugin_settings, $this->wpml_settings );
+
+		if ( '' != $search && is_null( $value ) ) {
+			$s = explode( '-', $search );
+			$o = $options;
+			while ( count( $s ) ) {
+				$k = array_shift( $s );
+				if ( isset( $o[ $k ] ) )
+					$o = $o[ $k ];
+				else
+					$o = '';
+			}
+		}
+		else if ( '' != $search && ! is_null( $value ) ) {
+			$s = explode( '-', $search );
+			$this->wpml_o_( $options, $s, $value );
+			$o = update_option( $this->plugin_settings, $options );
+		}
+		else {
+			$o = $options;
+		}
+
+		return $o;
+	}
+
+	/**
+	 * Built-in option modifier
+	 * Navigate through WPML options to find a matching option and update
+	 * its value.
+	 * 
+	 * @param    array         Options array passed by reference
+	 * @param    string        key list to match the specified option
+	 * @param    string        Replacement value for the option. Default none
+	 *
+	 * @since    1.0.0
+	 */
+	private function wpml_o_( &$array, $key, $value = '' ) {
+		$a = &$array;
+		foreach ( $key as $k )
+			$a = &$a[ $k ];
+		$a = $value;
+	}
+
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
 	 *                             Methods
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * Get all available movies.
+	 * 
+	 * @return array Movie list
+	 * 
+	 * @since   1.0.0
+	 */
+	public function wpml_get_movies() {
+
+		$movies = array();
+
+		query_posts( array(
+			'posts_per_page' => -1,
+			'post_type'   => 'movie'
+		) );
+
+		if ( have_posts() ) {
+			while ( have_posts() ) {
+				the_post();
+				$movies[] = array(
+					'id'     => get_the_ID(),
+					'title'  => get_the_title(),
+					'url'    => get_permalink(),
+					'poster' => $this->wpml_get_featured_image( get_the_ID(), 'medium' )
+				);
+			}
+		}
+
+		return $movies;
+
+	}
 
 	/**
 	 * Set the image as featured image.
@@ -784,113 +1211,6 @@ class WPMovieLibrary {
 		return $s;
 	}
 
-	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 *
-	 *                             Callbacks
-	 * 
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	/**
-	 * Delete movie
-	 * 
-	 * Remove imported movies draft and attachment from database
-	 *
-	 * @since     1.0.0
-	 * 
-	 * @return     boolean     deletion status
-	 */
-	public function wpml_delete_movie_callback() {
-
-		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
-
-		echo $this->wpml_delete_movie( $post_id );
-		die();
-	}
-
-	/**
-	 * Save movie details: media, status, rating.
-	 * 
-	 * Although values are submitted as array each value is stored in a
-	 * dedicated post meta.
-	 *
-	 * @since     1.0.0
-	 */
-	public function wpml_save_details_callback() {
-
-		$post_id      = ( isset( $_POST['post_id'] )      && '' != $_POST['post_id']      ? $_POST['post_id']      : '' );
-		$wpml_details = ( isset( $_POST['wpml_details'] ) && '' != $_POST['wpml_details'] ? $_POST['wpml_details'] : '' );
-
-		if ( '' == $post_id || '' == $wpml_details )
-			return false;
-
-		$post = get_post( $post_id );
-		if ( 'movie' != get_post_type( $post ) )
-			return false;
-
-		update_post_meta( $post_id, '_wpml_movie_media', $wpml_details['media'] );
-		update_post_meta( $post_id, '_wpml_movie_status', $wpml_details['status'] );
-		update_post_meta( $post_id, '_wpml_movie_rating', $wpml_details['rating'] );
-	}
-
-	/**
-	 * Upload a movie image.
-	 * 
-	 * Extract params from $_POST values. Image URL and post ID are
-	 * required, title is optional. If no title is submitted file's
-	 * basename will be used as image name.
-	 * 
-	 * @param string $image Image url
-	 * @param int $post_id ID of the post the image will be attached to
-	 * @param string $title Post title to use as image title to avoir crappy TMDb images names.
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    string    Uploaded image ID
-	 */
-	public function wpml_save_image_callback() {
-
-		$image   = ( isset( $_GET['image'] )   && '' != $_GET['image']   ? $_GET['image']   : '' );
-		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
-		$title   = ( isset( $_GET['title'] )   && '' != $_GET['title']   ? $_GET['title']   : '' );
-
-		if ( '' == $image || '' == $post_id )
-			return false;
-
-		echo $this->wpml_image_upload( $image, $post_id, $title );
-		die();
-	}
-
-	/**
-	 * Upload an image and set it as featured image of the submitted post.
-	 * 
-	 * Extract params from $_POST values. Image URL and post ID are
-	 * required, title is optional. If no title is submitted file's
-	 * basename will be used as image name.
-	 * 
-	 * Return the uploaded image ID to updated featured image preview in
-	 * editor.
-	 * 
-	 * @param string $image Image url
-	 * @param int $post_id ID of the post the image will be attached to
-	 * @param string $title Post title to use as image title to avoir crappy TMDb images names.
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    string    Uploaded image ID
-	 */
-	public function wpml_set_featured_image_callback() {
-
-		$image   = ( isset( $_GET['image'] )   && '' != $_GET['image']   ? $_GET['image']   : '' );
-		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
-		$title   = ( isset( $_GET['title'] )   && '' != $_GET['title']   ? $_GET['title']   : '' );
-
-		if ( '' == $image || '' == $post_id || 1 != $this->wpml_o('tmdb-settings-poster_featured') )
-			return false;
-
-		echo $this->wpml_set_image_as_featured( $image, $post_id, $title );
-		die();
-	}
-
 	/**
 	 * Save TMDb fetched data.
 	 *
@@ -927,239 +1247,6 @@ class WPMovieLibrary {
 		else if ( isset( $_POST['tmdb_data'] ) && '' == $_POST['tmdb_data'] ) {
 			update_post_meta( $post_id, '_wpml_movie_data', $_POST['tmdb_data'] );
 		}
-	}
-
-
-	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 *
-	 *                             Meta Boxes
-	 * 
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	/**
-	 * Register WPML Metaboxes
-	 * 
-	 * @since    1.0.0
-	 */
-	public function wpml_metaboxes() {
-		add_meta_box( 'tmdbstuff', __( 'TMDb − The Movie Database', 'wpml' ), array( $this, 'wpml_metabox_tmdb' ), 'movie', 'normal', 'high', null );
-		add_meta_box( 'wpml', __( 'Movie Library − Details', 'wpml' ), array( $this, 'wpml_metabox_details' ), 'movie', 'side', 'default', null );
-	}
-
-	/**
-	 * Main Metabox: TMDb API results.
-	 * Display a large Metabox below post editor to fetch and edit movie
-	 * informations using the TMDb API.
-	 * 
-	 * @since    1.0.0
-	 */
-	public function wpml_metabox_tmdb( $post, $metabox ) {
-
-		$meta  = get_post_meta( $post->ID, '_wpml_movie_data' );
-		$value = ( isset( $meta[0] ) && '' != $meta[0] ? $meta[0] : array() );
-
-		include_once( 'views/metabox-tmdb.php' );
-	}
-
-	/**
-	 * Left side Metabox: Movie details.
-	 * Used to handle Movies-related details.
-	 * 
-	 * @since    1.0.0
-	 */
-	public function wpml_metabox_details( $post, $metabox ) {
-
-		$v = get_post_meta( $post->ID, '_wpml_movie_status', true );
-		$movie_status = ( isset( $v ) && '' != $v ? $v : key( $this->wpml_movie_details['movie_status']['default'] ) );
-
-		$v = get_post_meta( $post->ID, '_wpml_movie_media', true );
-		$movie_media  = ( isset( $v ) && '' != $v ? $v : key( $this->wpml_movie_details['movie_media']['default'] ) );
-
-		$v = get_post_meta( $post->ID, '_wpml_movie_rating', true );
-		$movie_rating = ( isset( $v ) && '' != $v ? $v : 0 );
-
-		include_once( 'views/metabox-details.php' );
-	}
-
-
-	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 *
-	 *                             Admin Pages
-	 * 
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	/**
-	 * Register the administration menu for this plugin into the WordPress Dashboard menu.
-	 *
-	 * @since    1.0.0
-	 */
-	public function wpml_admin_menu() {
-
-		add_submenu_page(
-			'edit.php?post_type=movie',
-			__( 'Import Movies', 'wpml' ),
-			__( 'Import Movies', 'wpml' ),
-			'manage_options',
-			'import',
-			array( $this, 'wpml_import_page' )
-		);
-		add_submenu_page(
-			'edit.php?post_type=movie',
-			__( 'Export Movies', 'wpml' ),
-			__( 'Export Movies', 'wpml' ),
-			'manage_options',
-			'export',
-			array( $this, 'wpml_export_page' )
-		);
-		add_submenu_page(
-			'edit.php?post_type=movie',
-			__( 'Options', 'wpml' ),
-			__( 'Options', 'wpml' ),
-			'manage_options',
-			'settings',
-			array( $this, 'wpml_admin_page' )
-		);
-	}
-
-	/**
-	 * Render options page.
-	 *
-	 * @since    1.0.0
-	 */
-	public function wpml_admin_page() {
-
-		if ( isset( $_POST['restore_default'] ) && '' != $_POST['restore_default'] ) {
-			$this->wpml_default_settings( true );
-			$this->msg_settings = __( 'Default Settings have been restored.', 'wpml' );
-		}
-
-		if ( isset( $_POST['submit'] ) && '' != $_POST['submit'] ) {
-
-			$supported = array_keys( $this->wpml_o( 'tmdb-settings' ) );
-			foreach ( $_POST as $key => $setting ) {
-				if ( in_array( $key, $supported ) ) {
-					$this->wpml_o( 'tmdb-settings-'.esc_attr( $key ), esc_attr( $setting ) );
-				}
-			}
-
-			$this->msg_settings = __( 'Settings saved.', 'wpml' );
-		}
-
-		include_once( 'views/admin.php' );
-	}
-
-	/**
-	 * Render movie import page
-	 *
-	 * @since    1.0.0
-	 */
-	public function wpml_import_page() {
-
-		if ( isset( $_POST['wpml_save_imported'] ) && '' != $_POST['wpml_save_imported'] && isset( $_POST['tmdb'] ) && count( $_POST['tmdb'] ) ) {
-
-			foreach ( $_POST['tmdb'] as $tmdb_data ) {
-				if ( 0 != $tmdb_data['tmdb_id'] ) {
-					$this->wpml_save_tmdb_data( $tmdb_data['post_id'], $tmdb_data );
-				}
-			}
-		}
-
-		include_once( 'views/import.php' );
-	}
-
-	/**
-	 * Render movie export page
-	 *
-	 * @since    1.0.0
-	 */
-	public function wpml_export_page() {
-		// TODO: implement export
-		// include_once( 'views/export.php' );
-	}
-
-
-	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 *
-	 *                              Options
-	 * 
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	/**
-	 * Get TMDb API if available
-	 *
-	 * @since    1.0.0
-	 */
-	public function wpml_get_api_key() {
-		$api_key = $this->wpml_o('tmdb-settings-APIKey');
-		return ( '' != $api_key ? $api_key : false );
-	}
-
-	/**
-	 * Built-in option finder/modifier
-	 * Default behavior with no empty search and value params results in
-	 * returning the complete WPML options' list.
-	 * 
-	 * If a search query is specified, navigate through the options'
-	 * array and return the asked option if existing, empty string if it
-	 * doesn't exist.
-	 * 
-	 * If a replacement value is specified and the search query is valid,
-	 * update WPML options with new value.
-	 * 
-	 * Return can be string, boolean or array. If search, return array or
-	 * string depending on search result. If value, return boolean true on
-	 *  success, false on failure.
-	 * 
-	 * @param    string        Search query for the option: 'aaa-bb-c'. Default none.
-	 * @param    string        Replacement value for the option. Default none.
-	 * 
-	 * @return   string/boolean/array        option array of string, boolean on update.
-	 *
-	 * @since    1.0.0
-	 */
-	public function wpml_o( $search = '', $value = null ) {
-
-		$options = get_option( $this->plugin_settings, $this->wpml_settings );
-
-		if ( '' != $search && is_null( $value ) ) {
-			$s = explode( '-', $search );
-			$o = $options;
-			while ( count( $s ) ) {
-				$k = array_shift( $s );
-				if ( isset( $o[ $k ] ) )
-					$o = $o[ $k ];
-				else
-					$o = '';
-			}
-		}
-		else if ( '' != $search && ! is_null( $value ) ) {
-			$s = explode( '-', $search );
-			$this->wpml_o_( $options, $s, $value );
-			$o = update_option( $this->plugin_settings, $options );
-		}
-		else {
-			$o = $options;
-		}
-
-		return $o;
-	}
-
-	/**
-	 * Built-in option modifier
-	 * Navigate through WPML options to find a matching option and update
-	 * its value.
-	 * 
-	 * @param    array         Options array passed by reference
-	 * @param    string        key list to match the specified option
-	 * @param    string        Replacement value for the option. Default none
-	 *
-	 * @since    1.0.0
-	 */
-	private function wpml_o_( &$array, $key, $value = '' ) {
-		$a = &$array;
-		foreach ( $key as $k )
-			$a = &$a[ $k ];
-		$a = $value;
 	}
 
 }
