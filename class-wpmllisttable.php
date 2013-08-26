@@ -94,8 +94,8 @@ class WPML_List_Table extends WP_List_Table {
 	function column_movietitle( $item ) {
 
 		$actions = array(
-			'edit'      => sprintf('<a href="?page=%s&action=%s&movie=%s">%s</a>', $_REQUEST['page'], 'edit', $item['ID'], __( 'Edit', 'wpml' ) ),
-			'delete'    => sprintf('<a href="?page=%s&action=%s&movie=%s">%s</a>', $_REQUEST['page'], 'delete', $item['ID'], __( 'Delete', 'wpml' ) ),
+			'edit'      => sprintf('<a href="post.php?post=%s&action=%s">%s</a>', $item['ID'], 'edit', __( 'Edit', 'wpml' ) ),
+			'delete'    => sprintf('<a class="delete_movie" id="delete_%s" href="#">%s</a>', $item['ID'], __( 'Delete', 'wpml' ) ),
 		);
 
 		$inline_item  = '<input id="p_'.$item['ID'].'_tmdb_data_post_id" type="hidden" name="tmdb[p_'.$item['ID'].'][post_id]" value="'.$item['ID'].'" />';

@@ -1,22 +1,8 @@
 jQuery(document).ready(function($) {
 
+	// Settings
 	if ( $('#wpml-tabs').length > 0 )
 		$('#wpml-tabs').tabs();
-
-	$('input#tmdb_empty').click(function(e) {
-		e.preventDefault();
-		
-		a = document.getElementsByClassName('tmdb_data_field');
-		for ( i = 0; i < a.length; ++i ) a.item(i).value = null;
-		document.getElementById('tmdb_save_images').style.display = 'none';
-		document.getElementById('progressbar').style.display = 'none';
-		a = document.getElementsByClassName('tmdb_select_movie');
-		while( a.item(0) ) a.item(0).remove();
-		a = document.getElementsByClassName('tmdb_movie_images');
-		while( a.item(0) ) a.item(0).remove();
-		document.getElementById('tmdb_data').innerHTML = null;
-		wpml.status.clear();
-	});
 
 	$('input#APIKey_check').click(function(e) {
 		e.preventDefault();
@@ -40,24 +26,21 @@ jQuery(document).ready(function($) {
 		});
 	});
 
-	$('#wpml-import input#doaction, #wpml-import input#doaction2').click(function(e) {
-
+	// TMDb data -- New movie
+	$('input#tmdb_empty').click(function(e) {
 		e.preventDefault();
-		n = this.id.replace('do','');
-		action = $(this).prev('select[name='+n+']');
-		$(this).addClass('loader');
-
-		if ( ! action.length || 'tmdb_data' != action.val() ) {
-			console.log('!action');
-			return false;
-		}
-
-		wpml.import.get_movies();
+		
+		a = document.getElementsByClassName('tmdb_data_field');
+		for ( i = 0; i < a.length; ++i ) a.item(i).value = null;
+		document.getElementById('tmdb_save_images').style.display = 'none';
+		document.getElementById('progressbar').style.display = 'none';
+		a = document.getElementsByClassName('tmdb_select_movie');
+		while( a.item(0) ) a.item(0).remove();
+		a = document.getElementsByClassName('tmdb_movie_images');
+		while( a.item(0) ) a.item(0).remove();
+		document.getElementById('tmdb_data').innerHTML = null;
+		wpml.status.clear();
 	});
-
-	$('#wpml-import #wpml_empty').click(function() {
-		$('.wpml-import-movie-select').remove();
-	})
 
 	$('input#tmdb_search').click(function(e) {
 		e.preventDefault();
@@ -167,6 +150,40 @@ jQuery(document).ready(function($) {
 	$('input#wpml_save').click(function() {
 		wpml.movie.save_details();
 	});
+
+	
+	// Movie import
+	$('#wpml-import input#doaction, #wpml-import input#doaction2').click(function(e) {
+
+		e.preventDefault();
+		n = this.id.replace('do','');
+		action = $(this).prev('select[name='+n+']');
+		$(this).addClass('loader');
+
+		if ( 'tmdb_data' == action.val() ) {
+			wpml.import.get_movies();
+		}
+		else if ( 'delete' == action.val() ) {
+			$('.movies > tbody input[type=checkbox]:checked').each(function() {
+				var id = this.id.replace('post_','');
+				wpml.movie.delete(id);
+			});
+		}
+		else {
+			return false;
+		}
+	});
+
+	$('#wpml-import #wpml_empty').click(function() {
+		$('.wpml-import-movie-select').remove();
+	});
+
+	$('.delete_movie').click(function(e) {
+		e.preventDefault();
+		var id = this.id.replace('delete_','');
+		wpml.movie.delete(id);
+	});
+
 });
 
 $ = jQuery;
@@ -174,6 +191,28 @@ $ = jQuery;
 wpml = {
 
 	movie: {
+
+		delete: function(id) {
+
+			$.ajax({
+				type: 'GET',
+				url: ajax_object.ajax_url,
+				data: {
+					action: 'wpml_delete_movie',
+					post_id: id
+				},
+				success: function(response) {
+					$('#post_'+id).parents('tr').remove();
+				},
+				beforeSend: function() {
+					$('input.loader').addClass('button-loading');
+				},
+				complete: function() {
+					$('input.loader').removeClass('button-loading loader');
+				},
+			});
+
+		},
 
 		get_movie: function(id) {
 
@@ -186,11 +225,11 @@ wpml = {
 					data: id
 				},
 				success: function(response) {
-						tmdb_data = document.getElementById('tmdb_data');
-						while (tmdb_data.lastChild) tmdb_data.removeChild(tmdb_data.lastChild);
-						tmdb_data.style.display = 'none';
-						wpml.movie.populate(response);
-						wpml.movie.images.set_featured(response.poster_path, null, response.title);
+					tmdb_data = document.getElementById('tmdb_data');
+					while (tmdb_data.lastChild) tmdb_data.removeChild(tmdb_data.lastChild);
+					tmdb_data.style.display = 'none';
+					wpml.movie.populate(response);
+					wpml.movie.images.set_featured(response.poster_path, null, response.title);
 				},
 				beforeSend: function() {
 					$('input#tmdb_search').addClass('button-loading');

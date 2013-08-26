@@ -224,6 +224,7 @@ class WPMovieLibrary {
 
 		// Ajax callbacks
 		add_action( 'wp_ajax_wpml_save_details', array( $this, 'wpml_save_details_callback' ) );
+		add_action( 'wp_ajax_wpml_delete_movie', array( $this, 'wpml_delete_movie_callback' ) );
 		add_action( 'wp_ajax_tmdb_save_image', array( $this, 'wpml_save_image_callback' ) );
 		add_action( 'wp_ajax_tmdb_set_featured', array( $this, 'wpml_set_featured_image_callback' ) );
 
@@ -348,7 +349,7 @@ class WPMovieLibrary {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * Register a 'movie' custom post type
+	 * Register a 'movie' custom post type and 'import-draft' post status
 	 *
 	 * @since    1.0.0
 	 */
@@ -387,14 +388,28 @@ class WPMovieLibrary {
 		);
 
 		register_post_type( 'movie', $args );
+
+		register_post_status( 'import-draft', array(
+			'label'                     => _x( 'Imported Draft', 'wpml' ),
+			'public'                    => false,
+			'exclude_from_search'       => true,
+			'show_in_admin_all_list'    => false,
+			'show_in_admin_status_list' => false,
+			'label_count'               => _n_noop( 'Imported Draft <span class="count">(%s)</span>', 'Imported Draft <span class="count">(%s)</span>' ),
+		) );
 	}
 
 	/**
-	 * 
+	 * Get the movie's featured image.
+	 * If a poster was uploaded and set as featured image for the moive's
+	 * post, return the image URL. If no featured image is set, return the
+	 * default poster.
 	 *
 	 * @since     1.0.0
+	 * 
+	 * @param     int       $post_id The movie's post ID
 	 *
-	 * @return    string    Return early if no settings page is registered.
+	 * @return    string    Featured image URL
 	 */
 	public function wpml_get_featured_image( $post_id ) {
 		$_id = get_post_thumbnail_id( $post_id );
@@ -402,11 +417,31 @@ class WPMovieLibrary {
 		return $img[0];
 	}
 
+	/**
+	 * Add a custom column to Movies WP_List_Table list.
+	 * Insert a simple 'Poster' column to Movies list table to display
+	 * movies' poster set as featured image if available.
+	 * 
+	 * @since     1.0.0
+	 * 
+	 * @param     array    Default WP_List_Table header columns
+	 * 
+	 * @return    array    Default columns with new poster column
+	 */
 	public function wpml_movies_columns_head( $defaults ) {
 		$defaults['poster'] = __( 'Poster', 'wpml' );
 		return $defaults;
 	}
 	
+	/**
+	 * Add a custom column to Movies WP_List_Table list.
+	 * Insert movies' poster set as featured image if available.
+	 * 
+	 * @since     1.0.0
+	 * 
+	 * @param     string   $column_name The column name
+	 * @param     int      $post_id current movie's post ID
+	 */
 	public function wpml_movies_columns_content( $column_name, $post_id ) {
 		if ( $column_name == 'poster' )
 			echo '<img src="'.$this->wpml_get_featured_image( $post_id ).'" alt="" />';
@@ -554,6 +589,11 @@ class WPMovieLibrary {
 		return $id;
 	}
 
+	/**
+	 * Display a custom WP_List_Table of imported movies
+	 *
+	 * @since     1.0.0
+	 */
 	public function wpml_import_movie_list() {
 
 		$this->wpml_import_movies();
@@ -566,13 +606,20 @@ class WPMovieLibrary {
 		$list->display();
 	}
 
+	/**
+	 * Process the submitted movie list
+	 *
+	 * @since     1.0.0
+	 * 
+	 * @return     boolean     false on failure, true else
+	 */
 	public function wpml_import_movies() {
 
 		if ( ! isset( $_POST['wpml_import_list'] ) || '' == $_POST['wpml_import_list'] )
 			return false;
 
 		$movies = explode( ',', $_POST['wpml_import_list'] );
-		$movies = array_map( array( $this, 'wpml_prepare_movie_import_title' ), $movies );
+		$movies = array_map( array( $this, 'wpml_prepare_movie_import' ), $movies );
 
 		foreach ( $movies as $i => $movie )
 			$this->wpml_import_movie( $movie['movietitle'] );
@@ -586,12 +633,12 @@ class WPMovieLibrary {
 	 * This is used to save movies submitted from a list before any
 	 * alteration is made by user. Posts will be kept as 'import-draft'
 	 * for 24 hours and then destroyed on the next plugin init.
+	 *
+	 * @since     1.0.0
 	 * 
 	 * @param string $title Movie title.
 	 * 
 	 * @return int Newly created post ID if everything worked, 0 if no post created.
-	 *
-	 * @since     1.0.0
 	 */
 	private function wpml_import_movie( $title ) {
 
@@ -631,7 +678,43 @@ class WPMovieLibrary {
 			return $id;
 	}
 
-	public function wpml_prepare_movie_import_title( $title ) {
+	/**
+	 * Delete imported movie
+	 * 
+	 * Triggered by the 'Delete' link on imported movies WP_List_Table.
+	 * Delete the specified movie from the list of movie set for further
+	 * import. Automatically delete attached images such as featured image.
+	 *
+	 * @since     1.0.0
+	 * 
+	 * @param     int    $post_id    Movie's post ID.
+	 * 
+	 * @return    string    Error status if post/attachment delete failed
+	 */
+	public function wpml_delete_movie( $post_id ) {
+
+		if ( false === wp_delete_post( $post_id, true ) )
+			return vsprintf( __( 'An error occured trying to delete Post #%s', 'wpml' ), $post_id );
+
+		$thumb_id = get_post_thumbnail_id( $post_id );
+
+		if ( '' != $thumb_id )
+			if ( false === wp_delete_attachment( $thumb_id ) )
+				return vsprintf( __( 'An error occured trying to delete Attachment #%s', 'wpml' ), $thumb_id );
+
+		return true;
+	}
+
+	/**
+	 * Set the default values for imported movies list
+	 *
+	 * @since     1.0.0
+	 * 
+	 * @param     string    $title    Movie title
+	 * 
+	 * @return    array    Default movie values
+	 */
+	public function wpml_prepare_movie_import( $title ) {
 		return array(
 			'ID'         => 0,
 			'poster'     => '--',
@@ -641,6 +724,17 @@ class WPMovieLibrary {
 		);
 	}
 
+	/**
+	 * Get previously imported movies.
+	 * 
+	 * Fetch all posts with 'import-draft' status and 'movie' post type
+	 *
+	 * @since     1.0.0
+	 * 
+	 * @param     string    $title    Movie title
+	 * 
+	 * @return    array    Default movie values
+	 */
 	public function wpml_get_imported_movies() {
 
 		$columns = array();
@@ -672,7 +766,18 @@ class WPMovieLibrary {
 
 		return $columns;
 	}
-
+	
+	/**
+	 * Clean movie title prior to search.
+	 * 
+	 * Remove non-alphanumerical characters.
+	 *
+	 * @since     1.0.0
+	 * 
+	 * @param     string     $query movie title to clean up
+	 * 
+	 * @return     string     cleaned up movie title
+	 */
 	public function wpml_clean_search_title( $query ) {
 		$s = trim( $query );
 		$s = preg_replace( '/[^\p{L}\p{N}\s]/u', '', $s );
@@ -684,6 +789,23 @@ class WPMovieLibrary {
 	 *                             Callbacks
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * Delete movie
+	 * 
+	 * Remove imported movies draft and attachment from database
+	 *
+	 * @since     1.0.0
+	 * 
+	 * @return     boolean     deletion status
+	 */
+	public function wpml_delete_movie_callback() {
+
+		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
+
+		echo $this->wpml_delete_movie( $post_id );
+		die();
+	}
 
 	/**
 	 * Save movie details: media, status, rating.
