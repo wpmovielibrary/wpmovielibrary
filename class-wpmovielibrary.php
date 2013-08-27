@@ -533,8 +533,12 @@ class WPMovieLibrary {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-		//wp_enqueue_style( 'foundation', plugins_url( 'css/foundation.min.css', __FILE__ ), array(), $this->version );
-		wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'css/style.css', __FILE__ ), array(), $this->version );
+		if ( is_page( 'WPMovieLibrary' ) || is_page( 'movies' ) ) {
+			//wp_enqueue_style( 'foundation', plugins_url( 'css/foundation.min.css', __FILE__ ), array(), $this->version );
+			wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'css/style.css', __FILE__ ), array(), $this->version );
+			wp_enqueue_style( 'scrollbar', plugins_url( 'css/jquery.scrollbar.css', __FILE__ ), array(), $this->version );
+			wp_enqueue_style( 'font-awesome', plugins_url( 'css/font-awesome.min.css', __FILE__ ), array(), $this->version );
+		}
 	}
 
 	/**
@@ -543,7 +547,9 @@ class WPMovieLibrary {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'js/public.js', __FILE__ ), array( 'jquery' ), $this->version );
+		wp_enqueue_script( 'jquery-mousewheel', plugins_url( 'js/jquery.mousewheel.min.js', __FILE__ ), array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( 'jquery-scrollbar', plugins_url( 'js/jquery.scrollbar.min.js', __FILE__ ), array( 'jquery', 'jquery-mousewheel' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'js/public.js', __FILE__ ), array( 'jquery', 'jquery-mousewheel', 'jquery-scrollbar' ), $this->version, true );
 	}
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -817,7 +823,7 @@ class WPMovieLibrary {
 	}
 
 	public function wpml_library_view( $content ) {
-
+		
 		if ( is_page( 'WPMovieLibrary' ) || is_page( 'movies' ) ) {
 
 			$movies = $this->wpml_get_movies();
@@ -939,12 +945,21 @@ class WPMovieLibrary {
 		if ( have_posts() ) {
 			while ( have_posts() ) {
 				the_post();
-				$movies[] = array(
+				$movie = array(
 					'id'     => get_the_ID(),
 					'title'  => get_the_title(),
 					'url'    => get_permalink(),
 					'poster' => $this->wpml_get_featured_image( get_the_ID(), 'medium' )
 				);
+
+				$tmdb_data = get_post_meta( get_the_ID(), '_wpml_movie_data', true );
+				if ( '' != $tmdb_data ) {
+					$movie['genres']   = $tmdb_data['genres'];
+					$movie['runtime']  = $tmdb_data['runtime'];
+					$movie['overview'] = $tmdb_data['overview'];
+				}
+
+				$movies[] = $movie;
 			}
 		}
 
