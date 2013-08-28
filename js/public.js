@@ -1,7 +1,10 @@
 (function($){
 // 	$(window).load(function(){
-		$('#library').mCustomScrollbar({
+		/*$('#library').mCustomScrollbar({
 			scrollInertia: 50
+		});*/
+		$('.nano').nanoScroller({
+			preventPageScrolling: true
 		});
 // 	});
 	

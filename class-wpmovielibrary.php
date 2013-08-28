@@ -534,9 +534,8 @@ class WPMovieLibrary {
 	 */
 	public function enqueue_styles() {
 		if ( is_page( 'WPMovieLibrary' ) || is_page( 'movies' ) ) {
-			//wp_enqueue_style( 'foundation', plugins_url( 'css/foundation.min.css', __FILE__ ), array(), $this->version );
-			wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'css/style.css', __FILE__ ), array(), $this->version );
-			wp_enqueue_style( 'scrollbar', plugins_url( 'css/jquery.scrollbar.css', __FILE__ ), array(), $this->version );
+			wp_enqueue_style( $this->plugin_slug, plugins_url( 'css/style.css', __FILE__ ), array(), $this->version );
+			wp_enqueue_style( 'nanoscroller', plugins_url( 'css/nanoscroller.css', __FILE__ ), array(), $this->version );
 			wp_enqueue_style( 'font-awesome', plugins_url( 'css/font-awesome.min.css', __FILE__ ), array(), $this->version );
 		}
 	}
@@ -547,9 +546,8 @@ class WPMovieLibrary {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'jquery-mousewheel', plugins_url( 'js/jquery.mousewheel.min.js', __FILE__ ), array( 'jquery' ), $this->version, true );
-		wp_enqueue_script( 'jquery-scrollbar', plugins_url( 'js/jquery.scrollbar.min.js', __FILE__ ), array( 'jquery', 'jquery-mousewheel' ), $this->version, true );
-		wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'js/public.js', __FILE__ ), array( 'jquery', 'jquery-mousewheel', 'jquery-scrollbar' ), $this->version, true );
+		wp_enqueue_script( 'nanoscroller', plugins_url( 'js/jquery.nanoscroller.min.js', __FILE__ ), array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_slug, plugins_url( 'js/public.js', __FILE__ ), array( 'jquery', 'nanoscroller' ), $this->version, true );
 	}
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

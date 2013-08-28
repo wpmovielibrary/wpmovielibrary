@@ -52,22 +52,27 @@
 				</div>
 
 				<!--<div id="library" class="flat">-->
-				<div id="library" class="detailled">
+				<div id="library" class="detailled nano">
+
+					<div class="content">
 <?php 
 $wpml = new WPMovieLibrary();
 foreach ( $wpml->wpml_get_movies() as $movie ) :
 ?>
-					<div class="movie">
-						<div class="movie-poster">
-							<a href="#"><img src="<?php echo $movie['poster']; ?>" alt="<?php echo $movie['title']; ?>" /></a>
+						<div class="movie">
+							<div class="movie-poster">
+								<a href="#"><img src="<?php echo $movie['poster']; ?>" alt="<?php echo $movie['title']; ?>" /></a>
+							</div>
+							<div class="movie-title"><?php echo $movie['title']; ?></div>
+							<div class="movie-genres"><?php echo $movie['genres']; ?></div>
+							<div class="movie-runtime"><?php echo $movie['runtime']; ?> minutes</div>
+							<div class="movie-overview"><?php echo $movie['overview']; ?></div>
 						</div>
-						<div class="movie-title"><?php echo $movie['title']; ?></div>
-						<div class="movie-genres"><?php echo $movie['genres']; ?></div>
-						<div class="movie-runtime"><?php echo $movie['runtime']; ?> minutes</div>
-						<div class="movie-overview"><?php echo $movie['overview']; ?></div>
-					</div>
 <?php endforeach; ?>
-					<div style="clear:both"></div>
+						<div style="clear:both"></div>
+
+					</div>
+
 				</div>
 
 				<div id="movie_details">
