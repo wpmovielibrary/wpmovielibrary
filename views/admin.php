@@ -120,6 +120,25 @@
 						</tr>
 					</tbody>
 				</table>
+
+				<h4><?php _e( 'Posts Settings', 'wpml' ); ?></h4>
+				<table class="form-table wpml-settings">
+					<tbody>
+						<tr valign="top">
+							<th scope="row">
+								<label for="tmdb_in_posts"><?php _e( 'Show basic movie details', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<select id="tmdb_in_posts" name="tmdb_in_posts">
+									<option value="everywhere" <?php selected( $this->wpml_o('tmdb-settings-tmdb_in_posts'), 'everywhere' ); ?>><?php _e( 'Everywhere', 'wpml' ); ?></option>
+									<option value="posts_only" <?php selected( $this->wpml_o('tmdb-settings-tmdb_in_posts'), 'posts_only' ); ?>><?php _e( 'Only In Post Read', 'wpml' ); ?></option>
+									<option value="nowhere" <?php selected( $this->wpml_o('tmdb-settings-tmdb_in_posts'), 'nowhere' ); ?>><?php _e( 'Don&rsquo;t Show', 'wpml' ); ?></option>
+								</select>
+								<p class="description"><?php _e( 'Add details to posts&rsquo; content: director, genres, runtime…', 'wpml' ); ?></p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 
 			<div id="fragment-3">

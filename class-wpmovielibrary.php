@@ -130,6 +130,7 @@ class WPMovieLibrary {
 					'poster_featured' => 1,
 					'images_size'     => 'original',
 					'images_max'      => 12,
+					'tmdb_in_posts'   => 'posts_only',
 				),
 				'default_fields' => array(
 					'director'     => 'Director',
@@ -190,7 +191,9 @@ class WPMovieLibrary {
 		// Load plugin text domain, movie post type, default config
 		add_action( 'init', array( $this, 'wpml_load_plugin_textdomain' ) );
 		add_action( 'init', array( $this, 'wpml_register_post_type' ) );
+		add_action( 'init', array( $this, 'wpml_register_taxonomy' ) );
 		add_action( 'init', array( $this, 'wpml_default_settings' ) );
+		add_action( 'pre_get_posts', array( $this, 'wpml_show_movies_in_home_page' ) );
 
 		// Movie poster in admin movies list
 		add_filter('manage_posts_columns', array( $this, 'wpml_movies_columns_head' ) );
@@ -217,8 +220,8 @@ class WPMovieLibrary {
 		add_action( 'save_post', array( $this, 'wpml_save_tmdb_data' ) );
 
 		// Movie content
-		add_filter( 'the_content', array( $this, 'wpml_library_view' ) );
-		add_filter( 'page_template', array( $this, 'wpml_library_template' ) );
+		add_filter( 'page_template', array( $this, 'wpml_library_template' ), 0 );
+		//add_filter( 'the_content', array( $this, 'wpml_movie_content' ) );
 
 		// register widgets
 		// add_action( 'widgets_init', array( $this, 'wpml_widgets' ) );
@@ -371,7 +374,7 @@ class WPMovieLibrary {
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
-	 *                         Custom Post Types
+	 *               Custom Post Types, Status & Taxonomy
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -424,6 +427,47 @@ class WPMovieLibrary {
 			'show_in_admin_status_list' => false,
 			'label_count'               => _n_noop( 'Imported Draft <span class="count">(%s)</span>', 'Imported Draft <span class="count">(%s)</span>' ),
 		) );
+	}
+
+	/**
+	 * Register a 'Collections' custom taxonomy to aggregate movies
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_register_taxonomy() {
+
+		register_taxonomy(
+			'collection',
+			'movie',
+			array(
+				'labels'   => array(
+					'name'          => __( 'Collections', 'wpml' ),
+					'add_new_item'  => __( 'New Movie Collection', 'wpml' )
+				),
+				'show_tagcloud' => false,
+				'hierarchical' => true,
+				'rewrite' => array( 'slug' => 'collection' )
+			)
+		);
+
+	}
+ 
+	/**
+	 * Show movies in default home page post list.
+	 * 
+	 * Add action on pre_get_posts hook to add movie to the list of
+	 * queryable post_types.
+	 *
+	 * @since     1.0.0
+	 * 
+	 * @param     int       $query the WP_Query Object object to alter
+	 *
+	 * @return    WP_Query    Query Object
+	 */
+	public function wpml_show_movies_in_home_page( $query ) {
+		if ( is_home() && $query->is_main_query() )
+			$query->set( 'post_type', array( 'post', 'movie', 'page' ) );
+		return $query;
 	}
 
 	/**
@@ -808,7 +852,7 @@ class WPMovieLibrary {
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
-	 *                           Library View
+	 *                         Library & Movie View
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -820,16 +864,26 @@ class WPMovieLibrary {
 		return $page_template;
 	}
 
-	public function wpml_library_view( $content ) {
-		
-		if ( is_page( 'WPMovieLibrary' ) || is_page( 'movies' ) ) {
+	public function wpml_movie_content( $content ) {
 
-			$movies = $this->wpml_get_movies();
+		if ( 'movie' != get_post_type() || 'nowhere' == $this->wpml_o( 'settings-tmdb_in_posts' ) || ( 'posts_only' == $this->wpml_o( 'settings-tmdb_in_posts' ) && ! is_singular() ) )
+			return $content;
 
-			include_once( 'views/library.php' );
-		}
+		$tmdb_data = get_post_meta( get_the_ID(), '_wpml_movie_data', true );
 
-		return '';
+		if ( '' == $tmdb_data )
+			return $content;
+
+		$html  = '<dl class="wpml_movie">';
+		$html .= sprintf( '<dt>%s</dt><dd>%s</dd>', __( 'Director', 'wpml' ), $tmdb_data['director'] );
+		$html .= sprintf( '<dt>%s</dt><dd>%s</dd>', __( 'Genres', 'wpml' ), $tmdb_data['genres'] );
+		$html .= sprintf( '<dt>%s</dt><dd>%s %s</dd>', __( 'Runtime', 'wpml' ), $tmdb_data['runtime'], __( 'minutes', 'wpml' ) );
+		$html .= sprintf( '<dt>%s</dt><dd>%s</dd>', __( 'Overview', 'wpml' ), $tmdb_data['overview'] );
+		$html .= '</dl>';
+
+		$content = $html . $content;
+
+		return $content;
 	}
 
 
@@ -868,7 +922,7 @@ class WPMovieLibrary {
 	 * @param    string        Search query for the option: 'aaa-bb-c'. Default none.
 	 * @param    string        Replacement value for the option. Default none.
 	 * 
-	 * @return   string/boolean/array        option array of string, boolean on update.
+	 * @return   string|boolean|array        option array of string, boolean on update.
 	 *
 	 * @since    1.0.0
 	 */
@@ -1076,9 +1130,9 @@ class WPMovieLibrary {
 	 *
 	 * @since     1.0.0
 	 * 
-	 * @param string $title Movie title.
+	 * @param     string     $title Movie title.
 	 * 
-	 * @return int Newly created post ID if everything worked, 0 if no post created.
+	 * @return    int        Newly created post ID if everything worked, 0 if no post created.
 	 */
 	private function wpml_import_movie( $title ) {
 
