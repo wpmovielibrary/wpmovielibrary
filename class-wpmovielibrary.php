@@ -120,6 +120,9 @@ class WPMovieLibrary {
 				'name' => $this->plugin_name,
 				'url'  => $this->plugin_url,
 				'path' => $this->plugin_path,
+				'settings' => array(
+					'tmdb_in_posts'   => 'posts_only'
+				)
 			),
 			'tmdb' => array(
 				'settings' => array(
@@ -130,7 +133,6 @@ class WPMovieLibrary {
 					'poster_featured' => 1,
 					'images_size'     => 'original',
 					'images_max'      => 12,
-					'tmdb_in_posts'   => 'posts_only',
 				),
 				'default_fields' => array(
 					'director'     => 'Director',
@@ -221,7 +223,7 @@ class WPMovieLibrary {
 
 		// Movie content
 		add_filter( 'page_template', array( $this, 'wpml_library_template' ), 0 );
-		//add_filter( 'the_content', array( $this, 'wpml_movie_content' ) );
+		add_filter( 'the_content', array( $this, 'wpml_movie_content' ) );
 
 		// register widgets
 		// add_action( 'widgets_init', array( $this, 'wpml_widgets' ) );
@@ -800,6 +802,9 @@ class WPMovieLibrary {
 	 */
 	public function wpml_admin_page() {
 
+		//echo '<pre>'; print_r( $_POST ); echo '</pre>'; die();
+		$errors = array();
+
 		if ( isset( $_POST['restore_default'] ) && '' != $_POST['restore_default'] ) {
 			$this->wpml_default_settings( true );
 			$this->msg_settings = __( 'Default Settings have been restored.', 'wpml' );
@@ -807,15 +812,30 @@ class WPMovieLibrary {
 
 		if ( isset( $_POST['submit'] ) && '' != $_POST['submit'] ) {
 
-			$supported = array_keys( $this->wpml_o( 'tmdb-settings' ) );
-			foreach ( $_POST as $key => $setting ) {
-				if ( in_array( $key, $supported ) ) {
-					$this->wpml_o( 'tmdb-settings-'.esc_attr( $key ), esc_attr( $setting ) );
+			if ( isset( $_POST['tmdb_data']['wpml'] ) && '' != $_POST['tmdb_data']['wpml'] ) {
+			
+				$supported = array_keys( $this->wpml_o( 'wpml-settings' ) );
+				foreach ( $_POST['tmdb_data']['wpml'] as $key => $setting ) {
+					if ( in_array( $key, $supported ) ) {
+						$this->wpml_o( 'wpml-settings-'.esc_attr( $key ), esc_attr( $setting ) );
+					}
 				}
 			}
 
-			$this->msg_settings = __( 'Settings saved.', 'wpml' );
+			if ( isset( $_POST['tmdb_data']['tmdb'] ) && '' != $_POST['tmdb_data']['tmdb'] ) {
+			
+				$supported = array_keys( $this->wpml_o( 'tmdb-settings' ) );
+				foreach ( $_POST['tmdb_data']['tmdb'] as $key => $setting ) {
+					if ( in_array( $key, $supported ) ) {
+						$this->wpml_o( 'tmdb-settings-'.esc_attr( $key ), esc_attr( $setting ) );
+					}
+				}
+			}
+
 		}
+
+		if ( empty( $errors ) )
+			$this->msg_settings = __( 'Settings saved.', 'wpml' );
 
 		include_once( 'views/admin.php' );
 	}
@@ -866,7 +886,7 @@ class WPMovieLibrary {
 
 	public function wpml_movie_content( $content ) {
 
-		if ( 'movie' != get_post_type() || 'nowhere' == $this->wpml_o( 'settings-tmdb_in_posts' ) || ( 'posts_only' == $this->wpml_o( 'settings-tmdb_in_posts' ) && ! is_singular() ) )
+		if ( 'movie' != get_post_type() || 'nowhere' == $this->wpml_o( 'wpml-settings-tmdb_in_posts' ) || ( 'posts_only' == $this->wpml_o( 'wpml-settings-tmdb_in_posts' ) && ! is_singular() ) )
 			return $content;
 
 		$tmdb_data = get_post_meta( get_the_ID(), '_wpml_movie_data', true );
@@ -1311,7 +1331,7 @@ class WPMovieLibrary {
 				) );
 			}
 		}
-		else if ( isset( $_POST['tmdb_data'] ) && '' == $_POST['tmdb_data'] ) {
+		else if ( isset( $_POST['tmdb_data'] ) && '' != $_POST['tmdb_data'] ) {
 			update_post_meta( $post_id, '_wpml_movie_data', $_POST['tmdb_data'] );
 		}
 	}

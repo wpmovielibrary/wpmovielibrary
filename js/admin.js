@@ -31,19 +31,22 @@ jQuery(document).ready(function($) {
 		e.preventDefault();
 		
 		a = document.getElementsByClassName('tmdb_data_field');
-		for ( i = 0; i < a.length; ++i ) a.item(i).value = null;
+		for ( i = 0; i < a.length; ++i ) a.item(i).value = '';
 		document.getElementById('tmdb_save_images').style.display = 'none';
 		document.getElementById('progressbar').style.display = 'none';
 		a = document.getElementsByClassName('tmdb_select_movie');
 		while( a.item(0) ) a.item(0).remove();
 		a = document.getElementsByClassName('tmdb_movie_images');
 		while( a.item(0) ) a.item(0).remove();
-		document.getElementById('tmdb_data').innerHTML = null;
+		document.getElementById('tmdb_data').innerHTML = '';
 		wpml.status.clear();
 	});
 
 	$('input#tmdb_search').click(function(e) {
 		e.preventDefault();
+		wpml.movie.type = $('#tmdb_search_type > :selected').val();
+		wpml.movie.data = $('#tmdb_query').val();
+		wpml.movie.lang = $('#tmdb_search_lang').val();
 		wpml.movie.search_movie();
 	});
 
@@ -141,10 +144,10 @@ jQuery(document).ready(function($) {
 	);
 
 	$('.star').click(function() {
-		$('.star').removeClass('s');
+		$('.star').removeClass('s on');
 		$(this).addClass('s');
 		$(this).prevAll().addClass('s');
-		$(this).nextAll().removeClass('s');
+		$(this).nextAll().removeClass('s on');
 	});
 
 	$('input#wpml_save').click(function() {
@@ -192,6 +195,12 @@ wpml = {
 
 	movie: {
 
+		lang: '',
+
+		data: {},
+
+		type: '',
+
 		delete: function(id) {
 
 			$.ajax({
@@ -222,7 +231,8 @@ wpml = {
 				data: {
 					action: 'tmdb_search',
 					type: 'id',
-					data: id
+					data: id,
+					lang: wpml.movie.lang
 				},
 				success: function(response) {
 					tmdb_data = document.getElementById('tmdb_data');
@@ -320,23 +330,19 @@ wpml = {
 
 			$('#tmdb_data > *, .tmdb_select_movie, .tmdb_movie_images').remove();
 
-			type = $('#tmdb_search_type > :selected').val();
-			data = $('#tmdb_query').val();
-			lang = $('#tmdb_search_lang').val();
-
-			if ( type == 'title' )
-				wpml.status.set(ajax_object.search_movie_title+' "'+data+'"');
-			else if ( type == 'id' )
-				wpml.status.set(ajax_object.search_movie+' #'+data);
+			if (  wpml.movie.type == 'title' )
+				wpml.status.set(ajax_object.search_movie_title+' "'+ wpml.movie.data+'"');
+			else if (  wpml.movie.type == 'id' )
+				wpml.status.set(ajax_object.search_movie+' #'+ wpml.movie.data);
 
 			$.ajax({
 				type: 'GET',
 				url: ajax_object.ajax_url,
 				data: {
 					action: 'tmdb_search',
-					type: type,
-					data: data,
-					lang: lang
+					type:  wpml.movie.type,
+					data:  wpml.movie.data,
+					lang: wpml.movie.lang
 				},
 				success: function(response) {
 					if ( response.result == 'movie' ) {

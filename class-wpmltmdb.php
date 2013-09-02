@@ -79,9 +79,10 @@ class WPML_TMDb extends WPMovieLibrary {
 	 * @return    array    TMDb config
 	 */
 	private function wpml_tmdb_config() {
+
 		$tmdb_config = $this->tmdb->getConfig();
 
-		if ( is_null( $tmdb_config ) )
+		if ( is_null( $tmdb_config ) || ( isset( $tmdb_config['status_code'] ) && 7 === $tmdb_config['status_code'] ) )
 			return false;
 
 		$base_url = ( 'https' == $this->scheme ? $tmdb_config['images']['secure_base_url'] : $tmdb_config['images']['base_url'] );
@@ -191,6 +192,8 @@ class WPML_TMDb extends WPMovieLibrary {
 		$lang = ( isset( $_GET['lang'] ) && '' != $_GET['lang'] ? $_GET['lang'] : $this->wpml_o('tmdb-settings-lang') );
 		$_id  = ( isset( $_GET['_id'] )  && '' != $_GET['_id']  ? $_GET['_id']  : null );
 
+		
+
 		if ( '' == $data || '' == $type )
 			return false;
 
@@ -218,11 +221,12 @@ class WPML_TMDb extends WPMovieLibrary {
 	 */
 	private function wpml_get_movie_by_title( $title, $lang, $_id = null ) {
 
-		$movies = get_transient("movie_$title");
+		//$movies = get_transient("movie_$title");
+		$movies = false;
 
 		if ( false === $movies ) {
 			$movies = $this->_wpml_get_movie_by_title( $title, $lang, $_id );
-			set_transient("movies_$title", $movies, 3600 * 24);
+			//set_transient("movies_$title", $movies, 3600 * 24);
 		}
 
 		$this->wpml_json_header();
@@ -298,11 +302,12 @@ class WPML_TMDb extends WPMovieLibrary {
 	 */
 	private function wpml_get_movie_by_id( $id, $lang, $_id = null, $echo = true ) {
 
-		$movie = get_transient("movie_$id");
+		//$movie = get_transient("movie_$id");
+		$movie = false;
 
 		if ( false === $movie ) {
 			$movie = $this->_wpml_get_movie_by_id( $id, $lang, $_id );
-			set_transient("movie_$id", $movie, 3600 * 24);
+			//set_transient("movie_$id", $movie, 3600 * 24);
 		}
 
 		$movie['_id'] = $_id;
