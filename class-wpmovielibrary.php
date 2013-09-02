@@ -121,7 +121,14 @@ class WPMovieLibrary {
 				'url'  => $this->plugin_url,
 				'path' => $this->plugin_path,
 				'settings' => array(
-					'tmdb_in_posts'   => 'posts_only'
+					'tmdb_in_posts'     => 'posts_only',
+					'default_post_tmdb' => array(
+						'director',
+						'genres',
+						'runtime',
+						'overview',
+						'rating'
+					)
 				)
 			),
 			'tmdb' => array(
@@ -135,13 +142,13 @@ class WPMovieLibrary {
 					'images_max'      => 12,
 				),
 				'default_fields' => array(
-					'director'     => 'Director',
-					'producer'     => 'Producer',
-					'photography'  => 'Director of Photography',
-					'composer'     => 'Original Music Composer',
-					'author'       => 'Author',
-					'writer'       => 'Writer',
-					'actors'       => 'Actors'
+					'director',
+					'producer',
+					'photography',
+					'composer',
+					'author',
+					'writer',
+					'actors'
 				)
 			),
 		);
@@ -580,9 +587,13 @@ class WPMovieLibrary {
 	 */
 	public function enqueue_styles() {
 		if ( is_page( 'WPMovieLibrary' ) || is_page( 'movies' ) ) {
-			wp_enqueue_style( $this->plugin_slug, plugins_url( 'css/style.css', __FILE__ ), array(), $this->version );
+			wp_enqueue_style( $this->plugin_slug, plugins_url( 'css/library-style.css', __FILE__ ), array(), $this->version );
 			wp_enqueue_style( 'nanoscroller', plugins_url( 'css/nanoscroller.css', __FILE__ ), array(), $this->version );
 			wp_enqueue_style( 'font-awesome', plugins_url( 'css/font-awesome.min.css', __FILE__ ), array(), $this->version );
+		}
+
+		if ( 'movie' == get_post_type() ) {
+			wp_enqueue_style( $this->plugin_slug, plugins_url( 'css/style.css', __FILE__ ), array(), $this->version );
 		}
 	}
 
@@ -890,15 +901,22 @@ class WPMovieLibrary {
 			return $content;
 
 		$tmdb_data = get_post_meta( get_the_ID(), '_wpml_movie_data', true );
+		$movie_rating = get_post_meta( get_the_ID(), '_wpml_movie_rating', true );
 
 		if ( '' == $tmdb_data )
 			return $content;
 
 		$html  = '<dl class="wpml_movie">';
-		$html .= sprintf( '<dt>%s</dt><dd>%s</dd>', __( 'Director', 'wpml' ), $tmdb_data['director'] );
-		$html .= sprintf( '<dt>%s</dt><dd>%s</dd>', __( 'Genres', 'wpml' ), $tmdb_data['genres'] );
-		$html .= sprintf( '<dt>%s</dt><dd>%s %s</dd>', __( 'Runtime', 'wpml' ), $tmdb_data['runtime'], __( 'minutes', 'wpml' ) );
-		$html .= sprintf( '<dt>%s</dt><dd>%s</dd>', __( 'Overview', 'wpml' ), $tmdb_data['overview'] );
+
+		if ( in_array( 'rating', $this->wpml_o( 'wpml-settings-default_post_tmdb' ) ) && '' != $movie_rating )
+			$html .= sprintf( '<dt>%s</dt><dd><div id="movie_rating_display" class="stars-%s"></div></dd>', __( 'Movie rating', 'wpml' ), $movie_rating );
+
+		foreach ( $this->wpml_o( 'wpml-settings-default_post_tmdb' ) as $field ) {
+			if ( in_array( $field, $this->wpml_settings['wpml']['settings']['default_post_tmdb'] ) && isset( $tmdb_data[ $field ] ) ) {
+				$html .= sprintf( '<dt>%s</dt><dd>%s</dd>', __( 'Movie ' . $field, 'wpml' ), $tmdb_data[ $field ] );
+			}
+		}
+
 		$html .= '</dl>';
 
 		$content = $html . $content;

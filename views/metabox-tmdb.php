@@ -55,10 +55,10 @@ endif;
 					</tr>
 				</thead>
 				<tbody>
-<?php foreach ( $this->wpml_o('tmdb-default_fields') as $slug => $meta ) : ?>
+<?php foreach ( $this->wpml_o('tmdb-default_fields') as $meta ) : ?>
 					<tr>
-						<td class="left"><?php _e( $meta, 'wpml' ); ?></td>
-						<td><textarea id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $slug; ?>]" class="tmdb_data_field" rows="2"><?php echo ( isset( $value[$slug] ) && '' != $value[$slug] ? $value[$slug] : '' ); ?></textarea></td>
+						<td class="left"><?php _e( 'Movie ' . $meta, 'wpml' ); ?></td>
+						<td><textarea id="tmdb_data_<?php echo $meta; ?>" name="tmdb_data[<?php echo $meta; ?>]" class="tmdb_data_field" rows="2"><?php echo ( isset( $value[$meta] ) && '' != $value[$meta] ? $value[$meta] : '' ); ?></textarea></td>
 					</tr>
 <?php endforeach; ?>
 				</tbody>

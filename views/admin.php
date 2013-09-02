@@ -137,6 +137,19 @@
 								<p class="description"><?php _e( 'Add details to posts&rsquo; content: director, genres, runtime…', 'wpml' ); ?></p>
 							</td>
 						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label for="default_post_tmdb"><?php _e( 'Movie details items', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<select id="default_post_tmdb" name="tmdb_data[wpml][default_post_tmdb]" multiple>
+<?php foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $post_tmdb ) : ?>
+									<option value="<?php echo $post_tmdb; ?>" <?php selected( in_array( $post_tmdb, $this->wpml_o('wpml-settings-default_post_tmdb' ) ), true ); ?>><?php _e( $post_tmdb, 'wpml' ); ?></option>
+<?php endforeach; ?>
+								</select>
+								<p class="description"><?php _e( 'Which movie details to display in posts: director, genres, runtime, rating…', 'wpml' ); ?></p>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
