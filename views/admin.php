@@ -62,6 +62,7 @@
 
 			<div id="fragment-2">
 
+				<!-- WPML Poster Settings -->
 				<h4><?php _e( 'Poster Settings', 'wpml' ); ?></h4>
 				<table class="form-table wpml-settings">
 					<tbody>
@@ -92,6 +93,7 @@
 					</tbody>
 				</table>
 
+				<!-- WPML Images Settings -->
 				<h4><?php _e( 'Images Settings', 'wpml' ); ?></h4>
 				<table class="form-table wpml-settings">
 					<tbody>
@@ -121,6 +123,7 @@
 					</tbody>
 				</table>
 
+				<!-- WPML Posts Settings -->
 				<h4><?php _e( 'Posts Settings', 'wpml' ); ?></h4>
 				<table class="form-table wpml-settings">
 					<tbody>
@@ -144,10 +147,27 @@
 							<td>
 								<select id="default_post_tmdb" name="tmdb_data[wpml][default_post_tmdb]" multiple>
 <?php foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $post_tmdb ) : ?>
-									<option value="<?php echo $post_tmdb; ?>" <?php selected( in_array( $post_tmdb, $this->wpml_o('wpml-settings-default_post_tmdb' ) ), true ); ?>><?php _e( $post_tmdb, 'wpml' ); ?></option>
+									<option value="<?php echo $post_tmdb; ?>" <?php selected( in_array( $post_tmdb, $this->wpml_o('wpml-settings-default_post_tmdb' ) ), true ); ?>><?php _e( 'Movie ' . $post_tmdb, 'wpml' ); ?></option>
 <?php endforeach; ?>
 								</select>
 								<p class="description"><?php _e( 'Which movie details to display in posts: director, genres, runtime, rating…', 'wpml' ); ?></p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- WPML Taxonomy Settings -->
+				<h4><?php _e( 'Taxonomy Settings', 'wpml' ); ?></h4>
+				<table class="form-table wpml-settings">
+					<tbody>
+						<tr valign="top">
+							<th scope="row">
+								<label for="taxonomy_autocomplete"><?php _e( 'Automatic Taxonomy', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<input type="radio" name="tmdb_data[wpml][taxonomy_autocomplete]" value="1" <?php checked( $this->wpml_o('wpml-settings-taxonomy_autocomplete'), 1 ); ?>/> <?php _e( 'Add Taxonomy on import', 'wpml' ); ?>
+								<input type="radio" name="tmdb_data[wpml][taxonomy_autocomplete]" value="0" <?php checked( $this->wpml_o('wpml-settings-taxonomy_autocomplete'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?>
+								<p class="description"><?php _e( 'Automatically add custom taxonomies when adding/importing movies. If enabled, each added/imported movie will be automatically added to the collection corresponding to the director. Actors and Genres tags will be filled automatically as well. Unexisting Taxonomies will be created. Ex: adding the movie <em>Fight Club</em> will add the movie to a "David Fincher" collection and the movie will be tagged with tags like "Edward Norton", "Brad Pitt", "Drama"...', 'wpml' ); ?></p>
 							</td>
 						</tr>
 					</tbody>

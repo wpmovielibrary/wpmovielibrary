@@ -365,6 +365,25 @@ class WPML_TMDb extends WPMovieLibrary {
 		$movie['result'] = 'movie';
 		$movie['_id'] = $_id;
 
+		if ( 1 == $this->wpml_o( 'wpml-settings-taxonomy_autocomplete' ) ) {
+
+			$movie['taxonomy'] = array(
+				'actors' => array(),
+				'genres' => array()
+			);
+
+			if ( ! empty( $casts['cast'] ) ) {
+				foreach ( $casts['cast'] as $actor ) {
+					$movie['taxonomy']['actors'][] = $actor['name'];
+				}
+			}
+			if ( ! empty( $movie['genres'] ) ) {
+				foreach ( $movie['genres'] as $genre ) {
+					$movie['taxonomy']['genres'][] = $genre['name'];
+				}
+			}
+		}
+
 		return $movie;
 	}
 

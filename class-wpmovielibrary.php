@@ -128,7 +128,8 @@ class WPMovieLibrary {
 						'runtime',
 						'overview',
 						'rating'
-					)
+					),
+					'taxonomy_autocomplete' => 1
 				)
 			),
 			'tmdb' => array(
@@ -454,8 +455,36 @@ class WPMovieLibrary {
 					'add_new_item'  => __( 'New Movie Collection', 'wpml' )
 				),
 				'show_tagcloud' => false,
-				'hierarchical' => true,
+				'hierarchical'  => true,
 				'rewrite' => array( 'slug' => 'collection' )
+			)
+		);
+
+		register_taxonomy(
+			'actor',
+			'movie',
+			array(
+				'labels'   => array(
+					'name'          => __( 'Actors', 'wpml' ),
+					'add_new_item'  => __( 'New Actor', 'wpml' )
+				),
+				'show_tagcloud' => true,
+				'hierarchical'  => false,
+				'rewrite' => array( 'slug' => 'actor' )
+			)
+		);
+
+		register_taxonomy(
+			'genre',
+			'movie',
+			array(
+				'labels'   => array(
+					'name'          => __( 'Genres', 'wpml' ),
+					'add_new_item'  => __( 'New Genre', 'wpml' )
+				),
+				'show_tagcloud' => true,
+				'hierarchical'  => false,
+				'rewrite' => array( 'slug' => 'genre' )
 			)
 		);
 

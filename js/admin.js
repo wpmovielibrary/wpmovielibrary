@@ -255,10 +255,12 @@ wpml = {
 
 			$('.tmdb_data_field').each(function() {
 
-				field = this;
+				var field = this;
+				var type = field.type;
+				var _id = this.id.replace('tmdb_data_','');
+				var _v = '';
+
 				field.value = '';
-				type = field.type;
-				_id = this.id.replace('tmdb_data_','');
 
 				if ( typeof data[_id] == "object" ) {
 					if ( Array.isArray( data[_id] ) ) {
@@ -270,17 +272,34 @@ wpml = {
 							$.each(data[_id], function() {
 								_v.push( field.value + this.name );
 							});
-							field.value = _v.join(', ');
+							value = _v.join(', ');
 						}
 					}
 				}
 				else {
 					_v = ( data[_id] != null ? data[_id] : '' );
-					field.value = _v;
+					value = _v;
 				}
+
+				if ( type == 'input' )
+					field.value = _v;
+				else if ( type == 'textarea' )
+					field.innerHTML = _v;
+
 				$('.list-table, .button-empty').show();
 			});
 
+			if ( data.taxonomy.actors.length ) {
+				$.each(data.taxonomy.actors, function(i) {
+					$('#tagsdiv-actor .tagchecklist').append('<span><a id="actor-check-num-'+i+'" class="ntdelbutton">X</a>&nbsp;'+this+'</span>');
+				});
+			}
+
+			if ( data.taxonomy.genres.length ) {
+				$.each(data.taxonomy.genres, function(i) {
+					$('#tagsdiv-genre .tagchecklist').append('<span><a id="genre-check-num-'+i+'" class="ntdelbutton">X</a>&nbsp;'+this+'</span>');
+				});
+			}
 		},
 
 		populate_select_list: function(data) {
