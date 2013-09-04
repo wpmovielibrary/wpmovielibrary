@@ -340,12 +340,14 @@ class WPML_TMDb extends WPMovieLibrary {
 		$poster = $images['posters'][0];
 		$images = $images['backdrops'];
 
+		// Keep only limited number of images
 		$images_max = $this->wpml_o('tmdb-settings-images_max');
 		if ( $images_max > 0 && count( $images ) > $images_max )
 			$images = array_slice( $images, 0, $images_max );
 
 		$images = array( 'images' => $images );
 
+		// Prepare default crew
 		$crew = array();
 		$_d = $this->wpml_o('tmdb-default_fields');
 		$_c = array_keys( $_d );
@@ -357,14 +359,12 @@ class WPML_TMDb extends WPMovieLibrary {
 			}
 		}
 
+		// Prepare Actors
 		$casts = array(
 			'cast' => $casts['cast']
 		);
 
-		$movie = array_merge( $movie, $casts, $images );
-		$movie['result'] = 'movie';
-		$movie['_id'] = $_id;
-
+		// Prepare Custom Taxonomy
 		if ( 1 == $this->wpml_o( 'wpml-settings-taxonomy_autocomplete' ) ) {
 
 			$movie['taxonomy'] = array(
@@ -383,6 +383,10 @@ class WPML_TMDb extends WPMovieLibrary {
 				}
 			}
 		}
+
+		$movie = array_merge( $movie, $casts, $images );
+		$movie['result'] = 'movie';
+		$movie['_id'] = $_id;
 
 		return $movie;
 	}

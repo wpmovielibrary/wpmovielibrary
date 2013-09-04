@@ -149,7 +149,7 @@ class WPMovieLibrary {
 					'composer'     => 'Original Music Composer',
 					'author'       => 'Author',
 					'writer'       => 'Writer',
-					'actors'       => 'Actors'
+					'cast'         => 'Actors'
 				)
 			),
 		);
@@ -1380,6 +1380,17 @@ class WPMovieLibrary {
 					'post_status' => 'publish',
 					'post_title'  => $tmdb_data['title'],
 				) );
+			}
+
+			// Autofilling Taxonomy
+			if ( 1 == $this->wpml_o( 'wpml-settings-taxonomy_autocomplete' ) ) {
+
+				$actors = array_reverse( explode( ', ', $tmdb_data['cast'] ) );
+				$genres = array_reverse( explode( ', ', $tmdb_data['genres'] ) );
+				$_t     = array();
+
+				$actors = wp_set_post_terms( $post_id, $actors, 'actor', false );
+				$genres = wp_set_post_terms( $post_id, $genres, 'genre', false );
 			}
 		}
 		else if ( isset( $_POST['tmdb_data'] ) && '' != $_POST['tmdb_data'] ) {
