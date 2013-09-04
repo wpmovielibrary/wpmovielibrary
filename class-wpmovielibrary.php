@@ -123,11 +123,11 @@ class WPMovieLibrary {
 				'settings' => array(
 					'tmdb_in_posts'     => 'posts_only',
 					'default_post_tmdb' => array(
-						'director',
-						'genres',
-						'runtime',
-						'overview',
-						'rating'
+						'director' => 'Director',
+						'genres'   => 'Genres',
+						'runtime'  => 'Runtime',
+						'overview' => 'Overview',
+						'rating'   => 'Rating'
 					),
 					'taxonomy_autocomplete' => 1
 				)
@@ -143,13 +143,13 @@ class WPMovieLibrary {
 					'images_max'      => 12,
 				),
 				'default_fields' => array(
-					'director',
-					'producer',
-					'photography',
-					'composer',
-					'author',
-					'writer',
-					'actors'
+					'director'     => 'Director',
+					'producer'     => 'Producer',
+					'photography'  => 'Director of Photography',
+					'composer'     => 'Original Music Composer',
+					'author'       => 'Author',
+					'writer'       => 'Writer',
+					'actors'       => 'Actors'
 				)
 			),
 		);
@@ -857,7 +857,10 @@ class WPMovieLibrary {
 				$supported = array_keys( $this->wpml_o( 'wpml-settings' ) );
 				foreach ( $_POST['tmdb_data']['wpml'] as $key => $setting ) {
 					if ( in_array( $key, $supported ) ) {
-						$this->wpml_o( 'wpml-settings-'.esc_attr( $key ), esc_attr( $setting ) );
+						if ( is_array( $setting ) )
+							$this->wpml_o( 'wpml-settings-'.esc_attr( $key ), $setting );
+						else
+							$this->wpml_o( 'wpml-settings-'.esc_attr( $key ), esc_attr( $setting ) );
 					}
 				}
 			}
@@ -937,11 +940,12 @@ class WPMovieLibrary {
 
 		$html  = '<dl class="wpml_movie">';
 
+
 		if ( in_array( 'rating', $this->wpml_o( 'wpml-settings-default_post_tmdb' ) ) && '' != $movie_rating )
 			$html .= sprintf( '<dt>%s</dt><dd><div id="movie_rating_display" class="stars-%s"></div></dd>', __( 'Movie rating', 'wpml' ), $movie_rating );
 
 		foreach ( $this->wpml_o( 'wpml-settings-default_post_tmdb' ) as $field ) {
-			if ( in_array( $field, $this->wpml_settings['wpml']['settings']['default_post_tmdb'] ) && isset( $tmdb_data[ $field ] ) ) {
+			if ( in_array( $field, array_keys( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] ) ) && isset( $tmdb_data[ $field ] ) ) {
 				$html .= sprintf( '<dt>%s</dt><dd>%s</dd>', __( 'Movie ' . $field, 'wpml' ), $tmdb_data[ $field ] );
 			}
 		}
