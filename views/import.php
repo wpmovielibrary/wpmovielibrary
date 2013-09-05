@@ -1,9 +1,10 @@
+<?php $movies = $this->wpml_import_movie_list(); ?>
 <div id="wpml-import" class="wrap">
 	<h2><?php _e( 'Movies Import', 'wpml' ); ?></h2>
 	
 	<?php if ( isset( $this->msg_settings ) ) { ?>
 	<div id="setting-error-settings_updated" class="updated settings-error"> 
-		<p><strong><?php echo $this->msg_settings; ?></strong></p>
+		<p><?php echo $this->msg_settings; ?></p>
 	</div>
 	<?php } ?>
 
@@ -20,7 +21,7 @@
 
 			<form method="post">
 
-<?php $this->wpml_import_movie_list(); ?>
+<?php $this->wpml_display_import_movie_list( $movies['movies'], $movies['meta'] ); ?>
 
 				<p style="text-align:right">
 					<input type="button" id="wpml_empty" name="wpml_empty" class="button button-secondary button-large" value="<?php _e( 'Empty All', 'wpml' ); ?>" />

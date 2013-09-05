@@ -1,4 +1,13 @@
 
+.wrap div.updated ul {
+	margin: 0;
+}
+
+.wrap div.updated li {
+	list-style-type: circle;
+	margin-left: 2em;
+}
+
 /* WPML Notice
  ****************************************************/
 

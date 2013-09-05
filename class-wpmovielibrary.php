@@ -98,12 +98,12 @@ class WPMovieLibrary {
 	protected $tmdb = null;
 
 	/**
-	 * TMDb API.
+	 * Message display.
 	 *
 	 * @since    1.0.0
-	 * @var      array
+	 * @var      string
 	 */
-	public $wpml_crew = null;
+	public $msg_settings = '';
 
 	/**
 	 * Initialize WPMovieLibrary.
@@ -206,8 +206,8 @@ class WPMovieLibrary {
 		add_action( 'pre_get_posts', array( $this, 'wpml_show_movies_in_home_page' ) );
 
 		// Movie poster in admin movies list
-		add_filter('manage_posts_columns', array( $this, 'wpml_movies_columns_head' ) );
-		add_action('manage_posts_custom_column', array( $this, 'wpml_movies_columns_content' ), 10, 2 );
+		add_filter('manage_movie_posts_columns', array( $this, 'wpml_movies_columns_head' ) );
+		add_action('manage_movie_posts_custom_column', array( $this, 'wpml_movies_columns_content' ), 10, 2 );
 
 		// Notice missing API key
 		add_action( 'admin_notices', array( $this, 'wpml_activate_notice' ) );
@@ -1155,9 +1155,11 @@ class WPMovieLibrary {
 	}
 
 	/**
-	 * Display a custom WP_List_Table of imported movies
+	 * Import movies
 	 *
 	 * @since     1.0.0
+	 * 
+	 * @return    array      Movies and related Meta
 	 */
 	public function wpml_import_movie_list() {
 
@@ -1166,6 +1168,18 @@ class WPMovieLibrary {
 		$movies = $this->wpml_get_imported_movies();
 		$meta   = array_merge( $this->wpml_meta, $this->wpml_o('tmdb-default_fields') );
 
+		return array( 'movies' => $movies, 'meta' => $meta );
+	}
+
+	/**
+	 * Display a custom WP_List_Table of imported movies
+	 *
+	 * @since     1.0.0
+	 * 
+	 * @param     array     $movies Array of imported movies
+	 * @param     array     $meta Array of imported movies' metadata
+	 */
+	public function wpml_display_import_movie_list( $movies, $meta ) {
 		$list = new WPML_List_Table( $movies, $meta );
 		$list->prepare_items(); 
 		$list->display();
@@ -1180,14 +1194,27 @@ class WPMovieLibrary {
 	 */
 	public function wpml_import_movies() {
 
+		$errors = array();
+
 		if ( ! isset( $_POST['wpml_import_list'] ) || '' == $_POST['wpml_import_list'] )
 			return false;
 
 		$movies = explode( ',', $_POST['wpml_import_list'] );
 		$movies = array_map( array( $this, 'wpml_prepare_movie_import' ), $movies );
 
-		foreach ( $movies as $i => $movie )
-			$this->wpml_import_movie( $movie['movietitle'] );
+		foreach ( $movies as $i => $movie ) {
+			$import = $this->wpml_import_movie( $movie['movietitle'] );
+			if ( is_string( $import ) ) {
+				$errors[] = $import;
+			}
+		}
+
+		if ( empty( $errors ) )
+			$msg = sprintf( __( '%d Movie%s added successfully.', 'wpml' ), count( $movies ), ( count( $movies ) > 1 ? 's' : '' ) );
+		else if ( ! empty( $errors ) )
+			$msg = sprintf( '<strong>%s</strong> <ul>%s</ul>', __( 'The following error(s) occured:', 'wpml' ), implode( '', array_map( create_function( '&$e', 'return "<li>$e</li>";' ), $errors ) ) );
+
+		$this->msg_settings = $msg;
 
 		return true;
 	}
@@ -1214,12 +1241,22 @@ class WPMovieLibrary {
 		$post_content  = null;
 		$post_title    = apply_filters( 'the_title', $title );
 
-		$pages = get_page_by_title( $post_title, OBJECT, 'movie' );
+		$page = get_page_by_title( $post_title, OBJECT, 'movie' );
 
-		if ( ! is_null( $pages ) )
-			$_ID = $pages->ID;
-		else
+		if ( ! is_null( $page ) ) {
+
+			return sprintf(
+				'%s − <span class="edit"><a href="%s">%s</a> |</span> <span class="view"><a href="%s">%s</a></span>',
+				sprintf( __( 'Movie "%s" already imported.', 'wpml' ), "<em>" . get_the_title( $page->ID ) . "</em>" ),
+				get_edit_post_link( $page->ID ),
+				__( 'Edit', 'wpml' ),
+				get_permalink( $page->ID ),
+				__( 'View', 'wpml' )
+			);
+		}
+		else {
 			$_ID = '';
+		}
 
 		$_post = array(
 			'ID'             => $_ID,
