@@ -129,6 +129,16 @@
 					<tbody>
 						<tr valign="top">
 							<th scope="row">
+								<?php _e( 'Show Movies in Home Page', 'wpml' ); ?>
+							</th>
+							<td>
+								<label><input type="radio" name="tmdb_data[wpml][show_in_home]" value="1" <?php checked( $this->wpml_o('wpml-settings-show_in_home'), 1 ); ?>/> <?php _e( 'Show Movies', 'wpml' ); ?></label>
+								<label><input type="radio" name="tmdb_data[wpml][show_in_home]" value="0" <?php checked( $this->wpml_o('wpml-settings-show_in_home'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?></label>
+								<p class="description"><?php _e( 'If enable, movies will appear among other Posts in the Home Page.', 'wpml' ); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
 								<label for="tmdb_in_posts"><?php _e( 'Show basic movie details', 'wpml' ); ?></label>
 							</th>
 							<td>
@@ -176,8 +186,8 @@ foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug
 								<label><input type="radio" name="tmdb_data[wpml][enable_genre]" value="0" <?php checked( $this->wpml_o('wpml-settings-enable_genre'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?></label>
 								<br />
 
-								<label><input type="radio" name="tmdb_data[wpml][enable_actor]" value="1" <?php checked( $this->wpml_o('wpml-settings-'), 1 ); ?>/> <?php _e( 'Enable Actors', 'wpml' ); ?></label>
-								<label><input type="radio" name="tmdb_data[wpml][enable_actor]" value="0" <?php checked( $this->wpml_o('wpml-settings-'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?></label>
+								<label><input type="radio" name="tmdb_data[wpml][enable_actor]" value="1" <?php checked( $this->wpml_o('wpml-settings-enable_actor'), 1 ); ?>/> <?php _e( 'Enable Actors', 'wpml' ); ?></label>
+								<label><input type="radio" name="tmdb_data[wpml][enable_actor]" value="0" <?php checked( $this->wpml_o('wpml-settings-enable_actor'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?></label>
 
 								<p class="description"><?php _e( 'Enable Custom Taxonomies to group movies. If enabled, three new Taxonomie will be active to help sort your movies: Collections, Actors and Genres. To learn more about WPML Taxonomies please refer to the documentation.', 'wpml' ); ?></p>
 							</td>

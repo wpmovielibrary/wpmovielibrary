@@ -121,17 +121,18 @@ class WPMovieLibrary {
 				'url'  => $this->plugin_url,
 				'path' => $this->plugin_path,
 				'settings' => array(
-					'tmdb_in_posts'     => 'posts_only',
-					'default_post_tmdb' => array(
+					'tmdb_in_posts'         => 'posts_only',
+					'default_post_tmdb'     => array(
 						'director' => 'Director',
 						'genres'   => 'Genres',
 						'runtime'  => 'Runtime',
 						'overview' => 'Overview',
 						'rating'   => 'Rating'
 					),
-					'enable_collection' => 1,
-					'enable_actor' => 1,
-					'enable_genre' => 1,
+					'show_in_home'          => 1,
+					'enable_collection'     => 1,
+					'enable_actor'          => 1,
+					'enable_genre'          => 1,
 					'taxonomy_autocomplete' => 1,
 				)
 			),
@@ -417,7 +418,6 @@ class WPMovieLibrary {
 		$args = array(
 			'labels'             => $labels,
 			'rewrite'            => array(
-				'with_front' => false,
 				'slug'       => 'movies'
 			),
 			'public'             => true,
@@ -512,7 +512,7 @@ class WPMovieLibrary {
 	 * @return    WP_Query    Query Object
 	 */
 	public function wpml_show_movies_in_home_page( $query ) {
-		if ( is_home() && $query->is_main_query() )
+		if ( 1 == $this->wpml_o( 'wpml-settings-show_in_home' ) && is_home() && $query->is_main_query() )
 			$query->set( 'post_type', array( 'post', 'movie', 'page' ) );
 		return $query;
 	}
