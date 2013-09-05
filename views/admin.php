@@ -1,7 +1,7 @@
 <div id="wpml-settings" class="wrap">
 	<h2><?php _e( 'Plugin Options', 'wpml' ); ?></h2>
 	
-	<?php if ( isset($this->msg_settings) ) { ?>
+	<?php if ( isset( $this->msg_settings ) && '' != $this->msg_settings ) { ?>
 	<div id="setting-error-settings_updated" class="updated settings-error"> 
 		<p><strong><?php echo $this->msg_settings; ?></strong></p>
 	</div>
@@ -82,11 +82,11 @@
 						</tr>
 						<tr valign="top">
 							<th scope="row">
-								<label for="poster_featured"><?php _e( 'Add Posters As Thumbnails', 'wpml' ); ?></label>
+								<?php _e( 'Add Posters As Thumbnails', 'wpml' ); ?>
 							</th>
 							<td>
-								<input type="radio" name="tmdb_data[tmdb][poster_featured]" value="1" <?php checked( $this->wpml_o('tmdb-settings-poster_featured'), 1 ); ?>/> <?php _e( 'Use Posters as Movies Thumbnails', 'wpml' ); ?>
-								<input type="radio" name="tmdb_data[tmdb][poster_featured]" value="0" <?php checked( $this->wpml_o('tmdb-settings-poster_featured'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?>
+								<label><input type="radio" name="tmdb_data[tmdb][poster_featured]" value="1" <?php checked( $this->wpml_o('tmdb-settings-poster_featured'), 1 ); ?>/> <?php _e( 'Use Posters as Movies Thumbnails', 'wpml' ); ?></label>
+								<label><input type="radio" name="tmdb_data[tmdb][poster_featured]" value="0" <?php checked( $this->wpml_o('tmdb-settings-poster_featured'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?></label>
 								<p class="description"><?php _e( 'Using posters as movies thumbnails will automatically import new movies&rsquo; poster and set them as post featured image. This setting doesn’t affect movie import by list where posters are automatically saved and set as featured image.', 'wpml' ); ?></p>
 							</td>
 						</tr>
@@ -165,11 +165,30 @@ foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug
 					<tbody>
 						<tr valign="top">
 							<th scope="row">
-								<label for="taxonomy_autocomplete"><?php _e( 'Automatic Taxonomy', 'wpml' ); ?></label>
+								<?php _e( 'Enable Custom Taxonomies', 'wpml' ); ?>
 							</th>
 							<td>
-								<input type="radio" name="tmdb_data[wpml][taxonomy_autocomplete]" value="1" <?php checked( $this->wpml_o('wpml-settings-taxonomy_autocomplete'), 1 ); ?>/> <?php _e( 'Add Taxonomy on import', 'wpml' ); ?>
-								<input type="radio" name="tmdb_data[wpml][taxonomy_autocomplete]" value="0" <?php checked( $this->wpml_o('wpml-settings-taxonomy_autocomplete'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?>
+								<label><input type="radio" name="tmdb_data[wpml][enable_collection]" value="1" <?php checked( $this->wpml_o('wpml-settings-enable_collection'), 1 ); ?>/> <?php _e( 'Enable Collections', 'wpml' ); ?></label>
+								<label><input type="radio" name="tmdb_data[wpml][enable_collection]" value="0" <?php checked( $this->wpml_o('wpml-settings-enable_collection'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?></label>
+								<br />
+
+								<label><input type="radio" name="tmdb_data[wpml][enable_genre]" value="1" <?php checked( $this->wpml_o('wpml-settings-enable_genre'), 1 ); ?>/> <?php _e( 'Enable Genres', 'wpml' ); ?></label>
+								<label><input type="radio" name="tmdb_data[wpml][enable_genre]" value="0" <?php checked( $this->wpml_o('wpml-settings-enable_genre'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?></label>
+								<br />
+
+								<label><input type="radio" name="tmdb_data[wpml][enable_actor]" value="1" <?php checked( $this->wpml_o('wpml-settings-'), 1 ); ?>/> <?php _e( 'Enable Actors', 'wpml' ); ?></label>
+								<label><input type="radio" name="tmdb_data[wpml][enable_actor]" value="0" <?php checked( $this->wpml_o('wpml-settings-'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?></label>
+
+								<p class="description"><?php _e( 'Enable Custom Taxonomies to group movies. If enabled, three new Taxonomie will be active to help sort your movies: Collections, Actors and Genres. To learn more about WPML Taxonomies please refer to the documentation.', 'wpml' ); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<?php _e( 'Automatic Taxonomy', 'wpml' ); ?>
+							</th>
+							<td>
+								<label><input type="radio" name="tmdb_data[wpml][taxonomy_autocomplete]" value="1" <?php checked( $this->wpml_o('wpml-settings-taxonomy_autocomplete'), 1 ); ?>/> <?php _e( 'Add Taxonomy on import', 'wpml' ); ?></label>
+								<label><input type="radio" name="tmdb_data[wpml][taxonomy_autocomplete]" value="0" <?php checked( $this->wpml_o('wpml-settings-taxonomy_autocomplete'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?></label>
 								<p class="description"><?php _e( 'Automatically add custom taxonomies when adding/importing movies. If enabled, each added/imported movie will be automatically added to the collection corresponding to the director. Actors and Genres tags will be filled automatically as well. Unexisting Taxonomies will be created. Ex: adding the movie <em>Fight Club</em> will add the movie to a "David Fincher" collection and the movie will be tagged with tags like "Edward Norton", "Brad Pitt", "Drama"...', 'wpml' ); ?></p>
 							</td>
 						</tr>

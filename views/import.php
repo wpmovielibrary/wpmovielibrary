@@ -2,7 +2,7 @@
 <div id="wpml-import" class="wrap">
 	<h2><?php _e( 'Movies Import', 'wpml' ); ?></h2>
 	
-	<?php if ( isset( $this->msg_settings ) ) { ?>
+	<?php if ( isset( $this->msg_settings ) && '' != $this->msg_settings ) { ?>
 	<div id="setting-error-settings_updated" class="updated settings-error"> 
 		<p><?php echo $this->msg_settings; ?></p>
 	</div>

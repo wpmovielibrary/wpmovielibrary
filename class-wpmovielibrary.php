@@ -129,7 +129,10 @@ class WPMovieLibrary {
 						'overview' => 'Overview',
 						'rating'   => 'Rating'
 					),
-					'taxonomy_autocomplete' => 1
+					'enable_collection' => 1,
+					'enable_actor' => 1,
+					'enable_genre' => 1,
+					'taxonomy_autocomplete' => 1,
 				)
 			),
 			'tmdb' => array(
@@ -446,47 +449,53 @@ class WPMovieLibrary {
 	 */
 	public function wpml_register_taxonomy() {
 
-		register_taxonomy(
-			'collection',
-			'movie',
-			array(
-				'labels'   => array(
-					'name'          => __( 'Collections', 'wpml' ),
-					'add_new_item'  => __( 'New Movie Collection', 'wpml' )
-				),
-				'show_tagcloud' => false,
-				'hierarchical'  => true,
-				'rewrite' => array( 'slug' => 'collection' )
-			)
-		);
+		if ( 1 == $this->wpml_o( 'wpml-settings-enable_collection' ) ) {
+			register_taxonomy(
+				'collection',
+				'movie',
+				array(
+					'labels'   => array(
+						'name'          => __( 'Collections', 'wpml' ),
+						'add_new_item'  => __( 'New Movie Collection', 'wpml' )
+					),
+					'show_tagcloud' => false,
+					'hierarchical'  => true,
+					'rewrite' => array( 'slug' => 'collection' )
+				)
+			);
+		}
 
-		register_taxonomy(
-			'actor',
-			'movie',
-			array(
-				'labels'   => array(
-					'name'          => __( 'Actors', 'wpml' ),
-					'add_new_item'  => __( 'New Actor', 'wpml' )
-				),
-				'show_tagcloud' => true,
-				'hierarchical'  => false,
-				'rewrite' => array( 'slug' => 'actor' )
-			)
-		);
+		if ( 1 == $this->wpml_o( 'wpml-settings-enable_actor' ) ) {
+			register_taxonomy(
+				'actor',
+				'movie',
+				array(
+					'labels'   => array(
+						'name'          => __( 'Actors', 'wpml' ),
+						'add_new_item'  => __( 'New Actor', 'wpml' )
+					),
+					'show_tagcloud' => true,
+					'hierarchical'  => false,
+					'rewrite' => array( 'slug' => 'actor' )
+				)
+			);
+		}
 
-		register_taxonomy(
-			'genre',
-			'movie',
-			array(
-				'labels'   => array(
-					'name'          => __( 'Genres', 'wpml' ),
-					'add_new_item'  => __( 'New Genre', 'wpml' )
-				),
-				'show_tagcloud' => true,
-				'hierarchical'  => false,
-				'rewrite' => array( 'slug' => 'genre' )
-			)
-		);
+		if ( 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) ) {
+			register_taxonomy(
+				'genre',
+				'movie',
+				array(
+					'labels'   => array(
+						'name'          => __( 'Genres', 'wpml' ),
+						'add_new_item'  => __( 'New Genre', 'wpml' )
+					),
+					'show_tagcloud' => true,
+					'hierarchical'  => false,
+					'rewrite' => array( 'slug' => 'genre' )
+				)
+			);
+		}
 
 	}
  
@@ -875,10 +884,10 @@ class WPMovieLibrary {
 				}
 			}
 
-		}
+			if ( empty( $errors ) )
+				$this->msg_settings = __( 'Settings saved.', 'wpml' );
 
-		if ( empty( $errors ) )
-			$this->msg_settings = __( 'Settings saved.', 'wpml' );
+		}
 
 		include_once( 'views/admin.php' );
 	}
@@ -1422,12 +1431,15 @@ class WPMovieLibrary {
 			// Autofilling Taxonomy
 			if ( 1 == $this->wpml_o( 'wpml-settings-taxonomy_autocomplete' ) ) {
 
-				$actors = array_reverse( explode( ', ', $tmdb_data['cast'] ) );
-				$genres = array_reverse( explode( ', ', $tmdb_data['genres'] ) );
-				$_t     = array();
+				if ( 1 == $this->wpml_o( 'wpml-settings-enable_actor' ) ) {
+					$actors = array_reverse( explode( ', ', $tmdb_data['cast'] ) );
+					$actors = wp_set_post_terms( $post_id, $actors, 'actor', false );
+				}
 
-				$actors = wp_set_post_terms( $post_id, $actors, 'actor', false );
-				$genres = wp_set_post_terms( $post_id, $genres, 'genre', false );
+				if ( 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) ) {
+					$genres = array_reverse( explode( ', ', $tmdb_data['genres'] ) );
+					$genres = wp_set_post_terms( $post_id, $genres, 'genre', false );
+				}
 			}
 		}
 		else if ( isset( $_POST['tmdb_data'] ) && '' != $_POST['tmdb_data'] ) {

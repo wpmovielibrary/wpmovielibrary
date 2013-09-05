@@ -372,12 +372,12 @@ class WPML_TMDb extends WPMovieLibrary {
 				'genres' => array()
 			);
 
-			if ( ! empty( $casts['cast'] ) ) {
+			if ( ! empty( $casts['cast'] ) && 1 == $this->wpml_o( 'wpml-settings-enable_actor' ) ) {
 				foreach ( $casts['cast'] as $actor ) {
 					$movie['taxonomy']['actors'][] = $actor['name'];
 				}
 			}
-			if ( ! empty( $movie['genres'] ) ) {
+			if ( ! empty( $movie['genres'] ) && 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) ) {
 				foreach ( $movie['genres'] as $genre ) {
 					$movie['taxonomy']['genres'][] = $genre['name'];
 				}
