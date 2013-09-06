@@ -100,10 +100,10 @@ foreach ( $wpml->wpml_get_movies() as $movie ) :
 
 		<div id="movie_details_fader"></div>
 
-		<div id="movie_details" class="detailled">
-			<div class="movie-expend">
-				<a href="#"><i class="icon-minus-sign"></i></a>
-			</div>
+		<div id="movie_details" class="">
+			<!--<div class="movie-expend">-->
+				<a class="movie-expend" href="#"><i class="icon-plus-sign"></i></a>
+			<!--</div>-->
 			<div class="movie-poster">
 				<img src="http://wpthemes/wp-content/uploads/2013/08/7QlaHwXQHxUeqd45qeHXoj7R2OU-624x832.jpg" alt="Inception" />
 			</div>

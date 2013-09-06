@@ -29,9 +29,22 @@
 		$('#movie_details, #movie_details_fader').toggle();
 	});
 
-	$('#movie_details, #movie_details_fader').click(function(e) {
+	$('#movie_details_fader').click(function(e) {
 		e.preventDefault();
 		$('#movie_details, #movie_details_fader').hide();
+	});
+
+	$('#movie_details .movie-expend').on('click', function(e) {
+		e.preventDefault();
+
+		if ( ! $('#movie_details').hasClass('detailled') ) {
+			$(this).find('i').removeClass('icon-plus-sign').addClass('icon-minus-sign');
+			$('#movie_details').addClass('detailled');
+		}
+		else {
+			$(this).find('i').removeClass('icon-minus-sign').addClass('icon-plus-sign');
+			$('#movie_details').removeClass('detailled');
+		}
 	});
 	
 	
