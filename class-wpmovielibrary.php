@@ -624,9 +624,9 @@ class WPMovieLibrary {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-		/*if ( 'movie' == get_post_type() ) {
-			wp_enqueue_style( $this->plugin_slug, plugins_url( 'css/style.css', __FILE__ ), array(), $this->version );
-		}*/
+
+		wp_enqueue_style( $this->plugin_slug, plugins_url( 'css/style.css', __FILE__ ), array(), $this->version );
+
 		if ( is_page( 'WPMovieLibrary' ) ) {
 			wp_enqueue_style( 'wpml-library', plugins_url( 'css/library.css', __FILE__ ), array(), $this->version );
 			wp_enqueue_style( 'nanoscroller', plugins_url( 'css/nanoscroller.css', __FILE__ ), array(), $this->version );
@@ -952,8 +952,8 @@ class WPMovieLibrary {
 		$html  = '<dl class="wpml_movie">';
 
 
-		if ( in_array( 'rating', $this->wpml_o( 'wpml-settings-default_post_tmdb' ) ) && '' != $movie_rating )
-			$html .= sprintf( '<dt>%s</dt><dd><div id="movie_rating_display" class="stars-%s"></div></dd>', __( 'Movie rating', 'wpml' ), $movie_rating );
+		if ( in_array( 'rating', $this->wpml_o( 'wpml-settings-default_post_tmdb' ) ) )
+			$html .= sprintf( '<dt>%s</dt><dd><div id="movie_rating_display" class="stars-%d"></div></dd>', __( 'Movie rating', 'wpml' ), ( '' == $movie_rating ? 0 : (int) $movie_rating ) );
 
 		foreach ( $this->wpml_o( 'wpml-settings-default_post_tmdb' ) as $field ) {
 			if ( in_array( $field, array_keys( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] ) ) && isset( $tmdb_data[ $field ] ) ) {
