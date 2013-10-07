@@ -234,7 +234,7 @@ class WPMovieLibrary {
 		add_action( 'save_post', array( $this, 'wpml_save_tmdb_data' ) );
 
 		// Movie content
-		add_filter( 'page_template', array( $this, 'wpml_library_template' ), 0 );
+		//add_filter( 'page_template', array( $this, 'wpml_library_template' ), 0 );
 		add_filter( 'the_content', array( $this, 'wpml_movie_content' ) );
 
 		// register widgets
@@ -627,11 +627,11 @@ class WPMovieLibrary {
 
 		wp_enqueue_style( $this->plugin_slug, plugins_url( 'css/style.css', __FILE__ ), array(), $this->version );
 
-		if ( is_page( 'WPMovieLibrary' ) ) {
+		/*if ( is_page( 'WPMovieLibrary' ) ) {
 			wp_enqueue_style( 'wpml-library', plugins_url( 'css/library.css', __FILE__ ), array(), $this->version );
 			wp_enqueue_style( 'nanoscroller', plugins_url( 'css/nanoscroller.css', __FILE__ ), array(), $this->version );
 			wp_enqueue_style( 'font-awesome', plugins_url( 'css/font-awesome.min.css', __FILE__ ), array(), $this->version );
-		}
+		}*/
 	}
 
 	/**
@@ -641,10 +641,10 @@ class WPMovieLibrary {
 	 */
 	public function enqueue_scripts() {
 
-		if ( is_page( 'WPMovieLibrary' ) ) {
+		/*if ( is_page( 'WPMovieLibrary' ) ) {
 			wp_enqueue_script( 'nanoscroller', plugins_url( 'js/jquery.nanoscroller.min.js', __FILE__ ), array( 'jquery' ), '0.7.3', true );
 			wp_enqueue_script( 'wpml-library', plugins_url( 'js/jquery.wpml.js', __FILE__ ), array( 'jquery', 'nanoscroller' ), '1.0', true );
-		}
+		}*/
 	}
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1061,6 +1061,30 @@ class WPMovieLibrary {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
+	 * Get number of existing Collections.
+	 * 
+	 * @return  int    Total count of Collections
+	 * 
+	 * @since   1.0.0
+	 */
+	public function wpml_get_collection_count() {
+		$c = get_terms( array( 'collection' ) );
+		return ( isset( $c[0]->count ) && '' != $c[0]->count ? $c[0]->count : 0 );
+	}
+
+	/**
+	 * Get number of existing Movies.
+	 * 
+	 * @return  int    Total count of Movies
+	 * 
+	 * @since   1.0.0
+	 */
+	public function wpml_get_movie_count() {
+		$c = get_posts( array( 'posts_per_page' => -1, 'post_type' => 'movie' ) );
+		return count( $c );
+	}
+
+	/**
 	 * Get all available movies.
 	 * 
 	 * @return array Movie list
@@ -1446,6 +1470,19 @@ class WPMovieLibrary {
 		}
 		else if ( isset( $_POST['tmdb_data'] ) && '' != $_POST['tmdb_data'] ) {
 			update_post_meta( $post_id, '_wpml_movie_data', $_POST['tmdb_data'] );
+		}
+
+		if ( isset( $_POST['wpml_details'] ) && ! is_null( $_POST['wpml_details'] ) ) {
+			$wpml_d = $_POST['wpml_details'];
+			
+			if ( isset( $wpml_d['movie_status'] ) && ! is_null( $wpml_d['movie_status'] ) )
+				update_post_meta( $post_id, '_wpml_movie_status', $wpml_d['movie_status'] );
+			
+			if ( isset( $wpml_d['movie_media'] ) && ! is_null( $wpml_d['movie_media'] ) )
+				update_post_meta( $post_id, '_wpml_movie_media', $wpml_d['movie_media'] );
+			
+			if ( isset( $wpml_d['movie_rating'] ) && ! is_null( $wpml_d['movie_rating'] ) )
+				update_post_meta( $post_id, '_wpml_movie_rating', $wpml_d['movie_rating'] );
 		}
 	}
 
