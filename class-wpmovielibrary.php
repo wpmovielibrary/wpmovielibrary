@@ -400,19 +400,19 @@ class WPMovieLibrary {
 	public function wpml_register_post_type() {
 
 		$labels = array(
-			'name'               => __( 'Movies', 'wp_movie_library' ),
-			'singular_name'      => __( 'Movie', 'wp_movie_library' ),
-			'add_new'            => __( 'Add New', 'wp_movie_library' ),
-			'add_new_item'       => __( 'Add New Movie', 'wp_movie_library' ),
-			'edit_item'          => __( 'Edit Movie', 'wp_movie_library' ),
-			'new_item'           => __( 'New Movie', 'wp_movie_library' ),
-			'all_items'          => __( 'All Movies', 'wp_movie_library' ),
-			'view_item'          => __( 'View Movie', 'wp_movie_library' ),
-			'search_items'       => __( 'Search Movies', 'wp_movie_library' ),
-			'not_found'          => __( 'No movies found', 'wp_movie_library' ),
-			'not_found_in_trash' => __( 'No movies found in Trash', 'wp_movie_library' ),
+			'name'               => __( 'Movies', 'wpml' ),
+			'singular_name'      => __( 'Movie', 'wpml' ),
+			'add_new'            => __( 'Add New', 'wpml' ),
+			'add_new_item'       => __( 'Add New Movie', 'wpml' ),
+			'edit_item'          => __( 'Edit Movie', 'wpml' ),
+			'new_item'           => __( 'New Movie', 'wpml' ),
+			'all_items'          => __( 'All Movies', 'wpml' ),
+			'view_item'          => __( 'View Movie', 'wpml' ),
+			'search_items'       => __( 'Search Movies', 'wpml' ),
+			'not_found'          => __( 'No movies found', 'wpml' ),
+			'not_found_in_trash' => __( 'No movies found in Trash', 'wpml' ),
 			'parent_item_colon'  => '',
-			'menu_name'          => __( 'Movies', 'wp_movie_library' )
+			'menu_name'          => __( 'Movies', 'wpml' )
 		);
 
 		$args = array(
@@ -941,7 +941,7 @@ class WPMovieLibrary {
 
 
 		if ( in_array( 'rating', $this->wpml_o( 'wpml-settings-default_post_tmdb' ) ) )
-			$html .= sprintf( '<dt>%s</dt><dd><div id="movie_rating_display" class="stars-%d"></div></dd>', __( 'Movie rating', 'wpml' ), ( '' == $movie_rating ? 0 : (int) $movie_rating ) );
+			$html .= sprintf( '<dt>%s</dt><dd><div class="movie_rating_display stars-%d"></div></dd>', __( 'Movie rating', 'wpml' ), ( '' == $movie_rating ? 0 : (int) $movie_rating ) );
 
 		foreach ( $this->wpml_o( 'wpml-settings-default_post_tmdb' ) as $field ) {
 			if ( in_array( $field, array_keys( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] ) ) && isset( $tmdb_data[ $field ] ) ) {

@@ -3,7 +3,7 @@
 /** Movie Post TMDb
  ***************************************************/
 
-#movie_rating_display {
+.movie_rating_display {
 	background-image: url(../assets/rating.png);
 	background-position: 0 0;
 	background-repeat: no-repeat;
@@ -15,12 +15,49 @@
 	width: 82px;
 }
 
-#stars {
+.stars {
 	margin: 1em 1em 1em 2em;
 }
 
-#movie_rating_display.stars-1 {background-position: 0 -16px !important;}
-#movie_rating_display.stars-2 {background-position: 0 -32px !important;}
-#movie_rating_display.stars-3 {background-position: 0 -48px !important;}
-#movie_rating_display.stars-4 {background-position: 0 -64px !important;}
-#movie_rating_display.stars-5 {background-position: 0 -80px !important;}
+.movie_rating_display.stars-1 {background-position: 0 -16px !important;}
+.movie_rating_display.stars-2 {background-position: 0 -32px !important;}
+.movie_rating_display.stars-3 {background-position: 0 -48px !important;}
+.movie_rating_display.stars-4 {background-position: 0 -64px !important;}
+.movie_rating_display.stars-5 {background-position: 0 -80px !important;}
+
+.recent-movies,
+.most-rated-movies {
+	position: relative;
+}
+
+.recent-movie,
+.most-rated-movie {
+	display: inline-table;
+	max-height: 150px;
+	max-width: 150px;
+	min-height: 120px;
+	min-width: 120px;
+	position: relative;
+	width: 49%;
+}
+
+.recent-movie img,
+.most-rated-movie img {
+	height: 100%;
+	width: 100%;
+}
+
+.most-rated-movie .movie_rating_display.below {
+	margin-top: 0.25em;
+}
+
+.most-rated-movie .movie_rating_display.above {
+	bottom: 0.75em;
+	left: 0.25em;
+	opacity: 0.5;
+	position: absolute;
+}
+
+.most-rated-movie:hover .movie_rating_display.above {
+	opacity: 1;
+}
