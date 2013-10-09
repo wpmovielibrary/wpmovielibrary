@@ -25,6 +25,10 @@
 .movie_rating_display.stars-4 {background-position: 0 -64px !important;}
 .movie_rating_display.stars-5 {background-position: 0 -80px !important;}
 
+.widget-description {
+	margin: 0.5em 0 !important;
+}
+
 .recent-movies,
 .most-rated-movies {
 	position: relative;
@@ -60,4 +64,17 @@
 
 .most-rated-movie:hover .movie_rating_display.above {
 	opacity: 1;
+}
+
+#genres-list.custom,
+#actors-list.custom,
+#collections-list.custom {
+	background: #eee;
+	border: 1px solid #ccc;
+	border-radius: 0.3em;
+	color: #666;
+	outline: none;
+	padding: 0.5em 1em;
+	text-shadow: 0 1px 0 white;
+	width: 100%;
 }

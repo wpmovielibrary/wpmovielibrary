@@ -15,7 +15,7 @@ $movies = new WP_Query(
 );
 ?>
 
-		<h3 class="widget-title"><?php echo $title; ?></h3>
+		<?php echo $title; ?>
 		<p class="widget-description"><?php echo $description; ?></p>
 
 <?php if ( $movies->have_posts() ) : ?>
