@@ -139,6 +139,7 @@ class WPMovieLibrary {
 			'tmdb' => array(
 				'settings' => array(
 					'APIKey'          => '',
+					'dummy'           => 1,
 					'lang'            => 'en',
 					'scheme'          => 'https',
 					'poster_size'     => 'original',
@@ -200,6 +201,7 @@ class WPMovieLibrary {
 		);
 
 		// Load TMDb API Class
+		//$this->tmdb = $this->wpml_init_tmdb();
 		$this->tmdb = new WPML_TMDb( $this->wpml_o('tmdb-settings') );
 
 		// Load plugin text domain, movie post type, default config
@@ -220,12 +222,12 @@ class WPMovieLibrary {
 		add_action( 'admin_menu', array( $this, 'wpml_admin_menu' ) );
 
 		// Load admin style sheet and JavaScript.
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'wpml_enqueue_admin_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'wpml_enqueue_admin_scripts' ) );
 
 		// Load public-facing style sheet and JavaScript.
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'wpml_enqueue_styles' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'wpml_enqueue_scripts' ) );
 
 		// New Movie metaboxes
 		add_action( 'add_meta_boxes', array( $this, 'wpml_metaboxes' ) );
@@ -352,7 +354,83 @@ class WPMovieLibrary {
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
-	 *                          Styles, Scripts
+	 *                            Styles, Scripts
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * Register and enqueue admin-specific style sheet.
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    null    Return early if no settings page is registered.
+	 */
+	public function wpml_enqueue_admin_styles() {
+		wp_enqueue_style( $this->plugin_slug .'-admin-styles', plugins_url( 'css/admin.css', __FILE__ ), array(), $this->version );
+		wp_enqueue_style( 'jquery-ui-progressbar', plugins_url( 'css/jquery-ui-progressbar.min.css', __FILE__ ), array(), $this->version );
+		wp_enqueue_style( 'jquery-ui-tabs', plugins_url( 'css/jquery-ui-tabs.min.css', __FILE__ ), array(), $this->version );
+	}
+
+	/**
+	 * Register and enqueue admin-specific JavaScript.
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    null    Return early if no settings page is registered.
+	 */
+	public function wpml_enqueue_admin_scripts( $hook_suffix ) {
+
+		if ( 'movie_page_import' == $hook_suffix )
+			wp_enqueue_media();
+
+		wp_enqueue_script( 'jquery-ui-sortable' );
+		wp_enqueue_script( 'jquery-ui-progressbar' );
+		wp_enqueue_script( 'jquery-ui-tabs' );
+
+		wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'js/admin.js', __FILE__ ), array( 'jquery' ), $this->version );
+		wp_localize_script(
+			$this->plugin_slug . '-admin-script', 'ajax_object',
+			array(
+				'ajax_url'           => admin_url( 'admin-ajax.php' ),
+				'images_added'       => __( 'Images uploaded!', 'wpml' ),
+				'base_url_xxsmall'   => $this->tmdb->wpml_tmdb_get_base_url( 'poster', 'xx-small' ),
+				'base_url_xsmall'    => $this->tmdb->wpml_tmdb_get_base_url( 'poster', 'x-small' ),
+				'base_url_small'     => $this->tmdb->wpml_tmdb_get_base_url( 'image', 'small' ),
+				'base_url_medium'    => $this->tmdb->wpml_tmdb_get_base_url( 'image', 'medium' ),
+				'base_url_full'      => $this->tmdb->wpml_tmdb_get_base_url( 'image', 'full' ),
+				'base_url_original'  => $this->tmdb->wpml_tmdb_get_base_url( 'image', 'original' ),
+				'search_movie_title' => __( 'Searching movie', 'wpml' ),
+				'search_movie'       => __( 'Fetching movie data', 'wpml' ),
+				'set_featured'       => __( 'Setting featured image…', 'wpml' ),
+				'images_added'       => __( 'Images added!', 'wpml' ),
+				'save_image'         => __( 'Saving Images…', 'wpml' ),
+				'poster'             => __( 'Poster', 'wpml' ),
+				'done'               => __( 'Done!', 'wpml' ),
+				'oops'               => __( 'Oops… Did something went wrong?', 'wpml' )
+			)
+		);
+	}
+
+	/**
+	 * Register and enqueue public-facing style sheet.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_enqueue_styles() {
+		wp_enqueue_style( $this->plugin_slug, plugins_url( 'css/style.css', __FILE__ ), array(), $this->version );
+	}
+
+	/**
+	 * Register and enqueues public-facing JavaScript files.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_enqueue_scripts() {
+	}
+
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *                         Gettext, Settings, TMDb
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -383,6 +461,19 @@ class WPMovieLibrary {
 			add_option( $this->plugin_settings, $this->wpml_settings );
 			
 		}
+	}
+
+	/**
+	 * Load TMDb Class
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_init_tmdb() {
+
+		$dummy = ( 1 == $this->wpml_o( 'tmdb-settings-dummy' ) ? true : false );
+		$tmdb  = new WPML_TMDb( $this->wpml_o('tmdb-settings'), $dummy );
+
+		return $tmdb;
 	}
 
 
@@ -563,76 +654,6 @@ class WPMovieLibrary {
 	public function wpml_movies_columns_content( $column_name, $post_id ) {
 		if ( $column_name == 'poster' )
 			echo '<img src="'.$this->wpml_get_featured_image( $post_id ).'" alt="" />';
-	}
-
-	/**
-	 * Register and enqueue admin-specific style sheet.
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    null    Return early if no settings page is registered.
-	 */
-	public function enqueue_admin_styles() {
-		wp_enqueue_style( $this->plugin_slug .'-admin-styles', plugins_url( 'css/admin.css', __FILE__ ), array(), $this->version );
-		wp_enqueue_style( 'jquery-ui-progressbar', plugins_url( 'css/jquery-ui-progressbar.min.css', __FILE__ ), array(), $this->version );
-		wp_enqueue_style( 'jquery-ui-tabs', plugins_url( 'css/jquery-ui-tabs.min.css', __FILE__ ), array(), $this->version );
-	}
-
-	/**
-	 * Register and enqueue admin-specific JavaScript.
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    null    Return early if no settings page is registered.
-	 */
-	public function enqueue_admin_scripts( $hook_suffix ) {
-
-		if ( 'movie_page_import' == $hook_suffix )
-			wp_enqueue_media();
-
-		wp_enqueue_script( 'jquery-ui-sortable' );
-		wp_enqueue_script( 'jquery-ui-progressbar' );
-		wp_enqueue_script( 'jquery-ui-tabs' );
-
-		wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'js/admin.js', __FILE__ ), array( 'jquery' ), $this->version );
-		wp_localize_script(
-			$this->plugin_slug . '-admin-script', 'ajax_object',
-			array(
-				'ajax_url'           => admin_url( 'admin-ajax.php' ),
-				'images_added'       => __( 'Images uploaded!', 'wpml' ),
-				'base_url_xxsmall'   => $this->tmdb->wpml_tmdb_get_base_url( 'poster', 'xx-small' ),
-				'base_url_xsmall'    => $this->tmdb->wpml_tmdb_get_base_url( 'poster', 'x-small' ),
-				'base_url_small'     => $this->tmdb->wpml_tmdb_get_base_url( 'image', 'small' ),
-				'base_url_medium'    => $this->tmdb->wpml_tmdb_get_base_url( 'image', 'medium' ),
-				'base_url_full'      => $this->tmdb->wpml_tmdb_get_base_url( 'image', 'full' ),
-				'base_url_original'  => $this->tmdb->wpml_tmdb_get_base_url( 'image', 'original' ),
-				'search_movie_title' => __( 'Searching movie', 'wpml' ),
-				'search_movie'       => __( 'Fetching movie data', 'wpml' ),
-				'set_featured'       => __( 'Setting featured image…', 'wpml' ),
-				'images_added'       => __( 'Images added!', 'wpml' ),
-				'save_image'         => __( 'Saving Images…', 'wpml' ),
-				'poster'             => __( 'Poster', 'wpml' ),
-				'done'               => __( 'Done!', 'wpml' ),
-				'oops'               => __( 'Oops… Did something went wrong?', 'wpml' )
-			)
-		);
-	}
-
-	/**
-	 * Register and enqueue public-facing style sheet.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_styles() {
-		wp_enqueue_style( $this->plugin_slug, plugins_url( 'css/style.css', __FILE__ ), array(), $this->version );
-	}
-
-	/**
-	 * Register and enqueues public-facing JavaScript files.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_scripts() {
 	}
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -971,6 +992,16 @@ class WPMovieLibrary {
 	public function wpml_get_api_key() {
 		$api_key = $this->wpml_o('tmdb-settings-APIKey');
 		return ( '' != $api_key ? $api_key : false );
+	}
+
+	/**
+	 * Are we on TMDb dummy mode?
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_is_dummy() {
+		$dummy = ( 1 == $this->wpml_o('tmdb-settings-dummy') ? true : false );
+		return $dummy;
 	}
 
 	/**

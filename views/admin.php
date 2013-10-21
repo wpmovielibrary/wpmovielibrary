@@ -29,7 +29,9 @@
 							<td>
 								<input id="APIKey" type="text" name="tmdb_data[tmdb][APIKey]" value="<?php echo ( $this->wpml_get_api_key() ? $this->wpml_get_api_key() : '' ); ?>" size="40" maxlength="32" />
 								<input id="APIKey_check" type="button" name="APIKey_check" class="button button-secondary button-small" value="<?php _e( 'Check API Key', 'wpml' ); ?>" />
-								<p class="description"><?php _e( 'You need a valid TMDb API key in order to fetch informations on the movies you add to WP-Movie-Library. You can get an individual API key by registering on <a href="https://www.themoviedb.org/">TheMovieDB</a>. If you don&rsquo;t want to get your own API Key, WP-Movie-Library will use a built-in key, with restrictions of two movies added per day.', 'wpml' ); ?></p>
+								<p class="description"><?php _e( 'You need a valid TMDb API key in order to fetch informations on the movies you add to WPMovieLibrary. You can get an individual API key by registering on <a href="https://www.themoviedb.org/">TheMovieDB</a>. If you don&rsquo;t want to get your own API Key, WPMovieLibrary will use a dummy, more restricted API. <a href="http://tmdb.caercam.org/">Learn more about the dummy API</a>.', 'wpml' ); ?></p>
+								<label><input type="radio" name="tmdb_data[tmdb][dummy]" value="1" <?php checked( $this->wpml_o('tmdb-settings-dummy'), 1 ); ?>/> <?php _e( 'Use dummy API', 'wpml' ); ?></label>
+								<label><input type="radio" name="tmdb_data[tmdb][dummy]" value="0" <?php checked( $this->wpml_o('tmdb-settings-dummy'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?></label>
 							</td>
 						</tr>
 						<tr valign="top">

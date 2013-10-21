@@ -1,10 +1,12 @@
-<?php if ( false === $this->wpml_get_api_key() ) :
+<?php if ( false === $this->wpml_get_api_key() && false === $this->wpml_is_dummy() ) :
 	_e( 'You need a valid <acronym title="TheMovieDB">TMDb</acronym> API key to start adding your movies. Go to the <a href="https://www.themoviedb.org/">WPMovieLibrary Settings page</a> to add your API key.', 'wpml' );
 	return;
 endif;
 ?>
 		<div id="wpml-tmdb" class="wpml-tmdb">
-
+<?php if ( true === $this->wpml_is_dummy() ) : ?>
+			<div class="updated"><p><em><?php printf( __( 'WPMovieLibrary is using the dummy TMDb API; add your valid API key to the <a href="%s">Settings Page</a> or <a href="http://tmdb.caercam.org/">Learn more</a> about the dummy API.', 'wpml' ), admin_url( 'edit.php?post_type=movie&page=settings' ) ); ?></em></p></div>
+<?php endif; ?>
 			<p><strong><?php _e( 'Find movie on TMDb:', 'wpml' ); ?></strong></p>
 
 			<select id="tmdb_search_lang" name="lang">

@@ -24,8 +24,10 @@ class TMDb
 
 	const API_VERSION = '3';
 	const API_URL = 'api.themoviedb.org';
+	const API_DUMMY_URL = 'tmdb';
 	const API_SCHEME = 'http://';
 	const API_SCHEME_SSL = 'https://';
+
 
 	const VERSION = '1.5.0';
 
@@ -65,6 +67,13 @@ class TMDb
 	protected $_apischeme;
 
 	/**
+	 * API Dummy
+	 *
+	 * @var boolean
+	 */
+	protected $_dummy;
+
+	/**
 	 * Default constructor
 	 *
 	 * @param string $apikey			API-key recieved from TMDb
@@ -72,11 +81,12 @@ class TMDb
 	 * @param boolean $config			Load the TMDb-config
 	 * @return void
 	 */
-	public function __construct($apikey, $default_lang = 'en', $config = FALSE, $scheme = TMDb::API_SCHEME)
+	public function __construct($apikey, $default_lang = 'en', $config = FALSE, $scheme = TMDb::API_SCHEME, $dummy = FALSE)
 	{
 		$this->_apikey = (string) $apikey;
 		$this->_apischeme = ($scheme == TMDb::API_SCHEME) ? TMDb::API_SCHEME : TMDb::API_SCHEME_SSL;
 		$this->setLang($default_lang);
+		$this->_dummy = (boolean) $dummy;
 
 		if($config === TRUE)
 		{
@@ -796,6 +806,15 @@ class TMDb
 			}
 
 			$url .= ( ! empty($params)) ? '&'.http_build_query($params, '', '&') : '';
+			
+		}
+
+		if ( true === $this->_dummy ) {
+			$url = TMDb::API_SCHEME . TMDb::API_DUMMY_URL . '/' . $function;
+			if ( isset( $params['query'] ) AND '' != $params['query'] )
+				$url .= '/' . rawurlencode( $params['query'] );
+			if ( isset( $params['language'] ) AND FALSE !== $params['language'] )
+				$url .= '/' . $params['language'];
 		}
 
 		$results = '{}';

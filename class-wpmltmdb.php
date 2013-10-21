@@ -27,6 +27,14 @@ class WPML_TMDb extends WPMovieLibrary {
 	protected $scheme = '';
 
 	/**
+	 * TMDb API Dummy
+	 *
+	 * @since   1.0.0
+	 * @var     boolean
+	 */
+	protected $dummy = FALSE;
+
+	/**
 	 * TMDb API Config
 	 *
 	 * @since   1.0.0
@@ -48,11 +56,27 @@ class WPML_TMDb extends WPMovieLibrary {
 		$this->lang   = $TMDb_settings['lang'];
 		$this->scheme = $TMDb_settings['scheme'];
 		$this->scheme = $this->wpml_scheme_check();
+		$this->dummy  = ( 1 == $TMDb_settings['dummy'] ? true : false );
+
+		$this->wpml_tmdb();
+		$this->config = $this->wpml_tmdb_config();
+	}
+
+	/**
+	 * Init the TMDb API class
+	 *
+	 * @since     1.0.0
+	 */
+	private function wpml_tmdb() {
 
 		require_once plugin_dir_path( __FILE__ ) . 'class-tmdb.php';
 
-		$this->tmdb   = new TMDb( $this->APIKey, $this->lang, false, $this->scheme );
-		$this->config = $this->wpml_tmdb_config();
+		if ( true == $this->dummy && '' == $this->APIKey ) {
+			$this->tmdb = new TMDb( $this->APIKey, $this->lang, false, $this->scheme, $this->dummy );
+		}
+		else {
+			$this->tmdb = new TMDb( $this->APIKey, $this->lang, false, $this->scheme );
+		}
 	}
 
 	/**
@@ -192,8 +216,6 @@ class WPML_TMDb extends WPMovieLibrary {
 		$lang = ( isset( $_GET['lang'] ) && '' != $_GET['lang'] ? $_GET['lang'] : $this->wpml_o('tmdb-settings-lang') );
 		$_id  = ( isset( $_GET['_id'] )  && '' != $_GET['_id']  ? $_GET['_id']  : null );
 
-		
-
 		if ( '' == $data || '' == $type )
 			return false;
 
@@ -251,7 +273,7 @@ class WPML_TMDb extends WPMovieLibrary {
 	private function _wpml_get_movie_by_title( $title, $lang, $_id = null ) {
 
 		$title  = $this->wpml_clean_search_title( $title );
-		$data   = $this->tmdb->searchMovie( $title, 1, $lang );
+		$data   = $this->tmdb->searchMovie( $title, 1, FALSE, NULL, $lang );
 
 		if ( ! isset( $data['total_results'] ) ) {
 			$movies = array(
