@@ -142,6 +142,8 @@ class WPMovieLibrary {
 					'dummy'           => 1,
 					'lang'            => 'en',
 					'scheme'          => 'https',
+					'caching'         => 1,
+					'caching_time'    => 15,
 					'poster_size'     => 'original',
 					'poster_featured' => 1,
 					'images_size'     => 'original',

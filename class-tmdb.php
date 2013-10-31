@@ -24,7 +24,7 @@ class TMDb
 
 	const API_VERSION = '3';
 	const API_URL = 'api.themoviedb.org';
-	const API_DUMMY_URL = 'tmdb';
+	const API_DUMMY_URL = 'tmdb/api';
 	const API_SCHEME = 'http://';
 	const API_SCHEME_SSL = 'https://';
 

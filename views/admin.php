@@ -1,3 +1,5 @@
+<style type="text/css">th>label{font-size:0.8em;}</style>
+
 <div id="wpml-settings" class="wrap">
 	<h2><?php _e( 'Plugin Options', 'wpml' ); ?></h2>
 	
@@ -84,7 +86,7 @@
 						</tr>
 						<tr valign="top">
 							<th scope="row">
-								<?php _e( 'Add Posters As Thumbnails', 'wpml' ); ?>
+								<label><?php _e( 'Add Posters As Thumbnails', 'wpml' ); ?></label>
 							</th>
 							<td>
 								<label><input type="radio" name="tmdb_data[tmdb][poster_featured]" value="1" <?php checked( $this->wpml_o('tmdb-settings-poster_featured'), 1 ); ?>/> <?php _e( 'Use Posters as Movies Thumbnails', 'wpml' ); ?></label>
@@ -131,7 +133,7 @@
 					<tbody>
 						<tr valign="top">
 							<th scope="row">
-								<?php _e( 'Show Movies in Home Page', 'wpml' ); ?>
+								<label><?php _e( 'Show Movies in Home Page', 'wpml' ); ?></label>
 							</th>
 							<td>
 								<label><input type="radio" name="tmdb_data[wpml][show_in_home]" value="1" <?php checked( $this->wpml_o('wpml-settings-show_in_home'), 1 ); ?>/> <?php _e( 'Show Movies', 'wpml' ); ?></label>
@@ -177,7 +179,7 @@ foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug
 					<tbody>
 						<tr valign="top">
 							<th scope="row">
-								<?php _e( 'Enable Custom Taxonomies', 'wpml' ); ?>
+								<label><?php _e( 'Enable Custom Taxonomies', 'wpml' ); ?></label>
 							</th>
 							<td>
 								<label><input type="radio" name="tmdb_data[wpml][enable_collection]" value="1" <?php checked( $this->wpml_o('wpml-settings-enable_collection'), 1 ); ?>/> <?php _e( 'Enable Collections', 'wpml' ); ?></label>
@@ -196,12 +198,39 @@ foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug
 						</tr>
 						<tr valign="top">
 							<th scope="row">
-								<?php _e( 'Automatic Taxonomy', 'wpml' ); ?>
+								<label><?php _e( 'Automatic Taxonomy', 'wpml' ); ?></label>
 							</th>
 							<td>
 								<label><input type="radio" name="tmdb_data[wpml][taxonomy_autocomplete]" value="1" <?php checked( $this->wpml_o('wpml-settings-taxonomy_autocomplete'), 1 ); ?>/> <?php _e( 'Add Taxonomy on import', 'wpml' ); ?></label>
 								<label><input type="radio" name="tmdb_data[wpml][taxonomy_autocomplete]" value="0" <?php checked( $this->wpml_o('wpml-settings-taxonomy_autocomplete'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?></label>
 								<p class="description"><?php _e( 'Automatically add custom taxonomies when adding/importing movies. If enabled, each added/imported movie will be automatically added to the collection corresponding to the director. Actors and Genres tags will be filled automatically as well. Unexisting Taxonomies will be created. Ex: adding the movie <em>Fight Club</em> will add the movie to a "David Fincher" collection and the movie will be tagged with tags like "Edward Norton", "Brad Pitt", "Drama"...', 'wpml' ); ?></p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- WPML Cache Settings -->
+				<h4><?php _e( 'Cache Settings', 'wpml' ); ?></h4>
+				<table class="form-table wpml-settings">
+					<tbody>
+						<tr valign="top">
+							<th scope="row">
+								<label><?php _e( 'Enable Caching', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<label><input type="radio" name="tmdb_data[tmdb][caching]" value="1" <?php checked( $this->wpml_o('tmdb-settings-caching'), 1 ); ?>/> <?php _e( 'Enable caching', 'wpml' ); ?></label>
+								<label><input type="radio" name="tmdb_data[tmdb][caching]" value="0" <?php checked( $this->wpml_o('tmdb-settings-caching'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?></label>
+								<p class="description"><?php _e( 'When enabled, WPML will store for a variable time the data fetched from TMDb. This prevents WPML from generating excessive, useless duplicate queries to the API. This is especially useful if you’re using the dummy API. <a href="http://www.caercam.org/wpmovielibrary/">Learn more about WPML Caching</a>', 'wpml' ); ?></p>
+								<br />
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label><?php _e( 'Caching Time', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<input type="text" name="tmdb_data[tmdb][caching_time]" value="<?php echo $this->wpml_o('tmdb-settings-caching_time'); ?>" size="4" maxlength="2" />
+								<p class="description"><?php _e( 'Time of validity for Cached data, in days.', 'wpml' ); ?></p>
 							</td>
 						</tr>
 					</tbody>
