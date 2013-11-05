@@ -317,8 +317,51 @@ class WPMovieLibrary {
 	 */
 	public static function deactivate( $network_wide ) {
 
-		$o     = get_option( 'wpml_settings' );
-		$cache = $o['wpml']['settings']['deactivate']['cache'];
+		$o           = get_option( 'wpml_settings' );
+		$cache       = $o['wpml']['settings']['deactivate']['cache'];
+		$movies      = $o['wpml']['settings']['deactivate']['movies'];
+		$collections = $o['wpml']['settings']['deactivate']['collections'];
+		$genres      = $o['wpml']['settings']['deactivate']['genres'];
+		$actors      = $o['wpml']['settings']['deactivate']['actors'];
+
+		// Handling Movie Custom Post Type on WPML deactivation
+
+		if ( 'convert' == $movies ) {
+			//TODO: Convert to Post Type
+		}
+		else if ( 'delete' == $movies ) {
+			//TODO: Delete Posts
+		}
+
+		// Handling Custom Category-like Taxonomies on WPML deactivation
+
+		if ( 'convert' == $collections ) {
+			//TODO: Convert to Category
+		}
+		else if ( 'delete' == $collections ) {
+			//TODO: Delete Collections
+		}
+
+		// Handling Genres Taxonomies on WPML deactivation
+
+		if ( 'convert' == $genres ) {
+			//TODO: Convert to Tag
+		}
+		else if ( 'delete' == $genres ) {
+			//TODO: Delete Genres
+		}
+
+		// Handling Actors Taxonomies on WPML deactivation
+
+		if ( 'convert' == $actors ) {
+			//TODO: Convert to Tag
+		}
+		else if ( 'delete' == $actors ) {
+			//TODO: Delete Actors
+		}
+
+		// Handling Cache cleanup on WPML deactivation
+		// Adapted from Sébastien Corne's "purge-transient" snippet
 
 		global $_wp_using_ext_object_cache;
 
@@ -326,77 +369,15 @@ class WPMovieLibrary {
 
 			global $wpdb;
 
-			$sql = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE "_transient_%_movies_%"';
+			$sql = "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE \"_transient_%_movies_%\"";
 			$transients = $wpdb->get_col( $sql );
 
-			foreach ( $transients as $transient ) {
+			foreach ( $transients as $transient )
 				$result = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE \"{$transient}\"" );
-			}
 
 			$wpdb->query( 'OPTIMIZE TABLE ' . $wpdb->options );
 		}
 	}
-
-	/**
-	 * Handling Movie Custom Post Type on WPML deactivation
-	 *
-	 * @since    1.0.0
-	 */
-// 	public static function deactivate_posts( $movies ) {
-// 		
-// 	}
-
-	/**
-	 * Handling Custom Category-like Taxonomies on WPML deactivation
-	 *
-	 * @since    1.0.0
-	 */
-// 	public static function deactivate_collections( $collections ) {
-// 		
-// 	}
-
-	/**
-	 * Handling Genres Taxonomies on WPML deactivation
-	 *
-	 * @since    1.0.0
-	 */
-// 	public static function deactivate_genres( $genres ) {
-// 		
-// 	}
-
-	/**
-	 * Handling Actors Taxonomies on WPML deactivation
-	 *
-	 * @since    1.0.0
-	 */
-// 	public static function deactivate_actors( $actors ) {
-// 		
-// 	}
-
-	/**
-	 * Handling Cache cleanup on WPML deactivation
-	 *
-	 * @since    1.0.0
-	 */
-// 	private function deactivate_cache( $cache ) {
-// 
-// 		global $_wp_using_ext_object_cache;
-// 
-// 		if ( ! $_wp_using_ext_object_cache && 'empty' == $cache ) {
-// 
-// 			global $wpdb;
-// 
-// 			$sql = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE "_transient_wpml_%"';
-// 			$transients = $wpdb->get_col( $sql );
-// 			print_r( $transients ); die();
-// 
-// 			/*foreach ( $mestransients as $transient ) {
-// 				$deletion = delete_transient( str_replace( '_transient_timeout_', '', $transient ) );
-// 			}
-// 
-// 			$wpdb->query('OPTIMIZE TABLE ' . $wpdb->options);*/
-// 		}
-// 	}
 
 	/**
 	 * Missing API Key notification. Display a message on plugins and
