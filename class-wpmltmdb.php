@@ -115,7 +115,7 @@ class WPML_TMDb extends WPMovieLibrary {
 
 		$tmdb_config = $this->tmdb->getConfig();
 
-		if ( is_null( $tmdb_config ) || ( isset( $tmdb_config['status_code'] ) && 7 === $tmdb_config['status_code'] ) )
+		if ( is_null( $tmdb_config ) || ( isset( $tmdb_config['status_code'] ) && in_array( $tmdb_config['status_code'], array( 7, 403 ) ) ) )
 			return false;
 
 		$base_url = ( 'https' == $this->scheme ? $tmdb_config['images']['secure_base_url'] : $tmdb_config['images']['base_url'] );
