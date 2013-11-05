@@ -287,7 +287,14 @@ class WPML_TMDb extends WPMovieLibrary {
 		$title  = $this->wpml_clean_search_title( $title );
 		$data   = $this->tmdb->searchMovie( $title, 1, FALSE, NULL, $lang );
 
-		if ( ! isset( $data['total_results'] ) ) {
+		if ( isset( $data['status_code'] ) ) {
+			$movies = array(
+				'result' => 'error',
+				'p'      => '<p><strong>API returned Status '.$data['status_code'].':</strong> '.$data['status_message'].'</p>',
+				'_id'    => $_id
+			);
+		}
+		else if ( ! isset( $data['total_results'] ) ) {
 			$movies = array(
 				'result' => 'empty',
 				'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>',

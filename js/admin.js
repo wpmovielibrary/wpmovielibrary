@@ -376,6 +376,10 @@ wpml = {
 							wpml.movie.get_movie(id);
 						});
 					}
+					else if ( response.result == 'error' || response.result == 'empty' ) {
+						$('#tmdb_data').html(response.p).show();
+						$('#tmdb_status').empty();
+					}
 				},
 				beforeSend: function() {
 					$('input#tmdb_search').addClass('button-loading');
@@ -629,6 +633,9 @@ wpml = {
 							wpml.import.get_movie(tmdb_id);
 							$(this).parents('.wpml-import-movie-select').remove();
 						});
+					}
+					else if ( response.result == 'error' || response.result == 'empty' ) {
+						$('#import-intro').after('<div id="import-error" class="updated settings-error">'+response.p+'</div>').show();
 					}
 				},
 				beforeSend: function() {
