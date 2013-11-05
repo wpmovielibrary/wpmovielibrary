@@ -50,13 +50,22 @@ class WPML_TMDb extends WPMovieLibrary {
 	 */
 	protected $tmdb = '';
 
+	/**
+	 * TMDb Caching
+	 *
+	 * @since   1.0.0
+	 * @var     string
+	 */
+	protected $caching = true;
+
 	public function __construct( $TMDb_settings ) {
 
-		$this->APIKey = $TMDb_settings['APIKey'];
-		$this->lang   = $TMDb_settings['lang'];
-		$this->scheme = $TMDb_settings['scheme'];
-		$this->scheme = $this->wpml_scheme_check();
-		$this->dummy  = ( 1 == $TMDb_settings['dummy'] ? true : false );
+		$this->APIKey  = $TMDb_settings['APIKey'];
+		$this->lang    = $TMDb_settings['lang'];
+		$this->scheme  = $TMDb_settings['scheme'];
+		$this->scheme  = $this->wpml_scheme_check();
+		$this->dummy   = ( 1 == $TMDb_settings['dummy'] ? true : false );
+		$this->caching = ( 1 == $this->wpml_o( 'tmdb-settings-caching' ) ? true : false );
 
 		$this->wpml_tmdb();
 		$this->config = $this->wpml_tmdb_config();
@@ -243,12 +252,15 @@ class WPML_TMDb extends WPMovieLibrary {
 	 */
 	private function wpml_get_movie_by_title( $title, $lang, $_id = null ) {
 
-		//$movies = get_transient("movie_$title");
-		$movies = false;
+		$movies = ( $this->caching ? get_transient( "movie_$title" ) : false );
 
 		if ( false === $movies ) {
 			$movies = $this->_wpml_get_movie_by_title( $title, $lang, $_id );
-			//set_transient("movies_$title", $movies, 3600 * 24);
+
+			if ( true === $this->caching ) {
+				$expire = (int) ( 86400 * $this->wpml_o( 'tmdb-settings-caching_time' ) );
+				set_transient( "movies_$title", $movies, $expire );
+			}
 		}
 
 		$this->wpml_json_header();
@@ -324,12 +336,15 @@ class WPML_TMDb extends WPMovieLibrary {
 	 */
 	private function wpml_get_movie_by_id( $id, $lang, $_id = null, $echo = true ) {
 
-		//$movie = get_transient("movie_$id");
-		$movie = false;
+		$movie = ( $this->caching ? get_transient( "movie_$id" ) : false );
 
 		if ( false === $movie ) {
 			$movie = $this->_wpml_get_movie_by_id( $id, $lang, $_id );
-			//set_transient("movie_$id", $movie, 3600 * 24);
+
+			if ( true === $this->caching ) {
+				$expire = (int) ( 86400 * $this->wpml_o( 'tmdb-settings-caching_time' ) );
+				set_transient("movie_$id", $movie, 3600 * 24);
+			}
 		}
 
 		$movie['_id'] = $_id;
