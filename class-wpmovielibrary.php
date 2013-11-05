@@ -180,10 +180,12 @@ class WPMovieLibrary {
 			'movie_media'   => array(
 				'title' => __( 'Title', 'wpml' ),
 				'options' => array(
-					'dvd'   => __( 'DVD', 'wpml' ),
-					'vod'   => __( 'VOD', 'wpml' ),
-					'vhs'   => __( 'VHS', 'wpml' ),
-					'other' => __( 'Other', 'wpml' ),
+					'dvd'     => __( 'DVD', 'wpml' ),
+					'bluray'  => __( 'BluRay', 'wpml' ),
+					'vod'     => __( 'VOD', 'wpml' ),
+					'vhs'     => __( 'VHS', 'wpml' ),
+					'theater' => __( 'Theater', 'wpml' ),
+					'other'   => __( 'Other', 'wpml' ),
 				),
 				'default' => array(
 					'dvd'   => __( 'DVD', 'wpml' ),
