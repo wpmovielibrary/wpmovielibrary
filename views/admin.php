@@ -18,7 +18,8 @@
 			<ul>
 			    <li><a href="#fragment-1"><h4><span class="ui-icon ui-icon-gear"></span> <?php _e( 'TMDb API', 'wpml' ); ?></h4></a></li>
 			    <li><a href="#fragment-2"><h4><span class="ui-icon ui-icon-wrench"></span> <?php _e( 'WPMovieLibrary', 'wpml' ); ?></h4></a></li>
-			    <li style="float:right"><a href="#fragment-3"><h4><span class="ui-icon ui-icon-closethick"></span> <?php _e( 'Restore', 'wpml' ); ?></h4></a></li>
+			    <li><a href="#fragment-3"><h4><span class="ui-icon ui-icon-power"></span> <?php _e( 'Deactivate/Uninstall', 'wpml' ); ?></h4></a></li>
+			    <li style="float:right"><a href="#fragment-4"><h4><span class="ui-icon ui-icon-closethick"></span> <?php _e( 'Restore', 'wpml' ); ?></h4></a></li>
 			</ul>
 
 			<div id="fragment-1">
@@ -238,6 +239,151 @@ foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug
 			</div>
 
 			<div id="fragment-3">
+
+				<!-- WPML Deactivation -->
+				<h4><?php _e( 'Deactivation Options', 'wpml' ); ?></h4>
+				<table class="form-table wpml-settings">
+					<tbody>
+						<tr valign="top">
+							<th scope="row">
+								<label for=""><?php _e( 'Movie Post Type', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<select id="deactivate_movies" name="tmdb_data[wpml][deactivate][movies]">
+									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-deactivate-movies'), 'conserve' ); ?>><?php _e( 'Conserve (recommended)', 'wpml' ); ?></option>
+									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-deactivate-movies'), 'convert' ); ?>><?php _e( 'Convert to Posts', 'wpml' ); ?></option>
+									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-deactivate-movies'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+								</select>
+								<p class="description"><?php _e( 'How to handle Movies when WPML is deactivated. Default behavior is to conserve the movies using "Movie" Custom Post Type. Your movies will not be visible anymore through WordPress display or administration but will be kept in the database.', 'wpml' ); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label><?php _e( 'Collections Taxonomy', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<select id="deactivate_collections" name="tmdb_data[wpml][deactivate][collections]">
+									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-deactivate-collections'), 'conserve' ); ?>><?php _e( 'Conserve (recommended)', 'wpml' ); ?></option>
+									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-deactivate-collections'), 'convert' ); ?>><?php _e( 'Convert to Category', 'wpml' ); ?></option>
+									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-deactivate-collections'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+								</select>
+								<p class="description"><?php _e( 'How to handle Collections Taxonomy when WPML is deactivated.', 'wpml' ); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label><?php _e( 'Genres Taxonomy', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<select id="deactivate_genres" name="tmdb_data[wpml][deactivate][genres]">
+									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-deactivate-genres'), 'conserve' ); ?>><?php _e( 'Conserve (recommended)', 'wpml' ); ?></option>
+									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-deactivate-genres'), 'convert' ); ?>><?php _e( 'Convert to Tags', 'wpml' ); ?></option>
+									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-deactivate-genres'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+								</select>
+								<p class="description"><?php _e( 'How to handle Genres Taxonomy when WPML is deactivated.', 'wpml' ); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label><?php _e( 'Actors Taxonomy', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<select id="deactivate_actors" name="tmdb_data[wpml][deactivate][actors]">
+									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-deactivate-actors'), 'conserve' ); ?>><?php _e( 'Conserve (recommended)', 'wpml' ); ?></option>
+									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-deactivate-actors'), 'convert' ); ?>><?php _e( 'Convert to Tags', 'wpml' ); ?></option>
+									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-deactivate-actors'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+								</select>
+								<p class="description"><?php _e( 'How to handle Actors Taxonomy when WPML is deactivated.', 'wpml' ); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label><?php _e( 'Cache', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<select id="deactivate_cache" name="tmdb_data[wpml][deactivate][cache]">
+									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-deactivate-cache'), 'conserve' ); ?>><?php _e( 'Conserve', 'wpml' ); ?></option>
+									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-deactivate-cache'), 'empty' ); ?>><?php _e( 'Empty (recommended)', 'wpml' ); ?></option>
+								</select>
+								<p class="description"><?php _e( 'How to handle Cached data when WPML is deactivated.', 'wpml' ); ?></p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- WPML Uninstall -->
+				<h4><?php _e( 'Uninstall Options', 'wpml' ); ?></h4>
+				<table class="form-table wpml-settings">
+					<tbody>
+						<tr valign="top">
+							<th scope="row">
+								<label for=""><?php _e( 'Movie Post Type', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<select id="uninstall_movies" name="tmdb_data[wpml][uninstall][movies]">
+									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-uninstall-movies'), 'conserve' ); ?>><?php _e( 'Conserve', 'wpml' ); ?></option>
+									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-uninstall-movies'), 'convert' ); ?>><?php _e( 'Convert to Posts (recommended)', 'wpml' ); ?></option>
+									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-uninstall-movies'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+								</select>
+								<p class="description"><?php _e( 'How to handle Movies when WPML is uninstalled.', 'wpml' ); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label><?php _e( 'Collections Taxonomy', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<select id="uninstall_collections" name="tmdb_data[wpml][uninstall][collections]">
+									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-uninstall-collections'), 'conserve' ); ?>><?php _e( 'Conserve', 'wpml' ); ?></option>
+									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-uninstall-collections'), 'convert' ); ?>><?php _e( 'Convert to Category (recommended)', 'wpml' ); ?></option>
+									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-uninstall-collections'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+								</select>
+								<p class="description"><?php _e( 'How to handle Collections Taxonomy when WPML is uninstalled.', 'wpml' ); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label><?php _e( 'Genres Taxonomy', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<select id="uninstall_genres" name="tmdb_data[wpml][uninstall][genres]">
+									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-uninstall-genres'), 'conserve' ); ?>><?php _e( 'Conserve', 'wpml' ); ?></option>
+									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-uninstall-genres'), 'convert' ); ?>><?php _e( 'Convert to Tags (recommended)', 'wpml' ); ?></option>
+									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-uninstall-genres'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+								</select>
+								<p class="description"><?php _e( 'How to handle Genres Taxonomy when WPML is uninstalled.', 'wpml' ); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label><?php _e( 'Actors Taxonomy', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<select id="uninstall_actors" name="tmdb_data[wpml][uninstall][actors]">
+									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-uninstall-actors'), 'conserve' ); ?>><?php _e( 'Conserve', 'wpml' ); ?></option>
+									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-uninstall-actors'), 'convert' ); ?>><?php _e( 'Convert to Tags (recommended)', 'wpml' ); ?></option>
+									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-uninstall-actors'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+								</select>
+								<p class="description"><?php _e( 'How to handle Actors Taxonomy when WPML is uninstalled.', 'wpml' ); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label><?php _e( 'Cache', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<select id="uninstall_cache" name="tmdb_data[wpml][uninstall][cache]">
+									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-uninstall-cache'), 'conserve' ); ?>><?php _e( 'Conserve', 'wpml' ); ?></option>
+									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-uninstall-cache'), 'empty' ); ?>><?php _e( 'Empty (recommended)', 'wpml' ); ?></option>
+								</select>
+								<p class="description"><?php _e( 'How to handle Cached data when WPML is uninstalled.', 'wpml' ); ?></p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="fragment-4">
 
 				<h4><?php _e( 'Restore Default Settings', 'wpml' ); ?></h4>
 				<p class="update-nag">

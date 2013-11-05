@@ -121,8 +121,8 @@ class WPMovieLibrary {
 				'url'  => $this->plugin_url,
 				'path' => $this->plugin_path,
 				'settings' => array(
-					'tmdb_in_posts'         => 'posts_only',
-					'default_post_tmdb'     => array(
+					'tmdb_in_posts'    => 'posts_only',
+					'default_post_tmdb' => array(
 						'director' => 'Director',
 						'genres'   => 'Genres',
 						'runtime'  => 'Runtime',
@@ -134,6 +134,20 @@ class WPMovieLibrary {
 					'enable_actor'          => 1,
 					'enable_genre'          => 1,
 					'taxonomy_autocomplete' => 1,
+					'deactivate' => array(
+						'movies'      => 'conserve',
+						'collections' => 'conserve',
+						'genres'      => 'conserve',
+						'actors'      => 'conserve',
+						'cache'       => 'empty'
+					),
+					'uninstall' => array(
+						'movies'      => 'convert',
+						'collections' => 'convert',
+						'genres'      => 'convert',
+						'actors'      => 'convert',
+						'cache'       => 'empty'
+					)
 				)
 			),
 			'tmdb' => array(
@@ -205,7 +219,6 @@ class WPMovieLibrary {
 		);
 
 		// Load TMDb API Class
-		//$this->tmdb = $this->wpml_init_tmdb();
 		$this->tmdb = new WPML_TMDb( $this->wpml_o('tmdb-settings') );
 
 		// Load plugin text domain, movie post type, default config
@@ -240,7 +253,6 @@ class WPMovieLibrary {
 		add_action( 'save_post', array( $this, 'wpml_save_tmdb_data' ) );
 
 		// Movie content
-		//add_filter( 'page_template', array( $this, 'wpml_library_template' ), 0 );
 		add_filter( 'the_content', array( $this, 'wpml_movie_content' ) );
 
 		// register widgets
@@ -293,32 +305,7 @@ class WPMovieLibrary {
 	 * @param    boolean    $network_wide    True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog.
 	 */
 	public static function activate( $network_wide ) {
-
-		global $wpdb;
-
-		$page = $wpdb->get_results(
-			$wpdb->prepare(
-				'SELECT * FROM '.$wpdb->posts.' WHERE post_title = %s OR post_name = %s',
-				'WPMovieLibrary',
-				'movies'
-			)
-		);
-
-		if ( count( $page ) > 0 )
-			return true;
-
-		wp_insert_post(
-			array(
-				'comment_status' => 'closed',
-				'ping_status'    => 'closed',
-				'post_author'    => get_current_user_id(),
-				'post_content'   => '',
-				'post_name'      => 'movies',
-				'post_status'    => 'publish',
-				'post_title'     => 'WPMovieLibrary',
-				'post_type'      => 'page'
-			)
-		);
+		// TODO: Define activation functionality here
 	}
 
 	/**
@@ -329,8 +316,87 @@ class WPMovieLibrary {
 	 * @param    boolean    $network_wide    True if WPMU superadmin uses "Network Deactivate" action, false if WPMU is disabled or plugin is deactivated on an individual blog.
 	 */
 	public static function deactivate( $network_wide ) {
-		// TODO: Define deactivation functionality here
+
+		$o     = get_option( 'wpml_settings' );
+		$cache = $o['wpml']['settings']['deactivate']['cache'];
+
+		global $_wp_using_ext_object_cache;
+
+		if ( ! $_wp_using_ext_object_cache && 'empty' == $cache ) {
+
+			global $wpdb;
+
+			$sql = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE "_transient_%_movies_%"';
+			$transients = $wpdb->get_col( $sql );
+
+			foreach ( $transients as $transient ) {
+				$result = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE \"{$transient}\"" );
+			}
+
+			$wpdb->query( 'OPTIMIZE TABLE ' . $wpdb->options );
+		}
 	}
+
+	/**
+	 * Handling Movie Custom Post Type on WPML deactivation
+	 *
+	 * @since    1.0.0
+	 */
+// 	public static function deactivate_posts( $movies ) {
+// 		
+// 	}
+
+	/**
+	 * Handling Custom Category-like Taxonomies on WPML deactivation
+	 *
+	 * @since    1.0.0
+	 */
+// 	public static function deactivate_collections( $collections ) {
+// 		
+// 	}
+
+	/**
+	 * Handling Genres Taxonomies on WPML deactivation
+	 *
+	 * @since    1.0.0
+	 */
+// 	public static function deactivate_genres( $genres ) {
+// 		
+// 	}
+
+	/**
+	 * Handling Actors Taxonomies on WPML deactivation
+	 *
+	 * @since    1.0.0
+	 */
+// 	public static function deactivate_actors( $actors ) {
+// 		
+// 	}
+
+	/**
+	 * Handling Cache cleanup on WPML deactivation
+	 *
+	 * @since    1.0.0
+	 */
+// 	private function deactivate_cache( $cache ) {
+// 
+// 		global $_wp_using_ext_object_cache;
+// 
+// 		if ( ! $_wp_using_ext_object_cache && 'empty' == $cache ) {
+// 
+// 			global $wpdb;
+// 
+// 			$sql = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE "_transient_wpml_%"';
+// 			$transients = $wpdb->get_col( $sql );
+// 			print_r( $transients ); die();
+// 
+// 			/*foreach ( $mestransients as $transient ) {
+// 				$deletion = delete_transient( str_replace( '_transient_timeout_', '', $transient ) );
+// 			}
+// 
+// 			$wpdb->query('OPTIMIZE TABLE ' . $wpdb->options);*/
+// 		}
+// 	}
 
 	/**
 	 * Missing API Key notification. Display a message on plugins and

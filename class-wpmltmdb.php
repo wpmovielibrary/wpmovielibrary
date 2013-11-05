@@ -252,14 +252,14 @@ class WPML_TMDb extends WPMovieLibrary {
 	 */
 	private function wpml_get_movie_by_title( $title, $lang, $_id = null ) {
 
-		$movies = ( $this->caching ? get_transient( "movie_$title" ) : false );
+		$movies = ( $this->caching ? get_transient( "wpml_movie_$title" ) : false );
 
 		if ( false === $movies ) {
 			$movies = $this->_wpml_get_movie_by_title( $title, $lang, $_id );
 
 			if ( true === $this->caching ) {
 				$expire = (int) ( 86400 * $this->wpml_o( 'tmdb-settings-caching_time' ) );
-				set_transient( "movies_$title", $movies, $expire );
+				set_transient( "wpml_movies_$title", $movies, $expire );
 			}
 		}
 
@@ -343,14 +343,14 @@ class WPML_TMDb extends WPMovieLibrary {
 	 */
 	private function wpml_get_movie_by_id( $id, $lang, $_id = null, $echo = true ) {
 
-		$movie = ( $this->caching ? get_transient( "movie_$id" ) : false );
+		$movie = ( $this->caching ? get_transient( "wpml_movie_$id" ) : false );
 
 		if ( false === $movie ) {
 			$movie = $this->_wpml_get_movie_by_id( $id, $lang, $_id );
 
 			if ( true === $this->caching ) {
 				$expire = (int) ( 86400 * $this->wpml_o( 'tmdb-settings-caching_time' ) );
-				set_transient("movie_$id", $movie, 3600 * 24);
+				set_transient( "wpml_movie_$id", $movie, 3600 * 24 );
 			}
 		}
 
