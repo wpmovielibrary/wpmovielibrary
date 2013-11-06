@@ -305,7 +305,20 @@ class WPMovieLibrary {
 	 * @param    boolean    $network_wide    True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog.
 	 */
 	public static function activate( $network_wide ) {
-		// TODO: Define activation functionality here
+
+		$contents = new WP_Query(
+			array(
+				'post_type'      => 'post',
+				'posts_per_page' => -1,
+				'meta_key'       => '_wpml_content_type',
+				'meta_value'     => 'movie'
+			)
+		);
+
+		foreach ( $contents->posts as $post ) {
+			set_post_type( $post->ID, 'movie' );
+			delete_post_meta( $post->ID, '_wpml_content_type', 'movie' );
+		}
 	}
 
 	/**
