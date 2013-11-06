@@ -317,7 +317,7 @@ class WPMovieLibrary {
 	 */
 	public static function deactivate( $network_wide ) {
 
-		$o           = get_option( 'wpml_settings' );
+		$o            = get_option( 'wpml_settings' );
 		$cache       = $o['wpml']['settings']['deactivate']['cache'];
 		$movies      = $o['wpml']['settings']['deactivate']['movies'];
 		$collections = $o['wpml']['settings']['deactivate']['collections'];
@@ -326,11 +326,32 @@ class WPMovieLibrary {
 
 		// Handling Movie Custom Post Type on WPML deactivation
 
+		$contents = new WP_Query(
+			array(
+				'post_type'      => 'movie',
+				'posts_per_page' => -1
+			)
+		);
+
 		if ( 'convert' == $movies ) {
-			//TODO: Convert to Post Type
+			foreach ( $contents->posts as $post ) {
+				set_post_type( $post->ID, 'post' );
+				add_post_meta( $post->ID, '_wpml_content_type', 'movie', true );
+			}
+		}
+		else if ( 'remove' == $movies ) {
+			foreach ( $contents->posts as $post ) {
+				wp_delete_post( $post->ID, true );
+			}
 		}
 		else if ( 'delete' == $movies ) {
-			//TODO: Delete Posts
+			foreach ( $contents->posts as $post ) {
+				wp_delete_post( $post->ID, true );
+				$attachments = get_children( array( 'post_parent' => $post->ID ) );
+				foreach ( $attachments as $a ) {
+					wp_delete_post( $a->ID, true );
+				}
+			}
 		}
 
 		// Handling Custom Category-like Taxonomies on WPML deactivation
@@ -338,8 +359,11 @@ class WPMovieLibrary {
 		if ( 'convert' == $collections ) {
 			//TODO: Convert to Category
 		}
-		else if ( 'delete' == $collections ) {
+		else if ( 'remove' == $collections ) {
 			//TODO: Delete Collections
+		}
+		else if ( 'delete' == $collections ) {
+			//TODO: Delete Completely Collections
 		}
 
 		// Handling Genres Taxonomies on WPML deactivation
@@ -347,8 +371,11 @@ class WPMovieLibrary {
 		if ( 'convert' == $genres ) {
 			//TODO: Convert to Tag
 		}
-		else if ( 'delete' == $genres ) {
+		else if ( 'remove' == $genres ) {
 			//TODO: Delete Genres
+		}
+		else if ( 'delete' == $genres ) {
+			//TODO: Delete Completely Genres
 		}
 
 		// Handling Actors Taxonomies on WPML deactivation
@@ -356,8 +383,11 @@ class WPMovieLibrary {
 		if ( 'convert' == $actors ) {
 			//TODO: Convert to Tag
 		}
-		else if ( 'delete' == $actors ) {
+		else if ( 'remove' == $actors ) {
 			//TODO: Delete Actors
+		}
+		else if ( 'delete' == $actors ) {
+			//TODO: Delete Completely Actors
 		}
 
 		// Handling Cache cleanup on WPML deactivation
