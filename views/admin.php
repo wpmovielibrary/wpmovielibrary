@@ -242,6 +242,7 @@ foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug
 
 				<!-- WPML Deactivation -->
 				<h4><?php _e( 'Deactivation Options', 'wpml' ); ?></h4>
+				<p class="description"><?php _e( 'When deactivated or uninstalled, WPML can adopt specific behaviors to handle the contents created by its use: cached data, movies, images, collections… Default behavior is to conserve everything as it is when WPML is simply deactivated, and to convert contents to standard WordPress contents when uninstalled. Learn more on the deactive/uninstall options on <a href="http://www.caercam.org/wpmovielibrary/documentation.html#deactivate-uninstall">WPML Docs</a>, especially about content restoration after uninstallation.', 'wpml' ); ?></p>
 				<table class="form-table wpml-settings">
 					<tbody>
 						<tr valign="top">
@@ -252,9 +253,10 @@ foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug
 								<select id="deactivate_movies" name="tmdb_data[wpml][deactivate][movies]">
 									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-deactivate-movies'), 'conserve' ); ?>><?php _e( 'Conserve (recommended)', 'wpml' ); ?></option>
 									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-deactivate-movies'), 'convert' ); ?>><?php _e( 'Convert to Posts', 'wpml' ); ?></option>
-									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-deactivate-movies'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="remove" <?php selected( $this->wpml_o('wpml-settings-deactivate-movies'), 'remove' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="delete" <?php selected( $this->wpml_o('wpml-settings-deactivate-movies'), 'delete' ); ?>><?php _e( 'Delete Completely (irreversible)', 'wpml' ); ?></option>
 								</select>
-								<p class="description"><?php _e( 'How to handle Movies when WPML is deactivated. Default behavior is to conserve the movies using "Movie" Custom Post Type. Your movies will not be visible anymore through WordPress display or administration but will be kept in the database.', 'wpml' ); ?></p>
+								<p class="description"><?php _e( 'How to handle Movies when WPML is deactivated.', 'wpml' ); ?></p>
 							</td>
 						</tr>
 						<tr valign="top">
@@ -265,7 +267,8 @@ foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug
 								<select id="deactivate_collections" name="tmdb_data[wpml][deactivate][collections]">
 									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-deactivate-collections'), 'conserve' ); ?>><?php _e( 'Conserve (recommended)', 'wpml' ); ?></option>
 									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-deactivate-collections'), 'convert' ); ?>><?php _e( 'Convert to Category', 'wpml' ); ?></option>
-									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-deactivate-collections'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="remove" <?php selected( $this->wpml_o('wpml-settings-deactivate-collections'), 'remove' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="delete" <?php selected( $this->wpml_o('wpml-settings-deactivate-collections'), 'delete' ); ?>><?php _e( 'Delete Completely (irreversible)', 'wpml' ); ?></option>
 								</select>
 								<p class="description"><?php _e( 'How to handle Collections Taxonomy when WPML is deactivated.', 'wpml' ); ?></p>
 							</td>
@@ -278,7 +281,8 @@ foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug
 								<select id="deactivate_genres" name="tmdb_data[wpml][deactivate][genres]">
 									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-deactivate-genres'), 'conserve' ); ?>><?php _e( 'Conserve (recommended)', 'wpml' ); ?></option>
 									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-deactivate-genres'), 'convert' ); ?>><?php _e( 'Convert to Tags', 'wpml' ); ?></option>
-									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-deactivate-genres'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="remove" <?php selected( $this->wpml_o('wpml-settings-deactivate-genres'), 'remove' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="delete" <?php selected( $this->wpml_o('wpml-settings-deactivate-genres'), 'delete' ); ?>><?php _e( 'Delete Completely (irreversible)', 'wpml' ); ?></option>
 								</select>
 								<p class="description"><?php _e( 'How to handle Genres Taxonomy when WPML is deactivated.', 'wpml' ); ?></p>
 							</td>
@@ -291,7 +295,8 @@ foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug
 								<select id="deactivate_actors" name="tmdb_data[wpml][deactivate][actors]">
 									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-deactivate-actors'), 'conserve' ); ?>><?php _e( 'Conserve (recommended)', 'wpml' ); ?></option>
 									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-deactivate-actors'), 'convert' ); ?>><?php _e( 'Convert to Tags', 'wpml' ); ?></option>
-									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-deactivate-actors'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="remove" <?php selected( $this->wpml_o('wpml-settings-deactivate-actors'), 'remove' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="delete" <?php selected( $this->wpml_o('wpml-settings-deactivate-actors'), 'delete' ); ?>><?php _e( 'Delete Completely (irreversible)', 'wpml' ); ?></option>
 								</select>
 								<p class="description"><?php _e( 'How to handle Actors Taxonomy when WPML is deactivated.', 'wpml' ); ?></p>
 							</td>
@@ -323,7 +328,8 @@ foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug
 								<select id="uninstall_movies" name="tmdb_data[wpml][uninstall][movies]">
 									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-uninstall-movies'), 'conserve' ); ?>><?php _e( 'Conserve', 'wpml' ); ?></option>
 									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-uninstall-movies'), 'convert' ); ?>><?php _e( 'Convert to Posts (recommended)', 'wpml' ); ?></option>
-									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-uninstall-movies'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="remove" <?php selected( $this->wpml_o('wpml-settings-uninstall-actors'), 'remove' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="delete" <?php selected( $this->wpml_o('wpml-settings-uninstall-actors'), 'delete' ); ?>><?php _e( 'Delete Completely (irreversible)', 'wpml' ); ?></option>
 								</select>
 								<p class="description"><?php _e( 'How to handle Movies when WPML is uninstalled.', 'wpml' ); ?></p>
 							</td>
@@ -336,7 +342,8 @@ foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug
 								<select id="uninstall_collections" name="tmdb_data[wpml][uninstall][collections]">
 									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-uninstall-collections'), 'conserve' ); ?>><?php _e( 'Conserve', 'wpml' ); ?></option>
 									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-uninstall-collections'), 'convert' ); ?>><?php _e( 'Convert to Category (recommended)', 'wpml' ); ?></option>
-									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-uninstall-collections'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="remove" <?php selected( $this->wpml_o('wpml-settings-uninstall-actors'), 'remove' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="delete" <?php selected( $this->wpml_o('wpml-settings-uninstall-actors'), 'delete' ); ?>><?php _e( 'Delete Completely (irreversible)', 'wpml' ); ?></option>
 								</select>
 								<p class="description"><?php _e( 'How to handle Collections Taxonomy when WPML is uninstalled.', 'wpml' ); ?></p>
 							</td>
@@ -349,7 +356,8 @@ foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug
 								<select id="uninstall_genres" name="tmdb_data[wpml][uninstall][genres]">
 									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-uninstall-genres'), 'conserve' ); ?>><?php _e( 'Conserve', 'wpml' ); ?></option>
 									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-uninstall-genres'), 'convert' ); ?>><?php _e( 'Convert to Tags (recommended)', 'wpml' ); ?></option>
-									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-uninstall-genres'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="remove" <?php selected( $this->wpml_o('wpml-settings-uninstall-actors'), 'remove' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="delete" <?php selected( $this->wpml_o('wpml-settings-uninstall-actors'), 'delete' ); ?>><?php _e( 'Delete Completely (irreversible)', 'wpml' ); ?></option>
 								</select>
 								<p class="description"><?php _e( 'How to handle Genres Taxonomy when WPML is uninstalled.', 'wpml' ); ?></p>
 							</td>
@@ -362,7 +370,8 @@ foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug
 								<select id="uninstall_actors" name="tmdb_data[wpml][uninstall][actors]">
 									<option value="conserve" <?php selected( $this->wpml_o('wpml-settings-uninstall-actors'), 'conserve' ); ?>><?php _e( 'Conserve', 'wpml' ); ?></option>
 									<option value="convert" <?php selected( $this->wpml_o('wpml-settings-uninstall-actors'), 'convert' ); ?>><?php _e( 'Convert to Tags (recommended)', 'wpml' ); ?></option>
-									<option value="empty" <?php selected( $this->wpml_o('wpml-settings-uninstall-actors'), 'empty' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="remove" <?php selected( $this->wpml_o('wpml-settings-uninstall-actors'), 'remove' ); ?>><?php _e( 'Delete (irreversible)', 'wpml' ); ?></option>
+									<option value="delete" <?php selected( $this->wpml_o('wpml-settings-uninstall-actors'), 'delete' ); ?>><?php _e( 'Delete Completely (irreversible)', 'wpml' ); ?></option>
 								</select>
 								<p class="description"><?php _e( 'How to handle Actors Taxonomy when WPML is uninstalled.', 'wpml' ); ?></p>
 							</td>
