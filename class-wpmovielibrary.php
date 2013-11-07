@@ -299,6 +299,11 @@ class WPMovieLibrary {
 
 	/**
 	 * Fired when the plugin is activated.
+	 * 
+	 * Restore previously converted contents. If WPML was previously
+	 * deactivated or uninstalled using the 'convert' option, Movies and
+	 * Custom Taxonomies should still be in the database. If they are, we
+	 * convert them back to WPML contents.
 	 *
 	 * @since    1.0.0
 	 *
@@ -321,10 +326,44 @@ class WPMovieLibrary {
 			set_post_type( $post->ID, 'movie' );
 			delete_post_meta( $post->ID, '_wpml_content_type', 'movie' );
 		}
+
+		$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_%"' );
+
+		$collections = array();
+		$genres      = array();
+		$actors      = array();
+
+		foreach ( $contents as $term ) {
+			if ( false !== strpos( $term->slug, 'wpml_collection' ) ) {
+				$collections[] = $term->term_id;
+			}
+			else if ( false !== strpos( $term->slug, 'wpml_genre' ) ) {
+				$genres[] = $term->term_id;
+			}
+			else if ( false !== strpos( $term->slug, 'wpml_actor' ) ) {
+				$actors[] = $term->term_id;
+			}
+		}
+
+		$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "collection" WHERE term_id IN (' . implode( ',', $collections ) . ')' );
+		$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "genre" WHERE term_id IN (' . implode( ',', $genres ) . ')' );
+		$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "actor" WHERE term_id IN (' . implode( ',', $actors ) . ')' );
+
+		$wpdb->query(
+			'UPDATE ' . $wpdb->terms . '
+			 SET slug = REPLACE(slug, "wpml_collection-", ""),
+			     slug = REPLACE(slug, "wpml_genre-", ""),
+			     slug = REPLACE(slug, "wpml_actor-", "")'
+		);
 	}
 
 	/**
 	 * Fired when the plugin is deactivated.
+	 * 
+	 * When deactivatin/uninstalling WPML, adopt different behaviors depending
+	 * on user options. Movies and Taxonomies can be kept as they are,
+	 * converted to WordPress standars or removed. Default is conserve on
+	 * deactivation, convert on uninstall.
 	 *
 	 * @since    1.0.0
 	 *
