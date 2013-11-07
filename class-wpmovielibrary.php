@@ -306,6 +306,8 @@ class WPMovieLibrary {
 	 */
 	public static function activate( $network_wide ) {
 
+		global $wpdb;
+
 		$contents = new WP_Query(
 			array(
 				'post_type'      => 'post',
@@ -330,12 +332,14 @@ class WPMovieLibrary {
 	 */
 	public static function deactivate( $network_wide ) {
 
-		$o            = get_option( 'wpml_settings' );
-		$cache       = $o['wpml']['settings']['deactivate']['cache'];
+		global $wpdb;
+
+		$o           = get_option( 'wpml_settings' );
 		$movies      = $o['wpml']['settings']['deactivate']['movies'];
 		$collections = $o['wpml']['settings']['deactivate']['collections'];
 		$genres      = $o['wpml']['settings']['deactivate']['genres'];
 		$actors      = $o['wpml']['settings']['deactivate']['actors'];
+		$cache       = $o['wpml']['settings']['deactivate']['cache'];
 
 		// Handling Movie Custom Post Type on WPML deactivation
 
@@ -369,38 +373,65 @@ class WPMovieLibrary {
 
 		// Handling Custom Category-like Taxonomies on WPML deactivation
 
+		$contents = get_terms( array( 'collection' ), array() );
+
 		if ( 'convert' == $collections ) {
-			//TODO: Convert to Category
+			foreach ( $contents as $term ) {
+				wp_update_term( $term->term_id, 'collection', array( 'slug' => 'wpml_collection-' . $term->slug ) );
+				$wpdb->update(
+					$wpdb->term_taxonomy,
+					array( 'taxonomy' => 'category' ),
+					array( 'taxonomy' => 'collection' ),
+					array( '%s' )
+				);
+			}
 		}
-		else if ( 'remove' == $collections ) {
-			//TODO: Delete Collections
-		}
-		else if ( 'delete' == $collections ) {
-			//TODO: Delete Completely Collections
+		else if ( 'remove' == $collections || 'delete' == $collections ) {
+			foreach ( $contents as $term ) {
+				wp_delete_term( $term->term_id, 'collection' );
+			}
 		}
 
 		// Handling Genres Taxonomies on WPML deactivation
 
+		$contents = get_terms( array( 'genre' ), array() );
+
 		if ( 'convert' == $genres ) {
-			//TODO: Convert to Tag
+			foreach ( $contents as $term ) {
+				wp_update_term( $term->term_id, 'genre', array( 'slug' => 'wpml_genre-' . $term->slug ) );
+				$wpdb->update(
+					$wpdb->term_taxonomy,
+					array( 'taxonomy' => 'post_tag' ),
+					array( 'taxonomy' => 'genre' ),
+					array( '%s' )
+				);
+			}
 		}
-		else if ( 'remove' == $genres ) {
-			//TODO: Delete Genres
-		}
-		else if ( 'delete' == $genres ) {
-			//TODO: Delete Completely Genres
+		else if ( 'remove' == $genres || 'delete' == $genres ) {
+			foreach ( $contents as $term ) {
+				wp_delete_term( $term->term_id, 'genre' );
+			}
 		}
 
 		// Handling Actors Taxonomies on WPML deactivation
 
+		$contents = get_terms( array( 'actor' ), array() );
+
 		if ( 'convert' == $actors ) {
-			//TODO: Convert to Tag
+			foreach ( $contents as $term ) {
+				wp_update_term( $term->term_id, 'actor', array( 'slug' => 'wpml_actor-' . $term->slug ) );
+				$wpdb->update(
+					$wpdb->term_taxonomy,
+					array( 'taxonomy' => 'post_tag' ),
+					array( 'taxonomy' => 'actor' ),
+					array( '%s' )
+				);
+			}
 		}
-		else if ( 'remove' == $actors ) {
-			//TODO: Delete Actors
-		}
-		else if ( 'delete' == $actors ) {
-			//TODO: Delete Completely Actors
+		else if ( 'remove' == $actors || 'delete' == $actors ) {
+			foreach ( $contents as $term ) {
+				wp_delete_term( $term->term_id, 'actor' );
+			}
 		}
 
 		// Handling Cache cleanup on WPML deactivation
