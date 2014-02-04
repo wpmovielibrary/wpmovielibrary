@@ -29,7 +29,7 @@ jQuery(document).ready(function($) {
 	// TMDb data -- New movie
 	$('input#tmdb_empty').click(function(e) {
 		e.preventDefault();
-		
+
 		a = document.getElementsByClassName('tmdb_data_field');
 		for ( i = 0; i < a.length; ++i ) a.item(i).value = '';
 		document.getElementById('tmdb_save_images').style.display = 'none';
@@ -72,7 +72,7 @@ jQuery(document).ready(function($) {
 		$('#movie_status').val($('#hidden_movie_status').val());
 		$('#movie-status-display').text($('#hidden_movie_status').val());
 		$('#movie-status-select').siblings('a.edit-movie-status').show();
-		
+
 		return false;
 	});
 
@@ -98,7 +98,7 @@ jQuery(document).ready(function($) {
 		$('#movie_media').val($('#hidden_movie_media').val());
 		$('#movie-media-display').text($('#hidden_movie_media').val());
 		$('#movie-media-select').siblings('a.edit-movie-media').show();
-		
+
 		return false;
 	});
 
@@ -154,7 +154,7 @@ jQuery(document).ready(function($) {
 		wpml.movie.save_details();
 	});
 
-	
+
 	// Movie import
 	$('#wpml-import input#doaction, #wpml-import input#doaction2').click(function(e) {
 
@@ -422,7 +422,7 @@ wpml = {
 					e.preventDefault();
 					wpml.movie.images.save();
 				});
-				
+
 				$('#tmdb_save_images').show();
 
 			},
@@ -452,7 +452,7 @@ wpml = {
 						success: function(_r) {
 							v = $('#tmdb_data_images').val();
 							$('#tmdb_data_images').val(v.replace(img,''));
-							
+
 						},
 						complete: function() {
 							$('#progressbar').progressbar({
@@ -546,9 +546,9 @@ wpml = {
 
 				wpml.import.search_movie(title);
 			});
-			
+
 		},
-		
+
 		populate: function(data) {
 
 			var tr     = $('#p_'+data._id);
@@ -560,7 +560,7 @@ wpml = {
 
 				//field  = this;
 				f_name = field.id.replace('p_'+data._id+'_tmdb_data_','');
-				
+
 				if ( Array.isArray( data[f_name] ) && data[f_name].length ) {
 					var _v = [];
 					$.each(data[f_name], function() {
@@ -583,7 +583,7 @@ wpml = {
 			tr.find('.movie_director').text($('#p_'+data._id+'_tmdb_data_director').val());
 			tr.find('.movie_tmdb_id').text(data.id);
 		},
-		
+
 		populate_select_list: function(data) {
 
 			var html = '';
@@ -627,7 +627,7 @@ wpml = {
 
 						$('.tmdb_select_movie a').unbind('click').bind('click', function(e) {
 							e.preventDefault();
-							
+
 							post_id = this.hash.replace('#',''); // Update post_id so that get_movie will find the target TR
 							tmdb_id = this.id.replace('tmdb_','');
 							wpml.import.get_movie(tmdb_id);
@@ -647,7 +647,7 @@ wpml = {
 			});
 
 		},
-		
+
 		set_target: function(wot) {
 			this.target = wot;
 		},
@@ -662,7 +662,7 @@ wpml = {
 		clear: function() {
 			$('#tmdb_status').empty();
 		}
-		
+
 	},
 
 };
