@@ -61,7 +61,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 
 		require_once $this->plugin_path . 'includes/class-wpmltmdb.php';
 		require_once $this->plugin_path . 'includes/class-wpmllisttable.php';
-		require_once $this->plugin_path . 'includes/class-wpmlwidgets.php';
 
 		// Load settings or register new ones
 		$this->wpml_default_settings();
@@ -107,7 +106,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		);
 
 		$this->plugin_screen_hook_suffix = array(
-			'movie_page_import', 'movie_page_settings', 'edit-movie'
+			'movie_page_import', 'movie_page_settings', 'edit-movie', 'movie'
 		);
 
 		// Load TMDb API Class

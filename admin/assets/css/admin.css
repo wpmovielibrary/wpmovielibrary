@@ -12,7 +12,7 @@
  ****************************************************/
 
 .wpml {
-	background: url(../assets/img/gradient.png) center top repeat-x;
+	background: url(../img/gradient.png) center top repeat-x;
 	border-color: #5b6b8b !important;
 	color: #fff;
 	padding: 0.75em 1.5em !important;
@@ -83,7 +83,7 @@
 }
 
 #wpml-tabs .wp-list-table .poster.loading {
-	background: url(../assets/img/loading.gif) 0 16px no-repeat;
+	background: url(../img/loading.gif) 0 16px no-repeat;
 }
 
 .wp-list-table .poster img {
@@ -238,7 +238,7 @@
 }
 
 .button-loading {
-	background-image: url(../../../../../wp-admin/images/wpspin_light.gif) !important;
+	background-image: url(/wp-admin/images/wpspin_light.gif) !important;
 	background-repeat: no-repeat !important;
 }
 
@@ -375,19 +375,19 @@
 }
 
 #movie-status-icon {
-	background: url(../assets/img/icon-status.png) left 2px no-repeat;
+	background: url(../img/icon-status.png) left 2px no-repeat;
 	margin-left: -0.5em;
 	padding: 0.25em 0 0.25em 1.75em;
 }
 
 #movie-media-icon {
-	background: url(../assets/img/icon-media.png) left 2px no-repeat;
+	background: url(../img/icon-media.png) left 2px no-repeat;
 	margin-left: -0.5em;
 	padding: 0.25em 0 0.25em 1.75em;
 }
 
 #movie_rating_display {
-	background-image: url(../assets/img/rating.png);
+	background-image: url(../img/rating.png);
 	background-position: 0 0;
 	background-repeat: no-repeat;
 	display: inline-block;
@@ -409,7 +409,7 @@
 #movie_rating_display.stars-5 {background-position: 0 -80px !important;}
 
 .star {
-	background-image: url(../assets/img/rating.png);
+	background-image: url(../img/rating.png);
 	background-position: 0 0;
 	background-repeat: no-repeat;
 	cursor: pointer;

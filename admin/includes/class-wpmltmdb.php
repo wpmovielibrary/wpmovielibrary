@@ -1,6 +1,6 @@
 <?php
 
-class WPML_TMDb extends WPMovieLibrary {
+class WPML_TMDb extends WPMovieLibrary_Admin {
 
 	/**
 	 * TMDb API Key

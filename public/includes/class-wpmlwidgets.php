@@ -49,7 +49,7 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 
 		echo $before_widget;
 
-		include( plugin_dir_path( __FILE__ ) . '/views/recent-movies-widget.php' );
+		include( plugin_dir_path( __FILE__ ) . '../views/recent-movies-widget.php' );
 
 		echo $after_widget;
 	}
@@ -87,7 +87,7 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 		$number       = ( isset( $instance['number'] ) ? $instance['number'] : 4 );
 
 		// Display the admin form
-		include( plugin_dir_path(__FILE__) . '/views/recent-movies-widget-admin.php' );
+		include( plugin_dir_path(__FILE__) . '../views/recent-movies-widget-admin.php' );
 	}
 
 	/**
@@ -139,7 +139,7 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 
 		echo $before_widget;
 
-		include( plugin_dir_path( __FILE__ ) . '/views/most-rated-movies-widget.php' );
+		include( plugin_dir_path( __FILE__ ) . '../views/most-rated-movies-widget.php' );
 
 		echo $after_widget;
 	}
@@ -179,7 +179,7 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 		$display_rating = ( isset( $instance['display_rating'] ) ? $instance['display_rating'] : 'no' );
 
 		// Display the admin form
-		include( plugin_dir_path(__FILE__) . '/views/most-rated-movies-widget-admin.php' );
+		include( plugin_dir_path(__FILE__) . '../views/most-rated-movies-widget-admin.php' );
 	}
 
 	/**
@@ -231,7 +231,7 @@ class WPML_Collections_Widget extends WP_Widget {
 
 		echo $before_widget;
 
-		include( plugin_dir_path( __FILE__ ) . '/views/collections-widget.php' );
+		include( plugin_dir_path( __FILE__ ) . '../views/collections-widget.php' );
 
 		echo $after_widget;
 	}
@@ -271,7 +271,7 @@ class WPML_Collections_Widget extends WP_Widget {
 		$css   = ( isset( $instance['css'] ) ? $instance['css'] : 0 );
 
 		// Display the admin form
-		include( plugin_dir_path(__FILE__) . '/views/collections-widget-admin.php' );
+		include( plugin_dir_path(__FILE__) . '../views/collections-widget-admin.php' );
 	}
 
 	/**
@@ -323,7 +323,7 @@ class WPML_Genres_Widget extends WP_Widget {
 
 		echo $before_widget;
 
-		include( plugin_dir_path( __FILE__ ) . '/views/genres-widget.php' );
+		include( plugin_dir_path( __FILE__ ) . '../views/genres-widget.php' );
 
 		echo $after_widget;
 	}
@@ -363,7 +363,7 @@ class WPML_Genres_Widget extends WP_Widget {
 		$css   = ( isset( $instance['css'] ) ? $instance['css'] : 0 );
 
 		// Display the admin form
-		include( plugin_dir_path(__FILE__) . '/views/genres-widget-admin.php' );
+		include( plugin_dir_path(__FILE__) . '../views/genres-widget-admin.php' );
 	}
 
 	/**
@@ -415,7 +415,7 @@ class WPML_Actors_Widget extends WP_Widget {
 
 		echo $before_widget;
 
-		include( plugin_dir_path( __FILE__ ) . '/views/actors-widget.php' );
+		include( plugin_dir_path( __FILE__ ) . '../views/actors-widget.php' );
 
 		echo $after_widget;
 	}
@@ -455,7 +455,7 @@ class WPML_Actors_Widget extends WP_Widget {
 		$css   = ( isset( $instance['css'] ) ? $instance['css'] : 0 );
 
 		// Display the admin form
-		include( plugin_dir_path(__FILE__) . '/views/actors-widget-admin.php' );
+		include( plugin_dir_path(__FILE__) . '../views/actors-widget-admin.php' );
 	}
 
 	/**
