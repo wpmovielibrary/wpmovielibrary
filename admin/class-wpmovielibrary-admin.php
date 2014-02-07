@@ -90,6 +90,14 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			'release_date'         => array( 'title' => __( 'Release Date', 'wpml' ), 'type' => 'text' )
 		);
 
+		$this->default_post_tmdb = array(
+			'director' => 'Director',
+			'genres'   => 'Genres',
+			'runtime'  => 'Runtime',
+			'overview' => 'Overview',
+			'rating'   => 'Rating'
+		);
+
 		$this->wpml_movie_details = array(
 			'movie_media'   => array(
 				'title' => __( 'Title', 'wpml' ),
@@ -965,6 +973,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			}
 		}
 
+		// @TODO: i18n plural
 		if ( empty( $errors ) )
 			$msg = sprintf( __( '%d Movie%s added successfully.', 'wpml' ), count( $movies ), ( count( $movies ) > 1 ? 's' : '' ) );
 		else if ( ! empty( $errors ) )

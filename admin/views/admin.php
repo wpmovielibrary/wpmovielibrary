@@ -162,10 +162,10 @@
 							<td>
 								<select id="default_post_tmdb" name="tmdb_data[wpml][default_post_tmdb][]" multiple>
 <?php
-foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug => $post_tmdb ) :
+foreach ( $this->default_post_tmdb as $slug => $post_tmdb ) :
 	$check = in_array( $slug, $this->wpml_o('wpml-settings-default_post_tmdb' ) ) || in_array( $post_tmdb, $this->wpml_o('wpml-settings-default_post_tmdb' ) );
 ?>
-									<option value="<?php echo $slug; ?>" <?php selected( $check, true ); ?>><?php _e( 'Movie ' . $post_tmdb, 'wpml' ); ?></option>
+									<option value="<?php echo $slug; ?>" <?php selected( $check, true ); ?>><?php _e( $post_tmdb, 'wpml' ); ?></option>
 <?php endforeach; ?>
 								</select>
 								<p class="description"><?php _e( 'Which movie details to display in posts: director, genres, runtime, rating…', 'wpml' ); ?></p>

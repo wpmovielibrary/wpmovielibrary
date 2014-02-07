@@ -92,22 +92,22 @@ class WPMovieLibrary {
 	 */
 	private function __construct() {
 
-		$this->plugin_url  = plugins_url( $this->plugin_name );
+		$this->plugin_url  = plugins_url( WPMovieLibrary::NAME );
 		$this->plugin_path = plugin_dir_path( __FILE__ );
 
 		$this->wpml_settings = array(
 			'wpml' => array(
-				'name' => $this->plugin_name,
+				'name' => WPMovieLibrary::NAME,
 				'url'  => $this->plugin_url,
 				'path' => $this->plugin_path,
 				'settings' => array(
 					'tmdb_in_posts'    => 'posts_only',
 					'default_post_tmdb' => array(
-						'director' => 'Director',
-						'genres'   => 'Genres',
-						'runtime'  => 'Runtime',
-						'overview' => 'Overview',
-						'rating'   => 'Rating'
+						'director' => __( 'Director', 'wpml' ),
+						'genres'   => __( 'Genres', 'wpml' ),
+						'runtime'  => __( 'Runtime', 'wpml' ),
+						'overview' => __( 'Overview', 'wpml' ),
+						'rating'   => __( 'Rating', 'wpml' )
 					),
 					'show_in_home'          => 1,
 					'enable_collection'     => 1,
