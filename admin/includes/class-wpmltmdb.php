@@ -60,8 +60,8 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 
 	public function __construct( $TMDb_settings ) {
 
-// 		if ( ! $TMDb_settings )
-// 			return false;
+		if ( ! $TMDb_settings )
+			return false;
 
 		$this->APIKey  = $TMDb_settings['APIKey'];
 		$this->lang    = $TMDb_settings['lang'];

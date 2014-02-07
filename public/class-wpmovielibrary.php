@@ -157,7 +157,7 @@ class WPMovieLibrary {
 
 		// Load settings or register new ones
 		$this->wpml_default_settings();
-		//add_action( 'init', array( $this, 'wpml_default_settings' ) );
+		add_action( 'init', array( $this, 'wpml_default_settings' ) );
 
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
