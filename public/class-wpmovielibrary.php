@@ -92,10 +92,15 @@ class WPMovieLibrary {
 	 */
 	private function __construct() {
 
+		$this->plugin_url  = plugins_url( $this->plugin_name );
+		$this->plugin_path = plugin_dir_path( __FILE__ );
+
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+
+		add_action( 'wp_before_admin_bar_render', array( $this, 'wpml_admin_bar_menu' ), 999 );
 
 		$this->wpml_settings = array(
 			'wpml' => array(
@@ -440,6 +445,31 @@ class WPMovieLibrary {
 		load_textdomain( $domain, trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
 		load_plugin_textdomain( $domain, FALSE, basename( plugin_dir_path( dirname( __FILE__ ) ) ) . '/languages/' );
 
+	}
+
+	/**
+	 * Add a New Movie link to WP Admin Bar.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_admin_bar_menu() {
+
+		global $wp_admin_bar;
+
+		// Dashicons or PNG
+		if ( version_compare( get_bloginfo( 'version' ), '3.8', '>=' ) )
+			$icon = '<span class="dashicons-format-video"></span>';
+		else
+			$icon = '<img src="' . $this->plugin_url . '/admin/assets/img/icon-movie.png" alt="" style="margin:6px 4px -3px 0;" />';
+
+		$args = array(
+			'id'    => 'wpmovielibrary',
+			'title' => $icon . __( 'New Movie', 'wpml' ),
+			'href'  => admin_url( 'post-new.php?post_type=movie' ),
+			'meta'  => array( 'title' => __( 'New Movie', 'wpml' ) ),
+		);
+
+		$wp_admin_bar->add_menu( $args );
 	}
 
 

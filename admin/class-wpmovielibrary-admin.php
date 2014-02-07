@@ -26,6 +26,22 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	protected static $instance = null;
 
 	/**
+	 * Plugin Admin URL
+	 * 
+	 * @since    1.0.0
+	 * @var      string
+	 */
+	protected $plugin_admin_url = '';
+
+	/**
+	 * Plugin Admin URL
+	 * 
+	 * @since    1.0.0
+	 * @var      string
+	 */
+	protected $plugin_admin_path = '';
+
+	/**
 	 * Slug of the plugin screen.
 	 *
 	 * @since    1.0.0
@@ -56,11 +72,11 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 */
 	private function __construct() {
 
-		$this->plugin_url  = plugins_url( $this->plugin_name );
-		$this->plugin_path = plugin_dir_path( __FILE__ );
+		$this->plugin_admin_url  = plugins_url( $this->plugin_name );
+		$this->plugin_admin_path = plugin_dir_path( __FILE__ );
 
-		require_once $this->plugin_path . 'includes/class-wpmltmdb.php';
-		require_once $this->plugin_path . 'includes/class-wpmllisttable.php';
+		require_once $this->plugin_admin_path . 'includes/class-wpmltmdb.php';
+		require_once $this->plugin_admin_path . 'includes/class-wpmllisttable.php';
 
 		// Load settings or register new ones
 		$this->wpml_default_settings();
@@ -314,9 +330,11 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			'show_in_menu'       => true,
 			'has_archive'        => true,
 			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
-			'menu_icon'          => $this->plugin_url . '/admin/assets/img/icon-movie.png',
 			'menu_position'      => 5
 		);
+
+		// Dashicons or PNG
+		$args['menu_icon'] = ( version_compare( get_bloginfo( 'version' ), '3.8', '>=' ) ? 'dashicons-format-video' : $this->plugin_admin_url . '/admin/assets/img/icon-movie.png' );
 
 		register_post_type( 'movie', $args );
 
@@ -419,7 +437,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 */
 	public function wpml_get_featured_image( $post_id, $size = 'thumbnail' ) {
 		$_id = get_post_thumbnail_id( $post_id );
-		$img = ( $_id ? wp_get_attachment_image_src( $_id, $size ) : array( $this->plugin_url . '/assets/no_poster.png' ) ); 
+		$img = ( $_id ? wp_get_attachment_image_src( $_id, $size ) : array( $this->plugin_admin_url . '/assets/no_poster.png' ) ); 
 		return $img[0];
 	}
 
@@ -620,7 +638,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * Register the administration menu for this plugin into the WordPress Dashboard menu.
+	 * Register the administration menu for this plugin into the WordPress
+	 * Dashboard menu.
 	 *
 	 * @since    1.0.0
 	 */
@@ -739,7 +758,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	public function wpml_library_template( $page_template ) {
 
 		if ( is_page( 'WPMovieLibrary' ) )
-			$page_template = $this->plugin_path . 'views/library.php';
+			$page_template = $this->plugin_admin_path . 'views/library.php';
 
 		return $page_template;
 	}
