@@ -413,6 +413,6 @@ foreach ( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] as $slug
 
 	</div>
 
-	<?php include_once $this->plugin_path . 'views/help.php'; ?>
+	<?php include_once 'help.php'; ?>
 
 </div>

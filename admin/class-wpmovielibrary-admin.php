@@ -72,14 +72,11 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 */
 	private function __construct() {
 
-		$this->plugin_admin_url  = plugins_url( $this->plugin_name );
+		$this->plugin_admin_url  = plugins_url( WPMovieLibrary::NAME );
 		$this->plugin_admin_path = plugin_dir_path( __FILE__ );
 
 		require_once $this->plugin_admin_path . 'includes/class-wpmltmdb.php';
 		require_once $this->plugin_admin_path . 'includes/class-wpmllisttable.php';
-
-		// Load settings or register new ones
-		$this->wpml_default_settings();
 
 		// Basic movie default fields
 		$this->wpml_meta = array(
@@ -122,7 +119,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		);
 
 		$this->plugin_screen_hook_suffix = array(
-			'movie_page_import', 'movie_page_settings', 'edit-movie', 'movie'
+			'movie_page_import', 'movie_page_settings', 'edit-movie', 'movie', 'plugins'
 		);
 
 		// Load TMDb API Class
@@ -131,7 +128,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		// Load movie post type, default config
 		add_action( 'init', array( $this, 'wpml_register_post_type' ) );
 		add_action( 'init', array( $this, 'wpml_register_taxonomy' ) );
-		add_action( 'init', array( $this, 'wpml_default_settings' ) );
 		add_action( 'pre_get_posts', array( $this, 'wpml_show_movies_in_home_page' ) );
 
 		// Movie poster in admin movies list
@@ -259,21 +255,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			);
 		}
 
-	}
-
-	/**
-	 * Load WPML default settings if unexisting.
-	 *
-	 * @since    1.0.0
-	 */
-	public function wpml_default_settings( $force = false ) {
-
-		$options = get_option( $this->plugin_settings );
-		if ( ( false === $options || ! is_array( $options ) ) || true == $force ) {
-			delete_option( $this->plugin_settings );
-			add_option( $this->plugin_settings, $this->wpml_settings );
-
-		}
 	}
 
 	/**

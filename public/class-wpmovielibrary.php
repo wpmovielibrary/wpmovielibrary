@@ -23,7 +23,7 @@ class WPMovieLibrary {
 	 * @since   1.0.0
 	 * @var     string
 	 */
-	protected $plugin_name = 'WPMovieLibrary';
+	const NAME = 'WPMovieLibrary';
 
 	/**
 	 * Plugin version, used for cache-busting of style and script file references.
@@ -95,13 +95,6 @@ class WPMovieLibrary {
 		$this->plugin_url  = plugins_url( $this->plugin_name );
 		$this->plugin_path = plugin_dir_path( __FILE__ );
 
-		// Load plugin text domain
-		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
-
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-
-		add_action( 'wp_before_admin_bar_render', array( $this, 'wpml_admin_bar_menu' ), 999 );
-
 		$this->wpml_settings = array(
 			'wpml' => array(
 				'name' => $this->plugin_name,
@@ -161,6 +154,17 @@ class WPMovieLibrary {
 				)
 			),
 		);
+
+		// Load settings or register new ones
+		$this->wpml_default_settings();
+		//add_action( 'init', array( $this, 'wpml_default_settings' ) );
+
+		// Load plugin text domain
+		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
+
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+
+		add_action( 'wp_before_admin_bar_render', array( $this, 'wpml_admin_bar_menu' ), 999 );
 
 	}
 
@@ -408,6 +412,7 @@ class WPMovieLibrary {
 	 *                                       individual blog.
 	 */
 	public function wpml_activate_notice( $network_wide ) {
+
 		global $hook_suffix;
 
 		$hooks = array( 'plugins.php', 'movie_page_settings' );
@@ -417,7 +422,7 @@ class WPMovieLibrary {
 
 		echo '<div class="updated wpml">';
 		echo '<p>';
-		_e( 'Congratulation, you successfully installed WPMovieLibrary. You need a valid <acronym title="TheMovieDB">TMDb</acronym> API key to start adding your movies. Go to the <a href="">WPMovieLibrary Settings page</a> to add your API key.', 'wpml' );
+		printf( __( 'Congratulation, you successfully installed WPMovieLibrary. You need a valid <acronym title="TheMovieDB">TMDb</acronym> API key to start adding your movies. Go to the <a href="%s">WPMovieLibrary Settings page</a> to add your API key.', 'wpml' ), admin_url( 'edit.php?post_type=movie&page=settings' ) );
 		echo '</p>';
 		echo '</div>';
 	}
@@ -478,6 +483,21 @@ class WPMovieLibrary {
 	 *                              Options
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * Load WPML default settings if unexisting.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_default_settings( $force = false ) {
+
+		$options = get_option( $this->plugin_settings );
+		if ( ( false === $options || ! is_array( $options ) ) || true == $force ) {
+			delete_option( $this->plugin_settings );
+			add_option( $this->plugin_settings, $this->wpml_settings );
+
+		}
+	}
 
 	/**
 	 * Get TMDb API if available
