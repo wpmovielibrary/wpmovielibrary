@@ -162,9 +162,14 @@ class WPMovieLibrary {
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
+		// Enqueue scripts and styles
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 
+		// Add link to WP Admin Bar
 		add_action( 'wp_before_admin_bar_render', array( $this, 'wpml_admin_bar_menu' ), 999 );
+
+		// Load Movies as well as Posts in the Loop
+		add_action( 'pre_get_posts', array( $this, 'wpml_show_movies_in_home_page' ) );
 
 	}
 
@@ -475,6 +480,24 @@ class WPMovieLibrary {
 		);
 
 		$wp_admin_bar->add_menu( $args );
+	}
+ 
+	/**
+	 * Show movies in default home page post list.
+	 * 
+	 * Add action on pre_get_posts hook to add movie to the list of
+	 * queryable post_types.
+	 *
+	 * @since     1.0.0
+	 * 
+	 * @param     int       $query the WP_Query Object object to alter
+	 *
+	 * @return    WP_Query    Query Object
+	 */
+	public function wpml_show_movies_in_home_page( $query ) {
+		if ( 1 == $this->wpml_o( 'wpml-settings-show_in_home' ) && is_home() && $query->is_main_query() )
+			$query->set( 'post_type', array( 'post', 'movie', 'page' ) );
+		return $query;
 	}
 
 

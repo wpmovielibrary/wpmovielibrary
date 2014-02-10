@@ -133,10 +133,9 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		// Load TMDb API Class
 		$this->tmdb = new WPML_TMDb( $this->wpml_o('tmdb-settings') );
 
-		// Load movie post type, default config
+		// Load movie post type, taxonomies
 		add_action( 'init', array( $this, 'wpml_register_post_type' ) );
 		add_action( 'init', array( $this, 'wpml_register_taxonomy' ) );
-		add_action( 'pre_get_posts', array( $this, 'wpml_show_movies_in_home_page' ) );
 
 		// Movie poster in admin movies list
 		add_filter('manage_movie_posts_columns', array( $this, 'wpml_movies_columns_head' ) );
@@ -393,24 +392,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		}
 
 	}
- 
-	/**
-	 * Show movies in default home page post list.
-	 * 
-	 * Add action on pre_get_posts hook to add movie to the list of
-	 * queryable post_types.
-	 *
-	 * @since     1.0.0
-	 * 
-	 * @param     int       $query the WP_Query Object object to alter
-	 *
-	 * @return    WP_Query    Query Object
-	 */
-	public function wpml_show_movies_in_home_page( $query ) {
-		if ( 1 == $this->wpml_o( 'wpml-settings-show_in_home' ) && is_home() && $query->is_main_query() )
-			$query->set( 'post_type', array( 'post', 'movie', 'page' ) );
-		return $query;
-	}
 
 	/**
 	 * Get the movie's featured image.
@@ -426,7 +407,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 */
 	public function wpml_get_featured_image( $post_id, $size = 'thumbnail' ) {
 		$_id = get_post_thumbnail_id( $post_id );
-		$img = ( $_id ? wp_get_attachment_image_src( $_id, $size ) : array( $this->plugin_admin_url . '/assets/no_poster.png' ) ); 
+		$img = ( $_id ? wp_get_attachment_image_src( $_id, $size ) : array( $this->plugin_admin_url . '/assets/no_poster.png' ) );
 		return $img[0];
 	}
 
@@ -442,7 +423,18 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 * @return    array    Default columns with new poster column
 	 */
 	public function wpml_movies_columns_head( $defaults ) {
-		$defaults['poster'] = __( 'Poster', 'wpml' );
+
+		$p = array_search( 'title', array_keys( $defaults ) ) + 1;
+		$defaults = array_merge(
+			array_slice( $defaults, 0, $p - 1, true ),
+			array( 'poster' => __( 'Poster', 'wpml' ) ),
+			array_slice( $defaults, $p - 1, $p, true ),
+			array( 'collections' => __( 'Collections', 'wpml' ) ),
+			array( 'actors' => __( 'Actors', 'wpml' ) ),
+			array( 'genres' => __( 'Genres', 'wpml' ) ),
+			array_slice( $defaults, $p, count( $defaults ) - 1, true )
+		);
+		unset( $defaults['author'] );
 		return $defaults;
 	}
 
@@ -456,8 +448,23 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 * @param     int      $post_id current movie's post ID
 	 */
 	public function wpml_movies_columns_content( $column_name, $post_id ) {
-		if ( $column_name == 'poster' )
-			echo '<img src="'.$this->wpml_get_featured_image( $post_id ).'" alt="" />';
+
+		switch ( $column_name ) {
+			case 'poster':
+				echo '<img src="'.$this->wpml_get_featured_image( $post_id ).'" alt="" />';
+				break;
+			case 'collections':
+				echo get_the_term_list( $post_id, 'collection', __( 'Listed in: ', 'wpml' ), ', ', '' );
+				break;
+			case 'actors':
+				echo get_the_term_list( $post_id, 'actor', __( 'Staring: ', 'wpml' ), ', ', '' );
+				break;
+			case 'genres':
+				echo get_the_term_list( $post_id, 'genre', __( 'Listed in: ', 'wpml' ), ', ', '' );
+				break;
+			default:
+				break;
+		}
 	}
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -667,7 +674,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 */
 	public function wpml_admin_page() {
 
-		//echo '<pre>'; print_r( $_POST ); echo '</pre>'; die();
 		$errors = array();
 
 		if ( isset( $_POST['restore_default'] ) && '' != $_POST['restore_default'] ) {
@@ -770,7 +776,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			$html .= sprintf( '<dt>%s</dt><dd><div class="movie_rating_display stars-%d"></div></dd>', __( 'Movie rating', 'wpml' ), ( '' == $movie_rating ? 0 : (int) $movie_rating ) );
 
 		foreach ( $this->wpml_o( 'wpml-settings-default_post_tmdb' ) as $field ) {
-			if ( in_array( $field, array_keys( $this->wpml_settings['wpml']['settings']['default_post_tmdb'] ) ) && isset( $tmdb_data[ $field ] ) ) {
+			if ( in_array( $field, array_keys( $this->default_post_tmdb ) ) && isset( $tmdb_data[ $field ] ) ) {
 				$html .= sprintf( '<dt>%s</dt><dd>%s</dd>', __( 'Movie ' . $field, 'wpml' ), $tmdb_data[ $field ] );
 			}
 		}

@@ -8,6 +8,13 @@
 	margin-left: 2em;
 }
 
+/* WPML Movie List
+ ****************************************************/
+
+.widefat thead tr th.column-poster {
+	width: 4em;
+}
+
 /* WPML Notice
  ****************************************************/
 
