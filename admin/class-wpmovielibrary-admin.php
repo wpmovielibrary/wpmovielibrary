@@ -133,10 +133,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		// Load TMDb API Class
 		$this->tmdb = new WPML_TMDb( $this->wpml_o('tmdb-settings') );
 
-		// Load movie post type, taxonomies
-		add_action( 'init', array( $this, 'wpml_register_post_type' ) );
-		add_action( 'init', array( $this, 'wpml_register_taxonomy' ) );
-
 		// Movie poster in admin movies list
 		add_filter('manage_movie_posts_columns', array( $this, 'wpml_movies_columns_head' ) );
 		add_action('manage_movie_posts_custom_column', array( $this, 'wpml_movies_columns_content' ), 10, 2 );
@@ -275,122 +271,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		$tmdb  = new WPML_TMDb( $this->wpml_o('tmdb-settings'), $dummy );
 
 		return $tmdb;
-	}
-
-
-	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 *
-	 *               Custom Post Types, Status & Taxonomy
-	 * 
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	/**
-	 * Register a 'movie' custom post type and 'import-draft' post status
-	 *
-	 * @since    1.0.0
-	 */
-	public function wpml_register_post_type() {
-
-		$labels = array(
-			'name'               => __( 'Movies', 'wpml' ),
-			'singular_name'      => __( 'Movie', 'wpml' ),
-			'add_new'            => __( 'Add New', 'wpml' ),
-			'add_new_item'       => __( 'Add New Movie', 'wpml' ),
-			'edit_item'          => __( 'Edit Movie', 'wpml' ),
-			'new_item'           => __( 'New Movie', 'wpml' ),
-			'all_items'          => __( 'All Movies', 'wpml' ),
-			'view_item'          => __( 'View Movie', 'wpml' ),
-			'search_items'       => __( 'Search Movies', 'wpml' ),
-			'not_found'          => __( 'No movies found', 'wpml' ),
-			'not_found_in_trash' => __( 'No movies found in Trash', 'wpml' ),
-			'parent_item_colon'  => '',
-			'menu_name'          => __( 'Movies', 'wpml' )
-		);
-
-		$args = array(
-			'labels'             => $labels,
-			'rewrite'            => array(
-				'slug'       => 'movies'
-			),
-			'public'             => true,
-			'publicly_queryable' => true,
-			'show_ui'            => true,
-			'show_in_menu'       => true,
-			'has_archive'        => true,
-			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
-			'menu_position'      => 5
-		);
-
-		// Dashicons or PNG
-		$args['menu_icon'] = ( version_compare( get_bloginfo( 'version' ), '3.8', '>=' ) ? 'dashicons-format-video' : $this->plugin_admin_url . '/admin/assets/img/icon-movie.png' );
-
-		register_post_type( 'movie', $args );
-
-		register_post_status( 'import-draft', array(
-			'label'                     => _x( 'Imported Draft', 'wpml' ),
-			'public'                    => false,
-			'exclude_from_search'       => true,
-			'show_in_admin_all_list'    => false,
-			'show_in_admin_status_list' => false,
-			'label_count'               => _n_noop( 'Imported Draft <span class="count">(%s)</span>', 'Imported Draft <span class="count">(%s)</span>' ),
-		) );
-	}
-
-	/**
-	 * Register a 'Collections' custom taxonomy to aggregate movies
-	 *
-	 * @since    1.0.0
-	 */
-	public function wpml_register_taxonomy() {
-
-		if ( 1 == $this->wpml_o( 'wpml-settings-enable_collection' ) ) {
-			register_taxonomy(
-				'collection',
-				'movie',
-				array(
-					'labels'   => array(
-						'name'          => __( 'Collections', 'wpml' ),
-						'add_new_item'  => __( 'New Movie Collection', 'wpml' )
-					),
-					'show_tagcloud' => false,
-					'hierarchical'  => true,
-					'rewrite' => array( 'slug' => 'collection' )
-				)
-			);
-		}
-
-		if ( 1 == $this->wpml_o( 'wpml-settings-enable_actor' ) ) {
-			register_taxonomy(
-				'actor',
-				'movie',
-				array(
-					'labels'   => array(
-						'name'          => __( 'Actors', 'wpml' ),
-						'add_new_item'  => __( 'New Actor', 'wpml' )
-					),
-					'show_tagcloud' => true,
-					'hierarchical'  => false,
-					'rewrite' => array( 'slug' => 'actor' )
-				)
-			);
-		}
-
-		if ( 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) ) {
-			register_taxonomy(
-				'genre',
-				'movie',
-				array(
-					'labels'   => array(
-						'name'          => __( 'Genres', 'wpml' ),
-						'add_new_item'  => __( 'New Genre', 'wpml' )
-					),
-					'show_tagcloud' => true,
-					'hierarchical'  => false,
-					'rewrite' => array( 'slug' => 'genre' )
-				)
-			);
-		}
-
 	}
 
 	/**
