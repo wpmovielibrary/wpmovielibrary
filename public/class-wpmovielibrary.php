@@ -471,10 +471,7 @@ class WPMovieLibrary {
 		global $wp_admin_bar;
 
 		// Dashicons or PNG
-		if ( version_compare( get_bloginfo( 'version' ), '3.8', '>=' ) )
-			$icon = '<span class="dashicons-format-video"></span>';
-		else
-			$icon = '<img src="' . $this->plugin_url . '/admin/assets/img/icon-movie.png" alt="" />';
+		$icon = ( version_compare( get_bloginfo( 'version' ), '3.8', '<' ) ? '<img src="' . $this->plugin_url . '/admin/assets/img/icon-movie.png" alt="" />' : '' );
 
 		$args = array(
 			'id'    => 'wpmovielibrary',

@@ -3,6 +3,12 @@
 	margin: -2px 6px 0 0;
 }
 
+#wpadminbar #wp-admin-bar-wpmovielibrary>.ab-item:before,
+#wpadminbar #wp-admin-bar-wpmovielibrary>.ab-item:before {
+	content: "\f126";
+	top: 2px;
+}
+
 /** Movie Post TMDb
  ***************************************************/
 

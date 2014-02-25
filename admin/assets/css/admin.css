@@ -3,6 +3,12 @@
 	margin: 6px 4px -3px 0;
 }
 
+#wpadminbar #wp-admin-bar-wpmovielibrary>.ab-item:before,
+#wpadminbar #wp-admin-bar-wpmovielibrary>.ab-item:before {
+	content: "\f126";
+	top: 2px;
+}
+
 .wrap div.updated ul {
 	margin: 0;
 }
