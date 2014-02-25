@@ -463,6 +463,9 @@ class WPMovieLibrary {
 
 	/**
 	 * Add a New Movie link to WP Admin Bar.
+	 * 
+	 * WordPress 3.8 introduces Dashicons, for older versions we use a PNG
+	 * icon instead.
 	 *
 	 * @since    1.0.0
 	 */
@@ -470,15 +473,22 @@ class WPMovieLibrary {
 
 		global $wp_admin_bar;
 
-		// Dashicons or PNG
-		$icon = ( version_compare( get_bloginfo( 'version' ), '3.8', '<' ) ? '<img src="' . $this->plugin_url . '/admin/assets/img/icon-movie.png" alt="" />' : '' );
-
 		$args = array(
 			'id'    => 'wpmovielibrary',
-			'title' => $icon . __( 'New Movie', 'wpml' ),
+			'title' => __( 'New Movie', 'wpml' ),
 			'href'  => admin_url( 'post-new.php?post_type=movie' ),
-			'meta'  => array( 'title' => __( 'New Movie', 'wpml' ) ),
+			'meta'  => array(
+				'title' => __( 'New Movie', 'wpml' )
+			)
 		);
+
+		// Dashicons or PNG
+		if ( version_compare( get_bloginfo( 'version' ), '3.8', '<' ) ) {
+			$args['title'] = '<img src="' . $this->plugin_url . '/admin/assets/img/icon-movie.png" alt="" />' . $args['title'];
+		}
+		else {
+			$args['meta']['class'] = 'haz-dashicon';
+		}
 
 		$wp_admin_bar->add_menu( $args );
 	}

@@ -204,6 +204,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			return;
 		}
 
+		wp_enqueue_style( $this->plugin_slug .'-admin-common', plugins_url( 'assets/css/admin-common.css', __FILE__ ), array(), WPMovieLibrary_Admin::VERSION );
+
 		$screen = get_current_screen();
 		if ( in_array( $screen->id, $this->plugin_screen_hook_suffix ) ) {
 			wp_enqueue_style( $this->plugin_slug .'-admin-styles', plugins_url( 'assets/css/admin.css', __FILE__ ), array(), WPMovieLibrary_Admin::VERSION );
