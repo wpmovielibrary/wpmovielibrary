@@ -54,9 +54,17 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 	 * TMDb Caching
 	 *
 	 * @since   1.0.0
-	 * @var     string
+	 * @var     boolean
 	 */
 	protected $caching = true;
+
+	/**
+	 * TMDb Error notify
+	 *
+	 * @since   1.0.0
+	 * @var     string
+	 */
+	protected $error = '';
 
 	public function __construct( $TMDb_settings ) {
 
@@ -71,7 +79,14 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 		$this->caching = ( 1 == $this->wpml_o( 'tmdb-settings-caching' ) ? true : false );
 
 		$this->wpml_tmdb();
-		$this->config = $this->wpml_tmdb_config();
+
+		try {
+			$this->config = $this->wpml_tmdb_config();
+		}
+		catch ( Exception $e ) {
+			$this->error = $e->getMessage();
+			add_action( 'admin_notices', array( $this, 'wpml_tmdb_error' ) );
+		}
 	}
 
 	/**
@@ -89,6 +104,15 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 		else {
 			$this->tmdb = new TMDb( $this->APIKey, $this->lang, false, $this->scheme );
 		}
+	}
+
+	/**
+	 * Notify errors
+	 *
+	 * @since     1.0.0
+	 */
+	public function wpml_tmdb_error() {
+		echo '<div class="error"><p><strong>WPMovieLibrary</strong>: ' . $this->error . '</p></div>';
 	}
 
 	/**

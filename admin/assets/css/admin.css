@@ -1,4 +1,8 @@
 
+#wp-admin-bar-wpmovielibrary img {
+	margin: 6px 4px -3px 0;
+}
+
 .wrap div.updated ul {
 	margin: 0;
 }
