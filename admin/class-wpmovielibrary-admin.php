@@ -241,6 +241,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 				$this->plugin_slug . '-admin-script', 'ajax_object',
 				array(
 					'ajax_url'           => admin_url( 'admin-ajax.php' ),
+					'wpml_check'         => wp_create_nonce( 'wpml-callbacks-nonce' ),
 					'images_added'       => __( 'Images uploaded!', 'wpml' ),
 					'base_url_xxsmall'   => $this->tmdb->wpml_tmdb_get_base_url( 'poster', 'xx-small' ),
 					'base_url_xsmall'    => $this->tmdb->wpml_tmdb_get_base_url( 'poster', 'x-small' ),
@@ -289,7 +290,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 */
 	public function wpml_get_featured_image( $post_id, $size = 'thumbnail' ) {
 		$_id = get_post_thumbnail_id( $post_id );
-		$img = ( $_id ? wp_get_attachment_image_src( $_id, $size ) : array( $this->plugin_admin_url . '/assets/no_poster.png' ) );
+		$img = ( $_id ? wp_get_attachment_image_src( $_id, $size ) : array( $this->plugin_admin_url . '/assets/img/no_poster.png' ) );
 		return $img[0];
 	}
 
@@ -366,6 +367,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 */
 	public function wpml_delete_movie_callback() {
 
+		check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+
 		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
 
 		echo $this->wpml_delete_movie( $post_id );
@@ -381,6 +384,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 * @since     1.0.0
 	 */
 	public function wpml_save_details_callback() {
+
+		check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
 		$post_id      = ( isset( $_POST['post_id'] )      && '' != $_POST['post_id']      ? $_POST['post_id']      : '' );
 		$wpml_details = ( isset( $_POST['wpml_details'] ) && '' != $_POST['wpml_details'] ? $_POST['wpml_details'] : '' );
@@ -414,6 +419,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 */
 	public function wpml_save_image_callback() {
 
+		check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+
 		$image   = ( isset( $_GET['image'] )   && '' != $_GET['image']   ? $_GET['image']   : '' );
 		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
 		$title   = ( isset( $_GET['title'] )   && '' != $_GET['title']   ? $_GET['title']   : '' );
@@ -444,6 +451,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 * @return    string    Uploaded image ID
 	 */
 	public function wpml_set_featured_image_callback() {
+
+		check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
 		$image   = ( isset( $_GET['image'] )   && '' != $_GET['image']   ? $_GET['image']   : '' );
 		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
@@ -561,11 +570,16 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		$errors = array();
 
 		if ( isset( $_POST['restore_default'] ) && '' != $_POST['restore_default'] ) {
+
+			check_admin_referer('wpml-admin');
+
 			$this->wpml_default_settings( true );
 			$this->msg_settings = __( 'Default Settings have been restored.', 'wpml' );
 		}
 
 		if ( isset( $_POST['submit'] ) && '' != $_POST['submit'] ) {
+
+			check_admin_referer('wpml-admin');
 
 			if ( isset( $_POST['tmdb_data']['wpml'] ) && '' != $_POST['tmdb_data']['wpml'] ) {
 
@@ -606,6 +620,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	public function wpml_import_page() {
 
 		if ( isset( $_POST['wpml_save_imported'] ) && '' != $_POST['wpml_save_imported'] && isset( $_POST['tmdb'] ) && count( $_POST['tmdb'] ) ) {
+
+			check_admin_referer('wpml-movie-save-import');
 
 			foreach ( $_POST['tmdb'] as $tmdb_data ) {
 				if ( 0 != $tmdb_data['tmdb_id'] ) {
@@ -807,6 +823,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 
 		if ( ! isset( $_POST['wpml_import_list'] ) || '' == $_POST['wpml_import_list'] )
 			return false;
+
+		check_admin_referer('wpml-movie-import');
 
 		$movies = explode( ',', $_POST['wpml_import_list'] );
 		$movies = array_map( array( $this, 'wpml_prepare_movie_import' ), $movies );
@@ -1034,17 +1052,17 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 
 				if ( 1 == $this->wpml_o( 'wpml-settings-enable_actor' ) ) {
 					$actors = array_reverse( explode( ',', $tmdb_data['cast'] ) );
-					$actors = wp_set_post_terms( $post_id, $actors, 'actor', false );
+					$actors = wp_set_object_terms( $post_id, $actors, 'actor', false );
 				}
 
 				if ( 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) ) {
 					$genres = array_reverse( explode( ',', $tmdb_data['genres'] ) );
-					$genres = wp_set_post_terms( $post_id, $genres, 'genre', false );
+					$genres = wp_set_object_terms( $post_id, $genres, 'genre', false );
 				}
 
 				if ( 1 == $this->wpml_o( 'wpml-settings-enable_collection' ) ) {
-					$genres = array_reverse( explode( ',', $tmdb_data['director'] ) );
-					$genres = wp_set_post_terms( $post_id, $genres, 'collection', false );
+					$collections = array_reverse( explode( ',', $tmdb_data['director'] ) );
+					$collections = wp_set_object_terms( $post_id, $collections, 'collection', false );
 				}
 			}
 		}

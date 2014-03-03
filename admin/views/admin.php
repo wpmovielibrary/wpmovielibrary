@@ -15,6 +15,8 @@
 
 		<form method="post">
 
+			<?php wp_nonce_field('wpml-admin'); ?>
+
 			<ul>
 			    <li><a href="#fragment-1"><h4><span class="ui-icon ui-icon-gear"></span> <?php _e( 'TMDb API', 'wpml' ); ?></h4></a></li>
 			    <li><a href="#fragment-2"><h4><span class="ui-icon ui-icon-wrench"></span> <?php _e( 'WPMovieLibrary', 'wpml' ); ?></h4></a></li>

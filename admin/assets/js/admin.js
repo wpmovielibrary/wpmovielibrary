@@ -12,6 +12,7 @@ jQuery(document).ready(function($) {
 			url: ajax_object.ajax_url,
 			data: {
 				action: 'tmdb_api_key_check',
+				wpml_check: ajax_object.wpml_check,
 				key: $('input#APIKey').val()
 			},
 			success: function(response) {
@@ -208,6 +209,7 @@ wpml = {
 				url: ajax_object.ajax_url,
 				data: {
 					action: 'wpml_delete_movie',
+					wpml_check: ajax_object.wpml_check,
 					post_id: id
 				},
 				success: function(response) {
@@ -230,6 +232,7 @@ wpml = {
 				url: ajax_object.ajax_url,
 				data: {
 					action: 'tmdb_search',
+					wpml_check: ajax_object.wpml_check,
 					type: 'id',
 					data: id,
 					lang: wpml.movie.lang
@@ -338,6 +341,7 @@ wpml = {
 				url: ajax_object.ajax_url,
 				data: {
 					action: 'wpml_save_details',
+					wpml_check: ajax_object.wpml_check,
 					post_id: $('#post_ID').val(),
 					wpml_details: {
 						media: $('#movie_media').val(),
@@ -369,6 +373,7 @@ wpml = {
 				url: ajax_object.ajax_url,
 				data: {
 					action: 'tmdb_search',
+					wpml_check: ajax_object.wpml_check,
 					type:  wpml.movie.type,
 					data:  wpml.movie.data,
 					lang: wpml.movie.lang
@@ -456,6 +461,7 @@ wpml = {
 						url: ajax_object.ajax_url,
 						data: {
 							action: 'tmdb_save_image',
+							wpml_check: ajax_object.wpml_check,
 							image: this,
 							post_id: $('#post_ID').val(),
 							title: title+' − Photo '+i
@@ -491,6 +497,7 @@ wpml = {
 					url: ajax_object.ajax_url,
 					data: {
 						action: 'tmdb_set_featured',
+						wpml_check: ajax_object.wpml_check,
 						image: image,
 						post_id: post_id,
 						title: title+' − '+ajax_object.poster
@@ -521,6 +528,7 @@ wpml = {
 				url: ajax_object.ajax_url,
 				data: {
 					action: 'tmdb_search',
+					wpml_check: ajax_object.wpml_check,
 					type: 'id',
 					data: id,
 					_id: post_id
@@ -593,11 +601,19 @@ wpml = {
 			tr.find('.movie_title').text(data.title);
 			tr.find('.movie_director').text($('#p_'+data._id+'_tmdb_data_director').val());
 			tr.find('.movie_tmdb_id').text(data.id);
+
+			$('#p_'+data._id+'_tmdb_data').appendTo('#tmdb_data');
 		},
 
 		populate_select_list: function(data) {
 
 			var html = '';
+
+			var _next = wpml.import.target.next();
+			var _tmdb_id = wpml.import.target.find('.movie_tmdb_id');
+
+			if ( ( undefined != _next && _next.hasClass('wpml-import-movie-select') ) || ( undefined != _tmdb_id && '' != _tmdb_id.text() ) )
+				return false;
 
 			$.each(data.movies, function() {
 				html += '<div class="tmdb_select_movie">';
@@ -609,7 +625,7 @@ wpml = {
 				html += '</div>';
 			});
 
-			html = '<tr class="wpml-import-movie-select"><td colspan="6"><div class="tmdb_select_movies">'+html+'</div></td></tr>'
+			html = '<tr class="wpml-import-movie-select"><td colspan="6"><div class="tmdb_select_movies">'+html+'</div></td></tr>';
 
 			wpml.import.target.after(html);
 		},
@@ -621,6 +637,7 @@ wpml = {
 				url: ajax_object.ajax_url,
 				data: {
 					action: 'tmdb_search',
+					wpml_check: ajax_object.wpml_check,
 					type: 'title',
 					data: title,
 					lang: '',

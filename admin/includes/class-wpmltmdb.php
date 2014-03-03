@@ -234,6 +234,8 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 	 */
 	public function wpml_tmdb_api_key_check_callback() {
 
+		check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+
 		if ( ! isset( $_GET['key'] ) || '' == $_GET['key'] || 32 !== strlen( $_GET['key'] ) )
 			die();
 
@@ -255,6 +257,8 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 	 * @return    string    HTML output
 	 */
 	public function wpml_tmdb_search_callback() {
+
+		check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
 		$type = ( isset( $_GET['type'] ) && '' != $_GET['type'] ? $_GET['type'] : '' );
 		$data = ( isset( $_GET['data'] ) && '' != $_GET['data'] ? $_GET['data'] : '' );
@@ -352,7 +356,7 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 			foreach ( $data['results'] as $movie ) {
 				$movies['movies'][] = array(
 					'id'     => $movie['id'],
-					'poster' => ( ! is_null( $movie['poster_path'] ) ? $this->config['poster_url']['small'].$movie['poster_path'] : $this->wpml_o('wpml-url').'/assets/no_poster.png' ),
+					'poster' => ( ! is_null( $movie['poster_path'] ) ? $this->config['poster_url']['small'].$movie['poster_path'] : $this->wpml_o('wpml-url').'/admin/assets/img/no_poster.png' ),
 					'title'  => $movie['title'],
 					'json'   => json_encode( $movie ),
 					'_id'    => $_id

@@ -25,6 +25,14 @@
 
 <?php $this->wpml_display_import_movie_list( $movies['movies'], $movies['meta'] ); ?>
 
+			</form>
+
+			<form method="post">
+
+				<?php wp_nonce_field('wpml-movie-save-import'); ?>
+
+				<div id="tmdb_data" style="display:none"></div>
+
 				<p style="text-align:right">
 					<input type="button" id="wpml_empty" name="wpml_empty" class="button button-secondary button-large" value="<?php _e( 'Empty All', 'wpml' ); ?>" />
 					<input type="submit" id="wpml_save_imported" name="wpml_save_imported" class="button button-primary button-large" value="<?php _e( 'Save Movies', 'wpml' ); ?>" />
@@ -35,7 +43,11 @@
 		</div>
 
 		<div id="fragment-2">
+
 			<form method="post">
+
+				<?php wp_nonce_field('wpml-movie-import'); ?>
+
 				<table class="form-table wpml-settings">
 					<tbody>
 						<tr valign="top">
@@ -55,7 +67,9 @@
 						</tr>
 					</tbody>
 				</table>
+
 			</form>
+
 		</div>
 
 	</div>
