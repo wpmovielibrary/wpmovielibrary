@@ -566,7 +566,6 @@ class WPMovieLibrary {
 		return $content;
 	}
 
-
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
 	 *               Custom Post Types, Status & Taxonomy

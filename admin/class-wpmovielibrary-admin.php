@@ -121,6 +121,14 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			)
 		);
 
+		$this->default_post_tmdb = array(
+			'director' => __( 'Director', 'wpml' ),
+			'genres'   => __( 'Genres', 'wpml' ),
+			'runtime'  => __( 'Runtime', 'wpml' ),
+			'overview' => __( 'Overview', 'wpml' ),
+			'rating'   => __( 'Rating', 'wpml' )
+		);
+
 		$this->plugin_screen_hook_suffix = array(
 			'movie_page_import', 'movie_page_settings', 'edit-movie', 'movie', 'plugins'
 		);
