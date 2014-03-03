@@ -1025,13 +1025,18 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			if ( 1 == $this->wpml_o( 'wpml-settings-taxonomy_autocomplete' ) ) {
 
 				if ( 1 == $this->wpml_o( 'wpml-settings-enable_actor' ) ) {
-					$actors = array_reverse( explode( ', ', $tmdb_data['cast'] ) );
+					$actors = array_reverse( explode( ',', $tmdb_data['cast'] ) );
 					$actors = wp_set_post_terms( $post_id, $actors, 'actor', false );
 				}
 
 				if ( 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) ) {
-					$genres = array_reverse( explode( ', ', $tmdb_data['genres'] ) );
+					$genres = array_reverse( explode( ',', $tmdb_data['genres'] ) );
 					$genres = wp_set_post_terms( $post_id, $genres, 'genre', false );
+				}
+
+				if ( 1 == $this->wpml_o( 'wpml-settings-enable_collection' ) ) {
+					$genres = array_reverse( explode( ',', $tmdb_data['director'] ) );
+					$genres = wp_set_post_terms( $post_id, $genres, 'collection', false );
 				}
 			}
 		}

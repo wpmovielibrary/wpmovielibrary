@@ -299,6 +299,17 @@ wpml = {
 					tagBox.flushTags( $('#genre.tagsdiv'), $('<span>'+this+'</span>') );
 				});
 			}
+
+			if ( data.director.length ) {
+				$.each(data.director, function(i) {
+					$('#newcollection').prop('value', this.name);
+					$('#collection-add-submit').click();
+				});
+				$.each($('#collectionchecklist > li'), function(i) {
+					var id = this.id.replace('collection-','');
+					$('#in-collection-' + id + ', #in-popular-collection-' + id).prop('checked', true);
+				});
+			}
 		},
 
 		populate_select_list: function(data) {
