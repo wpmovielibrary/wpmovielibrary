@@ -175,6 +175,9 @@ class WPMovieLibrary {
 		// Load Movies as well as Posts in the Loop
 		add_action( 'pre_get_posts', array( $this, 'wpml_show_movies_in_home_page' ) );
 
+		// Movie content
+		add_filter( 'the_content', array( $this, 'wpml_movie_content' ) );
+
 	}
 
 	/**
@@ -509,6 +512,50 @@ class WPMovieLibrary {
 		if ( 1 == $this->wpml_o( 'wpml-settings-show_in_home' ) && is_home() && $query->is_main_query() )
 			$query->set( 'post_type', array( 'post', 'movie', 'page' ) );
 		return $query;
+	}
+
+	/**
+	 * Show some info about movies in post view.
+	 * 
+	 * Add a filter on the_content hook to display infos selected in options
+	 * about the movie: note, director, overview, actors…
+	 *
+	 * @since     1.0.0
+	 * 
+	 * @param     string      $content The original post content
+	 *
+	 * @return    string      The filtered content containing original
+	 *                        content plus movie infos if available, the
+	 *                        untouched original content else.
+	 */
+	public function wpml_movie_content( $content ) {
+
+		if ( 'movie' != get_post_type() || 'nowhere' == $this->wpml_o( 'wpml-settings-tmdb_in_posts' ) || ( 'posts_only' == $this->wpml_o( 'wpml-settings-tmdb_in_posts' ) && ! is_singular() ) )
+			return $content;
+
+		$tmdb_data = get_post_meta( get_the_ID(), '_wpml_movie_data', true );
+		$movie_rating = get_post_meta( get_the_ID(), '_wpml_movie_rating', true );
+
+		if ( '' == $tmdb_data )
+			return $content;
+
+		$html  = '<dl class="wpml_movie">';
+
+
+		if ( in_array( 'rating', $this->wpml_o( 'wpml-settings-default_post_tmdb' ) ) )
+			$html .= sprintf( '<dt>%s</dt><dd><div class="movie_rating_display stars-%d"></div></dd>', __( 'Movie rating', 'wpml' ), ( '' == $movie_rating ? 0 : (int) $movie_rating ) );
+
+		foreach ( $this->wpml_o( 'wpml-settings-default_post_tmdb' ) as $field ) {
+			if ( in_array( $field, array_keys( $this->default_post_tmdb ) ) && isset( $tmdb_data[ $field ] ) ) {
+				$html .= sprintf( '<dt>%s</dt><dd>%s</dd>', __( 'Movie ' . $field, 'wpml' ), $tmdb_data[ $field ] );
+			}
+		}
+
+		$html .= '</dl>';
+
+		$content = $html . $content;
+
+		return $content;
 	}
 
 

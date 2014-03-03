@@ -153,9 +153,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		// Movie save
 		add_action( 'save_post', array( $this, 'wpml_save_tmdb_data' ) );
 
-		// Movie content
-		add_filter( 'the_content', array( $this, 'wpml_movie_content' ) );
-
 		// register widgets
 		// add_action( 'widgets_init', array( $this, 'wpml_widgets' ) );
 
@@ -518,6 +515,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	/**
 	 * Register the administration menu for this plugin into the WordPress
 	 * Dashboard menu.
+	 * 
+	 * TODO: export support
 	 *
 	 * @since    1.0.0
 	 */
@@ -531,14 +530,14 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			'import',
 			array( $this, 'wpml_import_page' )
 		);
-		add_submenu_page(
+		/*add_submenu_page(
 			'edit.php?post_type=movie',
 			__( 'Export Movies', 'wpml' ),
 			__( 'Export Movies', 'wpml' ),
 			'manage_options',
 			'export',
 			array( $this, 'wpml_export_page' )
-		);
+		);*/
 		add_submenu_page(
 			'edit.php?post_type=movie',
 			__( 'Options', 'wpml' ),
@@ -623,51 +622,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	public function wpml_export_page() {
 		// TODO: implement export
 		// include_once( 'views/export.php' );
-	}
-
-
-	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 *
-	 *                         Library & Movie View
-	 * 
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	public function wpml_library_template( $page_template ) {
-
-		if ( is_page( 'WPMovieLibrary' ) )
-			$page_template = $this->plugin_admin_path . 'views/library.php';
-
-		return $page_template;
-	}
-
-	public function wpml_movie_content( $content ) {
-
-		if ( 'movie' != get_post_type() || 'nowhere' == $this->wpml_o( 'wpml-settings-tmdb_in_posts' ) || ( 'posts_only' == $this->wpml_o( 'wpml-settings-tmdb_in_posts' ) && ! is_singular() ) )
-			return $content;
-
-		$tmdb_data = get_post_meta( get_the_ID(), '_wpml_movie_data', true );
-		$movie_rating = get_post_meta( get_the_ID(), '_wpml_movie_rating', true );
-
-		if ( '' == $tmdb_data )
-			return $content;
-
-		$html  = '<dl class="wpml_movie">';
-
-
-		if ( in_array( 'rating', $this->wpml_o( 'wpml-settings-default_post_tmdb' ) ) )
-			$html .= sprintf( '<dt>%s</dt><dd><div class="movie_rating_display stars-%d"></div></dd>', __( 'Movie rating', 'wpml' ), ( '' == $movie_rating ? 0 : (int) $movie_rating ) );
-
-		foreach ( $this->wpml_o( 'wpml-settings-default_post_tmdb' ) as $field ) {
-			if ( in_array( $field, array_keys( $this->default_post_tmdb ) ) && isset( $tmdb_data[ $field ] ) ) {
-				$html .= sprintf( '<dt>%s</dt><dd>%s</dd>', __( 'Movie ' . $field, 'wpml' ), $tmdb_data[ $field ] );
-			}
-		}
-
-		$html .= '</dl>';
-
-		$content = $html . $content;
-
-		return $content;
 	}
 
 
