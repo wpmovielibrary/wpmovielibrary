@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/WPMovieLibrary\n"
-"POT-Creation-Date: 2014-02-10 13:58:12+00:00\n"
+"POT-Creation-Date: 2014-03-03 10:25:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,8 +12,8 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: admin/class-wpmovielibrary-admin.php:83
-#: admin/class-wpmovielibrary-admin.php:103
+#: admin/class-wpmovielibrary-admin.php:86
+#: admin/class-wpmovielibrary-admin.php:107
 #: admin/includes/class-wpmllisttable.php:35
 #: public/views/actors-widget-admin.php:2
 #: public/views/collections-widget-admin.php:2
@@ -23,267 +23,203 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:84
-#: admin/class-wpmovielibrary-admin.php:117
+#: admin/class-wpmovielibrary-admin.php:87
+#: admin/class-wpmovielibrary-admin.php:101
+#: admin/class-wpmovielibrary-admin.php:121
 #: public/class-wpmovielibrary.php:109
 msgid "Overview"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:85
+#: admin/class-wpmovielibrary-admin.php:88
 msgid "Production"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:86
+#: admin/class-wpmovielibrary-admin.php:89
 msgid "Country"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:87
+#: admin/class-wpmovielibrary-admin.php:90
 msgid "Languages"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:88 public/class-wpmovielibrary.php:108
+#: admin/class-wpmovielibrary-admin.php:91
+#: admin/class-wpmovielibrary-admin.php:100
+#: public/class-wpmovielibrary.php:108
 msgid "Runtime"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:89
-#: admin/class-wpmovielibrary-admin.php:384
-#: admin/class-wpmovielibrary-admin.php:434
-#: public/class-wpmovielibrary.php:107
+#: admin/class-wpmovielibrary-admin.php:92
+#: admin/class-wpmovielibrary-admin.php:99
+#: admin/class-wpmovielibrary-admin.php:317
+#: public/class-wpmovielibrary.php:107 public/class-wpmovielibrary.php:665
 msgid "Genres"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:90
+#: admin/class-wpmovielibrary-admin.php:93
 msgid "Release Date"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:105
-#: admin/class-wpmovielibrary-admin.php:113
-msgid "DVD"
+#: admin/class-wpmovielibrary-admin.php:98
+#: admin/includes/class-wpmllisttable.php:36
+#: public/class-wpmovielibrary.php:106 public/class-wpmovielibrary.php:147
+msgid "Director"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:106
-msgid "BluRay"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:107
-msgid "VOD"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:108
-msgid "VHS"
+#: admin/class-wpmovielibrary-admin.php:102
+#: public/class-wpmovielibrary.php:110
+msgid "Rating"
 msgstr ""
 
 #: admin/class-wpmovielibrary-admin.php:109
-msgid "Theater"
+#: admin/class-wpmovielibrary-admin.php:117
+msgid "DVD"
 msgstr ""
 
 #: admin/class-wpmovielibrary-admin.php:110
+msgid "BluRay"
+msgstr ""
+
+#: admin/class-wpmovielibrary-admin.php:111
+msgid "VOD"
+msgstr ""
+
+#: admin/class-wpmovielibrary-admin.php:112
+msgid "VHS"
+msgstr ""
+
+#: admin/class-wpmovielibrary-admin.php:113
+msgid "Theater"
+msgstr ""
+
+#: admin/class-wpmovielibrary-admin.php:114
 msgid "Other"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:119
-#: admin/class-wpmovielibrary-admin.php:124
+#: admin/class-wpmovielibrary-admin.php:123
+#: admin/class-wpmovielibrary-admin.php:128
 msgid "Available"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:120
+#: admin/class-wpmovielibrary-admin.php:124
 msgid "Loaned"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:121
+#: admin/class-wpmovielibrary-admin.php:125
 msgid "Scheduled"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:246
+#: admin/class-wpmovielibrary-admin.php:245
 msgid "Images uploaded!"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:253
+#: admin/class-wpmovielibrary-admin.php:252
 msgid "Searching movie"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:254
+#: admin/class-wpmovielibrary-admin.php:253
 msgid "Fetching movie data"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:255
+#: admin/class-wpmovielibrary-admin.php:254
 msgid "Setting featured image…"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:256
+#: admin/class-wpmovielibrary-admin.php:255
 msgid "Images added!"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:257
+#: admin/class-wpmovielibrary-admin.php:256
 msgid "Saving Images…"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:258
-#: admin/class-wpmovielibrary-admin.php:430
-#: admin/class-wpmovielibrary-admin.php:1180
+#: admin/class-wpmovielibrary-admin.php:257
+#: admin/class-wpmovielibrary-admin.php:313
+#: admin/class-wpmovielibrary-admin.php:1020
 #: admin/includes/class-wpmllisttable.php:34
 msgid "Poster"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:259
+#: admin/class-wpmovielibrary-admin.php:258
 msgid "Done!"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:260
+#: admin/class-wpmovielibrary-admin.php:259
 msgid "Oops… Did something went wrong?"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:295
-#: admin/class-wpmovielibrary-admin.php:307
-msgid "Movies"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:296
-msgid "Movie"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:297
-msgid "Add New"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:298
-msgid "Add New Movie"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:299
-msgid "Edit Movie"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:300
-#: public/class-wpmovielibrary.php:477 public/class-wpmovielibrary.php:479
-msgid "New Movie"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:301
-msgid "All Movies"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:302
-msgid "View Movie"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:303
-msgid "Search Movies"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:304
-msgid "No movies found"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:305
-msgid "No movies found in Trash"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:330
-msgctxt "wpml"
-msgid "Imported Draft"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:335
-msgid "Imported Draft <span class=\"count\">(%s)</span>"
-msgid_plural "Imported Draft <span class=\"count\">(%s)</span>"
-msgstr[0] ""
-msgstr[1] ""
-
-#: admin/class-wpmovielibrary-admin.php:352
-#: admin/class-wpmovielibrary-admin.php:432
+#: admin/class-wpmovielibrary-admin.php:315
+#: public/class-wpmovielibrary.php:633
 msgid "Collections"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:353
-msgid "New Movie Collection"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:368
-#: admin/class-wpmovielibrary-admin.php:433
+#: admin/class-wpmovielibrary-admin.php:316
+#: public/class-wpmovielibrary.php:153 public/class-wpmovielibrary.php:649
 msgid "Actors"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:369
-msgid "New Actor"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:385
-msgid "New Genre"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:457
-#: admin/class-wpmovielibrary-admin.php:463
+#: admin/class-wpmovielibrary-admin.php:340
+#: admin/class-wpmovielibrary-admin.php:346
 msgid "Listed in: "
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:460
+#: admin/class-wpmovielibrary-admin.php:343
 msgid "Staring: "
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:590
+#: admin/class-wpmovielibrary-admin.php:473
 msgid "TMDb − The Movie Database"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:591
+#: admin/class-wpmovielibrary-admin.php:474
 msgid "Movie Library − Details"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:646
-#: admin/class-wpmovielibrary-admin.php:647 admin/views/import.php:53
+#: admin/class-wpmovielibrary-admin.php:531
+#: admin/class-wpmovielibrary-admin.php:532 admin/views/import.php:53
 msgid "Import Movies"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:654
-#: admin/class-wpmovielibrary-admin.php:655
-msgid "Export Movies"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:662
-#: admin/class-wpmovielibrary-admin.php:663
+#: admin/class-wpmovielibrary-admin.php:547
+#: admin/class-wpmovielibrary-admin.php:548
 msgid "Options"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:681
+#: admin/class-wpmovielibrary-admin.php:566
 msgid "Default Settings have been restored."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:710
+#: admin/class-wpmovielibrary-admin.php:595
 msgid "Settings saved."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:776
-msgid "Movie rating"
-msgstr ""
-
-#: admin/class-wpmovielibrary-admin.php:984
+#: admin/class-wpmovielibrary-admin.php:824
 msgid "%d Movie%s added successfully."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:986
+#: admin/class-wpmovielibrary-admin.php:826
 msgid "The following error(s) occured:"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:1021
+#: admin/class-wpmovielibrary-admin.php:861
 msgid "Movie \"%s\" already imported."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:1023
+#: admin/class-wpmovielibrary-admin.php:863
 #: admin/includes/class-wpmllisttable.php:97
 #: admin/views/metabox-details.php:11 admin/views/metabox-details.php:29
 #: admin/views/metabox-details.php:47
 msgid "Edit"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:1025
+#: admin/class-wpmovielibrary-admin.php:865
 msgid "View"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:1070
+#: admin/class-wpmovielibrary-admin.php:910
 msgid "An error occured trying to delete Post #%s"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:1076
+#: admin/class-wpmovielibrary-admin.php:916
 msgid "An error occured trying to delete Attachment #%s"
 msgstr ""
 
@@ -297,11 +233,6 @@ msgstr ""
 
 #: admin/includes/class-wpmllisttable.php:33
 msgid "ID"
-msgstr ""
-
-#: admin/includes/class-wpmllisttable.php:36
-#: public/class-wpmovielibrary.php:106
-msgid "Director"
 msgstr ""
 
 #: admin/includes/class-wpmllisttable.php:37 admin/views/metabox-tmdb.php:18
@@ -321,23 +252,23 @@ msgstr ""
 msgid "Fetch data from TMDb"
 msgstr ""
 
-#: admin/includes/class-wpmltmdb.php:210
+#: admin/includes/class-wpmltmdb.php:243
 msgid "Invalid API key - You must be granted a valid key"
 msgstr ""
 
-#: admin/includes/class-wpmltmdb.php:212
+#: admin/includes/class-wpmltmdb.php:245
 msgid "Valid API key - Save your settings and have fun!"
 msgstr ""
 
-#: admin/includes/class-wpmltmdb.php:303 admin/includes/class-wpmltmdb.php:332
+#: admin/includes/class-wpmltmdb.php:336 admin/includes/class-wpmltmdb.php:365
 msgid "I&rsquo;m Jack&rsquo;s empty result."
 msgstr ""
 
-#: admin/includes/class-wpmltmdb.php:303 admin/includes/class-wpmltmdb.php:332
+#: admin/includes/class-wpmltmdb.php:336 admin/includes/class-wpmltmdb.php:365
 msgid "Sorry, your search returned no result. Try a more specific query?"
 msgstr ""
 
-#: admin/includes/class-wpmltmdb.php:314
+#: admin/includes/class-wpmltmdb.php:347
 msgid ""
 "Your request showed multiple results. Select your movie in the list or try "
 "another search:"
@@ -359,7 +290,7 @@ msgstr ""
 msgid "Deactivate/Uninstall"
 msgstr ""
 
-#: admin/views/admin.php:22
+#: admin/views/admin.php:22 admin/views/admin.php:404
 msgid "Restore"
 msgstr ""
 
@@ -756,6 +687,10 @@ msgid ""
 "you&rsquo;re doing!"
 msgstr ""
 
+#: admin/views/admin.php:409
+msgid "Save Changes"
+msgstr ""
+
 #: admin/views/help.php:4
 msgid "About WPMovieLibrary"
 msgstr ""
@@ -764,8 +699,36 @@ msgstr ""
 msgid "About"
 msgstr ""
 
+#: admin/views/help.php:8
+msgid ""
+"WPMovieLibrary − shortened to WPML − is a WordPress Plugin designed to "
+"handle a personnal library of movies. Using Custom Post Type you can add new "
+"movies, manage collections, write reviews and share your latest-seen/"
+"favorite movies. WPML uses TMDb to gather movies' informations a store your "
+"movies as posts along with TMDb data and images."
+msgstr ""
+
 #: admin/views/help.php:10
 msgid "Credits"
+msgstr ""
+
+#: admin/views/help.php:12
+msgid "The following people took a part, active or not, in WPML development:"
+msgstr ""
+
+#: admin/views/help.php:15
+msgid ""
+"<a href=\"http://th0th.me/log/\">th0th</a>, author of <a href=\"http://"
+"wordpress.org/plugins/th0ths-movie-collection/\"><em>th0th's Movie "
+"Collection</em></a>, the plugin WPML started as a fork of before becoming a "
+"complete new, homemade tool."
+msgstr ""
+
+#: admin/views/help.php:16
+msgid ""
+"<a href=\"http://www.glamorous.be\">Jonas De Smet</a>, author of <a href="
+"\"https://github.com/glamorous/TMDb-PHP-API\">TMDb-PHP-API</a> which WPML is "
+"based on."
 msgstr ""
 
 #: admin/views/help.php:19
@@ -896,16 +859,104 @@ msgstr ""
 msgid "Import Images"
 msgstr ""
 
-#: public/class-wpmovielibrary.php:110
-msgid "Rating"
+#: public/class-wpmovielibrary.php:148
+msgid "Producer"
 msgstr ""
 
-#: public/class-wpmovielibrary.php:430
+#: public/class-wpmovielibrary.php:149
+msgid "Director of Photography"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:150
+msgid "Original Music Composer"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:151
+msgid "Author"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:152
+msgid "Writer"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:437
 msgid ""
 "Congratulation, you successfully installed WPMovieLibrary. You need a valid "
 "<acronym title=\"TheMovieDB\">TMDb</acronym> API key to start adding your "
 "movies. Go to the <a href=\"%s\">WPMovieLibrary Settings page</a> to add "
 "your API key."
+msgstr ""
+
+#: public/class-wpmovielibrary.php:481 public/class-wpmovielibrary.php:484
+#: public/class-wpmovielibrary.php:581
+msgid "New Movie"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:546
+msgid "Movie rating"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:576 public/class-wpmovielibrary.php:588
+msgid "Movies"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:577
+msgid "Movie"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:578
+msgid "Add New"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:579
+msgid "Add New Movie"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:580
+msgid "Edit Movie"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:582
+msgid "All Movies"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:583
+msgid "View Movie"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:584
+msgid "Search Movies"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:585
+msgid "No movies found"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:586
+msgid "No movies found in Trash"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:611
+msgctxt "wpml"
+msgid "Imported Draft"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:616
+msgid "Imported Draft <span class=\"count\">(%s)</span>"
+msgid_plural "Imported Draft <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: public/class-wpmovielibrary.php:634
+msgid "New Movie Collection"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:650
+msgid "New Actor"
+msgstr ""
+
+#: public/class-wpmovielibrary.php:666
+msgid "New Genre"
 msgstr ""
 
 #: public/includes/class-wpmlwidgets.php:32

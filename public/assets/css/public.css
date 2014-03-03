@@ -13,7 +13,7 @@
  ***************************************************/
 
 .movie_rating_display {
-	background-image: url(../assets/rating.png);
+	background-image: url(../img/rating.png);
 	background-position: 0 0;
 	background-repeat: no-repeat;
 	display: inline-block;

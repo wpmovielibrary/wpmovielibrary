@@ -3,10 +3,10 @@
  * WP_List_Table Class extension.
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <contact@caercam.org>
+ * @author    Charlie MERLAND <charlie.merland@gmail.com>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
- * @copyright 2013 CaerCam.org
+ * @copyright 2014 CaerCam.org
  */
 
 if( ! class_exists( 'WP_List_Table' ) ) {
@@ -39,7 +39,7 @@ class WPML_List_Table extends WP_List_Table {
 	}
 	
 	function no_items() {
-		_e( 'No movies found, dude.' );
+		_e( 'No movies found, dude.', 'wpml' );
 	}
 	
 	function column_default( $item, $column_name ) {

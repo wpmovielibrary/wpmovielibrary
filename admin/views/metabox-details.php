@@ -7,14 +7,14 @@
 
 					<div class="misc-pub-section">
 						<span id="movie-status-icon"> <label for="movie_status"><?php _e( 'Status:', 'wpml' ); ?></label></span>
-						<span id="movie-status-display"><?php echo $this->wpml_movie_details['movie_status']['options'][$movie_status]; ?></span>
+						<span id="movie-status-display"><?php _e( $this->wpml_movie_details['movie_status']['options'][$movie_status], 'wpml' ) ?></span>
 						<a href="#movie_status" class="edit-movie-status hide-if-no-js"><?php _e( 'Edit', 'wpml' ); ?></a>
 
 						<div id="movie-status-select" class="hide-if-js">
 							<input type="hidden" name="hidden_movie_status" id="hidden_movie_status" value="<?php echo $movie_status; ?>">
 							<select name="wpml_details[movie_status]" id="movie_status">
 <?php foreach ( $this->wpml_movie_details['movie_status']['options'] as $slug => $status ) : ?>
-								<option value="<?php echo $slug; ?>" <?php selected( $status, $movie_status ); ?>><?php echo $status; ?></option>
+								<option value="<?php echo $slug; ?>" <?php selected( $status, $movie_status ); ?>><?php _e( $status, 'wpml' ) ?></option>
 <?php endforeach; ?>
 							</select>
 							<a href="#movie_status" class="save-movie-status hide-if-no-js button"><?php _e( 'OK', 'wpml' ); ?></a>
@@ -25,14 +25,14 @@
 
 					<div class="misc-pub-section">
 						<span id="movie-media-icon"> <label for="movie_media"><?php _e( 'Media:', 'wpml' ); ?></label></span>
-						<span id="movie-media-display"><?php echo $this->wpml_movie_details['movie_media']['options'][$movie_media]; ?></span>
+						<span id="movie-media-display"><?php _e( $this->wpml_movie_details['movie_media']['options'][$movie_media], 'wpml' ) ?></span>
 						<a href="#movie_media" class="edit-movie-media hide-if-no-js"><?php _e( 'Edit', 'wpml' ); ?></a>
 
 						<div id="movie-media-select" class="hide-if-js">
 							<input type="hidden" name="hidden_movie_media" id="hidden_movie_media" value="<?php echo $movie_media; ?>">
 							<select name="wpml_details[movie_media]" id="movie_media">
 <?php foreach ( $this->wpml_movie_details['movie_media']['options'] as $slug => $media ) : ?>
-								<option value="<?php echo $slug; ?>" <?php selected( $media, $movie_media ); ?>><?php echo $media; ?></option>
+								<option value="<?php echo $slug; ?>" <?php selected( $media, $movie_media ); ?>><?php _e( $media, 'wpml' ) ?></option>
 <?php endforeach; ?>
 							</select>
 							<a href="#movie_media" class="save-movie-media hide-if-no-js button"><?php _e( 'OK', 'wpml' ); ?></a>

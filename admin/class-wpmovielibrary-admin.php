@@ -4,7 +4,7 @@
  *
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie.merland@gmail.com>
- * @license   GPL-3.0+
+ * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 Charlie MERLAND
  */
@@ -67,6 +67,9 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 
 	/**
 	 * Initialize WPMovieLibrary.
+	 * 
+	 * i18n calls are absolutely useless here since _*() functions are called
+	 * in views, but the calls are kept here to generate working pot files.
 	 *
 	 * @since     1.0.0
 	 */
@@ -88,14 +91,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			'runtime'              => array( 'title' => __( 'Runtime', 'wpml' ), 'type' => 'text' ),
 			'genres'               => array( 'title' => __( 'Genres', 'wpml' ), 'type' => 'text' ),
 			'release_date'         => array( 'title' => __( 'Release Date', 'wpml' ), 'type' => 'text' )
-		);
-
-		$this->default_post_tmdb = array(
-			'director' => 'Director',
-			'genres'   => 'Genres',
-			'runtime'  => 'Runtime',
-			'overview' => 'Overview',
-			'rating'   => 'Rating'
 		);
 
 		$this->wpml_movie_details = array(

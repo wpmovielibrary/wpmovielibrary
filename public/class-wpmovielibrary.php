@@ -4,7 +4,7 @@
  *
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie.merland@gmail.com>
- * @license   GPL-3.0+
+ * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 Charlie MERLAND
  */
@@ -144,15 +144,23 @@ class WPMovieLibrary {
 					'images_max'      => 12,
 				),
 				'default_fields' => array(
-					'director'     => 'Director',
-					'producer'     => 'Producer',
-					'photography'  => 'Director of Photography',
-					'composer'     => 'Original Music Composer',
-					'author'       => 'Author',
-					'writer'       => 'Writer',
-					'cast'         => 'Actors'
+					'director'     => __( 'Director', 'wpml' ),
+					'producer'     => __( 'Producer', 'wpml' ),
+					'photography'  => __( 'Director of Photography', 'wpml' ),
+					'composer'     => __( 'Original Music Composer', 'wpml' ),
+					'author'       => __( 'Author', 'wpml' ),
+					'writer'       => __( 'Writer', 'wpml' ),
+					'cast'         => __( 'Actors', 'wpml' )
 				)
 			),
+		);
+
+		$this->default_post_tmdb = array(
+			'director' => __( 'Director', 'wpml' ),
+			'genres'   => __( 'Genres', 'wpml' ),
+			'runtime'  => __( 'Runtime', 'wpml' ),
+			'overview' => __( 'Overview', 'wpml' ),
+			'rating'   => __( 'Rating', 'wpml' )
 		);
 
 		// Load settings or register new ones

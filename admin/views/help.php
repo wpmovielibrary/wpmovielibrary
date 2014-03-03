@@ -5,15 +5,15 @@
 
 		<h4><?php _e( 'About', 'wpml' ); ?></h4>
 
-		<p>WPMovieLibrary − shortened to WPML − is a WordPress Plugin designed to handle a personnal library of movies. Using Custom Post Type you can add new movies, manage collections, write reviews and share your latest-seen/favorite movies. WPML uses TMDb to gather movies' informations a store your movies as posts along with TMDb data and images.</p>
+		<p><?php _e( 'WPMovieLibrary − shortened to WPML − is a WordPress Plugin designed to handle a personnal library of movies. Using Custom Post Type you can add new movies, manage collections, write reviews and share your latest-seen/favorite movies. WPML uses TMDb to gather movies\' informations a store your movies as posts along with TMDb data and images.', 'wpml' ) ?></p>
 
 		<h4><?php _e( 'Credits', 'wpml' ); ?></h4>
 
-		<p>The following people took a part, active or not, in WPML development:</p>
+		<p><?php _e( 'The following people took a part, active or not, in WPML development:', 'wpml' ) ?></p>
 
 		<ul>
-			<li><a href="http://th0th.me/log/">th0th</a>, author of <a href="http://wordpress.org/plugins/th0ths-movie-collection/"><em>th0th's Movie Collection</em></a>, the plugin WPML started as a fork of before becoming a complete new, homemade tool.</li>
-			<li><a href="http://www.glamorous.be">Jonas De Smet</a>, author of <a href="https://github.com/glamorous/TMDb-PHP-API">TMDb-PHP-API</a> which WPML is based on.</li>
+			<li><?php _e( '<a href="http://th0th.me/log/">th0th</a>, author of <a href="http://wordpress.org/plugins/th0ths-movie-collection/"><em>th0th\'s Movie Collection</em></a>, the plugin WPML started as a fork of before becoming a complete new, homemade tool.', 'wpml' ) ?></li>
+			<li><?php _e( '<a href="http://www.glamorous.be">Jonas De Smet</a>, author of <a href="https://github.com/glamorous/TMDb-PHP-API">TMDb-PHP-API</a> which WPML is based on.', 'wpml' ) ?></li>
 		</ul>
 
 		<h4><?php _e( 'Contribute', 'wpml' ); ?></h4>

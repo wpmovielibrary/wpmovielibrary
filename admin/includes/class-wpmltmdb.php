@@ -1,4 +1,13 @@
 <?php
+/**
+ * WPMovieLibrary_Admin Class extension.
+ *
+ * @package   WPMovieLibrary
+ * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @license   GPL-3.0
+ * @link      http://www.caercam.org/
+ * @copyright 2014 CaerCam.org
+ */
 
 class WPML_TMDb extends WPMovieLibrary_Admin {
 

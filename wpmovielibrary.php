@@ -9,7 +9,7 @@
  *
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie.merland@gmail.com>
- * @license   GPL-3.0+
+ * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org
  *
@@ -21,7 +21,7 @@
  * Author:      Charlie MERLAND
  * Author URI:  http://www.caercam.org/
  * Text Domain: wpml
- * License:     GPL-3.0+
+ * License:     GPL-3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
  * Domain Path: /languages
  * GitHub Plugin URI: https://github.com/Askelon/WPMovieLibrary
@@ -53,13 +53,6 @@ add_action( 'plugins_loaded', array( 'WPMovieLibrary', 'get_instance' ) );
  *----------------------------------------------------------------------------*/
 
 /*
- * If you want to include Ajax within the dashboard, change the following
- * conditional to:
- *
- * if ( is_admin() ) {
- *   ...
- * }
- *
  * The code below is intended to to give the lightest footprint possible.
  */
 if ( is_admin() ) {

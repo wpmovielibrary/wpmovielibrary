@@ -401,12 +401,12 @@ foreach ( $this->default_post_tmdb as $slug => $post_tmdb ) :
 					<?php _e( '<strong>Caution!</strong> Doing this you will erase permanently all your custom settings. Don&rsquo;t do this unless you are positively sure of what you&rsquo;re doing!', 'wpml' ); ?>
 				</p>
 				<p style="text-align:center">
-					<input id="restore_default" type="submit" name="restore_default" class="button button-secondary button-large" value="Restore" />
+					<input id="restore_default" type="submit" name="restore_default" class="button button-secondary button-large" value="<?php _e( 'Restore', 'wpml' ) ?>" />
 				</p>
 			</div>
 
 			<p class="submit">
-				<input type="submit" id="submit" name="submit" class="button-primary" value="Save Changes" />
+				<input type="submit" id="submit" name="submit" class="button-primary" value="<?php _e( 'Save Changes', 'wpml' ) ?>" />
 			</p>
 
 		</form>

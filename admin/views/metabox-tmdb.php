@@ -34,7 +34,7 @@ endif;
 				<tbody>
 <?php foreach ( $this->wpml_meta as $slug => $meta ) : ?>
 					<tr>
-						<td class="left"><?php echo $meta['title']; ?></td>
+						<td class="left"><?php _e( $meta['title'], 'wpml' ) ?></td>
 <?php if ( isset( $meta['type'] ) && 'textarea' == $meta['type'] ) : ?>
 						<td>
 							<textarea id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $slug; ?>]" class="tmdb_data_field" rows="6"><?php echo ( isset( $value[$slug] ) && '' != $value[$slug] ? $value[$slug] : '' ); ?></textarea>
