@@ -12,7 +12,7 @@ if ( $genres && ! is_wp_error( $genres ) ) :
 	if ( 1 == $list ) {
 		$before_list  = "\t\t".'<select id="genres-list"'.$css.'>';
 		$before_list .= sprintf( '<option value="">%s</option>', __( 'Select a Genre', 'wpml' ) );
-		$after_list   = "\n\t\t".'</select>'."\n\t\t".'<script type="text/javascript">/* <![CDATA[ */ var cdd = document.getElementById("genres-list"); function onGenreChange() { if ( cdd.options[cdd.selectedIndex].value.length > 0 ) { location.href = "' . home_url( '?genre=' ) . '"+cdd.options[cdd.selectedIndex].value; } } cdd.onchange = onGenreChange; /* ]]> */</script>'."\n";
+		$after_list   = "\n\t\t".'</select>'."\n";
 	}
 	else {
 		$before_list = "\t\t".'<ul>';
@@ -24,12 +24,13 @@ if ( $genres && ! is_wp_error( $genres ) ) :
 	foreach ( $genres as $genre ) :
 
 		$count = ( 1 == $count ? sprintf( '&nbsp;(%d)', $genre->count ) : '' );
+		$link  = get_term_link( sanitize_term( $genre, 'genre' ), 'genre' );
 		
 		if ( 1 == $list ) {
-			printf( '<option value="%s">%s%s</option>', $genre->slug, $genre->name, $count );
+			printf( '<option value="%s">%s%s</option>', $link, $genre->name, $count );
 		}
 		else {
-			printf( '<li><a href="%s" title="%s">%s</a>%s</li>', get_term_link( $genre ), sprintf( __( 'View all movies from "%s" Genre', 'wpml' ), $genre->name ), $genre->name, $count );
+			printf( '<li><a href="%s" title="%s">%s</a>%s</li>', $link, sprintf( __( 'View all movies from "%s" Genre', 'wpml' ), $genre->name ), $genre->name, $count );
 		}
 
 	endforeach;

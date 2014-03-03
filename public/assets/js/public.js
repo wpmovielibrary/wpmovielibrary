@@ -1,10 +1,7 @@
-(function ( $ ) {
-	"use strict";
+jQuery(document).ready(function($) {
 
-	$(function () {
-
-		// Place your public-facing JavaScript here
-
+	$("#genres-list, #actors-list, #collections-list").change(function() {
+		if ( this.options[ this.selectedIndex ].value.length > 0 )
+			location.href = this.options[ this.selectedIndex ].value;
 	});
-
-}(jQuery));
+});

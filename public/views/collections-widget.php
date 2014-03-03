@@ -13,7 +13,7 @@ if ( $collections && ! is_wp_error( $collections ) ) :
 	if ( 1 == $list ) {
 		$before_list  = "\t\t".'<select id="collections-list"'.$css.'>';
 		$before_list .= sprintf( '<option value="">%s</option>', __( 'Select a Collection', 'wpml' ) );
-		$after_list   = "\n\t\t".'</select>'."\n\t\t".'<script type="text/javascript">/* <![CDATA[ */ var cdd = document.getElementById("collections-list"); function onCollectionChange() { if ( cdd.options[cdd.selectedIndex].value.length > 0 ) { location.href = "' . home_url( '?collection=' ) . '"+cdd.options[cdd.selectedIndex].value; } } cdd.onchange = onCollectionChange; /* ]]> */</script>'."\n";
+		$after_list   = "\n\t\t".'</select>'."\n";
 	}
 	else {
 		$before_list = "\t\t".'<ul>';
@@ -25,12 +25,13 @@ if ( $collections && ! is_wp_error( $collections ) ) :
 	foreach ( $collections as $collection ) :
 
 		$count = ( 1 == $count ? sprintf( '&nbsp;(%d)', $collection->count ) : '' );
+		$link  = get_term_link( sanitize_term( $collection, 'collection' ), 'collection' );
 		
 		if ( 1 == $list ) {
-			printf( '<option value="%s">%s%s</option>', $collection->slug, $collection->name, $count );
+			printf( '<option value="%s">%s%s</option>', $link, $collection->name, $count );
 		}
 		else {
-			printf( '<li><a href="%s" title="%s">%s</a>%s</li>', get_term_link( $collection ), sprintf( __( 'View all movies from "%s" Collection', 'wpml' ), $collection->name ), $collection->name, $count );
+			printf( '<li><a href="%s" title="%s">%s</a>%s</li>', $link, sprintf( __( 'View all movies from "%s" Collection', 'wpml' ), $collection->name ), $collection->name, $count );
 		}
 
 	endforeach;

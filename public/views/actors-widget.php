@@ -12,7 +12,7 @@ if ( $actors && ! is_wp_error( $actors ) ) :
 	if ( 1 == $list ) {
 		$before_list  = "\t\t".'<select id="actors-list"'.$css.'>';
 		$before_list .= sprintf( '<option value="">%s</option>', __( 'Select an Actor', 'wpml' ) );
-		$after_list   = "\n\t\t".'</select>'."\n\t\t".'<script type="text/javascript">/* <![CDATA[ */ var cdd = document.getElementById("actors-list"); function onActorChange() { if ( cdd.options[cdd.selectedIndex].value.length > 0 ) { location.href = "' . home_url( '?actor=' ) . '"+cdd.options[cdd.selectedIndex].value; } } cdd.onchange = onActorChange; /* ]]> */</script>'."\n";
+		$after_list   = "\n\t\t".'</select>'."\n";
 	}
 	else {
 		$before_list = "\t\t".'<ul>';
@@ -24,12 +24,13 @@ if ( $actors && ! is_wp_error( $actors ) ) :
 	foreach ( $actors as $actor ) :
 
 		$count = ( 1 == $count ? sprintf( '&nbsp;(%d)', $actor->count ) : '' );
+		$link  = get_term_link( sanitize_term( $actor, 'actor' ), 'actor' );
 		
 		if ( 1 == $list ) {
-			printf( '<option value="%s">%s%s</option>', $actor->slug, $actor->name, $count );
+			printf( '<option value="%s">%s%s</option>', $link, $actor->name, $count );
 		}
 		else {
-			printf( '<li><a href="%s" title="%s">%s</a>%s</li>', get_term_link( $actor ), sprintf( __( 'View all movies staring "%s"', 'wpml' ), $actor->name ), $actor->name, $count );
+			printf( '<li><a href="%s" title="%s">%s</a>%s</li>', $link, sprintf( __( 'View all movies staring "%s"', 'wpml' ), $actor->name ), $actor->name, $count );
 		}
 
 	endforeach;

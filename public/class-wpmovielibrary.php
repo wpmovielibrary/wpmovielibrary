@@ -176,6 +176,7 @@ class WPMovieLibrary {
 
 		// Enqueue scripts and styles
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// Add link to WP Admin Bar
 		add_action( 'wp_before_admin_bar_render', array( $this, 'wpml_admin_bar_menu' ), 999 );
@@ -458,6 +459,16 @@ class WPMovieLibrary {
 	}
 
 	/**
+	 * Register and enqueue public-facing style sheet.
+	 *
+	 * @since    1.0.0
+	 */
+	public function enqueue_scripts() {
+
+		wp_enqueue_script( $this->plugin_slug, plugins_url( 'assets/js/public.js', __FILE__ ), array(), WPMovieLibrary::VERSION, true );
+	}
+
+	/**
 	 * Load the plugin text domain for translation.
 	 *
 	 * @since    1.0.0
@@ -555,7 +566,7 @@ class WPMovieLibrary {
 
 		foreach ( $this->wpml_o( 'wpml-settings-default_post_tmdb' ) as $field ) {
 			if ( in_array( $field, array_keys( $this->default_post_tmdb ) ) && isset( $tmdb_data[ $field ] ) ) {
-				$html .= sprintf( '<dt>%s</dt><dd>%s</dd>', __( 'Movie ' . $field, 'wpml' ), $tmdb_data[ $field ] );
+				$html .= sprintf( '<dt>%s</dt><dd>%s</dd>', __( ucfirst( $field ), 'wpml' ), $tmdb_data[ $field ] );
 			}
 		}
 
