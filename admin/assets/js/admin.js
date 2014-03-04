@@ -308,10 +308,6 @@ wpml = {
 					$('#newcollection').prop('value', this.name);
 					$('#collection-add-submit').click();
 				});
-				$.each($('#collectionchecklist > li'), function(i) {
-					var id = this.id.replace('collection-','');
-					$('#in-collection-' + id + ', #in-popular-collection-' + id).prop('checked', true);
-				});
 			}
 		},
 
