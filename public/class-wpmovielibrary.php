@@ -156,11 +156,16 @@ class WPMovieLibrary {
 		);
 
 		$this->default_post_tmdb = array(
-			'director' => __( 'Director', 'wpml' ),
-			'genres'   => __( 'Genres', 'wpml' ),
-			'runtime'  => __( 'Runtime', 'wpml' ),
-			'overview' => __( 'Overview', 'wpml' ),
-			'rating'   => __( 'Rating', 'wpml' )
+			'title'                => __( 'Title', 'wpml' ),
+			'original_title'       => __( 'Original Title', 'wpml' ),
+			'release_date'         => __( 'Release Date', 'wpml' ),
+			'genres'               => __( 'Genres', 'wpml' ),
+			'director'             => __( 'Director', 'wpml' ),
+			'cast'                 => __( 'Actors', 'wpml' ),
+			'production_countries' => __( 'Country', 'wpml' ),
+			'runtime'              => __( 'Runtime', 'wpml' ),
+			'overview'             => __( 'Overview', 'wpml' ),
+			'rating'               => __( 'Rating', 'wpml' )
 		);
 
 		// Load settings or register new ones
@@ -554,19 +559,42 @@ class WPMovieLibrary {
 
 		$tmdb_data = get_post_meta( get_the_ID(), '_wpml_movie_data', true );
 		$movie_rating = get_post_meta( get_the_ID(), '_wpml_movie_rating', true );
+		$fields = $this->wpml_o( 'wpml-settings-default_post_tmdb' );
+		$default_format = '<dt class="wpml_%s_field_title">%s</dt><dd class="wpml_%s_field_value">%s</dd>';
 
-		if ( '' == $tmdb_data )
+		if ( '' == $tmdb_data || empty( $fields ) )
 			return $content;
 
 		$html  = '<dl class="wpml_movie">';
 
+		foreach ( $fields as $field ) {
 
-		if ( in_array( 'rating', $this->wpml_o( 'wpml-settings-default_post_tmdb' ) ) )
-			$html .= sprintf( '<dt>%s</dt><dd><div class="movie_rating_display stars-%d"></div></dd>', __( 'Movie rating', 'wpml' ), ( '' == $movie_rating ? 0 : (int) $movie_rating ) );
-
-		foreach ( $this->wpml_o( 'wpml-settings-default_post_tmdb' ) as $field ) {
-			if ( in_array( $field, array_keys( $this->default_post_tmdb ) ) && isset( $tmdb_data[ $field ] ) ) {
-				$html .= sprintf( '<dt>%s</dt><dd>%s</dd>', __( ucfirst( $field ), 'wpml' ), $tmdb_data[ $field ] );
+			switch ( $field ) {
+				case 'genres':
+					$html .= sprintf( $default_format, $field, __( ucfirst( $field ), 'wpml' ), $field, $tmdb_data[ $field ] );
+					break;
+				case 'production_countries':
+					$html .= sprintf( $default_format, $field, __( 'Country', 'wpml' ), $field, $tmdb_data[ $field ] );
+					break;
+				case 'release_date':
+					$html .= sprintf( $default_format, $field, __( 'Release Date', 'wpml' ), $field, $tmdb_data[ $field ] );
+					break;
+				case 'original_title':
+					$html .= sprintf( $default_format, $field, __( 'Original Title', 'wpml' ), $field, $tmdb_data[ $field ] );
+					break;
+				case 'director':
+					$html .= sprintf( $default_format, $field, __( 'Directed by', 'wpml' ), $field, $tmdb_data[ $field ] );
+					break;
+				case 'cast':
+					$html .= sprintf( $default_format, $field, __( 'With', 'wpml' ), $field, $tmdb_data[ $field ] );
+					break;
+				case 'rating':
+					$html .= sprintf( $default_format, $field, __( 'Movie rating', 'wpml' ), $field, sprintf( '<div class="movie_rating_display stars-%d"></div>', ( '' == $movie_rating ? 0 : (int) $movie_rating ) ) );
+					break;
+				default:
+					if ( in_array( $field, array_keys( $this->default_post_tmdb ) ) && isset( $tmdb_data[ $field ] ) )
+						$html .= sprintf( $default_format, $field, __( ucfirst( $field ), 'wpml' ), $field, $tmdb_data[ $field ] );
+					break;
 			}
 		}
 

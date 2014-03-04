@@ -123,11 +123,16 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		);
 
 		$this->default_post_tmdb = array(
-			'director' => __( 'Director', 'wpml' ),
-			'genres'   => __( 'Genres', 'wpml' ),
-			'runtime'  => __( 'Runtime', 'wpml' ),
-			'overview' => __( 'Overview', 'wpml' ),
-			'rating'   => __( 'Rating', 'wpml' )
+			'title'                => __( 'Title', 'wpml' ),
+			'original_title'       => __( 'Original Title', 'wpml' ),
+			'release_date'         => __( 'Release Date', 'wpml' ),
+			'genres'               => __( 'Genres', 'wpml' ),
+			'director'             => __( 'Director', 'wpml' ),
+			'cast'                 => __( 'Actors', 'wpml' ),
+			'production_countries' => __( 'Country', 'wpml' ),
+			'runtime'              => __( 'Runtime', 'wpml' ),
+			'overview'             => __( 'Overview', 'wpml' ),
+			'rating'               => __( 'Rating', 'wpml' )
 		);
 
 		$this->plugin_screen_hook_suffix = array(

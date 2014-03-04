@@ -12,6 +12,11 @@
 /** Movie Post TMDb
  ***************************************************/
 
+.wpml_movie .wpml_title_field_value,
+.wpml_movie .wpml_original_title_field_value {
+	font-style: italic;
+}
+
 .movie_rating_display {
 	background-image: url(../img/rating.png);
 	background-position: 0 0;

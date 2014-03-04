@@ -162,7 +162,7 @@
 								<label for="default_post_tmdb"><?php _e( 'Movie details items', 'wpml' ); ?></label>
 							</th>
 							<td>
-								<select id="default_post_tmdb" name="tmdb_data[wpml][default_post_tmdb][]" multiple>
+								<select id="default_post_tmdb" name="tmdb_data[wpml][default_post_tmdb][]" style="min-height:<?php echo round( count( $this->default_post_tmdb ) * 1.4, 1 ) ?>em;min-width:12em;" multiple>
 <?php
 foreach ( $this->default_post_tmdb as $slug => $post_tmdb ) :
 	$check = in_array( $slug, $this->wpml_o('wpml-settings-default_post_tmdb' ) ) || in_array( $post_tmdb, $this->wpml_o('wpml-settings-default_post_tmdb' ) );
