@@ -518,7 +518,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		$movie_media  = ( isset( $v ) && '' != $v ? $v : key( $this->wpml_movie_details['movie_media']['default'] ) );
 
 		$v = get_post_meta( $post->ID, '_wpml_movie_rating', true );
-		$movie_rating = ( isset( $v ) && '' != $v ? $v : 0 );
+		$movie_rating = ( isset( $v ) && '' != $v ? $v : 0.0 );
+		$movie_rating_str = str_replace( '.', '_', $movie_rating );
 
 		include_once( 'views/metabox-details.php' );
 	}

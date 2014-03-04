@@ -33,11 +33,17 @@
 	margin: 1em 1em 1em 2em;
 }
 
-.movie_rating_display.stars-1 {background-position: 0 -16px !important;}
-.movie_rating_display.stars-2 {background-position: 0 -32px !important;}
-.movie_rating_display.stars-3 {background-position: 0 -48px !important;}
-.movie_rating_display.stars-4 {background-position: 0 -64px !important;}
-.movie_rating_display.stars-5 {background-position: 0 -80px !important;}
+.stars_0_0 {background-position: 0 0;}
+.stars_0_5 {background-position: 0 -16px;}
+.stars_1_0 {background-position: 0 -32px;}
+.stars_1_5 {background-position: 0 -48px;}
+.stars_2_0 {background-position: 0 -64px;}
+.stars_2_5 {background-position: 0 -80px;}
+.stars_3_0 {background-position: 0 -96px;}
+.stars_3_5 {background-position: 0 -112px;}
+.stars_4_0 {background-position: 0 -128px;}
+.stars_4_5 {background-position: 0 -144px;}
+.stars_5_0 {background-position: 0 -160px;}
 
 .widget-description {
 	margin: 0.5em 0 !important;

@@ -43,18 +43,27 @@
 
 					<div class="misc-pub-section">
 						<label for="movie_rating"><?php _e( 'Rating:', 'wpml' ); ?></label>
-						<div id="movie_rating_display" class="stars-<?php echo $movie_rating; ?>"></div>
-						<a href="#movie_rating" class="edit-movie-rating hide-if-no-js"><?php _e( 'Edit', 'wpml' ); ?></a>
+						<div id="movie-rating-display" class="stars_<?php echo $movie_rating_str; ?>"></div>
+						<a href="#movie-rating" class="edit-movie-rating hide-if-no-js"><?php _e( 'Edit', 'wpml' ); ?></a>
 
 						<div id="movie-rating-select" class="hide-if-js">
 							<input type="hidden" name="hidden_movie_rating" id="hidden_movie_rating" value="<?php echo $movie_rating; ?>">
 							<input type="hidden" name="wpml_details[movie_rating]" id="movie_rating" value="<?php echo $movie_rating; ?>">
-							<div id="stars">
-								<div id="star-1" class="star<?php echo ( $movie_rating >= 1 ? ' s' : '' ); ?>"></div>
-								<div id="star-2" class="star<?php echo ( $movie_rating >= 2 ? ' s' : '' ); ?>"></div>
-								<div id="star-3" class="star<?php echo ( $movie_rating >= 3 ? ' s' : '' ); ?>"></div>
-								<div id="star-4" class="star<?php echo ( $movie_rating >= 4 ? ' s' : '' ); ?>"></div>
-								<div id="star-5" class="star<?php echo ( $movie_rating >= 5 ? ' s' : '' ); ?>"></div>
+							<div class="movie-rating-block">
+								<div id="stars" data-default-rating="<?php echo $movie_rating; ?>" data-rating="<?php echo $movie_rating; ?>" data-rated="false" class="stars stars_<?php echo $movie_rating_str; ?>">
+									<div id="stars_label">
+										<span id="stars_label_0_5" class="stars_label"><?php _e( 'Junk', 'wpml' ) ?></span>
+										<span id="stars_label_1_0" class="stars_label"><?php _e( 'Very bad', 'wpml' ) ?></span>
+										<span id="stars_label_1_5" class="stars_label"><?php _e( 'Bad', 'wpml' ) ?></span>
+										<span id="stars_label_2_0" class="stars_label"><?php _e( 'Not that bad', 'wpml' ) ?></span>
+										<span id="stars_label_2_5" class="stars_label"><?php _e( 'Average', 'wpml' ) ?></span>
+										<span id="stars_label_3_0" class="stars_label"><?php _e( 'Not bad', 'wpml' ) ?></span>
+										<span id="stars_label_3_5" class="stars_label"><?php _e( 'Good', 'wpml' ) ?></span>
+										<span id="stars_label_4_0" class="stars_label"><?php _e( 'Very good', 'wpml' ) ?></span>
+										<span id="stars_label_4_5" class="stars_label"><?php _e( 'Excellent', 'wpml' ) ?></span>
+										<span id="stars_label_5_0" class="stars_label"><?php _e( 'Masterpiece', 'wpml' ) ?></span>
+									</div>
+								</div>
 							</div>
 							<a href="#movie_media" class="save-movie-rating hide-if-no-js button"><?php _e( 'OK', 'wpml' ); ?></a>
 							<a href="#movie_media" class="cancel-movie-rating hide-if-no-js"><?php _e( 'Cancel', 'wpml' ); ?></a>

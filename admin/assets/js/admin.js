@@ -103,52 +103,96 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
-	// Rating
+	/*
+	 * Movie Rating
+	 */
 
-	$('#movie-rating-select').siblings('a.edit-movie-rating').click(function() {
-		if ( $('#movie-rating-select').is(":hidden") ) {
-			$('#movie_rating_display').hide();
-			$('#movie-rating-select').slideDown('fast');
+	$stars = $('#stars');
+	$select = $('#movie-rating-select');
+	$display = $('#movie-rating-display');
+
+	$stars.mousemove(function(e) {
+
+		var parentOffset = $(this).offset(); 
+		var relX = e.pageX - parentOffset.left;
+
+		if ( relX <= 0 ) var _rate = '0';
+		if ( relX > 0 && relX < 8 ) var _rate = '0.5';
+		if ( relX >= 8 && relX < 16 ) var _rate = '1.0';
+		if ( relX >= 16 && relX < 24 ) var _rate = '1.5';
+		if ( relX >= 24 && relX < 32 ) var _rate = '2.0';
+		if ( relX >= 32 && relX < 40 ) var _rate = '2.5';
+		if ( relX >= 40 && relX < 48 ) var _rate = '3.0';
+		if ( relX >= 48 && relX < 56 ) var _rate = '3.5';
+		if ( relX >= 56 && relX < 64 ) var _rate = '4.0';
+		if ( relX >= 64 && relX < 80 ) var _rate = '4.5';
+		if ( relX >= 80 ) var _rate = '5.0';
+
+		var _class = 'stars_' + _rate.replace('.','_');
+		var _label = _class.replace('stars_','stars_label_');
+
+		$(this).removeClass('stars_0 stars_0_0 stars_0_5 stars_1_0 stars_1_5 stars_2_0 stars_2_5 stars_3_0 stars_3_5 stars_4_0 stars_4_5 stars_5_0').addClass(_class);
+		$('.stars_label').hide();
+		$('#'+_label).show();
+		$(this).attr('data-rating', _rate);
+	});
+
+	$stars.mouseleave(function() {
+
+		if ( 'true' == $(this).attr('data-rated') )
+			return false;
+
+		var _class = '';
+
+		if ( $('#hidden_movie_rating').length ) {
+			_class = $('#hidden_movie_rating').val();
+			_class = 'stars_' + _class.replace('.','_');
+		}
+
+		$(this).removeClass('stars_0 stars_0_0 stars_0_5 stars_1_0 stars_1_5 stars_2_0 stars_2_5 stars_3_0 stars_3_5 stars_4_0 stars_4_5 stars_5_0').addClass(_class);
+		$('.stars_label').hide();
+	});
+
+	$stars.click(function() {
+
+		var _rate = $(this).attr('data-rating');
+
+		if ( undefined == _rate )
+			return false;
+
+		_rate = _rate.replace('stars_','');
+		_rate = _rate.replace('_','.');
+
+		$('#movie_rating').val(_rate);
+		$(this).attr('data-rating', _rate);
+		$(this).attr('data-rated', true);
+
+		$('#save_rating').removeAttr('disabled');
+	});
+
+	$select.siblings('a.edit-movie-rating').click(function() {
+		if ( $select.is(":hidden") ) {
+			$('#movie-rating-display').hide();
+			$select.slideDown('fast');
 			$(this).hide();
 		}
 		return false;
 	});
 
 	$('.save-movie-rating', '#movie-rating-select').click(function() {
-		var n = $('.star.s').last().prop('id').replace('star-','');
-		$('#movie-rating-select').slideUp('fast');
-		$('#movie-rating-select').siblings('a.edit-movie-rating').show();
-		$('#movie_rating_display').removeClass().addClass('stars-'+n).show();
+		var n = $('#movie_rating').val();
+		$select.slideUp('fast');
+		$select.siblings('a.edit-movie-rating').show();
+		$display.removeClass().addClass('stars_'+n.replace('.','_')).show();
 		$('#movie_rating, #hidden_movie_rating').val(n);
 		return false;
 	});
 
 	$('.cancel-movie-rating', '#movie-rating-select').click(function() {
-		$('#movie-rating-select').slideUp('fast');
-		$('#movie_media').val($('#hidden_movie_media').val());
-		$('#movie-rating-display').text($('#hidden_movie_media').val());
-		$('#movie-rating-select').siblings('a.edit-movie-rating').show();
-		$('#movie_rating_display').show();
+		$select.slideUp('fast');
+		$select.siblings('a.edit-movie-rating').show();
+		$display.show();
 		return false;
-	});
-
-	$('.star').not('.s').hover(
-		function() {
-			$(this).addClass('on');
-			$(this).prevAll().addClass('on');
-			$(this).nextAll().removeClass('on');
-		},
-		function() {
-			$(this).removeClass('on');
-			$(this).nextAll().removeClass('on');
-		}
-	);
-
-	$('.star').click(function() {
-		$('.star').removeClass('s on');
-		$(this).addClass('s');
-		$(this).prevAll().addClass('s');
-		$(this).nextAll().removeClass('s on');
 	});
 
 	$('input#wpml_save').click(function() {

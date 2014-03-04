@@ -577,7 +577,7 @@ class WPMovieLibrary {
 					$html .= sprintf( $default_format, $field, __( 'Country', 'wpml' ), $field, $tmdb_data[ $field ] );
 					break;
 				case 'release_date':
-					$html .= sprintf( $default_format, $field, __( 'Release Date', 'wpml' ), $field, $tmdb_data[ $field ] );
+					$html .= sprintf( $default_format, $field, __( 'Release Date', 'wpml' ), $field, date_i18n( get_option( 'date_format' ), strtotime( $tmdb_data[ $field ] ) ) );
 					break;
 				case 'original_title':
 					$html .= sprintf( $default_format, $field, __( 'Original Title', 'wpml' ), $field, $tmdb_data[ $field ] );
@@ -586,10 +586,10 @@ class WPMovieLibrary {
 					$html .= sprintf( $default_format, $field, __( 'Directed by', 'wpml' ), $field, $tmdb_data[ $field ] );
 					break;
 				case 'cast':
-					$html .= sprintf( $default_format, $field, __( 'With', 'wpml' ), $field, $tmdb_data[ $field ] );
+					$html .= sprintf( $default_format, $field, __( 'Staring', 'wpml' ), $field, $tmdb_data[ $field ] );
 					break;
 				case 'rating':
-					$html .= sprintf( $default_format, $field, __( 'Movie rating', 'wpml' ), $field, sprintf( '<div class="movie_rating_display stars-%d"></div>', ( '' == $movie_rating ? 0 : (int) $movie_rating ) ) );
+					$html .= sprintf( $default_format, $field, __( 'Movie rating', 'wpml' ), $field, sprintf( '<div class="movie_rating_display stars_%s"></div>', ( '' == $movie_rating ? '0_0' : str_replace( '.', '_', $movie_rating ) ) ) );
 					break;
 				default:
 					if ( in_array( $field, array_keys( $this->default_post_tmdb ) ) && isset( $tmdb_data[ $field ] ) )
