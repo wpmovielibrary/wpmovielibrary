@@ -84,6 +84,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		// Basic movie default fields
 		$this->wpml_meta = array(
 			'title'                => array( 'title' => __( 'Title', 'wpml' ), 'type' => 'text' ),
+			'original_title'       => array( 'title' => __( 'Original Title', 'wpml' ), 'type' => 'text' ),
 			'overview'             => array( 'title' => __( 'Overview', 'wpml' ), 'type' => 'textarea' ),
 			'production_companies' => array( 'title' => __( 'Production', 'wpml' ), 'type' => 'text' ),
 			'production_countries' => array( 'title' => __( 'Country', 'wpml' ), 'type' => 'text' ),
