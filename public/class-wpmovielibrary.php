@@ -412,8 +412,6 @@ class WPMovieLibrary {
 
 		if ( ! $_wp_using_ext_object_cache && 'empty' == $cache ) {
 
-			global $wpdb;
-
 			$sql = "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE \"_transient_%_movies_%\"";
 			$transients = $wpdb->get_col( $sql );
 
@@ -665,6 +663,12 @@ class WPMovieLibrary {
 
 	/**
 	 * Register a 'Collections' custom taxonomy to aggregate movies
+	 * 
+	 * Collections are Category-like taxonomies: hierarchical, no tagcloud.
+	 * Genres and Actors are Tag-like taxonomies: not-hierarchical, tagcloud.
+	 * 
+	 * @see wpml_movies_columns_head()
+	 * @see wpml_movies_columns_content()
 	 *
 	 * @since    1.0.0
 	 */
@@ -679,9 +683,13 @@ class WPMovieLibrary {
 						'name'          => __( 'Collections', 'wpml' ),
 						'add_new_item'  => __( 'New Movie Collection', 'wpml' )
 					),
-					'show_tagcloud' => false,
-					'hierarchical'  => true,
-					'rewrite' => array( 'slug' => 'collection' )
+					'show_ui'           => true,
+					'show_tagcloud'     => false,
+					'show_admin_column' => true,
+					'hierarchical'      => true,
+					'query_var'         => true,
+					'sort'              => true,
+					'rewrite'           => array( 'slug' => 'collection' )
 				)
 			);
 		}
@@ -695,9 +703,13 @@ class WPMovieLibrary {
 						'name'          => __( 'Actors', 'wpml' ),
 						'add_new_item'  => __( 'New Actor', 'wpml' )
 					),
-					'show_tagcloud' => true,
-					'hierarchical'  => false,
-					'rewrite' => array( 'slug' => 'actor' )
+					'show_ui'           => true,
+					'show_tagcloud'     => true,
+					'show_admin_column' => true,
+					'hierarchical'      => false,
+					'query_var'         => true,
+					'sort'              => true,
+					'rewrite'           => array( 'slug' => 'actor' )
 				)
 			);
 		}
@@ -711,9 +723,13 @@ class WPMovieLibrary {
 						'name'          => __( 'Genres', 'wpml' ),
 						'add_new_item'  => __( 'New Genre', 'wpml' )
 					),
-					'show_tagcloud' => true,
-					'hierarchical'  => false,
-					'rewrite' => array( 'slug' => 'genre' )
+					'show_ui'           => true,
+					'show_tagcloud'     => true,
+					'show_admin_column' => true,
+					'hierarchical'      => false,
+					'query_var'         => true,
+					'sort'              => true,
+					'rewrite'           => array( 'slug' => 'genre' )
 				)
 			);
 		}
