@@ -54,6 +54,11 @@
 	position: relative;
 }
 
+.recent-movies a,
+.most-rated-movies a {
+	text-decoration: none;
+}
+
 .recent-movie,
 .most-rated-movie {
 	display: inline-table;
@@ -62,6 +67,7 @@
 	min-height: 120px;
 	min-width: 120px;
 	position: relative;
+	text-align: center;
 	width: 49%;
 }
 
@@ -72,7 +78,14 @@
 }
 
 .most-rated-movie .movie_rating_display.below {
-	margin-top: 0.25em;
+	margin: 0.25em auto 0.75em auto;
+	text-align: right;
+	width: 94%;
+}
+
+.most-rated-movie .movie_rating_display.below small {
+	display: inline-block;
+	margin: 3px 0;
 }
 
 .most-rated-movie .movie_rating_display.above {
