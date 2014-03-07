@@ -313,11 +313,15 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 */
 	public function wpml_movies_columns_head( $defaults ) {
 
-		$p = array_search( 'title', array_keys( $defaults ) ) + 1;
+		$title = array_search( 'title', array_keys( $defaults ) );
+		$genre = array_search( 'genre', array_keys( $defaults ) );
+
 		$defaults = array_merge(
-			array_slice( $defaults, 0, $p - 1, true ),
+			array_slice( $defaults, 0, $title, true ),
 			array( 'poster' => __( 'Poster', 'wpml' ) ),
-			array_slice( $defaults, $p - 1, count( $defaults ) - 1, true )
+			array_slice( $defaults, $title + 1, $genre, true ),
+			array( 'actor' => __( 'Actors', 'wpml' ) ),
+			array_slice( $defaults, $genre + 1, count( $defaults ) - 1, true )
 		);
 		unset( $defaults['author'] );
 		return $defaults;
@@ -337,6 +341,9 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		switch ( $column_name ) {
 			case 'poster':
 				echo '<img src="'.$this->wpml_get_featured_image( $post_id ).'" alt="" />';
+				break;
+			case 'actor':
+				echo $this->wpml_get_the_term_list( $post_id, 'actor', '', ', ', '' );
 				break;
 			default:
 				break;

@@ -584,7 +584,7 @@ class WPMovieLibrary {
 					$html .= sprintf( $default_format, $field, __( 'Directed by', 'wpml' ), $field, $tmdb_data[ $field ] );
 					break;
 				case 'cast':
-					$html .= sprintf( $default_format, $field, __( 'Staring', 'wpml' ), $field, $tmdb_data[ $field ] );
+					$html .= sprintf( $default_format, $field, __( 'Staring', 'wpml' ), $field, $this->wpml_get_the_term_list( get_the_ID(), 'actor', '', ', ', '' ) );
 					break;
 				case 'rating':
 					$html .= sprintf( $default_format, $field, __( 'Movie rating', 'wpml' ), $field, sprintf( '<div class="movie_rating_display stars_%s"></div>', ( '' == $movie_rating ? '0_0' : str_replace( '.', '_', $movie_rating ) ) ) );
@@ -667,6 +667,12 @@ class WPMovieLibrary {
 	 * Collections are Category-like taxonomies: hierarchical, no tagcloud.
 	 * Genres and Actors are Tag-like taxonomies: not-hierarchical, tagcloud.
 	 * 
+	 * Collections and Genres are registered with 'show_admin_column' set to
+	 * true whereas Actors are displayed by a custom way. This is meant to
+	 * override WordPress default ordering of Taxonomies.
+	 * 
+	 * @see https://github.com/Askelon/WPMovieLibrary/issues/7
+	 * 
 	 * @see wpml_movies_columns_head()
 	 * @see wpml_movies_columns_content()
 	 *
@@ -705,7 +711,7 @@ class WPMovieLibrary {
 					),
 					'show_ui'           => true,
 					'show_tagcloud'     => true,
-					'show_admin_column' => true,
+					'show_admin_column' => false,
 					'hierarchical'      => false,
 					'query_var'         => true,
 					'sort'              => true,
@@ -734,6 +740,77 @@ class WPMovieLibrary {
 			);
 		}
 
+	}
+
+	/**
+	 * Retrieve a post's terms as a list with specified format.
+	 * 
+	 * This is a copy of the original get_the_term_list() function to apply
+	 * original order to the terms instead of WordPress default alphabetical
+	 * order.
+	 *
+	 * @since    1.0.0
+	 *
+	 * @param    int       $id Post ID.
+	 * @param    string    $taxonomy Taxonomy name.
+	 * @param    string    $before Optional. Before list.
+	 * @param    string    $sep Optional. Separate items using this.
+	 * @param    string    $after Optional. After list.
+	 * 
+	 * @return   string|bool|WP_Error A list of terms on success, false or WP_Error on failure.
+	 */
+	public function wpml_get_the_term_list( $id, $taxonomy, $before, $sep, $after ) {
+
+		$terms = $this->wpml_get_the_terms( $id, $taxonomy );
+
+		if ( is_wp_error( $terms ) )
+			return $terms;
+
+		if ( empty( $terms ) )
+			return false;
+
+		foreach ( $terms as $term ) {
+			$link = get_term_link( $term, $taxonomy );
+			if ( is_wp_error( $link ) )
+				return $link;
+			$term_links[] = '<a href="' . esc_url( $link ) . '" rel="tag">' . $term->name . '</a>';
+		}
+
+		$term_links = apply_filters( "term_links-$taxonomy", $term_links );
+
+		return $before . join( $sep, $term_links ) . $after;
+	}
+
+	/**
+	 * Retrieve the terms of the taxonomy that are attached to the post.
+	 * 
+	 * This is a copy of the original get_the_terms() function to apply
+	 * original order to the terms instead of WordPress default alphabetical
+	 * order.
+	 *
+	 * @since    1.0.0
+	 *
+	 * @param    int|object $post Post ID or object.
+	 * @param    string     $taxonomy Taxonomy name.
+	 * @return   array|bool|WP_Error Array of term objects on success, false or WP_Error on failure.
+	 */
+	function wpml_get_the_terms( $post, $taxonomy ) {
+
+		if ( ! $post = get_post( $post ) )
+			return false;
+
+		$terms = get_object_term_cache( $post->ID, $taxonomy, array( 'orderby' => 'term_order' ) );
+		if ( false === $terms ) {
+			$terms = wp_get_object_terms( $post->ID, $taxonomy, array( 'orderby' => 'term_order' ) );
+			wp_cache_add($post->ID, $terms, $taxonomy . '_relationships');
+		}
+
+		$terms = apply_filters( 'get_the_terms', $terms, $post->ID, $taxonomy );
+
+		if ( empty( $terms ) )
+			return false;
+
+		return $terms;
 	}
 
 
