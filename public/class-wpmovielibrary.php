@@ -569,7 +569,11 @@ class WPMovieLibrary {
 
 			switch ( $field ) {
 				case 'genres':
-					$html .= sprintf( $default_format, $field, __( ucfirst( $field ), 'wpml' ), $field, $tmdb_data[ $field ] );
+					if ( 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) )
+						$genres = $this->wpml_get_the_term_list( get_the_ID(), 'genre', '', ', ', '' );
+					else
+						$genres = $tmdb_data[ $field ];
+					$html .= sprintf( $default_format, $field, __( ucfirst( $field ), 'wpml' ), $field, $genres );
 					break;
 				case 'production_countries':
 					$html .= sprintf( $default_format, $field, __( 'Country', 'wpml' ), $field, $tmdb_data[ $field ] );
@@ -581,10 +585,19 @@ class WPMovieLibrary {
 					$html .= sprintf( $default_format, $field, __( 'Original Title', 'wpml' ), $field, $tmdb_data[ $field ] );
 					break;
 				case 'director':
-					$html .= sprintf( $default_format, $field, __( 'Directed by', 'wpml' ), $field, $tmdb_data[ $field ] );
+					$term = get_term_by( 'name', $tmdb_data[ $field ], 'collection' );
+					if ( false !== $term && ! is_wp_error( $link = get_term_link( $term, 'collection' ) ) )
+						$collection = '<a href="' . $link . '">' . $tmdb_data[ $field ] . '</a>';
+					else
+						$collection = $tmdb_data[ $field ];
+					$html .= sprintf( $default_format, $field, __( 'Directed by', 'wpml' ), $field, $collection );
 					break;
 				case 'cast':
-					$html .= sprintf( $default_format, $field, __( 'Staring', 'wpml' ), $field, $this->wpml_get_the_term_list( get_the_ID(), 'actor', '', ', ', '' ) );
+					if ( 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) )
+						$actors = $this->wpml_get_the_term_list( get_the_ID(), 'actor', '', ', ', '' );
+					else
+						$actors = $tmdb_data[ $field ];
+					$html .= sprintf( $default_format, $field, __( 'Staring', 'wpml' ), $field, $actors );
 					break;
 				case 'rating':
 					$html .= sprintf( $default_format, $field, __( 'Movie rating', 'wpml' ), $field, sprintf( '<div class="movie_rating_display stars_%s"></div>', ( '' == $movie_rating ? '0_0' : str_replace( '.', '_', $movie_rating ) ) ) );
