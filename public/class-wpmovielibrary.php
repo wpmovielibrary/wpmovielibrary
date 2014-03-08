@@ -102,12 +102,17 @@ class WPMovieLibrary {
 				'path' => $this->plugin_path,
 				'settings' => array(
 					'tmdb_in_posts'    => 'posts_only',
+					'details_in_posts' => 'posts_only',
 					'default_post_tmdb' => array(
 						'director' => __( 'Director', 'wpml' ),
 						'genres'   => __( 'Genres', 'wpml' ),
 						'runtime'  => __( 'Runtime', 'wpml' ),
 						'overview' => __( 'Overview', 'wpml' ),
 						'rating'   => __( 'Rating', 'wpml' )
+					),
+					'default_post_detail' => array(
+						'movie_media ' => __( 'Media', 'wpml' ),
+						'movie_status' => __( 'Status', 'wpml' ),
 					),
 					'show_in_home'          => 1,
 					'enable_collection'     => 1,
@@ -153,6 +158,34 @@ class WPMovieLibrary {
 					'cast'         => __( 'Actors', 'wpml' )
 				)
 			),
+		);
+
+		$this->default_post_details = array(
+			'movie_media'   => array(
+				'title' => __( 'Media', 'wpml' ),
+				'options' => array(
+					'dvd'     => __( 'DVD', 'wpml' ),
+					'bluray'  => __( 'BluRay', 'wpml' ),
+					'vod'     => __( 'VOD', 'wpml' ),
+					'vhs'     => __( 'VHS', 'wpml' ),
+					'theater' => __( 'Theater', 'wpml' ),
+					'other'   => __( 'Other', 'wpml' ),
+				),
+				'default' => array(
+					'dvd'   => __( 'DVD', 'wpml' ),
+				),
+			),
+			'movie_status'  => array(
+				'title' => __( 'Status', 'wpml' ),
+				'options' => array(
+					'available' => __( 'Available', 'wpml' ),
+					'loaned'    => __( 'Loaned', 'wpml' ),
+					'scheduled' => __( 'Scheduled', 'wpml' ),
+				),
+				'default' => array(
+					'available' => __( 'Available', 'wpml' ),
+				)
+			)
 		);
 
 		$this->default_post_tmdb = array(
@@ -552,8 +585,68 @@ class WPMovieLibrary {
 	 */
 	public function wpml_movie_content( $content ) {
 
-		if ( 'movie' != get_post_type() || 'nowhere' == $this->wpml_o( 'wpml-settings-tmdb_in_posts' ) || ( 'posts_only' == $this->wpml_o( 'wpml-settings-tmdb_in_posts' ) && ! is_singular() ) )
+		if ( 'movie' != get_post_type() )
 			return $content;
+
+		$details  = $this->wpml_movie_details();
+		$metadata = $this->wpml_movie_metadata();
+
+		$content = $details . $metadata . $content;
+
+		return $content;
+	}
+
+	/**
+	 * Generate current movie's details list.
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    null|string    The current movie's metadata list
+	 */
+	private function wpml_movie_details() {
+
+		if ( 'nowhere' == $this->wpml_o( 'wpml-settings-details_in_posts' ) || ( 'posts_only' == $this->wpml_o( 'wpml-settings-details_in_posts' ) && ! is_singular() ) )
+			return null;
+
+		$fields = $this->wpml_o( 'wpml-settings-default_post_detail' );
+
+		if ( empty( $fields ) )
+			return null;
+
+		$html = '<div class="wpml_movie_detail">';
+
+		foreach ( $fields as $field ) {
+
+			switch ( $field ) {
+				case 'movie_media':
+				case 'movie_status':
+					$meta = get_post_meta( get_the_ID(), '_wpml_' . $field, true );
+					if ( '' != $meta )
+						$html .= '<div class="wpml_' . $field . ' ' . $meta . '"><span class="wpml_movie_detail_item">' . $this->default_post_details[ $field ]['options'][ $meta ] . '</span></div>';
+					//var_dump($meta);
+					break;
+				default:
+					
+					break;
+			}
+		}
+
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	/**
+	 * Generate current movie's metadata list.
+	 *
+	 * @since     1.0.0
+	 *
+	 * @return    null|string    The current movie's metadata list
+	 */
+	private function wpml_movie_metadata() {
+
+		if ( 'nowhere' == $this->wpml_o( 'wpml-settings-tmdb_in_posts' ) || ( 'posts_only' == $this->wpml_o( 'wpml-settings-tmdb_in_posts' ) && ! is_singular() ) )
+			return null;
 
 		$tmdb_data = get_post_meta( get_the_ID(), '_wpml_movie_data', true );
 		$movie_rating = get_post_meta( get_the_ID(), '_wpml_movie_rating', true );
@@ -561,9 +654,9 @@ class WPMovieLibrary {
 		$default_format = '<dt class="wpml_%s_field_title">%s</dt><dd class="wpml_%s_field_value">%s</dd>';
 
 		if ( '' == $tmdb_data || empty( $fields ) )
-			return $content;
+			return null;
 
-		$html  = '<dl class="wpml_movie">';
+		$html = '<dl class="wpml_movie">';
 
 		foreach ( $fields as $field ) {
 
@@ -611,9 +704,7 @@ class WPMovieLibrary {
 
 		$html .= '</dl>';
 
-		$content = $html . $content;
-
-		return $content;
+		return $html;
 	}
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

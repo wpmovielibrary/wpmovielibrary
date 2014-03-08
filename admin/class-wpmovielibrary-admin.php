@@ -26,6 +26,14 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	protected static $instance = null;
 
 	/**
+	 * WPMovieLibrary instance.
+	 * 
+	 * @since    1.0.0
+	 * @var      object
+	 */
+	protected static $wpml = null;
+
+	/**
 	 * Plugin Admin URL
 	 * 
 	 * @since    1.0.0
@@ -75,6 +83,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 */
 	private function __construct() {
 
+		$this->wpml = WPMovieLibrary::get_instance();
+
 		$this->plugin_admin_url  = plugins_url( WPMovieLibrary::NAME );
 		$this->plugin_admin_path = plugin_dir_path( __FILE__ );
 
@@ -92,47 +102,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			'runtime'              => array( 'title' => __( 'Runtime', 'wpml' ), 'type' => 'text' ),
 			'genres'               => array( 'title' => __( 'Genres', 'wpml' ), 'type' => 'text' ),
 			'release_date'         => array( 'title' => __( 'Release Date', 'wpml' ), 'type' => 'text' )
-		);
-
-		$this->wpml_movie_details = array(
-			'movie_media'   => array(
-				'title' => __( 'Title', 'wpml' ),
-				'options' => array(
-					'dvd'     => __( 'DVD', 'wpml' ),
-					'bluray'  => __( 'BluRay', 'wpml' ),
-					'vod'     => __( 'VOD', 'wpml' ),
-					'vhs'     => __( 'VHS', 'wpml' ),
-					'theater' => __( 'Theater', 'wpml' ),
-					'other'   => __( 'Other', 'wpml' ),
-				),
-				'default' => array(
-					'dvd'   => __( 'DVD', 'wpml' ),
-				),
-			),
-			'movie_status'  => array(
-				'title' => __( 'Overview', 'wpml' ),
-				'options' => array(
-					'available' => __( 'Available', 'wpml' ),
-					'loaned'    => __( 'Loaned', 'wpml' ),
-					'scheduled' => __( 'Scheduled', 'wpml' ),
-				),
-				'default' => array(
-					'available' => __( 'Available', 'wpml' ),
-				)
-			)
-		);
-
-		$this->default_post_tmdb = array(
-			'title'                => __( 'Title', 'wpml' ),
-			'original_title'       => __( 'Original Title', 'wpml' ),
-			'release_date'         => __( 'Release Date', 'wpml' ),
-			'genres'               => __( 'Genres', 'wpml' ),
-			'director'             => __( 'Director', 'wpml' ),
-			'cast'                 => __( 'Actors', 'wpml' ),
-			'production_countries' => __( 'Country', 'wpml' ),
-			'runtime'              => __( 'Runtime', 'wpml' ),
-			'overview'             => __( 'Overview', 'wpml' ),
-			'rating'               => __( 'Rating', 'wpml' )
 		);
 
 		$this->plugin_screen_hook_suffix = array(
@@ -506,10 +475,10 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	public function wpml_metabox_details( $post, $metabox ) {
 
 		$v = get_post_meta( $post->ID, '_wpml_movie_status', true );
-		$movie_status = ( isset( $v ) && '' != $v ? $v : key( $this->wpml_movie_details['movie_status']['default'] ) );
+		$movie_status = ( isset( $v ) && '' != $v ? $v : key( $this->wpml->default_post_details['movie_status']['default'] ) );
 
 		$v = get_post_meta( $post->ID, '_wpml_movie_media', true );
-		$movie_media  = ( isset( $v ) && '' != $v ? $v : key( $this->wpml_movie_details['movie_media']['default'] ) );
+		$movie_media  = ( isset( $v ) && '' != $v ? $v : key( $this->wpml->default_post_details['movie_media']['default'] ) );
 
 		$v = get_post_meta( $post->ID, '_wpml_movie_rating', true );
 		$movie_rating = ( isset( $v ) && '' != $v ? $v : 0.0 );

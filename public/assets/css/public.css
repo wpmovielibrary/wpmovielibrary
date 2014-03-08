@@ -17,6 +17,71 @@
 	font-style: italic;
 }
 
+.wpml_movie_detail {
+	float: right;
+	min-width: 10em;
+	width: auto;
+}
+
+.wpml_movie_detail > div {
+	display: inline-block;
+	margin: 0 0.5em;
+}
+
+.wpml_movie_detail_item {
+	background: #eee;
+	border-radius: 0.25em;
+	padding: 0.25em 1em;
+}
+
+.wpml_movie_media.dvd .wpml_movie_detail_item {
+	background: #a7caf8;
+	color: #fff;
+	text-shadow: 0 1px 0 #77a0d6;
+}
+
+.wpml_movie_media.bluray .wpml_movie_detail_item {
+	background: #5e62d6;
+	color: #fff;
+	text-shadow: 0 1px 0 #3a3da3;
+}
+
+.wpml_movie_media.vod .wpml_movie_detail_item {
+	background: #cc5ed6;
+	color: #fff;
+	text-shadow: 0 1px 0 #752d7c;
+}
+
+.wpml_movie_media.theater .wpml_movie_detail_item {
+	background: #47b7cc;
+	color: #fff;
+	text-shadow: 0 1px 0 #237e8f;
+}
+
+.wpml_movie_media.vhs .wpml_movie_detail_item {
+}
+
+.wpml_movie_media.other .wpml_movie_detail_item {
+}
+
+.wpml_movie_status.available .wpml_movie_detail_item {
+	background: #7dd667;
+	color: #fff;
+	text-shadow: 0 1px 0 #4ea239;
+}
+
+.wpml_movie_status.loaned .wpml_movie_detail_item {
+	background: #d67067;
+	color: #fff;
+	text-shadow: 0 1px 0 #a84137;
+}
+
+.wpml_movie_status.scheduled .wpml_movie_detail_item {
+	
+}
+
+/** Movie Rating **/
+
 .movie_rating_display {
 	background-image: url(../img/rating.png);
 	background-position: 0 0;

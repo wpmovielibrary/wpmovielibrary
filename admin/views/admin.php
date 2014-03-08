@@ -146,7 +146,7 @@
 						</tr>
 						<tr valign="top">
 							<th scope="row">
-								<label for="tmdb_in_posts"><?php _e( 'Show basic movie details', 'wpml' ); ?></label>
+								<label for="tmdb_in_posts"><?php _e( 'Show basic movie metadata', 'wpml' ); ?></label>
 							</th>
 							<td>
 								<select id="tmdb_in_posts" name="tmdb_data[wpml][tmdb_in_posts]">
@@ -154,23 +154,52 @@
 									<option value="posts_only" <?php selected( $this->wpml_o('wpml-settings-tmdb_in_posts'), 'posts_only' ); ?>><?php _e( 'Only In Post Read', 'wpml' ); ?></option>
 									<option value="nowhere" <?php selected( $this->wpml_o('wpml-settings-tmdb_in_posts'), 'nowhere' ); ?>><?php _e( 'Don&rsquo;t Show', 'wpml' ); ?></option>
 								</select>
-								<p class="description"><?php _e( 'Add details to posts&rsquo; content: director, genres, runtime…', 'wpml' ); ?></p>
+								<p class="description"><?php _e( 'Add metadata to posts&rsquo; content: director, genres, runtime…', 'wpml' ); ?></p>
 							</td>
 						</tr>
 						<tr valign="top">
 							<th scope="row">
-								<label for="default_post_tmdb"><?php _e( 'Movie details items', 'wpml' ); ?></label>
+								<label for="default_post_tmdb"><?php _e( 'Movie metadata', 'wpml' ); ?></label>
 							</th>
 							<td>
-								<select id="default_post_tmdb" name="tmdb_data[wpml][default_post_tmdb][]" style="min-height:<?php echo round( count( $this->default_post_tmdb ) * 1.4, 1 ) ?>em;min-width:12em;" multiple>
+								<select id="default_post_tmdb" name="tmdb_data[wpml][default_post_tmdb][]" style="min-height:<?php echo round( count( $this->wpml->default_post_tmdb ) * 1.4, 1 ) ?>em;min-width:12em;" multiple>
 <?php
-foreach ( $this->default_post_tmdb as $slug => $post_tmdb ) :
+foreach ( $this->wpml->default_post_tmdb as $slug => $post_tmdb ) :
 	$check = in_array( $slug, $this->wpml_o('wpml-settings-default_post_tmdb' ) ) || in_array( $post_tmdb, $this->wpml_o('wpml-settings-default_post_tmdb' ) );
 ?>
 									<option value="<?php echo $slug; ?>" <?php selected( $check, true ); ?>><?php _e( $post_tmdb, 'wpml' ); ?></option>
 <?php endforeach; ?>
 								</select>
-								<p class="description"><?php _e( 'Which movie details to display in posts: director, genres, runtime, rating…', 'wpml' ); ?></p>
+								<p class="description"><?php _e( 'Which metadata to display in posts: director, genres, runtime, rating…', 'wpml' ); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label for="details_in_posts"><?php _e( 'Show movie details', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<select id="details_in_posts" name="tmdb_data[wpml][details_in_posts]">
+									<option value="everywhere" <?php selected( $this->wpml_o('wpml-settings-details_in_posts'), 'everywhere' ); ?>><?php _e( 'Everywhere', 'wpml' ); ?></option>
+									<option value="posts_only" <?php selected( $this->wpml_o('wpml-settings-details_in_posts'), 'posts_only' ); ?>><?php _e( 'Only In Post Read', 'wpml' ); ?></option>
+									<option value="nowhere" <?php selected( $this->wpml_o('wpml-settings-details_in_posts'), 'nowhere' ); ?>><?php _e( 'Don&rsquo;t Show', 'wpml' ); ?></option>
+								</select>
+								<p class="description"><?php _e( 'Add details to posts&rsquo; content: movie status, media…', 'wpml' ); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label for="default_post_detail"><?php _e( 'Movie details', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<select id="default_post_detail" name="tmdb_data[wpml][default_post_detail][]" style="min-height:<?php echo round( count( $this->default_post_detail ) * 1.4, 1 ) ?>em;min-width:12em;" multiple>
+<?php
+foreach ( $this->wpml->default_post_details as $slug => $detail ) :
+	$check = in_array( $slug, $this->wpml_o('wpml-settings-default_post_detail' ) ) || in_array( $detail['title'], $this->wpml_o('wpml-settings-default_post_detail' ) );
+?>
+									<option value="<?php echo $slug; ?>" <?php selected( $check, true ); ?>><?php _e( $detail['title'], 'wpml' ); ?></option>
+<?php endforeach; ?>
+								</select>
+								<p class="description"><?php _e( 'Which detail to display in posts: movie status, media…', 'wpml' ); ?></p>
 							</td>
 						</tr>
 					</tbody>
