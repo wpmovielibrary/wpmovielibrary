@@ -31,7 +31,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 * @since    1.0.0
 	 * @var      object
 	 */
-	protected static $wpml = null;
+	protected $wpml = null;
 
 	/**
 	 * Plugin Admin URL
