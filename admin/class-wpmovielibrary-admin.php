@@ -283,15 +283,13 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	public function wpml_movies_columns_head( $defaults ) {
 
 		$title = array_search( 'title', array_keys( $defaults ) );
-		$genre = array_search( 'genre', array_keys( $defaults ) );
 
 		$defaults = array_merge(
 			array_slice( $defaults, 0, $title, true ),
 			array( 'poster' => __( 'Poster', 'wpml' ) ),
-			array_slice( $defaults, $title + 1, $genre, true ),
-			array( 'actor' => __( 'Actors', 'wpml' ) ),
-			array_slice( $defaults, $genre + 1, count( $defaults ) - 1, true )
+			array_slice( $defaults, $title, count( $defaults ), true )
 		);
+
 		unset( $defaults['author'] );
 		return $defaults;
 	}
@@ -310,9 +308,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		switch ( $column_name ) {
 			case 'poster':
 				echo '<img src="'.$this->wpml_get_featured_image( $post_id ).'" alt="" />';
-				break;
-			case 'actor':
-				echo $this->wpml_get_the_term_list( $post_id, 'actor', '', ', ', '' );
 				break;
 			default:
 				break;
@@ -1021,17 +1016,17 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			if ( 1 == $this->wpml_o( 'wpml-settings-taxonomy_autocomplete' ) ) {
 
 				if ( 1 == $this->wpml_o( 'wpml-settings-enable_actor' ) ) {
-					$actors = array_reverse( explode( ',', $tmdb_data['cast'] ) );
+					$actors = explode( ',', $tmdb_data['cast'] );
 					$actors = wp_set_object_terms( $post_id, $actors, 'actor', false );
 				}
 
 				if ( 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) ) {
-					$genres = array_reverse( explode( ',', $tmdb_data['genres'] ) );
+					$genres = explode( ',', $tmdb_data['genres'] );
 					$genres = wp_set_object_terms( $post_id, $genres, 'genre', false );
 				}
 
 				if ( 1 == $this->wpml_o( 'wpml-settings-enable_collection' ) ) {
-					$collections = array_reverse( explode( ',', $tmdb_data['director'] ) );
+					$collections = explode( ',', $tmdb_data['director'] );
 					$collections = wp_set_object_terms( $post_id, $collections, 'collection', false );
 				}
 			}

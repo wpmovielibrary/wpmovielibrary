@@ -219,6 +219,9 @@ class WPMovieLibrary {
 		// Add link to WP Admin Bar
 		add_action( 'wp_before_admin_bar_render', array( $this, 'wpml_admin_bar_menu' ), 999 );
 
+		// Order Taxonomies by term_order
+		add_filter( 'get_the_terms', array( $this, 'wpml_get_the_ordered_terms' ), 10, 3 );
+
 		// Load Movies as well as Posts in the Loop
 		add_action( 'pre_get_posts', array( $this, 'wpml_show_movies_in_home_page' ) );
 
@@ -663,7 +666,7 @@ class WPMovieLibrary {
 			switch ( $field ) {
 				case 'genres':
 					if ( 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) )
-						$genres = $this->wpml_get_the_term_list( get_the_ID(), 'genre', '', ', ', '' );
+						$genres = get_the_term_list( get_the_ID(), 'genre', '', ', ', '' );
 					else
 						$genres = $tmdb_data[ $field ];
 					$html .= sprintf( $default_format, $field, __( ucfirst( $field ), 'wpml' ), $field, $genres );
@@ -687,7 +690,7 @@ class WPMovieLibrary {
 					break;
 				case 'cast':
 					if ( 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) )
-						$actors = $this->wpml_get_the_term_list( get_the_ID(), 'actor', '', ', ', '' );
+						$actors = get_the_term_list( get_the_ID(), 'actor', '', ', ', '' );
 					else
 						$actors = $tmdb_data[ $field ];
 					$html .= sprintf( $default_format, $field, __( 'Staring', 'wpml' ), $field, $actors );
@@ -815,7 +818,7 @@ class WPMovieLibrary {
 					),
 					'show_ui'           => true,
 					'show_tagcloud'     => true,
-					'show_admin_column' => false,
+					'show_admin_column' => true,
 					'hierarchical'      => false,
 					'query_var'         => true,
 					'sort'              => true,
@@ -847,75 +850,33 @@ class WPMovieLibrary {
 	}
 
 	/**
-	 * Retrieve a post's terms as a list with specified format.
+	 * Sort Taxonomies by term_order.
 	 * 
-	 * This is a copy of the original get_the_term_list() function to apply
-	 * original order to the terms instead of WordPress default alphabetical
-	 * order.
+	 * Code from Luke Gedeon, see https://core.trac.wordpress.org/ticket/9547#comment:7
 	 *
 	 * @since    1.0.0
 	 *
-	 * @param    int       $id Post ID.
-	 * @param    string    $taxonomy Taxonomy name.
-	 * @param    string    $before Optional. Before list.
-	 * @param    string    $sep Optional. Separate items using this.
-	 * @param    string    $after Optional. After list.
+	 * @param    array      $terms array of objects to be replaced with sorted list
+	 * @param    integer    $id post id
+	 * @param    string     $taxonomy only 'post_tag' is changed.
 	 * 
-	 * @return   string|bool|WP_Error A list of terms on success, false or WP_Error on failure.
+	 * @return   array      Terms array of objects
 	 */
-	public function wpml_get_the_term_list( $id, $taxonomy, $before, $sep, $after ) {
+	function wpml_get_the_ordered_terms( $terms, $id, $taxonomy ) {
 
-		$terms = $this->wpml_get_the_terms( $id, $taxonomy );
-
-		if ( is_wp_error( $terms ) )
+		if ( ! in_array( $taxonomy, array( 'collection', 'genre', 'actor' ) ) )
 			return $terms;
 
-		if ( empty( $terms ) )
-			return false;
-
-		foreach ( $terms as $term ) {
-			$link = get_term_link( $term, $taxonomy );
-			if ( is_wp_error( $link ) )
-				return $link;
-			$term_links[] = '<a href="' . esc_url( $link ) . '" rel="tag">' . $term->name . '</a>';
-		}
-
-		$term_links = apply_filters( "term_links-$taxonomy", $term_links );
-
-		return $before . join( $sep, $term_links ) . $after;
-	}
-
-	/**
-	 * Retrieve the terms of the taxonomy that are attached to the post.
-	 * 
-	 * This is a copy of the original get_the_terms() function to apply
-	 * original order to the terms instead of WordPress default alphabetical
-	 * order.
-	 *
-	 * @since    1.0.0
-	 *
-	 * @param    int|object $post Post ID or object.
-	 * @param    string     $taxonomy Taxonomy name.
-	 * @return   array|bool|WP_Error Array of term objects on success, false or WP_Error on failure.
-	 */
-	function wpml_get_the_terms( $post, $taxonomy ) {
-
-		if ( ! $post = get_post( $post ) )
-			return false;
-
-		$terms = get_object_term_cache( $post->ID, $taxonomy, array( 'orderby' => 'term_order' ) );
+		$terms = wp_cache_get( $id, "{$taxonomy}_relationships_sorted" );
 		if ( false === $terms ) {
-			$terms = wp_get_object_terms( $post->ID, $taxonomy, array( 'orderby' => 'term_order' ) );
-			wp_cache_add($post->ID, $terms, $taxonomy . '_relationships');
+			$terms = wp_get_object_terms( $id, $taxonomy, array( 'orderby' => 'term_order' ) );
+			wp_cache_add( $id, $terms, $taxonomy . '_relationships_sorted' );
 		}
-
-		$terms = apply_filters( 'get_the_terms', $terms, $post->ID, $taxonomy );
-
-		if ( empty( $terms ) )
-			return false;
 
 		return $terms;
 	}
+
+
 
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
