@@ -4,9 +4,9 @@
 	</p>
 	<p>
 		<input id="<?php echo $this->get_field_id( 'list' ); ?>" name="<?php echo $this->get_field_name( 'list' ); ?>" type="checkbox" value="1" <?php checked( $list, 1 ); ?> /> 
-		<label for="<?php echo $this->get_field_id( 'list' ); ?>"><?php _e( 'Display as select list', 'wpml' ); ?></label><br />
+		<label for="<?php echo $this->get_field_id( 'list' ); ?>"><?php _e( 'Show as dropdown', 'wpml' ); ?></label><br />
 		<input id="<?php echo $this->get_field_id( 'count' ); ?>" name="<?php echo $this->get_field_name( 'count' ); ?>" type="checkbox" value="1" <?php checked( $count, 1 ); ?> /> 
-		<label for="<?php echo $this->get_field_id( 'count' ); ?>"><?php _e( 'Display number of movies', 'wpml' ); ?></label><br />
+		<label for="<?php echo $this->get_field_id( 'count' ); ?>"><?php _e( 'Show movies count', 'wpml' ); ?></label><br />
 		<input id="<?php echo $this->get_field_id( 'css' ); ?>" name="<?php echo $this->get_field_name( 'css' ); ?>" type="checkbox" value="1" <?php checked( $css, 1 ); ?> /> 
-		<label for="<?php echo $this->get_field_id( 'css' ); ?>"><?php _e( 'Custom Style (applies only on Select List)', 'wpml' ); ?></label>
+		<label for="<?php echo $this->get_field_id( 'css' ); ?>"><?php _e( 'Custom Style (only for dropdown)', 'wpml' ); ?></label>
 	</p>

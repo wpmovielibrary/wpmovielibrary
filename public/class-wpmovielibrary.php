@@ -228,7 +228,20 @@ class WPMovieLibrary {
 		// Movie content
 		add_filter( 'the_content', array( $this, 'wpml_movie_content' ) );
 
+		add_filter( 'wpml_get_movies_from_media', array( $this, 'wpml_get_movies_from_media' ), 10, 1 );
+		add_filter( 'wpml_get_movies_from_status', array( $this, 'wpml_get_movies_from_status' ), 10, 1 );
+		add_filter( 'wpml_format_widget_lists', array( $this, 'wpml_format_widget_lists' ), 10, 4 );
+		add_filter( 'wpml_format_widget_lists_thumbnails', array( $this, 'wpml_format_widget_lists_thumbnails' ), 10, 1 );
+
+		add_action( 'wpml_list_default_movie_media', array( $this, 'wpml_list_default_movie_media' ), 10, 3 );
+
 	}
+
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *                            Plugin Basics
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
 	 * Return the plugin slug.
@@ -239,6 +252,60 @@ class WPMovieLibrary {
 	 */
 	public function get_plugin_slug() {
 		return $this->plugin_slug;
+	}
+
+	/**
+	 * Return the default Movie Media
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return    WPML Default Movie Media.
+	 */
+	public function wpml_get_default_movie_media() {
+		$default = $this->default_post_details['movie_media']['default'];
+		return $default;
+	}
+
+	/**
+	 * Return the default Movie Status
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return    WPML Default Movie Status.
+	 */
+	public function wpml_get_default_movie_status() {
+		$default = $this->default_post_details['movie_status']['default'];
+		return $default;
+	}
+
+	/**
+	 * Return available Movie Media
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return    WPML Default Movie Media.
+	 */
+	public function wpml_get_available_movie_media() {
+		$media = array();
+		$items = $this->default_post_details['movie_media']['options'];
+		foreach ( $items as $slug => $title )
+			$media[ $slug ] = $title;
+		return $media;
+	}
+
+	/**
+	 * Return available Movie Status
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return    WPML Available Movie Status.
+	 */
+	public function wpml_get_available_movie_status() {
+		$statuses = array();
+		$items = $this->default_post_details['movie_status']['options'];
+		foreach ( $items as $slug => $title )
+			$statuses[ $slug ] = $title;
+		return $statuses;
 	}
 
 	/**
@@ -257,6 +324,12 @@ class WPMovieLibrary {
 
 		return self::$instance;
 	}
+
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *                     Plugin  Activate/Deactivate
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
 	 * Fired when the plugin is activated.
@@ -522,6 +595,12 @@ class WPMovieLibrary {
 
 	}
 
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *                       Action and Filter Hooks
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	/**
 	 * Add a New Movie link to WP Admin Bar.
 	 * 
@@ -712,6 +791,166 @@ class WPMovieLibrary {
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
+	 *                 Internal Action and Filter Hooks
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * Filter Hook
+	 * 
+	 * Used to get a list of Movies depending on their Media
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    Media slug
+	 * 
+	 * @return   array     Array of Post objects
+	 * 
+	 * @since    1.0.0
+	 * 
+	 */
+	public function wpml_get_movies_from_media( $media = null ) {
+
+		$media = esc_attr( $media );
+
+		$default = $this->wpml_get_available_movie_media();
+		$allowed = array_keys( $default );
+
+		if ( is_null( $media ) || ! in_array( $media, $allowed ) )
+			$media = $this->wpml_get_default_movie_media();
+
+		$args = array(
+			'post_type' => 'movie',
+			'post_status' => 'publish',
+			'posts_per_page' => -1,
+			'meta_query' => array(
+				array(
+					'key'   => '_wpml_movie_media',
+					'value' => $media
+				)
+			)
+		);
+		
+		$query = new WP_Query( $args );
+
+		return $query->posts;
+	}
+
+	/**
+	 * Filter Hook
+	 * 
+	 * Used to get a list of Movies depending on their Status
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    Status slug
+	 * 
+	 * @return   array     Array of Post objects
+	 */
+	public function wpml_get_movies_from_status( $status = null ) {
+
+		$status = esc_attr( $status );
+
+		$default = $this->wpml_get_available_movie_status();
+		$allowed = array_keys( $default );
+
+		if ( is_null( $status ) || ! in_array( $status, $allowed ) )
+			$status = $this->wpml_get_default_movie_status();
+
+		$args = array(
+			'post_type' => 'movie',
+			'post_status' => 'publish',
+			'posts_per_page' => -1,
+			'meta_query' => array(
+				array(
+					'key'   => '_wpml_movie_status',
+					'value' => $status
+				)
+			)
+		);
+		
+		$query = new WP_Query( $args );
+
+		return $query->posts;
+	}
+
+	/**
+	 * Filter Hook
+	 * 
+	 * Used to generate Movies dropdown or classic lists.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    array      $items Array of Movies objects
+	 * @param    boolean    $dropdown Whether to return a dropdown or a regular list
+	 * @param    boolean    $styling Add custom styling or not
+	 * @param    string     $title First Option content if dropdown
+	 * 
+	 * @return   string     HTML string List of movies
+	 */
+	public function wpml_format_widget_lists( $items, $dropdown = false, $styling = false, $title = null ) {
+
+		if ( ! is_array( $items ) || empty( $items ) )
+			return null;
+
+		$html = array();
+		$style = 'wpml-list';
+		$first = '';
+
+		if ( false !== $styling )
+			$style = 'wpml-list custom';
+
+		if ( ! is_null( $title ) )
+			$first = sprintf( '<option value="">%s</option>', esc_attr( $title ) );
+
+		foreach ( $items as $item ) {
+			if ( $dropdown )
+				$html[] = '<option value="' . esc_url( $item['link'] ) . '">' . esc_attr( $item['title'] ) . '</option>';
+			else
+				$html[] = '<li><a href="' . esc_url( $item['link'] ) . '" title="' . esc_attr( $item['attr_title'] ) . '">' . esc_attr( $item['title'] ) . '</a></li>';
+		}
+
+		if ( false !== $dropdown )
+			$html = '<select class="' . $style . '">' . $first . join( $html ) . '</select>';
+		else
+			$html = '<ul>' . join( $html ) . '</ul>';
+
+		return $html;
+	}
+
+	/**
+	 * Filter Hook
+	 * 
+	 * Used to generate Movies lists including Poster.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    array    $items Array of Movies objects
+	 * 
+	 * @return   string   HTML string of movies' links and Posters
+	 */
+	public function wpml_format_widget_lists_thumbnails( $items ) {
+
+		if ( ! is_array( $items ) || empty( $items ) )
+			return null;
+
+		$html = array();
+
+		foreach ( $items as $item ) {
+			$html[] = '<a href="' . esc_url( $item['link'] ) . '" title="' . esc_attr( $item['attr_title'] ) . '">';
+			$html[] = '<figure class="widget-movie">';
+			$html[] = get_the_post_thumbnail( $item['ID'], 'thumbnail' );
+			$html[] = '</figure>';
+			$html[] = '</a>';
+		}
+
+		$html = '<div class="widget-movies">' . implode( "\n", $html ) . '</div>';
+
+		return $html;
+	}
+
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
 	 *               Custom Post Types, Status & Taxonomy
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -875,8 +1114,6 @@ class WPMovieLibrary {
 
 		return $terms;
 	}
-
-
 
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

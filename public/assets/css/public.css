@@ -115,17 +115,20 @@
 }
 
 .recent-movies,
-.most-rated-movies {
+.most-rated-movies,
+.widget-movies {
 	position: relative;
 }
 
 .recent-movies a,
-.most-rated-movies a {
+.most-rated-movies a,
+.widget-movies a {
 	text-decoration: none;
 }
 
 .recent-movie,
-.most-rated-movie {
+.most-rated-movie,
+.widget-movie {
 	display: inline-table;
 	max-height: 150px;
 	max-width: 150px;
@@ -137,7 +140,8 @@
 }
 
 .recent-movie img,
-.most-rated-movie img {
+.most-rated-movie img,
+.widget-movie img {
 	height: 100%;
 	width: 100%;
 }
@@ -164,9 +168,7 @@
 	opacity: 1;
 }
 
-#genres-list.custom,
-#actors-list.custom,
-#collections-list.custom {
+select.custom {
 	background: #eee;
 	border: 1px solid #ccc;
 	border-radius: 0.3em;

@@ -1,42 +1,27 @@
 <?php
 $title = $before_title . apply_filters( 'widget_title', $instance['title'] ) . $after_title;
-$list  = $instance['list'];
-$count = $instance['count'];
-$css   = $instance['css'];
-$css   = ( 1 == $instance['css'] ? ' class="custom"' : '' );
+$list  = ( 1 == $instance['list'] ? true : false );
+$css = ( 1 == $instance['css'] ? true : false );
+$count = ( 1 == $instance['count'] ? true : false );
+
 $collections = get_terms( array( 'collection' ) );
 ?>
 		<?php echo $title; ?>
 <?php
 if ( $collections && ! is_wp_error( $collections ) ) :
 
-	if ( 1 == $list ) {
-		$before_list  = "\t\t".'<select id="collections-list"'.$css.'>';
-		$before_list .= sprintf( '<option value="">%s</option>', __( 'Select a Collection', 'wpml' ) );
-		$after_list   = "\n\t\t".'</select>'."\n";
-	}
-	else {
-		$before_list = "\t\t".'<ul>';
-		$after_list  = "\n\t\t".'</ul>'."\n";
-	}
+	$items = array();
 
-	echo $before_list;
+	foreach ( $collections as $collection )
+		$items[] = array(
+			'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpml' ), $collection->name ),
+			'link'        => get_term_link( sanitize_term( $collection, 'collection' ), 'collection' ),
+			'title'       => $collection->name . ( $count ? sprintf( '&nbsp;(%d)', $collection->count ) : '' )
+		);
 
-	foreach ( $collections as $collection ) :
+	$html = apply_filters( 'wpml_format_widget_lists', $items, $list, $css, __( 'Select an Actor', 'wpml' ) );
 
-		$count = ( 1 == $count ? sprintf( '&nbsp;(%d)', $collection->count ) : '' );
-		$link  = get_term_link( sanitize_term( $collection, 'collection' ), 'collection' );
-		
-		if ( 1 == $list ) {
-			printf( '<option value="%s">%s%s</option>', $link, $collection->name, $count );
-		}
-		else {
-			printf( '<li><a href="%s" title="%s">%s</a>%s</li>', $link, sprintf( __( 'View all movies from "%s" Collection', 'wpml' ), $collection->name ), $collection->name, $count );
-		}
-
-	endforeach;
-
-	echo $after_list;
+	echo $html;
 else :
 	printf( '<em>%s</em>', __( 'Nothing to display for "Collection" taxonomy.', 'wpml' ) );
 endif; ?>
