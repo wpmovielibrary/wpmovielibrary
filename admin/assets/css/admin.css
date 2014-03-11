@@ -440,3 +440,8 @@
 .stars_4_0 {background-position: 0 -128px;}
 .stars_4_5 {background-position: 0 -144px;}
 .stars_5_0 {background-position: 0 -160px;}
+
+.inline-edit-group #movie-rating-display,
+.inline-edit-group #stars {
+	margin: 0.5em 0 1em 0.5em;
+}

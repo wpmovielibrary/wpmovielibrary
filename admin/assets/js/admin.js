@@ -355,6 +355,46 @@ wpml = {
 			}
 		},
 
+		populate_quick_edit: function( movie_details, nonce ) {
+
+			inlineEditPost.revert();
+
+			var nonceInput = $('#wpml_movie_details_nonce');
+			nonceInput.val( nonce );
+
+			var movie_media = $('#movie_media');
+			var movie_status = $('#movie_status');
+			var movie_rating = $('#movie_rating');
+			var hidden_movie_rating = $('#hidden_movie_rating');
+			var stars = $('#stars');
+
+			$.each(movie_media.children('option'), function() {
+				var option = $(this);
+				if ( option.val() == movie_details.movie_media )
+					option.prop("selected", true);
+				else
+					option.prop("selected", false);
+			});
+
+			$.each(movie_status.children('option'), function() {
+				var option = $(this);
+				if ( option.val() == movie_details.movie_status )
+					option.prop("selected", true);
+				else
+					option.prop("selected", false);
+			});
+
+			if ( '' != movie_details.movie_rating && ' ' != movie_details.movie_rating ) {
+				movie_rating.val( movie_details.movie_rating );
+				hidden_movie_rating.val( movie_details.movie_rating );
+				stars.removeClass('stars_', 'stars_0_0', 'stars_0_5', 'stars_1_0', 'stars_1_5', 'stars_2_0', 'stars_2_5', 'stars_3_0', 'stars_3_5', 'stars_4_0', 'stars_4_5', 'stars_5_0');
+				stars.addClass( 'stars_' + movie_details.movie_rating.replace('.','_') );
+				stars.attr('data-rated', true);
+				stars.attr('data-default-rating', movie_details.movie_rating);
+				stars.attr('data-rating', movie_details.movie_rating);
+			}
+		},
+
 		populate_select_list: function(data) {
 
 			$('#tmdb_data').append(data.p).show();
