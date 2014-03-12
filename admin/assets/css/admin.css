@@ -394,7 +394,7 @@
 }
 
 #movie-rating-display,
-#stars {
+.stars {
 	background-color: transparent;
 	background-image: url(../img/rating.png);
 	background-repeat: no-repeat;
@@ -414,12 +414,12 @@
 	display: block;
 }
 
-#stars {
+.stars {
 	cursor: pointer;
 	display: inline-block;
 }
 
-#stars_label {
+.stars_label {
 	display: inline-block;
 	margin: -1px 0 0 82px;
 }
@@ -442,6 +442,6 @@
 .stars_5_0 {background-position: 0 -160px;}
 
 .inline-edit-group #movie-rating-display,
-.inline-edit-group #stars {
+.inline-edit-group .stars {
 	margin: 0.5em 0 1em 0.5em;
 }

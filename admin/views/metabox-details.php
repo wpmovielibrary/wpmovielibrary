@@ -51,7 +51,7 @@
 							<input type="hidden" name="wpml_details[movie_rating]" id="movie_rating" value="<?php echo $movie_rating; ?>">
 							<div class="movie-rating-block">
 								<div id="stars" data-default-rating="<?php echo $movie_rating; ?>" data-rating="<?php echo $movie_rating; ?>" data-rated="false" class="stars stars_<?php echo $movie_rating_str; ?>">
-									<div id="stars_label">
+									<div id="stars_labels" class="stars_labels">
 										<span id="stars_label_0_5" class="stars_label"><?php _e( 'Junk', 'wpml' ) ?></span>
 										<span id="stars_label_1_0" class="stars_label"><?php _e( 'Very bad', 'wpml' ) ?></span>
 										<span id="stars_label_1_5" class="stars_label"><?php _e( 'Bad', 'wpml' ) ?></span>

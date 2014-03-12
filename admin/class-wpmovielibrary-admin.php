@@ -116,7 +116,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		add_action('manage_movie_posts_custom_column', array( $this, 'wpml_movies_columns_content' ), 10, 2 );
 
 		// Add Movies Details to Quick/Bulk Edit
-		add_action('quick_edit_custom_box', array( $this, 'wpml_quickedit_movies' ), 10, 2);
+		add_action('quick_edit_custom_box', array( $this, 'wpml_quick_edit_movies' ), 10, 2);
+		add_action('bulk_edit_custom_box', array( $this, 'wpml_bulk_edit_movies' ), 10, 2);
 
 		// Load QuickEdit values
 		add_filter('post_row_actions', array( $this, 'wpml_expand_quick_edit_link' ), 10, 2);
@@ -135,7 +136,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		add_action( 'add_meta_boxes', array( $this, 'wpml_metaboxes' ) );
 
 		// Movie save
-		add_action( 'save_post', array( $this, 'wpml_save_tmdb_data' ) );
+		add_action( 'save_post_movie', array( $this, 'wpml_save_tmdb_data' ) );
 
 		// register widgets
 		// add_action( 'widgets_init', array( $this, 'wpml_widgets' ) );
@@ -329,63 +330,33 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 * @param    string    $column_name WP List Table Column name
 	 * @param    string    $post_type Post type
 	 */
-	public function wpml_quickedit_movies( $column_name, $post_type ) {
+	public function wpml_quick_edit_movies( $column_name, $post_type ) {
+
+		global $post;
+
+		if ( 'movie' != $post_type || 1 !== did_action( 'quick_edit_custom_box' ) )
+			return false;
+
+		if ( 'poster' == $column_name ) {
+			include_once( 'views/quick-edit.php' ); 
+		}
+	}
+
+	/**
+	 * Add new fields to Movies' Bulk Edit form in Movies Lists.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    $column_name WP List Table Column name
+	 * @param    string    $post_type Post type
+	 */
+	public function wpml_bulk_edit_movies( $column_name, $post_type ) {
 
 		if ( 'movie' != $post_type )
 			return false;
 
 		if ( 'poster' == $column_name ) {
-
-?>
-	<fieldset class="inline-edit-col-left">
-		<h4><?php _e( 'Movie Details', 'wpml' ) ?></h4>
-		<div class="inline-edit-col">
-			<div class="inline-edit-group">
-				<label>
-					<span class="title"><?php _e( 'Media', 'wpml' ) ?></span>
-					<select id="movie_media" name="wpml_details[movie_media]">
-<?php foreach ( $this->wpml->wpml_get_available_movie_media() as $slug => $title ) : ?>
-						<option value="<?php echo $slug ?>"><?php echo $title ?></option>
-<?php endforeach; ?>
-					</select>
-				</label>
-			</div>
-			<div class="inline-edit-group">
-				<label>
-					<span class="title"><?php _e( 'Status', 'wpml' ) ?></span>
-					<select id="movie_status" name="wpml_details[movie_status]">
-<?php foreach ( $this->wpml->wpml_get_available_movie_status() as $slug => $title ) : ?>
-						<option value="<?php echo $slug ?>"><?php echo $title ?></option>
-<?php endforeach; ?>
-					</select>
-				</label>
-			</div>
-			<div class="inline-edit-group">
-				<label>
-					<span class="title"><?php _e( 'Rating', 'wpml' ) ?></span>
-					<input type="hidden" id="hidden_movie_rating" name="hidden_movie_rating" value="">
-					<input type="hidden" id="movie_rating" name="wpml_details[movie_rating]" value="">
-					<div id="stars" data-default-rating="" data-rating="" data-rated="false" class="stars">
-						<div id="stars_label">
-							<span id="stars_label_0_5" class="stars_label"><?php _e( 'Junk', 'wpml' ) ?></span>
-							<span id="stars_label_1_0" class="stars_label"><?php _e( 'Very bad', 'wpml' ) ?></span>
-							<span id="stars_label_1_5" class="stars_label"><?php _e( 'Bad', 'wpml' ) ?></span>
-							<span id="stars_label_2_0" class="stars_label"><?php _e( 'Not that bad', 'wpml' ) ?></span>
-							<span id="stars_label_2_5" class="stars_label"><?php _e( 'Average', 'wpml' ) ?></span>
-							<span id="stars_label_3_0" class="stars_label"><?php _e( 'Not bad', 'wpml' ) ?></span>
-							<span id="stars_label_3_5" class="stars_label"><?php _e( 'Good', 'wpml' ) ?></span>
-							<span id="stars_label_4_0" class="stars_label"><?php _e( 'Very good', 'wpml' ) ?></span>
-							<span id="stars_label_4_5" class="stars_label"><?php _e( 'Excellent', 'wpml' ) ?></span>
-							<span id="stars_label_5_0" class="stars_label"><?php _e( 'Masterpiece', 'wpml' ) ?></span>
-						</div>
-					</div>
-				</label>
-			</div>
-			<input type="hidden" name="wpml_movie_details_nonce" id="wpml_movie_details_nonce" value="" />
-			<input type="hidden" name="is_quickedit" value="true" />
-		</div></fieldset>
- 
-<?php
+			include_once( 'views/bulk-edit.php' ); 
 		}
 	}
 
@@ -412,6 +383,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		$nonce = wp_create_nonce( '_wpml_movie_details' );
 
 		$details = '{';
+		$details .= 'movie_id: ' . $post->ID . ',';
 		$details .= 'movie_media: \'' . get_post_meta( $post->ID, '_wpml_movie_media', TRUE ) . '\',';
 		$details .= 'movie_status: \'' . get_post_meta( $post->ID, '_wpml_movie_status', TRUE ) . '\',';
 		$details .= 'movie_rating: \'' . get_post_meta( $post->ID, '_wpml_movie_rating', TRUE ) . '\'';
@@ -1139,16 +1111,18 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 				}
 			}
 		}
-		else if ( isset( $_POST['tmdb_data'] ) && '' != $_POST['tmdb_data'] ) {
-			update_post_meta( $post_id, '_wpml_movie_data', $_POST['tmdb_data'] );
+		else if ( isset( $_REQUEST['tmdb_data'] ) && '' != $_REQUEST['tmdb_data'] ) {
+			update_post_meta( $post_id, '_wpml_movie_data', $_REQUEST['tmdb_data'] );
 		}
 
-		if ( isset( $_POST['wpml_details'] ) && ! is_null( $_POST['wpml_details'] ) ) {
+		if ( isset( $_REQUEST['wpml_details'] ) && ! is_null( $_REQUEST['wpml_details'] ) ) {
 
-			if ( isset( $_POST['is_quickedit'] ) )
+			if ( isset( $_REQUEST['is_quickedit'] ) )
 				check_admin_referer( '_wpml_movie_details', 'wpml_movie_details_nonce' );
+			else if ( isset( $_REQUEST['is_bulkedit'] ) )
+				check_admin_referer( '_wpml_bulk_movie_details', 'wpml_bulk_movie_details_nonce' );
 
-			$wpml_d = $_POST['wpml_details'];
+			$wpml_d = $_REQUEST['wpml_details'];
 
 			if ( isset( $wpml_d['movie_status'] ) && ! is_null( $wpml_d['movie_status'] ) )
 				update_post_meta( $post_id, '_wpml_movie_status', $wpml_d['movie_status'] );

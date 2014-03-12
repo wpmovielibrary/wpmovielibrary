@@ -107,7 +107,7 @@ jQuery(document).ready(function($) {
 	 * Movie Rating
 	 */
 
-	$stars = $('#stars');
+	$stars = $('#stars, #bulk_stars');
 	$select = $('#movie-rating-select');
 	$display = $('#movie-rating-display');
 
@@ -144,8 +144,8 @@ jQuery(document).ready(function($) {
 
 		var _class = '';
 
-		if ( $('#hidden_movie_rating').length ) {
-			_class = $('#hidden_movie_rating').val();
+		if ( $('#hidden_movie_rating, #bulk_hidden_movie_rating').length ) {
+			_class = $('#hidden_movie_rating, #bulk_hidden_movie_rating').val();
 			_class = 'stars_' + _class.replace('.','_');
 		}
 
@@ -163,7 +163,7 @@ jQuery(document).ready(function($) {
 		_rate = _rate.replace('stars_','');
 		_rate = _rate.replace('_','.');
 
-		$('#movie_rating').val(_rate);
+		$('#movie_rating, #bulk_movie_rating').val(_rate);
 		$(this).attr('data-rating', _rate);
 		$(this).attr('data-rated', true);
 
@@ -357,42 +357,57 @@ wpml = {
 
 		populate_quick_edit: function( movie_details, nonce ) {
 
-			inlineEditPost.revert();
+			var $wp_inline_edit = inlineEditPost.edit;
 
-			var nonceInput = $('#wpml_movie_details_nonce');
-			nonceInput.val( nonce );
+			inlineEditPost.edit = function( id ) {
 
-			var movie_media = $('#movie_media');
-			var movie_status = $('#movie_status');
-			var movie_rating = $('#movie_rating');
-			var hidden_movie_rating = $('#hidden_movie_rating');
-			var stars = $('#stars');
+				$wp_inline_edit.apply( this, arguments );
 
-			$.each(movie_media.children('option'), function() {
-				var option = $(this);
-				if ( option.val() == movie_details.movie_media )
-					option.prop("selected", true);
-				else
-					option.prop("selected", false);
-			});
+				var $post_id = 0;
 
-			$.each(movie_status.children('option'), function() {
-				var option = $(this);
-				if ( option.val() == movie_details.movie_status )
-					option.prop("selected", true);
-				else
-					option.prop("selected", false);
-			});
+				if ( typeof( id ) == 'object' )
+					$post_id = parseInt( this.getId( id ) );
 
-			if ( '' != movie_details.movie_rating && ' ' != movie_details.movie_rating ) {
-				movie_rating.val( movie_details.movie_rating );
-				hidden_movie_rating.val( movie_details.movie_rating );
-				stars.removeClass('stars_', 'stars_0_0', 'stars_0_5', 'stars_1_0', 'stars_1_5', 'stars_2_0', 'stars_2_5', 'stars_3_0', 'stars_3_5', 'stars_4_0', 'stars_4_5', 'stars_5_0');
-				stars.addClass( 'stars_' + movie_details.movie_rating.replace('.','_') );
-				stars.attr('data-rated', true);
-				stars.attr('data-default-rating', movie_details.movie_rating);
-				stars.attr('data-rating', movie_details.movie_rating);
-			}
+				if ( $post_id > 0 ) {
+
+					var $edit_row = $( '#edit-' + $post_id );
+
+					var nonceInput = $('#wpml_movie_details_nonce');
+					nonceInput.val( nonce );
+
+					var movie_media = $edit_row.find('select.movie_media');
+					var movie_status = $edit_row.find('select.movie_status');
+					var movie_rating = $edit_row.find('#movie_rating');
+					var hidden_movie_rating = $edit_row.find('#hidden_movie_rating');
+					var stars = $edit_row.find('#stars');
+
+					movie_media.children('option').each(function() {
+						if ( $(this).val() == movie_details.movie_media )
+							$(this).prop("selected", "selected");
+						else
+							$(this).prop("selected", "");
+					});
+
+					movie_status.children('option').each(function() {
+						if ( $(this).val() == movie_details.movie_status )
+							$(this).prop("selected", true);
+						else
+							$(this).prop("selected", false);
+					});
+
+					if ( '' != movie_details.movie_rating && ' ' != movie_details.movie_rating ) {
+						movie_rating.val( movie_details.movie_rating );
+						hidden_movie_rating.val( movie_details.movie_rating );
+						stars.removeClass('stars_', 'stars_0_0', 'stars_0_5', 'stars_1_0', 'stars_1_5', 'stars_2_0', 'stars_2_5', 'stars_3_0', 'stars_3_5', 'stars_4_0', 'stars_4_5', 'stars_5_0');
+						stars.addClass( 'stars_' + movie_details.movie_rating.replace('.','_') );
+						stars.attr('data-rated', true);
+						stars.attr('data-default-rating', movie_details.movie_rating);
+						stars.attr('data-rating', movie_details.movie_rating);
+					}
+
+				}
+
+			};
 		},
 
 		populate_select_list: function(data) {
