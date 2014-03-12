@@ -134,7 +134,7 @@ class WPML_List_Table extends WP_List_Table {
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		usort( $this->columns, array( &$this, 'usort_reorder' ) );
 		
-		$per_page = 20;
+		$per_page = $this->get_items_per_page( 'drafts_per_page', 30 );
 		$current_page = $this->get_pagenum();
 		$total_items = count( $this->columns );
 		$total_pages = ceil( $total_items / $per_page );

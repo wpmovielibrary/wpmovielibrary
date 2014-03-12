@@ -150,6 +150,9 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		add_action( 'wp_ajax_tmdb_search', array( $this->tmdb, 'wpml_tmdb_search_callback' ) );
 		add_action( 'wp_ajax_tmdb_api_key_check', array( $this->tmdb, 'wpml_tmdb_api_key_check_callback' ) );
 
+		add_action( 'load-movie_page_import', array( $this, 'wpml_import_movie_list_add_options' ) );
+		add_filter( 'set-screen-option', array( $this, 'wpml_import_movie_list_set_option' ), 10, 3 );
+
 	}
 
 	/**
@@ -396,6 +399,32 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		$actions['inline hide-if-no-js'] .= '</a>';
 
 		return $actions;
+	}
+
+	/**
+	 * Add a Screen Option panel on Movie Import Page.
+	 *
+	 * @since     1.0.0
+	 */
+	public function wpml_import_movie_list_add_options() {
+
+		$option = 'per_page';
+		$args = array(
+			'label'   => __( 'Import Drafts', 'wpml' ),
+			'default' => 30,
+			'option'  => 'drafts_per_page'
+		);
+
+		add_screen_option( $option, $args );
+	}
+
+	/**
+	 * Save newly set Movie Drafts number in Movie Import Page.
+	 *
+	 * @since     1.0.0
+	 */
+	public function wpml_import_movie_list_set_option( $status, $option, $value ) {
+		return $value;
 	}
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
