@@ -882,10 +882,23 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 * @param     array     $movies Array of imported movies
 	 * @param     array     $meta Array of imported movies' metadata
 	 */
-	public function wpml_display_import_movie_list( $movies, $meta ) {
-		$list = new WPML_List_Table( $movies, $meta );
-		$list->prepare_items(); 
+	public function wpml_display_import_movie_list() {
+
+		$movies = $this->wpml_import_movie_list();
+
+		$list = new WPML_List_Table( $movies['movies'], $movies['meta'] );
+		$list->prepare_items();
+?>
+			<form method="post">
+				<input type="hidden" name="page" value="import" />
+
+<?php
+		$list->search_box('search', 'search_id'); 
 		$list->display();
+
+?>
+			</form>
+<?php
 	}
 
 	/**

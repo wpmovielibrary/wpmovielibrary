@@ -15,13 +15,24 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 
 class WPML_List_Table extends WP_List_Table {
 
+	/**
+	 * Constructor. Calls WP_List_Table and set up data.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @access   protected
+	 * 
+	 * @param    array    $columns  Associative array containing all the Movies
+	 *                              imported from list
+	 * @param    array    $metadata Associative array containing Movies metadata
+	 */
 	function __construct( $columns, $metadata ) {
 
 		global $status, $page;
 
 		parent::__construct( array(
-			'singular'  => __( 'movie', 'mylisttable' ),
-			'plural'    => __( 'movies', 'mylisttable' ),
+			'singular'  => __( 'Movie', 'wpml' ),
+			'plural'    => __( 'Movies', 'wpml' ),
 			'ajax'      => false
 		) );
 
@@ -38,18 +49,48 @@ class WPML_List_Table extends WP_List_Table {
 		);
 	}
 	
+	/**
+	 * Message to be displayed when there are no items
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @access   public
+	 */
 	function no_items() {
 		_e( 'No movies found, dude.', 'wpml' );
 	}
 	
+	/**
+	 * Set default columns if any
+	 * 
+	 * @param    string    $item Associative array containing the item data.
+	 * @param    string    $column_name Name of the column.
+	 * 
+	 * @return   string|null    The item row corresponding to the column if
+	 *                          available, null else
+	 */
 	function column_default( $item, $column_name ) {
 
 		if ( in_array( $column_name, array_keys( $this->column_names ) ) )
 			return $item[ $column_name ];
 		else
-			return print_r( $item, true );
+			return null;
 	}
  
+	/**
+	 * Get a list of sortable columns. The format is:
+	 * 'internal-name' => 'orderby'
+	 * or
+	 * 'internal-name' => array( 'orderby', true )
+	 *
+	 * The second format will make the initial sorting order be descending
+	 *
+	 * @since    1.0.0
+	 * 
+	 * @access   protected
+	 *
+	 * @return   array
+	 */
 	function get_sortable_columns() {
 
 		$sortable_columns = array();
@@ -60,6 +101,16 @@ class WPML_List_Table extends WP_List_Table {
 		return $sortable_columns;
 	}
 	
+	/**
+	 * Get a list of columns. The format is:
+	 * 'internal-name' => 'Title'
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @access   protected
+	 * 
+	 * @return   array
+	 */
 	function get_columns(){
 
 		$columns = array(
@@ -72,25 +123,77 @@ class WPML_List_Table extends WP_List_Table {
 		return $columns;
 	    }
 	
+	/**
+	 * Change the items order.
+	 * 
+	 * If use a valid orderby if set in request, use movietitle as a
+	 * fallback. Same for order.
+	 * 
+	 * NOTE Huh. Not quite sure what I added this... It does change the
+	 * columns order, though, so lets keep it here for the moment.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    $a Associative array containing Movie data.
+	 * @param    string    $b Associative array containing Movie data.
+	 * 
+	 * @return   array
+	 */
 	function usort_reorder( $a, $b ) {
+
+		$orderby = 'movietitle';
+		$order   = 'asc';
+
 		// If no sort, default to title
-		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'movietitle';
+		if ( ! empty( $_REQUEST['orderby'] ) && in_array( strtolower( $_REQUEST['orderby'] ), array( 'ID', 'poster', 'movietitle', 'director', 'tmdb_id' ) ) )
+			$orderby = esc_attr( $_REQUEST['orderby'] );
+
 		// If no order, default to asc
-		$order = ( ! empty($_GET['order'] ) ) ? $_GET['order'] : 'asc';
+		if ( ! empty( $_REQUEST['order'] ) && in_array( strtolower( $_REQUEST['order'] ), array( 'asc', 'desc' ) ) )
+			$order = esc_attr( $_REQUEST['order'] );
+
 		// Determine sort order
-		$result = strcmp( $a[$orderby], $b[$orderby] );
+		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
+
 		// Send final sort direction to usort
 		return ( $order === 'asc' ) ? $result : -$result;
 	}
 	
+	/**
+	 * Show a checkbox related to the Movie's ID.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    $item Associative array containing the item data.
+	 * 
+	 * @return   string    HTML markup
+	 */
 	function column_cb( $item ) {
 		    return sprintf( '<input type="checkbox" id="post_%s" name="movie[]" value="%s" />', $item['ID'], $item['ID'] );
 	}
  
+	/**
+	 * Show the Movie's ID column.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    $item Associative array containing the item data.
+	 * 
+	 * @return   string    HTML markup
+	 */
 	function column_ID( $item ) {
 		return sprintf('<span class="movie_ID">%1$s</span>', $item['ID'] );
 	}
  
+	/**
+	 * Show the Movie's Title column.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    $item Associative array containing the item data.
+	 * 
+	 * @return   string    HTML markup
+	 */
 	function column_movietitle( $item ) {
 
 		$actions = array(
@@ -110,25 +213,98 @@ class WPML_List_Table extends WP_List_Table {
 		return sprintf('<span class="movie_title">%1$s</span> %2$s %3$s', $item['movietitle'], $this->row_actions( $actions ), $inline_item );
 	}
  
+	/**
+	 * Show the Movie's Director column.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    $item Associative array containing the item data.
+	 * 
+	 * @return   string    HTML markup
+	 */
 	function column_director( $item ) {
 		return sprintf('<span class="movie_director">%1$s</span>', $item['director'] );
 	}
  
+	/**
+	 * Show the Movie's TMDb ID column.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    $item Associative array containing the item data.
+	 * 
+	 * @return   string    HTML markup
+	 */
 	function column_tmdb_id( $item ) {
 		return sprintf('<span class="movie_tmdb_id">%1$s</span>', $item['tmdb_id'] );
 	}
+
+	/**
+	 * Apply the search. If a keyword is set in request, filter the columns
+	 * for matching Movie titles and return the filtered list; return the
+	 * full list if no search is asked.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @return   array    Associative array of Movies
+	 */
+	function filter_search() {
+
+		if ( empty( $this->columns ) || ! isset( $_REQUEST['s'] ) || '' == $_REQUEST['s'] )
+			return $this->columns;
+
+		$results = array();
+		$search = esc_attr( $_REQUEST['s'] );
+
+		foreach ( $this->columns as $column )
+			if ( false !== stristr( $column['movietitle'], $search ) )
+				$results[] = $column;
+
+		$this->columns = $results;
+	}
 	
+	/**
+	 * Get an associative array ( option_name => option_title ) with the list
+	 * of bulk actions available on this table.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @access   protected
+	 * 
+	 * @return   array
+	 */
 	function get_bulk_actions() {
+
 		$actions = array(
 			'delete'    => __( 'Delete', 'wpml' ),
 			'tmdb_data' => __( 'Fetch data from TMDb', 'wpml' ),
 		);
+
 		return $actions;
 	}
 	
+	/**
+	 * Prepares the list of items for displaying.
+	 * 
+	 * Applies the search on items first thing, then handle the columns,
+	 * sorting and pagination.
+	 * 
+	 * @uses WP_List_Table::set_pagination_args()
+	 * @uses WPML_List_Table::get_columns()
+	 * @uses WPML_List_Table::get_sortable_columns()
+	 * @uses WPML_List_Table::get_items_per_page()
+	 * @uses WPML_List_Table::filter_search()
+	 *
+	 * @since 1.0.0
+	 * 
+	 * @access public
+	 */
 	function prepare_items() {
 
+		$this->filter_search();
+
 		$columns  = $this->get_columns();
+
 		$hidden   = array();
 		$sortable = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
@@ -148,6 +324,7 @@ class WPML_List_Table extends WP_List_Table {
 				'per_page'    => $per_page
 			)
 		);
+
 		$this->items = $columns;
 	}
  
