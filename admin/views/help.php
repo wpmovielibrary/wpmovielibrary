@@ -14,6 +14,7 @@
 		<ul>
 			<li><?php _e( '<a href="http://th0th.me/log/">th0th</a>, author of <a href="http://wordpress.org/plugins/th0ths-movie-collection/"><em>th0th\'s Movie Collection</em></a>, the plugin WPML started as a fork of before becoming a complete new, homemade tool.', 'wpml' ) ?></li>
 			<li><?php _e( '<a href="http://www.glamorous.be">Jonas De Smet</a>, author of <a href="https://github.com/glamorous/TMDb-PHP-API">TMDb-PHP-API</a> which WPML is based on.', 'wpml' ) ?></li>
+			<li><?php _e( '<a href="https://github.com/lesurfeur">Spiky (lesurfeur)</a>, very first user of WPML, who provided nice ideas and productive feedback.', 'wpml' ) ?>
 		</ul>
 
 		<h4><?php _e( 'Contribute', 'wpml' ); ?></h4>
