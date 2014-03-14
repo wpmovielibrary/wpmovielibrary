@@ -322,21 +322,21 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 	 *
 	 * @since     1.0.0
 	 */
-	private function _wpml_get_movie_by_title( $title, $lang, $_id = null ) {
+	public function _wpml_get_movie_by_title( $title, $lang, $_id = null ) {
 
 		$title  = $this->wpml_clean_search_title( $title );
 		$data   = $this->tmdb->searchMovie( $title, 1, FALSE, NULL, $lang );
 
 		if ( isset( $data['status_code'] ) ) {
 			$movies = array(
-				'result' => 'error',
+				'_result' => 'error',
 				'p'      => '<p><strong>API returned Status '.$data['status_code'].':</strong> '.$data['status_message'].'</p>',
 				'_id'    => $_id
 			);
 		}
 		else if ( ! isset( $data['total_results'] ) ) {
 			$movies = array(
-				'result' => 'empty',
+				'_result' => 'empty',
 				'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>',
 				'_id'    => $_id
 			);
@@ -347,7 +347,7 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 		else if ( $data['total_results'] > 1 ) {
 
 			$movies = array(
-				'result' => 'movies',
+				'_result' => 'movies',
 				'p'      => '<p><strong>'.__( 'Your request showed multiple results. Select your movie in the list or try another search:', 'wpml' ).'</strong></p>',
 				'movies' => array(),
 				'_id'    => $_id
@@ -365,7 +365,7 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 		}
 		else {
 			$movies = array(
-				'result' => 'empty',
+				'_result' => 'empty',
 				'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>',
 				'_id'    => $_id
 			);
@@ -383,7 +383,8 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 	 */
 	private function wpml_get_movie_by_id( $id, $lang, $_id = null, $echo = true ) {
 
-		$movie = ( $this->caching ? get_transient( "wpml_movie_$id" ) : false );
+		//$movie = ( $this->caching ? get_transient( "wpml_movie_$id" ) : false );
+		$movie = false;
 
 		if ( false === $movie ) {
 			$movie = $this->_wpml_get_movie_by_id( $id, $lang, $_id );
@@ -429,50 +430,41 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 		if ( $images_max > 0 && count( $images ) > $images_max )
 			$images = array_slice( $images, 0, $images_max );
 
-		$images = array( 'images' => $images );
-
-		// Prepare default crew
-		$crew = array();
-		$_d = $this->wpml_o('tmdb-default_fields');
-		$_c = array_keys( $_d );
-
-		foreach ( $casts['crew'] as $c ) {
-			$_r = array_search( $c['job'], array_values( $_d ) );
-			if ( false !== $_r ) {
-				$movie[ $_c[ $_r ] ][] = $c;
-			}
-		}
-
-		// Prepare Actors
-		$casts = array(
-			'cast' => $casts['cast']
+		$_images = array( 'images' => $images );
+		$_full = array_merge( $movie, $casts, $images );
+		$_movie = array(
+			'_id'     => $_id,
+			'_tmdb_id' => $id,
+			'meta'    => apply_filters( 'wpml_filter_meta_data', $movie ),
+			'crew'    => apply_filters( 'wpml_filter_crew_data', $casts ),
+			'images'  => $_images,
+			'poster_path'  => $poster['file_path'],
+			'_result' => 'movie',
+			'_full'   => $_full,
 		);
 
 		// Prepare Custom Taxonomy
 		if ( 1 == $this->wpml_o( 'wpml-settings-taxonomy_autocomplete' ) ) {
 
-			$movie['taxonomy'] = array(
+			$_movie['taxonomy'] = array(
 				'actors' => array(),
 				'genres' => array()
 			);
 
 			if ( ! empty( $casts['cast'] ) && 1 == $this->wpml_o( 'wpml-settings-enable_actor' ) ) {
 				foreach ( $casts['cast'] as $actor ) {
-					$movie['taxonomy']['actors'][] = $actor['name'];
+					$_movie['taxonomy']['actors'][] = $actor['name'];
 				}
 			}
 			if ( ! empty( $movie['genres'] ) && 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) ) {
 				foreach ( $movie['genres'] as $genre ) {
-					$movie['taxonomy']['genres'][] = $genre['name'];
+					$_movie['taxonomy']['genres'][] = $genre['name'];
 				}
 			}
 		}
 
-		$movie = array_merge( $movie, $casts, $images );
-		$movie['result'] = 'movie';
-		$movie['_id'] = $_id;
 
-		return $movie;
+		return $_movie;
 	}
 
 

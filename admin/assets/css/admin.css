@@ -335,6 +335,27 @@
 	text-shadow: 1px 1px 0 #fff;
 }
 
+#tmdb_status {
+	background-color: #fff;
+	-webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+	display: block;
+	margin: 8px 2px;
+	padding: 5px 12px;
+}
+
+#tmdb_status.success {
+	border-left: 4px solid #7AD03A;
+}
+
+#tmdb_status.warning {
+	border-left: 4px solid #FFBA00;
+}
+
+#tmdb_status.error {
+	border-left: 4px solid #DD3D36;
+}
+
 /* #WPML 
  ****************************************************/
 

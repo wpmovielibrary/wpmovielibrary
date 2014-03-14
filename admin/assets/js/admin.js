@@ -30,16 +30,12 @@ jQuery(document).ready(function($) {
 	// TMDb data -- New movie
 	$('input#tmdb_empty').click(function(e) {
 		e.preventDefault();
-
-		a = document.getElementsByClassName('tmdb_data_field');
-		for ( i = 0; i < a.length; ++i ) a.item(i).value = '';
-		document.getElementById('tmdb_save_images').style.display = 'none';
-		document.getElementById('progressbar').style.display = 'none';
-		a = document.getElementsByClassName('tmdb_select_movie');
-		while( a.item(0) ) a.item(0).remove();
-		a = document.getElementsByClassName('tmdb_movie_images');
-		while( a.item(0) ) a.item(0).remove();
-		document.getElementById('tmdb_data').innerHTML = '';
+		$('.tmdb_data_field').val('');
+		$('#tmdb_save_images, #progressbar').hide();
+		$('.tmdb_select_movie, .tmdb_movie_images').remove();
+		$('#tmdb_data, .tagchecklist').empty();
+		$('.categorydiv input[type=checkbox]').prop('checked', false);
+		wp.media.featuredImage.set(-1);
 		wpml.status.clear();
 	});
 
@@ -309,22 +305,31 @@ wpml = {
 
 				field.value = '';
 
-				if ( typeof data[_id] == "object" ) {
-					if ( Array.isArray( data[_id] ) ) {
+				var sub = wpml.switch_data( _id );
+
+				if ( 'meta' == sub )
+					var _data = data.meta;
+				else if ( 'crew' == sub )
+					var _data = data.crew;
+				else
+					var _data = data;
+
+				if ( typeof _data[_id] == "object" ) {
+					if ( Array.isArray( _data[_id] ) ) {
 						if ( _id == 'images' ) {
 							wpml.movie.images.populate(data.images);
 						}
 						else {
 							_v = [];
-							$.each(data[_id], function() {
-								_v.push( field.value + this.name );
+							$.each(_data[_id], function() {
+								_v.push( field.value + this );
 							});
-							value = _v.join(',&nbsp;');
+							value = _v.join(', ');
 						}
 					}
 				}
 				else {
-					_v = ( data[_id] != null ? data[_id] : '' );
+					_v = ( _data[_id] != null ? _data[_id] : '' );
 					value = _v;
 				}
 
@@ -347,12 +352,15 @@ wpml = {
 				});
 			}
 
-			if ( data.director.length ) {
-				$.each(data.director, function(i) {
-					$('#newcollection').prop('value', this.name);
+			if ( data.crew.director.length ) {
+				$.each(data.crew.director, function(i) {
+					$('#newcollection').prop('value', this);
 					$('#collection-add-submit').click();
 				});
 			}
+
+			$('#tmdb_query').focus();
+			wpml.status.set(ajax_object.done, 'success');
 		},
 
 		populate_quick_edit: function( movie_details, nonce ) {
@@ -459,9 +467,9 @@ wpml = {
 			$('#tmdb_data > *, .tmdb_select_movie, .tmdb_movie_images').remove();
 
 			if (  wpml.movie.type == 'title' )
-				wpml.status.set(ajax_object.search_movie_title+' "'+ wpml.movie.data+'"');
+				wpml.status.set(ajax_object.search_movie_title+' "'+ wpml.movie.data+'"', 'warning');
 			else if (  wpml.movie.type == 'id' )
-				wpml.status.set(ajax_object.search_movie+' #'+ wpml.movie.data);
+				wpml.status.set(ajax_object.search_movie+' #'+ wpml.movie.data, 'success');
 
 			$.ajax({
 				type: 'GET',
@@ -474,11 +482,11 @@ wpml = {
 					lang: wpml.movie.lang
 				},
 				success: function(response) {
-					if ( response.result == 'movie' ) {
+					if ( response._result == 'movie' ) {
 						wpml.movie.populate(response);
 						wpml.movie.images.set_featured(response.poster_path, null, response.title);
 					}
-					else if ( response.result == 'movies' ) {
+					else if ( response._result == 'movies' ) {
 						wpml.movie.populate_select_list(response);
 
 						$('.tmdb_select_movie a').click(function(e) {
@@ -487,7 +495,7 @@ wpml = {
 							wpml.movie.get_movie(id);
 						});
 					}
-					else if ( response.result == 'error' || response.result == 'empty' ) {
+					else if ( response._result == 'error' || response._result == 'empty' ) {
 						$('#tmdb_data').html(response.p).show();
 						$('#tmdb_status').empty();
 					}
@@ -550,7 +558,7 @@ wpml = {
 
 				$.each(img, function(i) {
 					i = i+1;
-					wpml.status.set(ajax_object.save_image+' #'+i);
+					wpml.status.set(ajax_object.save_image+' #'+i, 'warning');
 					$.ajax({
 						type: 'GET',
 						url: ajax_object.ajax_url,
@@ -583,7 +591,7 @@ wpml = {
 				if ( ! $('#wpml-tmdb') || wp.media.featuredImage.get() > 0 )
 					return false;
 
-				wpml.status.set(ajax_object.set_featured);
+				wpml.status.set(ajax_object.set_featured, 'success');
 				var title   = title || $('#tmdb_data_title').val();
 				var post_id = id || $('#post_ID').val();
 
@@ -600,10 +608,10 @@ wpml = {
 					success: function(r) {
 						if (r) {
 							wp.media.featuredImage.set(r);
-							wpml.status.set(ajax_object.done);
+							wpml.status.set(ajax_object.done, 'success');
 						}
 						else {
-							wpml.status.set(ajax_object.oops);
+							wpml.status.set(ajax_object.oops, 'error');
 						}
 					}
 				});
@@ -670,32 +678,42 @@ wpml = {
 
 			data.images = [];
 
+			console.log(data);
+
 			fields.each(function(i, field) {
 
-				//field  = this;
 				f_name = field.id.replace('p_'+data._id+'_tmdb_data_','');
 
-				if ( Array.isArray( data[f_name] ) && data[f_name].length ) {
+				var sub = wpml.switch_data( f_name );
+
+				if ( 'meta' == sub )
+					var _data = data.meta;
+				else if ( 'crew' == sub )
+					var _data = data.crew;
+				else
+					var _data = data;
+
+				if ( Array.isArray( _data[f_name] ) && _data[f_name].length ) {
 					var _v = [];
-					$.each(data[f_name], function() {
-						_v.push( field.value + this.name );
+					$.each(_data[f_name], function() {
+						_v.push( field.value + this );
 					});
 					field.value = _v.join(', ');
 				}
 				else {
-					var _v = ( data[f_name] != null ? data[f_name] : '' );
+					var _v = ( _data[f_name] != null ? _data[f_name] : '' );
 					field.value = _v;
 				}
 			});
 
-			$('#p_'+data._id+'_tmdb_data_tmdb_id').val(data.id);
+			$('#p_'+data._id+'_tmdb_data_tmdb_id').val(data._tmdb_id);
 			$('#p_'+data._id+'_tmdb_data_post_id').val(data._id);
 			$('#p_'+data._id+'_tmdb_data_poster').val(data.poster_path);
 
-			tr.find('.poster').html('<img src="'+ajax_object.base_url_xxsmall+data.poster_path+'" alt="'+data.title+'" />');
-			tr.find('.movie_title').text(data.title);
+			tr.find('.poster').html('<img src="'+ajax_object.base_url_xxsmall+data.poster_path+'" alt="'+data.meta.title+'" />');
+			tr.find('.movie_title').text(data.meta.title);
 			tr.find('.movie_director').text($('#p_'+data._id+'_tmdb_data_director').val());
-			tr.find('.movie_tmdb_id').text(data.id);
+			tr.find('.movie_tmdb_id').text(data._tmdb_id);
 
 			$('#p_'+data._id+'_tmdb_data').appendTo('#tmdb_data');
 		},
@@ -742,10 +760,10 @@ wpml = {
 
 					wpml.import.target = $('#p_'+response._id); // Update the target for populates
 
-					if ( response.result == 'movie' ) {
+					if ( response._result == 'movie' ) {
 						wpml.import.populate(response);
 					}
-					else if ( response.result == 'movies' ) {
+					else if ( response._result == 'movies' ) {
 						wpml.import.populate_select_list(response);
 
 						$('.tmdb_select_movie a').unbind('click').bind('click', function(e) {
@@ -757,8 +775,8 @@ wpml = {
 							$(this).parents('.wpml-import-movie-select').remove();
 						});
 					}
-					else if ( response.result == 'error' || response.result == 'empty' ) {
-						$('#import-intro').after('<div id="import-error" class="updated settings-error">'+response.p+'</div>').show();
+					else if ( response._result == 'error' || response._result == 'empty' ) {
+						$('#import-intro').after('<div id="import-error" class="success settings-error">'+response.p+'</div>').show();
 					}
 				},
 				beforeSend: function() {
@@ -776,14 +794,46 @@ wpml = {
 		},
 	},
 
+	switch_data: function( f_name ) {
+
+		switch ( f_name ) {
+			case "poster":
+			case "title":
+			case "original_title":
+			case "overview":
+			case "production_companies":
+			case "production_countries":
+			case "spoken_languages":
+			case "runtime":
+			case "genres":
+			case "release_date":
+				var _data = 'meta';
+				break;
+			case "director":
+			case "producer":
+			case "photography":
+			case "composer":
+			case "author":
+			case "writer":
+			case "cast":
+				var _data = 'crew';
+				break;
+			default:
+				var _data = 'data';
+				break;
+		}
+
+		return _data;
+	},
+
 	status: {
 
-		set: function(message) {
-			$('#tmdb_status').text(message);
+		set: function(message, style) {
+			$('#tmdb_status').text(message).removeClass().addClass(style).show();
 		},
 
 		clear: function() {
-			$('#tmdb_status').empty();
+			$('#tmdb_status').empty().removeClass().hide();
 		}
 
 	},

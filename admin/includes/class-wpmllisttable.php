@@ -197,7 +197,8 @@ class WPML_List_Table extends WP_List_Table {
 	function column_movietitle( $item ) {
 
 		$actions = array(
-			'edit'      => sprintf('<a href="post.php?post=%s&action=%s">%s</a>', $item['ID'], 'edit', __( 'Edit', 'wpml' ) ),
+			'edit'      => sprintf('<a href="%s">%s</a>', get_edit_post_link( $item['ID'] ), __( 'Edit', 'wpml' ) ),
+			'tmdb_data' => sprintf('<a href="%s">%s</a>', get_edit_post_link( $item['ID'] ) . "&wpml_auto_fetch=1", __( 'Fetch data from TMDb', 'wpml' ) ),
 			'delete'    => sprintf('<a class="delete_movie" id="delete_%s" href="#">%s</a>', $item['ID'], __( 'Delete', 'wpml' ) ),
 		);
 
@@ -205,8 +206,9 @@ class WPML_List_Table extends WP_List_Table {
 		$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_tmdb_id" type="hidden" name="tmdb[p_'.$item['ID'].'][tmdb_id]" value="0" />';
 		$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_poster" type="hidden" name="tmdb[p_'.$item['ID'].'][poster]" value="" />';
 
-		foreach ( $this->metadata as $slug => $meta )
-			$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_'.$slug.'" type="hidden" name="tmdb[p_'.$item['ID'].']['.$slug.']" value="" />';
+		foreach ( $this->metadata as $id => $box )
+			foreach ( $box['data'] as $slug => $meta )
+				$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_'.$slug.'" type="hidden" name="tmdb[p_'.$item['ID'].']['.$id.']['.$slug.']" value="" />';
 
 		$inline_item = '<div id="p_'.$item['ID'].'_tmdb_data">'.$inline_item.'</div>';
 
@@ -282,7 +284,54 @@ class WPML_List_Table extends WP_List_Table {
 
 		return $actions;
 	}
-	
+
+	/**
+	 * Display the bulk actions dropdown.
+	 *
+	 * @since    1.0.0
+	 * 
+	 * @access   public
+	 */
+	function bulk_actions() {
+		if ( is_null( $this->_actions ) ) {
+			$no_new_actions = $this->_actions = $this->get_bulk_actions();
+			/**
+			 * Filter the list table Bulk Actions drop-down.
+			 *
+			 * The dynamic portion of the hook name, $this->screen->id, refers
+			 * to the ID of the current screen, usually a string.
+			 *
+			 * This filter can currently only be used to remove bulk actions.
+			 *
+			 * @since 3.5.0
+			 *
+			 * @param array $actions An array of the available bulk actions.
+			 */
+			$this->_actions = apply_filters( "bulk_actions-{$this->screen->id}", $this->_actions );
+			$this->_actions = array_intersect_assoc( $this->_actions, $no_new_actions );
+			$two = '';
+		} else {
+			$two = '2';
+		}
+
+		if ( empty( $this->_actions ) )
+			return;
+
+		echo "<select name='action$two'>\n";
+		echo "<option value='-1' selected='selected'>" . __( 'Bulk Actions' ) . "</option>\n";
+
+		foreach ( $this->_actions as $name => $title ) {
+			$class = in_array( $name, array( 'edit', 'tmdb_data' ) ) ? ' class="hide-if-no-js"' : '';
+
+			echo "\t<option value='$name'$class>$title</option>\n";
+		}
+
+		echo "</select>\n";
+
+		submit_button( __( 'Apply' ), 'action', false, false, array( 'id' => "doaction$two" ) );
+		echo "\n";
+	}
+
 	/**
 	 * Prepares the list of items for displaying.
 	 * 

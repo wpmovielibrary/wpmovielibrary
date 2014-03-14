@@ -201,6 +201,85 @@ class WPMovieLibrary {
 			'rating'               => __( 'Rating', 'wpml' )
 		);
 
+		$this->wpml_tmdb_box = array(
+			'meta' => array(
+				'type' => __( 'Type', 'wpml' ),
+				'value' => __( 'Value', 'wpml' ),
+				'data' => array(
+					'title' => array(
+						'title' => __( 'Title', 'wpml' ),
+						'type' => 'text'
+					),
+					'original_title' => array(
+						'title' => __( 'Original Title', 'wpml' ),
+						'type' => 'text'
+					),
+					'overview' => array(
+						'title' => __( 'Overview', 'wpml' ),
+						'type' => 'textarea'
+					),
+					'production_companies' => array(
+						'title' => __( 'Production', 'wpml' ),
+						'type' => 'text'
+					),
+					'production_countries' => array(
+						'title' => __( 'Country', 'wpml' ),
+						'type' => 'text'
+					),
+					'spoken_languages' => array(
+						'title' => __( 'Languages', 'wpml' ),
+						'type' => 'text'
+					),
+					'runtime' => array(
+						'title' => __( 'Runtime', 'wpml' ),
+						'type' => 'text'
+					),
+					'genres' => array(
+						'title' => __( 'Genres', 'wpml' ),
+						'type' => 'text'
+					),
+					'release_date' => array(
+						'title' => __( 'Release Date', 'wpml' ),
+						'type' => 'text'
+					)
+				)
+			),
+			'crew' => array(
+				'type' => __( 'Job', 'wpml' ),
+				'value' => __( 'Name(s)', 'wpml' ),
+				'data' => array(
+					'director' => array(
+						'title' => __( 'Director', 'wpml' ),
+						'type' => 'text'
+					),
+					'producer' => array(
+						'title' => __( 'Producer', 'wpml' ),
+						'type' => 'text'
+					),
+					'photography' => array(
+						'title' => __( 'Director of Photography', 'wpml' ),
+						'type' => 'text'
+					),
+					'composer' => array(
+						'title' => __( 'Original Music Composer', 'wpml' ),
+						'type' => 'text'
+					),
+					'author' => array(
+						'title' => __( 'Author', 'wpml' ),
+						'type' => 'text'
+					),
+					'writer' => array(
+						'title' => __( 'Writer', 'wpml' ),
+						'type' => 'text'
+					),
+					'cast' => array(
+						'title' => __( 'Actors', 'wpml' ),
+						'type' => 'textarea'
+					)
+				)
+			)
+		);
+
 		// Load settings or register new ones
 		$this->wpml_default_settings();
 		add_action( 'init', array( $this, 'wpml_default_settings' ) );
@@ -228,10 +307,20 @@ class WPMovieLibrary {
 		// Movie content
 		add_filter( 'the_content', array( $this, 'wpml_movie_content' ) );
 
+		// Internal Hooks
 		add_filter( 'wpml_get_movies_from_media', array( $this, 'wpml_get_movies_from_media' ), 10, 1 );
 		add_filter( 'wpml_get_movies_from_status', array( $this, 'wpml_get_movies_from_status' ), 10, 1 );
+
 		add_filter( 'wpml_format_widget_lists', array( $this, 'wpml_format_widget_lists' ), 10, 4 );
 		add_filter( 'wpml_format_widget_lists_thumbnails', array( $this, 'wpml_format_widget_lists_thumbnails' ), 10, 1 );
+
+		add_filter( 'wpml_stringify_array', array( $this, 'wpml_stringify_array' ), 10, 3 );
+
+		add_filter( 'wpml_filter_crew', array( $this, 'wpml_filter_crew' ), 10, 1 );
+		add_filter( 'wpml_filter_movie_data', array( $this, 'wpml_filter_movie_data' ), 10, 1 );
+		add_filter( 'wpml_filter_meta_data', array( $this, 'wpml_filter_meta_data' ), 10, 1 );
+		add_filter( 'wpml_filter_crew_data', array( $this, 'wpml_filter_crew_data' ), 10, 1 );
+		add_filter( 'wpml_filter_cast_data', array( $this, 'wpml_filter_cast_data' ), 10, 1 );
 
 		add_action( 'wpml_list_default_movie_media', array( $this, 'wpml_list_default_movie_media' ), 10, 3 );
 
@@ -947,6 +1036,130 @@ class WPMovieLibrary {
 		$html = '<div class="widget-movies">' . implode( "\n", $html ) . '</div>';
 
 		return $html;
+	}
+
+	/**
+	 * Convert an Array shaped list to a separated string.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    array    $array Array shaped list
+	 * @param    string   $subrow optional subrow to select in subitems
+	 * @param    string   $separator Separator string to use to implode the list
+	 * 
+	 * @return   string   Separated list
+	 */
+	public function wpml_stringify_array( $array, $subrow = 'name', $separator = ', ' ) {
+
+		if ( ! is_array( $array ) )
+			return $array;
+
+		foreach ( $array as $i => $row ) {
+			if ( false === $subrow || ! is_array( $row ) )
+				$array[ $i ] = $row;
+			else if ( is_array( $row ) && isset( $row[ $subrow ] ) )
+				$array[ $i ] = $row[ $subrow ];
+			else if ( is_array( $row ) )
+				$array[ $i ] = implode( $separator, $row );
+		}
+
+		$array = implode( $separator, $array );
+
+		return $array;
+	}
+
+	/**
+	 * Filter a Movie's Metadata to extract only supported data.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    array    $array Movie metadata
+	 * 
+	 * @return   array    Filtered Metadata
+	 */
+	public function wpml_filter_meta_data( $data ) {
+
+		if ( ! is_array( $data ) || empty( $data ) )
+			return $data;
+
+		$filter = array();
+		$_data = array();
+
+		foreach ( $this->wpml_tmdb_box['meta']['data'] as $slug => $f ) {
+			$filter[] = $slug;
+			$_data[ $slug ] = '';
+		}
+
+		foreach ( $data as $slug => $d ) {
+			if ( in_array( $slug, $filter ) ) {
+				if ( is_array( $d ) ) {
+					foreach ( $d as $_d ) {
+						if ( is_array( $_d ) && isset( $_d['name'] ) ) {
+							$_data[ $slug ][] = $_d['name'];
+						}
+					}
+				}
+				else {
+					$_data[ $slug ] = $d;
+				}
+			}
+		}
+
+		return $_data;
+	}
+
+	/**
+	 * Filter a Movie's Crew to extract only supported data.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    array    $array Movie Crew
+	 * 
+	 * @return   array    Filtered Crew
+	 */
+	public function wpml_filter_crew_data( $data ) {
+
+		if ( ! is_array( $data ) || empty( $data ) || ! isset( $data['crew'] ) )
+			return $data;
+
+		$filter = array();
+		$_data = array();
+
+		$cast = apply_filters( 'wpml_filter_cast_data', $data['cast'] );
+		$data = $data['crew'];
+
+		foreach ( $this->wpml_tmdb_box['crew']['data'] as $slug => $f ) {
+			$filter[ $slug ] = $f['title'];
+			$_data[ $slug ] = '';
+		}
+
+		foreach ( $data as $i => $d )
+			if ( isset( $d['job'] ) && false !== ( $key = array_search( $d['job'], $filter ) ) && isset( $_data[ $key ] ) )
+				$_data[ $key ][] = $d['name'];
+
+		$_data['cast'] = $cast;
+
+		return $_data;
+	}
+
+	/**
+	 * Filter a Movie's Cast to extract only supported data.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    array    $array Movie Cast
+	 * 
+	 * @return   array    Filtered Cast
+	 */
+	public function wpml_filter_cast_data( $data ) {
+
+		if ( ! is_array( $data ) || empty( $data ) )
+			return $data;
+
+		foreach ( $data as $i => $d )
+			$data[ $i ] = $d['name'];
+
+		return $data;
 	}
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

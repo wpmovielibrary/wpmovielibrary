@@ -9,63 +9,56 @@ endif;
 <?php endif; ?>
 			<p><strong><?php _e( 'Find movie on TMDb:', 'wpml' ); ?></strong></p>
 
-			<select id="tmdb_search_lang" name="lang">
-				<option value="en" <?php selected( $this->wpml_o('tmdb-settings-lang'), 'en' ); ?>><?php _e( 'English', 'wpml' ); ?></option>
-				<option value="fr" <?php selected( $this->wpml_o('tmdb-settings-lang'), 'fr' ); ?>><?php _e( 'French', 'wpml' ); ?></option>
-			</select>
-			<select id="tmdb_search_type" name="tmdb_search_type">
-				<option value="title" selected="selected"><?php _e( 'Movie Title', 'wpml' ); ?></option>
-				<option value="id"><?php _e( 'TMDb ID', 'wpml' ); ?></option>
-			</select>
-			<input id="tmdb_query" type="text" name="tmdb_query" value="" size="40" maxlength="32" />
-			<input id="tmdb_search" name="tmdb_search" type="button" class="button button-secondary button-small" value="<?php _e( 'Fetch data', 'wpml' ); ?>" />
-			<span id="tmdb_status"></span>
-			<input id="tmdb_empty" name="tmdb_empty" type="button" class="button button-secondary button-small button-empty" value="<?php _e( 'Empty Results', 'wpml' ); ?>" />
+			<div>
+				<select id="tmdb_search_lang" name="lang">
+					<option value="en" <?php selected( $this->wpml_o('tmdb-settings-lang'), 'en' ); ?>><?php _e( 'English', 'wpml' ); ?></option>
+					<option value="fr" <?php selected( $this->wpml_o('tmdb-settings-lang'), 'fr' ); ?>><?php _e( 'French', 'wpml' ); ?></option>
+				</select>
+				<select id="tmdb_search_type" name="tmdb_search_type">
+					<option value="title" selected="selected"><?php _e( 'Movie Title', 'wpml' ); ?></option>
+					<option value="id"><?php _e( 'TMDb ID', 'wpml' ); ?></option>
+				</select>
+				<input id="tmdb_query" type="text" name="tmdb_query" value="" size="40" maxlength="32" />
+				<input id="tmdb_search" name="tmdb_search" type="button" class="button button-secondary" value="<?php _e( 'Fetch data', 'wpml' ); ?>" />
+				<input id="tmdb_empty" name="tmdb_empty" type="button" class="button button-secondary button-empty hide-if-no-js" value="<?php _e( 'Empty Results', 'wpml' ); ?>" />
+			</div>
+
+			<div id="tmdb_status"></div>
+			<div style="clear:both"></div>
 
 			<div id="tmdb_data"></div>
 
-			<table class="list-table tmdb_meta"<?php echo ( ! count( $value ) ? ' style="display:none"' : '' ); ?>>
+
+<?php foreach ( $this->wpml->wpml_tmdb_box as $id => $box ) : ?>
+			<table class="list-table tmdb_<?php echo $id ?>">
 				<thead>
 					<tr>
-						<th class="left"><?php _e( 'Type', 'wpml' ); ?></th>
-						<th><?php _e( 'Value', 'wpml' ); ?></th>
+						<th class="left"><?php echo $box['type'] ?></th>
+						<th><?php echo $box['value'] ?></th>
 					</tr>
 				</thead>
 				<tbody>
-<?php foreach ( $this->wpml_meta as $slug => $meta ) : ?>
-					<tr>
+<?php foreach ( $box['data'] as $slug => $meta ) :
+	$_value = '';
+	if ( isset( $value[ $id ][ $slug ] ) )
+		$_value = apply_filters( 'wpml_stringify_array', $value[ $id ][ $slug ] );
+?>
+<tr>
 						<td class="left"><?php _e( $meta['title'], 'wpml' ) ?></td>
 <?php if ( isset( $meta['type'] ) && 'textarea' == $meta['type'] ) : ?>
 						<td>
-							<textarea id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $slug; ?>]" class="tmdb_data_field" rows="6"><?php echo ( isset( $value[$slug] ) && '' != $value[$slug] ? $value[$slug] : '' ); ?></textarea>
+							<textarea id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $slug; ?>]" class="tmdb_data_field" rows="6"><?php echo $_value ?></textarea>
 						</td>
 <?php elseif ( isset( $meta['type'] ) && in_array( $meta['type'], array( 'text', 'hidden' ) ) ) : ?>
 						<td>
-							<input type="<?php echo $meta['type']; ?>" id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $slug; ?>]" class="tmdb_data_field" value='<?php echo ( isset( $value[$slug] ) && '' != $value[$slug] ? $value[$slug] : '' ); ?>' size="64" />
+							<input type="<?php echo $meta['type']; ?>" id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $slug; ?>]" class="tmdb_data_field" value='<?php echo $_value ?>' size="64" />
 						</td>
 <?php endif; ?>
 					</tr>
 <?php endforeach; ?>
 				</tbody>
 			</table>
-
-			<table class="list-table tmdb_crew"<?php echo ( ! count( $value ) ? ' style="display:none"' : '' ); ?>>
-				<thead>
-					<tr>
-						<th class="left"><?php _e( 'Job', 'wpml' ); ?></th>
-						<th><?php _e( 'Names', 'wpml' ); ?></th>
-					</tr>
-				</thead>
-				<tbody>
-<?php foreach ( $this->wpml_o('tmdb-default_fields') as $slug => $meta ) : ?>
-					<tr>
-						<td class="left"><?php _e( $meta, 'wpml' ); ?></td>
-						<td><textarea id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $slug; ?>]" class="tmdb_data_field" rows="2"><?php echo ( isset( $value[$slug] ) && '' != $value[$slug] ? $value[$slug] : '' ); ?></textarea></td>
-					</tr>
 <?php endforeach; ?>
-				</tbody>
-			</table>
-
 			<table class="list-table tmdb_images_preview"<?php echo ( ! count( $value ) ? ' style="display:none"' : '' ); ?>>
 				<thead>
 					<tr>
