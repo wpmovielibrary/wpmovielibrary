@@ -31,8 +31,8 @@ class WPML_List_Table extends WP_List_Table {
 		global $status, $page;
 
 		parent::__construct( array(
-			'singular'  => __( 'Movie', 'wpml' ),
-			'plural'    => __( 'Movies', 'wpml' ),
+			'singular'  => 'movie',
+			'plural'    => 'movies',
 			'ajax'      => false
 		) );
 
