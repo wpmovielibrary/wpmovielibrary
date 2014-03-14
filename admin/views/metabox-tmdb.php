@@ -10,17 +10,18 @@ endif;
 			<p><strong><?php _e( 'Find movie on TMDb:', 'wpml' ); ?></strong></p>
 
 			<div>
-				<select id="tmdb_search_lang" name="lang">
+				<select id="tmdb_search_lang" name="wpml[lang]">
 					<option value="en" <?php selected( $this->wpml_o('tmdb-settings-lang'), 'en' ); ?>><?php _e( 'English', 'wpml' ); ?></option>
 					<option value="fr" <?php selected( $this->wpml_o('tmdb-settings-lang'), 'fr' ); ?>><?php _e( 'French', 'wpml' ); ?></option>
 				</select>
-				<select id="tmdb_search_type" name="tmdb_search_type">
+				<select id="tmdb_search_type" name="wpml[tmdb_search_type]">
 					<option value="title" selected="selected"><?php _e( 'Movie Title', 'wpml' ); ?></option>
 					<option value="id"><?php _e( 'TMDb ID', 'wpml' ); ?></option>
 				</select>
-				<input id="tmdb_query" type="text" name="tmdb_query" value="" size="40" maxlength="32" />
-				<input id="tmdb_search" name="tmdb_search" type="button" class="button button-secondary" value="<?php _e( 'Fetch data', 'wpml' ); ?>" />
-				<input id="tmdb_empty" name="tmdb_empty" type="button" class="button button-secondary button-empty hide-if-no-js" value="<?php _e( 'Empty Results', 'wpml' ); ?>" />
+				<input id="tmdb_query" type="text" name="wpml[tmdb_query]" value="" size="40" maxlength="32" />
+				<!--<input id="tmdb_search" name="wpml[tmdb_search]" type="submit" class="button button-secondary" value="<?php _e( 'Fetch data', 'wpml' ); ?>" />-->
+				<a id="tmdb_search" name="wpml[tmdb_search]" href="<?php echo get_edit_post_link() ?>&amp;wpml_auto_fetch=1" class="button button-secondary"><?php _e( 'Fetch data', 'wpml' ); ?></a>
+				<input id="tmdb_empty" name="wpml[tmdb_empty]" type="submit" class="button button-secondary button-empty hide-if-no-js" value="<?php _e( 'Empty Results', 'wpml' ); ?>" />
 			</div>
 
 			<div id="tmdb_status"></div>
@@ -43,7 +44,7 @@ endif;
 	if ( isset( $value[ $id ][ $slug ] ) )
 		$_value = apply_filters( 'wpml_stringify_array', $value[ $id ][ $slug ] );
 ?>
-<tr>
+					<tr>
 						<td class="left"><?php _e( $meta['title'], 'wpml' ) ?></td>
 <?php if ( isset( $meta['type'] ) && 'textarea' == $meta['type'] ) : ?>
 						<td>

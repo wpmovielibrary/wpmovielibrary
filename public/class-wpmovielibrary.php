@@ -315,6 +315,7 @@ class WPMovieLibrary {
 		add_filter( 'wpml_format_widget_lists_thumbnails', array( $this, 'wpml_format_widget_lists_thumbnails' ), 10, 1 );
 
 		add_filter( 'wpml_stringify_array', array( $this, 'wpml_stringify_array' ), 10, 3 );
+		add_filter( 'wpml_filter_empty_array', array( $this, 'wpml_filter_empty_array' ), 10, 1 );
 
 		add_filter( 'wpml_filter_meta_data', array( $this, 'wpml_filter_meta_data' ), 10, 1 );
 		add_filter( 'wpml_filter_crew_data', array( $this, 'wpml_filter_crew_data' ), 10, 1 );
@@ -1049,7 +1050,7 @@ class WPMovieLibrary {
 	 */
 	public function wpml_stringify_array( $array, $subrow = 'name', $separator = ', ' ) {
 
-		if ( ! is_array( $array ) )
+		if ( ! is_array( $array ) || empty( $array ) )
 			return $array;
 
 		foreach ( $array as $i => $row ) {
@@ -1064,6 +1065,23 @@ class WPMovieLibrary {
 		$array = implode( $separator, $array );
 
 		return $array;
+	}
+
+	/**
+	 * Filter an array to detect empty associative arrays.
+	 * Uses wpml_stringify_array to stringify the array and check its length.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    array    $array Array to check
+	 * 
+	 * @return   array    Original array plus and notification row if empty
+	 */
+	public function wpml_filter_empty_array( $array ) {
+
+		$_array = apply_filters( 'wpml_stringify_array', $array, false, '' );
+
+		return strlen( $_array ) > 0 ? $array : array_merge( array( '_empty' => true ), $array );
 	}
 
 	/**

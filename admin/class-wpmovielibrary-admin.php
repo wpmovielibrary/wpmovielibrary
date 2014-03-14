@@ -599,9 +599,10 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 */
 	public function wpml_metabox_tmdb( $post, $metabox ) {
 
-		$value = get_post_meta( $post->ID, '_wpml_movie_data' );
+		$value = get_post_meta( $post->ID, '_wpml_movie_data', true );
+		$value = apply_filters( 'wpml_filter_empty_array', $value );
 
-		if ( isset( $_REQUEST['wpml_auto_fetch'] ) && 1 == $_REQUEST['wpml_auto_fetch'] && empty( $value ) )
+		if ( isset( $_REQUEST['wpml_auto_fetch'] ) && '1' == $_REQUEST['wpml_auto_fetch'] && ( empty( $value ) || isset( $value['_empty'] ) ) )
 			$value = $this->tmdb->_wpml_get_movie_by_title( $post->post_title, $this->wpml_o( 'tmdb-settings-lang' ) );
 
 		include_once( 'views/metabox-tmdb.php' );
@@ -1154,6 +1155,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			return false;
 
 		if ( ! is_null( $tmdb_data ) && count( $tmdb_data ) ) {
+
+			$tmdb_data = apply_filters( 'wpml_filter_empty_array', $tmdb_data );
 
 			// Save TMDb data
 			update_post_meta( $post_id, '_wpml_movie_data', $tmdb_data );
