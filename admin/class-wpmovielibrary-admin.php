@@ -301,11 +301,16 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	public function wpml_movies_columns_head( $defaults ) {
 
 		$title = array_search( 'title', array_keys( $defaults ) );
+		$comments = array_search( 'comments', array_keys( $defaults ) ) - 1;
 
 		$defaults = array_merge(
 			array_slice( $defaults, 0, $title, true ),
 			array( 'poster' => __( 'Poster', 'wpml' ) ),
-			array_slice( $defaults, $title, count( $defaults ), true )
+			array_slice( $defaults, $title, $comments, true ),
+			array( 'movie_status' => __( 'Status', 'wpml' ) ),
+			array( 'movie_media' => __( 'Media', 'wpml' ) ),
+			array( 'movie_rating' => __( 'Rating', 'wpml' ) ),
+			array_slice( $defaults, $comments, count( $defaults ), true )
 		);
 
 		unset( $defaults['author'] );
@@ -325,11 +330,29 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 
 		switch ( $column_name ) {
 			case 'poster':
-				echo '<img src="'.$this->wpml_get_featured_image( $post_id ).'" alt="" />';
+				$html = '<img src="'.$this->wpml_get_featured_image( $post_id ).'" alt="" />';
+				break;
+			case 'movie_status':
+			case 'movie_media':
+				$meta = get_post_meta( $post_id, '_wpml_' . $column_name, true );
+				if ( isset( $this->wpml->default_post_details[ $column_name ]['options'][ $meta ] ) )
+					$html = $this->wpml->default_post_details[ $column_name ]['options'][ $meta ];
+				else
+					$html = '&mdash;';
+				break;
+			case 'movie_rating':
+				$meta = get_post_meta( $post_id, '_wpml_movie_rating', true );
+				if ( '' != $meta )
+					$html = '<div id="movie-rating-display" class="stars_' . str_replace( '.', '_', $meta ) . '"></div>';
+				else
+					$html = '<div id="movie-rating-display" class="stars_0_0"></div>';
 				break;
 			default:
+				$html = '';
 				break;
 		}
+
+		echo $html;
 	}
 
 	/**
@@ -599,7 +622,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		$movie_media  = ( isset( $v ) && '' != $v ? $v : key( $this->wpml->default_post_details['movie_media']['default'] ) );
 
 		$v = get_post_meta( $post->ID, '_wpml_movie_rating', true );
-		$movie_rating = ( isset( $v ) && '' != $v ? $v : 0.0 );
+		$movie_rating = ( isset( $v ) && '' != $v ? number_format( $v, 1 ) : 0.0 );
 		$movie_rating_str = str_replace( '.', '_', $movie_rating );
 
 		include_once( 'views/metabox-details.php' );
@@ -1188,7 +1211,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 				update_post_meta( $post_id, '_wpml_movie_media', $wpml_d['movie_media'] );
 
 			if ( isset( $wpml_d['movie_rating'] ) && ! is_null( $wpml_d['movie_rating'] ) )
-				update_post_meta( $post_id, '_wpml_movie_rating', $wpml_d['movie_rating'] );
+				update_post_meta( $post_id, '_wpml_movie_rating', number_format( $wpml_d['movie_rating'], 1 ) );
 		}
 	}
 
