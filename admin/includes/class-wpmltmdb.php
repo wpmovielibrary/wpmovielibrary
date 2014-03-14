@@ -437,7 +437,7 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 			'_tmdb_id' => $id,
 			'meta'    => apply_filters( 'wpml_filter_meta_data', $movie ),
 			'crew'    => apply_filters( 'wpml_filter_crew_data', $casts ),
-			'images'  => $_images,
+			'images'  => $images,
 			'poster_path'  => $poster['file_path'],
 			'_result' => 'movie',
 			'_full'   => $_full,

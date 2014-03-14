@@ -39,7 +39,7 @@ jQuery(document).ready(function($) {
 		wpml.status.clear();
 	});
 
-	$('input#tmdb_search').click(function(e) {
+	$('#tmdb_search').click(function(e) {
 		e.preventDefault();
 		wpml.movie.type = $('#tmdb_search_type > :selected').val();
 		wpml.movie.data = $('#tmdb_query').val();
@@ -290,10 +290,10 @@ wpml = {
 					wpml.movie.images.set_featured(response.poster_path, null, response.title);
 				},
 				beforeSend: function() {
-					$('input#tmdb_search').addClass('button-loading');
+					$('#tmdb_search').addClass('button-loading');
 				},
 				complete: function() {
-					$('input#tmdb_search').removeClass('button-loading');
+					$('#tmdb_search').removeClass('button-loading');
 				},
 			});
 
@@ -506,10 +506,10 @@ wpml = {
 					}
 				},
 				beforeSend: function() {
-					$('input#tmdb_search').addClass('button-loading');
+					$('#tmdb_search').addClass('button-loading');
 				},
 				complete: function() {
-					$('input#tmdb_search').removeClass('button-loading');
+					$('#tmdb_search').removeClass('button-loading');
 				},
 			});
 		},

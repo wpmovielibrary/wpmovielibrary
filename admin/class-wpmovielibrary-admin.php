@@ -516,12 +516,12 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 * Extract params from $_POST values. Image URL and post ID are
 	 * required, title is optional. If no title is submitted file's
 	 * basename will be used as image name.
+	 *
+	 * @since     1.0.0
 	 * 
 	 * @param string $image Image url
 	 * @param int $post_id ID of the post the image will be attached to
 	 * @param string $title Post title to use as image title to avoir crappy TMDb images names.
-	 *
-	 * @since     1.0.0
 	 *
 	 * @return    string    Uploaded image ID
 	 */
@@ -549,12 +549,12 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 * 
 	 * Return the uploaded image ID to updated featured image preview in
 	 * editor.
+	 *
+	 * @since     1.0.0
 	 * 
 	 * @param string $image Image url
 	 * @param int $post_id ID of the post the image will be attached to
 	 * @param string $title Post title to use as image title to avoir crappy TMDb images names.
-	 *
-	 * @since     1.0.0
 	 *
 	 * @return    string    Uploaded image ID
 	 */
@@ -770,9 +770,9 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	/**
 	 * Get number of existing Collections.
 	 * 
-	 * @return  int    Total count of Collections
+	 * @since    1.0.0
 	 * 
-	 * @since   1.0.0
+	 * @return   int    Total count of Collections
 	 */
 	public function wpml_get_collection_count() {
 		$c = get_terms( array( 'collection' ) );
@@ -782,9 +782,9 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	/**
 	 * Get number of existing Movies.
 	 * 
-	 * @return  int    Total count of Movies
+	 * @since    1.0.0
 	 * 
-	 * @since   1.0.0
+	 * @return   int    Total count of Movies
 	 */
 	public function wpml_get_movie_count() {
 		$c = get_posts( array( 'posts_per_page' => -1, 'post_type' => 'movie' ) );
@@ -794,9 +794,9 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	/**
 	 * Get all available movies.
 	 * 
-	 * @return array Movie list
+	 * @since    1.0.0
 	 * 
-	 * @since   1.0.0
+	 * @return   array    Movie list
 	 */
 	public function wpml_get_movies() {
 
@@ -835,12 +835,12 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	/**
 	 * Set the image as featured image.
 	 * 
-	 * @param int $image The ID of the image to set as featured
-	 * @param int $post_id The post ID the image is to be associated with
+	 * @since    1.0.0
 	 * 
-	 * @return string|WP_Error Populated HTML img tag on success
+	 * @param    int    $image The ID of the image to set as featured
+	 * @param    int    $post_id The post ID the image is to be associated with
 	 * 
-	 * @since   1.0.0
+	 * @return   string|WP_Error Populated HTML img tag on success
 	 */
 	private function wpml_set_image_as_featured( $image, $post_id, $title ) {
 
@@ -863,13 +863,13 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 * 
 	 * @see http://codex.wordpress.org/Function_Reference/media_sideload_image
 	 * 
-	 * @param string $file The URL of the image to download
-	 * @param int $post_id The post ID the media is to be associated with
-	 * @param string $title Optional. Title of the image
+	 * @since    1.0.0
 	 * 
-	 * @return string|WP_Error Populated HTML img tag on success
+	 * @param    string    $file The URL of the image to download
+	 * @param    int       $post_id The post ID the media is to be associated with
+	 * @param    string    $title Optional. Title of the image
 	 * 
-	 * @since   1.0.0
+	 * @return   string|WP_Error Populated HTML img tag on success
 	 */
 	private function wpml_image_upload( $file, $post_id, $title = null ) {
 
