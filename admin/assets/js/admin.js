@@ -35,7 +35,7 @@ jQuery(document).ready(function($) {
 		$('.tmdb_select_movie, .tmdb_movie_images').remove();
 		$('#tmdb_data, .tagchecklist').empty();
 		$('.categorydiv input[type=checkbox]').prop('checked', false);
-		wp.media.featuredImage.set(-1);
+		$('#remove-post-thumbnail').trigger('click');
 		wpml.status.clear();
 	});
 

@@ -42,14 +42,14 @@
 					</div><!-- .misc-pub-section -->
 
 					<div class="misc-pub-section">
-						<label for="movie_rating"><?php _e( 'Rating:', 'wpml' ); ?></label>
+						<span id="movie-rating-icon"> <label for="movie_rating"><?php _e( 'Rating:', 'wpml' ); ?></label></span>
 						<div id="movie-rating-display" class="stars_<?php echo $movie_rating_str; ?>"></div>
 						<a href="#movie-rating" class="edit-movie-rating hide-if-no-js"><?php _e( 'Edit', 'wpml' ); ?></a>
 
 						<div id="movie-rating-select" class="hide-if-js">
 							<input type="hidden" name="hidden_movie_rating" id="hidden_movie_rating" value="<?php echo $movie_rating; ?>">
-							<input type="hidden" name="wpml_details[movie_rating]" id="movie_rating" value="<?php echo $movie_rating; ?>">
-							<div class="movie-rating-block">
+							<input type="number" class="hide-if-js" name="wpml_details[movie_rating]" id="movie_rating" step="0.5" min="0.0" max="5.0" value="<?php echo $movie_rating; ?>"></input>
+							<div class="movie-rating-block hide-if-no-js">
 								<div id="stars" data-default-rating="<?php echo $movie_rating; ?>" data-rating="<?php echo $movie_rating; ?>" data-rated="false" class="stars stars_<?php echo $movie_rating_str; ?>">
 									<div id="stars_labels" class="stars_labels">
 										<span id="stars_label_0_5" class="stars_label"><?php _e( 'Junk', 'wpml' ) ?></span>

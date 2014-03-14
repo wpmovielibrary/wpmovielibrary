@@ -414,6 +414,12 @@
 	padding: 0.25em 0 0.25em 1.75em;
 }
 
+#movie-rating-icon {
+	background: url(../img/icon-star-half.png) left 2px no-repeat;
+	margin-left: -0.5em;
+	padding: 0.25em 0 0.25em 1.75em;
+}
+
 #movie-rating-display,
 .stars {
 	background-color: transparent;
@@ -429,6 +435,10 @@
 	display: inline-block;
 	margin: 4px 4px -4px 4px;
 	padding: 0;
+}
+
+#movie-rating-display.hide-if-no-js {
+	display: none;
 }
 
 .movie-rating-block {

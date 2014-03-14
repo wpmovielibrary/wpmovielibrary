@@ -283,7 +283,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 */
 	public function wpml_get_featured_image( $post_id, $size = 'thumbnail' ) {
 		$_id = get_post_thumbnail_id( $post_id );
-		$img = ( $_id ? wp_get_attachment_image_src( $_id, $size ) : array( $this->plugin_admin_url . '/assets/img/no_poster.png' ) );
+		$img = ( $_id ? wp_get_attachment_image_src( $_id, $size ) : array( $this->plugin_admin_url . '/admin/assets/img/no_poster.png' ) );
 		return $img[0];
 	}
 
