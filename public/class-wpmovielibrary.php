@@ -1079,6 +1079,9 @@ class WPMovieLibrary {
 	 */
 	public function wpml_filter_empty_array( $array ) {
 
+		if ( ! is_array( $array ) || empty( $array ) )
+			return $array;
+
 		$_array = apply_filters( 'wpml_stringify_array', $array, false, '' );
 
 		return strlen( $_array ) > 0 ? $array : array_merge( array( '_empty' => true ), $array );
