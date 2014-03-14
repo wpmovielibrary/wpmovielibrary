@@ -228,6 +228,11 @@ jQuery(document).ready(function($) {
 		wpml.movie.delete(id);
 	});
 
+	$('input#title').on('input', function() {
+		if ( '' != $(this).val() )
+			$('input#tmdb_query').val( $(this).val() );
+	});
+
 });
 
 $ = jQuery;

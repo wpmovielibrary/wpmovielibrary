@@ -316,8 +316,6 @@ class WPMovieLibrary {
 
 		add_filter( 'wpml_stringify_array', array( $this, 'wpml_stringify_array' ), 10, 3 );
 
-		add_filter( 'wpml_filter_crew', array( $this, 'wpml_filter_crew' ), 10, 1 );
-		add_filter( 'wpml_filter_movie_data', array( $this, 'wpml_filter_movie_data' ), 10, 1 );
 		add_filter( 'wpml_filter_meta_data', array( $this, 'wpml_filter_meta_data' ), 10, 1 );
 		add_filter( 'wpml_filter_crew_data', array( $this, 'wpml_filter_crew_data' ), 10, 1 );
 		add_filter( 'wpml_filter_cast_data', array( $this, 'wpml_filter_cast_data' ), 10, 1 );
