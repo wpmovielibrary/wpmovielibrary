@@ -734,8 +734,22 @@ class WPMovieLibrary {
 	 * @return    WP_Query    Query Object
 	 */
 	public function wpml_show_movies_in_home_page( $query ) {
-		if ( 1 == $this->wpml_o( 'wpml-settings-show_in_home' ) && is_home() && $query->is_main_query() )
-			$query->set( 'post_type', array( 'post', 'movie', 'page' ) );
+
+		$post_type = array( 'post', 'movie' );
+		$post_status = array( 'publish', 'private' );
+
+		if ( 1 == $this->wpml_o( 'wpml-settings-show_in_home' ) && is_home() && $query->is_main_query() ) {
+
+			if ( '' != $query->get( 'post_type' ) )
+				$post_type = array_unique( array_merge( $query->get( 'post_type' ), $post_type ) );
+
+			if ( '' != $query->get( 'post_status' ) )
+				$post_status = array_unique( array_merge( $query->get( 'post_status' ), $post_status ) );
+
+			$query->set( 'post_type', $post_type );
+			$query->set( 'post_status', $post_status );
+		}
+
 		return $query;
 	}
 
@@ -1054,8 +1068,10 @@ class WPMovieLibrary {
 			return $array;
 
 		foreach ( $array as $i => $row ) {
-			if ( false === $subrow || ! is_array( $row ) )
+			if ( ! is_array( $row ) )
 				$array[ $i ] = $row;
+			else if ( false === $subrow || ! is_array( $row ) )
+				$array[ $i ] = $this->wpml_stringify_array( $row, $subrow, $separator );
 			else if ( is_array( $row ) && isset( $row[ $subrow ] ) )
 				$array[ $i ] = $row[ $subrow ];
 			else if ( is_array( $row ) )
