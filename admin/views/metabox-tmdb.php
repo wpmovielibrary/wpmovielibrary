@@ -28,7 +28,7 @@ endif;
 			<div style="clear:both"></div>
 
 			<div id="tmdb_data"></div>
-
+			<input type="hidden" id="tmdb_data_tmdb_id" name="tmdb_data[tmdb_id]" class="tmdb_data_field" value="" />
 
 <?php foreach ( $this->wpml->wpml_tmdb_box as $id => $box ) : ?>
 			<table class="list-table tmdb_<?php echo $id ?>">
@@ -74,7 +74,7 @@ endif;
 						</td>
 					</tr>
 					<tr>
-						<td id="tmdb_images_preview"></td>
+						<td id="tmdb_images_preview"><?php echo $this->wpml_get_movie_imported_images() ?> </td>
 					</tr>
 						<td>
 							<input id="tmdb_save_images" name="tmdb_save_images" type="button" class="button button-secondary button-large" value="<?php _e( 'Import Images', 'wpml' ); ?>" />

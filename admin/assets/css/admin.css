@@ -286,12 +286,17 @@
 	background: #fff;
 	border: 1px solid #ccc;
 	display: inline-block;
-	height: 10em;
+	height: 8.75em;
 	margin: 0.25em;
 	overflow: hidden;
-	padding: 0.25em;
+	padding: 0.2em;
 	position: relative;
-	width: 16em;
+	width: 15.5em;
+}
+
+.tmdb_movie_images.selected {
+	background: #0074A2;
+	border-color: #0F475E;
 }
 
 .tmdb_movie_images img {
@@ -300,13 +305,13 @@
 }
 
 .tmdb_movie_images a {
-	background: white url(../../../../../wp-admin/images/xit.gif) 0 0 no-repeat;
+	/*background: white url(../../../../../wp-admin/images/xit.gif) 0 0 no-repeat;
 	border-radius: 0em;
 	height: 0.8em;
 	position: absolute;
 	right: 0.25em;
 	bottom: 0.2em;
-	width: 0.8em;
+	width: 0.8em;*/
 }
 
 .tmdb_movie_image_remove:hover {

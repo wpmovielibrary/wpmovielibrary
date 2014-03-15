@@ -383,8 +383,7 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 	 */
 	private function wpml_get_movie_by_id( $id, $lang, $_id = null, $echo = true ) {
 
-		//$movie = ( $this->caching ? get_transient( "wpml_movie_$id" ) : false );
-		$movie = false;
+		$movie = ( $this->caching ? get_transient( "wpml_movie_$id" ) : false );
 
 		if ( false === $movie ) {
 			$movie = $this->_wpml_get_movie_by_id( $id, $lang, $_id );

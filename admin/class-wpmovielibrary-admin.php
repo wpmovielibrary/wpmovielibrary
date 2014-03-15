@@ -532,11 +532,12 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		$image   = ( isset( $_GET['image'] )   && '' != $_GET['image']   ? $_GET['image']   : '' );
 		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
 		$title   = ( isset( $_GET['title'] )   && '' != $_GET['title']   ? $_GET['title']   : '' );
+		$tmdb_id = ( isset( $_GET['tmdb_id'] ) && '' != $_GET['tmdb_id'] ? $_GET['tmdb_id'] : '' );
 
 		if ( '' == $image || '' == $post_id )
 			return false;
 
-		echo $this->wpml_image_upload( $image, $post_id, $title );
+		echo $this->wpml_image_upload( $image, $post_id, $tmdb_id, $title );
 		die();
 	}
 
@@ -565,11 +566,12 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		$image   = ( isset( $_GET['image'] )   && '' != $_GET['image']   ? $_GET['image']   : '' );
 		$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
 		$title   = ( isset( $_GET['title'] )   && '' != $_GET['title']   ? $_GET['title']   : '' );
+		$tmdb_id = ( isset( $_GET['tmdb_id'] ) && '' != $_GET['tmdb_id'] ? $_GET['tmdb_id'] : '' );
 
 		if ( '' == $image || '' == $post_id || 1 != $this->wpml_o('tmdb-settings-poster_featured') )
 			return false;
 
-		echo $this->wpml_set_image_as_featured( $image, $post_id, $title );
+		echo $this->wpml_set_image_as_featured( $image, $post_id, $tmdb_id, $title );
 		die();
 	}
 
@@ -878,12 +880,17 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 * 
 	 * @return   string|WP_Error Populated HTML img tag on success
 	 */
-	private function wpml_set_image_as_featured( $image, $post_id, $title ) {
+	private function wpml_set_image_as_featured( $image, $post_id, $tmdb_id, $title ) {
 
 		$size = $this->wpml_o('tmdb-settings-poster_size');
 		$file = $this->tmdb->config['poster_url'][ $size ] . $image;
 
-		$image = $this->wpml_image_upload( $file, $post_id, $title );
+		$existing = $this->wpml_check_for_existing_images( $tmdb_id, 'poster' );
+
+		if ( false !== $existing )
+			return $existing;
+
+		$image = $this->wpml_image_upload( $file, $post_id, $tmdb_id, $title, 'poster' );
 
 		if ( is_object( $image ) )
 			return false;
@@ -891,7 +898,45 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			return $image;
 	}
 
-	private function wpml_check_for_existing_images( $image ) {
+	/**
+	 * Check for previously imported images to avoid duplicates.
+	 * 
+	 * If any attachment has one or more postmeta matching the current
+	 * Movie's TMDb ID, we don't want to import the image again, so we return
+	 * the last found image's ID to be used instead.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    $tmdb_id    The Movie's TMDb ID.
+	 * @param    string    $image_type Optional. Which type of image we're
+	 *                                 dealing with, simple image or poster.
+	 * 
+	 * @return   string|boolean        Return the last found image's ID if
+	 *                                 any, false if no matching image was
+	 *                                 found.
+	 */
+	private function wpml_check_for_existing_images( $tmdb_id, $image_type = 'image' ) {
+
+		if ( ! isset( $tmdb_id ) || '' == $tmdb_id )
+			return false;
+
+		if ( ! in_array( $image_type, array( 'image', 'poster' ) ) )
+			$image_type = 'image';
+
+		$check = get_posts(
+			array(
+				'post_type' => 'attachment',
+				'meta_query' => array(
+					array(
+						'key'     => '_wpml_' . $image_type . '_related_tmdb_id',
+						'value'   => $tmdb_id,
+					)
+				)
+			)
+		);
+
+		if ( ! empty( $check ) && isset( $check[0]->ID ) )
+			return $check[0]->ID;
 
 		return false;
 	}
@@ -912,12 +957,20 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 * 
 	 * @return   string|WP_Error Populated HTML img tag on success
 	 */
-	private function wpml_image_upload( $file, $post_id, $title = null ) {
+	private function wpml_image_upload( $file, $post_id, $tmdb_id, $title, $image_type = 'image', $data = null ) {
 
 	        if ( empty( $file ) )
 			return false;
 
-		$tmp   = download_url( $file );
+		if ( ! in_array( $image_type, array( 'image', 'poster' ) ) )
+			$image_type = 'image';
+
+		$existing = $this->wpml_check_for_existing_images( $tmdb_id, $image_type );
+
+		if ( false !== $existing )
+			return $existing;
+
+		$tmp = download_url( $file );
 
 		preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches );
 		$file_array['name'] = basename( $matches[0] );
@@ -933,6 +986,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			@unlink( $file_array['tmp_name'] );
 			return print_r( $id, true );
 		}
+
+		update_post_meta( $id, '_wpml_' . $image_type . '_related_tmdb_id', $tmdb_id );
 
 		return $id;
 	}
@@ -1198,12 +1253,13 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		if ( ! is_null( $tmdb_data ) && count( $tmdb_data ) ) {
 
 			$tmdb_data = apply_filters( 'wpml_filter_empty_array', $tmdb_data );
+			print_r( $tmdb_data ); die();
 
 			// Save TMDb data
 			update_post_meta( $post_id, '_wpml_movie_data', $tmdb_data );
 
 			// Set poster as featured image
-			$id = $this->wpml_set_image_as_featured( $tmdb_data['poster'], $post_id, $tmdb_data['meta']['title'] . ' − ' . __( 'Poster', 'wpml' ) );
+			$id = $this->wpml_set_image_as_featured( $tmdb_data['poster'], $post_id, $tmdb_data['tmdb_id'], $tmdb_data['meta']['title'] );
 			update_post_meta( $post_id, '_thumbnail_id', $id );
 
 			// Switch status from import draft to published
