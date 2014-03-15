@@ -833,6 +833,42 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	}
 
 	/**
+	 * Get all the imported images related to current movie and format them
+	 * to be showed in the Movie Edit page. Featured image (most likely the
+	 * movie poster) is excluded from the list.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @return   array    Movie list
+	 */
+	public function wpml_get_movie_imported_images() {
+
+		global $post;
+
+		if ( 'movie' != get_post_type() )
+			return false;
+
+		$html = '';
+
+		$args = array(
+			'post_type'   => 'attachment',
+			'orderby'     => 'title',
+			'numberposts' => -1,
+			'post_status' => null,
+			'post_parent' => get_the_ID(),
+			'exclude'     => get_post_thumbnail_id()
+		);
+
+		$attachments = get_posts( $args );
+
+		if ( $attachments )
+			foreach ( $attachments as $attachment )
+				$html .= '<div class="tmdb_movie_images tmdb_movie_imported_image"><a href="' . get_edit_post_link( $attachment->ID ) . '">' . wp_get_attachment_image( $attachment->ID, 'medium' ) . '</a></div>';
+
+		return $html;
+	}
+
+	/**
 	 * Set the image as featured image.
 	 * 
 	 * @since    1.0.0
@@ -853,6 +889,11 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			return false;
 		else
 			return $image;
+	}
+
+	private function wpml_check_for_existing_images( $image ) {
+
+		return false;
 	}
 
 	/**
@@ -1167,11 +1208,12 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 
 			// Switch status from import draft to published
 			if ( 'import-draft' == get_post_status( $post_id ) ) {
-				wp_update_post( array(
+				$update = wp_update_post( array(
 					'ID' => $post_id,
 					'post_name'   => sanitize_title_with_dashes( $tmdb_data['meta']['title'] ),
 					'post_status' => 'publish',
 					'post_title'  => $tmdb_data['meta']['title'],
+					'post_date'   => current_time( 'mysql' )
 				) );
 			}
 
