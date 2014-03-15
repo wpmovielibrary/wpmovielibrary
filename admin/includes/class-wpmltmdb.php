@@ -356,7 +356,7 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 			foreach ( $data['results'] as $movie ) {
 				$movies['movies'][] = array(
 					'id'     => $movie['id'],
-					'poster' => ( ! is_null( $movie['poster_path'] ) ? $this->config['poster_url']['small'].$movie['poster_path'] : $this->wpml_o('wpml-url').'/admin/assets/img/no_poster.png' ),
+					'poster' => ( ! is_null( $movie['poster_path'] ) ? $this->config['poster_url']['small'].$movie['poster_path'] : plugins_url( '../assets/img/no_poster.png', __FILE__ ) ),
 					'title'  => $movie['title'],
 					'json'   => json_encode( $movie ),
 					'_id'    => $_id
