@@ -129,8 +129,8 @@ jQuery(document).ready(function($) {
 		var _label = _class.replace('stars_','stars_label_');
 
 		$(this).removeClass('stars_0 stars_0_0 stars_0_5 stars_1_0 stars_1_5 stars_2_0 stars_2_5 stars_3_0 stars_3_5 stars_4_0 stars_4_5 stars_5_0').addClass(_class);
-		$('.stars_label').hide();
-		$('#'+_label).show();
+		$('.stars_label').removeClass('show');
+		$('#'+_label).addClass('show');
 		$(this).attr('data-rating', _rate);
 	});
 
@@ -147,7 +147,7 @@ jQuery(document).ready(function($) {
 		}
 
 		$(this).removeClass('stars_0 stars_0_0 stars_0_5 stars_1_0 stars_1_5 stars_2_0 stars_2_5 stars_3_0 stars_3_5 stars_4_0 stars_4_5 stars_5_0').addClass(_class);
-		$('.stars_label').hide();
+		$('.stars_label').removeClass('show');
 	});
 
 	$stars.click(function() {

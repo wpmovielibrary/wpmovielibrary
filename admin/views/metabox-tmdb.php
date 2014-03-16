@@ -19,7 +19,6 @@ endif;
 					<option value="id"><?php _e( 'TMDb ID', 'wpml' ); ?></option>
 				</select>
 				<input id="tmdb_query" type="text" name="wpml[tmdb_query]" value="" size="40" maxlength="32" />
-				<!--<input id="tmdb_search" name="wpml[tmdb_search]" type="submit" class="button button-secondary" value="<?php _e( 'Fetch data', 'wpml' ); ?>" />-->
 				<a id="tmdb_search" name="wpml[tmdb_search]" href="<?php echo get_edit_post_link() ?>&amp;wpml_auto_fetch=1" class="button button-secondary"><?php _e( 'Fetch data', 'wpml' ); ?></a>
 				<input id="tmdb_empty" name="wpml[tmdb_empty]" type="submit" class="button button-secondary button-empty hide-if-no-js" value="<?php _e( 'Empty Results', 'wpml' ); ?>" />
 			</div>
@@ -28,9 +27,9 @@ endif;
 			<div style="clear:both"></div>
 
 			<div id="tmdb_data"></div>
-			<input type="hidden" id="tmdb_data_tmdb_id" name="tmdb_data[tmdb_id]" class="tmdb_data_field" value="" />
+			<input type="text" id="tmdb_data_tmdb_id" name="tmdb_data[tmdb_id]" class="hide-if-js hide-if-no-js" value="" />
 
-<?php foreach ( $this->wpml->wpml_tmdb_box as $id => $box ) : ?>
+<?php foreach ( $this->wpml->wpml_movie_meta as $id => $box ) : ?>
 			<table class="list-table tmdb_<?php echo $id ?>">
 				<thead>
 					<tr>
@@ -48,11 +47,11 @@ endif;
 						<td class="left"><?php _e( $meta['title'], 'wpml' ) ?></td>
 <?php if ( isset( $meta['type'] ) && 'textarea' == $meta['type'] ) : ?>
 						<td>
-							<textarea id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $slug; ?>]" class="tmdb_data_field" rows="6"><?php echo $_value ?></textarea>
+							<textarea id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $id; ?>][<?php echo $slug; ?>]" class="tmdb_data_field" rows="6"><?php echo $_value ?></textarea>
 						</td>
 <?php elseif ( isset( $meta['type'] ) && in_array( $meta['type'], array( 'text', 'hidden' ) ) ) : ?>
 						<td>
-							<input type="<?php echo $meta['type']; ?>" id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $slug; ?>]" class="tmdb_data_field" value='<?php echo $_value ?>' size="64" />
+							<input type="<?php echo $meta['type']; ?>" id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $id; ?>][<?php echo $slug; ?>]" class="tmdb_data_field" value='<?php echo $_value ?>' size="64" />
 						</td>
 <?php endif; ?>
 					</tr>
@@ -70,7 +69,7 @@ endif;
 					<tr>
 						<td>
 							<input id="tmdb_data_images" type="hidden" name="tmdb_data[images]" class="tmdb_data_field" value='<?php echo ( isset( $value[$slug] ) && '' != $value[$slug] ? $value[$slug] : '' ); ?>' size="64" />
-							<div id="progressbar"><div class="progress-label">0</div></div>
+							<div id="progressbar_bg"><div id="progressbar"><div class="progress-label">0</div></div></div>
 						</td>
 					</tr>
 					<tr>

@@ -97,22 +97,19 @@ class WPMovieLibrary {
 
 		$this->wpml_settings = array(
 			'wpml' => array(
-				'name' => WPMovieLibrary::NAME,
-				'url'  => $this->plugin_url,
-				'path' => $this->plugin_path,
 				'settings' => array(
-					'tmdb_in_posts'    => 'posts_only',
+					'meta_in_posts'    => 'posts_only',
 					'details_in_posts' => 'posts_only',
-					'default_post_tmdb' => array(
-						'director' => __( 'Director', 'wpml' ),
-						'genres'   => __( 'Genres', 'wpml' ),
-						'runtime'  => __( 'Runtime', 'wpml' ),
-						'overview' => __( 'Overview', 'wpml' ),
-						'rating'   => __( 'Rating', 'wpml' )
+					'default_movie_meta' => array(
+						'director',
+						'genres',
+						'runtime',
+						'overview',
+						'rating'
 					),
-					'default_post_detail' => array(
-						'movie_media ' => __( 'Media', 'wpml' ),
-						'movie_status' => __( 'Status', 'wpml' ),
+					'default_movie_details' => array(
+						'movie_media',
+						'movie_status'
 					),
 					'show_in_home'          => 1,
 					'enable_collection'     => 1,
@@ -147,20 +144,11 @@ class WPMovieLibrary {
 					'poster_featured' => 1,
 					'images_size'     => 'original',
 					'images_max'      => 12,
-				),
-				'default_fields' => array(
-					'director'     => __( 'Director', 'wpml' ),
-					'producer'     => __( 'Producer', 'wpml' ),
-					'photography'  => __( 'Director of Photography', 'wpml' ),
-					'composer'     => __( 'Original Music Composer', 'wpml' ),
-					'author'       => __( 'Author', 'wpml' ),
-					'writer'       => __( 'Writer', 'wpml' ),
-					'cast'         => __( 'Actors', 'wpml' )
 				)
 			),
 		);
 
-		$this->default_post_details = array(
+		$this->wpml_movie_details = array(
 			'movie_media'   => array(
 				'title' => __( 'Media', 'wpml' ),
 				'options' => array(
@@ -188,20 +176,7 @@ class WPMovieLibrary {
 			)
 		);
 
-		$this->default_post_tmdb = array(
-			'title'                => __( 'Title', 'wpml' ),
-			'original_title'       => __( 'Original Title', 'wpml' ),
-			'release_date'         => __( 'Release Date', 'wpml' ),
-			'genres'               => __( 'Genres', 'wpml' ),
-			'director'             => __( 'Director', 'wpml' ),
-			'cast'                 => __( 'Actors', 'wpml' ),
-			'production_countries' => __( 'Country', 'wpml' ),
-			'runtime'              => __( 'Runtime', 'wpml' ),
-			'overview'             => __( 'Overview', 'wpml' ),
-			'rating'               => __( 'Rating', 'wpml' )
-		);
-
-		$this->wpml_tmdb_box = array(
+		$this->wpml_movie_meta = array(
 			'meta' => array(
 				'type' => __( 'Type', 'wpml' ),
 				'value' => __( 'Value', 'wpml' ),
@@ -350,7 +325,7 @@ class WPMovieLibrary {
 	 * @return    WPML Default Movie Media.
 	 */
 	public function wpml_get_default_movie_media() {
-		$default = $this->default_post_details['movie_media']['default'];
+		$default = $this->wpml_movie_details['movie_media']['default'];
 		return $default;
 	}
 
@@ -362,7 +337,7 @@ class WPMovieLibrary {
 	 * @return    WPML Default Movie Status.
 	 */
 	public function wpml_get_default_movie_status() {
-		$default = $this->default_post_details['movie_status']['default'];
+		$default = $this->wpml_movie_details['movie_status']['default'];
 		return $default;
 	}
 
@@ -375,7 +350,7 @@ class WPMovieLibrary {
 	 */
 	public function wpml_get_available_movie_media() {
 		$media = array();
-		$items = $this->default_post_details['movie_media']['options'];
+		$items = $this->wpml_movie_details['movie_media']['options'];
 		foreach ( $items as $slug => $title )
 			$media[ $slug ] = $title;
 		return $media;
@@ -390,7 +365,7 @@ class WPMovieLibrary {
 	 */
 	public function wpml_get_available_movie_status() {
 		$statuses = array();
-		$items = $this->default_post_details['movie_status']['options'];
+		$items = $this->wpml_movie_details['movie_status']['options'];
 		foreach ( $items as $slug => $title )
 			$statuses[ $slug ] = $title;
 		return $statuses;
@@ -792,7 +767,7 @@ class WPMovieLibrary {
 		if ( 'nowhere' == $this->wpml_o( 'wpml-settings-details_in_posts' ) || ( 'posts_only' == $this->wpml_o( 'wpml-settings-details_in_posts' ) && ! is_singular() ) )
 			return null;
 
-		$fields = $this->wpml_o( 'wpml-settings-default_post_detail' );
+		$fields = $this->wpml_o( 'wpml-settings-default_movie_details' );
 
 		if ( empty( $fields ) )
 			return null;
@@ -806,7 +781,7 @@ class WPMovieLibrary {
 				case 'movie_status':
 					$meta = get_post_meta( get_the_ID(), '_wpml_' . $field, true );
 					if ( '' != $meta )
-						$html .= '<div class="wpml_' . $field . ' ' . $meta . '"><span class="wpml_movie_detail_item">' . $this->default_post_details[ $field ]['options'][ $meta ] . '</span></div>';
+						$html .= '<div class="wpml_' . $field . ' ' . $meta . '"><span class="wpml_movie_detail_item">' . $this->wpml_movie_details[ $field ]['options'][ $meta ] . '</span></div>';
 					//var_dump($meta);
 					break;
 				default:
@@ -829,12 +804,12 @@ class WPMovieLibrary {
 	 */
 	private function wpml_movie_metadata() {
 
-		if ( 'nowhere' == $this->wpml_o( 'wpml-settings-tmdb_in_posts' ) || ( 'posts_only' == $this->wpml_o( 'wpml-settings-tmdb_in_posts' ) && ! is_singular() ) )
+		if ( 'nowhere' == $this->wpml_o( 'wpml-settings-meta_in_posts' ) || ( 'posts_only' == $this->wpml_o( 'wpml-settings-meta_in_posts' ) && ! is_singular() ) )
 			return null;
 
 		$tmdb_data = get_post_meta( get_the_ID(), '_wpml_movie_data', true );
 		$movie_rating = get_post_meta( get_the_ID(), '_wpml_movie_rating', true );
-		$fields = $this->wpml_o( 'wpml-settings-default_post_tmdb' );
+		$fields = $this->wpml_o( 'wpml-settings-default_movie_meta' );
 		$default_format = '<dt class="wpml_%s_field_title">%s</dt><dd class="wpml_%s_field_value">%s</dd>';
 
 		if ( '' == $tmdb_data || empty( $fields ) )
@@ -849,38 +824,39 @@ class WPMovieLibrary {
 					if ( 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) )
 						$genres = get_the_term_list( get_the_ID(), 'genre', '', ', ', '' );
 					else
-						$genres = $tmdb_data[ $field ];
+						$genres = $tmdb_data['meta'][ $field ];
 					$html .= sprintf( $default_format, $field, __( ucfirst( $field ), 'wpml' ), $field, $genres );
 					break;
 				case 'production_countries':
-					$html .= sprintf( $default_format, $field, __( 'Country', 'wpml' ), $field, $tmdb_data[ $field ] );
+					$html .= sprintf( $default_format, $field, __( 'Country', 'wpml' ), $field, $tmdb_data['meta'][ $field ] );
 					break;
 				case 'release_date':
-					$html .= sprintf( $default_format, $field, __( 'Release Date', 'wpml' ), $field, date_i18n( get_option( 'date_format' ), strtotime( $tmdb_data[ $field ] ) ) );
+					$html .= sprintf( $default_format, $field, __( 'Release Date', 'wpml' ), $field, date_i18n( get_option( 'date_format' ), strtotime( $tmdb_data['meta'][ $field ] ) ) );
 					break;
 				case 'original_title':
-					$html .= sprintf( $default_format, $field, __( 'Original Title', 'wpml' ), $field, $tmdb_data[ $field ] );
+					$html .= sprintf( $default_format, $field, __( 'Original Title', 'wpml' ), $field, $tmdb_data['meta'][ $field ] );
 					break;
 				case 'director':
-					$term = get_term_by( 'name', $tmdb_data[ $field ], 'collection' );
+					$term = get_term_by( 'name', $tmdb_data['crew'][ $field ], 'collection' );
 					if ( false !== $term && ! is_wp_error( $link = get_term_link( $term, 'collection' ) ) )
-						$collection = '<a href="' . $link . '">' . $tmdb_data[ $field ] . '</a>';
+						$collection = '<a href="' . $link . '">' . $tmdb_data['crew'][ $field ] . '</a>';
 					else
-						$collection = $tmdb_data[ $field ];
+						$collection = $tmdb_data['crew'][ $field ];
 					$html .= sprintf( $default_format, $field, __( 'Directed by', 'wpml' ), $field, $collection );
 					break;
 				case 'cast':
 					if ( 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) )
 						$actors = get_the_term_list( get_the_ID(), 'actor', '', ', ', '' );
 					else
-						$actors = $tmdb_data[ $field ];
+						$actors = $tmdb_data['crew'][ $field ];
 					$html .= sprintf( $default_format, $field, __( 'Staring', 'wpml' ), $field, $actors );
 					break;
 				case 'rating':
 					$html .= sprintf( $default_format, $field, __( 'Movie rating', 'wpml' ), $field, sprintf( '<div class="movie_rating_display stars_%s"></div>', ( '' == $movie_rating ? '0_0' : str_replace( '.', '_', $movie_rating ) ) ) );
 					break;
 				default:
-					if ( in_array( $field, array_keys( $this->default_post_tmdb ) ) && isset( $tmdb_data[ $field ] ) )
+					// TODO create a filter to replace array_merge
+					if ( in_array( $field, array_keys( array_merge( $this->wpml_movie_meta['meta']['data'], $this->wpml_movie_meta['crew']['data'] ) ) ) && isset( $tmdb_data[ $field ] ) )
 						$html .= sprintf( $default_format, $field, __( ucfirst( $field ), 'wpml' ), $field, $tmdb_data[ $field ] );
 					break;
 			}
@@ -1120,7 +1096,7 @@ class WPMovieLibrary {
 		$filter = array();
 		$_data = array();
 
-		foreach ( $this->wpml_tmdb_box['meta']['data'] as $slug => $f ) {
+		foreach ( $this->wpml_movie_meta['meta']['data'] as $slug => $f ) {
 			$filter[] = $slug;
 			$_data[ $slug ] = '';
 		}
@@ -1163,7 +1139,7 @@ class WPMovieLibrary {
 		$cast = apply_filters( 'wpml_filter_cast_data', $data['cast'] );
 		$data = $data['crew'];
 
-		foreach ( $this->wpml_tmdb_box['crew']['data'] as $slug => $f ) {
+		foreach ( $this->wpml_movie_meta['crew']['data'] as $slug => $f ) {
 			$filter[ $slug ] = $f['title'];
 			$_data[ $slug ] = '';
 		}

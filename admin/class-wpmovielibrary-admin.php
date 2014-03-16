@@ -74,14 +74,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	public $msg_settings = '';
 
 	/**
-	 * TDMb Box data.
-	 *
-	 * @since    1.0.0
-	 * @var      array
-	 */
-	//public $wpml_tmdb_box;
-
-	/**
 	 * Initialize WPMovieLibrary.
 	 * 
 	 * i18n calls are absolutely useless here since _*() functions are called
@@ -98,19 +90,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 
 		require_once $this->plugin_admin_path . 'includes/class-wpmltmdb.php';
 		require_once $this->plugin_admin_path . 'includes/class-wpmllisttable.php';
-
-		// Basic movie default fields
-		$this->wpml_meta = array(
-			'title'                => array( 'title' => __( 'Title', 'wpml' ), 'type' => 'text' ),
-			'original_title'       => array( 'title' => __( 'Original Title', 'wpml' ), 'type' => 'text' ),
-			'overview'             => array( 'title' => __( 'Overview', 'wpml' ), 'type' => 'textarea' ),
-			'production_companies' => array( 'title' => __( 'Production', 'wpml' ), 'type' => 'text' ),
-			'production_countries' => array( 'title' => __( 'Country', 'wpml' ), 'type' => 'text' ),
-			'spoken_languages'     => array( 'title' => __( 'Languages', 'wpml' ), 'type' => 'text' ),
-			'runtime'              => array( 'title' => __( 'Runtime', 'wpml' ), 'type' => 'text' ),
-			'genres'               => array( 'title' => __( 'Genres', 'wpml' ), 'type' => 'text' ),
-			'release_date'         => array( 'title' => __( 'Release Date', 'wpml' ), 'type' => 'text' )
-		);
 
 		$this->plugin_screen_hook_suffix = array(
 			'movie_page_import', 'movie_page_settings', 'edit-movie', 'movie', 'plugins'
@@ -335,8 +314,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			case 'movie_status':
 			case 'movie_media':
 				$meta = get_post_meta( $post_id, '_wpml_' . $column_name, true );
-				if ( isset( $this->wpml->default_post_details[ $column_name ]['options'][ $meta ] ) )
-					$html = $this->wpml->default_post_details[ $column_name ]['options'][ $meta ];
+				if ( isset( $this->wpml->wpml_movie_details[ $column_name ]['options'][ $meta ] ) )
+					$html = $this->wpml->wpml_movie_details[ $column_name ]['options'][ $meta ];
 				else
 					$html = '&mdash;';
 				break;
@@ -366,14 +345,10 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 */
 	public function wpml_quick_edit_movies( $column_name, $post_type ) {
 
-		global $post;
-
-		if ( 'movie' != $post_type || 1 !== did_action( 'quick_edit_custom_box' ) )
+		if ( 'movie' != $post_type || 'poster' != $column_name || 1 !== did_action( 'quick_edit_custom_box' ) )
 			return false;
 
-		if ( 'poster' == $column_name ) {
-			include_once( 'views/quick-edit.php' ); 
-		}
+		$this->wpml_quickbulk_edit( 'quick' );
 	}
 
 	/**
@@ -386,12 +361,33 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 */
 	public function wpml_bulk_edit_movies( $column_name, $post_type ) {
 
-		if ( 'movie' != $post_type )
+		if ( 'movie' != $post_type || 'poster' != $column_name || 1 !== did_action( 'bulk_edit_custom_box' ) )
 			return false;
 
-		if ( 'poster' == $column_name ) {
-			include_once( 'views/bulk-edit.php' ); 
-		}
+		$this->wpml_quickbulk_edit( 'bulk' );
+	}
+
+	/**
+	 * Generic function to show WPML Quick/Bulk Edit form.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    $type Form type, 'quick' or 'bulk'.
+	 */
+	private function wpml_quickbulk_edit( $type ) {
+
+		if ( ! in_array( $type, array( 'quick', 'bulk' ) ) )
+			return false;
+
+		$default_movie_media = $this->wpml->wpml_get_available_movie_media();
+		$default_movie_status = $this->wpml->wpml_get_available_movie_status();
+
+		$check = 'is_' . $type . 'edit';
+
+		$nonce_name = 'wpml_' . $type . 'edit_movie_details_nonce';
+		$nonce = wp_create_nonce( '_wpml_' . $type . 'edit_movie_details' );
+
+		include( 'views/quick-edit.php' );
 	}
 
 	/**
@@ -604,7 +600,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		$value = get_post_meta( $post->ID, '_wpml_movie_data', true );
 		$value = apply_filters( 'wpml_filter_empty_array', $value );
 
-		if ( isset( $_REQUEST['wpml_auto_fetch'] ) && '1' == $_REQUEST['wpml_auto_fetch'] && ( empty( $value ) || isset( $value['_empty'] ) ) )
+		if ( isset( $_REQUEST['wpml_auto_fetch'] ) && ( empty( $value ) || isset( $value['_empty'] ) ) )
 			$value = $this->tmdb->_wpml_get_movie_by_title( $post->post_title, $this->wpml_o( 'tmdb-settings-lang' ) );
 
 		include_once( 'views/metabox-tmdb.php' );
@@ -619,10 +615,10 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	public function wpml_metabox_details( $post, $metabox ) {
 
 		$v = get_post_meta( $post->ID, '_wpml_movie_status', true );
-		$movie_status = ( isset( $v ) && '' != $v ? $v : key( $this->wpml->default_post_details['movie_status']['default'] ) );
+		$movie_status = ( isset( $v ) && '' != $v ? $v : key( $this->wpml->wpml_movie_details['movie_status']['default'] ) );
 
 		$v = get_post_meta( $post->ID, '_wpml_movie_media', true );
-		$movie_media  = ( isset( $v ) && '' != $v ? $v : key( $this->wpml->default_post_details['movie_media']['default'] ) );
+		$movie_media  = ( isset( $v ) && '' != $v ? $v : key( $this->wpml->wpml_movie_details['movie_media']['default'] ) );
 
 		$v = get_post_meta( $post->ID, '_wpml_movie_rating', true );
 		$movie_rating = ( isset( $v ) && '' != $v ? number_format( $v, 1 ) : 0.0 );
@@ -1004,7 +1000,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		$this->wpml_import_movies();
 
 		$movies = $this->wpml_get_imported_movies();
-		$meta   = $this->wpml->wpml_tmdb_box;
+		$meta   = $this->wpml->wpml_movie_meta;
 
 		return array( 'movies' => $movies, 'meta' => $meta );
 	}
@@ -1253,7 +1249,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		if ( ! is_null( $tmdb_data ) && count( $tmdb_data ) ) {
 
 			$tmdb_data = apply_filters( 'wpml_filter_empty_array', $tmdb_data );
-			print_r( $tmdb_data ); die();
 
 			// Save TMDb data
 			update_post_meta( $post_id, '_wpml_movie_data', $tmdb_data );
@@ -1299,9 +1294,9 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		if ( isset( $_REQUEST['wpml_details'] ) && ! is_null( $_REQUEST['wpml_details'] ) ) {
 
 			if ( isset( $_REQUEST['is_quickedit'] ) )
-				check_admin_referer( '_wpml_movie_details', 'wpml_movie_details_nonce' );
+				check_admin_referer( '_wpml_quickedit_movie_details', 'wpml_quickedit_movie_details_nonce' );
 			else if ( isset( $_REQUEST['is_bulkedit'] ) )
-				check_admin_referer( '_wpml_bulk_movie_details', 'wpml_bulk_movie_details_nonce' );
+				check_admin_referer( '_wpml_bulkedit_movie_details', 'wpml_bulkedit_movie_details_nonce' );
 
 			$wpml_d = $_REQUEST['wpml_details'];
 

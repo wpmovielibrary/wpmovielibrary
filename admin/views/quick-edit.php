@@ -1,12 +1,12 @@
 
-		<fieldset class="inline-edit-col-right">
+		<fieldset class="inline-edit-col-wpml inline-edit-col-left">
 		<h4><?php _e( 'Movie Details', 'wpml' ) ?></h4>
 		<div class="inline-edit-col">
 			<div class="inline-edit-group">
 				<label>
 					<span class="title"><?php _e( 'Media', 'wpml' ) ?></span>
 					<select class="movie_media" id="movie_media" name="wpml_details[movie_media]">
-<?php foreach ( $this->wpml->wpml_get_available_movie_media() as $slug => $title ) : ?>
+<?php foreach ( $default_movie_media as $slug => $title ) : ?>
 						<option value="<?php echo $slug ?>"><?php echo $title ?></option>
 <?php endforeach; ?>
 					</select>
@@ -16,7 +16,7 @@
 				<label>
 					<span class="title"><?php _e( 'Status', 'wpml' ) ?></span>
 					<select class="movie_status" id="movie_status" name="wpml_details[movie_status]">
-<?php foreach ( $this->wpml->wpml_get_available_movie_status() as $slug => $title ) : ?>
+<?php foreach ( $default_movie_status as $slug => $title ) : ?>
 						<option value="<?php echo $slug ?>"><?php echo $title ?></option>
 <?php endforeach; ?>
 					</select>
@@ -25,9 +25,9 @@
 			<div class="inline-edit-group">
 				<label>
 					<span class="title"><?php _e( 'Rating', 'wpml' ) ?></span>
-					<input type="hidden" id="hidden_movie_rating" name="hidden_movie_rating" value="">
-					<input type="hidden" id="movie_rating" name="wpml_details[movie_rating]" value="">
-					<div id="stars" data-default-rating="" data-rating="" data-rated="false" class="stars">
+					<input type="hidden" id="hidden_movie_rating" name="hidden_movie_rating" value="0.0">
+					<input type="hidden" id="movie_rating" name="wpml_details[movie_rating]" value="0.0">
+					<div id="stars" data-default-rating="0.0" data-rating="0.0" data-rated="false" class="stars">
 						<div id="stars_labels" class="stars_labels">
 							<span id="stars_label_0_5" class="stars_label"><?php _e( 'Junk', 'wpml' ) ?></span>
 							<span id="stars_label_1_0" class="stars_label"><?php _e( 'Very bad', 'wpml' ) ?></span>
@@ -43,6 +43,6 @@
 					</div>
 				</label>
 			</div>
-			<input type="hidden" name="wpml_movie_details_nonce" id="wpml_movie_details_nonce" value="" />
-			<input type="hidden" name="is_quickedit" value="true" />
+			<input type="hidden" name="<?php echo $nonce_name ?>" id="<?php echo $nonce_name ?>" value="<?php echo $nonce ?>" />
+			<input type="hidden" name="<?php echo $check ?>" value="true" />
 		</div></fieldset>

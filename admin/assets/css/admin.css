@@ -268,8 +268,8 @@
 }
 
 #tmdbstuff .tmdb_images_preview {
+	position: relative;
 	width: 100%;
-	/*text-align: center;*/
 }
 
 #tmdbstuff .tmdb_images_preview td {
@@ -294,50 +294,68 @@
 	width: 15.5em;
 }
 
-.tmdb_movie_images.selected {
-	background: #0074A2;
-	border-color: #0F475E;
-}
-
 .tmdb_movie_images img {
 	height: auto;
 	width: 100%;
 }
 
-.tmdb_movie_images a {
-	/*background: white url(../../../../../wp-admin/images/xit.gif) 0 0 no-repeat;
-	border-radius: 0em;
-	height: 0.8em;
-	position: absolute;
-	right: 0.25em;
-	bottom: 0.2em;
-	width: 0.8em;*/
+.tmdb_movie_images.selected {
+	background: #0074A2;
+	border-color: #0074A2;
 }
 
-.tmdb_movie_image_remove:hover {
-	background-position: -10px 0;
+.tmdb_movie_images.selected img {
+	opacity: 0.75;
 }
 
 #tmdb_save_images {
 	display: none;
 }
 
-#progressbar {
+#progressbar_bg {
+	background: rgba(255, 255, 255, 0.75);
 	display: none;
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 10;
 }
 
-.ui-progressbar {
+#progressbar {
+	border: 2px solid #0074A2;
+	display: none;
+	height: 28px;
+	left: 50%;
+	margin: -14px 0 0 -240px;
+	max-width: 480px;
+	overflow: hidden;
+	position: absolute;
+	top: 50%;
+}
+
+#progressbar .ui-progressbar {
 	margin: 1em auto;
 	position: relative;
 	width: 50%;
 }
 
-.progress-label {
-	position: absolute;
-	left: 46%;
-	top: 4px;
+#progressbar .ui-progressbar-value {
+	background: #0074A2;
+	border: 1px solid #0074A2;
+	height: 28px;
+	margin: -1px;
+}
+
+#progressbar .progress-label {
 	font-weight: bold;
+	left: 50%;
+	margin-left: -24px;
+	position: absolute;
 	text-shadow: 1px 1px 0 #fff;
+	top: 4px;
+	width: 48px;
 }
 
 #tmdb_status {
@@ -455,14 +473,20 @@
 	display: inline-block;
 }
 
-.stars_label {
-	display: inline-block;
-	margin: -1px 0 0 82px;
+.stars_labels {
+	position: relative;
 }
 
 .stars_label {
-	display: none;
 	font-size: 0.9em;
+	left: 82px;
+	position: absolute;
+	opacity: 0;
+	width: 100%;
+}
+
+.stars_label.show {
+	opacity: 1;
 }
 
 .stars_0_0 {background-position: 0 0;}
@@ -479,7 +503,17 @@
 
 .inline-edit-group #movie-rating-display,
 .inline-edit-group .stars {
-	margin: 0.5em 0 1em 0.5em;
+	margin: 0.5em 0 0.5em 0.5em;
+}
+
+.inline-edit-col-wpml .inline-edit-group {
+	display: inline-block;
+	width: 30%;
+}
+
+.inline-edit-col-wpml .inline-edit-group .title {
+	display: block;
+	float: none;
 }
 
 @media (max-width: 1180px) {

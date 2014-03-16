@@ -6,7 +6,7 @@
 				<label>
 					<span class="title"><?php _e( 'Media', 'wpml' ) ?></span>
 					<select id="bulk_movie_media" name="wpml_details[movie_media]">
-<?php foreach ( $this->wpml->wpml_get_available_movie_media() as $slug => $title ) : ?>
+<?php foreach ( $default_movie_media as $slug => $title ) : ?>
 						<option value="<?php echo $slug ?>"><?php echo $title ?></option>
 <?php endforeach; ?>
 					</select>
@@ -16,7 +16,7 @@
 				<label>
 					<span class="title"><?php _e( 'Status', 'wpml' ) ?></span>
 					<select id="bulk_movie_status" name="wpml_details[movie_status]">
-<?php foreach ( $this->wpml->wpml_get_available_movie_status() as $slug => $title ) : ?>
+<?php foreach ( $default_movie_status as $slug => $title ) : ?>
 						<option value="<?php echo $slug ?>"><?php echo $title ?></option>
 <?php endforeach; ?>
 					</select>
