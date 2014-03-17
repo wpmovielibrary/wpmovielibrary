@@ -641,7 +641,7 @@ class WPMovieLibrary {
 	 */
 	public function enqueue_scripts() {
 
-		wp_enqueue_script( $this->plugin_slug, plugins_url( 'assets/js/public.js', __FILE__ ), array(), WPMovieLibrary::VERSION, true );
+		wp_enqueue_script( $this->plugin_slug, plugins_url( 'assets/js/public.js', __FILE__ ), array( 'jquery' ), WPMovieLibrary::VERSION, true );
 	}
 
 	/**
