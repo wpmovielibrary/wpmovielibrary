@@ -292,6 +292,7 @@ class WPMovieLibrary {
 
 		add_filter( 'wpml_stringify_array', array( $this, 'wpml_stringify_array' ), 10, 3 );
 		add_filter( 'wpml_filter_empty_array', array( $this, 'wpml_filter_empty_array' ), 10, 1 );
+		add_filter( 'wpml_filter_undimension_array', array( $this, 'wpml_filter_undimension_array' ), 10, 1 );
 
 		add_filter( 'wpml_filter_meta_data', array( $this, 'wpml_filter_meta_data' ), 10, 1 );
 		add_filter( 'wpml_filter_crew_data', array( $this, 'wpml_filter_crew_data' ), 10, 1 );
@@ -303,74 +304,9 @@ class WPMovieLibrary {
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
-	 *                            Plugin Basics
+	 *                            Plugin instance
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	/**
-	 * Return the plugin slug.
-	 *
-	 * @since    1.0.0
-	 *
-	 * @return    Plugin slug variable.
-	 */
-	public function get_plugin_slug() {
-		return $this->plugin_slug;
-	}
-
-	/**
-	 * Return the default Movie Media
-	 *
-	 * @since    1.0.0
-	 *
-	 * @return    WPML Default Movie Media.
-	 */
-	public function wpml_get_default_movie_media() {
-		$default = $this->wpml_movie_details['movie_media']['default'];
-		return $default;
-	}
-
-	/**
-	 * Return the default Movie Status
-	 *
-	 * @since    1.0.0
-	 *
-	 * @return    WPML Default Movie Status.
-	 */
-	public function wpml_get_default_movie_status() {
-		$default = $this->wpml_movie_details['movie_status']['default'];
-		return $default;
-	}
-
-	/**
-	 * Return available Movie Media
-	 *
-	 * @since    1.0.0
-	 *
-	 * @return    WPML Default Movie Media.
-	 */
-	public function wpml_get_available_movie_media() {
-		$media = array();
-		$items = $this->wpml_movie_details['movie_media']['options'];
-		foreach ( $items as $slug => $title )
-			$media[ $slug ] = $title;
-		return $media;
-	}
-
-	/**
-	 * Return available Movie Status
-	 *
-	 * @since    1.0.0
-	 *
-	 * @return    WPML Available Movie Status.
-	 */
-	public function wpml_get_available_movie_status() {
-		$statuses = array();
-		$items = $this->wpml_movie_details['movie_status']['options'];
-		foreach ( $items as $slug => $title )
-			$statuses[ $slug ] = $title;
-		return $statuses;
-	}
 
 	/**
 	 * Return an instance of this class.
@@ -387,6 +323,183 @@ class WPMovieLibrary {
 		}
 
 		return self::$instance;
+	}
+
+	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *                           Plugin Accessors
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * Return the default Movie Media
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return   array    WPML Default Movie Media.
+	 */
+	public function wpml_get_default_movie_media() {
+		$default = $this->wpml_movie_details['movie_media']['default'];
+		return $default;
+	}
+
+	/**
+	 * Return the default Movie Status
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return   array    WPML Default Movie Status.
+	 */
+	public function wpml_get_default_movie_status() {
+		$default = $this->wpml_movie_details['movie_status']['default'];
+		return $default;
+	}
+
+	/**
+	 * Return available Movie Media
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return   array    WPML Default Movie Media.
+	 */
+	public function wpml_get_available_movie_media() {
+		$media = array();
+		$items = $this->wpml_movie_details['movie_media']['options'];
+		foreach ( $items as $slug => $title )
+			$media[ $slug ] = $title;
+		return $media;
+	}
+
+	/**
+	 * Return available Movie Status
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return   array    WPML Available Movie Status.
+	 */
+	public function wpml_get_available_movie_status() {
+		$statuses = array();
+		$items = $this->wpml_movie_details['movie_status']['options'];
+		foreach ( $items as $slug => $title )
+			$statuses[ $slug ] = $title;
+		return $statuses;
+	}
+
+	/**
+	 * Return all supported Movie Meta fields
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return   array    WPML Supported Movie Meta fields.
+	 */
+	public function wpml_get_supported_movie_meta() {
+		return array_merge( $this->wpml_movie_meta['meta']['data'], $this->wpml_movie_meta['crew']['data'] );
+	}
+
+	/**
+	 * Return Movie's stored TMDb data.
+	 * 
+	 * @uses wpml_get_movie_postmeta()
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return   array|string    WPML Movie TMDb data if stored, empty string else.
+	 */
+	public function wpml_get_movie_data( $post_id = null ) {
+		return $this->wpml_get_movie_postmeta( 'data', $post_id );
+	}
+
+	/**
+	 * Return Movie's Status.
+	 * 
+	 * @uses wpml_get_movie_postmeta()
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return   array|string    WPML Movie Status if stored, empty string else.
+	 */
+	public function wpml_get_movie_status( $post_id = null ) {
+		return $this->wpml_get_movie_postmeta( 'status', $post_id );
+	}
+
+	/**
+	 * Return Movie's Media.
+	 * 
+	 * @uses wpml_get_movie_postmeta()
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return   array|string    WPML Movie Media if stored, empty string else.
+	 */
+	public function wpml_get_movie_media( $post_id = null ) {
+		return $this->wpml_get_movie_postmeta( 'media', $post_id );
+	}
+
+	/**
+	 * Return Movie's Rating.
+	 * 
+	 * @uses wpml_get_movie_postmeta()
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return   array|string    WPML Movie Rating if stored, empty string else.
+	 */
+	public function wpml_get_movie_rating( $post_id = null ) {
+		return $this->wpml_get_movie_postmeta( 'rating', $post_id );
+	}
+
+	/**
+	 * Return various Movie's Post Meta. Possible meta: status, media, rating
+	 * and data.
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return   array|string    WPML Movie Meta if available, empty string else.
+	 */
+	private function wpml_get_movie_postmeta( $meta, $post_id = null ) {
+
+		$allowed_meta = array( 'data', 'status', 'media', 'rating' );
+
+		if ( is_null( $post_id ) )
+			$post_id =  get_the_ID();
+
+		if ( ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) || ! in_array( $meta, $allowed_meta ) )
+			return false;
+
+		return get_post_meta( $post_id, "_wpml_movie_{$meta}", true );
+	}
+
+	/**
+	 * Return the WPML Collection Taxonomy option status: enabled of not.
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return   boolean    Taxonomy status: true if enabled, false if not.
+	 */
+	public function wpml_can_use_collection() {
+		return (boolean) ( 1 == $this->wpml_o( 'wpml-settings-enable_collection' ) );
+	}
+
+	/**
+	 * Return the WPML Genre Taxonomy option status: enabled of not.
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return   boolean    Taxonomy status: true if enabled, false if not.
+	 */
+	public function wpml_can_use_genre() {
+		return (boolean) ( 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) );
+	}
+
+	/**
+	 * Return the WPML Actor Taxonomy option status: enabled of not.
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return   boolean    Taxonomy status: true if enabled, false if not.
+	 */
+	public function wpml_can_use_actor() {
+		return (boolean) ( 1 == $this->wpml_o( 'wpml-settings-enable_actor' ) );
 	}
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -780,10 +893,13 @@ class WPMovieLibrary {
 			switch ( $field ) {
 				case 'movie_media':
 				case 'movie_status':
-					$meta = get_post_meta( get_the_ID(), '_wpml_' . $field, true );
+					$meta = call_user_func_array( array( $this, "wpml_get_{$field}" ), array( get_the_ID() ) );
 					if ( '' != $meta )
 						$html .= '<div class="wpml_' . $field . ' ' . $meta . '"><span class="wpml_movie_detail_item">' . $this->wpml_movie_details[ $field ]['options'][ $meta ] . '</span></div>';
 					//var_dump($meta);
+					break;
+				case 'rating':
+					$html .= sprintf( $default_format, $field, __( 'Movie rating', 'wpml' ), $field, sprintf( '<div class="movie_rating_display stars_%s"></div>', ( '' == $movie_rating ? '0_0' : str_replace( '.', '_', $movie_rating ) ) ) );
 					break;
 				default:
 					
@@ -808,10 +924,12 @@ class WPMovieLibrary {
 		if ( 'nowhere' == $this->wpml_o( 'wpml-settings-meta_in_posts' ) || ( 'posts_only' == $this->wpml_o( 'wpml-settings-meta_in_posts' ) && ! is_singular() ) )
 			return null;
 
-		$tmdb_data = get_post_meta( get_the_ID(), '_wpml_movie_data', true );
-		$movie_rating = get_post_meta( get_the_ID(), '_wpml_movie_rating', true );
+		$tmdb_data = $this->wpml_get_movie_data();
+		$tmdb_data = apply_filters( 'wpml_filter_undimension_array', $tmdb_data );
+
 		$fields = $this->wpml_o( 'wpml-settings-default_movie_meta' );
 		$default_format = '<dt class="wpml_%s_field_title">%s</dt><dd class="wpml_%s_field_value">%s</dd>';
+		$default_fields = $this->wpml_get_supported_movie_meta();
 
 		if ( '' == $tmdb_data || empty( $fields ) )
 			return null;
@@ -822,43 +940,27 @@ class WPMovieLibrary {
 
 			switch ( $field ) {
 				case 'genres':
-					if ( 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) )
-						$genres = get_the_term_list( get_the_ID(), 'genre', '', ', ', '' );
-					else
-						$genres = $tmdb_data['meta'][ $field ];
-					$html .= sprintf( $default_format, $field, __( ucfirst( $field ), 'wpml' ), $field, $genres );
-					break;
-				case 'production_countries':
-					$html .= sprintf( $default_format, $field, __( 'Country', 'wpml' ), $field, $tmdb_data['meta'][ $field ] );
-					break;
-				case 'release_date':
-					$html .= sprintf( $default_format, $field, __( 'Release Date', 'wpml' ), $field, date_i18n( get_option( 'date_format' ), strtotime( $tmdb_data['meta'][ $field ] ) ) );
-					break;
-				case 'original_title':
-					$html .= sprintf( $default_format, $field, __( 'Original Title', 'wpml' ), $field, $tmdb_data['meta'][ $field ] );
-					break;
-				case 'director':
-					$term = get_term_by( 'name', $tmdb_data['crew'][ $field ], 'collection' );
-					if ( false !== $term && ! is_wp_error( $link = get_term_link( $term, 'collection' ) ) )
-						$collection = '<a href="' . $link . '">' . $tmdb_data['crew'][ $field ] . '</a>';
-					else
-						$collection = $tmdb_data['crew'][ $field ];
-					$html .= sprintf( $default_format, $field, __( 'Directed by', 'wpml' ), $field, $collection );
+					$genres = $this->wpml_can_use_genre() ? get_the_term_list( get_the_ID(), 'genre', '', ', ', '' ) : $tmdb_data[ $field ];
+					$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, $genres );
 					break;
 				case 'cast':
-					if ( 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) )
-						$actors = get_the_term_list( get_the_ID(), 'actor', '', ', ', '' );
-					else
-						$actors = $tmdb_data['crew'][ $field ];
+					$actors = $this->wpml_can_use_genre() ? get_the_term_list( get_the_ID(), 'actor', '', ', ', '' ) : $tmdb_data[ $field ];
 					$html .= sprintf( $default_format, $field, __( 'Staring', 'wpml' ), $field, $actors );
 					break;
-				case 'rating':
-					$html .= sprintf( $default_format, $field, __( 'Movie rating', 'wpml' ), $field, sprintf( '<div class="movie_rating_display stars_%s"></div>', ( '' == $movie_rating ? '0_0' : str_replace( '.', '_', $movie_rating ) ) ) );
+				case 'release_date':
+					$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, date_i18n( get_option( 'date_format' ), strtotime( $tmdb_data[ $field ] ) ) );
+					break;
+				case 'runtime':
+					$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, date_i18n( get_option( 'time_format' ), mktime( 0, $tmdb_data[ $field ] ) ) );
+					break;
+				case 'director':
+					$term = get_term_by( 'name', $tmdb_data[ $field ], 'collection' );
+					$collection = ( $term && ! is_wp_error( $link = get_term_link( $term, 'collection' ) ) ) ? '<a href="' . $link . '">' . $tmdb_data[ $field ] . '</a>' : $tmdb_data[ $field ];
+					$html .= sprintf( $default_format, $field, __( 'Directed by', 'wpml' ), $field, $collection );
 					break;
 				default:
-					// TODO create a filter to replace array_merge
-					if ( in_array( $field, array_keys( array_merge( $this->wpml_movie_meta['meta']['data'], $this->wpml_movie_meta['crew']['data'] ) ) ) && isset( $tmdb_data[ $field ] ) )
-						$html .= sprintf( $default_format, $field, __( ucfirst( $field ), 'wpml' ), $field, $tmdb_data[ $field ] );
+					if ( in_array( $field, $fields ) && isset( $tmdb_data[ $field ] ) && '' != $tmdb_data[ $field ] )
+						$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, $tmdb_data[ $field ] );
 					break;
 			}
 		}
@@ -1029,58 +1131,6 @@ class WPMovieLibrary {
 	}
 
 	/**
-	 * Convert an Array shaped list to a separated string.
-	 * 
-	 * @since    1.0.0
-	 * 
-	 * @param    array    $array Array shaped list
-	 * @param    string   $subrow optional subrow to select in subitems
-	 * @param    string   $separator Separator string to use to implode the list
-	 * 
-	 * @return   string   Separated list
-	 */
-	public function wpml_stringify_array( $array, $subrow = 'name', $separator = ', ' ) {
-
-		if ( ! is_array( $array ) || empty( $array ) )
-			return $array;
-
-		foreach ( $array as $i => $row ) {
-			if ( ! is_array( $row ) )
-				$array[ $i ] = $row;
-			else if ( false === $subrow || ! is_array( $row ) )
-				$array[ $i ] = $this->wpml_stringify_array( $row, $subrow, $separator );
-			else if ( is_array( $row ) && isset( $row[ $subrow ] ) )
-				$array[ $i ] = $row[ $subrow ];
-			else if ( is_array( $row ) )
-				$array[ $i ] = implode( $separator, $row );
-		}
-
-		$array = implode( $separator, $array );
-
-		return $array;
-	}
-
-	/**
-	 * Filter an array to detect empty associative arrays.
-	 * Uses wpml_stringify_array to stringify the array and check its length.
-	 * 
-	 * @since    1.0.0
-	 * 
-	 * @param    array    $array Array to check
-	 * 
-	 * @return   array    Original array plus and notification row if empty
-	 */
-	public function wpml_filter_empty_array( $array ) {
-
-		if ( ! is_array( $array ) || empty( $array ) )
-			return $array;
-
-		$_array = apply_filters( 'wpml_stringify_array', $array, false, '' );
-
-		return strlen( $_array ) > 0 ? $array : array_merge( array( '_empty' => true ), $array );
-	}
-
-	/**
 	 * Filter a Movie's Metadata to extract only supported data.
 	 * 
 	 * @since    1.0.0
@@ -1172,6 +1222,85 @@ class WPMovieLibrary {
 			$data[ $i ] = $d['name'];
 
 		return $data;
+	}
+
+	/**
+	 * Convert an Array shaped list to a separated string.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    array    $array Array shaped list
+	 * @param    string   $subrow optional subrow to select in subitems
+	 * @param    string   $separator Separator string to use to implode the list
+	 * 
+	 * @return   string   Separated list
+	 */
+	public function wpml_stringify_array( $array, $subrow = 'name', $separator = ', ' ) {
+
+		if ( ! is_array( $array ) || empty( $array ) )
+			return $array;
+
+		foreach ( $array as $i => $row ) {
+			if ( ! is_array( $row ) )
+				$array[ $i ] = $row;
+			else if ( false === $subrow || ! is_array( $row ) )
+				$array[ $i ] = $this->wpml_stringify_array( $row, $subrow, $separator );
+			else if ( is_array( $row ) && isset( $row[ $subrow ] ) )
+				$array[ $i ] = $row[ $subrow ];
+			else if ( is_array( $row ) )
+				$array[ $i ] = implode( $separator, $row );
+		}
+
+		$array = implode( $separator, $array );
+
+		return $array;
+	}
+
+	/**
+	 * Filter an array to detect empty associative arrays.
+	 * Uses wpml_stringify_array to stringify the array and check its length.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    array    $array Array to check
+	 * 
+	 * @return   array    Original array plus and notification row if empty
+	 */
+	public function wpml_filter_empty_array( $array ) {
+
+		if ( ! is_array( $array ) || empty( $array ) )
+			return $array;
+
+		$_array = apply_filters( 'wpml_stringify_array', $array, false, '' );
+
+		return strlen( $_array ) > 0 ? $array : array_merge( array( '_empty' => true ), $array );
+	}
+
+	/**
+	 * Filter an array to remove any sub-array, reducing multidimensionnal
+	 * arrays.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    array    $array Array to check
+	 * 
+	 * @return   array    Reduced array
+	 */
+	public function wpml_filter_undimension_array( $array ) {
+
+		if ( ! is_array( $array ) || empty( $array ) )
+			return $array;
+
+		$_array = array();
+
+		foreach ( $array as $key => $row ) {
+			if ( is_array( $row ) )
+				$_array = array_merge( $_array, $this->wpml_filter_undimension_array( $row ) );
+			else
+				$_array[ $key ] = $row;
+		}
+
+		return $_array;
 	}
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
