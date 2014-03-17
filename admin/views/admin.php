@@ -146,10 +146,10 @@
 						</tr>
 						<tr valign="top">
 							<th scope="row">
-								<label for="tmdb_in_posts"><?php _e( 'Show basic movie metadata', 'wpml' ); ?></label>
+								<label for="meta_in_posts"><?php _e( 'Show basic movie metadata', 'wpml' ); ?></label>
 							</th>
 							<td>
-								<select id="tmdb_in_posts" name="tmdb_data[wpml][tmdb_in_posts]">
+								<select id="meta_in_posts" name="tmdb_data[wpml][meta_in_posts]">
 									<option value="everywhere"<?php selected( $this->wpml_o('wpml-settings-meta_in_posts'), 'everywhere' ); ?>><?php _e( 'Everywhere', 'wpml' ); ?></option>
 									<option value="posts_only"<?php selected( $this->wpml_o('wpml-settings-meta_in_posts'), 'posts_only' ); ?>><?php _e( 'Only In Post Read', 'wpml' ); ?></option>
 									<option value="nowhere"<?php selected( $this->wpml_o('wpml-settings-meta_in_posts'), 'nowhere' ); ?>><?php _e( 'Don&rsquo;t Show', 'wpml' ); ?></option>

@@ -687,7 +687,8 @@ wpml = {
 		populate: function(data) {
 
 			var tr     = $('#p_'+data._id);
-			var fields = $('#p_'+data._id+'_tmdb_data input')
+			var fields = $('#p_'+data._id+'_tmdb_data input');
+			console.log(data);
 
 			data.images = [];
 

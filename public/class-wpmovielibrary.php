@@ -274,7 +274,8 @@ class WPMovieLibrary {
 		add_action( 'wp_before_admin_bar_render', array( $this, 'wpml_admin_bar_menu' ), 999 );
 
 		// Order Taxonomies by term_order
-		add_filter( 'get_the_terms', array( $this, 'wpml_get_the_ordered_terms' ), 10, 3 );
+		add_filter( 'get_the_terms', array( $this, 'wpml_get_the_terms' ), 10, 3 );
+		add_filter( 'wp_get_object_terms', array( $this, 'wpml_get_ordered_object_terms' ), 10, 4 );
 
 		// Load Movies as well as Posts in the Loop
 		add_action( 'pre_get_posts', array( $this, 'wpml_show_movies_in_home_page' ) );
@@ -1325,7 +1326,7 @@ class WPMovieLibrary {
 	 * 
 	 * @return   array      Terms array of objects
 	 */
-	function wpml_get_the_ordered_terms( $terms, $id, $taxonomy ) {
+	function wpml_get_the_terms( $terms, $id, $taxonomy ) {
 
 		if ( ! in_array( $taxonomy, array( 'collection', 'genre', 'actor' ) ) )
 			return $terms;
@@ -1335,6 +1336,108 @@ class WPMovieLibrary {
 			$terms = wp_get_object_terms( $id, $taxonomy, array( 'orderby' => 'term_order' ) );
 			wp_cache_add( $id, $terms, $taxonomy . '_relationships_sorted' );
 		}
+
+		return $terms;
+	}
+
+	/**
+	 * Retrieves the terms associated with the given object(s), in the
+	 * supplied taxonomies.
+	 *
+	 * This is a copy of WordPress' wp_get_object_terms function with a bunch
+	 * of edits to use term_order as a default sorting param.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param    int|array       $object_ids The ID(s) of the object(s) to retrieve.
+	 * @param    string|array    $taxonomies The taxonomies to retrieve terms from.
+	 * @param    array|string    $args Change what is returned
+	 * 
+	 * @return   array|WP_Error  The requested term data or empty array if no
+	 *                           terms found. WP_Error if any of the $taxonomies
+	 *                           don't exist.
+	 */
+	function wpml_get_ordered_object_terms( $terms, $object_ids, $taxonomies, $args ) {
+
+		global $wpdb;
+
+		$taxonomies = explode( ', ', str_replace( "'", "", $taxonomies ) );
+
+		if ( empty( $object_ids ) || ( $taxonomies != "'collection', 'actor', 'genre'" && ( ! in_array( 'collection', $taxonomies ) && ! in_array( 'actor', $taxonomies ) && ! in_array( 'genre', $taxonomies ) ) ) )
+			return $terms;
+
+		foreach ( (array) $taxonomies as $taxonomy ) {
+			if ( ! taxonomy_exists( $taxonomy ) )
+				return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy' ) );
+		}
+
+		if ( ! is_array( $object_ids ) )
+			$object_ids = array( $object_ids );
+		$object_ids = array_map( 'intval', $object_ids );
+
+		$defaults = array('orderby' => 'term_order', 'order' => 'ASC', 'fields' => 'all');
+		$args = wp_parse_args( $args, $defaults );
+
+		$terms = array();
+		if ( count($taxonomies) > 1 ) {
+			foreach ( $taxonomies as $index => $taxonomy ) {
+				$t = get_taxonomy($taxonomy);
+				if ( isset($t->args) && is_array($t->args) && $args != array_merge($args, $t->args) ) {
+					unset($taxonomies[$index]);
+					$terms = array_merge($terms, $this->wpml_get_ordered_object_terms($object_ids, $taxonomy, array_merge($args, $t->args)));
+				}
+			}
+		} else {
+			$t = get_taxonomy($taxonomies[0]);
+			if ( isset($t->args) && is_array($t->args) )
+				$args = array_merge($args, $t->args);
+		}
+
+		extract($args, EXTR_SKIP);
+
+		$orderby = "ORDER BY term_order";
+		$order = 'ASC';
+
+		$taxonomies = "'" . implode("', '", $taxonomies) . "'";
+		$object_ids = implode(', ', $object_ids);
+
+		$select_this = '';
+		if ( 'all' == $fields )
+			$select_this = 't.*, tt.*';
+		else if ( 'ids' == $fields )
+			$select_this = 't.term_id';
+		else if ( 'names' == $fields )
+			$select_this = 't.name';
+		else if ( 'slugs' == $fields )
+			$select_this = 't.slug';
+		else if ( 'all_with_object_id' == $fields )
+			$select_this = 't.*, tt.*, tr.object_id';
+
+		$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.object_id IN ($object_ids) $orderby $order";
+
+		if ( 'all' == $fields || 'all_with_object_id' == $fields ) {
+			$_terms = $wpdb->get_results( $query );
+			foreach ( $_terms as $key => $term ) {
+				$_terms[$key] = sanitize_term( $term, $taxonomy, 'raw' );
+			}
+			$terms = array_merge( $terms, $_terms );
+			update_term_cache( $terms );
+		} else if ( 'ids' == $fields || 'names' == $fields || 'slugs' == $fields ) {
+			$_terms = $wpdb->get_col( $query );
+			$_field = ( 'ids' == $fields ) ? 'term_id' : 'name';
+			foreach ( $_terms as $key => $term ) {
+				$_terms[$key] = sanitize_term_field( $_field, $term, $term, $taxonomy, 'raw' );
+			}
+			$terms = array_merge( $terms, $_terms );
+		} else if ( 'tt_ids' == $fields ) {
+			$terms = $wpdb->get_col("SELECT tr.term_taxonomy_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.object_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) $orderby $order");
+			foreach ( $terms as $key => $tt_id ) {
+				$terms[$key] = sanitize_term_field( 'term_taxonomy_id', $tt_id, 0, $taxonomy, 'raw' ); // 0 should be the term id, however is not needed when using raw context.
+			}
+		}
+
+		if ( ! $terms )
+			$terms = array();
 
 		return $terms;
 	}
