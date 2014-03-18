@@ -136,6 +136,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 
 		add_action( 'wp_ajax_tmdb_search', array( $this->tmdb, 'wpml_tmdb_search_callback' ) );
 		add_action( 'wp_ajax_tmdb_api_key_check', array( $this->tmdb, 'wpml_tmdb_api_key_check_callback' ) );
+		add_action( 'wp_ajax_tmdb_load_images', array( $this->tmdb, 'wpml_tmdb_load_images_callback' ) );
 
 		add_action( 'load-movie_page_import', array( $this, 'wpml_import_movie_list_add_options' ) );
 		add_filter( 'set-screen-option', array( $this, 'wpml_import_movie_list_set_option' ), 10, 3 );

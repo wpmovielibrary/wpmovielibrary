@@ -276,6 +276,34 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 		die();
 	}
 
+	/**
+	 * Load Images related to a movie.
+	 *
+	 * @since     1.0.0
+	 */
+	public function wpml_tmdb_load_images_callback() {
+	
+		check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+
+		$tmdb_id  = ( isset( $_GET['tmdb_id'] )  && '' != $_GET['tmdb_id']  ? $_GET['tmdb_id']  : null );
+
+		if ( is_null( $tmdb_id ) )
+			return false;
+
+		$images = $this->tmdb->getMovieImages( $tmdb_id, '' );
+		$images = $images['backdrops'];
+
+		// Keep only limited number of images
+		$images_max = $this->wpml_o('tmdb-settings-images_max');
+		if ( $images_max > 0 && count( $images ) > $images_max )
+			$images = array_slice( $images, 0, $images_max );
+
+		$this->wpml_json_header();
+		echo json_encode( $images );
+
+		die();
+	}
+
 
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *

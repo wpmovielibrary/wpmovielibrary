@@ -183,6 +183,16 @@
 	border-style: solid;
 }
 
+#tmdbstuff #tmdb_search_type,
+#tmdbstuff #tmdb_search_lang {
+	vertical-align: top;
+}
+
+#tmdbstuff #tmdb_query {
+	height: 28px;
+	max-width: 35%;
+}
+
 #tmdbstuff thead th {
 	padding: 5px 8px 8px;
 }
@@ -220,7 +230,7 @@
 	width: 25%;
 }
 
-#tmdbstuff table input,
+#tmdbstuff table input[type=text],
 #tmdbstuff table select,
 #tmdbstuff table textarea {
 	width: 96%;
@@ -286,6 +296,13 @@
 
 #tmdbstuff .tmdb_images_preview td {
     padding: 0.5em !important;
+}
+
+#tmdb_load_images {
+	display: inline-block;
+	font-style: italic;
+	margin-bottom: 1.5em;
+	text-decoration: none;
 }
 
 #tmdb_save_images {
@@ -374,6 +391,7 @@
 	background-color: #fff;
 	-webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
 	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+	clear: both;
 	display: block;
 	margin: 8px 2px;
 	padding: 5px 12px;
@@ -528,6 +546,19 @@
 	float: none;
 }
 
+@media (max-width: 1440px) {
+	
+	#tmdbstuff .tmdb_meta {
+		margin-right: 1%;
+		width: 49%;
+	}
+
+	#tmdbstuff .tmdb_crew {
+		margin-left: 1%;
+		width: 49%;
+	}
+}
+
 @media (max-width: 1180px) {
 	
 	#wpml-tabs.ui-widget-content {
@@ -538,6 +569,17 @@
 	#wpml-help {
 		float: none;
 		margin: 1em 0 0 0;
-		width: 100%;
+		width: 100% !important;
+	}
+	
+	#tmdbstuff .tmdb_meta,
+	#tmdbstuff .tmdb_crew {
+		float: none;
+		margin: 0;
+		width: 100% !important;
+	}
+	
+	#tmdbstuff .tmdb_meta {
+		margin-bottom: 8px;
 	}
 }

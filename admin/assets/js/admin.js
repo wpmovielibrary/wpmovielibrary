@@ -86,6 +86,18 @@ jQuery(document).ready(function($) {
 	});
 
 	/*
+	 * Images
+	 */
+
+	$('#tmdb_load_images').click(function(e) {
+		e.preventDefault();
+		var id = $('#tmdb_data_tmdb_id').val();
+		if ( '' == id )
+			return false;
+		wpml.movie.images.load( id );
+	});
+
+	/*
 	 * Status
 	 */
 
@@ -560,6 +572,29 @@ wpml = {
 		},
 
 		images: {
+
+			load: function(id) {
+
+				$.ajax({
+					type: 'GET',
+					url: ajax_object.ajax_url,
+					data: {
+						action: 'tmdb_load_images',
+						wpml_check: ajax_object.wpml_check,
+						tmdb_id: id,
+					},
+					success: function(response) {
+							wpml.movie.images.populate(response);
+							$('#tmdb_load_images').hide();
+					},
+					beforeSend: function() {
+						
+					},
+					complete: function() {
+						
+					},
+				});
+			},
 
 			populate: function(images) {
 
