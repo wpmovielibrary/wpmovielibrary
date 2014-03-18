@@ -15,6 +15,18 @@
 	width: 4em;
 }
 
+.visible-actors {
+	display: inline;
+}
+
+.hidden-actors {
+	display: none;
+}
+
+.more-actors {
+	font-style: italic;
+}
+
 /* WPML Notice
  ****************************************************/
 

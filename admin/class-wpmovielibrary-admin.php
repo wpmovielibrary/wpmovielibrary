@@ -228,6 +228,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 					'save_image'         => __( 'Saving Images…', 'wpml' ),
 					'poster'             => __( 'Poster', 'wpml' ),
 					'done'               => __( 'Done!', 'wpml' ),
+					'see_more'           => __( 'see more', 'wpml' ),
+					'see_less'           => __( 'see no more', 'wpml' ),
 					'oops'               => __( 'Oops… Did something went wrong?', 'wpml' )
 				)
 			);
