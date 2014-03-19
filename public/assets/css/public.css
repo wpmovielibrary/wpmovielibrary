@@ -80,6 +80,55 @@
 	
 }
 
+.wpml_movie_media.wpml_detail_icon,
+.wpml_movie_status.wpml_detail_icon {
+	background-color: #e1e1e6;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 75%;
+	border-radius: 0.35em;
+	height: 32px;
+	opacity: 0.75;
+	padding: 0.2em;
+	width: 32px;
+}
+
+.wpml_movie_media.wpml_detail_icon.dvd {
+	background-image: url(../img/icon-dvd.png);
+}
+
+.wpml_movie_media.wpml_detail_icon.bluray {
+	background-image: url(../img/icon-bluray.png);
+}
+
+.wpml_movie_media.wpml_detail_icon.vod {
+	background-image: url(../img/icon-vod.png);
+}
+
+.wpml_movie_media.wpml_detail_icon.vhs {
+	background-image: url(../img/icon-vhs.png);
+}
+
+.wpml_movie_media.wpml_detail_icon.theater {
+	background-image: url(../img/icon-theater.png);
+}
+
+.wpml_movie_media.wpml_detail_icon.other {
+	background-image: url(../img/icon-other.png);
+}
+
+.wpml_movie_status.wpml_detail_icon.available {
+	background-image: url(../img/icon-available.png);
+}
+
+.wpml_movie_status.wpml_detail_icon.scheduled {
+	background-image: url(../img/icon-scheduled.png);
+}
+
+.wpml_movie_status.wpml_detail_icon.loaned {
+	background-image: url(../img/icon-loaned.png);
+}
+
 /** Movie Rating **/
 
 .movie_rating_display {

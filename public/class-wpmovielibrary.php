@@ -100,6 +100,7 @@ class WPMovieLibrary {
 				'settings' => array(
 					'meta_in_posts'    => 'posts_only',
 					'details_in_posts' => 'posts_only',
+					'details_as_icons' => 1,
 					'default_movie_meta' => array(
 						'director',
 						'genres',
@@ -894,9 +895,12 @@ class WPMovieLibrary {
 				case 'movie_media':
 				case 'movie_status':
 					$meta = call_user_func_array( array( $this, "wpml_get_{$field}" ), array( get_the_ID() ) );
-					if ( '' != $meta )
-						$html .= '<div class="wpml_' . $field . ' ' . $meta . '"><span class="wpml_movie_detail_item">' . $this->wpml_movie_details[ $field ]['options'][ $meta ] . '</span></div>';
-					//var_dump($meta);
+					if ( '' != $meta ) {
+						if ( 1 ==  $this->wpml_o( 'wpml-settings-details_as_icons' ) )
+							$html .= '<div class="wpml_' . $field . ' ' . $meta . ' wpml_detail_icon"></div>';
+						else
+							$html .= '<div class="wpml_' . $field . ' ' . $meta . ' wpml_detail_label"><span class="wpml_movie_detail_item">' . $this->wpml_movie_details[ $field ]['options'][ $meta ] . '</span></div>';
+					}
 					break;
 				case 'rating':
 					$html .= sprintf( $default_format, $field, __( 'Movie rating', 'wpml' ), $field, sprintf( '<div class="movie_rating_display stars_%s"></div>', ( '' == $movie_rating ? '0_0' : str_replace( '.', '_', $movie_rating ) ) ) );

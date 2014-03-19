@@ -179,6 +179,16 @@ foreach ( $movie_meta as $slug => $meta ) :
 						</tr>
 						<tr valign="top">
 							<th scope="row">
+								<label for="details_as_icons"><?php _e( 'Show details as icons', 'wpml' ); ?></label>
+							</th>
+							<td>
+								<label><input type="radio" name="tmdb_data[wpml][details_as_icons]" value="1"<?php checked( $this->wpml_o('wpml-settings-details_as_icons'), 1 ); ?>/> <?php _e( 'Use icons', 'wpml' ); ?></label>
+								<label><input type="radio" name="tmdb_data[wpml][details_as_icons]" value="0"<?php checked( $this->wpml_o('wpml-settings-details_as_icons'), 0 ); ?>/> <?php _e( 'Use default labels', 'wpml' ); ?></label>
+								<p class="description"><?php _e( 'If enable, movie details will appear in the form of icons rather than default colored labels.', 'wpml' ); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
 								<label for="details_in_posts"><?php _e( 'Show movie details', 'wpml' ); ?></label>
 							</th>
 							<td>
