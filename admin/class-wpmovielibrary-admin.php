@@ -964,6 +964,12 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		if ( ! in_array( $image_type, array( 'image', 'poster' ) ) )
 			$image_type = 'image';
 
+		if ( is_array( $file ) ) {
+			$data = $file;
+			$size = $this->wpml_o('tmdb-settings-images_size');
+			$file = $this->tmdb->config['poster_url'][ $size ] . $file['file_path'];
+		}
+
 		$existing = $this->wpml_check_for_existing_images( $tmdb_id, $image_type );
 
 		if ( false !== $existing )
@@ -987,6 +993,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		}
 
 		update_post_meta( $id, '_wpml_' . $image_type . '_related_tmdb_id', $tmdb_id );
+		update_post_meta( $id, '_wpml_' . $image_type . '_related_tmdb_data', $data );
 
 		return $id;
 	}

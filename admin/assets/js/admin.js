@@ -604,9 +604,7 @@ wpml = {
 				$.each(images, function() {
 					html = '<div class="tmdb_movie_images"><img src=\''+ajax_object.base_url_small+this.file_path+'\' data-tmdb=\''+JSON.stringify(this)+'\' alt=\'\' /></div>';
 					$('#tmdb_images_preview').append(html);
-					_v.push(ajax_object.base_url_original+this.file_path);
 				});
-				$('#tmdb_data_images').val(_v.join(','));
 
 				$('.tmdb_movie_images').click(function() {
 
@@ -618,10 +616,10 @@ wpml = {
 					var _v   = [];
 
 					$('.tmdb_movie_images.selected').each(function() {
-						var image = $.parseJSON( $(this).find('img').attr('data-tmdb') );
-						_v.push( ajax_object.base_url_original + image.file_path );
+						var _data = $(this).find('img').attr('data-tmdb');
+						_v.push(_data);
 					});
-					$('#tmdb_data_images').val( _v.join(',') );
+					$('#tmdb_data_images').val( JSON.stringify( _v ) );
 				});
 
 				$('#tmdb_save_images').click(function(e) {
@@ -635,16 +633,19 @@ wpml = {
 
 			save: function() {
 
-				img   = $('#tmdb_data_images').val().split(',');
-				title = $('#tmdb_data_title').val();
-				total = img.length;
+				var img   = $('.tmdb_movie_images.selected').not('.tmdb_movie_imported_image').find('img');
+				var title = $('#tmdb_data_title').val();
+				var total = img.length;
 
 				$('#progressbar').progressbar({
 					value: false
 				}).show();
 
 				$.each(img, function(i) {
-					i = i+1;
+
+					var _data = $(this).attr('data-tmdb');
+					    _data = $.parseJSON( _data );
+					i = i + 1;
 					wpml.status.set(ajax_object.save_image+' #'+i, 'warning');
 					$.ajax({
 						type: 'GET',
@@ -652,15 +653,13 @@ wpml = {
 						data: {
 							action: 'tmdb_save_image',
 							wpml_check: ajax_object.wpml_check,
-							image: this,
+							image: _data,
 							post_id: $('#post_ID').val(),
 							title: title+' − Photo '+i,
 							tmdb_id: $('#tmdb_data_tmdb_id').val()
 						},
 						success: function(_r) {
-							v = $('#tmdb_data_images').val();
-							$('#tmdb_data_images').val(v.replace(img,''));
-
+							$(img).parent('.tmdb_movie_images.selected').addClass('tmdb_movie_imported_image new').removeClass('selected');
 						},
 						complete: function() {
 							$('#progressbar').progressbar({
@@ -670,7 +669,6 @@ wpml = {
 						}
 					});
 				});
-				$('.tmdb_movie_images').not('.selected').remove();
 
 			},
 
