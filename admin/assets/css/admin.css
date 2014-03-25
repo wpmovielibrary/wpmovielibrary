@@ -299,15 +299,18 @@
 }
 
 #tmdb_load_images {
-	display: inline-block;
+	background: #f2f2f2;
+	border-radius: 0.25em;
+	display: block;
 	font-style: italic;
-	margin-bottom: 1.5em;
+	margin: 1em 0.5em 0.5em 0.5em;
+	padding: 0.5em;
 	text-decoration: none;
 }
 
 #tmdb_save_images {
 	float: right !important;
-	margin: 0.5em 0 0 0;
+	margin: 0 0.5em 0.5em 0;
 	width: auto !important;
 }
 
@@ -316,7 +319,7 @@
 	border: 4px solid #ccc;
 	display: inline-block;
 	height: 8.75em;
-	margin: 0.5%;
+	margin: 0.25% 0.5%;
 	max-width: 18.5em;
 	overflow: hidden;
 	position: relative;
@@ -359,11 +362,12 @@
 	display: none;
 	height: 28px;
 	left: 50%;
-	margin: -14px 0 0 -240px;
+	margin: -14px 0 0 -180px;
 	max-width: 480px;
 	overflow: hidden;
 	position: absolute;
 	top: 50%;
+	width: 360px;
 }
 
 #progressbar .ui-progressbar {
@@ -380,11 +384,13 @@
 }
 
 #progressbar .progress-label {
+	color: #fff;
 	font-weight: bold;
 	left: 50%;
 	margin-left: -24px;
 	position: absolute;
-	text-shadow: 1px 1px 0 #fff;
+	text-align: center;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
 	top: 4px;
 	width: 48px;
 }

@@ -291,6 +291,8 @@ class WPMovieLibrary {
 		add_filter( 'wpml_format_widget_lists', array( $this, 'wpml_format_widget_lists' ), 10, 4 );
 		add_filter( 'wpml_format_widget_lists_thumbnails', array( $this, 'wpml_format_widget_lists_thumbnails' ), 10, 1 );
 
+		add_filter( 'wpml_check_for_existing_images', array( $this, 'wpml_check_for_existing_images' ), 10, 3 );
+
 		add_filter( 'wpml_stringify_array', array( $this, 'wpml_stringify_array' ), 10, 3 );
 		add_filter( 'wpml_filter_empty_array', array( $this, 'wpml_filter_empty_array' ), 10, 1 );
 		add_filter( 'wpml_filter_undimension_array', array( $this, 'wpml_filter_undimension_array' ), 10, 1 );
@@ -814,6 +816,57 @@ class WPMovieLibrary {
 		}
 
 		$wp_admin_bar->add_menu( $args );
+	}
+
+	/**
+	 * Check for previously imported images to avoid duplicates.
+	 * 
+	 * If any attachment has one or more postmeta matching the current
+	 * Movie's TMDb ID, we don't want to import the image again, so we return
+	 * the last found image's ID to be used instead.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    $tmdb_id    The Movie's TMDb ID.
+	 * @param    string    $image_type Optional. Which type of image we're
+	 *                                 dealing with, simple image or poster.
+	 * 
+	 * @return   string|boolean        Return the last found image's ID if
+	 *                                 any, false if no matching image was
+	 *                                 found.
+	 */
+	public function wpml_check_for_existing_images( $tmdb_id, $image_type = 'image', $image = null ) {
+
+		if ( ! isset( $tmdb_id ) || '' == $tmdb_id )
+			return false;
+
+		if ( ! in_array( $image_type, array( 'image', 'poster' ) ) )
+			$image_type = 'image';
+
+		$check = get_posts(
+			array(
+				'post_type' => 'attachment',
+				'meta_query' => array(
+					array(
+						'key'     => '_wpml_' . $image_type . '_related_tmdb_id',
+						'value'   => $tmdb_id,
+					)
+				)
+			)
+		);
+
+		if ( ! is_null( $image ) ) {
+			foreach ( $check as $c ) {
+				$try = get_attached_file( $c->ID );
+				if ( $image == basename ( $try ) ) {
+					return $try;
+				}
+			}
+		}
+		else if ( ! empty( $check ) )
+			return $check;
+
+		return false;
 	}
  
 	/**

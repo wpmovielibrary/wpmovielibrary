@@ -226,6 +226,10 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 					'search_movie'       => __( 'Fetching movie data', 'wpml' ),
 					'set_featured'       => __( 'Setting featured image…', 'wpml' ),
 					'images_added'       => __( 'Images added!', 'wpml' ),
+					'image_from'         => __( 'Image from', 'wpml' ),
+					'load_images'        => __( 'Load Images', 'wpml' ),
+					'load_more'          => __( 'Load More', 'wpml' ),
+					'loading_images'     => __( 'Loading Images…', 'wpml' ),
 					'save_image'         => __( 'Saving Images…', 'wpml' ),
 					'poster'             => __( 'Poster', 'wpml' ),
 					'done'               => __( 'Done!', 'wpml' ),
@@ -533,10 +537,10 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		$title   = ( isset( $_GET['title'] )   && '' != $_GET['title']   ? $_GET['title']   : '' );
 		$tmdb_id = ( isset( $_GET['tmdb_id'] ) && '' != $_GET['tmdb_id'] ? $_GET['tmdb_id'] : '' );
 
-		if ( '' == $image || '' == $post_id )
+		if ( ! is_array( $image ) || '' == $post_id )
 			return false;
 
-		echo $this->wpml_image_upload( $image, $post_id, $tmdb_id, $title );
+		echo $this->wpml_image_upload( $image['file_path'], $post_id, $tmdb_id, $title, $image );
 		die();
 	}
 
@@ -884,7 +888,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		$size = $this->wpml_o('tmdb-settings-poster_size');
 		$file = $this->tmdb->config['poster_url'][ $size ] . $image;
 
-		$existing = $this->wpml_check_for_existing_images( $tmdb_id, 'poster' );
+		$existing = apply_filters( 'wpml_check_for_existing_images', $tmdb_id, 'poster' );
 
 		if ( false !== $existing )
 			return $existing;
@@ -895,49 +899,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			return false;
 		else
 			return $image;
-	}
-
-	/**
-	 * Check for previously imported images to avoid duplicates.
-	 * 
-	 * If any attachment has one or more postmeta matching the current
-	 * Movie's TMDb ID, we don't want to import the image again, so we return
-	 * the last found image's ID to be used instead.
-	 * 
-	 * @since    1.0.0
-	 * 
-	 * @param    string    $tmdb_id    The Movie's TMDb ID.
-	 * @param    string    $image_type Optional. Which type of image we're
-	 *                                 dealing with, simple image or poster.
-	 * 
-	 * @return   string|boolean        Return the last found image's ID if
-	 *                                 any, false if no matching image was
-	 *                                 found.
-	 */
-	private function wpml_check_for_existing_images( $tmdb_id, $image_type = 'image' ) {
-
-		if ( ! isset( $tmdb_id ) || '' == $tmdb_id )
-			return false;
-
-		if ( ! in_array( $image_type, array( 'image', 'poster' ) ) )
-			$image_type = 'image';
-
-		$check = get_posts(
-			array(
-				'post_type' => 'attachment',
-				'meta_query' => array(
-					array(
-						'key'     => '_wpml_' . $image_type . '_related_tmdb_id',
-						'value'   => $tmdb_id,
-					)
-				)
-			)
-		);
-
-		if ( ! empty( $check ) && isset( $check[0]->ID ) )
-			return $check[0]->ID;
-
-		return false;
 	}
 
 	/**
@@ -964,13 +925,22 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		if ( ! in_array( $image_type, array( 'image', 'poster' ) ) )
 			$image_type = 'image';
 
+		$size = $this->wpml_o('tmdb-settings-images_size');
+		$path = $this->tmdb->config["{$image_type}_url"][ $size ];
+
 		if ( is_array( $file ) ) {
 			$data = $file;
-			$size = $this->wpml_o('tmdb-settings-images_size');
-			$file = $this->tmdb->config['poster_url'][ $size ] . $file['file_path'];
+			$file = $path . $file['file_path'];
+			$image = $file['file_path'];
+		}
+		else {
+			$image = $file;
+			$file = $path . $file;
 		}
 
-		$existing = $this->wpml_check_for_existing_images( $tmdb_id, $image_type );
+		$image = substr( $image, 1 );
+
+		$existing = $this->wpml_check_for_existing_images( $tmdb_id, $image_type, $image );
 
 		if ( false !== $existing )
 			return $existing;

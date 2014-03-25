@@ -293,6 +293,15 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 		$images = $this->tmdb->getMovieImages( $tmdb_id, '' );
 		$images = $images['backdrops'];
 
+		$existing = array();
+
+		foreach ( $images as $i => $image ) {
+			$file_path = substr( $image['file_path'], 1 );
+			$exists = apply_filters( 'wpml_check_for_existing_images', $tmdb_id, 'image', $file_path );
+			if ( false !== $exists )
+				unset( $images[ $i ] );
+		}
+
 		// Keep only limited number of images
 		$images_max = $this->wpml_o('tmdb-settings-images_max');
 		if ( $images_max > 0 && count( $images ) > $images_max )
