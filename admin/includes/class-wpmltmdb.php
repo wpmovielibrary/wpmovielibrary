@@ -457,8 +457,6 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 		$movie  = $this->tmdb->getMovie( $id, $lang );
 		$casts  = $this->tmdb->getMovieCast( $id );
 		$images = $this->tmdb->getMovieImages( $id, '' );
-
-		$poster = $images['posters'][0];
 		$images = $images['backdrops'];
 
 		// Keep only limited number of images
@@ -474,7 +472,7 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 			'meta'    => apply_filters( 'wpml_filter_meta_data', $movie ),
 			'crew'    => apply_filters( 'wpml_filter_crew_data', $casts ),
 			'images'  => $images,
-			'poster_path'  => $poster['file_path'],
+			'poster_path'  => $movie['poster_path'],
 			'_result' => 'movie',
 			'_full'   => $_full,
 		);
