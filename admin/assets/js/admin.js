@@ -580,6 +580,8 @@ wpml = {
 
 			load: function(id) {
 
+				var offset = $('.tmdb_movie_images').not('.tmdb_movie_imported_image').length;
+
 				$.ajax({
 					type: 'GET',
 					url: ajax_object.ajax_url,
@@ -587,6 +589,7 @@ wpml = {
 						action: 'tmdb_load_images',
 						wpml_check: ajax_object.wpml_check,
 						tmdb_id: id,
+						offset: offset
 					},
 					success: function(response) {
 							wpml.movie.images.populate(response);

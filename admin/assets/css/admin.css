@@ -1,4 +1,8 @@
 
+body.post-php.post-type-movie #postimagediv {
+	text-align: center;
+}
+
 .wrap div.updated ul {
 	margin: 0;
 }
@@ -340,6 +344,12 @@
 
 .tmdb_movie_images.selected img {
 	opacity: 0.75;
+}
+
+.tmdb_movie_imported_image:last-child::after {
+	content: ' ';
+	display: block;
+	position: absolute;
 }
 
 #tmdb_save_images {

@@ -285,7 +285,8 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 	
 		check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
-		$tmdb_id  = ( isset( $_GET['tmdb_id'] )  && '' != $_GET['tmdb_id']  ? $_GET['tmdb_id']  : null );
+		$tmdb_id = ( isset( $_GET['tmdb_id'] ) && '' != $_GET['tmdb_id'] ? $_GET['tmdb_id'] : null );
+		$offset  = ( isset( $_GET['offset'] )  && '' != $_GET['offset']  ? intval( $_GET['offset'] ) : 0 );
 
 		if ( is_null( $tmdb_id ) )
 			return false;
@@ -301,6 +302,9 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 			if ( false !== $exists )
 				unset( $images[ $i ] );
 		}
+
+		if ( 0 < $offset )
+			$images = array_slice( $images, $offset );
 
 		// Keep only limited number of images
 		$images_max = $this->wpml_o('tmdb-settings-images_max');
