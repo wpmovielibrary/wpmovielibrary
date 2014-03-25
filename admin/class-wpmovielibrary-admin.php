@@ -122,6 +122,9 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		// New Movie metaboxes
 		add_action( 'add_meta_boxes', array( $this, 'wpml_metaboxes' ) );
 
+		// Post Thumbnail metabox: Import all Posters
+		add_action( 'admin_post_thumbnail_html', array( $this, 'wpml_load_posters' ), 10, 2 );
+
 		// Movie save
 		add_action( 'save_post_movie', array( $this, 'wpml_save_tmdb_data' ) );
 
@@ -209,7 +212,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			wp_enqueue_script( 'jquery-ui-tabs' );
 
 
-			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-progressbar', 'jquery-ui-tabs' ), WPMovieLibrary_Admin::VERSION );
+			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-progressbar', 'jquery-ui-tabs' ), WPMovieLibrary_Admin::VERSION, true );
 			wp_localize_script(
 				$this->plugin_slug . '-admin-script', 'ajax_object',
 				array(
@@ -632,6 +635,24 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		$movie_rating_str = str_replace( '.', '_', $movie_rating );
 
 		include_once( 'views/metabox-details.php' );
+	}
+
+	/**
+	 * Add a link to the current Post's Featured Image Metabox to trigger
+	 * a Modal window. This will be used by the future Movie Posters
+	 * selection Modal, yet to be implemented.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    $content Current Post's Featured Image Metabox
+	 *                              content, ready to be edited.
+	 * @param    string    $post_id Current Post's ID (unused at that point)
+	 * 
+	 * @return   string    Updated $content
+	 */
+	public function wpml_load_posters( $content, $post_id ) {
+		//return $content . '<a id="tmdb_load_posters" href="http://wpthemes/wp-admin/media-upload.php?post_id=3272&amp;type=image&amp;TB_iframe=1" class="thickbox">' . __( 'Load available Movie Posters', 'wpml' ) . '</a>';
+		return $content;
 	}
 
 
