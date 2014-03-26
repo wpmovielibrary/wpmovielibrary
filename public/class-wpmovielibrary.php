@@ -35,6 +35,15 @@ class WPMovieLibrary {
 	const VERSION = '1.0.0';
 
 	/**
+	 * Plugin Settings Revision
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @var      int
+	 */
+	const SETTINGS_REVISION = 1;
+
+	/**
 	 * Plugin Settings var
 	 * 
 	 * @since    1.0.0
@@ -258,7 +267,7 @@ class WPMovieLibrary {
 
 		// Load settings or register new ones
 		$this->wpml_default_settings();
-		add_action( 'init', array( $this, 'wpml_default_settings' ) );
+		//add_action( 'init', array( $this, 'wpml_default_settings' ) );
 
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
@@ -1649,9 +1658,16 @@ class WPMovieLibrary {
 
 		$options = get_option( $this->plugin_settings );
 		if ( ( false === $options || ! is_array( $options ) ) || true == $force ) {
-			delete_option( $this->plugin_settings );
-			add_option( $this->plugin_settings, $this->wpml_settings );
 
+			if ( ! isset( $options['settings_revision'] ) || SETTINGS_REVISION != $options['settings_revision'] ) {
+				//TODO - Compare current options set and default,
+				//     - add new options to the existing set
+				//     - update options
+			}
+			else {
+				delete_option( $this->plugin_settings );
+				add_option( $this->plugin_settings, $this->wpml_settings );
+			}
 		}
 	}
 

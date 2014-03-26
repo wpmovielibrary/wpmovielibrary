@@ -17,14 +17,17 @@
 
 			<?php wp_nonce_field('wpml-admin'); ?>
 
-			<ul>
-			    <li><a href="#fragment-1"><h4><span class="ui-icon ui-icon-gear"></span> <?php _e( 'TMDb API', 'wpml' ); ?></h4></a></li>
-			    <li><a href="#fragment-2"><h4><span class="ui-icon ui-icon-wrench"></span> <?php _e( 'WPMovieLibrary', 'wpml' ); ?></h4></a></li>
-			    <li><a href="#fragment-3"><h4><span class="ui-icon ui-icon-power"></span> <?php _e( 'Deactivate/Uninstall', 'wpml' ); ?></h4></a></li>
-			    <li style="float:right"><a href="#fragment-4"><h4><span class="ui-icon ui-icon-closethick"></span> <?php _e( 'Restore', 'wpml' ); ?></h4></a></li>
+			<ul class="wpml-tabs-nav">
+			    <li class="wpml-tabs-nav<?php if ( 'tmdb' == $_section || '' == $_section ) echo ' active'; ?>"><a href="#tmdb_settings" data-section="&amp;wpml_section=tmdb"><h4><?php _e( 'TMDb API', 'wpml' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'wpml' == $_section ) echo ' active'; ?>"><a href="#wpml_settings" data-section="&amp;wpml_section=wpml"><h4><?php _e( 'WPMovieLibrary', 'wpml' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'uninstall' == $_section ) echo ' active'; ?>"><a href="#uninstall_settings" data-section="&amp;wpml_section=uninstall"><h4><?php _e( 'Deactivate/Uninstall', 'wpml' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'restore' == $_section ) echo ' active'; ?>"><a href="#restore_settings" data-section="&amp;wpml_section=restore"><h4><?php _e( 'Restore', 'wpml' ); ?></h4></a></li>
 			</ul>
 
-			<div id="fragment-1">
+			<div id="tmdb_settings" class="wpml-tabs-panel <?php if ( 'tmdb' == $_section || '' == $_section ) echo 'active'; ?>">
+
+				<!-- WPML Poster Settings -->
+				<h3><?php _e( 'TheMovieDB API Settings', 'wpml' ); ?></h3>
 				<table class="form-table wpml-settings">
 					<tbody>
 						<tr valign="top">
@@ -33,7 +36,7 @@
 							</th>
 							<td>
 								<input id="APIKey" type="text" name="tmdb_data[tmdb][APIKey]" value="<?php echo ( $this->wpml_get_api_key() ? $this->wpml_get_api_key() : '' ); ?>" size="40" maxlength="32" />
-								<input id="APIKey_check" type="button" name="APIKey_check" class="button button-secondary button-small" value="<?php _e( 'Check API Key', 'wpml' ); ?>" />
+								<input id="APIKey_check" type="button" name="APIKey_check" class="button button-secondary" value="<?php _e( 'Check API Key', 'wpml' ); ?>" />
 								<p class="description"><?php _e( 'You need a valid TMDb API key in order to fetch informations on the movies you add to WPMovieLibrary. You can get an individual API key by registering on <a href="https://www.themoviedb.org/">TheMovieDB</a>. If you don&rsquo;t want to get your own API Key, WPMovieLibrary will use a dummy, more restricted API. <a href="http://tmdb.caercam.org/">Learn more about the dummy API</a>.', 'wpml' ); ?></p>
 								<label><input type="radio" name="tmdb_data[tmdb][dummy]" value="1"<?php checked( $this->wpml_o('tmdb-settings-dummy'), 1 ); ?>/> <?php _e( 'Use dummy API', 'wpml' ); ?></label>
 								<label><input type="radio" name="tmdb_data[tmdb][dummy]" value="0"<?php checked( $this->wpml_o('tmdb-settings-dummy'), 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?></label>
@@ -67,10 +70,10 @@
 				</table>
 			</div>
 
-			<div id="fragment-2">
+			<div id="wpml_settings" class="wpml-tabs-panel <?php if ( 'wpml' == $_section ) echo 'active'; ?>">
 
 				<!-- WPML Poster Settings -->
-				<h4><?php _e( 'Poster Settings', 'wpml' ); ?></h4>
+				<h3><?php _e( 'Poster Settings', 'wpml' ); ?></h3>
 				<table class="form-table wpml-settings">
 					<tbody>
 						<tr valign="top">
@@ -101,7 +104,7 @@
 				</table>
 
 				<!-- WPML Images Settings -->
-				<h4><?php _e( 'Images Settings', 'wpml' ); ?></h4>
+				<h3><?php _e( 'Images Settings', 'wpml' ); ?></h3>
 				<table class="form-table wpml-settings">
 					<tbody>
 						<tr valign="top">
@@ -131,7 +134,7 @@
 				</table>
 
 				<!-- WPML Posts Settings -->
-				<h4><?php _e( 'Posts Settings', 'wpml' ); ?></h4>
+				<h3><?php _e( 'Posts Settings', 'wpml' ); ?></h3>
 				<table class="form-table wpml-settings">
 					<tbody>
 						<tr valign="top">
@@ -220,7 +223,7 @@ foreach ( $this->wpml->wpml_movie_details as $slug => $detail ) :
 				</table>
 
 				<!-- WPML Taxonomy Settings -->
-				<h4><?php _e( 'Taxonomy Settings', 'wpml' ); ?></h4>
+				<h3><?php _e( 'Taxonomy Settings', 'wpml' ); ?></h3>
 				<table class="form-table wpml-settings">
 					<tbody>
 						<tr valign="top">
@@ -256,7 +259,7 @@ foreach ( $this->wpml->wpml_movie_details as $slug => $detail ) :
 				</table>
 
 				<!-- WPML Cache Settings -->
-				<h4><?php _e( 'Cache Settings', 'wpml' ); ?></h4>
+				<h3><?php _e( 'Cache Settings', 'wpml' ); ?></h3>
 				<table class="form-table wpml-settings">
 					<tbody>
 						<tr valign="top">
@@ -283,10 +286,10 @@ foreach ( $this->wpml->wpml_movie_details as $slug => $detail ) :
 				</table>
 			</div>
 
-			<div id="fragment-3">
+			<div id="uninstall_settings" class="wpml-tabs-panel <?php if ( 'uninstall' == $_section ) echo 'active'; ?>">
 
 				<!-- WPML Deactivation -->
-				<h4><?php _e( 'Deactivation Options', 'wpml' ); ?></h4>
+				<h3><?php _e( 'Deactivation Options', 'wpml' ); ?></h3>
 				<p class="description"><?php _e( 'When deactivated or uninstalled, WPML can adopt specific behaviors to handle the contents created by its use: cached data, movies, images, collections… Default behavior is to conserve everything as it is when WPML is simply deactivated, and to convert contents to standard WordPress contents when uninstalled. Learn more on the deactive/uninstall options on <a href="http://www.caercam.org/wpmovielibrary/documentation.html#deactivate-uninstall">WPML Docs</a>, especially about content restoration after uninstallation.', 'wpml' ); ?></p>
 				<table class="form-table wpml-settings">
 					<tbody>
@@ -362,7 +365,7 @@ foreach ( $this->wpml->wpml_movie_details as $slug => $detail ) :
 				</table>
 
 				<!-- WPML Uninstall -->
-				<h4><?php _e( 'Uninstall Options', 'wpml' ); ?></h4>
+				<h3><?php _e( 'Uninstall Options', 'wpml' ); ?></h3>
 				<table class="form-table wpml-settings">
 					<tbody>
 						<tr valign="top">
@@ -437,9 +440,9 @@ foreach ( $this->wpml->wpml_movie_details as $slug => $detail ) :
 				</table>
 			</div>
 
-			<div id="fragment-4">
+			<div id="restore_settings" class="wpml-tabs-panel <?php if ( 'restore' == $_section ) echo 'active'; ?>">
 
-				<h4><?php _e( 'Restore Default Settings', 'wpml' ); ?></h4>
+				<h3><?php _e( 'Restore Default Settings', 'wpml' ); ?></h3>
 				<p class="update-nag">
 					<span class="ui-icon ui-icon-alert"></span>
 					<?php _e( 'You may want to restore WPMovieLibrary default settings.', 'wpml' ); ?>

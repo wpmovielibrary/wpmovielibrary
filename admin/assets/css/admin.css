@@ -83,6 +83,72 @@ body.post-php.post-type-movie #postimagediv {
 /* #TMDb Tabs Settings
  ****************************************************/
 
+/* Tab menu */
+
+.wpml-tabs-nav {
+	background: #222;
+	margin-bottom: 0;
+}
+
+.wpml-tabs-nav > li {
+	display: inline-block;
+	margin: 0;
+}
+
+.wpml-tabs-nav > li.active a,
+.wpml-tabs-nav > li.active:hover a {
+	background: #2EA2CC;
+}
+
+.wpml-tabs-nav > li.active a,
+.wpml-tabs-nav > li.active:hover a  {
+	color: #fff;
+}
+
+.wpml-tabs-nav > li > a {
+	color: #ddd;
+	display: block;
+	margin: 0;
+	outline: none;
+	padding: 0.75em 1.5em;
+	text-decoration: none;
+}
+
+.wpml-tabs-nav > li > a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+.wpml-tabs-nav > li:hover {
+	background: #111;
+}
+
+.wpml-tabs-nav > li:hover a {
+	color : #2EA2CC;
+}
+
+/* Table */
+
+#wpml-tabs .wpml-tabs-panel {
+	background: #fff;
+	display: none;
+	padding: 1em;
+}
+
+#wpml-tabs .wpml-tabs-panel.active {
+	display: block;
+}
+
+#wpml-tabs .wpml-tabs-panel h3 {
+	background: #fff;
+	margin: 1em -0.75em;
+	padding: 0.5em 0.75em;
+}
+
+#wpml-tabs .wpml-tabs-panel h3:first-child {
+	margin-top: 0;
+}
+
 #wpml-tabs .wp-list-table a {
 	color: #21759B;
 }
@@ -118,7 +184,7 @@ body.post-php.post-type-movie #postimagediv {
 	margin: 0.25em 0;
 }
 
-#wpml-tabs.ui-widget-content {
+#wpml-tabs {
 	border-width: 0 !important;
 	float: left;
 	width: 70%;
@@ -149,17 +215,12 @@ body.post-php.post-type-movie #postimagediv {
 	padding: 0.5em 3em;
 }
 
-.wpml-settings tr:nth-child(even) {
-	background: #f6f6f6;
+#wpml-tabs .form-table {
+	margin: 0;
 }
 
-.wpml-settings {
-	margin-bottom: 2em;
-}
-
-.ui-tabs-panel h4 {
-	border-bottom: 1px solid #efefef;
-	padding: 1em 0.5em;
+#wpml-tabs p.submit {
+	text-align: right;
 }
 
 #api_status {
@@ -368,7 +429,9 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 #progressbar {
+	background: #C0DDE9;
 	border: 2px solid #0074A2;
+	border-radius: 4px;
 	display: none;
 	height: 28px;
 	left: 50%;

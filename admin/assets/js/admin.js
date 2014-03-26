@@ -4,8 +4,25 @@ jQuery(document).ready(function($) {
 	 * Settings
 	 */
 
-	if ( $('#wpml-tabs').length > 0 )
-		$('#wpml-tabs').tabs();
+	if ( $('#wpml-tabs').length > 0 ) {
+
+		var active = $('#wpml-tabs .wpml-tabs-panel').index( $('.wpml-tabs-panel.active') );
+		    active = active > -1 ? active : 0;
+
+		$('#wpml-tabs .wpml-tabs-nav a').on('click', function(e) {
+			e.preventDefault();
+			var tab = $(this).attr('data-section');
+			var _id = this.hash;
+			var url = this.href.replace(this.hash, '');
+			var index = this.href.indexOf('&wpml_section');
+			if ( index > 0 )
+				url = url.substring( 0, index );
+			$('.wpml-tabs-panel, .wpml-tabs-nav').removeClass('active');
+			$(_id+'.wpml-tabs-panel').addClass('active');
+			$(this).parent('li').addClass('active');
+			window.history.replaceState({}, '' + url + tab, '' + url + tab);
+		});
+	}
 
 	$('input#APIKey_check').click(function(e) {
 		e.preventDefault();

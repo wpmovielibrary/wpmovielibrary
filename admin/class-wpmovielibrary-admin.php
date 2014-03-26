@@ -183,11 +183,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		wp_enqueue_style( $this->plugin_slug .'-admin-common', plugins_url( 'assets/css/admin-common.css', __FILE__ ), array(), WPMovieLibrary_Admin::VERSION );
 
 		$screen = get_current_screen();
-		if ( in_array( $screen->id, $this->plugin_screen_hook_suffix ) ) {
+		if ( in_array( $screen->id, $this->plugin_screen_hook_suffix ) )
 			wp_enqueue_style( $this->plugin_slug .'-admin-styles', plugins_url( 'assets/css/admin.css', __FILE__ ), array(), WPMovieLibrary_Admin::VERSION );
-			wp_enqueue_style( $this->plugin_slug .'jquery-ui-progressbar', plugins_url( 'assets/css/jquery-ui-progressbar.min.css', __FILE__ ), array(), WPMovieLibrary_Admin::VERSION );
-			wp_enqueue_style( $this->plugin_slug .'jquery-ui-tabs', plugins_url( 'assets/css/jquery-ui-tabs.min.css', __FILE__ ), array(), WPMovieLibrary_Admin::VERSION );
-		}
 
 	}
 
@@ -212,7 +209,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			wp_enqueue_script( 'jquery-ui-tabs' );
 
 
-			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-progressbar', 'jquery-ui-tabs' ), WPMovieLibrary_Admin::VERSION, true );
+			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-progressbar', 'jquery-ui-tabs' ), WPMovieLibrary_Admin::VERSION );
 			wp_localize_script(
 				$this->plugin_slug . '-admin-script', 'ajax_object',
 				array(
@@ -706,6 +703,7 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	public function wpml_admin_page() {
 
 		$errors = array();
+		$_section = '';
 
 		if ( isset( $_POST['restore_default'] ) && '' != $_POST['restore_default'] ) {
 
@@ -746,6 +744,9 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 				$this->msg_settings = __( 'Settings saved.', 'wpml' );
 
 		}
+
+		if ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'tmdb', 'wpml', 'uninstall', 'restore' ) ) )
+			$_section =  $_REQUEST['wpml_section'];
 
 		include_once( 'views/admin.php' );
 	}
