@@ -272,7 +272,7 @@ class WPMovieLibrary {
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
-		// Load movie post type, taxonomies
+		// Load movie post type, taxonomies and permalinks
 		add_action( 'init', array( $this, 'wpml_register_post_type' ) );
 		add_action( 'init', array( $this, 'wpml_register_taxonomy' ) );
 
@@ -292,6 +292,14 @@ class WPMovieLibrary {
 
 		// Movie content
 		add_filter( 'the_content', array( $this, 'wpml_movie_content' ) );
+
+		// Movie Detail Query search
+		add_filter( 'query_vars', array( $this, 'wpml_movies_query_vars' ), 10, 1 );
+		add_action( 'pre_get_posts', array( $this, 'wpml_movies_query_meta' ), 10, 1 );
+		add_action( 'generate_rewrite_rules', array( $this, 'wpml_register_permalinks' ), 10, 1 );
+
+		// Archive templating
+		//add_filter( 'archive_template', array( $this, 'wpml_movie_archives' ), 10, 1 );
 
 		// Internal Hooks
 		add_filter( 'wpml_get_movies_from_media', array( $this, 'wpml_get_movies_from_media' ), 10, 1 );
@@ -919,6 +927,34 @@ class WPMovieLibrary {
 	}
 
 	/**
+	 * Add support for Movie Details to the current WP_Query.
+	 * 
+	 * If current WP_Query has a WPML meta var set, edit the query to
+	 * return the movies matching the wanted detail.
+	 *
+	 * @since     1.0.0
+	 * 
+	 * @param     object      $wp_query Current WP_Query instance
+	 *
+	 * @return    string      The WP_Query instance, updated or not.
+	 */
+	public function wpml_movies_query_meta( $wp_query ) {
+
+		$metas = array( 'wpml_movie_media', 'wpml_movie_status', 'wpml_movie_rating' );
+		$key_vars = array_keys( $wp_query->query_vars );
+
+		foreach ( $metas as $meta ) {
+
+			if ( in_array( $meta, $key_vars ) ) {
+				$wp_query->set( 'meta_key', "_{$meta}" );
+				$wp_query->set( 'meta_value', $wp_query->get( $meta ) );
+			}
+		}
+
+		return $wp_query;
+	}
+
+	/**
 	 * Show some info about movies in post view.
 	 * 
 	 * Add a filter on the_content hook to display infos selected in options
@@ -1049,6 +1085,22 @@ class WPMovieLibrary {
 		return $html;
 	}
 
+	/**
+	 * Add Movie Details slugs to queryable vars
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    array     Current WP_Query instance's queryable vars
+	 * 
+	 * @return   array     Updated WP_Query instance
+	 */
+	public function wpml_movies_query_vars( $q_var ) {
+		$q_var[] = 'wpml_movie_media';
+		$q_var[] = 'wpml_movie_status';
+		$q_var[] = 'wpml_movie_rating';
+		return $q_var;
+	}
+
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
 	 *                 Internal Action and Filter Hooks
@@ -1065,9 +1117,6 @@ class WPMovieLibrary {
 	 * @param    string    Media slug
 	 * 
 	 * @return   array     Array of Post objects
-	 * 
-	 * @since    1.0.0
-	 * 
 	 */
 	public function wpml_get_movies_from_media( $media = null ) {
 
@@ -1519,6 +1568,27 @@ class WPMovieLibrary {
 			);
 		}
 
+	}
+
+	/**
+	 * Create a new set of permalinks for Movie Details
+	 *
+	 * @since    1.0.0
+	 *
+	 * @param    object     $wp_rewrite Instance of WordPress WP_Rewrite Class
+	 */
+	public function wpml_register_permalinks( $wp_rewrite ) {
+
+		$new_rules = array(
+			'movies/(dvd|vod|bluray|vhs|theater|cinema|other)/?$' => 'index.php?post_type=movie&wpml_movie_media=' . $wp_rewrite->preg_index( 1 ),
+			'movies/(dvd|vod|bluray|vhs|theater|cinema|other)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_media=' . $wp_rewrite->preg_index( 1 ),
+			'movies/(available|loaned|scheduled)/?$' => 'index.php?post_type=movie&wpml_movie_status=' . $wp_rewrite->preg_index( 1 ),
+			'movies/(available|loaned|scheduled)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_status=' . $wp_rewrite->preg_index( 1 ) . '&paged=' . $wp_rewrite->preg_index( 2 ),
+			'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/?$' => 'index.php?post_type=movie&wpml_movie_rating=' . $wp_rewrite->preg_index( 1 ),
+			'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_rating=' . $wp_rewrite->preg_index( 1 ) . '&paged=' . $wp_rewrite->preg_index( 2 ),
+		);
+
+		$wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
 	}
 
 	/**
