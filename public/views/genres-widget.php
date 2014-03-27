@@ -16,7 +16,7 @@ if ( $genres && ! is_wp_error( $genres ) ) :
 		$items[] = array(
 			'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpml' ), $genre->name ),
 			'link'        => get_term_link( sanitize_term( $genre, 'genre' ), 'genre' ),
-			'title'       => $genre->name . ( 1 == $count ? sprintf( '&nbsp;(%d)', $genre->count ) : '' )
+			'title'       => esc_attr( $genre->name . ( 1 == $count ? sprintf( '&nbsp;(%d)', $genre->count ) : '' ) )
 		);
 
 	$html = apply_filters( 'wpml_format_widget_lists', $items, $list, $css, __( 'Select a Genre', 'wpml' ) );

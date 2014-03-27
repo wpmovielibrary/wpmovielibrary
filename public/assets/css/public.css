@@ -159,6 +159,22 @@
 .stars_4_5 {background-position: 0 -144px;}
 .stars_5_0 {background-position: 0 -160px;}
 
+.stars_labels {
+	position: relative;
+}
+
+.stars_label {
+	font-size: 0.9em;
+	left: 82px;
+	position: absolute;
+	opacity: 0;
+	width: 100%;
+}
+
+.stars_label.show {
+	opacity: 1;
+}
+
 .widget-description {
 	margin: 0.5em 0 !important;
 }
@@ -215,6 +231,17 @@
 
 .most-rated-movie:hover .movie_rating_display.above {
 	opacity: 1;
+}
+
+.wpml-most-rated-movies-widget .movie_rating_display {
+	overflow: visible;
+	width: 100%;
+}
+
+.wpml-most-rated-movies-widget .movie_rating_display .stars_label {
+	left: 90px;
+	opacity: 1.0;
+	top: -2px;
 }
 
 select.custom {

@@ -184,6 +184,24 @@ class WPMovieLibrary {
 				'default' => array(
 					'available' => __( 'Available', 'wpml' ),
 				)
+			),
+			'movie_rating'  => array(
+				'title' => __( 'Rating', 'wpml' ),
+				'options' => array(
+					'0.5' => __( 'Junk', 'wpml' ),
+					'1.0' => __( 'Very bad', 'wpml' ),
+					'1.5' => __( 'Bad', 'wpml' ),
+					'2.0' => __( 'Not that bad', 'wpml' ),
+					'2.5' => __( 'Average', 'wpml' ),
+					'3.0' => __( 'Not bad', 'wpml' ),
+					'3.5' => __( 'Good', 'wpml' ),
+					'4.0' => __( 'Very good', 'wpml' ),
+					'4.5' => __( 'Excellent', 'wpml' ),
+					'5.0' => __( 'Masterpiece', 'wpml' )
+				),
+				'default' => array(
+					'0.0' => '',
+				)
 			)
 		);
 
@@ -304,6 +322,7 @@ class WPMovieLibrary {
 		// Internal Hooks
 		add_filter( 'wpml_get_available_movie_media', array( $this, 'wpml_get_available_movie_media' ) );
 		add_filter( 'wpml_get_available_movie_status', array( $this, 'wpml_get_available_movie_status' ) );
+		add_filter( 'wpml_get_available_movie_rating', array( $this, 'wpml_get_available_movie_rating' ) );
 		add_filter( 'wpml_get_movies_from_media', array( $this, 'wpml_get_movies_from_media' ), 10, 1 );
 		add_filter( 'wpml_get_movies_from_status', array( $this, 'wpml_get_movies_from_status' ), 10, 1 );
 
@@ -406,6 +425,21 @@ class WPMovieLibrary {
 		foreach ( $items as $slug => $title )
 			$statuses[ $slug ] = $title;
 		return $statuses;
+	}
+
+	/**
+	 * Return available Movie Rating
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return   array    WPML Available Movie Rating.
+	 */
+	public function wpml_get_available_movie_rating() {
+		$ratings = array();
+		$items = $this->wpml_movie_details['movie_rating']['options'];
+		foreach ( $items as $slug => $title )
+			$rating[ $slug ] = $title;
+		return $rating;
 	}
 
 	/**
@@ -1218,7 +1252,7 @@ class WPMovieLibrary {
 			if ( $dropdown )
 				$html[] = '<option value="' . esc_url( $item['link'] ) . '">' . esc_attr( $item['title'] ) . '</option>';
 			else
-				$html[] = '<li><a href="' . esc_url( $item['link'] ) . '" title="' . esc_attr( $item['attr_title'] ) . '">' . esc_attr( $item['title'] ) . '</a></li>';
+				$html[] = '<li><a href="' . esc_url( $item['link'] ) . '" title="' . esc_attr( $item['attr_title'] ) . '">' . $item['title'] . '</a></li>';
 		}
 
 		if ( false !== $dropdown )

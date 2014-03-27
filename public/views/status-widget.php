@@ -24,7 +24,7 @@ if ( $status_only ) :
 				'ID'          => $slug,
 				'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpml' ), $status_title ),
 				'link'        => home_url( "/movies/{$slug}/" ),
-				'title'       => $status_title,
+				'title'       => esc_attr( $status_title ),
 			);
 
 		$html = apply_filters( 'wpml_format_widget_lists', $items, $list, $css, __( 'Select a Movie', 'wpml' ) );
@@ -46,7 +46,7 @@ else :
 				'ID'          => $movie->ID,
 				'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpml' ), $movie->post_title ),
 				'link'        => get_permalink( $movie->ID ),
-				'title'       => $movie->post_title,
+				'title'       => esc_attr( $movie->post_title ),
 			);
 
 		if ( $thumbnails )

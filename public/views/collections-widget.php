@@ -16,7 +16,7 @@ if ( $collections && ! is_wp_error( $collections ) ) :
 		$items[] = array(
 			'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpml' ), $collection->name ),
 			'link'        => get_term_link( sanitize_term( $collection, 'collection' ), 'collection' ),
-			'title'       => $collection->name . ( $count ? sprintf( '&nbsp;(%d)', $collection->count ) : '' )
+			'title'       => esc_attr( $collection->name . ( $count ? sprintf( '&nbsp;(%d)', $collection->count ) : '' ) )
 		);
 
 	$html = apply_filters( 'wpml_format_widget_lists', $items, $list, $css, __( 'Select a Collection', 'wpml' ) );
