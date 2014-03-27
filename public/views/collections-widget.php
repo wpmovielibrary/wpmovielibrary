@@ -19,7 +19,7 @@ if ( $collections && ! is_wp_error( $collections ) ) :
 			'title'       => $collection->name . ( $count ? sprintf( '&nbsp;(%d)', $collection->count ) : '' )
 		);
 
-	$html = apply_filters( 'wpml_format_widget_lists', $items, $list, $css, __( 'Select an Actor', 'wpml' ) );
+	$html = apply_filters( 'wpml_format_widget_lists', $items, $list, $css, __( 'Select a Collection', 'wpml' ) );
 
 	echo $html;
 else :

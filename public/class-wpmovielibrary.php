@@ -272,7 +272,7 @@ class WPMovieLibrary {
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
-		// Load movie post type, taxonomies and permalinks
+		// Load movie post type, taxonomies
 		add_action( 'init', array( $this, 'wpml_register_post_type' ) );
 		add_action( 'init', array( $this, 'wpml_register_taxonomy' ) );
 
@@ -302,6 +302,8 @@ class WPMovieLibrary {
 		//add_filter( 'archive_template', array( $this, 'wpml_movie_archives' ), 10, 1 );
 
 		// Internal Hooks
+		add_filter( 'wpml_get_available_movie_media', array( $this, 'wpml_get_available_movie_media' ) );
+		add_filter( 'wpml_get_available_movie_status', array( $this, 'wpml_get_available_movie_status' ) );
 		add_filter( 'wpml_get_movies_from_media', array( $this, 'wpml_get_movies_from_media' ), 10, 1 );
 		add_filter( 'wpml_get_movies_from_status', array( $this, 'wpml_get_movies_from_status' ), 10, 1 );
 
