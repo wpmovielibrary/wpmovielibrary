@@ -709,7 +709,8 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 
 			check_admin_referer('wpml-admin');
 
-			$this->wpml_default_settings( true );
+			if ( 0 === did_action( 'wpml_restore_default_settings' ) )
+				do_action( 'wpml_restore_default_settings' );
 			$this->msg_settings = __( 'Default Settings have been restored.', 'wpml' );
 		}
 

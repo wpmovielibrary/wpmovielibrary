@@ -9,7 +9,7 @@
 	</div>
 	<?php } ?>
 
-	<?php //if ( ! $this->wpml_get_api_key() ) $this->wpml_activate_notice( null ); ?>
+	<?php if ( false === $this->wpml_get_api_key() ) $this->wpml->wpml_activate_notice( $network_wide = null, $force = true ); ?>
 
 	<div id="wpml-tabs">
 

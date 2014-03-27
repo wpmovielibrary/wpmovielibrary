@@ -105,6 +105,7 @@ class WPMovieLibrary {
 		$this->plugin_path = plugin_dir_path( __FILE__ );
 
 		$this->wpml_settings = array(
+			'settings_revision' => WPMovieLibrary::SETTINGS_REVISION,
 			'wpml' => array(
 				'settings' => array(
 					'meta_in_posts'    => 'posts_only',
@@ -266,8 +267,7 @@ class WPMovieLibrary {
 		);
 
 		// Load settings or register new ones
-		$this->wpml_default_settings();
-		//add_action( 'init', array( $this, 'wpml_default_settings' ) );
+		add_action( 'init', array( $this, 'wpml_default_settings' ) );
 
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
@@ -311,6 +311,7 @@ class WPMovieLibrary {
 		add_filter( 'wpml_filter_cast_data', array( $this, 'wpml_filter_cast_data' ), 10, 1 );
 
 		add_action( 'wpml_list_default_movie_media', array( $this, 'wpml_list_default_movie_media' ), 10, 3 );
+		add_action( 'wpml_restore_default_settings', array( $this, 'wpml_restore_default_settings' ), 10, 0 );
 
 	}
 
@@ -738,20 +739,16 @@ class WPMovieLibrary {
 	 *                                       plugin is deactivated on an
 	 *                                       individual blog.
 	 */
-	public function wpml_activate_notice( $network_wide ) {
+	public function wpml_activate_notice( $network_wide, $force = false ) {
 
 		global $hook_suffix;
 
-		$hooks = array( 'plugins.php', 'movie_page_settings' );
-
-		if ( ! in_array( $hook_suffix, $hooks ) || false !== $this->wpml_get_api_key() )
+		if ( ! $force && ( 'plugins.php' != $hook_suffix || false !== $this->wpml_get_api_key() ) )
 			return false;
 
-		echo '<div class="updated wpml">';
-		echo '<p>';
+		echo '<div class="updated wpml"><p>';
 		printf( __( 'Congratulation, you successfully installed WPMovieLibrary. You need a valid <acronym title="TheMovieDB">TMDb</acronym> API key to start adding your movies. Go to the <a href="%s">WPMovieLibrary Settings page</a> to add your API key.', 'wpml' ), admin_url( 'edit.php?post_type=movie&page=settings' ) );
-		echo '</p>';
-		echo '</div>';
+		echo '</p></div>';
 	}
 
 	/**
@@ -794,6 +791,17 @@ class WPMovieLibrary {
 	 *                       Action and Filter Hooks
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * Restore default settings.
+	 * 
+	 * Action Hook to restore the Plugin's default settings.
+	 * 
+	 * @since    1.0.0
+	 */
+	public function wpml_restore_default_settings() {
+		$this->wpml_default_settings( $force = true );
+	}
 
 	/**
 	 * Add a New Movie link to WP Admin Bar.
@@ -1650,25 +1658,75 @@ class WPMovieLibrary {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * Load WPML default settings if unexisting.
-	 *
+	 * Load WPML default settings if no current settings can be found. Match
+	 * the existing settings against the default settings to check their
+	 * validity; if the revision is outdated, update the revision field and
+	 * add possible missing options.
+	 * 
 	 * @since    1.0.0
+	 *
+	 * @param    boolean    $force Force to restore the default settings
+	 *
+	 * @return   boolean    True if settings were successfully added/updated
+	 *                      False if anything went wrong.
 	 */
 	public function wpml_default_settings( $force = false ) {
 
 		$options = get_option( $this->plugin_settings );
-		if ( ( false === $options || ! is_array( $options ) ) || true == $force ) {
+		$status  = false;
 
-			if ( ! isset( $options['settings_revision'] ) || SETTINGS_REVISION != $options['settings_revision'] ) {
-				//TODO - Compare current options set and default,
-				//     - add new options to the existing set
-				//     - update options
-			}
-			else {
-				delete_option( $this->plugin_settings );
-				add_option( $this->plugin_settings, $this->wpml_settings );
+		if ( ( false === $options || ! is_array( $options ) ) || true == $force ) {
+			delete_option( $this->plugin_settings );
+			$status = add_option( $this->plugin_settings, $this->wpml_settings );
+		}
+		else if ( ! isset( $options['settings_revision'] ) || WPMovieLibrary::SETTINGS_REVISION > $options['settings_revision'] ) {
+			if ( ! empty( $updated_options = $this->wpml_update_settings( $this->wpml_settings, $this->wpml_o() ) ) ) {
+				$updated_options['settings_revision'] = WPMovieLibrary::SETTINGS_REVISION;
+				$status = update_option( $this->plugin_settings, $updated_options );
 			}
 		}
+
+		return $status;
+	}
+
+	/**
+	 * Update plugin settings.
+	 * 
+	 * Compare the current settings with the default settings array to find
+	 * newly added options and update the exiting settings. If default settings
+	 * differ from the currently stored settings, add the new options to the
+	 * latter.
+	 *
+	 * @since    1.0.0
+	 * 
+	 * @param    array    $default Default Plugin Settings to be compared to
+	 *                             currently stored settings.
+	 * @param    array    $options Currently stored settings, supposedly out
+	 *                             of date.
+	 * 
+	 * @return   array             Updated and possibly unchanged settings
+	 *                             array if everything went right, empty array
+	 *                             if something bad happened.
+	 */
+	private function wpml_update_settings( $default, $options ) {
+
+		if ( ! is_array( $default ) || ! is_array( $options ) )
+			return array();
+
+		foreach ( $default as $key => $value ) {
+			if ( isset( $options[ $key ] ) && is_array( $value ) )
+				$options[ $key ] = $this->wpml_update_settings( $value, $default[ $key ] );
+			else if ( ! isset( $options[ $key ] ) ) {
+				$a = array_search( $key, array_keys( $default ) );
+				$options = array_merge(
+					array_slice( $options, 0, $a ),
+					array( $key => $value ),
+					array_slice( $options, $a )
+				);
+			}
+		}
+
+		return $options;
 	}
 
 	/**
