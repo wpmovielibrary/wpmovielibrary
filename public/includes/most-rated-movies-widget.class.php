@@ -70,7 +70,7 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 		$instance['title'] = strip_tags( $new_instance['title'] );
 		$instance['description'] = strip_tags( $new_instance['description'] );
 		$instance['number'] = intval( $new_instance['number'] );
-		$instance['display_rating'] = intval( $new_instance['display_rating'] );
+		$instance['display_rating'] = strip_tags( $new_instance['display_rating'] );
 		$instance['rating_only'] = intval( $new_instance['rating_only'] );
 
 		return $instance;
@@ -90,7 +90,7 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Most Rated Movies', 'wpml' ) );
 		$description = ( isset( $instance['description'] ) ? $instance['description'] : __( 'Movies I really enjoyed', 'wpml' ) );
 		$number = ( isset( $instance['number'] ) ? $instance['number'] : 4 );
-		$display_rating = ( isset( $instance['display_rating'] ) ? $instance['display_rating'] : 0 );
+		$display_rating = ( isset( $instance['display_rating'] ) ? $instance['display_rating'] : 'no' );
 		$rating_only = ( isset( $instance['rating_only'] ) ? $instance['rating_only'] : 0 );
 
 		// Display the admin form

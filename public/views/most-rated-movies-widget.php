@@ -2,7 +2,7 @@
 $title = $before_title . apply_filters( 'widget_title', $instance['title'] ) . $after_title;
 $description = $instance['description'];
 $number = $instance['number'];
-$display_rating = ( 1 == $instance['display_rating'] ? true : false );
+$display_rating = $instance['display_rating'];
 $rating_only = ( 1 == $instance['rating_only'] ? true : false );
 
 ?>

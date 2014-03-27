@@ -944,6 +944,9 @@ class WPMovieLibrary {
 	 */
 	public function wpml_show_movies_in_home_page( $query ) {
 
+		if ( ! is_home() && ! is_search() && ! is_archive() )
+			return $query;
+
 		$post_type = array( 'post', 'movie' );
 		$post_status = array( 'publish', 'private' );
 
