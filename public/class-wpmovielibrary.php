@@ -1789,7 +1789,8 @@ class WPMovieLibrary {
 			$status = add_option( $this->plugin_settings, $this->wpml_settings );
 		}
 		else if ( ! isset( $options['settings_revision'] ) || WPMovieLibrary::SETTINGS_REVISION > $options['settings_revision'] ) {
-			if ( ! empty( $updated_options = $this->wpml_update_settings( $this->wpml_settings, $this->wpml_o() ) ) ) {
+			$updated_options = $this->wpml_update_settings( $this->wpml_settings, $this->wpml_o() );
+			if ( ! empty( $updated_options ) ) {
 				$updated_options['settings_revision'] = WPMovieLibrary::SETTINGS_REVISION;
 				$status = update_option( $this->plugin_settings, $updated_options );
 			}
