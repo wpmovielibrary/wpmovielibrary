@@ -796,7 +796,7 @@ class TMDb
 			$auth_array['session_id'] = $session_id;
 		}
 
-		$url = $this->_apischeme.TMDb::API_URL.'/'.TMDb::API_VERSION.'/'.$function.'?'.http_build_query($auth_array, '', '&');
+		$url = $this->_apischeme . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( $auth_array, '', '&' );
 
 		if($method === TMDb::GET)
 		{
@@ -819,53 +819,18 @@ class TMDb
 
 		$results = '{}';
 
-		if (extension_loaded('curl'))
-		{
-			$headers = array(
-				'Accept: application/json',
-			);
+		$request = new WP_Http;
+		$headers = array( 'Accept' => 'application/json' );
+		$response = $request->request( $url, array( 'headers' => $headers ) );
 
-			$ch = curl_init();
+		if ( is_wp_error( $response ) )
+			return $response->get_error_message();
 
-			if($method == TMDB::POST)
-			{
-				$json_string = json_encode($params);
-				curl_setopt($ch,CURLOPT_POST, 1);
-				curl_setopt($ch,CURLOPT_POSTFIELDS, $json_string);
-				$headers[] = 'Content-Type: application/json';
-				$headers[] = 'Content-Length: '.strlen($json_string);
-			}
-			elseif($method == TMDb::HEAD)
-			{
-				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'HEAD');
-				curl_setopt($ch, CURLOPT_NOBODY, 1);
-			}
+		if ( '200 OK' != $response['headers']['status'] )
+			return 'Server "'.$url.'" responded with status: '.$response['headers']['status'];
 
-			curl_setopt($ch, CURLOPT_URL, $url);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-			curl_setopt($ch, CURLOPT_HEADER, 1);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-			$response = curl_exec($ch);
-
-			$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-			$header = substr($response, 0, $header_size);
-			$body = substr($response, $header_size);
-
-			$error_number = curl_errno($ch);
-			$error_message = curl_error($ch);
-
-			if($error_number > 0)
-			{
-				throw new TMDbException('Method failed: '.$function.' - '.$error_message);
-			}
-
-			curl_close($ch);
-		}
-		else
-		{
-			throw new TMDbException('CURL-extension not loaded');
-		}
+		$header = $response['headers'];
+		$body = $response['body'];
 
 		$results = json_decode($body, TRUE);
 
