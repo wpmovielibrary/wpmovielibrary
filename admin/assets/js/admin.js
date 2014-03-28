@@ -24,28 +24,70 @@ jQuery(document).ready(function($) {
 		});
 	}
 
-	$('input#APIKey_check').click(function(e) {
-		e.preventDefault();
-		$('#api_status').remove();
-		$.ajax({
-			type: 'GET',
-			url: ajax_object.ajax_url,
-			data: {
-				action: 'tmdb_api_key_check',
-				wpml_check: ajax_object.wpml_check,
-				key: $('input#APIKey').val()
+	if ( undefined != $('#draggable') && undefined != $('#droppable') ) {
+
+		var update_item_style = function( ui ) {
+
+			if ( undefined == ui.sender || ! ui.sender.length )
+				return false;
+
+			var _id = ui.sender[0].id;
+			var item = ui.item[0];
+
+			if ( 'draggable' == ui.sender[0].id )
+				$(item).removeClass('default_movie_meta_selected').addClass('default_movie_meta_droppable');
+			else if ( 'droppable' == ui.sender[0].id )
+				$(item).removeClass('default_movie_meta_droppable').addClass('default_movie_meta_selected');
+		};
+
+		var update_item = function() {
+
+			var value = [];
+			var items = $('.default_movie_meta_selected');
+			$.each(items, function() {
+				value.push( $(this).attr('data-movie-meta') );
+			});
+			$('#default_movie_meta_sorted').val( value.join(',') );
+		};
+
+		$('#draggable, #droppable').sortable({
+			connectWith: 'ul',
+			placeholder: 'highlight',
+			update: function( event, ui ) {
+				update_item_style( ui );
 			},
-			success: function(response) {
-				$('input#APIKey_check').after(response);
-			},
-			beforeSend: function() {
-				$('input#APIKey_check').addClass('button-loading');
-			},
-			complete: function() {
-				$('input#APIKey_check').removeClass('button-loading');
-			},
+			stop: function( event, ui ) {
+				update_item();
+			}
 		});
-	});
+
+		$('#draggable, #droppable').disableSelection();
+	}
+
+	if ( undefined != $('input#APIKey_check') ) {
+		$('input#APIKey_check').click(function(e) {
+			e.preventDefault();
+			$('#api_status').remove();
+			$.ajax({
+				type: 'GET',
+				url: ajax_object.ajax_url,
+				data: {
+					action: 'tmdb_api_key_check',
+					wpml_check: ajax_object.wpml_check,
+					key: $('input#APIKey').val()
+				},
+				success: function(response) {
+					$('input#APIKey_check').after(response);
+				},
+				beforeSend: function() {
+					$('input#APIKey_check').addClass('button-loading');
+				},
+				complete: function() {
+					$('input#APIKey_check').removeClass('button-loading');
+				},
+			});
+		});
+	}
 
 	/*
 	 * Actor list shortener

@@ -83,6 +83,45 @@ body.post-php.post-type-movie #postimagediv {
 /* #TMDb Tabs Settings
  ****************************************************/
 
+/* Basics */
+
+#wpml-tabs {
+	border-width: 0 !important;
+	float: left;
+	width: 70%;
+}
+
+#wpml-tabs h4 {
+	margin: 0.25em 0;
+}
+
+#wpml-tabs > ul > li > a {
+	outline: none;
+}
+
+#wpml-tabs h4 .ui-icon {
+	display: inline-block;
+	margin: 0.25em 0 -0.25em 0;
+}
+
+#wpml-tabs .update-nag {
+	padding: 1em 1.5em;
+	text-align: left;
+}
+
+#wpml-tabs .update-nag .ui-icon {
+	display: inline-block;
+	margin: 0.25em 0 -0.25em 0;
+}
+
+#wpml-tabs .form-table {
+	margin: 0;
+}
+
+#wpml-tabs p.submit {
+	text-align: right;
+}
+
 /* Tab menu */
 
 .wpml-tabs-nav {
@@ -131,12 +170,11 @@ body.post-php.post-type-movie #postimagediv {
 
 #wpml-tabs .wpml-tabs-panel {
 	background: #fff;
-	display: none;
 	padding: 1em;
 }
 
 #wpml-tabs .wpml-tabs-panel.active {
-	display: block;
+	display: block !important;
 }
 
 #wpml-tabs .wpml-tabs-panel h3 {
@@ -175,52 +213,50 @@ body.post-php.post-type-movie #postimagediv {
 	background: url(../img/loading.gif) 0 16px no-repeat;
 }
 
-.wp-list-table .poster img {
-	border-radius: 2px;
-	height: 4em;
+/* Sortable/Drag n' Drop */
+
+#wpml-tabs .default_movie_meta_sortable {
+	width: 100%;
 }
 
-#wpml-tabs h4 {
-	margin: 0.25em 0;
-}
-
-#wpml-tabs {
-	border-width: 0 !important;
-	float: left;
-	width: 70%;
-}
-
-#wpml-tabs > ul > li > a {
-	outline: none;
-}
-
-#wpml-tabs h4 .ui-icon {
+#wpml-tabs .default_movie_meta_sortable ul {
 	display: inline-block;
-	margin: 0.25em 0 -0.25em 0;
+	padding: 0.5rem 0;
+	vertical-align: top;
+	width: 49.25%;
 }
 
-#wpml-tabs .update-nag {
-	padding: 1em 1.5em;
-	text-align: left;
+#wpml-tabs .default_movie_meta_sortable .default_movie_meta_selected,
+#wpml-tabs .default_movie_meta_sortable .default_movie_meta_droppable {
+	border-radius: 0.15rem;
+	margin: 0.25rem;
+	padding: 0.5rem;
 }
 
-#wpml-tabs .update-nag .ui-icon {
-	display: inline-block;
-	margin: 0.25em 0 -0.25em 0;
+#wpml-tabs .default_movie_meta_sortable .default_movie_meta_selected {
+	background-color: #0074A2;
+	color: #fff;
+	font-weight: bold;
 }
+
+#wpml-tabs .default_movie_meta_sortable .default_movie_meta_droppable {
+	background-color: #333;
+	color: #ddd;
+}
+
+#wpml-tabs .default_movie_meta_sortable .highlight {
+	background-color: #eee;
+	border: 1px solid #ccc;
+	height: 2em;
+	margin: 0.25rem;
+}
+
+/* Buttons & Color */
 
 #restore_default {
 	font-size: 1.2em;
 	height: auto;
 	padding: 0.5em 3em;
-}
-
-#wpml-tabs .form-table {
-	margin: 0;
-}
-
-#wpml-tabs p.submit {
-	text-align: right;
 }
 
 #api_status {
@@ -233,6 +269,11 @@ body.post-php.post-type-movie #postimagediv {
 
 #api_status.invalid {
 	color: #bd132e;
+}
+
+.wp-list-table .poster img {
+	border-radius: 2px;
+	height: 4em;
 }
 
 

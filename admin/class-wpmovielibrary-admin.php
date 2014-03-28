@@ -204,10 +204,15 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		$screen = get_current_screen();
 		if ( in_array( $screen->id, $this->plugin_screen_hook_suffix ) ) {
 
-			wp_enqueue_script( 'jquery-ui-sortable' );
-			wp_enqueue_script( 'jquery-ui-progressbar' );
-			wp_enqueue_script( 'jquery-ui-tabs' );
+			if ( 'edit-movie' == $screen->id )
+				wp_enqueue_script( 'jquery-ui-progressbar' );
 
+			if ( 'movie_page_settings' == $screen->id ) {
+				wp_enqueue_script( 'jquery-ui-sortable' );
+				wp_enqueue_script( 'jquery-ui-draggable' );
+				wp_enqueue_script( 'jquery-ui-droppable' );
+				wp_enqueue_script( 'jquery-ui-tabs' );
+			}
 
 			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-progressbar', 'jquery-ui-tabs' ), WPMovieLibrary_Admin::VERSION );
 			wp_localize_script(
@@ -718,10 +723,20 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 
 			check_admin_referer('wpml-admin');
 
-			if ( isset( $_POST['tmdb_data']['wpml'] ) && '' != $_POST['tmdb_data']['wpml'] ) {
+			if ( isset( $_POST['tmdb_data'] ) && '' != $_POST['tmdb_data'] )
+				$tmdb_data = $_POST['tmdb_data'];
+
+			if ( isset( $tmdb_data['wpml'] ) && '' != $tmdb_data['wpml'] ) {
 
 				$supported = array_keys( $this->wpml_o( 'wpml-settings' ) );
-				foreach ( $_POST['tmdb_data']['wpml'] as $key => $setting ) {
+				$wpml = $tmdb_data['wpml'];
+
+				if ( isset( $wpml['default_movie_meta_sorted'] ) && '' != $wpml['default_movie_meta_sorted'] ) {
+					$wpml['default_movie_meta'] = explode( ',', $wpml['default_movie_meta_sorted'] );
+					unset( $wpml['default_movie_meta_sorted'] );
+				}
+
+				foreach ( $wpml as $key => $setting ) {
 					if ( in_array( $key, $supported ) ) {
 						if ( is_array( $setting ) )
 							$this->wpml_o( 'wpml-settings-'.esc_attr( $key ), $setting );
@@ -731,10 +746,11 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 				}
 			}
 
-			if ( isset( $_POST['tmdb_data']['tmdb'] ) && '' != $_POST['tmdb_data']['tmdb'] ) {
+			if ( isset( $tmdb_data['tmdb'] ) && '' != $tmdb_data['tmdb'] ) {
 
+				$tmdb = $tmdb_data['tmdb'];
 				$supported = array_keys( $this->wpml_o( 'tmdb-settings' ) );
-				foreach ( $_POST['tmdb_data']['tmdb'] as $key => $setting ) {
+				foreach ( $tmdb as $key => $setting ) {
 					if ( in_array( $key, $supported ) ) {
 						$this->wpml_o( 'tmdb-settings-'.esc_attr( $key ), esc_attr( $setting ) );
 					}

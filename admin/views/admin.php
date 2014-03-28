@@ -24,7 +24,7 @@
 			    <li class="wpml-tabs-nav<?php if ( 'restore' == $_section ) echo ' active'; ?>"><a href="#restore_settings" data-section="&amp;wpml_section=restore"><h4><?php _e( 'Restore', 'wpml' ); ?></h4></a></li>
 			</ul>
 
-			<div id="tmdb_settings" class="wpml-tabs-panel <?php if ( 'tmdb' == $_section || '' == $_section ) echo 'active'; ?>">
+			<div id="tmdb_settings" class="wpml-tabs-panel hide-if-js<?php if ( 'tmdb' == $_section || '' == $_section ) echo ' active'; ?>">
 
 				<!-- WPML Poster Settings -->
 				<h3><?php _e( 'TheMovieDB API Settings', 'wpml' ); ?></h3>
@@ -70,7 +70,7 @@
 				</table>
 			</div>
 
-			<div id="wpml_settings" class="wpml-tabs-panel <?php if ( 'wpml' == $_section ) echo 'active'; ?>">
+			<div id="wpml_settings" class="wpml-tabs-panel hide-if-js<?php if ( 'wpml' == $_section ) echo ' active'; ?>">
 
 				<!-- WPML Poster Settings -->
 				<h3><?php _e( 'Poster Settings', 'wpml' ); ?></h3>
@@ -166,18 +166,42 @@
 							</th>
 							<td>
 <?php
+//TODO transfer this in model. Use hooks?
 $movie_meta = $this->wpml->wpml_movie_meta;
 $movie_meta = array_merge( $movie_meta['meta']['data'], $movie_meta['crew']['data'] );
+$selected = $this->wpml_o('wpml-settings-default_movie_meta' );
+$selectable = array_diff( array_keys( $movie_meta ), $selected );
+
+$draggable = '';
+$droppable = '';
+$options = '';
+
+foreach ( $selected as $meta ) :
+	if ( isset( $movie_meta[ $meta ] ) )
+		$draggable .= '<li data-movie-meta="' . $meta . '" class="default_movie_meta_selected">' . __( $movie_meta[ $meta ]['title'], 'wpml' ) . '</li>';
+endforeach;
+foreach ( $selectable as $meta ) :
+	$droppable .= '<li data-movie-meta="' . $meta . '" class="default_movie_meta_droppable">' . __( $movie_meta[ $meta ]['title'], 'wpml' ) . '</li>';
+endforeach;
 ?>
-								<select id="default_movie_meta" name="tmdb_data[wpml][default_movie_meta][]" style="min-height:<?php echo count( $movie_meta ) ?>em;min-width:16em;" multiple>
+								<div class="default_movie_meta_sortable hide-if-no-js">
+									<ul id="draggable" class="droptrue"><?php echo $draggable ?></ul>
+									<ul id="droppable" class="dropfalse"><?php echo $droppable ?></ul>
+									<input type="hidden" id="default_movie_meta_sorted" name="tmdb_data[wpml][default_movie_meta_sorted]" value="" />
+								</div>
 <?php
 foreach ( $movie_meta as $slug => $meta ) :
 	$check = in_array( $slug, $this->wpml_o('wpml-settings-default_movie_meta' ) ) || in_array( $slug, $this->wpml_o('wpml-settings-default_movie_meta' ) );
+	$options .= '<option value="' . $slug . '"' . selected( $check, true, false ) . '>' . __( $meta['title'], 'wpml' ) . '</option>';
+endforeach;
 ?>
-									<option value="<?php echo $slug; ?>"<?php selected( $check, true ); ?>><?php _e( $meta['title'], 'wpml' ); ?></option>
-<?php endforeach; ?>
+								<select id="default_movie_meta" name="tmdb_data[wpml][default_movie_meta][]" class="hide-if-js" style="min-height:<?php echo count( $movie_meta ) ?>em;min-width:16em;" multiple>
+									<?php echo $options ?>
 								</select>
-								<p class="description"><?php _e( 'Which metadata to display in posts: director, genres, runtime, rating…', 'wpml' ); ?></p>
+								<p class="description">
+									<?php _e( 'Which metadata to display in posts: director, genres, runtime, rating…', 'wpml' ); ?>
+									<span class="hide-if-js"><?php _e( 'Javascript seems to be deactivated; please active it to customize your Movie metadata order.', 'wpml' ); ?></span>
+								</p>
 							</td>
 						</tr>
 						<tr valign="top">
@@ -286,7 +310,7 @@ foreach ( $this->wpml->wpml_movie_details as $slug => $detail ) :
 				</table>
 			</div>
 
-			<div id="uninstall_settings" class="wpml-tabs-panel <?php if ( 'uninstall' == $_section ) echo 'active'; ?>">
+			<div id="uninstall_settings" class="wpml-tabs-panel hide-if-js<?php if ( 'uninstall' == $_section ) echo ' active'; ?>">
 
 				<!-- WPML Deactivation -->
 				<h3><?php _e( 'Deactivation Options', 'wpml' ); ?></h3>
@@ -440,7 +464,7 @@ foreach ( $this->wpml->wpml_movie_details as $slug => $detail ) :
 				</table>
 			</div>
 
-			<div id="restore_settings" class="wpml-tabs-panel <?php if ( 'restore' == $_section ) echo 'active'; ?>">
+			<div id="restore_settings" class="wpml-tabs-panel hide-if-js<?php if ( 'restore' == $_section ) echo ' active'; ?>">
 
 				<h3><?php _e( 'Restore Default Settings', 'wpml' ); ?></h3>
 				<p class="update-nag">
