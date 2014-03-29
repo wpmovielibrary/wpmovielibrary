@@ -824,10 +824,10 @@ class TMDb
 		$response = $request->request( $url, array( 'headers' => $headers ) );
 
 		if ( is_wp_error( $response ) )
-			return $response->get_error_message();
+			throw new TMDbException( sprintf( __( 'Server error: %s', 'wpml' ), $response->get_error_message() ) );
 
-		if ( '200 OK' != $response['headers']['status'] )
-			return 'Server "'.$url.'" responded with status: '.$response['headers']['status'];
+		if ( isset( $response['headers']['status'] ) && '200 OK' != $response['headers']['status'] )
+			throw new TMDbException( sprintf( __( '%s. Server response: "%s"', 'wpml' ), $response['headers']['status'], $response['body'] ) );
 
 		$header = $response['headers'];
 		$body = $response['body'];

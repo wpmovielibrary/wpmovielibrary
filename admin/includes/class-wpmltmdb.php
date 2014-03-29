@@ -121,7 +121,7 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 	 * @since     1.0.0
 	 */
 	public function wpml_tmdb_error() {
-		echo '<div class="error"><p><strong>WPMovieLibrary</strong>: ' . $this->error . '</p></div>';
+		echo '<div class="error"><p><strong>WPMovieLibrary</strong> ' . $this->error . '</p></div>';
 	}
 
 	/**
@@ -151,8 +151,10 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 
 		$tmdb_config = $this->tmdb->getConfig();
 
-		if ( is_null( $tmdb_config ) || ( isset( $tmdb_config['status_code'] ) && in_array( $tmdb_config['status_code'], array( 7, 403 ) ) ) )
-			return false;
+		if ( is_null( $tmdb_config ) )
+			throw new TMDbException( __( 'Unknown error, connection to TheMovieDB API failed.', 'wpml' ) );
+		else if ( isset( $tmdb_config['status_code'] ) && in_array( $tmdb_config['status_code'], array( 7, 403 ) ) )
+			throw new TMDbException( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpml' ), $tmdb_config['status_message'], $tmdb_config['status_code'] ) );
 
 		$base_url = ( 'https' == $this->scheme ? $tmdb_config['images']['secure_base_url'] : $tmdb_config['images']['base_url'] );
 
