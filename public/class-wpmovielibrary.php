@@ -15,7 +15,7 @@
  * @package WPMovieLibrary
  * @author  Charlie MERLAND <charlie.merland@gmail.com>
  */
-class WPMovieLibrary {
+class WPMovieLibrary extends WPML_Module {
 
 	/**
 	 * Plugin name
@@ -99,193 +99,12 @@ class WPMovieLibrary {
 	 *
 	 * @since     1.0.0
 	 */
-	private function __construct() {
+	public function __construct() {
 
 		$this->plugin_url  = plugins_url( WPMovieLibrary::NAME );
 		$this->plugin_path = plugin_dir_path( __FILE__ );
 
-		$this->wpml_settings = array(
-			'settings_revision' => WPMovieLibrary::SETTINGS_REVISION,
-			'wpml' => array(
-				'settings' => array(
-					'meta_in_posts'    => 'posts_only',
-					'details_in_posts' => 'posts_only',
-					'details_as_icons' => 1,
-					'default_movie_meta' => array(
-						'director',
-						'genres',
-						'runtime',
-						'overview',
-						'rating'
-					),
-					'default_movie_details' => array(
-						'movie_media',
-						'movie_status'
-					),
-					'show_in_home'          => 1,
-					'enable_collection'     => 1,
-					'enable_actor'          => 1,
-					'enable_genre'          => 1,
-					'taxonomy_autocomplete' => 1,
-					'deactivate' => array(
-						'movies'      => 'conserve',
-						'collections' => 'conserve',
-						'genres'      => 'conserve',
-						'actors'      => 'conserve',
-						'cache'       => 'empty'
-					),
-					'uninstall' => array(
-						'movies'      => 'convert',
-						'collections' => 'convert',
-						'genres'      => 'convert',
-						'actors'      => 'convert',
-						'cache'       => 'empty'
-					)
-				)
-			),
-			'tmdb' => array(
-				'settings' => array(
-					'APIKey'          => '',
-					'dummy'           => 1,
-					'lang'            => 'en',
-					'scheme'          => 'https',
-					'caching'         => 1,
-					'caching_time'    => 15,
-					'poster_size'     => 'original',
-					'poster_featured' => 1,
-					'images_size'     => 'original',
-					'images_max'      => 12,
-				)
-			),
-		);
-
-		$this->wpml_movie_details = array(
-			'movie_media'   => array(
-				'title' => __( 'Media', 'wpml' ),
-				'options' => array(
-					'dvd'     => __( 'DVD', 'wpml' ),
-					'bluray'  => __( 'BluRay', 'wpml' ),
-					'vod'     => __( 'VOD', 'wpml' ),
-					'vhs'     => __( 'VHS', 'wpml' ),
-					'theater' => __( 'Theater', 'wpml' ),
-					'other'   => __( 'Other', 'wpml' ),
-				),
-				'default' => array(
-					'dvd'   => __( 'DVD', 'wpml' ),
-				),
-			),
-			'movie_status'  => array(
-				'title' => __( 'Status', 'wpml' ),
-				'options' => array(
-					'available' => __( 'Available', 'wpml' ),
-					'loaned'    => __( 'Loaned', 'wpml' ),
-					'scheduled' => __( 'Scheduled', 'wpml' ),
-				),
-				'default' => array(
-					'available' => __( 'Available', 'wpml' ),
-				)
-			),
-			'movie_rating'  => array(
-				'title' => __( 'Rating', 'wpml' ),
-				'options' => array(
-					'0.5' => __( 'Junk', 'wpml' ),
-					'1.0' => __( 'Very bad', 'wpml' ),
-					'1.5' => __( 'Bad', 'wpml' ),
-					'2.0' => __( 'Not that bad', 'wpml' ),
-					'2.5' => __( 'Average', 'wpml' ),
-					'3.0' => __( 'Not bad', 'wpml' ),
-					'3.5' => __( 'Good', 'wpml' ),
-					'4.0' => __( 'Very good', 'wpml' ),
-					'4.5' => __( 'Excellent', 'wpml' ),
-					'5.0' => __( 'Masterpiece', 'wpml' )
-				),
-				'default' => array(
-					'0.0' => '',
-				)
-			)
-		);
-
-		$this->wpml_movie_meta = array(
-			'meta' => array(
-				'type' => __( 'Type', 'wpml' ),
-				'value' => __( 'Value', 'wpml' ),
-				'data' => array(
-					'title' => array(
-						'title' => __( 'Title', 'wpml' ),
-						'type' => 'text'
-					),
-					'original_title' => array(
-						'title' => __( 'Original Title', 'wpml' ),
-						'type' => 'text'
-					),
-					'overview' => array(
-						'title' => __( 'Overview', 'wpml' ),
-						'type' => 'textarea'
-					),
-					'production_companies' => array(
-						'title' => __( 'Production', 'wpml' ),
-						'type' => 'text'
-					),
-					'production_countries' => array(
-						'title' => __( 'Country', 'wpml' ),
-						'type' => 'text'
-					),
-					'spoken_languages' => array(
-						'title' => __( 'Languages', 'wpml' ),
-						'type' => 'text'
-					),
-					'runtime' => array(
-						'title' => __( 'Runtime', 'wpml' ),
-						'type' => 'text'
-					),
-					'genres' => array(
-						'title' => __( 'Genres', 'wpml' ),
-						'type' => 'text'
-					),
-					'release_date' => array(
-						'title' => __( 'Release Date', 'wpml' ),
-						'type' => 'text'
-					)
-				)
-			),
-			'crew' => array(
-				'type' => __( 'Job', 'wpml' ),
-				'value' => __( 'Name(s)', 'wpml' ),
-				'data' => array(
-					'director' => array(
-						'title' => __( 'Director', 'wpml' ),
-						'type' => 'text'
-					),
-					'producer' => array(
-						'title' => __( 'Producer', 'wpml' ),
-						'type' => 'text'
-					),
-					'photography' => array(
-						'title' => __( 'Director of Photography', 'wpml' ),
-						'type' => 'text'
-					),
-					'composer' => array(
-						'title' => __( 'Original Music Composer', 'wpml' ),
-						'type' => 'text'
-					),
-					'author' => array(
-						'title' => __( 'Author', 'wpml' ),
-						'type' => 'text'
-					),
-					'writer' => array(
-						'title' => __( 'Writer', 'wpml' ),
-						'type' => 'text'
-					),
-					'cast' => array(
-						'title' => __( 'Actors', 'wpml' ),
-						'type' => 'textarea'
-					)
-				)
-			)
-		);
-
-		// Load settings or register new ones
-		add_action( 'init', array( $this, 'wpml_default_settings' ) );
+		WPML_Settings::get_instance();
 
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
@@ -293,6 +112,7 @@ class WPMovieLibrary {
 		// Load movie post type, taxonomies
 		add_action( 'init', array( $this, 'wpml_register_post_type' ) );
 		add_action( 'init', array( $this, 'wpml_register_taxonomy' ) );
+		add_action( 'init', array( $this, 'wpml_flush_rewrite_rules' ) );
 
 		// Enqueue scripts and styles
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
@@ -367,11 +187,56 @@ class WPMovieLibrary {
 		return self::$instance;
 	}
 
+	public function register_hook_callbacks() {}
+
+	public function init() {}
+
+	public static function wpml_o( $search = '', $value = null ) {
+		return WPML_Settings::wpml_o( $search, $value );
+	}
+
 	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
 	 *                           Plugin Accessors
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * Get TMDb API if available
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_get_api_key() {
+		$api_key = $this->wpml_o('tmdb-settings-APIKey');
+		return ( '' != $api_key ? $api_key : false );
+	}
+
+	/**
+	 * Get TMDb API if available
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_get_lang() {
+		return $this->wpml_o('tmdb-settings-lang');
+	}
+
+	/**
+	 * Get TMDb API if available
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_get_scheme() {
+		return $this->wpml_o('tmdb-settings-scheme');
+	}
+
+	/**
+	 * Are we on TMDb dummy mode?
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_is_dummy() {
+		return ( 1 == $this->wpml_o('tmdb-settings-dummy') ? true : false );
+	}
 
 	/**
 	 * Return the default Movie Media
@@ -632,6 +497,8 @@ class WPMovieLibrary {
 			     slug = REPLACE(slug, "wpml_actor-", "")'
 		);
 
+		set_transient( '_wpml_just_activated', 1, HOUR_IN_SECONDS );
+
 	}
 
 	/**
@@ -768,6 +635,13 @@ class WPMovieLibrary {
 
 			$wpdb->query( 'OPTIMIZE TABLE ' . $wpdb->options );
 		}
+
+		//TODO: remove permastruct. 
+		/*global $wp_rewrite;
+		$wp_rewrite->add_permastruct( 'movie', '');
+		$wp_rewrite->add_permastruct( 'movies', '');
+		$wp_rewrite->flush_rules();
+		print_r( $wp_rewrite ); die();*/
 
 	}
 
@@ -1610,13 +1484,28 @@ class WPMovieLibrary {
 	}
 
 	/**
+	 * Flush WordPress Rewrite Rules on plugin activation.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpml_flush_rewrite_rules() {
+
+		if ( false !== get_transient( '_wpml_just_activated' ) ) {
+			flush_rewrite_rules();
+			delete_transient( '_wpml_just_activated' );
+		}
+	}
+
+	/**
 	 * Create a new set of permalinks for Movie Details
+	 * 
+	 * TODO: rename and add option to either add or remove permalinks
 	 *
 	 * @since    1.0.0
 	 *
 	 * @param    object     $wp_rewrite Instance of WordPress WP_Rewrite Class
 	 */
-	public function wpml_register_permalinks( $wp_rewrite ) {
+	public static function wpml_register_permalinks( $wp_rewrite ) {
 
 		$new_rules = array(
 			'movies/(dvd|vod|bluray|vhs|theater|cinema|other)/?$' => 'index.php?post_type=movie&wpml_movie_media=' . $wp_rewrite->preg_index( 1 ),
@@ -1757,174 +1646,6 @@ class WPMovieLibrary {
 			$terms = array();
 
 		return $terms;
-	}
-
-
-	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 *
-	 *                              Options
-	 * 
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	/**
-	 * Load WPML default settings if no current settings can be found. Match
-	 * the existing settings against the default settings to check their
-	 * validity; if the revision is outdated, update the revision field and
-	 * add possible missing options.
-	 * 
-	 * @since    1.0.0
-	 *
-	 * @param    boolean    $force Force to restore the default settings
-	 *
-	 * @return   boolean    True if settings were successfully added/updated
-	 *                      False if anything went wrong.
-	 */
-	public function wpml_default_settings( $force = false ) {
-
-		$options = get_option( $this->plugin_settings );
-		$status  = false;
-
-		if ( ( false === $options || ! is_array( $options ) ) || true == $force ) {
-			delete_option( $this->plugin_settings );
-			$status = add_option( $this->plugin_settings, $this->wpml_settings );
-		}
-		else if ( ! isset( $options['settings_revision'] ) || WPMovieLibrary::SETTINGS_REVISION > $options['settings_revision'] ) {
-			$updated_options = $this->wpml_update_settings( $this->wpml_settings, $this->wpml_o() );
-			if ( ! empty( $updated_options ) ) {
-				$updated_options['settings_revision'] = WPMovieLibrary::SETTINGS_REVISION;
-				$status = update_option( $this->plugin_settings, $updated_options );
-			}
-		}
-
-		return $status;
-	}
-
-	/**
-	 * Update plugin settings.
-	 * 
-	 * Compare the current settings with the default settings array to find
-	 * newly added options and update the exiting settings. If default settings
-	 * differ from the currently stored settings, add the new options to the
-	 * latter.
-	 *
-	 * @since    1.0.0
-	 * 
-	 * @param    array    $default Default Plugin Settings to be compared to
-	 *                             currently stored settings.
-	 * @param    array    $options Currently stored settings, supposedly out
-	 *                             of date.
-	 * 
-	 * @return   array             Updated and possibly unchanged settings
-	 *                             array if everything went right, empty array
-	 *                             if something bad happened.
-	 */
-	private function wpml_update_settings( $default, $options ) {
-
-		if ( ! is_array( $default ) || ! is_array( $options ) )
-			return array();
-
-		foreach ( $default as $key => $value ) {
-			if ( isset( $options[ $key ] ) && is_array( $value ) )
-				$options[ $key ] = $this->wpml_update_settings( $value, $default[ $key ] );
-			else if ( ! isset( $options[ $key ] ) ) {
-				$a = array_search( $key, array_keys( $default ) );
-				$options = array_merge(
-					array_slice( $options, 0, $a ),
-					array( $key => $value ),
-					array_slice( $options, $a )
-				);
-			}
-		}
-
-		return $options;
-	}
-
-	/**
-	 * Get TMDb API if available
-	 *
-	 * @since    1.0.0
-	 */
-	public function wpml_get_api_key() {
-		$api_key = $this->wpml_o('tmdb-settings-APIKey');
-		return ( '' != $api_key ? $api_key : false );
-	}
-
-	/**
-	 * Are we on TMDb dummy mode?
-	 *
-	 * @since    1.0.0
-	 */
-	public function wpml_is_dummy() {
-		$dummy = ( 1 == $this->wpml_o('tmdb-settings-dummy') ? true : false );
-		return $dummy;
-	}
-
-	/**
-	 * Built-in option finder/modifier
-	 * Default behavior with no empty search and value params results in
-	 * returning the complete WPML options' list.
-	 * 
-	 * If a search query is specified, navigate through the options'
-	 * array and return the asked option if existing, empty string if it
-	 * doesn't exist.
-	 * 
-	 * If a replacement value is specified and the search query is valid,
-	 * update WPML options with new value.
-	 * 
-	 * Return can be string, boolean or array. If search, return array or
-	 * string depending on search result. If value, return boolean true on
-	 *  success, false on failure.
-	 * 
-	 * @param    string        Search query for the option: 'aaa-bb-c'. Default none.
-	 * @param    string        Replacement value for the option. Default none.
-	 * 
-	 * @return   string|boolean|array        option array of string, boolean on update.
-	 *
-	 * @since    1.0.0
-	 */
-	public function wpml_o( $search = '', $value = null ) {
-
-		$options = get_option( $this->plugin_settings, $this->wpml_settings );
-
-		if ( '' != $search && is_null( $value ) ) {
-			$s = explode( '-', $search );
-			$o = $options;
-			while ( count( $s ) ) {
-				$k = array_shift( $s );
-				if ( isset( $o[ $k ] ) )
-					$o = $o[ $k ];
-				else
-					$o = '';
-			}
-		}
-		else if ( '' != $search && ! is_null( $value ) ) {
-			$s = explode( '-', $search );
-			$this->wpml_o_( $options, $s, $value );
-			$o = update_option( $this->plugin_settings, $options );
-		}
-		else {
-			$o = $options;
-		}
-
-		return $o;
-	}
-
-	/**
-	 * Built-in option modifier
-	 * Navigate through WPML options to find a matching option and update
-	 * its value.
-	 * 
-	 * @param    array         Options array passed by reference
-	 * @param    string        key list to match the specified option
-	 * @param    string        Replacement value for the option. Default none
-	 *
-	 * @since    1.0.0
-	 */
-	private function wpml_o_( &$array, $key, $value = '' ) {
-		$a = &$array;
-		foreach ( $key as $k )
-			$a = &$a[ $k ];
-		$a = $value;
 	}
 
 }

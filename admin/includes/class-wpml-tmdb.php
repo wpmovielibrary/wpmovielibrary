@@ -12,38 +12,6 @@
 class WPML_TMDb extends WPMovieLibrary_Admin {
 
 	/**
-	 * TMDb API Key
-	 *
-	 * @since   1.0.0
-	 * @var     string
-	 */
-	protected $APIKey = '';
-
-	/**
-	 * TMDb API Lang
-	 *
-	 * @since   1.0.0
-	 * @var     string
-	 */
-	protected $lang = '';
-
-	/**
-	 * TMDb API Scheme
-	 *
-	 * @since   1.0.0
-	 * @var     string
-	 */
-	protected $scheme = '';
-
-	/**
-	 * TMDb API Dummy
-	 *
-	 * @since   1.0.0
-	 * @var     boolean
-	 */
-	protected $dummy = FALSE;
-
-	/**
 	 * TMDb API Config
 	 *
 	 * @since   1.0.0
@@ -60,14 +28,6 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 	protected $tmdb = '';
 
 	/**
-	 * TMDb Caching
-	 *
-	 * @since   1.0.0
-	 * @var     boolean
-	 */
-	protected $caching = true;
-
-	/**
 	 * TMDb Error notify
 	 *
 	 * @since   1.0.0
@@ -75,17 +35,7 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 	 */
 	protected $error = '';
 
-	public function __construct( $TMDb_settings ) {
-
-		if ( ! $TMDb_settings )
-			return false;
-
-		$this->APIKey  = $TMDb_settings['APIKey'];
-		$this->lang    = $TMDb_settings['lang'];
-		$this->scheme  = $TMDb_settings['scheme'];
-		$this->scheme  = $this->wpml_scheme_check();
-		$this->dummy   = ( 1 == $TMDb_settings['dummy'] ? true : false );
-		$this->caching = ( 1 == $this->wpml_o( 'tmdb-settings-caching' ) ? true : false );
+	public function __construct() {
 
 		$this->wpml_tmdb();
 
@@ -107,12 +57,13 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 
 		require_once plugin_dir_path( __FILE__ ) . 'class-tmdb.php';
 
-		if ( true == $this->dummy && '' == $this->APIKey ) {
-			$this->tmdb = new TMDb( $this->APIKey, $this->lang, false, $this->scheme, $this->dummy );
-		}
-		else {
-			$this->tmdb = new TMDb( $this->APIKey, $this->lang, false, $this->scheme );
-		}
+		$this->tmdb = new TMDb(
+			$this->wpml_get_api_key(),
+			$this->wpml_get_lang(),
+			false,
+			$this->wpml_get_scheme(),
+			$this->wpml_is_dummy()
+		);
 	}
 
 	/**
@@ -122,20 +73,6 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 	 */
 	public function wpml_tmdb_error() {
 		echo '<div class="error"><p><strong>WPMovieLibrary</strong> ' . $this->error . '</p></div>';
-	}
-
-	/**
-	 * Validity check on selected API scheme.
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    string    Scheme if valid, default https.
-	 */
-	private function wpml_scheme_check() {
-		if ( ! in_array( $this->scheme, array( 'http', 'https' ) ) )
-			return 'https://';
-		else
-			return $this->scheme . '://';
 	}
 
 	/**
@@ -156,7 +93,7 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 		else if ( isset( $tmdb_config['status_code'] ) && in_array( $tmdb_config['status_code'], array( 7, 403 ) ) )
 			throw new TMDbException( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpml' ), $tmdb_config['status_message'], $tmdb_config['status_code'] ) );
 
-		$base_url = ( 'https' == $this->scheme ? $tmdb_config['images']['secure_base_url'] : $tmdb_config['images']['base_url'] );
+		$base_url = ( 'https' == $this->wpml_get_scheme() ? $tmdb_config['images']['secure_base_url'] : $tmdb_config['images']['base_url'] );
 
 		$wpml_tmdb_config = array(
 			'poster_url' => array(
@@ -193,7 +130,7 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 	 * @return    array    API configuration request result
 	 */
 	private function wpml_api_key_check( $key ) {
-		$_tmdb = new TMDb( $key, $this->lang, false, $this->scheme );
+		$_tmdb = new TMDb( $key, $this->wpml_get_lang(), false, $this->wpml_get_scheme() );
 		$data = $_tmdb->getConfiguration();
 		return $data;
 	}
@@ -335,12 +272,12 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 	 */
 	private function wpml_get_movie_by_title( $title, $lang, $_id = null ) {
 
-		$movies = ( $this->caching ? get_transient( "wpml_movie_{$title}_{$lang}" ) : false );
+		$movies = ( $this->wpml_cache() ? get_transient( "wpml_movie_{$title}_{$lang}" ) : false );
 
 		if ( false === $movies ) {
 			$movies = $this->_wpml_get_movie_by_title( $title, $lang, $_id );
 
-			if ( true === $this->caching ) {
+			if ( true === $this->wpml_cache() ) {
 				$expire = (int) ( 86400 * $this->wpml_o( 'tmdb-settings-caching_time' ) );
 				set_transient( "wpml_movies_{$title}_{$lang}", $movies, $expire );
 			}
@@ -426,12 +363,12 @@ class WPML_TMDb extends WPMovieLibrary_Admin {
 	 */
 	private function wpml_get_movie_by_id( $id, $lang, $_id = null, $echo = true ) {
 
-		$movie = ( $this->caching ? get_transient( "wpml_movie_{$id}_{$lang}" ) : false );
+		$movie = ( $this->wpml_cache() ? get_transient( "wpml_movie_{$id}_{$lang}" ) : false );
 
 		if ( false === $movie ) {
 			$movie = $this->_wpml_get_movie_by_id( $id, $lang, $_id );
 
-			if ( true === $this->caching ) {
+			if ( true === $this->wpml_cache() ) {
 				$expire = (int) ( 86400 * $this->wpml_o( 'tmdb-settings-caching_time' ) );
 				set_transient( "wpml_movie_{$id}_{$lang}", $movie, 3600 * 24 );
 			}

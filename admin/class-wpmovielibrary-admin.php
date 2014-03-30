@@ -81,22 +81,19 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 	 *
 	 * @since     1.0.0
 	 */
-	private function __construct() {
+	public function __construct() {
 
 		$this->wpml = WPMovieLibrary::get_instance();
 
 		$this->plugin_admin_url  = plugins_url( WPMovieLibrary::NAME );
 		$this->plugin_admin_path = plugin_dir_path( __FILE__ );
 
-		require_once $this->plugin_admin_path . 'includes/class-wpmltmdb.php';
-		require_once $this->plugin_admin_path . 'includes/class-wpmllisttable.php';
-
 		$this->plugin_screen_hook_suffix = array(
 			'movie_page_import', 'movie_page_settings', 'edit-movie', 'movie', 'plugins'
 		);
 
 		// Load TMDb API Class
-		$this->tmdb = new WPML_TMDb( $this->wpml_o('tmdb-settings') );
+		$this->tmdb = new WPML_TMDb();
 
 		// Movie poster in admin movies list
 		add_filter('manage_movie_posts_columns', array( $this, 'wpml_movies_columns_head' ) );
@@ -165,6 +162,11 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 		}
 
 		return self::$instance;
+	}
+
+	private function wpml_register_hooks() {
+
+		
 	}
 
 	/**
@@ -245,19 +247,6 @@ class WPMovieLibrary_Admin extends WPMovieLibrary {
 			);
 		}
 
-	}
-
-	/**
-	 * Load TMDb Class
-	 *
-	 * @since    1.0.0
-	 */
-	public function wpml_init_tmdb() {
-
-		$dummy = ( 1 == $this->wpml_o( 'tmdb-settings-dummy' ) ? true : false );
-		$tmdb  = new WPML_TMDb( $this->wpml_o('tmdb-settings'), $dummy );
-
-		return $tmdb;
 	}
 
 	/**

@@ -36,8 +36,17 @@ if ( ! defined( 'WPINC' ) ) {
  * Public-Facing Functionality
  *----------------------------------------------------------------------------*/
 
+require_once( plugin_dir_path( __FILE__ ) . 'includes/class-module.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'public/class-wpmovielibrary.php' );
-require_once( plugin_dir_path( __FILE__ ) . 'public/includes/class-wpmlwidgets.php' );
+
+require_once( plugin_dir_path( __FILE__ ) . 'includes/class-wpml-settings.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/class-wpml-utils.php' );
+
+require_once( plugin_dir_path( __FILE__ ) . 'public/includes/class-wpml-movies.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/includes/class-wpml-collections.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/includes/class-wpml-genres.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/includes/class-wpml-actors.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/includes/class-wpml-widgets.php' );
 
 /*
  * Register hooks that are fired when the plugin is activated or deactivated.
@@ -58,6 +67,9 @@ add_action( 'plugins_loaded', array( 'WPMovieLibrary', 'get_instance' ) );
 if ( is_admin() ) {
 
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/class-wpmovielibrary-admin.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-admin-notice-helper.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-wpml-tmdb.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-wpml-list-table.php' );
 
 	add_action( 'plugins_loaded', array( 'WPMovieLibrary_Admin', 'get_instance' ) );
 
