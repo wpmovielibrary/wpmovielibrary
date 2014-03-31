@@ -1,18 +1,18 @@
-<?php if ( false === $this->wpml_get_api_key() && false === $this->wpml_is_dummy() ) :
+<?php if ( false === WPML_Settings::wpml_get_api_key() && false === WPML_Settings::wpml_is_dummy_api() ) :
 	_e( 'You need a valid <acronym title="TheMovieDB">TMDb</acronym> API key to start adding your movies. Go to the <a href="https://www.themoviedb.org/">WPMovieLibrary Settings page</a> to add your API key.', 'wpml' );
 	return;
 endif;
 ?>
 		<div id="wpml-tmdb" class="wpml-tmdb">
-<?php if ( true === $this->wpml_is_dummy() ) : ?>
+<?php if ( true === WPML_Settings::wpml_is_dummy_api() ) : ?>
 			<div class="updated"><p><em><?php printf( __( 'WPMovieLibrary is using the dummy TMDb API; add your valid API key to the <a href="%s">Settings Page</a> or <a href="http://tmdb.caercam.org/">Learn more</a> about the dummy API.', 'wpml' ), admin_url( 'edit.php?post_type=movie&page=settings' ) ); ?></em></p></div>
 <?php endif; ?>
 			<p><strong><?php _e( 'Find movie on TMDb:', 'wpml' ); ?></strong></p>
 
 			<div>
 				<select id="tmdb_search_lang" name="wpml[lang]">
-					<option value="en" <?php selected( $this->wpml_o('tmdb-settings-lang'), 'en' ); ?>><?php _e( 'English', 'wpml' ); ?></option>
-					<option value="fr" <?php selected( $this->wpml_o('tmdb-settings-lang'), 'fr' ); ?>><?php _e( 'French', 'wpml' ); ?></option>
+					<option value="en" <?php selected( WPML_Settings::wpml_o('tmdb-settings-lang'), 'en' ); ?>><?php _e( 'English', 'wpml' ); ?></option>
+					<option value="fr" <?php selected( WPML_Settings::wpml_o('tmdb-settings-lang'), 'fr' ); ?>><?php _e( 'French', 'wpml' ); ?></option>
 				</select>
 				<select id="tmdb_search_type" name="wpml[tmdb_search_type]">
 					<option value="title" selected="selected"><?php _e( 'Movie Title', 'wpml' ); ?></option>
@@ -29,7 +29,7 @@ endif;
 			<div id="tmdb_data"></div>
 			<input type="text" id="tmdb_data_tmdb_id" name="tmdb_data[tmdb_id]" class="hide-if-js hide-if-no-js" value="<?php echo $value['tmdb_id'] ?>" />
 
-<?php foreach ( $this->wpml->wpml_movie_meta as $id => $box ) : ?>
+<?php foreach ( WPML_Settings::wpml_get_supported_movie_meta( $type = null, false ) as $id => $box ) : ?>
 			<table class="list-table tmdb_<?php echo $id ?>">
 				<thead>
 					<tr>
@@ -73,7 +73,7 @@ endif;
 						</td>
 					</tr>
 					<tr>
-						<td id="tmdb_images_preview"><?php echo $this->wpml_get_movie_imported_images() ?> </td>
+						<td id="tmdb_images_preview"><?php echo WPML_Media::wpml_get_movie_imported_images() ?> </td>
 					</tr>
 						<td style="text-align:center">
 							<a href="#" id="tmdb_load_images"><?php _e( 'Load Images', 'wpml' ); ?></a>

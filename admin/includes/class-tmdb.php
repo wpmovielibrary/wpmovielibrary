@@ -12,370 +12,347 @@
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
 
-class TMDb extends WPML_TMDb
-{
-	
-	const POST           = 'post';
-	const GET            = 'get';
-	const HEAD           = 'head';
+if ( ! class_exists( 'TMDb' ) ) :
 
-	const IMAGE_BACKDROP = 'backdrop';
-	const IMAGE_POSTER   = 'poster';
-	const IMAGE_PROFILE  = 'profile';
+	class TMDb
+	{
+		
+		const POST           = 'post';
+		const GET            = 'get';
+		const HEAD           = 'head';
 
-	const API_VERSION    = '3';
-	const API_URL        = 'api.themoviedb.org';
-	const API_DUMMY_URL  = 'tmdb.caercam.org/api';
+		const IMAGE_BACKDROP = 'backdrop';
+		const IMAGE_POSTER   = 'poster';
+		const IMAGE_PROFILE  = 'profile';
 
-	const VERSION        = '1.5.1';
+		const API_VERSION    = '3';
+		const API_URL        = '://api.themoviedb.org';
+		const API_DUMMY_URL  = '://tmdb.caercam.org/api';
 
-	/**
-	 * The TMDb-config
-	 *
-	 * @var object
-	 */
-	protected $_config;
+		const VERSION        = '1.5.1';
 
-	/**
-	 * Stored Session Id
-	 *
-	 * @var string
-	 */
-	protected $_session_id;
+		/**
+		 * The TMDb-config
+		 *
+		 * @var object
+		 */
+		protected $_config;
 
-	/**
-	 * Default constructor
-	 *
-	 * @param    string    $apikey API-key recieved from TMDb
-	 * @param    string    $default Lang Default language (ISO 3166-1)
-	 * @param    boolean   $config Load the TMDb-config
-	 * 
-	 * @return void
-	 */
-	public function __construct( $config = false, $dummy = false ) {
+		/**
+		 * Stored Session Id
+		 *
+		 * @var string
+		 */
+		protected $_session_id;
 
-		if ( true === $config )
-			$this->getConfiguration();
-	}
+		/**
+		 * Default constructor
+		 *
+		 * @param    string    $apikey API-key recieved from TMDb
+		 * @param    string    $default Lang Default language (ISO 3166-1)
+		 * @param    boolean   $config Load the TMDb-config
+		 * 
+		 * @return void
+		 */
+		public function __construct( $config = false, $dummy = false ) {
 
-	/**
-	 * Search a movie by querystring
-	 *
-	 * @param    string    $text Query to search after in the TMDb database
-	 * @param    int       $page Number of the page with results (default first page)
-	 * @param    bool      $adult Whether of not to include adult movies in the results (default false)
-	 * @param    mixed     $lang Filter the result with a language (ISO 3166-1) other then default, use false to retrieve results from all languages
-	 * 
-	 * @return   array     TMDb result 
-	 */
-	public function searchMovie( $query, $page = 1, $adult = false, $year = null, $lang = null ) {
-
-		$params = array(
-			'query'         => $query,
-			'page'          => (int) $page,
-			'language'      => is_null( $lang ) ? $this->wpml_get_lang() : $lang,
-			'include_adult' => (bool) $adult,
-			'year'          => $year,
-		);
-		return $this->_makeCall( 'search/movie', $params );
-	}
-
-	/**
-	 * Search a person by querystring
-	 *
-	 * @param    string    $text Query to search after in the TMDb database
-	 * @param    int       $page Number of the page with results (default first page)
-	 * @param    bool      $adult Whether of not to include adult movies in the results (default false)
-	 * 
-	 * @return   array     TMDb result 
-	 */
-	public function searchPerson( $query, $page = 1, $adult = false ) {
-
-		$params = array(
-			'query'         => $query,
-			'page'          => (int) $page,
-			'include_adult' => (bool) $adult,
-		);
-
-		return $this->_makeCall( 'search/person', $params );
-	}
-
-	/**
-	 * Search a company by querystring
-	 *
-	 * @param    string    $text Query to search after in the TMDb database
-	 * @param    int       $page Number of the page with results (default first page)
-	 * 
-	 * @return   array     TMDb result 
-	 */
-	public function searchCompany( $query, $page = 1 ) {
-
-		$params = array(
-			'query' => $query,
-			'page'  => $page,
-		);
-		return $this->_makeCall( 'search/company', $params );
-	}
-
-	/**
-	 * Retrieve information about a collection
-	 *
-	 * @param    int      $id Id from a collection (retrieved with getMovie)
-	 * @param    mixed    $langFilter the result with a language (ISO 3166-1) other then default, use false to retrieve results from all languages
-	 * 
-	 * @return   array    TMDb result
-	 */
-	public function getCollection( $id, $lang = null ) {
-
-		$params = array( 'language' => is_null( $lang ) ? $this->wpml_get_lang() : $lang );
-		return $this->_makeCall( 'collection/' . $id, $params );
-	}
-
-	/**
-	 * Retrieve all basic information for a particular movie
-	 *
-	 * @param    mixed    $idTMDb-id or IMDB-id
-	 * @param    mixed    $lang Filter the result with a language (ISO 3166-1) other then default, use false to retrieve results from all languages
-	 * 
-	 * @return   array    TMDb result 
-	 */
-	public function getMovie( $id, $lang = null ) {
-
-		$params = array( 'language' => is_null( $lang ) ? $this->wpml_get_lang() : $lang );
-		return $this->_makeCall( 'movie/' . $id, $params );
-	}
-
-	/**
-	 * Retrieve alternative titles for a particular movie
-	 *
-	 * @param    mixed     $id TMDb-id or IMDB-id
-	 * @param    string    $country Only include titles for a particular country (ISO 3166-1)
-	 * 
-	 * @return   array     TMDb result 
-	 */
-	public function getMovieTitles( $id, $country = null ) {
-
-		$params = array( 'country' => $country );
-		return $this->_makeCall( 'movie/' . $id . '/alternative_titles', $params );
-	}
-
-	/**
-	 * Retrieve all of the movie cast information for a particular movie
-	 *
-	 * @param mixed $id					TMDb-id or IMDB-id
-	 * @return TMDb result array
-	 */
-	public function getMovieCast( $id ) {
-
-		return $this->_makeCall( 'movie/' . $id . '/casts' );
-	}
-
-	/**
-	 * Retrieve all images for a particular movie
-	 *
-	 * @param mixed $id					TMDb-id or IMDB-id
-	 * @param mixed $lang				Filter the result with a language (ISO 3166-1) other then default, use false to retrieve results from all languages
-	 * @return TMDb result array
-	 */
-	public function getMovieImages( $id, $lang = null ) {
-
-		$params = array( 'language' => is_null( $lang ) ? $this->wpml_get_lang() : $lang );
-		return $this->_makeCall( 'movie/' . $id . '/images', $params );
-	}
-
-	/**
-	 * Get configuration from TMDb
-	 *
-	 * @return TMDb result array
-	 */
-	public function getConfiguration() {
-
-		$config = $this->_makeCall( 'configuration' );
-
-		if ( ! empty( $config ) )
-			$this->setConfig( $config );
-
-		return $config;
-	}
-
-	/**
-	 * Get Image URL
-	 *
-	 * @param    string    $filepath Filepath to image
-	 * @param    const     $imagetype Image type: TMDb::IMAGE_BACKDROP, TMDb::IMAGE_POSTER, TMDb::IMAGE_PROFILE
-	 * @param    string    $size Valid size for the image
-	 * @return   string
-	 */
-	public function getImageUrl( $filepath, $imagetype, $size ) {
-
-		$config = $this->getConfig();
-
-		if ( isset( $config['images'] ) ) {
-
-			$base_url = $config['images']['base_url'];
-			$available_sizes = $this->getAvailableImageSizes( $imagetype );
-
-			if ( in_array( $size, $available_sizes ) )
-				return $base_url . $size . $filepath;
-			else
-				add_notice( sprintf( __( 'The size "%s" is not supported by TMDb', 'wpml' ), $size ), 'error' );
-		}
-		else
-			add_notice( __( 'No configuration available for image URL generation', 'wpml' ), 'error' );
-	}
-
-	/**
-	 * Get available image sizes for a particular image type
-	 *
-	 * @param    const    $imagetype Image type: TMDb::IMAGE_BACKDROP, TMDb::IMAGE_POSTER, TMDb::IMAGE_PROFILE
-	 * @return   array
-	 */
-	public function getAvailableImageSizes( $imagetype ) {
-
-		$config = $this->getConfig();
-
-		if ( isset( $config['images'][$imagetype.'_sizes'] ) )
-			return $config['images'][$imagetype.'_sizes'];
-		else
-			add_notice( __( 'No configuration available to retrieve available image sizes', 'wpml' ), 'error' );
-	}
-
-	/**
-	 * Get ETag to keep track of state of the content
-	 *
-	 * @param    string    $uri Use an URI to know the version of it. For example: 'movie/550'
-	 * @return   string
-	 */
-	public function getVersion( $uri ) {
-
-		$headers = $this->_makeCall( $uri, null, null, TMDb::HEAD );
-		return isset( $headers['Etag'] ) ? $headers['Etag'] : '';
-	}
-
-	/**
-	 * Makes the call to the API
-	 *
-	 * @param    string    $function API specific function name for in the URL
-	 * @param    array     $params Unencoded parameters for in the URL
-	 * @param    string    $session_id Session_id for authentication to the API for specific API methods
-	 * 
-	 * @return   array     TMDb result
-	 */
-	private function _makeCall( $function, $params = null, $session_id = null, $method = TMDb::GET ) {
-
-		$params = ( ! is_array( $params ) ) ? array() : $params;
-		$auth_array = array( 'api_key' => $this->wpml_get_api_key() );
-
-		if ( ! is_null( $session_id ) )
-			$auth_array['session_id'] = $session_id;
-
-		$url = $this->wpml_get_scheme() . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( $auth_array, '', '&' );
-
-		if ( isset($params['language'] ) && false === $params['language'] )
-			unset($params['language']);
-
-		$url .= ( ! empty( $params ) ) ? '&' . http_build_query( $params, '', '&' ) : '';
-
-		if ( true === $this->wpml_is_dummy() ) {
-			$url = 'http://' . TMDb::API_DUMMY_URL . '/' . $function;
-			if ( isset( $params['query'] ) && '' != $params['query'] )
-				$url .= '/' . rawurlencode( $params['query'] );
-			if ( isset( $params['language'] ) && false !== $params['language'] )
-				$url .= '/' . $params['language'];
+			if ( true === $config )
+				self::getConfiguration();
 		}
 
-		$results = '{}';
-		$request  = new WP_Http;
-		$headers  = array( 'Accept' => 'application/json' );
-		$response = $request->request( $url, array( 'headers' => $headers ) );
+		/**
+		 * Search a movie by querystring
+		 *
+		 * @param    string    $text Query to search after in the TMDb database
+		 * @param    int       $page Number of the page with results (default first page)
+		 * @param    bool      $adult Whether of not to include adult movies in the results (default false)
+		 * @param    mixed     $lang Filter the result with a language (ISO 3166-1) other then default, use false to retrieve results from all languages
+		 * 
+		 * @return   array     TMDb result 
+		 */
+		public function searchMovie( $query, $page = 1, $adult = false, $year = null, $lang = null ) {
 
-		if ( is_wp_error( $response ) ) {
-			add_notice( sprintf( __( 'Server error: %s', 'wpml' ), $response->get_error_message() ), 'error' );
-			return false;
+			$params = array(
+				'query'         => $query,
+				'page'          => (int) $page,
+				'language'      => is_null( $lang ) ? WPML_Settings::wpml_get_api_lang() : $lang,
+				'include_adult' => (bool) $adult,
+				'year'          => $year,
+			);
+			return self::_makeCall( 'search/movie', $params );
 		}
 
-		if ( isset( $response['headers']['status'] ) && '200 OK' != $response['headers']['status'] )
-			add_notice( sprintf( __( '%s. Server response: "%s"', 'wpml' ), $response['headers']['status'], $response['body'] ), 'error' );
+		/**
+		 * Search a person by querystring
+		 *
+		 * @param    string    $text Query to search after in the TMDb database
+		 * @param    int       $page Number of the page with results (default first page)
+		 * @param    bool      $adult Whether of not to include adult movies in the results (default false)
+		 * 
+		 * @return   array     TMDb result 
+		 */
+		public function searchPerson( $query, $page = 1, $adult = false ) {
 
-		$header = $response['headers'];
-		$body   = $response['body'];
+			$params = array(
+				'query'         => $query,
+				'page'          => (int) $page,
+				'include_adult' => (bool) $adult,
+			);
 
-		$results = json_decode( $body, true );
-
-		if ( false !== strpos( $function, 'authentication/token/new' ) ) {
-
-			$parsed_headers = $this->_http_parse_headers( $header );
-			$results['Authentication-Callback'] = $parsed_headers['Authentication-Callback'];
+			return self::_makeCall( 'search/person', $params );
 		}
 
-		if ( null !== $results )
-			return $results;
-		else if ( TMDb::HEAD == $method )
-			return $this->_http_parse_headers( $header );
-		else
-			add_notice( sprintf( __( 'Server error on "%s": %s', 'wpml' ), $url, $response ), 'error' );
-	}
+		/**
+		 * Search a company by querystring
+		 *
+		 * @param    string    $text Query to search after in the TMDb database
+		 * @param    int       $page Number of the page with results (default first page)
+		 * 
+		 * @return   array     TMDb result 
+		 */
+		public function searchCompany( $query, $page = 1 ) {
 
-	/**
-	 * Setter for the default language
-	 *
-	 * @param    string    $lang (ISO 3166-1)
-	 */
-	public function setLang( $lang ) {
-		$this->_lang = $lang;
-	}
+			$params = array(
+				'query' => $query,
+				'page'  => $page,
+			);
+			return self::_makeCall( 'search/company', $params );
+		}
 
-	/**
-	 * Setter for the TMDB-config
-	 *
-	 * @param    array    $config
-	 */
-	public function setConfig( $config ) {
-		$this->_config = $config;
-	}
+		/**
+		 * Retrieve information about a collection
+		 *
+		 * @param    int      $id Id from a collection (retrieved with getMovie)
+		 * @param    mixed    $langFilter the result with a language (ISO 3166-1) other then default, use false to retrieve results from all languages
+		 * 
+		 * @return   array    TMDb result
+		 */
+		public function getCollection( $id, $lang = null ) {
 
-	/**
-	 * Getter for the default language
-	 *
-	 * @return    string
-	 */
-	public function getLang() {
-		return $this->_lang;
-	}
+			$params = array( 'language' => is_null( $lang ) ? WPML_Settings::wpml_get_api_lang() : $lang );
+			return self::_makeCall( 'collection/' . $id, $params );
+		}
 
-	/**
-	 * Getter for the TMDB-config
-	 *
-	 * @return    array
-	 */
-	public function getConfig() {
-		if ( empty( $this->_config ) )
-			$this->_config = $this->getConfiguration();
-		return $this->_config;
-	}
+		/**
+		 * Retrieve all basic information for a particular movie
+		 *
+		 * @param    mixed    $idTMDb-id or IMDB-id
+		 * @param    mixed    $lang Filter the result with a language (ISO 3166-1) other then default, use false to retrieve results from all languages
+		 * 
+		 * @return   array    TMDb result 
+		 */
+		public function getMovie( $id, $lang = null ) {
 
-	/**
-	 * Internal function to parse HTTP headers because of lack of PECL
-	 * extension installed by many
-	 *
-	 * @param    string    $header
-	 * 
-	 * @return    array
-	 */
-	protected function _http_parse_headers($header) {
+			$params = array( 'language' => is_null( $lang ) ? WPML_Settings::wpml_get_api_lang() : $lang );
+			return self::_makeCall( 'movie/' . $id, $params );
+		}
 
-		$return = array();
-		$fields = explode( "\r\n", preg_replace( '/\x0D\x0A[\x09\x20]+/', ' ', $header ) );
+		/**
+		 * Retrieve alternative titles for a particular movie
+		 *
+		 * @param    mixed     $id TMDb-id or IMDB-id
+		 * @param    string    $country Only include titles for a particular country (ISO 3166-1)
+		 * 
+		 * @return   array     TMDb result 
+		 */
+		public function getMovieTitles( $id, $country = null ) {
 
-		foreach ( $fields as $field ) {
+			$params = array( 'country' => $country );
+			return self::_makeCall( 'movie/' . $id . '/alternative_titles', $params );
+		}
 
-			if ( preg_match( '/([^:]+): (.+)/m', $field, $match ) ) {
+		/**
+		 * Retrieve all of the movie cast information for a particular movie
+		 *
+		 * @param mixed $id					TMDb-id or IMDB-id
+		 * @return TMDb result array
+		 */
+		public function getMovieCast( $id ) {
 
-				$match[1] = preg_replace( '/(?<=^|[\x09\x20\x2D])./e', 'strtoupper("\0")', strtolower( trim( $match[1] ) ) );
-				$return[ $match[1] ] = isset( $return[ $match[1] ] ) ? array( $return[ $match[1] ], $match[2] ) : trim( $match[2] );
+			return self::_makeCall( 'movie/' . $id . '/casts' );
+		}
+
+		/**
+		 * Retrieve all images for a particular movie
+		 *
+		 * @param mixed $id					TMDb-id or IMDB-id
+		 * @param mixed $lang				Filter the result with a language (ISO 3166-1) other then default, use false to retrieve results from all languages
+		 * @return TMDb result array
+		 */
+		public function getMovieImages( $id, $lang = null ) {
+
+			$params = array( 'language' => is_null( $lang ) ? WPML_Settings::wpml_get_api_lang() : $lang );
+			return self::_makeCall( 'movie/' . $id . '/images', $params );
+		}
+
+		/**
+		 * Get configuration from TMDb
+		 *
+		 * @return TMDb result array
+		 */
+		public function getConfiguration() {
+
+			$config = $this->_makeCall( 'configuration' );
+
+			if ( ! empty( $config ) && null == $this->_config )
+				$this->_config = $config;
+
+			return $config;
+		}
+
+		/**
+		 * Get Image URL
+		 *
+		 * @param    string    $filepath Filepath to image
+		 * @param    const     $imagetype Image type: TMDb::IMAGE_BACKDROP, TMDb::IMAGE_POSTER, TMDb::IMAGE_PROFILE
+		 * @param    string    $size Valid size for the image
+		 * @return   string
+		 */
+		public function getImageUrl( $filepath, $imagetype, $size ) {
+
+			$config = self::getConfig();
+
+			if ( isset( $config['images'] ) ) {
+
+				$base_url = $config['images']['base_url'];
+				$available_sizes = self::getAvailableImageSizes( $imagetype );
+
+				if ( in_array( $size, $available_sizes ) )
+					return $base_url . $size . $filepath;
+				else
+					add_notice( sprintf( __( 'The size "%s" is not supported by TMDb', 'wpml' ), $size ), 'error' );
 			}
+			else
+				add_notice( __( 'No configuration available for image URL generation', 'wpml' ), 'error' );
 		}
 
-		return $return;
+		/**
+		 * Get available image sizes for a particular image type
+		 *
+		 * @param    const    $imagetype Image type: TMDb::IMAGE_BACKDROP, TMDb::IMAGE_POSTER, TMDb::IMAGE_PROFILE
+		 * @return   array
+		 */
+		public function getAvailableImageSizes( $imagetype ) {
+
+			$config = self::getConfig();
+
+			if ( isset( $config['images'][$imagetype.'_sizes'] ) )
+				return $config['images'][$imagetype.'_sizes'];
+			else
+				add_notice( __( 'No configuration available to retrieve available image sizes', 'wpml' ), 'error' );
+		}
+
+		/**
+		 * Get ETag to keep track of state of the content
+		 *
+		 * @param    string    $uri Use an URI to know the version of it. For example: 'movie/550'
+		 * @return   string
+		 */
+		public function getVersion( $uri ) {
+
+			$headers = self::_makeCall( $uri, null, null, TMDb::HEAD );
+			return isset( $headers['Etag'] ) ? $headers['Etag'] : '';
+		}
+
+		/**
+		 * Makes the call to the API
+		 *
+		 * @param    string    $function API specific function name for in the URL
+		 * @param    array     $params Unencoded parameters for in the URL
+		 * @param    string    $session_id Session_id for authentication to the API for specific API methods
+		 * 
+		 * @return   array     TMDb result
+		 */
+		private function _makeCall( $function, $params = null, $session_id = null, $method = TMDb::GET ) {
+
+			$params = ( ! is_array( $params ) ) ? array() : $params;
+			$auth_array = array( 'api_key' => WPML_Settings::wpml_get_api_key() );
+
+			if ( ! is_null( $session_id ) )
+				$auth_array['session_id'] = $session_id;
+
+			$url = WPML_Settings::wpml_get_api_scheme() . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( $auth_array, '', '&' );
+
+			if ( isset($params['language'] ) && false === $params['language'] )
+				unset($params['language']);
+
+			$url .= ( ! empty( $params ) ) ? '&' . http_build_query( $params, '', '&' ) : '';
+
+			if ( true === WPML_Settings::wpml_is_dummy_api() ) {
+				$url = 'http://' . TMDb::API_DUMMY_URL . '/' . $function;
+				if ( isset( $params['query'] ) && '' != $params['query'] )
+					$url .= '/' . rawurlencode( $params['query'] );
+				if ( isset( $params['language'] ) && false !== $params['language'] )
+					$url .= '/' . $params['language'];
+			}
+
+			$results = '{}';
+			$request  = new WP_Http;
+			$headers  = array( 'Accept' => 'application/json' );
+			$response = $request->request( $url, array( 'headers' => $headers ) );
+
+			if ( is_wp_error( $response ) ) {
+				add_notice( sprintf( __( 'Server error: %s', 'wpml' ), $response->get_error_message() ), 'error' );
+				return false;
+			}
+
+			$header = $response['headers'];
+			$body   = $response['body'];
+
+			$results = json_decode( $body, true );
+
+			if ( isset( $body['status_code'] ) && isset( $body['status_message'] ) ) {
+				add_notice( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpml' ), $body['status_code'], $body['status_message'] ), 'error' );
+				return false;
+			}
+
+			if ( false !== strpos( $function, 'authentication/token/new' ) ) {
+
+				$parsed_headers = self::_http_parse_headers( $header );
+				$results['Authentication-Callback'] = $parsed_headers['Authentication-Callback'];
+			}
+
+			if ( null !== $results )
+				return $results;
+			else if ( TMDb::HEAD == $method )
+				return self::_http_parse_headers( $header );
+			else
+				add_notice( sprintf( __( 'Server error on "%s": %s', 'wpml' ), $url, $response ), 'error' );
+		}
+
+		/**
+		 * Getter for the TMDB-config
+		 *
+		 * @return    array
+		 */
+		public function getConfig() {
+			return ( empty( self::$_config ) ? self::getConfiguration() : self::$_config );
+		}
+
+		/**
+		 * Internal function to parse HTTP headers because of lack of PECL
+		 * extension installed by many
+		 *
+		 * @param    string    $header
+		 * 
+		 * @return    array
+		 */
+		protected function _http_parse_headers($header) {
+
+			$return = array();
+			$fields = explode( "\r\n", preg_replace( '/\x0D\x0A[\x09\x20]+/', ' ', $header ) );
+
+			foreach ( $fields as $field ) {
+
+				if ( preg_match( '/([^:]+): (.+)/m', $field, $match ) ) {
+
+					$match[1] = preg_replace( '/(?<=^|[\x09\x20\x2D])./e', 'strtoupper("\0")', strtolower( trim( $match[1] ) ) );
+					$return[ $match[1] ] = isset( $return[ $match[1] ] ) ? array( $return[ $match[1] ], $match[2] ) : trim( $match[2] );
+				}
+			}
+
+			return $return;
+		}
 	}
-}
+
+endif;

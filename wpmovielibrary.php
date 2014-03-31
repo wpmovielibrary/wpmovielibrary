@@ -32,6 +32,16 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+define( 'WPML_NAME',                 'WPMovieLibrary' );
+define( 'WPML_VERSION',              '1.0.0' );
+define( 'WPML_SLUG',                 'wpml' );
+define( 'WPML_URL',                  plugins_url( WPML_NAME ) );
+define( 'WPML_PATH',                 plugin_dir_path( __FILE__ ) );
+define( 'WPML_REQUIRED_PHP_VERSION', '5.3' );
+define( 'WPML_REQUIRED_WP_VERSION',  '3.5' );
+define( 'WPML_SETTINGS_SLUG',        'wpml_settings' );
+define( 'WPML_SETTINGS_REVISION',    1 );
+
 /*----------------------------------------------------------------------------*
  * Public-Facing Functionality
  *----------------------------------------------------------------------------*/
@@ -66,8 +76,12 @@ add_action( 'plugins_loaded', array( 'WPMovieLibrary', 'get_instance' ) );
  */
 if ( is_admin() ) {
 
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-tmdb.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/class-wpmovielibrary-admin.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-admin-notice-helper.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-wpml-edit-movies.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-wpml-media.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-wpml-import.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-wpml-tmdb.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-wpml-list-table.php' );
 

@@ -17,6 +17,7 @@ if ( ! class_exists( 'WPML_Module' ) ) {
 		 * @return object
 		 */
 		public static function get_instance() {
+
 			$module = get_called_class();
 
 			if ( ! isset( self::$instances[ $module ] ) ) {

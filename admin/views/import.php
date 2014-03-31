@@ -1,26 +1,20 @@
 <div id="wpml-import" class="wrap">
 	<h2><?php _e( 'Movies Import', 'wpml' ); ?></h2>
-	
-	<?php if ( isset( $this->msg_settings ) && '' != $this->msg_settings ) { ?>
-	<div id="setting-error-settings_updated" class="updated settings-error"> 
-		<p><?php echo $this->msg_settings; ?></p>
-	</div>
-	<?php } ?>
 
 	<div id="wpml-tabs">
 
-		<ul>
-			<li><a href="#fragment-1"><h4><span class="ui-icon ui-icon-folder-open"></span> <?php _e( 'Imported Movies', 'wpml' ); ?></h4></a></li>
-			<li><a href="#fragment-2"><h4><span class="ui-icon ui-icon-plus"></span> <?php _e( 'Import New Movies', 'wpml' ); ?></h4></a></li>
+		<ul class="wpml-tabs-nav">
+		    <li class="wpml-tabs-nav<?php if ( '' == $_section || 'wpml_imported' == $_section ) echo ' active'; ?>"><a href="#wpml_imported" data-section="&amp;wpml_section=wpml_imported"><h4><?php _e( 'Imported Movies', 'wpml' ); ?></h4></a></li>
+		    <li class="wpml-tabs-nav<?php if ( 'wpml_import' == $_section ) echo ' active'; ?>"><a href="#wpml_import" data-section="&amp;wpml_section=wpml_import"><h4><?php _e( 'Import New Movies', 'wpml' ); ?></h4></a></li>
 		</ul>
 
-		<div id="fragment-1">
+		<div id="wpml_imported" class="wpml-tabs-panel hide-if-js<?php if ( '' == $_section || 'wpml_imported' == $_section ) echo ' active'; ?>">
 
 			<div id="import-intro">
 				<p><?php _e( 'Here are the movies you previously updated but didn’t save. You can save them, edit them individually or apply bulk actions. Posters are automatically saved and set as featured images, but images are not. Use the bulk action to import, but be aware that it can take some time if you select a lot of movies. Don’t forget to save your imports when you’re done!', 'wpml' ); ?></p>
 			</div>
 
-<?php $this->wpml_display_import_movie_list(); ?>
+<?php WPML_Import::wpml_display_import_movie_list(); ?>
 
 			<form method="post">
 
@@ -37,7 +31,7 @@
 
 		</div>
 
-		<div id="fragment-2">
+		<div id="wpml_import" class="wpml-tabs-panel hide-if-js<?php if ( 'wpml_import' == $_section ) echo ' active'; ?>">
 
 			<form method="post">
 

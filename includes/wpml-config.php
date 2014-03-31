@@ -14,10 +14,8 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-const WPML_SETTINGS_SLUG = 'wpml_settings';
-
 $wpml_settings = array(
-	'settings_revision' => WPMovieLibrary::SETTINGS_REVISION,
+	'settings_revision' => WPML_SETTINGS_REVISION,
 	'wpml' => array(
 		'settings' => array(
 			'meta_in_posts'    => 'posts_only',

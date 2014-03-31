@@ -58,7 +58,7 @@ if ( ! class_exists( 'Admin_Notice_Helper' ) ) {
 		 * Initializes variables
 		 */
 		public function init() {
-			$default_notices             = array( 'update' => array(), 'error' => array() );
+			$default_notices             = array( 'update' => array(), 'error' => array(), 'wpml' => array() );
 			$this->notices               = array_merge( $default_notices, get_option( 'anh_notices', array() ) );
 			$this->notices_were_updated  = false;
 		}
@@ -82,9 +82,9 @@ if ( ! class_exists( 'Admin_Notice_Helper' ) ) {
 		 * Displays updates and errors
 		 */
 		public function print_notices() {
-			foreach ( array( 'update', 'error' ) as $type ) {
+			foreach ( array( 'update', 'error', 'wpml' ) as $type ) {
 				if ( count( $this->notices[ $type ] ) ) {
-					$class = $type == 'update' ? 'updated' : 'error';
+					$class = ( $type == 'wpml' ? 'updated wpml' : ( $type == 'update' ? 'updated' : 'error' ) );
 
 					require( dirname( __FILE__ ) . '/admin-notice.php' );
 

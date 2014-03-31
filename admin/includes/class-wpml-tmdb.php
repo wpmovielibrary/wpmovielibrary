@@ -9,440 +9,459 @@
  * @copyright 2014 CaerCam.org
  */
 
-class WPML_TMDb extends WPMovieLibrary_Admin {
+if ( ! class_exists( 'WPML_TMDb' ) ) :
 
-	/**
-	 * TMDb API Config
-	 *
-	 * @since   1.0.0
-	 * @var     array
-	 */
-	protected $config = null;
+	class WPML_TMDb extends WPML_Module {
 
-	/**
-	 * TMDb API
-	 *
-	 * @since   1.0.0
-	 * @var     string
-	 */
-	protected $tmdb = '';
+		/**
+		 * TMDb API Config
+		 *
+		 * @since   1.0.0
+		 * @var     array
+		 */
+		protected $config = null;
 
-	/**
-	 * TMDb Error notify
-	 *
-	 * @since   1.0.0
-	 * @var     string
-	 */
-	protected $error = '';
+		/**
+		 * TMDb API
+		 *
+		 * @since   1.0.0
+		 * @var     string
+		 */
+		protected $tmdb = '';
 
-	public function __construct() {
+		/**
+		 * TMDb Error notify
+		 *
+		 * @since   1.0.0
+		 * @var     string
+		 */
+		protected $error = '';
 
-		$this->wpml_tmdb();
+		public function __construct() {
 
-		try {
-			$this->config = $this->wpml_tmdb_config();
-		}
-		catch ( Exception $e ) {
-			$this->error = $e->getMessage();
-			add_action( 'admin_notices', array( $this, 'wpml_tmdb_error' ) );
-		}
-	}
-
-	/**
-	 * Init the TMDb API class
-	 *
-	 * @since     1.0.0
-	 */
-	private function wpml_tmdb() {
-
-		require_once plugin_dir_path( __FILE__ ) . 'class-tmdb.php';
-
-		$this->tmdb = new TMDb(
-			$this->wpml_get_api_key(),
-			$this->wpml_get_lang(),
-			false,
-			$this->wpml_get_scheme(),
-			$this->wpml_is_dummy()
-		);
-	}
-
-	/**
-	 * Notify errors
-	 *
-	 * @since     1.0.0
-	 */
-	public function wpml_tmdb_error() {
-		echo '<div class="error"><p><strong>WPMovieLibrary</strong> ' . $this->error . '</p></div>';
-	}
-
-	/**
-	 * Set up TMDb config.
-	 * Sends a request to the API to fetch images and posters default sizes
-	 * and generate various size-based urls for posters and backdrops.
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    array    TMDb config
-	 */
-	private function wpml_tmdb_config() {
-
-		$tmdb_config = $this->tmdb->getConfig();
-
-		if ( is_null( $tmdb_config ) )
-			throw new TMDbException( __( 'Unknown error, connection to TheMovieDB API failed.', 'wpml' ) );
-		else if ( isset( $tmdb_config['status_code'] ) && in_array( $tmdb_config['status_code'], array( 7, 403 ) ) )
-			throw new TMDbException( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpml' ), $tmdb_config['status_message'], $tmdb_config['status_code'] ) );
-
-		$base_url = ( 'https' == $this->wpml_get_scheme() ? $tmdb_config['images']['secure_base_url'] : $tmdb_config['images']['base_url'] );
-
-		$wpml_tmdb_config = array(
-			'poster_url' => array(
-				'xx-small' => $base_url . $tmdb_config['images']['poster_sizes'][0],
-				'x-small'  => $base_url . $tmdb_config['images']['poster_sizes'][1],
-				'small'    => $base_url . $tmdb_config['images']['poster_sizes'][2],
-				'medium'   => $base_url . $tmdb_config['images']['poster_sizes'][3],
-				'full'     => $base_url . $tmdb_config['images']['poster_sizes'][4],
-				'original' => $base_url . $tmdb_config['images']['poster_sizes'][5]
-			),
-			'image_url' => array(
-				'small'    => $base_url . $tmdb_config['images']['backdrop_sizes'][0],
-				'medium'   => $base_url . $tmdb_config['images']['backdrop_sizes'][1],
-				'full'     => $base_url . $tmdb_config['images']['backdrop_sizes'][2],
-				'original' => $base_url . $tmdb_config['images']['backdrop_sizes'][3]
-			),
-		);
-
-		return $wpml_tmdb_config;
-	}
-
-	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 *
-	 *                             Methods
-	 * 
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	/**
-	 * Test the submitted API key using a dummy TMDb instance to fetch
-	 * API's configuration. Return the request result array.
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    array    API configuration request result
-	 */
-	private function wpml_api_key_check( $key ) {
-		$_tmdb = new TMDb( $key, $this->wpml_get_lang(), false, $this->wpml_get_scheme() );
-		$data = $_tmdb->getConfiguration();
-		return $data;
-	}
-
-	/**
-	 * Generate base url for requested image type and size.
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    string    base url
-	 */
-	public function wpml_tmdb_get_base_url( $type, $size ) {
-		return $this->config[ $type . '_url' ][ $size ];
-	}
-
-	/**
-	 * Application/JSON headers content-type.
-	 * If no header was sent previously, send new header.
-	 *
-	 * @since     1.0.0
-	 */
-	private function wpml_json_header() {
-		if ( false === headers_sent() )
-			header('Content-type: application/json');
-	}
-
-
-	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 *
-	 *                             Callbacks
-	 * 
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	/**
-	 * API check callback. Check key validity and return a status.
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    array    API check validity result
-	 */
-	public function wpml_tmdb_api_key_check_callback() {
-
-		check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
-
-		if ( ! isset( $_GET['key'] ) || '' == $_GET['key'] || 32 !== strlen( $_GET['key'] ) )
-			die();
-
-		$data = $this->wpml_api_key_check( esc_attr( $_GET['key'] ) );
-
-		if ( isset( $data['status_code'] ) && 7 === $data['status_code'] )
-			echo '<span id="api_status" class="invalid">'.__( 'Invalid API key - You must be granted a valid key', 'wpml' ).'</span>';
-		else
-			echo '<span id="api_status" class="valid">'.__( 'Valid API key - Save your settings and have fun!', 'wpml' ).'</span>';
-
-		die();
-	}
-
-	/**
-	 * Search callback
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    string    HTML output
-	 */
-	public function wpml_tmdb_search_callback() {
-
-		check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
-
-		$type = ( isset( $_GET['type'] ) && '' != $_GET['type'] ? $_GET['type'] : '' );
-		$data = ( isset( $_GET['data'] ) && '' != $_GET['data'] ? $_GET['data'] : '' );
-		$lang = ( isset( $_GET['lang'] ) && '' != $_GET['lang'] ? $_GET['lang'] : $this->wpml_o('tmdb-settings-lang') );
-		$_id  = ( isset( $_GET['_id'] )  && '' != $_GET['_id']  ? $_GET['_id']  : null );
-
-		if ( '' == $data || '' == $type )
-			return false;
-
-		if ( 'title' == $type )
-			$this->wpml_get_movie_by_title( $data, $lang, $_id );
-		else if ( 'id' == $type )
-			$this->wpml_get_movie_by_id( $data, $lang, $_id );
-
-		die();
-	}
-
-	/**
-	 * Load Images related to a movie.
-	 *
-	 * @since     1.0.0
-	 */
-	public function wpml_tmdb_load_images_callback() {
-	
-		check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
-
-		$tmdb_id = ( isset( $_GET['tmdb_id'] ) && '' != $_GET['tmdb_id'] ? $_GET['tmdb_id'] : null );
-		$offset  = ( isset( $_GET['offset'] )  && '' != $_GET['offset']  ? intval( $_GET['offset'] ) : 0 );
-
-		if ( is_null( $tmdb_id ) )
-			return false;
-
-		$images = $this->tmdb->getMovieImages( $tmdb_id, '' );
-		$images = $images['backdrops'];
-
-		$existing = array();
-
-		foreach ( $images as $i => $image ) {
-			$file_path = substr( $image['file_path'], 1 );
-			$exists = apply_filters( 'wpml_check_for_existing_images', $tmdb_id, 'image', $file_path );
-			if ( false !== $exists )
-				unset( $images[ $i ] );
+			$this->register_hook_callbacks();
 		}
 
-		if ( 0 < $offset )
-			$images = array_slice( $images, $offset );
+		/**
+		 * Register callbacks for actions and filters
+		 * 
+		 * @since    1.0.0
+		 */
+		public function register_hook_callbacks() {
 
-		// Keep only limited number of images
-		$images_max = $this->wpml_o('tmdb-settings-images_max');
-		if ( $images_max > 0 && count( $images ) > $images_max )
-			$images = array_slice( $images, 0, $images_max );
+			add_action( 'admin_init', array( $this, 'init' ) );
 
-		$this->wpml_json_header();
-		echo json_encode( $images );
+			add_action( 'wp_ajax_tmdb_search', __CLASS__ . '::wpml_tmdb_search_callback' );
+			add_action( 'wp_ajax_tmdb_api_key_check', __CLASS__ . 'wpml_tmdb_api_key_check_callback' );
+			add_action( 'wp_ajax_tmdb_load_images', __CLASS__ . 'wpml_tmdb_load_images_callback' );
+		}
 
-		die();
-	}
+		/**
+		 * Initializes variables
+		 *
+		 * @since    1.0.0
+		 */
+		public function init() {
 
-
-	/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 *
-	 *                             Internal
-	 * 
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	/**
-	 * Cache method for _wpml_get_movie_by_title.
-	 * 
-	 * @see _wpml_get_movie_by_title()
-	 * 
-	 * @since     1.0.0
-	 */
-	private function wpml_get_movie_by_title( $title, $lang, $_id = null ) {
-
-		$movies = ( $this->wpml_cache() ? get_transient( "wpml_movie_{$title}_{$lang}" ) : false );
-
-		if ( false === $movies ) {
-			$movies = $this->_wpml_get_movie_by_title( $title, $lang, $_id );
-
-			if ( true === $this->wpml_cache() ) {
-				$expire = (int) ( 86400 * $this->wpml_o( 'tmdb-settings-caching_time' ) );
-				set_transient( "wpml_movies_{$title}_{$lang}", $movies, $expire );
+			try {
+				$this->config = $this->wpml_tmdb_config();
+			}
+			catch ( Exception $e ) {
+				$this->error = $e->getMessage();
+				add_action( 'admin_notices', array( $this, 'wpml_tmdb_error' ) );
 			}
 		}
 
-		$this->wpml_json_header();
-		echo json_encode( $movies );
-	}
-
-	/**
-	 * List all movies matching submitted title using the API's search
-	 * method.
-	 * 
-	 * If no result were returned, display a notification. More than one
-	 * results means the search is not accurate, display first results in
-	 * case one of them matches the search and add a notification to try a
-	 * more specific search. If only on movie showed up, it should be the
-	 * one, call the API using the movie ID.
-	 * 
-	 * If more than one result, all movies listed will link to a new AJAX
-	 * call to load the movie by ID.
-	 *
-	 * @since     1.0.0
-	 */
-	public function _wpml_get_movie_by_title( $title, $lang, $_id = null ) {
-
-		$title  = $this->wpml_clean_search_title( $title );
-		$data   = $this->tmdb->searchMovie( $title, 1, FALSE, NULL, $lang );
-
-		if ( isset( $data['status_code'] ) ) {
-			$movies = array(
-				'_result' => 'error',
-				'p'      => '<p><strong>API returned Status '.$data['status_code'].':</strong> '.$data['status_message'].'</p>',
-				'_id'    => $_id
-			);
+		/**
+		 * Notify errors
+		 *
+		 * @since     1.0.0
+		 */
+		public function wpml_tmdb_error() {
+			echo '<div class="error"><p><strong>WPMovieLibrary</strong> ' . $this->error . '</p></div>';
 		}
-		else if ( ! isset( $data['total_results'] ) ) {
-			$movies = array(
-				'_result' => 'empty',
-				'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>',
-				'_id'    => $_id
-			);
-		}
-		else if ( 1 == $data['total_results'] ) {
-			$movies = $this->wpml_get_movie_by_id( $data['results'][0]['id'], $lang, $_id, false );
-		}
-		else if ( $data['total_results'] > 1 ) {
 
-			$movies = array(
-				'_result' => 'movies',
-				'p'      => '<p><strong>'.__( 'Your request showed multiple results. Select your movie in the list or try another search:', 'wpml' ).'</strong></p>',
-				'movies' => array(),
-				'_id'    => $_id
+		/**
+		 * Set up TMDb config.
+		 * Sends a request to the API to fetch images and posters default sizes
+		 * and generate various size-based urls for posters and backdrops.
+		 *
+		 * @since     1.0.0
+		 *
+		 * @return    array    TMDb config
+		 */
+		private static function wpml_tmdb_config() {
+
+			$tmdb_config = new TMDb();
+			$tmdb_config = $tmdb_config->getConfig();
+
+			if ( is_null( $tmdb_config ) ) {
+				add_notice( __( 'Unknown error, connection to TheMovieDB API failed.', 'wpml' ) );
+				return false;
+			}
+			else if ( isset( $tmdb_config['status_code'] ) && in_array( $tmdb_config['status_code'], array( 7, 403 ) ) ) {
+				add_notice( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpml' ), $tmdb_config['status_message'], $tmdb_config['status_code'] ), 'error' );
+				return false;
+			}
+
+			$base_url = ( 'https' == WPML_Settings::wpml_get_api_scheme() ? $tmdb_config['images']['secure_base_url'] : $tmdb_config['images']['base_url'] );
+
+			$wpml_tmdb_config = array(
+				'poster_url' => array(
+					'xx-small' => $base_url . $tmdb_config['images']['poster_sizes'][0],
+					'x-small'  => $base_url . $tmdb_config['images']['poster_sizes'][1],
+					'small'    => $base_url . $tmdb_config['images']['poster_sizes'][2],
+					'medium'   => $base_url . $tmdb_config['images']['poster_sizes'][3],
+					'full'     => $base_url . $tmdb_config['images']['poster_sizes'][4],
+					'original' => $base_url . $tmdb_config['images']['poster_sizes'][5]
+				),
+				'image_url' => array(
+					'small'    => $base_url . $tmdb_config['images']['backdrop_sizes'][0],
+					'medium'   => $base_url . $tmdb_config['images']['backdrop_sizes'][1],
+					'full'     => $base_url . $tmdb_config['images']['backdrop_sizes'][2],
+					'original' => $base_url . $tmdb_config['images']['backdrop_sizes'][3]
+				),
 			);
 
-			foreach ( $data['results'] as $movie ) {
-				$movies['movies'][] = array(
-					'id'     => $movie['id'],
-					'poster' => ( ! is_null( $movie['poster_path'] ) ? $this->config['poster_url']['small'].$movie['poster_path'] : plugins_url( '../assets/img/no_poster.png', __FILE__ ) ),
-					'title'  => $movie['title'],
-					'json'   => json_encode( $movie ),
+			return $wpml_tmdb_config;
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                             Methods
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * Test the submitted API key using a dummy TMDb instance to fetch
+		 * API's configuration. Return the request result array.
+		 *
+		 * @since     1.0.0
+		 *
+		 * @return    array    API configuration request result
+		 */
+		private function wpml_api_key_check( $key ) {
+			$_tmdb = new TMDb();
+			$data = $_tmdb->getConfiguration();
+			return $data;
+		}
+
+		/**
+		 * Generate base url for requested image type and size.
+		 *
+		 * @since     1.0.0
+		 *
+		 * @return    string    base url
+		 */
+		public static function wpml_tmdb_get_base_url( $type, $size ) {
+			$config = self::wpml_tmdb_config();
+			return $config[ $type . '_url' ][ $size ];
+		}
+
+		/**
+		 * Application/JSON headers content-type.
+		 * If no header was sent previously, send new header.
+		 *
+		 * @since     1.0.0
+		 */
+		private static function wpml_json_header() {
+			if ( false === headers_sent() )
+				header('Content-type: application/json');
+		}
+
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                             Callbacks
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * API check callback. Check key validity and return a status.
+		 *
+		 * @since     1.0.0
+		 *
+		 * @return    array    API check validity result
+		 */
+		public static function wpml_tmdb_api_key_check_callback() {
+
+			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+
+			if ( ! isset( $_GET['key'] ) || '' == $_GET['key'] || 32 !== strlen( $_GET['key'] ) )
+				die();
+
+			$data = self::wpml_api_key_check( esc_attr( $_GET['key'] ) );
+
+			if ( isset( $data['status_code'] ) && 7 === $data['status_code'] )
+				echo '<span id="api_status" class="invalid">'.__( 'Invalid API key - You must be granted a valid key', 'wpml' ).'</span>';
+			else
+				echo '<span id="api_status" class="valid">'.__( 'Valid API key - Save your settings and have fun!', 'wpml' ).'</span>';
+
+			die();
+		}
+
+		/**
+		 * Search callback
+		 *
+		 * @since     1.0.0
+		 *
+		 * @return    string    HTML output
+		 */
+		public static function wpml_tmdb_search_callback() {
+
+			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+
+			$type = ( isset( $_GET['type'] ) && '' != $_GET['type'] ? $_GET['type'] : '' );
+			$data = ( isset( $_GET['data'] ) && '' != $_GET['data'] ? $_GET['data'] : '' );
+			$lang = ( isset( $_GET['lang'] ) && '' != $_GET['lang'] ? $_GET['lang'] : WPML_Settings::wpml_o('tmdb-settings-lang') );
+			$_id  = ( isset( $_GET['_id'] )  && '' != $_GET['_id']  ? $_GET['_id']  : null );
+
+			if ( '' == $data || '' == $type )
+				return false;
+
+			if ( 'title' == $type )
+				self::wpml_get_movie_by_title( $data, $lang, $_id );
+			else if ( 'id' == $type )
+				self::wpml_get_movie_by_id( $data, $lang, $_id );
+
+			die();
+		}
+
+		/**
+		 * Load Images related to a movie.
+		 *
+		 * @since     1.0.0
+		 */
+		public static function wpml_tmdb_load_images_callback() {
+		
+			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+
+			$tmdb = new TMDb;
+
+			$tmdb_id = ( isset( $_GET['tmdb_id'] ) && '' != $_GET['tmdb_id'] ? $_GET['tmdb_id'] : null );
+			$offset  = ( isset( $_GET['offset'] )  && '' != $_GET['offset']  ? intval( $_GET['offset'] ) : 0 );
+
+			if ( is_null( $tmdb_id ) )
+				return false;
+
+			$images = $tmdb->getMovieImages( $tmdb_id, '' );
+			$images = $images['backdrops'];
+
+			$existing = array();
+
+			foreach ( $images as $i => $image ) {
+				$file_path = substr( $image['file_path'], 1 );
+				$exists = apply_filters( 'wpml_check_for_existing_images', $tmdb_id, 'image', $file_path );
+				if ( false !== $exists )
+					unset( $images[ $i ] );
+			}
+
+			if ( 0 < $offset )
+				$images = array_slice( $images, $offset );
+
+			// Keep only limited number of images
+			$images_max = WPML_Settings::wpml_o('tmdb-settings-images_max');
+			if ( $images_max > 0 && count( $images ) > $images_max )
+				$images = array_slice( $images, 0, $images_max );
+
+			self::wpml_json_header();
+			echo json_encode( $images );
+
+			die();
+		}
+
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                             Internal
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * Cache method for _wpml_get_movie_by_title.
+		 * 
+		 * @see _wpml_get_movie_by_title()
+		 * 
+		 * @since     1.0.0
+		 */
+		private static function wpml_get_movie_by_title( $title, $lang, $_id = null ) {
+
+			$movies = ( WPML_Settings::wpml_use_cache() ? get_transient( "wpml_movie_{$title}_{$lang}" ) : false );
+
+			if ( false === $movies ) {
+				$movies = self::_wpml_get_movie_by_title( $title, $lang, $_id );
+
+				if ( true === WPML_Settings::wpml_use_cache() ) {
+					$expire = (int) ( 86400 * WPML_Settings::wpml_o( 'tmdb-settings-caching_time' ) );
+					set_transient( "wpml_movies_{$title}_{$lang}", $movies, $expire );
+				}
+			}
+
+			self::wpml_json_header();
+			echo json_encode( $movies );
+		}
+
+		/**
+		 * List all movies matching submitted title using the API's search
+		 * method.
+		 * 
+		 * If no result were returned, display a notification. More than one
+		 * results means the search is not accurate, display first results in
+		 * case one of them matches the search and add a notification to try a
+		 * more specific search. If only on movie showed up, it should be the
+		 * one, call the API using the movie ID.
+		 * 
+		 * If more than one result, all movies listed will link to a new AJAX
+		 * call to load the movie by ID.
+		 *
+		 * @since     1.0.0
+		 */
+		public static function _wpml_get_movie_by_title( $title, $lang, $_id = null ) {
+
+			$tmdb = new TMDb;
+
+			$title  = WPML_Utils::wpml_clean_search_title( $title );
+			$data   = $tmdb->searchMovie( $title, 1, FALSE, NULL, $lang );
+
+			if ( isset( $data['status_code'] ) ) {
+				$movies = array(
+					'_result' => 'error',
+					'p'      => '<p><strong>API returned Status '.$data['status_code'].':</strong> '.$data['status_message'].'</p>',
 					'_id'    => $_id
 				);
 			}
-		}
-		else {
-			$movies = array(
-				'_result' => 'empty',
-				'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>',
-				'_id'    => $_id
-			);
-		}
-
-		return $movies;
-	}
-
-	/**
-	 * Cache method for _wpml_get_movie_by_id.
-	 * 
-	 * @see _wpml_get_movie_by_id()
-	 * 
-	 * @since     1.0.0
-	 */
-	private function wpml_get_movie_by_id( $id, $lang, $_id = null, $echo = true ) {
-
-		$movie = ( $this->wpml_cache() ? get_transient( "wpml_movie_{$id}_{$lang}" ) : false );
-
-		if ( false === $movie ) {
-			$movie = $this->_wpml_get_movie_by_id( $id, $lang, $_id );
-
-			if ( true === $this->wpml_cache() ) {
-				$expire = (int) ( 86400 * $this->wpml_o( 'tmdb-settings-caching_time' ) );
-				set_transient( "wpml_movie_{$id}_{$lang}", $movie, 3600 * 24 );
+			else if ( ! isset( $data['total_results'] ) ) {
+				$movies = array(
+					'_result' => 'empty',
+					'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>',
+					'_id'    => $_id
+				);
 			}
-		}
+			else if ( 1 == $data['total_results'] ) {
+				$movies = self::wpml_get_movie_by_id( $data['results'][0]['id'], $lang, $_id, false );
+			}
+			else if ( $data['total_results'] > 1 ) {
 
-		$movie['_id'] = $_id;
+				$movies = array(
+					'_result' => 'movies',
+					'p'      => '<p><strong>'.__( 'Your request showed multiple results. Select your movie in the list or try another search:', 'wpml' ).'</strong></p>',
+					'movies' => array(),
+					'_id'    => $_id
+				);
 
-		if ( true === $echo ) {
-			$this->wpml_json_header();
-			echo json_encode( $movie );
-		}
-		else {
-			return $movie;
-		}
-	}
-
-	/**
-	 * Get movie by ID. Load casts and images too.
-	 * 
-	 * Return a JSON string containing fetched data. Apply some filtering
-	 * to extract specific crew jobs like director or producer.
-	 *
-	 * @since     1.0.0
-	 *
-	 * @return    string    JSON formatted results.
-	 */
-	private function _wpml_get_movie_by_id( $id, $lang, $_id = null ) {
-
-		$movie  = $this->tmdb->getMovie( $id, $lang );
-		$casts  = $this->tmdb->getMovieCast( $id );
-		$images = $this->tmdb->getMovieImages( $id, '' );
-		$images = $images['backdrops'];
-
-		// Keep only limited number of images
-		$images_max = $this->wpml_o('tmdb-settings-images_max');
-		if ( $images_max > 0 && count( $images ) > $images_max )
-			$images = array_slice( $images, 0, $images_max );
-
-		$_images = array( 'images' => $images );
-		$_full = array_merge( $movie, $casts, $images );
-		$_movie = array(
-			'_id'     => $_id,
-			'_tmdb_id' => $id,
-			'meta'    => apply_filters( 'wpml_filter_meta_data', $movie ),
-			'crew'    => apply_filters( 'wpml_filter_crew_data', $casts ),
-			'images'  => $images,
-			'poster_path'  => $movie['poster_path'],
-			'_result' => 'movie',
-			'_full'   => $_full,
-		);
-
-		// Prepare Custom Taxonomy
-		if ( 1 == $this->wpml_o( 'wpml-settings-taxonomy_autocomplete' ) ) {
-
-			$_movie['taxonomy'] = array(
-				'actors' => array(),
-				'genres' => array()
-			);
-
-			if ( ! empty( $casts['cast'] ) && 1 == $this->wpml_o( 'wpml-settings-enable_actor' ) ) {
-				foreach ( $casts['cast'] as $actor ) {
-					$_movie['taxonomy']['actors'][] = $actor['name'];
+				foreach ( $data['results'] as $movie ) {
+					$movies['movies'][] = array(
+						'id'     => $movie['id'],
+						'poster' => ( ! is_null( $movie['poster_path'] ) ? $this->config['poster_url']['small'].$movie['poster_path'] : plugins_url( '../assets/img/no_poster.png', __FILE__ ) ),
+						'title'  => $movie['title'],
+						'json'   => json_encode( $movie ),
+						'_id'    => $_id
+					);
 				}
 			}
-			if ( ! empty( $movie['genres'] ) && 1 == $this->wpml_o( 'wpml-settings-enable_genre' ) ) {
-				foreach ( $movie['genres'] as $genre ) {
-					$_movie['taxonomy']['genres'][] = $genre['name'];
+			else {
+				$movies = array(
+					'_result' => 'empty',
+					'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>',
+					'_id'    => $_id
+				);
+			}
+
+			return $movies;
+		}
+
+		/**
+		 * Cache method for _wpml_get_movie_by_id.
+		 * 
+		 * @see _wpml_get_movie_by_id()
+		 * 
+		 * @since     1.0.0
+		 */
+		private static function wpml_get_movie_by_id( $id, $lang, $_id = null, $echo = true ) {
+
+			$movie = ( WPML_Settings::wpml_use_cache() ? get_transient( "wpml_movie_{$id}_{$lang}" ) : false );
+
+			if ( false === $movie ) {
+				$movie = self::_wpml_get_movie_by_id( $id, $lang, $_id );
+
+				if ( true === WPML_Settings::wpml_use_cache() ) {
+					$expire = (int) ( 86400 * WPML_Settings::wpml_o( 'tmdb-settings-caching_time' ) );
+					set_transient( "wpml_movie_{$id}_{$lang}", $movie, 3600 * 24 );
 				}
+			}
+
+			$movie['_id'] = $_id;
+
+			if ( true === $echo ) {
+				self::wpml_json_header();
+				echo json_encode( $movie );
+			}
+			else {
+				return $movie;
 			}
 		}
 
+		/**
+		 * Get movie by ID. Load casts and images too.
+		 * 
+		 * Return a JSON string containing fetched data. Apply some filtering
+		 * to extract specific crew jobs like director or producer.
+		 *
+		 * @since     1.0.0
+		 *
+		 * @return    string    JSON formatted results.
+		 */
+		private static function _wpml_get_movie_by_id( $id, $lang, $_id = null ) {
 
-		return $_movie;
+			$tmdb = new TMDb;
+
+			$movie  = $tmdb->getMovie( $id, $lang );
+			$casts  = $tmdb->getMovieCast( $id );
+			$images = $tmdb->getMovieImages( $id, '' );
+			$images = $images['backdrops'];
+
+			// Keep only limited number of images
+			$images_max = WPML_Settings::wpml_o('tmdb-settings-images_max');
+			if ( $images_max > 0 && count( $images ) > $images_max )
+				$images = array_slice( $images, 0, $images_max );
+
+			$_images = array( 'images' => $images );
+			$_full = array_merge( $movie, $casts, $images );
+			$_movie = array(
+				'_id'     => $_id,
+				'_tmdb_id' => $id,
+				'meta'    => apply_filters( 'wpml_filter_meta_data', $movie ),
+				'crew'    => apply_filters( 'wpml_filter_crew_data', $casts ),
+				'images'  => $images,
+				'poster_path'  => $movie['poster_path'],
+				'_result' => 'movie',
+				'_full'   => $_full,
+			);
+
+			// Prepare Custom Taxonomy
+			if ( 1 == WPML_Settings::wpml_o( 'wpml-settings-taxonomy_autocomplete' ) ) {
+
+				$_movie['taxonomy'] = array(
+					'actors' => array(),
+					'genres' => array()
+				);
+
+				if ( ! empty( $casts['cast'] ) && 1 == WPML_Settings::wpml_o( 'wpml-settings-enable_actor' ) ) {
+					foreach ( $casts['cast'] as $actor ) {
+						$_movie['taxonomy']['actors'][] = $actor['name'];
+					}
+				}
+				if ( ! empty( $movie['genres'] ) && 1 == WPML_Settings::wpml_o( 'wpml-settings-enable_genre' ) ) {
+					foreach ( $movie['genres'] as $genre ) {
+						$_movie['taxonomy']['genres'][] = $genre['name'];
+					}
+				}
+			}
+
+
+			return $_movie;
+		}
+
 	}
 
-
-}
+endif;

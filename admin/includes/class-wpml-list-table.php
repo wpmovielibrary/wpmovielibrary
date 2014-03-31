@@ -207,7 +207,7 @@ class WPML_List_Table extends WP_List_Table {
 		$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_poster" type="hidden" name="tmdb[p_'.$item['ID'].'][poster]" value="" />';
 
 		foreach ( $this->metadata as $id => $box )
-			foreach ( $box['data'] as $slug => $meta )
+			foreach ( $box as $slug => $meta )
 				$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_'.$slug.'" type="hidden" name="tmdb[p_'.$item['ID'].']['.$id.']['.$slug.']" value="" />';
 
 		$inline_item = '<div id="p_'.$item['ID'].'_tmdb_data">'.$inline_item.'</div>';
