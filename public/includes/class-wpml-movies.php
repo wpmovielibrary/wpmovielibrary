@@ -39,6 +39,9 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			// Movie content
 			add_filter( 'the_content', __CLASS__ . '::wpml_movie_content' );
 
+			add_action( 'pre_get_posts', __CLASS__ . '::wpml_movies_query_meta', 10, 1 );
+			add_filter( 'query_vars', __CLASS__ . '::wpml_movies_query_vars', 10, 1 );
+
 			add_filter( 'wpml_get_movies_from_media', __CLASS__ . '::wpml_get_movies_from_media', 10, 1 );
 			add_filter( 'wpml_get_movies_from_status', __CLASS__ . '::wpml_get_movies_from_status', 10, 1 );
 		}
@@ -262,6 +265,50 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			$html .= '</dl>';
 
 			return $html;
+		}
+
+		/**
+		 * Add support for Movie Details to the current WP_Query.
+		 * 
+		 * If current WP_Query has a WPML meta var set, edit the query to
+		 * return the movies matching the wanted detail.
+		 *
+		 * @since     1.0.0
+		 * 
+		 * @param     object      $wp_query Current WP_Query instance
+		 *
+		 * @return    string      The WP_Query instance, updated or not.
+		 */
+		public static function wpml_movies_query_meta( $wp_query ) {
+
+			$metas = array( 'wpml_movie_media', 'wpml_movie_status', 'wpml_movie_rating' );
+			$key_vars = array_keys( $wp_query->query_vars );
+
+			foreach ( $metas as $meta ) {
+
+				if ( in_array( $meta, $key_vars ) ) {
+					$wp_query->set( 'meta_key', "_{$meta}" );
+					$wp_query->set( 'meta_value', $wp_query->get( $meta ) );
+				}
+			}
+
+			return $wp_query;
+		}
+
+		/**
+		 * Add Movie Details slugs to queryable vars
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    array     Current WP_Query instance's queryable vars
+		 * 
+		 * @return   array     Updated WP_Query instance
+		 */
+		public static function wpml_movies_query_vars( $q_var ) {
+			$q_var[] = 'wpml_movie_media';
+			$q_var[] = 'wpml_movie_status';
+			$q_var[] = 'wpml_movie_rating';
+			return $q_var;
 		}
 
 		/**

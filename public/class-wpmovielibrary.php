@@ -74,9 +74,6 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
-			add_action( 'pre_get_posts', __CLASS__ . '::wpml_movies_query_meta', 10, 1 );
-			add_filter( 'query_vars', __CLASS__ . '::wpml_movies_query_vars', 10, 1 );
-
 			// Add link to WP Admin Bar
 			add_action( 'wp_before_admin_bar_render', array( $this, 'wpml_admin_bar_menu' ), 999 );
 		}
@@ -123,7 +120,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				$this->single_activate( $network_wide );
 			}
 
-			set_transient( '_wpml_just_activated', 1, HOUR_IN_SECONDS );
+			set_transient( '_wpml_just_activated', 'yup', HOUR_IN_SECONDS );
 			self::wpml_register_permalinks();
 
 		}
@@ -169,8 +166,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				$wpdb->query( 'OPTIMIZE TABLE ' . $wpdb->options );
 			}
 
-			self::wpml_register_permalinks( $unregister = true );
-			flush_rewrite_rules();
+			delete_option( 'rewrite_rules' );
 
 		}
 
@@ -236,19 +232,6 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		}
 
 		/**
-		 * Flush WordPress Rewrite Rules on plugin activation.
-		 *
-		 * @since    1.0.0
-		 */
-		public static function wpml_flush_rewrite_rules() {
-
-			/*if ( false !== get_transient( '_wpml_just_activated' ) ) {
-				flush_rewrite_rules();
-				delete_transient( '_wpml_just_activated' );
-			}*/
-		}
-
-		/**
 		 * Create a new set of permalinks for Movie Details
 		 * 
 		 * TODO: rename and add option to either add or remove permalinks
@@ -257,83 +240,25 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 *
 		 * @param    object     $wp_rewrite Instance of WordPress WP_Rewrite Class
 		 */
-		public static function wpml_register_permalinks( $unregister = false ) {
+		public static function wpml_register_permalinks() {
 
-			global $wp_rewrite;
+			if ( 'yup' != get_transient( '_wpml_just_activated' ) )
+				return false;
 
 			$new_rules = array(
-				'movies/(dvd|vod|bluray|vhs|cinema|other)/?$' => 'index.php?post_type=movie&wpml_movie_media=' . $wp_rewrite->preg_index( 1 ),
-				'movies/(dvd|vod|bluray|vhs|cinema|other)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_media=' . $wp_rewrite->preg_index( 1 ),
-				'movies/(available|loaned|scheduled)/?$' => 'index.php?post_type=movie&wpml_movie_status=' . $wp_rewrite->preg_index( 1 ),
-				'movies/(available|loaned|scheduled)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_status=' . $wp_rewrite->preg_index( 1 ) . '&paged=' . $wp_rewrite->preg_index( 2 ),
-				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/?$' => 'index.php?post_type=movie&wpml_movie_rating=' . $wp_rewrite->preg_index( 1 ),
-				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_rating=' . $wp_rewrite->preg_index( 1 ) . '&paged=' . $wp_rewrite->preg_index( 2 ),
+				'movies/(dvd|vod|bluray|vhs|cinema|other)/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]',
+				'movies/(dvd|vod|bluray|vhs|cinema|other)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]',
+				'movies/(available|loaned|scheduled)/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]',
+				'movies/(available|loaned|scheduled)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]' . '&paged=$matches[2]',
+				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]',
+				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]' . '&paged=$matches[2]',
 			);
 
-			if ( true === $unregister ) {
+			foreach ( $new_rules as $regex => $rule )
+				add_rewrite_rule( $regex, $rule, 'top' );
 
-				foreach ( $wp_rewrite->rules as $regex => $rule ) {
-					//var_dump( $regex, in_array( substr( $regex, 0, 5 ), array( 'movie', 'actor', 'genre', 'colle' ) ) );
-					if ( in_array( substr( $regex, 0, 5 ), array( 'movie', 'actor', 'genre', 'colle' ) ) )
-						unset( $wp_rewrite->rules[ $regex ] );
-				}
-
-				//$wp_rewrite->flush_rules();
-				print_r( $wp_rewrite ); die();
-
-				/*foreach ( $new_rules as $regex => $rule )
-					if ( isset( $wp_rewrite->rules[ $regex ] ) )
-						unset( $wp_rewrite->rules[ $regex ] );*/
-
-			}
-			else {
-				foreach ( $new_rules as $regex => $rule )
-					add_rewrite_rule( $regex, $rule, 'top' );
-			}
-		}
-
-		/**
-		 * Add support for Movie Details to the current WP_Query.
-		 * 
-		 * If current WP_Query has a WPML meta var set, edit the query to
-		 * return the movies matching the wanted detail.
-		 *
-		 * @since     1.0.0
-		 * 
-		 * @param     object      $wp_query Current WP_Query instance
-		 *
-		 * @return    string      The WP_Query instance, updated or not.
-		 */
-		public static function wpml_movies_query_meta( $wp_query ) {
-
-			$metas = array( 'wpml_movie_media', 'wpml_movie_status', 'wpml_movie_rating' );
-			$key_vars = array_keys( $wp_query->query_vars );
-
-			foreach ( $metas as $meta ) {
-
-				if ( in_array( $meta, $key_vars ) ) {
-					$wp_query->set( 'meta_key', "_{$meta}" );
-					$wp_query->set( 'meta_value', $wp_query->get( $meta ) );
-				}
-			}
-
-			return $wp_query;
-		}
-
-		/**
-		 * Add Movie Details slugs to queryable vars
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @param    array     Current WP_Query instance's queryable vars
-		 * 
-		 * @return   array     Updated WP_Query instance
-		 */
-		public static function wpml_movies_query_vars( $q_var ) {
-			$q_var[] = 'wpml_movie_media';
-			$q_var[] = 'wpml_movie_status';
-			$q_var[] = 'wpml_movie_rating';
-			return $q_var;
+			flush_rewrite_rules();
+			delete_transient( '_wpml_just_activated' );
 		}
 
 		/**
