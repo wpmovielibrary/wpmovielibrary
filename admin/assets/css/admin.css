@@ -485,6 +485,18 @@ body.post-php.post-type-movie #postimagediv {
 	width: 360px;
 }
 
+#hide_progressbar {
+	height: 18px;
+	left: 50%;
+	margin: 24px 0 0 -36px;
+	max-width: inherit;
+	overflow: hidden;
+	position: absolute;
+	text-align: center;
+	top: 50%;
+	width: 72px;
+}
+
 #progressbar .ui-progressbar {
 	margin: 1em auto;
 	position: relative;

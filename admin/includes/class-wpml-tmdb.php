@@ -62,23 +62,6 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 * @since    1.0.0
 		 */
 		public function init() {
-
-			try {
-				$this->config = $this->wpml_tmdb_config();
-			}
-			catch ( Exception $e ) {
-				$this->error = $e->getMessage();
-				add_action( 'admin_notices', array( $this, 'wpml_tmdb_error' ) );
-			}
-		}
-
-		/**
-		 * Notify errors
-		 *
-		 * @since     1.0.0
-		 */
-		public function wpml_tmdb_error() {
-			echo '<div class="error"><p><strong>WPMovieLibrary</strong> ' . $this->error . '</p></div>';
 		}
 
 		/**

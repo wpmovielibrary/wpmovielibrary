@@ -227,10 +227,10 @@ if ( ! class_exists( 'TMDb' ) ) :
 				if ( in_array( $size, $available_sizes ) )
 					return $base_url . $size . $filepath;
 				else
-					add_notice( sprintf( __( 'The size "%s" is not supported by TMDb', 'wpml' ), $size ), 'error' );
+					return sprintf( __( 'The size "%s" is not supported by TMDb', 'wpml' ), $size );
 			}
 			else
-				add_notice( __( 'No configuration available for image URL generation', 'wpml' ), 'error' );
+				return __( 'No configuration available for image URL generation', 'wpml' );
 		}
 
 		/**
@@ -246,7 +246,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 			if ( isset( $config['images'][$imagetype.'_sizes'] ) )
 				return $config['images'][$imagetype.'_sizes'];
 			else
-				add_notice( __( 'No configuration available to retrieve available image sizes', 'wpml' ), 'error' );
+				return __( 'No configuration available to retrieve available image sizes', 'wpml' );
 		}
 
 		/**
@@ -299,8 +299,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 			$response = $request->request( $url, array( 'headers' => $headers ) );
 
 			if ( is_wp_error( $response ) ) {
-				add_notice( sprintf( __( 'Server error: %s', 'wpml' ), $response->get_error_message() ), 'error' );
-				return false;
+				return sprintf( __( 'Server error: %s', 'wpml' ), $response->get_error_message() );
 			}
 
 			$header = $response['headers'];
@@ -309,8 +308,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 			$results = json_decode( $body, true );
 
 			if ( isset( $body['status_code'] ) && isset( $body['status_message'] ) ) {
-				add_notice( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpml' ), $body['status_code'], $body['status_message'] ), 'error' );
-				return false;
+				return sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpml' ), $body['status_code'], $body['status_message'] );
 			}
 
 			if ( false !== strpos( $function, 'authentication/token/new' ) ) {
@@ -324,7 +322,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 			else if ( TMDb::HEAD == $method )
 				return self::_http_parse_headers( $header );
 			else
-				add_notice( sprintf( __( 'Server error on "%s": %s', 'wpml' ), $url, $response ), 'error' );
+				return sprintf( __( 'Server error on "%s": %s', 'wpml' ), $url, print_r( $response, true ) );
 		}
 
 		/**

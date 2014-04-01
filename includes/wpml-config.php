@@ -23,10 +23,10 @@ $wpml_settings = array(
 			'details_as_icons' => 1,
 			'default_movie_meta' => array(
 				'director',
-				'genres',
 				'runtime',
+				'release_date',
+				'genres',
 				'overview',
-				'rating'
 			),
 			'default_movie_details' => array(
 				'movie_media',
