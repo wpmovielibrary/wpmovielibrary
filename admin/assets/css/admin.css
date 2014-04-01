@@ -534,11 +534,6 @@ body.post-php.post-type-movie #postimagediv {
 /* #WPML 
  ****************************************************/
 
-#wpml_import {
-	max-width: 56em;
-	width: 100%;
-}
-
 #wpml_import_list {
 	height: 12em;
 	width: 100%;

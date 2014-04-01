@@ -279,7 +279,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 			$url .= ( ! empty( $params ) ) ? '&' . http_build_query( $params, '', '&' ) : '';
 
 			if ( true === WPML_Settings::wpml_is_dummy_api() ) {
-				$url = 'http://' . TMDb::API_DUMMY_URL . '/' . $function;
+				$url = 'http' . TMDb::API_DUMMY_URL . '/' . $function;
 				if ( isset( $params['query'] ) && '' != $params['query'] )
 					$url .= '/' . rawurlencode( $params['query'] );
 				if ( isset( $params['language'] ) && false !== $params['language'] )

@@ -198,6 +198,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public static function wpml_admin_page() {
 
 			$errors = array();
+			$_notice = '';
 			$_section = '';
 
 			if ( isset( $_POST['restore_default'] ) && '' != $_POST['restore_default'] ) {
@@ -206,7 +207,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 				if ( 0 === did_action( 'wpml_restore_default_settings' ) )
 					do_action( 'wpml_restore_default_settings' );
-				add_notice( __( 'Default Settings have been restored.', 'wpml' ) );
+				$_notice = __( 'Default Settings have been restored.', 'wpml' );
 			}
 
 			if ( isset( $_POST['submit'] ) && '' != $_POST['submit'] ) {
@@ -248,7 +249,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				}
 
 				if ( empty( $errors ) )
-					add_notice( __( 'Settings saved.', 'wpml' ) );
+					$_notice = __( 'Settings saved.', 'wpml' );
 
 			}
 
@@ -350,9 +351,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$this->plugin_screen_hook_suffix = array(
 				'movie_page_import', 'movie_page_settings', 'edit-movie', 'movie', 'plugins'
 			);
-
-			if ( false === WPML_Settings::wpml_get_api_key() )
-				add_notice( sprintf( __( 'Congratulation, you successfully installed WPMovieLibrary. You need a valid <acronym title="TheMovieDB">TMDb</acronym> API key to start adding your movies. Go to the <a href="%s">WPMovieLibrary Settings page</a> to add your API key.', 'wpml' ), admin_url( 'edit.php?post_type=movie&page=settings' ) ), 'wpml' );
 
 		}
 

@@ -48,6 +48,21 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			add_filter( 'wp_get_object_terms', __CLASS__ . '::wpml_get_ordered_object_terms', 10, 4 );
 		}
 
+		public static function admin_notice( $notice, $type = 'update' ) {
+
+			if ( '' == $notice )
+				return false;
+
+			if ( ! in_array( $type, array( 'error', 'update', 'wpml' ) ) || 'update' == $type )
+				$class = 'updated';
+			else if ( 'wpml' == $type )
+				$class = 'updated wpml';
+			else if ( 'error' == $type )
+				$class = 'error';
+
+			echo '<div class="' . $class . '"><p>' . $notice . '</p></div>';
+		}
+
 		/**
 		 * Return Movie's stored TMDb data.
 		 * 

@@ -92,6 +92,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		public static function wpml_import_movies() {
 
 			$errors = array();
+			$_notice = '';
 
 			if ( ! isset( $_POST['wpml_import_list'] ) || '' == $_POST['wpml_import_list'] )
 				return false;
@@ -110,9 +111,9 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 			// @TODO: i18n plural
 			if ( empty( $errors ) )
-				add_notice( sprintf( __( '%d Movie%s added successfully.', 'wpml' ), count( $movies ), ( count( $movies ) > 1 ? 's' : '' ) ) );
+				$_notice = sprintf( __( '%d Movie%s added successfully.', 'wpml' ), count( $movies ), ( count( $movies ) > 1 ? 's' : '' ) );
 			else if ( ! empty( $errors ) )
-				add_notice( sprintf( '<strong>%s</strong> <ul>%s</ul>', __( 'The following error(s) occured:', 'wpml' ), implode( '', array_map( create_function( '&$e', 'return "<li>$e</li>";' ), $errors ) ) ), 'error' );
+				$_notice = sprintf( '<strong>%s</strong> <ul>%s</ul>', __( 'The following error(s) occured:', 'wpml' ), implode( '', array_map( create_function( '&$e', 'return "<li>$e</li>";' ), $errors ) ) );
 
 			return true;
 		}
@@ -320,6 +321,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		public static function wpml_import_page() {
 
 			$errors = array();
+			$_notice = '';
 			$_section = '';
 
 			if ( isset( $_POST['wpml_save_imported'] ) && '' != $_POST['wpml_save_imported'] && isset( $_POST['tmdb'] ) && count( $_POST['tmdb'] ) ) {
@@ -333,7 +335,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				}
 
 				if ( empty( $errors ) )
-					add_notice( sprintf( __( '%d Movies imported successfully!', 'wpml' ), count( $_POST['tmdb'] ) ) );
+					$_notice = sprintf( __( '%d Movies imported successfully!', 'wpml' ), count( $_POST['tmdb'] ) );
 			}
 
 			if ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'tmdb', 'wpml', 'uninstall', 'restore' ) ) )

@@ -345,19 +345,19 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				}
 
 				// Autofilling Taxonomy
-				if ( 1 == WPML_Settings::wpml_o( 'wpml-settings-taxonomy_autocomplete' ) ) {
+				if ( WPML_Settings::wpml_taxonomy_autocomplete() ) {
 
-					if ( 1 == WPML_Settings::wpml_o( 'wpml-settings-enable_actor' ) ) {
+					if ( WPML_Settings::wpml_use_actor() ) {
 						$actors = explode( ',', $tmdb_data['crew']['cast'] );
 						$actors = wp_set_object_terms( $post_id, $actors, 'actor', false );
 					}
 
-					if ( 1 == WPML_Settings::wpml_o( 'wpml-settings-enable_genre' ) ) {
+					if ( WPML_Settings::wpml_use_genre() ) {
 						$genres = explode( ',', $tmdb_data['meta']['genres'] );
 						$genres = wp_set_object_terms( $post_id, $genres, 'genre', false );
 					}
 
-					if ( 1 == WPML_Settings::wpml_o( 'wpml-settings-enable_collection' ) ) {
+					if ( WPML_Settings::wpml_use_collection() ) {
 						$collections = explode( ',', $tmdb_data['crew']['director'] );
 						$collections = wp_set_object_terms( $post_id, $collections, 'collection', false );
 					}

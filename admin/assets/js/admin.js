@@ -405,7 +405,7 @@ wpml = {
 					while (tmdb_data.lastChild) tmdb_data.removeChild(tmdb_data.lastChild);
 					tmdb_data.style.display = 'none';
 					wpml.movie.populate(response);
-					wpml.movie.images.set_featured(response.poster_path, null, response.title);
+					wpml.movie.images.set_featured(response.poster_path, null, response.title, response._tmdb_id);
 				},
 				beforeSend: function() {
 					$('#tmdb_search').addClass('button-loading');

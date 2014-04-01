@@ -216,10 +216,9 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * 
 		 * @return   string|WP_Error Populated HTML img tag on success
 		 */
-		public static function wpml_set_image_as_featured( $image, $post_id, $tmdb_id, $title ) {
+		public static function wpml_set_image_as_featured( $file, $post_id, $tmdb_id, $title ) {
 
 			$size = WPML_Settings::wpml_o('tmdb-settings-poster_size');
-			$file = WPML_TMDb::wpml_tmdb_get_base_url( 'poster', $size );
 
 			$existing = apply_filters( 'wpml_check_for_existing_images', $tmdb_id, 'poster' );
 
@@ -231,7 +230,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			if ( is_array( $image ) && isset( $image[0]->ID ) )
 				return $image[0]->ID;
 			else
-				return false;
+				return $image;
 		}
 
 		/**

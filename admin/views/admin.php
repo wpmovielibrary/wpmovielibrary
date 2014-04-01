@@ -3,6 +3,10 @@
 <div id="wpml-settings" class="wrap">
 	<h2><?php _e( 'Plugin Options', 'wpml' ); ?></h2>
 
+	<?php if ( ! WPML_Settings::wpml_get_api_key() ) WPML_Utils::admin_notice( sprintf( __( 'Congratulation, you successfully installed WPMovieLibrary. You need a valid <acronym title="TheMovieDB">TMDb</acronym> API key to start adding your movies. Go to the <a href="%s">WPMovieLibrary Settings page</a> to add your API key.', 'wpml' ), admin_url( 'edit.php?post_type=movie&page=settings' ) ), 'wpml' ); ?>
+
+	<?php WPML_Utils::admin_notice( $_notice ); ?>
+
 	<div id="wpml-tabs">
 
 		<form method="post">

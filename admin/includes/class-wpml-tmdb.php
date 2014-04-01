@@ -52,8 +52,8 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			add_action( 'admin_init', array( $this, 'init' ) );
 
 			add_action( 'wp_ajax_tmdb_search', __CLASS__ . '::wpml_tmdb_search_callback' );
-			add_action( 'wp_ajax_tmdb_api_key_check', __CLASS__ . 'wpml_tmdb_api_key_check_callback' );
-			add_action( 'wp_ajax_tmdb_load_images', __CLASS__ . 'wpml_tmdb_load_images_callback' );
+			add_action( 'wp_ajax_tmdb_api_key_check', __CLASS__ . '::wpml_tmdb_api_key_check_callback' );
+			add_action( 'wp_ajax_tmdb_load_images', __CLASS__ . '::wpml_tmdb_load_images_callback' );
 		}
 
 		/**
@@ -319,6 +319,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		public static function _wpml_get_movie_by_title( $title, $lang, $_id = null ) {
 
 			$tmdb = new TMDb;
+			$config = $tmdb->getConfig();
 
 			$title  = WPML_Utils::wpml_clean_search_title( $title );
 			$data   = $tmdb->searchMovie( $title, 1, FALSE, NULL, $lang );
@@ -352,7 +353,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				foreach ( $data['results'] as $movie ) {
 					$movies['movies'][] = array(
 						'id'     => $movie['id'],
-						'poster' => ( ! is_null( $movie['poster_path'] ) ? $this->config['poster_url']['small'].$movie['poster_path'] : plugins_url( '../assets/img/no_poster.png', __FILE__ ) ),
+						'poster' => ( ! is_null( $movie['poster_path'] ) ? self::wpml_tmdb_get_base_url( 'poster', 'small' ) . $movie['poster_path'] : WPML_URL . '/public/assets/img/no_poster.png' ),
 						'title'  => $movie['title'],
 						'json'   => json_encode( $movie ),
 						'_id'    => $_id

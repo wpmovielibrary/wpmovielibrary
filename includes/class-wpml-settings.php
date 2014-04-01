@@ -40,7 +40,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		public function register_hook_callbacks() {
 
 			// Load settings or register new ones
-			add_action( 'init', __CLASS__ . '::wpml_default_settings' );
+			add_action( 'init', __CLASS__ . '::wpml_default_settings', 9 );
 
 			add_action( 'wpml_restore_default_settings', __CLASS__ . '::wpml_restore_default_settings', 10, 0 );
 			add_filter( 'wpml_get_available_movie_media', __CLASS__ . '::wpml_get_available_movie_media' );
@@ -130,7 +130,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		* 
 		* @since    1.0.0
 		*/
-		public function wpml_restore_default_settings() {
+		public static function wpml_restore_default_settings() {
 			self::wpml_default_settings( $force = true );
 		}
 
@@ -217,7 +217,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @return   boolean    Taxonomy status: true if enabled, false if not.
 		 */
-		public static function wpml_can_use_collection() {
+		public static function wpml_use_collection() {
 			return (boolean) ( 1 == self::wpml_o( 'wpml-settings-enable_collection' ) );
 		}
 
@@ -228,7 +228,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @return   boolean    Taxonomy status: true if enabled, false if not.
 		 */
-		public static function wpml_can_use_genre() {
+		public static function wpml_use_genre() {
 			return (boolean) ( 1 == self::wpml_o( 'wpml-settings-enable_genre' ) );
 		}
 
@@ -239,10 +239,28 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @return   boolean    Taxonomy status: true if enabled, false if not.
 		 */
-		public static function wpml_can_use_actor() {
+		public static function wpml_use_actor() {
 			return (boolean) ( 1 == self::wpml_o( 'wpml-settings-enable_actor' ) );
 		}
 
+		/**
+		 * Return the WPML Taxonomy Autocomplete option status: enabled of not.
+		 *
+		 * @since    1.0.0
+		 *
+		 * @return   boolean    Taxonomy Autocomplete status: true if enabled, false if not.
+		 */
+		public static function wpml_taxonomy_autocomplete() {
+			return (boolean) ( 1 == self::wpml_o( 'wpml-settings-taxonomy_autocomplete' ) );
+		}
+
+		/**
+		 * Return the WPML Caching option status: enabled of not.
+		 *
+		 * @since    1.0.0
+		 *
+		 * @return   boolean    Caching status: true if enabled, false if not.
+		 */
 		public static function wpml_use_cache() {
 			return (boolean) ( 1 == self::wpml_o( 'tmdb-settings-caching' ) );
 		}
