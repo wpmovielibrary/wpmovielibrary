@@ -68,6 +68,16 @@ jQuery(document).ready(function($) {
 		$('input#APIKey_check').click(function(e) {
 			e.preventDefault();
 			$('#api_status').remove();
+
+			if ( '' == $('input#APIKey').val() ) {
+				$('input#APIKey_check').after('<span id="api_status" class="invalid">'+ajax_object.empty_key+'</span>');
+				return false;
+			}
+			else if ( 32 != $('input#APIKey').val().length ) {
+				$('input#APIKey_check').after('<span id="api_status" class="invalid">'+ajax_object.length_key+'</span>');
+				return false;
+			}
+			
 			$.ajax({
 				type: 'GET',
 				url: ajax_object.ajax_url,

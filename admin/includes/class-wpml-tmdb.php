@@ -140,9 +140,9 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @return    array    API configuration request result
 		 */
-		private function wpml_api_key_check( $key ) {
-			$_tmdb = new TMDb();
-			$data = $_tmdb->getConfiguration();
+		private static function wpml_api_key_check( $key ) {
+			$_tmdb = new TMDb( $config = true, $dummy = false );
+			$data = $_tmdb->checkApiKey( $key );
 			return $data;
 		}
 

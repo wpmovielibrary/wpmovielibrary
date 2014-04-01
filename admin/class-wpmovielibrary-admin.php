@@ -127,6 +127,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 						'base_url_medium'    => WPML_TMDb::wpml_tmdb_get_base_url( 'image', 'medium' ),
 						'base_url_full'      => WPML_TMDb::wpml_tmdb_get_base_url( 'image', 'full' ),
 						'base_url_original'  => WPML_TMDb::wpml_tmdb_get_base_url( 'image', 'original' ),
+						'empty_key'          => __( 'I can\'t test an empty key, you know.', 'wpml' ),
+						'length_key'         => __( 'Invalid key: it should be 32 characters long.', 'wpml' ),
 						'search_movie_title' => __( 'Searching movie', 'wpml' ),
 						'search_movie'       => __( 'Fetching movie data', 'wpml' ),
 						'set_featured'       => __( 'Setting featured image…', 'wpml' ),

@@ -38,12 +38,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 */
 		protected $_config;
 
-		/**
-		 * Stored Session Id
-		 *
-		 * @var string
-		 */
-		protected $_session_id;
+		protected $_api_key = '';
+		protected $_dummy = false;
 
 		/**
 		 * Default constructor
@@ -58,6 +54,17 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 			if ( true === $config )
 				self::getConfiguration();
+
+			$this->_api_key = WPML_Settings::wpml_get_api_key();
+			$this->_dummy = WPML_Settings::wpml_is_dummy_api();
+		}
+
+		public function checkApiKey( $key ) {
+
+			$this->_api_key = esc_attr( $key );
+			$this->_dummy = false;
+
+			return self::_makeCall( 'configuration' );
 		}
 
 		/**
@@ -266,7 +273,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		private function _makeCall( $function, $params = null, $session_id = null, $method = TMDb::GET ) {
 
 			$params = ( ! is_array( $params ) ) ? array() : $params;
-			$auth_array = array( 'api_key' => WPML_Settings::wpml_get_api_key() );
+			$auth_array = array( 'api_key' => $this->_api_key );
 
 			if ( ! is_null( $session_id ) )
 				$auth_array['session_id'] = $session_id;
@@ -278,7 +285,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 			$url .= ( ! empty( $params ) ) ? '&' . http_build_query( $params, '', '&' ) : '';
 
-			if ( true === WPML_Settings::wpml_is_dummy_api() ) {
+			if ( true === $this->_dummy ) {
 				$url = 'http' . TMDb::API_DUMMY_URL . '/' . $function;
 				if ( isset( $params['query'] ) && '' != $params['query'] )
 					$url .= '/' . rawurlencode( $params['query'] );

@@ -260,6 +260,7 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 #api_status {
+	display: block;
 	padding: 0 0.75em;
 }
 
