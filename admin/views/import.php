@@ -1,6 +1,8 @@
 <div id="wpml-import" class="wrap">
 	<h2><?php _e( 'Movies Import', 'wpml' ); ?></h2>
 
+	<?php Admin_Notice_Helper::get_singleton()->print_notices(); ?></h2>
+
 	<div id="wpml-tabs">
 
 		<ul class="wpml-tabs-nav">

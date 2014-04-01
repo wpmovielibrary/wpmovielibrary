@@ -35,6 +35,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 			add_action( 'load-movie_page_import', __CLASS__ . '::wpml_import_movie_list_add_options' );
 			add_filter( 'set-screen-option', __CLASS__ . '::wpml_import_movie_list_set_option', 10, 3 );
+			add_action( 'wp_ajax_wpml_delete_movie', __CLASS__ . '::wpml_delete_movie_callback' );
 		}
 
 		/**
@@ -49,7 +50,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			self::wpml_import_movies();
 
 			$movies = self::wpml_get_imported_movies();
-			$meta   = WPML_Settings::wpml_get_supported_movie_meta();
+			$meta   = WPML_Settings::wpml_get_supported_movie_meta( $type = null, $merge = false );
 
 			return array( 'movies' => $movies, 'meta' => $meta );
 		}
@@ -178,6 +179,25 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		}
 
 		/**
+		 * Delete movie
+		 * 
+		 * Remove imported movies draft and attachment from database
+		 *
+		 * @since     1.0.0
+		 * 
+		 * @return     boolean     deletion status
+		 */
+		public static function wpml_delete_movie_callback() {
+
+			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+
+			$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
+
+			echo self::wpml_delete_movie( $post_id );
+			die();
+		}
+
+		/**
 		 * Delete imported movie
 		 * 
 		 * Triggered by the 'Delete' link on imported movies WP_List_Table.
@@ -190,7 +210,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 * 
 		 * @return    string    Error status if post/attachment delete failed
 		 */
-		public static function wpml_delete_movie( $post_id ) {
+		private static function wpml_delete_movie( $post_id ) {
 
 			if ( false === wp_delete_post( $post_id, true ) )
 				return vsprintf( __( 'An error occured trying to delete Post #%s', 'wpml' ), $post_id );
@@ -308,12 +328,12 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 				foreach ( $_POST['tmdb'] as $tmdb_data ) {
 					if ( 0 != $tmdb_data['tmdb_id'] ) {
-						$this->wpml_save_tmdb_data( $tmdb_data['post_id'], $tmdb_data );
+						WPML_Edit_Movies::wpml_save_tmdb_data( $tmdb_data['post_id'], $tmdb_data );
 					}
 				}
 
 				if ( empty( $errors ) )
-					$this->msg_settings = sprintf( __( '%d Movies imported successfully!', 'wpml' ), count( $_POST['tmdb'] ) );
+					add_notice( sprintf( __( '%d Movies imported successfully!', 'wpml' ), count( $_POST['tmdb'] ) ) );
 			}
 
 			if ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'tmdb', 'wpml', 'uninstall', 'restore' ) ) )

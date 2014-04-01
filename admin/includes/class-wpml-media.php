@@ -216,7 +216,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * 
 		 * @return   string|WP_Error Populated HTML img tag on success
 		 */
-		private static function wpml_set_image_as_featured( $image, $post_id, $tmdb_id, $title ) {
+		public static function wpml_set_image_as_featured( $image, $post_id, $tmdb_id, $title ) {
 
 			$size = WPML_Settings::wpml_o('tmdb-settings-poster_size');
 			$file = WPML_TMDb::wpml_tmdb_get_base_url( 'poster', $size );
@@ -259,8 +259,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				$image_type = 'image';
 
 			$size = WPML_Settings::wpml_o('tmdb-settings-images_size');
-			$path = WPML_TMDb::config;
-			$path = $path["{$image_type}_url"][ $size ];
+			$path = WPML_TMDb::wpml_tmdb_get_base_url( $image_type, $size );
 
 			if ( is_array( $file ) ) {
 				$data = $file;

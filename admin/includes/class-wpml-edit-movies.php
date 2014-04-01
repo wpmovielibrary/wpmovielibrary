@@ -39,7 +39,6 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			add_action( 'add_meta_boxes', __CLASS__ . '::wpml_metaboxes' );
 			add_action( 'admin_post_thumbnail_html', __CLASS__ . '::wpml_load_posters', 10, 2 );
 			add_action( 'wp_ajax_wpml_save_details', __CLASS__ . '::wpml_save_details_callback' );
-			add_action( 'wp_ajax_wpml_delete_movie', __CLASS__ . '::wpml_delete_movie_callback' );
 			add_action( 'save_post_movie', __CLASS__ . '::wpml_save_tmdb_data' );
 		}
 
@@ -213,25 +212,6 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
-		 * Delete movie
-		 * 
-		 * Remove imported movies draft and attachment from database
-		 *
-		 * @since     1.0.0
-		 * 
-		 * @return     boolean     deletion status
-		 */
-		public static function wpml_delete_movie_callback() {
-
-			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
-
-			$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
-
-			echo self::wpml_delete_movie( $post_id );
-			die();
-		}
-
-		/**
 		 * Save movie details: media, status, rating.
 		 * 
 		 * Although values are submitted as array each value is stored in a
@@ -350,7 +330,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				update_post_meta( $post_id, '_wpml_movie_data', $tmdb_data );
 
 				// Set poster as featured image
-				$id = $this->wpml_set_image_as_featured( $tmdb_data['poster'], $post_id, $tmdb_data['tmdb_id'], $tmdb_data['meta']['title'] );
+				$id = WPML_Media::wpml_set_image_as_featured( $tmdb_data['poster'], $post_id, $tmdb_data['tmdb_id'], $tmdb_data['meta']['title'] );
 				update_post_meta( $post_id, '_thumbnail_id', $id );
 
 				// Switch status from import draft to published
