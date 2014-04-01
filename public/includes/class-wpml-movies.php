@@ -267,11 +267,11 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 
 				switch ( $field ) {
 					case 'genres':
-						$genres = WPML_Settings::wpml_can_use_genre() ? get_the_term_list( get_the_ID(), 'genre', '', ', ', '' ) : $tmdb_data[ $field ];
+						$genres = WPML_Settings::wpml_use_genre() ? get_the_term_list( get_the_ID(), 'genre', '', ', ', '' ) : $tmdb_data[ $field ];
 						$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, $genres );
 						break;
 					case 'cast':
-						$actors = WPML_Settings::wpml_can_use_genre() ? get_the_term_list( get_the_ID(), 'actor', '', ', ', '' ) : $tmdb_data[ $field ];
+						$actors = WPML_Settings::wpml_use_actor() ? get_the_term_list( get_the_ID(), 'actor', '', ', ', '' ) : $tmdb_data[ $field ];
 						$html .= sprintf( $default_format, $field, __( 'Staring', 'wpml' ), $field, $actors );
 						break;
 					case 'release_date':
@@ -281,7 +281,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 						$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, date_i18n( get_option( 'time_format' ), mktime( 0, $tmdb_data[ $field ] ) ) );
 						break;
 					case 'director':
-						$term = get_term_by( 'name', $tmdb_data[ $field ], 'collection' );
+						$term = WPML_Settings::wpml_use_collection() ? get_term_by( 'name', $tmdb_data[ $field ], 'collection' ) : $tmdb_data[ $field ];
 						$collection = ( $term && ! is_wp_error( $link = get_term_link( $term, 'collection' ) ) ) ? '<a href="' . $link . '">' . $tmdb_data[ $field ] . '</a>' : $tmdb_data[ $field ];
 						$html .= sprintf( $default_format, $field, __( 'Directed by', 'wpml' ), $field, $collection );
 						break;
@@ -401,8 +401,8 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		public static function wpml_register_permalinks( $wp_rewrite ) {
 
 			$new_rules = array(
-				'movies/(dvd|vod|bluray|vhs|theater|cinema|other)/?$' => 'index.php?post_type=movie&wpml_movie_media=' . $wp_rewrite->preg_index( 1 ),
-				'movies/(dvd|vod|bluray|vhs|theater|cinema|other)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_media=' . $wp_rewrite->preg_index( 1 ),
+				'movies/(dvd|vod|bluray|vhs|cinema|other)/?$' => 'index.php?post_type=movie&wpml_movie_media=' . $wp_rewrite->preg_index( 1 ),
+				'movies/(dvd|vod|bluray|vhs|cinema|other)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_media=' . $wp_rewrite->preg_index( 1 ),
 				'movies/(available|loaned|scheduled)/?$' => 'index.php?post_type=movie&wpml_movie_status=' . $wp_rewrite->preg_index( 1 ),
 				'movies/(available|loaned|scheduled)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_status=' . $wp_rewrite->preg_index( 1 ) . '&paged=' . $wp_rewrite->preg_index( 2 ),
 				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/?$' => 'index.php?post_type=movie&wpml_movie_rating=' . $wp_rewrite->preg_index( 1 ),

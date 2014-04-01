@@ -77,7 +77,7 @@ $wpml_movie_details = array(
 			'bluray'  => __( 'BluRay', 'wpml' ),
 			'vod'     => __( 'VOD', 'wpml' ),
 			'vhs'     => __( 'VHS', 'wpml' ),
-			'theater' => __( 'Theater', 'wpml' ),
+			'cinema'  => __( 'Cinema', 'wpml' ),
 			'other'   => __( 'Other', 'wpml' ),
 		),
 		'default' => array(

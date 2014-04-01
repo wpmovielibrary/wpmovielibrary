@@ -52,7 +52,7 @@
 	text-shadow: 0 1px 0 #752d7c;
 }
 
-.wpml_movie_media.theater .wpml_movie_detail_item {
+.wpml_movie_media.cinema .wpml_movie_detail_item {
 	background: #47b7cc;
 	color: #fff;
 	text-shadow: 0 1px 0 #237e8f;
@@ -109,8 +109,8 @@
 	background-image: url(../img/icon-vhs.png);
 }
 
-.wpml_movie_media.wpml_detail_icon.theater {
-	background-image: url(../img/icon-theater.png);
+.wpml_movie_media.wpml_detail_icon.cinema {
+	background-image: url(../img/icon-cinema.png);
 }
 
 .wpml_movie_media.wpml_detail_icon.other {
