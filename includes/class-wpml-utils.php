@@ -13,7 +13,7 @@
 
 if ( ! class_exists( 'WPML_Utils' ) ) :
 
-	class WPML_Utils extends WPMovieLibrary {
+	class WPML_Utils extends WPML_Module {
 
 		/**
 		 * Constructor
@@ -30,8 +30,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @since    1.0.0
 		 */
 		public function register_hook_callbacks() {
-
-			add_action( 'init', __CLASS__ . '::wpml_flush_rewrite_rules' );
 
 			add_filter( 'wpml_format_widget_lists', __CLASS__ . '::wpml_format_widget_lists', 10, 4 );
 			add_filter( 'wpml_format_widget_lists_thumbnails', __CLASS__ . '::wpml_format_widget_lists_thumbnails', 10, 1 );
@@ -532,17 +530,27 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
-		 * Flush WordPress Rewrite Rules on plugin activation.
+		 * Prepares sites to use the plugin during single or network-wide activation
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param bool $network_wide
+		 */
+		public function activate( $network_wide ) {}
+
+		/**
+		 * Rolls back activation procedures when de-activating the plugin
 		 *
 		 * @since    1.0.0
 		 */
-		public static function wpml_flush_rewrite_rules() {
+		public function deactivate() {}
 
-			if ( false !== get_transient( '_wpml_just_activated' ) ) {
-				flush_rewrite_rules();
-				delete_transient( '_wpml_just_activated' );
-			}
-		}
+		/**
+		 * Initializes variables
+		 *
+		 * @since    1.0.0
+		 */
+		public function init() {}
 
 	}
 

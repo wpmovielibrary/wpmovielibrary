@@ -388,6 +388,22 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		}
 
 		/**
+		 * Prepares sites to use the plugin during single or network-wide activation
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param bool $network_wide
+		 */
+		public function activate( $network_wide ) {}
+
+		/**
+		 * Rolls back activation procedures when de-activating the plugin
+		 *
+		 * @since    1.0.0
+		 */
+		public function deactivate() {}
+
+		/**
 		 * Initializes variables
 		 *
 		 * @since    1.0.0

@@ -74,6 +74,66 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		}
 
 		/**
+		 * Prepares sites to use the plugin during single or network-wide activation
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param bool $network_wide
+		 */
+		public function activate( $network_wide ) {
+
+			global $wpdb;
+
+			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_actor%"' );
+			$actors      = array();
+
+			foreach ( $contents as $term )
+				if ( false !== strpos( $term->slug, 'wpml_actor' ) )
+					$actors[] = $term->term_id;
+
+			if ( ! empty( $actors ) )
+				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "actor" WHERE term_id IN (' . implode( ',', $actors ) . ')' );
+
+			$wpdb->query(
+				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_actor-", "")'
+			);
+
+		}
+
+		/**
+		 * Rolls back activation procedures when de-activating the plugin
+		 *
+		 * @since    1.0.0
+		 */
+		public function deactivate() {
+
+			global $wpdb;
+
+			$o           = get_option( 'wpml_settings' );
+			$actors      = $o['wpml']['settings']['deactivate']['actors'];
+
+			$contents = get_terms( array( 'actor' ), array() );
+
+			if ( 'convert' == $actors ) {
+				foreach ( $contents as $term ) {
+					wp_update_term( $term->term_id, 'actor', array( 'slug' => 'wpml_actor-' . $term->slug ) );
+					$wpdb->update(
+						$wpdb->term_taxonomy,
+						array( 'taxonomy' => 'post_tag' ),
+						array( 'taxonomy' => 'actor' ),
+						array( '%s' )
+					);
+				}
+			}
+			else if ( 'remove' == $actors || 'delete' == $actors ) {
+				foreach ( $contents as $term ) {
+					wp_delete_term( $term->term_id, 'actor' );
+				}
+			}
+
+		}
+
+		/**
 		 * Initializes variables
 		 *
 		 * @since    1.0.0

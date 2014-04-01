@@ -71,6 +71,66 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 		}
 
 		/**
+		 * Prepares sites to use the plugin during single or network-wide activation
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param bool $network_wide
+		 */
+		public function activate( $network_wide ) {
+
+			global $wpdb;
+
+			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_genre%"' );
+			$genres   = array();
+
+			foreach ( $contents as $term )
+				if ( false !== strpos( $term->slug, 'wpml_collection' ) )
+					$genres[] = $term->term_id;
+
+			if ( ! empty( $genres ) )
+				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "genre" WHERE term_id IN (' . implode( ',', $genres ) . ')' );
+
+			$wpdb->query(
+				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_genre-", "")'
+			);
+
+		}
+
+		/**
+		 * Rolls back activation procedures when de-activating the plugin
+		 *
+		 * @since    1.0.0
+		 */
+		public function deactivate() {
+
+			global $wpdb;
+
+			$o           = get_option( 'wpml_settings' );
+			$genres      = $o['wpml']['settings']['deactivate']['genres'];
+
+			$contents = get_terms( array( 'genre' ), array() );
+
+			if ( 'convert' == $genres ) {
+				foreach ( $contents as $term ) {
+					wp_update_term( $term->term_id, 'genre', array( 'slug' => 'wpml_genre-' . $term->slug ) );
+					$wpdb->update(
+						$wpdb->term_taxonomy,
+						array( 'taxonomy' => 'post_tag' ),
+						array( 'taxonomy' => 'genre' ),
+						array( '%s' )
+					);
+				}
+			}
+			else if ( 'remove' == $genres || 'delete' == $genres ) {
+				foreach ( $contents as $term ) {
+					wp_delete_term( $term->term_id, 'genre' );
+				}
+			}
+
+		}
+
+		/**
 		 * Initializes variables
 		 *
 		 * @since    1.0.0

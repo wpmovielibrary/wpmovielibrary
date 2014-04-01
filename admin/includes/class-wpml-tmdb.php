@@ -353,7 +353,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				foreach ( $data['results'] as $movie ) {
 					$movies['movies'][] = array(
 						'id'     => $movie['id'],
-						'poster' => ( ! is_null( $movie['poster_path'] ) ? self::wpml_tmdb_get_base_url( 'poster', 'small' ) . $movie['poster_path'] : WPML_URL . '/public/assets/img/no_poster.png' ),
+						'poster' => ( ! is_null( $movie['poster_path'] ) ? self::wpml_tmdb_get_base_url( 'poster', 'small' ) . $movie['poster_path'] : WPML_URL . '/admin/assets/img/no_poster.png' ),
 						'title'  => $movie['title'],
 						'json'   => json_encode( $movie ),
 						'_id'    => $_id
@@ -462,6 +462,22 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			return $_movie;
 		}
+
+		/**
+		 * Prepares sites to use the plugin during single or network-wide activation
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param bool $network_wide
+		 */
+		public function activate( $network_wide ) {}
+
+		/**
+		 * Rolls back activation procedures when de-activating the plugin
+		 *
+		 * @since    1.0.0
+		 */
+		public function deactivate() {}
 
 	}
 

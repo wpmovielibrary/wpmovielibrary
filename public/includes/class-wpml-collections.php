@@ -71,6 +71,66 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		}
 
 		/**
+		 * Prepares sites to use the plugin during single or network-wide activation
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param bool $network_wide
+		 */
+		public function activate( $network_wide ) {
+
+			global $wpdb;
+
+			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_collection%"' );
+			$collections = array();
+
+			foreach ( $contents as $term )
+				if ( false !== strpos( $term->slug, 'wpml_collection' ) )
+					$collections[] = $term->term_id;
+
+			if ( ! empty( $collections ) )
+				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "collection" WHERE term_id IN (' . implode( ',', $collections ) . ')' );
+
+			$wpdb->query(
+				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_collection-", "")'
+			);
+
+		}
+
+		/**
+		 * Rolls back activation procedures when de-activating the plugin
+		 *
+		 * @since    1.0.0
+		 */
+		public function deactivate() {
+
+			global $wpdb;
+
+			$o           = get_option( 'wpml_settings' );
+			$collections = $o['wpml']['settings']['deactivate']['collections'];
+
+			$contents = get_terms( array( 'collection' ), array() );
+
+			if ( 'convert' == $collections ) {
+				foreach ( $contents as $term ) {
+					wp_update_term( $term->term_id, 'collection', array( 'slug' => 'wpml_collection-' . $term->slug ) );
+					$wpdb->update(
+						$wpdb->term_taxonomy,
+						array( 'taxonomy' => 'category' ),
+						array( 'taxonomy' => 'collection' ),
+						array( '%s' )
+					);
+				}
+			}
+			else if ( 'remove' == $collections || 'delete' == $collections ) {
+				foreach ( $contents as $term ) {
+					wp_delete_term( $term->term_id, 'collection' );
+				}
+			}
+
+		}
+
+		/**
 		 * Initializes variables
 		 *
 		 * @since    1.0.0

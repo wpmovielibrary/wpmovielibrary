@@ -69,7 +69,7 @@ endif;
 					<tr>
 						<td>
 							<input id="tmdb_data_images" type="hidden" name="tmdb_data[images]" class="tmdb_data_field" value='<?php echo ( isset( $value[$slug] ) && '' != $value[$slug] ? $value[$slug] : '' ); ?>' size="64" />
-							<div id="progressbar_bg"><div id="progressbar"><div class="progress-label">0</div></div></div>
+							<div id="progressbar_bg"><div id="progressbar"><div class="progress-label">0</div></div><a href="#" id="hide_progressbar"><?php _e( 'Hide', 'wpml' ) ?></a></div>
 						</td>
 					</tr>
 					<tr>

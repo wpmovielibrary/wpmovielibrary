@@ -136,6 +136,11 @@ jQuery(document).ready(function($) {
 		wpml.status.clear();
 	});
 
+	$('#hide_progressbar').click(function(e) {
+		e.preventDefault();
+		$('#tmdb_save_images, #progressbar').hide();
+	});
+
 	$('#tmdb_search').click(function(e) {
 		e.preventDefault();
 		wpml.movie.type = $('#tmdb_search_type > :selected').val();
@@ -699,7 +704,7 @@ wpml = {
 				var title = $('#tmdb_data_title').val();
 				var total = img.length;
 
-				$('#progressbar_bg').show();
+				$('#progressbar_bg, #hide_progressbar').show();
 				$('#progressbar').progressbar({
 					value: false,
 					complete: function() {

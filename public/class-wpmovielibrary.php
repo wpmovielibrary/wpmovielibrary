@@ -64,12 +64,18 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
+			add_action( 'init', array( $this, 'init' ) );
+			add_action( 'init', __CLASS__ . '::wpml_register_permalinks' );
+
 			// Load plugin text domain
 			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
 			// Enqueue scripts and styles
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+
+			add_action( 'pre_get_posts', __CLASS__ . '::wpml_movies_query_meta', 10, 1 );
+			add_filter( 'query_vars', __CLASS__ . '::wpml_movies_query_vars', 10, 1 );
 
 			// Add link to WP Admin Bar
 			add_action( 'wp_before_admin_bar_render', array( $this, 'wpml_admin_bar_menu' ), 999 );
@@ -96,59 +102,29 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		*                                       WPMU is disabled or plugin is
 		*                                       activated on an individual blog.
 		*/
-		public static function activate( $network_wide ) {
+		public function activate( $network_wide ) {
 
 			global $wpdb;
 
-			$contents = new WP_Query(
-				array(
-					'post_type'      => 'post',
-					'posts_per_page' => -1,
-					'meta_key'       => '_wpml_content_type',
-					'meta_value'     => 'movie'
-				)
-			);
+			if ( function_exists( 'is_multisite' ) && is_multisite() ) {
+				if ( $network_wide ) {
+					$blogs = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
 
-			foreach ( $contents->posts as $post ) {
-				set_post_type( $post->ID, 'movie' );
-				delete_post_meta( $post->ID, '_wpml_content_type', 'movie' );
+					foreach ( $blogs as $blog ) {
+						switch_to_blog( $blog );
+						$this->single_activate( $network_wide );
+					}
+
+					restore_current_blog();
+				} else {
+					$this->single_activate( $network_wide );
+				}
+			} else {
+				$this->single_activate( $network_wide );
 			}
-
-			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_%"' );
-
-			$collections = array();
-			$genres      = array();
-			$actors      = array();
-
-			foreach ( $contents as $term ) {
-				if ( false !== strpos( $term->slug, 'wpml_collection' ) ) {
-					$collections[] = $term->term_id;
-				}
-				else if ( false !== strpos( $term->slug, 'wpml_genre' ) ) {
-					$genres[] = $term->term_id;
-				}
-				else if ( false !== strpos( $term->slug, 'wpml_actor' ) ) {
-					$actors[] = $term->term_id;
-				}
-			}
-
-			if ( ! empty( $collections ) )
-				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "collection" WHERE term_id IN (' . implode( ',', $collections ) . ')' );
-
-			if ( ! empty( $genres ) )
-				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "genre" WHERE term_id IN (' . implode( ',', $genres ) . ')' );
-
-			if ( ! empty( $actors ) )
-				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "actor" WHERE term_id IN (' . implode( ',', $actors ) . ')' );
-
-			$wpdb->query(
-				'UPDATE ' . $wpdb->terms . '
-				SET slug = REPLACE(slug, "wpml_collection-", ""),
-				    slug = REPLACE(slug, "wpml_genre-", ""),
-				    slug = REPLACE(slug, "wpml_actor-", "")'
-			);
 
 			set_transient( '_wpml_just_activated', 1, HOUR_IN_SECONDS );
+			self::wpml_register_permalinks();
 
 		}
 
@@ -167,109 +143,15 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		*                                       WPMU is disabled or plugin is
 		*                                       deactivated on an individual blog.
 		*/
-		public static function deactivate( $network_wide ) {
+		public function deactivate() {
 
 			global $wpdb;
 
+			foreach ( $this->modules as $module )
+				$module->deactivate();
+
 			$o           = get_option( 'wpml_settings' );
-			$movies      = $o['wpml']['settings']['deactivate']['movies'];
-			$collections = $o['wpml']['settings']['deactivate']['collections'];
-			$genres      = $o['wpml']['settings']['deactivate']['genres'];
-			$actors      = $o['wpml']['settings']['deactivate']['actors'];
 			$cache       = $o['wpml']['settings']['deactivate']['cache'];
-
-			// Handling Movie Custom Post Type on WPML deactivation
-
-			$contents = new WP_Query(
-				array(
-					'post_type'      => 'movie',
-					'posts_per_page' => -1
-				)
-			);
-
-			if ( 'convert' == $movies ) {
-				foreach ( $contents->posts as $post ) {
-					set_post_type( $post->ID, 'post' );
-					add_post_meta( $post->ID, '_wpml_content_type', 'movie', true );
-				}
-			}
-			else if ( 'remove' == $movies ) {
-				foreach ( $contents->posts as $post ) {
-					wp_delete_post( $post->ID, true );
-				}
-			}
-			else if ( 'delete' == $movies ) {
-				foreach ( $contents->posts as $post ) {
-					wp_delete_post( $post->ID, true );
-					$attachments = get_children( array( 'post_parent' => $post->ID ) );
-					foreach ( $attachments as $a ) {
-						wp_delete_post( $a->ID, true );
-					}
-				}
-			}
-
-			// Handling Custom Category-like Taxonomies on WPML deactivation
-
-			$contents = get_terms( array( 'collection' ), array() );
-
-			if ( 'convert' == $collections ) {
-				foreach ( $contents as $term ) {
-					wp_update_term( $term->term_id, 'collection', array( 'slug' => 'wpml_collection-' . $term->slug ) );
-					$wpdb->update(
-						$wpdb->term_taxonomy,
-						array( 'taxonomy' => 'category' ),
-						array( 'taxonomy' => 'collection' ),
-						array( '%s' )
-					);
-				}
-			}
-			else if ( 'remove' == $collections || 'delete' == $collections ) {
-				foreach ( $contents as $term ) {
-					wp_delete_term( $term->term_id, 'collection' );
-				}
-			}
-
-			// Handling Genres Taxonomies on WPML deactivation
-
-			$contents = get_terms( array( 'genre' ), array() );
-
-			if ( 'convert' == $genres ) {
-				foreach ( $contents as $term ) {
-					wp_update_term( $term->term_id, 'genre', array( 'slug' => 'wpml_genre-' . $term->slug ) );
-					$wpdb->update(
-						$wpdb->term_taxonomy,
-						array( 'taxonomy' => 'post_tag' ),
-						array( 'taxonomy' => 'genre' ),
-						array( '%s' )
-					);
-				}
-			}
-			else if ( 'remove' == $genres || 'delete' == $genres ) {
-				foreach ( $contents as $term ) {
-					wp_delete_term( $term->term_id, 'genre' );
-				}
-			}
-
-			// Handling Actors Taxonomies on WPML deactivation
-
-			$contents = get_terms( array( 'actor' ), array() );
-
-			if ( 'convert' == $actors ) {
-				foreach ( $contents as $term ) {
-					wp_update_term( $term->term_id, 'actor', array( 'slug' => 'wpml_actor-' . $term->slug ) );
-					$wpdb->update(
-						$wpdb->term_taxonomy,
-						array( 'taxonomy' => 'post_tag' ),
-						array( 'taxonomy' => 'actor' ),
-						array( '%s' )
-					);
-				}
-			}
-			else if ( 'remove' == $actors || 'delete' == $actors ) {
-				foreach ( $contents as $term ) {
-					wp_delete_term( $term->term_id, 'actor' );
-				}
-			}
 
 			// Handling Cache cleanup on WPML deactivation
 			// Adapted from Sébastien Corne's "purge-transient" snippet
@@ -287,13 +169,35 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				$wpdb->query( 'OPTIMIZE TABLE ' . $wpdb->options );
 			}
 
-			//TODO: remove permastruct. 
-			/*global $wp_rewrite;
-			$wp_rewrite->add_permastruct( 'movie', '');
-			$wp_rewrite->add_permastruct( 'movies', '');
-			$wp_rewrite->flush_rules();
-			print_r( $wp_rewrite ); die();*/
+			self::wpml_register_permalinks( $unregister = true );
+			flush_rewrite_rules();
 
+		}
+
+		/**
+		 * Runs activation code on a new WPMS site when it's created
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param int $blog_id
+		 */
+		public function activate_new_site( $blog_id ) {
+			switch_to_blog( $blog_id );
+			$this->single_activate( true );
+			restore_current_blog();
+		}
+
+		/**
+		 * Prepares a single blog to use the plugin
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param bool $network_wide
+		 */
+		protected function single_activate( $network_wide ) {
+
+			foreach ( $this->modules as $module )
+				$module->activate( $network_wide );
 		}
 
 		/**
@@ -331,11 +235,106 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 
 		}
 
-		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-		*
-		*                       Action and Filter Hooks
-		* 
-		* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/**
+		 * Flush WordPress Rewrite Rules on plugin activation.
+		 *
+		 * @since    1.0.0
+		 */
+		public static function wpml_flush_rewrite_rules() {
+
+			/*if ( false !== get_transient( '_wpml_just_activated' ) ) {
+				flush_rewrite_rules();
+				delete_transient( '_wpml_just_activated' );
+			}*/
+		}
+
+		/**
+		 * Create a new set of permalinks for Movie Details
+		 * 
+		 * TODO: rename and add option to either add or remove permalinks
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param    object     $wp_rewrite Instance of WordPress WP_Rewrite Class
+		 */
+		public static function wpml_register_permalinks( $unregister = false ) {
+
+			global $wp_rewrite;
+
+			$new_rules = array(
+				'movies/(dvd|vod|bluray|vhs|cinema|other)/?$' => 'index.php?post_type=movie&wpml_movie_media=' . $wp_rewrite->preg_index( 1 ),
+				'movies/(dvd|vod|bluray|vhs|cinema|other)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_media=' . $wp_rewrite->preg_index( 1 ),
+				'movies/(available|loaned|scheduled)/?$' => 'index.php?post_type=movie&wpml_movie_status=' . $wp_rewrite->preg_index( 1 ),
+				'movies/(available|loaned|scheduled)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_status=' . $wp_rewrite->preg_index( 1 ) . '&paged=' . $wp_rewrite->preg_index( 2 ),
+				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/?$' => 'index.php?post_type=movie&wpml_movie_rating=' . $wp_rewrite->preg_index( 1 ),
+				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_rating=' . $wp_rewrite->preg_index( 1 ) . '&paged=' . $wp_rewrite->preg_index( 2 ),
+			);
+
+			if ( true === $unregister ) {
+
+				foreach ( $wp_rewrite->rules as $regex => $rule ) {
+					//var_dump( $regex, in_array( substr( $regex, 0, 5 ), array( 'movie', 'actor', 'genre', 'colle' ) ) );
+					if ( in_array( substr( $regex, 0, 5 ), array( 'movie', 'actor', 'genre', 'colle' ) ) )
+						unset( $wp_rewrite->rules[ $regex ] );
+				}
+
+				//$wp_rewrite->flush_rules();
+				print_r( $wp_rewrite ); die();
+
+				/*foreach ( $new_rules as $regex => $rule )
+					if ( isset( $wp_rewrite->rules[ $regex ] ) )
+						unset( $wp_rewrite->rules[ $regex ] );*/
+
+			}
+			else {
+				foreach ( $new_rules as $regex => $rule )
+					add_rewrite_rule( $regex, $rule, 'top' );
+			}
+		}
+
+		/**
+		 * Add support for Movie Details to the current WP_Query.
+		 * 
+		 * If current WP_Query has a WPML meta var set, edit the query to
+		 * return the movies matching the wanted detail.
+		 *
+		 * @since     1.0.0
+		 * 
+		 * @param     object      $wp_query Current WP_Query instance
+		 *
+		 * @return    string      The WP_Query instance, updated or not.
+		 */
+		public static function wpml_movies_query_meta( $wp_query ) {
+
+			$metas = array( 'wpml_movie_media', 'wpml_movie_status', 'wpml_movie_rating' );
+			$key_vars = array_keys( $wp_query->query_vars );
+
+			foreach ( $metas as $meta ) {
+
+				if ( in_array( $meta, $key_vars ) ) {
+					$wp_query->set( 'meta_key', "_{$meta}" );
+					$wp_query->set( 'meta_value', $wp_query->get( $meta ) );
+				}
+			}
+
+			return $wp_query;
+		}
+
+		/**
+		 * Add Movie Details slugs to queryable vars
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    array     Current WP_Query instance's queryable vars
+		 * 
+		 * @return   array     Updated WP_Query instance
+		 */
+		public static function wpml_movies_query_vars( $q_var ) {
+			$q_var[] = 'wpml_movie_media';
+			$q_var[] = 'wpml_movie_status';
+			$q_var[] = 'wpml_movie_rating';
+			return $q_var;
+		}
 
 		/**
 		* Add a New Movie link to WP Admin Bar.
@@ -374,7 +373,8 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 *
 		 * @since    1.0.0
 		 */
-		public function init() {}
+		public function init() {
+		}
 
 	}
 endif;

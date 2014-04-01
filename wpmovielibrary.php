@@ -62,10 +62,12 @@ require_once( plugin_dir_path( __FILE__ ) . 'public/includes/class-wpml-widgets.
  * Register hooks that are fired when the plugin is activated or deactivated.
  * When the plugin is deleted, the uninstall.php file is loaded.
  */
-register_activation_hook( __FILE__, array( 'WPMovieLibrary', 'activate' ) );
-register_deactivation_hook( __FILE__, array( 'WPMovieLibrary', 'deactivate' ) );
+if ( class_exists( 'WPMovieLibrary' ) ) {
+	$GLOBALS['wpml'] = WPMovieLibrary::get_instance();
+	register_activation_hook(   __FILE__, array( $GLOBALS['wpml'], 'activate' ) );
+	register_deactivation_hook( __FILE__, array( $GLOBALS['wpml'], 'deactivate' ) );
+}
 
-add_action( 'plugins_loaded', array( 'WPMovieLibrary', 'get_instance' ) );
 
 /*----------------------------------------------------------------------------*
  * Dashboard and Administrative Functionality

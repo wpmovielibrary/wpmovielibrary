@@ -41,14 +41,14 @@ if ( ! class_exists( 'WPML_Module' ) ) {
 		 *
 		 * @param bool $network_wide
 		 */
-		//abstract public function activate( $network_wide );
+		abstract public function activate( $network_wide );
 
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
 		 * @mvc Controller
 		 */
-		//abstract public function deactivate();
+		abstract public function deactivate();
 
 		/**
 		 * Register callbacks for actions and filters
