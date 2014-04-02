@@ -26,7 +26,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 *                              imported from list
 	 * @param    array    $metadata Associative array containing Movies metadata
 	 */
-	function __construct( $columns, $metadata ) {
+	function __construct() {
 
 		global $status, $page;
 
@@ -36,9 +36,9 @@ class WPML_Import_Table extends WP_List_Table {
 			'ajax'      => true
 		) );
 
-		$this->metadata = $metadata;
+		$this->metadata = WPML_Settings::wpml_get_supported_movie_meta( $type = null, $merge = false );
 
-		$this->columns = $columns;
+		$this->columns = WPML_Import::wpml_get_imported_movies();;
 
 		$this->column_names = array(
 			'ID'         => __( 'ID', 'wpml' ),
@@ -360,6 +360,111 @@ class WPML_Import_Table extends WP_List_Table {
 	}
 
 	/**
+	* Display the pagination.
+	* 
+	* This is a copy of parent::pagination() used to trigger AJAX loading
+	* by adding data-nav HTML5 element to the table's pagination links.
+	* Depending on the current page number the links can be AJAX active or
+	* not, set by data-nav='true' or data-nav='false'.
+	*
+	* @since    1.0.0
+	* 
+	* @param    string     $which Which Table Nav are we showing, Top or Bottom?
+	* @param    boolean    $echo Do we echo the generated HTML markup (default)
+	*                            or do we return it (AJAX)?
+	* 
+	* @return   void|string    
+	*/
+	function pagination( $which, $echo = true) {
+
+		if ( empty( $this->_pagination_args ) )
+			return;
+
+		extract( $this->_pagination_args, EXTR_SKIP );
+
+		$output = '<span class="displaying-num">' . sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) ) . '</span>';
+
+		$current = $this->get_pagenum();
+
+		$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+
+		$current_url = remove_query_arg( array( 'hotkeys_highlight_last', 'hotkeys_highlight_first' ), $current_url );
+
+		$page_links = array();
+
+		$disable_first = $disable_last = '';
+		if ( $current == 1 )
+			$disable_first = ' disabled';
+		if ( $current == $total_pages )
+			$disable_last = ' disabled';
+
+		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s' data-nav='%s' data-nav-direction='first' data-nav-paged='%s'>%s</a>",
+			'first-page' . $disable_first,
+			esc_attr__( 'Go to the first page' ),
+			esc_url( remove_query_arg( 'paged', $current_url ) ),
+			( '' == $disable_first ? 'true' : 'false' ),
+			1,
+			'&laquo;'
+		);
+
+		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s' data-nav='%s' data-nav-direction='prev' data-nav-paged='%s'>%s</a>",
+			'prev-page' . $disable_first,
+			esc_attr__( 'Go to the previous page' ),
+			esc_url( add_query_arg( 'paged', max( 1, $current-1 ), $current_url ) ),
+			( '' == $disable_first ? 'true' : 'false' ),
+			max( 1, $current-1 ),
+			'&lsaquo;'
+		);
+
+		if ( 'bottom' == $which )
+			$html_current_page = $current;
+		else
+			$html_current_page = sprintf( "<input class='current-page' title='%s' type='text' name='paged' value='%s' size='%d' />",
+				esc_attr__( 'Current page' ),
+				$current,
+				strlen( $total_pages )
+			);
+
+		$html_total_pages = sprintf( "<span class='total-pages'>%s</span>", number_format_i18n( $total_pages ) );
+		$page_links[] = '<span class="paging-input">' . sprintf( _x( '%1$s of %2$s', 'paging' ), $html_current_page, $html_total_pages ) . '</span>';
+
+		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s' data-nav='%s' data-nav-direction='next' data-nav-paged='%s'>%s</a>",
+			'next-page' . $disable_last,
+			esc_attr__( 'Go to the next page' ),
+			esc_url( add_query_arg( 'paged', min( $total_pages, $current+1 ), $current_url ) ),
+			( '' == $disable_last ? 'true' : 'false' ),
+			min( $total_pages, $current+1 ),
+			'&rsaquo;'
+		);
+
+		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s' data-nav='%s' data-nav-direction='last' data-nav-paged='%s'>%s</a>",
+			'last-page' . $disable_last,
+			esc_attr__( 'Go to the last page' ),
+			esc_url( add_query_arg( 'paged', $total_pages, $current_url ) ),
+			( '' == $disable_last ? 'true' : 'false' ),
+			$total_pages,
+			'&raquo;'
+		);
+
+		$pagination_links_class = 'pagination-links';
+		if ( ! empty( $infinite_scroll ) )
+			$pagination_links_class = ' hide-if-js';
+		$output .= "\n<span class='$pagination_links_class'>" . join( "\n", $page_links ) . '</span>';
+
+		if ( $total_pages )
+			$page_class = $total_pages < 2 ? ' one-page' : '';
+		else
+			$page_class = ' no-pages';
+
+		$this->_pagination = "<div class='tablenav-pages{$page_class}'>$output</div>";
+
+		if ( false === $echo )
+			return $this->_pagination;
+
+		echo $this->_pagination;
+	}
+
+	/**
 	 * Prepares the list of items for displaying.
 	 * 
 	 * Applies the search on items first thing, then handle the columns,
@@ -405,17 +510,56 @@ class WPML_Import_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Display the table
+	 * Handle an incoming ajax request (called from admin-ajax.php)
+	 * 
+	 * Copy of parent::ajax_response() with minor editing to return the
+	 * pagination links along with rows.
 	 *
-	 * @since 3.1.0
-	 * @access public
+	 * @since    1.0.0
+	 */
+	function ajax_response() {
+
+		$this->prepare_items();
+
+		extract( $this->_args );
+		extract( $this->_pagination_args, EXTR_SKIP );
+
+		ob_start();
+		if ( ! empty( $_REQUEST['no_placeholder'] ) )
+			$this->display_rows();
+		else
+			$this->display_rows_or_placeholder();
+
+		$rows = ob_get_clean();
+
+		$response = array( 'rows' => $rows );
+		$response['pagination']['top'] = $this->pagination('top', false);
+		$response['pagination']['bottom'] = $this->pagination('bottom', false);
+
+		if ( isset( $total_items ) )
+			$response['total_items_i18n'] = sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) );
+
+		if ( isset( $total_pages ) ) {
+			$response['total_pages'] = $total_pages;
+			$response['total_pages_i18n'] = number_format_i18n( $total_pages );
+		}
+
+		wp_die( json_encode( $response ) );
+	}
+
+	/**
+	 * Display the table
+	 * 
+	 * Copy of parent::display() adding an extra Nonce field.
+	 *
+	 * @since    1.0.0
 	 */
 	function display() {
 		extract( $this->_args );
 
 		$this->display_tablenav( 'top' );
 
-		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
+		wp_nonce_field( 'ajax-fetch-imported-movies-nonce', 'wpml_fetch_imported_movies_nonce' );
 
 ?>
 <table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">

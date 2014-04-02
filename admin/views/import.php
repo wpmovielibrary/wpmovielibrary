@@ -37,7 +37,8 @@
 
 			<form method="post">
 
-				<?php wp_nonce_field('wpml-movie-import'); ?>
+				<?php wp_nonce_field( 'wpml-movie-import', 'wpml_movie_import' ); ?>
+				<?php wp_nonce_field( 'wpml-movie-import', 'wpml_ajax_movie_import' ); ?>
 
 				<table class="form-table wpml-settings">
 					<tbody>

@@ -332,16 +332,8 @@ jQuery(document).ready(function($) {
 	// Movie import
 
 	$('#wpml_importer').click(function(e) {
-
 		e.preventDefault();
-
-		if ( undefined == $('#wpml_import_list') || '' == $('#wpml_import_list').val() )
-			return false;
-
-		movies = $('#wpml_import_list').val();
-		movies = movies.split(',');
-
-		console.log( movies );
+		wpml.import.movies();
 	});
 
 	$('#wpml-import input#doaction, #wpml-import input#doaction2').click(function(e) {
@@ -379,6 +371,46 @@ jQuery(document).ready(function($) {
 		if ( '' != $(this).val() )
 			$('input#tmdb_query').val( $(this).val() );
 	});
+
+	/*
+	 * WP List Table AJAX nav
+	 */
+
+	var update_wp_list_table = function( $link ) {
+		$.ajax({
+			url: ajaxurl,
+			type: 'GET',
+			data: {
+				action: 'wpml_fetch_imported_movies',
+				wpml_fetch_imported_movies_nonce: $('#wpml_fetch_imported_movies_nonce').val(),
+				paged: $link.attr('data-nav-paged')
+			},
+			success: function(response) {
+				response = $.parseJSON( response );
+
+				if ( response.rows.length )
+					$('#the-list').html( response.rows );
+				if ( response.pagination.bottom.length )
+					$('.tablenav.top .tablenav-pages').html( $(response.pagination.top).html() );
+				if ( response.pagination.top.length )
+					$('.tablenav.bottom .tablenav-pages').html( $(response.pagination.bottom).html() );
+
+				update_wp_list_table_init();
+			}
+		});
+	};
+
+	var update_wp_list_table_init = function() {
+		$('a[data-nav=true]').on('click', function(e) {
+			e.preventDefault();
+			update_wp_list_table( $(this) );
+		});
+		$('a[data-nav=false]').on('click', function(e) {
+			e.preventDefault();
+		});
+	};
+
+	update_wp_list_table_init();
 
 });
 
@@ -857,6 +889,27 @@ wpml = {
 				wpml.import.search_movie(title);
 			});
 
+		},
+
+		movies: function() {
+
+			if ( undefined == $('#wpml_import_list') || '' == $('#wpml_import_list').val() )
+				return false;
+
+			movies = $('#wpml_import_list').val();
+
+			$.ajax({
+				type: 'POST',
+				url: ajax_object.ajax_url,
+				data: {
+					action: 'wpml_import_movies',
+					wpml_import_list: movies,
+					wpml_ajax_movie_import: $('#wpml_ajax_movie_import').val()
+				},
+				success: function(response) {
+					console.log();
+				}
+			});
 		},
 
 		populate: function(data) {
