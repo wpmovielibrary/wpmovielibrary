@@ -83,9 +83,9 @@ if ( is_admin() ) {
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-admin-notice-helper.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-wpml-edit-movies.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-wpml-media.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-wpml-import-table.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-wpml-import.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-wpml-tmdb.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'admin/includes/class-wpml-list-table.php' );
 
 	add_action( 'plugins_loaded', array( 'WPMovieLibrary_Admin', 'get_instance' ) );
 

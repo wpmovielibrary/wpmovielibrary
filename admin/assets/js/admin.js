@@ -330,6 +330,20 @@ jQuery(document).ready(function($) {
 
 
 	// Movie import
+
+	$('#wpml_importer').click(function(e) {
+
+		e.preventDefault();
+
+		if ( undefined == $('#wpml_import_list') || '' == $('#wpml_import_list').val() )
+			return false;
+
+		movies = $('#wpml_import_list').val();
+		movies = movies.split(',');
+
+		console.log( movies );
+	});
+
 	$('#wpml-import input#doaction, #wpml-import input#doaction2').click(function(e) {
 
 		e.preventDefault();

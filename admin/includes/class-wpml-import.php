@@ -67,7 +67,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 			$movies = self::wpml_import_movie_list();
 
-			$list = new WPML_List_Table( $movies['movies'], $movies['meta'] );
+			$list = new WPML_Import_Table( $movies['movies'], $movies['meta'] );
 			$list->prepare_items();
 	?>
 				<form method="post">

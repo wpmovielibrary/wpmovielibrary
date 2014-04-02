@@ -13,7 +13,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-class WPML_List_Table extends WP_List_Table {
+class WPML_Import_Table extends WP_List_Table {
 
 	/**
 	 * Constructor. Calls WP_List_Table and set up data.
@@ -33,7 +33,7 @@ class WPML_List_Table extends WP_List_Table {
 		parent::__construct( array(
 			'singular'  => 'movie',
 			'plural'    => 'movies',
-			'ajax'      => false
+			'ajax'      => true
 		) );
 
 		$this->metadata = $metadata;
@@ -45,8 +45,28 @@ class WPML_List_Table extends WP_List_Table {
 			'poster'     => __( 'Poster', 'wpml' ),
 			'movietitle' => __( 'Title', 'wpml' ),
 			'director'   => __( 'Director', 'wpml' ),
-			'tmdb_id'    => __( 'TMDb ID', 'wpml' )
+			'tmdb_id'    => __( 'TMDb ID', 'wpml' ),
+			'actions'    => __( 'Actions', 'wpml' )
 		);
+	}
+
+	/**
+	 * Send required variables to JavaScript land
+	 *
+	 * @access private
+	 */
+	function _js_vars() {
+	    $current_screen = get_current_screen();
+
+	    $args = array(
+		'class'  => get_class( $this ),
+		'screen' => array(
+		    'id'   => $current_screen->id,
+		    'base' => $current_screen->base,
+		)
+	    );
+
+	    printf( "<script type='text/javascript'>list_args = %s;</script>\n", json_encode( $args ) );
 	}
 	
 	/**
@@ -196,12 +216,6 @@ class WPML_List_Table extends WP_List_Table {
 	 */
 	function column_movietitle( $item ) {
 
-		$actions = array(
-			'edit'      => sprintf('<a href="%s">%s</a>', get_edit_post_link( $item['ID'] ), __( 'Edit', 'wpml' ) ),
-			'tmdb_data' => sprintf('<a href="%s">%s</a>', get_edit_post_link( $item['ID'] ) . "&wpml_auto_fetch=1", __( 'Fetch data from TMDb', 'wpml' ) ),
-			'delete'    => sprintf('<a class="delete_movie" id="delete_%s" href="#">%s</a>', $item['ID'], __( 'Delete', 'wpml' ) ),
-		);
-
 		$inline_item  = '<input id="p_'.$item['ID'].'_tmdb_data_post_id" type="hidden" name="tmdb[p_'.$item['ID'].'][post_id]" value="'.$item['ID'].'" />';
 		$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_tmdb_id" type="hidden" name="tmdb[p_'.$item['ID'].'][tmdb_id]" value="0" />';
 		$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_poster" type="hidden" name="tmdb[p_'.$item['ID'].'][poster]" value="" />';
@@ -212,7 +226,7 @@ class WPML_List_Table extends WP_List_Table {
 
 		$inline_item = '<div id="p_'.$item['ID'].'_tmdb_data">'.$inline_item.'</div>';
 
-		return sprintf('<span class="movie_title">%1$s</span> %2$s %3$s', $item['movietitle'], $this->row_actions( $actions ), $inline_item );
+		return sprintf('<span class="movie_title">%1$s</span> %2$s', $item['movietitle'], $inline_item );
 	}
  
 	/**
@@ -239,6 +253,19 @@ class WPML_List_Table extends WP_List_Table {
 	 */
 	function column_tmdb_id( $item ) {
 		return sprintf('<span class="movie_tmdb_id">%1$s</span>', $item['tmdb_id'] );
+	}
+
+	function column_actions( $item ) {
+
+		$actions = array(
+			'edit'      => sprintf('<a class="edit_movie" id="edit_%1$s"  href="%2$s" title="%3$s"><span class="dashicons dashicons-welcome-write-blog"></span></a>', $item['ID'], get_edit_post_link( $item['ID'] ), __( 'Edit', 'wpml' ) ),
+			'tmdb_data' => sprintf('<a class="fetch_movie" id="fetch_%1$s"  href="%2$s" title="%3$s"><span class="dashicons dashicons-download"></span></a>', $item['ID'], get_edit_post_link( $item['ID'] ) . "&wpml_auto_fetch=1", __( 'Fetch data from TMDb', 'wpml' ) ),
+			'import'    => sprintf('<a class="import_movie" id="import_%1$s" href="#" title="%2$s"><span class="dashicons dashicons-welcome-add-page"></span></a>', $item['ID'], __( 'Import Movie', 'wpml' ) ),
+			'enqueue'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" href="#" title="%2$s"><span class="dashicons dashicons-plus"></span></a>', $item['ID'], __( 'Enqueue', 'wpml' ) ),
+			'delete'    => sprintf('<a class="delete_movie" id="delete_%1$s" href="#" title="%2$s"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], __( 'Delete', 'wpml' ) ),
+		);
+
+		return $this->row_actions( $actions, $always_visible = true );
 	}
 
 	/**
@@ -375,6 +402,46 @@ class WPML_List_Table extends WP_List_Table {
 		);
 
 		$this->items = $columns;
+	}
+
+	/**
+	 * Display the table
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 */
+	function display() {
+		extract( $this->_args );
+
+		$this->display_tablenav( 'top' );
+
+		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
+
+?>
+<table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">
+	<thead>
+	<tr>
+		<?php $this->print_column_headers(); ?>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<?php $this->print_column_headers( false ); ?>
+	</tr>
+	</tfoot>
+
+	<tbody id="the-list"<?php if ( $singular ) echo " data-wp-lists='list:$singular'"; ?>>
+		<?php $this->display_rows_or_placeholder(); ?>
+		<tr>
+			<td colspan="<?php echo count( $this->column_names ); ?>">
+				<div id="progressbar_bg"><div id="progressbar"><div class="progress-label">0</div></div><a href="#" id="hide_progressbar"><?php _e( 'Hide', 'wpml' ) ?></a></div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<?php
+		$this->display_tablenav( 'bottom' );
 	}
  
 }

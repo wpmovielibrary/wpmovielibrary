@@ -573,6 +573,12 @@ body.post-php.post-type-movie #postimagediv {
 	max-width: 6em;
 }
 
+#wpml_imported .wp-list-table.movies {
+	position: relative;
+}
+
+
+
 /* #TMDb Meta Box
  ****************************************************/
 
