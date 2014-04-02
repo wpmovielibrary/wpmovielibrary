@@ -559,7 +559,7 @@ class WPML_Import_Table extends WP_List_Table {
 
 		$this->display_tablenav( 'top' );
 
-		wp_nonce_field( 'ajax-fetch-imported-movies-nonce', 'wpml_fetch_imported_movies_nonce' );
+		wp_nonce_field( 'wpml-fetch-imported-movies-nonce', 'wpml_fetch_imported_movies_nonce' );
 
 ?>
 <table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">

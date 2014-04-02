@@ -33,16 +33,27 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 			add_action( 'admin_init', array( $this, 'init' ) );
 
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+
 			add_action( 'load-movie_page_import', __CLASS__ . '::wpml_import_movie_list_add_options' );
 			add_filter( 'set-screen-option', __CLASS__ . '::wpml_import_movie_list_set_option', 10, 3 );
+
 			add_action( 'wp_ajax_wpml_delete_movie', __CLASS__ . '::wpml_delete_movie_callback' );
 			add_action( 'wp_ajax_wpml_import_movies', __CLASS__ . '::wpml_import_movies_callback' );
 			add_action( 'wp_ajax_wpml_fetch_imported_movies', __CLASS__ . '::wpml_fetch_imported_movies_callback' );
 		}
 
+		public function admin_enqueue_scripts( $hook ) {
+
+			if ( 'movie_page_import' != $hook )
+				return;
+
+			wp_enqueue_script( WPML_SLUG . '-importer', WPML_URL . '/admin/assets/js/wpml.importer.js', array( WPML_SLUG . '-admin-script' ), WPML_VERSION, true );
+		}
+
 		public static function wpml_fetch_imported_movies_callback() {
 
-			check_ajax_referer( 'ajax-fetch-imported-movies-nonce', 'wpml_fetch_imported_movies_nonce' );
+			check_ajax_referer( 'wpml-fetch-imported-movies-nonce', 'wpml_fetch_imported_movies_nonce' );
 
 			$wp_list_table = new WPML_Import_Table();
 			$wp_list_table->ajax_response();

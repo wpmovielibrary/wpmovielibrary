@@ -2,12 +2,13 @@
 	<h2><?php _e( 'Movies Import', 'wpml' ); ?></h2>
 
 	<?php WPML_Utils::admin_notice( $_notice ); ?>
+	<?php wp_nonce_field( 'wpml-set-imported-movies-screen-nonce', 'wpml_set_imported_movies_screen_nonce' ); ?>
 
 	<div id="wpml-tabs">
 
 		<ul class="wpml-tabs-nav">
-		    <li class="wpml-tabs-nav<?php if ( '' == $_section || 'wpml_imported' == $_section ) echo ' active'; ?>"><a href="#wpml_imported" data-section="&amp;wpml_section=wpml_imported"><h4><?php _e( 'Imported Movies', 'wpml' ); ?></h4></a></li>
-		    <li class="wpml-tabs-nav<?php if ( 'wpml_import' == $_section ) echo ' active'; ?>"><a href="#wpml_import" data-section="&amp;wpml_section=wpml_import"><h4><?php _e( 'Import New Movies', 'wpml' ); ?></h4></a></li>
+		    <li class="wpml-tabs-nav<?php if ( '' == $_section || 'wpml_imported' == $_section ) echo ' active'; ?>"><a id="_wpml_imported" href="#wpml_imported" data-section="&amp;wpml_section=wpml_imported"><h4><?php _e( 'Imported Movies', 'wpml' ); ?></h4></a></li>
+		    <li class="wpml-tabs-nav<?php if ( 'wpml_import' == $_section ) echo ' active'; ?>"><a id="_wpml_import" href="#wpml_import" data-section="&amp;wpml_section=wpml_import"><h4><?php _e( 'Import New Movies', 'wpml' ); ?></h4></a></li>
 		</ul>
 
 		<div id="wpml_imported" class="wpml-tabs-panel hide-if-js<?php if ( '' == $_section || 'wpml_imported' == $_section ) echo ' active'; ?>">

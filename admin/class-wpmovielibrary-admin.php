@@ -114,7 +114,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					wp_enqueue_script( 'jquery-ui-tabs' );
 				}
 
-				wp_enqueue_script( WPML_SLUG . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-progressbar', 'jquery-ui-tabs' ), WPML_VERSION );
+				wp_enqueue_script( WPML_SLUG . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-progressbar', 'jquery-ui-tabs' ), WPML_VERSION, true );
 				wp_localize_script(
 					WPML_SLUG . '-admin-script', 'ajax_object',
 					array(
