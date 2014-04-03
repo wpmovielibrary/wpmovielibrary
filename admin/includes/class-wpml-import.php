@@ -43,6 +43,15 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			add_action( 'wp_ajax_wpml_fetch_imported_movies', __CLASS__ . '::wpml_fetch_imported_movies_callback' );
 		}
 
+		/**
+		 * Register and enqueue admin-specific JavaScript.
+		 * 
+		 * wpml.importer extends wpml with specific import functions.
+		 *
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $hook Current screen hook
+		 */
 		public function admin_enqueue_scripts( $hook ) {
 
 			if ( 'movie_page_import' != $hook )
@@ -51,6 +60,33 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			wp_enqueue_script( WPML_SLUG . '-importer', WPML_URL . '/admin/assets/js/wpml.importer.js', array( WPML_SLUG . '-admin-script' ), WPML_VERSION, true );
 		}
 
+		/**
+		 * Delete movie
+		 * 
+		 * Remove imported movies draft and attachment from database
+		 *
+		 * @since     1.0.0
+		 * 
+		 * @return     boolean     deletion status
+		 */
+		public static function wpml_delete_movie_callback() {
+
+			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+
+			$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
+
+			echo self::wpml_delete_movie( $post_id );
+			die();
+		}
+
+		/**
+		 * Callback for Imported Movies WPML_Import_Table AJAX navigation.
+		 * 
+		 * Checks the AJAX nonce, create a new instance of WPML_Import_Table
+		 * and calls the AJAX handling method to echo the requested rows.
+		 *
+		 * @since     1.0.0
+		 */
 		public static function wpml_fetch_imported_movies_callback() {
 
 			check_ajax_referer( 'wpml-fetch-imported-movies-nonce', 'wpml_fetch_imported_movies_nonce' );
@@ -59,6 +95,14 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			$wp_list_table->ajax_response();
 		}
 
+		/**
+		 * Callback for WPML_Import movie import method.
+		 * 
+		 * Checks the AJAX nonce and calls wpml_import_movies() to
+		 * create import drafts of all movies passed through the list.
+		 *
+		 * @since     1.0.0
+		 */
 		public static function wpml_import_movies_callback() {
 
 			check_ajax_referer( 'wpml-movie-import', 'wpml_ajax_movie_import' );
@@ -81,21 +125,30 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				<form method="post">
 					<input type="hidden" name="page" value="import" />
 
-	<?php
+<?php
 			$list->search_box('search', 'search_id'); 
 			$list->display();
 
-	?>
+?>
 				</form>
-	<?php
+<?php
 		}
 
 		/**
 		 * Process the submitted movie list
+		 * 
+		 * This method can be used through an AJAX callback; in this case
+		 * the nonce check is already done in callback so we only check
+		 * for nonce we're not doing AJAX. List is exploded by comma and
+		 * fed to wpml_import_movie() to create import drafts.
+		 * 
+		 * If AJAX, the function echo a status message and simply dies.
+		 * If no AJAX, ir returns false on failure, and a status message
+		 * on success.
 		 *
 		 * @since     1.0.0
 		 * 
-		 * @return     boolean     false on failure, true else
+		 * @return    void|boolean|string
 		 */
 		public static function wpml_import_movies() {
 
@@ -133,7 +186,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		}
 
 		/**
-		 * Save a temporary 'movie' post type for submitted title.
+		 * Save a temporary movie for submitted title.
 		 * 
 		 * This is used to save movies submitted from a list before any
 		 * alteration is made by user. Posts will be kept as 'import-draft'
@@ -191,25 +244,6 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				return $id->get_error_message();
 			else
 				return $id;
-		}
-
-		/**
-		 * Delete movie
-		 * 
-		 * Remove imported movies draft and attachment from database
-		 *
-		 * @since     1.0.0
-		 * 
-		 * @return     boolean     deletion status
-		 */
-		public static function wpml_delete_movie_callback() {
-
-			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
-
-			$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
-
-			echo self::wpml_delete_movie( $post_id );
-			die();
 		}
 
 		/**
