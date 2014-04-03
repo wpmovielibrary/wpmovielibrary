@@ -80,11 +80,11 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( ! isset( $this->plugin_screen_hook_suffix ) )
 				return;
 
-			wp_enqueue_style( WPML_SLUG .'-admin-common', WPML_URL . '/admin/assets/css/admin-common.css', array(), WPML_VERSION );
+			wp_enqueue_style( WPML_SLUG .'-admin-common', WPML_URL . '/assets/css/admin-common.css', array(), WPML_VERSION );
 
 			$screen = get_current_screen();
 			if ( in_array( $screen->id, $this->plugin_screen_hook_suffix ) )
-				wp_enqueue_style( WPML_SLUG .'-admin-styles', WPML_URL . '/admin/assets/css/admin.css', array(), WPML_VERSION );
+				wp_enqueue_style( WPML_SLUG .'-admin-styles', WPML_URL . '/assets/css/admin.css', array(), WPML_VERSION );
 
 		}
 
@@ -114,7 +114,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					wp_enqueue_script( 'jquery-ui-tabs' );
 				}
 
-				wp_enqueue_script( WPML_SLUG . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-progressbar', 'jquery-ui-tabs' ), WPML_VERSION, true );
+				wp_enqueue_script( WPML_SLUG . '-admin-script', WPML_URL . '/assets/js/admin.js', array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-progressbar', 'jquery-ui-tabs' ), WPML_VERSION, true );
 				wp_localize_script(
 					WPML_SLUG . '-admin-script', 'ajax_object',
 					array(
@@ -258,7 +258,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'tmdb', 'wpml', 'uninstall', 'restore' ) ) )
 				$_section =  $_REQUEST['wpml_section'];
 
-			include_once( WPML_PATH . '/admin/views/admin.php' );
+			include_once( plugin_dir_path( __FILE__ ) . '/views/admin.php' );
 		}
 
 		/**

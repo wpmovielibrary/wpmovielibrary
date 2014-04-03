@@ -203,7 +203,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		*/
 		public function enqueue_styles() {
 
-			wp_enqueue_style( WPML_SLUG, WPML_URL . '/public/assets/css/public.css', array(), WPML_VERSION );
+			wp_enqueue_style( WPML_SLUG, WPML_URL . '/assets/css/public.css', array(), WPML_VERSION );
 		}
 
 		/**
@@ -213,7 +213,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		*/
 		public function enqueue_scripts() {
 
-			wp_enqueue_script( WPML_SLUG, WPML_URL . '/public/assets/js/public.js', array( 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG, WPML_URL . '/assets/js/public.js', array( 'jquery' ), WPML_VERSION, true );
 		}
 
 		/**
@@ -284,7 +284,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 
 			// Dashicons or PNG
 			if ( version_compare( get_bloginfo( 'version' ), '3.8', '<' ) ) {
-				$args['title'] = '<img src="' . WPML_URL . '/admin/assets/img/icon-movie.png" alt="" />' . $args['title'];
+				$args['title'] = '<img src="' . WPML_URL . '/assets/img/icon-movie.png" alt="" />' . $args['title'];
 			}
 			else {
 				$args['meta']['class'] = 'haz-dashicon';
