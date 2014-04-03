@@ -553,11 +553,11 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 .wpml-import-movie-select {
-
+	background: #222;
 }
 
 .wpml-import-movie-select .tmdb_select_movies {
-	max-height: 7.75em;
+	max-height: 8em;
 	overflow-y: scroll;
 }
 

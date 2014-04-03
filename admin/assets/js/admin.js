@@ -331,31 +331,6 @@ jQuery(document).ready(function($) {
 
 	// Movie import
 
-	$('#wpml-import input#doaction, #wpml-import input#doaction2').click(function(e) {
-
-		e.preventDefault();
-		n = this.id.replace('do','');
-		action = $(this).prev('select[name='+n+']');
-		$(this).addClass('loader');
-
-		if ( 'tmdb_data' == action.val() ) {
-			wpml.import.get_movies();
-		}
-		else if ( 'delete' == action.val() ) {
-			$('.movies > tbody input[type=checkbox]:checked').each(function() {
-				var id = this.id.replace('post_','');
-				wpml.movie.delete(id);
-			});
-		}
-		else {
-			return false;
-		}
-	});
-
-	$('#wpml-import #wpml_empty').click(function() {
-		$('.wpml-import-movie-select').remove();
-	});
-
 	$('.delete_movie').click(function(e) {
 		e.preventDefault();
 		var id = this.id.replace('delete_','');
@@ -371,7 +346,8 @@ jQuery(document).ready(function($) {
 	 * WP List Table AJAX nav
 	 */
 
-	wpml.importer.init();
+	wpml.import.init();
+	wpml.import.table.init();
 
 });
 
@@ -806,179 +782,6 @@ wpml = {
 		},
 	},
 
-	import: {
-
-		target: {},
-
-		get_movie: function(id) {
-
-			$.ajax({
-				type: 'GET',
-				url: ajax_object.ajax_url,
-				data: {
-					action: 'tmdb_search',
-					wpml_check: ajax_object.wpml_check,
-					type: 'id',
-					data: id,
-					_id: post_id
-				},
-				success: function(response) {
-						wpml.import.populate(response);
-				},
-				beforeSend: function() {
-					$('input.loader').addClass('button-loading');
-					$('#p_'+post_id).find('.poster').addClass('loading');
-				},
-				complete: function() {
-					$('input.loader').removeClass('button-loading');
-					$('.poster.loading').removeClass('loading');
-				},
-			});
-
-		},
-
-		get_movies: function() {
-
-			$('.movies > tbody input[type=checkbox]:checked').each(function(i) {
-
-				post_id = this.value;	// Set post_id for search_movie
-				tr      = $(this).parents('tr');
-				tr.prop('id', 'p_'+post_id);
-
-				title = tr.find('.movietitle span.movie_title').text();
-
-				if ( ! post_id.length ) {
-					console.log('!post_id');
-					return false;
-				}
-
-				wpml.import.search_movie(title);
-			});
-
-		},
-
-		populate: function(data) {
-
-			var tr     = $('#p_'+data._id);
-			var fields = $('#p_'+data._id+'_tmdb_data input');
-			console.log(data);
-
-			data.images = [];
-
-			fields.each(function(i, field) {
-
-				f_name = field.id.replace('p_'+data._id+'_tmdb_data_','');
-
-				var sub = wpml.switch_data( f_name );
-
-				if ( 'meta' == sub )
-					var _data = data.meta;
-				else if ( 'crew' == sub )
-					var _data = data.crew;
-				else
-					var _data = data;
-
-				if ( Array.isArray( _data[f_name] ) && _data[f_name].length ) {
-					var _v = [];
-					$.each(_data[f_name], function() {
-						_v.push( field.value + this );
-					});
-					field.value = _v.join(', ');
-				}
-				else {
-					var _v = ( _data[f_name] != null ? _data[f_name] : '' );
-					field.value = _v;
-				}
-			});
-
-			$('#p_'+data._id+'_tmdb_data_tmdb_id').val(data._tmdb_id);
-			$('#p_'+data._id+'_tmdb_data_post_id').val(data._id);
-			$('#p_'+data._id+'_tmdb_data_poster').val(data.poster_path);
-
-			tr.find('.poster').html('<img src="'+ajax_object.base_url_xxsmall+data.poster_path+'" alt="'+data.meta.title+'" />');
-			tr.find('.movie_title').text(data.meta.title);
-			tr.find('.movie_director').text($('#p_'+data._id+'_tmdb_data_director').val());
-			tr.find('.movie_tmdb_id').text(data._tmdb_id);
-
-			$('#p_'+data._id+'_tmdb_data').appendTo('#tmdb_data');
-		},
-
-		populate_select_list: function(data) {
-
-			var html = '';
-
-			var _next = wpml.import.target.next();
-			var _tmdb_id = wpml.import.target.find('.movie_tmdb_id');
-
-			if ( ( undefined != _next && _next.hasClass('wpml-import-movie-select') ) || ( undefined != _tmdb_id && '' != _tmdb_id.text() ) )
-				return false;
-
-			$.each(data.movies, function() {
-				html += '<div class="tmdb_select_movie">';
-				html += '	<a id="tmdb_'+this.id+'" href="#'+data._id+'">';
-				html += '		<img src="'+this.poster+'" alt="'+this.title+'" />';
-				html += '		<em>'+this.title+'</em>';
-				html += '	</a>';
-				html += '	<input type=\'hidden\' value=\''+this.json+'\' />';
-				html += '</div>';
-			});
-
-			html = '<tr class="wpml-import-movie-select"><td colspan="6"><div class="tmdb_select_movies">'+html+'</div></td></tr>';
-
-			wpml.import.target.after(html);
-		},
-
-		search_movie: function(title) {
-
-			$.ajax({
-				type: 'GET',
-				url: ajax_object.ajax_url,
-				data: {
-					action: 'tmdb_search',
-					wpml_check: ajax_object.wpml_check,
-					type: 'title',
-					data: title,
-					lang: '',
-					_id: post_id
-				},
-				success: function(response) {
-
-					wpml.import.target = $('#p_'+response._id); // Update the target for populates
-
-					if ( response._result == 'movie' ) {
-						wpml.import.populate(response);
-					}
-					else if ( response._result == 'movies' ) {
-						wpml.import.populate_select_list(response);
-
-						$('.tmdb_select_movie a').unbind('click').bind('click', function(e) {
-							e.preventDefault();
-
-							post_id = this.hash.replace('#',''); // Update post_id so that get_movie will find the target TR
-							tmdb_id = this.id.replace('tmdb_','');
-							wpml.import.get_movie(tmdb_id);
-							$(this).parents('.wpml-import-movie-select').remove();
-						});
-					}
-					else if ( response._result == 'error' || response._result == 'empty' ) {
-						$('#import-intro').after('<div id="import-error" class="success settings-error">'+response.p+'</div>').show();
-					}
-				},
-				beforeSend: function() {
-					$('input.loader').addClass('button-loading');
-				},
-				complete: function() {
-					$('input.loader').removeClass('button-loading loader');
-				},
-			});
-
-		},
-
-		set_target: function(wot) {
-			this.target = wot;
-		},
-	},
-
 	switch_data: function( f_name ) {
 
 		switch ( f_name ) {
@@ -1022,5 +825,16 @@ wpml = {
 		}
 
 	},
+
+	http_query_var: function( query, variable ) {
+
+		var vars = query.split("&");
+		for ( var i = 0; i <vars.length; i++ ) {
+			var pair = vars[ i ].split("=");
+			if ( pair[0] == variable )
+				return pair[1];
+		}
+		return false;
+	}
 
 };
