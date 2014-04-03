@@ -51,6 +51,38 @@ wpml.import = {
 		});
 	},
 
+		add: function() {
+
+			if ( undefined == $('#wpml_import_list') || '' == $('#wpml_import_list').val() )
+				return false;
+
+			var movies = $('#wpml_import_list').val();
+
+			$.ajax({
+				type: 'POST',
+				url: ajax_object.ajax_url,
+				data: {
+					action: 'wpml_import_movies',
+					wpml_import_list: movies,
+					wpml_ajax_movie_import: $('#wpml_ajax_movie_import').val()
+				},
+				success: function(response) {
+					if ( 0 == response )
+						return false;
+
+					$('.updated').remove();
+					$('#wpml_import_list').val('');
+					$('#wpml-tabs').before('<div class="updated"><p>'+response+'</p></div>');
+					$('#_wpml_imported').trigger('click');
+					wpml.import.table.load({
+						paged: 1,
+						order: 'asc',
+						orderby: 'title'
+					});
+				}
+			});
+		},
+
 	get_movie: function( id ) {
 
 		$.ajax({
@@ -235,7 +267,7 @@ wpml.import = {
 					order: wpml.http_query_var( query, 'order' ) || 'asc',
 					orderby: wpml.http_query_var( query, 'orderby' ) || 'title'
 				};
-				wpml.importer.load( data );
+				wpml.import.table.load( data );
 			});
 
 			// Update when manually changing page number in input field
@@ -252,46 +284,14 @@ wpml.import = {
 
 				window.clearTimeout( timer );
 				timer = window.setTimeout(function() {
-					wpml.importer.load( data );
+					wpml.import.table.load( data );
 				}, delay);
 			});
 
 			// Import a list of titles
 			$('#wpml_importer').click(function(e) {
 				e.preventDefault();
-				wpml.importer.add();
-			});
-		},
-
-		add: function() {
-
-			if ( undefined == $('#wpml_import_list') || '' == $('#wpml_import_list').val() )
-				return false;
-
-			var movies = $('#wpml_import_list').val();
-
-			$.ajax({
-				type: 'POST',
-				url: ajax_object.ajax_url,
-				data: {
-					action: 'wpml_import_movies',
-					wpml_import_list: movies,
-					wpml_ajax_movie_import: $('#wpml_ajax_movie_import').val()
-				},
-				success: function(response) {
-					if ( 0 == response )
-						return false;
-
-					$('.updated').remove();
-					$('#wpml_import_list').val('');
-					$('#wpml-tabs').before('<div class="updated"><p>'+response+'</p></div>');
-					$('#_wpml_imported').trigger('click');
-					wpml.importer.load({
-						paged: 1,
-						order: 'asc',
-						orderby: 'title'
-					});
-				}
+				wpml.import.add();
 			});
 		},
 
@@ -318,7 +318,7 @@ wpml.import = {
 						$('.tablenav.top .tablenav-pages').html( $(response.pagination.top).html() );
 					if ( response.pagination.top.length )
 						$('.tablenav.bottom .tablenav-pages').html( $(response.pagination.bottom).html() );
-					wpml.importer.init();
+					wpml.import.table.init();
 				}
 			});
 		}
