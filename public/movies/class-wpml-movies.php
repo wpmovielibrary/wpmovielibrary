@@ -31,7 +31,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'init', __CLASS__ . '::wpml_register_post_type' );
+			add_action( 'init', __CLASS__ . '::wpml_register_post_type', 10 );
 
 			// Load Movies as well as Posts in the Loop
 			add_action( 'pre_get_posts', __CLASS__ . '::wpml_show_movies_in_home_page' );
@@ -96,6 +96,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 				'show_in_admin_status_list' => false,
 				'label_count'               => _n_noop( 'Imported Draft <span class="count">(%s)</span>', 'Imported Draft <span class="count">(%s)</span>' ),
 			) );
+
 		}
  
 		/**

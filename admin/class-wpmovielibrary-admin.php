@@ -258,7 +258,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'tmdb', 'wpml', 'uninstall', 'restore' ) ) )
 				$_section =  $_REQUEST['wpml_section'];
 
-			include_once( plugin_dir_path( __FILE__ ) . '/views/admin.php' );
+			include_once( plugin_dir_path( __FILE__ ) . 'settings/views/admin.php' );
 		}
 
 		/**

@@ -57,6 +57,16 @@ require_once( plugin_dir_path( __FILE__ ) . 'public/collections/class-wpml-colle
 require_once( plugin_dir_path( __FILE__ ) . 'public/genres/class-wpml-genres.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'public/actors/class-wpml-actors.php' );
 
+/* Widgets */
+
+require_once( plugin_dir_path( __FILE__ ) . 'public/movies/class-media-widget.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/movies/class-most-rated-movies-widget.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/movies/class-recent-movies-widget.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/movies/class-status-widget.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/collections/class-collections-widget.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/genres/class-genres-widget.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/actors/class-actors-widget.php' );
+
 /*
  * Register hooks that are fired when the plugin is activated or deactivated.
  * When the plugin is deleted, the uninstall.php file is loaded.

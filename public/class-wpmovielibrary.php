@@ -19,29 +19,20 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 	*/
 	class WPMovieLibrary extends WPML_Module {
 
-		/**
-		* Handle Plugin Notices. Needs to be static so static methods
-		* can call enqueue notices. Needs to be public so other modules
-		* can enqueue notices.
-		*
-		* @since    1.0.0
-		*
-		* @var      object
-		*/
-		public static $notices;
-
 		protected static $readable_properties  = array();
 
 		protected static $writeable_properties = array();
 
 		protected $modules;
 
+		protected $widgets;
+
 		/**
-		* Initialize the plugin by setting localization and loading public scripts
-		* and styles.
-		*
-		* @since     1.0.0
-		*/
+		 * Initialize the plugin by setting localization and loading public scripts
+		 * and styles.
+		 *
+		 * @since     1.0.0
+		 */
 		protected function __construct() {
 
 			$this->register_hook_callbacks();
@@ -55,6 +46,13 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				'WPML_Actors'      => WPML_Actors::get_instance()
 			);
 
+			$this->widgets = array(
+				'WPML_Recent_Movies_Widget',
+				'WPML_Most_Rated_Movies_Widget',
+				'WPML_Media_Widget',
+				'WPML_Status_Widget'
+			);
+
 		}
 
 		/**
@@ -64,11 +62,14 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'init', array( $this, 'init' ) );
-			add_action( 'init', __CLASS__ . '::wpml_register_permalinks' );
+			// Add custom permalinks if anything flush the rewrite rules
+			add_filter( 'rewrite_rules_array', __CLASS__ . '::wpml_register_permalinks', 10 );
 
 			// Load plugin text domain
 			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
+
+			// Widgets
+			add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 
 			// Enqueue scripts and styles
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
@@ -79,26 +80,30 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-		*
-		*                     Plugin  Activate/Deactivate
-		* 
-		* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		 *
+		 *                     Plugin  Activate/Deactivate
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
-		* Fired when the plugin is activated.
-		* 
-		* Restore previously converted contents. If WPML was previously
-		* deactivated or uninstalled using the 'convert' option, Movies and
-		* Custom Taxonomies should still be in the database. If they are, we
-		* convert them back to WPML contents.
-		*
-		* @since    1.0.0
-		*
-		* @param    boolean    $network_wide    True if WPMU superadmin uses
-		*                                       "Network Activate" action, false if
-		*                                       WPMU is disabled or plugin is
-		*                                       activated on an individual blog.
-		*/
+		 * Fired when the plugin is activated.
+		 * 
+		 * Restore previously converted contents. If WPML was previously
+		 * deactivated or uninstalled using the 'convert' option, Movies and
+		 * Custom Taxonomies should still be in the database. If they are, we
+		 * convert them back to WPML contents.
+		 * 
+		 * Call Movie Custom Post Type and Collections, Genres and Actors custom
+		 * Taxonomies' registering functions and flush rewrite rules to update
+		 * the permalinks.
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param    boolean    $network_wide    True if WPMU superadmin uses
+		 *                                       "Network Activate" action, false if
+		 *                                       WPMU is disabled or plugin is
+		 *                                       activated on an individual blog.
+		 */
 		public function activate( $network_wide ) {
 
 			global $wpdb;
@@ -120,26 +125,31 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				$this->single_activate( $network_wide );
 			}
 
-			set_transient( '_wpml_just_activated', 'yup', HOUR_IN_SECONDS );
+			WPML_Movies::wpml_register_post_type();
+			WPML_Collections::wpml_register_collection_taxonomy();
+			WPML_Genres::wpml_register_genre_taxonomy();
+			WPML_Actors::wpml_register_actor_taxonomy();
 			self::wpml_register_permalinks();
+
+			flush_rewrite_rules();
 
 		}
 
 		/**
-		* Fired when the plugin is deactivated.
-		* 
-		* When deactivatin/uninstalling WPML, adopt different behaviors depending
-		* on user options. Movies and Taxonomies can be kept as they are,
-		* converted to WordPress standars or removed. Default is conserve on
-		* deactivation, convert on uninstall.
-		*
-		* @since    1.0.0
-		*
-		* @param    boolean    $network_wide    True if WPMU superadmin uses
-		*                                       "Network Deactivate" action, false if
-		*                                       WPMU is disabled or plugin is
-		*                                       deactivated on an individual blog.
-		*/
+		 * Fired when the plugin is deactivated.
+		 * 
+		 * When deactivatin/uninstalling WPML, adopt different behaviors depending
+		 * on user options. Movies and Taxonomies can be kept as they are,
+		 * converted to WordPress standars or removed. Default is conserve on
+		 * deactivation, convert on uninstall.
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param    boolean    $network_wide    True if WPMU superadmin uses
+		 *                                       "Network Deactivate" action, false if
+		 *                                       WPMU is disabled or plugin is
+		 *                                       deactivated on an individual blog.
+		 */
 		public function deactivate() {
 
 			global $wpdb;
@@ -197,30 +207,30 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		}
 
 		/**
-		* Register and enqueue public-facing style sheet.
-		*
-		* @since    1.0.0
-		*/
+		 * Register and enqueue public-facing style sheet.
+		 *
+		 * @since    1.0.0
+		 */
 		public function enqueue_styles() {
 
 			wp_enqueue_style( WPML_SLUG, WPML_URL . '/assets/css/public.css', array(), WPML_VERSION );
 		}
 
 		/**
-		* Register and enqueue public-facing style sheet.
-		*
-		* @since    1.0.0
-		*/
+		 * Register and enqueue public-facing style sheet.
+		 *
+		 * @since    1.0.0
+		 */
 		public function enqueue_scripts() {
 
 			wp_enqueue_script( WPML_SLUG, WPML_URL . '/assets/js/public.js', array( 'jquery' ), WPML_VERSION, true );
 		}
 
 		/**
-		* Load the plugin text domain for translation.
-		*
-		* @since    1.0.0
-		*/
+		 * Load the plugin text domain for translation.
+		 *
+		 * @since    1.0.0
+		 */
 		public function load_plugin_textdomain() {
 
 			$domain = WPML_SLUG;
@@ -232,18 +242,30 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		}
 
 		/**
+		 * Register the Class Widgets
+		 * 
+		 * @since    1.0.0 
+		 */
+		public function register_widgets() {
+
+			foreach ( $this->widgets as $widget )
+				if ( class_exists( $widget ) )
+					register_widget( $widget );
+		}
+
+		/**
 		 * Create a new set of permalinks for Movie Details
 		 * 
-		 * TODO: rename and add option to either add or remove permalinks
+		 * We want to list movies by media, status and rating. This method is called
+		 * during init but will not do anything unless
 		 *
 		 * @since    1.0.0
 		 *
 		 * @param    object     $wp_rewrite Instance of WordPress WP_Rewrite Class
 		 */
-		public static function wpml_register_permalinks() {
+		public static function wpml_register_permalinks( $rules = null ) {
 
-			if ( 'yup' != get_transient( '_wpml_just_activated' ) )
-				return false;
+			//if ( is_null( $wp_rewrite ) )
 
 			$new_rules = array(
 				'movies/(dvd|vod|bluray|vhs|cinema|other)/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]',
@@ -254,21 +276,23 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]' . '&paged=$matches[2]',
 			);
 
+			if ( ! is_null( $rules ) )
+				return $new_rules + $rules;
+
 			foreach ( $new_rules as $regex => $rule )
 				add_rewrite_rule( $regex, $rule, 'top' );
 
-			flush_rewrite_rules();
-			delete_transient( '_wpml_just_activated' );
+			
 		}
 
 		/**
-		* Add a New Movie link to WP Admin Bar.
-		* 
-		* WordPress 3.8 introduces Dashicons, for older versions we use a PNG
-		* icon instead.
-		*
-		* @since    1.0.0
-		*/
+		 * Add a New Movie link to WP Admin Bar.
+		 * 
+		 * WordPress 3.8 introduces Dashicons, for older versions we use a PNG
+		 * icon instead.
+		 *
+		 * @since    1.0.0
+		 */
 		public function wpml_admin_bar_menu() {
 
 			global $wp_admin_bar;

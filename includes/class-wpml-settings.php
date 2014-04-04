@@ -124,12 +124,12 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		}
 
 		/**
-		* Restore default settings.
-		* 
-		* Action Hook to restore the Plugin's default settings.
-		* 
-		* @since    1.0.0
-		*/
+		 * Restore default settings.
+		 * 
+		 * Action Hook to restore the Plugin's default settings.
+		 * 
+		 * @since    1.0.0
+		 */
 		public static function wpml_restore_default_settings() {
 			self::wpml_default_settings( $force = true );
 		}
