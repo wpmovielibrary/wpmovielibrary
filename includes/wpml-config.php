@@ -15,28 +15,159 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 $wpml_settings = array(
-	'settings_revision' => WPML_SETTINGS_REVISION,
 	'wpml' => array(
+		'section' => array(
+			'id'       => 'wpml_settings',
+			'title'    => WPML_NAME,
+		),
 		'settings' => array(
-			'meta_in_posts'    => 'posts_only',
-			'details_in_posts' => 'posts_only',
-			'details_as_icons' => 1,
+
+			// Add movies to the main loop
+			'show_in_home' => array(
+				'title'    => __( 'Show Movies in Home Page', WPML_SLUG ),
+				'description' => __( 'If enable, movies will appear among other Posts in the Home Page.', WPML_SLUG ),
+				'type'     => 'toggle',
+				'default' => 1
+			),
+
+			// Show movie meta in posts
+			'meta_in_posts' => array(
+				'title' => __( 'Show basic movie metadata', WPML_SLUG ),
+				'description' => __( 'Add metadata to posts&rsquo; content: director, genres, runtime…', WPML_SLUG ),
+				'type' => 'select',
+				'values' => array(
+					'everywhere' => __( 'Everywhere', 'wpml' ),
+					'posts_only' => __( 'Only In Post Read', 'wpml' ),
+					'nowhere'    => __( 'Don&rsquo;t Show', 'wpml' ),
+				),
+				'default' => 'posts_only'
+			),
+
+			/*// Show movie details in posts
+			'details_in_posts' => array(
+				'field' => array(
+					'title'    => __( 'Show movie details', WPML_SLUG ),
+					'args'     => array(
+						'label'       => '',
+						'description' => __( 'Add details to posts&rsquo; content: movie status, media…', WPML_SLUG )
+					),
+					'type'     => 'select',
+					'values'   => array(
+						'everywhere'  => __( 'Everywhere', 'wpml' ),
+						'posts_only'  => __( 'Only In Post Read', 'wpml' ),
+						'nowhere'     => __( 'Don&rsquo;t Show', 'wpml' )
+					),
+				),
+				'default' => 'posts_only'
+			),
+
+			// Show movie details as icons
+			'details_as_icons' => array(
+				'field' => array(
+					'title'    => __( '', WPML_SLUG ),
+					'args'     => array(
+						'label'       => '',
+						'description' => __( '', WPML_SLUG )
+					),
+					'type'     => 'toggle'
+				),
+				'default' => 1
+			),
+
+			// Default movie meta to show
 			'default_movie_meta' => array(
-				'director',
-				'runtime',
-				'release_date',
-				'genres',
-				'overview',
+				'field' => array(
+					'title'    => __( '', WPML_SLUG ),
+					'args'     => array(
+						'label'       => '',
+						'description' => __( '', WPML_SLUG )
+					),
+					'type'     => 'select',
+					'values'   => array(
+						
+					),
+				),
+				'default' => array(
+					'director',
+					'runtime',
+					'release_date',
+					'genres',
+					'overview'
+				)
 			),
+
+			// Default movie detail to show
 			'default_movie_details' => array(
-				'movie_media',
-				'movie_status'
+				'field' => array(
+					'title'    => __( '', WPML_SLUG ),
+					'args'     => array(
+						'label'       => '',
+						'description' => __( '', WPML_SLUG )
+					),
+					'type'     => 'select',
+					'values'   => array(
+						
+					),
+				),
+				'default' => array(
+					'movie_media',
+					'movie_status'
+				)
 			),
-			'show_in_home'          => 1,
-			'enable_collection'     => 1,
-			'enable_actor'          => 1,
-			'enable_genre'          => 1,
-			'taxonomy_autocomplete' => 1,
+
+			// Enable Collections Taxonomy
+			'enable_collection' => array(
+				'field' => array(
+					'title'    => __( '', WPML_SLUG ),
+					'args'     => array(
+						'label'       => '',
+						'description' => __( '', WPML_SLUG )
+					),
+					'type'     => 'toggle'
+				),
+				'default' => 1
+			),
+
+			// Enable Actors Taxonomy
+			'enable_actor' => array(
+				'field' => array(
+					'title'    => __( '', WPML_SLUG ),
+					'args'     => array(
+						'label'       => '',
+						'description' => __( '', WPML_SLUG )
+					),
+					'type'     => 'toggle'
+				),
+				'default' => 1
+			),
+
+			// Enable Genres Taxonomy
+			'enable_genre' => array(
+				'field' => array(
+					'title'    => __( '', WPML_SLUG ),
+					'args'     => array(
+						'label'       => '',
+						'description' => __( '', WPML_SLUG )
+					),
+					'type'     => 'toggle'
+				),
+				'default' => 1
+			),
+
+			// Enable automatic adding of taxonomies
+			'taxonomy_autocomplete' => array(
+				'field' => array(
+					'title'    => __( '', WPML_SLUG ),
+					'args'     => array(
+						'label'       => '',
+						'description' => __( '', WPML_SLUG )
+					),
+					'type'     => 'toggle'
+				),
+				'default' => 1
+			),*/
+
+			/*// What to do on deactivation
 			'deactivate' => array(
 				'movies'      => 'conserve',
 				'collections' => 'conserve',
@@ -44,18 +175,28 @@ $wpml_settings = array(
 				'actors'      => 'conserve',
 				'cache'       => 'empty'
 			),
+
+			// What to do on uninstallation
 			'uninstall' => array(
 				'movies'      => 'convert',
 				'collections' => 'convert',
 				'genres'      => 'convert',
 				'actors'      => 'convert',
 				'cache'       => 'empty'
-			)
+			)*/
 		)
 	),
-	'tmdb' => array(
+	/*'tmdb' => array(
+		'section' => array(
+			'id'       => null,
+			'title'    => null,
+			'callback' => null,
+			'page'     => null,
+			'section'  => null,
+			'args'     => null
+		),
 		'settings' => array(
-			'APIKey'          => '',
+			'apikey'          => '',
 			'dummy'           => 1,
 			'lang'            => 'en',
 			'scheme'          => 'https',
@@ -66,7 +207,7 @@ $wpml_settings = array(
 			'images_size'     => 'original',
 			'images_max'      => 12,
 		)
-	),
+	)*/
 );
 
 $wpml_movie_details = array(

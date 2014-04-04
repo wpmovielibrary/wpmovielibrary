@@ -33,6 +33,29 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		}
 
 		/**
+		 * Public accessor for every WPML settings
+		 * 
+		 * Allow to request WPML Settings using 'Class::setting_name' written
+		 * calls. If the name passed matches a method it will be called and
+		 * returned.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $name Name of the wanted property/method
+		 * @param    array     $arguments Arguments to pass to the mathod
+		 * 
+		 * @return   mixed     Wanted function's return value
+		 */
+		public static function __callStatic( $name, $arguments ) {
+
+			if ( method_exists( __CLASS__, $name ) )
+				return call_user_func_array( __CLASS__ . "::$name", $arguments );
+			
+			$name = str_replace( '__', '-', $name );
+			return $settings = self::wpml_o( $name );
+		}
+
+		/**
 		 * Register callbacks for actions and filters
 		 * 
 		 * @since    1.0.0
