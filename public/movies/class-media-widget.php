@@ -101,9 +101,7 @@ class WPML_Media_Widget extends WP_Widget {
 		//$show_icons = ( isset( $instance['show_icons'] ) ? $instance['show_icons'] : 0 );
 
 		// Display the admin form
-		require_once( plugin_dir_path(__FILE__) . '../class-wpmovielibrary.php' );
-		$wpml = WPMovieLibrary::get_instance();
-		include( plugin_dir_path( __FILE__ ) . '/views/media-widget-admin.php' );
+		include( WPML_PATH . '/admin/common/views/media-widget-admin.php' );
 	}
 
 	/**

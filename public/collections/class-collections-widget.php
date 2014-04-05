@@ -93,7 +93,7 @@ class WPML_Collections_Widget extends WP_Widget {
 		$css   = ( isset( $instance['css'] ) ? $instance['css'] : 0 );
 
 		// Display the admin form
-		include( plugin_dir_path( __FILE__ ) . '/views/collections-widget-admin.php' );
+		include( WPML_PATH . 'admin/common/views/collections-widget-admin.php' );
 	}
 
 	/**

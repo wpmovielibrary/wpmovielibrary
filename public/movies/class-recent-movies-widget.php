@@ -90,7 +90,7 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 		$number       = ( isset( $instance['number'] ) ? $instance['number'] : 4 );
 
 		// Display the admin form
-		include( plugin_dir_path( __FILE__ ) . '/views/recent-movies-widget-admin.php' );
+		include( WPML_PATH . 'admin/common/views/recent-movies-widget-admin.php' );
 	}
 
 	/**

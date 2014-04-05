@@ -94,7 +94,7 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 		$rating_only = ( isset( $instance['rating_only'] ) ? $instance['rating_only'] : 0 );
 
 		// Display the admin form
-		include( plugin_dir_path( __FILE__ ) . '/views/most-rated-movies-widget-admin.php' );
+		include( WPML_PATH . 'admin/common/views/most-rated-movies-widget-admin.php' );
 	}
 
 	/**

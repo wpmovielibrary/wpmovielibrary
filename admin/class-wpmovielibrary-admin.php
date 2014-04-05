@@ -28,6 +28,15 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		protected $plugin_screen_hook_suffix = null;
 
 		/**
+		 * Plugin Settings.
+		 *
+		 * @since    1.0.0
+		 * @var      string
+		 */
+		protected $settings;
+		protected static $default_settings;
+
+		/**
 		 * Constructor
 		 *
 		 * @since    1.0.0
@@ -39,14 +48,14 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$this->modules = array(
 				'WPML_Settings'    => WPML_Settings::get_instance(),
 				'WPML_Utils'       => WPML_Utils::get_instance(),
-				'WPML_TMDb'        => WPML_TMDb::get_instance(),
+// 				'WPML_TMDb'        => WPML_TMDb::get_instance(),
 				'WPML_Edit_Movies' => WPML_Edit_Movies::get_instance(),
-				'WPML_Movies'      => WPML_Movies::get_instance(),
+// 				'WPML_Movies'      => WPML_Movies::get_instance(),
 				'WPML_Media'       => WPML_Media::get_instance(),
 				'WPML_Import'      => WPML_Import::get_instance(),
-				'WPML_Collections' => WPML_Collections::get_instance(),
-				'WPML_Genres'      => WPML_Genres::get_instance(),
-				'WPML_Actors'      => WPML_Actors::get_instance()
+// 				'WPML_Collections' => WPML_Collections::get_instance(),
+// 				'WPML_Genres'      => WPML_Genres::get_instance(),
+// 				'WPML_Actors'      => WPML_Actors::get_instance()
 			);
 		}
 
@@ -57,10 +66,11 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'admin_init', array( $this, 'init' ) );
+			add_action( 'init', array( $this, 'init' ) );
+			add_action( 'admin_init', array( $this, 'register_settings' ) );
 
 			// Add the options page and menu item.
-			add_action( 'admin_menu', __CLASS__ . '::wpml_admin_menu' );
+			add_action( 'admin_menu', array( $this, 'wpml_admin_menu' ) );
 
 			// Load admin style sheet and JavaScript.
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
@@ -121,13 +131,13 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 						'ajax_url'           => admin_url( 'admin-ajax.php' ),
 						'wpml_check'         => wp_create_nonce( 'wpml-callbacks-nonce' ),
 						'images_added'       => __( 'Images uploaded!', 'wpml' ),
-						'base_url_xxsmall'   => WPML_TMDb::wpml_tmdb_get_base_url( 'poster', 'xx-small' ),
+						/*'base_url_xxsmall'   => WPML_TMDb::wpml_tmdb_get_base_url( 'poster', 'xx-small' ),
 						'base_url_xsmall'    => WPML_TMDb::wpml_tmdb_get_base_url( 'poster', 'x-small' ),
 						'base_url_small'     => WPML_TMDb::wpml_tmdb_get_base_url( 'image', 'small' ),
 						'base_url_medium'    => WPML_TMDb::wpml_tmdb_get_base_url( 'image', 'medium' ),
 						'base_url_full'      => WPML_TMDb::wpml_tmdb_get_base_url( 'image', 'full' ),
 						'base_url_original'  => WPML_TMDb::wpml_tmdb_get_base_url( 'image', 'original' ),
-						'empty_key'          => __( 'I can\'t test an empty key, you know.', 'wpml' ),
+						*/'empty_key'          => __( 'I can\'t test an empty key, you know.', 'wpml' ),
 						'length_key'         => __( 'Invalid key: it should be 32 characters long.', 'wpml' ),
 						'search_movie_title' => __( 'Searching movie', 'wpml' ),
 						'search_movie'       => __( 'Fetching movie data', 'wpml' ),
@@ -152,9 +162,47 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
-		 *                     Settings, Import/Export Pages
+		 *                              Settings
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * Establishes initial values for all settings
+		 *
+		 * @mvc Model
+		 *
+		 * @return array
+		 */
+		protected static function get_default_settings() {
+
+			global $wpml_settings;
+
+			$default_settings = apply_filters( 'wpml_summarize_settings', $wpml_settings );
+
+			//if ( '' == get_option( 'wpml_settings' ) )
+			//	add_option( 'wpml_settings', $default_settings, $deprecated = false, $autoload = 'no' );
+
+			return $default_settings;
+		}
+
+
+
+		/**
+		 * Retrieves all of the settings from the database
+		 *
+		 * @mvc Model
+		 *
+		 * @return array
+		 */
+		protected static function get_settings() {
+
+			$settings = shortcode_atts(
+				self::$default_settings,
+				get_option( 'wpml_settings', array() )
+			);
+
+			return $settings;
+		}
 
 		/**
 		 * Register the administration menu for this plugin into the WordPress
@@ -164,7 +212,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 *
 		 * @since    1.0.0
 		 */
-		public static function wpml_admin_menu() {
+		public function wpml_admin_menu() {
 
 			add_submenu_page(
 				'edit.php?post_type=movie',
@@ -187,9 +235,75 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				__( 'Options', 'wpml' ),
 				__( 'Options', 'wpml' ),
 				'manage_options',
-				'settings',
+				'wpml_edit_settings',
 				__CLASS__ . '::wpml_admin_page'
 			);
+			/*add_options_page(
+				__( 'Options', 'wpml' ),
+				__( 'Options', 'wpml' ),
+				'manage_options',
+				'wpml_settings',
+				__CLASS__ . '::wpml_admin_page'
+			);*/
+		}
+
+		/**
+		 * Registers settings sections, fields and settings
+		 *
+		 * @since    1.0.0
+		 */
+		public function register_settings() {
+
+			global $wpml_settings;
+
+			foreach ( $wpml_settings as $section ) {
+
+				$section_id = $section['section']['id'];
+				$section_title = $section['section']['title'];
+
+				add_settings_section(
+					// ID
+					"wpml_settings-$section_id",
+					// Title
+					$section_title,
+					// Callback
+					'WPMovieLibrary_Admin::markup_section_headers',
+					// Page
+					'wpml_settings'
+				);
+
+				foreach ( $section['settings'] as $id => $field ) {
+
+					$callback = isset( $field['callback'] ) ? $field['callback'] : 'markup_fields';
+
+					add_settings_field(
+						// ID
+						$id,
+						// Title
+						$field['title'],
+						// Callback
+						array( $this, $callback ),
+						// Page
+						'wpml_settings',
+						// Section
+						"wpml_settings-$section_id",
+						// Arguments
+						array( 'id' => $id, 'section' => $section_id ) + $field
+					);
+				}
+			}
+
+			// The settings container
+			register_setting(
+				'wpml_edit_settings',
+				'wpml_settings'
+			);
+		}
+
+		public function validate_settings( $new_settings ) {
+
+			print_r( $new_settings );
+			return $new_settings;
 		}
 
 		/**
@@ -199,7 +313,86 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public static function wpml_admin_page() {
 
-			$errors = array();
+			if ( current_user_can( 'manage_options' ) )
+				include_once( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings.php' );
+			else
+				wp_die( __( 'Access denied.', 'wpml' ) );
+		}
+
+		/**
+		 * Adds the section introduction text to the Settings page
+		 *
+		 * @mvc Controller
+		 *
+		 * @param array $section
+		 */
+		public static function markup_section_headers( $section ) {
+			include( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings-section-headers.php' );
+		}
+
+		/**
+		 * Delivers the markup for settings fields
+		 *
+		 * @mvc Controller
+		 *
+		 * @param array $field
+		 */
+		public function markup_fields( $field ) {
+
+			$settings = $this->get_settings();
+
+			$_type  = esc_attr( $field['type'] );
+			$_title = esc_attr( $field['title'] );
+			$_id    = "wpml_settings[{$field['section']}][{$field['id']}]";
+			$_value = $settings[ $field['section'] ][ $field['id'] ];
+
+			include( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings-fields.php' );
+		}
+
+		/**
+		 * Delivers the markup for default_movie_meta settings fields
+		 *
+		 * @param array $field
+		 */
+		public function sorted_markup_fields( $field ) {
+
+			$settings = $this->get_settings();
+
+			$_type  = 'sorted';
+			$_title = esc_attr( $field['title'] );
+			$_id    = "wpml_settings[{$field['section']}][{$field['id']}]";
+			$_value = $settings[ $field['section'] ][ $field['id'] ];
+
+			$items      = WPML_Settings::wpml_get_supported_movie_meta();
+			$selected   = $_value;
+			$selectable = array_diff( array_keys( $items ), $selected );
+
+			$draggable = ''; $droppable = ''; $options = '';
+
+			foreach ( $selected as $meta ) :
+				if ( isset( $items[ $meta ] ) )
+					$draggable .= '<li data-movie-meta="' . $meta . '" class="default_movie_meta_selected">' . __( $items[ $meta ]['title'], 'wpml' ) . '</li>';
+			endforeach;
+			foreach ( $selectable as $meta ) :
+				$droppable .= '<li data-movie-meta="' . $meta . '" class="default_movie_meta_droppable">' . __( $items[ $meta ]['title'], 'wpml' ) . '</li>';
+			endforeach;
+
+			foreach ( $items as $slug => $meta ) :
+				$check = in_array( $slug, WPML_Settings::wpml_o( 'wpml-settings-default_movie_meta' ) ) || in_array( $slug, WPML_Settings::wpml_o( 'wpml-settings-default_movie_meta' ) );
+				$options .= '<option value="' . $slug . '"' . selected( $check, true, false ) . '>' . __( $meta['title'], 'wpml' ) . '</option>';
+			endforeach;
+
+			include( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings-fields.php' );
+		}
+
+		/**
+		 * Render options page.
+		 *
+		 * @since    1.0.0
+		 */
+		public static function __wpml_admin_page() {
+
+			/*$errors = array();
 			$_notice = '';
 			$_section = '';
 
@@ -258,7 +451,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'tmdb', 'wpml', 'uninstall', 'restore' ) ) )
 				$_section =  $_REQUEST['wpml_section'];
 
-			include_once( plugin_dir_path( __FILE__ ) . 'settings/views/admin.php' );
+			include_once( plugin_dir_path( __FILE__ ) . 'settings/views/admin.php' );*/
 		}
 
 		/**
@@ -367,8 +560,11 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public function init() {
 
 			$this->plugin_screen_hook_suffix = array(
-				'movie_page_import', 'movie_page_settings', 'edit-movie', 'movie', 'plugins'
+				'movie_page_import', 'movie_page_wpml_edit_settings', 'edit-movie', 'movie', 'plugins'
 			);
+
+			self::$default_settings = self::get_default_settings();
+			$this->settings         = self::get_settings();
 
 		}
 

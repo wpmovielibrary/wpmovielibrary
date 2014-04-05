@@ -34,6 +34,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			add_filter( 'wpml_format_widget_lists', __CLASS__ . '::wpml_format_widget_lists', 10, 4 );
 			add_filter( 'wpml_format_widget_lists_thumbnails', __CLASS__ . '::wpml_format_widget_lists_thumbnails', 10, 1 );
 
+			add_filter( 'wpml_summarize_settings', __CLASS__ . '::summarize_settings', 10, 1 );
+
 			add_filter( 'wpml_filter_meta_data', __CLASS__ . '::wpml_filter_meta_data', 10, 1 );
 			add_filter( 'wpml_filter_crew_data', __CLASS__ . '::wpml_filter_crew_data', 10, 1 );
 			add_filter( 'wpml_filter_cast_data', __CLASS__ . '::wpml_filter_cast_data', 10, 1 );
@@ -224,6 +226,28 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$html = '<div class="widget-movies">' . implode( "\n", $html ) . '</div>';
 
 			return $html;
+		}
+
+		/**
+		 * Filter Plugin Settings to obtain a single dimension array with
+		 * all prefixed settings.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    array    $array Plugin Settings
+		 * 
+		 * @return   array    Summarized Plugin Settings
+		 */
+		public static function summarize_settings( $settings ) {
+
+			$_settings = array();
+
+			foreach ( $settings as $id => $section )
+				foreach ( $section['settings'] as $slug => $setting )
+					$_settings[ $id ][ $slug ] = $setting['default'];
+			
+
+			return $_settings;
 		}
 
 		/**

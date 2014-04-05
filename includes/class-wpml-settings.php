@@ -86,7 +86,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 */
 		public static function wpml_default_settings( $force = false ) {
 
-			global $wpml_settings;
+			/*global $wpml_settings;
 
 			$options = get_option( WPML_SETTINGS_SLUG );
 			$status  = false;
@@ -103,7 +103,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 				}
 			}
 
-			return $status;
+			return $status;*/
 		}
 
 		/**

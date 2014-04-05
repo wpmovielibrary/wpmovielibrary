@@ -99,9 +99,7 @@ class WPML_Status_Widget extends WP_Widget {
 		$status_only = ( isset( $instance['status_only'] ) ? $instance['status_only'] : 0 );
 
 		// Display the admin form
-		require_once( plugin_dir_path(__FILE__) . '../class-wpmovielibrary.php' );
-		$wpml = WPMovieLibrary::get_instance();
-		include( plugin_dir_path( __FILE__ ) . '/views/status-widget-admin.php' );
+		include( WPML_PATH . 'admin/common/views/status-widget-admin.php' );
 	}
 
 	/**

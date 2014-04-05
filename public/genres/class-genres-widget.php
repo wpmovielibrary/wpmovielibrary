@@ -93,7 +93,7 @@ class WPML_Genres_Widget extends WP_Widget {
 		$css   = ( isset( $instance['css'] ) ? $instance['css'] : 0 );
 
 		// Display the admin form
-		include( plugin_dir_path( __FILE__ ) . '/views/genres-widget-admin.php' );
+		include( WPML_PATH . 'admin/common/views/genres-widget-admin.php' );
 	}
 
 	/**
