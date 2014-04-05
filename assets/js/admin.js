@@ -45,9 +45,9 @@ jQuery(document).ready(function($) {
 			var value = [];
 			var items = $('.default_movie_meta_selected');
 			$.each(items, function() {
-				value.push( $(this).attr('data-movie-meta') );
+				var value = $(this).attr('data-movie-meta');
+				$('#wpml_settings-wpml-default_movie_meta option[value="'+value+'"]').prop('selected', true);
 			});
-			$('#default_movie_meta_sorted').val( value.join(',') );
 		};
 
 		$('#draggable, #droppable').sortable({
@@ -346,8 +346,10 @@ jQuery(document).ready(function($) {
 	 * WP List Table AJAX nav
 	 */
 
-	wpml.import.init();
-	wpml.import.table.init();
+	if ( 'movie_page_import' == adminpage ) {
+		wpml.import.init();
+		wpml.import.table.init();
+	}
 
 });
 

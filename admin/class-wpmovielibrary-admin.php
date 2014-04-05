@@ -360,7 +360,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			$_type  = 'sorted';
 			$_title = esc_attr( $field['title'] );
-			$_id    = "wpml_settings[{$field['section']}][{$field['id']}]";
+			$_id    = "wpml_settings-{$field['section']}-{$field['id']}";
+			$_name  = "wpml_settings[{$field['section']}][{$field['id']}]";
 			$_value = $settings[ $field['section'] ][ $field['id'] ];
 
 			$items      = WPML_Settings::wpml_get_supported_movie_meta();
@@ -378,7 +379,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			endforeach;
 
 			foreach ( $items as $slug => $meta ) :
-				$check = in_array( $slug, WPML_Settings::wpml_o( 'wpml-settings-default_movie_meta' ) ) || in_array( $slug, WPML_Settings::wpml_o( 'wpml-settings-default_movie_meta' ) );
+				$check = in_array( $slug, $_value );
 				$options .= '<option value="' . $slug . '"' . selected( $check, true, false ) . '>' . __( $meta['title'], 'wpml' ) . '</option>';
 			endforeach;
 
