@@ -55,8 +55,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 			if ( true === $config )
 				self::getConfiguration();
 
-			$this->_api_key = WPML_Settings::wpml_get_api_key();
-			$this->_dummy = WPML_Settings::wpml_is_dummy_api();
+			$this->_api_key = WPML_Settings::tmdb__apikey();
+			$this->_dummy = WPML_Settings::tmdb__dummy();
 		}
 
 		public function checkApiKey( $key ) {
@@ -82,7 +82,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 			$params = array(
 				'query'         => $query,
 				'page'          => (int) $page,
-				'language'      => is_null( $lang ) ? WPML_Settings::wpml_get_api_lang() : $lang,
+				'language'      => is_null( $lang ) ? WPML_Settings::tmdb__lang() : $lang,
 				'include_adult' => (bool) $adult,
 				'year'          => $year,
 			);
@@ -136,7 +136,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 */
 		public function getCollection( $id, $lang = null ) {
 
-			$params = array( 'language' => is_null( $lang ) ? WPML_Settings::wpml_get_api_lang() : $lang );
+			$params = array( 'language' => is_null( $lang ) ? WPML_Settings::tmdb__lang() : $lang );
 			return self::_makeCall( 'collection/' . $id, $params );
 		}
 
@@ -150,7 +150,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 */
 		public function getMovie( $id, $lang = null ) {
 
-			$params = array( 'language' => is_null( $lang ) ? WPML_Settings::wpml_get_api_lang() : $lang );
+			$params = array( 'language' => is_null( $lang ) ? WPML_Settings::tmdb__lang() : $lang );
 			return self::_makeCall( 'movie/' . $id, $params );
 		}
 
@@ -188,7 +188,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 */
 		public function getMovieImages( $id, $lang = null ) {
 
-			$params = array( 'language' => is_null( $lang ) ? WPML_Settings::wpml_get_api_lang() : $lang );
+			$params = array( 'language' => is_null( $lang ) ? WPML_Settings::tmdb__lang() : $lang );
 			return self::_makeCall( 'movie/' . $id . '/images', $params );
 		}
 
@@ -278,7 +278,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 			if ( ! is_null( $session_id ) )
 				$auth_array['session_id'] = $session_id;
 
-			$url = WPML_Settings::wpml_get_api_scheme() . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( $auth_array, '', '&' );
+			$url = WPML_Settings::tmdb__scheme() . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( $auth_array, '', '&' );
 
 			if ( isset($params['language'] ) && false === $params['language'] )
 				unset($params['language']);
@@ -331,7 +331,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 * @return    array
 		 */
 		public function getConfig() {
-			return ( empty( self::$_config ) ? self::getConfiguration() : self::$_config );
+			return ( ! is_null( $this->_config ) ? $this->_config : self::getConfiguration() );
 		}
 
 		/**

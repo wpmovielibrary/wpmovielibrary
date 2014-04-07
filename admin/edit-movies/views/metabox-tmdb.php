@@ -1,4 +1,4 @@
-<?php if ( false === WPML_Settings::wpml_get_api_key() && false === WPML_Settings::wpml_is_dummy_api() ) :
+<?php if ( false === WPML_Settings::wpml__apikey() && false === WPML_Settings::wpml__is_dummy() ) :
 	_e( 'You need a valid <acronym title="TheMovieDB">TMDb</acronym> API key to start adding your movies. Go to the <a href="https://www.themoviedb.org/">WPMovieLibrary Settings page</a> to add your API key.', 'wpml' );
 	return;
 endif;

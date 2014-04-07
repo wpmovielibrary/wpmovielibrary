@@ -47,6 +47,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			$this->modules = array(
 				'WPML_Settings'    => WPML_Settings::get_instance(),
+				'WPML_TMDb'        => WPML_TMDb::get_instance(),
 				'WPML_Utils'       => WPML_Utils::get_instance(),
 				'WPML_Edit_Movies' => WPML_Edit_Movies::get_instance(),
 				'WPML_Media'       => WPML_Media::get_instance(),
@@ -144,12 +145,12 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$base_urls = WPML_TMDb::wpml_tmdb_get_base_url();
 
 				$localize = $localize + array(
-					'base_url_xxsmall'   => $base_urls['poster']['xx-small'],
-					'base_url_xsmall'    => $base_urls['poster']['x-small'],
-					'base_url_small'     => $base_urls['image']['small'],
-					'base_url_medium'    => $base_urls['image']['medium'],
-					'base_url_full'      => $base_urls['image']['full'],
-					'base_url_original'  => $base_urls['image']['original'],
+					'base_url_xxsmall'   => $base_urls['poster_url']['xx-small'],
+					'base_url_xsmall'    => $base_urls['poster_url']['x-small'],
+					'base_url_small'     => $base_urls['image_url']['small'],
+					'base_url_medium'    => $base_urls['image_url']['medium'],
+					'base_url_full'      => $base_urls['image_url']['full'],
+					'base_url_original'  => $base_urls['image_url']['original'],
 				);
 
 				wp_enqueue_script( WPML_SLUG . '-admin-script', WPML_URL . '/assets/js/admin.js', array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-progressbar', 'jquery-ui-tabs' ), WPML_VERSION, true );
@@ -167,41 +168,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 *                              Settings
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		/**
-		 * Establishes initial values for all settings
-		 *
-		 * @mvc Model
-		 *
-		 * @return array
-		 */
-		protected static function get_default_settings() {
-
-			global $wpml_settings;
-
-			$default_settings = apply_filters( 'wpml_summarize_settings', $wpml_settings );
-
-			return $default_settings;
-		}
-
-
-
-		/**
-		 * Retrieves all of the settings from the database
-		 *
-		 * @mvc Model
-		 *
-		 * @return array
-		 */
-		protected static function get_settings() {
-
-			$settings = shortcode_atts(
-				self::$default_settings,
-				get_option( 'wpml_settings', array() )
-			);
-
-			return $settings;
-		}
 
 		/**
 		 * Register the administration menu for this plugin into the WordPress
@@ -272,7 +238,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 		public function validate_settings( $new_settings ) {
 
-			print_r( $new_settings );
 			return $new_settings;
 		}
 
@@ -311,7 +276,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public function markup_fields( $field ) {
 
-			$settings = $this->get_settings();
+			$settings = WPML_Settings::get_settings();
 
 			$_type  = esc_attr( $field['type'] );
 			$_title = esc_attr( $field['title'] );
@@ -329,7 +294,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public function sorted_markup_fields( $field ) {
 
-			$settings = $this->get_settings();
+			$settings = WPML_Settings::get_settings();
 
 			$_type  = 'sorted';
 			$_title = esc_attr( $field['title'] );
@@ -360,155 +325,13 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		}
 
 		/**
-		 * Render options page.
-		 *
-		 * @since    1.0.0
-		 */
-		public static function __wpml_admin_page() {
-
-			/*$errors = array();
-			$_notice = '';
-			$_section = '';
-
-			if ( isset( $_POST['restore_default'] ) && '' != $_POST['restore_default'] ) {
-
-				check_admin_referer('wpml-admin');
-
-				if ( 0 === did_action( 'wpml_restore_default_settings' ) )
-					do_action( 'wpml_restore_default_settings' );
-				$_notice = __( 'Default Settings have been restored.', 'wpml' );
-			}
-
-			if ( isset( $_POST['submit'] ) && '' != $_POST['submit'] ) {
-
-				check_admin_referer('wpml-admin');
-
-				if ( isset( $_POST['tmdb_data'] ) && '' != $_POST['tmdb_data'] )
-					$tmdb_data = $_POST['tmdb_data'];
-
-				if ( isset( $tmdb_data['wpml'] ) && '' != $tmdb_data['wpml'] ) {
-
-					$supported = array_keys( WPML_Settings::wpml_o( 'wpml-settings' ) );
-					$wpml = $tmdb_data['wpml'];
-
-					if ( isset( $wpml['default_movie_meta_sorted'] ) && '' != $wpml['default_movie_meta_sorted'] ) {
-						$wpml['default_movie_meta'] = explode( ',', $wpml['default_movie_meta_sorted'] );
-						unset( $wpml['default_movie_meta_sorted'] );
-					}
-
-					foreach ( $wpml as $key => $setting ) {
-						if ( in_array( $key, $supported ) ) {
-							if ( is_array( $setting ) )
-								WPML_Settings::wpml_o( 'wpml-settings-'.esc_attr( $key ), $setting );
-							else
-								WPML_Settings::wpml_o( 'wpml-settings-'.esc_attr( $key ), esc_attr( $setting ) );
-						}
-					}
-				}
-
-				if ( isset( $tmdb_data['tmdb'] ) && '' != $tmdb_data['tmdb'] ) {
-
-					$tmdb = $tmdb_data['tmdb'];
-					$supported = array_keys( WPML_Settings::wpml_o( 'tmdb-settings' ) );
-					foreach ( $tmdb as $key => $setting ) {
-						if ( in_array( $key, $supported ) ) {
-							WPML_Settings::wpml_o( 'tmdb-settings-'.esc_attr( $key ), esc_attr( $setting ) );
-						}
-					}
-				}
-
-				if ( empty( $errors ) )
-					$_notice = __( 'Settings saved.', 'wpml' );
-
-			}
-
-			if ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'tmdb', 'wpml', 'uninstall', 'restore' ) ) )
-				$_section =  $_REQUEST['wpml_section'];
-
-			include_once( plugin_dir_path( __FILE__ ) . 'settings/views/admin.php' );*/
-		}
-
-		/**
 		 * Render movie export page
 		 *
 		 * @since    1.0.0
 		 */
 		public function wpml_export_page() {
 			// TODO: implement export
-			// include_once( 'views/export.php' );
 		}
-
-
-		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-		 *
-		 *                             Methods
-		 * 
-		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		/**
-		 * Get number of existing Collections.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @return   int    Total count of Collections
-		 */
-		/*public function wpml_get_collection_count() {
-			$c = get_terms( array( 'collection' ) );
-			return ( isset( $c[0]->count ) && '' != $c[0]->count ? $c[0]->count : 0 );
-		}*/
-
-		/**
-		 * Get number of existing Movies.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @return   int    Total count of Movies
-		 */
-		/*public function wpml_get_movie_count() {
-			$c = get_posts( array( 'posts_per_page' => -1, 'post_type' => 'movie' ) );
-			return count( $c );
-		}*/
-
-		/**
-		 * Get all available movies.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @return   array    Movie list
-		 */
-		/*public function wpml_get_movies() {
-
-			$movies = array();
-
-			query_posts( array(
-				'posts_per_page' => -1,
-				'post_type'   => 'movie'
-			) );
-
-			if ( have_posts() ) {
-				while ( have_posts() ) {
-					the_post();
-					$movie = array(
-						'id'     => get_the_ID(),
-						'title'  => get_the_title(),
-						'url'    => get_permalink(),
-						'poster' => $this->wpml_get_featured_image( get_the_ID(), 'medium' )
-					);
-
-					$tmdb_data = get_post_meta( get_the_ID(), '_wpml_movie_data', true );
-					if ( '' != $tmdb_data ) {
-						$movie['genres']   = $tmdb_data['genres'];
-						$movie['runtime']  = $tmdb_data['runtime'];
-						$movie['overview'] = $tmdb_data['overview'];
-					}
-
-					$movies[] = $movie;
-				}
-			}
-
-			return $movies;
-
-		}*/
 
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
@@ -537,8 +360,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'movie_page_import', 'movie_page_wpml_edit_settings', 'edit-movie', 'movie', 'plugins'
 			);
 
-			self::$default_settings = self::get_default_settings();
-			$this->settings         = self::get_settings();
+			self::$default_settings = WPML_Settings::get_default_settings();
+			$this->settings         = WPML_Settings::get_settings();
 
 		}
 

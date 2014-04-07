@@ -54,10 +54,15 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 			$name = str_replace( '__', '-', $name );
 			$settings = self::wpml_o( $name );
 
-			if ( 1 == $settings || '1' == $settings )
+			if ( 1 === $settings || '1' === $settings )
 				$settings = true;
-			else if ( 0 == $settings || '0' == $settings )
+			else if ( 0 === $settings || '0' === $settings )
 				$settings = false;
+			else
+				$settings = $settings;
+
+			if ( is_array( $settings ) && 1 == count( $settings ) )
+				$settings = $settings[0];
 
 			return $settings;
 		}
@@ -70,12 +75,29 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		public function register_hook_callbacks() {
 
 			// Load settings or register new ones
-			add_action( 'init', __CLASS__ . '::wpml_default_settings', 9 );
+			add_action( 'init', __CLASS__ . '::get_default_settings', 9 );
 
 			add_action( 'wpml_restore_default_settings', __CLASS__ . '::wpml_restore_default_settings', 10, 0 );
 			add_filter( 'wpml_get_available_movie_media', __CLASS__ . '::wpml_get_available_movie_media' );
 			add_filter( 'wpml_get_available_movie_status', __CLASS__ . '::wpml_get_available_movie_status' );
 			add_filter( 'wpml_get_available_movie_rating', __CLASS__ . '::wpml_get_available_movie_rating' );
+		}
+
+		/**
+		 * Retrieves all of the settings from the database
+		 *
+		 * @since    1.0.0
+		 *
+		 * @return   array
+		 */
+		public static function get_settings() {
+
+			$settings = shortcode_atts(
+				self::get_default_settings(),
+				get_option( WPML_SETTINGS_SLUG, array() )
+			);
+
+			return $settings;
 		}
 
 		/**
@@ -91,26 +113,13 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 * @return   boolean    True if settings were successfully added/updated
 		 *                      False if anything went wrong.
 		 */
-		public static function wpml_default_settings( $force = false ) {
+		public static function get_default_settings( $force = false ) {
 
-			/*global $wpml_settings;
+			global $wpml_settings;
 
-			$options = get_option( WPML_SETTINGS_SLUG );
-			$status  = false;
+			$default_settings = apply_filters( 'wpml_summarize_settings', $wpml_settings );
 
-			if ( ( false === $options || ! is_array( $options ) ) || true == $force ) {
-				delete_option( WPML_SETTINGS_SLUG );
-				$status = add_option( WPML_SETTINGS_SLUG, $wpml_settings );
-			}
-			else if ( ! isset( $options['settings_revision'] ) || WPML_SETTINGS_REVISION > $options['settings_revision'] ) {
-				$updated_options = self::wpml_update_settings( $wpml_settings, self::wpml_o() );
-				if ( ! empty( $updated_options ) ) {
-					$updated_options['settings_revision'] = WPML_SETTINGS_REVISION;
-					$status = update_option( WPML_SETTINGS_SLUG, $updated_options );
-				}
-			}
-
-			return $status;*/
+			return $default_settings;
 		}
 
 		/**
@@ -132,25 +141,24 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *                             array if everything went right, empty array
 		 *                             if something bad happened.
 		 */
-		protected static function wpml_update_settings( $default, $options ) {
+		protected static function wpml_update_settings() {
 
-			if ( ! is_array( $default ) || ! is_array( $options ) )
-				return array();
+			$options = get_option( WPML_SETTINGS_SLUG );
+			$status  = false;
 
-			foreach ( $default as $key => $value ) {
-				if ( isset( $options[ $key ] ) && is_array( $value ) )
-					$options[ $key ] = self::wpml_update_settings( $value, $default[ $key ] );
-				else if ( ! isset( $options[ $key ] ) ) {
-					$a = array_search( $key, array_keys( $default ) );
-					$options = array_merge(
-						array_slice( $options, 0, $a ),
-						array( $key => $value ),
-						array_slice( $options, $a )
-					);
+			if ( ( false === $options || ! is_array( $options ) ) || true == $force ) {
+				delete_option( WPML_SETTINGS_SLUG );
+				$status = add_option( WPML_SETTINGS_SLUG, $default_settings );
+			}
+			else if ( ! isset( $options['settings_revision'] ) || WPML_SETTINGS_REVISION > $options['settings_revision'] ) {
+				$updated_options = shortcode_atts( $default_settings, $wpml_settings );
+				if ( ! empty( $updated_options ) ) {
+					$updated_options['settings_revision'] = WPML_SETTINGS_REVISION;
+					$status = update_option( WPML_SETTINGS_SLUG, $updated_options );
 				}
 			}
 
-			return $options;
+			return $status;
 		}
 
 		/**
@@ -161,7 +169,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 * @since    1.0.0
 		 */
 		public static function wpml_restore_default_settings() {
-			self::wpml_default_settings( $force = true );
+			self::get_default_settings( $force = true );
 		}
 
 		/**

@@ -40,6 +40,11 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		public function __construct() {
 
 			$this->register_hook_callbacks();
+
+			if ( '' == WPML_Settings::tmdb__apikey() ) {
+				WPML_Utils::admin_notice( __( '', 'wpml' ), 'error' );
+				return false;
+			}
 		}
 
 		/**
@@ -84,9 +89,6 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			}
 			else if ( isset( $tmdb_config['status_code'] ) && in_array( $tmdb_config['status_code'], array( 7, 403 ) ) ) {
 				WPML_Utils::admin_notice( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpml' ), $tmdb_config['status_message'], $tmdb_config['status_code'] ), 'error' );
-				return false;
-			}
-			else {
 				return false;
 			}
 
