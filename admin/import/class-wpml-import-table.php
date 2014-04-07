@@ -13,6 +13,8 @@ if( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
+error_reporting( ~E_ALL );
+
 class WPML_Import_Table extends WP_List_Table {
 
 	/**
@@ -33,7 +35,8 @@ class WPML_Import_Table extends WP_List_Table {
 		parent::__construct( array(
 			'singular'  => 'movie',
 			'plural'    => 'movies',
-			'ajax'      => true
+			'ajax'      => true,
+			'screen'    => get_current_screen()
 		) );
 
 		$this->metadata = WPML_Settings::wpml_get_supported_movie_meta( $type = null, $merge = false );

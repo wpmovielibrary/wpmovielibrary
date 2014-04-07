@@ -7,7 +7,7 @@ jQuery(document).ready(function($) {
 	if ( $('#wpml-tabs').length > 0 ) {
 
 		var links = $('#wpml-tabs .wpml-tabs-nav a');
-		var panels = $('#wpml-tabs .form-table');
+		var panels = $('#wpml-tabs .wpml-tabs-panels > .form-table');
 		var link_active = $('#wpml-tabs .wpml-tabs-nav li.active');
 		var active = 0;
 

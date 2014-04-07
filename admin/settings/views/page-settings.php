@@ -4,7 +4,7 @@
 
 	<?php if ( '' == WPML_Settings::tmdb__apikey() ) WPML_Utils::admin_notice( sprintf( __( 'Congratulation, you successfully installed WPMovieLibrary. You need a valid <acronym title="TheMovieDB">TMDb</acronym> API key to start adding your movies. Go to the <a href="%s">WPMovieLibrary Settings page</a> to add your API key.', 'wpml' ), admin_url( 'edit.php?post_type=movie&page=settings' ) ), 'wpml' ); ?>
 
-	<?php WPML_Utils::admin_notice( null/*$_notice*/ ); settings_errors(); ?>
+	<?php settings_errors(); ?>
 
 	<div id="wpml-tabs">
 
@@ -13,7 +13,8 @@
 			<ul class="wpml-tabs-nav">
 			    <li class="wpml-tabs-nav<?php if ( 'tmdb' == $_section || '' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=tmdb"><h4><?php _e( 'TMDb API', 'wpml' ); ?></h4></a></li>
 			    <li class="wpml-tabs-nav<?php if ( 'wpml' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=wpml"><h4><?php _e( 'WPMovieLibrary', 'wpml' ); ?></h4></a></li>
-			    <li class="wpml-tabs-nav<?php if ( 'uninstall' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=uninstall"><h4><?php _e( 'Deactivate/Uninstall', 'wpml' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'deactivate' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=deactivate"><h4><?php _e( 'Deactivate', 'wpml' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'uninstall' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=uninstall"><h4><?php _e( 'Uninstall', 'wpml' ); ?></h4></a></li>
 			    <li class="wpml-tabs-nav<?php if ( 'restore' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=restore"><h4><?php _e( 'Restore', 'wpml' ); ?></h4></a></li>
 			</ul>
 

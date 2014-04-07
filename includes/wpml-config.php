@@ -234,24 +234,154 @@ $wpml_settings = array(
 				'type'     => 'toggle',
 				'default' => 1
 			),
+		),
+	),
 
-			/*// What to do on deactivation
-			'deactivate' => array(
-				'movies'      => 'conserve',
-				'collections' => 'conserve',
-				'genres'      => 'conserve',
-				'actors'      => 'conserve',
-				'cache'       => 'empty'
+	// What to do on deactivation
+	'deactivate' => array(
+		'section' => array(
+			'id'       => 'deactivate',
+			'title'    => __( 'Deactivate', WPML_SLUG ),
+		),
+		'settings' => array(
+			'movies' => array(
+				'title' => __( 'Movie Post Type', WPML_SLUG ),
+				'description' => __( 'How to handle Movies when WPML is deactivated.', WPML_SLUG ),
+				'type' => 'select',
+				'values' => array(
+					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
+					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+				),
+				'default' => 'conserve'
 			),
 
-			// What to do on uninstallation
-			'uninstall' => array(
-				'movies'      => 'convert',
-				'collections' => 'convert',
-				'genres'      => 'convert',
-				'actors'      => 'convert',
-				'cache'       => 'empty'
-			)*/
+			'collections' => array(
+				'title' => __( 'Collections Taxonomy', WPML_SLUG ),
+				'description' => __( 'How to handle Collections Taxonomy when WPML is deactivated.', WPML_SLUG ),
+				'type' => 'select',
+				'values' => array(
+					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
+					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+				),
+				'default' => 'conserve'
+			),
+
+			'genres'      => array(
+				'title' => __( 'Genres Taxonomy', WPML_SLUG ),
+				'description' => __( 'How to handle Genres Taxonomy when WPML is deactivated.', WPML_SLUG ),
+				'type' => 'select',
+				'values' => array(
+					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
+					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+				),
+				'default' => 'conserve'
+			),
+
+			'actors'      => array(
+				'title' => __( 'Actors Taxonomy', WPML_SLUG ),
+				'description' => __( 'How to handle Actors Taxonomy when WPML is deactivated.', WPML_SLUG ),
+				'type' => 'select',
+				'values' => array(
+					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
+					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+				),
+				'default' => 'conserve'
+			),
+
+			'cache'       => array(
+				'title' => __( 'Cache', WPML_SLUG ),
+				'description' => __( 'How to handle Cached data when WPML is deactivated.', WPML_SLUG ),
+				'type' => 'select',
+				'values' => array(
+					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
+					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+				),
+				'default' => 'empty'
+			)
+		)
+	),
+
+	// What to do on uninstallation
+	'uninstall' => array(
+		'section' => array(
+			'id'       => 'uninstall',
+			'title'    => __( 'Uninstall', WPML_SLUG ),
+		),
+		'settings' => array(
+			'movies'      => array(
+				'title' => __( 'Movie Post Type', WPML_SLUG ),
+				'description' => __( 'How to handle Movies when WPML is uninstalled.', WPML_SLUG ),
+				'type' => 'select',
+				'values' => array(
+					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
+					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+				),
+				'default' => 'convert'
+			),
+
+			'collections' => array(
+				'title' => __( 'Collections Taxonomy', WPML_SLUG ),
+				'description' => __( 'How to handle Collections Taxonomy when WPML is uninstalled.', WPML_SLUG ),
+				'type' => 'select',
+				'values' => array(
+					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
+					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+				),
+				'default' => 'convert'
+			),
+
+			'genres'      => array(
+				'title' => __( 'Genres Taxonomy', WPML_SLUG ),
+				'description' => __( 'How to handle Genres Taxonomy when WPML is uninstalled.', WPML_SLUG ),
+				'type' => 'select',
+				'values' => array(
+					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
+					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+				),
+				'default' => 'convert'
+			),
+
+			'actors'      => array(
+				'title' => __( 'Actors Taxonomy', WPML_SLUG ),
+				'description' => __( 'How to handle Actors Taxonomy when WPML is uninstalled.', WPML_SLUG ),
+				'type' => 'select',
+				'values' => array(
+					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
+					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+				),
+				'default' => 'convert'
+			),
+
+			'cache'       => array(
+				'title' => __( 'Cache', WPML_SLUG ),
+				'description' => __( 'How to handle Cached data when WPML is uninstalled.', WPML_SLUG ),
+				'type' => 'select',
+				'values' => array(
+					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
+					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+				),
+				'default' => 'empty'
+			)
 		)
 	)
 );

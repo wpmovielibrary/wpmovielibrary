@@ -195,7 +195,7 @@ wpml.import = {
 			html += '</div>';
 		});
 
-		html = '<tr class="wpml-import-movie-select"><td colspan="6"><div class="tmdb_select_movies">'+html+'</div></td></tr>';
+		html = '<tr class="wpml-import-movie-select"><td colspan="7"><div class="tmdb_select_movies">'+html+'</div></td></tr>';
 
 		wpml.import.target.after(html);
 	},
