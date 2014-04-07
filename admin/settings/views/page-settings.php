@@ -2,7 +2,7 @@
 
 	<h2><?php esc_html_e( WPML_NAME ); ?> Settings</h2>
 
-	<?php var_dump( WPML_Settings::tmdb__apikey() ); if ( '' == WPML_Settings::tmdb__apikey() ) WPML_Utils::admin_notice( sprintf( __( 'Congratulation, you successfully installed WPMovieLibrary. You need a valid <acronym title="TheMovieDB">TMDb</acronym> API key to start adding your movies. Go to the <a href="%s">WPMovieLibrary Settings page</a> to add your API key.', 'wpml' ), admin_url( 'edit.php?post_type=movie&page=settings' ) ), 'wpml' ); ?>
+	<?php if ( '' == WPML_Settings::tmdb__apikey() ) WPML_Utils::admin_notice( sprintf( __( 'Congratulation, you successfully installed WPMovieLibrary. You need a valid <acronym title="TheMovieDB">TMDb</acronym> API key to start adding your movies. Go to the <a href="%s">WPMovieLibrary Settings page</a> to add your API key.', 'wpml' ), admin_url( 'edit.php?post_type=movie&page=settings' ) ), 'wpml' ); ?>
 
 	<?php WPML_Utils::admin_notice( null/*$_notice*/ ); settings_errors(); ?>
 
