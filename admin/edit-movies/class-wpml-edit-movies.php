@@ -268,7 +268,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			$value = WPML_Utils::wpml_filter_empty_array( $value );
 
 			if ( isset( $_REQUEST['wpml_auto_fetch'] ) && ( empty( $value ) || isset( $value['_empty'] ) ) )
-				$value = WPML_TMDb::_wpml_get_movie_by_title( $post->post_title, WPML_Settings::wpml_o( 'tmdb-settings-lang' ) );
+				$value = WPML_TMDb::_wpml_get_movie_by_title( $post->post_title, WPML_Settings::tmdb__lang() );
 
 			include_once( plugin_dir_path( __FILE__ ) . '/views/metabox-tmdb.php' );
 		}

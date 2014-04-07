@@ -119,7 +119,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			$post_type = array( 'post', 'movie' );
 			$post_status = array( 'publish', 'private' );
 
-			if ( 1 == WPML_Settings::wpml_o( 'wpml-settings-show_in_home' ) && is_home() && $query->is_main_query() ) {
+			if ( 1 == WPML_Settings::wpml__show_in_home() && is_home() && $query->is_main_query() ) {
 
 				if ( '' != $query->get( 'post_type' ) )
 					$post_type = array_unique( array_merge( $query->get( 'post_type' ), $post_type ) );
@@ -170,10 +170,10 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 */
 		private static function wpml_movie_details() {
 
-			if ( 'nowhere' == WPML_Settings::wpml_o( 'wpml-settings-details_in_posts' ) || ( 'posts_only' == WPML_Settings::wpml_o( 'wpml-settings-details_in_posts' ) && ! is_singular() ) )
+			if ( 'nowhere' == WPML_Settings::wpml__details_in_posts() || ( 'posts_only' == WPML_Settings::wpml__details_in_posts() && ! is_singular() ) )
 				return null;
 
-			$fields = WPML_Settings::wpml_o( 'wpml-settings-default_movie_details' );
+			$fields = WPML_Settings::wpml__default_movie_details();
 
 			if ( empty( $fields ) )
 				return null;
@@ -187,7 +187,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 					case 'movie_status':
 						$meta = call_user_func_array( "WPML_Utils::wpml_get_{$field}", array( get_the_ID() ) );
 						if ( '' != $meta ) {
-							if ( 1 ==  WPML_Settings::wpml_o( 'wpml-settings-details_as_icons' ) ) {
+							if ( 1 ==  WPML_Settings::wpml__details_as_icons() ) {
 								$html .= '<div class="wpml_' . $field . ' ' . $meta . ' wpml_detail_icon"></div>';
 							}
 							else {
@@ -219,13 +219,13 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 */
 		private static function wpml_movie_metadata() {
 
-			if ( 'nowhere' == WPML_Settings::wpml_o( 'wpml-settings-meta_in_posts' ) || ( 'posts_only' == WPML_Settings::wpml_o( 'wpml-settings-meta_in_posts' ) && ! is_singular() ) )
+			if ( 'nowhere' == WPML_Settings::wpml__meta_in_posts() || ( 'posts_only' == WPML_Settings::wpml__meta_in_posts() && ! is_singular() ) )
 				return null;
 
 			$tmdb_data = WPML_Utils::wpml_get_movie_data();
 			$tmdb_data = WPML_Utils::wpml_filter_undimension_array( $tmdb_data );
 
-			$fields = WPML_Settings::wpml_o( 'wpml-settings-default_movie_meta' );
+			$fields = WPML_Settings::wpml__default_movie_meta();
 			$default_format = '<dt class="wpml_%s_field_title">%s</dt><dd class="wpml_%s_field_value">%s</dd>';
 			$default_fields = WPML_Settings::wpml_get_supported_movie_meta();
 
@@ -238,11 +238,11 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 
 				switch ( $field ) {
 					case 'genres':
-						$genres = WPML_Settings::wpml_use_genre() ? get_the_term_list( get_the_ID(), 'genre', '', ', ', '' ) : $tmdb_data[ $field ];
+						$genres = WPML_Settings::wpml__enable_genre() ? get_the_term_list( get_the_ID(), 'genre', '', ', ', '' ) : $tmdb_data[ $field ];
 						$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, $genres );
 						break;
 					case 'cast':
-						$actors = WPML_Settings::wpml_use_actor() ? get_the_term_list( get_the_ID(), 'actor', '', ', ', '' ) : $tmdb_data[ $field ];
+						$actors = WPML_Settings::wpml__enable_actor() ? get_the_term_list( get_the_ID(), 'actor', '', ', ', '' ) : $tmdb_data[ $field ];
 						$html .= sprintf( $default_format, $field, __( 'Staring', 'wpml' ), $field, $actors );
 						break;
 					case 'release_date':
@@ -252,7 +252,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 						$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, date_i18n( get_option( 'time_format' ), mktime( 0, $tmdb_data[ $field ] ) ) );
 						break;
 					case 'director':
-						$term = WPML_Settings::wpml_use_collection() ? get_term_by( 'name', $tmdb_data[ $field ], 'collection' ) : $tmdb_data[ $field ];
+						$term = WPML_Settings::wpml__enable_collection() ? get_term_by( 'name', $tmdb_data[ $field ], 'collection' ) : $tmdb_data[ $field ];
 						$collection = ( $term && ! is_wp_error( $link = get_term_link( $term, 'collection' ) ) ) ? '<a href="' . $link . '">' . $tmdb_data[ $field ] . '</a>' : $tmdb_data[ $field ];
 						$html .= sprintf( $default_format, $field, __( 'Directed by', 'wpml' ), $field, $collection );
 						break;

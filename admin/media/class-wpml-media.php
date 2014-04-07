@@ -163,7 +163,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			$title   = ( isset( $_GET['title'] )   && '' != $_GET['title']   ? $_GET['title']   : '' );
 			$tmdb_id = ( isset( $_GET['tmdb_id'] ) && '' != $_GET['tmdb_id'] ? $_GET['tmdb_id'] : '' );
 
-			if ( '' == $image || '' == $post_id || 1 != WPML_Settings::wpml_o('tmdb-settings-poster_featured') )
+			if ( '' == $image || '' == $post_id || 1 != WPML_Settings::tmdb__poster_featured() )
 				return false;
 
 			echo self::wpml_set_image_as_featured( $image, $post_id, $tmdb_id, $title );
@@ -218,7 +218,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 */
 		public static function wpml_set_image_as_featured( $file, $post_id, $tmdb_id, $title ) {
 
-			$size = WPML_Settings::wpml_o('tmdb-settings-poster_size');
+			$size = WPML_Settings::tmdb__poster_size();
 
 			$existing = apply_filters( 'wpml_check_for_existing_images', $tmdb_id, 'poster' );
 
@@ -257,7 +257,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			if ( ! in_array( $image_type, array( 'image', 'poster' ) ) )
 				$image_type = 'image';
 
-			$size = WPML_Settings::wpml_o('tmdb-settings-images_size');
+			$size = WPML_Settings::tmdb__images_size();
 			$path = WPML_TMDb::wpml_tmdb_get_base_url( $image_type, $size );
 
 			if ( is_array( $file ) ) {

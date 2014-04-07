@@ -6,21 +6,38 @@ jQuery(document).ready(function($) {
 
 	if ( $('#wpml-tabs').length > 0 ) {
 
-		var active = $('#wpml-tabs .wpml-tabs-panel').index( $('.wpml-tabs-panel.active') );
-		    active = active > -1 ? active : 0;
+		var links = $('#wpml-tabs .wpml-tabs-nav a');
+		var panels = $('#wpml-tabs .form-table');
+		var link_active = $('#wpml-tabs .wpml-tabs-nav li.active');
+		var active = 0;
 
-		$('#wpml-tabs .wpml-tabs-nav a').on('click', function(e) {
+		if ( link_active.length )
+			active = $('#wpml-tabs .wpml-tabs-nav li').index( link_active );
+
+		var panel = panels[ active ];
+		$(panels).hide();
+		$(panel).addClass('active');
+
+		links.on('click', function(e) {
+
 			e.preventDefault();
+			var index = links.index( this );
+
+			if ( panels.length >= index )
+				var panel = panels[ index ];
+
 			var tab = $(this).attr('data-section');
-			var _id = this.hash;
 			var url = this.href.replace(this.hash, '');
-			var index = this.href.indexOf('&wpml_section');
-			if ( index > 0 )
-				url = url.substring( 0, index );
-			$('.wpml-tabs-panel, .wpml-tabs-nav').removeClass('active');
-			$(_id+'.wpml-tabs-panel').addClass('active');
+			    url = url.substring( 0, ( url.length - 1 ) );
+			var section = this.href.indexOf('&wpml_section');
+			if ( section > 0 )
+				url = url.substring( 0, section );
+
+			$('.wpml-tabs-panels .form-table, .wpml-tabs-nav').removeClass('active');
+			$(panel).addClass('active');
 			$(this).parent('li').addClass('active');
-			window.history.replaceState({}, '' + url + tab, '' + url + tab);
+
+			window.history.replaceState({}, '' + url + '&' + tab, '' + url + '&' + tab);
 		});
 	}
 
@@ -66,14 +83,17 @@ jQuery(document).ready(function($) {
 
 	if ( undefined != $('input#APIKey_check') ) {
 		$('input#APIKey_check').click(function(e) {
+
 			e.preventDefault();
+
+			var key = $('input#wpml_settings-tmdb-apikey').val();
 			$('#api_status').remove();
 
-			if ( '' == $('input#APIKey').val() ) {
+			if ( '' == key ) {
 				$('input#APIKey_check').after('<span id="api_status" class="invalid">'+ajax_object.empty_key+'</span>');
 				return false;
 			}
-			else if ( 32 != $('input#APIKey').val().length ) {
+			else if ( 32 != key.length ) {
 				$('input#APIKey_check').after('<span id="api_status" class="invalid">'+ajax_object.length_key+'</span>');
 				return false;
 			}
@@ -84,7 +104,7 @@ jQuery(document).ready(function($) {
 				data: {
 					action: 'tmdb_api_key_check',
 					wpml_check: ajax_object.wpml_check,
-					key: $('input#APIKey').val()
+					key: key
 				},
 				success: function(response) {
 					$('input#APIKey_check').after(response);

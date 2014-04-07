@@ -11,15 +11,15 @@
 		<form action="options.php" method="post">
 
 			<ul class="wpml-tabs-nav">
-			    <li class="wpml-tabs-nav<?php if ( 'tmdb' == $_section || '' == $_section ) echo ' active'; ?>"><a href="#tmdb_settings" data-section="&amp;wpml_section=tmdb"><h4><?php _e( 'TMDb API', 'wpml' ); ?></h4></a></li>
-			    <li class="wpml-tabs-nav<?php if ( 'wpml' == $_section ) echo ' active'; ?>"><a href="#wpml_settings" data-section="&amp;wpml_section=wpml"><h4><?php _e( 'WPMovieLibrary', 'wpml' ); ?></h4></a></li>
-			    <li class="wpml-tabs-nav<?php if ( 'uninstall' == $_section ) echo ' active'; ?>"><a href="#uninstall_settings" data-section="&amp;wpml_section=uninstall"><h4><?php _e( 'Deactivate/Uninstall', 'wpml' ); ?></h4></a></li>
-			    <li class="wpml-tabs-nav<?php if ( 'restore' == $_section ) echo ' active'; ?>"><a href="#restore_settings" data-section="&amp;wpml_section=restore"><h4><?php _e( 'Restore', 'wpml' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'tmdb' == $_section || '' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=tmdb"><h4><?php _e( 'TMDb API', 'wpml' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'wpml' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=wpml"><h4><?php _e( 'WPMovieLibrary', 'wpml' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'uninstall' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=uninstall"><h4><?php _e( 'Deactivate/Uninstall', 'wpml' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'restore' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=restore"><h4><?php _e( 'Restore', 'wpml' ); ?></h4></a></li>
 			</ul>
 
 <?php settings_fields( 'wpml_edit_settings' ); ?>
 
-			<div id="tmdb_settings" class="wpml-tabs-panel <?php /*if ( 'tmdb' == $_section || '' == $_section ) echo ' active';*/ ?>">
+			<div class="wpml-tabs-panels <?php /*if ( 'tmdb' == $_section || '' == $_section ) echo ' active';*/ ?>">
 
 <?php do_settings_sections( 'wpml_settings' ); ?>
 

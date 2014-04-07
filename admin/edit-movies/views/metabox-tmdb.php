@@ -11,8 +11,8 @@ endif;
 
 			<div>
 				<select id="tmdb_search_lang" name="wpml[lang]">
-					<option value="en" <?php selected( WPML_Settings::wpml_o('tmdb-settings-lang'), 'en' ); ?>><?php _e( 'English', 'wpml' ); ?></option>
-					<option value="fr" <?php selected( WPML_Settings::wpml_o('tmdb-settings-lang'), 'fr' ); ?>><?php _e( 'French', 'wpml' ); ?></option>
+					<option value="en" <?php selected( WPML_Settings::tmdb__lang(), 'en' ); ?>><?php _e( 'English', 'wpml' ); ?></option>
+					<option value="fr" <?php selected( WPML_Settings::tmdb__lang(), 'fr' ); ?>><?php _e( 'French', 'wpml' ); ?></option>
 				</select>
 				<select id="tmdb_search_type" name="wpml[tmdb_search_type]">
 					<option value="title" selected="selected"><?php _e( 'Movie Title', 'wpml' ); ?></option>

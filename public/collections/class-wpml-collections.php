@@ -116,7 +116,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		 */
 		public static function wpml_register_collection_taxonomy() {
 
-			if ( ! WPML_Settings::wpml_o( 'wpml-settings-enable_collection' ) )
+			if ( ! WPML_Settings::wpml__enable_collection() )
 				return false;
 
 			register_taxonomy(

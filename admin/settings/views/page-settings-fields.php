@@ -3,6 +3,9 @@
 if ( 'input' == $_type ) : ?>
 
 	<input type="text" id="<?php echo $_id ?>" name="<?php echo $_name ?>" value="<?php echo $_value ?>" size="40" maxlength="32" />
+<?php if ( 'apikey' == $field['id'] ) : ?>
+	<input id="APIKey_check" type="button" name="APIKey_check" class="button button-secondary" value="<?php _e( 'Check API Key', 'wpml' ); ?>" />
+<?php endif; ?>
 	<p class="description"><?php echo $field['description'] ?></p>
 
 <?php elseif ( 'toggle' == $_type ) : ?>
@@ -33,7 +36,7 @@ if ( 'input' == $_type ) : ?>
 									<!--<input type="hidden" id="default_movie_meta_sorted" name="tmdb_data[wpml][default_movie_meta_sorted]" value="" />-->
 								</div>
 
-								<select id="<?php echo $_id ?>" name="<?php echo $_name ?>[]" class="" style="min-height:<?php echo count( $items ) ?>em;min-width:16em;" multiple>
+								<select id="<?php echo $_id ?>" name="<?php echo $_name ?>[]" class="hide-if-js" style="min-height:<?php echo count( $items ) ?>em;min-width:16em;" multiple>
 									<?php echo $options ?>
 								</select>
 

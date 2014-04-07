@@ -79,11 +79,14 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			$tmdb_config = $tmdb_config->getConfig();
 
 			if ( is_null( $tmdb_config ) ) {
-				add_notice( __( 'Unknown error, connection to TheMovieDB API failed.', 'wpml' ) );
+				WPML_Utils::admin_notice( __( 'Unknown error, connection to TheMovieDB API failed.', 'wpml' ), 'error' );
 				return false;
 			}
 			else if ( isset( $tmdb_config['status_code'] ) && in_array( $tmdb_config['status_code'], array( 7, 403 ) ) ) {
-				add_notice( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpml' ), $tmdb_config['status_message'], $tmdb_config['status_code'] ), 'error' );
+				WPML_Utils::admin_notice( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpml' ), $tmdb_config['status_message'], $tmdb_config['status_code'] ), 'error' );
+				return false;
+			}
+			else {
 				return false;
 			}
 
@@ -136,9 +139,16 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @return    string    base url
 		 */
-		public static function wpml_tmdb_get_base_url( $type, $size ) {
+		public static function wpml_tmdb_get_base_url( $type = null, $size = null ) {
+
 			$config = self::wpml_tmdb_config();
-			return $config[ $type . '_url' ][ $size ];
+
+			if ( is_null( $type ) && is_null( $size ) )
+				return $config;
+			else if ( ! is_null( $type ) && is_null( $size ) )
+				return $config[ $type . '_url' ];
+			else if ( ! is_null( $type ) && ! is_null( $size ) )
+				return $config[ $type . '_url' ][ $size ];
 		}
 
 		/**
@@ -196,7 +206,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			$type = ( isset( $_GET['type'] ) && '' != $_GET['type'] ? $_GET['type'] : '' );
 			$data = ( isset( $_GET['data'] ) && '' != $_GET['data'] ? $_GET['data'] : '' );
-			$lang = ( isset( $_GET['lang'] ) && '' != $_GET['lang'] ? $_GET['lang'] : WPML_Settings::wpml_o('tmdb-settings-lang') );
+			$lang = ( isset( $_GET['lang'] ) && '' != $_GET['lang'] ? $_GET['lang'] : WPML_Settings::tmdb__lang() );
 			$_id  = ( isset( $_GET['_id'] )  && '' != $_GET['_id']  ? $_GET['_id']  : null );
 
 			if ( '' == $data || '' == $type )
@@ -243,7 +253,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				$images = array_slice( $images, $offset );
 
 			// Keep only limited number of images
-			$images_max = WPML_Settings::wpml_o('tmdb-settings-images_max');
+			$images_max = WPML_Settings::tmdb__images_max();
 			if ( $images_max > 0 && count( $images ) > $images_max )
 				$images = array_slice( $images, 0, $images_max );
 
@@ -275,7 +285,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				$movies = self::_wpml_get_movie_by_title( $title, $lang, $_id );
 
 				if ( true === WPML_Settings::wpml_use_cache() ) {
-					$expire = (int) ( 86400 * WPML_Settings::wpml_o( 'tmdb-settings-caching_time' ) );
+					$expire = (int) ( 86400 * WPML_Settings::tmdb__caching_time() );
 					set_transient( "wpml_movies_{$title}_{$lang}", $movies, $expire );
 				}
 			}
@@ -369,7 +379,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				$movie = self::_wpml_get_movie_by_id( $id, $lang, $_id );
 
 				if ( true === WPML_Settings::wpml_use_cache() ) {
-					$expire = (int) ( 86400 * WPML_Settings::wpml_o( 'tmdb-settings-caching_time' ) );
+					$expire = (int) ( 86400 * WPML_Settings::tmdb__caching_time() );
 					set_transient( "wpml_movie_{$id}_{$lang}", $movie, 3600 * 24 );
 				}
 			}
@@ -405,7 +415,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			$images = $images['backdrops'];
 
 			// Keep only limited number of images
-			$images_max = WPML_Settings::wpml_o('tmdb-settings-images_max');
+			$images_max = WPML_Settings::tmdb__images_max();
 			if ( $images_max > 0 && count( $images ) > $images_max )
 				$images = array_slice( $images, 0, $images_max );
 
@@ -423,19 +433,19 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			);
 
 			// Prepare Custom Taxonomy
-			if ( 1 == WPML_Settings::wpml_o( 'wpml-settings-taxonomy_autocomplete' ) ) {
+			if ( 1 == WPML_Settings::wpml__taxonomy_autocomplete() ) {
 
 				$_movie['taxonomy'] = array(
 					'actors' => array(),
 					'genres' => array()
 				);
 
-				if ( ! empty( $casts['cast'] ) && 1 == WPML_Settings::wpml_o( 'wpml-settings-enable_actor' ) ) {
+				if ( ! empty( $casts['cast'] ) && 1 == WPML_Settings::wpml__enable_actor() ) {
 					foreach ( $casts['cast'] as $actor ) {
 						$_movie['taxonomy']['actors'][] = $actor['name'];
 					}
 				}
-				if ( ! empty( $movie['genres'] ) && 1 == WPML_Settings::wpml_o( 'wpml-settings-enable_genre' ) ) {
+				if ( ! empty( $movie['genres'] ) && 1 == WPML_Settings::wpml__enable_genre() ) {
 					foreach ( $movie['genres'] as $genre ) {
 						$_movie['taxonomy']['genres'][] = $genre['name'];
 					}

@@ -168,22 +168,23 @@ body.post-php.post-type-movie #postimagediv {
 
 /* Table */
 
-#wpml-tabs .wpml-tabs-panel {
+#wpml-tabs .wpml-tabs-panels {
 	background: #fff;
 	padding: 1em;
 }
 
-#wpml-tabs .wpml-tabs-panel.active {
+#wpml-tabs .wpml-tabs-panels .form-table.active {
 	display: block !important;
 }
 
-#wpml-tabs .wpml-tabs-panel h3 {
+#wpml-tabs .wpml-tabs-panels h3 {
 	background: #fff;
+	display: none;
 	margin: 1em -0.75em;
 	padding: 0.5em 0.75em;
 }
 
-#wpml-tabs .wpml-tabs-panel h3:first-child {
+#wpml-tabs .wpml-tabs-panels h3:first-child {
 	margin-top: 0;
 }
 

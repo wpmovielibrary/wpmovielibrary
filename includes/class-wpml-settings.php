@@ -52,7 +52,14 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 				return call_user_func_array( __CLASS__ . "::$name", $arguments );
 			
 			$name = str_replace( '__', '-', $name );
-			return $settings = self::wpml_o( $name );
+			$settings = self::wpml_o( $name );
+
+			if ( 1 == $settings || '1' == $settings )
+				$settings = true;
+			else if ( 0 == $settings || '0' == $settings )
+				$settings = false;
+
+			return $settings;
 		}
 
 		/**
@@ -180,13 +187,14 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 * 
 		 * @return   string|boolean|array        option array of string, boolean on update.
 		 */
-		public static function wpml_o( $search = '', $value = null ) {
+		public static function wpml_o( $search = '' ) {
 
 			global $wpml_settings;
 
-			$options = get_option( WPML_SETTINGS_SLUG, $wpml_settings );
+			$default_settings = apply_filters( 'wpml_summarize_settings', $wpml_settings );
+			$options = get_option( WPML_SETTINGS_SLUG, $default_settings );
 
-			if ( '' != $search && is_null( $value ) ) {
+			if ( '' != $search ) {
 				$s = explode( '-', $search );
 				$o = $options;
 				while ( count( $s ) ) {
@@ -196,11 +204,6 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 					else
 						$o = '';
 				}
-			}
-			else if ( '' != $search && ! is_null( $value ) ) {
-				$s = explode( '-', $search );
-				self::wpml_o_( $options, $s, $value );
-				$o = update_option( WPML_SETTINGS_SLUG, $options );
 			}
 			else {
 				$o = $options;
@@ -232,98 +235,6 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *                         Accessors
 		 *
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		/**
-		 * Return the WPML Collection Taxonomy option status: enabled of not.
-		 *
-		 * @since    1.0.0
-		 *
-		 * @return   boolean    Taxonomy status: true if enabled, false if not.
-		 */
-		public static function wpml_use_collection() {
-			return (boolean) ( 1 == self::wpml_o( 'wpml-settings-enable_collection' ) );
-		}
-
-		/**
-		 * Return the WPML Genre Taxonomy option status: enabled of not.
-		 *
-		 * @since    1.0.0
-		 *
-		 * @return   boolean    Taxonomy status: true if enabled, false if not.
-		 */
-		public static function wpml_use_genre() {
-			return (boolean) ( 1 == self::wpml_o( 'wpml-settings-enable_genre' ) );
-		}
-
-		/**
-		 * Return the WPML Actor Taxonomy option status: enabled of not.
-		 *
-		 * @since    1.0.0
-		 *
-		 * @return   boolean    Taxonomy status: true if enabled, false if not.
-		 */
-		public static function wpml_use_actor() {
-			return (boolean) ( 1 == self::wpml_o( 'wpml-settings-enable_actor' ) );
-		}
-
-		/**
-		 * Return the WPML Taxonomy Autocomplete option status: enabled of not.
-		 *
-		 * @since    1.0.0
-		 *
-		 * @return   boolean    Taxonomy Autocomplete status: true if enabled, false if not.
-		 */
-		public static function wpml_taxonomy_autocomplete() {
-			return (boolean) ( 1 == self::wpml_o( 'wpml-settings-taxonomy_autocomplete' ) );
-		}
-
-		/**
-		 * Return the WPML Caching option status: enabled of not.
-		 *
-		 * @since    1.0.0
-		 *
-		 * @return   boolean    Caching status: true if enabled, false if not.
-		 */
-		public static function wpml_use_cache() {
-			return (boolean) ( 1 == self::wpml_o( 'tmdb-settings-caching' ) );
-		}
-
-		/**
-		 * Get TMDb API if available
-		 *
-		 * @since    1.0.0
-		 */
-		public static function wpml_get_api_key() {
-			$api_key = self::wpml_o( 'tmdb-settings-APIKey' );
-			return ( '' != $api_key ? $api_key : false );
-		}
-
-		/**
-		 * Get TMDb API if available
-		 *
-		 * @since    1.0.0
-		 */
-		public static function wpml_get_api_lang() {
-			return self::wpml_o( 'tmdb-settings-lang' );
-		}
-
-		/**
-		 * Get TMDb API if available
-		 *
-		 * @since    1.0.0
-		 */
-		public static function wpml_get_api_scheme() {
-			return self::wpml_o( 'tmdb-settings-scheme' );
-		}
-
-		/**
-		 * Are we on TMDb dummy mode?
-		 *
-		 * @since    1.0.0
-		 */
-		public static function wpml_is_dummy_api() {
-			return ( 1 == self::wpml_o( 'tmdb-settings-dummy' ) ? true : false );
-		}
 
 		/**
 		 * Return the default Movie Media

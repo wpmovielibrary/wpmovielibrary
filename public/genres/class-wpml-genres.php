@@ -115,7 +115,7 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 		 */
 		public static function wpml_register_genre_taxonomy() {
 
-			if ( ! WPML_Settings::wpml_o( 'wpml-settings-enable_genre' ) )
+			if ( ! WPML_Settings::wpml__enable_genre() )
 				return false;
 
 			register_taxonomy(

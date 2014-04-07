@@ -118,7 +118,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		 */
 		public static function wpml_register_actor_taxonomy() {
 
-			if ( ! WPML_Settings::wpml_o( 'wpml-settings-enable_actor' ) )
+			if ( ! WPML_Settings::wpml__enable_actor() )
 				return false;
 
 			register_taxonomy(
