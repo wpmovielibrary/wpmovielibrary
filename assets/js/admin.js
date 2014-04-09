@@ -180,37 +180,6 @@ jQuery(document).ready(function($) {
 	});
 
 	/*
-	 * Images
-	 */
-
-	var _frame = wp.media({
-		title: 'Import images from "' + $('#tmdb_data_title').val() + '"',
-		frame: 'select',
-		searchable: false,
-		library: {
-			// Dummy: avoid any image to be loaded
-			type : 'gallery',
-			post__in:[ $('#post_ID').val() ],
-			post__not_in:[0],
-			s: 'TMDb_ID='+$('#tmdb_data_tmdb_id').val()+''
-		},
-		multiple: true,
-		button: {
-			text: 'Import images'
-		}
-	});
-
-	$('#tmdb_load_images').click(function(e) {
-		e.preventDefault();
-		_frame.open();
-	});
-
-	$('#tmdb_save_images').click(function(e) {
-		e.preventDefault();
-		wpml.movie.images.save();
-	});
-
-	/*
 	 * Status
 	 */
 

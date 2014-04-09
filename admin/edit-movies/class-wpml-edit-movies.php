@@ -62,7 +62,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			if ( 'post.php' != $hook || 'movie' != get_post_type() )
 				return;
 
-			//wp_enqueue_script( WPML_SLUG . '-modal' , WPML_URL . '/assets/js/wpml.modal2.js' , array( 'jquery', 'backbone' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-modal' , WPML_URL . '/assets/js/wpml.media.js' , array( 'jquery' ), WPML_VERSION, true );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

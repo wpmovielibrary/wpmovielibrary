@@ -175,7 +175,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 }*/
 
 				$json_images[] = array(
-					'id' 		=> "{$post->ID}_{$i}",
+					'id' 		=> $post->ID . '_' . $i,
 					'title' 	=> $_title,
 					'filename' 	=> substr( $image['file_path'], 1 ),
 					'url' 		=> $base_url['original'] . $image['file_path'],
@@ -200,7 +200,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 						'update' 	=> $edit_nonce,
 						'edit' 		=> $image_editor_none
 					),
-					'editLink' 	=> get_edit_post_link( $post->ID ),
+					'editLink' 	=> "#",
 					'sizes' => array(
 						'thumbnail' => array(
 							'height' => 154,
@@ -231,6 +231,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 					'width' 	=> $image['width'],
 					'orientation' 	=> $_orientation,
 					'compat' 	=> array( 'item' => '', 'meta' => '' ),
+					'tmdb_data' 	=> $image
 				);
 			}
 
