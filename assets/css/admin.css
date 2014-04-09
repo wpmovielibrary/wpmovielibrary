@@ -102,6 +102,10 @@ body.post-type-movie #preload {
 	width: 100%;
 }
 
+body.post-type-movie .media-frame .attachment-info .thumbnail,
+body.post-type-movie .media-frame .attachment-info .thumbnail img {
+	max-width: 225px;
+}
 
 /* Basics */
 

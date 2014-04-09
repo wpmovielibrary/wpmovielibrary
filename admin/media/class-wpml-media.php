@@ -31,9 +31,9 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_filter( 'wpml_check_for_existing_images', __CLASS__ . '::wpml_check_for_existing_images', 10, 3 );
+			add_filter( 'wpml_check_for_existing_images', __CLASS__ . '::check_for_existing_images', 10, 3 );
 			add_filter( 'wpml_jsonify_movie_images', __CLASS__ . '::fake_jsonify_movie_images', 10, 3 );
-			add_action( 'wp_ajax_tmdb_save_image', __CLASS__ . '::wpml_save_image_callback' );
+			add_action( 'wp_ajax_wpml_upload_image', __CLASS__ . '::wpml_upload_image_callback' );
 			add_action( 'wp_ajax_tmdb_set_featured', __CLASS__ . '::wpml_set_featured_image_callback' );
 		}
 
@@ -72,7 +72,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 *                                 any, false if no matching image was
 		 *                                 found.
 		 */
-		public static function wpml_check_for_existing_images( $tmdb_id, $image_type = 'image', $image = null ) {
+		public static function check_for_existing_images( $tmdb_id, $image_type = 'image', $image = null ) {
 
 			if ( ! isset( $tmdb_id ) || '' == $tmdb_id )
 				return false;
@@ -138,41 +138,6 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				$delete_nonce = current_user_can( 'delete_post', $post->ID ) ? wp_create_nonce( 'delete-post_' . $post->ID ) : false;
 				$edit_nonce = current_user_can( 'edit_post', $post->ID ) ? wp_create_nonce( 'update-post_' . $post->ID ) : false;
 				$image_editor_none = current_user_can( 'edit_post', $post->ID ) ? wp_create_nonce( 'image_editor-' . $post->ID ) : false;
-
-/*{
-"id":3450,
-"title":"Image from L'\u00c2ge de Glace 4 : La D\u00e9rive des Continents",
-"filename":"2cmr8B28yH358vapdcJogulemk9.jpg",
-"url":"http:\/\/wpthemes\/wp-content\/uploads\/2014\/04\/2cmr8B28yH358vapdcJogulemk9.jpg",
-"link":"http:\/\/wpthemes\/movies\/lage-de-glace-4-la-derive-des-continents\/image-from-lage-de-glace-4-la-derive-des-continents-3\/",
-"alt":"",
-"author":"1",
-"description":"",
-"caption":"",
-"name":"image-from-lage-de-glace-4-la-derive-des-continents-3",
-"status":"inherit",
-"uploadedTo":3446,
-"date":1396865738000,
-"modified":1396865738000,
-"menuOrder":0,
-"mime":"image\/jpeg",
-"type":"image",
-"subtype":"jpeg",
-"icon":"http:\/\/wpthemes\/wp-includes\/images\/crystal\/default.png",
-"dateFormatted":"7 April 2014",
-"nonces":{"update":"e411542c88","delete":"26b9591eb5"},
-"editLink":"http:\/\/wpthemes\/wp-admin\/post.php?post=3450&action=edit",
-"sizes":{
-"thumbnail":{"height":150,"width":150,"url":"http:\/\/wpthemes\/wp-content\/uploads\/2014\/04\/2cmr8B28yH358vapdcJogulemk9-150x150.jpg","orientation":"landscape"},
-"medium":{"height":168,"width":300,"url":"http:\/\/wpthemes\/wp-content\/uploads\/2014\/04\/2cmr8B28yH358vapdcJogulemk9-300x168.jpg","orientation":"landscape"},
-"large":{"height":351,"width":625,"url":"http:\/\/wpthemes\/wp-content\/uploads\/2014\/04\/2cmr8B28yH358vapdcJogulemk9-1024x576.jpg","orientation":"landscape"},
-"full":{"url":"http:\/\/wpthemes\/wp-content\/uploads\/2014\/04\/2cmr8B28yH358vapdcJogulemk9.jpg","height":1080,"width":1920,"orientation":"landscape"}
-},
-"height":1080,
-"width":1920,
-"orientation":"landscape",
-"compat":{"item":"","meta":""}
-}*/
 
 				$json_images[] = array(
 					'id' 		=> $post->ID . '_' . $i,
@@ -253,7 +218,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 *
 		 * @return    string    Uploaded image ID
 		 */
-		public static function wpml_save_image_callback() {
+		public static function wpml_upload_image_callback() {
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
@@ -405,7 +370,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 
 			$image = substr( $image, 1 );
 
-			$existing = self::wpml_check_for_existing_images( $tmdb_id, $image_type, $image );
+			$existing = self::check_for_existing_images( $tmdb_id, $image_type, $image );
 
 			if ( false !== $existing )
 				return $existing;

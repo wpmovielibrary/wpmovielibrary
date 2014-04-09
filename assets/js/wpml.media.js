@@ -49,10 +49,10 @@ wpml.media.images = images = {
 
 	select: function() {
 
-		var $content = $(wpml.media.images._frame.content.selector);
+		var $content = $(images._frame.content.selector);
 
 		if ( ! $('#progressbar_bg').length )
-			$content.append('<div id="progressbar_bg"><div id="progressbar"><div id="progress"></div></div><div id="progress_status">Please wait while images are uploaded...</div>');
+			$content.append('<div id="progressbar_bg"><div id="progressbar"><div id="progress"></div></div><div id="progress_status">Please wait while the images are uploading.</div>');
 
 		$('#progressbar_bg, #progressbar').show();
 
@@ -85,8 +85,20 @@ wpml.media.images = images = {
 				tmdb_id: $('#tmdb_data_tmdb_id').val()
 			},
 			success: function(_r) {
-				console.log( _r );
-				window.setTimeout( function() {$('#progressbar #progress').width(''+progress+'%');}, 1500 );
+				if ( ! isNaN( _r ) && parseInt( _r ) == _r ) {
+					$('#tmdb_images_preview').append('<div class="tmdb_movie_images tmdb_movie_imported_image"><img width="' + image.attributes.sizes.medium.width + '" height="' + image.attributes.sizes.medium.height + '" src="' + image.attributes.sizes.medium.url + '" class="attachment-medium" class="attachment-medium" alt="' + $('#tmdb_data_title').val() + '" /></div>');
+				}
+			},
+			complete: function() {
+				$('#progressbar #progress').width(''+progress+'%');
+				if ( index == images.total ) {
+					$('#progress_status').text('Done!');
+					window.setTimeout( function() { $('#progressbar_bg, #progressbar').remove(); images._frame.close(); }, 2000 );
+				}
+				else {
+					var t = $('#progress_status').text();
+					$('#progress_status').text(t+' .');
+				}
 			}
 		});
 	},
