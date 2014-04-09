@@ -83,6 +83,39 @@ body.post-php.post-type-movie #postimagediv {
 /* #TMDb Tabs Settings
  ****************************************************/
 
+/* Modal */
+
+body.post-type-movie .attachments-browser .attachments {
+	padding: 1em 0;
+	right: 0;
+	top: 10px;
+}
+
+body.post-type-movie #preload {
+	background: url(../img/preload__.gif) center center no-repeat;
+	height: 100%;
+	width: 100%;
+}
+
+body.post-type-movie .attachment {
+	height: 100%;
+	max-height: 170px;
+	max-width: 300px;
+	width: 24%;
+}
+
+body.post-type-movie .attachment-preview {
+	height: 100%;
+	position: relative;
+	width: 100%;
+}
+
+body.post-type-movie .attachment-preview .thumbnail {
+	height: 100%;
+	width: 100%;
+}
+
+
 /* Basics */
 
 #wpml-tabs {

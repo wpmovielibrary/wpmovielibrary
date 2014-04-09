@@ -58,7 +58,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			add_action( 'wp_ajax_tmdb_search', __CLASS__ . '::wpml_tmdb_search_callback' );
 			add_action( 'wp_ajax_tmdb_api_key_check', __CLASS__ . '::wpml_tmdb_api_key_check_callback' );
-			add_action( 'wp_ajax_tmdb_load_images', __CLASS__ . '::wpml_tmdb_load_images_callback' );
+			//add_action( 'wp_ajax_tmdb_load_images', __CLASS__ . '::wpml_tmdb_load_images_callback' );
 		}
 
 		/**
@@ -218,49 +218,6 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				self::wpml_get_movie_by_title( $data, $lang, $_id );
 			else if ( 'id' == $type )
 				self::wpml_get_movie_by_id( $data, $lang, $_id );
-
-			die();
-		}
-
-		/**
-		 * Load Images related to a movie.
-		 *
-		 * @since     1.0.0
-		 */
-		public static function wpml_tmdb_load_images_callback() {
-		
-			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
-
-			$tmdb = new TMDb;
-
-			$tmdb_id = ( isset( $_GET['tmdb_id'] ) && '' != $_GET['tmdb_id'] ? $_GET['tmdb_id'] : null );
-			$offset  = ( isset( $_GET['offset'] )  && '' != $_GET['offset']  ? intval( $_GET['offset'] ) : 0 );
-
-			if ( is_null( $tmdb_id ) )
-				return false;
-
-			$images = $tmdb->getMovieImages( $tmdb_id, '' );
-			$images = $images['backdrops'];
-
-			$existing = array();
-
-			foreach ( $images as $i => $image ) {
-				$file_path = substr( $image['file_path'], 1 );
-				$exists = apply_filters( 'wpml_check_for_existing_images', $tmdb_id, 'image', $file_path );
-				if ( false !== $exists )
-					unset( $images[ $i ] );
-			}
-
-			if ( 0 < $offset )
-				$images = array_slice( $images, $offset );
-
-			// Keep only limited number of images
-			$images_max = WPML_Settings::tmdb__images_max();
-			if ( $images_max > 0 && count( $images ) > $images_max )
-				$images = array_slice( $images, 0, $images_max );
-
-			self::wpml_json_header();
-			echo json_encode( $images );
 
 			die();
 		}
@@ -457,6 +414,114 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			return $_movie;
 		}
+
+		/**
+		 * Load Images related to a movie.
+		 *
+		 * @since     1.0.0
+		 */
+		public static function get_movie_images( $tmdb_id ) {
+		
+			//check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+
+			$tmdb = new TMDb;
+
+			//$offset  = ( isset( $_GET['offset'] )  && '' != $_GET['offset']  ? intval( $_GET['offset'] ) : 0 );
+
+			if ( is_null( $tmdb_id ) )
+				return false;
+
+			$images = $tmdb->getMovieImages( $tmdb_id, '' );
+			$images = $images['backdrops'];
+
+			$existing = array();
+
+			foreach ( $images as $i => $image ) {
+				$file_path = substr( $image['file_path'], 1 );
+				$exists = apply_filters( 'wpml_check_for_existing_images', $tmdb_id, 'image', $file_path );
+				if ( false !== $exists )
+					unset( $images[ $i ] );
+			}
+
+			/*if ( 0 < $offset )
+				$images = array_slice( $images, $offset );
+
+			// Keep only limited number of images
+			$images_max = WPML_Settings::tmdb__images_max();
+			if ( $images_max > 0 && count( $images ) > $images_max )
+				$images = array_slice( $images, 0, $images_max );*/
+
+			return $images;
+		}
+
+		/**
+		 * Load Images related to a movie.
+		 *
+		 * @since     1.0.0
+		 */
+		/*public static function wpml_tmdb_load_images_callback() {
+		
+			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+
+			$tmdb = new TMDb;
+
+			$tmdb_id = ( isset( $_GET['tmdb_id'] ) && '' != $_GET['tmdb_id'] ? $_GET['tmdb_id'] : null );
+			$offset  = ( isset( $_GET['offset'] )  && '' != $_GET['offset']  ? intval( $_GET['offset'] ) : 0 );
+
+			if ( is_null( $tmdb_id ) )
+				return false;
+
+			$images = $tmdb->getMovieImages( $tmdb_id, '' );
+			$images = $images['backdrops'];
+
+			$existing = array();
+
+			foreach ( $images as $i => $image ) {
+				$file_path = substr( $image['file_path'], 1 );
+				$exists = apply_filters( 'wpml_check_for_existing_images', $tmdb_id, 'image', $file_path );
+				if ( false !== $exists )
+					unset( $images[ $i ] );
+			}
+
+			if ( 0 < $offset )
+				$images = array_slice( $images, $offset );
+
+			// Keep only limited number of images
+			$images_max = WPML_Settings::tmdb__images_max();
+			if ( $images_max > 0 && count( $images ) > $images_max )
+				$images = array_slice( $images, 0, $images_max );
+
+			$base_url = WPML_TMDb::wpml_tmdb_get_base_url( 'image', 'small' );
+
+			echo '<div>';
+			echo '<script type="text/html" id="modal-window">';
+			echo '<ul class="attachments ui-sortable ui-sortable-disabled" id="__attachments-view-">';
+
+			foreach ( $images as $image ) {
+				echo '<li class="attachment save-ready">';
+				echo '<div class="attachment-preview type-image subtype-jpeg landscape">';
+				echo '<div class="thumbnail">';
+				echo '<div class="centered">';
+				echo '<img src="' . $base_url . $image['file_path'] . '" draggable="false">';
+				echo '</div>';
+				echo '</div>';
+				echo '<a class="check" href="#" title="Deselect"><div class="media-modal-icon"></div></a>';
+				echo '</div>';
+				echo '</li>';
+			}
+
+			echo '</ul>';
+			echo '</script>';
+			echo '</div>';
+			echo '<script type="text/html" id="modal-backdrop">';
+			echo '<div class="media-modal-backdrop">&nbsp;</div>';
+			echo '</script>';
+
+			//self::wpml_json_header();
+			//echo json_encode( $images );
+
+			die();
+		}*/
 
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation

@@ -31,16 +31,45 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+
 			add_filter( 'manage_movie_posts_columns', __CLASS__ . '::wpml_movies_columns_head' );
 			add_action( 'manage_movie_posts_custom_column', __CLASS__ . '::wpml_movies_columns_content', 10, 2 );
 			add_action( 'quick_edit_custom_box', __CLASS__ . '::wpml_quick_edit_movies', 10, 2 );
 			add_action( 'bulk_edit_custom_box', __CLASS__ . '::wpml_bulk_edit_movies', 10, 2 );
+
+			add_action( 'the_posts', __CLASS__ . '::the_posts_hijack', 10, 2 );
+			add_action( 'ajax_query_attachments_args', __CLASS__ . '::load_images_dummy_query_args', 10, 1 );
+
 			add_filter( 'post_row_actions', __CLASS__ . '::wpml_expand_quick_edit_link', 10, 2 );
 			add_action( 'add_meta_boxes', __CLASS__ . '::wpml_metaboxes' );
 			add_action( 'admin_post_thumbnail_html', __CLASS__ . '::wpml_load_posters', 10, 2 );
 			add_action( 'wp_ajax_wpml_save_details', __CLASS__ . '::wpml_save_details_callback' );
 			add_action( 'save_post_movie', __CLASS__ . '::wpml_save_tmdb_data' );
 		}
+
+		/**
+		 * Register and enqueue admin-specific JavaScript.
+		 * 
+		 * wpml.importer extends wpml with specific import functions.
+		 *
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $hook Current screen hook
+		 */
+		public function admin_enqueue_scripts( $hook ) {
+
+			if ( 'post.php' != $hook || 'movie' != get_post_type() )
+				return;
+
+			//wp_enqueue_script( WPML_SLUG . '-modal' , WPML_URL . '/assets/js/wpml.modal2.js' , array( 'jquery', 'backbone' ), WPML_VERSION, true );
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                      "All Movies" WP List Table
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Add a custom column to Movies WP_List_Table list.
@@ -205,11 +234,90 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			return $actions;
 		}
 
-		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                      Movie images Media Modal
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * Handle dummy arguments for AJAX Query. Movie Edit page adds
+		 * an extended WP Media Modal to allow user to pick up which
+		 * images he wants to download from the current movie. Media Modals
+		 * are filled with the latest uploaded media, in order to avoid
+		 * this with restrict the selection in the Javascript part by 
+		 * querying only the post's attachment. We also need the movie
+		 * TMDb ID, so we pass it as a search query.
+		 * 
+		 * This method cleans up the options and add the TMDb ID to the
+		 * WP Query to bypass wp_ajax_query_attachments() filtering of
+		 * the query options.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    array    $query List of options for the query
+		 * 
+		 * @return   array    Filtered list of query options
+		 */
+		public static function load_images_dummy_query_args( $query ) {
+
+			if ( isset( $query['s'] ) && false !== strpos( $query['s'], 'TMDb_ID=' ) ) {
+				unset( $query['post__not_in'] );
+				unset( $query['post_mime_type'] );
+				$query['post_type'] = 'movie';
+				unset( $query['post_status'] );
+				$query['tmdb_id'] = str_replace( 'TMDb_ID=', '', $query['s'] );
+				unset( $query['s'] );
+			}
+
+			return $query;
+		}
+
+		/**
+		 * This is the hijack trick. Use the 'the_posts' filter hook to
+		 * determine whether we're looking for movie images or regular
+		 * posts. If the query has a 'tmdb_id' field, images wanted, we
+		 * load them. If not, it's just a regular Post query, return the
+		 * Posts.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    array    $posts Posts concerned by the hijack, should be only one
+		 * @param    array    $_query concerned WP_Query instance
+		 * 
+		 * @return   array    Posts return by the query if we're not looking for movie images
+		 */
+		public static function the_posts_hijack( $posts, $_query ) {
+
+			if ( ! is_null( $_query ) && isset( $_query->query['tmdb_id'] ) ) {
+				$tmdb_id = esc_attr( $_query->query['tmdb_id'] );
+				self::load_movie_images( $tmdb_id, $posts[0] );
+			}
+
+			return $posts;
+		}
+
+		/**
+		 * Load the Movie Images and display a jsonified result.s
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    int      $tmdb_id Movie TMDb ID to fetch images
+		 * @param    array    $post Related Movie Post
+		 */
+		public static function load_movie_images( $tmdb_id, $post ) {
+
+			$images = WPML_TMDb::get_movie_images( $tmdb_id );
+			$images = apply_filters( 'wpml_jsonify_movie_images', $images, $tmdb_id, $post );
+
+			wp_send_json_success( $images );
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
 		 *                             Callbacks
 		 * 
-		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Save movie details: media, status, rating.
@@ -217,7 +325,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * Although values are submitted as array each value is stored in a
 		 * dedicated post meta.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0.0
 		 */
 		public static function wpml_save_details_callback() {
 
@@ -239,11 +347,11 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		}
 
 
-		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
 		 *                             Meta Boxes
 		 * 
-		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Register WPML Metaboxes

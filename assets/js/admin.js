@@ -183,12 +183,26 @@ jQuery(document).ready(function($) {
 	 * Images
 	 */
 
+	var _frame = wp.media({
+		title: 'Import images from "' + $('#tmdb_data_title').val() + '"',
+		frame: 'select',
+		searchable: false,
+		library: {
+			// Dummy: avoid any image to be loaded
+			type : 'gallery',
+			post__in:[ $('#post_ID').val() ],
+			post__not_in:[0],
+			s: 'TMDb_ID='+$('#tmdb_data_tmdb_id').val()+''
+		},
+		multiple: true,
+		button: {
+			text: 'Import images'
+		}
+	});
+
 	$('#tmdb_load_images').click(function(e) {
 		e.preventDefault();
-		var id = $('#tmdb_data_tmdb_id').val();
-		if ( '' == id )
-			return false;
-		wpml.movie.images.load( id );
+		_frame.open();
 	});
 
 	$('#tmdb_save_images').click(function(e) {
@@ -689,7 +703,9 @@ wpml = {
 
 			populate: function(images) {
 
-				$('#tmdb_data_images').val('');
+				
+
+				/*$('#tmdb_data_images').val('');
 
 				_v = [];
 				$.each(images, function() {
@@ -714,7 +730,7 @@ wpml = {
 				});
 
 				$('#tmdb_save_images').removeClass('button-secondary').addClass('button-primary').show();
-				$('.tmdb_images_preview').focus();
+				$('.tmdb_images_preview').focus();*/
 
 			},
 

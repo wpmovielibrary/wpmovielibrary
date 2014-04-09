@@ -32,6 +32,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		public function register_hook_callbacks() {
 
 			add_filter( 'wpml_check_for_existing_images', __CLASS__ . '::wpml_check_for_existing_images', 10, 3 );
+			add_filter( 'wpml_jsonify_movie_images', __CLASS__ . '::fake_jsonify_movie_images', 10, 3 );
 			add_action( 'wp_ajax_tmdb_save_image', __CLASS__ . '::wpml_save_image_callback' );
 			add_action( 'wp_ajax_tmdb_set_featured', __CLASS__ . '::wpml_set_featured_image_callback' );
 		}
@@ -103,6 +104,137 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				return $check;
 
 			return false;
+		}
+
+		/**
+		 * Prepare movie images to Media Modal query creating an array
+		 * matching wp_prepare_attachment_for_js() filtered attachments.
+		 * 
+		 * This is used by WPML_Edit_Movies::load_images_callback() to
+		 * show movie images in Media Modal instead of regular images,
+		 * which needs to fed JSONified Attachments to the AJAX callback
+		 * to append to the modal.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    array    $images The images to prepare
+		 * @param    object   $post Related Movie Posts
+		 * 
+		 * @return   array    The prepared images
+		 */
+		public function fake_jsonify_movie_images( $images, $post ) {
+
+			$base_url = WPML_TMDb::wpml_tmdb_get_base_url( 'image' );
+			$json_images = array();
+			$i = 0;
+
+			foreach ( $images as $image ) {
+
+				$i++;
+				$_date = time();
+				$_title = $post->post_title;
+				$_orientation = $image['aspect_ratio'] > 1 ? 'landscape' : 'portrait';
+
+				$delete_nonce = current_user_can( 'delete_post', $post->ID ) ? wp_create_nonce( 'delete-post_' . $post->ID ) : false;
+				$edit_nonce = current_user_can( 'edit_post', $post->ID ) ? wp_create_nonce( 'update-post_' . $post->ID ) : false;
+				$image_editor_none = current_user_can( 'edit_post', $post->ID ) ? wp_create_nonce( 'image_editor-' . $post->ID ) : false;
+
+/*{
+"id":3450,
+"title":"Image from L'\u00c2ge de Glace 4 : La D\u00e9rive des Continents",
+"filename":"2cmr8B28yH358vapdcJogulemk9.jpg",
+"url":"http:\/\/wpthemes\/wp-content\/uploads\/2014\/04\/2cmr8B28yH358vapdcJogulemk9.jpg",
+"link":"http:\/\/wpthemes\/movies\/lage-de-glace-4-la-derive-des-continents\/image-from-lage-de-glace-4-la-derive-des-continents-3\/",
+"alt":"",
+"author":"1",
+"description":"",
+"caption":"",
+"name":"image-from-lage-de-glace-4-la-derive-des-continents-3",
+"status":"inherit",
+"uploadedTo":3446,
+"date":1396865738000,
+"modified":1396865738000,
+"menuOrder":0,
+"mime":"image\/jpeg",
+"type":"image",
+"subtype":"jpeg",
+"icon":"http:\/\/wpthemes\/wp-includes\/images\/crystal\/default.png",
+"dateFormatted":"7 April 2014",
+"nonces":{"update":"e411542c88","delete":"26b9591eb5"},
+"editLink":"http:\/\/wpthemes\/wp-admin\/post.php?post=3450&action=edit",
+"sizes":{
+"thumbnail":{"height":150,"width":150,"url":"http:\/\/wpthemes\/wp-content\/uploads\/2014\/04\/2cmr8B28yH358vapdcJogulemk9-150x150.jpg","orientation":"landscape"},
+"medium":{"height":168,"width":300,"url":"http:\/\/wpthemes\/wp-content\/uploads\/2014\/04\/2cmr8B28yH358vapdcJogulemk9-300x168.jpg","orientation":"landscape"},
+"large":{"height":351,"width":625,"url":"http:\/\/wpthemes\/wp-content\/uploads\/2014\/04\/2cmr8B28yH358vapdcJogulemk9-1024x576.jpg","orientation":"landscape"},
+"full":{"url":"http:\/\/wpthemes\/wp-content\/uploads\/2014\/04\/2cmr8B28yH358vapdcJogulemk9.jpg","height":1080,"width":1920,"orientation":"landscape"}
+},
+"height":1080,
+"width":1920,
+"orientation":"landscape",
+"compat":{"item":"","meta":""}
+}*/
+
+				$json_images[] = array(
+					'id' 		=> "{$post->ID}_{$i}",
+					'title' 	=> $_title,
+					'filename' 	=> substr( $image['file_path'], 1 ),
+					'url' 		=> $base_url['original'] . $image['file_path'],
+					'link' 		=> get_permalink( $post->ID ),
+					'alt'		=> '',
+					'author' 	=> "" . get_current_user_id(),
+					'description' 	=> '',
+					'caption' 	=> '',
+					'name' 		=> substr( $image['file_path'], 1, -4 ),
+					'status' 	=> "inherit",
+					'uploadedTo' 	=> $post->ID,
+					'date' 		=> $_date * 1000,
+					'modified' 	=> $_date * 1000,
+					'menuOrder' 	=> 0,
+					'mime' 		=> "image/jpeg",
+					'type' 		=> "image",
+					'subtype' 	=> "jpeg",
+					'icon' 		=> includes_url( 'images/crystal/default.png' ),
+					'dateFormatted' => date( get_option( 'date_format' ), $_date ),
+					'nonces' 	=> array(
+						'delete' 	=> $delete_nonce,
+						'update' 	=> $edit_nonce,
+						'edit' 		=> $image_editor_none
+					),
+					'editLink' 	=> get_edit_post_link( $post->ID ),
+					'sizes' => array(
+						'thumbnail' => array(
+							'height' => 154,
+							'orientation' => $_orientation,
+							'url' => $base_url['xx-small'] . $image['file_path'],
+							'width' => 154,
+						),
+						'medium' => array(
+							'height' => floor( 300 / $image['aspect_ratio'] ),
+							'orientation' => $_orientation,
+							'url' => $base_url['small'] . $image['file_path'],
+							'width' => 300,
+						),
+						'large' => array(
+							'height' => floor( 500 / $image['aspect_ratio'] ),
+							'orientation' => $_orientation,
+							'url' => $base_url['full'] . $image['file_path'],
+							'width' => 500,
+						),
+						'full' => array(
+							'height' => $image['height'],
+							'orientation' => $_orientation,
+							'url' => $base_url['original'] . $image['file_path'],
+							'width' => $image['width'],
+						),
+					),
+					'height' 	=> $image['height'],
+					'width' 	=> $image['width'],
+					'orientation' 	=> $_orientation,
+					'compat' 	=> array( 'item' => '', 'meta' => '' ),
+				);
+			}
+
+			return $json_images;
 		}
 
 		/**
