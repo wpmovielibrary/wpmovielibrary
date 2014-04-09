@@ -51,7 +51,7 @@ endif;
 						</td>
 <?php elseif ( isset( $meta['type'] ) && in_array( $meta['type'], array( 'text', 'hidden' ) ) ) : ?>
 						<td>
-							<input type="<?php echo $meta['type']; ?>" id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $id; ?>][<?php echo $slug; ?>]" class="tmdb_data_field" value='<?php echo $_value ?>' size="64" />
+							<input type="<?php echo $meta['type']; ?>" id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $id; ?>][<?php echo $slug; ?>]" class="tmdb_data_field" value='<?php echo $_value ?>' />
 						</td>
 <?php endif; ?>
 					</tr>
@@ -59,28 +59,6 @@ endif;
 				</tbody>
 			</table>
 <?php endforeach; ?>
-			<table class="list-table tmdb_images_preview"<?php echo ( ! count( $value ) ? ' style="display:none"' : '' ); ?>>
-				<thead>
-					<tr>
-						<th><?php _e( 'Images', 'wpml' ); ?></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							<input id="tmdb_data_images" type="hidden" name="tmdb_data[images]" class="tmdb_data_field" value='<?php echo ( isset( $value[$slug] ) && '' != $value[$slug] ? $value[$slug] : '' ); ?>' size="64" />
-							<!--<div id="progressbar_bg"><div id="progressbar"><div class="progress-label">0</div></div><a href="#" id="hide_progressbar"><?php _e( 'Hide', 'wpml' ) ?></a></div>-->
-						</td>
-					</tr>
-					<tr>
-						<td id="tmdb_images_preview"><?php echo WPML_Media::wpml_get_movie_imported_images() ?> </td>
-					</tr>
-						<td style="text-align:center">
-							<a href="#" id="tmdb_load_images"><?php _e( 'Load Images', 'wpml' ); ?></a>
-							<input id="tmdb_save_images" name="tmdb_save_images" type="button" class="button button-secondary button-large" value="<?php _e( 'Import Images', 'wpml' ); ?>" />
-						</td>
-				</tbody>
-			</table>
 
 			<div style="clear:both"></div>
 

@@ -37,13 +37,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			add_action( 'manage_movie_posts_custom_column', __CLASS__ . '::wpml_movies_columns_content', 10, 2 );
 			add_action( 'quick_edit_custom_box', __CLASS__ . '::wpml_quick_edit_movies', 10, 2 );
 			add_action( 'bulk_edit_custom_box', __CLASS__ . '::wpml_bulk_edit_movies', 10, 2 );
+			add_filter( 'post_row_actions', __CLASS__ . '::wpml_expand_quick_edit_link', 10, 2 );
 
 			add_action( 'the_posts', __CLASS__ . '::the_posts_hijack', 10, 2 );
 			add_action( 'ajax_query_attachments_args', __CLASS__ . '::load_images_dummy_query_args', 10, 1 );
-
-			add_filter( 'post_row_actions', __CLASS__ . '::wpml_expand_quick_edit_link', 10, 2 );
-			add_action( 'add_meta_boxes', __CLASS__ . '::wpml_metaboxes' );
 			add_action( 'admin_post_thumbnail_html', __CLASS__ . '::wpml_load_posters', 10, 2 );
+
+			add_action( 'add_meta_boxes', __CLASS__ . '::add_meta_boxes' );
 			add_action( 'wp_ajax_wpml_save_details', __CLASS__ . '::wpml_save_details_callback' );
 			add_action( 'save_post_movie', __CLASS__ . '::wpml_save_tmdb_data' );
 		}
@@ -358,19 +358,30 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * 
 		 * @since    1.0.0
 		 */
-		public static function wpml_metaboxes() {
-			add_meta_box( 'tmdbstuff', __( 'TMDb − The Movie Database', 'wpml' ), __CLASS__ . '::wpml_metabox_tmdb', 'movie', 'normal', 'high', null );
-			add_meta_box( 'wpml', __( 'Movie Library − Details', 'wpml' ), __CLASS__ . '::wpml_metabox_details', 'movie', 'side', 'default', null );
+		public static function add_meta_boxes() {
+
+			// Movie Metadata
+			add_meta_box( 'wpml_meta', __( 'WPMovieLibrary − Movie Meta', 'wpml' ), __CLASS__ . '::wpml_metabox_meta', 'movie', 'normal', 'high', null );
+
+			// Movie Details
+			add_meta_box( 'wpml_images', __( 'WPMovieLibrary − Movie Images', 'wpml' ), __CLASS__ . '::wpml_metabox_images', 'movie', 'normal', 'high', null );
+
+			// Movie Details
+			add_meta_box( 'wpml_details', __( 'WPMovieLibrary − Movie Details', 'wpml' ), __CLASS__ . '::wpml_metabox_details', 'movie', 'side', 'default', null );
 		}
 
 		/**
 		 * Main Metabox: TMDb API results.
+		 * 
 		 * Display a large Metabox below post editor to fetch and edit movie
 		 * informations using the TMDb API.
 		 * 
 		 * @since    1.0.0
+		 * 
+		 * @param    object    Current Post object
+		 * @param    null      $metabox null
 		 */
-		public static function wpml_metabox_tmdb( $post, $metabox ) {
+		public static function wpml_metabox_meta( $post, $metabox ) {
 
 			$value = get_post_meta( $post->ID, '_wpml_movie_data', true );
 			$value = WPML_Utils::wpml_filter_empty_array( $value );
@@ -378,14 +389,39 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			if ( isset( $_REQUEST['wpml_auto_fetch'] ) && ( empty( $value ) || isset( $value['_empty'] ) ) )
 				$value = WPML_TMDb::_wpml_get_movie_by_title( $post->post_title, WPML_Settings::tmdb__lang() );
 
-			include_once( plugin_dir_path( __FILE__ ) . '/views/metabox-tmdb.php' );
+			include_once( plugin_dir_path( __FILE__ ) . '/views/metabox-movie-meta.php' );
 		}
 
 		/**
-		 * Left side Metabox: Movie details.
-		 * Used to handle Movies-related details.
+		 * Movie Images Metabox.
+		 * 
+		 * Display a large Metabox below post editor to fetch and edit movie
+		 * informations using the TMDb API.
 		 * 
 		 * @since    1.0.0
+		 * 
+		 * @param    object    Current Post object
+		 * @param    null      $metabox null
+		 */
+		public static function wpml_metabox_images( $post, $metabox ) {
+
+			$value = get_post_meta( $post->ID, '_wpml_movie_data', true );
+			$value = WPML_Utils::wpml_filter_empty_array( $value );
+
+			if ( isset( $_REQUEST['wpml_auto_fetch'] ) && ( empty( $value ) || isset( $value['_empty'] ) ) )
+				$value = WPML_TMDb::_wpml_get_movie_by_title( $post->post_title, WPML_Settings::tmdb__lang() );
+
+			include_once( plugin_dir_path( __FILE__ ) . '/views/metabox-movie-images.php' );
+		}
+
+		/**
+		 * Left side Metabox: Movie details. Used to handle Movie
+		 * related details.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    object    Current Post object
+		 * @param    null      $metabox null
 		 */
 		public static function wpml_metabox_details( $post, $metabox ) {
 
@@ -399,7 +435,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			$movie_rating = ( isset( $v ) && '' != $v ? number_format( $v, 1 ) : 0.0 );
 			$movie_rating_str = str_replace( '.', '_', $movie_rating );
 
-			include_once( plugin_dir_path( __FILE__ ) . 'views/metabox-details.php' );
+			include_once( plugin_dir_path( __FILE__ ) . 'views/metabox-movie-details.php' );
 		}
 
 		/**

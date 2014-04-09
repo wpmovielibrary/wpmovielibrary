@@ -83,30 +83,6 @@ body.post-php.post-type-movie #postimagediv {
 /* #TMDb Tabs Settings
  ****************************************************/
 
-/* Modal */
-
-body.post-type-movie .attachments-browser .attachments {
-	top: 10px;
-}
-
-body.post-type-movie .media-frame .media-frame-router,
-body.post-type-movie .media-frame .attachments-browser .media-toolbar,
-body.post-type-movie .media-frame .attachment-details .setting,
-body.post-type-movie .media-frame .attachment-details .edit-attachment {
-	display: none;
-}
-
-body.post-type-movie #preload {
-	background: url(../img/preload__.gif) center center no-repeat;
-	height: 100%;
-	width: 100%;
-}
-
-body.post-type-movie .media-frame .attachment-info .thumbnail,
-body.post-type-movie .media-frame .attachment-info .thumbnail img {
-	max-width: 225px;
-}
-
 /* Basics */
 
 #wpml-tabs {
@@ -302,187 +278,34 @@ body.post-type-movie .media-frame .attachment-info .thumbnail img {
 	height: 4em;
 }
 
-
-/* #TMDb Meta Box
+/* Movie Modal
  ****************************************************/
 
-#tmdbstuff table,
-#tmdbstuff input[type=text],
-#tmdbstuff textarea {
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	border-width: 1px;
-	border-style: solid;
+/* Modal */
+
+body.post-type-movie .attachments-browser .attachments {
+	top: 10px;
 }
 
-#tmdbstuff #tmdb_search_type,
-#tmdbstuff #tmdb_search_lang {
-	vertical-align: top;
-}
-
-#tmdbstuff #tmdb_query {
-	height: 28px;
-	max-width: 35%;
-}
-
-#tmdbstuff thead th {
-	padding: 5px 8px 8px;
-}
-
-#tmdbstuff table {
-	border-color: #dfdfdf;
-	background-color: #f9f9f9;
-	border-width: 1px;
-	border-style: solid;
-	border-spacing: 0;
-	float: left;
-	margin: 2em 0 0 0;
-}
-
-#tmdbstuff .tmdb_meta {
-	width: 56%;
-}
-
-#tmdbstuff .tmdb_crew {
-	margin-left: 2%;
-	width: 42%;
-}
-
-#tmdbstuff thead th {
-	background-color: #f1f1f1;
-}
-
-#tmdbstuff tr {
-	vertical-align: top;
-}
-
-#tmdbstuff th.left,
-#tmdbstuff td.left {
-	padding: 0.5em 1em;
-	width: 25%;
-}
-
-#tmdbstuff table input[type=text],
-#tmdbstuff table select,
-#tmdbstuff table textarea {
-	width: 96%;
-	margin: 8px;
-}
-
-#tmdb_data {
+body.post-type-movie .media-frame .media-frame-router,
+body.post-type-movie .media-frame .attachments-browser .media-toolbar,
+body.post-type-movie .media-frame .attachment-details .setting,
+body.post-type-movie .media-frame .attachment-details .edit-attachment {
 	display: none;
-	margin-top: 1.5em;
 }
 
-.button-empty {
-	display: none;
-	float: right;
-}
-
-.tmdb_select_movie {
-	display: inline-block;
-	height: 18em;
-	padding: 0.25em;
-	text-align: center;
-	width: 12.5em;
-}
-
-.tmdb_select_movie img {
-	border-radius: 4px;
-	box-shadow: 0 1px 1px #333;
-	max-height: 16em;
-	max-width: 12.5em;
-}
-
-.tmdb_select_movie em {
-	display: block;
-}
-
-.button-loading {
-	background-image: url(/wp-admin/images/wpspin_light.gif) !important;
-	background-repeat: no-repeat !important;
-}
-
-.button.button-loading {
-	background-position: 4px 4px !important;
-	background-size: 14px !important;
-	padding-left: 24px !important;
-}
-
-.button-small.button-loading {
-	background-position: 4px 2px !important;
-	background-size: 14px !important;
-	padding-left: 24px !important;
-}
-
-.button-large.button-loading {
-	background-position: 6px 6px !important;
-	background-size: 16px !important;
-	padding-left: 2.25em !important;
-}
-
-#tmdbstuff .tmdb_images_preview {
-	position: relative;
+body.post-type-movie #preload {
+	background: url(../img/preload__.gif) center center no-repeat;
+	height: 100%;
 	width: 100%;
 }
 
-#tmdbstuff .tmdb_images_preview td {
-    
+body.post-type-movie .media-frame .attachment-info .thumbnail,
+body.post-type-movie .media-frame .attachment-info .thumbnail img {
+	max-width: 225px;
 }
 
-#tmdb_load_images {
-	background: #f2f2f2;
-	border-radius: 0.25em;
-	display: block;
-	font-style: italic;
-	margin: 1em 0.5em 0.5em 0.5em;
-	padding: 0.5em;
-	text-decoration: none;
-}
-
-#tmdb_save_images {
-	float: right !important;
-	margin: 0 0.5em 0.5em 0;
-	width: auto !important;
-}
-
-.tmdb_movie_images {
-	background: #fff;
-	border: 4px solid #ccc;
-	display: inline-block;
-	height: 8.75em;
-	margin: 0.25% 0.5%;
-	max-width: 18.5em;
-	overflow: hidden;
-	position: relative;
-	width: 23.15%;
-}
-
-.tmdb_movie_images img {
-	height: auto;
-	width: 100%;
-}
-
-.tmdb_movie_images.new,
-.tmdb_movie_images.selected,
-.tmdb_movie_imported_image {
-	background: #0074A2;
-	border-color: #0074A2;
-}
-
-.tmdb_movie_images.selected img {
-	opacity: 0.75;
-}
-
-.tmdb_movie_imported_image:last-child::after {
-	content: ' ';
-	display: block;
-	position: absolute;
-}
-
-#tmdb_save_images {
-	display: none;
-}
+/* Progress Bar */
 
 #progressbar_bg {
 	background: rgba(255, 255, 255, 0.85);
@@ -525,6 +348,84 @@ body.post-type-movie .media-frame .attachment-info .thumbnail img {
 	top: 50%;
 	width: 300px;
 }
+
+/* #TMDb Meta Box
+ ****************************************************/
+
+#wpml-tmdb .list-table {
+	display: inline-table;
+	width: 49.5%;
+}
+
+#wpml-tmdb .list-table td {
+	width: 65%;
+}
+
+#wpml-tmdb .list-table td.left {
+	padding-right: 4%;
+	text-align: right;
+	width: 31%;
+}
+
+#wpml-tmdb .list-table td input,
+#wpml-tmdb .list-table td textarea {
+	width: 100%;
+}
+
+#tmdb_data {
+	display: none;
+	margin-top: 1.5em;
+}
+
+.button-empty {
+	display: none;
+	float: right;
+}
+
+.tmdb_select_movie {
+	display: inline-block;
+	height: 18em;
+	padding: 0.25em;
+	text-align: center;
+	width: 12.5em;
+}
+
+.tmdb_select_movie img {
+	border-radius: 4px;
+	box-shadow: 0 1px 1px #333;
+	max-height: 16em;
+	max-width: 12.5em;
+}
+
+.tmdb_select_movie em {
+	display: block;
+}
+
+#tmdb_images_preview .tmdb_movie_images {
+	float: left;
+	height: 140px;
+	margin: 4px;
+	width: 250px;
+}
+
+#tmdb_images_preview .tmdb_movie_images img {
+	height: auto;
+	width: 100%;
+}
+
+#tmdb_images_preview #tmdb_load_images {
+	border: 2px dashed #ccc;
+	display: block;
+	line-height: 136px;
+	text-align: center;
+	text-decoration: none;
+}
+
+#tmdb_images_preview #tmdb_load_images:hover {
+	border-color: #2EA2CC;
+}
+
+/* Status */
 
 #tmdb_status {
 	background-color: #fff;

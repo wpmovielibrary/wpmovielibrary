@@ -299,7 +299,8 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 
 			if ( $attachments )
 				foreach ( $attachments as $attachment )
-					$html .= '<div class="tmdb_movie_images tmdb_movie_imported_image"><a href="' . get_edit_post_link( $attachment->ID ) . '">' . wp_get_attachment_image( $attachment->ID, 'medium' ) . '</a></div>';
+					$html .= '<li class="tmdb_movie_images tmdb_movie_imported_image">' . wp_get_attachment_image( $attachment->ID, 'medium' ) . '</li>';
+					//$html .= '<div class="tmdb_movie_images tmdb_movie_imported_image"><a href="' . get_edit_post_link( $attachment->ID ) . '">' . wp_get_attachment_image( $attachment->ID, 'medium' ) . '</a></div>';
 
 			return $html;
 		}
