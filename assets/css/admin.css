@@ -481,25 +481,23 @@ body.post-type-movie #preload {
 }
 
 #progressbar_bg {
-	background: rgba(255, 255, 255, 0.75);
+	background: rgba(255, 255, 255, 0.85);
 	display: none;
 	height: 100%;
 	left: 0;
 	position: absolute;
 	right: 300px;
 	top: 0;
-	/*width: 100%;*/
 	z-index: 10;
 }
 
 #progressbar {
-	background: #C0DDE9;
-	border: 2px solid #0074A2;
-	border-radius: 4px;
+	background: #eee;
+	border-radius: 6px;
 	display: none;
-	height: 28px;
+	height: 5px;
 	left: 50%;
-	margin: -14px 0 0 -180px;
+	margin: 0 0 0 -180px;
 	max-width: 480px;
 	overflow: hidden;
 	position: absolute;
@@ -507,41 +505,21 @@ body.post-type-movie #preload {
 	width: 360px;
 }
 
-#hide_progressbar {
-	height: 18px;
+#progress {
+	background: #0074A2;
+	border-radius: 6px;
+	height: 5px;
+	position: absolute;
+}
+
+#progress_status {
+	color: #666;
 	left: 50%;
-	margin: 24px 0 0 -36px;
-	max-width: inherit;
-	overflow: hidden;
+	margin: 30px 0 0 -150px;
 	position: absolute;
 	text-align: center;
 	top: 50%;
-	width: 72px;
-}
-
-#progressbar .ui-progressbar {
-	margin: 1em auto;
-	position: relative;
-	width: 50%;
-}
-
-#progressbar .ui-progressbar-value {
-	background: #0074A2;
-	border: 1px solid #0074A2;
-	height: 28px;
-	margin: -1px;
-}
-
-#progressbar .progress-label {
-	color: #fff;
-	font-weight: bold;
-	left: 50%;
-	margin-left: -24px;
-	position: absolute;
-	text-align: center;
-	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
-	top: 4px;
-	width: 48px;
+	width: 300px;
 }
 
 #tmdb_status {
