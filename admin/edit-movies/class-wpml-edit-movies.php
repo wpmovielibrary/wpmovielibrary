@@ -41,7 +41,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			add_action( 'the_posts', __CLASS__ . '::the_posts_hijack', 10, 2 );
 			add_action( 'ajax_query_attachments_args', __CLASS__ . '::load_images_dummy_query_args', 10, 1 );
-			add_action( 'admin_post_thumbnail_html', __CLASS__ . '::wpml_load_posters', 10, 2 );
+			add_action( 'admin_post_thumbnail_html', __CLASS__ . '::wpml_load_posters_link', 10, 2 );
 
 			add_action( 'add_meta_boxes', __CLASS__ . '::add_meta_boxes' );
 			add_action( 'wp_ajax_wpml_save_details', __CLASS__ . '::wpml_save_details_callback' );
@@ -261,13 +261,17 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 */
 		public static function load_images_dummy_query_args( $query ) {
 
-			if ( isset( $query['s'] ) && false !== strpos( $query['s'], 'TMDb_ID=' ) ) {
+			if ( isset( $query['s'] ) && 1 == preg_match_all( '/^TMDb_ID=([0-9]+),type=(image|poster)$/i', $query['s'], $m ) ) {
+
 				unset( $query['post__not_in'] );
 				unset( $query['post_mime_type'] );
-				$query['post_type'] = 'movie';
 				unset( $query['post_status'] );
-				$query['tmdb_id'] = str_replace( 'TMDb_ID=', '', $query['s'] );
 				unset( $query['s'] );
+
+				$query['post_type'] = 'movie';
+				$query['tmdb_id'] = $m[1][0];
+				$query['tmdb_type'] = $m[2][0];
+
 			}
 
 			return $query;
@@ -289,9 +293,14 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 */
 		public static function the_posts_hijack( $posts, $_query ) {
 
-			if ( ! is_null( $_query ) && isset( $_query->query['tmdb_id'] ) ) {
+			if ( ! is_null( $_query ) && isset( $_query->query['tmdb_id'] ) && isset( $_query->query['tmdb_type'] ) ) {
 				$tmdb_id = esc_attr( $_query->query['tmdb_id'] );
-				self::load_movie_images( $tmdb_id, $posts[0] );
+				$tmdb_type = esc_attr( $_query->query['tmdb_type'] );
+
+				if ( 'image' == $tmdb_type )
+					self::load_movie_images( $tmdb_id, $posts[0] );
+				else if ( 'poster' == $tmdb_type )
+					self::load_movie_posters( $tmdb_id, $posts[0] );
 			}
 
 			return $posts;
@@ -311,6 +320,22 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			$images = apply_filters( 'wpml_jsonify_movie_images', $images, $tmdb_id, $post );
 
 			wp_send_json_success( $images );
+		}
+
+		/**
+		 * Load the Movie Images and display a jsonified result.s
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    int      $tmdb_id Movie TMDb ID to fetch images
+		 * @param    array    $post Related Movie Post
+		 */
+		public static function load_movie_posters( $tmdb_id, $post ) {
+
+			$posters = WPML_TMDb::get_movie_posters( $tmdb_id );
+			$posters = apply_filters( 'wpml_jsonify_movie_images', $posters, $tmdb_id, $post );
+
+			wp_send_json_success( $posters );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -451,9 +476,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * 
 		 * @return   string    Updated $content
 		 */
-		public static function wpml_load_posters( $content, $post_id ) {
-			//return $content . '<a id="tmdb_load_posters" href="http://wpthemes/wp-admin/media-upload.php?post_id=3272&amp;type=image&amp;TB_iframe=1" class="thickbox">' . __( 'Load available Movie Posters', 'wpml' ) . '</a>';
-			return $content;
+		public static function wpml_load_posters_link( $content, $post_id ) {
+			return $content . '<a id="tmdb_load_posters" href="http://wpthemes/wp-admin/media-upload.php?post_id=3272&amp;type=image&amp;TB_iframe=1" class="thickbox">' . __( 'See available Movie Posters', 'wpml' ) . '</a>';
 		}
 
 		/**

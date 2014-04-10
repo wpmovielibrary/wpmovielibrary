@@ -415,9 +415,16 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		}
 
 		/**
-		 * Load Images related to a movie.
+		 * Load all available Images for a movie.
+		 * 
+		 * Filter the images returned by the API to exclude the ones we
+		 * have already imported.
 		 *
 		 * @since     1.0.0
+		 *
+		 * @param    int    Movie TMDb ID
+		 * 
+		 * @return   array  All fetched images minus the ones already imported
 		 */
 		public static function get_movie_images( $tmdb_id ) {
 
@@ -440,11 +447,43 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		}
 
 		/**
+		 * Load all available Posters for a movie.
+		 * 
+		 * Filter the posters returned by the API to exclude the ones we
+		 * have already imported.
+		 *
+		 * @since     1.0.0
+		 *
+		 * @param    int    Movie TMDb ID
+		 * 
+		 * @return   array  All fetched posters minus the ones already imported
+		 */
+		public static function get_movie_posters( $tmdb_id ) {
+
+			$tmdb = new TMDb;
+
+			if ( is_null( $tmdb_id ) )
+				return false;
+
+			$images = $tmdb->getMovieImages( $tmdb_id, '' );
+			$images = $images['posters'];
+
+			foreach ( $images as $i => $image ) {
+				$file_path = substr( $image['file_path'], 1 );
+				$exists = apply_filters( 'wpml_check_for_existing_images', $tmdb_id, 'poster', $file_path );
+				if ( false !== $exists )
+					unset( $images[ $i ] );
+			}
+
+			return $images;
+		}
+
+		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
 		 * @since    1.0.0
 		 *
-		 * @param bool $network_wide
+		 * @param    bool    $network_wide
 		 */
 		public function activate( $network_wide ) {}
 

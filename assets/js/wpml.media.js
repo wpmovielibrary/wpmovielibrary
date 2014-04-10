@@ -3,12 +3,10 @@ wpml = wpml || {};
 
 var images;
 
-wpml = {
-	media: {
-		init: undefined,
-		images: undefined,
-		posters: undefined
-	}
+wpml.media = {
+	init: undefined,
+	images: undefined,
+	posters: undefined
 };
 
 wpml.media.images = images = {
@@ -30,7 +28,7 @@ wpml.media.images = images = {
 				type : 'gallery',
 				post__in:[ $('#post_ID').val() ],
 				post__not_in:[0],
-				s: 'TMDb_ID='+$('#tmdb_data_tmdb_id').val()+''
+				s: 'TMDb_ID='+$('#tmdb_data_tmdb_id').val()+',type=image'
 			},
 			multiple: true,
 			button: {
@@ -108,6 +106,68 @@ wpml.media.images = images = {
 	}
 };
 
+wpml.media.posters = posters = {
+
+	detailsContainerId: '#attachment-details',
+	settingsContainerId: '#attachment-settings',
+
+	frame: function() {
+
+		if ( this._frame )
+			return this._frame;
+
+		this._frame = wp.media({
+			title: 'Select a poster for "' + $('#tmdb_data_title').val() + '"',
+			frame: 'select',
+			searchable: false,
+			library: {
+				// Dummy: avoid any image to be loaded
+				type : 'gallery',
+				post__in:[ $('#post_ID').val() ],
+				post__not_in:[0],
+				s: 'TMDb_ID='+$('#tmdb_data_tmdb_id').val()+',type=poster'
+			},
+			multiple: false,
+			button: {
+				text: 'Import images'
+			}
+		}),
+
+		this._frame.state('library').unset('router');
+		this._frame.options.button.reset = false;
+		this._frame.options.button.close = false;
+
+		this._frame.state('library').unbind('select').on('select', this.select);
+
+		return this._frame;
+	},
+
+	select: function() {
+
+		var $content = $(posters._frame.content.selector);
+
+		if ( ! $('#progressbar_bg').length )
+			$content.append('<div id="progressbar_bg"><div id="progressbar"><div id="progress"></div></div><div id="progress_status">Please wait while the poster is uploading...</div>');
+
+		$('#progressbar_bg, #progressbar').show();
+
+		var settings = wp.media.view.settings,
+		    selection = this.get('selection'),
+		    total = selection.length;
+
+		$('.added').remove();
+
+		posters.total = total;
+		//selection.map( posters.upload );
+
+		return;
+	},
+
+	init: function() {
+		posters.frame().open();
+	}
+};
+
 wpml.media.init = function() {
 	$('#tmdb_save_images').on('click', function(e) {
 		e.preventDefault();
@@ -117,6 +177,11 @@ wpml.media.init = function() {
 	$('#tmdb_load_images').on('click', function(e) {
 		e.preventDefault();
 		wpml.media.images.init();
+	});
+
+	$('#tmdb_load_posters').on('click', function(e) {
+		e.preventDefault();
+		wpml.media.posters.init();
 	});
 };
 
