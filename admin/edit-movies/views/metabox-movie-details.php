@@ -43,7 +43,7 @@
 
 					<div class="misc-pub-section">
 						<span id="movie-rating-icon"> <label for="movie-rating"><?php _e( 'Rating:', 'wpml' ); ?></label></span>
-						<div id="movie-rating-display" class="hide-if-no-js stars_<?php echo $movie_rating_str; ?>"></div>
+						<div id="movie-rating-display" class="hide-if-no-js stars-<?php echo $movie_rating_str; ?>"></div>
 						<a href="#movie-rating" id="edit-movie-rating" class="edit-movie-rating hide-if-no-js"><?php _e( 'Edit', 'wpml' ); ?></a>
 
 						<div id="movie-rating-select" class="hide-if-js">

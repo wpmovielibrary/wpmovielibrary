@@ -466,7 +466,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			$v = get_post_meta( $post->ID, '_wpml_movie_rating', true );
 			$movie_rating = ( isset( $v ) && '' != $v ? number_format( $v, 1 ) : 0.0 );
-			$movie_rating_str = str_replace( '.', '_', $movie_rating );
+			$movie_rating_str = str_replace( '.', '-', $movie_rating );
 
 			include_once( plugin_dir_path( __FILE__ ) . 'views/metabox-movie-details.php' );
 		}
