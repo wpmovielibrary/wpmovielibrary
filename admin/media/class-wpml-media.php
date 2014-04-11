@@ -34,7 +34,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			add_filter( 'wpml_check_for_existing_images', __CLASS__ . '::check_for_existing_images', 10, 3 );
 			add_filter( 'wpml_jsonify_movie_images', __CLASS__ . '::fake_jsonify_movie_images', 10, 3 );
 			add_action( 'wp_ajax_wpml_upload_image', __CLASS__ . '::wpml_upload_image_callback' );
-			add_action( 'wp_ajax_tmdb_set_featured', __CLASS__ . '::wpml_set_featured_image_callback' );
+			add_action( 'wp_ajax_wpml_set_featured', __CLASS__ . '::set_featured_image_callback' );
 		}
 
 		/**
@@ -92,6 +92,11 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				)
 			);
 
+			if ( 'poster' == $image_type && ! empty( $check ) )
+				foreach ( $check as $c )
+					if ( ! has_post_thumbnail( $c->ID ) )
+						return false;
+
 			if ( ! is_null( $image ) ) {
 				foreach ( $check as $c ) {
 					$try = get_attached_file( $c->ID );
@@ -122,9 +127,11 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * 
 		 * @return   array    The prepared images
 		 */
-		public function fake_jsonify_movie_images( $images, $post ) {
+		public function fake_jsonify_movie_images( $images, $post, $image_type ) {
 
-			$base_url = WPML_TMDb::wpml_tmdb_get_base_url( 'image' );
+			$image_type = ( 'poster' == $image_type ? 'poster' : 'image' );
+
+			$base_url = WPML_TMDb::wpml_tmdb_get_base_url( $image_type );
 			$json_images = array();
 			$i = 0;
 
@@ -176,7 +183,9 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 						'medium' => array(
 							'height' => floor( 300 / $image['aspect_ratio'] ),
 							'orientation' => $_orientation,
-							'url' => $base_url['medium'] . $image['file_path'],
+							// Modal thumbs are actually Medium size, so we set a small one
+							// for posters, a really small one
+							'url' => ( 'poster' == $image_type ? $base_url['xx-small'] : $base_url['small'] ) . $image['file_path'],
 							'width' => 300,
 						),
 						'large' => array(
@@ -252,7 +261,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 *
 		 * @return    string    Uploaded image ID
 		 */
-		public static function wpml_set_featured_image_callback() {
+		public static function set_featured_image_callback() {
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 

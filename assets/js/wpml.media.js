@@ -84,7 +84,7 @@ wpml.media.images = images = {
 			},
 			success: function(_r) {
 				if ( ! isNaN( _r ) && parseInt( _r ) == _r ) {
-					$('#tmdb_images_preview').append('<div class="tmdb_movie_images tmdb_movie_imported_image"><img width="' + image.attributes.sizes.medium.width + '" height="' + image.attributes.sizes.medium.height + '" src="' + image.attributes.sizes.medium.url + '" class="attachment-medium" class="attachment-medium" alt="' + $('#tmdb_data_title').val() + '" /></div>');
+					$('#tmdb_load_images').parent('.tmdb_movie_images').before('<div class="tmdb_movie_images tmdb_movie_imported_image"><img width="' + image.attributes.sizes.medium.width + '" height="' + image.attributes.sizes.medium.height + '" src="' + image.attributes.sizes.medium.url + '" class="attachment-medium" class="attachment-medium" alt="' + $('#tmdb_data_title').val() + '" /></div>');
 				}
 			},
 			complete: function() {
@@ -129,7 +129,7 @@ wpml.media.posters = posters = {
 			},
 			multiple: false,
 			button: {
-				text: 'Import images'
+				text: 'Import Poster'
 			}
 		}),
 
@@ -158,9 +158,34 @@ wpml.media.posters = posters = {
 		$('.added').remove();
 
 		posters.total = total;
-		//selection.map( posters.upload );
+		selection.map( posters.set_featured );
 
 		return;
+	},
+
+	set_featured: function( image, i ) {
+
+		$.ajax({
+			type: 'GET',
+			url: ajax_object.ajax_url,
+			data: {
+				action: 'wpml_set_featured',
+				wpml_check: ajax_object.wpml_check,
+				image: image.attributes.tmdb_data,
+				title: $('#tmdb_data_title').val(),
+				post_id: $('#post_ID').val(),
+				tmdb_id: $('#tmdb_data_tmdb_id').val()
+			},
+			success: function(r) {
+				if ( r )
+					wp.media.featuredImage.set( r );
+			},
+			complete: function() {
+				$('#progress_status').text('Done!');
+				window.setTimeout( function() { $('#progressbar_bg, #progressbar').remove(); posters._frame.close(); }, 2000 );
+			}
+		});
+
 	},
 
 	init: function() {
@@ -169,19 +194,17 @@ wpml.media.posters = posters = {
 };
 
 wpml.media.init = function() {
-	$('#tmdb_save_images').on('click', function(e) {
-		e.preventDefault();
-		wpml.movie.images.save();
-	});
 
 	$('#tmdb_load_images').on('click', function(e) {
 		e.preventDefault();
 		wpml.media.images.init();
+		wpml.media.images._frame.$el.addClass('movie-images');
 	});
 
 	$('#tmdb_load_posters').on('click', function(e) {
 		e.preventDefault();
 		wpml.media.posters.init();
+		wpml.media.posters._frame.$el.addClass('movie-posters');
 	});
 };
 

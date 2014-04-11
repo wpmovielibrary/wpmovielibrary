@@ -95,12 +95,12 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			$wpml_tmdb_config = array(
 				'poster_url' => array(
-					'xx-small' => $base_url . $tmdb_config['images']['poster_sizes'][0],
-					'x-small'  => $base_url . $tmdb_config['images']['poster_sizes'][1],
-					'small'    => $base_url . $tmdb_config['images']['poster_sizes'][2],
-					'medium'   => $base_url . $tmdb_config['images']['poster_sizes'][3],
-					'full'     => $base_url . $tmdb_config['images']['poster_sizes'][4],
-					'original' => $base_url . $tmdb_config['images']['poster_sizes'][5]
+					'xx-small' => $base_url . $tmdb_config['images']['poster_sizes'][1],
+					'x-small'  => $base_url . $tmdb_config['images']['poster_sizes'][2],
+					'small'    => $base_url . $tmdb_config['images']['poster_sizes'][3],
+					'medium'   => $base_url . $tmdb_config['images']['poster_sizes'][4],
+					'full'     => $base_url . $tmdb_config['images']['poster_sizes'][5],
+					'original' => $base_url . $tmdb_config['images']['poster_sizes'][6]
 				),
 				'image_url' => array(
 					'small'    => $base_url . $tmdb_config['images']['backdrop_sizes'][0],

@@ -283,26 +283,72 @@ body.post-php.post-type-movie #postimagediv {
 
 /* Modal */
 
-body.post-type-movie .attachments-browser .attachments {
+.media-frame.movie-images .attachments-browser .attachments {
 	top: 10px;
 }
 
-body.post-type-movie .media-frame .media-frame-router,
-body.post-type-movie .media-frame .attachments-browser .media-toolbar,
-body.post-type-movie .media-frame .attachment-details .setting,
-body.post-type-movie .media-frame .attachment-details .edit-attachment {
+.media-frame.movie-images .media-frame-router,
+.media-frame.movie-images .attachments-browser .media-toolbar,
+.media-frame.movie-images .attachment-details .setting,
+.media-frame.movie-images .attachment-details .edit-attachment {
 	display: none;
 }
 
-body.post-type-movie #preload {
+.media-frame.movie-images #preload,
+.media-frame.movie-posters #preload {
 	background: url(../img/preload__.gif) center center no-repeat;
 	height: 100%;
 	width: 100%;
 }
 
-body.post-type-movie .media-frame .attachment-info .thumbnail,
-body.post-type-movie .media-frame .attachment-info .thumbnail img {
-	max-width: 225px;
+.media-frame.movie-images .attachment-info .thumbnail,
+.media-frame.movie-images .attachment-info .thumbnail img {
+	height: auto;
+	margin: 0 auto;
+	max-height: 170px;
+	max-width: 300px !important;
+	width: 100%;
+}
+
+.media-frame.movie-images .attachment {
+	width: 300px !important;
+}
+
+.media-frame.movie-images .attachment-preview,
+.media-frame.movie-images .attachment-preview .thumbnail {
+	width: 300px !important;
+	height: 168px !important;
+}
+
+.media-frame.movie-images .landscape .thumbnail img {
+	width: 300px !important;
+	height: 168px !important;
+	max-height: none !important;
+}
+
+
+.media-frame.movie-posters .attachment-info .thumbnail,
+.media-frame.movie-posters .attachment-info .thumbnail img {
+	max-height: 230px;
+	max-width: 154px !important;
+	width: 100%;
+	height: auto;
+	margin: 0 auto;
+}
+
+.media-frame.movie-posters .attachment {
+	width: 154px !important;
+}
+
+.media-frame.movie-posters .attachment-preview,
+.media-frame.movie-posters .attachment-preview .thumbnail {
+	width: 154px !important;
+	height: 218px !important;
+}
+
+.media-frame.movie-posters .portrait .thumbnail img {
+	max-width: 154px !important;
+	height: auto;
 }
 
 /* Progress Bar */
@@ -405,6 +451,7 @@ body.post-type-movie .media-frame .attachment-info .thumbnail img {
 	float: left;
 	height: 140px;
 	margin: 4px;
+	overflow: hidden;
 	width: 250px;
 }
 

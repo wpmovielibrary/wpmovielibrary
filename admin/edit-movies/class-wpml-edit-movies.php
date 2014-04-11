@@ -294,13 +294,20 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		public static function the_posts_hijack( $posts, $_query ) {
 
 			if ( ! is_null( $_query ) && isset( $_query->query['tmdb_id'] ) && isset( $_query->query['tmdb_type'] ) ) {
+
 				$tmdb_id = esc_attr( $_query->query['tmdb_id'] );
 				$tmdb_type = esc_attr( $_query->query['tmdb_type'] );
+				$paged = intval( $_query->query['paged'] );
+				$per_page = intval( $_query->query['posts_per_page'] );
 
 				if ( 'image' == $tmdb_type )
-					self::load_movie_images( $tmdb_id, $posts[0] );
+					$images = self::load_movie_images( $tmdb_id, $posts[0] );
 				else if ( 'poster' == $tmdb_type )
-					self::load_movie_posters( $tmdb_id, $posts[0] );
+					$images = self::load_movie_posters( $tmdb_id, $posts[0] );
+
+				$images = array_slice( $images, ( ( $paged - 1 ) * $per_page ), $per_page );
+
+				wp_send_json_success( $images );
 			}
 
 			return $posts;
@@ -317,9 +324,9 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		public static function load_movie_images( $tmdb_id, $post ) {
 
 			$images = WPML_TMDb::get_movie_images( $tmdb_id );
-			$images = apply_filters( 'wpml_jsonify_movie_images', $images, $tmdb_id, $post );
+			$images = apply_filters( 'wpml_jsonify_movie_images', $images, $post, 'image' );
 
-			wp_send_json_success( $images );
+			return $images;
 		}
 
 		/**
@@ -333,9 +340,9 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		public static function load_movie_posters( $tmdb_id, $post ) {
 
 			$posters = WPML_TMDb::get_movie_posters( $tmdb_id );
-			$posters = apply_filters( 'wpml_jsonify_movie_images', $posters, $tmdb_id, $post );
+			$posters = apply_filters( 'wpml_jsonify_movie_images', $posters, $post, 'poster' );
 
-			wp_send_json_success( $posters );
+			return $posters;
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -477,7 +484,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * @return   string    Updated $content
 		 */
 		public static function wpml_load_posters_link( $content, $post_id ) {
-			return $content . '<a id="tmdb_load_posters" href="http://wpthemes/wp-admin/media-upload.php?post_id=3272&amp;type=image&amp;TB_iframe=1" class="thickbox">' . __( 'See available Movie Posters', 'wpml' ) . '</a>';
+			return $content . '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', 'wpml' ) . '</a>';
 		}
 
 		/**
