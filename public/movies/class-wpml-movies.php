@@ -31,19 +31,19 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'init', __CLASS__ . '::wpml_register_post_type', 10 );
+			add_action( 'init', __CLASS__ . '::register_post_type', 10 );
 
 			// Load Movies as well as Posts in the Loop
-			add_action( 'pre_get_posts', __CLASS__ . '::wpml_show_movies_in_home_page' );
+			add_action( 'pre_get_posts', __CLASS__ . '::show_movies_in_home_page' );
 
 			// Movie content
-			add_filter( 'the_content', __CLASS__ . '::wpml_movie_content' );
+			add_filter( 'the_content', __CLASS__ . '::movie_content' );
 
-			add_action( 'pre_get_posts', __CLASS__ . '::wpml_movies_query_meta', 10, 1 );
-			add_filter( 'query_vars', __CLASS__ . '::wpml_movies_query_vars', 10, 1 );
+			add_action( 'pre_get_posts', __CLASS__ . '::movies_query_meta', 10, 1 );
+			add_filter( 'query_vars', __CLASS__ . '::movies_query_vars', 10, 1 );
 
-			add_filter( 'wpml_get_movies_from_media', __CLASS__ . '::wpml_get_movies_from_media', 10, 1 );
-			add_filter( 'wpml_get_movies_from_status', __CLASS__ . '::wpml_get_movies_from_status', 10, 1 );
+			add_filter( 'wpml_get_movies_from_media', __CLASS__ . '::get_movies_from_media', 10, 1 );
+			add_filter( 'wpml_get_movies_from_status', __CLASS__ . '::get_movies_from_status', 10, 1 );
 		}
 
 		/**
@@ -51,7 +51,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 *
 		 * @since    1.0.0
 		 */
-		public static function wpml_register_post_type() {
+		public static function register_post_type() {
 
 			$labels = array(
 				'name'               => __( 'Movies', 'wpml' ),
@@ -111,7 +111,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 *
 		 * @return    WP_Query    Query Object
 		 */
-		public static function wpml_show_movies_in_home_page( $query ) {
+		public static function show_movies_in_home_page( $query ) {
 
 			if ( ! is_home() && ! is_search() && ! is_archive() )
 				return $query;
@@ -148,13 +148,13 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 *                        content plus movie infos if available, the
 		 *                        untouched original content else.
 		 */
-		public static function wpml_movie_content( $content ) {
+		public static function movie_content( $content ) {
 
 			if ( 'movie' != get_post_type() )
 				return $content;
 
-			$details  = WPML_Movies::wpml_movie_details();
-			$metadata = WPML_Movies::wpml_movie_metadata();
+			$details  = WPML_Movies::movie_details();
+			$metadata = WPML_Movies::movie_metadata();
 
 			$content = $details . $metadata . $content;
 
@@ -168,7 +168,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 *
 		 * @return    null|string    The current movie's metadata list
 		 */
-		private static function wpml_movie_details() {
+		private static function movie_details() {
 
 			if ( 'nowhere' == WPML_Settings::wpml__details_in_posts() || ( 'posts_only' == WPML_Settings::wpml__details_in_posts() && ! is_singular() ) )
 				return null;
@@ -185,13 +185,13 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 				switch ( $field ) {
 					case 'movie_media':
 					case 'movie_status':
-						$meta = call_user_func_array( "WPML_Utils::wpml_get_{$field}", array( get_the_ID() ) );
+						$meta = call_user_func_array( "WPML_Utils::get_{$field}", array( get_the_ID() ) );
 						if ( '' != $meta ) {
 							if ( 1 ==  WPML_Settings::wpml__details_as_icons() ) {
 								$html .= '<div class="wpml_' . $field . ' ' . $meta . ' wpml_detail_icon"></div>';
 							}
 							else {
-								$default_fields = call_user_func( "WPML_Settings::wpml_get_available_{$field}" );
+								$default_fields = call_user_func( "WPML_Settings::get_available_{$field}" );
 								$html .= '<div class="wpml_' . $field . ' ' . $meta . ' wpml_detail_label"><span class="wpml_movie_detail_item">' . $default_fields[ $meta ] . '</span></div>';
 							}
 						}
@@ -217,17 +217,17 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 *
 		 * @return    null|string    The current movie's metadata list
 		 */
-		private static function wpml_movie_metadata() {
+		private static function movie_metadata() {
 
 			if ( 'nowhere' == WPML_Settings::wpml__meta_in_posts() || ( 'posts_only' == WPML_Settings::wpml__meta_in_posts() && ! is_singular() ) )
 				return null;
 
-			$tmdb_data = WPML_Utils::wpml_get_movie_data();
-			$tmdb_data = WPML_Utils::wpml_filter_undimension_array( $tmdb_data );
+			$tmdb_data = WPML_Utils::get_movie_data();
+			$tmdb_data = WPML_Utils::filter_undimension_array( $tmdb_data );
 
 			$fields = WPML_Settings::wpml__default_movie_meta();
 			$default_format = '<dt class="wpml_%s_field_title">%s</dt><dd class="wpml_%s_field_value">%s</dd>';
-			$default_fields = WPML_Settings::wpml_get_supported_movie_meta();
+			$default_fields = WPML_Settings::get_supported_movie_meta();
 
 			if ( '' == $tmdb_data || empty( $fields ) )
 				return null;
@@ -280,7 +280,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 *
 		 * @return    string      The WP_Query instance, updated or not.
 		 */
-		public static function wpml_movies_query_meta( $wp_query ) {
+		public static function movies_query_meta( $wp_query ) {
 
 			$metas = array( 'wpml_movie_media', 'wpml_movie_status', 'wpml_movie_rating' );
 			$key_vars = array_keys( $wp_query->query_vars );
@@ -305,7 +305,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 * 
 		 * @return   array     Updated WP_Query instance
 		 */
-		public static function wpml_movies_query_vars( $q_var ) {
+		public static function movies_query_vars( $q_var ) {
 			$q_var[] = 'wpml_movie_media';
 			$q_var[] = 'wpml_movie_status';
 			$q_var[] = 'wpml_movie_rating';
@@ -323,15 +323,15 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 * 
 		 * @return   array     Array of Post objects
 		 */
-		public static function wpml_get_movies_from_media( $media = null ) {
+		public static function get_movies_from_media( $media = null ) {
 
 			$media = esc_attr( $media );
 
-			$default = WPML_Settings::wpml_get_available_movie_media();
+			$default = WPML_Settings::get_available_movie_media();
 			$allowed = array_keys( $default );
 
 			if ( is_null( $media ) || ! in_array( $media, $allowed ) )
-				$media = WPML_Settings::wpml_get_default_movie_media();
+				$media = WPML_Settings::get_default_movie_media();
 
 			$args = array(
 				'post_type' => 'movie',
@@ -361,15 +361,15 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 * 
 		 * @return   array     Array of Post objects
 		 */
-		public static function wpml_get_movies_from_status( $status = null ) {
+		public static function get_movies_from_status( $status = null ) {
 
 			$status = esc_attr( $status );
 
-			$default = WPML_Settings::wpml_get_available_movie_status();
+			$default = WPML_Settings::get_available_movie_status();
 			$allowed = array_keys( $default );
 
 			if ( is_null( $status ) || ! in_array( $status, $allowed ) )
-				$status = WPML_Settings::wpml_get_default_movie_status();
+				$status = WPML_Settings::get_default_movie_status();
 
 			$args = array(
 				'post_type' => 'movie',

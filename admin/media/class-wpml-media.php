@@ -33,7 +33,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 
 			add_filter( 'wpml_check_for_existing_images', __CLASS__ . '::check_for_existing_images', 10, 3 );
 			add_filter( 'wpml_jsonify_movie_images', __CLASS__ . '::fake_jsonify_movie_images', 10, 3 );
-			add_action( 'wp_ajax_wpml_upload_image', __CLASS__ . '::wpml_upload_image_callback' );
+			add_action( 'wp_ajax_wpml_upload_image', __CLASS__ . '::upload_image_callback' );
 			add_action( 'wp_ajax_wpml_set_featured', __CLASS__ . '::set_featured_image_callback' );
 		}
 
@@ -49,9 +49,9 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 *
 		 * @return    string    Featured image URL
 		 */
-		public static function wpml_get_featured_image( $post_id, $size = 'thumbnail' ) {
+		public static function get_featured_image( $post_id, $size = 'thumbnail' ) {
 			$_id = get_post_thumbnail_id( $post_id );
-			$img = ( $_id ? wp_get_attachment_image_src( $_id, $size ) : array( WPML_URL . '/admin/assets/img/no_poster.png' ) );
+			$img = ( $_id ? wp_get_attachment_image_src( $_id, $size ) : array( WPML_URL . '/assets/img/no_poster.png' ) );
 			return $img[0];
 		}
 
@@ -131,7 +131,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 
 			$image_type = ( 'poster' == $image_type ? 'poster' : 'image' );
 
-			$base_url = WPML_TMDb::wpml_tmdb_get_base_url( $image_type );
+			$base_url = WPML_TMDb::get_base_url( $image_type );
 			$json_images = array();
 			$i = 0;
 
@@ -227,7 +227,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 *
 		 * @return    string    Uploaded image ID
 		 */
-		public static function wpml_upload_image_callback() {
+		public static function upload_image_callback() {
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
@@ -239,7 +239,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			if ( ! is_array( $image ) || '' == $post_id )
 				return false;
 
-			echo self::wpml_image_upload( $image['file_path'], $post_id, $tmdb_id, $title, $image );
+			echo self::image_upload( $image['file_path'], $post_id, $tmdb_id, $title, $image );
 			die();
 		}
 
@@ -273,7 +273,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			if ( '' == $image || '' == $post_id || 1 != WPML_Settings::tmdb__poster_featured() )
 				return false;
 
-			echo self::wpml_set_image_as_featured( $image, $post_id, $tmdb_id, $title );
+			echo self::set_image_as_featured( $image, $post_id, $tmdb_id, $title );
 			die();
 		}
 
@@ -286,7 +286,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * 
 		 * @return   array    Movie list
 		 */
-		public static function wpml_get_movie_imported_images() {
+		public static function get_movie_imported_images() {
 
 			global $post;
 
@@ -323,16 +323,16 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * 
 		 * @return   string|WP_Error Populated HTML img tag on success
 		 */
-		public static function wpml_set_image_as_featured( $file, $post_id, $tmdb_id, $title ) {
+		public static function set_image_as_featured( $file, $post_id, $tmdb_id, $title ) {
 
 			$size = WPML_Settings::tmdb__poster_size();
 
-			$existing = apply_filters( 'wpml_check_for_existing_images', $tmdb_id, 'poster' );
+			$existing = self::check_for_existing_images( $tmdb_id, 'poster' );
 
 			if ( false !== $existing )
 				return $existing[0]->ID;
 
-			$image = self::wpml_image_upload( $file, $post_id, $tmdb_id, $title, 'poster' );
+			$image = self::image_upload( $file, $post_id, $tmdb_id, $title, 'poster' );
 
 			if ( is_array( $image ) && isset( $image[0]->ID ) )
 				return $image[0]->ID;
@@ -356,7 +356,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * 
 		 * @return   string|WP_Error Populated HTML img tag on success
 		 */
-		private static function wpml_image_upload( $file, $post_id, $tmdb_id, $title, $image_type = 'image', $data = null ) {
+		private static function image_upload( $file, $post_id, $tmdb_id, $title, $image_type = 'image', $data = null ) {
 
 			if ( empty( $file ) )
 				return false;
@@ -365,7 +365,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				$image_type = 'image';
 
 			$size = WPML_Settings::tmdb__images_size();
-			$path = WPML_TMDb::wpml_tmdb_get_base_url( $image_type, $size );
+			$path = WPML_TMDb::get_base_url( $image_type, $size );
 
 			if ( is_array( $file ) ) {
 				$data = $file;

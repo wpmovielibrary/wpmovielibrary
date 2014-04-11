@@ -38,7 +38,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'init', __CLASS__ . '::wpml_register_collection_taxonomy' );
+			add_action( 'init', __CLASS__ . '::register_collection_taxonomy' );
 			add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 			
 		}
@@ -114,7 +114,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		 *
 		 * @since    1.0.0
 		 */
-		public static function wpml_register_collection_taxonomy() {
+		public static function register_collection_taxonomy() {
 
 			if ( ! WPML_Settings::wpml__enable_collection() )
 				return false;

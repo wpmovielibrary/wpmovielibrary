@@ -13,7 +13,7 @@ $status_only = ( 1 == $instance['status_only'] ? true : false );
 
 if ( $status_only ) :
 
-	$status = apply_filters( 'wpml_get_available_movie_status', null );
+	$status = WPML_Settings::get_available_movie_status();
 
 	if ( ! empty( $status ) ) :
 
@@ -35,7 +35,7 @@ if ( $status_only ) :
 	endif;
 
 else :
-	$movies = apply_filters( 'wpml_get_movies_from_status', $type );
+	$movies = WPML_Movies::get_movies_from_status();
 
 	if ( ! empty( $movies ) ) :
 

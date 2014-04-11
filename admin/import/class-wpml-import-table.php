@@ -39,9 +39,9 @@ class WPML_Import_Table extends WP_List_Table {
 			'screen'    => get_current_screen()
 		) );
 
-		$this->metadata = WPML_Settings::wpml_get_supported_movie_meta( $type = null, $merge = false );
+		$this->metadata = WPML_Settings::get_supported_movie_meta( $type = null, $merge = false );
 
-		$this->columns = WPML_Import::wpml_get_imported_movies();;
+		$this->columns = WPML_Import::get_imported_movies();;
 
 		$this->column_names = array(
 			'ID'         => __( 'ID', 'wpml' ),

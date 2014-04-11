@@ -14,7 +14,7 @@ $media_only = ( 1 == $instance['media_only'] ? true : false );
 
 if ( $media_only ) :
 
-	$media = apply_filters( 'wpml_get_available_movie_media', null );
+	$media = WPML_Settings::get_available_movie_media();
 
 	if ( ! empty( $media ) ) :
 
@@ -37,7 +37,7 @@ if ( $media_only ) :
 
 else :
 
-	$movies = apply_filters( 'wpml_get_movies_from_media', $type );
+	$movies = apply_filters( WPML_Movies::get_movies_from_media( $type ) );
 	if ( ! empty( $movies ) ) :
 
 		$items = array();

@@ -31,21 +31,21 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_filter( 'wpml_format_widget_lists', __CLASS__ . '::wpml_format_widget_lists', 10, 4 );
-			add_filter( 'wpml_format_widget_lists_thumbnails', __CLASS__ . '::wpml_format_widget_lists_thumbnails', 10, 1 );
+			add_filter( 'wpml_format_widget_lists', __CLASS__ . '::format_widget_lists', 10, 4 );
+			add_filter( 'wpml_format_widget_lists_thumbnails', __CLASS__ . '::format_widget_lists_thumbnails', 10, 1 );
 
 			add_filter( 'wpml_summarize_settings', __CLASS__ . '::summarize_settings', 10, 1 );
 
-			add_filter( 'wpml_filter_meta_data', __CLASS__ . '::wpml_filter_meta_data', 10, 1 );
-			add_filter( 'wpml_filter_crew_data', __CLASS__ . '::wpml_filter_crew_data', 10, 1 );
-			add_filter( 'wpml_filter_cast_data', __CLASS__ . '::wpml_filter_cast_data', 10, 1 );
+			add_filter( 'wpml_filter_meta_data', __CLASS__ . '::filter_meta_data', 10, 1 );
+			add_filter( 'wpml_filter_crew_data', __CLASS__ . '::filter_crew_data', 10, 1 );
+			add_filter( 'wpml_filter_cast_data', __CLASS__ . '::filter_cast_data', 10, 1 );
 
-			add_filter( 'wpml_stringify_array', __CLASS__ . '::wpml_stringify_array', 10, 3 );
-			add_filter( 'wpml_filter_empty_array', __CLASS__ . '::wpml_filter_empty_array', 10, 1 );
-			add_filter( 'wpml_filter_undimension_array', __CLASS__ . '::wpml_filter_undimension_array', 10, 1 );
+			add_filter( 'wpml_stringify_array', __CLASS__ . '::stringify_array', 10, 3 );
+			add_filter( 'wpml_filter_empty_array', __CLASS__ . '::filter_empty_array', 10, 1 );
+			add_filter( 'wpml_filter_undimension_array', __CLASS__ . '::filter_undimension_array', 10, 1 );
 
-			add_filter( 'get_the_terms', __CLASS__ . '::wpml_get_the_terms', 10, 3 );
-			add_filter( 'wp_get_object_terms', __CLASS__ . '::wpml_get_ordered_object_terms', 10, 4 );
+			add_filter( 'get_the_terms', __CLASS__ . '::get_the_terms', 10, 3 );
+			add_filter( 'wp_get_object_terms', __CLASS__ . '::get_ordered_object_terms', 10, 4 );
 		}
 
 		public static function admin_notice( $notice, $type = 'update' ) {
@@ -72,8 +72,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 *
 		 * @return   array|string    WPML Movie TMDb data if stored, empty string else.
 		 */
-		public static function wpml_get_movie_data( $post_id = null ) {
-			return WPML_Utils::wpml_get_movie_postmeta( 'data', $post_id );
+		public static function get_movie_data( $post_id = null ) {
+			return WPML_Utils::get_movie_postmeta( 'data', $post_id );
 		}
 
 		/**
@@ -85,8 +85,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 *
 		 * @return   array|string    WPML Movie Status if stored, empty string else.
 		 */
-		public static function wpml_get_movie_status( $post_id = null ) {
-			return WPML_Utils::wpml_get_movie_postmeta( 'status', $post_id );
+		public static function get_movie_status( $post_id = null ) {
+			return WPML_Utils::get_movie_postmeta( 'status', $post_id );
 		}
 
 		/**
@@ -98,8 +98,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 *
 		 * @return   array|string    WPML Movie Media if stored, empty string else.
 		 */
-		public static function wpml_get_movie_media( $post_id = null ) {
-			return WPML_Utils::wpml_get_movie_postmeta( 'media', $post_id );
+		public static function get_movie_media( $post_id = null ) {
+			return WPML_Utils::get_movie_postmeta( 'media', $post_id );
 		}
 
 		/**
@@ -111,8 +111,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 *
 		 * @return   array|string    WPML Movie Rating if stored, empty string else.
 		 */
-		public static function wpml_get_movie_rating( $post_id = null ) {
-			return WPML_Utils::wpml_get_movie_postmeta( 'rating', $post_id );
+		public static function get_movie_rating( $post_id = null ) {
+			return WPML_Utils::get_movie_postmeta( 'rating', $post_id );
 		}
 
 		/**
@@ -123,7 +123,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 *
 		 * @return   array|string    WPML Movie Meta if available, empty string else.
 		 */
-		private static function wpml_get_movie_postmeta( $meta, $post_id = null ) {
+		private static function get_movie_postmeta( $meta, $post_id = null ) {
 
 			$allowed_meta = array( 'data', 'status', 'media', 'rating' );
 
@@ -147,7 +147,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return     string     cleaned up movie title
 		 */
-		public static function wpml_clean_search_title( $query ) {
+		public static function clean_search_title( $query ) {
 			$s = trim( $query );
 			$s = preg_replace( '/[^\p{L}\p{N}\s]/u', '', $s );
 			return $s;
@@ -167,7 +167,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   string     HTML string List of movies
 		 */
-		public static function wpml_format_widget_lists( $items, $dropdown = false, $styling = false, $title = null ) {
+		public static function format_widget_lists( $items, $dropdown = false, $styling = false, $title = null ) {
 
 			if ( ! is_array( $items ) || empty( $items ) )
 				return null;
@@ -208,7 +208,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   string   HTML string of movies' links and Posters
 		 */
-		public static function wpml_format_widget_lists_thumbnails( $items ) {
+		public static function format_widget_lists_thumbnails( $items ) {
 
 			if ( ! is_array( $items ) || empty( $items ) )
 				return null;
@@ -259,7 +259,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   array    Filtered Metadata
 		 */
-		public static function wpml_filter_meta_data( $data ) {
+		public static function filter_meta_data( $data ) {
 
 			if ( ! is_array( $data ) || empty( $data ) )
 				return $data;
@@ -267,7 +267,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$filter = array();
 			$_data = array();
 
-			foreach ( WPML_Settings::wpml_get_supported_movie_meta( 'meta' ) as $slug => $f ) {
+			foreach ( WPML_Settings::get_supported_movie_meta( 'meta' ) as $slug => $f ) {
 				$filter[] = $slug;
 				$_data[ $slug ] = '';
 			}
@@ -299,7 +299,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   array    Filtered Crew
 		 */
-		public static function wpml_filter_crew_data( $data ) {
+		public static function filter_crew_data( $data ) {
 
 			if ( ! is_array( $data ) || empty( $data ) || ! isset( $data['crew'] ) )
 				return $data;
@@ -310,7 +310,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$cast = apply_filters( 'wpml_filter_cast_data', $data['cast'] );
 			$data = $data['crew'];
 
-			foreach ( WPML_Settings::wpml_get_supported_movie_meta( 'crew' ) as $slug => $f ) {
+			foreach ( WPML_Settings::get_supported_movie_meta( 'crew' ) as $slug => $f ) {
 				$filter[ $slug ] = $f['title'];
 				$_data[ $slug ] = '';
 			}
@@ -333,7 +333,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   array    Filtered Cast
 		 */
-		public static function wpml_filter_cast_data( $data ) {
+		public static function filter_cast_data( $data ) {
 
 			if ( ! is_array( $data ) || empty( $data ) )
 				return $data;
@@ -355,7 +355,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   string   Separated list
 		 */
-		public static function wpml_stringify_array( $array, $subrow = 'name', $separator = ', ' ) {
+		public static function stringify_array( $array, $subrow = 'name', $separator = ', ' ) {
 
 			if ( ! is_array( $array ) || empty( $array ) )
 				return $array;
@@ -364,7 +364,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				if ( ! is_array( $row ) )
 					$array[ $i ] = $row;
 				else if ( false === $subrow || ! is_array( $row ) )
-					$array[ $i ] = self::wpml_stringify_array( $row, $subrow, $separator );
+					$array[ $i ] = self::stringify_array( $row, $subrow, $separator );
 				else if ( is_array( $row ) && isset( $row[ $subrow ] ) )
 					$array[ $i ] = $row[ $subrow ];
 				else if ( is_array( $row ) )
@@ -386,12 +386,12 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   array    Original array plus and notification row if empty
 		 */
-		public static function wpml_filter_empty_array( $array ) {
+		public static function filter_empty_array( $array ) {
 
 			if ( ! is_array( $array ) || empty( $array ) )
 				return array();
 
-			$_array = self::wpml_stringify_array( $array, false, '' );
+			$_array = self::stringify_array( $array, false, '' );
 
 			return strlen( $_array ) > 0 ? $array : array_merge( array( '_empty' => true ), $array );
 		}
@@ -406,7 +406,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   array    Reduced array
 		 */
-		public static function wpml_filter_undimension_array( $array ) {
+		public static function filter_undimension_array( $array ) {
 
 			if ( ! is_array( $array ) || empty( $array ) )
 				return $array;
@@ -415,7 +415,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			foreach ( $array as $key => $row ) {
 				if ( is_array( $row ) )
-					$_array = array_merge( $_array, self::wpml_filter_undimension_array( $row ) );
+					$_array = array_merge( $_array, self::filter_undimension_array( $row ) );
 				else
 					$_array[ $key ] = $row;
 			}
@@ -436,7 +436,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   array      Terms array of objects
 		 */
-		public static function wpml_get_the_terms( $terms, $id, $taxonomy ) {
+		public static function get_the_terms( $terms, $id, $taxonomy ) {
 
 			if ( ! in_array( $taxonomy, array( 'collection', 'genre', 'actor' ) ) )
 				return $terms;
@@ -467,7 +467,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 *                           terms found. WP_Error if any of the $taxonomies
 		 *                           don't exist.
 		 */
-		public static function wpml_get_ordered_object_terms( $terms, $object_ids, $taxonomies, $args ) {
+		public static function get_ordered_object_terms( $terms, $object_ids, $taxonomies, $args ) {
 
 			global $wpdb;
 
@@ -494,7 +494,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 					$t = get_taxonomy($taxonomy);
 					if ( isset($t->args) && is_array($t->args) && $args != array_merge($args, $t->args) ) {
 						unset($taxonomies[$index]);
-						$terms = array_merge($terms, $this->wpml_get_ordered_object_terms($object_ids, $taxonomy, array_merge($args, $t->args)));
+						$terms = array_merge($terms, $this->get_ordered_object_terms($object_ids, $taxonomy, array_merge($args, $t->args)));
 					}
 				}
 			}

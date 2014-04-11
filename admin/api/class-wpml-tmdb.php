@@ -56,8 +56,8 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			add_action( 'admin_init', array( $this, 'init' ) );
 
-			add_action( 'wp_ajax_tmdb_search', __CLASS__ . '::wpml_tmdb_search_callback' );
-			add_action( 'wp_ajax_tmdb_api_key_check', __CLASS__ . '::wpml_tmdb_api_key_check_callback' );
+			add_action( 'wp_ajax_wpml_search', __CLASS__ . '::search_callback' );
+			add_action( 'wp_ajax_wpml_api_key_check', __CLASS__ . '::api_key_check_callback' );
 		}
 
 		/**
@@ -77,7 +77,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @return    array    TMDb config
 		 */
-		private static function wpml_tmdb_config() {
+		private static function tmdb_config() {
 
 			$tmdb_config = new TMDb();
 			$tmdb_config = $tmdb_config->getConfig();
@@ -91,7 +91,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				return false;
 			}
 
-			$base_url = ( 'https' == WPML_Settings::wpml_get_api_scheme() ? $tmdb_config['images']['secure_base_url'] : $tmdb_config['images']['base_url'] );
+			$base_url = ( 'https' == WPML_Settings::tmdb__scheme() ? $tmdb_config['images']['secure_base_url'] : $tmdb_config['images']['base_url'] );
 
 			$wpml_tmdb_config = array(
 				'poster_url' => array(
@@ -127,7 +127,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @return    array    API configuration request result
 		 */
-		private static function wpml_api_key_check( $key ) {
+		private static function api_key_check( $key ) {
 			$_tmdb = new TMDb( $config = true, $dummy = false );
 			$data = $_tmdb->checkApiKey( $key );
 			return $data;
@@ -140,9 +140,9 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @return    string    base url
 		 */
-		public static function wpml_tmdb_get_base_url( $type = null, $size = null ) {
+		public static function get_base_url( $type = null, $size = null ) {
 
-			$config = self::wpml_tmdb_config();
+			$config = self::tmdb_config();
 
 			if ( is_null( $type ) && is_null( $size ) )
 				return $config;
@@ -158,7 +158,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @since     1.0.0
 		 */
-		private static function wpml_json_header() {
+		private static function json_header() {
 			if ( false === headers_sent() )
 				header('Content-type: application/json');
 		}
@@ -177,14 +177,14 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @return    array    API check validity result
 		 */
-		public static function wpml_tmdb_api_key_check_callback() {
+		public static function api_key_check_callback() {
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
 			if ( ! isset( $_GET['key'] ) || '' == $_GET['key'] || 32 !== strlen( $_GET['key'] ) )
 				die();
 
-			$data = self::wpml_api_key_check( esc_attr( $_GET['key'] ) );
+			$data = self::api_key_check( esc_attr( $_GET['key'] ) );
 
 			if ( isset( $data['status_code'] ) && 7 === $data['status_code'] )
 				echo '<span id="api_status" class="invalid">'.__( 'Invalid API key - You must be granted a valid key', 'wpml' ).'</span>';
@@ -201,7 +201,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @return    string    HTML output
 		 */
-		public static function wpml_tmdb_search_callback() {
+		public static function search_callback() {
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
@@ -214,9 +214,9 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				return false;
 
 			if ( 'title' == $type )
-				self::wpml_get_movie_by_title( $data, $lang, $_id );
+				self::get_movie_by_title( $data, $lang, $_id );
 			else if ( 'id' == $type )
-				self::wpml_get_movie_by_id( $data, $lang, $_id );
+				self::get_movie_by_id( $data, $lang, $_id );
 
 			die();
 		}
@@ -229,26 +229,26 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
-		 * Cache method for _wpml_get_movie_by_title.
+		 * Cache method for _get_movie_by_title.
 		 * 
-		 * @see _wpml_get_movie_by_title()
+		 * @see _get_movie_by_title()
 		 * 
 		 * @since     1.0.0
 		 */
-		private static function wpml_get_movie_by_title( $title, $lang, $_id = null ) {
+		private static function get_movie_by_title( $title, $lang, $_id = null ) {
 
-			$movies = ( WPML_Settings::wpml_use_cache() ? get_transient( "wpml_movie_{$title}_{$lang}" ) : false );
+			$movies = ( WPML_Settings::tmdb__caching() ? get_transient( "wpml_movie_{$title}_{$lang}" ) : false );
 
 			if ( false === $movies ) {
-				$movies = self::_wpml_get_movie_by_title( $title, $lang, $_id );
+				$movies = self::_get_movie_by_title( $title, $lang, $_id );
 
-				if ( true === WPML_Settings::wpml_use_cache() ) {
+				if ( true === WPML_Settings::tmdb__caching() ) {
 					$expire = (int) ( 86400 * WPML_Settings::tmdb__caching_time() );
 					set_transient( "wpml_movies_{$title}_{$lang}", $movies, $expire );
 				}
 			}
 
-			self::wpml_json_header();
+			self::json_header();
 			echo json_encode( $movies );
 		}
 
@@ -267,12 +267,12 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @since     1.0.0
 		 */
-		public static function _wpml_get_movie_by_title( $title, $lang, $_id = null ) {
+		public static function _get_movie_by_title( $title, $lang, $_id = null ) {
 
 			$tmdb = new TMDb;
 			$config = $tmdb->getConfig();
 
-			$title  = WPML_Utils::wpml_clean_search_title( $title );
+			$title  = WPML_Utils::clean_search_title( $title );
 			$data   = $tmdb->searchMovie( $title, 1, FALSE, NULL, $lang );
 
 			if ( isset( $data['status_code'] ) ) {
@@ -290,7 +290,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				);
 			}
 			else if ( 1 == $data['total_results'] ) {
-				$movies = self::wpml_get_movie_by_id( $data['results'][0]['id'], $lang, $_id, false );
+				$movies = self::get_movie_by_id( $data['results'][0]['id'], $lang, $_id, false );
 			}
 			else if ( $data['total_results'] > 1 ) {
 
@@ -304,7 +304,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				foreach ( $data['results'] as $movie ) {
 					$movies['movies'][] = array(
 						'id'     => $movie['id'],
-						'poster' => ( ! is_null( $movie['poster_path'] ) ? self::wpml_tmdb_get_base_url( 'poster', 'small' ) . $movie['poster_path'] : WPML_URL . '/admin/assets/img/no_poster.png' ),
+						'poster' => ( ! is_null( $movie['poster_path'] ) ? self::get_base_url( 'poster', 'small' ) . $movie['poster_path'] : WPML_URL . '/assets/img/no_poster.png' ),
 						'title'  => $movie['title'],
 						'json'   => json_encode( $movie ),
 						'_id'    => $_id
@@ -323,20 +323,20 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		}
 
 		/**
-		 * Cache method for _wpml_get_movie_by_id.
+		 * Cache method for _get_movie_by_id.
 		 * 
-		 * @see _wpml_get_movie_by_id()
+		 * @see _get_movie_by_id()
 		 * 
 		 * @since     1.0.0
 		 */
-		private static function wpml_get_movie_by_id( $id, $lang, $_id = null, $echo = true ) {
+		private static function get_movie_by_id( $id, $lang, $_id = null, $echo = true ) {
 
-			$movie = ( WPML_Settings::wpml_use_cache() ? get_transient( "wpml_movie_{$id}_{$lang}" ) : false );
+			$movie = ( WPML_Settings::tmdb__caching() ? get_transient( "wpml_movie_{$id}_{$lang}" ) : false );
 
 			if ( false === $movie ) {
-				$movie = self::_wpml_get_movie_by_id( $id, $lang, $_id );
+				$movie = self::_get_movie_by_id( $id, $lang, $_id );
 
-				if ( true === WPML_Settings::wpml_use_cache() ) {
+				if ( true === WPML_Settings::tmdb__caching() ) {
 					$expire = (int) ( 86400 * WPML_Settings::tmdb__caching_time() );
 					set_transient( "wpml_movie_{$id}_{$lang}", $movie, 3600 * 24 );
 				}
@@ -345,7 +345,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			$movie['_id'] = $_id;
 
 			if ( true === $echo ) {
-				self::wpml_json_header();
+				self::json_header();
 				echo json_encode( $movie );
 			}
 			else {
@@ -363,7 +363,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @return    string    JSON formatted results.
 		 */
-		private static function _wpml_get_movie_by_id( $id, $lang, $_id = null ) {
+		private static function _get_movie_by_id( $id, $lang, $_id = null ) {
 
 			$tmdb = new TMDb;
 

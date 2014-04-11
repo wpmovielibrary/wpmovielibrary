@@ -38,7 +38,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'init', __CLASS__ . '::wpml_register_actor_taxonomy' );
+			add_action( 'init', __CLASS__ . '::register_actor_taxonomy' );
 			add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 		}
 
@@ -116,7 +116,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		 *
 		 * @since    1.0.0
 		 */
-		public static function wpml_register_actor_taxonomy() {
+		public static function register_actor_taxonomy() {
 
 			if ( ! WPML_Settings::wpml__enable_actor() )
 				return false;

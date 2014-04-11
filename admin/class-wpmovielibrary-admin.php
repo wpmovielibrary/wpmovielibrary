@@ -66,7 +66,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 
 			// Add the options page and menu item.
-			add_action( 'admin_menu', array( $this, 'wpml_admin_menu' ) );
+			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 
 			// Load admin style sheet and JavaScript.
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
@@ -142,7 +142,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					'oops'               => __( 'Oops… Did something went wrong?', 'wpml' )
 				);
 
-				$base_urls = WPML_TMDb::wpml_tmdb_get_base_url();
+				$base_urls = WPML_TMDb::get_base_url();
 
 				$localize = $localize + array(
 					'base_url_xxsmall'   => $base_urls['poster_url']['xx-small'],
@@ -177,7 +177,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 *
 		 * @since    1.0.0
 		 */
-		public function wpml_admin_menu() {
+		public function admin_menu() {
 
 			add_submenu_page(
 				'edit.php?post_type=movie',
@@ -185,7 +185,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				__( 'Import Movies', 'wpml' ),
 				'manage_options',
 				'import',
-				'WPML_Import::wpml_import_page'
+				'WPML_Import::import_page'
 			);
 			/*add_submenu_page(
 				'edit.php?post_type=movie',
@@ -193,7 +193,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				__( 'Export Movies', 'wpml' ),
 				'manage_options',
 				'export',
-				__CLASS__ . '::wpml_export_page'
+				__CLASS__ . '::export_page'
 			);*/
 			add_submenu_page(
 				'edit.php?post_type=movie',
@@ -201,7 +201,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				__( 'Options', 'wpml' ),
 				'manage_options',
 				'wpml_edit_settings',
-				__CLASS__ . '::wpml_admin_page'
+				__CLASS__ . '::admin_page'
 			);
 		}
 
@@ -219,7 +219,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$section_id = $section['section']['id'];
 				$section_title = $section['section']['title'];
 
-				add_settings_section( "wpml_settings-$section_id", $section_title, 'WPMovieLibrary_Admin::markup_section_headers', 'wpml_settings' );
+				add_settings_section( "wpml_settings-$section_id", $section_title, __CLASS__ . '::markup_section_headers', 'wpml_settings' );
 
 				foreach ( $section['settings'] as $id => $field ) {
 
@@ -246,7 +246,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 *
 		 * @since    1.0.0
 		 */
-		public static function wpml_admin_page() {
+		public static function admin_page() {
 
 			if ( ! current_user_can( 'manage_options' ) )
 				wp_die( __( 'Access denied.', 'wpml' ) );
@@ -302,7 +302,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$_name  = "wpml_settings[{$field['section']}][{$field['id']}]";
 			$_value = $settings[ $field['section'] ][ $field['id'] ];
 
-			$items      = WPML_Settings::wpml_get_supported_movie_meta();
+			$items      = WPML_Settings::get_supported_movie_meta();
 			$selected   = $_value;
 			$selectable = array_diff( array_keys( $items ), $selected );
 
@@ -329,7 +329,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 *
 		 * @since    1.0.0
 		 */
-		public function wpml_export_page() {
+		public function export_page() {
 			// TODO: implement export
 		}
 

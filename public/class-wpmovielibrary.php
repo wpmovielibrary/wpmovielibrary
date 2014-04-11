@@ -63,7 +63,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		public function register_hook_callbacks() {
 
 			// Add custom permalinks if anything flush the rewrite rules
-			add_filter( 'rewrite_rules_array', __CLASS__ . '::wpml_register_permalinks', 10 );
+			add_filter( 'rewrite_rules_array', __CLASS__ . '::register_permalinks', 10 );
 
 			// Load plugin text domain
 			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
@@ -76,7 +76,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 			// Add link to WP Admin Bar
-			add_action( 'wp_before_admin_bar_render', array( $this, 'wpml_admin_bar_menu' ), 999 );
+			add_action( 'wp_before_admin_bar_render', array( $this, 'admin_bar_menu' ), 999 );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -125,11 +125,11 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				$this->single_activate( $network_wide );
 			}
 
-			WPML_Movies::wpml_register_post_type();
-			WPML_Collections::wpml_register_collection_taxonomy();
-			WPML_Genres::wpml_register_genre_taxonomy();
-			WPML_Actors::wpml_register_actor_taxonomy();
-			self::wpml_register_permalinks();
+			WPML_Movies::register_post_type();
+			WPML_Collections::register_collection_taxonomy();
+			WPML_Genres::register_genre_taxonomy();
+			WPML_Actors::register_actor_taxonomy();
+			self::register_permalinks();
 
 			flush_rewrite_rules();
 
@@ -263,7 +263,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 *
 		 * @param    object     $wp_rewrite Instance of WordPress WP_Rewrite Class
 		 */
-		public static function wpml_register_permalinks( $rules = null ) {
+		public static function register_permalinks( $rules = null ) {
 
 			//if ( is_null( $wp_rewrite ) )
 
@@ -293,7 +293,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 *
 		 * @since    1.0.0
 		 */
-		public function wpml_admin_bar_menu() {
+		public function admin_bar_menu() {
 
 			global $wp_admin_bar;
 

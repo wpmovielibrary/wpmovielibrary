@@ -38,7 +38,7 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'init', __CLASS__ . '::wpml_register_genre_taxonomy' );
+			add_action( 'init', __CLASS__ . '::register_genre_taxonomy' );
 			add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 		}
 
@@ -113,7 +113,7 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 		 *
 		 * @since    1.0.0
 		 */
-		public static function wpml_register_genre_taxonomy() {
+		public static function register_genre_taxonomy() {
 
 			if ( ! WPML_Settings::wpml__enable_genre() )
 				return false;

@@ -18,7 +18,7 @@
 					<p><?php _e( 'Here are the movies you previously updated but didn’t save. You can save them, edit them individually or apply bulk actions. Posters are automatically saved and set as featured images, but images are not. Use the bulk action to import, but be aware that it can take some time if you select a lot of movies. Don’t forget to save your imports when you’re done!', 'wpml' ); ?></p>
 				</div>
 
-<?php WPML_Import::wpml_display_import_movie_list(); ?>
+<?php WPML_Import::display_import_movie_list(); ?>
 
 				<form method="post">
 

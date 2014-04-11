@@ -1,10 +1,10 @@
-<?php if ( false === WPML_Settings::wpml__apikey() && false === WPML_Settings::wpml__is_dummy() ) :
+<?php if ( false === WPML_Settings::wpml__apikey() && false === WPML_Settings::wpml__dummy() ) :
 	_e( 'You need a valid <acronym title="TheMovieDB">TMDb</acronym> API key to start adding your movies. Go to the <a href="https://www.themoviedb.org/">WPMovieLibrary Settings page</a> to add your API key.', 'wpml' );
 	return;
 endif;
 ?>
 		<div id="wpml-tmdb" class="wpml-tmdb">
-<?php if ( true === WPML_Settings::wpml_is_dummy_api() ) : ?>
+<?php if ( true === WPML_Settings::tmdb__dummy() ) : ?>
 			<div class="updated"><p><em><?php printf( __( 'WPMovieLibrary is using the dummy TMDb API; add your valid API key to the <a href="%s">Settings Page</a> or <a href="http://tmdb.caercam.org/">Learn more</a> about the dummy API.', 'wpml' ), admin_url( 'edit.php?post_type=movie&page=settings' ) ); ?></em></p></div>
 <?php endif; ?>
 			<p><strong><?php _e( 'Find movie on TMDb:', 'wpml' ); ?></strong></p>
@@ -29,7 +29,7 @@ endif;
 			<div id="tmdb_data"></div>
 			<input type="text" id="tmdb_data_tmdb_id" name="tmdb_data[tmdb_id]" class="hide-if-js hide-if-no-js" value="<?php echo $value['tmdb_id'] ?>" />
 
-<?php foreach ( WPML_Settings::wpml_get_supported_movie_meta( $type = null, false ) as $id => $box ) : ?>
+<?php foreach ( WPML_Settings::get_supported_movie_meta( $type = null, false ) as $id => $box ) : ?>
 			<table class="list-table tmdb_<?php echo $id ?>">
 				<thead>
 					<tr>

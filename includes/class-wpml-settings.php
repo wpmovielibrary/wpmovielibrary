@@ -77,10 +77,10 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 			// Load settings or register new ones
 			add_action( 'init', __CLASS__ . '::get_default_settings', 9 );
 
-			add_action( 'wpml_restore_default_settings', __CLASS__ . '::wpml_restore_default_settings', 10, 0 );
-			add_filter( 'wpml_get_available_movie_media', __CLASS__ . '::wpml_get_available_movie_media' );
-			add_filter( 'wpml_get_available_movie_status', __CLASS__ . '::wpml_get_available_movie_status' );
-			add_filter( 'wpml_get_available_movie_rating', __CLASS__ . '::wpml_get_available_movie_rating' );
+			add_action( 'wpml_restore_default_settings', __CLASS__ . '::restore_default_settings', 10, 0 );
+			add_filter( 'wpml_get_available_movie_media', __CLASS__ . '::get_available_movie_media' );
+			add_filter( 'wpml_get_available_movie_status', __CLASS__ . '::get_available_movie_status' );
+			add_filter( 'wpml_get_available_movie_rating', __CLASS__ . '::get_available_movie_rating' );
 		}
 
 		/**
@@ -141,7 +141,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *                             array if everything went right, empty array
 		 *                             if something bad happened.
 		 */
-		protected static function wpml_update_settings() {
+		protected static function update_settings() {
 
 			$options = get_option( WPML_SETTINGS_SLUG );
 			$status  = false;
@@ -168,7 +168,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 * 
 		 * @since    1.0.0
 		 */
-		public static function wpml_restore_default_settings() {
+		public static function restore_default_settings() {
 			self::get_default_settings( $force = true );
 		}
 
@@ -251,7 +251,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @return   array    WPML Default Movie Media.
 		 */
-		public static function wpml_get_default_movie_media() {
+		public static function get_default_movie_media() {
 			global $wpml_movie_details;
 			$default = $wpml_movie_details['movie_media']['default'];
 			return $default;
@@ -264,7 +264,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @return   array    WPML Default Movie Status.
 		 */
-		public static function wpml_get_default_movie_status() {
+		public static function get_default_movie_status() {
 			global $wpml_movie_details;
 			$default = $wpml_movie_details['movie_status']['default'];
 			return $default;
@@ -277,7 +277,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @return   array    WPML Default Movie Media.
 		 */
-		public static function wpml_get_available_movie_media() {
+		public static function get_available_movie_media() {
 
 			global $wpml_movie_details;
 
@@ -297,7 +297,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @return   array    WPML Available Movie Status.
 		 */
-		public static function wpml_get_available_movie_status() {
+		public static function get_available_movie_status() {
 
 			global $wpml_movie_details;
 
@@ -317,7 +317,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @return   array    WPML Available Movie Rating.
 		 */
-		public static function wpml_get_available_movie_rating() {
+		public static function get_available_movie_rating() {
 
 			global $wpml_movie_details;
 
@@ -337,7 +337,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @return   array    WPML Supported Movie Details fields.
 		 */
-		public static function wpml_get_supported_movie_details( $type = null ) {
+		public static function get_supported_movie_details( $type = null ) {
 
 			global $wpml_movie_details;
 
@@ -358,7 +358,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @return   array    WPML Supported Movie Meta fields.
 		 */
-		public static function wpml_get_supported_movie_meta( $type = null, $merge = true ) {
+		public static function get_supported_movie_meta( $type = null, $merge = true ) {
 
 			global $wpml_movie_meta;
 

@@ -35,12 +35,12 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
-			add_action( 'load-movie_page_import', __CLASS__ . '::wpml_import_movie_list_add_options' );
-			add_filter( 'set-screen-option', __CLASS__ . '::wpml_import_movie_list_set_option', 10, 3 );
+			add_action( 'load-movie_page_import', __CLASS__ . '::import_movie_list_add_options' );
+			add_filter( 'set-screen-option', __CLASS__ . '::import_movie_list_set_option', 10, 3 );
 
-			add_action( 'wp_ajax_wpml_delete_movie', __CLASS__ . '::wpml_delete_movie_callback' );
-			add_action( 'wp_ajax_wpml_import_movies', __CLASS__ . '::wpml_import_movies_callback' );
-			add_action( 'wp_ajax_wpml_fetch_imported_movies', __CLASS__ . '::wpml_fetch_imported_movies_callback' );
+			add_action( 'wp_ajax_wpml_delete_movie', __CLASS__ . '::delete_movie_callback' );
+			add_action( 'wp_ajax_wpml_import_movies', __CLASS__ . '::import_movies_callback' );
+			add_action( 'wp_ajax_wpml_fetch_imported_movies', __CLASS__ . '::fetch_imported_movies_callback' );
 		}
 
 		/**
@@ -69,13 +69,13 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 * 
 		 * @return     boolean     deletion status
 		 */
-		public static function wpml_delete_movie_callback() {
+		public static function delete_movie_callback() {
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
 			$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
 
-			echo self::wpml_delete_movie( $post_id );
+			echo self::delete_movie( $post_id );
 			die();
 		}
 
@@ -87,7 +87,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 *
 		 * @since     1.0.0
 		 */
-		public static function wpml_fetch_imported_movies_callback() {
+		public static function fetch_imported_movies_callback() {
 
 			check_ajax_referer( 'wpml-fetch-imported-movies-nonce', 'wpml_fetch_imported_movies_nonce' );
 
@@ -103,10 +103,10 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 *
 		 * @since     1.0.0
 		 */
-		public static function wpml_import_movies_callback() {
+		public static function import_movies_callback() {
 
 			check_ajax_referer( 'wpml-movie-import', 'wpml_ajax_movie_import' );
-			self::wpml_import_movies();
+			self::import_movies();
 		}
 
 		/**
@@ -117,7 +117,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 * @param     array     $movies Array of imported movies
 		 * @param     array     $meta Array of imported movies' metadata
 		 */
-		public static function wpml_display_import_movie_list() {
+		public static function display_import_movie_list() {
 
 			$list = new WPML_Import_Table();
 			$list->prepare_items();
@@ -150,7 +150,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 * 
 		 * @return    void|boolean|string
 		 */
-		public static function wpml_import_movies() {
+		public static function import_movies() {
 
 			$errors = array();
 			$_notice = '';
@@ -167,7 +167,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			$movies = array_map( __CLASS__ . '::wpml_prepare_movie_import', $movies );
 
 			foreach ( $movies as $i => $movie ) {
-				$import = self::wpml_import_movie( $movie['movietitle'] );
+				$import = self::import_movie( $movie['movietitle'] );
 				if ( is_string( $import ) ) {
 					$errors[] = $import;
 				}
@@ -198,7 +198,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 * 
 		 * @return    int        Newly created post ID if everything worked, 0 if no post created.
 		 */
-		private static function wpml_import_movie( $title ) {
+		private static function import_movie( $title ) {
 
 			$post_date     = current_time('mysql');
 			$post_date     = wp_checkdate( substr( $post_date, 5, 2 ), substr( $post_date, 8, 2 ), substr( $post_date, 0, 4 ), $post_date );
@@ -259,7 +259,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 * 
 		 * @return    string    Error status if post/attachment delete failed
 		 */
-		private static function wpml_delete_movie( $post_id ) {
+		private static function delete_movie( $post_id ) {
 
 			if ( false === wp_delete_post( $post_id, true ) )
 				return vsprintf( __( 'An error occured trying to delete Post #%s', 'wpml' ), $post_id );
@@ -282,7 +282,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 * 
 		 * @return    array    Default movie values
 		 */
-		public static function wpml_prepare_movie_import( $title ) {
+		public static function prepare_movie_import( $title ) {
 			return array(
 				'ID'         => 0,
 				'poster'     => '--',
@@ -303,7 +303,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 * 
 		 * @return    array    Default movie values
 		 */
-		public static function wpml_get_imported_movies() {
+		public static function get_imported_movies() {
 
 			$columns = array();
 
@@ -340,7 +340,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 *
 		 * @since     1.0.0
 		 */
-		public static function wpml_import_movie_list_add_options() {
+		public static function import_movie_list_add_options() {
 
 			$option = 'per_page';
 			$args = array(
@@ -357,7 +357,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 *
 		 * @since     1.0.0
 		 */
-		public static function wpml_import_movie_list_set_option( $status, $option, $value ) {
+		public static function import_movie_list_set_option( $status, $option, $value ) {
 			return $value;
 		}
 
@@ -366,7 +366,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 *
 		 * @since    1.0.0
 		 */
-		public static function wpml_import_page() {
+		public static function import_page() {
 
 			$errors = array();
 			$_notice = '';
@@ -378,7 +378,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 				foreach ( $_POST['tmdb'] as $tmdb_data ) {
 					if ( 0 != $tmdb_data['tmdb_id'] ) {
-						WPML_Edit_Movies::wpml_save_tmdb_data( $tmdb_data['post_id'], $tmdb_data );
+						WPML_Edit_Movies::save_tmdb_data( $tmdb_data['post_id'], $tmdb_data );
 					}
 				}
 

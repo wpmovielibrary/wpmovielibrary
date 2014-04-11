@@ -33,19 +33,19 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
-			add_filter( 'manage_movie_posts_columns', __CLASS__ . '::wpml_movies_columns_head' );
-			add_action( 'manage_movie_posts_custom_column', __CLASS__ . '::wpml_movies_columns_content', 10, 2 );
-			add_action( 'quick_edit_custom_box', __CLASS__ . '::wpml_quick_edit_movies', 10, 2 );
-			add_action( 'bulk_edit_custom_box', __CLASS__ . '::wpml_bulk_edit_movies', 10, 2 );
-			add_filter( 'post_row_actions', __CLASS__ . '::wpml_expand_quick_edit_link', 10, 2 );
+			add_filter( 'manage_movie_posts_columns', __CLASS__ . '::movies_columns_head' );
+			add_action( 'manage_movie_posts_custom_column', __CLASS__ . '::movies_columns_content', 10, 2 );
+			add_action( 'quick_edit_custom_box', __CLASS__ . '::quick_edit_movies', 10, 2 );
+			add_action( 'bulk_edit_custom_box', __CLASS__ . '::bulk_edit_movies', 10, 2 );
+			add_filter( 'post_row_actions', __CLASS__ . '::expand_quick_edit_link', 10, 2 );
 
 			add_action( 'the_posts', __CLASS__ . '::the_posts_hijack', 10, 2 );
 			add_action( 'ajax_query_attachments_args', __CLASS__ . '::load_images_dummy_query_args', 10, 1 );
-			add_action( 'admin_post_thumbnail_html', __CLASS__ . '::wpml_load_posters_link', 10, 2 );
+			add_action( 'admin_post_thumbnail_html', __CLASS__ . '::load_posters_link', 10, 2 );
 
 			add_action( 'add_meta_boxes', __CLASS__ . '::add_meta_boxes' );
-			add_action( 'wp_ajax_wpml_save_details', __CLASS__ . '::wpml_save_details_callback' );
-			add_action( 'save_post_movie', __CLASS__ . '::wpml_save_tmdb_data' );
+			add_action( 'wp_ajax_wpml_save_details', __CLASS__ . '::save_details_callback' );
+			add_action( 'save_post_movie', __CLASS__ . '::save_tmdb_data' );
 		}
 
 		/**
@@ -82,7 +82,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * 
 		 * @return    array    Default columns with new poster column
 		 */
-		public static function wpml_movies_columns_head( $defaults ) {
+		public static function movies_columns_head( $defaults ) {
 
 			$title = array_search( 'title', array_keys( $defaults ) );
 			$comments = array_search( 'comments', array_keys( $defaults ) ) - 1;
@@ -110,16 +110,16 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * @param     string   $column_name The column name
 		 * @param     int      $post_id current movie's post ID
 		 */
-		public static function wpml_movies_columns_content( $column_name, $post_id ) {
+		public static function movies_columns_content( $column_name, $post_id ) {
 
 			switch ( $column_name ) {
 				case 'poster':
-					$html = '<img src="'.WPML_Media::wpml_get_featured_image( $post_id ).'" alt="" />';
+					$html = '<img src="'.WPML_Media::get_featured_image( $post_id ).'" alt="" />';
 					break;
 				case 'movie_status':
 				case 'movie_media':
 					$meta = get_post_meta( $post_id, '_wpml_' . $column_name, true );
-					$_details = WPML_Settings::wpml_get_supported_movie_details();
+					$_details = WPML_Settings::get_supported_movie_details();
 					if ( isset( $_details[ $column_name ]['options'][ $meta ] ) )
 						$html = $_details[ $column_name ]['options'][ $meta ];
 					else
@@ -149,12 +149,12 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * @param    string    $column_name WP List Table Column name
 		 * @param    string    $post_type Post type
 		 */
-		public static function wpml_quick_edit_movies( $column_name, $post_type ) {
+		public static function quick_edit_movies( $column_name, $post_type ) {
 
 			if ( 'movie' != $post_type || 'poster' != $column_name || 1 !== did_action( 'quick_edit_custom_box' ) )
 				return false;
 
-			self::wpml_quickbulk_edit( 'quick' );
+			self::quickbulk_edit( 'quick' );
 		}
 
 		/**
@@ -165,12 +165,12 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * @param    string    $column_name WP List Table Column name
 		 * @param    string    $post_type Post type
 		 */
-		public static function wpml_bulk_edit_movies( $column_name, $post_type ) {
+		public static function bulk_edit_movies( $column_name, $post_type ) {
 
 			if ( 'movie' != $post_type || 'poster' != $column_name || 1 !== did_action( 'bulk_edit_custom_box' ) )
 				return false;
 
-			self::wpml_quickbulk_edit( 'bulk' );
+			self::quickbulk_edit( 'bulk' );
 		}
 
 		/**
@@ -180,13 +180,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * 
 		 * @param    string    $type Form type, 'quick' or 'bulk'.
 		 */
-		private static function wpml_quickbulk_edit( $type ) {
+		private static function quickbulk_edit( $type ) {
 
 			if ( ! in_array( $type, array( 'quick', 'bulk' ) ) )
 				return false;
 
-			$default_movie_media = WPML_Settings::wpml_get_available_movie_media();
-			$default_movie_status = WPML_Settings::wpml_get_available_movie_status();
+			$default_movie_media = WPML_Settings::get_available_movie_media();
+			$default_movie_status = WPML_Settings::get_available_movie_status();
 
 			$check = 'is_' . $type . 'edit';
 
@@ -209,7 +209,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * 
 		 * @return   string    Edited Post Actions
 		 */
-		public static function wpml_expand_quick_edit_link( $actions, $post ) {
+		public static function expand_quick_edit_link( $actions, $post ) {
 
 			global $current_screen;
 
@@ -359,7 +359,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 *
 		 * @since    1.0.0
 		 */
-		public static function wpml_save_details_callback() {
+		public static function save_details_callback() {
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
@@ -393,13 +393,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		public static function add_meta_boxes() {
 
 			// Movie Metadata
-			add_meta_box( 'wpml_meta', __( 'WPMovieLibrary − Movie Meta', 'wpml' ), __CLASS__ . '::wpml_metabox_meta', 'movie', 'normal', 'high', null );
+			add_meta_box( 'wpml_meta', __( 'WPMovieLibrary − Movie Meta', 'wpml' ), __CLASS__ . '::metabox_meta', 'movie', 'normal', 'high', null );
 
 			// Movie Details
-			add_meta_box( 'wpml_images', __( 'WPMovieLibrary − Movie Images', 'wpml' ), __CLASS__ . '::wpml_metabox_images', 'movie', 'normal', 'high', null );
+			add_meta_box( 'wpml_images', __( 'WPMovieLibrary − Movie Images', 'wpml' ), __CLASS__ . '::metabox_images', 'movie', 'normal', 'high', null );
 
 			// Movie Details
-			add_meta_box( 'wpml_details', __( 'WPMovieLibrary − Movie Details', 'wpml' ), __CLASS__ . '::wpml_metabox_details', 'movie', 'side', 'default', null );
+			add_meta_box( 'wpml_details', __( 'WPMovieLibrary − Movie Details', 'wpml' ), __CLASS__ . '::metabox_details', 'movie', 'side', 'default', null );
 		}
 
 		/**
@@ -413,13 +413,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * @param    object    Current Post object
 		 * @param    null      $metabox null
 		 */
-		public static function wpml_metabox_meta( $post, $metabox ) {
+		public static function metabox_meta( $post, $metabox ) {
 
 			$value = get_post_meta( $post->ID, '_wpml_movie_data', true );
-			$value = WPML_Utils::wpml_filter_empty_array( $value );
+			$value = apply_filters( 'wpml_filter_empty_array', $value );
 
 			if ( isset( $_REQUEST['wpml_auto_fetch'] ) && ( empty( $value ) || isset( $value['_empty'] ) ) )
-				$value = WPML_TMDb::_wpml_get_movie_by_title( $post->post_title, WPML_Settings::tmdb__lang() );
+				$value = WPML_TMDb::_get_movie_by_title( $post->post_title, WPML_Settings::tmdb__lang() );
 
 			include_once( plugin_dir_path( __FILE__ ) . '/views/metabox-movie-meta.php' );
 		}
@@ -435,13 +435,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * @param    object    Current Post object
 		 * @param    null      $metabox null
 		 */
-		public static function wpml_metabox_images( $post, $metabox ) {
+		public static function metabox_images( $post, $metabox ) {
 
 			$value = get_post_meta( $post->ID, '_wpml_movie_data', true );
-			$value = WPML_Utils::wpml_filter_empty_array( $value );
+			$value = apply_filters( 'wpml_filter_empty_array', $value );
 
 			if ( isset( $_REQUEST['wpml_auto_fetch'] ) && ( empty( $value ) || isset( $value['_empty'] ) ) )
-				$value = WPML_TMDb::_wpml_get_movie_by_title( $post->post_title, WPML_Settings::tmdb__lang() );
+				$value = WPML_TMDb::_get_movie_by_title( $post->post_title, WPML_Settings::tmdb__lang() );
 
 			include_once( plugin_dir_path( __FILE__ ) . '/views/metabox-movie-images.php' );
 		}
@@ -455,13 +455,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * @param    object    Current Post object
 		 * @param    null      $metabox null
 		 */
-		public static function wpml_metabox_details( $post, $metabox ) {
+		public static function metabox_details( $post, $metabox ) {
 
 			$v = get_post_meta( $post->ID, '_wpml_movie_status', true );
-			$movie_status = ( isset( $v ) && '' != $v ? $v : key( WPML_Settings::wpml_get_default_movie_status() ) );
+			$movie_status = ( isset( $v ) && '' != $v ? $v : key( WPML_Settings::get_default_movie_status() ) );
 
 			$v = get_post_meta( $post->ID, '_wpml_movie_media', true );
-			$movie_media  = ( isset( $v ) && '' != $v ? $v : key( WPML_Settings::wpml_get_default_movie_media() ) );
+			$movie_media  = ( isset( $v ) && '' != $v ? $v : key( WPML_Settings::get_default_movie_media() ) );
 
 			$v = get_post_meta( $post->ID, '_wpml_movie_rating', true );
 			$movie_rating = ( isset( $v ) && '' != $v ? number_format( $v, 1 ) : 0.0 );
@@ -483,7 +483,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * 
 		 * @return   string    Updated $content
 		 */
-		public static function wpml_load_posters_link( $content, $post_id ) {
+		public static function load_posters_link( $content, $post_id ) {
 			return $content . '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', 'wpml' ) . '</a>';
 		}
 
@@ -492,7 +492,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 *
 		 * @since     1.0.0
 		 */
-		public static function wpml_save_tmdb_data( $post_id, $tmdb_data = null ) {
+		public static function save_tmdb_data( $post_id, $tmdb_data = null ) {
 
 			if ( ! $post = get_post( $post_id ) || ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) || 'movie' != get_post_type( $post ) || ! current_user_can( 'edit_post', $post_id ) )
 				return false;
@@ -505,7 +505,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				update_post_meta( $post_id, '_wpml_movie_data', $tmdb_data );
 
 				// Set poster as featured image
-				$id = WPML_Media::wpml_set_image_as_featured( $tmdb_data['poster'], $post_id, $tmdb_data['tmdb_id'], $tmdb_data['meta']['title'] );
+				$id = WPML_Media::set_image_as_featured( $tmdb_data['poster'], $post_id, $tmdb_data['tmdb_id'], $tmdb_data['meta']['title'] );
 				update_post_meta( $post_id, '_thumbnail_id', $id );
 
 				// Switch status from import draft to published
@@ -520,19 +520,19 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				}
 
 				// Autofilling Taxonomy
-				if ( WPML_Settings::wpml_taxonomy_autocomplete() ) {
+				if ( WPML_Settings::wpml__taxonomy_autocomplete() ) {
 
-					if ( WPML_Settings::wpml_use_actor() ) {
+					if ( WPML_Settings::wpml__enable_actor() ) {
 						$actors = explode( ',', $tmdb_data['crew']['cast'] );
 						$actors = wp_set_object_terms( $post_id, $actors, 'actor', false );
 					}
 
-					if ( WPML_Settings::wpml_use_genre() ) {
+					if ( WPML_Settings::wpml__enable_genre() ) {
 						$genres = explode( ',', $tmdb_data['meta']['genres'] );
 						$genres = wp_set_object_terms( $post_id, $genres, 'genre', false );
 					}
 
-					if ( WPML_Settings::wpml_use_collection() ) {
+					if ( WPML_Settings::wpml__enable_collection() ) {
 						$collections = explode( ',', $tmdb_data['crew']['director'] );
 						$collections = wp_set_object_terms( $post_id, $collections, 'collection', false );
 					}

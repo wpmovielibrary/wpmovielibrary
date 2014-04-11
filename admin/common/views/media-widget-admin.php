@@ -20,7 +20,7 @@
 		<p>
 			<label for="<?php echo $this->get_field_id( 'type' ); ?>"><?php _e( 'Media', 'wpml' ); ?></label>
 			<select id="<?php echo $this->get_field_id( 'type' ); ?>" name="<?php echo $this->get_field_name( 'type' ); ?>" class="widefat">
-			<?php foreach ( WPML_Settings::wpml_get_available_movie_media() as $slug => $title ) : ?>
+			<?php foreach ( WPML_Settings::get_available_movie_media() as $slug => $title ) : ?>
 				<option value="<?php echo $slug ?>" <?php selected( $type, $slug ) ?>><?php echo $title ?></option>
 			<?php endforeach; ?>
 			</select>

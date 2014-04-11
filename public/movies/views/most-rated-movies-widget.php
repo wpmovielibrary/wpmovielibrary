@@ -10,7 +10,7 @@ $rating_only = ( 1 == $instance['rating_only'] ? true : false );
 		<p class="widget-description"><?php echo $description; ?></p>
 <?php
 if ( $rating_only ) :
-	$ratings = apply_filters( 'wpml_get_available_movie_rating', null );
+	$ratings = WPML_Settings::get_available_movie_rating();
 	$items = array();
 	foreach ( $ratings as $slug => $rating_title ) :
 		$items[] = array(
