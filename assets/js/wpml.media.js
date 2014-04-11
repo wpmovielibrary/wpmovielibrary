@@ -1,7 +1,7 @@
 
 wpml = wpml || {};
 
-var images;
+var images, posters;
 
 wpml.media = {
 	init: undefined,
@@ -10,9 +10,6 @@ wpml.media = {
 };
 
 wpml.media.images = images = {
-
-	detailsContainerId: '#attachment-details',
-	settingsContainerId: '#attachment-settings',
 
 	frame: function() {
 
@@ -107,9 +104,6 @@ wpml.media.images = images = {
 };
 
 wpml.media.posters = posters = {
-
-	detailsContainerId: '#attachment-details',
-	settingsContainerId: '#attachment-settings',
 
 	frame: function() {
 

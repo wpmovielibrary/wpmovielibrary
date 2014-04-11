@@ -591,11 +591,11 @@ body.post-php.post-type-movie #postimagediv {
 	display: inline-block;
 }
 
-.stars_labels {
+.stars-labels {
 	position: relative;
 }
 
-.stars_label {
+.stars-label {
 	font-size: 0.9em;
 	left: 82px;
 	position: absolute;
@@ -603,21 +603,21 @@ body.post-php.post-type-movie #postimagediv {
 	width: 100%;
 }
 
-.stars_label.show {
+.stars-label.show {
 	opacity: 1;
 }
 
-.stars_0_0 {background-position: 0 0;}
-.stars_0_5 {background-position: 0 -16px;}
-.stars_1_0 {background-position: 0 -32px;}
-.stars_1_5 {background-position: 0 -48px;}
-.stars_2_0 {background-position: 0 -64px;}
-.stars_2_5 {background-position: 0 -80px;}
-.stars_3_0 {background-position: 0 -96px;}
-.stars_3_5 {background-position: 0 -112px;}
-.stars_4_0 {background-position: 0 -128px;}
-.stars_4_5 {background-position: 0 -144px;}
-.stars_5_0 {background-position: 0 -160px;}
+.stars-0-0 {background-position: 0 0;}
+.stars-0-5 {background-position: 0 -16px;}
+.stars-1-0 {background-position: 0 -32px;}
+.stars-1-5 {background-position: 0 -48px;}
+.stars-2-0 {background-position: 0 -64px;}
+.stars-2-5 {background-position: 0 -80px;}
+.stars-3-0 {background-position: 0 -96px;}
+.stars-3-5 {background-position: 0 -112px;}
+.stars-4-0 {background-position: 0 -128px;}
+.stars-4-5 {background-position: 0 -144px;}
+.stars-5-0 {background-position: 0 -160px;}
 
 .inline-edit-group #movie-rating-display,
 .inline-edit-group .stars {

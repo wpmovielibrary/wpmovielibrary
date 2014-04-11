@@ -59,10 +59,11 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 */
 		public function admin_enqueue_scripts( $hook ) {
 
-			if ( 'post.php' != $hook || 'movie' != get_post_type() )
+			if ( ( 'post.php' != $hook && 'post-new.php' != $hook ) || 'movie' != get_post_type() )
 				return;
 
-			wp_enqueue_script( WPML_SLUG . '-modal' , WPML_URL . '/assets/js/wpml.media.js' , array( 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-media' , WPML_URL . '/assets/js/wpml.media.js' , array( 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-editor' , WPML_URL . '/assets/js/wpml.editor.js' , array( 'jquery' ), WPML_VERSION, true );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

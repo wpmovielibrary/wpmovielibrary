@@ -183,153 +183,15 @@ jQuery(document).ready(function($) {
 	 * Status
 	 */
 
-	$('#movie-status-select').siblings('a.edit-movie-status').click(function() {
-		if ( $('#movie-status-select').is(":hidden") ) {
-			$('#movie-status-select').slideDown('fast');
-			$(this).hide();
-		}
-		return false;
-	});
-
-	$('.save-movie-status', '#movie-status-select').click(function() {
-		$('#movie-status-select').slideUp('fast');
-		$('#movie-status-select').siblings('a.edit-movie-status').show();
-		$('#movie-status-display').text($('#movie_status > option:selected').text());
-		return false;
-	});
-
-	$('.cancel-movie-status', '#movie-status-select').click(function() {
-		$('#movie-status-select').slideUp('fast');
-		$('#movie_status').val($('#hidden_movie_status').val());
-		$('#movie-status-display').text($('#hidden_movie_status').val());
-		$('#movie-status-select').siblings('a.edit-movie-status').show();
-
-		return false;
-	});
-
 	/*
 	 * Media
 	 */
 
-	$('#movie-media-select').siblings('a.edit-movie-media').click(function() {
-		if ( $('#movie-media-select').is(":hidden") ) {
-			$('#movie-media-select').slideDown('fast');
-			$(this).hide();
-		}
-		return false;
-	});
-
-	$('.save-movie-media', '#movie-media-select').click(function() {
-		$('#movie-media-select').slideUp('fast');
-		$('#movie-media-select').siblings('a.edit-movie-media').show();
-		$('#movie-media-display').text($('#movie_media > option:selected').text());
-		return false;
-	});
-
-	$('.cancel-movie-media', '#movie-media-select').click(function() {
-		$('#movie-media-select').slideUp('fast');
-		$('#movie_media').val($('#hidden_movie_media').val());
-		$('#movie-media-display').text($('#hidden_movie_media').val());
-		$('#movie-media-select').siblings('a.edit-movie-media').show();
-
-		return false;
-	});
+	
 
 	/*
 	 * Movie Rating
 	 */
-
-	$stars = $('#stars, #bulk_stars');
-	$select = $('#movie-rating-select');
-	$display = $('#movie-rating-display');
-
-	$stars.mousemove(function(e) {
-
-		var parentOffset = $(this).offset(); 
-		var relX = e.pageX - parentOffset.left;
-
-		if ( relX <= 0 ) var _rate = '0';
-		if ( relX > 0 && relX < 8 ) var _rate = '0.5';
-		if ( relX >= 8 && relX < 16 ) var _rate = '1.0';
-		if ( relX >= 16 && relX < 24 ) var _rate = '1.5';
-		if ( relX >= 24 && relX < 32 ) var _rate = '2.0';
-		if ( relX >= 32 && relX < 40 ) var _rate = '2.5';
-		if ( relX >= 40 && relX < 48 ) var _rate = '3.0';
-		if ( relX >= 48 && relX < 56 ) var _rate = '3.5';
-		if ( relX >= 56 && relX < 64 ) var _rate = '4.0';
-		if ( relX >= 64 && relX < 80 ) var _rate = '4.5';
-		if ( relX >= 80 ) var _rate = '5.0';
-
-		var _class = 'stars_' + _rate.replace('.','_');
-		var _label = _class.replace('stars_','stars_label_');
-
-		$(this).removeClass('stars_0 stars_0_0 stars_0_5 stars_1_0 stars_1_5 stars_2_0 stars_2_5 stars_3_0 stars_3_5 stars_4_0 stars_4_5 stars_5_0').addClass(_class);
-		$('.stars_label').removeClass('show');
-		$('#'+_label).addClass('show');
-		$(this).attr('data-rating', _rate);
-	});
-
-	$stars.mouseleave(function() {
-
-		if ( 'true' == $(this).attr('data-rated') )
-			return false;
-
-		var _class = '';
-
-		if ( $('#hidden_movie_rating, #bulk_hidden_movie_rating').length ) {
-			_class = $('#hidden_movie_rating, #bulk_hidden_movie_rating').val();
-			_class = 'stars_' + _class.replace('.','_');
-		}
-
-		$(this).removeClass('stars_0 stars_0_0 stars_0_5 stars_1_0 stars_1_5 stars_2_0 stars_2_5 stars_3_0 stars_3_5 stars_4_0 stars_4_5 stars_5_0').addClass(_class);
-		$('.stars_label').removeClass('show');
-	});
-
-	$stars.click(function() {
-
-		var _rate = $(this).attr('data-rating');
-
-		if ( undefined == _rate )
-			return false;
-
-		_rate = _rate.replace('stars_','');
-		_rate = _rate.replace('_','.');
-
-		$('#movie_rating, #bulk_movie_rating').val(_rate);
-		$(this).attr('data-rating', _rate);
-		$(this).attr('data-rated', true);
-
-		$('#save_rating').removeAttr('disabled');
-	});
-
-	$select.siblings('a.edit-movie-rating').click(function() {
-		if ( $select.is(":hidden") ) {
-			$('#movie-rating-display').hide();
-			$select.slideDown('fast');
-			$(this).hide();
-		}
-		return false;
-	});
-
-	$('.save-movie-rating', '#movie-rating-select').click(function() {
-		var n = $('#movie_rating').val();
-		$select.slideUp('fast');
-		$select.siblings('a.edit-movie-rating').show();
-		$display.removeClass().addClass('stars_'+n.replace('.','_')).show();
-		$('#movie_rating, #hidden_movie_rating').val(n);
-		return false;
-	});
-
-	$('.cancel-movie-rating', '#movie-rating-select').click(function() {
-		$select.slideUp('fast');
-		$select.siblings('a.edit-movie-rating').show();
-		$display.show();
-		return false;
-	});
-
-	$('input#wpml_save').click(function() {
-		wpml.movie.save_details();
-	});
 
 
 	// Movie import
