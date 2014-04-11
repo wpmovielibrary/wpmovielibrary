@@ -59,7 +59,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 */
 		public function admin_enqueue_scripts( $hook ) {
 
-			if ( ( 'post.php' != $hook && 'post-new.php' != $hook ) || 'movie' != get_post_type() )
+			if ( ! in_array( $hook, array( 'edit.php', 'post.php', 'post-new.php' ) ) || 'movie' != get_post_type() )
 				return;
 
 			wp_enqueue_script( WPML_SLUG . '-media' , WPML_URL . '/assets/js/wpml.media.js' , array( 'jquery' ), WPML_VERSION, true );
@@ -129,9 +129,9 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				case 'movie_rating':
 					$meta = get_post_meta( $post_id, '_wpml_movie_rating', true );
 					if ( '' != $meta )
-						$html = '<div id="movie-rating-display" class="stars_' . str_replace( '.', '_', $meta ) . '"></div>';
+						$html = '<div id="movie-rating-display" class="stars-' . str_replace( '.', '-', $meta ) . '"></div>';
 					else
-						$html = '<div id="movie-rating-display" class="stars_0_0"></div>';
+						$html = '<div id="movie-rating-display" class="stars-0-0"></div>';
 					break;
 				default:
 					$html = '';

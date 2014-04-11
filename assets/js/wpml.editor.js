@@ -24,9 +24,9 @@ wpml.editor = {
 		wpml.editor.meta.init();
 		wpml.editor.details.init();
 
-		$('input#wpml_save').click(function() {
+		/*$('input#wpml_save').click(function() {
 			wpml.movie.save_details();
-		});
+		});*/
 	}
 }
 
@@ -142,94 +142,121 @@ wpml.editor.details.rating = rating = {
 	edit: '#edit-movie-rating',
 	save: '#save-movie-rating',
 	cancel: '#cancel-movie-rating',
-	
+
 	init: function() {
 
-		$(rating.stars).on( 'mousemove', function( e ) {
-
-			var parentOffset = $(rating.stars).offset(); 
-			var relX = e.pageX - parentOffset.left;
-
-			if ( relX <= 0 ) var _rate = '0';
-			if ( relX > 0 && relX < 8 ) var _rate = '0.5';
-			if ( relX >= 8 && relX < 16 ) var _rate = '1.0';
-			if ( relX >= 16 && relX < 24 ) var _rate = '1.5';
-			if ( relX >= 24 && relX < 32 ) var _rate = '2.0';
-			if ( relX >= 32 && relX < 40 ) var _rate = '2.5';
-			if ( relX >= 40 && relX < 48 ) var _rate = '3.0';
-			if ( relX >= 48 && relX < 56 ) var _rate = '3.5';
-			if ( relX >= 56 && relX < 64 ) var _rate = '4.0';
-			if ( relX >= 64 && relX < 80 ) var _rate = '4.5';
-			if ( relX >= 80 ) var _rate = '5.0';
-
-			var _class = 'stars-' + _rate.replace('.','-');
-			var _label = _class.replace('stars-','stars-label-');
-
-			$(rating.stars).removeClass('stars-0 stars-0-0 stars-0-5 stars-1-0 stars-1-5 stars-2-0 stars-2-5 stars-3-0 stars-3-5 stars-4-0 stars-4-5 stars-5-0').addClass(_class);
-			$('.stars-label').removeClass('show');
-			$('#'+_label).addClass('show');
-			$(rating.stars).attr('data-rating', _rate);
+		$(rating.edit).on( 'click', function( e ) {
+			e.preventDefault();
+			rating.show();
 		});
 
-		$(rating.stars).on( 'mouseleave', function() {
+		$(rating.cancel).on( 'click', function( e ) {
+			e.preventDefault();
+			rating.revert();
+		});
 
-			if ( 'true' == $(rating.stars).attr('data-rated') )
-				return false;
-
-			var _class = '';
-
-			if ( $('#hidden-movie-rating, #bulk-hidden-movie-rating').length ) {
-				_class = $('#hidden-movie-rating, #bulk-hidden-movie-rating').val();
-				_class = 'stars-' + _class.replace('.','-');
-			}
-
-			$(rating.stars).removeClass('stars-0 stars-0-0 stars-0-5 stars-1-0 stars-1-5 stars-2-0 stars-2-5 stars-3-0 stars-3-5 stars-4-0 stars-4-5 stars-5-0').addClass(_class);
-			$('.stars-label').removeClass('show');
+		$(rating.save).on( 'click', function( e ) {
+			e.preventDefault();
+			rating.update();
 		});
 
 		$(rating.stars).on( 'click', function( e ) {
-
 			e.preventDefault();
-
-			var _rate = $(rating.stars).attr('data-rating');
-
-			if ( undefined == _rate )
-				return false;
-
-			_rate = _rate.replace('stars-','');
-			_rate = _rate.replace('-','.');
-
-			$('#movie-rating, #bulk-movie-rating').val(_rate);
-			$(rating.stars).attr('data-rating', _rate);
-			$(rating.stars).attr('data-rated', true);
-
-			$('#save-rating').removeAttr('disabled');
+			rating.rate();
 		});
 
-		$(rating.edit).click(function() {
-			if ( $(rating.select).is(":hidden") ) {
-				$(rating.display).hide();
-				$(rating.select).slideDown('fast');
-				$(rating.stars).show();
-			}
+		$(rating.stars).on( 'mousemove', function( e ) {
+			rating.change_in( e );
+		});
+
+		$(rating.stars).on( 'mouseleave', function( e ) {
+			rating.change_out( e );
+		});
+
+
+	},
+
+	show: function() {
+		if ( $(rating.select).is(":hidden") ) {
+			$(rating.display).hide();
+			$(rating.select).slideDown('fast');
+			$(rating.edit).hide();
+		}
+	},
+
+	revert: function() {
+		$(rating.select).slideUp('fast');
+		$(rating.edit).show();
+		$(rating.display).show();
+	},
+
+	change_in: function( e ) {
+
+		var classes = 'stars-0 stars-0-0 stars-0-5 stars-1-0 stars-1-5 stars-2-0 stars-2-5 stars-3-0 stars-3-5 stars-4-0 stars-4-5 stars-5-0';
+
+		var parentOffset = $(rating.stars).offset(); 
+		var relX = e.pageX - parentOffset.left;
+
+		if ( relX <= 0 ) var _rate = '0';
+		if ( relX > 0 && relX < 8 ) var _rate = '0.5';
+		if ( relX >= 8 && relX < 16 ) var _rate = '1.0';
+		if ( relX >= 16 && relX < 24 ) var _rate = '1.5';
+		if ( relX >= 24 && relX < 32 ) var _rate = '2.0';
+		if ( relX >= 32 && relX < 40 ) var _rate = '2.5';
+		if ( relX >= 40 && relX < 48 ) var _rate = '3.0';
+		if ( relX >= 48 && relX < 56 ) var _rate = '3.5';
+		if ( relX >= 56 && relX < 64 ) var _rate = '4.0';
+		if ( relX >= 64 && relX < 80 ) var _rate = '4.5';
+		if ( relX >= 80 ) var _rate = '5.0';
+
+		var _class = 'stars-' + _rate.replace('.','-');
+		var _label = _class.replace('stars-','stars-label-');
+
+		$(rating.stars).removeClass( classes ).addClass( _class );
+		$('.stars-label').removeClass('show');
+		$('#'+_label).addClass('show');
+		$(rating.stars).attr('data-rating', _rate);
+	},
+
+	change_out: function( e ) {
+
+		var classes = 'stars-0 stars-0-0 stars-0-5 stars-1-0 stars-1-5 stars-2-0 stars-2-5 stars-3-0 stars-3-5 stars-4-0 stars-4-5 stars-5-0';
+
+		if ( 'true' == $(rating.stars).attr('data-rated') )
 			return false;
-		});
 
-		$(rating.save).click(function() {
-			var n = $('#movie-rating').val();
-			$(rating.select).slideUp('fast');
-			$(rating.edit).show();
-			$(rating.display).removeClass().addClass('stars-'+n.replace('.','-')).show();
-			$('#movie-rating, #hidden-movie-rating').val(n);
-			return false;
-		});
+		var _class = '';
 
-		$(rating.cancel).click(function() {
-			$(rating.select).slideUp('fast');
-			$(rating.edit).show();
-			$(rating.display).show();
+		if ( $('#hidden-movie-rating, #bulk-hidden-movie-rating').length ) {
+			_class = $('#hidden-movie-rating, #bulk-hidden-movie-rating').val();
+			_class = 'stars-' + _class.replace('.','-');
+		}
+
+		$(rating.stars).removeClass( classes ).addClass( _class );
+		$('.stars-label').removeClass('show');
+	},
+
+	rate: function() {
+
+		var _rate = $(rating.stars).attr('data-rating');
+
+		if ( undefined == _rate )
 			return false;
-		});
+
+		_rate = _rate.replace('stars-','');
+		_rate = _rate.replace('-','.');
+
+		$('#movie-rating, #bulk-movie-rating').val(_rate);
+		$(rating.stars).attr('data-rating', _rate);
+		$(rating.stars).attr('data-rated', true);
+	},
+
+	update: function() {
+		var n = $('#movie-rating').val();
+		$(rating.select).slideUp('fast');
+		$(rating.edit).show();
+		$(rating.display).removeClass().addClass('stars-'+n.replace('.','-')).show();
+		$('#movie-rating, #hidden-movie-rating').val(n);
 	}
 }
 
