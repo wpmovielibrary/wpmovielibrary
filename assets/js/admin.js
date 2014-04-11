@@ -264,18 +264,19 @@ wpml = {
 				type: 'GET',
 				url: ajax_object.ajax_url,
 				data: {
-					action: 'tmdb_search',
+					action: 'wpml_search_movie',
 					wpml_check: ajax_object.wpml_check,
 					type: 'id',
 					data: id,
 					lang: wpml.movie.lang
 				},
 				success: function(response) {
-					tmdb_data = document.getElementById('tmdb_data');
-					while (tmdb_data.lastChild) tmdb_data.removeChild(tmdb_data.lastChild);
+					var tmdb_data = document.getElementById('tmdb_data');
+					while ( tmdb_data.lastChild )
+						tmdb_data.removeChild( tmdb_data.lastChild );
 					tmdb_data.style.display = 'none';
-					wpml.movie.populate(response);
-					wpml.movie.images.set_featured(response.poster_path, null, response.title, response._tmdb_id);
+					wpml.movie.populate( response );
+					wpml.media.posters.set_featured( response.poster_path );
 				},
 				beforeSend: function() {
 					$('#tmdb_search').addClass('button-loading');
@@ -471,7 +472,7 @@ wpml = {
 				type: 'GET',
 				url: ajax_object.ajax_url,
 				data: {
-					action: 'tmdb_search',
+					action: 'wpml_search_movie',
 					wpml_check: ajax_object.wpml_check,
 					type:  wpml.movie.type,
 					data:  wpml.movie.data,

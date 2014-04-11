@@ -56,8 +56,8 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			add_action( 'admin_init', array( $this, 'init' ) );
 
-			add_action( 'wp_ajax_wpml_search', __CLASS__ . '::search_callback' );
-			add_action( 'wp_ajax_wpml_api_key_check', __CLASS__ . '::api_key_check_callback' );
+			add_action( 'wp_ajax_wpml_search_movie', __CLASS__ . '::search_movie_callback' );
+			add_action( 'wp_ajax_wpml_check_api_key', __CLASS__ . '::_checkapi_key_callback' );
 		}
 
 		/**
@@ -127,7 +127,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @return    array    API configuration request result
 		 */
-		private static function api_key_check( $key ) {
+		private static function check_api_key( $key ) {
 			$_tmdb = new TMDb( $config = true, $dummy = false );
 			$data = $_tmdb->checkApiKey( $key );
 			return $data;
@@ -177,14 +177,14 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @return    array    API check validity result
 		 */
-		public static function api_key_check_callback() {
+		public static function check_api_key_callback() {
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
 			if ( ! isset( $_GET['key'] ) || '' == $_GET['key'] || 32 !== strlen( $_GET['key'] ) )
 				die();
 
-			$data = self::api_key_check( esc_attr( $_GET['key'] ) );
+			$data = self::check_api_key( esc_attr( $_GET['key'] ) );
 
 			if ( isset( $data['status_code'] ) && 7 === $data['status_code'] )
 				echo '<span id="api_status" class="invalid">'.__( 'Invalid API key - You must be granted a valid key', 'wpml' ).'</span>';
@@ -201,7 +201,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @return    string    HTML output
 		 */
-		public static function search_callback() {
+		public static function search_movie_callback() {
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 

@@ -419,8 +419,15 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 #tmdb_data {
+	background: #333;
 	display: none;
-	margin-top: 1.5em;
+	margin: 0.75em -1em;
+	padding: 0.75em 0;
+}
+
+#tmdb_data p {
+	color: #eee;
+	padding: 0 1.5em;
 }
 
 .button-empty {
@@ -429,7 +436,7 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 .tmdb_select_movie {
-	display: inline-block;
+	display: inline-table;
 	height: 18em;
 	padding: 0.25em;
 	text-align: center;

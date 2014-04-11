@@ -157,7 +157,10 @@ wpml.media.posters = posters = {
 		return;
 	},
 
-	set_featured: function( image, i ) {
+	set_featured: function( image ) {
+
+		if ( undefined == image.attributes || undefined == image.attributes.tmdb_data )
+			var image = {file_path: image};
 
 		$.ajax({
 			type: 'GET',
@@ -165,7 +168,7 @@ wpml.media.posters = posters = {
 			data: {
 				action: 'wpml_set_featured',
 				wpml_check: ajax_object.wpml_check,
-				image: image.attributes.tmdb_data,
+				image: image,
 				title: $('#tmdb_data_title').val(),
 				post_id: $('#post_ID').val(),
 				tmdb_id: $('#tmdb_data_tmdb_id').val()

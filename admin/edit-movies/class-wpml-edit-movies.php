@@ -44,8 +44,9 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			add_action( 'admin_post_thumbnail_html', __CLASS__ . '::load_posters_link', 10, 2 );
 
 			add_action( 'add_meta_boxes', __CLASS__ . '::add_meta_boxes' );
-			add_action( 'wp_ajax_wpml_save_details', __CLASS__ . '::save_details_callback' );
 			add_action( 'save_post_movie', __CLASS__ . '::save_tmdb_data' );
+
+			add_action( 'wp_ajax_wpml_save_details', __CLASS__ . '::save_details_callback' );
 		}
 
 		/**
