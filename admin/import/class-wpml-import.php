@@ -378,7 +378,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 				foreach ( $_POST['tmdb'] as $tmdb_data ) {
 					if ( 0 != $tmdb_data['tmdb_id'] ) {
-						WPML_Edit_Movies::save_tmdb_data( $tmdb_data['post_id'], $tmdb_data );
+						WPML_Edit_Movies::save_movie_meta( $tmdb_data['post_id'], $tmdb_data );
 					}
 				}
 

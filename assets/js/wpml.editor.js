@@ -18,15 +18,16 @@ wpml.editor = {
 		},
 		status: undefined,
 		media: undefined,
-		rating: undefined
+		rating: undefined,
+		save: undefined
 	},
 	init: function() {
 		wpml.editor.meta.init();
 		wpml.editor.details.init();
 
-		/*$('input#wpml_save').click(function() {
-			wpml.movie.save_details();
-		});*/
+		$('input#wpml_save').click(function() {
+			wpml.editor.details.save();
+		});
 	}
 }
 
@@ -264,6 +265,29 @@ wpml.editor.details.rating = wpml_rating = {
 		$(wpml_rating.display).removeClass().addClass('stars-'+n.replace('.','-')).show();
 		$('#movie-rating, #hidden-movie-rating').val(n);
 	}
-}
+};
+
+wpml.editor.details.save = function() {
+	$.ajax({
+		type: 'POST',
+		url: ajax_object.ajax_url,
+		data: {
+			action: 'wpml_save_details',
+			wpml_check: ajax_object.wpml_check,
+			post_id: $('#post_ID').val(),
+			wpml_details: {
+				media: $('#movie-media').val(),
+				status: $('#movie-status').val(),
+				rating: $('#movie-rating').val()
+			}
+		},
+		beforeSend: function() {
+			$('input#wpml_save').addClass('button-loading');
+		},
+		complete: function() {
+			$('input#wpml_save').removeClass('button-loading');
+		},
+	});
+};
 
 wpml.editor.init();

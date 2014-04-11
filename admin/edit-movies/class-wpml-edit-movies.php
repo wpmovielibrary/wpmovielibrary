@@ -43,8 +43,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			add_action( 'ajax_query_attachments_args', __CLASS__ . '::load_images_dummy_query_args', 10, 1 );
 			add_action( 'admin_post_thumbnail_html', __CLASS__ . '::load_posters_link', 10, 2 );
 
-			add_action( 'add_meta_boxes', __CLASS__ . '::add_meta_boxes' );
-			add_action( 'save_post_movie', __CLASS__ . '::save_tmdb_data' );
+			add_action( 'add_meta_boxes', __CLASS__ . '::add_meta_boxes', 10 );
+			add_action( 'save_post_movie', __CLASS__ . '::save_movie_meta', 10, 4 );
 
 			add_action( 'wp_ajax_wpml_save_details', __CLASS__ . '::save_details_callback' );
 		}
@@ -491,32 +491,46 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 		/**
 		 * Save TMDb fetched data.
+		 * 
+		 * Uses the 'save_post_movie' action hook to save the movie metadata
+		 * as a postmeta. This method is used in regular post creation as
+		 * well as in movie import. If no $movie_meta is passed, we're 
+		 * most likely creating a new movie, use $_REQUEST to get the data.
+		 * 
+		 * Saves the movie details as well.
+		 * 
+		 * TODO: add some security to harden the $_REQUEST use.
 		 *
 		 * @since     1.0.0
+		 * 
+		 * @param    int        $post_ID ID of the current Post
+		 * @param    object     $post Post Object of the current Post
+		 * @param    boolean    $update Post creation or post update?
+		 * @param    array      $movie_meta Movie Metadata to save with the post
 		 */
-		public static function save_tmdb_data( $post_id, $tmdb_data = null ) {
+		public static function save_movie_meta( $post_ID, $post, $update, $movie_meta = null ) {
 
-			if ( ! $post = get_post( $post_id ) || ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) || 'movie' != get_post_type( $post ) || ! current_user_can( 'edit_post', $post_id ) )
+			if ( ! $post = get_post( $post_ID ) || ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) || 'movie' != get_post_type( $post ) || ! current_user_can( 'edit_post', $post_ID ) )
 				return false;
 
-			if ( ! is_null( $tmdb_data ) && count( $tmdb_data ) ) {
+			if ( ! is_null( $movie_meta ) && count( $movie_meta ) ) {
 
-				$tmdb_data = apply_filters( 'wpml_filter_empty_array', $tmdb_data );
+				$movie_meta = apply_filters( 'wpml_filter_empty_array', $movie_meta );
 
 				// Save TMDb data
-				update_post_meta( $post_id, '_wpml_movie_data', $tmdb_data );
+				update_post_meta( $post_ID, '_wpml_movie_data', $movie_meta );
 
 				// Set poster as featured image
-				$id = WPML_Media::set_image_as_featured( $tmdb_data['poster'], $post_id, $tmdb_data['tmdb_id'], $tmdb_data['meta']['title'] );
-				update_post_meta( $post_id, '_thumbnail_id', $id );
+				$id = WPML_Media::set_image_as_featured( $movie_meta['poster'], $post_ID, $movie_meta['tmdb_id'], $movie_meta['meta']['title'] );
+				update_post_meta( $post_ID, '_thumbnail_id', $id );
 
 				// Switch status from import draft to published
-				if ( 'import-draft' == get_post_status( $post_id ) ) {
+				if ( 'import-draft' == get_post_status( $post_ID ) ) {
 					$update = wp_update_post( array(
-						'ID' => $post_id,
-						'post_name'   => sanitize_title_with_dashes( $tmdb_data['meta']['title'] ),
+						'ID' => $post_ID,
+						'post_name'   => sanitize_title_with_dashes( $movie_meta['meta']['title'] ),
 						'post_status' => 'publish',
-						'post_title'  => $tmdb_data['meta']['title'],
+						'post_title'  => $movie_meta['meta']['title'],
 						'post_date'   => current_time( 'mysql' )
 					) );
 				}
@@ -525,23 +539,23 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				if ( WPML_Settings::wpml__taxonomy_autocomplete() ) {
 
 					if ( WPML_Settings::wpml__enable_actor() ) {
-						$actors = explode( ',', $tmdb_data['crew']['cast'] );
-						$actors = wp_set_object_terms( $post_id, $actors, 'actor', false );
+						$actors = explode( ',', $movie_meta['crew']['cast'] );
+						$actors = wp_set_object_terms( $post_ID, $actors, 'actor', false );
 					}
 
 					if ( WPML_Settings::wpml__enable_genre() ) {
-						$genres = explode( ',', $tmdb_data['meta']['genres'] );
-						$genres = wp_set_object_terms( $post_id, $genres, 'genre', false );
+						$genres = explode( ',', $movie_meta['meta']['genres'] );
+						$genres = wp_set_object_terms( $post_ID, $genres, 'genre', false );
 					}
 
 					if ( WPML_Settings::wpml__enable_collection() ) {
-						$collections = explode( ',', $tmdb_data['crew']['director'] );
-						$collections = wp_set_object_terms( $post_id, $collections, 'collection', false );
+						$collections = explode( ',', $movie_meta['crew']['director'] );
+						$collections = wp_set_object_terms( $post_ID, $collections, 'collection', false );
 					}
 				}
 			}
 			else if ( isset( $_REQUEST['tmdb_data'] ) && '' != $_REQUEST['tmdb_data'] ) {
-				update_post_meta( $post_id, '_wpml_movie_data', $_REQUEST['tmdb_data'] );
+				update_post_meta( $post_ID, '_wpml_movie_data', $_REQUEST['tmdb_data'] );
 			}
 
 			if ( isset( $_REQUEST['wpml_details'] ) && ! is_null( $_REQUEST['wpml_details'] ) ) {
@@ -551,16 +565,16 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				else if ( isset( $_REQUEST['is_bulkedit'] ) )
 					check_admin_referer( '_wpml_bulkedit_movie_details', 'wpml_bulkedit_movie_details_nonce' );
 
-				$wpml_d = $_REQUEST['wpml_details'];
+				$wpml_details = $_REQUEST['wpml_details'];
 
-				if ( isset( $wpml_d['movie_status'] ) && ! is_null( $wpml_d['movie_status'] ) )
-					update_post_meta( $post_id, '_wpml_movie_status', $wpml_d['movie_status'] );
+				if ( isset( $wpml_details['movie_status'] ) && ! is_null( $wpml_details['movie_status'] ) )
+					update_post_meta( $post_ID, '_wpml_movie_status', $wpml_details['movie_status'] );
 
-				if ( isset( $wpml_d['movie_media'] ) && ! is_null( $wpml_d['movie_media'] ) )
-					update_post_meta( $post_id, '_wpml_movie_media', $wpml_d['movie_media'] );
+				if ( isset( $wpml_details['movie_media'] ) && ! is_null( $wpml_details['movie_media'] ) )
+					update_post_meta( $post_ID, '_wpml_movie_media', $wpml_details['movie_media'] );
 
-				if ( isset( $wpml_d['movie_rating'] ) && ! is_null( $wpml_d['movie_rating'] ) )
-					update_post_meta( $post_id, '_wpml_movie_rating', number_format( $wpml_d['movie_rating'], 1 ) );
+				if ( isset( $wpml_details['movie_rating'] ) && ! is_null( $wpml_details['movie_rating'] ) )
+					update_post_meta( $post_ID, '_wpml_movie_rating', number_format( $wpml_details['movie_rating'], 1 ) );
 			}
 		}
 

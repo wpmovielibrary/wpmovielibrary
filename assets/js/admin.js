@@ -433,31 +433,6 @@ wpml = {
 			$('#tmdb_data').append(html);
 		},
 
-		save_details: function() {
-
-			$.ajax({
-				type: 'POST',
-				url: ajax_object.ajax_url,
-				data: {
-					action: 'wpml_save_details',
-					wpml_check: ajax_object.wpml_check,
-					post_id: $('#post_ID').val(),
-					wpml_details: {
-						media: $('#movie_media').val(),
-						status: $('#movie_status').val(),
-						rating: $('#movie_rating').val()
-					}
-				},
-				beforeSend: function() {
-					$('input#wpml_save').addClass('button-loading');
-				},
-				complete: function() {
-					$('input#wpml_save').removeClass('button-loading');
-				},
-			});
-
-		},
-
 		search_movie: function() {
 
 			$('#tmdb_data > *, .tmdb_select_movie').remove();

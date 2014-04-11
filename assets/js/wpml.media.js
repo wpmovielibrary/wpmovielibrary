@@ -88,7 +88,7 @@ wpml.media.images = images = {
 				$('#progressbar #progress').width(''+progress+'%');
 				if ( index == images.total ) {
 					$('#progress_status').text('Done!');
-					window.setTimeout( function() { $('#progressbar_bg, #progressbar').remove(); images._frame.close(); }, 2000 );
+					window.setTimeout( images.close(), 2000 );
 				}
 				else {
 					var t = $('#progress_status').text();
@@ -96,6 +96,12 @@ wpml.media.images = images = {
 				}
 			}
 		});
+	},
+
+	close: function() {
+		$('#progressbar_bg, #progressbar').remove();
+		if ( undefined != images._frame )
+			images._frame.close();
 	},
 
 	init: function() {
@@ -159,8 +165,13 @@ wpml.media.posters = posters = {
 
 	set_featured: function( image ) {
 
-		if ( undefined == image.attributes || undefined == image.attributes.tmdb_data )
+		if ( undefined == image.attributes || undefined == image.attributes.tmdb_data ) {
+
+			if ( 0 <= parseInt( wp.media.featuredImage.get() ) )
+				return false;
+
 			var image = {file_path: image};
+		}
 
 		$.ajax({
 			type: 'GET',
@@ -179,10 +190,16 @@ wpml.media.posters = posters = {
 			},
 			complete: function() {
 				$('#progress_status').text('Done!');
-				window.setTimeout( function() { $('#progressbar_bg, #progressbar').remove(); posters._frame.close(); }, 2000 );
+				window.setTimeout( posters.close(), 2000 );
 			}
 		});
 
+	},
+
+	close: function() {
+		$('#progressbar_bg, #progressbar').remove();
+		if ( undefined != posters._frame )
+			posters._frame.close();
 	},
 
 	init: function() {
