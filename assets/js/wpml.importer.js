@@ -89,7 +89,7 @@ wpml.import = {
 			type: 'GET',
 			url: ajax_object.ajax_url,
 			data: {
-				action: 'tmdb_search',
+				action: 'wpml_search_movie',
 				wpml_check: ajax_object.wpml_check,
 				type: 'id',
 				data: id,
@@ -206,7 +206,7 @@ wpml.import = {
 			type: 'GET',
 			url: ajax_object.ajax_url,
 			data: {
-				action: 'tmdb_search',
+				action: 'wpml_search_movie',
 				wpml_check: ajax_object.wpml_check,
 				type: 'title',
 				data: title,
