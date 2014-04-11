@@ -3,7 +3,7 @@ $ = $ || jQuery;
 
 wpml = wpml || {};
 
-var meta, details, media, status, rating;
+var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 
 // Init
 wpml.editor = {
@@ -31,7 +31,7 @@ wpml.editor = {
 }
 
 // Edit Movie Status
-wpml.editor.details.status = status = {
+wpml.editor.details.status = wpml_status = {
 
 	select: '#movie-status-select',
 	hidden: '#hidden-movie-status',
@@ -43,45 +43,48 @@ wpml.editor.details.status = status = {
 
 	init: function() {
 
-		$(status.edit).on( 'click', function( e ) {
+		$(wpml_status.edit).on( 'click', function( e ) {
 			e.preventDefault();
-			status.show();
+			wpml_status.show();
 		});
 
-		$(status.save).on( 'click', function( e ) {
+		$(wpml_status.save).on( 'click', function( e ) {
 			e.preventDefault();
-			status.update();
+			wpml_status.update();
 		});
 
-		$(status.cancel).on( 'click', function( e ) {
+		$(wpml_status.cancel).on( 'click', function( e ) {
 			e.preventDefault();
-			status.revert();
+			wpml_status.revert();
 		});
 	},
 
 	show: function() {
-		if ( $(status.select).is(":hidden") ) {
-			$(status.select).slideDown('fast');
-			$(status.edit).hide();
+		if ( $(wpml_status.select).is(":hidden") ) {
+			$(wpml_status.select).slideDown('fast');
+			$(wpml_status.edit).hide();
 		}
 	},
 
 	update: function() {
-		$(status.select).slideUp('fast');
-		$(status.edit).show();
-		$(status.display).text( $('#movie-status > option:selected').text() );
+		var option = '#movie-status > option:selected';
+		$(wpml_status.select).slideUp('fast');
+		$(wpml_status.edit).show();
+		$(wpml_status.display).text( $(option).text() );
+		$(wpml_status.hidden).val( $(option).prop('id') );
 	},
 
 	revert: function() {
-		$(status.select).slideUp('fast');
-		$('#movie-status').val( $(status.hidden).val() );
-		$(status.display).text( $(status.hidden).val() );
-		$(status.edit).show();
+		var option = '#movie-status #'+$(wpml_status.hidden).val();
+		$(wpml_status.select).slideUp('fast');
+		$(option).prop('selected', true);
+		$(wpml_status.display).text( $(option).text() );
+		$(wpml_status.edit).show();
 	}
 }
 
 // Edit Movie Media
-wpml.editor.details.media = media = {
+wpml.editor.details.media = wpml_media = {
 
 	select: '#movie-media-select',
 	hidden: '#hidden-movie-media',
@@ -93,45 +96,48 @@ wpml.editor.details.media = media = {
 
 	init: function() {
 
-		$(media.edit).on( 'click', function( e ) {
+		$(wpml_media.edit).on( 'click', function( e ) {
 			e.preventDefault();
-			media.show();
+			wpml_media.show();
 		});
 
-		$(media.save).on( 'click', function( e ) {
+		$(wpml_media.save).on( 'click', function( e ) {
 			e.preventDefault();
-			media.update();
+			wpml_media.update();
 		});
 
-		$(media.cancel).on( 'click', function( e ) {
+		$(wpml_media.cancel).on( 'click', function( e ) {
 			e.preventDefault();
-			media.revert();
+			wpml_media.revert();
 		});
 	},
 
 	show: function() {
-		if ( $(media.select).is(":hidden") ) {
-			$(media.select).slideDown('fast');
-			$(media.edit).hide();
+		if ( $(wpml_media.select).is(":hidden") ) {
+			$(wpml_media.select).slideDown('fast');
+			$(wpml_media.edit).hide();
 		}
 	},
 
 	update: function() {
-		$(media.select).slideUp('fast');
-		$(media.edit).show();
-		$(media.display).text( $('#movie-media > option:selected').text() );
+		var option = '#movie-media > option:selected';
+		$(wpml_media.select).slideUp('fast');
+		$(wpml_media.edit).show();
+		$(wpml_media.display).text( $(option).text() );
+		$(wpml_status.hidden).val( $(option).prop('id') );
 	},
 
 	revert: function() {
-		$(media.select).slideUp('fast');
-		$('#movie-media').val( $(media.hidden).val() );
-		$(media.display).text( $(media.hidden).val() );
-		$(media.edit).show();
+		var option = '#movie-media #'+$(wpml_media.hidden).val();
+		$(wpml_media.select).slideUp('fast');
+		$(option).prop('selected', true);
+		$(wpml_media.display).text( $(option).text() );
+		$(wpml_media.edit).show();
 	}
 };
 
 // Edit Movie Rating
-wpml.editor.details.rating = rating = {
+wpml.editor.details.rating = wpml_rating = {
 
 	stars: '#stars, #bulk_stars',
 
@@ -145,56 +151,56 @@ wpml.editor.details.rating = rating = {
 
 	init: function() {
 
-		$(rating.edit).on( 'click', function( e ) {
+		$(wpml_rating.edit).on( 'click', function( e ) {
 			e.preventDefault();
-			rating.show();
+			wpml_rating.show();
 		});
 
-		$(rating.cancel).on( 'click', function( e ) {
+		$(wpml_rating.cancel).on( 'click', function( e ) {
 			e.preventDefault();
-			rating.revert();
+			wpml_rating.revert();
 		});
 
-		$(rating.save).on( 'click', function( e ) {
+		$(wpml_rating.save).on( 'click', function( e ) {
 			e.preventDefault();
-			rating.update();
+			wpml_rating.update();
 		});
 
-		$(rating.stars).on( 'click', function( e ) {
+		$(wpml_rating.stars).on( 'click', function( e ) {
 			e.preventDefault();
-			rating.rate();
+			wpml_rating.rate();
 		});
 
-		$(rating.stars).on( 'mousemove', function( e ) {
-			rating.change_in( e );
+		$(wpml_rating.stars).on( 'mousemove', function( e ) {
+			wpml_rating.change_in( e );
 		});
 
-		$(rating.stars).on( 'mouseleave', function( e ) {
-			rating.change_out( e );
+		$(wpml_rating.stars).on( 'mouseleave', function( e ) {
+			wpml_rating.change_out( e );
 		});
 
 
 	},
 
 	show: function() {
-		if ( $(rating.select).is(":hidden") ) {
-			$(rating.display).hide();
-			$(rating.select).slideDown('fast');
-			$(rating.edit).hide();
+		if ( $(wpml_rating.select).is(":hidden") ) {
+			$(wpml_rating.display).hide();
+			$(wpml_rating.select).slideDown('fast');
+			$(wpml_rating.edit).hide();
 		}
 	},
 
 	revert: function() {
-		$(rating.select).slideUp('fast');
-		$(rating.edit).show();
-		$(rating.display).show();
+		$(wpml_rating.select).slideUp('fast');
+		$(wpml_rating.edit).show();
+		$(wpml_rating.display).show();
 	},
 
 	change_in: function( e ) {
 
 		var classes = 'stars-0 stars-0-0 stars-0-5 stars-1-0 stars-1-5 stars-2-0 stars-2-5 stars-3-0 stars-3-5 stars-4-0 stars-4-5 stars-5-0';
 
-		var parentOffset = $(rating.stars).offset(); 
+		var parentOffset = $(wpml_rating.stars).offset(); 
 		var relX = e.pageX - parentOffset.left;
 
 		if ( relX <= 0 ) var _rate = '0';
@@ -212,17 +218,17 @@ wpml.editor.details.rating = rating = {
 		var _class = 'stars-' + _rate.replace('.','-');
 		var _label = _class.replace('stars-','stars-label-');
 
-		$(rating.stars).removeClass( classes ).addClass( _class );
+		$(wpml_rating.stars).removeClass( classes ).addClass( _class );
 		$('.stars-label').removeClass('show');
 		$('#'+_label).addClass('show');
-		$(rating.stars).attr('data-rating', _rate);
+		$(wpml_rating.stars).attr('data-rating', _rate);
 	},
 
 	change_out: function( e ) {
 
 		var classes = 'stars-0 stars-0-0 stars-0-5 stars-1-0 stars-1-5 stars-2-0 stars-2-5 stars-3-0 stars-3-5 stars-4-0 stars-4-5 stars-5-0';
 
-		if ( 'true' == $(rating.stars).attr('data-rated') )
+		if ( 'true' == $(wpml_rating.stars).attr('data-rated') )
 			return false;
 
 		var _class = '';
@@ -232,13 +238,13 @@ wpml.editor.details.rating = rating = {
 			_class = 'stars-' + _class.replace('.','-');
 		}
 
-		$(rating.stars).removeClass( classes ).addClass( _class );
+		$(wpml_rating.stars).removeClass( classes ).addClass( _class );
 		$('.stars-label').removeClass('show');
 	},
 
 	rate: function() {
 
-		var _rate = $(rating.stars).attr('data-rating');
+		var _rate = $(wpml_rating.stars).attr('data-rating');
 
 		if ( undefined == _rate )
 			return false;
@@ -247,15 +253,15 @@ wpml.editor.details.rating = rating = {
 		_rate = _rate.replace('-','.');
 
 		$('#movie-rating, #bulk-movie-rating').val(_rate);
-		$(rating.stars).attr('data-rating', _rate);
-		$(rating.stars).attr('data-rated', true);
+		$(wpml_rating.stars).attr('data-rating', _rate);
+		$(wpml_rating.stars).attr('data-rated', true);
 	},
 
 	update: function() {
 		var n = $('#movie-rating').val();
-		$(rating.select).slideUp('fast');
-		$(rating.edit).show();
-		$(rating.display).removeClass().addClass('stars-'+n.replace('.','-')).show();
+		$(wpml_rating.select).slideUp('fast');
+		$(wpml_rating.edit).show();
+		$(wpml_rating.display).removeClass().addClass('stars-'+n.replace('.','-')).show();
 		$('#movie-rating, #hidden-movie-rating').val(n);
 	}
 }

@@ -579,7 +579,7 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 #movie-rating-display.hide-if-no-js {
-	display: none;
+	/*display: none;*/
 }
 
 .movie-rating-block {
