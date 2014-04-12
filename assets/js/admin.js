@@ -205,11 +205,11 @@ jQuery(document).ready(function($) {
 	 * WP List Table AJAX nav
 	 */
 
-	if ( 'movie_page_import' == adminpage ) {
+	/*if ( 'movie_page_import' == adminpage ) {
 		wpml.media.init();
 		wpml.import.init();
 		wpml.importer.init();
-	}
+	}*/
 
 	
 

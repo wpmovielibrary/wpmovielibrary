@@ -176,4 +176,4 @@ var wpml_import;
 			wpml_import.target.after( html );
 		};
 	
-	
+	wpml.import.init();

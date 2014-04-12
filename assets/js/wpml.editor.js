@@ -370,4 +370,4 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 			init: function() {}
 		}
 
-		wpml.editor.init();
+	wpml.editor.init();

@@ -242,3 +242,5 @@ var wpml_importer;
 				wpml_importer.reload( data );
 			}, wpml_importer.delay);
 		};
+
+	wpml.importer.init();

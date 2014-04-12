@@ -278,3 +278,5 @@ var wpml_images, wpml_posters;
 				wpml_posters._frame.$el.addClass('movie-posters');
 			});
 		};
+
+	wpml.media.init();
