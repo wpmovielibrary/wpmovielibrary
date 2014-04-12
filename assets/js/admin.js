@@ -196,12 +196,6 @@ jQuery(document).ready(function($) {
 
 	// Movie import
 
-	$('.delete_movie').click(function(e) {
-		e.preventDefault();
-		var id = this.id.replace('delete_','');
-		wpml.movie.delete(id);
-	});
-
 	$('input#title').on('input', function() {
 		if ( '' != $(this).val() )
 			$('input#tmdb_query').val( $(this).val() );
@@ -212,19 +206,41 @@ jQuery(document).ready(function($) {
 	 */
 
 	if ( 'movie_page_import' == adminpage ) {
+		wpml.media.init();
 		wpml.import.init();
-		wpml.import.table.init();
+		wpml.importer.init();
 	}
+
+	
 
 });
 
-$ = jQuery;
+$ = $ || jQuery;
 
 wpml = {
 
-	ajax: function( data, param ) {
+	ajax: function( type, data, success, complete ) {
 
-		//TODO use a single $.ajax call
+		var type = type || 'GET';
+		var data = data || {};
+		var success = success || function() {};
+		var complete = complete || function() {};
+
+		$.ajax({
+			type: type,
+			url: ajaxurl,
+			data: data,
+			success: success,
+			complete: complete
+		});
+	},
+
+	get: function( data, success, complete ) {
+		wpml.ajax( 'GET', data, success, complete );
+	},
+
+	post: function( data, success ) {
+		wpml.ajax( 'POST', data, success, complete );
 	},
 
 	movie: {
@@ -234,29 +250,6 @@ wpml = {
 		data: {},
 
 		type: '',
-
-		delete: function(id) {
-
-			$.ajax({
-				type: 'GET',
-				url: ajax_object.ajax_url,
-				data: {
-					action: 'wpml_delete_movie',
-					wpml_check: ajax_object.wpml_check,
-					post_id: id
-				},
-				success: function(response) {
-					$('#post_'+id).parents('tr').remove();
-				},
-				beforeSend: function() {
-					$('input.loader').addClass('button-loading');
-				},
-				complete: function() {
-					$('input.loader').removeClass('button-loading loader');
-				},
-			});
-
-		},
 
 		get_movie: function(id) {
 

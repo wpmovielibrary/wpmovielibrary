@@ -57,6 +57,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			if ( 'movie_page_import' != $hook )
 				return;
 
+			wp_enqueue_script( WPML_SLUG . '-import', WPML_URL . '/assets/js/wpml.import.js', array( WPML_SLUG . '-admin-script' ), WPML_VERSION, true );
 			wp_enqueue_script( WPML_SLUG . '-importer', WPML_URL . '/assets/js/wpml.importer.js', array( WPML_SLUG . '-admin-script' ), WPML_VERSION, true );
 		}
 
@@ -164,7 +165,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				check_admin_referer( 'wpml-movie-import', 'wpml_movie_import' );
 
 			$movies = explode( ',', esc_textarea( $_POST['wpml_import_list'] ) );
-			$movies = array_map( __CLASS__ . '::wpml_prepare_movie_import', $movies );
+			$movies = array_map( __CLASS__ . '::prepare_movie_import', $movies );
 
 			foreach ( $movies as $i => $movie ) {
 				$import = self::import_movie( $movie['movietitle'] );

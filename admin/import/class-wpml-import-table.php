@@ -44,11 +44,11 @@ class WPML_Import_Table extends WP_List_Table {
 		$this->columns = WPML_Import::get_imported_movies();;
 
 		$this->column_names = array(
-			'ID'         => __( 'ID', 'wpml' ),
+			//'ID'         => __( 'ID', 'wpml' ),
 			'poster'     => __( 'Poster', 'wpml' ),
 			'movietitle' => __( 'Title', 'wpml' ),
 			'director'   => __( 'Director', 'wpml' ),
-			'tmdb_id'    => __( 'TMDb ID', 'wpml' ),
+			//'tmdb_id'    => __( 'TMDb ID', 'wpml' ),
 			'actions'    => __( 'Actions', 'wpml' )
 		);
 	}
@@ -261,11 +261,11 @@ class WPML_Import_Table extends WP_List_Table {
 	function column_actions( $item ) {
 
 		$actions = array(
-			'edit'      => sprintf('<a class="edit_movie" id="edit_%1$s"  href="%2$s" title="%3$s"><span class="dashicons dashicons-welcome-write-blog"></span></a>', $item['ID'], get_edit_post_link( $item['ID'] ), __( 'Edit', 'wpml' ) ),
-			'tmdb_data' => sprintf('<a class="fetch_movie" id="fetch_%1$s"  href="%2$s" title="%3$s"><span class="dashicons dashicons-download"></span></a>', $item['ID'], get_edit_post_link( $item['ID'] ) . "&wpml_auto_fetch=1", __( 'Fetch data from TMDb', 'wpml' ) ),
-			'import'    => sprintf('<a class="import_movie" id="import_%1$s" href="#" title="%2$s"><span class="dashicons dashicons-welcome-add-page"></span></a>', $item['ID'], __( 'Import Movie', 'wpml' ) ),
-			'enqueue'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" href="#" title="%2$s"><span class="dashicons dashicons-plus"></span></a>', $item['ID'], __( 'Enqueue', 'wpml' ) ),
-			'delete'    => sprintf('<a class="delete_movie" id="delete_%1$s" href="#" title="%2$s"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], __( 'Delete', 'wpml' ) ),
+			'edit'      => sprintf('<a class="edit_movie" id="edit_%1$s" data-post-id="%2$s" href="%3$s" title="%4$s"><span class="dashicons dashicons-welcome-write-blog"></span></a>', $item['ID'], $item['ID'], get_edit_post_link( $item['ID'] ), __( 'Edit', 'wpml' ) ),
+			'tmdb_data' => sprintf('<a class="fetch_movie" id="fetch_%1$s" data-post-id="%2$s" href="%3$s" title="%4$s"><span class="dashicons dashicons-download"></span></a>', $item['ID'], $item['ID'], get_edit_post_link( $item['ID'] ) . "&wpml_auto_fetch=1", __( 'Fetch data from TMDb', 'wpml' ) ),
+			'import'    => sprintf('<a class="import_movie" id="import_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-welcome-add-page"></span></a>', $item['ID'], $item['ID'], __( 'Import Movie', 'wpml' ) ),
+			'enqueue'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-plus"></span></a>', $item['ID'], $item['ID'], __( 'Enqueue', 'wpml' ) ),
+			'delete'    => sprintf('<a class="delete_movie" id="delete_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], $item['ID'], __( 'Delete', 'wpml' ) ),
 		);
 
 		return $this->row_actions( $actions, $always_visible = true );

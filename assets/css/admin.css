@@ -56,7 +56,7 @@ body.post-php.post-type-movie #postimagediv {
 
 #wpml-help {
 	color: #666;
-	float: left;
+	display: inline-table;
 	margin-left: 2%;
 	min-height: 8em;
 	width: 26%;
@@ -87,7 +87,8 @@ body.post-php.post-type-movie #postimagediv {
 
 #wpml-tabs {
 	border-width: 0 !important;
-	float: left;
+	display: inline-table;
+	position: relative;
 	width: 70%;
 }
 
@@ -201,17 +202,20 @@ body.post-php.post-type-movie #postimagediv {
 	color: #D54E21;
 }
 
-#wpml-tabs .wp-list-table #ID {
+#wpml-tabs .wp-list-table #poster {
 	width: 6em;
 }
 
-#wpml-tabs .wp-list-table #tmdb_id,
-#wpml-tabs .wp-list-table #poster {
-	width: 8em;
+#wpml-tabs .wp-list-table #director {
+	max-width: 10em;
 }
 
 #wpml-tabs .wp-list-table .poster.loading {
 	background: url(../img/loading.gif) 0 16px no-repeat;
+}
+
+#wpml-tabs .wp-list-table .movietitle {
+	font-style: italic;
 }
 
 /* Sortable/Drag n' Drop */
@@ -654,22 +658,19 @@ body.post-php.post-type-movie #postimagediv {
 	}
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1280px) {
 	
-	#wpml-tabs.ui-widget-content {
-		float: none;
-		width: 100%;
+	#wpml-tabs {
+		width: 100% !important;
 	}
 	
 	#wpml-help {
-		float: none;
 		margin: 1em 0 0 0;
 		width: 100% !important;
 	}
 	
 	#tmdbstuff .tmdb_meta,
 	#tmdbstuff .tmdb_crew {
-		float: none;
 		margin: 0;
 		width: 100% !important;
 	}
