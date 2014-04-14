@@ -1,8 +1,8 @@
 
-$ = $ || jQuery;
+$ = jQuery;
 
 wpml = {
-	ajax: function() {},
+	__ajax: function() {},
 	get: function() {},
 	post: function() {},
 	switch_data: function() {},
@@ -19,7 +19,7 @@ wpml = {
 	 * @param    function    Function to run on success
 	 * @param    function    Function to run on complete
 	 */
-	wpml.ajax = function( type, data, success, complete ) {
+	wpml.__ajax = function( type, data, success, complete ) {
 
 		var type = type || 'GET';
 		var data = data || {};
@@ -43,7 +43,7 @@ wpml = {
 	 * @param    function    Function to run on complete
 	 */
 	wpml.get = function( data, success, complete ) {
-		wpml.ajax( 'GET', data, success, complete );
+		wpml.__ajax( 'GET', data, success, complete );
 	},
 
 	/**
@@ -53,8 +53,8 @@ wpml = {
 	 * @param    function    Function to run on success
 	 * @param    function    Function to run on complete
 	 */
-	wpml.post = function( data, success ) {
-		wpml.ajax( 'POST', data, success, complete );
+	wpml.post = function( data, success, complete ) {
+		wpml.__ajax( 'POST', data, success, complete );
 	},
 
 	/**

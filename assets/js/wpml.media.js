@@ -85,7 +85,7 @@ var wpml_images, wpml_posters;
 				$('.added').remove();
 
 				wpml_images.total = total;
-				selection.map( images.upload );
+				selection.map( wpml_images.upload );
 
 				return;
 			};
@@ -185,9 +185,10 @@ var wpml_images, wpml_posters;
 
 				this._frame.state('library').unset('router');
 				this._frame.options.button.reset = false;
+				this._frame.options.button.event = 'import_poster';
 				this._frame.options.button.close = false;
 
-				this._frame.state('library').unbind('select').on('select', this.select);
+				this._frame.state('library').unbind('select').on('import_poster', this.select);
 
 				return this._frame;
 			};
@@ -226,25 +227,33 @@ var wpml_images, wpml_posters;
 			 */
 			wpml.media.posters.set_featured = function( image ) {
 
-				if ( undefined == image.attributes || undefined == image.attributes.tmdb_data ) {
+				
 
-					if ( 0 <= parseInt( wp.media.featuredImage.get() ) )
+				if ( undefined != image.attributes && undefined != image.attributes.tmdb_data ) {
+					var _image = {file_path: image.attributes.tmdb_data.file_path};
+				}
+				else {
+					if ( 0 <= parseInt( wp.media.featuredImage.get() ) ) {
+						$('#progress_status').text('Done!');
+						window.setTimeout( wpml_posters.close(), 2000 );
 						return false;
+					}
 
-					var image = {file_path: image};
+					var _image = {file_path: image};
 				}
 
-				wpml.get({
+				wpml.post({
 						action: 'wpml_set_featured',
 						wpml_check: wpml_ajax.utils.wpml_check,
-						image: image,
+						image: _image,
 						title: $('#tmdb_data_title').val(),
 						post_id: $('#post_ID').val(),
 						tmdb_id: $('#tmdb_data_tmdb_id').val()
 					},
 					function( response ) {
-						if ( response )
+						if ( response ) {
 							wp.media.featuredImage.set( response );
+						}
 					},
 					function() {
 						$('#progress_status').text('Done!');
@@ -266,13 +275,13 @@ var wpml_images, wpml_posters;
 
 		wpml.media.init = function() {
 
-			$('#tmdb_load_images').on('click', function(e) {
+			$('#tmdb_load_images').on( 'click', function( e ) {
 				e.preventDefault();
 				wpml_images.init();
 				wpml_images._frame.$el.addClass('movie-images');
 			});
 
-			$('#tmdb_load_posters').on('click', function(e) {
+			$('#postimagediv').on( 'click', '#tmdb_load_posters', function( e ) {
 				e.preventDefault();
 				wpml_posters.init();
 				wpml_posters._frame.$el.addClass('movie-posters');

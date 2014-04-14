@@ -35,7 +35,7 @@ wpml.movies = wpml_movies = {
 			function( response ) {
 				if ( 'movie' == response._result ) {
 					wpml_movies.populate( response );
-					wpml.media.posters.set_featured( response.poster_path/*, null, response.title, response._tmdb_id*/ );
+					//wpml.media.posters.set_featured( response.poster_path/*, null, response.title, response._tmdb_id*/ );
 				}
 				else if ( 'movies' == response._result ) {
 					wpml_movies.populate_select_list( response );
@@ -69,7 +69,7 @@ wpml.movies = wpml_movies = {
 					tmdb_data.removeChild( tmdb_data.lastChild );
 				tmdb_data.style.display = 'none';
 				wpml_movies.populate( response );
-				wpml.media.posters.set_featured( response.poster_path );
+				//wpml.media.posters.set_featured( response.poster_path );
 			}
 		);
 	};

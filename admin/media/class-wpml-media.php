@@ -231,10 +231,10 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
-			$image   = ( isset( $_GET['image'] )   && '' != $_GET['image']   ? $_GET['image']   : '' );
-			$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
-			$title   = ( isset( $_GET['title'] )   && '' != $_GET['title']   ? $_GET['title']   : '' );
-			$tmdb_id = ( isset( $_GET['tmdb_id'] ) && '' != $_GET['tmdb_id'] ? $_GET['tmdb_id'] : '' );
+			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : '' );
+			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : '' );
+			$title   = ( isset( $_POST['title'] )   && '' != $_POST['title']   ? $_POST['title']   : '' );
+			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : '' );
 
 			if ( ! is_array( $image ) || '' == $post_id )
 				return false;
@@ -265,10 +265,10 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
-			$image   = ( isset( $_GET['image'] )   && '' != $_GET['image']   ? $_GET['image']   : '' );
-			$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
-			$title   = ( isset( $_GET['title'] )   && '' != $_GET['title']   ? $_GET['title']   : '' );
-			$tmdb_id = ( isset( $_GET['tmdb_id'] ) && '' != $_GET['tmdb_id'] ? $_GET['tmdb_id'] : '' );
+			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : '' );
+			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : '' );
+			$title   = ( isset( $_POST['title'] )   && '' != $_POST['title']   ? $_POST['title']   : '' );
+			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : '' );
 
 			if ( '' == $image || '' == $post_id || 1 != WPML_Settings::tmdb__poster_featured() )
 				return false;
