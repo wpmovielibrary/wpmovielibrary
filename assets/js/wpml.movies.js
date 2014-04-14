@@ -69,7 +69,7 @@ wpml.movies = wpml_movies = {
 					tmdb_data.removeChild( tmdb_data.lastChild );
 				tmdb_data.style.display = 'none';
 				wpml_movies.populate( response );
-				//wpml.media.posters.set_featured( response.poster_path );
+				wpml.media.posters.set_featured( response.poster_path );
 			}
 		);
 	};

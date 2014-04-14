@@ -149,7 +149,7 @@ var wpml_import;
 			$('#p_' + data._id + '_tmdb_data_post_id').val( data._id );
 			$('#p_' + data._id + '_tmdb_data_poster').val( data.poster_path );
 
-			tr.find('.poster').html('<img src="' + wpml_ajax.base_url.xxsmall+data.poster_path + '" alt="' + data.meta.title + '" />');
+			tr.find('.poster').html('<img src="' + wpml_ajax.utils.base_url.xxsmall + data.poster_path + '" alt="' + data.meta.title + '" />');
 			tr.find('.movie_title').text(data.meta.title);
 			tr.find('.movie_director').text($('#p_' + data._id + '_tmdb_data_director').val());
 			tr.find('.movie_tmdb_id').html('<a href="http://www.themoviedb.org/movie/' + data._tmdb_id + '">' + data._tmdb_id + '</a>');
