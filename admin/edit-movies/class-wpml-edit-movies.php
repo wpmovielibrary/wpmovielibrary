@@ -64,6 +64,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				return;
 
 			wp_enqueue_script( WPML_SLUG . '-media' , WPML_URL . '/assets/js/wpml.media.js' , array( 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-movies' , WPML_URL . '/assets/js/wpml.movies.js' , array( 'jquery' ), WPML_VERSION, true );
 			wp_enqueue_script( WPML_SLUG . '-editor' , WPML_URL . '/assets/js/wpml.editor.js' , array( 'jquery' ), WPML_VERSION, true );
 		}
 

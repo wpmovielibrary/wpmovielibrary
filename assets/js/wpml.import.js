@@ -10,6 +10,7 @@ var wpml_import;
 		empty: '#wpml-import #wpml_empty',
 		select: '.tmdb_select_movie a',
 		select_list: '.wpml-import-movie-select',
+		empty: 'input#tmdb_empty',
 
 		init: undefined,
 		get_movie: undefined,
@@ -31,15 +32,20 @@ var wpml_import;
 				e.preventDefault();
 				wpml_import.select_movie( this );
 			});
+			
+			$(wpml_import.empty).on( 'click', function( e ) {
+				e.preventDefault();
+				wpml_import.empty_results();
+			});
 		};
 
 		wpml.import.search_movie = function( post_id, title, loading ) {
 
-			$loading = $(loading) || {}; console.log( $loading.prop('class') );
+			$loading = $(loading) || {};
 
 			wpml.get({
 					action: 'wpml_search_movie',
-					wpml_check: ajax_object.wpml_check,
+					wpml_check: wpml_ajax.utils.wpml_check,
 					type: 'title',
 					data: title,
 					lang: '',
@@ -92,7 +98,7 @@ var wpml_import;
 		wpml.import.get_movie = function( post_id, tmdb_id ) {
 			wpml.get({
 					action: 'wpml_search_movie',
-					wpml_check: ajax_object.wpml_check,
+					wpml_check: wpml_ajax.utils.wpml_check,
 					type: 'id',
 					data: tmdb_id,
 					_id: post_id
@@ -143,7 +149,7 @@ var wpml_import;
 			$('#p_' + data._id + '_tmdb_data_post_id').val( data._id );
 			$('#p_' + data._id + '_tmdb_data_poster').val( data.poster_path );
 
-			tr.find('.poster').html('<img src="' + ajax_object.base_url_xxsmall+data.poster_path + '" alt="' + data.meta.title + '" />');
+			tr.find('.poster').html('<img src="' + wpml_ajax.base_url.xxsmall+data.poster_path + '" alt="' + data.meta.title + '" />');
 			tr.find('.movie_title').text(data.meta.title);
 			tr.find('.movie_director').text($('#p_' + data._id + '_tmdb_data_director').val());
 			tr.find('.movie_tmdb_id').html('<a href="http://www.themoviedb.org/movie/' + data._tmdb_id + '">' + data._tmdb_id + '</a>');
@@ -151,7 +157,13 @@ var wpml_import;
 			$('#p_' + data._id + '_tmdb_data').appendTo('#tmdb_data');
 		};
 
-		wpml.import.populate_select_list = function(data) {
+		/**
+		 * Populate the Movie Select list with possible choices of 
+		 * movies matching the search.
+		 * 
+		 * @param    array    Movies TMDb data objects
+		 */
+		wpml.import.populate_select_list = function( data ) {
 
 			var html = '';
 
@@ -175,5 +187,21 @@ var wpml_import;
 
 			wpml_import.target.after( html );
 		};
+
+		/**
+		 * Empty all Movie search result fields, reset all taxonomies 
+		 * and remove the featured image.
+		 */
+		wpml.import.empty_results = function() {
+
+			$('.tmdb_data_field').val('');
+			$('.tmdb_select_movie').remove();
+			$('.categorydiv input[type=checkbox]').prop('checked', false);
+			$('#tmdb_data, .tagchecklist').empty();
+			$('#remove-post-thumbnail').trigger('click');
+
+			wpml.status.clear();
+		};
+
 	
 	wpml.import.init();

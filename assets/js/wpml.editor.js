@@ -16,9 +16,13 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 			$('input#wpml_save').click(function() {
 				wpml.editor.details.save();
 			});
+
+			if ( 'edit-movie' == pagenow )
+				wpml.editor.movies.init();
 		},
+		details: {},
 		meta: {},
-		details: {}
+		movies: {}
 	};
 
 		/**
@@ -47,7 +51,7 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 			wpml.editor.details.save = function() {
 				wpml.post({
 						action: 'wpml_save_details',
-						wpml_check: ajax_object.wpml_check,
+						wpml_check: wpml_ajax.utils.wpml_check,
 						post_id: $('#post_ID').val(),
 						wpml_details: {
 							media: $('#movie-media').val(),
@@ -367,7 +371,103 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 		 * WPML Movie Editor: Movie Meta
 		 */
 		wpml.editor.meta = wpml_meta = {
-			init: function() {}
+			init: function() {},
+			search_movie: function() {},
+			prefill_title: function() {}
 		}
+
+			/**
+			 * Init Events
+			 */
+			wpml.editor.meta.init = function() {
+
+				$('#tmdb_search').click(function(e) {
+					e.preventDefault();
+					wpml_meta.search_movie();
+				});
+
+				$('input#title').on( 'input', function() {
+					wpml_meta.prefill_title( $(this).val() );
+				});
+			};
+
+			/**
+			 * Search a movie by its title/ID with possible lang choice
+			 */
+			wpml.editor.meta.search_movie = function() {
+
+				wpml_movies.type = $('#tmdb_search_type > :selected').val();
+				wpml_movies.data = $('#tmdb_query').val();
+				wpml_movies.lang = $('#tmdb_search_lang').val();
+
+				wpml.movies.search();
+			};
+
+			/**
+			 * Prefill the Movie Meta Metabox search input with the
+			 * page title
+			 */
+			wpml.editor.meta.prefill_title = function( title ) {
+				if ( '' != title )
+					$('input#tmdb_query').val( title );
+			};
+
+		wpml.editor.movies = wpml_edit_movies = {
+
+			actors: 'td.column-taxonomy-actor',
+			visible: '.visible-actors',
+			hidden: '.hidden-actors',
+			more: '.more-actors',
+
+			init: function() {},
+			excerpt_actors: function() {}
+		}
+
+			/**
+			 * Init Events and generate Actors Excerpt list
+			 */
+			wpml.editor.movies.init = function() {
+
+				wpml_edit_movies.actor_excerpt();
+
+				$(wpml_edit_movies.more).on( 'click', function( e ) {
+					e.preventDefault();
+					wpml_edit_movies.toggle_actors( this );
+				});
+
+			};
+
+			/**
+			 * Hide most of the actors in the All Movies view. Since
+			 * movies can contain a large number of actors we limit
+			 * the list length to the first five names and show a link
+			 * to toggle the hidden rest on the list.
+			 */
+			wpml.editor.movies.actor_excerpt = function() {
+
+				$(wpml_edit_movies.actors).each( function() {
+
+					var visible = []; var hidden = [];
+					var links = $(this).find('a');
+					var _visible = links.slice( 0, 5 );
+					var _hidden = links.slice( 5 );
+
+					_visible.each(function() { visible.push( this.outerHTML ); });
+					_hidden.each(function() { hidden.push( this.outerHTML ); });
+
+					$(this).html('<span class="visible-actors"></span><span class="hidden-actors"></span>, <a class="more-actors" href="#">' + wpml_ajax.lang.see_more + '</a>');
+					$(this).find(wpml_edit_movies.visible).html( visible.join(', ') );
+					$(this).find(wpml_edit_movies.hidden).html( hidden.join(', ') );
+				});
+			};
+
+			wpml.editor.movies.toggle_actors = function( link ) {
+
+				$(link).prev(wpml_edit_movies.hidden).toggle();
+				if ( 'none' != $(link).prev(wpml_edit_movies.hidden).css('display') )
+					$(link).text( wpml_ajax.lang.see_less );
+				else
+					$(link).text( wpml_ajax.lang.see_more );
+			};
 
 	wpml.editor.init();

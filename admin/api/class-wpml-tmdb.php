@@ -57,7 +57,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			add_action( 'admin_init', array( $this, 'init' ) );
 
 			add_action( 'wp_ajax_wpml_search_movie', __CLASS__ . '::search_movie_callback' );
-			add_action( 'wp_ajax_wpml_check_api_key', __CLASS__ . '::_checkapi_key_callback' );
+			add_action( 'wp_ajax_wpml_check_api_key', __CLASS__ . '::check_api_key_callback' );
 		}
 
 		/**

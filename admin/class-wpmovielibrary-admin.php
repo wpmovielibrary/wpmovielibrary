@@ -120,42 +120,46 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					wp_enqueue_script( 'jquery-ui-tabs' );
 				}
 
-				$localize = array(
-					'ajax_url'           => admin_url( 'admin-ajax.php' ),
-					'wpml_check'         => wp_create_nonce( 'wpml-callbacks-nonce' ),
-					'images_added'       => __( 'Images uploaded!', 'wpml' ),
-					'empty_key'          => __( 'I can\'t test an empty key, you know.', 'wpml' ),
-					'length_key'         => __( 'Invalid key: it should be 32 characters long.', 'wpml' ),
-					'search_movie_title' => __( 'Searching movie', 'wpml' ),
-					'search_movie'       => __( 'Fetching movie data', 'wpml' ),
-					'set_featured'       => __( 'Setting featured image…', 'wpml' ),
-					'images_added'       => __( 'Images added!', 'wpml' ),
-					'image_from'         => __( 'Image from', 'wpml' ),
-					'load_images'        => __( 'Load Images', 'wpml' ),
-					'load_more'          => __( 'Load More', 'wpml' ),
-					'loading_images'     => __( 'Loading Images…', 'wpml' ),
-					'save_image'         => __( 'Saving Images…', 'wpml' ),
-					'poster'             => __( 'Poster', 'wpml' ),
-					'done'               => __( 'Done!', 'wpml' ),
-					'see_more'           => __( 'see more', 'wpml' ),
-					'see_less'           => __( 'see no more', 'wpml' ),
-					'oops'               => __( 'Oops… Did something went wrong?', 'wpml' )
-				);
-
 				$base_urls = WPML_TMDb::get_base_url();
 
-				$localize = $localize + array(
-					'base_url_xxsmall'   => $base_urls['poster_url']['xx-small'],
-					'base_url_xsmall'    => $base_urls['poster_url']['x-small'],
-					'base_url_small'     => $base_urls['image_url']['small'],
-					'base_url_medium'    => $base_urls['image_url']['medium'],
-					'base_url_full'      => $base_urls['image_url']['full'],
-					'base_url_original'  => $base_urls['image_url']['original'],
+				$localize = array(
+					'utils' => array(
+						'wpml_check' => wp_create_nonce( 'wpml-callbacks-nonce' ),
+						'base_url' => array(
+							'xxsmall'   => $base_urls['poster_url']['xx-small'],
+							'xsmall'    => $base_urls['poster_url']['x-small'],
+							'small'     => $base_urls['image_url']['small'],
+							'medium'    => $base_urls['image_url']['medium'],
+							'full'      => $base_urls['image_url']['full'],
+							'original'  => $base_urls['image_url']['original'],
+						)
+					),
+					'lang' => array(
+						'images_added'       => __( 'Images uploaded!', 'wpml' ),
+						'empty_key'          => __( 'I can\'t test an empty key, you know.', 'wpml' ),
+						'length_key'         => __( 'Invalid key: it should be 32 characters long.', 'wpml' ),
+						'search_movie_title' => __( 'Searching movie', 'wpml' ),
+						'search_movie'       => __( 'Fetching movie data', 'wpml' ),
+						'set_featured'       => __( 'Setting featured image…', 'wpml' ),
+						'images_added'       => __( 'Images added!', 'wpml' ),
+						'image_from'         => __( 'Image from', 'wpml' ),
+						'load_images'        => __( 'Load Images', 'wpml' ),
+						'load_more'          => __( 'Load More', 'wpml' ),
+						'loading_images'     => __( 'Loading Images…', 'wpml' ),
+						'save_image'         => __( 'Saving Images…', 'wpml' ),
+						'poster'             => __( 'Poster', 'wpml' ),
+						'done'               => __( 'Done!', 'wpml' ),
+						'see_more'           => __( 'see more', 'wpml' ),
+						'see_less'           => __( 'see no more', 'wpml' ),
+						'oops'               => __( 'Oops… Did something went wrong?', 'wpml' )
+					)
 				);
 
-				wp_enqueue_script( WPML_SLUG . '-admin-script', WPML_URL . '/assets/js/admin.js', array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-progressbar', 'jquery-ui-tabs' ), WPML_VERSION, true );
+				wp_enqueue_script( WPML_SLUG . '-admin-script', WPML_URL . '/assets/js/admin.js', array( 'jquery' ), WPML_VERSION, true );
+				wp_enqueue_script( WPML_SLUG . '-settings', WPML_URL . '/assets/js/wpml.settings.js', array( 'jquery', 'jquery-ui-sortable' ), WPML_VERSION, true );
+
 				wp_localize_script(
-					WPML_SLUG . '-admin-script', 'ajax_object',
+					WPML_SLUG . '-admin-script', 'wpml_ajax',
 					$localize
 				);
 			}

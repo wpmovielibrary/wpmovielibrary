@@ -142,7 +142,7 @@ var wpml_importer;
 		wpml.importer.delete_movie = function( id ) {
 			wpml.get({
 					action: 'wpml_delete_movie',
-					wpml_check: ajax_object.wpml_check,
+					wpml_check: wpml_ajax.utils.wpml_check,
 					post_id: id
 				},
 				function( response ) {
