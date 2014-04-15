@@ -97,6 +97,15 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 				'label_count'               => _n_noop( 'Imported Draft <span class="count">(%s)</span>', 'Imported Draft <span class="count">(%s)</span>' ),
 			) );
 
+			register_post_status( 'import-queued', array(
+				'label'                     => _x( 'Queued Movie', 'wpml' ),
+				'public'                    => false,
+				'exclude_from_search'       => true,
+				'show_in_admin_all_list'    => false,
+				'show_in_admin_status_list' => false,
+				'label_count'               => _n_noop( 'Queued Movie <span class="count">(%s)</span>', 'Queued Movies <span class="count">(%s)</span>' ),
+			) );
+
 		}
  
 		/**

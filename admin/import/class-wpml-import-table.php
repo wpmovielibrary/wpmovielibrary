@@ -39,9 +39,11 @@ class WPML_Import_Table extends WP_List_Table {
 			'screen'    => get_current_screen()
 		) );
 
+		$this->posts_per_page = 30;
+
 		$this->metadata = WPML_Settings::get_supported_movie_meta( $type = null, $merge = false );
 
-		$this->columns = WPML_Import::get_imported_movies();;
+		$this->columns = WPML_Import::get_imported_movies();
 
 		$this->column_names = array(
 			//'ID'         => __( 'ID', 'wpml' ),
@@ -308,7 +310,8 @@ class WPML_Import_Table extends WP_List_Table {
 	function get_bulk_actions() {
 
 		$actions = array(
-			'delete'    => __( 'Delete', 'wpml' ),
+			'delete'    => __( 'Delete Movie', 'wpml' ),
+			'enqueue' => __( 'Enqueue Movie', 'wpml' ),
 			'tmdb_data' => __( 'Fetch data from TMDb', 'wpml' ),
 		);
 
@@ -389,7 +392,7 @@ class WPML_Import_Table extends WP_List_Table {
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		usort( $this->columns, array( &$this, 'usort_reorder' ) );
 		
-		$per_page = $this->get_items_per_page( 'drafts_per_page', 30 );
+		$per_page = $this->get_items_per_page( 'drafts_per_page', $this->posts_per_page );
 		$current_page = $this->get_pagenum();
 		$total_items = count( $this->columns );
 		$total_pages = ceil( $total_items / $per_page );

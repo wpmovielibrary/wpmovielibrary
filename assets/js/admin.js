@@ -33,7 +33,7 @@ wpml = {
 			success: success,
 			complete: complete
 		});
-	},
+	};
 
 	/**
 	 * WPML filter for AJAX GET Request
@@ -44,7 +44,7 @@ wpml = {
 	 */
 	wpml.get = function( data, success, complete ) {
 		wpml.__ajax( 'GET', data, success, complete );
-	},
+	};
 
 	/**
 	 * WPML filter for AJAX POST Request
@@ -55,7 +55,7 @@ wpml = {
 	 */
 	wpml.post = function( data, success, complete ) {
 		wpml.__ajax( 'POST', data, success, complete );
-	},
+	};
 
 	/**
 	 * Determine which data package the submitted field name belongs to.

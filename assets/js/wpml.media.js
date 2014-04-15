@@ -206,6 +206,7 @@ var wpml_images, wpml_posters;
 					$content.append('<div id="progressbar_bg"><div id="progressbar"><div id="progress"></div></div><div id="progress_status">Please wait while the poster is uploading...</div>');
 
 				$('#progressbar_bg, #progressbar').show();
+				$('#progressbar #progress').width('40%');
 
 				var settings = wp.media.view.settings,
 				    selection = this.get('selection'),
@@ -234,6 +235,7 @@ var wpml_images, wpml_posters;
 				}
 				else {
 					if ( 0 <= parseInt( wp.media.featuredImage.get() ) ) {
+						$('#progressbar #progress').width('100%');
 						$('#progress_status').text('Done!');
 						window.setTimeout( wpml_posters.close(), 2000 );
 						return false;

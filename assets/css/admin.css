@@ -96,6 +96,18 @@ body.post-php.post-type-movie #postimagediv {
 	margin: 0.25em 0;
 }
 
+#wpml-tabs h4 span {
+	background: #333;
+	border-radius: 1em;
+	color: #fff;
+	font-weight: bold;
+	font-size: 0.75em;
+	margin-left: 0.25em;
+	padding: 0.25em 0.5em;
+	position: relative;
+	top: -0.75em;
+}
+
 #wpml-tabs > ul > li > a {
 	outline: none;
 }
@@ -165,6 +177,11 @@ body.post-php.post-type-movie #postimagediv {
 
 .wpml-tabs-nav > li:hover a {
 	color : #2EA2CC;
+}
+
+.wpml-tabs-nav > li:hover h4 span {
+	background: #2EA2CC !important;
+	color: #222 !important;
 }
 
 /* Table */
@@ -280,6 +297,7 @@ body.post-php.post-type-movie #postimagediv {
 .wp-list-table .poster img {
 	border-radius: 2px;
 	height: 4em;
+	max-width: 4em;
 }
 
 /* Movie Modal

@@ -155,6 +155,9 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					)
 				);
 
+				if ( 'movie' == $screen->id )
+					wp_enqueue_script( 'jquery-effects-shake' );
+
 				wp_enqueue_script( WPML_SLUG . '-admin-script', WPML_URL . '/assets/js/admin.js', array( 'jquery' ), WPML_VERSION, true );
 				wp_enqueue_script( WPML_SLUG . '-settings', WPML_URL . '/assets/js/wpml.settings.js', array( 'jquery', 'jquery-ui-sortable' ), WPML_VERSION, true );
 

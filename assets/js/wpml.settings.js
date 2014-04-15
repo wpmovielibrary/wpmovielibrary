@@ -60,8 +60,10 @@ wpml.settings = wpml_settings = {
 
 			var tab = $(link).attr('data-section');
 			var url = link.href.replace(link.hash, '');
-			    url = url.substring( 0, ( url.length - 1 ) );
-			var section = link.href.indexOf('&wpml_section');
+			if ( link.hash.length )
+				url = url.substring( 0, ( url.length - 1 ) );
+
+			    var section = link.href.indexOf('&wpml_section');
 			if ( section > 0 )
 				url = url.substring( 0, section );
 
@@ -82,7 +84,7 @@ wpml.settings = wpml_settings = {
 		init: function() {},
 		update_item_style: function() {},
 		update_item: function() {}
-	}
+	};
 
 		wpml.settings.sortable.init = function() {
 

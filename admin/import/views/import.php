@@ -7,11 +7,13 @@
 	<div id="wpml-tabs">
 
 		<ul class="wpml-tabs-nav">
-		    <li class="wpml-tabs-nav<?php if ( '' == $_section || 'wpml_imported' == $_section ) echo ' active'; ?>"><a id="_wpml_imported" href="" data-section="wpml_section=wpml_imported"><h4><?php _e( 'Imported Movies', 'wpml' ); ?></h4></a></li>
+		    <li class="wpml-tabs-nav<?php if ( '' == $_section || 'wpml_imported' == $_section ) echo ' active'; ?>"><a id="_wpml_imported" href="" data-section="wpml_section=wpml_imported"><h4><?php _e( 'Imported Movies', 'wpml' ); if ( $_imported ) { ?><span><?php echo $_imported; ?></span><?php } ?></h4></a></li>
+		    <li class="wpml-tabs-nav<?php if ( 'wpml_import_queue' == $_section ) echo ' active'; ?>"><a id="_wpml_import_queue" href="" data-section="wpml_section=wpml_import_queue"><h4><?php _e( 'Import Queue', 'wpml' ); if ( $_queued ) { ?><span><?php echo $_queued; ?></span><?php } ?></h4></a></li>
 		    <li class="wpml-tabs-nav<?php if ( 'wpml_import' == $_section ) echo ' active'; ?>"><a id="_wpml_import" href="" data-section="wpml_section=wpml_import"><h4><?php _e( 'Import New Movies', 'wpml' ); ?></h4></a></li>
 		</ul>
 
 		<div class="wpml-tabs-panels">
+
 			<div id="wpml_imported" class="form-table hide-if-js<?php if ( '' == $_section || 'wpml_imported' == $_section ) echo ' active'; ?>">
 
 				<div id="import-intro">
@@ -20,7 +22,7 @@
 
 <?php WPML_Import::display_import_movie_list(); ?>
 
-				<form method="post">
+				<form method="post" id="tmdb_data_form">
 
 					<?php wp_nonce_field('wpml-movie-save-import'); ?>
 
@@ -30,6 +32,19 @@
 						<input type="button" id="wpml_empty" name="wpml_empty" class="button button-secondary button-large" value="<?php _e( 'Empty All', 'wpml' ); ?>" />
 						<input type="submit" id="wpml_save_imported" name="wpml_save_imported" class="button button-primary button-large" value="<?php _e( 'Save Movies', 'wpml' ); ?>" />
 					</p>
+
+				</form>
+
+			</div>
+
+			<div id="wpml_import_queue" class="form-table hide-if-no-js<?php if ( 'wpml_import_queue' == $_section ) echo ' active'; ?>">
+
+<?php WPML_Import::display_queued_movie_list(); ?>
+
+				<form method="post">
+
+					<?php wp_nonce_field( 'wpml-movie-import-queue', 'wpml_movie_import_queue' ); ?>
+					<?php wp_nonce_field( 'wpml-movie-enqueue', 'wpml_ajax_movie_enqueue' ); ?>
 
 				</form>
 
@@ -65,6 +80,7 @@
 				</form>
 
 			</div>
+
 		</div>
 
 	</div>
