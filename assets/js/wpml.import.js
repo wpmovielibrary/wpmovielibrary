@@ -41,7 +41,7 @@ var wpml_import;
 
 		wpml.import.search_movie = function( post_id, title, loading ) {
 
-			$loading = $(loading) || {};
+			$loading = loading || {};
 
 			wpml.get({
 					action: 'wpml_search_movie',
@@ -65,9 +65,6 @@ var wpml_import;
 					else if ( response._result == 'error' || response._result == 'empty' ) {
 						$('#import-intro').after('<div id="import-error" class="success settings-error">' + response.p + '</div>').show();
 					}
-				},
-				function() {
-					$loading.removeClass('loading');
 				}
 			);
 
@@ -155,6 +152,7 @@ var wpml_import;
 			tr.find('.movie_tmdb_id').html('<a href="http://www.themoviedb.org/movie/' + data._tmdb_id + '">' + data._tmdb_id + '</a>');
 
 			$('#p_' + data._id + '_tmdb_data').appendTo('#tmdb_data');
+			tr.find('.loading').removeClass('loading');
 		};
 
 		/**

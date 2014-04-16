@@ -51,7 +51,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'WPML_Utils'       => WPML_Utils::get_instance(),
 				'WPML_Edit_Movies' => WPML_Edit_Movies::get_instance(),
 				'WPML_Media'       => WPML_Media::get_instance(),
-				'WPML_Import'      => WPML_Import::get_instance()
+				'WPML_Import'      => WPML_Import::get_instance(),
+				'WPML_Queue'       => WPML_Queue::get_instance()
 			);
 		}
 

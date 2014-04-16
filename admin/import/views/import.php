@@ -7,8 +7,8 @@
 	<div id="wpml-tabs">
 
 		<ul class="wpml-tabs-nav">
-		    <li class="wpml-tabs-nav<?php if ( '' == $_section || 'wpml_imported' == $_section ) echo ' active'; ?>"><a id="_wpml_imported" href="" data-section="wpml_section=wpml_imported"><h4><?php _e( 'Imported Movies', 'wpml' ); if ( $_imported ) { ?><span><?php echo $_imported; ?></span><?php } ?></h4></a></li>
-		    <li class="wpml-tabs-nav<?php if ( 'wpml_import_queue' == $_section ) echo ' active'; ?>"><a id="_wpml_import_queue" href="" data-section="wpml_section=wpml_import_queue"><h4><?php _e( 'Import Queue', 'wpml' ); if ( $_queued ) { ?><span><?php echo $_queued; ?></span><?php } ?></h4></a></li>
+		    <li class="wpml-tabs-nav<?php if ( '' == $_section || 'wpml_imported' == $_section ) echo ' active'; ?>"><a id="_wpml_imported" href="" data-section="wpml_section=wpml_imported"><h4><?php _e( 'Imported Movies', 'wpml' ); ?><span><?php echo $_imported; ?></span></h4></a></li>
+		    <li class="wpml-tabs-nav<?php if ( 'wpml_import_queue' == $_section ) echo ' active'; ?>"><a id="_wpml_import_queue" href="" data-section="wpml_section=wpml_import_queue"><h4><?php _e( 'Import Queue', 'wpml' ); ?><span><?php echo $_queued; ?></span></h4></a></li>
 		    <li class="wpml-tabs-nav<?php if ( 'wpml_import' == $_section ) echo ' active'; ?>"><a id="_wpml_import" href="" data-section="wpml_section=wpml_import"><h4><?php _e( 'Import New Movies', 'wpml' ); ?></h4></a></li>
 		</ul>
 
@@ -20,11 +20,15 @@
 					<p><?php _e( 'Here are the movies you previously updated but didn’t save. You can save them, edit them individually or apply bulk actions. Posters are automatically saved and set as featured images, but images are not. Use the bulk action to import, but be aware that it can take some time if you select a lot of movies. Don’t forget to save your imports when you’re done!', 'wpml' ); ?></p>
 				</div>
 
-<?php WPML_Import::display_import_movie_list(); ?>
+<?php
+wp_nonce_field( 'wpml-fetch-imported-movies-nonce', 'wpml_fetch_imported_movies_nonce' );
+WPML_Import::display_import_movie_list();
+?>
 
 				<form method="post" id="tmdb_data_form">
 
-					<?php wp_nonce_field('wpml-movie-save-import'); ?>
+					<?php wp_nonce_field( 'wpml-movie-save-import' ); ?>
+					<?php wp_nonce_field( 'wpml-movie-enqueue', 'wpml_ajax_movie_enqueue' ); ?>
 
 					<div id="tmdb_data" style="display:none"></div>
 
@@ -39,12 +43,18 @@
 
 			<div id="wpml_import_queue" class="form-table hide-if-no-js<?php if ( 'wpml_import_queue' == $_section ) echo ' active'; ?>">
 
-<?php WPML_Import::display_queued_movie_list(); ?>
+<?php
+wp_nonce_field( 'wpml-fetch-queued-movies-nonce', 'wpml_fetch_queued_movies_nonce' );
+WPML_Queue::display_queued_movie_list();
+?>
 
 				<form method="post">
 
 					<?php wp_nonce_field( 'wpml-movie-import-queue', 'wpml_movie_import_queue' ); ?>
-					<?php wp_nonce_field( 'wpml-movie-enqueue', 'wpml_ajax_movie_enqueue' ); ?>
+
+					<p style="text-align:right">
+						<input type="submit" id="wpml_import_queued" name="wpml_import_queued" class="button button-primary button-large" value="<?php _e( 'Import Movies', 'wpml' ); ?>" />
+					</p>
 
 				</form>
 

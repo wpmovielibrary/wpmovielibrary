@@ -15,7 +15,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 
 error_reporting( ~E_ALL );
 
-class WPML_Import_Table extends WP_List_Table {
+class WPML_Queue_Table extends WP_List_Table {
 
 	/**
 	 * Constructor. Calls WP_List_Table and set up data.
@@ -24,11 +24,9 @@ class WPML_Import_Table extends WP_List_Table {
 	 * 
 	 * @access   protected
 	 * 
-	 * @param    array    $columns  Associative array containing all the Movies
-	 *                              imported from list
-	 * @param    array    $metadata Associative array containing Movies metadata
+	 * @param    array    $queue Are we dealing with queued movies?
 	 */
-	function __construct() {
+	function __construct( $queue = false ) {
 
 		global $status, $page;
 
@@ -40,15 +38,14 @@ class WPML_Import_Table extends WP_List_Table {
 		) );
 
 		$this->posts_per_page = 30;
-
 		$this->metadata = WPML_Settings::get_supported_movie_meta( $type = null, $merge = false );
-
-		$this->columns = WPML_Import::get_imported_movies();
+		$this->columns = WPML_Queue::get_queued_movies();
 
 		$this->column_names = array(
-			'poster'     => __( 'Poster', 'wpml' ),
+			//'poster'     => __( 'Poster', 'wpml' ),
 			'movietitle' => __( 'Title', 'wpml' ),
 			'director'   => __( 'Director', 'wpml' ),
+			'status'     => __( 'Status', 'wpml' ),
 			'actions'    => __( 'Actions', 'wpml' )
 		);
 	}
@@ -81,6 +78,18 @@ class WPML_Import_Table extends WP_List_Table {
 	 */
 	function no_items() {
 		_e( 'No movies found, dude.', 'wpml' );
+	}
+
+	/**
+	 * Display the search box.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param    string    $text The search button text
+	 * @param    string    $input_id The search input id
+	 */
+	function search_box( $text, $input_id ) {
+		return null;
 	}
 	
 	/**
@@ -192,7 +201,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * @return   string    HTML markup
 	 */
 	function column_cb( $item ) {
-		    return sprintf( '<input type="checkbox" id="post_%s" name="movie[]" value="%s" />', $item['ID'], $item['ID'] );
+		return sprintf( '<input type="checkbox" id="post_%s" name="movie[]" value="%s" />', $item['ID'], $item['ID'] );
 	}
  
 	/**
@@ -205,7 +214,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * @return   string    HTML markup
 	 */
 	function column_ID( $item ) {
-		return sprintf('<span class="movie_ID">%1$s</span>', $item['ID'] );
+		return sprintf( '<span class="movie_ID">%1$s</span>', $item['ID'] );
 	}
  
 	/**
@@ -218,18 +227,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * @return   string    HTML markup
 	 */
 	function column_movietitle( $item ) {
-
-		$inline_item  = '<input id="p_'.$item['ID'].'_tmdb_data_post_id" type="hidden" name="tmdb[p_'.$item['ID'].'][post_id]" value="'.$item['ID'].'" />';
-		$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_tmdb_id" type="hidden" name="tmdb[p_'.$item['ID'].'][tmdb_id]" value="0" />';
-		$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_poster" type="hidden" name="tmdb[p_'.$item['ID'].'][poster]" value="" />';
-
-		foreach ( $this->metadata as $id => $box )
-			foreach ( $box['data'] as $slug => $meta )
-				$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_'.$slug.'" type="hidden" name="tmdb[p_'.$item['ID'].']['.$id.']['.$slug.']" value="" />';
-
-		$inline_item = '<div id="p_'.$item['ID'].'_tmdb_data">'.$inline_item.'</div>';
-
-		return sprintf('<span class="movie_title">%1$s</span> %2$s', $item['movietitle'], $inline_item );
+		return sprintf( '<span class="movie_title">%1$s</span>', $item['movietitle'] );
 	}
  
 	/**
@@ -242,7 +240,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * @return   string    HTML markup
 	 */
 	function column_director( $item ) {
-		return sprintf('<span class="movie_director">%1$s</span>', $item['director'] );
+		return sprintf( '<span class="movie_director">%1$s</span>', $item['director'] );
 	}
  
 	/**
@@ -255,20 +253,39 @@ class WPML_Import_Table extends WP_List_Table {
 	 * @return   string    HTML markup
 	 */
 	function column_tmdb_id( $item ) {
-		return sprintf('<span class="movie_tmdb_id">%1$s</span>', $item['tmdb_id'] );
+		return sprintf( '<span class="movie_tmdb_id">%1$s</span>', $item['tmdb_id'] );
 	}
 
+	/**
+	 * Show a list of actions.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    $item Associative array containing the item data.
+	 * 
+	 * @return   string    HTML markup
+	 */
 	function column_actions( $item ) {
 
 		$actions = array(
-			'edit'      => sprintf('<a class="edit_movie" id="edit_%1$s" data-post-id="%2$s" href="%3$s" title="%4$s"><span class="dashicons dashicons-welcome-write-blog"></span></a>', $item['ID'], $item['ID'], get_edit_post_link( $item['ID'] ), __( 'Edit', 'wpml' ) ),
-			'tmdb_data' => sprintf('<a class="fetch_movie" id="fetch_%1$s" data-post-id="%2$s" href="%3$s" title="%4$s"><span class="dashicons dashicons-download"></span></a>', $item['ID'], $item['ID'], get_edit_post_link( $item['ID'] ) . "&wpml_auto_fetch=1", __( 'Fetch data from TMDb', 'wpml' ) ),
-			'import'    => sprintf('<a class="import_movie" id="import_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-welcome-add-page"></span></a>', $item['ID'], $item['ID'], __( 'Import Movie', 'wpml' ) ),
-			'enqueue'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-plus"></span></a>', $item['ID'], $item['ID'], __( 'Enqueue', 'wpml' ) ),
-			'delete'    => sprintf('<a class="delete_movie" id="delete_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], $item['ID'], __( 'Delete', 'wpml' ) ),
+			'dequeue' => sprintf( '<a class="dequeue_movie" id="dequeue_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-no"></span></a>', $item['ID'], $item['ID'], __( 'Dequeue', 'wpml' ) ),
+			'delete'  => sprintf( '<a class="delete_movie" id="delete_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], $item['ID'], __( 'Delete', 'wpml' ) ),
 		);
 
 		return $this->row_actions( $actions, $always_visible = true );
+	}
+ 
+	/**
+	 * Show the Movie's queue status.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    $item Associative array containing the item data.
+	 * 
+	 * @return   string    HTML markup
+	 */
+	function column_status( $item ) {
+		return sprintf( '<span class="movie_status">%1$s</span>', __( 'Queued', WPML_SLUG ) );
 	}
 
 	/**
@@ -281,18 +298,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * @return   array    Associative array of Movies
 	 */
 	function filter_search() {
-
-		if ( empty( $this->columns ) || ! isset( $_REQUEST['s'] ) || '' == $_REQUEST['s'] )
-			return $this->columns;
-
-		$results = array();
-		$search = esc_attr( $_REQUEST['s'] );
-
-		foreach ( $this->columns as $column )
-			if ( false !== stristr( $column['movietitle'], $search ) )
-				$results[] = $column;
-
-		$this->columns = $results;
+		return $this->columns;
 	}
 	
 	/**
@@ -308,9 +314,8 @@ class WPML_Import_Table extends WP_List_Table {
 	function get_bulk_actions() {
 
 		$actions = array(
-			'delete'    => __( 'Delete Movie', 'wpml' ),
-			'enqueue' => __( 'Enqueue Movie', 'wpml' ),
-			'tmdb_data' => __( 'Fetch data from TMDb', 'wpml' ),
+			'dequeue' => __( 'Remove from queue', 'wpml' ),
+			'import'  => __( 'Import', 'wpml' )
 		);
 
 		return $actions;
@@ -390,7 +395,7 @@ class WPML_Import_Table extends WP_List_Table {
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		usort( $this->columns, array( &$this, 'usort_reorder' ) );
 		
-		$per_page = $this->get_items_per_page( 'drafts_per_page', $this->posts_per_page );
+		$per_page = count( $this->columns );
 		$current_page = $this->get_pagenum();
 		$total_items = count( $this->columns );
 		$total_pages = ceil( $total_items / $per_page );

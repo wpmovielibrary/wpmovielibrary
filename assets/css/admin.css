@@ -235,6 +235,18 @@ body.post-php.post-type-movie #postimagediv {
 	font-style: italic;
 }
 
+#wpml-tabs .wp-list-table .column-status {
+	font-size: 0.85em !important;
+	font-style: italic;
+	padding-right: 1.5em !important;
+}
+
+#wpml-tabs #wpml_import_queue .wp-list-table .column-actions,
+#wpml-tabs #wpml_import_queue .wp-list-table .column-status {
+	text-align: center;
+	width: 4em !important;
+}
+
 /* Sortable/Drag n' Drop */
 
 #wpml-tabs .default_movie_meta_sortable {

@@ -94,6 +94,8 @@ if ( is_admin() ) {
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/media/class-wpml-media.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/import/class-wpml-import-table.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/import/class-wpml-import.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/import/class-wpml-queue-table.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/import/class-wpml-queue.php' );
 
 	add_action( 'plugins_loaded', array( 'WPMovieLibrary_Admin', 'get_instance' ) );
 
