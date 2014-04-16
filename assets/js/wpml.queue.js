@@ -5,7 +5,8 @@ var wpml_queue;
 
 	wpml.queue = wpml_queue = {
 
-		import: '#wpml_import_queued',
+		import_queued: '#wpml_import_queued',
+		select: '#wpml_import_queue input[type=checkbox]',
 		enqueue: '#wpml-import .enqueue_movie',
 
 		init: function() {},
@@ -14,6 +15,17 @@ var wpml_queue;
 
 		wpml.queue.init = function() {
 
+			$(wpml_queue.import_queued).prop('disabled', true);
+
+			$(wpml_queue.select).on( 'click', function( e ) {
+				wpml_queue.toggle_button();
+			});
+
+			$(wpml_queue.import_queued).on( 'click', function( e ) {
+				e.preventDefault();
+				wpml_queue.import( this );
+			});
+
 			$(wpml_queue.enqueue).on( 'click', function( e ) {
 				e.preventDefault();
 				wpml_queue.push( this );
@@ -21,7 +33,6 @@ var wpml_queue;
 			
 		};
 
-		// Fetch movie data 
 		wpml.queue.push = function( link ) {
 
 			var $link = $(link),
@@ -85,6 +96,18 @@ var wpml_queue;
 					console.log( response );
 				}
 			);
+		};
+
+		wpml.queue.import = function() {
+
+			
+		};
+
+		wpml.queue.toggle_button = function() {
+			if ( $('input[type=checkbox]:checked', '#wpml_import_queue').length )
+				$(wpml_queue.import_queued).prop('disabled', false);
+			else
+				$(wpml_queue.import_queued).prop('disabled', true);
 		};
 
 	wpml.queue.init();

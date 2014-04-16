@@ -53,6 +53,7 @@ WPML_Queue::display_queued_movie_list();
 					<?php wp_nonce_field( 'wpml-movie-import-queue', 'wpml_movie_import_queue' ); ?>
 
 					<p style="text-align:right">
+						<div id="queue_progressbar"><div id="queue_progress"></div></div>
 						<input type="submit" id="wpml_import_queued" name="wpml_import_queued" class="button button-primary button-large" value="<?php _e( 'Import Movies', 'wpml' ); ?>" />
 					</p>
 

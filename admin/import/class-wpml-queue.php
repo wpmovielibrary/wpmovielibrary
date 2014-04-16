@@ -74,16 +74,35 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function display_queued_movie_list() {
 
-			$list = new WPML_Queue_Table();
-			$list->prepare_items();
+			$movies = self::get_queued_movies();
+			
 	?>
 				<form method="post">
 					<input type="hidden" name="page" value="import" />
+					<div id="wpml-queued-list-header">
+						<div class="check-column"><input type="checkbox" id="post_all" value="" /></div>
+							<div class="movietitle column-movietitle"><?php _e( 'Title', WPML_SLUG ) ?></div>
+							<div class="director column-director"><?php _e( 'Director', WPML_SLUG ) ?></div>
+							<div class="actions column-actions"><?php _e( 'Actions', WPML_SLUG ) ?></div>
+							<div class="status column-status"><?php _e( 'Status', WPML_SLUG ) ?></div>
+					</div>
+					<ul id="wpml-queued-list" class="wp-list-table">
 
-<?php
-			$list->display();
-
-?>
+<?php			foreach ( $movies as $movie ) : ?>
+						<li>
+							<div scope="row" class="check-column"><input type="checkbox" id="post_<?php echo $movie['ID'] ?>" name="movie[]" value="<?php echo $movie['ID'] ?>" /></div>
+							<div class="movietitle column-movietitle"><span class="movie_title"><?php echo $movie['title'] ?></span></div>
+							<div class="director column-director"><span class="movie_director"><?php echo $movie['director'] ?></span></div>
+							<div class="actions column-actions">
+								<div class="row-actions visible">
+									<span class="dequeue"><a class="dequeue_movie" id="dequeue_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Dequeue', WPML_SLUG ) ?>"><span class="dashicons dashicons-no"></span></a> | </span>
+									<span class="delete"><a class="delete_movie" id="delete_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Delete', WPML_SLUG ) ?>"><span class="dashicons dashicons-post-trash"></span></a></span>
+								</div>
+							</div>
+							<div class="status column-status"><span class="movie_status"><?php _e( 'Queued', WPML_SLUG ) ?></span></div>
+						</li>
+<?php			endforeach; ?>
+					</ul>
 				</form>
 <?php
 		}
@@ -184,7 +203,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 						$columns[ get_the_ID() ] = array(
 							'ID'         => get_the_ID(),
 							//'poster'     => '<img src="' . WPML_TMDb::get_base_url( 'poster', 'xxx-small' ) . $metadata['poster'] . '" alt="' . get_the_title() . '" />',
-							'movietitle' => get_the_title(),
+							'title' => get_the_title(),
 							'director'   => $metadata['crew']['director'],
 							'tmdb_id'    => get_post_meta( get_the_ID(), '_wpml_tmdb_id', true )
 						);
