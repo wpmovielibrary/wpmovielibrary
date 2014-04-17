@@ -77,8 +77,8 @@
 			<div id="major-publishing-actions">
 				<div id="publishing-action">
 					<span class="spinner"></span>
-					<input name="wpml_details_save" type="hidden" id="wpml_details_save" value="<?php _e( 'Save', 'wpml' ); ?>">
 					<input type="button" name="wpml_save" id="wpml_save" class="button button-secondary button-large" value="<?php _e( 'Save', 'wpml' ); ?>" accesskey="s">
+					<input name="wpml_details_save" type="hidden" id="wpml_details_save" value="<?php _e( 'Save', 'wpml' ); ?>">
 				</div>
 				<div class="clear"></div>
 			</div>

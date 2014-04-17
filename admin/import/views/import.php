@@ -8,7 +8,7 @@
 
 		<ul class="wpml-tabs-nav">
 		    <li class="wpml-tabs-nav<?php if ( '' == $_section || 'wpml_imported' == $_section ) echo ' active'; ?>"><a id="_wpml_imported" href="" data-section="wpml_section=wpml_imported"><h4><?php _e( 'Imported Movies', 'wpml' ); ?><span><?php echo $_imported; ?></span></h4></a></li>
-		    <li class="wpml-tabs-nav<?php if ( 'wpml_import_queue' == $_section ) echo ' active'; ?>"><a id="_wpml_import_queue" href="" data-section="wpml_section=wpml_import_queue"><h4><?php _e( 'Import Queue', 'wpml' ); ?><span><?php echo $_queued; ?></span></h4></a></li>
+		    <li class="wpml-tabs-nav<?php if ( 'wpml_import_queue' == $_section ) echo ' active'; ?> hide-if-no-js"><a id="_wpml_import_queue" href="" data-section="wpml_section=wpml_import_queue"><h4><?php _e( 'Import Queue', 'wpml' ); ?><span><?php echo $_queued; ?></span></h4></a></li>
 		    <li class="wpml-tabs-nav<?php if ( 'wpml_import' == $_section ) echo ' active'; ?>"><a id="_wpml_import" href="" data-section="wpml_section=wpml_import"><h4><?php _e( 'Import New Movies', 'wpml' ); ?></h4></a></li>
 		</ul>
 
@@ -43,18 +43,40 @@ WPML_Import::display_import_movie_list();
 
 			<div id="wpml_import_queue" class="form-table hide-if-no-js<?php if ( 'wpml_import_queue' == $_section ) echo ' active'; ?>">
 
+				<form method="post">
+					<input type="hidden" name="page" value="import" />
+					<div class="tablenav top hide-if-no-js">
+						<div class="alignleft actions bulkactions">
+							<select name="queue-action">
+								<option value="-1" selected="selected"><?php _e( 'Bulk Actions', WPML_SLUG ); ?></option>
+									<option value="delete"><?php _e( 'Delete Movie', WPML_SLUG ); ?></option>
+									<option value="dequeue"><?php _e( 'Dequeue Movie', WPML_SLUG ); ?></option>
+							</select>
+							<input type="submit" name="" id="do-queue-action" class="button action" value="Apply">
+						</div>
+						<div class="tablenav-pages"><span class="displaying-num"><?php printf( _n( '1 item', '%s items', $_queued ), number_format_i18n( $_queued ) ) ?></span></div>
+					</div>
+					<div id="wpml-queued-list-header" class="hide-if-no-js">
+						<div class="check-column"><input type="checkbox" id="post_all" value="" /></div>
+							<div class="movietitle column-movietitle"><?php _e( 'Title', WPML_SLUG ) ?></div>
+							<div class="director column-director"><?php _e( 'Director', WPML_SLUG ) ?></div>
+							<div class="actions column-actions"><?php _e( 'Actions', WPML_SLUG ) ?></div>
+							<div class="status column-status"><?php _e( 'Status', WPML_SLUG ) ?></div>
+					</div>
 <?php
 wp_nonce_field( 'wpml-fetch-queued-movies-nonce', 'wpml_fetch_queued_movies_nonce' );
 WPML_Queue::display_queued_movie_list();
 ?>
+				</form>
 
 				<form method="post">
 
 					<?php wp_nonce_field( 'wpml-movie-import-queue', 'wpml_movie_import_queue' ); ?>
 
 					<p style="text-align:right">
-						<div id="queue_progressbar"><div id="queue_progress"></div></div>
 						<input type="submit" id="wpml_import_queued" name="wpml_import_queued" class="button button-primary button-large" value="<?php _e( 'Import Movies', 'wpml' ); ?>" />
+						<div id="queue_progressbar"><div id="queue_progress"></div></div>
+						<div id="queue_status"><span id="_queued_imported">12</span> of <span id="_queued_left">42</span> imported</div>
 					</p>
 
 				</form>

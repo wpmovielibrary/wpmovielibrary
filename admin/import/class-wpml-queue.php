@@ -75,17 +75,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		public static function display_queued_movie_list() {
 
 			$movies = self::get_queued_movies();
-			
-	?>
-				<form method="post">
-					<input type="hidden" name="page" value="import" />
-					<div id="wpml-queued-list-header">
-						<div class="check-column"><input type="checkbox" id="post_all" value="" /></div>
-							<div class="movietitle column-movietitle"><?php _e( 'Title', WPML_SLUG ) ?></div>
-							<div class="director column-director"><?php _e( 'Director', WPML_SLUG ) ?></div>
-							<div class="actions column-actions"><?php _e( 'Actions', WPML_SLUG ) ?></div>
-							<div class="status column-status"><?php _e( 'Status', WPML_SLUG ) ?></div>
-					</div>
+?>
 					<ul id="wpml-queued-list" class="wp-list-table">
 
 <?php			foreach ( $movies as $movie ) : ?>
@@ -103,7 +93,6 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 						</li>
 <?php			endforeach; ?>
 					</ul>
-				</form>
 <?php
 		}
 
@@ -171,6 +160,69 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				printf( __( 'An error occured when adding "%s" to the queue.', WPML_SLUG ), $post_title );
 
 			WPML_Edit_Movies::save_movie_meta( $id, $post = null, $queue = true, $metadata );
+		}
+
+		/**
+		 * Process the submitted dequeue movie list
+		 *
+		 * @since     1.0.0
+		 * 
+		 * @return    void|boolean|string
+		 */
+		private static function dequeue_movies() {
+
+			$errors = array();
+			$_notice = '';
+
+			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
+
+			if ( is_null( $post_id ) )
+				return false;
+
+			self::dequeue_movie( $post_id, $title, $metadata );
+			wp_die();
+		}
+
+		/**
+		 * Remove a movie from the queue list.
+		 * 
+		 * Simply change the movie's post_status to 'import-draft' and
+		 * update the dates.
+		 *
+		 * @since     1.0.0
+		 * 
+		 * @param     string     $title Movie title.
+		 * 
+		 * @return    int        ID of the updated movie if everything worked, 0 else.
+		 */
+		private static function dequeue_movie( $post_id ) {
+
+			$post_date     = current_time('mysql');
+			$post_date     = wp_checkdate( substr( $post_date, 5, 2 ), substr( $post_date, 8, 2 ), substr( $post_date, 0, 4 ), $post_date );
+			$post_date_gmt = get_gmt_from_date( $post_date );
+
+			$_post = array(
+				'ID'             => $post_id,
+				'post_date'      => $post_date,
+				'post_date_gmt'  => $post_date_gmt,
+				'post_status'    => 'import-draft'
+			);
+
+			$id = wp_update_post( $_post );
+
+			if ( false === $id ) {
+				printf( __( 'An error occured when trying to remove "%s" from the queue.', WPML_SLUG ), get_the_title( $post_id ) );
+				return false;
+			}
+
+			$id = delete_post_meta( $post_id, '_wpml_movie_data' );
+
+			if ( false === $id ) {
+				printf( __( 'An error occured when trying to remove "%s" from the queue.', WPML_SLUG ), get_the_title( $post_id ) );
+				return false;
+			}
+
+			return true;
 		}
 
 		/**

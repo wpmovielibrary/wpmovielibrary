@@ -7,10 +7,8 @@ var wpml_import;
 
 		target: {},
 
-		empty: '#wpml-import #wpml_empty',
 		select: '.tmdb_select_movie a',
 		select_list: '.wpml-import-movie-select',
-		empty: 'input#tmdb_empty',
 
 		init: undefined,
 		get_movie: undefined,
@@ -23,25 +21,14 @@ var wpml_import;
 		 * Init WPML Import
 		 */
 		wpml.import.init = function() {
-
-			$(wpml_import.empty).on( 'click', function() {
-				$(wpml_import.select_list).remove();
-			});
 			
 			$(wpml_import.select).unbind('click').bind('click', function( e ) {
 				e.preventDefault();
 				wpml_import.select_movie( this );
 			});
-			
-			$(wpml_import.empty).on( 'click', function( e ) {
-				e.preventDefault();
-				wpml_import.empty_results();
-			});
 		};
 
 		wpml.import.search_movie = function( post_id, title, loading ) {
-
-			$loading = loading || {};
 
 			wpml.get({
 					action: 'wpml_search_movie',
@@ -51,7 +38,7 @@ var wpml_import;
 					lang: '',
 					_id: post_id
 				},
-				function(response) {
+				function( response ) {
 
 					wpml_import.target = $('#p_' + response._id); // Update the target for populates
 
@@ -184,21 +171,6 @@ var wpml_import;
 			html = '<tr class="wpml-import-movie-select"><td colspan="7"><div class="tmdb_select_movies">' + html + '</div></td></tr>';
 
 			wpml_import.target.after( html );
-		};
-
-		/**
-		 * Empty all Movie search result fields, reset all taxonomies 
-		 * and remove the featured image.
-		 */
-		wpml.import.empty_results = function() {
-
-			$('.tmdb_data_field').val('');
-			$('.tmdb_select_movie').remove();
-			$('.categorydiv input[type=checkbox]').prop('checked', false);
-			$('#tmdb_data, .tagchecklist').empty();
-			$('#remove-post-thumbnail').trigger('click');
-
-			wpml.status.clear();
 		};
 
 	

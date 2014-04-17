@@ -231,10 +231,16 @@ body.post-php.post-type-movie #postimagediv {
 	background: url(../img/loading.gif) 0 16px no-repeat;
 }
 
+#wpml-queued-list-header {
+	border: 1px solid #ddd;
+	border-bottom: 0;
+	margin-top: 0.5em;
+}
+
 #wpml-queued-list-header > div {
 	display: inline-block;
 	font-weight: bold;
-	padding: 1em;
+	padding: 0.75em 1em;
 }
 
 #wpml-tabs #wpml-queued-list {
@@ -287,6 +293,13 @@ body.post-php.post-type-movie #postimagediv {
 	float: right;
 	text-align: center;
 	width: 4em !important;
+}
+
+#queue_status {
+	display: inline-block;
+	font-size: 0.9em;
+	margin-top: 6px;
+	vertical-align: top;
 }
 
 #queue_progressbar {
@@ -525,6 +538,11 @@ body.post-php.post-type-movie #postimagediv {
 #tmdb_data p {
 	color: #eee;
 	padding: 0 1.5em;
+}
+
+#wpml-tmdb .spinner {
+	float: none;
+	margin-top: -4px;
 }
 
 .button-empty {

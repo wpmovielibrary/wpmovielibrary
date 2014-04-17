@@ -76,9 +76,16 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
-			$post_id = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
+			$post_ids = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
 
-			echo self::delete_movie( $post_id );
+			$errors = array();
+
+			foreach ( $post_ids as $post_id )
+				$errors[] = self::delete_movie( $post_id );
+
+			if ( ! empty( $errors ) )
+				echo json_encode( $errors );
+
 			die();
 		}
 
@@ -269,8 +276,6 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			if ( '' != $thumb_id )
 				if ( false === wp_delete_attachment( $thumb_id ) )
 					return vsprintf( __( 'An error occured trying to delete Attachment #%s', 'wpml' ), $thumb_id );
-
-			return true;
 		}
 
 		/**
