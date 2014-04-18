@@ -3,7 +3,9 @@
 	return;
 endif;
 ?>
-		<div id="wpml-tmdb" class="wpml-tmdb">
+		<div class="hide-if-js"><?php WPML_Utils::admin_notice( __( 'It seems you have JavaScript deactivated; the import feature will not work correctly without it, please check your browser\'s settings.', WPML_SLUG ), 'error' ); ?></div>
+
+		<div id="wpml-tmdb" class="wpml-tmdb hide-if-no-js">
 <?php if ( true === WPML_Settings::tmdb__dummy() ) : ?>
 			<div class="updated"><p><em><?php printf( __( 'WPMovieLibrary is using the dummy TMDb API; add your valid API key to the <a href="%s">Settings Page</a> or <a href="http://tmdb.caercam.org/">Learn more</a> about the dummy API.', 'wpml' ), admin_url( 'edit.php?post_type=movie&page=settings' ) ); ?></em></p></div>
 <?php endif; ?>

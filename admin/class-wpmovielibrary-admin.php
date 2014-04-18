@@ -118,7 +118,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					wp_enqueue_script( 'jquery-ui-sortable' );
 					wp_enqueue_script( 'jquery-ui-draggable' );
 					wp_enqueue_script( 'jquery-ui-droppable' );
-					wp_enqueue_script( 'jquery-ui-tabs' );
 				}
 
 				$base_urls = WPML_TMDb::get_base_url();
