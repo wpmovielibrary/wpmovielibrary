@@ -3,7 +3,7 @@
 	return;
 endif;
 ?>
-		<div class="hide-if-js"><?php WPML_Utils::admin_notice( __( 'It seems you have JavaScript deactivated; the import feature will not work correctly without it, please check your browser\'s settings.', WPML_SLUG ), 'error' ); ?></div>
+		<div class="no-js-alert hide-if-js"><?php _e( 'It seems you have JavaScript deactivated; the import feature will not work correctly without it, please check your browser\'s settings.', WPML_SLUG ); ?></div>
 
 		<div id="wpml-tmdb" class="wpml-tmdb hide-if-no-js">
 <?php if ( true === WPML_Settings::tmdb__dummy() ) : ?>
