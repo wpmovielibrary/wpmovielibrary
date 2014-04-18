@@ -10,37 +10,39 @@ var wpml_queue;
 		select: '#wpml-queued-list input[type=checkbox]',
 		select_all: '#wpml-queued-list-header #post_all',
 		enqueue: '#wpml-import .enqueue_movie',
+		dequeue: '#wpml-queued-list .dequeue_movie',
+
+		// Queued movies
+		queued_list: '#wpml_import_queue',
+		// Imported movies
+		imported_list: '#wpml_imported',
 
 		init: function() {},
 		doaction: function() {},
-		push: function() {},
+		_enqueue: function() {},
+		_dequeue: function() {}
 	}
 
 		wpml.queue.init = function() {
 
-			$(wpml_queue.import_queued).prop('disabled', true);
+			$(wpml_queue.import_queued, wpml_queue.queued_list).prop('disabled', true);
 
-			$(wpml_queue.select).on( 'click', function() {
+			$(wpml_queue.select, wpml_queue.queued_list).on( 'click', function() {
 				wpml_queue.toggle_button();
 			});
 
-			$(wpml_queue.select_all).on( 'click', function() {
+			$(wpml_queue.select_all, wpml_queue.queued_list).on( 'click', function() {
 				wpml_queue.toggle_inputs();
 			});
 
-			$(wpml_queue.action).on( 'click', function( e ) {
+			$(wpml_queue.action, wpml_queue.queued_list).on( 'click', function( e ) {
 				e.preventDefault();
 				wpml_queue.doaction();
 			});
 
-			$(wpml_queue.import_queued).on( 'click', function( e ) {
+			$(wpml_queue.import_queued, wpml_queue.queued_list).on( 'click', function( e ) {
 				e.preventDefault();
 				wpml_queue.import( this );
-			});
-
-			$(wpml_queue.enqueue).on( 'click', function( e ) {
-				e.preventDefault();
-				wpml_queue.push( this );
 			});
 			
 		};
@@ -63,14 +65,14 @@ var wpml_queue;
 				$(wpml_queue.select + ':checked').each(function() {
 					movies.push( this.id.replace('post_','') );
 				});
-				wpml.queue.pop( movies );
+				wpml_queue._dequeue( movies );
 			}
 			else {
 				return false;
 			}
 		};
 
-		wpml.queue.push = function( link ) {
+		wpml.queue._enqueue = function( link ) {
 
 			var $link = $(link),
 			    tr = $link.parents('tr'),
@@ -110,7 +112,7 @@ var wpml_queue;
 				return $('input#p_' + post_id + '_tmdb_data_' + wot, '#tmdb_data_form').val() || false;
 			}
 
-			wpml.post({
+			wpml._post({
 					action: 'wpml_enqueue_movies',
 					wpml_ajax_movie_enqueue: $('#wpml_ajax_movie_enqueue').val(),
 					post_id: metadata.post_id,
@@ -128,9 +130,31 @@ var wpml_queue;
 						order: $('input[name=order]').val() || 'asc',
 						orderby: $('input[name=orderby]').val() || 'title'
 					});
+					wpml_importer.reload( {} );
 					wpml_importer.reload( {}, 'queued' );
 				}
 			);
+		};
+
+		wpml.queue._dequeue = function( movies ) {
+
+			
+
+			/*wpml._post({
+					action: 'wpml_dequeue_movies',
+					wpml_ajax_movie_dequeue: $('#wpml_ajax_movie_dequeue').val(),
+					post_id: movies
+				},
+				function( response ) {
+
+					$(movies).each(function() {
+						$('#post_'+this).parents('tr, li').fadeToggle().remove();
+					});
+
+					wpml_importer.reload({});
+					wpml_importer.reload({}, 'queued');
+				}
+			);*/
 		};
 
 		wpml.queue.import = function() {

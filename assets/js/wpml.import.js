@@ -30,7 +30,7 @@ var wpml_import;
 
 		wpml.import.search_movie = function( post_id, title, loading ) {
 
-			wpml.get({
+			wpml._get({
 					action: 'wpml_search_movie',
 					wpml_check: wpml_ajax.utils.wpml_check,
 					type: 'title',
@@ -44,6 +44,7 @@ var wpml_import;
 
 					if ( response._result == 'movie' ) {
 						wpml.import.populate(response);
+						wpml.queue.init();
 					}
 					else if ( response._result == 'movies' ) {
 						wpml.import.populate_select_list(response);
@@ -69,6 +70,7 @@ var wpml_import;
 
 			wpml.import.get_movie( post_id, tmdb_id );
 			$link.parents(wpml_import.select_list).remove();
+			wpml.queue.init();
 		}
 
 		/**
@@ -80,7 +82,7 @@ var wpml_import;
 		 * @param    int    Movie TMDb ID
 		 */
 		wpml.import.get_movie = function( post_id, tmdb_id ) {
-			wpml.get({
+			wpml._get({
 					action: 'wpml_search_movie',
 					wpml_check: wpml_ajax.utils.wpml_check,
 					type: 'id',

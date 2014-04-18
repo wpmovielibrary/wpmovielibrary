@@ -34,6 +34,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			add_action( 'admin_init', array( $this, 'init' ) );
 
 			add_action( 'wp_ajax_wpml_enqueue_movies', __CLASS__ . '::enqueue_movies_callback' );
+			add_action( 'wp_ajax_wpml_dequeue_movies', __CLASS__ . '::dequeue_movies_callback' );
 			add_action( 'wp_ajax_wpml_fetch_queued_movies', __CLASS__ . '::fetch_queued_movies_callback' );
 		}
 
@@ -49,12 +50,24 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 
 			check_ajax_referer( 'wpml-fetch-queued-movies-nonce', 'wpml_fetch_queued_movies_nonce' );
 
-			$wp_list_table = new WPML_Queue_Table();
-			$wp_list_table->ajax_response();
+			ob_start();
+			self::display_queued_movie_list();
+			$rows = ob_get_clean();
+
+			$total_items = self::get_queued_movies_count();
+
+			$response = array( 'rows' => $rows );
+			$response['total_items'] = $total_items;
+			$response['total_items_i18n'] = sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) );
+			$response['pagination']['top'] = '';
+			$response['pagination']['bottom'] = '';
+			$response['column_headers'] = '';
+
+			wp_die( json_encode( $response ) );
 		}
 
 		/**
-		 * Callback for WPML_Import movie enqueue method.
+		 * Callback for WPML_Queue movie enqueue method.
 		 * 
 		 * Checks the AJAX nonce and calls enqueue_movies() to
 		 * create import queue of all movies passed through the list.
@@ -68,6 +81,20 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		}
 
 		/**
+		 * Callback for WPML_Queue movie dequeue method.
+		 * 
+		 * Checks the AJAX nonce and calls dequeue_movies() to
+		 * pop movies off the import queue.
+		 *
+		 * @since     1.0.0
+		 */
+		public static function dequeue_movies_callback() {
+
+			check_ajax_referer( 'wpml-movie-dequeue', 'wpml_ajax_movie_dequeue' );
+			self::dequeue_movies();
+		}
+
+		/**
 		 * Display a custom WP_List_Table of queued movies
 		 *
 		 * @since     1.0.0
@@ -75,25 +102,35 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		public static function display_queued_movie_list() {
 
 			$movies = self::get_queued_movies();
+			$_ajax = ( defined( 'DOING_AJAX' ) && DOING_AJAX );
+
+			if ( ! $_ajax ) :
 ?>
 					<ul id="wpml-queued-list" class="wp-list-table">
 
-<?php			foreach ( $movies as $movie ) : ?>
+<?php
+			endif;
+
+			foreach ( $movies as $movie ) : ?>
 						<li>
 							<div scope="row" class="check-column"><input type="checkbox" id="post_<?php echo $movie['ID'] ?>" name="movie[]" value="<?php echo $movie['ID'] ?>" /></div>
 							<div class="movietitle column-movietitle"><span class="movie_title"><?php echo $movie['title'] ?></span></div>
 							<div class="director column-director"><span class="movie_director"><?php echo $movie['director'] ?></span></div>
 							<div class="actions column-actions">
 								<div class="row-actions visible">
-									<span class="dequeue"><a class="dequeue_movie" id="dequeue_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Dequeue', WPML_SLUG ) ?>"><span class="dashicons dashicons-no"></span></a> | </span>
-									<span class="delete"><a class="delete_movie" id="delete_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Delete', WPML_SLUG ) ?>"><span class="dashicons dashicons-post-trash"></span></a></span>
+									<span class="dequeue"><a class="dequeue_movie" id="dequeue_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Dequeue', WPML_SLUG ) ?>" onclick="wpml_queue._dequeue( this ); return false;"><span class="dashicons dashicons-no"></span></a> | </span>
+									<span class="delete"><a class="delete_movie" id="delete_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Delete', WPML_SLUG ) ?>" onsubmit="wpml_importer.delete_movie([<?php echo $movie['ID'] ?>]); return false;"><span class="dashicons dashicons-post-trash"></span></a></span>
 								</div>
 							</div>
 							<div class="status column-status"><span class="movie_status"><?php _e( 'Queued', WPML_SLUG ) ?></span></div>
 						</li>
-<?php			endforeach; ?>
+<?php
+			endforeach;
+			if ( ! $_ajax ) :
+?>
 					</ul>
 <?php
+			endif;
 		}
 
 		/**

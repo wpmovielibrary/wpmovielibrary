@@ -101,7 +101,7 @@ var wpml_images, wpml_posters;
 				var index = i + 1;
 				var progress = index == wpml_images.total ? 100 : Math.round( ( index * 100 ) / wpml_images.total );
 
-				wpml.post({
+				wpml._post({
 						action: 'wpml_upload_image',
 						wpml_check: wpml_ajax.utils.wpml_check,
 						image: image.attributes.tmdb_data,
@@ -244,7 +244,7 @@ var wpml_images, wpml_posters;
 					var _image = {file_path: image};
 				}
 
-				wpml.post({
+				wpml._post({
 						action: 'wpml_set_featured',
 						wpml_check: wpml_ajax.utils.wpml_check,
 						image: _image,

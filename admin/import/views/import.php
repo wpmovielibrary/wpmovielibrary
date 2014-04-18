@@ -53,6 +53,7 @@ WPML_Import::display_import_movie_list();
 									<option value="dequeue"><?php _e( 'Dequeue Movie', WPML_SLUG ); ?></option>
 							</select>
 							<input type="submit" name="" id="do-queue-action" class="button action" value="Apply">
+							<span class="spinner"></span>
 						</div>
 						<div class="tablenav-pages"><span class="displaying-num"><?php printf( _n( '1 item', '%s items', $_queued ), number_format_i18n( $_queued ) ) ?></span></div>
 					</div>

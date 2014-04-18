@@ -262,10 +262,10 @@ class WPML_Import_Table extends WP_List_Table {
 
 		$actions = array(
 			'edit'      => sprintf('<a class="edit_movie" id="edit_%1$s" data-post-id="%2$s" href="%3$s" title="%4$s"><span class="dashicons dashicons-welcome-write-blog"></span></a>', $item['ID'], $item['ID'], get_edit_post_link( $item['ID'] ), __( 'Edit', 'wpml' ) ),
-			'tmdb_data' => sprintf('<a class="fetch_movie" id="fetch_%1$s" data-post-id="%2$s" href="%3$s" title="%4$s"><span class="dashicons dashicons-download"></span></a>', $item['ID'], $item['ID'], get_edit_post_link( $item['ID'] ) . "&wpml_auto_fetch=1", __( 'Fetch data from TMDb', 'wpml' ) ),
+			'tmdb_data' => sprintf('<a class="fetch_movie" id="fetch_%1$s" data-post-id="%2$s" href="%3$s" title="%4$s" onclick="wpml_importer.fetch_movie( this ); return false;"><span class="dashicons dashicons-download"></span></a>', $item['ID'], $item['ID'], get_edit_post_link( $item['ID'] ) . "&wpml_auto_fetch=1", __( 'Fetch data from TMDb', 'wpml' ) ),
 			'import'    => sprintf('<a class="import_movie" id="import_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-welcome-add-page"></span></a>', $item['ID'], $item['ID'], __( 'Import Movie', 'wpml' ) ),
-			'enqueue'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-plus"></span></a>', $item['ID'], $item['ID'], __( 'Enqueue', 'wpml' ) ),
-			'delete'    => sprintf('<a class="delete_movie" id="delete_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], $item['ID'], __( 'Delete', 'wpml' ) ),
+			'enqueue'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" data-post-id="%2$s" href="#" title="%3$s" onclick="wpml_queue._enqueue( this ); return false;"><span class="dashicons dashicons-plus"></span></a>', $item['ID'], $item['ID'], __( 'Enqueue', 'wpml' ) ),
+			'delete'    => sprintf('<a class="delete_movie" id="delete_%1$s" data-post-id="%2$s" href="#" title="%3$s" onclick="wpml_importer.delete_movie([%4$s]); return false;"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], $item['ID'], __( 'Delete', 'wpml' ), $item['ID'] ),
 		);
 
 		return $this->row_actions( $actions, $always_visible = true );
@@ -450,8 +450,10 @@ class WPML_Import_Table extends WP_List_Table {
 		$response['pagination']['bottom'] = $pagination_bottom;
 		$response['column_headers'] = $headers;
 
-		if ( isset( $total_items ) )
+		if ( isset( $total_items ) ) {
+			$response['total_items'] = $total_items;
 			$response['total_items_i18n'] = sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) );
+		}
 
 		if ( isset( $total_pages ) ) {
 			$response['total_pages'] = $total_pages;

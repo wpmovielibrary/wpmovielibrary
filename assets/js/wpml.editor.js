@@ -51,7 +51,7 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 			 */
 			wpml.editor.details.save = function() {
 				$('#wpml_save').prev('.spinner').css({display: 'inline-block'});
-				wpml.post({
+				wpml._post({
 						action: 'wpml_save_details',
 						wpml_check: wpml_ajax.utils.wpml_check,
 						post_id: $('#post_ID').val(),
@@ -414,7 +414,7 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				else if (  type == 'id' )
 					wpml.status.set( wpml_ajax.lang.search_movie + ' #' +  data, 'success' );
 
-				wpml.get({
+				wpml._get({
 						action: 'wpml_search_movie',
 						wpml_check: wpml_ajax.utils.wpml_check,
 						type: type,
@@ -524,7 +524,7 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 
 			wpml.editor.movies.get = function( id ) {
 
-				wpml.get({
+				wpml._get({
 						action: 'wpml_search_movie',
 						wpml_check: wpml_ajax.utils.wpml_check,
 						type: 'id',

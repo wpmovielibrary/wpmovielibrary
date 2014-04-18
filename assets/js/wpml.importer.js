@@ -5,11 +5,20 @@ var wpml_importer;
 
 	wpml.importer = wpml_importer = {
 
-		action: '#wpml-import input#doaction, #wpml-import input#doaction2',
+		action: 'input#doaction, input#doaction2',
 		select: '.movies > tbody input[type=checkbox]',
-		fetch: '#wpml-import .fetch_movie',
-		delete: '#wpml-import .delete_movie',
+		fetch: '.fetch_movie',
+		delete: '.delete_movie',
+
+		// List import
+		import_list: '#wpml_import',
+		// List import textarea
 		list: '#wpml_import_list',
+		// List import button
+		importer: '#wpml_importer',
+
+		// Imported movies
+		imported_list: '#wpml_imported',
 
 		timer: undefined,
 		delay: 500,
@@ -30,36 +39,26 @@ var wpml_importer;
 		 */
 		wpml.importer.init = function() {
 
-			$(wpml_importer.action).on( 'click', function( e ) {
+			$(wpml_importer.action, wpml_importer.imported_list).on( 'click', function( e ) {
 				e.preventDefault();
 				wpml_importer.doaction( this.id );
 			});
 
-			$(wpml_importer.fetch).on( 'click', function( e ) {
-				e.preventDefault();
-				wpml_importer.fetch_movie( this );
-			});
-
-			$(wpml_importer.delete).on( 'click', function( e ) {
-				e.preventDefault();
-				wpml_importer.delete_movie( $(this).attr('data-post-id') );
-			});
-
 			// Nav and sort links click
-			$('.tablenav-pages a, .manage-column.sortable a, .manage-column.sorted a').unbind('click').on( 'click', function( e ) {
+			$('.tablenav-pages a, .manage-column.sortable a, .manage-column.sorted a', wpml_importer.imported_list).unbind('click').on( 'click', function( e ) {
 				e.preventDefault();
 				wpml_importer.navigate( this );
 			});
 
 			// Update when manually changing page number in input field
-			$('input[name=paged]').unbind('keyup').on( 'keyup', function( e ) {
+			$('input[name=paged]', wpml_importer.imported_list).unbind('keyup').on( 'keyup', function( e ) {
 				if ( 13 == e.which )
 					e.preventDefault();
 				wpml_importer.paginate();
 			});
 
 			// Import a list of titles
-			$('#wpml_importer').unbind('click').on( 'click', function( e ) {
+			$(wpml_importer.importer, wpml_importer.import_list).unbind('click').on( 'click', function( e ) {
 				e.preventDefault();
 				wpml_importer.import();
 			});
@@ -104,7 +103,7 @@ var wpml_importer;
 			if ( undefined == $(wpml_importer.list) || '' == $(wpml_importer.list).val() )
 				return false;
 
-			wpml.post({
+			wpml._post({
 					action: 'wpml_import_movies',
 					wpml_import_list: $(wpml_importer.list).val(),
 					wpml_ajax_movie_import: $('#wpml_ajax_movie_import').val()
@@ -148,7 +147,7 @@ var wpml_importer;
 		 * Delete a movie import draft
 		 */
 		wpml.importer.delete_movie = function( movies ) {
-			wpml.get({
+			wpml._get({
 					action: 'wpml_delete_movie',
 					wpml_check: wpml_ajax.utils.wpml_check,
 					post_id: movies
@@ -159,6 +158,7 @@ var wpml_importer;
 						$('#post_'+this).parents('tr, li').fadeToggle().remove();
 					});
 
+					wpml_importer.reload({}, 'queued');
 					wpml_importer.reload({});
 				}
 			);
@@ -197,6 +197,7 @@ var wpml_importer;
 
 			if ( 'queued' == list ) {
 				var _selector = '#wpml_import_queue',
+				    _rows = '.wp-list-table',
 				    _data = {
 					action: 'wpml_fetch_queued_movies',
 					wpml_fetch_queued_movies_nonce: $('#wpml_fetch_queued_movies_nonce').val(),
@@ -204,6 +205,7 @@ var wpml_importer;
 			}
 			else {
 				var _selector = '#wpml_imported',
+				    _rows = '.wp-list-table tbody',
 				    _data = {
 					action: 'wpml_fetch_imported_movies',
 					wpml_fetch_imported_movies_nonce: $('#wpml_fetch_imported_movies_nonce').val(),
@@ -212,7 +214,7 @@ var wpml_importer;
 
 			var data = $.extend( _data, data );
 
-			wpml.get(
+			wpml._get(
 				data,
 				function( response ) {
 
@@ -222,7 +224,7 @@ var wpml_importer;
 						return false;
 
 					if ( response.rows.length )
-						$('#the-list', _selector).html( response.rows );
+						$(_rows, _selector).html( response.rows );
 					if ( response.column_headers.length )
 						$('thead tr, tfoot tr', _selector).html( response.column_headers );
 					if ( response.pagination.bottom.length )
@@ -231,12 +233,13 @@ var wpml_importer;
 						$('.tablenav.bottom .tablenav-pages', _selector).html( $(response.pagination.bottom).html() );
 
 					if ( 'queued' == list )
-						wpml_importer.update_count( 'import_queue', response.total_pages_i18n );
+						wpml_importer.update_count( 'import_queue', response.total_items );
 					else
-						wpml_importer.update_count( 'imported', response.total_pages_i18n );
-
-					wpml.import.init();
-					wpml.importer.init();
+						wpml_importer.update_count( 'imported', response.total_items );
+				},
+				function() {
+					wpml_import.init();
+					wpml_importer.init();
 				}
 			);
 		};
@@ -279,8 +282,9 @@ var wpml_importer;
 		 * @param    int       Increment or decrement?
 		 */
 		wpml.importer.update_count = function( wot, i ) {
+			
 			var wot = ( 'import_queue' == wot ? wot : 'imported' ),
-			    i = ( 0 >= i ? i : 0 ),
+			    i = ( i >= 0 ? i : '0' ),
 			    $span = $('#_wpml_' + wot + ' span');
 
 			$span.text( '' + i );

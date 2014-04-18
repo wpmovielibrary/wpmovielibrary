@@ -143,7 +143,7 @@ wpml.settings = wpml_settings = {
 			return false;
 		}
 		
-		wpml.get({
+		wpml._get({
 				action: 'wpml_check_api_key',
 				wpml_check: wpml_ajax.utils.wpml_check,
 				key: key

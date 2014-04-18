@@ -33,7 +33,7 @@ wpml.movies = wpml_movies = {
 
 	wpml.movies.get_movie = function( id ) {
 
-		wpml.get({
+		wpml._get({
 				action: 'wpml_search_movie',
 				wpml_check: wpml_ajax.utils.wpml_check,
 				type: 'id',
