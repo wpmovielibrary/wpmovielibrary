@@ -51,7 +51,8 @@ var wpml_import;
 						wpml.import.init();
 					}
 					else if ( response._result == 'error' || response._result == 'empty' ) {
-						$('#import-intro').after('<div id="import-error" class="success settings-error">' + response.p + '</div>').show();
+						$('#p_' + post_id).find('.movie_title').after('<div class="import-error">' + response.p + '</div>');
+						$('#p_' + post_id).find('.loading').removeClass('loading');
 					}
 				}
 			);

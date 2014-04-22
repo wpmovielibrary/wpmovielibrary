@@ -6,6 +6,7 @@ var wpml_importer;
 	wpml.importer = wpml_importer = {
 
 		action: 'input#doaction, input#doaction2',
+		select_all: '.movies > thead input[type=checkbox], .movies > tfoot input[type=checkbox]',
 		select: '.movies > tbody input[type=checkbox]',
 		fetch: '.fetch_movie',
 		delete: '.delete_movie',
@@ -39,6 +40,14 @@ var wpml_importer;
 		 */
 		wpml.importer.init = function() {
 
+			$(wpml_importer.select_all).unbind('click').on( 'click', function( e ) {
+				wpml.reinit_checkboxes_all( e, $(this) );
+			});
+
+			$(wpml_importer.select).unbind('click').on( 'click', function( e ) {
+				wpml.reinit_checkboxes( e, $(this) );
+			});
+
 			$(wpml_importer.action, wpml_importer.imported_list).on( 'click', function( e ) {
 				e.preventDefault();
 				wpml_importer.doaction( this.id );
@@ -69,23 +78,25 @@ var wpml_importer;
 		 */
 		wpml.importer.doaction = function( action ) {
 
-			var action = $('select[name=' + action.replace('do','') + ']'),
+			var $action = $('select[name=' + action.replace('do','') + ']'),
 			    movies = [];
 
-			if ( 'tmdb_data' == action.val() ) {
+			if ( 'tmdb_data' == $action.val() ) {
 				wpml_importer.get_movies();
 			}
-			else if ( 'delete' == action.val() ) {
+			else if ( 'delete' == $action.val() ) {
 				$(wpml_importer.select + ':checked').each(function() {
 					movies.push( this.id.replace('post_','') );
 				});
+				$action.nextAll('.spinner').css({display: 'inline-block'});
 				wpml_importer.delete_movie( movies );
 			}
-			else if ( 'enqueue' == action.val() ) {
+			else if ( 'enqueue' == $action.val() ) {
 				$(wpml_importer.select + ':checked').each(function() {
 					movies.push( this.id.replace('post_','') );
 				});
-				wpml.queue.push( movies );
+				$action.nextAll('.spinner').css({display: 'inline-block'});
+				wpml_queue._enqueue( movies );
 			}
 			else {
 				return false;
@@ -158,8 +169,11 @@ var wpml_importer;
 						$('#post_'+this).parents('tr, li').fadeToggle().remove();
 					});
 
-					wpml_importer.reload({}, 'queued');
-					wpml_importer.reload({});
+					if ( ! $(wpml_importer.select + ':checked').length ) {
+						wpml_importer.reload({}, 'queued');
+						wpml_importer.reload({});
+					}
+					$('.spinner').hide();
 				}
 			);
 		};

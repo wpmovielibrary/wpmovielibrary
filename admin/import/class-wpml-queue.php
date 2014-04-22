@@ -118,8 +118,8 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 							<div class="director column-director"><span class="movie_director"><?php echo $movie['director'] ?></span></div>
 							<div class="actions column-actions">
 								<div class="row-actions visible">
-									<span class="dequeue"><a class="dequeue_movie" id="dequeue_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Dequeue', WPML_SLUG ) ?>" onclick="wpml_queue._dequeue( this ); return false;"><span class="dashicons dashicons-no"></span></a> | </span>
-									<span class="delete"><a class="delete_movie" id="delete_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Delete', WPML_SLUG ) ?>" onsubmit="wpml_importer.delete_movie([<?php echo $movie['ID'] ?>]); return false;"><span class="dashicons dashicons-post-trash"></span></a></span>
+									<span class="dequeue"><a class="dequeue_movie" id="dequeue_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Dequeue', WPML_SLUG ) ?>" onclick="wpml_queue._dequeue(['<?php echo $movie['ID'] ?>']); return false;"><span class="dashicons dashicons-no"></span></a> | </span>
+									<span class="delete"><a class="delete_movie" id="delete_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Delete', WPML_SLUG ) ?>" onsubmit="wpml_importer.delete_movie(['<?php echo $movie['ID'] ?>']); return false;"><span class="dashicons dashicons-post-trash"></span></a></span>
 								</div>
 							</div>
 							<div class="status column-status"><span class="movie_status"><?php _e( 'Queued', WPML_SLUG ) ?></span></div>
@@ -147,14 +147,14 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			$errors = array();
 			$_notice = '';
 
-			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
-			$title = ( isset( $_POST['title'] ) && '' != $_POST['title'] ? $_POST['title'] : null );
-			$metadata = ( isset( $_POST['metadata'] ) && '' != $_POST['metadata'] ? $_POST['metadata'] : null );
+			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? $_POST['movies'] : null );
 
-			if ( is_null( $post_id ) || is_null( $title ) || is_null( $metadata ) )
+			if ( is_null( $movies ) || ! is_array( $movies ) )
 				return false;
 
-			self::enqueue_movie( $post_id, $title, $metadata );
+			foreach ( $movies as $movie )
+				self::enqueue_movie( $movie['post_id'], esc_attr( $movie['meta']['title'] ), $movie );
+
 			wp_die();
 		}
 
@@ -211,12 +211,14 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			$errors = array();
 			$_notice = '';
 
-			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
+			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? $_POST['movies'] : null );
 
-			if ( is_null( $post_id ) )
+			if ( is_null( $movies ) || ! is_array( $movies ) )
 				return false;
 
-			self::dequeue_movie( $post_id, $title, $metadata );
+			foreach ( $movies as $movie )
+				self::dequeue_movie( $movie );
+
 			wp_die();
 		}
 

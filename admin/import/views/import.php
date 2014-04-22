@@ -75,11 +75,12 @@ WPML_Queue::display_queued_movie_list();
 				<form method="post">
 
 					<?php wp_nonce_field( 'wpml-movie-import-queue', 'wpml_movie_import_queue' ); ?>
+					<?php wp_nonce_field( 'wpml-movie-dequeue', 'wpml_ajax_movie_dequeue' ); ?>
 
 					<p style="text-align:right">
-						<input type="submit" id="wpml_import_queued" name="wpml_import_queued" class="button button-primary button-large" value="<?php _e( 'Import Movies', 'wpml' ); ?>" />
+						<input type="submit" id="wpml_import_queued" name="wpml_import_queued" class="button button-primary button-large" value="<?php _e( 'Import Queued Movies', 'wpml' ); ?>" />
 						<div id="queue_progressbar"><div id="queue_progress"></div></div>
-						<div id="queue_status"><span id="_queued_imported">12</span> of <span id="_queued_left">42</span> imported</div>
+						<div id="queue_status"><?php printf( '<span id="_queued_imported">%d</span> %s <span id="_queued_left">%d</span> %s', 0, __( 'of', WPML_SLUG ), number_format_i18n( $_queued ), __( 'imported', WPML_SLUG ) ); ?></div>
 					</p>
 
 				</form>

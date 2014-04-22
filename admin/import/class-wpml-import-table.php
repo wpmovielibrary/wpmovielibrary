@@ -508,6 +508,32 @@ class WPML_Import_Table extends WP_List_Table {
 <?php
 		$this->display_tablenav( 'bottom' );
 	}
+
+	/**
+	 * Generate the table navigation above or below the table
+	 *
+	 * @since 1.0.0
+	 */
+	function display_tablenav( $which ) {
+
+		if ( 'top' == $which )
+			wp_nonce_field( 'bulk-' . $this->_args['plural'] );
+?>
+	<div class="tablenav <?php echo esc_attr( $which ); ?>">
+
+		<div class="alignleft actions bulkactions">
+			<?php $this->bulk_actions(); ?>
+			<span class="spinner"></span>
+		</div>
+<?php
+		$this->extra_tablenav( $which );
+		$this->pagination( $which );
+?>
+
+		<br class="clear" />
+	</div>
+<?php
+	}
  
 }
 

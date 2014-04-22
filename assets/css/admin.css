@@ -302,6 +302,18 @@ body.post-php.post-type-movie #postimagediv {
 	width: 4em !important;
 }
 
+#wpml-tabs #wpml-imported .movietitle .import-error {
+	background: #dedede;
+	padding: 0.25em 0.5em;
+	width: 100%;
+}
+
+#wpml-tabs #wpml-imported .movietitle .import-error p {
+	display: inline;
+	font-size: small;
+	margin-right: 0.25em;
+}
+
 #queue_status {
 	display: inline-block;
 	font-size: 0.9em;
@@ -320,10 +332,10 @@ body.post-php.post-type-movie #postimagediv {
 
 #queue_progress {
 	background: #2EA2CC;
-	border: 1px solid #2EA2CC;
+	/*border: 1px solid #2EA2CC;*/
 	display: block;
 	height: 14px;
-	width: 42%;
+	width: 0%;
 }
 
 #wpml_import_queued {
@@ -658,6 +670,15 @@ body.post-php.post-type-movie #postimagediv {
 	position: relative;
 }
 
+#wpml_imported .spinner,
+#wpml_import_queue .spinner {
+	float: none;
+	margin: 6px 0 0 -8px;
+}
+
+#wpml_import_queue .spinner {
+	margin-left: -2px;
+}
 
 
 /* #TMDb Meta Box

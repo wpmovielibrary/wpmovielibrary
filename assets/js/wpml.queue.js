@@ -5,6 +5,9 @@ var wpml_queue;
 
 	wpml.queue = wpml_queue = {
 
+		current_post_id: undefined,
+		current_movie: undefined,
+
 		action: '#do-queue-action',
 		import_queued: '#wpml_import_queued',
 		select: '#wpml-queued-list input[type=checkbox]',
@@ -52,16 +55,18 @@ var wpml_queue;
 		 */
 		wpml.queue.doaction = function() {
 
-			var action = $('select[name=queue-action]'),
+			var $action = $('select[name=queue-action]'),
 			    movies = [];
 
-			if ( 'delete' == action.val() ) {
+			if ( 'delete' == $action.val() ) {
+				$action.nextAll('.spinner').css({display: 'inline-block'});
 				$(wpml_queue.select + ':checked').each(function() {
 					movies.push( this.id.replace('post_','') );
 				});
 				wpml_importer.delete_movie( movies );
 			}
-			else if ( 'dequeue' == action.val() ) {
+			else if ( 'dequeue' == $action.val() ) {
+				$action.nextAll('.spinner').css({display: 'inline-block'});
 				$(wpml_queue.select + ':checked').each(function() {
 					movies.push( this.id.replace('post_','') );
 				});
@@ -72,78 +77,82 @@ var wpml_queue;
 			}
 		};
 
-		wpml.queue._enqueue = function( link ) {
+		wpml.queue._enqueue = function( movies ) {
 
-			var $link = $(link),
-			    tr = $link.parents('tr'),
-			    title = tr.find('.movietitle span.movie_title').text();
-			post_id = $link.attr('data-post-id');
+			var queue = [];
+			wpml_queue.current_movie = movies;
 
-			if ( ! post_id.length || ! _get_val('tmdb_id') )
-				return false;
+			for ( var i = 0; i < movies.length; i++ ) {
 
-			var metadata = {
-				post_id: _get_val('post_id'),
-				tmdb_id: _get_val('tmdb_id'),
-				poster: _get_val('poster'),
-				meta: {
-					title: _get_val('title'),
-					original_title: _get_val('original_title'),
-					overview: _get_val('overview'),
-					production_companies: _get_val('production_companies'),
-					production_countries: _get_val('production_countries'),
-					spoken_languages: _get_val('spoken_languages'),
-					runtime: _get_val('runtime'),
-					genres: _get_val('genres'),
-					release_date: _get_val('release_date')
-				},
-				crew: {
-					director: _get_val('director'),
-					producer: _get_val('producer'),
-					photography: _get_val('photography'),
-					composer: _get_val('composer'),
-					author: _get_val('author'),
-					writer: _get_val('writer'),
-					cast: _get_val('cast')
-				}
-			};
+				var post_id = movies[ i ],
+				    tr = $('tr#p_' + post_id ),
+				    title = tr.find('.movietitle span.movie_title').text();
 
-			function _get_val( wot ) {
-				return $('input#p_' + post_id + '_tmdb_data_' + wot, '#tmdb_data_form').val() || false;
+				wpml_queue.current_post_id = post_id;
+
+				if ( post_id.length && wpml_queue._get_val('tmdb_id') )
+					queue.push( wpml_queue._prepare_queue() );
 			}
-
+			
 			wpml._post({
 					action: 'wpml_enqueue_movies',
 					wpml_ajax_movie_enqueue: $('#wpml_ajax_movie_enqueue').val(),
-					post_id: metadata.post_id,
-					title: metadata.meta.title,
-					metadata: metadata
+					movies: queue
 				},
 				function( response ) {
-					
-					wpml_importer.update_count( 'imported', -1 );
-					wpml_importer.update_count( 'import_queue', 1 );
-
-					tr.remove();
-					wpml_importer.reload({
-						paged: parseInt( $('input[name=paged]').val() ) || '1',
-						order: $('input[name=order]').val() || 'asc',
-						orderby: $('input[name=orderby]').val() || 'title'
-					});
 					wpml_importer.reload( {} );
 					wpml_importer.reload( {}, 'queued' );
+					$('.spinner').hide();
 				}
 			);
 		};
 
+		wpml.queue._prepare_queue = function() {
+			return metadata = {
+				post_id: wpml_queue._get_val('post_id'),
+				tmdb_id: wpml_queue._get_val('tmdb_id'),
+				poster: wpml_queue._get_val('poster'),
+				meta: {
+					title: wpml_queue._get_val('title'),
+					original_title: wpml_queue._get_val('original_title'),
+					overview: wpml_queue._get_val('overview'),
+					production_companies: wpml_queue._get_val('production_companies'),
+					production_countries: wpml_queue._get_val('production_countries'),
+					spoken_languages: wpml_queue._get_val('spoken_languages'),
+					runtime: wpml_queue._get_val('runtime'),
+					genres: wpml_queue._get_val('genres'),
+					release_date: wpml_queue._get_val('release_date')
+				},
+				crew: {
+					director: wpml_queue._get_val('director'),
+					producer: wpml_queue._get_val('producer'),
+					photography: wpml_queue._get_val('photography'),
+					composer: wpml_queue._get_val('composer'),
+					author: wpml_queue._get_val('author'),
+					writer: wpml_queue._get_val('writer'),
+					cast: wpml_queue._get_val('cast')
+				}
+			};
+		};
+
+		wpml.queue._get_val = function( slug ) {
+			return $('input#p_' + wpml_queue.current_post_id + '_tmdb_data_' + slug, '#tmdb_data_form').val() || false;
+		};
+
 		wpml.queue._dequeue = function( movies ) {
 
-			
+			var queue = [];
+			for ( var i = 0; i <= movies.length - 1; i++ ) {
+				var post_id = movies[ i ];
+				if ( post_id.length )
+					queue.push( post_id );
+			}
+			console.log( queue );
 
-			/*wpml._post({
+			wpml._post({
 					action: 'wpml_dequeue_movies',
 					wpml_ajax_movie_dequeue: $('#wpml_ajax_movie_dequeue').val(),
-					post_id: movies
+					movies: queue
 				},
 				function( response ) {
 
@@ -153,8 +162,9 @@ var wpml_queue;
 
 					wpml_importer.reload({});
 					wpml_importer.reload({}, 'queued');
+					$('.spinner').hide();
 				}
-			);*/
+			);
 		};
 
 		wpml.queue.import = function() {
