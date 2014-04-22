@@ -48,7 +48,7 @@ var wpml_importer;
 				wpml.reinit_checkboxes( e, $(this) );
 			});
 
-			$(wpml_importer.action, wpml_importer.imported_list).on( 'click', function( e ) {
+			$(wpml_importer.action, wpml_importer.imported_list).unbind('click').on( 'click', function( e ) {
 				e.preventDefault();
 				wpml_importer.doaction( this.id );
 			});
@@ -150,7 +150,7 @@ var wpml_importer;
 			if ( '0' == $('#p_' + post_id + '_tmdb_data_tmdb_id').val() ) {
 				tr.prop('id', 'p_'+post_id);
 				tr.find('.poster').addClass('loading');
-				wpml.import.search_movie( post_id, title );
+				wpml_import.search_movie( post_id, title );
 			}
 		};
 
@@ -185,8 +185,8 @@ var wpml_importer;
 		 * fetch the related data.
 		 */
 		wpml.importer.get_movies = function() {
-			$(wpml_importer.select + ':checked').each(function( i ) {
 
+			$(wpml_importer.select + ':checked').each(function( i ) {
 				// Set post_id for search_movie
 				var post_id = this.value,
 				    tr = $(this).parents('tr'),
@@ -198,7 +198,7 @@ var wpml_importer;
 
 				if ( '0' == $('#p_' + post_id + '_tmdb_data_tmdb_id').val() ) {
 					tr.find('.poster').addClass('loading');
-					wpml.import.search_movie( post_id, title );
+					wpml_import.search_movie( post_id, title );
 				}
 			});
 		};

@@ -28,7 +28,7 @@ var wpml_import;
 			});
 		};
 
-		wpml.import.search_movie = function( post_id, title, loading ) {
+		wpml.import.search_movie = function( post_id, title ) {
 
 			wpml._get({
 					action: 'wpml_search_movie',
@@ -43,12 +43,12 @@ var wpml_import;
 					wpml_import.target = $('#p_' + response._id); // Update the target for populates
 
 					if ( response._result == 'movie' ) {
-						wpml.import.populate(response);
-						wpml.queue.init();
+						wpml_import.populate(response);
+						wpml_queue.init();
 					}
 					else if ( response._result == 'movies' ) {
-						wpml.import.populate_select_list(response);
-						wpml.import.init();
+						wpml_import.populate_select_list(response);
+						wpml_import.init();
 					}
 					else if ( response._result == 'error' || response._result == 'empty' ) {
 						$('#p_' + post_id).find('.movie_title').after('<div class="import-error">' + response.p + '</div>');
@@ -91,7 +91,7 @@ var wpml_import;
 					_id: post_id
 				},
 				function( response ) {
-					wpml.import.populate( response );
+					wpml_import.populate( response );
 				}
 			);
 		};
@@ -131,6 +131,7 @@ var wpml_import;
 					field.value = _v;
 				}
 			});
+
 
 			$('#p_' + data._id + '_tmdb_data_tmdb_id').val( data._tmdb_id );
 			$('#p_' + data._id + '_tmdb_data_post_id').val( data._id );
