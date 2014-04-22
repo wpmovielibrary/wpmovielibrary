@@ -182,9 +182,9 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 			// @TODO: i18n plural
 			if ( empty( $errors ) )
-				$_notice = sprintf( __( '%d Movie%s added successfully.', 'wpml' ), count( $movies ), ( count( $movies ) > 1 ? 's' : '' ) );
+				$_notice = sprintf( __( '%d Movie%s added successfully.', WPML_SLUG ), count( $movies ), ( count( $movies ) > 1 ? 's' : '' ) );
 			else if ( ! empty( $errors ) )
-				$_notice = sprintf( '<strong>%s</strong> <ul>%s</ul>', __( 'The following error(s) occured:', 'wpml' ), implode( '', array_map( create_function( '&$e', 'return "<li>$e</li>";' ), $errors ) ) );
+				$_notice = sprintf( '<strong>%s</strong> <ul>%s</ul>', __( 'The following error(s) occured:', WPML_SLUG ), implode( '', array_map( create_function( '&$e', 'return "<li>$e</li>";' ), $errors ) ) );
 
 			if ( $_ajax )
 				wp_die( $_notice );
@@ -220,11 +220,11 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 				return sprintf(
 					'%s − <span class="edit"><a href="%s">%s</a> |</span> <span class="view"><a href="%s">%s</a></span>',
-					sprintf( __( 'Movie "%s" already imported.', 'wpml' ), "<em>" . get_the_title( $page->ID ) . "</em>" ),
+					sprintf( __( 'Movie "%s" already imported.', WPML_SLUG ), "<em>" . get_the_title( $page->ID ) . "</em>" ),
 					get_edit_post_link( $page->ID ),
-					__( 'Edit', 'wpml' ),
+					__( 'Edit', WPML_SLUG ),
 					get_permalink( $page->ID ),
-					__( 'View', 'wpml' )
+					__( 'View', WPML_SLUG )
 				);
 			}
 			else {
@@ -269,13 +269,13 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		private static function delete_movie( $post_id ) {
 
 			if ( false === wp_delete_post( $post_id, true ) )
-				return vsprintf( __( 'An error occured trying to delete Post #%s', 'wpml' ), $post_id );
+				return vsprintf( __( 'An error occured trying to delete Post #%s', WPML_SLUG ), $post_id );
 
 			$thumb_id = get_post_thumbnail_id( $post_id );
 
 			if ( '' != $thumb_id )
 				if ( false === wp_delete_attachment( $thumb_id ) )
-					return vsprintf( __( 'An error occured trying to delete Attachment #%s', 'wpml' ), $thumb_id );
+					return vsprintf( __( 'An error occured trying to delete Attachment #%s', WPML_SLUG ), $thumb_id );
 		}
 
 		/**
@@ -365,7 +365,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 			$option = 'per_page';
 			$args = array(
-				'label'   => __( 'Import Drafts', 'wpml' ),
+				'label'   => __( 'Import Drafts', WPML_SLUG ),
 				'default' => 30,
 				'option'  => 'drafts_per_page'
 			);
@@ -407,7 +407,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				}
 
 				if ( empty( $errors ) )
-					$_notice = sprintf( __( '%d Movies imported successfully!', 'wpml' ), count( $_POST['tmdb'] ) );
+					$_notice = sprintf( __( '%d Movies imported successfully!', WPML_SLUG ), count( $_POST['tmdb'] ) );
 			}
 
 			if ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'wpml_import', 'wpml_import_queue', 'wpml_imported' ) ) )

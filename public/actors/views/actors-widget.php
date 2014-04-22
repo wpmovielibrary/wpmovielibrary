@@ -14,14 +14,14 @@ if ( $actors && ! is_wp_error( $actors ) ) :
 
 	foreach ( $actors as $actor )
 		$items[] = array(
-			'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpml' ), $actor->name ),
+			'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $actor->name ),
 			'link'        => get_term_link( sanitize_term( $actor, 'actor' ), 'actor' ),
 			'title'       => esc_attr( $actor->name . ( 1 == $count ? sprintf( '&nbsp;(%d)', $actor->count ) : '' ) )
 		);
 
-	$html = apply_filters( 'wpml_format_widget_lists', $items, $list, $css, __( 'Select an Actor', 'wpml' ) );
+	$html = apply_filters( 'wpml_format_widget_lists', $items, $list, $css, __( 'Select an Actor', WPML_SLUG ) );
 
 	echo $html;
 else :
-	printf( '<em>%s</em>', __( 'Nothing to display for "Actor" taxonomy.', 'wpml' ) );
+	printf( '<em>%s</em>', __( 'Nothing to display for "Actor" taxonomy.', WPML_SLUG ) );
 endif; ?>

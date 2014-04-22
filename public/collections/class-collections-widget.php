@@ -33,10 +33,10 @@ class WPML_Collections_Widget extends WP_Widget {
 
 		parent::__construct(
 			'wpml-collections-widget',
-			__( 'WPML Collections', 'wpml' ),
+			__( 'WPML Collections', WPML_SLUG ),
 			array(
 				'classname'	=>	'wpml-collections-widget',
-				'description'	=>	__( 'Display Movie Collections Lists', 'wpml' )
+				'description'	=>	__( 'Display Movie Collections Lists', WPML_SLUG )
 			)
 		);
 	}
@@ -87,7 +87,7 @@ class WPML_Collections_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Collections', 'wpml' ) );
+		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Collections', WPML_SLUG ) );
 		$list  = ( isset( $instance['list'] ) ? $instance['list'] : 1 );
 		$count = ( isset( $instance['count'] ) ? $instance['count'] : 0 );
 		$css   = ( isset( $instance['css'] ) ? $instance['css'] : 0 );

@@ -33,10 +33,10 @@ class WPML_Actors_Widget extends WP_Widget {
 
 		parent::__construct(
 			'wpml-actors-widget',
-			__( 'WPML Actors', 'wpml' ),
+			__( 'WPML Actors', WPML_SLUG ),
 			array(
 				'classname'	=>	'wpml-actors-widget',
-				'description'	=>	__( 'Display Movie Actors Lists', 'wpml' )
+				'description'	=>	__( 'Display Movie Actors Lists', WPML_SLUG )
 			)
 		);
 	}
@@ -87,7 +87,7 @@ class WPML_Actors_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Actors', 'wpml' ) );
+		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Actors', WPML_SLUG ) );
 		$list  = ( isset( $instance['list'] ) ? $instance['list'] : 1 );
 		$count = ( isset( $instance['count'] ) ? $instance['count'] : 0 );
 		$css   = ( isset( $instance['css'] ) ? $instance['css'] : 0 );

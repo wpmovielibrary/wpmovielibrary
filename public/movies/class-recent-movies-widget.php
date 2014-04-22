@@ -32,10 +32,10 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 
 		parent::__construct(
 			'wpml-recent-movies-widget',
-			__( 'WPML Recent Movies', 'wpml' ),
+			__( 'WPML Recent Movies', WPML_SLUG ),
 			array(
 				'classname'	=>	'wpml-recent-movies-widget',
-				'description'	=>	__( 'Display most recently added Movies.', 'wpml' )
+				'description'	=>	__( 'Display most recently added Movies.', WPML_SLUG )
 			)
 		);
 	}
@@ -85,8 +85,8 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title        = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Recent Movies', 'wpml' ) );
-		$description  = ( isset( $instance['description'] ) ? $instance['description'] : __( 'Movies I recently added to my library', 'wpml' ) );
+		$title        = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Recent Movies', WPML_SLUG ) );
+		$description  = ( isset( $instance['description'] ) ? $instance['description'] : __( 'Movies I recently added to my library', WPML_SLUG ) );
 		$number       = ( isset( $instance['number'] ) ? $instance['number'] : 4 );
 
 		// Display the admin form

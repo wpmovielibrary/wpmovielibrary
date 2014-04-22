@@ -227,10 +227,10 @@ if ( ! class_exists( 'TMDb' ) ) :
 				if ( in_array( $size, $available_sizes ) )
 					return $base_url . $size . $filepath;
 				else
-					return sprintf( __( 'The size "%s" is not supported by TMDb', 'wpml' ), $size );
+					return sprintf( __( 'The size "%s" is not supported by TMDb', WPML_SLUG ), $size );
 			}
 			else
-				return __( 'No configuration available for image URL generation', 'wpml' );
+				return __( 'No configuration available for image URL generation', WPML_SLUG );
 		}
 
 		/**
@@ -246,7 +246,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 			if ( isset( $config['images'][$imagetype.'_sizes'] ) )
 				return $config['images'][$imagetype.'_sizes'];
 			else
-				return __( 'No configuration available to retrieve available image sizes', 'wpml' );
+				return __( 'No configuration available to retrieve available image sizes', WPML_SLUG );
 		}
 
 		/**
@@ -299,7 +299,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 			$response = $request->request( $url, array( 'headers' => $headers ) );
 
 			if ( is_wp_error( $response ) ) {
-				return sprintf( __( 'Server error: %s', 'wpml' ), $response->get_error_message() );
+				return sprintf( __( 'Server error: %s', WPML_SLUG ), $response->get_error_message() );
 			}
 
 			$header = $response['headers'];
@@ -308,7 +308,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 			$results = json_decode( $body, true );
 
 			if ( isset( $body['status_code'] ) && isset( $body['status_message'] ) ) {
-				return sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpml' ), $body['status_code'], $body['status_message'] );
+				return sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', WPML_SLUG ), $body['status_code'], $body['status_message'] );
 			}
 
 			if ( false !== strpos( $function, 'authentication/token/new' ) ) {
@@ -322,7 +322,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 			else if ( TMDb::HEAD == $method )
 				return self::_http_parse_headers( $header );
 			else
-				return sprintf( __( 'Server error on "%s": %s', 'wpml' ), $url, print_r( $response, true ) );
+				return sprintf( __( 'Server error on "%s": %s', WPML_SLUG ), $url, print_r( $response, true ) );
 		}
 
 		/**

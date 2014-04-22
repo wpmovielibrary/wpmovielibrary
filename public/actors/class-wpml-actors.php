@@ -126,8 +126,8 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 				'movie',
 				array(
 					'labels'   => array(
-						'name'          => __( 'Actors', 'wpml' ),
-						'add_new_item'  => __( 'New Actor', 'wpml' )
+						'name'          => __( 'Actors', WPML_SLUG ),
+						'add_new_item'  => __( 'New Actor', WPML_SLUG )
 					),
 					'show_ui'           => true,
 					'show_tagcloud'     => true,

@@ -117,6 +117,10 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 
 			global $wpml_settings;
 
+			$settings = get_option( WPML_SETTINGS_SLUG, array() );
+			if ( empty( $settings ) || ! isset( $settings['settings_revision'] ) || $settings['settings_revision'] < WPML_SETTINGS_REVISION )
+				self::update_settings();
+
 			$default_settings = apply_filters( 'wpml_summarize_settings', $wpml_settings );
 
 			return $default_settings;
@@ -134,8 +138,8 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 * 
 		 * @param    array    $default Default Plugin Settings to be compared to
 		 *                             currently stored settings.
-		 * @param    array    $options Currently stored settings, supposedly out
-		 *                             of date.
+		 * @param    array    $settings Currently stored settings, supposedly out
+		 *                              of date.
 		 * 
 		 * @return   array             Updated and possibly unchanged settings
 		 *                             array if everything went right, empty array
@@ -143,18 +147,21 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 */
 		protected static function update_settings() {
 
-			$options = get_option( WPML_SETTINGS_SLUG );
+			global $wpml_settings;
+
+			$default_settings = apply_filters( 'wpml_summarize_settings', $wpml_settings );
+			$settings = get_option( WPML_SETTINGS_SLUG );
 			$status  = false;
 
-			if ( ( false === $options || ! is_array( $options ) ) || true == $force ) {
+			if ( ( false === $settings || ! is_array( $settings ) ) || true == $force ) {
 				delete_option( WPML_SETTINGS_SLUG );
 				$status = add_option( WPML_SETTINGS_SLUG, $default_settings );
 			}
-			else if ( ! isset( $options['settings_revision'] ) || WPML_SETTINGS_REVISION > $options['settings_revision'] ) {
-				$updated_options = shortcode_atts( $default_settings, $wpml_settings );
-				if ( ! empty( $updated_options ) ) {
-					$updated_options['settings_revision'] = WPML_SETTINGS_REVISION;
-					$status = update_option( WPML_SETTINGS_SLUG, $updated_options );
+			else if ( ! isset( $settings['settings_revision'] ) || WPML_SETTINGS_REVISION > $settings['settings_revision'] ) {
+				$updated_settings = shortcode_atts( $settings, $default_settings );
+				if ( ! empty( $updated_settings ) ) {
+					$updated_settings['settings_revision'] = WPML_SETTINGS_REVISION;
+					$status = update_option( WPML_SETTINGS_SLUG, $updated_settings );
 				}
 			}
 

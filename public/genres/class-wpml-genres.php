@@ -123,8 +123,8 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 				'movie',
 				array(
 					'labels'   => array(
-						'name'          => __( 'Genres', 'wpml' ),
-						'add_new_item'  => __( 'New Genre', 'wpml' )
+						'name'          => __( 'Genres', WPML_SLUG ),
+						'add_new_item'  => __( 'New Genre', WPML_SLUG )
 					),
 					'show_ui'           => true,
 					'show_tagcloud'     => true,

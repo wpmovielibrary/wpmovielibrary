@@ -33,10 +33,10 @@ class WPML_Media_Widget extends WP_Widget {
 
 		parent::__construct(
 			'wpml-media-widget',
-			__( 'WPML Media', 'wpml' ),
+			__( 'WPML Media', WPML_SLUG ),
 			array(
 				'classname'	=>	'wpml-media-widget',
-				'description'	=>	__( 'Display Movies from a specific media', 'wpml' )
+				'description'	=>	__( 'Display Movies from a specific media', WPML_SLUG )
 			)
 		);
 	}
@@ -91,7 +91,7 @@ class WPML_Media_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie by Media', 'wpml' ) );
+		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie by Media', WPML_SLUG ) );
 		$description = ( isset( $instance['description'] ) ? $instance['description'] : '' );
 		$type = ( isset( $instance['type'] ) ? $instance['type'] : null );
 		$list = ( isset( $instance['list'] ) ? $instance['list'] : 0 );

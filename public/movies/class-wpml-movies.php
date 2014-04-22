@@ -54,19 +54,19 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		public static function register_post_type() {
 
 			$labels = array(
-				'name'               => __( 'Movies', 'wpml' ),
-				'singular_name'      => __( 'Movie', 'wpml' ),
-				'add_new'            => __( 'Add New', 'wpml' ),
-				'add_new_item'       => __( 'Add New Movie', 'wpml' ),
-				'edit_item'          => __( 'Edit Movie', 'wpml' ),
-				'new_item'           => __( 'New Movie', 'wpml' ),
-				'all_items'          => __( 'All Movies', 'wpml' ),
-				'view_item'          => __( 'View Movie', 'wpml' ),
-				'search_items'       => __( 'Search Movies', 'wpml' ),
-				'not_found'          => __( 'No movies found', 'wpml' ),
-				'not_found_in_trash' => __( 'No movies found in Trash', 'wpml' ),
+				'name'               => __( 'Movies', WPML_SLUG ),
+				'singular_name'      => __( 'Movie', WPML_SLUG ),
+				'add_new'            => __( 'Add New', WPML_SLUG ),
+				'add_new_item'       => __( 'Add New Movie', WPML_SLUG ),
+				'edit_item'          => __( 'Edit Movie', WPML_SLUG ),
+				'new_item'           => __( 'New Movie', WPML_SLUG ),
+				'all_items'          => __( 'All Movies', WPML_SLUG ),
+				'view_item'          => __( 'View Movie', WPML_SLUG ),
+				'search_items'       => __( 'Search Movies', WPML_SLUG ),
+				'not_found'          => __( 'No movies found', WPML_SLUG ),
+				'not_found_in_trash' => __( 'No movies found in Trash', WPML_SLUG ),
 				'parent_item_colon'  => '',
-				'menu_name'          => __( 'Movies', 'wpml' )
+				'menu_name'          => __( 'Movies', WPML_SLUG )
 			);
 
 			$args = array(
@@ -89,7 +89,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			register_post_type( 'movie', $args );
 
 			register_post_status( 'import-draft', array(
-				'label'                     => _x( 'Imported Draft', 'wpml' ),
+				'label'                     => _x( 'Imported Draft', WPML_SLUG ),
 				'public'                    => false,
 				'exclude_from_search'       => true,
 				'show_in_admin_all_list'    => false,
@@ -98,7 +98,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			) );
 
 			register_post_status( 'import-queued', array(
-				'label'                     => _x( 'Queued Movie', 'wpml' ),
+				'label'                     => _x( 'Queued Movie', WPML_SLUG ),
 				'public'                    => false,
 				'exclude_from_search'       => true,
 				'show_in_admin_all_list'    => false,
@@ -206,7 +206,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 						}
 						break;
 					case 'rating':
-						$html .= sprintf( $default_format, $field, __( 'Movie rating', 'wpml' ), $field, sprintf( '<div class="movie_rating_display stars_%s"></div>', ( '' == $movie_rating ? '0_0' : str_replace( '.', '_', $movie_rating ) ) ) );
+						$html .= sprintf( $default_format, $field, __( 'Movie rating', WPML_SLUG ), $field, sprintf( '<div class="movie_rating_display stars_%s"></div>', ( '' == $movie_rating ? '0_0' : str_replace( '.', '_', $movie_rating ) ) ) );
 						break;
 					default:
 						
@@ -252,7 +252,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 						break;
 					case 'cast':
 						$actors = WPML_Settings::wpml__enable_actor() ? get_the_term_list( get_the_ID(), 'actor', '', ', ', '' ) : $tmdb_data[ $field ];
-						$html .= sprintf( $default_format, $field, __( 'Staring', 'wpml' ), $field, $actors );
+						$html .= sprintf( $default_format, $field, __( 'Staring', WPML_SLUG ), $field, $actors );
 						break;
 					case 'release_date':
 						$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, date_i18n( get_option( 'date_format' ), strtotime( $tmdb_data[ $field ] ) ) );
@@ -263,7 +263,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 					case 'director':
 						$term = WPML_Settings::wpml__enable_collection() ? get_term_by( 'name', $tmdb_data[ $field ], 'collection' ) : $tmdb_data[ $field ];
 						$collection = ( $term && ! is_wp_error( $link = get_term_link( $term, 'collection' ) ) ) ? '<a href="' . $link . '">' . $tmdb_data[ $field ] . '</a>' : $tmdb_data[ $field ];
-						$html .= sprintf( $default_format, $field, __( 'Directed by', 'wpml' ), $field, $collection );
+						$html .= sprintf( $default_format, $field, __( 'Directed by', WPML_SLUG ), $field, $collection );
 						break;
 					default:
 						if ( in_array( $field, $fields ) && isset( $tmdb_data[ $field ] ) && '' != $tmdb_data[ $field ] )

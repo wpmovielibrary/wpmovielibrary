@@ -4,14 +4,14 @@ if ( 'input' == $_type ) : ?>
 
 	<input type="text" id="<?php echo $_id ?>" name="<?php echo $_name ?>" value="<?php echo $_value ?>" size="40" maxlength="32" />
 <?php if ( 'apikey' == $field['id'] ) : ?>
-	<input id="APIKey_check" type="button" name="APIKey_check" class="button button-secondary" value="<?php _e( 'Check API Key', 'wpml' ); ?>" />
+	<input id="APIKey_check" type="button" name="APIKey_check" class="button button-secondary" value="<?php _e( 'Check API Key', WPML_SLUG ); ?>" />
 <?php endif; ?>
 	<p class="description"><?php echo $field['description'] ?></p>
 
 <?php elseif ( 'toggle' == $_type ) : ?>
 
 	<label><input type="radio" id="<?php echo $_id ?>" name="<?php echo $_name ?>" value="1"<?php checked( $_value, 1 ); ?>/> <?php echo $_title ?></label>
-	<label><input type="radio" id="<?php echo $_id ?>" name="<?php echo $_name ?>" value="0"<?php checked( $_value, 0 ); ?>/> <?php _e( 'Don&rsquo;t', 'wpml' ); ?></label>
+	<label><input type="radio" id="<?php echo $_id ?>" name="<?php echo $_name ?>" value="0"<?php checked( $_value, 0 ); ?>/> <?php _e( 'Don&rsquo;t', WPML_SLUG ); ?></label>
 	<p class="description"><?php echo $field['description'] ?></p>
 
 <?php elseif ( 'select' == $_type || 'multiple' == $_type ) : ?>
@@ -26,8 +26,8 @@ if ( 'input' == $_type ) : ?>
 <?php elseif ( 'sorted' == $_type ) : ?>
 
 								<p class="description">
-									<?php _e( 'Which metadata to display in posts: director, genres, runtime, rating…', 'wpml' ); ?>
-									<span class="hide-if-js"><?php _e( 'Javascript seems to be deactivated; please active it to customize your Movie metadata order.', 'wpml' ); ?></span>
+									<?php _e( 'Which metadata to display in posts: director, genres, runtime, rating…', WPML_SLUG ); ?>
+									<span class="hide-if-js"><?php _e( 'Javascript seems to be deactivated; please active it to customize your Movie metadata order.', WPML_SLUG ); ?></span>
 								</p>
 
 								<div class="default_movie_meta_sortable hide-if-no-js">

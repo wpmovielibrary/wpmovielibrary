@@ -135,23 +135,23 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 						)
 					),
 					'lang' => array(
-						'images_added'       => __( 'Images uploaded!', 'wpml' ),
-						'empty_key'          => __( 'I can\'t test an empty key, you know.', 'wpml' ),
-						'length_key'         => __( 'Invalid key: it should be 32 characters long.', 'wpml' ),
-						'search_movie_title' => __( 'Searching movie', 'wpml' ),
-						'search_movie'       => __( 'Fetching movie data', 'wpml' ),
-						'set_featured'       => __( 'Setting featured image…', 'wpml' ),
-						'images_added'       => __( 'Images added!', 'wpml' ),
-						'image_from'         => __( 'Image from', 'wpml' ),
-						'load_images'        => __( 'Load Images', 'wpml' ),
-						'load_more'          => __( 'Load More', 'wpml' ),
-						'loading_images'     => __( 'Loading Images…', 'wpml' ),
-						'save_image'         => __( 'Saving Images…', 'wpml' ),
-						'poster'             => __( 'Poster', 'wpml' ),
-						'done'               => __( 'Done!', 'wpml' ),
-						'see_more'           => __( 'see more', 'wpml' ),
-						'see_less'           => __( 'see no more', 'wpml' ),
-						'oops'               => __( 'Oops… Did something went wrong?', 'wpml' )
+						'images_added'       => __( 'Images uploaded!', WPML_SLUG ),
+						'empty_key'          => __( 'I can\'t test an empty key, you know.', WPML_SLUG ),
+						'length_key'         => __( 'Invalid key: it should be 32 characters long.', WPML_SLUG ),
+						'search_movie_title' => __( 'Searching movie', WPML_SLUG ),
+						'search_movie'       => __( 'Fetching movie data', WPML_SLUG ),
+						'set_featured'       => __( 'Setting featured image…', WPML_SLUG ),
+						'images_added'       => __( 'Images added!', WPML_SLUG ),
+						'image_from'         => __( 'Image from', WPML_SLUG ),
+						'load_images'        => __( 'Load Images', WPML_SLUG ),
+						'load_more'          => __( 'Load More', WPML_SLUG ),
+						'loading_images'     => __( 'Loading Images…', WPML_SLUG ),
+						'save_image'         => __( 'Saving Images…', WPML_SLUG ),
+						'poster'             => __( 'Poster', WPML_SLUG ),
+						'done'               => __( 'Done!', WPML_SLUG ),
+						'see_more'           => __( 'see more', WPML_SLUG ),
+						'see_less'           => __( 'see no more', WPML_SLUG ),
+						'oops'               => __( 'Oops… Did something went wrong?', WPML_SLUG )
 					)
 				);
 
@@ -188,24 +188,24 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			add_submenu_page(
 				'edit.php?post_type=movie',
-				__( 'Import Movies', 'wpml' ),
-				__( 'Import Movies', 'wpml' ),
+				__( 'Import Movies', WPML_SLUG ),
+				__( 'Import Movies', WPML_SLUG ),
 				'manage_options',
 				'import',
 				'WPML_Import::import_page'
 			);
 			/*add_submenu_page(
 				'edit.php?post_type=movie',
-				__( 'Export Movies', 'wpml' ),
-				__( 'Export Movies', 'wpml' ),
+				__( 'Export Movies', WPML_SLUG ),
+				__( 'Export Movies', WPML_SLUG ),
 				'manage_options',
 				'export',
 				__CLASS__ . '::export_page'
 			);*/
 			add_submenu_page(
 				'edit.php?post_type=movie',
-				__( 'Options', 'wpml' ),
-				__( 'Options', 'wpml' ),
+				__( 'Options', WPML_SLUG ),
+				__( 'Options', WPML_SLUG ),
 				'manage_options',
 				'wpml_edit_settings',
 				__CLASS__ . '::admin_page'
@@ -256,7 +256,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public static function admin_page() {
 
 			if ( ! current_user_can( 'manage_options' ) )
-				wp_die( __( 'Access denied.', 'wpml' ) );
+				wp_die( __( 'Access denied.', WPML_SLUG ) );
 
 			$_section = ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'tmdb', 'wpml', 'uninstall', 'restore' ) ) ) ? esc_attr( $_REQUEST['wpml_section'] ) : 'tmdb' ;
 
@@ -317,15 +317,15 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			foreach ( $selected as $meta ) :
 				if ( isset( $items[ $meta ] ) )
-					$draggable .= '<li data-movie-meta="' . $meta . '" class="default_movie_meta_selected">' . __( $items[ $meta ]['title'], 'wpml' ) . '</li>';
+					$draggable .= '<li data-movie-meta="' . $meta . '" class="default_movie_meta_selected">' . __( $items[ $meta ]['title'], WPML_SLUG ) . '</li>';
 			endforeach;
 			foreach ( $selectable as $meta ) :
-				$droppable .= '<li data-movie-meta="' . $meta . '" class="default_movie_meta_droppable">' . __( $items[ $meta ]['title'], 'wpml' ) . '</li>';
+				$droppable .= '<li data-movie-meta="' . $meta . '" class="default_movie_meta_droppable">' . __( $items[ $meta ]['title'], WPML_SLUG ) . '</li>';
 			endforeach;
 
 			foreach ( $items as $slug => $meta ) :
 				$check = in_array( $slug, $_value );
-				$options .= '<option value="' . $slug . '"' . selected( $check, true, false ) . '>' . __( $meta['title'], 'wpml' ) . '</option>';
+				$options .= '<option value="' . $slug . '"' . selected( $check, true, false ) . '>' . __( $meta['title'], WPML_SLUG ) . '</option>';
 			endforeach;
 
 			include( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings-fields.php' );

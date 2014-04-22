@@ -299,10 +299,10 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 
 			$args = array(
 				'id'    => 'wpmovielibrary',
-				'title' => __( 'New Movie', 'wpml' ),
+				'title' => __( 'New Movie', WPML_SLUG ),
 				'href'  => admin_url( 'post-new.php?post_type=movie' ),
 				'meta'  => array(
-					'title' => __( 'New Movie', 'wpml' )
+					'title' => __( 'New Movie', WPML_SLUG )
 				)
 			);
 

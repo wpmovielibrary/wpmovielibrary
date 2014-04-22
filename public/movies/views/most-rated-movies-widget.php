@@ -15,13 +15,13 @@ if ( $rating_only ) :
 	foreach ( $ratings as $slug => $rating_title ) :
 		$items[] = array(
 				'ID'          => $slug,
-				'attr_title'  => sprintf( __( 'Permalink for &laquo; %s Rated Movies &raquo;', 'wpml' ), esc_attr( $rating_title ) ),
+				'attr_title'  => sprintf( __( 'Permalink for &laquo; %s Rated Movies &raquo;', WPML_SLUG ), esc_attr( $rating_title ) ),
 				'link'        => home_url( "/movies/{$slug}/" ),
 				'title'       => '<div class="movie_rating_display stars_' . str_replace( '.', '_', $slug ) . '"><div class="stars_labels"><span class="stars_label stars_label_' . str_replace( '.', '_', $slug ) . '">' . esc_attr( $rating_title ) . '</span></div></div>'
 			);
 	endforeach;
 
-	$html = apply_filters( 'wpml_format_widget_lists', $items, false, null, __( 'Select a Movie', 'wpml' ) );
+	$html = apply_filters( 'wpml_format_widget_lists', $items, false, null, __( 'Select a Movie', WPML_SLUG ) );
 
 	echo $html;
 
@@ -46,7 +46,7 @@ else :
 			$rating     = get_post_meta( get_the_ID(), '_wpml_movie_rating', true );
 			$rating_str = ( '' == $rating ? "stars_0_0" : 'stars_' . str_replace( '.', '_', $rating ) );
 ?>
-			<a href="<?php the_permalink(); ?>" title="<?php printf( '%s %s', __( 'Read more about', 'wpml' ), get_the_title() ); ?>">
+			<a href="<?php the_permalink(); ?>" title="<?php printf( '%s %s', __( 'Read more about', WPML_SLUG ), get_the_title() ); ?>">
 				<figure id="movie-<?php the_ID(); ?>" class="most-rated-movie">
 					<?php echo $thumbnail; ?>
 <?php if ( 'no' != $display_rating ) : ?>

@@ -124,8 +124,8 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 				'movie',
 				array(
 					'labels'   => array(
-						'name'          => __( 'Collections', 'wpml' ),
-						'add_new_item'  => __( 'New Movie Collection', 'wpml' )
+						'name'          => __( 'Collections', WPML_SLUG ),
+						'add_new_item'  => __( 'New Movie Collection', WPML_SLUG )
 					),
 					'show_ui'           => true,
 					'show_tagcloud'     => false,

@@ -33,10 +33,10 @@ class WPML_Genres_Widget extends WP_Widget {
 
 		parent::__construct(
 			'wpml-genres-widget',
-			__( 'WPML Genres', 'wpml' ),
+			__( 'WPML Genres', WPML_SLUG ),
 			array(
 				'classname'	=>	'wpml-genres-widget',
-				'description'	=>	__( 'Display Movie Genres Lists', 'wpml' )
+				'description'	=>	__( 'Display Movie Genres Lists', WPML_SLUG )
 			)
 		);
 	}
@@ -87,7 +87,7 @@ class WPML_Genres_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Genres', 'wpml' ) );
+		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Genres', WPML_SLUG ) );
 		$list  = ( isset( $instance['list'] ) ? $instance['list'] : 1 );
 		$count = ( isset( $instance['count'] ) ? $instance['count'] : 0 );
 		$css   = ( isset( $instance['css'] ) ? $instance['css'] : 0 );

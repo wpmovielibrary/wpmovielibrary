@@ -53,7 +53,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( '' == $notice )
 				return false;
 
-			if ( ! in_array( $type, array( 'error', 'warning', 'update', 'wpml' ) ) || 'update' == $type )
+			if ( ! in_array( $type, array( 'error', 'warning', 'update', WPML_SLUG ) ) || 'update' == $type )
 				$class = 'updated';
 			else if ( 'wpml' == $type )
 				$class = 'updated wpml';

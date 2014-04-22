@@ -46,10 +46,10 @@ class WPML_Import_Table extends WP_List_Table {
 		$this->columns = WPML_Import::get_imported_movies();
 
 		$this->column_names = array(
-			'poster'     => __( 'Poster', 'wpml' ),
-			'movietitle' => __( 'Title', 'wpml' ),
-			'director'   => __( 'Director', 'wpml' ),
-			'actions'    => __( 'Actions', 'wpml' )
+			'poster'     => __( 'Poster', WPML_SLUG ),
+			'movietitle' => __( 'Title', WPML_SLUG ),
+			'director'   => __( 'Director', WPML_SLUG ),
+			'actions'    => __( 'Actions', WPML_SLUG )
 		);
 	}
 
@@ -80,7 +80,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * @access   public
 	 */
 	function no_items() {
-		_e( 'No movies found, dude.', 'wpml' );
+		_e( 'No movies found, dude.', WPML_SLUG );
 	}
 	
 	/**
@@ -261,11 +261,11 @@ class WPML_Import_Table extends WP_List_Table {
 	function column_actions( $item ) {
 
 		$actions = array(
-			'edit'      => sprintf('<a class="edit_movie" id="edit_%1$s" data-post-id="%2$s" href="%3$s" title="%4$s"><span class="dashicons dashicons-welcome-write-blog"></span></a>', $item['ID'], $item['ID'], get_edit_post_link( $item['ID'] ), __( 'Edit', 'wpml' ) ),
-			'tmdb_data' => sprintf('<a class="fetch_movie" id="fetch_%1$s" data-post-id="%2$s" href="%3$s" title="%4$s" onclick="wpml_importer.fetch_movie( this ); return false;"><span class="dashicons dashicons-download"></span></a>', $item['ID'], $item['ID'], get_edit_post_link( $item['ID'] ) . "&wpml_auto_fetch=1", __( 'Fetch data from TMDb', 'wpml' ) ),
-			'import'    => sprintf('<a class="import_movie" id="import_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-welcome-add-page"></span></a>', $item['ID'], $item['ID'], __( 'Import Movie', 'wpml' ) ),
-			'enqueue'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" data-post-id="%2$s" href="#" title="%3$s" onclick="wpml_queue._enqueue( this ); return false;"><span class="dashicons dashicons-plus"></span></a>', $item['ID'], $item['ID'], __( 'Enqueue', 'wpml' ) ),
-			'delete'    => sprintf('<a class="delete_movie" id="delete_%1$s" data-post-id="%2$s" href="#" title="%3$s" onclick="wpml_importer.delete_movie([%4$s]); return false;"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], $item['ID'], __( 'Delete', 'wpml' ), $item['ID'] ),
+			'edit'      => sprintf('<a class="edit_movie" id="edit_%1$s" data-post-id="%2$s" href="%3$s" title="%4$s"><span class="dashicons dashicons-welcome-write-blog"></span></a>', $item['ID'], $item['ID'], get_edit_post_link( $item['ID'] ), __( 'Edit', WPML_SLUG ) ),
+			'tmdb_data' => sprintf('<a class="fetch_movie" id="fetch_%1$s" data-post-id="%2$s" href="%3$s" title="%4$s" onclick="wpml_importer.fetch_movie( this ); return false;"><span class="dashicons dashicons-download"></span></a>', $item['ID'], $item['ID'], get_edit_post_link( $item['ID'] ) . "&wpml_auto_fetch=1", __( 'Fetch data from TMDb', WPML_SLUG ) ),
+			'import'    => sprintf('<a class="import_movie" id="import_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-welcome-add-page"></span></a>', $item['ID'], $item['ID'], __( 'Import Movie', WPML_SLUG ) ),
+			'enqueue'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" data-post-id="%2$s" href="#" title="%3$s" onclick="wpml_queue._enqueue( this ); return false;"><span class="dashicons dashicons-plus"></span></a>', $item['ID'], $item['ID'], __( 'Enqueue', WPML_SLUG ) ),
+			'delete'    => sprintf('<a class="delete_movie" id="delete_%1$s" data-post-id="%2$s" href="#" title="%3$s" onclick="wpml_importer.delete_movie([%4$s]); return false;"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], $item['ID'], __( 'Delete', WPML_SLUG ), $item['ID'] ),
 		);
 
 		return $this->row_actions( $actions, $always_visible = true );
@@ -308,9 +308,9 @@ class WPML_Import_Table extends WP_List_Table {
 	function get_bulk_actions() {
 
 		$actions = array(
-			'delete'    => __( 'Delete Movie', 'wpml' ),
-			'enqueue' => __( 'Enqueue Movie', 'wpml' ),
-			'tmdb_data' => __( 'Fetch data from TMDb', 'wpml' ),
+			'delete'    => __( 'Delete Movie', WPML_SLUG ),
+			'enqueue' => __( 'Enqueue Movie', WPML_SLUG ),
+			'tmdb_data' => __( 'Fetch data from TMDb', WPML_SLUG ),
 		);
 
 		return $actions;
@@ -500,7 +500,7 @@ class WPML_Import_Table extends WP_List_Table {
 		<?php $this->display_rows_or_placeholder(); ?>
 		<tr>
 			<td colspan="<?php echo count( $this->column_names ); ?>">
-				<div id="progressbar_bg"><div id="progressbar"><div class="progress-label">0</div></div><a href="#" id="hide_progressbar"><?php _e( 'Hide', 'wpml' ) ?></a></div>
+				<div id="progressbar_bg"><div id="progressbar"><div class="progress-label">0</div></div><a href="#" id="hide_progressbar"><?php _e( 'Hide', WPML_SLUG ) ?></a></div>
 			</td>
 		</tr>
 	</tbody>

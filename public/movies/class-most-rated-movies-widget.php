@@ -32,10 +32,10 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 
 		parent::__construct(
 			'wpml-most-rated-movies-widget',
-			__( 'WPML Most Rated Movies', 'wpml' ),
+			__( 'WPML Most Rated Movies', WPML_SLUG ),
 			array(
 				'classname'	=>	'wpml-most-rated-movies-widget',
-				'description'	=>	__( 'Display most rated Movies.', 'wpml' )
+				'description'	=>	__( 'Display most rated Movies.', WPML_SLUG )
 			)
 		);
 	}
@@ -87,8 +87,8 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Most Rated Movies', 'wpml' ) );
-		$description = ( isset( $instance['description'] ) ? $instance['description'] : __( 'Movies I really enjoyed', 'wpml' ) );
+		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Most Rated Movies', WPML_SLUG ) );
+		$description = ( isset( $instance['description'] ) ? $instance['description'] : __( 'Movies I really enjoyed', WPML_SLUG ) );
 		$number = ( isset( $instance['number'] ) ? $instance['number'] : 4 );
 		$display_rating = ( isset( $instance['display_rating'] ) ? $instance['display_rating'] : 'no' );
 		$rating_only = ( isset( $instance['rating_only'] ) ? $instance['rating_only'] : 0 );

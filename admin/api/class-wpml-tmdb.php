@@ -42,7 +42,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			$this->register_hook_callbacks();
 
 			if ( '' == WPML_Settings::tmdb__apikey() ) {
-				WPML_Utils::admin_notice( __( '', 'wpml' ), 'error' );
+				WPML_Utils::admin_notice( __( '', WPML_SLUG ), 'error' );
 				return false;
 			}
 		}
@@ -83,11 +83,11 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			$tmdb_config = $tmdb_config->getConfig();
 
 			if ( is_null( $tmdb_config ) ) {
-				WPML_Utils::admin_notice( __( 'Unknown error, connection to TheMovieDB API failed.', 'wpml' ), 'error' );
+				WPML_Utils::admin_notice( __( 'Unknown error, connection to TheMovieDB API failed.', WPML_SLUG ), 'error' );
 				return false;
 			}
 			else if ( isset( $tmdb_config['status_code'] ) && in_array( $tmdb_config['status_code'], array( 7, 403 ) ) ) {
-				WPML_Utils::admin_notice( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpml' ), $tmdb_config['status_message'], $tmdb_config['status_code'] ), 'error' );
+				WPML_Utils::admin_notice( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', WPML_SLUG ), $tmdb_config['status_message'], $tmdb_config['status_code'] ), 'error' );
 				return false;
 			}
 
@@ -188,9 +188,9 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			$data = self::check_api_key( esc_attr( $_GET['key'] ) );
 
 			if ( isset( $data['status_code'] ) && 7 === $data['status_code'] )
-				echo '<span id="api_status" class="invalid">'.__( 'Invalid API key - You must be granted a valid key', 'wpml' ).'</span>';
+				echo '<span id="api_status" class="invalid">'.__( 'Invalid API key - You must be granted a valid key', WPML_SLUG ).'</span>';
 			else
-				echo '<span id="api_status" class="valid">'.__( 'Valid API key - Save your settings and have fun!', 'wpml' ).'</span>';
+				echo '<span id="api_status" class="valid">'.__( 'Valid API key - Save your settings and have fun!', WPML_SLUG ).'</span>';
 
 			die();
 		}
@@ -286,7 +286,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			else if ( ! isset( $data['total_results'] ) ) {
 				$movies = array(
 					'_result' => 'empty',
-					'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>',
+					'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', WPML_SLUG ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', WPML_SLUG ).'</p>',
 					'_id'    => $_id
 				);
 			}
@@ -297,7 +297,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 				$movies = array(
 					'_result' => 'movies',
-					'p'      => '<p><strong>'.__( 'Your request showed multiple results. Select your movie in the list or try another search:', 'wpml' ).'</strong></p>',
+					'p'      => '<p><strong>'.__( 'Your request showed multiple results. Select your movie in the list or try another search:', WPML_SLUG ).'</strong></p>',
 					'movies' => array(),
 					'_id'    => $_id
 				);
@@ -315,7 +315,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			else {
 				$movies = array(
 					'_result' => 'empty',
-					'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', 'wpml' ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', 'wpml' ).'</p>',
+					'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', WPML_SLUG ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', WPML_SLUG ).'</p>',
 					'_id'    => $_id
 				);
 			}

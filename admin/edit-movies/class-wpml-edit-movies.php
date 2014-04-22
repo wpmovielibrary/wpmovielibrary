@@ -92,11 +92,11 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			$defaults = array_merge(
 				array_slice( $defaults, 0, $title, true ),
-				array( 'poster' => __( 'Poster', 'wpml' ) ),
+				array( 'poster' => __( 'Poster', WPML_SLUG ) ),
 				array_slice( $defaults, $title, $comments, true ),
-				array( 'movie_status' => __( 'Status', 'wpml' ) ),
-				array( 'movie_media' => __( 'Media', 'wpml' ) ),
-				array( 'movie_rating' => __( 'Rating', 'wpml' ) ),
+				array( 'movie_status' => __( 'Status', WPML_SLUG ) ),
+				array( 'movie_media' => __( 'Media', WPML_SLUG ) ),
+				array( 'movie_rating' => __( 'Rating', WPML_SLUG ) ),
 				array_slice( $defaults, $comments, count( $defaults ), true )
 			);
 
@@ -396,13 +396,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		public static function add_meta_boxes() {
 
 			// Movie Metadata
-			add_meta_box( 'wpml_meta', __( 'WPMovieLibrary − Movie Meta', 'wpml' ), __CLASS__ . '::metabox_meta', 'movie', 'normal', 'high', null );
+			add_meta_box( 'wpml_meta', __( 'WPMovieLibrary − Movie Meta', WPML_SLUG ), __CLASS__ . '::metabox_meta', 'movie', 'normal', 'high', null );
 
 			// Movie Details
-			add_meta_box( 'wpml_images', __( 'WPMovieLibrary − Movie Images', 'wpml' ), __CLASS__ . '::metabox_images', 'movie', 'normal', 'high', null );
+			add_meta_box( 'wpml_images', __( 'WPMovieLibrary − Movie Images', WPML_SLUG ), __CLASS__ . '::metabox_images', 'movie', 'normal', 'high', null );
 
 			// Movie Details
-			add_meta_box( 'wpml_details', __( 'WPMovieLibrary − Movie Details', 'wpml' ), __CLASS__ . '::metabox_details', 'movie', 'side', 'default', null );
+			add_meta_box( 'wpml_details', __( 'WPMovieLibrary − Movie Details', WPML_SLUG ), __CLASS__ . '::metabox_details', 'movie', 'side', 'default', null );
 		}
 
 		/**
@@ -487,7 +487,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * @return   string    Updated $content
 		 */
 		public static function load_posters_link( $content, $post_id ) {
-			return $content . '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', 'wpml' ) . '</a>';
+			return $content . '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', WPML_SLUG ) . '</a>';
 		}
 
 		/**

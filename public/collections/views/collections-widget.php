@@ -14,14 +14,14 @@ if ( $collections && ! is_wp_error( $collections ) ) :
 
 	foreach ( $collections as $collection )
 		$items[] = array(
-			'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpml' ), $collection->name ),
+			'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $collection->name ),
 			'link'        => get_term_link( sanitize_term( $collection, 'collection' ), 'collection' ),
 			'title'       => esc_attr( $collection->name . ( $count ? sprintf( '&nbsp;(%d)', $collection->count ) : '' ) )
 		);
 
-	$html = apply_filters( 'wpml_format_widget_lists', $items, $list, $css, __( 'Select a Collection', 'wpml' ) );
+	$html = apply_filters( 'wpml_format_widget_lists', $items, $list, $css, __( 'Select a Collection', WPML_SLUG ) );
 
 	echo $html;
 else :
-	printf( '<em>%s</em>', __( 'Nothing to display for "Collection" taxonomy.', 'wpml' ) );
+	printf( '<em>%s</em>', __( 'Nothing to display for "Collection" taxonomy.', WPML_SLUG ) );
 endif; ?>

@@ -42,11 +42,11 @@ class WPML_Queue_Table extends WP_List_Table {
 		$this->columns = WPML_Queue::get_queued_movies();
 
 		$this->column_names = array(
-			//'poster'     => __( 'Poster', 'wpml' ),
-			'movietitle' => __( 'Title', 'wpml' ),
-			'director'   => __( 'Director', 'wpml' ),
-			'status'     => __( 'Status', 'wpml' ),
-			'actions'    => __( 'Actions', 'wpml' )
+			//'poster'     => __( 'Poster', WPML_SLUG ),
+			'movietitle' => __( 'Title', WPML_SLUG ),
+			'director'   => __( 'Director', WPML_SLUG ),
+			'status'     => __( 'Status', WPML_SLUG ),
+			'actions'    => __( 'Actions', WPML_SLUG )
 		);
 	}
 
@@ -77,7 +77,7 @@ class WPML_Queue_Table extends WP_List_Table {
 	 * @access   public
 	 */
 	function no_items() {
-		_e( 'No movies found, dude.', 'wpml' );
+		_e( 'No movies found, dude.', WPML_SLUG );
 	}
 
 	/**
@@ -268,8 +268,8 @@ class WPML_Queue_Table extends WP_List_Table {
 	function column_actions( $item ) {
 
 		$actions = array(
-			'dequeue' => sprintf( '<a class="dequeue_movie" id="dequeue_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-no"></span></a>', $item['ID'], $item['ID'], __( 'Dequeue', 'wpml' ) ),
-			'delete'  => sprintf( '<a class="delete_movie" id="delete_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], $item['ID'], __( 'Delete', 'wpml' ) ),
+			'dequeue' => sprintf( '<a class="dequeue_movie" id="dequeue_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-no"></span></a>', $item['ID'], $item['ID'], __( 'Dequeue', WPML_SLUG ) ),
+			'delete'  => sprintf( '<a class="delete_movie" id="delete_%1$s" data-post-id="%2$s" href="#" title="%3$s"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], $item['ID'], __( 'Delete', WPML_SLUG ) ),
 		);
 
 		return $this->row_actions( $actions, $always_visible = true );
@@ -314,8 +314,8 @@ class WPML_Queue_Table extends WP_List_Table {
 	function get_bulk_actions() {
 
 		$actions = array(
-			'dequeue' => __( 'Remove from queue', 'wpml' ),
-			'import'  => __( 'Import', 'wpml' )
+			'dequeue' => __( 'Remove from queue', WPML_SLUG ),
+			'import'  => __( 'Import', WPML_SLUG )
 		);
 
 		return $actions;
@@ -503,7 +503,7 @@ class WPML_Queue_Table extends WP_List_Table {
 		<?php $this->display_rows_or_placeholder(); ?>
 		<tr>
 			<td colspan="<?php echo count( $this->column_names ); ?>">
-				<div id="progressbar_bg"><div id="progressbar"><div class="progress-label">0</div></div><a href="#" id="hide_progressbar"><?php _e( 'Hide', 'wpml' ) ?></a></div>
+				<div id="progressbar_bg"><div id="progressbar"><div class="progress-label">0</div></div><a href="#" id="hide_progressbar"><?php _e( 'Hide', WPML_SLUG ) ?></a></div>
 			</td>
 		</tr>
 	</tbody>

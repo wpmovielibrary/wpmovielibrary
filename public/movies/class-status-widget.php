@@ -33,10 +33,10 @@ class WPML_Status_Widget extends WP_Widget {
 
 		parent::__construct(
 			'wpml-status-widget',
-			__( 'WPML Status', 'wpml' ),
+			__( 'WPML Status', WPML_SLUG ),
 			array(
 				'classname'	=>	'wpml-status-widget',
-				'description'	=>	__( 'Display Movies from a specific status', 'wpml' )
+				'description'	=>	__( 'Display Movies from a specific status', WPML_SLUG )
 			)
 		);
 	}
@@ -90,7 +90,7 @@ class WPML_Status_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie by Status', 'wpml' ) );
+		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie by Status', WPML_SLUG ) );
 		$description = ( isset( $instance['description'] ) ? $instance['description'] : '' );
 		$type = ( isset( $instance['type'] ) ? $instance['type'] : null );
 		$list = ( isset( $instance['list'] ) ? $instance['list'] : 0 );
