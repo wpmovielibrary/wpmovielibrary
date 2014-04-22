@@ -27,6 +27,7 @@
 			</div>
 
 			<p class="submit">
+				<input type="hidden" name="<?php echo WPML_SETTINGS_SLUG . '[' . WPML_SETTINGS_REVISION_NAME . ']' ?>" id="<?php echo WPML_SETTINGS_REVISION_NAME ?>" value="<?php echo WPML_SETTINGS_REVISION ?>" />
 				<input type="submit" name="submit" id="submit" class="button-primary" value="<?php esc_attr_e( 'Save Changes' ); ?>" />
 			</p>
 

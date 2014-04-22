@@ -15,6 +15,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 $wpml_settings = array(
+	'settings_revision' => WPML_SETTINGS_REVISION,
 	'tmdb' => array(
 		'section' => array(
 			'id'       => 'tmdb',

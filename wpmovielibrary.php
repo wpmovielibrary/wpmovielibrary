@@ -32,15 +32,16 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'WPML_NAME',                 'WPMovieLibrary' );
-define( 'WPML_VERSION',              '1.0.0' );
-define( 'WPML_SLUG',                 'wpml' );
-define( 'WPML_URL',                  plugins_url( WPML_NAME ) );
-define( 'WPML_PATH',                 plugin_dir_path( __FILE__ ) );
-define( 'WPML_REQUIRED_PHP_VERSION', '5.3' );
-define( 'WPML_REQUIRED_WP_VERSION',  '3.5' );
-define( 'WPML_SETTINGS_SLUG',        'wpml_settings' );
-define( 'WPML_SETTINGS_REVISION',    1 );
+define( 'WPML_NAME',                   'WPMovieLibrary' );
+define( 'WPML_VERSION',                '1.0.0' );
+define( 'WPML_SLUG',                   'wpml' );
+define( 'WPML_URL',                    plugins_url( WPML_NAME ) );
+define( 'WPML_PATH',                   plugin_dir_path( __FILE__ ) );
+define( 'WPML_REQUIRED_PHP_VERSION',   '5.3' );
+define( 'WPML_REQUIRED_WP_VERSION',    '3.5' );
+define( 'WPML_SETTINGS_SLUG',          'wpml_settings' );
+define( 'WPML_SETTINGS_REVISION_NAME', 'settings_revision' );
+define( 'WPML_SETTINGS_REVISION',      1 );
 
 /*----------------------------------------------------------------------------*
  * Public-Facing Functionality

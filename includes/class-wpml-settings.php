@@ -118,7 +118,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 			global $wpml_settings;
 
 			$settings = get_option( WPML_SETTINGS_SLUG, array() );
-			if ( empty( $settings ) || ! isset( $settings['settings_revision'] ) || $settings['settings_revision'] < WPML_SETTINGS_REVISION )
+			if ( empty( $settings ) || ! isset( $settings[ WPML_SETTINGS_REVISION_NAME ] ) || $settings[ WPML_SETTINGS_REVISION_NAME ] < WPML_SETTINGS_REVISION )
 				self::update_settings();
 
 			$default_settings = apply_filters( 'wpml_summarize_settings', $wpml_settings );
@@ -157,10 +157,10 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 				delete_option( WPML_SETTINGS_SLUG );
 				$status = add_option( WPML_SETTINGS_SLUG, $default_settings );
 			}
-			else if ( ! isset( $settings['settings_revision'] ) || WPML_SETTINGS_REVISION > $settings['settings_revision'] ) {
+			else if ( ! isset( $settings[ WPML_SETTINGS_REVISION_NAME ] ) || WPML_SETTINGS_REVISION > $settings[ WPML_SETTINGS_REVISION_NAME ] ) {
 				$updated_settings = shortcode_atts( $settings, $default_settings );
 				if ( ! empty( $updated_settings ) ) {
-					$updated_settings['settings_revision'] = WPML_SETTINGS_REVISION;
+					$updated_settings[ WPML_SETTINGS_REVISION_NAME ] = WPML_SETTINGS_REVISION;
 					$status = update_option( WPML_SETTINGS_SLUG, $updated_settings );
 				}
 			}
