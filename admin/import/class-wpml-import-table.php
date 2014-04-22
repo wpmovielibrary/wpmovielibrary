@@ -30,6 +30,9 @@ class WPML_Import_Table extends WP_List_Table {
 	 */
 	function __construct() {
 
+		if ( ! is_admin() )
+			return false;
+
 		global $status, $page;
 
 		parent::__construct( array(

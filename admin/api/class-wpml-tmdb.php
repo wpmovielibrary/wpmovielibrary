@@ -39,6 +39,9 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 		public function __construct() {
 
+			if ( ! is_admin() )
+				return false;
+
 			$this->register_hook_callbacks();
 
 			if ( '' == WPML_Settings::tmdb__apikey() ) {

@@ -43,6 +43,9 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		protected function __construct() {
 
+			if ( ! is_admin() )
+				return false;
+
 			$this->register_hook_callbacks();
 
 			$this->modules = array(

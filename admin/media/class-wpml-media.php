@@ -21,6 +21,10 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * @since    1.0.0
 		 */
 		public function __construct() {
+
+			if ( ! is_admin() )
+				return false;
+
 			$this->register_hook_callbacks();
 		}
 

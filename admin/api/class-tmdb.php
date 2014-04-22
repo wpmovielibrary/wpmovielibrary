@@ -52,6 +52,9 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 */
 		public function __construct( $config = false, $dummy = false ) {
 
+			if ( ! is_admin() )
+				return false;
+
 			if ( true === $config )
 				self::getConfiguration();
 

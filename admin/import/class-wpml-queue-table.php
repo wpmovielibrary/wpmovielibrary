@@ -28,6 +28,9 @@ class WPML_Queue_Table extends WP_List_Table {
 	 */
 	function __construct( $queue = false ) {
 
+		if ( ! is_admin() )
+			return false;
+
 		global $status, $page;
 
 		parent::__construct( array(
