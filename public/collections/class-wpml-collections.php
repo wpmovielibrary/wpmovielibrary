@@ -68,6 +68,8 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_collection-", "")'
 			);
 
+			self::register_collection_taxonomy();
+
 		}
 
 		/**

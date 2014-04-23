@@ -67,6 +67,8 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_actor-", "")'
 			);
 
+			self::register_actor_taxonomy();
+
 		}
 
 		/**

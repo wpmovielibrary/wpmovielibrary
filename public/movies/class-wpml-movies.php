@@ -422,6 +422,8 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 				delete_post_meta( $post->ID, '_wpml_content_type', 'movie' );
 			}
 
+			self::register_post_type();
+
 		}
 
 		/**

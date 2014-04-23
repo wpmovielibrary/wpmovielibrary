@@ -62,9 +62,6 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			// Add custom permalinks if anything flush the rewrite rules
-			add_filter( 'rewrite_rules_array', __CLASS__ . '::register_permalinks', 10 );
-
 			// Load plugin text domain
 			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
@@ -125,12 +122,6 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				$this->single_activate( $network_wide );
 			}
 
-			WPML_Movies::register_post_type();
-			WPML_Collections::register_collection_taxonomy();
-			WPML_Genres::register_genre_taxonomy();
-			WPML_Actors::register_actor_taxonomy();
-			self::register_permalinks();
-
 			flush_rewrite_rules();
 
 		}
@@ -147,19 +138,8 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 */
 		public function deactivate() {
 
-			global $wpdb, $_wp_using_ext_object_cache;
-
 			foreach ( $this->modules as $module )
 				$module->deactivate();
-
-			$action = WPML_Settings::deactivate__cache();
-
-			if ( ! $_wp_using_ext_object_cache && 'empty' == $action ) {
-				$result = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE \"_transient_%_movies_%\"" );
-				$wpdb->query( 'OPTIMIZE TABLE ' . $wpdb->options );
-			}
-
-			delete_option( 'rewrite_rules' );
 
 		}
 
@@ -234,38 +214,6 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 			foreach ( $this->widgets as $widget )
 				if ( class_exists( $widget ) )
 					register_widget( $widget );
-		}
-
-		/**
-		 * Create a new set of permalinks for Movie Details
-		 * 
-		 * We want to list movies by media, status and rating. This method is called
-		 * during init but will not do anything unless
-		 *
-		 * @since    1.0.0
-		 *
-		 * @param    object     $wp_rewrite Instance of WordPress WP_Rewrite Class
-		 */
-		public static function register_permalinks( $rules = null ) {
-
-			//if ( is_null( $wp_rewrite ) )
-
-			$new_rules = array(
-				'movies/(dvd|vod|bluray|vhs|cinema|other)/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]',
-				'movies/(dvd|vod|bluray|vhs|cinema|other)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]',
-				'movies/(available|loaned|scheduled)/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]',
-				'movies/(available|loaned|scheduled)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]' . '&paged=$matches[2]',
-				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]',
-				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]' . '&paged=$matches[2]',
-			);
-
-			if ( ! is_null( $rules ) )
-				return $new_rules + $rules;
-
-			foreach ( $new_rules as $regex => $rule )
-				add_rewrite_rule( $regex, $rule, 'top' );
-
-			
 		}
 
 		/**

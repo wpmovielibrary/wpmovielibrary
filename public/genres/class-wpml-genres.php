@@ -67,6 +67,8 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_genre-", "")'
 			);
 
+			self::register_genre_taxonomy();
+
 		}
 
 		/**

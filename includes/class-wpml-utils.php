@@ -31,6 +31,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
+			// Add custom permalinks if anything flush the rewrite rules
+			add_filter( 'rewrite_rules_array', __CLASS__ . '::register_permalinks', 10 );
+
 			add_filter( 'wpml_format_widget_lists', __CLASS__ . '::format_widget_lists', 10, 4 );
 			add_filter( 'wpml_format_widget_lists_thumbnails', __CLASS__ . '::format_widget_lists_thumbnails', 10, 1 );
 
@@ -46,6 +49,35 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			add_filter( 'get_the_terms', __CLASS__ . '::get_the_terms', 10, 3 );
 			add_filter( 'wp_get_object_terms', __CLASS__ . '::get_ordered_object_terms', 10, 4 );
+		}
+
+		/**
+		 * Create a new set of permalinks for Movie Details
+		 * 
+		 * We want to list movies by media, status and rating. This method is called
+		 * during init but will not do anything unless
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param    object     $wp_rewrite Instance of WordPress WP_Rewrite Class
+		 */
+		public static function register_permalinks( $rules = null ) {
+
+			$new_rules = array(
+				'movies/(dvd|vod|bluray|vhs|cinema|other)/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]',
+				'movies/(dvd|vod|bluray|vhs|cinema|other)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]',
+				'movies/(available|loaned|scheduled)/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]',
+				'movies/(available|loaned|scheduled)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]' . '&paged=$matches[2]',
+				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]',
+				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]' . '&paged=$matches[2]',
+			);
+
+			if ( ! is_null( $rules ) )
+				return $new_rules + $rules;
+
+			foreach ( $new_rules as $regex => $rule )
+				add_rewrite_rule( $regex, $rule, 'top' );
+
 		}
 
 		public static function admin_notice( $notice, $type = 'update' ) {
@@ -245,8 +277,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$_settings = array();
 
 			foreach ( $settings as $id => $section )
-				foreach ( $section['settings'] as $slug => $setting )
-					$_settings[ $id ][ $slug ] = $setting['default'];
+				if ( isset( $section['settings'] ) )
+					foreach ( $section['settings'] as $slug => $setting )
+						$_settings[ $id ][ $slug ] = $setting['default'];
 			
 
 			return $_settings;
@@ -562,14 +595,29 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 *
 		 * @param bool $network_wide
 		 */
-		public function activate( $network_wide ) {}
+		public function activate( $network_wide ) {
+
+			self::register_permalinks();
+		}
 
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
 		 * @since    1.0.0
 		 */
-		public function deactivate() {}
+		public function deactivate() {
+
+			global $wpdb, $_wp_using_ext_object_cache;
+
+			$action = WPML_Settings::deactivate__cache();
+
+			if ( ! $_wp_using_ext_object_cache && 'empty' == $action ) {
+				$result = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE \"_transient_%_movies_%\"" );
+				$wpdb->query( 'OPTIMIZE TABLE ' . $wpdb->options );
+			}
+
+			delete_option( 'rewrite_rules' );
+		}
 
 		/**
 		 * Initializes variables
