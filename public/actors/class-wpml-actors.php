@@ -43,70 +43,6 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		}
 
 		/**
-		 * Prepares sites to use the plugin during single or network-wide activation
-		 *
-		 * @since    1.0.0
-		 *
-		 * @param bool $network_wide
-		 */
-		public function activate( $network_wide ) {
-
-			global $wpdb;
-
-			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_actor%"' );
-			$actors      = array();
-
-			foreach ( $contents as $term )
-				if ( false !== strpos( $term->slug, 'wpml_actor' ) )
-					$actors[] = $term->term_id;
-
-			if ( ! empty( $actors ) )
-				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "actor" WHERE term_id IN (' . implode( ',', $actors ) . ')' );
-
-			$wpdb->query(
-				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_actor-", "")'
-			);
-
-			self::register_actor_taxonomy();
-
-		}
-
-		/**
-		 * Rolls back activation procedures when de-activating the plugin
-		 *
-		 * @since    1.0.0
-		 */
-		public function deactivate() {
-
-			global $wpdb;
-
-			$action = WPML_Settings::deactivate__actors();
-			$contents = get_terms( array( 'actor' ), array() );
-
-			switch ( $action ) {
-				case 'convert':
-					foreach ( $contents as $term ) {
-						wp_update_term( $term->term_id, 'actor', array( 'slug' => 'wpml_actor-' . $term->slug ) );
-						$wpdb->update(
-							$wpdb->term_taxonomy,
-							array( 'taxonomy' => 'post_tag' ),
-							array( 'taxonomy' => 'actor' ),
-							array( '%s' )
-						);
-					}
-					break;
-				case 'delete':
-					foreach ( $contents as $term ) {
-						wp_delete_term( $term->term_id, 'actor' );
-					}
-					break;
-				default:
-					break;
-			}
-
-		}
-
-		/**
 		 * Register an 'Actor' custom taxonomy.
 		 * 
 		 * Actors are Tag-like taxonomies: not-hierarchical, tagcloud, and
@@ -155,6 +91,105 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 			foreach ( $this->widgets as $widget )
 				if ( class_exists( $widget ) )
 					register_widget( $widget );
+		}
+
+		/**
+		 * Handle Deactivation/Uninstallation actions.
+		 * 
+		 * Depending on the Plugin settings, conserve, convert, remove
+		 * or delete completly all movies created while using the plugin.
+		 * 
+		 * @param    string    $action Are we deactivating or uninstalling
+		 *                             the plugin?
+		 * 
+		 * @return   boolean   Did everything go smooth or not?
+		 */
+		public static function clean_actors( $action ) {
+
+			if ( ! in_array( $action, array( 'deactivate', 'uninstall' ) ) )
+				return false;
+
+			global $wpdb;
+
+			$_action = get_option( 'wpml_settings' );
+			if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['actors'] ) )
+				return false;
+
+			$action = $_action[ $action ]['actors'];
+			if ( is_array( $action ) )
+				$action = $action[0];
+
+			$contents = get_terms( array( 'actor' ), array() );
+
+			switch ( $action ) {
+				case 'convert':
+					foreach ( $contents as $term ) {
+						wp_update_term( $term->term_id, 'actor', array( 'slug' => 'wpml_actor-' . $term->slug ) );
+						$wpdb->update(
+							$wpdb->term_taxonomy,
+							array( 'taxonomy' => 'post_tag' ),
+							array( 'taxonomy' => 'actor' ),
+							array( '%s' )
+						);
+					}
+					break;
+				case 'delete':
+					foreach ( $contents as $term ) {
+						wp_delete_term( $term->term_id, 'actor' );
+					}
+					break;
+				default:
+					break;
+			}
+		}
+
+		/**
+		 * Prepares sites to use the plugin during single or network-wide activation
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param bool $network_wide
+		 */
+		public function activate( $network_wide ) {
+
+			global $wpdb;
+
+			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_actor%"' );
+			$actors      = array();
+
+			foreach ( $contents as $term )
+				if ( false !== strpos( $term->slug, 'wpml_actor' ) )
+					$actors[] = $term->term_id;
+
+			if ( ! empty( $actors ) )
+				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "actor" WHERE term_id IN (' . implode( ',', $actors ) . ')' );
+
+			$wpdb->query(
+				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_actor-", "")'
+			);
+
+			self::register_actor_taxonomy();
+
+		}
+
+		/**
+		 * Rolls back activation procedures when de-activating the plugin
+		 *
+		 * @since    1.0.0
+		 */
+		public function deactivate() {
+
+			self::clean_actors( 'deactivate' );
+		}
+
+		/**
+		 * Set the uninstallation instructions
+		 *
+		 * @since    1.0.0
+		 */
+		public static function uninstall() {
+
+			self::clean_actors( 'uninstall' );
 		}
 
 		/**

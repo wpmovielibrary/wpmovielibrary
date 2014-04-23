@@ -589,6 +589,33 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
+		 * Handle Deactivation/Uninstallation actions.
+		 * 
+		 * Depending on the Plugin settings, delete all Plugin's related
+		 * movie transient.
+		 * 
+		 * @param    string    $action Are we deactivating or uninstalling
+		 *                             the plugin?
+		 */
+		public static function clean_transient( $action ) {
+
+			global $wpdb, $_wp_using_ext_object_cache;
+
+			$_action = get_option( 'wpml_settings' );
+			if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['cache'] ) )
+				return false;
+
+			$action = $_action[ $action ]['cache'];
+			if ( is_array( $action ) )
+				$action = $action[0];
+
+			if ( ! $_wp_using_ext_object_cache && 'empty' == $action ) {
+				$result = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE \"_transient_%_movies_%\"" );
+				$wpdb->query( 'OPTIMIZE TABLE ' . $wpdb->options );
+			}
+		}
+
+		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
 		 * @since    1.0.0
@@ -607,15 +634,18 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public function deactivate() {
 
-			global $wpdb, $_wp_using_ext_object_cache;
+			self::clean_transient( 'deactivate' );
+			delete_option( 'rewrite_rules' );
+		}
 
-			$action = WPML_Settings::deactivate__cache();
+		/**
+		 * Set the uninstallation instructions
+		 *
+		 * @since    1.0.0
+		 */
+		public static function uninstall() {
 
-			if ( ! $_wp_using_ext_object_cache && 'empty' == $action ) {
-				$result = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE \"_transient_%_movies_%\"" );
-				$wpdb->query( 'OPTIMIZE TABLE ' . $wpdb->options );
-			}
-
+			self::clean_transient( 'uninstall' );
 			delete_option( 'rewrite_rules' );
 		}
 

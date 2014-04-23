@@ -44,70 +44,6 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		}
 
 		/**
-		 * Prepares sites to use the plugin during single or network-wide activation
-		 *
-		 * @since    1.0.0
-		 *
-		 * @param bool $network_wide
-		 */
-		public function activate( $network_wide ) {
-
-			global $wpdb;
-
-			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_collection%"' );
-			$collections = array();
-
-			foreach ( $contents as $term )
-				if ( false !== strpos( $term->slug, 'wpml_collection' ) )
-					$collections[] = $term->term_id;
-
-			if ( ! empty( $collections ) )
-				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "collection" WHERE term_id IN (' . implode( ',', $collections ) . ')' );
-
-			$wpdb->query(
-				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_collection-", "")'
-			);
-
-			self::register_collection_taxonomy();
-
-		}
-
-		/**
-		 * Rolls back activation procedures when de-activating the plugin
-		 *
-		 * @since    1.0.0
-		 */
-		public function deactivate() {
-
-			global $wpdb;
-
-			$action = WPML_Settings::deactivate__collections();
-			$contents = get_terms( array( 'collection' ), array() );
-
-			switch ( $action ) {
-				case 'convert':
-					foreach ( $contents as $term ) {
-						wp_update_term( $term->term_id, 'collection', array( 'slug' => 'wpml_collection-' . $term->slug ) );
-						$wpdb->update(
-							$wpdb->term_taxonomy,
-							array( 'taxonomy' => 'category' ),
-							array( 'taxonomy' => 'collection' ),
-							array( '%s' )
-						);
-					}
-					break;
-				case 'delete':
-					foreach ( $contents as $term ) {
-						wp_delete_term( $term->term_id, 'collection' );
-					}
-					break;
-				default:
-					break;
-			}
-
-		}
-
-		/**
 		 * Register a 'Collection' custom taxonomy to aggregate movies
 		 * 
 		 * Collections are Category-like taxonomies: hierarchical, no
@@ -153,6 +89,106 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 			foreach ( $this->widgets as $widget )
 				if ( class_exists( $widget ) )
 					register_widget( $widget );
+		}
+
+		/**
+		 * Handle Deactivation/Uninstallation actions.
+		 * 
+		 * Depending on the Plugin settings, conserve, convert, remove
+		 * or delete completly all movies created while using the plugin.
+		 * 
+		 * @param    string    $action Are we deactivating or uninstalling
+		 *                             the plugin?
+		 * 
+		 * @return   boolean   Did everything go smooth or not?
+		 */
+		public static function clean_collections( $action ) {
+
+			if ( ! in_array( $action, array( 'deactivate', 'uninstall' ) ) )
+				return false;
+
+			global $wpdb;
+
+			$_action = get_option( 'wpml_settings' );
+			if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['collections'] ) )
+				return false;
+
+			$action = $_action[ $action ]['collections'];
+			if ( is_array( $action ) )
+				$action = $action[0];
+
+			$contents = get_terms( array( 'collection' ), array() );
+
+			switch ( $action ) {
+				case 'convert':
+					foreach ( $contents as $term ) {
+						wp_update_term( $term->term_id, 'collection', array( 'slug' => 'wpml_collection-' . $term->slug ) );
+						$wpdb->update(
+							$wpdb->term_taxonomy,
+							array( 'taxonomy' => 'category' ),
+							array( 'taxonomy' => 'collection' ),
+							array( '%s' )
+						);
+					}
+					break;
+				case 'delete':
+					foreach ( $contents as $term ) {
+						wp_delete_term( $term->term_id, 'collection' );
+					}
+					break;
+				default:
+					break;
+			}
+
+		}
+
+		/**
+		 * Prepares sites to use the plugin during single or network-wide activation
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param bool $network_wide
+		 */
+		public function activate( $network_wide ) {
+
+			global $wpdb;
+
+			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_collection%"' );
+			$collections = array();
+
+			foreach ( $contents as $term )
+				if ( false !== strpos( $term->slug, 'wpml_collection' ) )
+					$collections[] = $term->term_id;
+
+			if ( ! empty( $collections ) )
+				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "collection" WHERE term_id IN (' . implode( ',', $collections ) . ')' );
+
+			$wpdb->query(
+				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_collection-", "")'
+			);
+
+			self::register_collection_taxonomy();
+
+		}
+
+		/**
+		 * Rolls back activation procedures when de-activating the plugin
+		 *
+		 * @since    1.0.0
+		 */
+		public function deactivate() {
+
+			self::clean_collections( 'deactivate' );
+		}
+
+		/**
+		 * Set the uninstallation instructions
+		 *
+		 * @since    1.0.0
+		 */
+		public static function uninstall() {
+
+			self::clean_collections( 'uninstall' );
 		}
 
 		/**

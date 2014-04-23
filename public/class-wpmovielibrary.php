@@ -249,6 +249,47 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		}
 
 		/**
+		 * Uninstall the plugin, network wide.
+		 *
+		 * @since    1.0.0
+		 */
+		public static function uninstall() {
+
+			global $wpdb;
+
+			if ( function_exists( 'is_multisite' ) && is_multisite() ) {
+
+				$blogs = $wpdb->get_col( "SELECT blog_id FROM {$wpdb->blogs}" );
+
+				foreach ( $blogs as $blog ) {
+					switch_to_blog( $blog );
+					self::_uninstall();
+				}
+
+				restore_current_blog();
+			}
+			else {
+				self::_uninstall();
+			}
+
+		}
+
+		/**
+		 * Set the uninstallation instructions
+		 *
+		 * @since    1.0.0
+		 */
+		private static function _uninstall() {
+
+			WPML_Utils::uninstall();
+			WPML_Movies::uninstall();
+			WPML_Collections::uninstall();
+			WPML_Genres::uninstall();
+			WPML_Actors::uninstall();
+			WPML_Settings::uninstall();
+		}
+
+		/**
 		 * Initializes variables
 		 *
 		 * @since    1.0.0

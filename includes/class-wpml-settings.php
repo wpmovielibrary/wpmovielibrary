@@ -75,7 +75,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		public function register_hook_callbacks() {
 
 			// Load settings or register new ones
-			add_action( 'init', __CLASS__ . '::get_default_settings', 9 );
+			//add_action( 'init', __CLASS__ . '::get_default_settings', 9 );
 
 			add_action( 'wpml_restore_default_settings', __CLASS__ . '::restore_default_settings', 10, 0 );
 			add_filter( 'wpml_get_available_movie_media', __CLASS__ . '::get_available_movie_media' );
@@ -84,11 +84,11 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		}
 
 		/**
-		 * Retrieves all of the settings from the database
+		 * Return the plugin settings.
 		 *
 		 * @since    1.0.0
 		 *
-		 * @return   array
+		 * @return   array    Plugin Settings
 		 */
 		public static function get_settings() {
 
@@ -101,25 +101,20 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		}
 
 		/**
-		 * Load WPML default settings if no current settings can be found. Match
-		 * the existing settings against the default settings to check their
-		 * validity; if the revision is outdated, update the revision field and
-		 * add possible missing options.
+		 * Load WPML default settings. If no current settings can be found,
+		 * or if existing settings are outdated, update.
 		 * 
 		 * @since    1.0.0
 		 *
-		 * @param    boolean    $force Force to restore the default settings
-		 *
-		 * @return   boolean    True if settings were successfully added/updated
-		 *                      False if anything went wrong.
+		 * @return   array    The Plugin Settings
 		 */
-		public static function get_default_settings( $force = false ) {
+		public static function get_default_settings() {
 
 			global $wpml_settings;
 
 			$settings = get_option( WPML_SETTINGS_SLUG, array() );
 			if ( empty( $settings ) || ! isset( $settings[ WPML_SETTINGS_REVISION_NAME ] ) || $settings[ WPML_SETTINGS_REVISION_NAME ] < WPML_SETTINGS_REVISION )
-				self::update_settings();
+				self::update_settings( $force = true );
 
 			$default_settings = apply_filters( 'wpml_summarize_settings', $wpml_settings );
 
@@ -135,17 +130,14 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 * latter.
 		 *
 		 * @since    1.0.0
+		 *
+		 * @param    boolean    $force Force to restore the default settings
 		 * 
-		 * @param    array    $default Default Plugin Settings to be compared to
-		 *                             currently stored settings.
-		 * @param    array    $settings Currently stored settings, supposedly out
-		 *                              of date.
-		 * 
-		 * @return   array             Updated and possibly unchanged settings
-		 *                             array if everything went right, empty array
-		 *                             if something bad happened.
+		 * @return   array      Updated and possibly unchanged settings
+		 *                      array if everything went right, empty array
+		 *                      if something bad happened.
 		 */
-		protected static function update_settings() {
+		protected static function update_settings( $force = false ) {
 
 			global $wpml_settings;
 
@@ -177,6 +169,19 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 */
 		public static function restore_default_settings() {
 			self::get_default_settings( $force = true );
+		}
+
+		/**
+		 * Delete stored settings.
+		 * 
+		 * This is irreversible, but shouldn't be used anywhere else than
+		 * when uninstalling the plugin.
+		 * 
+		 * @since    1.0.0
+		 */
+		public static function clean_settings() {
+
+			delete_option( 'wpml_settings' );
 		}
 
 		/**
@@ -382,9 +387,12 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @since    1.0.0
 		 *
-		 * @param bool $network_wide
+		 * @param    bool    $network_wide
 		 */
-		public function activate( $network_wide ) {}
+		public function activate( $network_wide ) {
+
+			self::update_settings( $force = true );
+		}
 
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
@@ -392,6 +400,16 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 * @since    1.0.0
 		 */
 		public function deactivate() {}
+
+		/**
+		 * Set the uninstallation instructions
+		 *
+		 * @since    1.0.0
+		 */
+		public static function uninstall() {
+
+			self::clean_settings();
+		}
 
 		/**
 		 * Initializes variables

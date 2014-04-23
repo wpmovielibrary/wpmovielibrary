@@ -265,7 +265,7 @@ $wpml_settings = array(
 				'values' => array(
 					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
 					'convert' => __( 'Convert to Categories', WPML_SLUG ),
-					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete (irreversible)', WPML_SLUG ),
 				),
 				'default' => 'conserve'
 			),
@@ -277,7 +277,7 @@ $wpml_settings = array(
 				'values' => array(
 					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
 					'convert' => __( 'Convert to Tags', WPML_SLUG ),
-					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete (irreversible)', WPML_SLUG ),
 				),
 				'default' => 'conserve'
 			),
@@ -289,7 +289,7 @@ $wpml_settings = array(
 				'values' => array(
 					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
 					'convert' => __( 'Convert to Tags', WPML_SLUG ),
-					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete (irreversible)', WPML_SLUG ),
 				),
 				'default' => 'conserve'
 			),
@@ -334,8 +334,7 @@ $wpml_settings = array(
 				'values' => array(
 					'conserve' => __( 'Conserve', WPML_SLUG ),
 					'convert' => __( 'Convert to Categories (recommended)', WPML_SLUG ),
-					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
-					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete (irreversible)', WPML_SLUG ),
 				),
 				'default' => 'convert'
 			),
@@ -347,7 +346,6 @@ $wpml_settings = array(
 				'values' => array(
 					'conserve' => __( 'Conserve', WPML_SLUG ),
 					'convert' => __( 'Convert to Tags (recommended)', WPML_SLUG ),
-					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
 					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
 				),
 				'default' => 'convert'
@@ -360,7 +358,6 @@ $wpml_settings = array(
 				'values' => array(
 					'conserve' => __( 'Conserve', WPML_SLUG ),
 					'convert' => __( 'Convert to Tags (recommended)', WPML_SLUG ),
-					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
 					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
 				),
 				'default' => 'convert'

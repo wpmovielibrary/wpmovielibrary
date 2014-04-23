@@ -14,4 +14,15 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-// @TODO: Define uninstall functionality here
+require_once( plugin_dir_path( __FILE__ ) . 'includes/class-module.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/class-wpmovielibrary.php' );
+
+require_once( plugin_dir_path( __FILE__ ) . 'includes/class-wpml-settings.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/class-wpml-utils.php' );
+
+require_once( plugin_dir_path( __FILE__ ) . 'public/movies/class-wpml-movies.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/collections/class-wpml-collections.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/genres/class-wpml-genres.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/actors/class-wpml-actors.php' );
+
+WPMovieLibrary::uninstall();

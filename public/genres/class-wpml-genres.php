@@ -43,70 +43,6 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 		}
 
 		/**
-		 * Prepares sites to use the plugin during single or network-wide activation
-		 *
-		 * @since    1.0.0
-		 *
-		 * @param bool $network_wide
-		 */
-		public function activate( $network_wide ) {
-
-			global $wpdb;
-
-			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_genre%"' );
-			$genres   = array();
-
-			foreach ( $contents as $term )
-				if ( false !== strpos( $term->slug, 'wpml_genre' ) )
-					$genres[] = $term->term_id;
-
-			if ( ! empty( $genres ) )
-				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "genre" WHERE term_id IN (' . implode( ',', $genres ) . ')' );
-
-			$wpdb->query(
-				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_genre-", "")'
-			);
-
-			self::register_genre_taxonomy();
-
-		}
-
-		/**
-		 * Rolls back activation procedures when de-activating the plugin
-		 *
-		 * @since    1.0.0
-		 */
-		public function deactivate() {
-
-			global $wpdb;
-
-			$action = WPML_Settings::deactivate__genres();
-			$contents = get_terms( array( 'genre' ), array() );
-
-			switch ( $action ) {
-				case 'convert':
-					foreach ( $contents as $term ) {
-						wp_update_term( $term->term_id, 'genre', array( 'slug' => 'wpml_genre-' . $term->slug ) );
-						$wpdb->update(
-							$wpdb->term_taxonomy,
-							array( 'taxonomy' => 'post_tag' ),
-							array( 'taxonomy' => 'genre' ),
-							array( '%s' )
-						);
-					}
-					break;
-				case 'delete':
-					foreach ( $contents as $term ) {
-						wp_delete_term( $term->term_id, 'genre' );
-					}
-					break;
-				default:
-					break;
-			}
-
-		}
-
-		/**
 		 * Register a 'Genre' custom taxonomy to aggregate movies.
 		 * 
 		 * Genres are Tag-like taxonomies: not-hierarchical, tagcloud,
@@ -152,6 +88,106 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 			foreach ( $this->widgets as $widget )
 				if ( class_exists( $widget ) )
 					register_widget( $widget );
+		}
+
+		/**
+		 * Handle Deactivation/Uninstallation actions.
+		 * 
+		 * Depending on the Plugin settings, conserve, convert, remove
+		 * or delete completly all movies created while using the plugin.
+		 * 
+		 * @param    string    $action Are we deactivating or uninstalling
+		 *                             the plugin?
+		 * 
+		 * @return   boolean   Did everything go smooth or not?
+		 */
+		public static function clean_genres( $action ) {
+
+			if ( ! in_array( $action, array( 'deactivate', 'uninstall' ) ) )
+				return false;
+
+			global $wpdb;
+
+			$_action = get_option( 'wpml_settings' );
+			if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['genres'] ) )
+				return false;
+
+			$action = $_action[ $action ]['genres'];
+			if ( is_array( $action ) )
+				$action = $action[0];
+
+			$contents = get_terms( array( 'genre' ), array() );
+
+			switch ( $action ) {
+				case 'convert':
+					foreach ( $contents as $term ) {
+						wp_update_term( $term->term_id, 'genre', array( 'slug' => 'wpml_genre-' . $term->slug ) );
+						$wpdb->update(
+							$wpdb->term_taxonomy,
+							array( 'taxonomy' => 'post_tag' ),
+							array( 'taxonomy' => 'genre' ),
+							array( '%s' )
+						);
+					}
+					break;
+				case 'delete':
+					foreach ( $contents as $term ) {
+						wp_delete_term( $term->term_id, 'genre' );
+					}
+					break;
+				default:
+					break;
+			}
+
+		}
+
+		/**
+		 * Prepares sites to use the plugin during single or network-wide activation
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param bool $network_wide
+		 */
+		public function activate( $network_wide ) {
+
+			global $wpdb;
+
+			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_genre%"' );
+			$genres   = array();
+
+			foreach ( $contents as $term )
+				if ( false !== strpos( $term->slug, 'wpml_genre' ) )
+					$genres[] = $term->term_id;
+
+			if ( ! empty( $genres ) )
+				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "genre" WHERE term_id IN (' . implode( ',', $genres ) . ')' );
+
+			$wpdb->query(
+				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_genre-", "")'
+			);
+
+			self::register_genre_taxonomy();
+
+		}
+
+		/**
+		 * Rolls back activation procedures when de-activating the plugin
+		 *
+		 * @since    1.0.0
+		 */
+		public function deactivate() {
+
+			self::clean_genres( 'deactivate' );
+		}
+
+		/**
+		 * Set the uninstallation instructions
+		 *
+		 * @since    1.0.0
+		 */
+		public static function uninstall() {
+
+			self::clean_genres( 'uninstall' );
 		}
 
 		/**

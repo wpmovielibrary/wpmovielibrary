@@ -28,6 +28,14 @@ if ( ! class_exists( 'WPML_Module' ) ) {
 		}
 
 		/**
+		 * Set the uninstallation instructions
+		 *
+		 * @mvc Controller
+		 */
+		public static function uninstall() {
+		}
+
+		/**
 		 * Constructor
 		 *
 		 * @mvc Controller

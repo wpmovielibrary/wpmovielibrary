@@ -398,6 +398,63 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		}
 
 		/**
+		 * Handle Deactivation/Uninstallation actions.
+		 * 
+		 * Depending on the Plugin settings, conserve, convert, remove
+		 * or delete completly all movies created while using the plugin.
+		 * 
+		 * @param    string    $action Are we deactivating or uninstalling
+		 *                             the plugin?
+		 * 
+		 * @return   boolean   Did everything go smooth or not?
+		 */
+		public static function clean_movies( $action ) {
+
+			if ( ! in_array( $action, array( 'deactivate', 'uninstall' ) ) )
+				return false;
+
+			$_action = get_option( 'wpml_settings' );
+			if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['movies'] ) )
+				return false;
+
+			$action = $_action[ $action ]['movies'];
+			if ( is_array( $action ) )
+				$action = $action[0];
+
+			$contents = new WP_Query(
+				array(
+					'post_type'      => 'movie',
+					'posts_per_page' => -1
+				)
+			);
+
+			switch ( $action ) {
+				case 'convert':
+					foreach ( $contents->posts as $post ) {
+						set_post_type( $post->ID, 'post' );
+						add_post_meta( $post->ID, '_wpml_content_type', 'movie', true );
+					}
+					break;
+				case 'remove':
+					foreach ( $contents->posts as $post ) {
+						wp_delete_post( $post->ID, true );
+					}
+					break;
+				case 'delete':
+					foreach ( $contents->posts as $post ) {
+						wp_delete_post( $post->ID, true );
+						$attachments = get_children( array( 'post_parent' => $post->ID ) );
+						foreach ( $attachments as $a ) {
+							wp_delete_post( $a->ID, true );
+						}
+					}
+					break;
+				default:
+					break;
+			}
+		}
+
+		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
 		 * @since    1.0.0
@@ -433,42 +490,17 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 */
 		public function deactivate() {
 
-			$action = WPML_Settings::deactivate__movies();
+			self::clean_movies( 'deactivate' );
+		}
 
-			$contents = new WP_Query(
-				array(
-					'post_type'      => 'movie',
-					'posts_per_page' => -1
-				)
-			);
+		/**
+		 * Set the uninstallation instructions
+		 *
+		 * @since    1.0.0
+		 */
+		public static function uninstall() {
 
-			switch ( $action ) {
-				case 'convert':
-					foreach ( $contents->posts as $post ) {
-						set_post_type( $post->ID, 'post' );
-						add_post_meta( $post->ID, '_wpml_content_type', 'movie', true );
-					}
-					break;
-				case 'remove':
-					foreach ( $contents->posts as $post ) {
-						wp_delete_post( $post->ID, true );
-					}
-					break;
-				case 'delete':
-					foreach ( $contents->posts as $post ) {
-						wp_delete_post( $post->ID, true );
-						$attachments = get_children( array( 'post_parent' => $post->ID ) );
-						foreach ( $attachments as $a ) {
-							wp_delete_post( $a->ID, true );
-						}
-					}
-					break;
-				default:
-					break;
-			}
-
-			flush_rewrite_rules();
-
+			self::clean_movies( 'uninstall' );
 		}
 
 		/**
