@@ -37,7 +37,7 @@ if ( $media_only ) :
 
 else :
 
-	$movies = apply_filters( WPML_Movies::get_movies_from_media( $type ) );
+	$movies = WPML_Movies::get_movies_from_media( $type );
 	if ( ! empty( $movies ) ) :
 
 		$items = array();
