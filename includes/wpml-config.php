@@ -264,9 +264,8 @@ $wpml_settings = array(
 				'type' => 'select',
 				'values' => array(
 					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
-					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'convert' => __( 'Convert to Categories', WPML_SLUG ),
 					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
-					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
 				),
 				'default' => 'conserve'
 			),
@@ -277,9 +276,8 @@ $wpml_settings = array(
 				'type' => 'select',
 				'values' => array(
 					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
-					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'convert' => __( 'Convert to Tags', WPML_SLUG ),
 					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
-					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
 				),
 				'default' => 'conserve'
 			),
@@ -290,9 +288,8 @@ $wpml_settings = array(
 				'type' => 'select',
 				'values' => array(
 					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
-					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'convert' => __( 'Convert to Tags', WPML_SLUG ),
 					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
-					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
 				),
 				'default' => 'conserve'
 			),
@@ -302,10 +299,8 @@ $wpml_settings = array(
 				'description' => __( 'How to handle Cached data when WPML is deactivated.', WPML_SLUG ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
-					'convert' => __( 'Convert to Posts', WPML_SLUG ),
-					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
-					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+					'conserve' => __( 'Conserve', WPML_SLUG ),
+					'empty' => __( 'Empty (recommended)', WPML_SLUG ),
 				),
 				'default' => 'empty'
 			)
@@ -324,8 +319,8 @@ $wpml_settings = array(
 				'description' => __( 'How to handle Movies when WPML is uninstalled.', WPML_SLUG ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
-					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'conserve' => __( 'Conserve', WPML_SLUG ),
+					'convert' => __( 'Convert to Posts (recommended)', WPML_SLUG ),
 					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
 					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
 				),
@@ -337,8 +332,8 @@ $wpml_settings = array(
 				'description' => __( 'How to handle Collections Taxonomy when WPML is uninstalled.', WPML_SLUG ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
-					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'conserve' => __( 'Conserve', WPML_SLUG ),
+					'convert' => __( 'Convert to Categories (recommended)', WPML_SLUG ),
 					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
 					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
 				),
@@ -350,8 +345,8 @@ $wpml_settings = array(
 				'description' => __( 'How to handle Genres Taxonomy when WPML is uninstalled.', WPML_SLUG ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
-					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'conserve' => __( 'Conserve', WPML_SLUG ),
+					'convert' => __( 'Convert to Tags (recommended)', WPML_SLUG ),
 					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
 					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
 				),
@@ -363,8 +358,8 @@ $wpml_settings = array(
 				'description' => __( 'How to handle Actors Taxonomy when WPML is uninstalled.', WPML_SLUG ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
-					'convert' => __( 'Convert to Posts', WPML_SLUG ),
+					'conserve' => __( 'Conserve', WPML_SLUG ),
+					'convert' => __( 'Convert to Tags (recommended)', WPML_SLUG ),
 					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
 					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
 				),
@@ -376,10 +371,8 @@ $wpml_settings = array(
 				'description' => __( 'How to handle Cached data when WPML is uninstalled.', WPML_SLUG ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
-					'convert' => __( 'Convert to Posts', WPML_SLUG ),
-					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
-					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+					'conserve' => __( 'Conserve', WPML_SLUG ),
+					'empty' => __( 'Empty (recommended)', WPML_SLUG ),
 				),
 				'default' => 'empty'
 			)

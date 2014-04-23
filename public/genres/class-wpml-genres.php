@@ -57,7 +57,7 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 			$genres   = array();
 
 			foreach ( $contents as $term )
-				if ( false !== strpos( $term->slug, 'wpml_collection' ) )
+				if ( false !== strpos( $term->slug, 'wpml_genre' ) )
 					$genres[] = $term->term_id;
 
 			if ( ! empty( $genres ) )
@@ -78,26 +78,28 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 
 			global $wpdb;
 
-			$o           = get_option( 'wpml_settings' );
-			$genres      = $o['wpml']['settings']['deactivate']['genres'];
-
+			$action = WPML_Settings::deactivate__genres();
 			$contents = get_terms( array( 'genre' ), array() );
 
-			if ( 'convert' == $genres ) {
-				foreach ( $contents as $term ) {
-					wp_update_term( $term->term_id, 'genre', array( 'slug' => 'wpml_genre-' . $term->slug ) );
-					$wpdb->update(
-						$wpdb->term_taxonomy,
-						array( 'taxonomy' => 'post_tag' ),
-						array( 'taxonomy' => 'genre' ),
-						array( '%s' )
-					);
-				}
-			}
-			else if ( 'remove' == $genres || 'delete' == $genres ) {
-				foreach ( $contents as $term ) {
-					wp_delete_term( $term->term_id, 'genre' );
-				}
+			switch ( $action ) {
+				case 'convert':
+					foreach ( $contents as $term ) {
+						wp_update_term( $term->term_id, 'genre', array( 'slug' => 'wpml_genre-' . $term->slug ) );
+						$wpdb->update(
+							$wpdb->term_taxonomy,
+							array( 'taxonomy' => 'post_tag' ),
+							array( 'taxonomy' => 'genre' ),
+							array( '%s' )
+						);
+					}
+					break;
+				case 'delete':
+					foreach ( $contents as $term ) {
+						wp_delete_term( $term->term_id, 'genre' );
+					}
+					break;
+				default:
+					break;
 			}
 
 		}

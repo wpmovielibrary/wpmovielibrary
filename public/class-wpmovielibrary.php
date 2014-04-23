@@ -144,35 +144,18 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 * deactivation, convert on uninstall.
 		 *
 		 * @since    1.0.0
-		 *
-		 * @param    boolean    $network_wide    True if WPMU superadmin uses
-		 *                                       "Network Deactivate" action, false if
-		 *                                       WPMU is disabled or plugin is
-		 *                                       deactivated on an individual blog.
 		 */
 		public function deactivate() {
 
-			global $wpdb;
+			global $wpdb, $_wp_using_ext_object_cache;
 
 			foreach ( $this->modules as $module )
 				$module->deactivate();
 
-			$o           = get_option( 'wpml_settings' );
-			$cache       = $o['wpml']['settings']['deactivate']['cache'];
+			$action = WPML_Settings::deactivate__cache();
 
-			// Handling Cache cleanup on WPML deactivation
-			// Adapted from Sébastien Corne's "purge-transient" snippet
-
-			global $_wp_using_ext_object_cache;
-
-			if ( ! $_wp_using_ext_object_cache && 'empty' == $cache ) {
-
-				$sql = "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE \"_transient_%_movies_%\"";
-				$transients = $wpdb->get_col( $sql );
-
-				foreach ( $transients as $transient )
-					$result = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE \"{$transient}\"" );
-
+			if ( ! $_wp_using_ext_object_cache && 'empty' == $action ) {
+				$result = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE \"_transient_%_movies_%\"" );
 				$wpdb->query( 'OPTIMIZE TABLE ' . $wpdb->options );
 			}
 
@@ -185,7 +168,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 *
 		 * @since    1.0.0
 		 *
-		 * @param int $blog_id
+		 * @param    int    $blog_id
 		 */
 		public function activate_new_site( $blog_id ) {
 			switch_to_blog( $blog_id );
@@ -198,7 +181,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 *
 		 * @since    1.0.0
 		 *
-		 * @param bool $network_wide
+		 * @param    bool    $network_wide
 		 */
 		protected function single_activate( $network_wide ) {
 

@@ -79,26 +79,28 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 
 			global $wpdb;
 
-			$o           = get_option( 'wpml_settings' );
-			$collections = $o['wpml']['settings']['deactivate']['collections'];
-
+			$action = WPML_Settings::deactivate__collections();
 			$contents = get_terms( array( 'collection' ), array() );
 
-			if ( 'convert' == $collections ) {
-				foreach ( $contents as $term ) {
-					wp_update_term( $term->term_id, 'collection', array( 'slug' => 'wpml_collection-' . $term->slug ) );
-					$wpdb->update(
-						$wpdb->term_taxonomy,
-						array( 'taxonomy' => 'category' ),
-						array( 'taxonomy' => 'collection' ),
-						array( '%s' )
-					);
-				}
-			}
-			else if ( 'remove' == $collections || 'delete' == $collections ) {
-				foreach ( $contents as $term ) {
-					wp_delete_term( $term->term_id, 'collection' );
-				}
+			switch ( $action ) {
+				case 'convert':
+					foreach ( $contents as $term ) {
+						wp_update_term( $term->term_id, 'collection', array( 'slug' => 'wpml_collection-' . $term->slug ) );
+						$wpdb->update(
+							$wpdb->term_taxonomy,
+							array( 'taxonomy' => 'category' ),
+							array( 'taxonomy' => 'collection' ),
+							array( '%s' )
+						);
+					}
+					break;
+				case 'delete':
+					foreach ( $contents as $term ) {
+						wp_delete_term( $term->term_id, 'collection' );
+					}
+					break;
+				default:
+					break;
 			}
 
 		}

@@ -431,10 +431,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 */
 		public function deactivate() {
 
-			global $wpdb;
-
-			$o           = get_option( 'wpml_settings' );
-			$movies      = $o['wpml']['settings']['deactivate']['movies'];
+			$action = WPML_Settings::deactivate__movies();
 
 			$contents = new WP_Query(
 				array(
@@ -443,25 +440,29 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 				)
 			);
 
-			if ( 'convert' == $movies ) {
-				foreach ( $contents->posts as $post ) {
-					set_post_type( $post->ID, 'post' );
-					add_post_meta( $post->ID, '_wpml_content_type', 'movie', true );
-				}
-			}
-			else if ( 'remove' == $movies ) {
-				foreach ( $contents->posts as $post ) {
-					wp_delete_post( $post->ID, true );
-				}
-			}
-			else if ( 'delete' == $movies ) {
-				foreach ( $contents->posts as $post ) {
-					wp_delete_post( $post->ID, true );
-					$attachments = get_children( array( 'post_parent' => $post->ID ) );
-					foreach ( $attachments as $a ) {
-						wp_delete_post( $a->ID, true );
+			switch ( $action ) {
+				case 'convert':
+					foreach ( $contents->posts as $post ) {
+						set_post_type( $post->ID, 'post' );
+						add_post_meta( $post->ID, '_wpml_content_type', 'movie', true );
 					}
-				}
+					break;
+				case 'remove':
+					foreach ( $contents->posts as $post ) {
+						wp_delete_post( $post->ID, true );
+					}
+					break;
+				case 'delete':
+					foreach ( $contents->posts as $post ) {
+						wp_delete_post( $post->ID, true );
+						$attachments = get_children( array( 'post_parent' => $post->ID ) );
+						foreach ( $attachments as $a ) {
+							wp_delete_post( $a->ID, true );
+						}
+					}
+					break;
+				default:
+					break;
 			}
 
 			flush_rewrite_rules();

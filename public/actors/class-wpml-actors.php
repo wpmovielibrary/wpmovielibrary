@@ -78,26 +78,28 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 
 			global $wpdb;
 
-			$o           = get_option( 'wpml_settings' );
-			$actors      = $o['wpml']['settings']['deactivate']['actors'];
-
+			$action = WPML_Settings::deactivate__actors();
 			$contents = get_terms( array( 'actor' ), array() );
 
-			if ( 'convert' == $actors ) {
-				foreach ( $contents as $term ) {
-					wp_update_term( $term->term_id, 'actor', array( 'slug' => 'wpml_actor-' . $term->slug ) );
-					$wpdb->update(
-						$wpdb->term_taxonomy,
-						array( 'taxonomy' => 'post_tag' ),
-						array( 'taxonomy' => 'actor' ),
-						array( '%s' )
-					);
-				}
-			}
-			else if ( 'remove' == $actors || 'delete' == $actors ) {
-				foreach ( $contents as $term ) {
-					wp_delete_term( $term->term_id, 'actor' );
-				}
+			switch ( $action ) {
+				case 'convert':
+					foreach ( $contents as $term ) {
+						wp_update_term( $term->term_id, 'actor', array( 'slug' => 'wpml_actor-' . $term->slug ) );
+						$wpdb->update(
+							$wpdb->term_taxonomy,
+							array( 'taxonomy' => 'post_tag' ),
+							array( 'taxonomy' => 'actor' ),
+							array( '%s' )
+						);
+					}
+					break;
+				case 'delete':
+					foreach ( $contents as $term ) {
+						wp_delete_term( $term->term_id, 'actor' );
+					}
+					break;
+				default:
+					break;
 			}
 
 		}
