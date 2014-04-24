@@ -235,7 +235,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 					$callback = isset( $field['callback'] ) ? $field['callback'] : 'markup_fields';
 
-					add_settings_field( $id, $field['title'], array( $this, $callback ), 'wpml_settings', "wpml_settings-$section_id", array( 'id' => $id, 'section' => $section_id ) + $field );
+					add_settings_field( $id, __( $field['title'], WPML_SLUG ), array( $this, $callback ), 'wpml_settings', "wpml_settings-$section_id", array( 'id' => $id, 'section' => $section_id ) + $field );
 				}
 			}
 
