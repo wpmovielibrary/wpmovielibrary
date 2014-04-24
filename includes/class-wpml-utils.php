@@ -32,7 +32,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		public function register_hook_callbacks() {
 
 			// Add custom permalinks if anything flush the rewrite rules
-			add_filter( 'rewrite_rules_array', __CLASS__ . '::register_permalinks', 10 );
+			add_filter( 'rewrite_rules_array', __CLASS__ . '::register_permalinks', 11 );
 
 			add_filter( 'wpml_format_widget_lists', __CLASS__ . '::format_widget_lists', 10, 4 );
 			add_filter( 'wpml_format_widget_lists_thumbnails', __CLASS__ . '::format_widget_lists_thumbnails', 10, 1 );
@@ -54,8 +54,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Create a new set of permalinks for Movie Details
 		 * 
-		 * We want to list movies by media, status and rating. This method is called
-		 * during init but will not do anything unless
+		 * We want to list movies by media, status and rating. This method
+		 * is called whenever permalinks are edited using the filter
+		 * hook 'rewrite_rules_array'.
 		 *
 		 * @since    1.0.0
 		 *
@@ -67,9 +68,21 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				'movies/(dvd|vod|bluray|vhs|cinema|other)/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]',
 				'movies/(dvd|vod|bluray|vhs|cinema|other)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]',
 				'movies/(available|loaned|scheduled)/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]',
-				'movies/(available|loaned|scheduled)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]' . '&paged=$matches[2]',
+				'movies/(available|loaned|scheduled)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]&paged=$matches[2]',
 				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]',
-				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]' . '&paged=$matches[2]',
+				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]&paged=$matches[2]',
+				'collection/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?collection=$matches[1]&feed=$matches[2]',
+				'collection/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?collection=$matches[1]&feed=$matches[2]',
+				'collection/([^/]+)/page/?([0-9]{1,})/?$' => 'index.php?collection=$matches[1]&paged=$matches[2]',
+				'collection/([^/]+)/?$' => 'index.php?collection=$matches[1]',
+				'genre/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?genre=$matches[1]&feed=$matches[2]',
+				'genre/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?genre=$matches[1]&feed=$matches[2]',
+				'genre/([^/]+)/page/?([0-9]{1,})/?$' => 'index.php?genre=$matches[1]&paged=$matches[2]',
+				'genre/([^/]+)/?$' => 'index.php?genre=$matches[1]',
+				'actor/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?actor=$matches[1]&feed=$matches[2]',
+				'actor/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?actor=$matches[1]&feed=$matches[2]',
+				'actor/([^/]+)/page/?([0-9]{1,})/?$' => 'index.php?actor=$matches[1]&paged=$matches[2]',
+				'actor/([^/]+)/?$' => 'index.php?actor=$matches[1]',
 			);
 
 			if ( ! is_null( $rules ) )
@@ -77,6 +90,48 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			foreach ( $new_rules as $regex => $rule )
 				add_rewrite_rule( $regex, $rule, 'top' );
+
+			add_permastruct(
+				'collection',
+				'/collection/%collection%',
+				array(
+					'with_front'  => 1,
+					'ep_mask'     => 0,
+					'paged'       => 1,
+					'feed'        => 1,
+					'forcomments' => null,
+					'walk_dirs'   => 1,
+					'endpoints'   => 1
+				)
+			);
+
+			add_permastruct(
+				'genre',
+				'/genre/%genre%',
+				array(
+					'with_front'  => 1,
+					'ep_mask'     => 0,
+					'paged'       => 1,
+					'feed'        => 1,
+					'forcomments' => null,
+					'walk_dirs'   => 1,
+					'endpoints'   => 1
+				)
+			);
+
+			add_permastruct(
+				'actor',
+				'/actor/%actor%',
+				array(
+					'with_front'  => 1,
+					'ep_mask'     => 0,
+					'paged'       => 1,
+					'feed'        => 1,
+					'forcomments' => null,
+					'walk_dirs'   => 1,
+					'endpoints'   => 1
+				)
+			);
 
 		}
 
@@ -624,7 +679,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public function activate( $network_wide ) {
 
-			self::register_permalinks();
+			//self::register_permalinks();
 		}
 
 		/**

@@ -43,7 +43,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				'WPML_Movies'      => WPML_Movies::get_instance(),
 				'WPML_Collections' => WPML_Collections::get_instance(),
 				'WPML_Genres'      => WPML_Genres::get_instance(),
-				'WPML_Actors'      => WPML_Actors::get_instance()
+				'WPML_Actors'      => WPML_Actors::get_instance(),
 			);
 
 			$this->widgets = array(
@@ -122,8 +122,6 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				$this->single_activate( $network_wide );
 			}
 
-			flush_rewrite_rules();
-
 		}
 
 		/**
@@ -167,6 +165,8 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 
 			foreach ( $this->modules as $module )
 				$module->activate( $network_wide );
+
+			flush_rewrite_rules();
 		}
 
 		/**

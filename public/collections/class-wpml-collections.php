@@ -73,7 +73,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 					'hierarchical'      => true,
 					'query_var'         => true,
 					'sort'              => true,
-					'rewrite'           => array( 'slug' => 'collection' )
+					'rewrite'           => false
 				)
 			);
 

@@ -72,7 +72,7 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 					'hierarchical'      => false,
 					'query_var'         => true,
 					'sort'              => true,
-					'rewrite'           => array( 'slug' => 'genre' )
+					'rewrite'           => false
 				)
 			);
 

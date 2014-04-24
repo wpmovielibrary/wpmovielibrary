@@ -75,7 +75,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 					'hierarchical'      => false,
 					'query_var'         => true,
 					'sort'              => true,
-					'rewrite'           => array( 'slug' => 'actor' )
+					'rewrite'           => false
 				)
 			);
 
@@ -152,7 +152,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		 */
 		public function activate( $network_wide ) {
 
-			global $wpdb;
+			global $wpdb, $wp_rewrite;
 
 			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_actor%"' );
 			$actors      = array();
