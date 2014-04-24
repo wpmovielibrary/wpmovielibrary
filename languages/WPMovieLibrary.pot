@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/WPMovieLibrary\n"
-"POT-Creation-Date: 2014-04-24 07:49:52+00:00\n"
+"POT-Creation-Date: 2014-04-24 09:07:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -95,7 +95,7 @@ msgid "Image from"
 msgstr ""
 
 #: admin/class-wpmovielibrary-admin.php:149
-#: admin/edit-movies/views/metabox-movie-images.php:7
+#: admin/edit-movies/views/metabox-movie-images.php:10
 msgid "Load Images"
 msgstr ""
 
@@ -155,8 +155,7 @@ msgstr ""
 #: admin/common/views/recent-movies-widget-admin.php:2
 #: admin/common/views/status-widget-admin.php:2
 #: admin/import/class-wpml-import-table.php:53
-#: admin/import/class-wpml-queue-table.php:49 admin/import/views/import.php:64
-#: includes/wpml-config.php:432
+#: admin/import/views/import.php:64 includes/wpml-config.php:432
 msgid "Title"
 msgstr ""
 
@@ -299,8 +298,7 @@ msgstr ""
 
 #: admin/common/views/status-widget-admin.php:21
 #: admin/edit-movies/class-wpml-edit-movies.php:101
-#: admin/edit-movies/views/quick-edit.php:17
-#: admin/import/class-wpml-queue-table.php:51 admin/import/views/import.php:67
+#: admin/edit-movies/views/quick-edit.php:17 admin/import/views/import.php:67
 #: includes/wpml-config.php:198 includes/wpml-config.php:396
 msgid "Status"
 msgstr ""
@@ -331,7 +329,11 @@ msgstr ""
 msgid "WPMovieLibrary − Movie Details"
 msgstr ""
 
-#: admin/edit-movies/class-wpml-edit-movies.php:496
+#: admin/edit-movies/class-wpml-edit-movies.php:498
+msgid "You need a valid TMDb API Key to download movie posters."
+msgstr ""
+
+#: admin/edit-movies/class-wpml-edit-movies.php:500
 msgid "See available Movie Posters"
 msgstr ""
 
@@ -430,6 +432,10 @@ msgid ""
 "correctly without it, please check your browser's settings."
 msgstr ""
 
+#: admin/edit-movies/views/metabox-movie-images.php:6
+msgid "You need a valid TMDb API Key to download movie images."
+msgstr ""
+
 #: admin/edit-movies/views/metabox-movie-meta.php:2
 msgid ""
 "You need a valid <acronym title=\"TheMovieDB\">TMDb</acronym> API key to "
@@ -479,18 +485,16 @@ msgid "Movie Dtails"
 msgstr ""
 
 #: admin/import/class-wpml-import-table.php:54
-#: admin/import/class-wpml-queue-table.php:50 admin/import/views/import.php:65
-#: includes/wpml-config.php:474
+#: admin/import/views/import.php:65 includes/wpml-config.php:474
 msgid "Director"
 msgstr ""
 
 #: admin/import/class-wpml-import-table.php:55
-#: admin/import/class-wpml-queue-table.php:52 admin/import/views/import.php:66
+#: admin/import/views/import.php:66
 msgid "Actions"
 msgstr ""
 
 #: admin/import/class-wpml-import-table.php:86
-#: admin/import/class-wpml-queue-table.php:83
 msgid "No movies found, dude."
 msgstr ""
 
@@ -508,7 +512,6 @@ msgid "Enqueue"
 msgstr ""
 
 #: admin/import/class-wpml-import-table.php:271
-#: admin/import/class-wpml-queue-table.php:275
 #: admin/import/class-wpml-queue.php:126
 msgid "Delete"
 msgstr ""
@@ -523,18 +526,15 @@ msgid "Enqueue Movie"
 msgstr ""
 
 #: admin/import/class-wpml-import-table.php:355
-#: admin/import/class-wpml-queue-table.php:360
 #: admin/import/views/import.php:53
 msgid "Bulk Actions"
 msgstr ""
 
 #: admin/import/class-wpml-import-table.php:365
-#: admin/import/class-wpml-queue-table.php:370
 msgid "Apply"
 msgstr ""
 
 #: admin/import/class-wpml-import-table.php:458
-#: admin/import/class-wpml-queue-table.php:462
 #: admin/import/class-wpml-queue.php:65 admin/import/views/import.php:60
 msgid "1 item"
 msgid_plural "%s items"
@@ -542,7 +542,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: admin/import/class-wpml-import-table.php:506
-#: admin/import/class-wpml-queue-table.php:509
 msgid "Hide"
 msgstr ""
 
@@ -578,22 +577,12 @@ msgstr ""
 msgid "%d Movies imported successfully!"
 msgstr ""
 
-#: admin/import/class-wpml-queue-table.php:274
 #: admin/import/class-wpml-queue.php:125
 msgid "Dequeue"
 msgstr ""
 
-#: admin/import/class-wpml-queue-table.php:291
 #: admin/import/class-wpml-queue.php:129
 msgid "Queued"
-msgstr ""
-
-#: admin/import/class-wpml-queue-table.php:320
-msgid "Remove from queue"
-msgstr ""
-
-#: admin/import/class-wpml-queue-table.php:321
-msgid "Import"
 msgstr ""
 
 #: admin/import/class-wpml-queue.php:201

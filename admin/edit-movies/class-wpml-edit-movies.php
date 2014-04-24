@@ -493,7 +493,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * @return   string    Updated $content
 		 */
 		public static function load_posters_link( $content, $post_id ) {
-			return $content . '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', WPML_SLUG ) . '</a>';
+
+			if ( '' == WPML_Settings::tmdb__apikey() || WPML_Settings::tmdb__dummy() )
+				$content .= '<em>' . __( 'You need a valid TMDb API Key to download movie posters.', WPML_SLUG ) . '</em>';
+			else
+				$content .= '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', WPML_SLUG ) . '</a>';
+
+			return $content;
 		}
 
 		/**
