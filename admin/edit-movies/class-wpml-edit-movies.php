@@ -534,9 +534,11 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				update_post_meta( $post_ID, '_wpml_movie_data', $movie_meta );
 
 				// Set poster as featured image
-				$id = WPML_Media::set_image_as_featured( $movie_meta['poster'], $post_ID, $movie_meta['tmdb_id'], $movie_meta['meta']['title'] );
-				if ( WPML_Settings::tmdb__poster_featured() && ! $queue )
+				
+				if ( WPML_Settings::tmdb__poster_featured() && ! $queue ) {
+					$id = WPML_Media::set_image_as_featured( $movie_meta['poster'], $post_ID, $movie_meta['tmdb_id'], $movie_meta['meta']['title'] );
 					update_post_meta( $post_ID, '_thumbnail_id', $id );
+				}
 
 				// Switch status from import draft to published
 				if ( 'import-draft' == get_post_status( $post_ID ) && ! $queue ) {

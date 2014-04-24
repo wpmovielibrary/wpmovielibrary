@@ -7,6 +7,7 @@ var wpml_queue;
 
 		current_post_id: undefined,
 		current_movie: undefined,
+		current_queue: undefined,
 
 		action: '#do-queue-action',
 		import_queued: '#wpml_import_queued',
@@ -14,6 +15,10 @@ var wpml_queue;
 		select_all: '#wpml-queued-list-header #post_all',
 		enqueue: '#wpml-import .enqueue_movie',
 		dequeue: '#wpml-queued-list .dequeue_movie',
+
+		progress: '#queue_progress',
+		progress_value: '#queue_progress_value',
+		progress_queued: '#_queued_imported',
 
 		// Queued movies
 		queued_list: '#wpml_import_queue',
@@ -28,24 +33,22 @@ var wpml_queue;
 
 		wpml.queue.init = function() {
 
-			$(wpml_queue.import_queued, wpml_queue.queued_list).prop('disabled', true);
-
-			$(wpml_queue.select, wpml_queue.queued_list).on( 'click', function() {
+			$(wpml_queue.select, wpml_queue.queued_list).unbind('click').on( 'click', function() {
 				wpml_queue.toggle_button();
 			});
 
-			$(wpml_queue.select_all, wpml_queue.queued_list).on( 'click', function() {
+			$(wpml_queue.select_all, wpml_queue.queued_list).unbind('click').on( 'click', function() {
 				wpml_queue.toggle_inputs();
 			});
 
-			$(wpml_queue.action, wpml_queue.queued_list).on( 'click', function( e ) {
+			$(wpml_queue.action, wpml_queue.queued_list).unbind('click').on( 'click', function( e ) {
 				e.preventDefault();
 				wpml_queue.doaction();
 			});
 
-			$(wpml_queue.import_queued, wpml_queue.queued_list).on( 'click', function( e ) {
+			$(wpml_queue.import_queued, wpml_queue.queued_list).unbind('click').on( 'click', function( e ) {
 				e.preventDefault();
-				wpml_queue.import( this );
+				wpml_queue.import();
 			});
 			
 		};
@@ -80,14 +83,10 @@ var wpml_queue;
 		wpml.queue._enqueue = function( movies ) {
 
 			var queue = [];
-			wpml_queue.current_movie = movies;
 
 			for ( var i = 0; i < movies.length; i++ ) {
 
-				var post_id = movies[ i ],
-				    tr = $('tr#p_' + post_id ),
-				    title = tr.find('.movietitle span.movie_title').text();
-
+				var post_id = movies[ i ];
 				wpml_queue.current_post_id = post_id;
 
 				if ( post_id.length && wpml_queue._get_val('tmdb_id') )
@@ -147,7 +146,6 @@ var wpml_queue;
 				if ( post_id.length )
 					queue.push( post_id );
 			}
-			console.log( queue );
 
 			wpml._post({
 					action: 'wpml_dequeue_movies',
@@ -169,14 +167,39 @@ var wpml_queue;
 
 		wpml.queue.import = function() {
 
-			
+			wpml_queue.current_queue = $(wpml_queue.select + ':checked');
+			$(wpml_queue.current_queue).each( function( i, movie ) {
+
+				var index = i + 1,
+				    post_id = $(this).val(),
+				    $li = $('li#p_' + post_id ),
+				    $status = $li.find('.column-status .movie_status');
+
+				wpml_queue.current_post_id = post_id;
+
+				$.ajaxQueue({
+					data: {
+						action: 'wpml_import_queued_movie',
+						wpml_ajax_queued_movie_import: $('#wpml_ajax_queued_movie_import').val(),
+						post_id: post_id
+					},
+					beforeSend: function() {
+						$status.text('En cours…');
+					},
+					success: function( response ) {
+						$status.text('Importé');
+						$(wpml_queue.progress_value).val( parseInt( $(wpml_queue.progress_value).val() ) + 1 );
+						$(wpml_queue.progress_queued).text( index );
+						$(wpml_queue.progress).width( Math.ceil( ( index / wpml_queue.current_queue.length ) * 100 ) + '%' );
+					},
+					complete: function() {
+						$status.text('Importé');
+					},
+				});
+			});
 		};
 
 		wpml.queue.toggle_button = function() {
-			if ( $('input[type=checkbox]:checked', '#wpml_import_queue').length )
-				$(wpml_queue.import_queued).prop('disabled', false);
-			else
-				$(wpml_queue.import_queued).prop('disabled', true);
 
 			if ( $(wpml_queue.select + ':checked').length != $(wpml_queue.select).length )
 				$(wpml_queue.select_all).prop( 'checked', false );

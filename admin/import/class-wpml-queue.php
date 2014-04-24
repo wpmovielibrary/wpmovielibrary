@@ -40,34 +40,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			add_action( 'wp_ajax_wpml_enqueue_movies', __CLASS__ . '::enqueue_movies_callback' );
 			add_action( 'wp_ajax_wpml_dequeue_movies', __CLASS__ . '::dequeue_movies_callback' );
 			add_action( 'wp_ajax_wpml_fetch_queued_movies', __CLASS__ . '::fetch_queued_movies_callback' );
-		}
-
-		/**
-		 * Callback for Queued Movies WPML_Queue_Table AJAX navigation.
-		 * 
-		 * Checks the AJAX nonce, create a new instance of WPML_Queue_Table
-		 * and calls the AJAX handling method to echo the requested rows.
-		 *
-		 * @since     1.0.0
-		 */
-		public static function fetch_queued_movies_callback() {
-
-			check_ajax_referer( 'wpml-fetch-queued-movies-nonce', 'wpml_fetch_queued_movies_nonce' );
-
-			ob_start();
-			self::display_queued_movie_list();
-			$rows = ob_get_clean();
-
-			$total_items = self::get_queued_movies_count();
-
-			$response = array( 'rows' => $rows );
-			$response['total_items'] = $total_items;
-			$response['total_items_i18n'] = sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) );
-			$response['pagination']['top'] = '';
-			$response['pagination']['bottom'] = '';
-			$response['column_headers'] = '';
-
-			wp_die( json_encode( $response ) );
+			add_action( 'wp_ajax_wpml_import_queued_movie', __CLASS__ . '::import_queued_movie_callback' );
 		}
 
 		/**
@@ -99,6 +72,42 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		}
 
 		/**
+		 * Callback for Queued Movies list AJAX navigation.
+		 *
+		 * @since     1.0.0
+		 */
+		public static function fetch_queued_movies_callback() {
+
+			check_ajax_referer( 'wpml-fetch-queued-movies-nonce', 'wpml_fetch_queued_movies_nonce' );
+
+			ob_start();
+			self::display_queued_movie_list();
+			$rows = ob_get_clean();
+
+			$total_items = self::get_queued_movies_count();
+
+			$response = array( 'rows' => $rows );
+			$response['total_items'] = $total_items;
+			$response['total_items_i18n'] = sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) );
+			$response['pagination']['top'] = '';
+			$response['pagination']['bottom'] = '';
+			$response['column_headers'] = '';
+
+			wp_die( json_encode( $response ) );
+		}
+
+		/**
+		 * Callback for Queued Movies Import.
+		 *
+		 * @since     1.0.0
+		 */
+		public static function import_queued_movie_callback() {
+
+			//check_ajax_referer( 'wpml-fetch-queued-movies-nonce', 'wpml_fetch_queued_movies_nonce' );
+			self::import_queued_movie();
+		}
+
+		/**
 		 * Display a custom WP_List_Table of queued movies
 		 *
 		 * @since     1.0.0
@@ -116,7 +125,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			endif;
 
 			foreach ( $movies as $movie ) : ?>
-						<li>
+						<li id="p_<?php echo $movie['ID'] ?>">
 							<div scope="row" class="check-column"><input type="checkbox" id="post_<?php echo $movie['ID'] ?>" name="movie[]" value="<?php echo $movie['ID'] ?>" /></div>
 							<div class="movietitle column-movietitle"><span class="movie_title"><?php echo $movie['title'] ?></span></div>
 							<div class="director column-director"><span class="movie_director"><?php echo $movie['director'] ?></span></div>
@@ -266,6 +275,17 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			}
 
 			return true;
+		}
+
+		private static function import_queued_movie() {
+
+			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
+
+			if ( is_null( $post_id ) || ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) )
+				return false;
+
+			sleep( 1 );
+			wp_die( 1 );
 		}
 
 		/**

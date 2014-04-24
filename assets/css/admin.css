@@ -294,12 +294,17 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 #wpml-tabs #wpml-queued-list .column-actions,
+#wpml-tabs #wpml-queued-list-header .column-actions {
+	float: right;
+	max-width: 4em !important;
+	text-align: center;
+}
+
 #wpml-tabs #wpml-queued-list .column-status,
-#wpml-tabs #wpml-queued-list-header .column-actions,
 #wpml-tabs #wpml-queued-list-header .column-status {
 	float: right;
+	max-width: 10em !important;
 	text-align: center;
-	width: 4em !important;
 }
 
 #wpml-tabs #wpml-imported .movietitle .import-error {
@@ -327,14 +332,14 @@ body.post-php.post-type-movie #postimagediv {
 	display: inline-block;
 	height: 16px;
 	margin: 6px 0 0 0;
+	overflow: hidden;
 	width: 160px;
 }
 
 #queue_progress {
 	background: #2EA2CC;
-	/*border: 1px solid #2EA2CC;*/
 	display: block;
-	height: 14px;
+	height: 16px;
 	width: 0%;
 }
 

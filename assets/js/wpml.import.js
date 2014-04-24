@@ -22,7 +22,7 @@ var wpml_import;
 		 */
 		wpml.import.init = function() {
 			
-			$(wpml_import.select).unbind('click').bind('click', function( e ) {
+			$(wpml_import.select).unbind('click').on('click', function( e ) {
 				e.preventDefault();
 				wpml_import.select_movie( this );
 			});
