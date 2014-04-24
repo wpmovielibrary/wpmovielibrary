@@ -332,6 +332,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$items      = WPML_Settings::get_supported_movie_meta();
 			$selected   = $_value;
 			$selectable = array_diff( array_keys( $items ), $selected );
+			$selectable = empty( $selectable ) ? array_keys( $items ) : $selectable;
 
 			$draggable = ''; $droppable = ''; $options = '';
 

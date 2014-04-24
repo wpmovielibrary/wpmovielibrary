@@ -205,8 +205,9 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 							}
 						}
 						break;
-					case 'rating':
-						$html .= sprintf( $default_format, $field, __( 'Movie rating', WPML_SLUG ), $field, sprintf( '<div class="movie_rating_display stars_%s"></div>', ( '' == $movie_rating ? '0_0' : str_replace( '.', '_', $movie_rating ) ) ) );
+					case 'movie_rating':
+						$movie_rating = WPML_Utils::get_movie_rating( get_the_ID() );
+						$html .= sprintf( '<div class="wpml_movie_rating wpml_detail_icon"><div class="movie_rating_display stars_%s"></div></div>', ( '' == $movie_rating ? '0_0' : str_replace( '.', '_', $movie_rating ) ) );
 						break;
 					default:
 						

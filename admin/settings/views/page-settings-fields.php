@@ -33,7 +33,7 @@ if ( 'input' == $_type ) : ?>
 								<div class="default_movie_meta_sortable hide-if-no-js">
 									<ul id="draggable" class="droptrue"><?php echo $draggable ?></ul>
 									<ul id="droppable" class="dropfalse"><?php echo $droppable ?></ul>
-									<input type="hidden" id="default_movie_meta_sorted" name="wpml_settings[wpml][default_movie_meta_sorted]" value="" />
+									<input type="hidden" id="default_movie_meta_sorted" name="wpml_settings[wpml][default_movie_meta_sorted]" value="<?php echo implode( ',', $selected ) ?>" />
 								</div>
 
 								<select id="<?php echo $_id ?>" name="<?php echo $_name ?>[]" class="hide-if-js" style="min-height:<?php echo count( $items ) ?>em;min-width:16em;" multiple>
