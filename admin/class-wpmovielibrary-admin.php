@@ -242,11 +242,24 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			// The settings container
 			register_setting(
 				'wpml_edit_settings',
-				'wpml_settings'
+				'wpml_settings',
+				array( $this, 'validate_settings' )
 			);
 		}
 
 		public function validate_settings( $new_settings ) {
+
+			if ( isset( $new_settings['wpml']['default_movie_meta_sorted'] ) && '' != $new_settings['wpml']['default_movie_meta_sorted'] )
+
+			$meta_sorted = explode( ',', $new_settings['wpml']['default_movie_meta_sorted'] );
+			$meta = WPML_Settings::get_supported_movie_meta();
+
+			foreach ( $meta_sorted as $i => $_meta )
+				if ( ! in_array( $_meta, array_keys( $meta ) ) )
+					unset( $meta_sorted[ $i ] );
+
+			$new_settings['wpml']['default_movie_meta_sorted'] = $meta_sorted;
+			$new_settings['wpml']['default_movie_meta'] = $meta_sorted;
 
 			return $new_settings;
 		}
@@ -310,7 +323,11 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$_title = esc_attr( $field['title'] );
 			$_id    = "wpml_settings-{$field['section']}-{$field['id']}";
 			$_name  = "wpml_settings[{$field['section']}][{$field['id']}]";
-			$_value = $settings[ $field['section'] ][ $field['id'] ];
+
+			if ( 'default_movie_meta' == $field['id'] && isset( $settings['wpml']['default_movie_meta_sorted'] ) )
+				$_value = $settings[ $field['section'] ]['default_movie_meta_sorted'];
+			else
+				$_value = $settings[ $field['section'] ][ $field['id'] ];
 
 			$items      = WPML_Settings::get_supported_movie_meta();
 			$selected   = $_value;

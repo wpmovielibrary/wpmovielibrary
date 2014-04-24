@@ -20,7 +20,7 @@
 
 <?php settings_fields( 'wpml_edit_settings' ); ?>
 
-			<div class="wpml-tabs-panels <?php /*if ( 'tmdb' == $_section || '' == $_section ) echo ' active';*/ ?>">
+			<div class="wpml-tabs-panels">
 
 <?php do_settings_sections( 'wpml_settings' ); ?>
 

@@ -255,10 +255,10 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 						$html .= sprintf( $default_format, $field, __( 'Staring', WPML_SLUG ), $field, $actors );
 						break;
 					case 'release_date':
-						$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, date_i18n( get_option( 'date_format' ), strtotime( $tmdb_data[ $field ] ) ) );
+						$html .= sprintf( $default_format, $field, __( $default_fields[ $field ]['title'], WPML_SLUG ), $field, date_i18n( get_option( 'date_format' ), strtotime( $tmdb_data[ $field ] ) ) );
 						break;
 					case 'runtime':
-						$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, date_i18n( get_option( 'time_format' ), mktime( 0, $tmdb_data[ $field ] ) ) );
+						$html .= sprintf( $default_format, $field, __( $default_fields[ $field ]['title'], WPML_SLUG ), $field, date_i18n( get_option( 'time_format' ), mktime( 0, $tmdb_data[ $field ] ) ) );
 						break;
 					case 'director':
 						$term = WPML_Settings::wpml__enable_collection() ? get_term_by( 'name', $tmdb_data[ $field ], 'collection' ) : $tmdb_data[ $field ];
@@ -267,7 +267,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 						break;
 					default:
 						if ( in_array( $field, $fields ) && isset( $tmdb_data[ $field ] ) && '' != $tmdb_data[ $field ] )
-							$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, $tmdb_data[ $field ] );
+							$html .= sprintf( $default_format, $field, __( $default_fields[ $field ]['title'], WPML_SLUG ), $field, $tmdb_data[ $field ] );
 						break;
 				}
 			}

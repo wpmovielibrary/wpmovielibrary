@@ -119,12 +119,14 @@ wpml.settings = wpml_settings = {
 
 		wpml.settings.sortable.update_item = function() {
 
-			var value = [];
+			values = [];
 			var items = $('.'+wpml_sortable.default_selected);
 			$.each(items, function() {
 				var value = $(this).attr('data-movie-meta');
 				$('#wpml_settings-wpml-default_movie_meta option[value="'+value+'"]').prop('selected', true);
+				values.push( value );
 			});
+			$('#default_movie_meta_sorted').val( values.join(',') );
 		};
 
 	wpml.settings.api_ckeck = function() {
