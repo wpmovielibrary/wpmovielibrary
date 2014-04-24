@@ -55,7 +55,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 */
 		public static function get_featured_image( $post_id, $size = 'thumbnail' ) {
 			$_id = get_post_thumbnail_id( $post_id );
-			$img = ( $_id ? wp_get_attachment_image_src( $_id, $size ) : array( WPML_URL . '/assets/img/no_poster.png' ) );
+			$img = ( $_id ? wp_get_attachment_image_src( $_id, $size ) : array( WPML_DEFAULT_POSTER_URL ) );
 			return $img[0];
 		}
 

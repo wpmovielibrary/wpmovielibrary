@@ -308,7 +308,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				foreach ( $data['results'] as $movie ) {
 					$movies['movies'][] = array(
 						'id'     => $movie['id'],
-						'poster' => ( ! is_null( $movie['poster_path'] ) ? self::get_base_url( 'poster', 'small' ) . $movie['poster_path'] : WPML_URL . '/assets/img/no_poster.png' ),
+						'poster' => ( ! is_null( $movie['poster_path'] ) ? self::get_base_url( 'poster', 'small' ) . $movie['poster_path'] : WPML_DEFAULT_POSTER_URL ),
 						'title'  => $movie['title'],
 						'json'   => json_encode( $movie ),
 						'_id'    => $_id

@@ -42,7 +42,7 @@ else :
 		while ( $movies->have_posts() ) :
 			$movies->the_post();
 			$thumbnail  = get_the_post_thumbnail( get_the_ID(), 'thumbnail' );
-			$thumbnail  = ( '' != $thumbnail ? $thumbnail : sprintf( '<img src="%s" alt="%s" width="%d" height="%d" />', plugins_url( '../assets/no_poster.png', __FILE__ ), get_the_title(), 150, 150 ) );
+			$thumbnail  = ( '' != $thumbnail ? $thumbnail : sprintf( '<img src="%s" alt="%s" width="%d" height="%d" />', WPML_DEFAULT_POSTER_URL, get_the_title(), 150, 150 ) );
 			$rating     = get_post_meta( get_the_ID(), '_wpml_movie_rating', true );
 			$rating_str = ( '' == $rating ? "stars_0_0" : 'stars_' . str_replace( '.', '_', $rating ) );
 ?>

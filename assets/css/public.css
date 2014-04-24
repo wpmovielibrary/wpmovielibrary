@@ -195,10 +195,12 @@
 .most-rated-movie,
 .widget-movie {
 	display: inline-table;
+	height: 100%;
 	max-height: 150px;
 	max-width: 150px;
-	min-height: 120px;
-	min-width: 120px;
+	min-height: 122px;
+	min-width: 122px;
+	overflow: hidden;
 	position: relative;
 	text-align: center;
 	width: 49%;
