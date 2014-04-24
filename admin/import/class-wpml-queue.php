@@ -126,7 +126,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 
 			if ( empty( $movies ) ) :
 ?>
-				<li><div class="movietitle column-movietitle"><?php _e( 'No movie queued, dude.', WPML_SLUG ) ?></div></li>
+				<li><div class="movietitle column-movietitle"><?php _e( 'No queued movie, dude.', WPML_SLUG ) ?></div></li>
 <?php
 			else :
 				foreach ( $movies as $movie ) : ?>
