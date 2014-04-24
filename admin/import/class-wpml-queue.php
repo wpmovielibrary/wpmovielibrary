@@ -103,7 +103,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function import_queued_movie_callback() {
 
-			//check_ajax_referer( 'wpml-fetch-queued-movies-nonce', 'wpml_fetch_queued_movies_nonce' );
+			check_ajax_referer( 'wpml-movie-import-queue', 'wpml_movie_import_queue' );
 			self::import_queued_movie();
 		}
 
@@ -124,7 +124,12 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 <?php
 			endif;
 
-			foreach ( $movies as $movie ) : ?>
+			if ( empty( $movies ) ) :
+?>
+				<li><div class="movietitle column-movietitle"><?php _e( 'No movie queued, dude.', WPML_SLUG ) ?></div></li>
+<?php
+			else :
+				foreach ( $movies as $movie ) : ?>
 						<li id="p_<?php echo $movie['ID'] ?>">
 							<div scope="row" class="check-column"><input type="checkbox" id="post_<?php echo $movie['ID'] ?>" name="movie[]" value="<?php echo $movie['ID'] ?>" /></div>
 							<div class="movietitle column-movietitle"><span class="movie_title"><?php echo $movie['title'] ?></span></div>
@@ -138,7 +143,9 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 							<div class="status column-status"><span class="movie_status"><?php _e( 'Queued', WPML_SLUG ) ?></span></div>
 						</li>
 <?php
-			endforeach;
+				endforeach;
+			endif;
+
 			if ( ! $_ajax ) :
 ?>
 					</ul>
@@ -243,9 +250,9 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 *
 		 * @since     1.0.0
 		 * 
-		 * @param     string     $title Movie title.
+		 * @param     string     $post_id Movie Post ID.
 		 * 
-		 * @return    int        ID of the updated movie if everything worked, 0 else.
+		 * @return    int|boolean        ID of the updated movie if everything worked, false else.
 		 */
 		private static function dequeue_movie( $post_id ) {
 
@@ -274,9 +281,19 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				return false;
 			}
 
-			return true;
+			return $post_id;
 		}
 
+		/**
+		 * Convert a queued movie to regular movie.
+		 * 
+		 * Simply change the movie's post_status from 'import-queued' to
+		 * 'publish' and 
+		 *
+		 * @since     1.0.0
+		 * 
+		 * @return    int|boolean        ID of the updated movie if everything worked, false else.
+		 */
 		private static function import_queued_movie() {
 
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
@@ -284,8 +301,29 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			if ( is_null( $post_id ) || ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) )
 				return false;
 
-			sleep( 1 );
-			wp_die( 1 );
+			$meta = get_post_meta( $post_id, '_wpml_movie_data', true );
+
+			if ( '' == $meta || ! is_array( $meta ) || ! isset( $meta['poster'] ) || ! isset( $meta['tmdb_id'] ) )
+				return false;
+
+			$post_date     = current_time('mysql');
+			$post_date     = wp_checkdate( substr( $post_date, 5, 2 ), substr( $post_date, 8, 2 ), substr( $post_date, 0, 4 ), $post_date );
+			$post_date_gmt = get_gmt_from_date( $post_date );
+			$post_title    = apply_filters( 'the_title', $title );
+
+			$_post = array(
+				'ID'          => $post_id,
+				'post_status' => 'publish'
+			);
+
+			if ( WPML_Settings::tmdb__poster_featured() ) {
+				$id = WPML_Media::set_image_as_featured( $meta['poster'], $post_id, $meta['tmdb_id'], $meta['meta']['title'] );
+				update_post_meta( $post_id, '_thumbnail_id', $id );
+			}
+
+			$id = wp_update_post( $_post );
+
+			wp_die( $id );
 		}
 
 		/**

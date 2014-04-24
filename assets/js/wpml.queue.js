@@ -167,6 +167,8 @@ var wpml_queue;
 
 		wpml.queue.import = function() {
 
+			timer = undefined;
+
 			wpml_queue.current_queue = $(wpml_queue.select + ':checked');
 			$(wpml_queue.current_queue).each( function( i, movie ) {
 
@@ -180,11 +182,19 @@ var wpml_queue;
 				$.ajaxQueue({
 					data: {
 						action: 'wpml_import_queued_movie',
-						wpml_ajax_queued_movie_import: $('#wpml_ajax_queued_movie_import').val(),
+						wpml_movie_import_queue: $('#wpml_movie_import_queue').val(),
 						post_id: post_id
 					},
 					beforeSend: function() {
-						$status.text('En cours…');
+						$status.text('En cours');
+						window.clearTimeout( timer );
+						timer = window.setTimeout(function() {
+							var t = $status.text();
+							if ( '...' != t.substring( t.length, t.length - 3 ) )
+								$status.text( t + '.' );
+							else
+								$status.text('En cours');
+						}, 1000 );
 					},
 					success: function( response ) {
 						$status.text('Importé');
@@ -193,8 +203,13 @@ var wpml_queue;
 						$(wpml_queue.progress).width( Math.ceil( ( index / wpml_queue.current_queue.length ) * 100 ) + '%' );
 					},
 					complete: function() {
-						$status.text('Importé');
+						$status.text('');
 					},
+				}).done(function() {
+					window.clearTimeout( timer );
+					timer = window.setTimeout(function() {
+						wpml_importer.reload({}, 'queued');
+					}, 2000 );
 				});
 			});
 		};
