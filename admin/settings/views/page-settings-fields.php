@@ -6,22 +6,22 @@ if ( 'input' == $_type ) : ?>
 <?php if ( 'apikey' == $field['id'] ) : ?>
 	<input id="APIKey_check" type="button" name="APIKey_check" class="button button-secondary" value="<?php _e( 'Check API Key', WPML_SLUG ); ?>" />
 <?php endif; ?>
-	<p class="description"><?php echo $field['description'] ?></p>
+	<p class="description"><?php _e( $field['description'], WPML_SLUG ) ?></p>
 
 <?php elseif ( 'toggle' == $_type ) : ?>
 
-	<label><input type="radio" id="<?php echo $_id ?>" name="<?php echo $_name ?>" value="1"<?php checked( $_value, 1 ); ?>/> <?php echo $_title ?></label>
+	<label><input type="radio" id="<?php echo $_id ?>" name="<?php echo $_name ?>" value="1"<?php checked( $_value, 1 ); ?>/> <?php _e( $_title, WPML_SLUG ) ?></label>
 	<label><input type="radio" id="<?php echo $_id ?>" name="<?php echo $_name ?>" value="0"<?php checked( $_value, 0 ); ?>/> <?php _e( 'Don&rsquo;t', WPML_SLUG ); ?></label>
-	<p class="description"><?php echo $field['description'] ?></p>
+	<p class="description"><?php _e( $field['description'], WPML_SLUG ) ?></p>
 
 <?php elseif ( 'select' == $_type || 'multiple' == $_type ) : ?>
 
 	<select id="<?php echo $_id ?>" name="<?php echo $_name ?>[]"<?php if ( 'multiple' == $_type ) echo ' multiple="multiple"' ?>>
 <?php foreach ( $field['values'] as $slug => $option ) : ?>
-		<option value="<?php echo $slug ?>"<?php echo ( is_array( $_value ) ? ( in_array( $slug, $_value ) ? ' selected="selected"' : '' ) : selected( $_value, $slug, true ) ); ?>><?php echo $option ?></option>
+		<option value="<?php echo $slug ?>"<?php echo ( is_array( $_value ) ? ( in_array( $slug, $_value ) ? ' selected="selected"' : '' ) : selected( $_value, $slug, true ) ); ?>><?php _e( $option, WPML_SLUG ); ?></option>
 <?php endforeach; ?>
 	</select>
-	<p class="description"><?php echo $field['description'] ?></p>
+	<p class="description"><?php _e( $field['description'], WPML_SLUG ) ?></p>
 
 <?php elseif ( 'sorted' == $_type ) : ?>
 

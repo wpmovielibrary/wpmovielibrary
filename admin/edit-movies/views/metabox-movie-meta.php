@@ -7,7 +7,7 @@ endif;
 
 		<div id="wpml-tmdb" class="wpml-tmdb hide-if-no-js">
 <?php if ( true === WPML_Settings::tmdb__dummy() ) : ?>
-			<div class="updated"><p><em><?php printf( __( 'WPMovieLibrary is using the dummy TMDb API; add your valid API key to the <a href="%s">Settings Page</a> or <a href="http://tmdb.caercam.org/">Learn more</a> about the dummy API.', WPML_SLUG ), admin_url( 'edit.php?post_type=movie&page=settings' ) ); ?></em></p></div>
+			<div class="updated"><p><em><?php printf( __( 'WPMovieLibrary is using the dummy TMDb API; add your valid API key to the <a href="%s">Settings Page</a> or <a href="http://tmdb.caercam.org/">Learn more</a> about the dummy API.', WPML_SLUG ), admin_url( 'edit.php?post_type=movie&page=wpml_edit_settings' ) ); ?></em></p></div>
 <?php endif; ?>
 			<p><strong><?php _e( 'Find movie on TMDb:', WPML_SLUG ); ?></strong></p>
 

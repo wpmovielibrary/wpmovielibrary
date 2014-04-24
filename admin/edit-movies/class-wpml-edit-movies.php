@@ -127,8 +127,10 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				case 'movie_media':
 					$meta = get_post_meta( $post_id, '_wpml_' . $column_name, true );
 					$_details = WPML_Settings::get_supported_movie_details();
-					if ( isset( $_details[ $column_name ]['options'][ $meta ] ) )
+					if ( isset( $_details[ $column_name ]['options'][ $meta ] ) ) {
 						$html = $_details[ $column_name ]['options'][ $meta ];
+						$html = __( $html, WPML_SLUG );
+					}
 					else
 						$html = '&mdash;';
 					break;

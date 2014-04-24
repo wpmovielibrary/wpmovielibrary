@@ -207,8 +207,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			);*/
 			add_submenu_page(
 				'edit.php?post_type=movie',
-				__( 'Options', WPML_SLUG ),
-				__( 'Options', WPML_SLUG ),
+				__( 'Settings', WPML_SLUG ),
+				__( 'Settings', WPML_SLUG ),
 				'manage_options',
 				'wpml_edit_settings',
 				__CLASS__ . '::admin_page'
