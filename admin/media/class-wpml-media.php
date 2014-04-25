@@ -63,8 +63,11 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * Check for previously imported images to avoid duplicates.
 		 * 
 		 * If any attachment has one or more postmeta matching the current
-		 * Movie's TMDb ID, we don't want to import the image again, so we return
-		 * the last found image's ID to be used instead.
+		 * Movie's TMDb ID, we don't want to import the image again. If
+		 * we're testing a poster, make sure it isn't there already, in
+		 * which case it should have a metafield storing its original
+		 * TMDb file name. If we're testing an image we make sure its
+		 * file name doesn't match a previously imported image.
 		 * 
 		 * @since    1.0.0
 		 * 
@@ -72,7 +75,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * @param    string    $image_type Optional. Which type of image we're
 		 *                                 dealing with, simple image or poster.
 		 * 
-		 * @return   string|boolean        Return the last found image's ID if
+		 * @return   mixed|boolean         Return the last found image's ID if
 		 *                                 any, false if no matching image was
 		 *                                 found.
 		 */
@@ -96,12 +99,15 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				)
 			);
 
-			if ( 'poster' == $image_type && ! empty( $check ) )
-				foreach ( $check as $c )
-					if ( ! has_post_thumbnail( $c->ID ) )
-						return false;
-
-			if ( ! is_null( $image ) ) {
+			// Check for matching files
+			if ( 'poster' == $image_type && ! empty( $check ) ) {
+				foreach ( $check as $c ) {
+					$meta = get_post_meta( $c->ID, '_wpml_' . $image_type . '_related_tmdb_data' );
+					if ( isset( $meta['file_path'] ) && in_array( $meta['file_path'], array( $image, '/' . $image ) ) )
+						return $c;
+				}
+			}
+			else if ( ! is_null( $image ) ) {
 				foreach ( $check as $c ) {
 					$try = get_attached_file( $c->ID );
 					if ( $image == basename ( $try ) ) {
@@ -331,10 +337,10 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 
 			$size = WPML_Settings::tmdb__poster_size();
 
-			$existing = self::check_for_existing_images( $tmdb_id, 'poster' );
+			/*$existing = self::check_for_existing_images( $tmdb_id, 'poster' );
 
 			if ( false !== $existing )
-				return $existing[0]->ID;
+				return $existing[0]->ID;*/
 
 			$image = self::image_upload( $file, $post_id, $tmdb_id, $title, 'poster' );
 
