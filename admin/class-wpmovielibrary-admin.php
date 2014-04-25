@@ -129,12 +129,12 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					'utils' => array(
 						'wpml_check' => wp_create_nonce( 'wpml-callbacks-nonce' ),
 						'base_url' => array(
-							'xxsmall'   => $base_urls['poster_url']['xx-small'],
-							'xsmall'    => $base_urls['poster_url']['x-small'],
-							'small'     => $base_urls['image_url']['small'],
-							'medium'    => $base_urls['image_url']['medium'],
-							'full'      => $base_urls['image_url']['full'],
-							'original'  => $base_urls['image_url']['original'],
+							'xxsmall'   => $base_urls['poster']['xx-small'],
+							'xsmall'    => $base_urls['poster']['x-small'],
+							'small'     => $base_urls['image']['small'],
+							'medium'    => $base_urls['image']['medium'],
+							'full'      => $base_urls['image']['full'],
+							'original'  => $base_urls['image']['original'],
 						)
 					),
 					'lang' => array(
