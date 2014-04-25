@@ -61,7 +61,7 @@ wpml.settings = wpml_settings = {
 
 			var tab = $(link).attr('data-section');
 			var url = link.href.replace(link.hash, '');
-			if ( link.hash.length || url.substring( url.length, url.length - 1 ) )
+			if ( link.hash.length || '#' == url.substring( url.length, url.length - 1 ) )
 				url = url.substring( 0, ( url.length - 1 ) );
 
 			    var section = link.href.indexOf('&wpml_section');
