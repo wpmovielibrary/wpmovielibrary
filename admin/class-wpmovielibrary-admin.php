@@ -123,7 +123,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					wp_enqueue_script( 'jquery-ui-droppable' );
 				}
 
-				$base_urls = WPML_TMDb::get_base_url();
+				$base_urls = WPML_TMDb::get_image_url();
 
 				$localize = array(
 					'utils' => array(

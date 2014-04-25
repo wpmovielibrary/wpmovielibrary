@@ -1,7 +1,9 @@
 <?php
 /**
  * WPMovieLibrary_Admin Class extension.
- *
+ * 
+ * Layer for TMDb Class.
+ * 
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie.merland@gmail.com>
  * @license   GPL-3.0
@@ -82,39 +84,19 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 */
 		private static function tmdb_config() {
 
-			$tmdb_config = new TMDb();
-			$tmdb_config = $tmdb_config->getConfig();
+			$tmdb = new TMDb();
+			$config = $tmdb->getConfig();
 
-			if ( is_null( $tmdb_config ) ) {
+			if ( is_null( $config ) ) {
 				WPML_Utils::admin_notice( __( 'Unknown error, connection to TheMovieDB API failed.', WPML_SLUG ), 'error' );
 				return false;
 			}
-			else if ( isset( $tmdb_config['status_code'] ) && in_array( $tmdb_config['status_code'], array( 7, 403 ) ) ) {
-				WPML_Utils::admin_notice( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', WPML_SLUG ), $tmdb_config['status_message'], $tmdb_config['status_code'] ), 'error' );
+			else if ( isset( $config['status_code'] ) && in_array( $config['status_code'], array( 7, 403 ) ) ) {
+				WPML_Utils::admin_notice( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', WPML_SLUG ), $config['status_message'], $config['status_code'] ), 'error' );
 				return false;
 			}
 
-			$base_url = ( 'https' == WPML_Settings::tmdb__scheme() ? $tmdb_config['images']['secure_base_url'] : $tmdb_config['images']['base_url'] );
-
-			$wpml_tmdb_config = array(
-				'poster_url' => array(
-					'xxx-small' => $base_url . $tmdb_config['images']['poster_sizes'][0],
-					'xx-small'  => $base_url . $tmdb_config['images']['poster_sizes'][1],
-					'x-small'   => $base_url . $tmdb_config['images']['poster_sizes'][2],
-					'small'     => $base_url . $tmdb_config['images']['poster_sizes'][3],
-					'medium'    => $base_url . $tmdb_config['images']['poster_sizes'][4],
-					'full'      => $base_url . $tmdb_config['images']['poster_sizes'][5],
-					'original'  => $base_url . $tmdb_config['images']['poster_sizes'][6]
-				),
-				'image_url' => array(
-					'small'     => $base_url . $tmdb_config['images']['backdrop_sizes'][0],
-					'medium'    => $base_url . $tmdb_config['images']['backdrop_sizes'][1],
-					'full'      => $base_url . $tmdb_config['images']['backdrop_sizes'][2],
-					'original'  => $base_url . $tmdb_config['images']['backdrop_sizes'][3]
-				),
-			);
-
-			return $wpml_tmdb_config;
+			return $config;
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -132,9 +114,9 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 * @return    array    API configuration request result
 		 */
 		private static function check_api_key( $key ) {
-			$_tmdb = new TMDb( $config = true, $dummy = false );
-			$data = $_tmdb->checkApiKey( $key );
-			return $data;
+			$tmdb = new TMDb( $config = true, $dummy = false );
+			$check = $tmdb->checkApiKey( $key );
+			return $check;
 		}
 
 		/**
@@ -144,16 +126,10 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @return    string    base url
 		 */
-		public static function get_base_url( $type = null, $size = null ) {
+		public static function get_image_url( $filepath = null, $imagetype = null, $size = null ) {
 
-			$config = self::tmdb_config();
-
-			if ( is_null( $type ) && is_null( $size ) )
-				return $config;
-			else if ( ! is_null( $type ) && is_null( $size ) )
-				return $config[ $type . '_url' ];
-			else if ( ! is_null( $type ) && ! is_null( $size ) )
-				return $config[ $type . '_url' ][ $size ];
+			$tmdb = new TMDb();
+			return $tmdb->getImageUrl( $filepath, $imagetype, $size );
 		}
 
 		/**
@@ -308,7 +284,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				foreach ( $data['results'] as $movie ) {
 					$movies['movies'][] = array(
 						'id'     => $movie['id'],
-						'poster' => ( ! is_null( $movie['poster_path'] ) ? self::get_base_url( 'poster', 'small' ) . $movie['poster_path'] : WPML_DEFAULT_POSTER_URL ),
+						'poster' => ( ! is_null( $movie['poster_path'] ) ? self::get_image_url( $movie['poster_path'], 'poster', 'small' ) : WPML_DEFAULT_POSTER_URL ),
 						'title'  => $movie['title'],
 						'json'   => json_encode( $movie ),
 						'_id'    => $_id

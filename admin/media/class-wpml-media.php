@@ -135,7 +135,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 
 			$image_type = ( 'poster' == $image_type ? 'poster' : 'image' );
 
-			$base_url = WPML_TMDb::get_base_url( $image_type );
+			$base_url = WPML_TMDb::get_image_url( null, $image_type );
 			$json_images = array();
 			$i = 0;
 
@@ -369,16 +369,15 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				$image_type = 'image';
 
 			$size = WPML_Settings::tmdb__images_size();
-			$path = WPML_TMDb::get_base_url( $image_type, $size );
 
 			if ( is_array( $file ) ) {
 				$data = $file;
-				$file = $path . $file['file_path'];
+				$file = WPML_TMDb::get_image_url( $file['file_path'], $image_type, $size );
 				$image = $file['file_path'];
 			}
 			else {
 				$image = $file;
-				$file = $path . $file;
+				$file = WPML_TMDb::get_image_url( $file, $image_type, $size );
 			}
 
 			$image = substr( $image, 1 );

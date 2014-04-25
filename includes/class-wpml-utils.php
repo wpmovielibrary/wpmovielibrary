@@ -2,8 +2,9 @@
 /**
  * WPMovieLibrary Utils Class extension.
  * 
+ * This class contains various tools needed by WPML such as array manipulating
+ * filters, terms ordering methods or permalinks creation.
  * 
- *
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie.merland@gmail.com>
  * @license   GPL-3.0
@@ -31,7 +32,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			// Add custom permalinks if anything flush the rewrite rules
 			add_filter( 'rewrite_rules_array', __CLASS__ . '::register_permalinks', 11 );
 
 			add_filter( 'wpml_format_widget_lists', __CLASS__ . '::format_widget_lists', 10, 4 );
@@ -57,6 +57,10 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * We want to list movies by media, status and rating. This method
 		 * is called whenever permalinks are edited using the filter
 		 * hook 'rewrite_rules_array'.
+		 * 
+		 * This also add permalink structures for custom taxonomies as
+		 * they seem not to be declared correctly when usin the regular
+		 * register_taxonomy 'rewrite' param.
 		 *
 		 * @since    1.0.0
 		 *
@@ -135,6 +139,17 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 		}
 
+		/**
+		 * Render a notice box.
+		 * 
+		 * Mostly used to inform about specific plugin needs or info
+		 * such as missing API Key, movie import, etc.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $notice The notice message
+		 * @param    string    $type Notice type: update, error, wpml?
+		 */
 		public static function admin_notice( $notice, $type = 'update' ) {
 
 			if ( '' == $notice )
@@ -158,6 +173,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @uses wpml_get_movie_postmeta()
 		 *
 		 * @since    1.0.0
+		 * 
+		 * @param    int    Movie Post ID
 		 *
 		 * @return   array|string    WPML Movie TMDb data if stored, empty string else.
 		 */
@@ -171,6 +188,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @uses wpml_get_movie_postmeta()
 		 *
 		 * @since    1.0.0
+		 * 
+		 * @param    int    Movie Post ID
 		 *
 		 * @return   array|string    WPML Movie Status if stored, empty string else.
 		 */
@@ -184,6 +203,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @uses wpml_get_movie_postmeta()
 		 *
 		 * @since    1.0.0
+		 * 
+		 * @param    int    Movie Post ID
 		 *
 		 * @return   array|string    WPML Movie Media if stored, empty string else.
 		 */
@@ -197,6 +218,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @uses wpml_get_movie_postmeta()
 		 *
 		 * @since    1.0.0
+		 * 
+		 * @param    int    Movie Post ID
 		 *
 		 * @return   array|string    WPML Movie Rating if stored, empty string else.
 		 */
@@ -209,6 +232,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * and data.
 		 *
 		 * @since    1.0.0
+		 * 
+		 * @param    string    Meta type to return: data, status, media or rating
+		 * @param    int       Movie Post ID
 		 *
 		 * @return   array|string    WPML Movie Meta if available, empty string else.
 		 */
@@ -234,7 +260,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @param     string     $query movie title to clean up
 		 * 
-		 * @return     string     cleaned up movie title
+		 * @return    string     cleaned up movie title
 		 */
 		public static function clean_search_title( $query ) {
 			$s = trim( $query );
@@ -243,9 +269,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
-		 * Filter Hook
-		 * 
-		 * Used to generate Movies dropdown or classic lists.
+		 * Generate Movies dropdown or classic lists.
 		 * 
 		 * @since    1.0.0
 		 * 
@@ -287,9 +311,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
-		 * Filter Hook
-		 * 
-		 * Used to generate Movies lists including Poster.
+		 * Generate Movies lists including Poster.
 		 * 
 		 * @since    1.0.0
 		 * 
@@ -345,7 +367,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @since    1.0.0
 		 * 
-		 * @param    array    $array Movie metadata
+		 * @param    array    $data Movie metadata
 		 * 
 		 * @return   array    Filtered Metadata
 		 */
@@ -385,7 +407,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @since    1.0.0
 		 * 
-		 * @param    array    $array Movie Crew
+		 * @param    array    $data Movie Crew
 		 * 
 		 * @return   array    Filtered Crew
 		 */
@@ -419,7 +441,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @since    1.0.0
 		 * 
-		 * @param    array    $array Movie Cast
+		 * @param    array    $data Movie Cast
 		 * 
 		 * @return   array    Filtered Cast
 		 */
@@ -543,12 +565,13 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Retrieves the terms associated with the given object(s), in the
 		 * supplied taxonomies.
-		 *
+		 * 
 		 * This is a copy of WordPress' wp_get_object_terms function with a bunch
 		 * of edits to use term_order as a default sorting param.
-		 *
+		 * 
 		 * @since 1.0.0
-		 *
+		 * 
+		 * @param    array           $terms The post's terms
 		 * @param    int|array       $object_ids The ID(s) of the object(s) to retrieve.
 		 * @param    string|array    $taxonomies The taxonomies to retrieve terms from.
 		 * @param    array|string    $args Change what is returned
@@ -678,8 +701,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @param bool $network_wide
 		 */
 		public function activate( $network_wide ) {
-
-			//self::register_permalinks();
 		}
 
 		/**

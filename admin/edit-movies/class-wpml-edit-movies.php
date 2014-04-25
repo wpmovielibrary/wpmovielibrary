@@ -2,7 +2,8 @@
 /**
  * WPMovieLibrary Edit_Movies Class extension.
  * 
- * Edit Movies
+ * Edit Movies related methods. Handles Post List Tables, Quick and Bulk Edit
+ * Forms, Meta and Details Metaboxes, Images and Posters WP Media Modals.
  *
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie.merland@gmail.com>
@@ -55,8 +56,6 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 		/**
 		 * Register and enqueue admin-specific JavaScript.
-		 * 
-		 * wpml.importer extends wpml with specific import functions.
 		 *
 		 * @since    1.0.0
 		 * 
@@ -85,7 +84,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * 
 		 * @since     1.0.0
 		 * 
-		 * @param     array    Default WP_List_Table header columns
+		 * @param     array    $defaults Default WP_List_Table header columns
 		 * 
 		 * @return    array    Default columns with new poster column
 		 */
@@ -599,7 +598,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 *
 		 * @since    1.0.0
 		 *
-		 * @param bool $network_wide
+		 * @param    bool    $network_wide
 		 */
 		public function activate( $network_wide ) {}
 

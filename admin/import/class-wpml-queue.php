@@ -155,12 +155,8 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 
 		/**
 		 * Process the submitted queued movie list
-		 * 
-		 * 
 		 *
 		 * @since     1.0.0
-		 * 
-		 * @return    void|boolean|string
 		 */
 		private static function enqueue_movies() {
 
@@ -190,10 +186,9 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 *
 		 * @since     1.0.0
 		 * 
+		 * @param     int        $post_id Movie Post ID.
 		 * @param     string     $title Movie title.
 		 * @param     array      $metadata Movie metadata.
-		 * 
-		 * @return    int        ID of the updated movie if everything worked, 0 else.
 		 */
 		private static function enqueue_movie( $post_id, $title, $metadata ) {
 
@@ -245,8 +240,8 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		/**
 		 * Remove a movie from the queue list.
 		 * 
-		 * Simply change the movie's post_status to 'import-draft' and
-		 * update the dates.
+		 * Simply change the movie's post_status to 'import-draft',
+		 * update the dates and delete the movie metadata.
 		 *
 		 * @since     1.0.0
 		 * 
@@ -355,7 +350,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 						$metadata = WPML_Utils::get_movie_data( get_the_ID() );
 						$columns[ get_the_ID() ] = array(
 							'ID'         => get_the_ID(),
-							//'poster'     => '<img src="' . WPML_TMDb::get_base_url( 'poster', 'xxx-small' ) . $metadata['poster'] . '" alt="' . get_the_title() . '" />',
+							//'poster'     => '<img src="' . WPML_TMDb::get_image_url( $metadata['poster'], 'poster', 'xxx-small' ) . '" alt="' . get_the_title() . '" />',
 							'title' => get_the_title(),
 							'director'   => $metadata['crew']['director'],
 							'tmdb_id'    => get_post_meta( get_the_ID(), '_wpml_tmdb_id', true )
@@ -392,7 +387,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 *
 		 * @since    1.0.0
 		 *
-		 * @param bool $network_wide
+		 * @param    bool    $network_wide
 		 */
 		public function activate( $network_wide ) {}
 
