@@ -84,7 +84,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			);
 
 			// Dashicons or PNG
-			$args['menu_icon'] = ( version_compare( get_bloginfo( 'version' ), '3.8', '>=' ) ? 'dashicons-format-video' : WPML_URL . '/admin/assets/img/icon-movie.png' );
+			$args['menu_icon'] = ( version_compare( get_bloginfo( 'version' ), '3.8', '>=' ) ? 'dashicons-format-video' : WPML_URL . '/assets/img/icon-movie.png' );
 
 			register_post_type( 'movie', $args );
 
