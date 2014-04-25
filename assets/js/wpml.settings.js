@@ -53,6 +53,7 @@ wpml.settings = wpml_settings = {
 
 		wpml.settings.panels.switch_panel = function( link ) {
 
+			__link = link;
 			var index = $(wpml_panels.links).index( link );
 
 			if ( wpml_panels.panels.length >= index )
@@ -60,7 +61,7 @@ wpml.settings = wpml_settings = {
 
 			var tab = $(link).attr('data-section');
 			var url = link.href.replace(link.hash, '');
-			if ( link.hash.length )
+			if ( link.hash.length || url.substring( url.length, url.length - 1 ) )
 				url = url.substring( 0, ( url.length - 1 ) );
 
 			    var section = link.href.indexOf('&wpml_section');
