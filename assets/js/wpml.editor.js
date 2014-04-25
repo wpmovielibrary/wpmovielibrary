@@ -537,7 +537,7 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 							tmdb_data.removeChild( tmdb_data.lastChild );
 						tmdb_data.style.display = 'none';
 						wpml_edit_movies.populate( response );
-						wpml_media.posters.set_featured( response.poster_path );
+						wpml_posters.set_featured( response.poster_path );
 					}
 				);
 			};

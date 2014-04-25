@@ -363,6 +363,33 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
+		 * Filter a Movie's Runtime to match WordPress time format
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $runtime Movie runtime
+		 * 
+		 * @return   string    Filtered runtime
+		 */
+		public static function filter_runtime( $runtime ) {
+			return date_i18n( get_option( 'time_format' ), mktime( 0, $runtime ) );
+		}
+
+
+		/**
+		 * Filter a Movie's Release Date to match WordPress date format
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $release_date Movie release date
+		 * 
+		 * @return   string    Filtered release date
+		 */
+		public static function filter_release_date( $release_date ) {
+			return date_i18n( get_option( 'date_format' ), strtotime( $release_date ) );
+		}
+
+		/**
 		 * Filter a Movie's Metadata to extract only supported data.
 		 * 
 		 * @since    1.0.0

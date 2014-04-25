@@ -182,6 +182,11 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 			$config = self::getConfig();
 
+			$size_alias = array(
+				'poster' => array( 'xxx-small', 'xx-small', 'x-small', 'small', 'medium', 'full', 'original' ),
+				'image' => array( 'small', 'medium', 'full', 'original' )
+			);
+
 			if ( isset( $config['images'] ) ) {
 
 				$base_url = $config['images']['base_url'];
@@ -209,9 +214,10 @@ if ( ! class_exists( 'TMDb' ) ) :
 					return $defaults[ $imagetype ];
 
 				$available_sizes = self::getAvailableImageSizes( $imagetype );
+				$_size = (int) array_search( $size, $size_alias[ $imagetype ] );
 
-				if ( in_array( $size, $available_sizes ) )
-					return $base_url . $size . $filepath;
+				if ( isset( $config['images'][ $imagetype . '_sizes' ][ $_size ] ) )
+					return $base_url . $config['images'][ $imagetype . '_sizes' ][ $_size ] . $filepath;
 				else
 					return sprintf( __( 'The size "%s" is not supported by TMDb', WPML_SLUG ), $size );
 			}
