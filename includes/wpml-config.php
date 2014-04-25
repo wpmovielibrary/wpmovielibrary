@@ -69,9 +69,12 @@ $wpml_settings = array(
 				'description' => __( 'Movie Poster size. Default is TMDb&rsquo;s original size.', WPML_SLUG ),
 				'type' => 'select',
 				'values' => array(
-					'small'  => __( 'Small', WPML_SLUG ),
-					'medium'  => __( 'Medium', WPML_SLUG ),
-					'full' => __( 'Full', WPML_SLUG ),
+					'xx-small'  => __( 'Invisible (~100px)', WPML_SLUG ),
+					'x-small'  => __( 'Tiny (~150px)', WPML_SLUG ),
+					'small'  => __( 'Small (~200px)', WPML_SLUG ),
+					'medium'  => __( 'Medium (~350px)', WPML_SLUG ),
+					'large'  => __( 'Large (~500px)', WPML_SLUG ),
+					'full' => __( 'Full (~800px) ', WPML_SLUG ),
 					'original' => __( 'Original', WPML_SLUG )
 				),
 				'default' => 'original'
@@ -88,12 +91,12 @@ $wpml_settings = array(
 			// Images size
 			'images_size' => array(
 				'title' => __( 'Images Default Size', WPML_SLUG ),
-				'description' => __( 'Movie Poster size. Default is TMDb&rsquo;s original size.', WPML_SLUG ),
+				'description' => __( 'Movie Image size. Default is TMDb&rsquo;s original size.', WPML_SLUG ),
 				'type' => 'select',
 				'values' => array(
-					'small'  => __( 'Small', WPML_SLUG ),
-					'medium'  => __( 'Medium', WPML_SLUG ),
-					'full' => __( 'Full', WPML_SLUG ),
+					'small'  => __( 'Small (~200px)', WPML_SLUG ),
+					'medium'  => __( 'Medium (~350px)', WPML_SLUG ),
+					'full' => __( 'Full (~800px) ', WPML_SLUG ),
 					'original' => __( 'Original', WPML_SLUG )
 				),
 				'default' =>'original'
@@ -110,7 +113,7 @@ $wpml_settings = array(
 			// Results caching
 			'caching' => array(
 				'title' => __( 'Enable Caching', WPML_SLUG ),
-				'description' => __( 'When enabled, WPML will store for a variable time the data fetched from TMDb. This prevents WPML from generating excessive, useless duplicate queries to the API. This is especially useful if you’re using the dummy API. <a href="http://www.caercam.org/wpmovielibrary/">Learn more about WPML Caching</a>', WPML_SLUG ),
+				'description' => __( 'When enabled, WPML will store for a variable time the data fetched from TMDb. This prevents WPML from generating excessive, useless duplicate queries to the API. This is especially useful if you’re using the dummy API. <a href="http://www.caercam.org/wpmovielibrary/">Learn more ~ WPML Caching</a>', WPML_SLUG ),
 				'type' => 'toggle',
 				'default' => 1
 			),

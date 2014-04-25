@@ -183,7 +183,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 			$config = self::getConfig();
 
 			$size_alias = array(
-				'poster' => array( 'xxx-small', 'xx-small', 'x-small', 'small', 'medium', 'full', 'original' ),
+				'poster' => array( 'xx-small', 'x-small', 'small', 'medium', 'large', 'full', 'original' ),
 				'image' => array( 'small', 'medium', 'full', 'original' )
 			);
 
@@ -192,11 +192,11 @@ if ( ! class_exists( 'TMDb' ) ) :
 				$base_url = $config['images']['base_url'];
 				$defaults = array(
 						'poster' => array(
-							'xxx-small' => $base_url . $config['images']['poster_sizes'][0],
-							'xx-small'  => $base_url . $config['images']['poster_sizes'][1],
-							'x-small'   => $base_url . $config['images']['poster_sizes'][2],
-							'small'     => $base_url . $config['images']['poster_sizes'][3],
-							'medium'    => $base_url . $config['images']['poster_sizes'][4],
+							'xx-small'  => $base_url . $config['images']['poster_sizes'][0],
+							'x-small'   => $base_url . $config['images']['poster_sizes'][1],
+							'small'     => $base_url . $config['images']['poster_sizes'][2],
+							'medium'    => $base_url . $config['images']['poster_sizes'][3],
+							'large'     => $base_url . $config['images']['poster_sizes'][4],
 							'full'      => $base_url . $config['images']['poster_sizes'][5],
 							'original'  => $base_url . $config['images']['poster_sizes'][6]
 						),
