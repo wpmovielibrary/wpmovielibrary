@@ -321,7 +321,6 @@ $wpml_settings = array(
 				'values' => array(
 					'conserve' => __( 'Conserve', WPML_SLUG ),
 					'convert' => __( 'Convert to Posts (recommended)', WPML_SLUG ),
-					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
 					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
 				),
 				'default' => 'convert'
@@ -346,7 +345,7 @@ $wpml_settings = array(
 				'values' => array(
 					'conserve' => __( 'Conserve', WPML_SLUG ),
 					'convert' => __( 'Convert to Tags (recommended)', WPML_SLUG ),
-					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete (irreversible)', WPML_SLUG ),
 				),
 				'default' => 'convert'
 			),
@@ -358,7 +357,7 @@ $wpml_settings = array(
 				'values' => array(
 					'conserve' => __( 'Conserve', WPML_SLUG ),
 					'convert' => __( 'Convert to Tags (recommended)', WPML_SLUG ),
-					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+					'delete' => __( 'Delete (irreversible)', WPML_SLUG ),
 				),
 				'default' => 'convert'
 			),
