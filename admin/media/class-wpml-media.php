@@ -366,14 +366,12 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * 
 		 * @return   string|WP_Error Populated HTML img tag on success
 		 */
-		private static function image_upload( $file, $post_id, $tmdb_id, $title, $image_type = 'image', $data = null ) {
+		private static function image_upload( $file, $post_id, $tmdb_id, $title, $image_type = 'backdrop', $data = null ) {
 
 			if ( empty( $file ) )
 				return false;
 
-			if ( ! in_array( $image_type, array( 'image', 'poster' ) ) )
-				$image_type = 'image';
-
+			$image_type = ( 'poster' == $image_type ? 'poster' : 'backdrop' );
 			$size = WPML_Settings::tmdb__images_size();
 
 			if ( is_array( $file ) ) {
