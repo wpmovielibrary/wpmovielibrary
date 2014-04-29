@@ -195,7 +195,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 							'orientation' => $_orientation,
 							// Modal thumbs are actually Medium size, so we set a small one
 							// for posters, a really small one
-							'url' => ( 'poster' == $image_type ? $base_url['xx-small'] : $base_url['small'] ) . $image['file_path'],
+							'url' => ( 'poster' == $image_type ? $base_url['x-small'] : $base_url['small'] ) . $image['file_path'],
 							'width' => 300,
 						),
 						'large' => array(
