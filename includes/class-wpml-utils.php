@@ -297,9 +297,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			foreach ( $items as $item ) {
 				if ( $dropdown )
-					$html[] = '<option value="' . esc_url( $item['link'] ) . '">' . esc_attr( $item['title'] ) . '</option>';
+					$html[] = '<option value="' . esc_url( $item['link'] ) . '">' . esc_attr__( $item['title'], WPML_SLUG ) . '</option>';
 				else
-					$html[] = '<li><a href="' . esc_url( $item['link'] ) . '" title="' . esc_attr( $item['attr_title'] ) . '">' . $item['title'] . '</a></li>';
+					$html[] = '<li><a href="' . esc_url( $item['link'] ) . '" title="' . esc_attr__( $item['attr_title'], WPML_SLUG ) . '">' . esc_attr__( $item['title'], WPML_SLUG ) . '</a></li>';
 			}
 
 			if ( false !== $dropdown )
