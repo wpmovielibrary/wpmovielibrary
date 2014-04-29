@@ -13,6 +13,7 @@
 						<div id="movie-status-select" class="hide-if-js">
 							<input type="hidden" name="hidden_movie_status" id="hidden-movie-status" value="movie-<?php echo $movie_status; ?>">
 							<select name="wpml_details[movie_status]" id="movie-status">
+								<option id="movie-default-status" value="" <?php selected( '', $movie_status ); ?>></option>
 <?php foreach ( WPML_Settings::get_available_movie_status() as $slug => $status ) : ?>
 								<option id="movie-<?php echo $slug; ?>" value="<?php echo $slug; ?>" <?php selected( $status, $movie_status ); ?>><?php _e( $status, WPML_SLUG ) ?></option>
 <?php endforeach; ?>
@@ -31,6 +32,7 @@
 						<div id="movie-media-select" class="hide-if-js">
 							<input type="hidden" name="hidden_movie_media" id="hidden-movie-edia" value="movie-<?php echo $movie_media; ?>">
 							<select name="wpml_details[movie_media]" id="movie-media">
+								<option id="movie-default-media" value="" <?php selected( '', $movie_media ); ?>></option>
 <?php foreach ( WPML_Settings::get_available_movie_media() as $slug => $media ) : ?>
 								<option id="movie-<?php echo $slug; ?>" value="<?php echo $slug; ?>" <?php selected( $media, $movie_media ); ?>><?php _e( $media, WPML_SLUG ) ?></option>
 <?php endforeach; ?>
