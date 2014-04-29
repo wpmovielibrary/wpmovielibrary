@@ -247,9 +247,9 @@ var wpml_importer;
 						$('.tablenav.bottom .tablenav-pages', _selector).html( $(response.pagination.bottom).html() );
 
 					if ( 'queued' == list )
-						wpml_importer.update_count( 'import_queue', response.total_items );
+						wpml_importer.update_count( 'import_queue', response.total_items, response.total_items_i18n );
 					else
-						wpml_importer.update_count( 'imported', response.total_items );
+						wpml_importer.update_count( 'imported', response.total_items, response.total_items_i18n );
 				},
 				function() {
 					wpml_import.init();
@@ -295,13 +295,18 @@ var wpml_importer;
 		 * @param    string    Which menu, queued or imported?
 		 * @param    int       Increment or decrement?
 		 */
-		wpml.importer.update_count = function( wot, i ) {
+		wpml.importer.update_count = function( wot, i, i_i18n ) {
 			
 			var wot = ( 'import_queue' == wot ? wot : 'imported' ),
 			    i = ( i >= 0 ? i : '0' ),
 			    $span = $('#_wpml_' + wot + ' span');
 
 			$span.text( '' + i );
+
+			if ( 'import_queue' == wot ) {
+				$('.displaying-num', wpml_queue.queued_list).text( i_i18n );
+				$('#_queued_left', wpml_queue.queued_list).text( i );
+			}
 		}
 
 	wpml.importer.init();
