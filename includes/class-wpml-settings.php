@@ -391,7 +391,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 */
 		public function activate( $network_wide ) {
 
-			self::update_settings( $force = true );
+			self::update_settings();
 		}
 
 		/**

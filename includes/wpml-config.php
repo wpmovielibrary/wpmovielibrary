@@ -23,6 +23,14 @@ $wpml_settings = array(
 		),
 		'settings' => array(
 
+			// Foo Bar test option
+			/*'foobar' => array(
+				'title' => __( 'Foo', WPML_SLUG ),
+				'description' => 'Bar',
+				'type' => 'input',
+				'default' => 'foobar'
+			),*/
+
 			// TMDb API Key
 			'apikey' => array(
 				'title' => __( 'API Key', WPML_SLUG ),
