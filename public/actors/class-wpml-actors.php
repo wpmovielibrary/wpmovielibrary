@@ -75,7 +75,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 					'hierarchical'      => false,
 					'query_var'         => true,
 					'sort'              => true,
-					'rewrite'           => false
+					'rewrite'           => array( 'slug' => 'actor' )
 				)
 			);
 
