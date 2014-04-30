@@ -428,13 +428,6 @@ body.post-php.post-type-movie #postimagediv {
 	display: none;
 }
 
-.media-frame.movie-images #preload,
-.media-frame.movie-posters #preload {
-	background: url(../img/preload__.gif) center center no-repeat;
-	height: 100%;
-	width: 100%;
-}
-
 .media-frame.movie-images .attachment-info .thumbnail,
 .media-frame.movie-images .attachment-info .thumbnail img {
 	height: auto;
@@ -550,6 +543,18 @@ body.post-php.post-type-movie #postimagediv {
 #wpml-tmdb .list-table td input,
 #wpml-tmdb .list-table td textarea {
 	width: 100%;
+}
+
+#tmdb_search_type {
+	display: none;
+}
+
+#tmdb_search_lang {
+	margin-top: -3px;
+}
+
+#tmdb_query {
+	height: 28px;
 }
 
 #tmdb_data {
