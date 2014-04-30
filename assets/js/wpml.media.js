@@ -39,7 +39,7 @@ var wpml_images, wpml_posters;
 					return this._frame;
 
 				this._frame = wp.media({
-					title: 'Import images from "' + $('#tmdb_data_title').val() + '"',
+					title: wpml_ajax.lang.import_images_title.replace( '%s', $('#tmdb_data_title').val() ),
 					frame: 'select',
 					searchable: false,
 					library: {
@@ -51,7 +51,7 @@ var wpml_images, wpml_posters;
 					},
 					multiple: true,
 					button: {
-						text: 'Import images'
+						text: wpml_ajax.lang.import_images
 					}
 				}),
 
@@ -74,7 +74,7 @@ var wpml_images, wpml_posters;
 				var $content = $(wpml_images._frame.content.selector);
 
 				if ( ! $('#progressbar_bg').length )
-					$content.append('<div id="progressbar_bg"><div id="progressbar"><div id="progress"></div></div><div id="progress_status">Please wait while the images are uploading.</div>');
+					$content.append('<div id="progressbar_bg"><div id="progressbar"><div id="progress"></div></div><div id="progress_status">' + wpml_ajax.lang.images_upload_wait + '</div>');
 
 				$('#progressbar_bg, #progressbar').show();
 
@@ -117,7 +117,7 @@ var wpml_images, wpml_posters;
 					function() {
 						$('#progressbar #progress').width(''+progress+'%');
 						if ( index == wpml_images.total ) {
-							$('#progress_status').text('Done!');
+							$('#progress_status').text( wpml_ajax.lang.done );
 							window.setTimeout( wpml_images.close(), 2000 );
 						}
 						else {
@@ -167,7 +167,7 @@ var wpml_images, wpml_posters;
 					return this._frame;
 
 				this._frame = wp.media({
-					title: 'Select a poster for "' + $('#tmdb_data_title').val() + '"',
+					title: wpml_ajax.lang.import_poster_title.replace( '%s', $('#tmdb_data_title').val() ),
 					frame: 'select',
 					searchable: false,
 					library: {
@@ -179,7 +179,7 @@ var wpml_images, wpml_posters;
 					},
 					multiple: false,
 					button: {
-						text: 'Import Poster'
+						text: wpml_ajax.lang.import_poster
 					}
 				}),
 
@@ -203,7 +203,7 @@ var wpml_images, wpml_posters;
 				var $content = $(wpml_posters._frame.content.selector);
 
 				if ( ! $('#progressbar_bg').length )
-					$content.append('<div id="progressbar_bg"><div id="progressbar"><div id="progress"></div></div><div id="progress_status">Please wait while the poster is uploading...</div>');
+					$content.append('<div id="progressbar_bg"><div id="progressbar"><div id="progress"></div></div><div id="progress_status">' + wpml_ajax.lang.import_poster_wait + '</div>');
 
 				$('#progressbar_bg, #progressbar').show();
 				$('#progressbar #progress').width('40%');
@@ -236,7 +236,7 @@ var wpml_images, wpml_posters;
 				else {
 					if ( 0 <= parseInt( wp.media.featuredImage.get() ) ) {
 						$('#progressbar #progress').width('100%');
-						$('#progress_status').text('Done!');
+						$('#progress_status').text( wpml_ajax.lang.done );
 						window.setTimeout( wpml_posters.close(), 2000 );
 						return false;
 					}
@@ -258,7 +258,7 @@ var wpml_images, wpml_posters;
 						}
 					},
 					function() {
-						$('#progress_status').text('Done!');
+						$('#progress_status').text( wpml_ajax.lang.done );
 						window.setTimeout( wpml_posters.close(), 2000 );
 					}
 				);

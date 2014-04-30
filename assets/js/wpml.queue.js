@@ -187,18 +187,18 @@ var wpml_queue;
 						post_id: post_id
 					},
 					beforeSend: function() {
-						$status.text('En cours');
+						$status.text( wpml_ajax.lang.in_progress );
 						window.clearTimeout( timer );
 						timer = window.setTimeout(function() {
 							var t = $status.text();
 							if ( '...' != t.substring( t.length, t.length - 3 ) )
 								$status.text( t + '.' );
 							else
-								$status.text('En cours');
+								$status.text( wpml_ajax.lang.in_progress );
 						}, 1000 );
 					},
 					success: function( response ) {
-						$status.text('Importé');
+						$status.text( wpml_ajax.lang.imported );
 						$(wpml_queue.progress_value).val( parseInt( $(wpml_queue.progress_value).val() ) + 1 );
 						$(wpml_queue.progress_queued).text( index );
 						$(wpml_queue.progress).width( Math.ceil( ( index / wpml_queue.current_queue.length ) * 100 ) + '%' );
