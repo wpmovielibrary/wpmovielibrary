@@ -42,6 +42,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			add_filter( 'wpml_filter_meta_data', __CLASS__ . '::filter_meta_data', 10, 1 );
 			add_filter( 'wpml_filter_crew_data', __CLASS__ . '::filter_crew_data', 10, 1 );
 			add_filter( 'wpml_filter_cast_data', __CLASS__ . '::filter_cast_data', 10, 1 );
+			add_filter( 'wpml_validate_meta_data', __CLASS__ . '::validate_meta_data', 10, 1 );
 
 			add_filter( 'wpml_stringify_array', __CLASS__ . '::stringify_array', 10, 3 );
 			add_filter( 'wpml_filter_empty_array', __CLASS__ . '::filter_empty_array', 10, 1 );
@@ -481,6 +482,47 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$data[ $i ] = $d['name'];
 
 			return $data;
+		}
+
+		/**
+		 * Filter the Movie Metadata submitted when saving a post to
+		 * avoid storing unexpected data to the database.
+		 * 
+		 * The Metabox array makes a distinction between pure metadata
+		 * and crew data, so we filter them separately. If the data slug
+		 * is valid, the value is escaped and added to the return array.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    array    $data The Movie Metadata to filter
+		 * 
+		 * @return   array    The filtered Metadata
+		 */
+		public function validate_meta_data( $data ) {
+
+			if ( ! is_array( $data ) || empty( $data ) || ! isset( $data['tmdb_id'] ) || ! isset( $data['meta'] ) || ! isset( $data['crew'] ) )
+				return $data;
+
+			$keys = array_keys( WPML_Settings::get_supported_movie_meta() );
+			$movie_tmdb_id = esc_attr( $data['tmdb_id'] );
+			$movie_meta = array();
+			$movie_crew = array();
+
+			foreach ( $data['meta'] as $slug => $_meta )
+				if ( in_array( $slug, $keys ) )
+					$movie_meta[ $slug ] = esc_attr( $_meta );
+
+			foreach ( $data['crew'] as $slug => $_meta )
+				if ( in_array( $slug, $keys ) )
+					$movie_crew[ $slug ] = esc_attr( $_meta );
+
+			$_data = array(
+				'tmdb_id' => $movie_tmdb_id,
+				'meta'    => $movie_meta,
+				'crew'    => $movie_crew
+			);
+
+			return $_data;
 		}
 
 		/**

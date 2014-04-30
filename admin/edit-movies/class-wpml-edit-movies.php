@@ -528,12 +528,12 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			if ( ! is_null( $movie_meta ) && count( $movie_meta ) ) {
 
 				$movie_meta = apply_filters( 'wpml_filter_empty_array', $movie_meta );
+				$movie_meta = apply_filters( 'wpml_validate_meta_data', $movie_meta );
 
 				// Save TMDb data
 				update_post_meta( $post_ID, '_wpml_movie_data', $movie_meta );
 
 				// Set poster as featured image
-				
 				if ( WPML_Settings::tmdb__poster_featured() && ! $queue ) {
 					$id = WPML_Media::set_image_as_featured( $movie_meta['poster'], $post_ID, $movie_meta['tmdb_id'], $movie_meta['meta']['title'] );
 					update_post_meta( $post_ID, '_thumbnail_id', $id );
@@ -570,7 +570,11 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				}
 			}
 			else if ( isset( $_REQUEST['tmdb_data'] ) && '' != $_REQUEST['tmdb_data'] ) {
-				update_post_meta( $post_ID, '_wpml_movie_data', $_REQUEST['tmdb_data'] );
+
+				$movie_meta = apply_filters( 'wpml_filter_empty_array', $_REQUEST['tmdb_data'] );
+				$movie_meta = apply_filters( 'wpml_validate_meta_data', $movie_meta );
+
+				update_post_meta( $post_ID, '_wpml_movie_data', $movie_meta );
 			}
 
 			if ( isset( $_REQUEST['wpml_details'] ) && ! is_null( $_REQUEST['wpml_details'] ) ) {

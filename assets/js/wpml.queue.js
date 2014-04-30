@@ -135,7 +135,7 @@ var wpml_queue;
 		};
 
 		wpml.queue._get_val = function( slug ) {
-			return $('input#p_' + wpml_queue.current_post_id + '_tmdb_data_' + slug, '#tmdb_data_form').val() || false;
+			return $('input#p_' + wpml_queue.current_post_id + '_tmdb_data_' + slug, '#tmdb_data_form').val() || '';
 		};
 
 		wpml.queue._dequeue = function( movies ) {
