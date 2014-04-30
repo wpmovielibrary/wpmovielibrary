@@ -102,6 +102,7 @@ var wpml_queue;
 					wpml_importer.reload( {} );
 					wpml_importer.reload( {}, 'queued' );
 					$('.spinner').hide();
+					$('#p_' + post_id + '_tmdb_data').remove();
 				}
 			);
 		};
