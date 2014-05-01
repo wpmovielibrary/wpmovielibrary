@@ -464,6 +464,15 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 					$('input#tmdb_query').val( title );
 			};
 
+		/**
+		 * Handles 'All Movies' Table and Post Editor Movie Meta part
+		 * 
+		 * Add excerpt to actors lists, handles Quick/Bulk Edit in All
+		 * Movies Table.
+		 * 
+		 * Populate Meta fields, taxonomies and featured images with the
+		 * data fetched by wpml.editor.meta.search_movie().
+		 */
 		wpml.editor.movies = wpml_edit_movies = {
 
 			actors: 'td.column-taxonomy-actor',
@@ -523,6 +532,9 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				});
 			};
 
+			/**
+			 * Toggle the Show/Hide all actors link.
+			 */
 			wpml.editor.movies.toggle_actors = function( link ) {
 
 				$(link).prev(wpml_edit_movies.hidden).toggle();

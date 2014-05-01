@@ -647,6 +647,10 @@ body.post-php.post-type-movie #postimagediv {
 	border-left: 4px solid #DD3D36;
 }
 
+#wpml_status p {
+	margin: 0.25em 0;
+}
+
 /* #WPML 
  ****************************************************/
 
