@@ -235,7 +235,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="';
 			$actions['inline hide-if-no-js'] .= esc_attr( __( 'Edit this item inline' ) ) . '" ';
-			$actions['inline hide-if-no-js'] .= " onclick=\"wpml.movie.populate_quick_edit({$details}, '{$nonce}')\">"; 
+			$actions['inline hide-if-no-js'] .= " onclick=\"wpml_edit_movies.populate_quick_edit({$details}, '{$nonce}')\">"; 
 			$actions['inline hide-if-no-js'] .= __( 'Quick&nbsp;Edit' );
 			$actions['inline hide-if-no-js'] .= '</a>';
 
@@ -579,10 +579,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			if ( isset( $_REQUEST['wpml_details'] ) && ! is_null( $_REQUEST['wpml_details'] ) ) {
 
-				if ( isset( $_REQUEST['is_quickedit'] ) )
-					check_admin_referer( '_wpml_quickedit_movie_details', 'wpml_quickedit_movie_details_nonce' );
-				else if ( isset( $_REQUEST['is_bulkedit'] ) )
-					check_admin_referer( '_wpml_bulkedit_movie_details', 'wpml_bulkedit_movie_details_nonce' );
+				if ( isset( $_REQUEST['is_quickedit'] ) || isset( $_REQUEST['is_bulkedit'] ) )
+					check_admin_referer( '_wpml_movie_details', 'wpml_movie_details_nonce' );
 
 				$wpml_details = $_REQUEST['wpml_details'];
 

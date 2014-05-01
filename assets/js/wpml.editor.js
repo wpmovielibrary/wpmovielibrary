@@ -620,46 +620,39 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 
 					$wp_inline_edit.apply( this, arguments );
 
-					var $post_id = 0;
+					var post_id = 0;
 
 					if ( typeof( id ) == 'object' )
-						$post_id = parseInt( this.getId( id ) );
+						post_id = parseInt( this.getId( id ) );
 
-					if ( $post_id > 0 ) {
+					if ( post_id > 0 ) {
 
-						var $edit_row = $( '#edit-' + $post_id );
+						var edit_row = '#edit-' + post_id,
+						    $nonceInput = $('#wpml_movie_details_nonce'),
+						    $movie_media = $('#movie-media', edit_row),
+						    $movie_status = $('#movie-status', edit_row),
+						    $movie_rating = $('#movie-rating', edit_row),
+						    $hidden_movie_rating = $('#hidden-movie-rating', edit_row),
+						    $stars = $('#stars', edit_row);
 
-						var nonceInput = $('#wpml_movie_details_nonce');
-						nonceInput.val( nonce );
+						$nonceInput.val( nonce );
 
-						var movie_media = $edit_row.find('select.movie_media');
-						var movie_status = $edit_row.find('select.movie_status');
-						var movie_rating = $edit_row.find('#movie_rating');
-						var hidden_movie_rating = $edit_row.find('#hidden_movie_rating');
-						var stars = $edit_row.find('#stars');
-
-						movie_media.children('option').each(function() {
-							if ( $(this).val() == movie_details.movie_media )
-								$(this).prop("selected", "selected");
-							else
-								$(this).prop("selected", "");
+						$movie_media.children('option').each(function() {
+							$(this).prop( 'selected', ( $(this).val() == movie_details.movie_media ) );
 						});
 
-						movie_status.children('option').each(function() {
-							if ( $(this).val() == movie_details.movie_status )
-								$(this).prop("selected", true);
-							else
-								$(this).prop("selected", false);
+						$movie_status.children('option').each(function() {
+							$(this).prop( 'selected', ( $(this).val() == movie_details.movie_status ) );
 						});
 
 						if ( '' != movie_details.movie_rating && ' ' != movie_details.movie_rating ) {
-							movie_rating.val( movie_details.movie_rating );
-							hidden_movie_rating.val( movie_details.movie_rating );
-							stars.removeClass('stars_', 'stars_0_0', 'stars_0_5', 'stars_1_0', 'stars_1_5', 'stars_2_0', 'stars_2_5', 'stars_3_0', 'stars_3_5', 'stars_4_0', 'stars_4_5', 'stars_5_0');
-							stars.addClass( 'stars_' + movie_details.movie_rating.replace('.','_') );
-							stars.attr('data-rated', true);
-							stars.attr('data-default-rating', movie_details.movie_rating);
-							stars.attr('data-rating', movie_details.movie_rating);
+							$movie_rating.val( movie_details.movie_rating );
+							$hidden_movie_rating.val( movie_details.movie_rating );
+							$stars.removeClass('stars-', 'stars-0-0', 'stars-0-5', 'stars-1-0', 'stars-1-5', 'stars-2-0', 'stars-2-5', 'stars-3-0', 'stars-3-5', 'stars-4-0', 'stars-4-5', 'stars-5-0');
+							$stars.addClass( 'stars-' + movie_details.movie_rating.replace('.','-') );
+							$stars.attr('data-rated', true);
+							$stars.attr('data-default-rating', movie_details.movie_rating);
+							$stars.attr('data-rating', movie_details.movie_rating);
 						}
 
 					}
