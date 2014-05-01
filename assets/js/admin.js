@@ -19,42 +19,43 @@ wpml = {
 	 * @param    function    Function to run on success
 	 * @param    function    Function to run on complete
 	 */
-	wpml.__ajax = function( type, data, success, complete ) {
-
-		var type = type || 'GET';
-		var data = data || {};
-		var success = success || function() {};
-		var complete = complete || function() {};
-
-		$.ajax({
-			type: type,
-			url: ajaxurl,
-			data: data,
-			success: success,
-			complete: complete
-		});
+	wpml.__ajax = function( data ) {
+		var data = $.extend({
+				url: ajaxurl
+			},
+			data
+		);
+		$.ajax( data );
 	};
 
 	/**
 	 * WPML filter for AJAX GET Request
 	 * 
 	 * @param    object      Data object to pass
-	 * @param    function    Function to run on success
-	 * @param    function    Function to run on complete
 	 */
-	wpml._get = function( data, success, complete ) {
-		wpml.__ajax( 'GET', data, success, complete );
+	wpml._get = function( data ) {
+		wpml.__ajax({
+			type: 'GET',
+			data: data.data || {},
+			success: data.success || function() {},
+			complete: data.complete || function() {},
+			error: data.error || function() {}
+		});
 	};
 
 	/**
 	 * WPML filter for AJAX POST Request
 	 * 
 	 * @param    object      Data object to pass
-	 * @param    function    Function to run on success
-	 * @param    function    Function to run on complete
 	 */
-	wpml._post = function( data, success, complete ) {
-		wpml.__ajax( 'POST', data, success, complete );
+	wpml._post = function( data ) {
+		wpml.__ajax({
+			type: 'POST',
+			data: data.data || {},
+			success: data.success || function() {},
+			complete: data.complete || function() {},
+			error: data.error || function() {}
+		});
 	};
 
 	/**

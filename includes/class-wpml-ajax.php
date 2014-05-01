@@ -16,25 +16,39 @@ if ( ! class_exists( 'WPML_Ajax' ) ) :
 	class WPML_Ajax {
 
 		/**
-		 * Callback status
+		 * Data result type
 		 * 
-		 * @var    array
+		 * @var    string
 		 */
-		public $success = false;
+		public $result = null;
 
 		/**
-		 * Error storage
-		 * 
-		 * @var    array
-		 */
-		public $errors = array();
-
-		/**
-		 * Data storage for AJAX
+		 * Data for AJAX
 		 * 
 		 * @var    array
 		 */
 		public $data = array();
+
+		/**
+		 * AJAX message
+		 * 
+		 * @var    array
+		 */
+		public $message = null;
+
+		/**
+		 * Optional Post ID
+		 * 
+		 * @var    array
+		 */
+		public $post_id = null;
+
+		/**
+		 * Optional TMDb ID
+		 * 
+		 * @var    array
+		 */
+		public $tmdb_id = null;
 
 		/**
 		 * i18n elements storage
@@ -42,6 +56,28 @@ if ( ! class_exists( 'WPML_Ajax' ) ) :
 		 * @var    array
 		 */
 		public $i18n = array();
+
+		public function __construct( $args = array() ) {
+
+			$defaults = array(
+				'result'	=> null,
+				'data'		=> array(),
+				'message'	=> null,
+				'post_id'	=> null,
+				'tmdb_id'	=> null,
+				'i18n'		=> null
+			);
+
+			$args = wp_parse_args( $args, $defaults );
+			extract( $args, EXTR_SKIP );
+
+			$this->result	= $result;
+			$this->data	= $data;
+			$this->message	= $message;
+			$this->post_id	= $post_id;
+			$this->tmdb_id	= $tmdb_id;
+			$this->i18n	= $i18n;
+		}
 
 	}
 

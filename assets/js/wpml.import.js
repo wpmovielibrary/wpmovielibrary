@@ -31,6 +31,7 @@ var wpml_import;
 		wpml.import.search_movie = function( post_id, title ) {
 
 			wpml._get({
+				data: {
 					action: 'wpml_search_movie',
 					wpml_check: wpml_ajax.utils.wpml_check,
 					type: 'title',
@@ -38,16 +39,14 @@ var wpml_import;
 					lang: '',
 					_id: post_id
 				},
-				function( response ) {
+				error: function( response ) {
+					$.each( response.responseJSON.errors, function() {
+						$('#tmdb_data').empty().addClass('update error').append('<p>' + this + '</p>');
+					});
+				},
+				success: function( response ) {
 
 					wpml_import.target = $('#p_' + response.data.post_id); // Update the target for populates
-
-					if ( ! response.success ) {
-						$.each( response.errors, function() {
-							$('#tmdb_data').empty().addClass('update error').append('<p>' + this + '</p>');
-						});
-						return false;
-					}
 
 					if ( 'empty' == response.data.result ) {
 						$('#p_' + post_id).find('.movie_title').after('<div class="import-error">' + response.data.message + '</div>');
@@ -63,7 +62,7 @@ var wpml_import;
 						wpml_import.init();
 					}
 				}
-			);
+			});
 
 		};
 
@@ -77,9 +76,9 @@ var wpml_import;
 			    post_id = $link.attr('data-post-id'),
 			    tmdb_id = $link.attr('data-tmdb-id');
 
-			wpml.import.get_movie( post_id, tmdb_id );
+			wpml_import.get_movie( post_id, tmdb_id );
 			$link.parents(wpml_import.select_list).remove();
-			wpml.queue.init();
+			wpml_queue.init();
 		}
 
 		/**
@@ -92,23 +91,22 @@ var wpml_import;
 		 */
 		wpml.import.get_movie = function( post_id, tmdb_id ) {
 			wpml._get({
+				data: {
 					action: 'wpml_search_movie',
 					wpml_check: wpml_ajax.utils.wpml_check,
 					type: 'id',
 					data: tmdb_id,
 					_id: post_id
 				},
-				function( response ) {
-					if ( ! response.success ) {
-						$.each( response.errors, function() {
-							$('#tmdb_data').empty().addClass('update error').append('<p>' + this + '</p>');
-						});
-						return false;
-					}
-
+				error: function( response ) {
+					$.each( response.responseJSON.errors, function() {
+						$('#tmdb_data').empty().addClass('update error').append('<p>' + this + '</p>');
+					});
+				},
+				success: function( response ) {
 					wpml_import.populate( response.data );
 				}
-			);
+			});
 		};
 
 		/**

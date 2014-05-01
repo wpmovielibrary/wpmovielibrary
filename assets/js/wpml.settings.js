@@ -147,17 +147,18 @@ wpml.settings = wpml_settings = {
 		}
 		
 		wpml._get({
+			data: {
 				action: 'wpml_check_api_key',
 				wpml_check: wpml_ajax.utils.wpml_check,
 				key: key
 			},
-			function( response ) {
-				if ( response.success )
-					$input.after( '<span id="api_status" class="valid">' + response.data.message + '</span>' );
-				else if ( ! response.success && undefined != response.errors.invalid )
-					$input.after( '<span id="api_status" class="invalid">' + response.errors.invalid + '</span>' );
+			error: function( response ) {
+				$input.after( '<span id="api_status" class="invalid">' + response.responseJSON.errors.invalid[ 0 ] + '</span>' );
+			},
+			success: function( response ) {
+				$input.after( '<span id="api_status" class="valid">' + response.message + '</span>' );
 			}
-		);
+		});
 	};
 
 	wpml.settings.init();

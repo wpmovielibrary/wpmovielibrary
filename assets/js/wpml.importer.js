@@ -115,13 +115,14 @@ var wpml_importer;
 				return false;
 
 			wpml._post({
+				data: {
 					action: 'wpml_import_movies',
 					wpml_import_list: $(wpml_importer.list).val(),
 					wpml_ajax_movie_import: $('#wpml_ajax_movie_import').val()
 				},
-				function( response ) {
-					if ( 0 == response )
-						return false;
+				error: function( response ) {
+				},
+				success: function( response ) {
 
 					$('.updated').remove();
 					$(wpml_importer.list).val('');
@@ -133,23 +134,22 @@ var wpml_importer;
 						orderby: 'title'
 					});
 				}
-			);
+			});
 		};
 
 		// Fetch movie data 
-		wpml.importer.fetch_movie = function( link ) {
+		wpml.importer.fetch_movie = function( post_id, title ) {
 
-			var $link = $(link),
-			    post_id = $link.attr('data-post-id'),
-			    tr = $link.parents('tr'),
-			    title = tr.find('.movietitle span.movie_title').text();
+			var post_id = post_id || 0,
+			    $tr = $('#fetch_' + post_id).parents('tr'),
+			    title = title || $tr.find('.movietitle span.movie_title').text();
 
-			if ( ! post_id.length )
+			if ( ! post_id )
 				return false;
 
 			if ( '0' == $('#p_' + post_id + '_tmdb_data_tmdb_id').val() ) {
-				tr.prop('id', 'p_'+post_id);
-				tr.find('.poster').addClass('loading');
+				$tr.prop('id', 'p_'+post_id);
+				$tr.find('.poster').addClass('loading');
 				wpml_import.search_movie( post_id, title );
 			}
 		};
@@ -159,11 +159,11 @@ var wpml_importer;
 		 */
 		wpml.importer.delete_movie = function( movies ) {
 			wpml._get({
-					action: 'wpml_delete_movie',
+				data: {	action: 'wpml_delete_movie',
 					wpml_check: wpml_ajax.utils.wpml_check,
 					post_id: movies
 				},
-				function( response ) {
+				success: function( response ) {
 
 					$(movies).each(function() {
 						$('#post_'+this).parents('tr, li').fadeToggle().remove();
@@ -175,7 +175,7 @@ var wpml_importer;
 					}
 					$('.spinner').hide();
 				}
-			);
+			});
 		};
 
 		/**
@@ -228,9 +228,9 @@ var wpml_importer;
 
 			var data = $.extend( _data, data );
 
-			wpml._get(
-				data,
-				function( response ) {
+			wpml._get({
+				data: data,
+				success: function( response ) {
 
 					var response = $.parseJSON( response );
 
@@ -251,11 +251,11 @@ var wpml_importer;
 					else
 						wpml_importer.update_count( 'imported', response.total_items, response.total_items_i18n );
 				},
-				function() {
+				complete: function() {
 					wpml_import.init();
 					wpml_importer.init();
 				}
-			);
+			});
 		};
 
 		/**

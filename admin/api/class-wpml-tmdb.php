@@ -138,9 +138,17 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @since     1.0.0
 		 */
-		private static function json_header() {
-			if ( false === headers_sent() )
-				header('Content-type: application/json');
+		private static function json_header( $error = false ) {
+			if ( false !== headers_sent() )
+				return false;
+
+			if ( $error ) {
+				header( 'HTTP/1.1 500 Internal Server Error' );
+				header( 'Content-Type: application/json; charset=UTF-8' );
+			}	
+			else {
+				header( 'Content-type: application/json' );
+			}
 		}
 
 
@@ -172,20 +180,12 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			$response = self::check_api_key( esc_attr( $_GET['key'] ) );
 
-			$_response = new WPML_Ajax();
-			$_errors = new WP_Error();
-			$_data = array();
-
 			if ( isset( $response['status_code'] ) && 7 === $response['status_code'] )
-				$_errors->add( 'invalid', __( 'Invalid API key - You must be granted a valid key', WPML_SLUG ) );
+				$_response = new WP_Error( 'invalid', __( 'Invalid API key - You must be granted a valid key', WPML_SLUG ) );
 			else
-				$_data['message'] = __( 'Valid API key - Save your settings and have fun!', WPML_SLUG );
+				$_response = new WPML_Ajax( array( 'message' => __( 'Valid API key - Save your settings and have fun!', WPML_SLUG ) ) );
 
-			$_response->success = empty( $_errors->errors );
-			$_response->errors = $_errors->errors;
-			$_response->data = $_data;
-
-			self::json_header();
+			self::json_header( is_wp_error( $_response ) );
 			wp_die( json_encode( $_response ) );
 		}
 
@@ -213,15 +213,12 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			else if ( 'id' == $type )
 				$response = self::get_movie_by_id( $data, $lang, $_id );
 
-			$_response = new WPML_Ajax();
-			$_errors = ( is_wp_error( $response ) ? $response : new WP_Error() );
-			$_data = ( is_wp_error( $response ) ? array() : $response );
+			if ( is_wp_error( $response ) )
+				$_response = $response;
+			else
+				$_response = new WPML_Ajax( array( 'data' => $response ) );
 
-			$_response->success = empty( $_errors->errors );
-			$_response->errors = $_errors->errors;
-			$_response->data = $_data;
-
-			self::json_header();
+			self::json_header( is_wp_error( $_response ) );
 			wp_die( json_encode( $_response ) );
 		}
 
