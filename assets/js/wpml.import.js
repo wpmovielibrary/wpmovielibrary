@@ -40,9 +40,30 @@ var wpml_import;
 				},
 				function( response ) {
 
-					wpml_import.target = $('#p_' + response._id); // Update the target for populates
+					wpml_import.target = $('#p_' + response.data.post_id); // Update the target for populates
 
-					if ( response._result == 'movie' ) {
+					if ( ! response.success ) {
+						$.each( response.errors, function() {
+							$('#tmdb_data').empty().addClass('update error').append('<p>' + this + '</p>');
+						});
+						return false;
+					}
+
+					if ( 'empty' == response.data.result ) {
+						$('#p_' + post_id).find('.movie_title').after('<div class="import-error">' + response.data.message + '</div>');
+						$('#p_' + post_id).find('.loading').removeClass('loading');
+					}
+
+					if ( 'movie' == response.data.result ) {
+						wpml_import.populate( response.data.movies[ 0 ] );
+						wpml_queue.init();
+					}
+					else if ( 'movies' == response.data.result ) {
+						wpml_import.populate_select_list( response.data.movies, response.data.post_id );
+						wpml_import.init();
+					}
+
+					/*if ( response._result == 'movie' ) {
 						wpml_import.populate(response);
 						wpml_queue.init();
 					}
@@ -53,7 +74,7 @@ var wpml_import;
 					else if ( response._result == 'error' || response._result == 'empty' ) {
 						$('#p_' + post_id).find('.movie_title').after('<div class="import-error">' + response.p + '</div>');
 						$('#p_' + post_id).find('.loading').removeClass('loading');
-					}
+					}*/
 				}
 			);
 
@@ -91,7 +112,14 @@ var wpml_import;
 					_id: post_id
 				},
 				function( response ) {
-					wpml_import.populate( response );
+					if ( ! response.success ) {
+						$.each( response.errors, function() {
+							$('#tmdb_data').empty().addClass('update error').append('<p>' + this + '</p>');
+						});
+						return false;
+					}
+
+					wpml_import.populate( response.data );
 				}
 			);
 		};
@@ -152,7 +180,7 @@ var wpml_import;
 		 * 
 		 * @param    array    Movies TMDb data objects
 		 */
-		wpml.import.populate_select_list = function( data ) {
+		wpml.import.populate_select_list = function( movies, post_id ) {
 
 			var html = '';
 
@@ -162,9 +190,9 @@ var wpml_import;
 			if ( ( undefined != _next && _next.hasClass('wpml-import-movie-select') ) || ( undefined != _tmdb_id && '' != _tmdb_id.text() ) )
 				return false;
 
-			$.each( data.movies, function() {
+			$.each( movies, function() {
 				html += '<div class="tmdb_select_movie">';
-				html += '	<a href="#" data-post-id="' + data._id + '" data-tmdb-id="' + this.id + '">';
+				html += '	<a href="#" data-post-id="' + post_id + '" data-tmdb-id="' + this.id + '">';
 				html += '		<img src="' + this.poster + '" alt="' + this.title + '" />';
 				html += '		<em>' + this.title + '</em>';
 				html += '	</a>';

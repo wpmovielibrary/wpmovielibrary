@@ -152,26 +152,41 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 		/**
 		 * API check callback. Check key validity and return a status.
+		 * 
+		 * An invalid key will result in an error from the API with the
+		 * status code '7'. If we get that error, use a WP_Error instance
+		 * to handle the error and add it to the WPML_Ajax instance we
+		 * use to pass data to the JS part.
+		 * 
+		 * If the key appears to be valid, send a validation message.
 		 *
 		 * @since     1.0.0
-		 *
-		 * @return    array    API check validity result
 		 */
 		public static function check_api_key_callback() {
 
+			error_reporting( E_ALL );
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
 			if ( ! isset( $_GET['key'] ) || '' == $_GET['key'] || 32 !== strlen( $_GET['key'] ) )
-				die();
+				wp_die( -1 );
 
-			$data = self::check_api_key( esc_attr( $_GET['key'] ) );
+			$response = self::check_api_key( esc_attr( $_GET['key'] ) );
 
-			if ( isset( $data['status_code'] ) && 7 === $data['status_code'] )
-				echo '<span id="api_status" class="invalid">'.__( 'Invalid API key - You must be granted a valid key', WPML_SLUG ).'</span>';
+			$_response = new WPML_Ajax();
+			$_errors = new WP_Error();
+			$_data = array();
+
+			if ( isset( $response['status_code'] ) && 7 === $response['status_code'] )
+				$_errors->add( 'invalid', __( 'Invalid API key - You must be granted a valid key', WPML_SLUG ) );
 			else
-				echo '<span id="api_status" class="valid">'.__( 'Valid API key - Save your settings and have fun!', WPML_SLUG ).'</span>';
+				$_data['message'] = __( 'Valid API key - Save your settings and have fun!', WPML_SLUG );
 
-			die();
+			$_response->success = empty( $_errors->errors );
+			$_response->errors = $_errors->errors;
+			$_response->data = $_data;
+
+			self::json_header();
+			wp_die( json_encode( $_response ) );
 		}
 
 		/**
@@ -194,11 +209,20 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				return false;
 
 			if ( 'title' == $type )
-				self::get_movie_by_title( $data, $lang, $_id );
+				$response = self::get_movie_by_title( $data, $lang, $_id );
 			else if ( 'id' == $type )
-				self::get_movie_by_id( $data, $lang, $_id );
+				$response = self::get_movie_by_id( $data, $lang, $_id );
 
-			die();
+			$_response = new WPML_Ajax();
+			$_errors = ( is_wp_error( $response ) ? $response : new WP_Error() );
+			$_data = ( is_wp_error( $response ) ? array() : $response );
+
+			$_response->success = empty( $_errors->errors );
+			$_response->errors = $_errors->errors;
+			$_response->data = $_data;
+
+			self::json_header();
+			wp_die( json_encode( $_response ) );
 		}
 
 
@@ -228,8 +252,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				}
 			}
 
-			self::json_header();
-			echo json_encode( $movies );
+			return $movies;
 		}
 
 		/**
@@ -255,34 +278,36 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			$title  = WPML_Utils::clean_search_title( $title );
 			$data   = $tmdb->searchMovie( $title, 1, FALSE, NULL, $lang );
 
+			$_result  = 'empty';
+			$_message = __( 'Sorry, your search returned no result. Try a more specific query?', WPML_SLUG );
+			$_movies  = array();
+			$_post_id = $_id;
+
 			if ( isset( $data['status_code'] ) ) {
-				$movies = array(
-					'_result' => 'error',
-					'p'      => '<p><strong>API returned Status '.$data['status_code'].':</strong> '.$data['status_message'].'</p>',
-					'_id'    => $_id
-				);
+				return new WP_Error( esc_attr( $data['status_code'] ), esc_attr( $data['status_message'] ), array( '_id' => $_id ) );
 			}
 			else if ( ! isset( $data['total_results'] ) ) {
-				$movies = array(
-					'_result' => 'empty',
-					'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', WPML_SLUG ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', WPML_SLUG ).'</p>',
-					'_id'    => $_id
-				);
+
+				$_result  = 'empty';
+				$_message = __( 'Sorry, your search returned no result. Try a more specific query?', WPML_SLUG );
+				$_post_id = $_id;
 			}
 			else if ( 1 == $data['total_results'] ) {
-				$movies = self::get_movie_by_id( $data['results'][0]['id'], $lang, $_id, false );
+
+				$_result   = 'movie';
+				$_message  = null;
+				$_movies[] = self::get_movie_by_id( $data['results'][0]['id'], $lang, $_id );
+				$_post_id  = $_id;
 			}
 			else if ( $data['total_results'] > 1 ) {
 
-				$movies = array(
-					'_result' => 'movies',
-					'p'      => '<p><strong>'.__( 'Your request showed multiple results. Select your movie in the list or try another search:', WPML_SLUG ).'</strong></p>',
-					'movies' => array(),
-					'_id'    => $_id
-				);
+				$_result  = 'movies';
+				$_message = __( 'Your request showed multiple results. Select your movie in the list or try another search:', WPML_SLUG );
+				$_movies  = array();
+				$_post_id = $_id;
 
 				foreach ( $data['results'] as $movie ) {
-					$movies['movies'][] = array(
+					$_movies[] = array(
 						'id'     => $movie['id'],
 						'poster' => ( ! is_null( $movie['poster_path'] ) ? self::get_image_url( $movie['poster_path'], 'poster', 'small' ) : WPML_DEFAULT_POSTER_URL ),
 						'title'  => $movie['title'],
@@ -291,13 +316,13 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 					);
 				}
 			}
-			else {
-				$movies = array(
-					'_result' => 'empty',
-					'p'      => '<p><strong><em>'.__( 'I&rsquo;m Jack&rsquo;s empty result.', WPML_SLUG ).'</em></strong></p><p>'.__( 'Sorry, your search returned no result. Try a more specific query?', WPML_SLUG ).'</p>',
-					'_id'    => $_id
-				);
-			}
+
+			$movies = array(
+				'result'  => $_result,
+				'message' => $_message,
+				'movies'  => $_movies,
+				'post_id' => $_post_id
+			);
 
 			return $movies;
 		}
@@ -309,7 +334,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 * 
 		 * @since     1.0.0
 		 */
-		private static function get_movie_by_id( $id, $lang, $_id = null, $echo = true ) {
+		private static function get_movie_by_id( $id, $lang, $_id = null ) {
 
 			$movie = ( WPML_Settings::tmdb__caching() ? get_transient( "wpml_movie_{$id}_{$lang}" ) : false );
 
@@ -324,13 +349,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			$movie['_id'] = $_id;
 
-			if ( true === $echo ) {
-				self::json_header();
-				echo json_encode( $movie );
-			}
-			else {
-				return $movie;
-			}
+			return $movie;
 		}
 
 		/**

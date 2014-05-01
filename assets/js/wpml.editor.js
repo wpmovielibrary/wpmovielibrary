@@ -421,25 +421,31 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 						data: data,
 						lang: lang
 					},
-					function( movies ) {
-						if ( 'movie' == movies._result ) {
-							wpml_edit_movies.populate( movies );
-							//wpml.media.posters.set_featured( movies.poster_path/*, null, movies.title, movies._tmdb_id*/ );
+					function( response ) {
+
+						//var response = $.parseJSON( response );
+
+						if ( ! response.success ) {
+							$.each( response.errors, function() {
+								$('#tmdb_data').empty().addClass('update error').append('<p>' + this + '</p>');
+							});
+							return false;
 						}
-						else if ( 'movies' == movies._result ) {
-							wpml_edit_movies.populate_select_list( movies );
+
+						if ( 'movie' == response.data.result ) {
+							wpml_edit_movies.populate( response.data.movies[ 0 ] );
+							//wpml.media.posters.set_featured( movies.poster_path/*, null, movies.title, movies._tmdb_id );
+						}
+						else if ( 'movies' == response.data.result ) {
+							wpml_edit_movies.populate_select_list( response.data.movies, response.data.message );
 
 							$('.tmdb_select_movie a').on( 'click', function( e ) {
 								e.preventDefault();
 								id = this.id.replace('tmdb_','');
-
 								wpml_edit_movies.get( id );
 							});
 						}
-						else if ( 'error' == movies._result || 'empty' == movies._result ) {
-							$('#tmdb_data').html( movies.p ).show();
-							$('#tmdb_status').empty();
-						}
+
 						$('#tmdb_search').next('.spinner').hide();
 					}
 				);
@@ -536,7 +542,7 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 						while ( tmdb_data.lastChild )
 							tmdb_data.removeChild( tmdb_data.lastChild );
 						tmdb_data.style.display = 'none';
-						wpml_edit_movies.populate( response );
+						wpml_edit_movies.populate( response.data );
 						wpml_posters.set_featured( response.poster_path );
 					}
 				);
@@ -663,13 +669,14 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				};
 			};
 
-			wpml.editor.movies.populate_select_list = function( data ) {
+			wpml.editor.movies.populate_select_list = function( movies, message ) {
 
-				$('#tmdb_data').append( data.p ).show();
+				var html = '',
+				    message = message || '';
 
-				var html = '';
+				$('#tmdb_data').addClass('update success').append('<p>' + message + '</p>').show();
 
-				$.each( data.movies, function() {
+				$.each( movies, function() {
 					html += '<div class="tmdb_select_movie">';
 					html += '	<a id="tmdb_' + this.id + '" href="#">';
 					html += '		<img src="' + this.poster + '" alt="' + this.title + '" />';
