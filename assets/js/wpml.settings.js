@@ -152,7 +152,6 @@ wpml.settings = wpml_settings = {
 				key: key
 			},
 			function( response ) {
-				//var response = $.parseJSON( response );
 				if ( response.success )
 					$input.after( '<span id="api_status" class="valid">' + response.data.message + '</span>' );
 				else if ( ! response.success && undefined != response.errors.invalid )

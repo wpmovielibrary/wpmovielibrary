@@ -62,19 +62,6 @@ var wpml_import;
 						wpml_import.populate_select_list( response.data.movies, response.data.post_id );
 						wpml_import.init();
 					}
-
-					/*if ( response._result == 'movie' ) {
-						wpml_import.populate(response);
-						wpml_queue.init();
-					}
-					else if ( response._result == 'movies' ) {
-						wpml_import.populate_select_list(response);
-						wpml_import.init();
-					}
-					else if ( response._result == 'error' || response._result == 'empty' ) {
-						$('#p_' + post_id).find('.movie_title').after('<div class="import-error">' + response.p + '</div>');
-						$('#p_' + post_id).find('.loading').removeClass('loading');
-					}*/
 				}
 			);
 

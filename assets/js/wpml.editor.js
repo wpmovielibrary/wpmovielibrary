@@ -423,8 +423,6 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 					},
 					function( response ) {
 
-						//var response = $.parseJSON( response );
-
 						if ( ! response.success ) {
 							$.each( response.errors, function() {
 								$('#tmdb_data').empty().addClass('update error').append('<p>' + this + '</p>');
@@ -434,7 +432,7 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 
 						if ( 'movie' == response.data.result ) {
 							wpml_edit_movies.populate( response.data.movies[ 0 ] );
-							//wpml.media.posters.set_featured( movies.poster_path/*, null, movies.title, movies._tmdb_id );
+							wpml_posters.set_featured( response.data.movies[ 0 ].poster_path );
 						}
 						else if ( 'movies' == response.data.result ) {
 							wpml_edit_movies.populate_select_list( response.data.movies, response.data.message );
