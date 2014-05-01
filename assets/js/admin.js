@@ -100,9 +100,9 @@ wpml = {
 	/**
 	 * Status indicator
 	 */
-	wpml.status = wpml_status = {
+	wpml.state = wpml_state = {
 
-		container: '#tmdb_status',
+		container: '#wpml_status',
 
 		set: function() {},
 		clear: function() {}
@@ -114,15 +114,17 @@ wpml = {
 		 * @param    string    Status Message
 		 * @param    string    Status type: error, update
 		 */
-		wpml.status.set = function( message, style ) {
-			$(wpml_status.container).text( message ).removeClass().addClass( style ).show();
+		wpml.state.set = function( message, style ) {
+			$(wpml_state.container).html( '<p>' + message + '</p>' ).removeClass().addClass( style ).show().focus();
+			if ( 'error' == style )
+				$('.spinner, .loading').removeClass('spinner loading');
 		};
 
 		/**
 		 * Clear status
 		 */
-		wpml.status.clear = function() {
-			$(wpml_status.container).empty().removeClass().hide();
+		wpml.state.clear = function() {
+			$(wpml_state.container).empty().removeClass().hide();
 		};
 
 	/**

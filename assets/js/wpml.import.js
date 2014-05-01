@@ -41,7 +41,7 @@ var wpml_import;
 				},
 				error: function( response ) {
 					$.each( response.responseJSON.errors, function() {
-						$('#tmdb_data').empty().addClass('update error').append('<p>' + this + '</p>');
+						wpml_state.set( this, 'error' );
 					});
 				},
 				success: function( response ) {
@@ -100,7 +100,7 @@ var wpml_import;
 				},
 				error: function( response ) {
 					$.each( response.responseJSON.errors, function() {
-						$('#tmdb_data').empty().addClass('update error').append('<p>' + this + '</p>');
+						wpml_state.set( this, 'error' );
 					});
 				},
 				success: function( response ) {

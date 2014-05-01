@@ -625,25 +625,25 @@ body.post-php.post-type-movie #postimagediv {
 
 /* Status */
 
-#tmdb_status {
+#wpml_status {
 	background-color: #fff;
 	-webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
 	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
 	clear: both;
-	display: block;
+	display: none;
 	margin: 8px 2px;
 	padding: 5px 12px;
 }
 
-#tmdb_status.success {
+#wpml_status.success {
 	border-left: 4px solid #7AD03A;
 }
 
-#tmdb_status.warning {
+#wpml_status.warning {
 	border-left: 4px solid #FFBA00;
 }
 
-#tmdb_status.error {
+#wpml_status.error {
 	border-left: 4px solid #DD3D36;
 }
 
