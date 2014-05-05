@@ -163,6 +163,11 @@ var wpml_importer;
 					wpml_check: wpml_ajax.utils.wpml_check,
 					post_id: movies
 				},
+				error: function( response ) {
+					$.each( response.responseJSON.errors, function() {
+						wpml_state.set( this, 'error' );
+					});
+				},
 				success: function( response ) {
 
 					$(movies).each(function() {
@@ -230,26 +235,26 @@ var wpml_importer;
 
 			wpml._get({
 				data: data,
+				error: function( response ) {
+					$.each( response.responseJSON.errors, function() {
+						wpml_state.set( this, 'error' );
+					});
+				},
 				success: function( response ) {
 
-					var response = $.parseJSON( response );
-
-					if ( undefined == response.rows )
-						return false;
-
-					if ( response.rows.length )
-						$(_rows, _selector).html( response.rows );
-					if ( response.column_headers.length )
-						$('thead tr, tfoot tr', _selector).html( response.column_headers );
-					if ( response.pagination.bottom.length )
-						$('.tablenav.top .tablenav-pages', _selector).html( $(response.pagination.top).html() );
-					if ( response.pagination.top.length )
-						$('.tablenav.bottom .tablenav-pages', _selector).html( $(response.pagination.bottom).html() );
+					if ( response.data.rows.length )
+						$(_rows, _selector).html( response.data.rows );
+					if ( response.data.column_headers.length )
+						$('thead tr, tfoot tr', _selector).html( response.data.column_headers );
+					if ( response.data.pagination.bottom.length )
+						$('.tablenav.top .tablenav-pages', _selector).html( $(response.data.pagination.top).html() );
+					if ( response.data.pagination.top.length )
+						$('.tablenav.bottom .tablenav-pages', _selector).html( $(response.data.pagination.bottom).html() );
 
 					if ( 'queued' == list )
-						wpml_importer.update_count( 'import_queue', response.total_items, response.total_items_i18n );
+						wpml_importer.update_count( 'import_queue', response.data.total_items, response.i18n.total_items_i18n );
 					else
-						wpml_importer.update_count( 'imported', response.total_items, response.total_items_i18n );
+						wpml_importer.update_count( 'imported', response.data.total_items, response.i18n.total_items_i18n );
 				},
 				complete: function() {
 					wpml_import.init();

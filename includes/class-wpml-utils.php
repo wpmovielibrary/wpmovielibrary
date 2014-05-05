@@ -500,11 +500,13 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public function validate_meta_data( $data ) {
 
-			if ( ! is_array( $data ) || empty( $data ) || ! isset( $data['tmdb_id'] ) || ! isset( $data['meta'] ) || ! isset( $data['crew'] ) )
+			if ( ! is_array( $data ) || empty( $data ) || ! isset( $data['post_id'] ) || ! isset( $data['tmdb_id'] ) || ! isset( $data['poster'] ) || ! isset( $data['meta'] ) || ! isset( $data['crew'] ) )
 				return $data;
 
 			$keys = array_keys( WPML_Settings::get_supported_movie_meta() );
 			$movie_tmdb_id = esc_attr( $data['tmdb_id'] );
+			$movie_post_id = esc_attr( $data['psot_id'] );
+			$movie_poster = esc_attr( $data['poster'] );
 			$movie_meta = array();
 			$movie_crew = array();
 
@@ -518,6 +520,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			$_data = array(
 				'tmdb_id' => $movie_tmdb_id,
+				'post_id' => $movie_post_id,
+				'poster'  => $movie_poster,
 				'meta'    => $movie_meta,
 				'crew'    => $movie_crew
 			);
@@ -759,17 +763,17 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Handle AJAX Callbacks results, prepare and format the AJAX
 		 * response and display it.
 		 * 
-		 * @param    object    $response Either WP_Ajax or WP_Error instance
-		 *                               depending on the callback result
+		 * @param    array    $response Array containing Callback results data
+		 * @param    array    $i18n Array containing Callback optional i18n
 		 */
-		public static function ajax_response( $response ) {
+		public static function ajax_response( $response, $i18n = array() ) {
 
 			if ( is_wp_error( $response ) )
 				$_response = $response;
-			else if ( ! is_object( $response ) && true !== $response  )
+			else if ( ! is_object( $response ) && ! is_int( $response ) && ! is_array( $response ) && true !== $response )
 				$_response = new WP_Error( 'callback_error', __( 'An error occured when trying to perform the request.', WPML_SLUG ) );
 			else
-				$_response = new WPML_Ajax( array( 'data' => $response ) );
+				$_response = new WPML_Ajax( array( 'data' => $response, 'i18n' => $i18n ) );
 
 			self::json_header( is_wp_error( $_response ) );
 			wp_die( json_encode( $_response ) );

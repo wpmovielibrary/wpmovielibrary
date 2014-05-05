@@ -535,6 +535,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * Saves the movie details as well.
 		 * 
 		 * TODO: add some security to harden the $_REQUEST use.
+		 * TODO: use WP_Error
 		 *
 		 * @since     1.0.0
 		 * 
