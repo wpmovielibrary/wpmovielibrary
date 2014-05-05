@@ -371,19 +371,15 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
-			$post_id      = ( isset( $_POST['post_id'] )      && '' != $_POST['post_id']      ? $_POST['post_id']      : '' );
-			$wpml_details = ( isset( $_POST['wpml_details'] ) && '' != $_POST['wpml_details'] ? $_POST['wpml_details'] : '' );
+			$post_id = ( isset( $_POST['post_id'] )      && '' != $_POST['post_id']      ? $_POST['post_id']      : null );
+			$details = ( isset( $_POST['wpml_details'] ) && '' != $_POST['wpml_details'] ? $_POST['wpml_details'] : null );
 
-			if ( '' == $post_id || '' == $wpml_details )
-				return false;
+			if ( is_null( $post_id ) || is_null( $details ) )
+				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', WPML_SLUG ) );
 
-			$post = get_post( $post_id );
-			if ( 'movie' != get_post_type( $post ) )
-				return false;
+			$response = self::save_movie_details( $post_id, $details );
 
-			update_post_meta( $post_id, '_wpml_movie_media', $wpml_details['media'] );
-			update_post_meta( $post_id, '_wpml_movie_status', $wpml_details['status'] );
-			update_post_meta( $post_id, '_wpml_movie_rating', $wpml_details['rating'] );
+			WPML_Utils::ajax_response( $response );
 		}
 
 
@@ -502,6 +498,33 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		}
 
 		/**
+		 * Save movie details.
+		 * 
+		 * @since     1.0.0
+		 * 
+		 * @param    int      $post_id ID of the current Post
+		 * @param    array    $details Movie details: media, status, rating
+		 * 
+		 * @return   boolean|object    WP_Error object is anything went
+		 *                                      wrong, true else
+		 */
+		public static function save_movie_details( $post_id, $details ) {
+
+			$post = get_post( $post_id );
+			if ( 'movie' != get_post_type( $post ) )
+				return new WP_Error( 'not_movie', __( 'Error: submitted post is not a movie.', WPML_SLUG ) );
+
+			if ( ! is_array( $details ) || ! isset( $details['movie_media'] ) || ! isset( $details['movie_status'] ) || ! isset( $details['movie_rating'] ) )
+				return new WP_Error( 'invalid_details', __( 'Error: the submitted movie details are invalid.', WPML_SLUG ) );
+
+			update_post_meta( $post_id, '_wpml_movie_media', $details['movie_media'] );
+			update_post_meta( $post_id, '_wpml_movie_status', $details['movie_status'] );
+			update_post_meta( $post_id, '_wpml_movie_rating', number_format( $details['movie_rating'], 1 ) );
+
+			return true;
+		}
+
+		/**
 		 * Save TMDb fetched data.
 		 * 
 		 * Uses the 'save_post_movie' action hook to save the movie metadata
@@ -583,15 +606,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 					check_admin_referer( '_wpml_movie_details', 'wpml_movie_details_nonce' );
 
 				$wpml_details = $_REQUEST['wpml_details'];
-
-				if ( isset( $wpml_details['movie_status'] ) && ! is_null( $wpml_details['movie_status'] ) )
-					update_post_meta( $post_ID, '_wpml_movie_status', $wpml_details['movie_status'] );
-
-				if ( isset( $wpml_details['movie_media'] ) && ! is_null( $wpml_details['movie_media'] ) )
-					update_post_meta( $post_ID, '_wpml_movie_media', $wpml_details['movie_media'] );
-
-				if ( isset( $wpml_details['movie_rating'] ) && ! is_null( $wpml_details['movie_rating'] ) )
-					update_post_meta( $post_ID, '_wpml_movie_rating', number_format( $wpml_details['movie_rating'], 1 ) );
+				self::save_movie_details( $post_ID, $wpml_details );
 			}
 		}
 

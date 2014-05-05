@@ -736,6 +736,46 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
+		 * Application/JSON headers content-type.
+		 * If no header was sent previously, send new header.
+		 *
+		 * @since     1.0.0
+		 */
+		private static function json_header( $error = false ) {
+
+			if ( false !== headers_sent() )
+				return false;
+
+			if ( $error ) {
+				header( 'HTTP/1.1 500 Internal Server Error' );
+				header( 'Content-Type: application/json; charset=UTF-8' );
+			}	
+			else {
+				header( 'Content-type: application/json' );
+			}
+		}
+
+		/**
+		 * Handle AJAX Callbacks results, prepare and format the AJAX
+		 * response and display it.
+		 * 
+		 * @param    object    $response Either WP_Ajax or WP_Error instance
+		 *                               depending on the callback result
+		 */
+		public static function ajax_response( $response ) {
+
+			if ( ! is_object( $response ) )
+				$_response = new WP_Error( 'callback_error', __( 'An error occured when trying to perform the request.', WPML_SLUG ) );
+			else if ( is_wp_error( $response ) )
+				$_response = $response;
+			else
+				$_response = new WPML_Ajax( array( 'data' => $response ) );
+
+			self::json_header( is_wp_error( $_response ) );
+			wp_die( json_encode( $_response ) );
+		}
+
+		/**
 		 * Handle Deactivation/Uninstallation actions.
 		 * 
 		 * Depending on the Plugin settings, delete all Plugin's related

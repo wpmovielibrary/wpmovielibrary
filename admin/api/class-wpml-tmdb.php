@@ -132,25 +132,6 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			return $tmdb->getImageUrl( $filepath, $imagetype, $size );
 		}
 
-		/**
-		 * Application/JSON headers content-type.
-		 * If no header was sent previously, send new header.
-		 *
-		 * @since     1.0.0
-		 */
-		private static function json_header( $error = false ) {
-			if ( false !== headers_sent() )
-				return false;
-
-			if ( $error ) {
-				header( 'HTTP/1.1 500 Internal Server Error' );
-				header( 'Content-Type: application/json; charset=UTF-8' );
-			}	
-			else {
-				header( 'Content-type: application/json' );
-			}
-		}
-
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
@@ -180,12 +161,13 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			$response = self::check_api_key( esc_attr( $_GET['key'] ) );
 
+			// TODO: make use of WPML_Utils::ajax_response()
 			if ( isset( $response['status_code'] ) && 7 === $response['status_code'] )
 				$_response = new WP_Error( 'invalid', __( 'Invalid API key - You must be granted a valid key', WPML_SLUG ) );
 			else
 				$_response = new WPML_Ajax( array( 'message' => __( 'Valid API key - Save your settings and have fun!', WPML_SLUG ) ) );
 
-			self::json_header( is_wp_error( $_response ) );
+			WPML_Utils::json_header( is_wp_error( $_response ) );
 			wp_die( json_encode( $_response ) );
 		}
 
@@ -193,8 +175,6 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 * Search callback
 		 *
 		 * @since     1.0.0
-		 *
-		 * @return    string    HTML output
 		 */
 		public static function search_movie_callback() {
 
@@ -213,13 +193,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			else if ( 'id' == $type )
 				$response = self::get_movie_by_id( $data, $lang, $_id );
 
-			if ( is_wp_error( $response ) )
-				$_response = $response;
-			else
-				$_response = new WPML_Ajax( array( 'data' => $response ) );
-
-			self::json_header( is_wp_error( $_response ) );
-			wp_die( json_encode( $_response ) );
+			WPML_Utils::ajax_response( $response );
 		}
 
 
