@@ -764,10 +764,10 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function ajax_response( $response ) {
 
-			if ( ! is_object( $response ) )
-				$_response = new WP_Error( 'callback_error', __( 'An error occured when trying to perform the request.', WPML_SLUG ) );
-			else if ( is_wp_error( $response ) )
+			if ( is_wp_error( $response ) )
 				$_response = $response;
+			else if ( ! is_object( $response ) && true !== $response  )
+				$_response = new WP_Error( 'callback_error', __( 'An error occured when trying to perform the request.', WPML_SLUG ) );
 			else
 				$_response = new WPML_Ajax( array( 'data' => $response ) );
 

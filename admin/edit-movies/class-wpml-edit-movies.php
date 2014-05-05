@@ -462,10 +462,10 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		public static function metabox_details( $post, $metabox ) {
 
 			$v = get_post_meta( $post->ID, '_wpml_movie_status', true );
-			$movie_status = ( isset( $v ) && '' != $v ? $v : key( WPML_Settings::get_default_movie_status() ) );
+			$movie_status = ( isset( $v ) && '' != $v ? $v : '' );
 
 			$v = get_post_meta( $post->ID, '_wpml_movie_media', true );
-			$movie_media  = ( isset( $v ) && '' != $v ? $v : key( WPML_Settings::get_default_movie_media() ) );
+			$movie_media  = ( isset( $v ) && '' != $v ? $v : '' );
 
 			$v = get_post_meta( $post->ID, '_wpml_movie_rating', true );
 			$movie_rating = ( isset( $v ) && '' != $v ? number_format( $v, 1 ) : 0.0 );

@@ -57,9 +57,9 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 						wpml_check: wpml_ajax.utils.wpml_check,
 						post_id: $('#post_ID').val(),
 						wpml_details: {
-							media: $('#movie-media').val(),
-							status: $('#movie-status').val(),
-							rating: $('#movie-rating').val()
+							movie_media: $('#movie-media').val(),
+							movie_status: $('#movie-status').val(),
+							movie_rating: $('#movie-rating').val()
 						}
 					},
 					complete: function() {
