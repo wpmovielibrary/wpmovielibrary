@@ -40,6 +40,7 @@ var wpml_import;
 					_id: post_id
 				},
 				error: function( response ) {
+					wpml_state.clear();
 					$.each( response.responseJSON.errors, function() {
 						wpml_state.set( this, 'error' );
 					});
@@ -99,6 +100,7 @@ var wpml_import;
 					_id: post_id
 				},
 				error: function( response ) {
+					wpml_state.clear();
 					$.each( response.responseJSON.errors, function() {
 						wpml_state.set( this, 'error' );
 					});

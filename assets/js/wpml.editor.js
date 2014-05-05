@@ -430,6 +430,7 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 						lang: wpml_meta.lang
 					},
 					error: function( response ) {
+						wpml_state.clear();
 						$.each( response.responseJSON.errors, function() {
 							wpml_state.set( this, 'error' );
 						});

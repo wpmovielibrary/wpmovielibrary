@@ -121,18 +121,18 @@ var wpml_importer;
 					wpml_ajax_movie_import: $('#wpml_ajax_movie_import').val()
 				},
 				error: function( response ) {
+					wpml_state.clear();
+					$.each( response.responseJSON.errors, function() {
+						wpml_state.set( this, 'error' );
+					});
 				},
 				success: function( response ) {
 
 					$('.updated').remove();
 					$(wpml_importer.list).val('');
-					$('#wpml-tabs').before('<div class="updated"><p>'+response+'</p></div>');
+					wpml_state.set( response, 'updated');
 					$('#_wpml_imported').trigger('click');
-					wpml_importer.reload({
-						paged: 1,
-						order: 'asc',
-						orderby: 'title'
-					});
+					wpml_importer.reload({});
 				}
 			});
 		};
@@ -159,18 +159,19 @@ var wpml_importer;
 		 */
 		wpml.importer.delete_movie = function( movies ) {
 			wpml._get({
-				data: {	action: 'wpml_delete_movie',
+				data: {	action: 'wpml_delete_movies',
 					wpml_check: wpml_ajax.utils.wpml_check,
-					post_id: movies
+					movies: movies
 				},
 				error: function( response ) {
+					wpml_state.clear();
 					$.each( response.responseJSON.errors, function() {
 						wpml_state.set( this, 'error' );
 					});
 				},
 				success: function( response ) {
 
-					$(movies).each(function() {
+					$(response.data).each(function() {
 						$('#post_'+this).parents('tr, li').fadeToggle().remove();
 					});
 
@@ -236,6 +237,7 @@ var wpml_importer;
 			wpml._get({
 				data: data,
 				error: function( response ) {
+					wpml_state.clear();
 					$.each( response.responseJSON.errors, function() {
 						wpml_state.set( this, 'error' );
 					});
