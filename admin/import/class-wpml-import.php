@@ -242,14 +242,15 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 * 
 		 * @return    int        Newly created post ID if everything worked, 0 if no post created.
 		 */
-		private static function import_movie( $title ) {
+		public static function import_movie( $movie ) {
 
 			$post_date     = current_time('mysql');
 			$post_date     = wp_checkdate( substr( $post_date, 5, 2 ), substr( $post_date, 8, 2 ), substr( $post_date, 0, 4 ), $post_date );
 			$post_date_gmt = get_gmt_from_date( $post_date );
 			$post_author   = get_current_user_id();
-			$post_content  = null;
-			$post_title    = apply_filters( 'the_title', $title );
+			$post_content  = '&nbsp;';
+			$post_excerpt  = '&nbsp;';
+			$post_title    = apply_filters( 'the_title', $movie['movietitle'] );
 
 			$page = get_page_by_title( $post_title, OBJECT, 'movie' );
 
@@ -270,6 +271,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				'ping_status'    => 'closed',
 				'post_author'    => $post_author,
 				'post_content'   => $post_content,
+				'post_excerpt'   => $post_excerpt,
 				'post_date'      => $post_date,
 				'post_date_gmt'  => $post_date_gmt,
 				'post_name'      => sanitize_title( $post_title ),

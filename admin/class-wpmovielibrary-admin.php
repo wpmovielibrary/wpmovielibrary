@@ -234,16 +234,19 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			foreach ( $wpml_settings as $section ) {
 
-				$section_id = $section['section']['id'];
-				$section_title = $section['section']['title'];
+				if ( isset( $section['section'] ) && isset( $section['settings'] ) ) {
 
-				add_settings_section( "wpml_settings-$section_id", $section_title, __CLASS__ . '::markup_section_headers', 'wpml_settings' );
+					$section_id = $section['section']['id'];
+					$section_title = $section['section']['title'];
 
-				foreach ( $section['settings'] as $id => $field ) {
+					add_settings_section( "wpml_settings-$section_id", $section_title, __CLASS__ . '::markup_section_headers', 'wpml_settings' );
 
-					$callback = isset( $field['callback'] ) ? $field['callback'] : 'markup_fields';
+					foreach ( $section['settings'] as $id => $field ) {
 
-					add_settings_field( $id, __( $field['title'], WPML_SLUG ), array( $this, $callback ), 'wpml_settings', "wpml_settings-$section_id", array( 'id' => $id, 'section' => $section_id ) + $field );
+						$callback = isset( $field['callback'] ) ? $field['callback'] : 'markup_fields';
+
+						add_settings_field( $id, __( $field['title'], WPML_SLUG ), array( $this, $callback ), 'wpml_settings', "wpml_settings-$section_id", array( 'id' => $id, 'section' => $section_id ) + $field );
+					}
 				}
 			}
 
@@ -257,17 +260,18 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 		public function validate_settings( $new_settings ) {
 
-			if ( isset( $new_settings['wpml']['default_movie_meta_sorted'] ) && '' != $new_settings['wpml']['default_movie_meta_sorted'] )
+			if ( isset( $new_settings['wpml']['default_movie_meta_sorted'] ) && '' != $new_settings['wpml']['default_movie_meta_sorted'] ) {
 
-			$meta_sorted = explode( ',', $new_settings['wpml']['default_movie_meta_sorted'] );
-			$meta = WPML_Settings::get_supported_movie_meta();
+				$meta_sorted = explode( ',', $new_settings['wpml']['default_movie_meta_sorted'] );
+				$meta = WPML_Settings::get_supported_movie_meta();
 
-			foreach ( $meta_sorted as $i => $_meta )
-				if ( ! in_array( $_meta, array_keys( $meta ) ) )
-					unset( $meta_sorted[ $i ] );
+				foreach ( $meta_sorted as $i => $_meta )
+					if ( ! in_array( $_meta, array_keys( $meta ) ) )
+						unset( $meta_sorted[ $i ] );
 
-			$new_settings['wpml']['default_movie_meta_sorted'] = $meta_sorted;
-			$new_settings['wpml']['default_movie_meta'] = $meta_sorted;
+				$new_settings['wpml']['default_movie_meta_sorted'] = $meta_sorted;
+				$new_settings['wpml']['default_movie_meta'] = $meta_sorted;
+			}
 
 			return $new_settings;
 		}

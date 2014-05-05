@@ -377,7 +377,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			if ( is_array( $file ) ) {
 				$data = $file;
 				$file = WPML_TMDb::get_image_url( $file['file_path'], $image_type, $size );
-				$image = $file['file_path'];
+				$image = $file;
 			}
 			else {
 				$image = $file;

@@ -498,14 +498,14 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   array    The filtered Metadata
 		 */
-		public function validate_meta_data( $data ) {
+		public static function validate_meta_data( $data ) {
 
 			if ( ! is_array( $data ) || empty( $data ) || ! isset( $data['post_id'] ) || ! isset( $data['tmdb_id'] ) || ! isset( $data['poster'] ) || ! isset( $data['meta'] ) || ! isset( $data['crew'] ) )
 				return $data;
 
 			$keys = array_keys( WPML_Settings::get_supported_movie_meta() );
 			$movie_tmdb_id = esc_attr( $data['tmdb_id'] );
-			$movie_post_id = esc_attr( $data['psot_id'] );
+			$movie_post_id = esc_attr( $data['post_id'] );
 			$movie_poster = esc_attr( $data['poster'] );
 			$movie_meta = array();
 			$movie_crew = array();
