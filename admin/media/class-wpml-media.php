@@ -241,16 +241,16 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
-			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : '' );
-			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : '' );
-			$title   = ( isset( $_POST['title'] )   && '' != $_POST['title']   ? $_POST['title']   : '' );
-			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : '' );
+			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
+			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
+			$title   = ( isset( $_POST['title'] )   && '' != $_POST['title']   ? $_POST['title']   : null );
+			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : null );
 
-			if ( ! is_array( $image ) || '' == $post_id )
-				return false;
+			if ( ! is_array( $image ) || is_null( $post_id ) )
+				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', WPML_SLUG ) );
 
-			echo self::image_upload( $image['file_path'], $post_id, $tmdb_id, $title, $image );
-			die();
+			$response = self::image_upload( $image['file_path'], $post_id, $tmdb_id, $title, $image );
+			WPML_Utils::ajax_response( $response );
 		}
 
 		/**
@@ -275,16 +275,19 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
-			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : '' );
-			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : '' );
-			$title   = ( isset( $_POST['title'] )   && '' != $_POST['title']   ? $_POST['title']   : '' );
-			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : '' );
+			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
+			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
+			$title   = ( isset( $_POST['title'] )   && '' != $_POST['title']   ? $_POST['title']   : null );
+			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : null );
 
-			if ( '' == $image || '' == $post_id || 1 != WPML_Settings::tmdb__poster_featured() )
-				return false;
+			if ( 1 != WPML_Settings::tmdb__poster_featured() )
+				return new WP_Error( 'no_featured', __( 'Movie Posters as featured images option is deactivated. Update your settings to activate this.', WPML_SLUG ) );
 
-			echo self::set_image_as_featured( $image, $post_id, $tmdb_id, $title );
-			die();
+			if ( is_null( $image ) || is_null( $post_id ) )
+				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', WPML_SLUG ) );
+
+			$response = self::set_image_as_featured( $image, $post_id, $tmdb_id, $title );
+			WPML_Utils::ajax_response( $response );
 		}
 
 		/**
@@ -328,26 +331,18 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * 
 		 * @since    1.0.0
 		 * 
-		 * @param    int    $image The ID of the image to set as featured
-		 * @param    int    $post_id The post ID the image is to be associated with
+		 * @param    string    $file The image file name to set as featured
+		 * @param    int       $post_id The post ID the image is to be associated with
+		 * @param    int       $tmdb_id The TMDb Movie ID the image is associated with
+		 * @param    string    $title The related Movie title
 		 * 
-		 * @return   string|WP_Error Populated HTML img tag on success
+		 * @return   int|WP_Error    Uploaded image ID if successfull,
+		 *                           WP_Error if an error occured.
 		 */
 		public static function set_image_as_featured( $file, $post_id, $tmdb_id, $title ) {
 
-			$size = WPML_Settings::tmdb__poster_size();
-
-			/*$existing = self::check_for_existing_images( $tmdb_id, 'poster' );
-
-			if ( false !== $existing )
-				return $existing[0]->ID;*/
-
 			$image = self::image_upload( $file, $post_id, $tmdb_id, $title, 'poster' );
-
-			if ( is_array( $image ) && isset( $image[0]->ID ) )
-				return $image[0]->ID;
-			else
-				return $image;
+			return $image;
 		}
 
 		/**
@@ -360,16 +355,19 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * 
 		 * @since    1.0.0
 		 * 
-		 * @param    string    $file The URL of the image to download
+		 * @param    string    $file The filename of the image to download
 		 * @param    int       $post_id The post ID the media is to be associated with
-		 * @param    string    $title Optional. Title of the image
+		 * @param    int       $tmdb_id The TMDb Movie ID the image is associated with
+		 * @param    string    $title The related Movie title
+		 * @param    string    $image_type Optional. Image type, 'backdrop' or 'poster'
+		 * @param    array     $data Optional. Image metadata
 		 * 
 		 * @return   string|WP_Error Populated HTML img tag on success
 		 */
 		private static function image_upload( $file, $post_id, $tmdb_id, $title, $image_type = 'backdrop', $data = null ) {
 
 			if ( empty( $file ) )
-				return false;
+				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload is empty.', WPML_SLUG ) );
 
 			$image_type = ( 'poster' == $image_type ? 'poster' : 'backdrop' );
 			$size = WPML_Settings::tmdb__images_size();
@@ -387,9 +385,8 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			$image = substr( $image, 1 );
 
 			$existing = self::check_for_existing_images( $tmdb_id, $image_type, $image );
-
 			if ( false !== $existing )
-				return $existing;
+				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload already exists.', WPML_SLUG ) );
 
 			$tmp = download_url( $file );
 
@@ -405,7 +402,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			$id = media_handle_sideload( $file_array, $post_id, $title );
 			if ( is_wp_error( $id ) ) {
 				@unlink( $file_array['tmp_name'] );
-				return print_r( $id, true );
+				return new WP_Error( $id->get_error_code(), $id->get_error_message() );
 			}
 
 			update_post_meta( $id, '_wpml_' . $image_type . '_related_tmdb_id', $tmdb_id );

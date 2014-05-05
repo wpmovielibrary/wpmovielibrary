@@ -115,7 +115,7 @@ wpml = {
 		 * @param    string    Status type: error, update
 		 */
 		wpml.state.set = function( message, style ) {
-			$(wpml_state.container).html( '<p>' + message + '</p>' ).removeClass().addClass( style ).show().focus();
+			$(wpml_state.container).append( '<p>' + message + '</p>' ).removeClass().addClass( style ).show().focus();
 			if ( 'error' == style )
 				$('.spinner, .loading').removeClass('spinner loading');
 		};

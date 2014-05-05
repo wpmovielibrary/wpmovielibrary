@@ -110,8 +110,14 @@ var wpml_images, wpml_posters;
 						post_id: $('#post_ID').val(),
 						tmdb_id: $('#tmdb_data_tmdb_id').val()
 					},
-					success: function(_r) {
-						if ( ! isNaN( _r ) && parseInt( _r ) == _r ) {
+					error: function( response ) {
+						wpml_state.clear();
+						$.each( response.responseJSON.errors, function() {
+							wpml_state.set( this, 'error' );
+						});
+					},
+					success: function( response ) {
+						if ( ! isNaN( response.data ) && parseInt( response.data ) == response.data ) {
 							$('#tmdb_load_images').parent('.tmdb_movie_images').before('<div class="tmdb_movie_images tmdb_movie_imported_image"><img width="' + image.attributes.sizes.medium.width + '" height="' + image.attributes.sizes.medium.height + '" src="' + image.attributes.sizes.medium.url + '" class="attachment-medium" class="attachment-medium" alt="' + $('#tmdb_data_title').val() + '" /></div>');
 						}
 					},
@@ -252,9 +258,15 @@ var wpml_images, wpml_posters;
 						post_id: $('#post_ID').val(),
 						tmdb_id: $('#tmdb_data_tmdb_id').val()
 					},
+					error: function( response ) {
+						wpml_state.clear();
+						$.each( response.responseJSON.errors, function() {
+							wpml_state.set( this, 'error' );
+						});
+					},
 					success: function( response ) {
 						if ( response ) {
-							wp.media.featuredImage.set( response );
+							wp.media.featuredImage.set( response.data );
 						}
 					},
 					complete: function() {
