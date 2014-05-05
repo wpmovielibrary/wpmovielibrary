@@ -79,13 +79,12 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 *                                 any, false if no matching image was
 		 *                                 found.
 		 */
-		public static function check_for_existing_images( $tmdb_id, $image_type = 'image', $image = null ) {
+		public static function check_for_existing_images( $tmdb_id, $image_type = 'backdrop', $image = null ) {
 
 			if ( ! isset( $tmdb_id ) || '' == $tmdb_id )
 				return false;
 
-			if ( ! in_array( $image_type, array( 'image', 'poster' ) ) )
-				$image_type = 'image';
+			$image_type = ( 'poster' == $image_type ? 'poster' : 'backdrop' );
 
 			$check = get_posts(
 				array(
@@ -249,7 +248,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			if ( ! is_array( $image ) || is_null( $post_id ) )
 				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', WPML_SLUG ) );
 
-			$response = self::image_upload( $image['file_path'], $post_id, $tmdb_id, $title, $image );
+			$response = self::image_upload( $image['file_path'], $post_id, $tmdb_id, $title, 'backdrop', $image );
 			WPML_Utils::ajax_response( $response );
 		}
 
