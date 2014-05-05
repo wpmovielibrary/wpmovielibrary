@@ -505,8 +505,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * @param    int      $post_id ID of the current Post
 		 * @param    array    $details Movie details: media, status, rating
 		 * 
-		 * @return   boolean|object    WP_Error object is anything went
-		 *                                      wrong, true else
+		 * @return   int|object    WP_Error object is anything went
+		 *                                  wrong, true else
 		 */
 		public static function save_movie_details( $post_id, $details ) {
 
@@ -521,7 +521,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			update_post_meta( $post_id, '_wpml_movie_status', $details['movie_status'] );
 			update_post_meta( $post_id, '_wpml_movie_rating', number_format( $details['movie_rating'], 1 ) );
 
-			return true;
+			return $post_id;
 		}
 
 		/**

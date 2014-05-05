@@ -743,7 +743,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Application/JSON headers content-type.
 		 * If no header was sent previously, send new header.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0.0
+		 * 
+		 * @param    boolean    $error Error header or normal?
 		 */
 		private static function json_header( $error = false ) {
 
@@ -757,6 +759,76 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			else {
 				header( 'Content-type: application/json' );
 			}
+		}
+
+		/**
+		 * Pre-handle AJAX Callbacks results to detect errors
+		 * 
+		 * Execute the callback and filter the result to prepare the AJAX
+		 * response. If errors are detected, return a WP_Error instance.
+		 * If no error, return the callback results.
+		 * 
+		 * @param    mixed    $callback Array containing Callback Class and Method or simple string for functions
+		 * @param    array    $args Array of arguments for callback
+		 * 
+		 * @return   array|WP_Error    Array of callback results if no error,
+		 *                             WP_Error instance if anything went wrong.
+		 */
+		public static function ajax_filter( $callback, $args = array(), $loop = false ) {
+
+			$loop = ( true === $loop ? true : false );
+			$response = array();
+			$errors = new WP_Error();
+
+			// Simple function callback
+			if ( ! is_array( $callback ) && function_exists( esc_attr( $callback ) ) ) {
+				// Loop through the arg
+				if ( $loop && is_array( $args ) && ! empty( $args ) ) {
+					foreach ( $args[0] as $arg ) {
+						$_response = call_user_func_array( $callback, array( $arg ) );
+						if ( is_wp_error( $_response ) )
+							$errors->add( $_response->get_error_code(), $_response->get_error_message() );
+						else
+							$response[] = $_response;
+					}
+				}
+				// Single callback call
+				else {
+					$_response = call_user_func_array( $callback, $args );
+					if ( is_wp_error( $_response ) )
+						$errors->add( $_response->get_error_code(), $_response->get_error_message() );
+					else
+						$response[] = $_response;
+				}
+			}
+			// Class Method callback
+			else if ( is_array( $callback ) && 2 == count( $callback ) && class_exists( $callback[0] ) && method_exists( $callback[0], $callback[1] ) ) {
+				// Loop through the arg
+				if ( $loop && is_array( $args ) && ! empty( $args ) ) {
+					foreach ( $args[0] as $arg ) {
+						$_response = call_user_func_array( array( $callback[0], $callback[1] ), array( $arg ) );
+						if ( is_wp_error( $_response ) )
+							$errors->add( $_response->get_error_code(), $_response->get_error_message() );
+						else
+							$response[] = $_response;
+					}
+				}
+				// Single callback call
+				else {
+					$_response = call_user_func_array( array( $callback[0], $callback[1] ), $args );
+					if ( is_wp_error( $_response ) )
+						$errors->add( $_response->get_error_code(), $_response->get_error_message() );
+					else
+						$response[] = $_response;
+				}
+			}
+			else
+				$errors->add( 'callback_error', __( 'An error occured when trying to perform the request: invalid callback or data.', WPML_SLUG ) );
+
+			if ( ! empty( $errors->errors ) )
+				$response = $errors;
+
+			return $response;
 		}
 
 		/**

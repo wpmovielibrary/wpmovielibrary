@@ -155,7 +155,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 * @return    array|WP_Error    Array of delete movie IDs if successfull,
 		 *                              WP_Error instance if anything failed
 		 */
-		private static function delete_movies( $movies ) {
+		public static function delete_movies( $movies ) {
 
 			$errors = new WP_Error();
 			$response = array();
@@ -165,17 +165,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				return $errors;
 			}
 
-			foreach ( $movies as $movie ) {
-				$_response = self::delete_movie( $movie );
-				if ( is_wp_error( $_response ) )
-					$errors->add( $_response->get_error_code(), $_response->get_error_message() );
-				else
-					$response[] = $_response;
-			}
-
-			if ( ! empty( $errors->errors ) )
-				$response = $errors;
-
+			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'delete_movie' ), array( $movies ), $loop = true );
 			return $response;
 		}
 
@@ -193,7 +183,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 * @return    int|WP_Error    Movie Post ID if deleted, WP_Error
 		 *                            if Post or Attachment delete failed
 		 */
-		private static function delete_movie( $post_id ) {
+		public static function delete_movie( $post_id ) {
 
 			if ( false === wp_delete_post( $post_id, $force_delete = true ) )
 				return new WP_Error( 'error', sprintf( __( 'An error occured trying to delete Post #%s', WPML_SLUG ), $post_id ) );
@@ -235,17 +225,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			$movies = explode( ',', $movies );
 			$movies = array_map( __CLASS__ . '::prepare_movie_import', $movies );
 
-			foreach ( $movies as $i => $movie ) {
-				$import = self::import_movie( $movie['movietitle'] );
-				if ( is_wp_error( $import ) )
-					$errors->add( $import->get_error_code(), $import->get_error_message() );
-				else
-					$response[] = $import;
-			}
-
-			if ( ! empty( $errors->errors ) )
-				$response = $errors;
-
+			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'import_movie' ), array( $movies ), $loop = true );
 			return $response;
 		}
 

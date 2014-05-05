@@ -187,17 +187,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				return $errors;
 			}
 
-			foreach ( $movies as $movie ) {
-				$_response = self::enqueue_movie( $movie['post_id'], esc_attr( $movie['meta']['title'] ), $movie );
-				if ( is_wp_error( $_response ) )
-					$errors->add( $_response->get_error_code(), $_response->get_error_message() );
-				else
-					$response[] = $_response;
-			}
-
-			if ( ! empty( $errors->errors ) )
-				$response = $errors;
-
+			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'enqueue_movie' ), array( $movies ), $loop = true );
 			return $response;
 		}
 
@@ -211,18 +201,23 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 * that can be a pain to import if anything goes wrong when
 		 * downloading the poster.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0.0
 		 * 
-		 * @param     int        $post_id Movie Post ID.
-		 * @param     string     $title Movie title.
-		 * @param     array      $metadata Movie metadata.
+		 * @param    array    $metadata Movie metadata.
+		 * 
+		 * @return   int|WP_Error    Movie Post ID if successfully enqueued,
+		 *                           WP_Error if failed.
 		 */
-		private static function enqueue_movie( $post_id, $title, $metadata ) {
+		public static function enqueue_movie( $movie ) {
+
+			$post_id = esc_attr( $movie['post_id'] );
+			$post_title = esc_attr( $movie['meta']['title'] );
+			$metadata = $movie;
 
 			$post_date     = current_time('mysql');
 			$post_date     = wp_checkdate( substr( $post_date, 5, 2 ), substr( $post_date, 8, 2 ), substr( $post_date, 0, 4 ), $post_date );
 			$post_date_gmt = get_gmt_from_date( $post_date );
-			$post_title    = apply_filters( 'the_title', $title );
+			$post_title    = apply_filters( 'the_title', $post_title );
 
 			$_post = array(
 				'ID'             => $post_id,
@@ -267,17 +262,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				return $errors;
 			}
 
-			foreach ( $movies as $movie ) {
-				$_response = self::dequeue_movie( $movie );
-				if ( is_wp_error( $_response ) )
-					$errors->add( $_response->get_error_code(), $_response->get_error_message() );
-				else
-					$response[] = $_response;
-			}
-
-			if ( ! empty( $errors->errors ) )
-				$response = $errors;
-
+			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'dequeue_movie' ), array( $movies ), $loop = true );
 			return $response;
 		}
 
@@ -294,7 +279,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 * @return    int|WP_Error    Post ID if everything worked, WP_Error
 		 *                            instance if update of meta delete failed
 		 */
-		private static function dequeue_movie( $post_id ) {
+		public static function dequeue_movie( $post_id ) {
 
 			$post_date     = current_time('mysql');
 			$post_date     = wp_checkdate( substr( $post_date, 5, 2 ), substr( $post_date, 8, 2 ), substr( $post_date, 0, 4 ), $post_date );
