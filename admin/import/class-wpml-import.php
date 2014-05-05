@@ -217,13 +217,13 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			$errors = new WP_Error();
 			$response = array();
 
+			$movies = explode( ',', $movies );
+			$movies = array_map( __CLASS__ . '::prepare_movie_import', $movies );
+
 			if ( is_null( $movies ) || ! is_array( $movies ) ) {
 				$errors->add( 'invalid', __( 'Invalid movie list submitted.', WPML_SLUG ) );
 				return $errors;
 			}
-
-			$movies = explode( ',', $movies );
-			$movies = array_map( __CLASS__ . '::prepare_movie_import', $movies );
 
 			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'import_movie' ), array( $movies ), $loop = true );
 			return $response;
