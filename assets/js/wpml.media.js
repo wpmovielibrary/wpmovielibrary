@@ -74,7 +74,7 @@ var wpml_images, wpml_posters;
 				var $content = $(wpml_images._frame.content.selector);
 
 				if ( ! $('#progressbar_bg').length )
-					$content.append('<div id="progressbar_bg"><div id="progressbar"><div id="progress"></div></div><div id="progress_status">' + wpml_ajax.lang.images_upload_wait + '</div>');
+					$content.append('<div id="progressbar_bg"><div id="progressbar"><div id="progress"></div></div><div id="progress_status">' + wpml_ajax.lang.import_images_wait + '</div>');
 
 				$('#progressbar_bg, #progressbar').show();
 

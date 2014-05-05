@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary v1.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/WPMovieLibrary\n"
-"POT-Creation-Date: 2014-04-30 10:57:50+00:00\n"
-"PO-Revision-Date: 2014-04-30 13:01+0100\n"
+"POT-Creation-Date: 2014-05-05 13:44:09+00:00\n"
+"PO-Revision-Date: 2014-05-05 15:51+0100\n"
 "Last-Translator: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language-Team: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language: Français\n"
@@ -48,25 +48,21 @@ msgstr "Erreur du serveur \"%s\": %s"
 msgid "Unknown error, connection to TheMovieDB API failed."
 msgstr "Erreur inconnue, la connexion à l'API TheMovieDB a échoué."
 
-#: admin/api/class-wpml-tmdb.php:170
+#: admin/api/class-wpml-tmdb.php:166
 msgid "Invalid API key - You must be granted a valid key"
 msgstr "Clé API invalide - vous devez posséder une clé valide"
 
-#: admin/api/class-wpml-tmdb.php:172
+#: admin/api/class-wpml-tmdb.php:168
 msgid "Valid API key - Save your settings and have fun!"
 msgstr "Clé API valide - sauvegardez vos préférences et amusez-vous bien !"
 
-#: admin/api/class-wpml-tmdb.php:268 admin/api/class-wpml-tmdb.php:297
-msgid "I&rsquo;m Jack&rsquo;s empty result."
-msgstr "Je suis le résultat vide de Jack."
-
-#: admin/api/class-wpml-tmdb.php:268 admin/api/class-wpml-tmdb.php:297
+#: admin/api/class-wpml-tmdb.php:253 admin/api/class-wpml-tmdb.php:263
 msgid "Sorry, your search returned no result. Try a more specific query?"
 msgstr ""
 "Désolé, votre recherche n’a renvoyé aucun résultat. Essayez d’être plus "
 "précis ?"
 
-#: admin/api/class-wpml-tmdb.php:279
+#: admin/api/class-wpml-tmdb.php:276
 msgid ""
 "Your request showed multiple results. Select your movie in the list or try "
 "another search:"
@@ -178,7 +174,7 @@ msgid "Setting featured image…"
 msgstr "Ajout de l’aperçu…"
 
 #: admin/class-wpmovielibrary-admin.php:202
-#: admin/class-wpmovielibrary-admin.php:203 admin/import/views/import.php:112
+#: admin/class-wpmovielibrary-admin.php:203 admin/import/views/import.php:114
 msgid "Import Movies"
 msgstr "Importer des films"
 
@@ -199,7 +195,7 @@ msgstr "Accès refusé."
 #: admin/common/views/recent-movies-widget-admin.php:2
 #: admin/common/views/status-widget-admin.php:2
 #: admin/import/class-wpml-import-table.php:53
-#: admin/import/views/import.php:64 includes/wpml-config.php:442
+#: admin/import/views/import.php:66 includes/wpml-config.php:442
 msgid "Title"
 msgstr "Titre"
 
@@ -360,7 +356,7 @@ msgstr "Au dessus de l’affiche"
 
 #: admin/common/views/status-widget-admin.php:21
 #: admin/edit-movies/class-wpml-edit-movies.php:100
-#: admin/edit-movies/views/quick-edit.php:17 admin/import/views/import.php:67
+#: admin/edit-movies/views/quick-edit.php:17 admin/import/views/import.php:69
 #: includes/wpml-config.php:209 includes/wpml-config.php:406
 msgid "Status"
 msgstr "Statut"
@@ -379,27 +375,39 @@ msgstr "Modifier cet élément sur place"
 msgid "Quick&nbsp;Edit"
 msgstr "Modification rapide"
 
-#: admin/edit-movies/class-wpml-edit-movies.php:404
+#: admin/edit-movies/class-wpml-edit-movies.php:378
+msgid "Empty or invalid Post ID or Movie Details"
+msgstr "Post ID ou détails vide(s) ou invalide(s) "
+
+#: admin/edit-movies/class-wpml-edit-movies.php:400
 msgid "WPMovieLibrary − Movie Meta"
 msgstr "WPMovieLibrary − Métadonnées"
 
-#: admin/edit-movies/class-wpml-edit-movies.php:407
+#: admin/edit-movies/class-wpml-edit-movies.php:403
 msgid "WPMovieLibrary − Movie Images"
 msgstr "WPMovieLibrary − Images"
 
-#: admin/edit-movies/class-wpml-edit-movies.php:410
+#: admin/edit-movies/class-wpml-edit-movies.php:406
 msgid "WPMovieLibrary − Movie Details"
 msgstr "WPMovieLibrary − Détails"
 
-#: admin/edit-movies/class-wpml-edit-movies.php:497
+#: admin/edit-movies/class-wpml-edit-movies.php:493
 msgid "You need a valid TMDb API Key to download movie posters."
 msgstr ""
 "Vous devez posséder une clé API valide pour télécharger les affiches de "
 "films."
 
-#: admin/edit-movies/class-wpml-edit-movies.php:499
+#: admin/edit-movies/class-wpml-edit-movies.php:495
 msgid "See available Movie Posters"
 msgstr "Afficher les affiches disponibles"
+
+#: admin/edit-movies/class-wpml-edit-movies.php:515
+msgid "Error: submitted post is not a movie."
+msgstr "Erreur : l'article n'est pas un film."
+
+#: admin/edit-movies/class-wpml-edit-movies.php:518
+msgid "Error: the submitted movie details are invalid."
+msgstr "Erreur : détails invalides."
 
 #: admin/edit-movies/views/metabox-movie-details.php:9
 msgid "Status:"
@@ -409,9 +417,14 @@ msgstr "Statut :"
 #: admin/edit-movies/views/metabox-movie-details.php:30
 #: admin/edit-movies/views/metabox-movie-details.php:49
 #: admin/import/class-wpml-import-table.php:267
-#: admin/import/class-wpml-import.php:230
+#: admin/import/class-wpml-import.php:260
 msgid "Edit"
 msgstr "Éditer"
+
+#: admin/edit-movies/views/metabox-movie-details.php:16
+#: admin/edit-movies/views/metabox-movie-details.php:35
+msgid "None"
+msgstr "Aucun"
 
 #: admin/edit-movies/views/metabox-movie-details.php:21
 #: admin/edit-movies/views/metabox-movie-details.php:40
@@ -558,12 +571,12 @@ msgid "Movie Dtails"
 msgstr "Détails"
 
 #: admin/import/class-wpml-import-table.php:54
-#: admin/import/views/import.php:65 includes/wpml-config.php:484
+#: admin/import/views/import.php:67 includes/wpml-config.php:484
 msgid "Director"
 msgstr "Réalisateur"
 
 #: admin/import/class-wpml-import-table.php:55
-#: admin/import/views/import.php:66
+#: admin/import/views/import.php:68
 msgid "Actions"
 msgstr "Actions"
 
@@ -581,12 +594,12 @@ msgid "Enqueue"
 msgstr "Ajouter à la file d'attente"
 
 #: admin/import/class-wpml-import-table.php:271
-#: admin/import/class-wpml-queue.php:140
+#: admin/import/class-wpml-queue.php:154
 msgid "Delete"
 msgstr "Supprimer"
 
 #: admin/import/class-wpml-import-table.php:314
-#: admin/import/views/import.php:54
+#: admin/import/views/import.php:56
 msgid "Delete Movie"
 msgstr "Supprimer"
 
@@ -595,7 +608,7 @@ msgid "Enqueue Movie"
 msgstr "Ajouter à la file d'attente"
 
 #: admin/import/class-wpml-import-table.php:355
-#: admin/import/views/import.php:53
+#: admin/import/views/import.php:55
 msgid "Bulk Actions"
 msgstr "Actions groupées"
 
@@ -603,40 +616,38 @@ msgstr "Actions groupées"
 msgid "Apply"
 msgstr "Appliquer"
 
-#: admin/import/class-wpml-import-table.php:458
-#: admin/import/class-wpml-queue.php:91 admin/import/views/import.php:60
+#: admin/import/class-wpml-import-table.php:460
+#: admin/import/class-wpml-queue.php:104 admin/import/views/import.php:62
 msgid "1 item"
 msgid_plural "%s items"
 msgstr[0] "1 éléments"
 msgstr[1] "%s éléments"
 
-#: admin/import/class-wpml-import-table.php:506
+#: admin/import/class-wpml-import-table.php:508
 msgid "Hide"
 msgstr "Masquer"
 
-#: admin/import/class-wpml-import.php:190
-msgid "%d Movie%s added successfully."
-msgstr "%d film%s ont été ajoutés."
+#: admin/import/class-wpml-import.php:164
+#: admin/import/class-wpml-import.php:221
+#: admin/import/class-wpml-queue.php:186 admin/import/class-wpml-queue.php:261
+msgid "Invalid movie list submitted."
+msgstr "Liste de film non valide."
 
-#: admin/import/class-wpml-import.php:192
-msgid "The following error(s) occured:"
-msgstr "La ou les erreurs suivantes se sont produites :"
-
-#: admin/import/class-wpml-import.php:228
-msgid "Movie \"%s\" already imported."
-msgstr "Le film « <em>%s</em> » a déjà été importé."
-
-#: admin/import/class-wpml-import.php:232
-msgid "View"
-msgstr "Voir"
-
-#: admin/import/class-wpml-import.php:277
+#: admin/import/class-wpml-import.php:189
 msgid "An error occured trying to delete Post #%s"
 msgstr "Une erreur s’est produite lors de la suppresion du post #%s"
 
-#: admin/import/class-wpml-import.php:283
+#: admin/import/class-wpml-import.php:194
 msgid "An error occured trying to delete Attachment #%s"
 msgstr "Une erreur s’est produite lors de la suppresion du média #%s"
+
+#: admin/import/class-wpml-import.php:258
+msgid "Movie \"%s\" already imported."
+msgstr "Le film « <em>%s</em> » a déjà été importé."
+
+#: admin/import/class-wpml-import.php:262
+msgid "View"
+msgstr "Voir"
 
 #: admin/import/class-wpml-import.php:373
 msgid "Import Drafts"
@@ -646,45 +657,67 @@ msgstr "Brouillons d’import"
 msgid "%d Movies imported successfully!"
 msgstr "%d film%s ont été ajoutés avec succès !"
 
-#: admin/import/class-wpml-queue.php:129
+#: admin/import/class-wpml-queue.php:143
 msgid "No queued movie, dude."
 msgstr "Aucun film en liste d'attente."
 
-#: admin/import/class-wpml-queue.php:139
+#: admin/import/class-wpml-queue.php:153
 msgid "Dequeue"
 msgstr "Retirer de la file d'attente"
 
-#: admin/import/class-wpml-queue.php:143
+#: admin/import/class-wpml-queue.php:157
 msgid "Queued"
 msgstr "Dans la file d'attente"
 
-#: admin/import/class-wpml-queue.php:212
-msgid "An error occured when adding \"%s\" to the queue."
+#: admin/import/class-wpml-queue.php:233
+msgid "An error occured when adding \"%s\" to the queue: %s"
 msgstr ""
-"Une erreur s’est produite lors de l'ajout de \"%s\" à la file d'attente."
+"Une erreur s’est produite lors de l'ajout de « %s » à la file d'attente : %s"
 
-#: admin/import/class-wpml-queue.php:268 admin/import/class-wpml-queue.php:275
-msgid "An error occured when trying to remove \"%s\" from the queue."
+#: admin/import/class-wpml-queue.php:297
+msgid "An error occured when trying to remove \"%s\" from the queue: %s"
 msgstr ""
-"Une erreur s’est produite lors du retrait de \"%s\" de la file d'attente."
+"Une erreur s’est produite lors de la suppression de « %s » de la file "
+"d'attente : %s"
+
+#: admin/import/class-wpml-queue.php:301
+msgid "An error occured when trying to delete \"%s\" metadata."
+msgstr ""
+"Une erreur s’est produite lors de la suppression des métadonnées de « %s »."
+
+#: admin/import/class-wpml-queue.php:321
+msgid "Error: submitted Post ID doesn\\t match any valid movie."
+msgstr "Erreur : l'article soumis ne correspond à aucun film."
+
+#: admin/import/class-wpml-queue.php:325
+msgid "Error: cannot find submitted movie's metadata, try enqueuing it again."
+msgstr ""
+"Errur : impossible d'accéder aux métadonnées du film, essayez de l'ajouter à "
+"nouveau à la file d'attente."
+
+#: admin/import/class-wpml-queue.php:339
+msgid "An error occured when trying to imported queued movie \"%s\": %s"
+msgstr ""
+"Une erreur s’est produite lors de l'importation de « %s » depuis la file "
+"d'attente."
 
 #: admin/import/views/import.php:2
 msgid "Movies Import"
 msgstr "Importer des films"
 
-#: admin/import/views/import.php:12
+#: admin/import/views/import.php:14
 msgid "Imported Movies"
 msgstr "Films importés"
 
-#: admin/import/views/import.php:13
+#: admin/import/views/import.php:15
 msgid "Import Queue"
 msgstr "File d'attente"
 
-#: admin/import/views/import.php:14
+#: admin/import/views/import.php:16
 msgid "Import New Movies"
 msgstr "Importer de nouveaux films"
 
-#: admin/import/views/import.php:22
+#: admin/import/views/import.php:24
 msgid ""
 "Here are the movies you previously updated but didn’t save. You can save "
 "them, edit them individually or apply bulk actions. Posters are "
@@ -700,37 +733,37 @@ msgstr ""
 "sélectionnez un nombre important de films. N’oubliez pas de sauvegarder vos "
 "imports une fois terminés !"
 
-#: admin/import/views/import.php:38
+#: admin/import/views/import.php:40
 msgid "Empty All"
 msgstr "Tout vider"
 
-#: admin/import/views/import.php:39
+#: admin/import/views/import.php:41
 msgid "Save Movies"
 msgstr "Enregistrer les films"
 
-#: admin/import/views/import.php:55
+#: admin/import/views/import.php:57
 msgid "Dequeue Movie"
 msgstr "Retirer de la file"
 
-#: admin/import/views/import.php:81
+#: admin/import/views/import.php:83
 msgid "Import Queued Movies"
 msgstr "Importer la liste d'attente"
 
-#: admin/import/views/import.php:84
+#: admin/import/views/import.php:86
 msgid "of"
 msgstr "sur"
 
-#: admin/import/views/import.php:84
+#: admin/import/views/import.php:86
 msgid "imported"
 msgstr "importés"
 
-#: admin/import/views/import.php:102
+#: admin/import/views/import.php:104
 msgid "Input a list of movies to search and import separated by commas:"
 msgstr ""
 "Saisissez une liste de films à rechercher et importer, séparés par des "
 "virgules :"
 
-#: admin/import/views/import.php:103
+#: admin/import/views/import.php:105
 msgid ""
 "Titles don’t have to be exact, but try to be specific to get better results."
 "<br /> Ex: interview with the vampire, Se7en, Twelve Monkeys, joe black, "
@@ -740,7 +773,7 @@ msgstr ""
 "précis pour de meilleurs résultats.<br /> Ex: entretien avec un vampire, "
 "Se7en, 12 Singes, joe black, fight club, snatch, babel, inglourious basterds"
 
-#: admin/import/views/import.php:106
+#: admin/import/views/import.php:108
 msgid "List of movie titles separated by commas"
 msgstr "Listez des titres de films séparés par des virgules"
 
@@ -1300,9 +1333,20 @@ msgstr "Désactivation"
 msgid "Uninstall"
 msgstr "Désintallation"
 
-#: includes/class-wpml-utils.php:663
+#: includes/class-wpml-utils.php:667
 msgid "Invalid taxonomy"
 msgstr "Taxonomie invalide"
+
+#: includes/class-wpml-utils.php:826
+msgid ""
+"An error occured when trying to perform the request: invalid callback or "
+"data."
+msgstr ""
+"Une erreur s’est produite : fonction interne invalide ou données erronées."
+
+#: includes/class-wpml-utils.php:846
+msgid "An error occured when trying to perform the request."
+msgstr "Une erreur s’est produite lors du traitement de la requête."
 
 #: includes/wpml-config.php:22
 msgid "API Settings"
@@ -1697,6 +1741,15 @@ msgstr "Permalin pour &laquo; Films notés %s &raquo;"
 #: public/movies/views/recent-movies-widget.php:25
 msgid "Read more about"
 msgstr "Lire la suite"
+
+#~ msgid "I&rsquo;m Jack&rsquo;s empty result."
+#~ msgstr "Je suis le résultat vide de Jack."
+
+#~ msgid "%d Movie%s added successfully."
+#~ msgstr "%d film%s ont été ajoutés."
+
+#~ msgid "The following error(s) occured:"
+#~ msgstr "La ou les erreurs suivantes se sont produites :"
 
 #~ msgid "Movie rating"
 #~ msgstr "Note du film"
