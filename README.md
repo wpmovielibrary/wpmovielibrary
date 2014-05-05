@@ -24,3 +24,12 @@ __WPMovieLibrary is still in development!__ We're working on the plugin every da
 1. Upload WPMovieLibrary folder to your `wp-content/plugins/` directory
 2. Activate the plugin through the "Plugins" menu in WordPress.
 3. Done!
+
+### Screenshots
+
+![All Movies List](https://raw.githubusercontent.com/Askelon/WPMovieLibrary/master/screenshot_1.png "All Movies List")
+![Edit Movies](https://raw.githubusercontent.com/Askelon/WPMovieLibrary/master/screenshot_2.png "Edit Movies")
+![Download Posters](https://raw.githubusercontent.com/Askelon/WPMovieLibrary/master/screenshot_3.png "Download Posters")
+![Import by lists of titles](https://raw.githubusercontent.com/Askelon/WPMovieLibrary/master/screenshot_4.png "Import by lists of titles")
+![Imported list](https://raw.githubusercontent.com/Askelon/WPMovieLibrary/master/screenshot_5.png "Imported list")
+![Import Queue](https://raw.githubusercontent.com/Askelon/WPMovieLibrary/master/screenshot_6.png "Import Queue")
