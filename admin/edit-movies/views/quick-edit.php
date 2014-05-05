@@ -44,5 +44,6 @@
 				</label>
 			</div>
 			<input type="hidden" name="<?php echo $nonce_name ?>" id="<?php echo $nonce_name ?>" value="<?php echo $nonce ?>" />
+			<input type="hidden" name="wpml_movie_details_nonce" id="wpml_movie_details_nonce" value="" />
 			<input type="hidden" name="<?php echo $check ?>" value="true" />
 		</div></fieldset>

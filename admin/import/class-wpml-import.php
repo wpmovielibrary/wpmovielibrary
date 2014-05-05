@@ -42,7 +42,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			add_action( 'load-movie_page_import', __CLASS__ . '::import_movie_list_add_options' );
 			add_filter( 'set-screen-option', __CLASS__ . '::import_movie_list_set_option', 10, 3 );
 
-			add_action( 'wp_ajax_wpml_delete_movie', __CLASS__ . '::delete_movie_callback' );
+			add_action( 'wp_ajax_wpml_delete_movies', __CLASS__ . '::delete_movies_callback' );
 			add_action( 'wp_ajax_wpml_import_movies', __CLASS__ . '::import_movies_callback' );
 			add_action( 'wp_ajax_wpml_fetch_imported_movies', __CLASS__ . '::fetch_imported_movies_callback' );
 		}
@@ -77,21 +77,14 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 * 
 		 * @return     boolean     deletion status
 		 */
-		public static function delete_movie_callback() {
+		public static function delete_movies_callback() {
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
-			$post_ids = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : '' );
+			$movies = ( isset( $_GET['movies'] ) && '' != $_GET['movies'] ? $_GET['movies'] : null );
 
-			$errors = array();
-
-			foreach ( $post_ids as $post_id )
-				$errors[] = self::delete_movie( $post_id );
-
-			if ( ! empty( $errors ) )
-				echo json_encode( $errors );
-
-			die();
+			$response = self::delete_movies( $movies );
+			WPML_Utils::ajax_response( $response );
 		}
 
 		/**
@@ -121,7 +114,11 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		public static function import_movies_callback() {
 
 			check_ajax_referer( 'wpml-movie-import', 'wpml_ajax_movie_import' );
-			self::import_movies();
+
+			$movies = ( isset( $_POST['wpml_import_list'] ) && '' != $_POST['wpml_import_list'] ? esc_textarea( $_POST['wpml_import_list'] ) : null );
+
+			$response = self::import_movies( $movies );
+			WPML_Utils::ajax_response( $response );
 		}
 
 		/**
@@ -147,6 +144,59 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		}
 
 		/**
+		 * Delete movies
+		 * 
+		 * 
+		 *
+		 * @since     1.0.0
+		 * 
+		 * @param     array    $movies Array of movies Post IDs to delete
+		 * 
+		 * @return    array|WP_Error    Array of delete movie IDs if successfull,
+		 *                              WP_Error instance if anything failed
+		 */
+		public static function delete_movies( $movies ) {
+
+			$errors = new WP_Error();
+			$response = array();
+
+			if ( is_null( $movies ) || ! is_array( $movies ) ) {
+				$errors->add( 'invalid', __( 'Invalid movie list submitted.', WPML_SLUG ) );
+				return $errors;
+			}
+
+			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'delete_movie' ), array( $movies ), $loop = true );
+			return $response;
+		}
+
+		/**
+		 * Delete imported movie
+		 * 
+		 * Delete the specified movie from the list of movie set for further
+		 * import. Automatically delete attached images such as featured
+		 * image if any is found.
+		 *
+		 * @since     1.0.0
+		 * 
+		 * @param     int    $post_id    Movie's post ID.
+		 * 
+		 * @return    int|WP_Error    Movie Post ID if deleted, WP_Error
+		 *                            if Post or Attachment delete failed
+		 */
+		public static function delete_movie( $post_id ) {
+
+			if ( false === wp_delete_post( $post_id, $force_delete = true ) )
+				return new WP_Error( 'error', sprintf( __( 'An error occured trying to delete Post #%s', WPML_SLUG ), $post_id ) );
+
+			$thumb_id = get_post_thumbnail_id( $post_id );
+			if ( '' != $thumb_id )
+				if ( false === wp_delete_attachment( $thumb_id ) )
+					return new WP_Error( 'error', sprintf( __( 'An error occured trying to delete Attachment #%s', WPML_SLUG ), $thumb_id ) );
+
+			return $post_id;
+		}
+
+		/**
 		 * Process the submitted movie list
 		 * 
 		 * This method can be used through an AJAX callback; in this case
@@ -162,39 +212,21 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 * 
 		 * @return    void|boolean|string
 		 */
-		private static function import_movies() {
+		private static function import_movies( $movies ) {
 
-			$errors = array();
-			$_notice = '';
+			$errors = new WP_Error();
+			$response = array();
 
-			$_ajax = ( defined( 'DOING_AJAX' ) && DOING_AJAX );
-
-			if ( ! isset( $_POST['wpml_import_list'] ) || '' == $_POST['wpml_import_list'] )
-				return false;
-
-			if ( ! $_ajax )
-				check_admin_referer( 'wpml-movie-import', 'wpml_movie_import' );
-
-			$movies = explode( ',', esc_textarea( $_POST['wpml_import_list'] ) );
-			$movies = array_map( __CLASS__ . '::prepare_movie_import', $movies );
-
-			foreach ( $movies as $i => $movie ) {
-				$import = self::import_movie( $movie['movietitle'] );
-				if ( is_string( $import ) ) {
-					$errors[] = $import;
-				}
+			if ( is_null( $movies ) || ! is_array( $movies ) ) {
+				$errors->add( 'invalid', __( 'Invalid movie list submitted.', WPML_SLUG ) );
+				return $errors;
 			}
 
-			// @TODO: i18n plural
-			if ( empty( $errors ) )
-				$_notice = sprintf( __( '%d Movie%s added successfully.', WPML_SLUG ), count( $movies ), ( count( $movies ) > 1 ? 's' : '' ) );
-			else if ( ! empty( $errors ) )
-				$_notice = sprintf( '<strong>%s</strong> <ul>%s</ul>', __( 'The following error(s) occured:', WPML_SLUG ), implode( '', array_map( create_function( '&$e', 'return "<li>$e</li>";' ), $errors ) ) );
+			$movies = explode( ',', $movies );
+			$movies = array_map( __CLASS__ . '::prepare_movie_import', $movies );
 
-			if ( $_ajax )
-				wp_die( $_notice );
-
-			return true;
+			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'import_movie' ), array( $movies ), $loop = true );
+			return $response;
 		}
 
 		/**
@@ -222,22 +254,18 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			$page = get_page_by_title( $post_title, OBJECT, 'movie' );
 
 			if ( ! is_null( $page ) ) {
-
-				return sprintf(
-					'%s − <span class="edit"><a href="%s">%s</a> |</span> <span class="view"><a href="%s">%s</a></span>',
+				$message = sprintf( '%s − <span class="edit"><a href="%s">%s</a> |</span> <span class="view"><a href="%s">%s</a></span>',
 					sprintf( __( 'Movie "%s" already imported.', WPML_SLUG ), "<em>" . get_the_title( $page->ID ) . "</em>" ),
 					get_edit_post_link( $page->ID ),
 					__( 'Edit', WPML_SLUG ),
 					get_permalink( $page->ID ),
 					__( 'View', WPML_SLUG )
 				);
-			}
-			else {
-				$_ID = '';
+				return new WP_Error( 'existing_movie', $message );
 			}
 
 			$_post = array(
-				'ID'             => $_ID,
+				'ID'             => '',
 				'comment_status' => 'closed',
 				'ping_status'    => 'closed',
 				'post_author'    => $post_author,
@@ -250,37 +278,9 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				'post_type'      => 'movie'
 			);
 
-			$id = wp_insert_post( $_post, true );
+			$import = wp_insert_post( $_post, $wp_error = true );
 
-			if ( is_wp_error( $id ) )
-				return $id->get_error_message();
-			else
-				return $id;
-		}
-
-		/**
-		 * Delete imported movie
-		 * 
-		 * Triggered by the 'Delete' link on imported movies WP_List_Table.
-		 * Delete the specified movie from the list of movie set for further
-		 * import. Automatically delete attached images such as featured image.
-		 *
-		 * @since     1.0.0
-		 * 
-		 * @param     int    $post_id    Movie's post ID.
-		 * 
-		 * @return    string    Error status if post/attachment delete failed
-		 */
-		private static function delete_movie( $post_id ) {
-
-			if ( false === wp_delete_post( $post_id, true ) )
-				return vsprintf( __( 'An error occured trying to delete Post #%s', WPML_SLUG ), $post_id );
-
-			$thumb_id = get_post_thumbnail_id( $post_id );
-
-			if ( '' != $thumb_id )
-				if ( false === wp_delete_attachment( $thumb_id ) )
-					return vsprintf( __( 'An error occured trying to delete Attachment #%s', WPML_SLUG ), $thumb_id );
+			return $import;
 		}
 
 		/**

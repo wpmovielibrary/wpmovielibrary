@@ -52,19 +52,20 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 			wpml.editor.details.save = function() {
 				$('#wpml_save').prev('.spinner').css({display: 'inline-block'});
 				wpml._post({
+					data: {
 						action: 'wpml_save_details',
 						wpml_check: wpml_ajax.utils.wpml_check,
 						post_id: $('#post_ID').val(),
 						wpml_details: {
-							media: $('#movie-media').val(),
-							status: $('#movie-status').val(),
-							rating: $('#movie-rating').val()
+							movie_media: $('#movie-media').val(),
+							movie_status: $('#movie-status').val(),
+							movie_rating: $('#movie-rating').val()
 						}
 					},
-					function() {
+					complete: function() {
 						$('#wpml_save').prev('.spinner').hide();
 					}
-				);
+				});
 			};
 
 			/**
@@ -376,6 +377,13 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 		 * WPML Movie Editor: Movie Meta
 		 */
 		wpml.editor.meta = wpml_meta = {
+
+			type: undefined,
+			data: undefined,
+			lang: undefined,
+
+			search: '#tmdb_search',
+
 			init: function() {},
 			search_movie: function() {},
 			prefill_title: function() {}
@@ -386,7 +394,7 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 			 */
 			wpml.editor.meta.init = function() {
 
-				$('#tmdb_search').click(function(e) {
+				$(wpml_meta.search).click(function(e) {
 					e.preventDefault();
 					wpml_meta.search_movie();
 				});
@@ -401,48 +409,51 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 			 */
 			wpml.editor.meta.search_movie = function() {
 
-				var type = $('#tmdb_search_type > :selected').val(),
-				    data = $('#tmdb_query').val(),
-				    lang = $('#tmdb_search_lang').val();
+				wpml_meta.type = $('#tmdb_search_type > :selected').val();
+				wpml_meta.data = $('#tmdb_query').val();
+				wpml_meta.lang = $('#tmdb_search_lang').val();
 
-				$('#tmdb_search').next('.spinner').css({display: 'inline-block'});
+				$(wpml_meta.search).next('.spinner').css({display: 'inline-block'});
 				$('#tmdb_data > *, .tmdb_select_movie').remove();
-				$('.tmdb_movie_images').not('.tmdb_movie_imported_image').remove();
 
-				if (  type == 'title' )
-					wpml.status.set( wpml_ajax.lang.search_movie_title + ' "' +  data + '"', 'warning' );
-				else if (  type == 'id' )
-					wpml.status.set( wpml_ajax.lang.search_movie + ' #' +  data, 'success' );
+				if ( wpml_meta.type == 'title' )
+					wpml_state.set( wpml_ajax.lang.search_movie_title + ' "' + wpml_meta.data + '"', 'warning' );
+				else if ( wpml_meta.type == 'id' )
+					wpml_state.set( wpml_ajax.lang.search_movie + ' #' + wpml_meta.data, 'success' );
 
 				wpml._get({
+					data: {
 						action: 'wpml_search_movie',
 						wpml_check: wpml_ajax.utils.wpml_check,
-						type: type,
-						data: data,
-						lang: lang
+						type: wpml_meta.type,
+						data: wpml_meta.data,
+						lang: wpml_meta.lang
 					},
-					function( movies ) {
-						if ( 'movie' == movies._result ) {
-							wpml_edit_movies.populate( movies );
-							//wpml.media.posters.set_featured( movies.poster_path/*, null, movies.title, movies._tmdb_id*/ );
+					error: function( response ) {
+						wpml_state.clear();
+						$.each( response.responseJSON.errors, function() {
+							wpml_state.set( this, 'error' );
+						});
+					},
+					success: function( response ) {
+
+						if ( 'movie' == response.data.result ) {
+							wpml_edit_movies.populate( response.data.movies[ 0 ] );
+							wpml_posters.set_featured( response.data.movies[ 0 ].poster_path );
 						}
-						else if ( 'movies' == movies._result ) {
-							wpml_edit_movies.populate_select_list( movies );
+						else if ( 'movies' == response.data.result ) {
+							wpml_edit_movies.populate_select_list( response.data.movies, response.data.message );
 
 							$('.tmdb_select_movie a').on( 'click', function( e ) {
 								e.preventDefault();
 								id = this.id.replace('tmdb_','');
-
 								wpml_edit_movies.get( id );
 							});
 						}
-						else if ( 'error' == movies._result || 'empty' == movies._result ) {
-							$('#tmdb_data').html( movies.p ).show();
-							$('#tmdb_status').empty();
-						}
-						$('#tmdb_search').next('.spinner').hide();
+
+						$(wpml_meta.search).next('.spinner').hide();
 					}
-				);
+				});
 			};
 
 			/**
@@ -454,6 +465,15 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 					$('input#tmdb_query').val( title );
 			};
 
+		/**
+		 * Handles 'All Movies' Table and Post Editor Movie Meta part
+		 * 
+		 * Add excerpt to actors lists, handles Quick/Bulk Edit in All
+		 * Movies Table.
+		 * 
+		 * Populate Meta fields, taxonomies and featured images with the
+		 * data fetched by wpml.editor.meta.search_movie().
+		 */
 		wpml.editor.movies = wpml_edit_movies = {
 
 			actors: 'td.column-taxonomy-actor',
@@ -513,6 +533,9 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				});
 			};
 
+			/**
+			 * Toggle the Show/Hide all actors link.
+			 */
 			wpml.editor.movies.toggle_actors = function( link ) {
 
 				$(link).prev(wpml_edit_movies.hidden).toggle();
@@ -524,22 +547,25 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 
 			wpml.editor.movies.get = function( id ) {
 
+				wpml_meta.lang = $('#tmdb_search_lang').val();
+
 				wpml._get({
+					data: {
 						action: 'wpml_search_movie',
 						wpml_check: wpml_ajax.utils.wpml_check,
 						type: 'id',
 						data: id,
-						lang: wpml_movies.lang
+						lang: wpml_meta.$lang
 					},
-					function( response ) {
+					success: function( response ) {
 						var tmdb_data = document.getElementById('tmdb_data');
 						while ( tmdb_data.lastChild )
 							tmdb_data.removeChild( tmdb_data.lastChild );
 						tmdb_data.style.display = 'none';
-						wpml_edit_movies.populate( response );
-						wpml_posters.set_featured( response.poster_path );
+						wpml_edit_movies.populate( response.data );
+						wpml_posters.set_featured( response.data.poster_path );
 					}
-				);
+				});
 			};
 
 			wpml.editor.movies.populate = function(data) {
@@ -605,7 +631,7 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				}
 
 				$('#tmdb_query').focus();
-				wpml.status.set(wpml_ajax.lang.done, 'success');
+				wpml_state.set( wpml_ajax.lang.done, 'success' );
 			};
 
 			wpml.editor.movies.populate_quick_edit = function( movie_details, nonce ) {
@@ -616,46 +642,39 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 
 					$wp_inline_edit.apply( this, arguments );
 
-					var $post_id = 0;
+					var post_id = 0;
 
 					if ( typeof( id ) == 'object' )
-						$post_id = parseInt( this.getId( id ) );
+						post_id = parseInt( this.getId( id ) );
 
-					if ( $post_id > 0 ) {
+					if ( post_id > 0 ) {
 
-						var $edit_row = $( '#edit-' + $post_id );
+						var edit_row = '#edit-' + post_id,
+						    $nonceInput = $('#wpml_movie_details_nonce'),
+						    $movie_media = $('#movie-media', edit_row),
+						    $movie_status = $('#movie-status', edit_row),
+						    $movie_rating = $('#movie-rating', edit_row),
+						    $hidden_movie_rating = $('#hidden-movie-rating', edit_row),
+						    $stars = $('#stars', edit_row);
 
-						var nonceInput = $('#wpml_movie_details_nonce');
-						nonceInput.val( nonce );
+						$nonceInput.val( nonce );
 
-						var movie_media = $edit_row.find('select.movie_media');
-						var movie_status = $edit_row.find('select.movie_status');
-						var movie_rating = $edit_row.find('#movie_rating');
-						var hidden_movie_rating = $edit_row.find('#hidden_movie_rating');
-						var stars = $edit_row.find('#stars');
-
-						movie_media.children('option').each(function() {
-							if ( $(this).val() == movie_details.movie_media )
-								$(this).prop("selected", "selected");
-							else
-								$(this).prop("selected", "");
+						$movie_media.children('option').each(function() {
+							$(this).prop( 'selected', ( $(this).val() == movie_details.movie_media ) );
 						});
 
-						movie_status.children('option').each(function() {
-							if ( $(this).val() == movie_details.movie_status )
-								$(this).prop("selected", true);
-							else
-								$(this).prop("selected", false);
+						$movie_status.children('option').each(function() {
+							$(this).prop( 'selected', ( $(this).val() == movie_details.movie_status ) );
 						});
 
 						if ( '' != movie_details.movie_rating && ' ' != movie_details.movie_rating ) {
-							movie_rating.val( movie_details.movie_rating );
-							hidden_movie_rating.val( movie_details.movie_rating );
-							stars.removeClass('stars_', 'stars_0_0', 'stars_0_5', 'stars_1_0', 'stars_1_5', 'stars_2_0', 'stars_2_5', 'stars_3_0', 'stars_3_5', 'stars_4_0', 'stars_4_5', 'stars_5_0');
-							stars.addClass( 'stars_' + movie_details.movie_rating.replace('.','_') );
-							stars.attr('data-rated', true);
-							stars.attr('data-default-rating', movie_details.movie_rating);
-							stars.attr('data-rating', movie_details.movie_rating);
+							$movie_rating.val( movie_details.movie_rating );
+							$hidden_movie_rating.val( movie_details.movie_rating );
+							$stars.removeClass('stars-', 'stars-0-0', 'stars-0-5', 'stars-1-0', 'stars-1-5', 'stars-2-0', 'stars-2-5', 'stars-3-0', 'stars-3-5', 'stars-4-0', 'stars-4-5', 'stars-5-0');
+							$stars.addClass( 'stars-' + movie_details.movie_rating.replace('.','-') );
+							$stars.attr('data-rated', true);
+							$stars.attr('data-default-rating', movie_details.movie_rating);
+							$stars.attr('data-rating', movie_details.movie_rating);
 						}
 
 					}
@@ -663,13 +682,14 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				};
 			};
 
-			wpml.editor.movies.populate_select_list = function( data ) {
+			wpml.editor.movies.populate_select_list = function( movies, message ) {
 
-				$('#tmdb_data').append( data.p ).show();
+				var html = '',
+				    message = message || '';
 
-				var html = '';
+				$('#tmdb_data').addClass('update success').append('<p>' + message + '</p>').show();
 
-				$.each( data.movies, function() {
+				$.each( movies, function() {
 					html += '<div class="tmdb_select_movie">';
 					html += '	<a id="tmdb_' + this.id + '" href="#">';
 					html += '		<img src="' + this.poster + '" alt="' + this.title + '" />';
@@ -695,7 +715,7 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				$('#tmdb_data, .tagchecklist').empty();
 				$('#remove-post-thumbnail').trigger('click');
 
-				wpml.status.clear();
+				wpml_state.clear();
 			};
 
 	wpml.editor.init();

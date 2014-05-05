@@ -7,15 +7,15 @@
 
 					<div class="misc-pub-section">
 						<span id="movie-status-icon"> <label for="movie-status"><?php _e( 'Status:', WPML_SLUG ); ?></label></span>
-						<span id="movie-status-display"><?php $_status = WPML_Settings::get_available_movie_status(); _e( $_status[$movie_status], WPML_SLUG ) ?></span>
+						<span id="movie-status-display"><?php $_status = WPML_Settings::get_available_movie_status(); $_status = ( '' != $movie_status ? $_status[ $movie_status ] : 'None' ); _e( $_status, WPML_SLUG ) ?></span>
 						<a href="#movie-status" id="edit-movie-status" class="edit-movie-status hide-if-no-js"><?php _e( 'Edit', WPML_SLUG ); ?></a>
 
 						<div id="movie-status-select" class="hide-if-js">
 							<input type="hidden" name="hidden_movie_status" id="hidden-movie-status" value="movie-<?php echo $movie_status; ?>">
 							<select name="wpml_details[movie_status]" id="movie-status">
-								<option id="movie-default-status" value="" <?php selected( '', $movie_status ); ?>></option>
+								<option id="movie-default-status" value="<?php _e( 'None', WPML_SLUG ) ?>" <?php selected( '', $movie_status ); ?>></option>
 <?php foreach ( WPML_Settings::get_available_movie_status() as $slug => $status ) : ?>
-								<option id="movie-<?php echo $slug; ?>" value="<?php echo $slug; ?>" <?php selected( $status, $movie_status ); ?>><?php _e( $status, WPML_SLUG ) ?></option>
+								<option id="movie-<?php echo $slug; ?>" value="<?php echo $slug; ?>" <?php selected( $slug, $movie_status ); ?>><?php _e( $status, WPML_SLUG ) ?></option>
 <?php endforeach; ?>
 							</select>
 							<a href="#movie-status" id="save-movie-status" class="save-movie-status hide-if-no-js button"><?php _e( 'OK', WPML_SLUG ); ?></a>
@@ -26,15 +26,15 @@
 
 					<div class="misc-pub-section">
 						<span id="movie-media-icon"> <label for="movie-media"><?php _e( 'Media:', WPML_SLUG ); ?></label></span>
-						<span id="movie-media-display"><?php $_media = WPML_Settings::get_available_movie_media(); _e( $_media[$movie_media], WPML_SLUG ) ?></span>
+						<span id="movie-media-display"><?php $_media = WPML_Settings::get_available_movie_media(); $_media = ( '' != $movie_media ? $_media[ $movie_media ] : 'None' ); _e( $_media, WPML_SLUG ) ?></span>
 						<a href="#movie-media" id="edit-movie-media" class="edit-movie-media hide-if-no-js"><?php _e( 'Edit', WPML_SLUG ); ?></a>
 
 						<div id="movie-media-select" class="hide-if-js">
-							<input type="hidden" name="hidden_movie_media" id="hidden-movie-edia" value="movie-<?php echo $movie_media; ?>">
+							<input type="hidden" name="hidden_movie_media" id="hidden-movie-media" value="movie-<?php echo $movie_media; ?>">
 							<select name="wpml_details[movie_media]" id="movie-media">
-								<option id="movie-default-media" value="" <?php selected( '', $movie_media ); ?>></option>
+								<option id="movie-default-media" value="<?php _e( 'None', WPML_SLUG ) ?>" <?php selected( '', $movie_media ); ?>></option>
 <?php foreach ( WPML_Settings::get_available_movie_media() as $slug => $media ) : ?>
-								<option id="movie-<?php echo $slug; ?>" value="<?php echo $slug; ?>" <?php selected( $media, $movie_media ); ?>><?php _e( $media, WPML_SLUG ) ?></option>
+								<option id="movie-<?php echo $slug; ?>" value="<?php echo $slug; ?>" <?php selected( $slug, $movie_media ); ?>><?php _e( $media, WPML_SLUG ) ?></option>
 <?php endforeach; ?>
 							</select>
 							<a href="#movie-media" id="save-movie-media" class="save-movie-media hide-if-no-js button"><?php _e( 'OK', WPML_SLUG ); ?></a>

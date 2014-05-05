@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/WPMovieLibrary\n"
-"POT-Creation-Date: 2014-04-30 10:57:50+00:00\n"
+"POT-Creation-Date: 2014-05-05 13:44:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -40,23 +40,19 @@ msgstr ""
 msgid "Unknown error, connection to TheMovieDB API failed."
 msgstr ""
 
-#: admin/api/class-wpml-tmdb.php:170
+#: admin/api/class-wpml-tmdb.php:166
 msgid "Invalid API key - You must be granted a valid key"
 msgstr ""
 
-#: admin/api/class-wpml-tmdb.php:172
+#: admin/api/class-wpml-tmdb.php:168
 msgid "Valid API key - Save your settings and have fun!"
 msgstr ""
 
-#: admin/api/class-wpml-tmdb.php:268 admin/api/class-wpml-tmdb.php:297
-msgid "I&rsquo;m Jack&rsquo;s empty result."
-msgstr ""
-
-#: admin/api/class-wpml-tmdb.php:268 admin/api/class-wpml-tmdb.php:297
+#: admin/api/class-wpml-tmdb.php:253 admin/api/class-wpml-tmdb.php:263
 msgid "Sorry, your search returned no result. Try a more specific query?"
 msgstr ""
 
-#: admin/api/class-wpml-tmdb.php:279
+#: admin/api/class-wpml-tmdb.php:276
 msgid ""
 "Your request showed multiple results. Select your movie in the list or try "
 "another search:"
@@ -166,7 +162,7 @@ msgid "Setting featured image…"
 msgstr ""
 
 #: admin/class-wpmovielibrary-admin.php:202
-#: admin/class-wpmovielibrary-admin.php:203 admin/import/views/import.php:112
+#: admin/class-wpmovielibrary-admin.php:203 admin/import/views/import.php:114
 msgid "Import Movies"
 msgstr ""
 
@@ -187,7 +183,7 @@ msgstr ""
 #: admin/common/views/recent-movies-widget-admin.php:2
 #: admin/common/views/status-widget-admin.php:2
 #: admin/import/class-wpml-import-table.php:53
-#: admin/import/views/import.php:64 includes/wpml-config.php:442
+#: admin/import/views/import.php:66 includes/wpml-config.php:442
 msgid "Title"
 msgstr ""
 
@@ -330,7 +326,7 @@ msgstr ""
 
 #: admin/common/views/status-widget-admin.php:21
 #: admin/edit-movies/class-wpml-edit-movies.php:100
-#: admin/edit-movies/views/quick-edit.php:17 admin/import/views/import.php:67
+#: admin/edit-movies/views/quick-edit.php:17 admin/import/views/import.php:69
 #: includes/wpml-config.php:209 includes/wpml-config.php:406
 msgid "Status"
 msgstr ""
@@ -349,24 +345,36 @@ msgstr ""
 msgid "Quick&nbsp;Edit"
 msgstr ""
 
-#: admin/edit-movies/class-wpml-edit-movies.php:404
+#: admin/edit-movies/class-wpml-edit-movies.php:378
+msgid "Empty or invalid Post ID or Movie Details"
+msgstr ""
+
+#: admin/edit-movies/class-wpml-edit-movies.php:400
 msgid "WPMovieLibrary − Movie Meta"
 msgstr ""
 
-#: admin/edit-movies/class-wpml-edit-movies.php:407
+#: admin/edit-movies/class-wpml-edit-movies.php:403
 msgid "WPMovieLibrary − Movie Images"
 msgstr ""
 
-#: admin/edit-movies/class-wpml-edit-movies.php:410
+#: admin/edit-movies/class-wpml-edit-movies.php:406
 msgid "WPMovieLibrary − Movie Details"
 msgstr ""
 
-#: admin/edit-movies/class-wpml-edit-movies.php:497
+#: admin/edit-movies/class-wpml-edit-movies.php:493
 msgid "You need a valid TMDb API Key to download movie posters."
 msgstr ""
 
-#: admin/edit-movies/class-wpml-edit-movies.php:499
+#: admin/edit-movies/class-wpml-edit-movies.php:495
 msgid "See available Movie Posters"
+msgstr ""
+
+#: admin/edit-movies/class-wpml-edit-movies.php:515
+msgid "Error: submitted post is not a movie."
+msgstr ""
+
+#: admin/edit-movies/class-wpml-edit-movies.php:518
+msgid "Error: the submitted movie details are invalid."
 msgstr ""
 
 #: admin/edit-movies/views/metabox-movie-details.php:9
@@ -377,8 +385,13 @@ msgstr ""
 #: admin/edit-movies/views/metabox-movie-details.php:30
 #: admin/edit-movies/views/metabox-movie-details.php:49
 #: admin/import/class-wpml-import-table.php:267
-#: admin/import/class-wpml-import.php:230
+#: admin/import/class-wpml-import.php:260
 msgid "Edit"
+msgstr ""
+
+#: admin/edit-movies/views/metabox-movie-details.php:16
+#: admin/edit-movies/views/metabox-movie-details.php:35
+msgid "None"
 msgstr ""
 
 #: admin/edit-movies/views/metabox-movie-details.php:21
@@ -517,12 +530,12 @@ msgid "Movie Dtails"
 msgstr ""
 
 #: admin/import/class-wpml-import-table.php:54
-#: admin/import/views/import.php:65 includes/wpml-config.php:484
+#: admin/import/views/import.php:67 includes/wpml-config.php:484
 msgid "Director"
 msgstr ""
 
 #: admin/import/class-wpml-import-table.php:55
-#: admin/import/views/import.php:66
+#: admin/import/views/import.php:68
 msgid "Actions"
 msgstr ""
 
@@ -540,12 +553,12 @@ msgid "Enqueue"
 msgstr ""
 
 #: admin/import/class-wpml-import-table.php:271
-#: admin/import/class-wpml-queue.php:140
+#: admin/import/class-wpml-queue.php:154
 msgid "Delete"
 msgstr ""
 
 #: admin/import/class-wpml-import-table.php:314
-#: admin/import/views/import.php:54
+#: admin/import/views/import.php:56
 msgid "Delete Movie"
 msgstr ""
 
@@ -554,7 +567,7 @@ msgid "Enqueue Movie"
 msgstr ""
 
 #: admin/import/class-wpml-import-table.php:355
-#: admin/import/views/import.php:53
+#: admin/import/views/import.php:55
 msgid "Bulk Actions"
 msgstr ""
 
@@ -562,39 +575,37 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: admin/import/class-wpml-import-table.php:458
-#: admin/import/class-wpml-queue.php:91 admin/import/views/import.php:60
+#: admin/import/class-wpml-import-table.php:460
+#: admin/import/class-wpml-queue.php:104 admin/import/views/import.php:62
 msgid "1 item"
 msgid_plural "%s items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin/import/class-wpml-import-table.php:506
+#: admin/import/class-wpml-import-table.php:508
 msgid "Hide"
 msgstr ""
 
-#: admin/import/class-wpml-import.php:190
-msgid "%d Movie%s added successfully."
+#: admin/import/class-wpml-import.php:164
+#: admin/import/class-wpml-import.php:221
+#: admin/import/class-wpml-queue.php:186 admin/import/class-wpml-queue.php:261
+msgid "Invalid movie list submitted."
 msgstr ""
 
-#: admin/import/class-wpml-import.php:192
-msgid "The following error(s) occured:"
-msgstr ""
-
-#: admin/import/class-wpml-import.php:228
-msgid "Movie \"%s\" already imported."
-msgstr ""
-
-#: admin/import/class-wpml-import.php:232
-msgid "View"
-msgstr ""
-
-#: admin/import/class-wpml-import.php:277
+#: admin/import/class-wpml-import.php:189
 msgid "An error occured trying to delete Post #%s"
 msgstr ""
 
-#: admin/import/class-wpml-import.php:283
+#: admin/import/class-wpml-import.php:194
 msgid "An error occured trying to delete Attachment #%s"
+msgstr ""
+
+#: admin/import/class-wpml-import.php:258
+msgid "Movie \"%s\" already imported."
+msgstr ""
+
+#: admin/import/class-wpml-import.php:262
+msgid "View"
 msgstr ""
 
 #: admin/import/class-wpml-import.php:373
@@ -605,43 +616,59 @@ msgstr ""
 msgid "%d Movies imported successfully!"
 msgstr ""
 
-#: admin/import/class-wpml-queue.php:129
+#: admin/import/class-wpml-queue.php:143
 msgid "No queued movie, dude."
 msgstr ""
 
-#: admin/import/class-wpml-queue.php:139
+#: admin/import/class-wpml-queue.php:153
 msgid "Dequeue"
 msgstr ""
 
-#: admin/import/class-wpml-queue.php:143
+#: admin/import/class-wpml-queue.php:157
 msgid "Queued"
 msgstr ""
 
-#: admin/import/class-wpml-queue.php:212
-msgid "An error occured when adding \"%s\" to the queue."
+#: admin/import/class-wpml-queue.php:233
+msgid "An error occured when adding \"%s\" to the queue: %s"
 msgstr ""
 
-#: admin/import/class-wpml-queue.php:268 admin/import/class-wpml-queue.php:275
-msgid "An error occured when trying to remove \"%s\" from the queue."
+#: admin/import/class-wpml-queue.php:297
+msgid "An error occured when trying to remove \"%s\" from the queue: %s"
+msgstr ""
+
+#: admin/import/class-wpml-queue.php:301
+msgid "An error occured when trying to delete \"%s\" metadata."
+msgstr ""
+
+#: admin/import/class-wpml-queue.php:321
+msgid "Error: submitted Post ID doesn\\t match any valid movie."
+msgstr ""
+
+#: admin/import/class-wpml-queue.php:325
+msgid "Error: cannot find submitted movie's metadata, try enqueuing it again."
+msgstr ""
+
+#: admin/import/class-wpml-queue.php:339
+msgid "An error occured when trying to imported queued movie \"%s\": %s"
 msgstr ""
 
 #: admin/import/views/import.php:2
 msgid "Movies Import"
 msgstr ""
 
-#: admin/import/views/import.php:12
+#: admin/import/views/import.php:14
 msgid "Imported Movies"
 msgstr ""
 
-#: admin/import/views/import.php:13
+#: admin/import/views/import.php:15
 msgid "Import Queue"
 msgstr ""
 
-#: admin/import/views/import.php:14
+#: admin/import/views/import.php:16
 msgid "Import New Movies"
 msgstr ""
 
-#: admin/import/views/import.php:22
+#: admin/import/views/import.php:24
 msgid ""
 "Here are the movies you previously updated but didn’t save. You can save "
 "them, edit them individually or apply bulk actions. Posters are "
@@ -650,42 +677,42 @@ msgid ""
 "a lot of movies. Don’t forget to save your imports when you’re done!"
 msgstr ""
 
-#: admin/import/views/import.php:38
+#: admin/import/views/import.php:40
 msgid "Empty All"
 msgstr ""
 
-#: admin/import/views/import.php:39
+#: admin/import/views/import.php:41
 msgid "Save Movies"
 msgstr ""
 
-#: admin/import/views/import.php:55
+#: admin/import/views/import.php:57
 msgid "Dequeue Movie"
 msgstr ""
 
-#: admin/import/views/import.php:81
+#: admin/import/views/import.php:83
 msgid "Import Queued Movies"
 msgstr ""
 
-#: admin/import/views/import.php:84
+#: admin/import/views/import.php:86
 msgid "of"
 msgstr ""
 
-#: admin/import/views/import.php:84
+#: admin/import/views/import.php:86
 msgid "imported"
 msgstr ""
 
-#: admin/import/views/import.php:102
+#: admin/import/views/import.php:104
 msgid "Input a list of movies to search and import separated by commas:"
 msgstr ""
 
-#: admin/import/views/import.php:103
+#: admin/import/views/import.php:105
 msgid ""
 "Titles don’t have to be exact, but try to be specific to get better results."
 "<br /> Ex: interview with the vampire, Se7en, Twelve Monkeys, joe black, "
 "fight club, snatch, babel, inglourious basterds"
 msgstr ""
 
-#: admin/import/views/import.php:106
+#: admin/import/views/import.php:108
 msgid "List of movie titles separated by commas"
 msgstr ""
 
@@ -1183,8 +1210,18 @@ msgstr ""
 msgid "Uninstall"
 msgstr ""
 
-#: includes/class-wpml-utils.php:663
+#: includes/class-wpml-utils.php:667
 msgid "Invalid taxonomy"
+msgstr ""
+
+#: includes/class-wpml-utils.php:826
+msgid ""
+"An error occured when trying to perform the request: invalid callback or "
+"data."
+msgstr ""
+
+#: includes/class-wpml-utils.php:846
+msgid "An error occured when trying to perform the request."
 msgstr ""
 
 #: includes/wpml-config.php:22

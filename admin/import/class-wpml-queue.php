@@ -54,7 +54,11 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		public static function enqueue_movies_callback() {
 
 			check_ajax_referer( 'wpml-movie-enqueue', 'wpml_ajax_movie_enqueue' );
-			self::enqueue_movies();
+
+			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? $_POST['movies'] : null );
+
+			$response = self::enqueue_movies( $movies );
+			WPML_Utils::ajax_response( $response );
 		}
 
 		/**
@@ -68,7 +72,11 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		public static function dequeue_movies_callback() {
 
 			check_ajax_referer( 'wpml-movie-dequeue', 'wpml_ajax_movie_dequeue' );
-			self::dequeue_movies();
+
+			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? $_POST['movies'] : null );
+
+			$response = self::dequeue_movies( $movies );
+			WPML_Utils::ajax_response( $response );
 		}
 
 		/**
@@ -87,13 +95,15 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			$total_items = self::get_queued_movies_count();
 
 			$response = array( 'rows' => $rows );
+			$i18n = array();
+
 			$response['total_items'] = $total_items;
-			$response['total_items_i18n'] = sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) );
 			$response['pagination']['top'] = '';
 			$response['pagination']['bottom'] = '';
 			$response['column_headers'] = '';
+			$i18n['total_items_i18n'] = sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) );
 
-			wp_die( json_encode( $response ) );
+			WPML_Utils::ajax_response( $response, $i18n );
 		}
 
 		/**
@@ -104,7 +114,11 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		public static function import_queued_movie_callback() {
 
 			check_ajax_referer( 'wpml-movie-import-queue', 'wpml_movie_import_queue' );
-			self::import_queued_movie();
+
+			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
+
+			$response = self::import_queued_movie( $post_id );
+			WPML_Utils::ajax_response( $response );
 		}
 
 		/**
@@ -136,8 +150,8 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 							<div class="director column-director"><span class="movie_director"><?php echo $movie['director'] ?></span></div>
 							<div class="actions column-actions">
 								<div class="row-actions visible">
-									<span class="dequeue"><a class="dequeue_movie" id="dequeue_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Dequeue', WPML_SLUG ) ?>" onclick="wpml_queue._dequeue(['<?php echo $movie['ID'] ?>']); return false;"><span class="dashicons dashicons-no"></span></a> | </span>
-									<span class="delete"><a class="delete_movie" id="delete_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Delete', WPML_SLUG ) ?>" onsubmit="wpml_importer.delete_movie(['<?php echo $movie['ID'] ?>']); return false;"><span class="dashicons dashicons-post-trash"></span></a></span>
+									<span class="dequeue"><a class="dequeue_movie" id="dequeue_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Dequeue', WPML_SLUG ) ?>" onclick="wpml_queue._dequeue([<?php echo $movie['ID'] ?>]); return false;"><span class="dashicons dashicons-no"></span></a> | </span>
+									<span class="delete"><a class="delete_movie" id="delete_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Delete', WPML_SLUG ) ?>" onclick="wpml_importer.delete_movie([<?php echo $movie['ID'] ?>]); return false;"><span class="dashicons dashicons-post-trash"></span></a></span>
 								</div>
 							</div>
 							<div class="status column-status"><span class="movie_status"><?php _e( 'Queued', WPML_SLUG ) ?></span></div>
@@ -157,21 +171,24 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 * Process the submitted queued movie list
 		 *
 		 * @since     1.0.0
+		 * 
+		 * @param     array    $movies Array of movies metadata
+		 * 
+		 * @return    array|WP_Error    Array of update movies Post IDs
+		 *                              if no error occured, or WP_Error
 		 */
-		private static function enqueue_movies() {
+		private static function enqueue_movies( $movies ) {
 
-			$errors = array();
-			$_notice = '';
+			$response = array();
+			$errors = new WP_Error();
 
-			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? $_POST['movies'] : null );
+			if ( is_null( $movies ) || ! is_array( $movies ) ) {
+				$errors->add( 'invalid', __( 'Invalid movie list submitted.', WPML_SLUG ) );
+				return $errors;
+			}
 
-			if ( is_null( $movies ) || ! is_array( $movies ) )
-				return false;
-
-			foreach ( $movies as $movie )
-				self::enqueue_movie( $movie['post_id'], esc_attr( $movie['meta']['title'] ), $movie );
-
-			wp_die();
+			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'enqueue_movie' ), array( $movies ), $loop = true );
+			return $response;
 		}
 
 		/**
@@ -184,18 +201,23 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 * that can be a pain to import if anything goes wrong when
 		 * downloading the poster.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0.0
 		 * 
-		 * @param     int        $post_id Movie Post ID.
-		 * @param     string     $title Movie title.
-		 * @param     array      $metadata Movie metadata.
+		 * @param    array    $metadata Movie metadata.
+		 * 
+		 * @return   int|WP_Error    Movie Post ID if successfully enqueued,
+		 *                           WP_Error if failed.
 		 */
-		private static function enqueue_movie( $post_id, $title, $metadata ) {
+		public static function enqueue_movie( $movie ) {
+
+			$post_id = esc_attr( $movie['post_id'] );
+			$post_title = esc_attr( $movie['meta']['title'] );
+			$metadata = $movie;
 
 			$post_date     = current_time('mysql');
 			$post_date     = wp_checkdate( substr( $post_date, 5, 2 ), substr( $post_date, 8, 2 ), substr( $post_date, 0, 4 ), $post_date );
 			$post_date_gmt = get_gmt_from_date( $post_date );
-			$post_title    = apply_filters( 'the_title', $title );
+			$post_title    = apply_filters( 'the_title', $post_title );
 
 			$_post = array(
 				'ID'             => $post_id,
@@ -206,35 +228,42 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				'post_status'    => 'import-queued'
 			);
 
-			$id = wp_update_post( $_post );
+			$update = wp_update_post( $_post, $wp_error = true );
+			if ( is_wp_error( $update ) )
+				return new WP_Error( 'error', sprintf( __( 'An error occured when adding "%s" to the queue: %s', WPML_SLUG ), $post_title, $update->get_error_message() ) );
 
-			if ( false === $id )
-				printf( __( 'An error occured when adding "%s" to the queue.', WPML_SLUG ), $post_title );
+			// TODO: Use WP_Error
+			WPML_Edit_Movies::save_movie_meta( $update, $post = null, $queue = true, $metadata );
 
-			WPML_Edit_Movies::save_movie_meta( $id, $post = null, $queue = true, $metadata );
+			return $post_id;
 		}
 
 		/**
 		 * Process the submitted dequeue movie list
+		 * 
+		 * Post IDs should be valid Movies CPT IDs. The method will return
+		 * an array of Post IDs if no error occured, a WP_Error instance
+		 * containing all errors if any.
 		 *
 		 * @since     1.0.0
 		 * 
-		 * @return    void|boolean|string
+		 * @param     array    $movies Array of movies Post IDs to dequeue
+		 * 
+		 * @return    array|WP_Error    Array of update movies Post IDs
+		 *                              if no error occured, or WP_Error
 		 */
-		private static function dequeue_movies() {
+		private static function dequeue_movies( $movies ) {
 
-			$errors = array();
-			$_notice = '';
+			$response = array();
+			$errors = new WP_Error();
 
-			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? $_POST['movies'] : null );
+			if ( is_null( $movies ) || ! is_array( $movies ) ) {
+				$errors->add( 'invalid', __( 'Invalid movie list submitted.', WPML_SLUG ) );
+				return $errors;
+			}
 
-			if ( is_null( $movies ) || ! is_array( $movies ) )
-				return false;
-
-			foreach ( $movies as $movie )
-				self::dequeue_movie( $movie );
-
-			wp_die();
+			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'dequeue_movie' ), array( $movies ), $loop = true );
+			return $response;
 		}
 
 		/**
@@ -247,9 +276,10 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 * 
 		 * @param     string     $post_id Movie Post ID.
 		 * 
-		 * @return    int|boolean        ID of the updated movie if everything worked, false else.
+		 * @return    int|WP_Error    Post ID if everything worked, WP_Error
+		 *                            instance if update of meta delete failed
 		 */
-		private static function dequeue_movie( $post_id ) {
+		public static function dequeue_movie( $post_id ) {
 
 			$post_date     = current_time('mysql');
 			$post_date     = wp_checkdate( substr( $post_date, 5, 2 ), substr( $post_date, 8, 2 ), substr( $post_date, 0, 4 ), $post_date );
@@ -262,19 +292,13 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				'post_status'    => 'import-draft'
 			);
 
-			$id = wp_update_post( $_post );
+			$update = wp_update_post( $_post, $wp_error = true );
+			if ( is_wp_error( $update ) )
+				return new WP_Error( 'error', sprintf( __( 'An error occured when trying to remove "%s" from the queue: %s', WPML_SLUG ), get_the_title( $post_id ), $update->get_error_message() ) );
 
-			if ( false === $id ) {
-				printf( __( 'An error occured when trying to remove "%s" from the queue.', WPML_SLUG ), get_the_title( $post_id ) );
-				return false;
-			}
-
-			$id = delete_post_meta( $post_id, '_wpml_movie_data' );
-
-			if ( false === $id ) {
-				printf( __( 'An error occured when trying to remove "%s" from the queue.', WPML_SLUG ), get_the_title( $post_id ) );
-				return false;
-			}
+			$update = delete_post_meta( $post_id, '_wpml_movie_data' );
+			if ( false === $update )
+				return new WP_Error( 'error', sprintf( __( 'An error occured when trying to delete "%s" metadata.', WPML_SLUG ), get_the_title( $post_id ) ) );
 
 			return $post_id;
 		}
@@ -287,24 +311,18 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 *
 		 * @since     1.0.0
 		 * 
+		 * @param    int    $post_id Movie Post ID
+		 * 
 		 * @return    int|boolean        ID of the updated movie if everything worked, false else.
 		 */
-		private static function import_queued_movie() {
-
-			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
+		private static function import_queued_movie( $post_id ) {
 
 			if ( is_null( $post_id ) || ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) )
-				return false;
+				return new WP_Error( 'invalid_movie', sprintf( __( 'Error: submitted Post ID doesn\t match any valid movie.', WPML_SLUG ) ) );
 
 			$meta = get_post_meta( $post_id, '_wpml_movie_data', true );
-
 			if ( '' == $meta || ! is_array( $meta ) || ! isset( $meta['poster'] ) || ! isset( $meta['tmdb_id'] ) )
-				return false;
-
-			$post_date     = current_time('mysql');
-			$post_date     = wp_checkdate( substr( $post_date, 5, 2 ), substr( $post_date, 8, 2 ), substr( $post_date, 0, 4 ), $post_date );
-			$post_date_gmt = get_gmt_from_date( $post_date );
-			$post_title    = apply_filters( 'the_title', $title );
+				return new WP_Error( 'invalid_meta', sprintf( __( 'Error: cannot find submitted movie\'s metadata, try enqueuing it again.', WPML_SLUG ) ) );
 
 			$_post = array(
 				'ID'          => $post_id,
@@ -316,9 +334,11 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				update_post_meta( $post_id, '_thumbnail_id', $id );
 			}
 
-			$id = wp_update_post( $_post );
+			$update = wp_update_post( $_post, $wp_error = true );
+			if ( is_wp_error( $update ) )
+				return new WP_Error( 'error', sprintf( __( 'An error occured when trying to imported queued movie "%s": %s', WPML_SLUG ), get_the_title( $post_id ), $update->get_error_message() ) );
 
-			wp_die( $id );
+			return $update;
 		}
 
 		/**

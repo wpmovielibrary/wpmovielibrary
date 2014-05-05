@@ -1,5 +1,5 @@
 
-wpml = wpml || {};
+/*wpml = wpml || {};
 
 wpml.movies = wpml_movies = {
 
@@ -44,4 +44,4 @@ wpml.movies = wpml_movies = {
 				wpml_movies.movies = response;
 			}
 		);
-	};
+	};*/

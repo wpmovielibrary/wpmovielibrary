@@ -26,7 +26,7 @@ endif;
 				<input id="tmdb_empty" name="wpml[tmdb_empty]" type="submit" class="button button-secondary button-empty hide-if-no-js" value="<?php _e( 'Empty Results', WPML_SLUG ); ?>" />
 			</div>
 
-			<div id="tmdb_status"></div>
+			<div id="wpml_status"></div>
 			<div style="clear:both"></div>
 
 			<div id="tmdb_data"></div>

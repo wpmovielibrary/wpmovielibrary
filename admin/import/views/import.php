@@ -8,6 +8,8 @@
 
 	<div id="wpml-tabs">
 
+		<div id="wpml_status"></div>
+
 		<ul class="wpml-tabs-nav">
 		    <li class="wpml-tabs-nav<?php if ( '' == $_section || 'wpml_imported' == $_section ) echo ' active'; ?>"><a id="_wpml_imported" href="" data-section="wpml_section=wpml_imported"><h4><?php _e( 'Imported Movies', WPML_SLUG ); ?><span><?php echo $_imported; ?></span></h4></a></li>
 		    <li class="wpml-tabs-nav<?php if ( 'wpml_import_queue' == $_section ) echo ' active'; ?> hide-if-no-js"><a id="_wpml_import_queue" href="" data-section="wpml_section=wpml_import_queue"><h4><?php _e( 'Import Queue', WPML_SLUG ); ?><span><?php echo $_queued; ?></span></h4></a></li>
