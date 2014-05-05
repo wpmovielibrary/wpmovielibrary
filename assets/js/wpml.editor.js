@@ -715,7 +715,7 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				$('#tmdb_data, .tagchecklist').empty();
 				$('#remove-post-thumbnail').trigger('click');
 
-				wpml.status.clear();
+				wpml_state.clear();
 			};
 
 	wpml.editor.init();

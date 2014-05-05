@@ -371,7 +371,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
-			$post_id = ( isset( $_POST['post_id'] )      && '' != $_POST['post_id']      ? $_POST['post_id']      : null );
+			$post_id = ( isset( $_POST['post_id'] )      && '' != $_POST['post_id']      ? intval( $_POST['post_id'] ) : null );
 			$details = ( isset( $_POST['wpml_details'] ) && '' != $_POST['wpml_details'] ? $_POST['wpml_details'] : null );
 
 			if ( is_null( $post_id ) || is_null( $details ) )

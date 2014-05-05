@@ -151,7 +151,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 							<div class="actions column-actions">
 								<div class="row-actions visible">
 									<span class="dequeue"><a class="dequeue_movie" id="dequeue_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Dequeue', WPML_SLUG ) ?>" onclick="wpml_queue._dequeue([<?php echo $movie['ID'] ?>]); return false;"><span class="dashicons dashicons-no"></span></a> | </span>
-									<span class="delete"><a class="delete_movie" id="delete_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Delete', WPML_SLUG ) ?>" onsubmit="wpml_importer.delete_movie([<?php echo $movie['ID'] ?>]); return false;"><span class="dashicons dashicons-post-trash"></span></a></span>
+									<span class="delete"><a class="delete_movie" id="delete_<?php echo $movie['ID'] ?>" data-post-id="<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Delete', WPML_SLUG ) ?>" onclick="wpml_importer.delete_movie([<?php echo $movie['ID'] ?>]); return false;"><span class="dashicons dashicons-post-trash"></span></a></span>
 								</div>
 							</div>
 							<div class="status column-status"><span class="movie_status"><?php _e( 'Queued', WPML_SLUG ) ?></span></div>
