@@ -10,8 +10,11 @@ if ( 'input' == $_type ) : ?>
 
 <?php elseif ( 'toggle' == $_type ) : ?>
 
-	<label><input type="radio" id="<?php echo $_id ?>" name="<?php echo $_name ?>" value="1"<?php checked( $_value, 1 ); ?>/> <?php _e( $_title, WPML_SLUG ) ?></label>
-	<label><input type="radio" id="<?php echo $_id ?>" name="<?php echo $_name ?>" value="0"<?php checked( $_value, 0 ); ?>/> <?php _e( 'Don&rsquo;t', WPML_SLUG ); ?></label>
+	<div class="label_onoff hide-if-no-js"><span class="label_on<?php if ( 1 == $_value ) echo ' active'; ?>"><?php _e( 'Enable', WPML_SLUG ); ?></span><span class="label_off<?php if ( 0 == $_value ) echo ' active'; ?>"><?php _e( 'Don&rsquo;t', WPML_SLUG ); ?></span></div>
+	<div class="label_onoff_radio hide-if-js">
+		<label><input class="enable" type="radio" id="<?php echo $_id ?>_on" name="<?php echo $_name ?>" value="1"<?php checked( $_value, 1 ); ?>/> <?php _e( $_title, WPML_SLUG ) ?></label>
+		<label><input class="disable" type="radio" id="<?php echo $_id ?>_off" name="<?php echo $_name ?>" value="0"<?php checked( $_value, 0 ); ?>/> <?php _e( 'Don&rsquo;t', WPML_SLUG ); ?></label>
+	</div>
 	<p class="description"><?php _e( $field['description'], WPML_SLUG ) ?></p>
 
 <?php elseif ( 'select' == $_type || 'multiple' == $_type ) : ?>

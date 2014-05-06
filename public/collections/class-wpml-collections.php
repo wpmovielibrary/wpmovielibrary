@@ -56,7 +56,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		 */
 		public static function register_collection_taxonomy() {
 
-			if ( ! WPML_Settings::wpml__enable_collection() )
+			if ( ! WPML_Settings::taxonomies__enable_collection() )
 				return false;
 
 			register_taxonomy(

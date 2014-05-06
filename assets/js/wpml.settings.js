@@ -8,7 +8,8 @@ wpml.settings = wpml_settings = {
 	panels: {},
 	sortable: {},
 
-	api_ckeck: function() {}
+	api_ckeck: function() {},
+	toggle_radio: function() {}
 }
 
 	wpml.settings.init = function() {
@@ -19,6 +20,14 @@ wpml.settings = wpml_settings = {
 		$('input#APIKey_check').on( 'click', function( e ) {
 			e.preventDefault();
 			wpml_settings.api_ckeck();
+		});
+
+		$('.label_onoff .label_on').on( 'click', function() {
+			wpml_settings.toggle_radio( this, true );
+		});
+
+		$('.label_onoff .label_off').on( 'click', function() {
+			wpml_settings.toggle_radio( this, false );
 		});
 	};
 
@@ -159,6 +168,26 @@ wpml.settings = wpml_settings = {
 				$input.after( '<span id="api_status" class="valid">' + response.message + '</span>' );
 			}
 		});
+	};
+
+	wpml.settings.toggle_radio = function( toggle, status ) {
+
+		var $label_off = $(toggle).parent('.label_onoff').find('.label_off'),
+		    $label_on = $(toggle).parent('.label_onoff').find('.label_on'),
+		    $disable = $(toggle).parent('.label_onoff').next('.label_onoff_radio').find('.enable'),
+		    $enable = $(toggle).parent('.label_onoff').next('.label_onoff_radio').find('.disable'),
+		    disable = status || false;
+
+		if ( ! disable ) {
+			$enable.prop('checked', true);
+			$label_on.removeClass('active');
+			$label_off.addClass('active');
+		}
+		else {
+			$disable.prop('checked', true);
+			$label_off.removeClass('active');
+			$label_on.addClass('active');
+		}
 	};
 
 	wpml.settings.init();

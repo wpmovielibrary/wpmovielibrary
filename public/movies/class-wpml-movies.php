@@ -248,11 +248,11 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 
 				switch ( $field ) {
 					case 'genres':
-						$genres = WPML_Settings::wpml__enable_genre() ? get_the_term_list( get_the_ID(), 'genre', '', ', ', '' ) : $tmdb_data[ $field ];
+						$genres = WPML_Settings::taxonomies__enable_genre() ? get_the_term_list( get_the_ID(), 'genre', '', ', ', '' ) : $tmdb_data[ $field ];
 						$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, $genres );
 						break;
 					case 'cast':
-						$actors = WPML_Settings::wpml__enable_actor() ? get_the_term_list( get_the_ID(), 'actor', '', ', ', '' ) : $tmdb_data[ $field ];
+						$actors = WPML_Settings::taxonomies__enable_actor() ? get_the_term_list( get_the_ID(), 'actor', '', ', ', '' ) : $tmdb_data[ $field ];
 						$html .= sprintf( $default_format, $field, __( 'Staring', WPML_SLUG ), $field, $actors );
 						break;
 					case 'release_date':
@@ -262,7 +262,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 						$html .= sprintf( $default_format, $field, __( $default_fields[ $field ]['title'], WPML_SLUG ), $field, WPML_Utils::filter_runtime( $tmdb_data[ $field ] ) );
 						break;
 					case 'director':
-						$term = WPML_Settings::wpml__enable_collection() ? get_term_by( 'name', $tmdb_data[ $field ], 'collection' ) : $tmdb_data[ $field ];
+						$term = WPML_Settings::taxonomies__enable_collection() ? get_term_by( 'name', $tmdb_data[ $field ], 'collection' ) : $tmdb_data[ $field ];
 						$collection = ( $term && ! is_wp_error( $link = get_term_link( $term, 'collection' ) ) ) ? '<a href="' . $link . '">' . $tmdb_data[ $field ] . '</a>' : $tmdb_data[ $field ];
 						$html .= sprintf( $default_format, $field, __( 'Directed by', WPML_SLUG ), $field, $collection );
 						break;

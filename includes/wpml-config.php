@@ -214,11 +214,37 @@ $wpml_settings = array(
 					'movie_status'
 				)
 			),
+		),
+	),
+
+	// Taxonomies
+	'taxonomies' => array(
+		'section' => array(
+			'id'       => 'taxonomies',
+			'title'    => __( 'Taxonomies', WPML_SLUG ),
+		),
+		'settings' => array(
 
 			// Enable Collections Taxonomy
 			'enable_collection' => array(
 				'title'    => __( 'Enable Collections', WPML_SLUG ),
-				'description' => __( 'Enable Custom Taxonomies to group movies. If enabled, three new Taxonomie will be active to help sort your movies: Collections, Actors and Genres. To learn more about WPML Taxonomies please refer to the documentation.', WPML_SLUG ),
+				'description' => __( 'Enable Collections Custom Taxonomy. Collections work for movies as Categories work for Posts: a hierarchical taxonomy to group your movies coherently. The default behavior is to use Collections to group movies by director, but you can use them differently at your will.', WPML_SLUG ),
+				'type'     => 'toggle',
+				'default' => 1
+			),
+
+			// Collections URL Rewrite Rule
+			'collection_rewrite' => array(
+				'title'    => __( 'Collections URL Rewrite', WPML_SLUG ),
+				'description' => sprintf( __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>%s</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely interfer with your site\'s visibility.', WPML_SLUG ), home_url( 'collection/david-fincher' ) ),
+				'type'     => 'input',
+				'default' => 'collection'
+			),
+
+			// Enable Collections Autocomplete
+			'collection_autocomplete' => array(
+				'title'    => __( 'Add Collections automatically', WPML_SLUG ),
+				'description' => __( 'Automatically add custom taxonomies when adding/importing movies. If enabled, each added/imported movie will be automatically added to the collection corresponding to its director(s).', WPML_SLUG ),
 				'type'     => 'toggle',
 				'default' => 1
 			),
@@ -226,7 +252,23 @@ $wpml_settings = array(
 			// Enable Genres Taxonomy
 			'enable_genre' => array(
 				'title'    => __( 'Enable Genres', WPML_SLUG ),
-				'description' => __( '', WPML_SLUG ),
+				'description' => __( 'Enable Genres Custom Taxonomy. Genres work for movies as Tags work for Posts: a non-hierarchical taxonomy to improve movies management.', WPML_SLUG ),
+				'type'     => 'toggle',
+				'default' => 1
+			),
+
+			// Genres URL Rewrite Rule
+			'genre_rewrite' => array(
+				'title'    => __( 'Genres URL Rewrite', WPML_SLUG ),
+				'description' => sprintf( __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>%s</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely interfer with your site\'s visibility.', WPML_SLUG ), home_url( 'genre/thriller' ) ),
+				'type'     => 'input',
+				'default' => 'genre'
+			),
+
+			// Enable Genres Autocomplete
+			'genres_autocomplete' => array(
+				'title'    => __( 'Add Genres automatically', WPML_SLUG ),
+				'description' => __( 'Automatically add Genres when adding/importing movies.', WPML_SLUG ),
 				'type'     => 'toggle',
 				'default' => 1
 			),
@@ -234,15 +276,23 @@ $wpml_settings = array(
 			// Enable Actors Taxonomy
 			'enable_actor' => array(
 				'title'    => __( 'Enable Actors', WPML_SLUG ),
-				'description' => __( '', WPML_SLUG ),
+				'description' => __( 'Enable Actors Custom Taxonomy. Actors work for movies as Tags work for Posts: a non-hierarchical taxonomy to improve movies management. WPMovieLibrary stores Actors in a custom order, the most important actors appearing in the top of the list, then the supporting roles, and so on.', WPML_SLUG ),
 				'type'     => 'toggle',
 				'default' => 1
 			),
 
-			// Enable automatic adding of taxonomies
-			'taxonomy_autocomplete' => array(
-				'title'    => __( 'Add Taxonomy on import', WPML_SLUG ),
-				'description' => __( 'Automatically add custom taxonomies when adding/importing movies. If enabled, each added/imported movie will be automatically added to the collection corresponding to the director. Actors and Genres tags will be filled automatically as well. Unexisting Taxonomies will be created. Ex: adding the movie <em>Fight Club</em> will add the movie to a "David Fincher" collection and the movie will be tagged with tags like "Edward Norton", "Brad Pitt", "Drama"...', WPML_SLUG ),
+			// Actors URL Rewrite Rule
+			'actor_rewrite' => array(
+				'title'    => __( 'Actors URL Rewrite', WPML_SLUG ),
+				'description' => sprintf( __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>%s</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely interfer with your site\'s visibility.', WPML_SLUG ), home_url( 'actor/brad-pitt' ) ),
+				'type'     => 'input',
+				'default' => 'actor'
+			),
+
+			// Enable Actors Autocomplete
+			'actor_autocomplete' => array(
+				'title'    => __( 'Add Actors automatically', WPML_SLUG ),
+				'description' => __( 'Automatically add Actors when adding/importing movies.', WPML_SLUG ),
 				'type'     => 'toggle',
 				'default' => 1
 			),

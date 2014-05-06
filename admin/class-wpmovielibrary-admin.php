@@ -258,6 +258,26 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			);
 		}
 
+		/**
+		 * Validate the submitted Settings
+		 * 
+		 * This essentially checks for sorted movie meta, as this option
+		 * is more a visual stuff an as such, not stored in a regular
+		 * setting field.
+		 * 
+		 * Also check for changes on the URL Rewriting of Taxonomies to
+		 * update the Rewrite Rules if needed. We need to do so to avoid
+		 * users to get 404 when they try to access their content if they
+		 * didn't previously reload the Dashboard Permalink page.
+		 * 
+		 * TODO: Add error handling & notification
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    array    $new_settings Array containing the new settings
+		 * 
+		 * @return   array    Validated settings
+		 */
 		public function validate_settings( $new_settings ) {
 
 			if ( isset( $new_settings['wpml']['default_movie_meta_sorted'] ) && '' != $new_settings['wpml']['default_movie_meta_sorted'] ) {
@@ -273,6 +293,25 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$new_settings['wpml']['default_movie_meta'] = $meta_sorted;
 			}
 
+			$old_settings = WPML_Settings::get_settings();
+
+			// Check for changes in URL Rewrite
+			$updated_collection_rewrite = ( isset( $old_settings['taxonomies']['collection_rewrite'] ) &&
+							isset( $new_settings['taxonomies']['collection_rewrite'] ) &&
+							$old_settings['taxonomies']['collection_rewrite'] != $new_settings['taxonomies']['collection_rewrite'] );
+
+			$updated_genre_rewrite = ( isset( $old_settings['taxonomies']['genre_rewrite'] ) &&
+						   isset( $new_settings['taxonomies']['genre_rewrite'] ) &&
+						   $old_settings['taxonomies']['genre_rewrite'] != $new_settings['taxonomies']['genre_rewrite'] );
+
+			$updated_actor_rewrite = ( isset( $old_settings['taxonomies']['actor_rewrite'] ) &&
+						   isset( $new_settings['taxonomies']['actor_rewrite'] ) &&
+						   $old_settings['taxonomies']['actor_rewrite'] != $new_settings['taxonomies']['actor_rewrite'] );
+
+			// Update Rewrite Rules if needed
+			if ( $updated_collection_rewrite || $updated_genre_rewrite || $updated_actor_rewrite )
+				add_settings_error( null, 'url_rewrite', sprintf( __( 'You update the taxonomies URL rewrite. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', WPML_SLUG ), admin_url( '/options-permalink.php' ) ), 'updated' );
+
 			return $new_settings;
 		}
 
@@ -286,7 +325,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( ! current_user_can( 'manage_options' ) )
 				wp_die( __( 'Access denied.', WPML_SLUG ) );
 
-			$_section = ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'tmdb', 'wpml', 'uninstall', 'restore' ) ) ) ? esc_attr( $_REQUEST['wpml_section'] ) : 'tmdb' ;
+			$_section = ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'tmdb', 'wpml', 'taxonomies', 'deactivate', 'uninstall', 'restore' ) ) ) ? esc_attr( $_REQUEST['wpml_section'] ) : 'tmdb' ;
 
 			include_once( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings.php' );
 		}

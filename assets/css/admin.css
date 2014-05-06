@@ -12,6 +12,54 @@ body.post-php.post-type-movie #postimagediv {
 	margin-left: 2em;
 }
 
+.label_onoff {
+	font-size: 0.75rem;
+	text-transform: uppercase;
+}
+
+.label_on,
+.label_off {
+	cursor: pointer;
+	display: inline-block;
+	padding: 0.35em 0.5em;
+}
+
+.label_on {
+	border-radius: 0.15rem 0 0 0.15rem;
+}
+
+.label_off {
+	border-radius: 0 0.15rem 0.15rem 0;
+}
+
+.label_on,
+.label_off {
+	background: #222;
+	color: #aaa;
+}
+
+.label_on:hover,
+.label_off:hover,
+.label_on:focus,
+.label_off:focus {
+	background: #333;
+	color: #ccc;
+}
+
+.label_on.active,
+.label_off.active {
+	background: #0074A2;
+	color: #eee;
+}
+
+.label_on.active:hover,
+.label_off.active:hover,
+.label_on.active:focus,
+.label_off.active:focus {
+	background: #2EA2CC;
+	color: #fff;
+}
+
 /* WPML Movie List
  ****************************************************/
 

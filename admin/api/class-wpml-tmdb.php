@@ -360,26 +360,29 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				'_full'   => $_full,
 			);
 
+			$_movie['taxonomy'] = array();
+
 			// Prepare Custom Taxonomy
-			if ( 1 == WPML_Settings::wpml__taxonomy_autocomplete() ) {
+			if ( 1 == WPML_Settings::taxonomies__actors_autocomplete() ) {
 
-				$_movie['taxonomy'] = array(
-					'actors' => array(),
-					'genres' => array()
-				);
-
-				if ( ! empty( $casts['cast'] ) && 1 == WPML_Settings::wpml__enable_actor() ) {
+				$_movie['taxonomy']['actors'] = array();
+				if ( ! empty( $casts['cast'] ) && 1 == WPML_Settings::taxonomies__enable_actor() ) {
 					foreach ( $casts['cast'] as $actor ) {
 						$_movie['taxonomy']['actors'][] = $actor['name'];
 					}
 				}
-				if ( ! empty( $movie['genres'] ) && 1 == WPML_Settings::wpml__enable_genre() ) {
+			}
+
+			// Prepare Custom Taxonomy
+			if ( 1 == WPML_Settings::taxonomies__genres_autocomplete() ) {
+
+				$_movie['taxonomy']['genres'] = array();
+				if ( ! empty( $movie['genres'] ) && 1 == WPML_Settings::taxonomies__enable_genre() ) {
 					foreach ( $movie['genres'] as $genre ) {
 						$_movie['taxonomy']['genres'][] = $genre['name'];
 					}
 				}
 			}
-
 
 			return $_movie;
 		}

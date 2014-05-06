@@ -58,8 +58,11 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		 */
 		public static function register_actor_taxonomy() {
 
-			if ( ! WPML_Settings::wpml__enable_actor() )
+			if ( ! WPML_Settings::taxonomies__enable_actor() )
 				return false;
+
+			$slug = WPML_Settings::taxonomies__actor_rewrite();
+			$slug = ( '' != $slug ? $slug : 'actor' );
 
 			register_taxonomy(
 				'actor',
@@ -75,7 +78,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 					'hierarchical'      => false,
 					'query_var'         => true,
 					'sort'              => true,
-					'rewrite'           => array( 'slug' => 'actor' )
+					'rewrite'           => array( 'slug' => $slug )
 				)
 			);
 

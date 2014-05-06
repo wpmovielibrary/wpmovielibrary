@@ -69,25 +69,35 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function register_permalinks( $rules = null ) {
 
+			$movies     = WPML_Settings::wpml__movie_rewrite();
+			$collection = WPML_Settings::taxonomies__collection_rewrite();
+			$genre      = WPML_Settings::taxonomies__genre_rewrite();
+			$actor      = WPML_Settings::taxonomies__actor_rewrite();
+
+			$movies     = ( '' != $movies ? $movies : 'movies' );
+			$collection = ( '' != $collection ? $collection : 'collection' );
+			$genre      = ( '' != $genre ? $genre : 'genre' );
+			$actor      = ( '' != $actor ? $actor : 'actor' );
+
 			$new_rules = array(
-				'movies/(dvd|vod|bluray|vhs|cinema|other)/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]',
-				'movies/(dvd|vod|bluray|vhs|cinema|other)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]&paged=$matches[2]',
-				'movies/(available|loaned|scheduled)/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]',
-				'movies/(available|loaned|scheduled)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]&paged=$matches[2]',
-				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]',
-				'movies/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]&paged=$matches[2]',
-				'collection/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?collection=$matches[1]&feed=$matches[2]',
-				'collection/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?collection=$matches[1]&feed=$matches[2]',
-				'collection/([^/]+)/page/?([0-9]{1,})/?$' => 'index.php?collection=$matches[1]&paged=$matches[2]',
-				'collection/([^/]+)/?$' => 'index.php?collection=$matches[1]',
-				'genre/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?genre=$matches[1]&feed=$matches[2]',
-				'genre/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?genre=$matches[1]&feed=$matches[2]',
-				'genre/([^/]+)/page/?([0-9]{1,})/?$' => 'index.php?genre=$matches[1]&paged=$matches[2]',
-				'genre/([^/]+)/?$' => 'index.php?genre=$matches[1]',
-				'actor/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?actor=$matches[1]&feed=$matches[2]',
-				'actor/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?actor=$matches[1]&feed=$matches[2]',
-				'actor/([^/]+)/page/?([0-9]{1,})/?$' => 'index.php?actor=$matches[1]&paged=$matches[2]',
-				'actor/([^/]+)/?$' => 'index.php?actor=$matches[1]',
+				$movies . '/(dvd|vod|bluray|vhs|cinema|other)/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]',
+				$movies . '/(dvd|vod|bluray|vhs|cinema|other)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]&paged=$matches[2]',
+				$movies . '/(available|loaned|scheduled)/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]',
+				$movies . '/(available|loaned|scheduled)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]&paged=$matches[2]',
+				$movies . '/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]',
+				$movies . '/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]&paged=$matches[2]',
+				$collection . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?collection=$matches[1]&feed=$matches[2]',
+				$collection . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?collection=$matches[1]&feed=$matches[2]',
+				$collection . '/([^/]+)/page/?([0-9]{1,})/?$' => 'index.php?collection=$matches[1]&paged=$matches[2]',
+				$collection . '/([^/]+)/?$' => 'index.php?collection=$matches[1]',
+				$genre . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?genre=$matches[1]&feed=$matches[2]',
+				$genre . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?genre=$matches[1]&feed=$matches[2]',
+				$genre . '/([^/]+)/page/?([0-9]{1,})/?$' => 'index.php?genre=$matches[1]&paged=$matches[2]',
+				$genre . '/([^/]+)/?$' => 'index.php?genre=$matches[1]',
+				$actor . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?actor=$matches[1]&feed=$matches[2]',
+				$actor . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?actor=$matches[1]&feed=$matches[2]',
+				$actor . '/([^/]+)/page/?([0-9]{1,})/?$' => 'index.php?actor=$matches[1]&paged=$matches[2]',
+				$actor . '/([^/]+)/?$' => 'index.php?actor=$matches[1]',
 			);
 
 			if ( ! is_null( $rules ) )
@@ -98,7 +108,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			add_permastruct(
 				'collection',
-				'/collection/%collection%',
+				'/' . $collection . '/%collection%',
 				array(
 					'with_front'  => 1,
 					'ep_mask'     => 0,
@@ -112,7 +122,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			add_permastruct(
 				'genre',
-				'/genre/%genre%',
+				'/' . $genre . '/%genre%',
 				array(
 					'with_front'  => 1,
 					'ep_mask'     => 0,
@@ -126,7 +136,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			add_permastruct(
 				'actor',
-				'/actor/%actor%',
+				'/' . $actor . '/%actor%',
 				array(
 					'with_front'  => 1,
 					'ep_mask'     => 0,
@@ -623,7 +633,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function get_the_terms( $terms, $id, $taxonomy ) {
 
-			if ( ! in_array( $taxonomy, array( 'collection', 'genre', 'actor' ) ) )
+			if ( ! in_array( $taxonomy, array( 'collection',  'genre',  'actor' ) ) )
 				return $terms;
 
 			$terms = wp_cache_get( $id, "{$taxonomy}_relationships_sorted" );
