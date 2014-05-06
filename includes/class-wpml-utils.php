@@ -510,23 +510,32 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function validate_meta_data( $data ) {
 
-			if ( ! is_array( $data ) || empty( $data ) || ! isset( $data['post_id'] ) || ! isset( $data['tmdb_id'] ) || ! isset( $data['poster'] ) || ! isset( $data['meta'] ) || ! isset( $data['crew'] ) )
+			if ( ! is_array( $data ) || empty( $data ) || ! isset( $data['tmdb_id'] ) || ! isset( $data['meta'] ) || ! isset( $data['crew'] ) )
 				return $data;
 
-			$keys = array_keys( WPML_Settings::get_supported_movie_meta() );
+			$supported = WPML_Settings::get_supported_movie_meta();
+			$keys = array_keys( $supported );
 			$movie_tmdb_id = esc_attr( $data['tmdb_id'] );
-			$movie_post_id = esc_attr( $data['post_id'] );
-			$movie_poster = esc_attr( $data['poster'] );
+			$movie_post_id = ( isset( $data['post_id'] ) && '' != $data['post_id'] ? esc_attr( $data['post_id'] ) : null );
+			$movie_poster = ( isset( $data['poster'] ) && '' != $data['poster'] ? esc_attr( $data['poster'] ) : null );
 			$movie_meta = array();
 			$movie_crew = array();
 
-			foreach ( $data['meta'] as $slug => $_meta )
-				if ( in_array( $slug, $keys ) )
-					$movie_meta[ $slug ] = esc_attr( $_meta );
+			foreach ( $data['meta'] as $slug => $_meta ) {
+				if ( in_array( $slug, $keys ) ) {
+					$filter = ( isset( $supported[ $slug ]['filter'] ) && function_exists( $supported[ $slug ]['filter'] ) ? $supported[ $slug ]['filter'] : 'esc_html' );
+					$args   = ( isset( $supported[ $slug ]['filter_args'] ) && ! is_null( $supported[ $slug ]['filter_args'] ) ? $supported[ $slug ]['filter_args'] : null );
+					$movie_meta[ $slug ] = call_user_func( $filter, $_meta, $args );
+				}
+			}
 
-			foreach ( $data['crew'] as $slug => $_meta )
-				if ( in_array( $slug, $keys ) )
-					$movie_crew[ $slug ] = esc_attr( $_meta );
+			foreach ( $data['crew'] as $slug => $_meta ) {
+				if ( in_array( $slug, $keys ) ) {
+					$filter = ( isset( $supported[ $slug ]['filter'] ) && function_exists( $supported[ $slug ]['filter'] ) ? $supported[ $slug ]['filter'] : 'esc_html' );
+					$args   = ( isset( $supported[ $slug ]['filter_args'] ) && ! is_null( $supported[ $slug ]['filter_args'] ) ? $supported[ $slug ]['filter_args'] : null );
+					$movie_crew[ $slug ] = call_user_func( $filter, $_meta, $args );
+				}
+			}
 
 			$_data = array(
 				'tmdb_id' => $movie_tmdb_id,

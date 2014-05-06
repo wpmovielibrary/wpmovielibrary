@@ -498,39 +498,57 @@ $wpml_movie_meta = array(
 		'data' => array(
 			'title' => array(
 				'title' => __( 'Title', WPML_SLUG ),
-				'type' => 'text'
+				'type' => 'text',
+				'filter' => 'wp_kses',
+				'filter_args' => array( 'b' => array(), 'i' => array(), 'em' => array(), 'strong' => array(), 'sup' => array(), 'sub' => array() )
 			),
 			'original_title' => array(
 				'title' => __( 'Original Title', WPML_SLUG ),
-				'type' => 'text'
+				'type' => 'text',
+				'filter' => 'wp_kses',
+				'filter_args' => array( 'b' => array(), 'i' => array(), 'em' => array(), 'strong' => array(), 'sup' => array(), 'sub' => array() )
 			),
 			'overview' => array(
 				'title' => __( 'Overview', WPML_SLUG ),
-				'type' => 'textarea'
+				'type' => 'textarea',
+				'filter' => 'wp_kses',
+				'filter_args' => array( 'b' => array(), 'i' => array(), 'em' => array(), 'strong' => array(), 'sup' => array(), 'sub' => array() )
 			),
 			'production_companies' => array(
 				'title' => __( 'Production', WPML_SLUG ),
-				'type' => 'text'
+				'type' => 'text',
+				'filter' => 'esc_html',
+				'filter_args' => null
 			),
 			'production_countries' => array(
 				'title' => __( 'Country', WPML_SLUG ),
-				'type' => 'text'
+				'type' => 'text',
+				'filter' => 'esc_html',
+				'filter_args' => null
 			),
 			'spoken_languages' => array(
 				'title' => __( 'Languages', WPML_SLUG ),
-				'type' => 'text'
+				'type' => 'text',
+				'filter' => 'esc_html',
+				'filter_args' => null
 			),
 			'runtime' => array(
 				'title' => __( 'Runtime', WPML_SLUG ),
-				'type' => 'text'
+				'type' => 'text',
+				'filter' => 'esc_html',
+				'filter_args' => null
 			),
 			'genres' => array(
 				'title' => __( 'Genres', WPML_SLUG ),
-				'type' => 'text'
+				'type' => 'text',
+				'filter' => 'esc_html',
+				'filter_args' => null
 			),
 			'release_date' => array(
 				'title' => __( 'Release Date', WPML_SLUG ),
-				'type' => 'text'
+				'type' => 'text',
+				'filter' => 'esc_html',
+				'filter_args' => null
 			)
 		)
 	),
@@ -540,31 +558,45 @@ $wpml_movie_meta = array(
 		'data' => array(
 			'director' => array(
 				'title' => __( 'Director', WPML_SLUG ),
-				'type' => 'text'
+				'type' => 'text',
+				'filter' => 'esc_html',
+				'filter_args' => null
 			),
 			'producer' => array(
 				'title' => __( 'Producer', WPML_SLUG ),
-				'type' => 'text'
+				'type' => 'text',
+				'filter' => 'esc_html',
+				'filter_args' => null
 			),
 			'photography' => array(
 				'title' => __( 'Director of Photography', WPML_SLUG ),
-				'type' => 'text'
+				'type' => 'text',
+				'filter' => 'esc_html',
+				'filter_args' => null
 			),
 			'composer' => array(
 				'title' => __( 'Original Music Composer', WPML_SLUG ),
-				'type' => 'text'
+				'type' => 'text',
+				'filter' => 'esc_html',
+				'filter_args' => null
 			),
 			'author' => array(
 				'title' => __( 'Author', WPML_SLUG ),
-				'type' => 'text'
+				'type' => 'text',
+				'filter' => 'esc_html',
+				'filter_args' => null
 			),
 			'writer' => array(
 				'title' => __( 'Writer', WPML_SLUG ),
-				'type' => 'text'
+				'type' => 'text',
+				'filter' => 'esc_html',
+				'filter_args' => null
 			),
 			'cast' => array(
 				'title' => __( 'Actors', WPML_SLUG ),
-				'type' => 'textarea'
+				'type' => 'textarea',
+				'filter' => 'esc_html',
+				'filter_args' => null
 			)
 		)
 	)
