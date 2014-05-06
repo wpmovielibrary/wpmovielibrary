@@ -69,10 +69,13 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 				'menu_name'          => __( 'Movies', WPML_SLUG )
 			);
 
+			$slug = WPML_Settings::wpml__movie_rewrite();
+			$slug = ( '' != $slug ? $slug : 'movies' );
+
 			$args = array(
 				'labels'             => $labels,
 				'rewrite'            => array(
-					'slug'       => 'movies'
+					'slug'       => $slug
 				),
 				'public'             => true,
 				'publicly_queryable' => true,

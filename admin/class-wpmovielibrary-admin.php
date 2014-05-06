@@ -296,6 +296,10 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			}
 
 			// Check for changes in URL Rewrite
+			$updated_movie_rewrite = ( isset( $old_settings['wpml']['movie_rewrite'] ) &&
+						   isset( $new_settings['wpml']['movie_rewrite'] ) &&
+						   $old_settings['wpml']['movie_rewrite'] != $new_settings['wpml']['movie_rewrite'] );
+
 			$updated_collection_rewrite = ( isset( $old_settings['taxonomies']['collection_rewrite'] ) &&
 							isset( $new_settings['taxonomies']['collection_rewrite'] ) &&
 							$old_settings['taxonomies']['collection_rewrite'] != $new_settings['taxonomies']['collection_rewrite'] );
@@ -309,7 +313,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 						   $old_settings['taxonomies']['actor_rewrite'] != $new_settings['taxonomies']['actor_rewrite'] );
 
 			// Update Rewrite Rules if needed
-			if ( $updated_collection_rewrite || $updated_genre_rewrite || $updated_actor_rewrite )
+			if ( $updated_movie_rewrite || $updated_collection_rewrite || $updated_genre_rewrite || $updated_actor_rewrite )
 				add_settings_error( null, 'url_rewrite', sprintf( __( 'You update the taxonomies URL rewrite. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', WPML_SLUG ), admin_url( '/options-permalink.php' ) ), 'updated' );
 
 			return $new_settings;
@@ -325,7 +329,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( ! current_user_can( 'manage_options' ) )
 				wp_die( __( 'Access denied.', WPML_SLUG ) );
 
-			$_section = ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'tmdb', 'wpml', 'taxonomies', 'deactivate', 'uninstall', 'restore' ) ) ) ? esc_attr( $_REQUEST['wpml_section'] ) : 'tmdb' ;
+			$_allowed = array( 'api', 'movies', 'taxonomies', 'deactivate', 'uninstall', 'restore' );
+			$_section = ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], $_allowed ) ) ? esc_attr( $_REQUEST['wpml_section'] ) : 'api' ;
 
 			include_once( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings.php' );
 		}

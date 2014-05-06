@@ -11,8 +11,8 @@
 		<form action="options.php" method="post">
 
 			<ul class="wpml-tabs-nav">
-			    <li class="wpml-tabs-nav<?php if ( 'tmdb' == $_section || '' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=tmdb"><h4><?php _e( 'TMDb API', WPML_SLUG ); ?></h4></a></li>
-			    <li class="wpml-tabs-nav<?php if ( 'wpml' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=wpml"><h4><?php _e( 'WPMovieLibrary', WPML_SLUG ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'api' == $_section || '' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=api"><h4><?php _e( 'TMDb API', WPML_SLUG ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'movies' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=movies"><h4><?php _e( 'Movies', WPML_SLUG ); ?></h4></a></li>
 			    <li class="wpml-tabs-nav<?php if ( 'taxonomies' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=taxonomies"><h4><?php _e( 'Taxonomies', WPML_SLUG ); ?></h4></a></li>
 			    <li class="wpml-tabs-nav<?php if ( 'deactivate' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=deactivate"><h4><?php _e( 'Deactivate', WPML_SLUG ); ?></h4></a></li>
 			    <li class="wpml-tabs-nav<?php if ( 'uninstall' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=uninstall"><h4><?php _e( 'Uninstall', WPML_SLUG ); ?></h4></a></li>

@@ -150,6 +150,14 @@ $wpml_settings = array(
 				'default' => 1
 			),
 
+			// Movie URL Rewrite Rule
+			'movie_rewrite' => array(
+				'title'    => __( 'Movies URL Rewrite', WPML_SLUG ),
+				'description' => sprintf( __( 'URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>%s</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ), home_url( 'movies/fight-club' ) ),
+				'type'     => 'input',
+				'default' => 'movies'
+			),
+
 			// Show movie meta in posts
 			'meta_in_posts' => array(
 				'title' => __( 'Show basic movie metadata', WPML_SLUG ),
@@ -236,7 +244,7 @@ $wpml_settings = array(
 			// Collections URL Rewrite Rule
 			'collection_rewrite' => array(
 				'title'    => __( 'Collections URL Rewrite', WPML_SLUG ),
-				'description' => sprintf( __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>%s</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely interfer with your site\'s visibility.', WPML_SLUG ), home_url( 'collection/david-fincher' ) ),
+				'description' => sprintf( __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>%s</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ), home_url( 'collection/david-fincher' ) ),
 				'type'     => 'input',
 				'default' => 'collection'
 			),
@@ -260,7 +268,7 @@ $wpml_settings = array(
 			// Genres URL Rewrite Rule
 			'genre_rewrite' => array(
 				'title'    => __( 'Genres URL Rewrite', WPML_SLUG ),
-				'description' => sprintf( __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>%s</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely interfer with your site\'s visibility.', WPML_SLUG ), home_url( 'genre/thriller' ) ),
+				'description' => sprintf( __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>%s</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ), home_url( 'genre/thriller' ) ),
 				'type'     => 'input',
 				'default' => 'genre'
 			),
@@ -284,7 +292,7 @@ $wpml_settings = array(
 			// Actors URL Rewrite Rule
 			'actor_rewrite' => array(
 				'title'    => __( 'Actors URL Rewrite', WPML_SLUG ),
-				'description' => sprintf( __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>%s</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely interfer with your site\'s visibility.', WPML_SLUG ), home_url( 'actor/brad-pitt' ) ),
+				'description' => sprintf( __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>%s</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ), home_url( 'actor/brad-pitt' ) ),
 				'type'     => 'input',
 				'default' => 'actor'
 			),
