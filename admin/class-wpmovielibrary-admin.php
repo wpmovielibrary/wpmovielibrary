@@ -140,8 +140,14 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 						)
 					),
 					'lang' => array(
+						'deleted_movie'		=> __( 'One movie successfully deleted.', WPML_SLUG ),
+						'deleted_movies'	=> __( '%s movies successfully deleted.', WPML_SLUG ),
+						'dequeued_movie'	=> __( 'One movie removed from the queue.', WPML_SLUG ),
+						'dequeued_movies'	=> __( '%s movies removed from the queue.', WPML_SLUG ),
 						'done'			=> __( 'Done!', WPML_SLUG ),
 						'empty_key'		=> __( 'I can\'t test an empty key, you know.', WPML_SLUG ),
+						'enqueued_movie'	=> __( 'One movie added to the queue.', WPML_SLUG ),
+						'enqueued_movies'	=> __( '%s movies added to the queue.', WPML_SLUG ),
 						'images_added'		=> __( 'Images added!', WPML_SLUG ),
 						'image_from'		=> __( 'Image from', WPML_SLUG ),
 						'images_uploaded'	=> __( 'Images uploaded!', WPML_SLUG ),
@@ -152,6 +158,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 						'import_poster_title'	=> __( 'Select a poster for "%s"', WPML_SLUG ),
 						'import_poster_wait'	=> __( 'Please wait while the poster is uploaded...', WPML_SLUG ),
 						'imported'		=> __( 'Imported', WPML_SLUG ),
+						'imported_movie'	=> __( 'One movie successfully imported!', WPML_SLUG ),
+						'imported_movies'	=> __( '%s movies successfully imported!', WPML_SLUG ),
 						'in_progress'		=> __( 'Progressing', WPML_SLUG ),
 						'length_key'		=> __( 'Invalid key: it should be 32 characters long.', WPML_SLUG ),
 						'load_images'		=> __( 'Load Images', WPML_SLUG ),

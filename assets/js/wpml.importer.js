@@ -128,9 +128,10 @@ var wpml_importer;
 				},
 				success: function( response ) {
 
-					$('.updated').remove();
+					var message = ( response.data.length > 1 ? wpml_ajax.lang.imported_movies : wpml_ajax.lang.imported_movie );
 					$(wpml_importer.list).val('');
-					wpml_state.set( response, 'updated');
+					wpml_state.clear();
+					wpml_state.set( message.replace( '%s', response.data.length ), 'updated');
 					$('#_wpml_imported').trigger('click');
 					wpml_importer.reload({});
 				}
@@ -174,6 +175,10 @@ var wpml_importer;
 					$(response.data).each(function() {
 						$('#post_'+this).parents('tr, li').fadeToggle().remove();
 					});
+
+					var message = ( response.data.length > 1 ? wpml_ajax.lang.deleted_movies : wpml_ajax.lang.deleted_movie );
+					wpml_state.clear();
+					wpml_state.set( message.replace( '%s', response.data.length ), 'error');
 
 					if ( ! $(wpml_importer.select + ':checked').length ) {
 						wpml_importer.reload({}, 'queued');

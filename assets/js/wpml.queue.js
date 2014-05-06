@@ -106,6 +106,9 @@ var wpml_queue;
 					});
 				},
 				success: function( response ) {
+					var message = ( response.data.length > 1 ? wpml_ajax.lang.enqueued_movies : wpml_ajax.lang.enqueued_movie );
+					wpml_state.clear();
+					wpml_state.set( message.replace( '%s', response.data.length ), 'updated' );
 					wpml_importer.reload( {} );
 					wpml_importer.reload( {}, 'queued' );
 					$('.spinner').hide();
@@ -174,6 +177,9 @@ var wpml_queue;
 						$('#post_'+this).parents('tr, li').fadeToggle().remove();
 					});
 
+					var message = ( response.data.length > 1 ? wpml_ajax.lang.dequeued_movies : wpml_ajax.lang.dequeued_movie );
+					wpml_state.clear();
+					wpml_state.set( message.replace( '%s', response.data.length ), 'updated' );
 					wpml_importer.reload({});
 					wpml_importer.reload({}, 'queued');
 					$('.spinner').hide();
