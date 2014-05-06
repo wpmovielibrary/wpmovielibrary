@@ -293,12 +293,16 @@ var wpml_images, wpml_posters;
 				e.preventDefault();
 				wpml_images.init();
 				wpml_images._frame.$el.addClass('movie-images');
+				if ( wpml_images._frame.content.get('library').collection.length )
+					wpml_images._frame.content.get('library').collection.props.set({ignore: (+ new Date())});
 			});
 
 			$('#postimagediv').on( 'click', '#tmdb_load_posters', function( e ) {
 				e.preventDefault();
 				wpml_posters.init();
 				wpml_posters._frame.$el.addClass('movie-posters');
+				if ( wpml_posters._frame.content.get('library').collection.length )
+					wpml_posters._frame.content.get('library').collection.props.set({ignore: (+ new Date())});
 			});
 		};
 
