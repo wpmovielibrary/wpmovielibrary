@@ -266,7 +266,7 @@ $wpml_settings = array(
 			),
 
 			// Enable Genres Autocomplete
-			'genres_autocomplete' => array(
+			'genre_autocomplete' => array(
 				'title'    => __( 'Add Genres automatically', WPML_SLUG ),
 				'description' => __( 'Automatically add Genres when adding/importing movies.', WPML_SLUG ),
 				'type'     => 'toggle',

@@ -58,6 +58,9 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 			if ( ! WPML_Settings::taxonomies__enable_genre() )
 				return false;
 
+			$slug = WPML_Settings::taxonomies__genre_rewrite();
+			$slug = ( '' != $slug ? $slug : 'genre' );
+
 			register_taxonomy(
 				'genre',
 				'movie',
@@ -72,7 +75,7 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 					'hierarchical'      => false,
 					'query_var'         => true,
 					'sort'              => true,
-					'rewrite'           => array( 'slug' => 'genre' )
+					'rewrite'           => array( 'slug' => $slug )
 				)
 			);
 

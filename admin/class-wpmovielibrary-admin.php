@@ -69,6 +69,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			add_action( 'init', array( $this, 'init' ) );
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 
+			add_filter( 'pre_update_option_wpml_settings', array( $this, 'filter_settings' ), 10, 2 );
+
 			// Add the options page and menu item.
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 
@@ -253,8 +255,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			// The settings container
 			register_setting(
 				'wpml_edit_settings',
-				'wpml_settings',
-				array( $this, 'validate_settings' )
+				'wpml_settings'
 			);
 		}
 
@@ -275,10 +276,11 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * @since    1.0.0
 		 * 
 		 * @param    array    $new_settings Array containing the new settings
+		 * @param    array    $old_settings Array containing the old settings
 		 * 
 		 * @return   array    Validated settings
 		 */
-		public function validate_settings( $new_settings ) {
+		public static function filter_settings( $new_settings, $old_settings ) {
 
 			if ( isset( $new_settings['wpml']['default_movie_meta_sorted'] ) && '' != $new_settings['wpml']['default_movie_meta_sorted'] ) {
 
@@ -292,8 +294,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$new_settings['wpml']['default_movie_meta_sorted'] = $meta_sorted;
 				$new_settings['wpml']['default_movie_meta'] = $meta_sorted;
 			}
-
-			$old_settings = WPML_Settings::get_settings();
 
 			// Check for changes in URL Rewrite
 			$updated_collection_rewrite = ( isset( $old_settings['taxonomies']['collection_rewrite'] ) &&

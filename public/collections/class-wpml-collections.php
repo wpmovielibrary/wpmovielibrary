@@ -59,6 +59,9 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 			if ( ! WPML_Settings::taxonomies__enable_collection() )
 				return false;
 
+			$slug = WPML_Settings::taxonomies__collection_rewrite();
+			$slug = ( '' != $slug ? $slug : 'collection' );
+
 			register_taxonomy(
 				'collection',
 				'movie',
@@ -73,7 +76,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 					'hierarchical'      => true,
 					'query_var'         => true,
 					'sort'              => true,
-					'rewrite'           => array( 'slug' => 'collection' )
+					'rewrite'           => array( 'slug' => $slug )
 				)
 			);
 
