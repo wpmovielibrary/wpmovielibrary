@@ -182,6 +182,11 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 			$config = self::getConfig();
 
+			if ( is_wp_error( $config ) ) {
+				WPML_Utils::admin_notice( $config->get_error_message(), 'error' );
+				return array();
+			}
+
 			$size_alias = array(
 				'poster' => array( 'xx-small', 'x-small', 'small', 'medium', 'large', 'full', 'original' ),
 				'image' => array( 'small', 'medium', 'full', 'original' )
@@ -271,7 +276,10 @@ if ( ! class_exists( 'TMDb' ) ) :
 			$response = $request->request( $url, array( 'headers' => $headers ) );
 
 			if ( is_wp_error( $response ) )
-				return sprintf( __( 'Server error: %s', WPML_SLUG ), $response->get_error_message() );
+				return $response;
+
+			if ( isset( $response['response']['code'] ) && 200 != $response['response']['code'] )
+				return new WP_Error( 'connect_failed', sprintf( __( 'Server connection error %s: %s', WPML_SLUG ), $response['response']['code'], $response['response']['message'] ) );
 
 			$header = $response['headers'];
 			$body   = $response['body'];
@@ -279,10 +287,10 @@ if ( ! class_exists( 'TMDb' ) ) :
 			$results = json_decode( $body, true );
 
 			if ( isset( $body['status_code'] ) && isset( $body['status_message'] ) )
-				return sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', WPML_SLUG ), $body['status_code'], $body['status_message'] );
+				return new WP_Error( 'connect_failed', sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', WPML_SLUG ), $body['status_code'], $body['status_message'] ) );
 
 			if ( is_null( $results ) )
-				return sprintf( __( 'Server error on "%s": %s', WPML_SLUG ), $url, print_r( $response, true ) );
+				return new WP_Error( 'unknown_error', __( 'Unknown server error: unable to perform request.', WPML_SLUG ) );
 
 			return $results;
 		}
