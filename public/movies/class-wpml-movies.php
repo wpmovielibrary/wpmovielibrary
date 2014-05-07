@@ -295,15 +295,37 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 */
 		public static function movies_query_meta( $wp_query ) {
 
-			$metas = array( 'wpml_movie_media', 'wpml_movie_status', 'wpml_movie_rating' );
 			$key_vars = array_keys( $wp_query->query_vars );
 
-			foreach ( $metas as $meta ) {
+			if ( in_array( 'wpml_movie_media', $key_vars ) ) {
+				$value = $wp_query->get( 'wpml_movie_media' );
+				if ( $value == __( 'bluray', WPML_SLUG ) )
+					$value = 'bluray';
+				else if ( $value == __( 'cinema', WPML_SLUG ) )
+					$value = 'cinema';
+				else if ( $value == __( 'other', WPML_SLUG ) )
+					$value = 'other';
 
-				if ( in_array( $meta, $key_vars ) ) {
-					$wp_query->set( 'meta_key', "_{$meta}" );
-					$wp_query->set( 'meta_value', $wp_query->get( $meta ) );
-				}
+				$wp_query->set( 'meta_key', '_wpml_movie_media' );
+				$wp_query->set( 'meta_value', $value );
+			}
+
+			if ( in_array( 'wpml_movie_status', $key_vars ) ) {
+				$value = $wp_query->get( 'wpml_movie_status' );
+				if ( $value == __( 'available', WPML_SLUG ) )
+					$value = 'available';
+				else if ( $value == __( 'loaned', WPML_SLUG ) )
+					$value = 'loaned';
+				else if ( $value == __( 'scheduled', WPML_SLUG ) )
+					$value = 'scheduled';
+
+				$wp_query->set( 'meta_key', '_wpml_movie_status' );
+				$wp_query->set( 'meta_value', $value );
+			}
+
+			if ( in_array( 'wpml_movie_rating', $key_vars ) ) {
+				$wp_query->set( 'meta_key', '_wpml_movie_rating' );
+				$wp_query->set( 'meta_value', $wp_query->get( 'wpml_movie_rating' ) );
 			}
 
 			return $wp_query;

@@ -158,6 +158,14 @@ $wpml_settings = array(
 				'default' => 'movies'
 			),
 
+			// Movie URL Rewrite Rule
+			'details_rewrite' => array(
+				'title'    => __( 'Movie Details URL Rewrite', WPML_SLUG ),
+				'description' => sprintf( __( 'Use localized URLs for Movie Details. Enable this to have URLs like <code>%s</code> rather than the default <code>%s</code>. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ), home_url( 'movies/disponible' ), home_url( 'movies/available' ) ),
+				'type'     => 'toggle',
+				'default' => 0
+			),
+
 			// Show movie meta in posts
 			'meta_in_posts' => array(
 				'title' => __( 'Show basic movie metadata', WPML_SLUG ),
@@ -169,6 +177,21 @@ $wpml_settings = array(
 					'nowhere'    => __( 'Don&rsquo;t Show', WPML_SLUG ),
 				),
 				'default' => 'posts_only'
+			),
+
+			// Default movie meta to show
+			'default_movie_meta' => array(
+				'title' => __( 'Movie metadata', WPML_SLUG ),
+				'description' => __( 'Which metadata to display in posts: director, genres, runtime, rating…', WPML_SLUG ),
+				'type' => 'select',
+				'callback' => 'sorted_markup_fields',
+				'default' => array(
+					'director',
+					'runtime',
+					'release_date',
+					'genres',
+					'overview'
+				)
 			),
 
 			// Show movie details in posts
@@ -190,21 +213,6 @@ $wpml_settings = array(
 				'description' => __( 'If enable, movie details will appear in the form of icons rather than default colored labels.', WPML_SLUG ),
 				'type' => 'toggle',
 				'default' => 1
-			),
-
-			// Default movie meta to show
-			'default_movie_meta' => array(
-				'title' => __( 'Movie metadata', WPML_SLUG ),
-				'description' => __( 'Which metadata to display in posts: director, genres, runtime, rating…', WPML_SLUG ),
-				'type' => 'select',
-				'callback' => 'sorted_markup_fields',
-				'default' => array(
-					'director',
-					'runtime',
-					'release_date',
-					'genres',
-					'overview'
-				)
 			),
 
 			// Default movie detail to show

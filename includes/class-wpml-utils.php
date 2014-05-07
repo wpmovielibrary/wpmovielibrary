@@ -79,11 +79,21 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$genre      = ( '' != $genre ? $genre : 'genre' );
 			$actor      = ( '' != $actor ? $actor : 'actor' );
 
+			$i18n = array();
+			$_i18n = WPML_Settings::wpml__details_rewrite();
+
+			$i18n['available'] = ( $_i18n ? __( 'available', WPML_SLUG ) : 'available' );
+			$i18n['loaned']    = ( $_i18n ? __( 'loaned', WPML_SLUG ) : 'loaned' );
+			$i18n['scheduled'] = ( $_i18n ? __( 'scheduled', WPML_SLUG ) : 'scheduled' );
+			$i18n['bluray']    = ( $_i18n ? __( 'bluray', WPML_SLUG ) : 'bluray' );
+			$i18n['cinema']    = ( $_i18n ? __( 'cinema', WPML_SLUG ) : 'cinema' );
+			$i18n['other']     = ( $_i18n ? __( 'other', WPML_SLUG ) : 'other' );
+
 			$new_rules = array(
-				$movies . '/(dvd|vod|bluray|vhs|cinema|other)/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]',
-				$movies . '/(dvd|vod|bluray|vhs|cinema|other)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]&paged=$matches[2]',
-				$movies . '/(available|loaned|scheduled)/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]',
-				$movies . '/(available|loaned|scheduled)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]&paged=$matches[2]',
+				$movies . '/(dvd|vod|' . $i18n['bluray'] . '|vhs|' . $i18n['cinema'] . '|' . $i18n['other'] . ')/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]',
+				$movies . '/(dvd|vod|' . $i18n['bluray'] . '|vhs|' . $i18n['cinema'] . '|' . $i18n['other'] . ')/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]&paged=$matches[2]',
+				$movies . '/(' . $i18n['available'] . '|' . $i18n['loaned'] . '|' . $i18n['scheduled'] . ')/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]',
+				$movies . '/(' . $i18n['available'] . '|' . $i18n['loaned'] . '|' . $i18n['scheduled'] . ')/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]&paged=$matches[2]',
 				$movies . '/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]',
 				$movies . '/(0.0|0.5|1.0|1.5|2.0|2.5|3.0|3.5|4.0|4.5|5.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]&paged=$matches[2]',
 				$collection . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?collection=$matches[1]&feed=$matches[2]',

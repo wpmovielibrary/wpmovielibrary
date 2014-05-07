@@ -41,7 +41,7 @@ define( 'WPML_REQUIRED_PHP_VERSION',   '5.3' );
 define( 'WPML_REQUIRED_WP_VERSION',    '3.5' );
 define( 'WPML_SETTINGS_SLUG',          'wpml_settings' );
 define( 'WPML_SETTINGS_REVISION_NAME', 'settings_revision' );
-define( 'WPML_SETTINGS_REVISION',      4 );
+define( 'WPML_SETTINGS_REVISION',      5 );
 define( 'WPML_DEFAULT_POSTER_URL',     plugins_url( WPML_NAME ) . '/assets/img/no_poster.png' );
 define( 'WPML_DEFAULT_POSTER_PATH',    plugin_dir_path( __FILE__ ) . '/assets/img/no_poster.png' );
 
