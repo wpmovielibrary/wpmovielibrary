@@ -153,7 +153,7 @@ $wpml_settings = array(
 			// Movie URL Rewrite Rule
 			'movie_rewrite' => array(
 				'title'    => __( 'Movies URL Rewrite', WPML_SLUG ),
-				'description' => sprintf( __( 'URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>%s</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ), home_url( 'movies/fight-club' ) ),
+				'description' => __( 'URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>http://yourblog/movies/fight-club</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ) ),
 				'type'     => 'input',
 				'default' => 'movies'
 			),
@@ -161,7 +161,7 @@ $wpml_settings = array(
 			// Movie URL Rewrite Rule
 			'details_rewrite' => array(
 				'title'    => __( 'Movie Details URL Rewrite', WPML_SLUG ),
-				'description' => sprintf( __( 'Use localized URLs for Movie Details. Enable this to have URLs like <code>%s</code> rather than the default <code>%s</code>. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ), home_url( 'movies/disponible' ), home_url( 'movies/available' ) ),
+				'description' => __( 'Use localized URLs for Movie Details. Enable this to have URLs like <code>http://yourblog/films/disponible</code> for French rather than the default <code>http://yourblog/movies/available</code>. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ),
 				'type'     => 'toggle',
 				'default' => 0
 			),
@@ -252,7 +252,7 @@ $wpml_settings = array(
 			// Collections URL Rewrite Rule
 			'collection_rewrite' => array(
 				'title'    => __( 'Collections URL Rewrite', WPML_SLUG ),
-				'description' => sprintf( __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>%s</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ), home_url( 'collection/david-fincher' ) ),
+				'description' => __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>http://yourblog/collection/david-fincher</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ),
 				'type'     => 'input',
 				'default' => 'collection'
 			),
@@ -276,7 +276,7 @@ $wpml_settings = array(
 			// Genres URL Rewrite Rule
 			'genre_rewrite' => array(
 				'title'    => __( 'Genres URL Rewrite', WPML_SLUG ),
-				'description' => sprintf( __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>%s</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ), home_url( 'genre/thriller' ) ),
+				'description' => __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>http://yourblog/genre/thriller</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ),
 				'type'     => 'input',
 				'default' => 'genre'
 			),
@@ -300,7 +300,7 @@ $wpml_settings = array(
 			// Actors URL Rewrite Rule
 			'actor_rewrite' => array(
 				'title'    => __( 'Actors URL Rewrite', WPML_SLUG ),
-				'description' => sprintf( __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>%s</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ), home_url( 'actor/brad-pitt' ) ),
+				'description' => __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ),
 				'type'     => 'input',
 				'default' => 'actor'
 			),
