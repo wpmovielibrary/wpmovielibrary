@@ -286,7 +286,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 			$results = json_decode( $body, true );
 
-			if ( isset( $body['status_code'] ) && isset( $body['status_message'] ) )
+			// Using array_key_exists() instead of isset() to prevent weird bug in PHP 5.3
+			if ( array_key_exists( 'status_code', $body ) && array_key_exists( 'status_message', $body ) )
 				return new WP_Error( 'connect_failed', sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', WPML_SLUG ), $body['status_code'], $body['status_message'] ) );
 
 			if ( is_null( $results ) )
