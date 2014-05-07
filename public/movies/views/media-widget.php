@@ -15,18 +15,22 @@ $media_only = ( 1 == $instance['media_only'] ? true : false );
 if ( $media_only ) :
 
 	$media = WPML_Settings::get_available_movie_media();
+	$movies = WPML_Settings::wpml__movie_rewrite();
+	$rewrite = WPML_Settings::wpml__details_rewrite();
 
 	if ( ! empty( $media ) ) :
 
 		$items = array();
 
-		foreach ( $media as $slug => $media_title )
+		foreach ( $media as $slug => $media_title ) :
+			$_slug = ( $rewrite ? __( $slug, WPML_SLUG ) : $slug );
 			$items[] = array(
 				'ID'          => $slug,
 				'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $media_title ),
-				'link'        => home_url( "/movies/{$slug}/" ),
+				'link'        => home_url( "/{$movies}/{$_slug}/" ),
 				'title'       => $media_title,
 			);
+		endforeach;
 
 		$html = apply_filters( 'wpml_format_widget_lists', $items, array( 'dropdown' => $list, 'styling' => $css, 'title' => __( 'Select a Movie', WPML_SLUG ) ) );
 

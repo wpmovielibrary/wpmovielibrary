@@ -11,12 +11,15 @@ $rating_only = ( 1 == $instance['rating_only'] ? true : false );
 <?php
 if ( $rating_only ) :
 	$ratings = WPML_Settings::get_available_movie_rating();
+	$movies = WPML_Settings::wpml__movie_rewrite();
+
 	$items = array();
+
 	foreach ( $ratings as $slug => $rating_title ) :
 		$items[] = array(
 				'ID'          => $slug,
 				'attr_title'  => sprintf( __( 'Permalink for &laquo; %s Rated Movies &raquo;', WPML_SLUG ), esc_attr__( $rating_title, WPML_SLUG ) ),
-				'link'        => home_url( "/movies/{$slug}/" ),
+				'link'        => home_url( "/{$movies}/{$slug}/" ),
 				'title'       => '<div class="movie_rating_display stars_' . str_replace( '.', '_', $slug ) . '"><div class="stars_labels"><span class="stars_label stars_label_' . str_replace( '.', '_', $slug ) . '">' . esc_attr__( $rating_title, WPML_SLUG ) . '</span></div></div>'
 			);
 	endforeach;
