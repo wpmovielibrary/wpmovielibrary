@@ -16,7 +16,7 @@
 			    <li class="wpml-tabs-nav<?php if ( 'taxonomies' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=taxonomies"><h4><?php _e( 'Taxonomies', WPML_SLUG ); ?></h4></a></li>
 			    <li class="wpml-tabs-nav<?php if ( 'deactivate' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=deactivate"><h4><?php _e( 'Deactivate', WPML_SLUG ); ?></h4></a></li>
 			    <li class="wpml-tabs-nav<?php if ( 'uninstall' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=uninstall"><h4><?php _e( 'Uninstall', WPML_SLUG ); ?></h4></a></li>
-			    <li class="wpml-tabs-nav<?php if ( 'restore' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=restore"><h4><?php _e( 'Restore', WPML_SLUG ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'maintenance' == $_section ) echo ' active'; ?>"><a href="#" data-section="wpml_section=maintenance"><h4><?php _e( 'Maintenance', WPML_SLUG ); ?></h4></a></li>
 			</ul>
 
 <?php settings_fields( 'wpml_edit_settings' ); ?>
@@ -24,6 +24,32 @@
 			<div class="wpml-tabs-panels">
 
 <?php do_settings_sections( 'wpml_settings' ); ?>
+
+				<h3><?php _e( 'Maintenance', WPML_SLUG ); ?></h3>
+				<table class="form-table active" style="display: none;">
+					<tbody>
+						<tr>
+							<th scope="row"><?php _e( 'Restore Default Settings', WPML_SLUG ); ?></th>
+							<td>
+								<p class="description"><?php _e( 'You may want to restore WPMovieLibrary default settings.', WPML_SLUG ); ?></p>
+								<p class="description"><?php _e( '<strong>Caution!</strong> Doing this you will erase permanently all your custom settings. Don&rsquo;t do this unless you are positively sure of what you&rsquo;re doing!', WPML_SLUG ); ?></p>
+								<p style="text-align:center">
+									<a href="<?php echo wp_nonce_url( admin_url( 'edit.php?post_type=movie&page=wpml_edit_settings&wpml_section=maintenance&wpml_restore_default=true' ), 'wpml-restore-default', 'wpml_restore_default_nonce') ?>" class="button button-secondary"><?php _e( 'Restore', WPML_SLUG ) ?></a>
+								</p>
+								
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><?php _e( 'Empty Cache', WPML_SLUG ); ?></th>
+							<td>
+								<p class="description"><?php _e( 'Delete all temporarily stored data. This can solve issues like incomplete movie metadata repeatedly returned or incorrect API results.', WPML_SLUG ); ?></p>
+								<p style="text-align:center">
+									<a href="<?php echo wp_nonce_url( admin_url( 'edit.php?post_type=movie&page=wpml_edit_settings&wpml_section=maintenance&wpml_empty_cache=true' ), 'wpml-empty-cache', 'wpml_empty_cache_nonce') ?>" class="button button-secondary"><?php _e( 'Empty cache', WPML_SLUG ) ?></a>
+								</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 
 			</div>
 

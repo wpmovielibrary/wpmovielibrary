@@ -908,30 +908,62 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
-		 * Handle Deactivation/Uninstallation actions.
+		 * General method for cache cleaning.
 		 * 
-		 * Depending on the Plugin settings, delete all Plugin's related
-		 * movie transient.
+		 * @since    1.0.0
 		 * 
-		 * @param    string    $action Are we deactivating or uninstalling
-		 *                             the plugin?
+		 * @return   string|WP_Error    Result notification or WP_Error
 		 */
-		public static function clean_transient( $action ) {
+		public static function empty_cache() {
+
+			global $wpdb;
+
+			$transient = self::clean_transient( null, $force = true );
+
+			if ( false === $transient )
+				return new WP_Error( 'transient_error', sprintf( __( 'An error occured when trying to delete transients: %s', WPML_SLUG ), $wpdb->last_error ) );
+			else if ( ! $transient )
+				return __( 'No transient found.', WPML_SLUG );
+			else if ( $transient )
+				return sprintf( _n( '1 transient deleted', '%s transients deleted.', $transient, WPML_SLUG ), $transient );
+		}
+
+		/**
+		 * Handle Transients cleaning. Mainly used for deactivation and
+		 * uninstallation actions, and occasionally manual cache cleaning.
+		 * 
+		 * When deactivating/uninstalling, delete all Plugin's related
+		 * movie transient, depending on the Plugin settings.
+		 * 
+		 * @param    string     $action Are we deactivating or uninstalling
+		 *                             the plugin?
+		 * @param    boolean    $force Force cleaning
+		 * 
+		 * @return   int        $result Number of deleted rows
+		 */
+		public static function clean_transient( $action, $force = false ) {
 
 			global $wpdb, $_wp_using_ext_object_cache;
 
-			$_action = get_option( 'wpml_settings' );
-			if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['cache'] ) )
-				return false;
+			$force = ( true === $force );
+			$result = 0;
 
-			$action = $_action[ $action ]['cache'];
-			if ( is_array( $action ) )
-				$action = $action[0];
+			if ( ! $force ) {
+				$_action = get_option( 'wpml_settings' );
+				if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['cache'] ) )
+					return false;
 
-			if ( ! $_wp_using_ext_object_cache && 'empty' == $action ) {
-				$result = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE \"_transient_%_movies_%\"" );
+				$action = $_action[ $action ]['cache'];
+				if ( is_array( $action ) )
+					$action = $action[0];
+			}
+
+			if ( $force || ( ! $_wp_using_ext_object_cache && 'empty' == $action ) ) {
+				$result = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE \"_transient_%wpml%\"" );
 				$wpdb->query( 'OPTIMIZE TABLE ' . $wpdb->options );
 			}
+
+			return $result;
 		}
 
 		/**

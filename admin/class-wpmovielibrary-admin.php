@@ -341,7 +341,39 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( ! current_user_can( 'manage_options' ) )
 				wp_die( __( 'Access denied.', WPML_SLUG ) );
 
-			$_allowed = array( 'api', 'movies', 'taxonomies', 'deactivate', 'uninstall', 'restore' );
+			// Restore default settings?
+			if ( isset( $_GET['wpml_restore_default'] ) && 'true' == $_GET['wpml_restore_default'] ) {
+
+				// Check Nonce URL
+				if ( ! isset( $_GET['wpml_restore_default_nonce'] ) || ! wp_verify_nonce( $_GET['wpml_restore_default_nonce'], 'wpml-restore-default' ) ) {
+					add_settings_error(  null, 'restore_default', __( 'You don\'t have the permission do perform this action.', WPML_SLUG ), 'error' );
+				}
+				else {
+					$action = WPML_Settings::update_settings( $force = true );
+					if ( ! $action )
+						add_settings_error(  null, 'empty_cache', __( 'Unknown error: failed to restore default settings.', WPML_SLUG ), 'error' );
+					else
+						add_settings_error(  null, 'empty_cache', __( 'Default settings restored!', WPML_SLUG ), 'updated' );
+				}
+			}
+
+			// Empty Cache?
+			if ( isset( $_GET['wpml_empty_cache'] ) && 'true' == $_GET['wpml_empty_cache'] ) {
+
+				// Check Nonce URL
+				if ( ! isset( $_GET['wpml_empty_cache_nonce'] ) || ! wp_verify_nonce( $_GET['wpml_empty_cache_nonce'], 'wpml-empty-cache' ) ) {
+					add_settings_error(  null, 'empty_cache', __( 'You don\'t have the permission do perform this action.', WPML_SLUG ), 'error' );
+				}
+				else {
+					$action = WPML_Utils::empty_cache();
+					if ( is_wp_error( $action ) )
+						add_settings_error(  null, 'empty_cache', $action->get_error_message(), 'error' );
+					else
+						add_settings_error(  null, 'empty_cache', $action, 'updated' );
+				}
+			}
+
+			$_allowed = array( 'api', 'movies', 'taxonomies', 'deactivate', 'uninstall', 'maintenance' );
 			$_section = ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], $_allowed ) ) ? esc_attr( $_REQUEST['wpml_section'] ) : 'api' ;
 
 			include_once( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings.php' );

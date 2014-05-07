@@ -153,7 +153,8 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 				$updated_settings = shortcode_atts( $settings, $default_settings );
 				if ( ! empty( $updated_settings ) ) {
 					$updated_settings[ WPML_SETTINGS_REVISION_NAME ] = WPML_SETTINGS_REVISION;
-					$status = update_option( WPML_SETTINGS_SLUG, $updated_settings );
+					delete_option( WPML_SETTINGS_SLUG );
+					$status = add_option( WPML_SETTINGS_SLUG, $updated_settings );
 				}
 			}
 
