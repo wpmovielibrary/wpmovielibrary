@@ -26,7 +26,7 @@
 <?php do_settings_sections( 'wpml_settings' ); ?>
 
 				<h3><?php _e( 'Maintenance', WPML_SLUG ); ?></h3>
-				<table class="form-table active" style="display: none;">
+				<table class="form-table" style="display: none;">
 					<tbody>
 						<tr>
 							<th scope="row"><?php _e( 'Restore Default Settings', WPML_SLUG ); ?></th>

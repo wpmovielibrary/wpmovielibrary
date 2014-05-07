@@ -84,6 +84,7 @@ body.post-php.post-type-movie #postimagediv {
 
 .wpml {
 	background: url(../img/gradient.png) center top repeat-x;
+	background-size: cover;
 	border-color: #5b6b8b !important;
 	color: #fff;
 	padding: 0.75em 1.5em !important;

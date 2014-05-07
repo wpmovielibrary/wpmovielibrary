@@ -268,6 +268,47 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		}
 
 		/**
+		 * Filter the submitted settings to detect unsupported data.
+		 *
+		 * @since    1.0.0
+		 * 
+		 * @param    array    $settings Settings array to filter
+		 * @param    array    $defaults Default Settings to match against submitted settings
+		 * 
+		 * @return   array    Filtered Settings
+		 */
+		protected static function validate_settings( $settings, $defaults = array() ) {
+
+			$defaults = ( ! empty( $defaults ) ? $defaults : WPML_Settings::get_default_settings() );
+			$_settings = array();
+
+			if ( is_null( $settings ) || ! is_array( $settings ) )
+				return $settings;
+
+			// Loop through settings
+			foreach ( $settings as $slug => $setting ) {
+
+				// Is the setting valid?
+				if ( isset( $defaults[ $slug ] ) ) {
+
+					if ( is_array( $setting ) && 1 == count( $setting ) )
+						$setting = $setting[0];
+
+					if ( is_array( $setting ) )
+						$setting = self::validate_settings( $setting, $defaults[ $slug ] );
+					else if ( is_numeric( $setting ) )
+						$setting = filter_var( $setting, FILTER_VALIDATE_INT );
+					else
+						$setting = sanitize_text_field( $setting );
+
+					$_settings[ $slug ] = $setting;
+				}
+			}
+
+			return $_settings;
+		}
+
+		/**
 		 * Validate the submitted Settings
 		 * 
 		 * This essentially checks for sorted movie meta, as this option
@@ -290,6 +331,9 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public static function filter_settings( $new_settings, $old_settings ) {
 
+			$settings = self::validate_settings( $new_settings );
+			$settings[ WPML_SETTINGS_REVISION_NAME ] = WPML_SETTINGS_REVISION;
+
 			if ( isset( $new_settings['wpml']['default_movie_meta_sorted'] ) && '' != $new_settings['wpml']['default_movie_meta_sorted'] ) {
 
 				$meta_sorted = explode( ',', $new_settings['wpml']['default_movie_meta_sorted'] );
@@ -299,36 +343,36 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					if ( ! in_array( $_meta, array_keys( $meta ) ) )
 						unset( $meta_sorted[ $i ] );
 
-				$new_settings['wpml']['default_movie_meta_sorted'] = $meta_sorted;
-				$new_settings['wpml']['default_movie_meta'] = $meta_sorted;
+				$settings['wpml']['default_movie_meta_sorted'] = $meta_sorted;
+				$settings['wpml']['default_movie_meta'] = $meta_sorted;
 			}
 
 			// Check for changes in URL Rewrite
 			$updated_movie_rewrite = ( isset( $old_settings['wpml']['movie_rewrite'] ) &&
-						   isset( $new_settings['wpml']['movie_rewrite'] ) &&
-						   $old_settings['wpml']['movie_rewrite'] != $new_settings['wpml']['movie_rewrite'] );
+						   isset( $settings['wpml']['movie_rewrite'] ) &&
+						   $old_settings['wpml']['movie_rewrite'] != $settings['wpml']['movie_rewrite'] );
 
 			$updated_details_rewrite = ( isset( $old_settings['wpml']['details_rewrite'] ) &&
-						   isset( $new_settings['wpml']['details_rewrite'] ) &&
-						   $old_settings['wpml']['details_rewrite'] != $new_settings['wpml']['details_rewrite'] );
+						   isset( $settings['wpml']['details_rewrite'] ) &&
+						   $old_settings['wpml']['details_rewrite'] != $settings['wpml']['details_rewrite'] );
 
 			$updated_collection_rewrite = ( isset( $old_settings['taxonomies']['collection_rewrite'] ) &&
-							isset( $new_settings['taxonomies']['collection_rewrite'] ) &&
-							$old_settings['taxonomies']['collection_rewrite'] != $new_settings['taxonomies']['collection_rewrite'] );
+							isset( $settings['taxonomies']['collection_rewrite'] ) &&
+							$old_settings['taxonomies']['collection_rewrite'] != $settings['taxonomies']['collection_rewrite'] );
 
 			$updated_genre_rewrite = ( isset( $old_settings['taxonomies']['genre_rewrite'] ) &&
-						   isset( $new_settings['taxonomies']['genre_rewrite'] ) &&
-						   $old_settings['taxonomies']['genre_rewrite'] != $new_settings['taxonomies']['genre_rewrite'] );
+						   isset( $settings['taxonomies']['genre_rewrite'] ) &&
+						   $old_settings['taxonomies']['genre_rewrite'] != $settings['taxonomies']['genre_rewrite'] );
 
 			$updated_actor_rewrite = ( isset( $old_settings['taxonomies']['actor_rewrite'] ) &&
-						   isset( $new_settings['taxonomies']['actor_rewrite'] ) &&
-						   $old_settings['taxonomies']['actor_rewrite'] != $new_settings['taxonomies']['actor_rewrite'] );
+						   isset( $settings['taxonomies']['actor_rewrite'] ) &&
+						   $old_settings['taxonomies']['actor_rewrite'] != $settings['taxonomies']['actor_rewrite'] );
 
 			// Update Rewrite Rules if needed
 			if ( $updated_movie_rewrite || $updated_details_rewrite || $updated_collection_rewrite || $updated_genre_rewrite || $updated_actor_rewrite )
 				add_settings_error( null, 'url_rewrite', sprintf( __( 'You update the taxonomies URL rewrite. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', WPML_SLUG ), admin_url( '/options-permalink.php' ) ), 'updated' );
 
-			return $new_settings;
+			return $settings;
 		}
 
 		/**

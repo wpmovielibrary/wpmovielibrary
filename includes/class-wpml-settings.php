@@ -74,10 +74,6 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			// Load settings or register new ones
-			//add_action( 'init', __CLASS__ . '::get_default_settings', 9 );
-
-			add_action( 'wpml_restore_default_settings', __CLASS__ . '::restore_default_settings', 10, 0 );
 			add_filter( 'wpml_get_available_movie_media', __CLASS__ . '::get_available_movie_media' );
 			add_filter( 'wpml_get_available_movie_status', __CLASS__ . '::get_available_movie_status' );
 			add_filter( 'wpml_get_available_movie_rating', __CLASS__ . '::get_available_movie_rating' );
@@ -133,9 +129,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @param    boolean    $force Force to restore the default settings
 		 * 
-		 * @return   array      Updated and possibly unchanged settings
-		 *                      array if everything went right, empty array
-		 *                      if something bad happened.
+		 * @return   boolean    Updated status: success or failure
 		 */
 		protected static function update_settings( $force = false ) {
 
@@ -147,29 +141,18 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 
 			if ( ( false === $settings || ! is_array( $settings ) ) || true == $force ) {
 				delete_option( WPML_SETTINGS_SLUG );
-				$status = add_option( WPML_SETTINGS_SLUG, $default_settings );
+				$status = add_option( WPML_SETTINGS_SLUG, $default_settings, '', 'no' );
 			}
 			else if ( ! isset( $settings[ WPML_SETTINGS_REVISION_NAME ] ) || WPML_SETTINGS_REVISION > $settings[ WPML_SETTINGS_REVISION_NAME ] ) {
 				$updated_settings = shortcode_atts( $settings, $default_settings );
 				if ( ! empty( $updated_settings ) ) {
 					$updated_settings[ WPML_SETTINGS_REVISION_NAME ] = WPML_SETTINGS_REVISION;
 					delete_option( WPML_SETTINGS_SLUG );
-					$status = add_option( WPML_SETTINGS_SLUG, $updated_settings );
+					$status = add_option( WPML_SETTINGS_SLUG, $updated_settings, '', 'no' );
 				}
 			}
 
 			return $status;
-		}
-
-		/**
-		 * Restore default settings.
-		 * 
-		 * Action Hook to restore the Plugin's default settings.
-		 * 
-		 * @since    1.0.0
-		 */
-		public static function restore_default_settings() {
-			self::get_default_settings( $force = true );
 		}
 
 		/**
@@ -231,24 +214,6 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 			}
 
 			return $o;
-		}
-
-		/**
-		 * Built-in option modifier
-		 * Navigate through WPML options to find a matching option and update
-		 * its value.
-		 *
-		 * @since    1.0.0
-		 * 
-		 * @param    array         Options array passed by reference
-		 * @param    string        key list to match the specified option
-		 * @param    string        Replacement value for the option. Default none
-		 */
-		protected static function wpml_o_( &$array, $key, $value = '' ) {
-			$a = &$array;
-			foreach ( $key as $k )
-				$a = &$a[ $k ];
-			$a = $value;
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
