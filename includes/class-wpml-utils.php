@@ -307,33 +307,47 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @since    1.0.0
 		 * 
-		 * @param    array      $items Array of Movies objects
-		 * @param    boolean    $dropdown Whether to return a dropdown or a regular list
-		 * @param    boolean    $styling Add custom styling or not
-		 * @param    string     $title First Option content if dropdown
+		 * @param    array    $items Array of Movies objects
+		 * @param    array    $args Filter params
 		 * 
 		 * @return   string     HTML string List of movies
 		 */
-		public static function format_widget_lists( $items, $dropdown = false, $styling = false, $title = null ) {
+		public static function format_widget_lists( $items, $args = array() ) {
 
 			if ( ! is_array( $items ) || empty( $items ) )
 				return null;
+
+			$defaults = array(
+				'dropdown'	=> false,
+				'styling'	=> false,
+				'title'		=> null,
+				'attr_filter'	=> 'esc_attr__',
+				'attr_args'	=> WPML_SLUG,
+				'title_filter'	=> 'esc_attr__',
+				'title_args'	=> WPML_SLUG
+			);
+			$args = wp_parse_args( $args, $defaults );
+			extract( $args, EXTR_SKIP );
 
 			$html = array();
 			$style = 'wpml-list';
 			$first = '';
 
-			if ( false !== $styling )
+			if ( $styling )
 				$style = 'wpml-list custom';
 
 			if ( ! is_null( $title ) )
 				$first = sprintf( '<option value="">%s</option>', esc_attr( $title ) );
 
 			foreach ( $items as $item ) {
+				$item_title = ( function_exists( $title_filter ) ? call_user_func( $title_filter, $item['title'], $title_args ) : $item['title'] );
+				$item_attr_title = ( function_exists( $attr_filter ) ? call_user_func( $attr_filter, $item['attr_title'], $attr_args ) : $item['attr_title'] );
+				$item_url = esc_url( $item['link'] );
+
 				if ( $dropdown )
-					$html[] = '<option value="' . esc_url( $item['link'] ) . '">' . esc_attr__( $item['title'], WPML_SLUG ) . '</option>';
+					$html[] = '<option value="' . $item_url . '">' . $item_title . '</option>';
 				else
-					$html[] = '<li><a href="' . esc_url( $item['link'] ) . '" title="' . esc_attr__( $item['attr_title'], WPML_SLUG ) . '">' . esc_attr__( $item['title'], WPML_SLUG ) . '</a></li>';
+					$html[] = '<li><a href="' . $item_url . '" title="' . $item_attr_title . '">' . $item_title . '</a></li>';
 			}
 
 			if ( false !== $dropdown )

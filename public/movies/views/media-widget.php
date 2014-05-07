@@ -28,7 +28,7 @@ if ( $media_only ) :
 				'title'       => $media_title,
 			);
 
-		$html = apply_filters( 'wpml_format_widget_lists', $items, $list, $css, __( 'Select a Movie', WPML_SLUG ) );
+		$html = apply_filters( 'wpml_format_widget_lists', $items, array( 'dropdown' => $list, 'styling' => $css, 'title' => __( 'Select a Movie', WPML_SLUG ) ) );
 
 		echo $html;
 	else :

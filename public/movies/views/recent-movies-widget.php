@@ -21,12 +21,7 @@ $movies = new WP_Query(
 		 $movies->the_post();
 		 $thumbnail = get_the_post_thumbnail( get_the_ID(), 'thumbnail' );
 		 $thumbnail = ( '' != $thumbnail ? $thumbnail : sprintf( '<img src="%s" alt="%s" width="%d" height="%d" />', WPML_DEFAULT_POSTER_URL, get_the_title(), 150, 150 ) );
-?>
-			<a href="<?php the_permalink(); ?>" title="<?php printf( '%s %s', __( 'Read more about', WPML_SLUG ), get_the_title() ); ?>">
-				<figure id="movie-<?php the_ID(); ?>" class="recent-movie">
-					<?php echo $thumbnail; ?>
-				</figure>
-			</a>
+?>			<a href="<?php the_permalink(); ?>" title="<?php printf( '%s %s', __( 'Read more about', WPML_SLUG ), get_the_title() ); ?>"><figure id="movie-<?php the_ID(); ?>" class="recent-movie"><?php echo $thumbnail; ?></figure></a>
 <?php endwhile; ?>
 		</div>
 <?php endif; ?>

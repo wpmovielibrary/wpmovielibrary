@@ -15,13 +15,13 @@ if ( $rating_only ) :
 	foreach ( $ratings as $slug => $rating_title ) :
 		$items[] = array(
 				'ID'          => $slug,
-				'attr_title'  => sprintf( __( 'Permalink for &laquo; %s Rated Movies &raquo;', WPML_SLUG ), esc_attr( $rating_title ) ),
+				'attr_title'  => sprintf( __( 'Permalink for &laquo; %s Rated Movies &raquo;', WPML_SLUG ), esc_attr__( $rating_title, WPML_SLUG ) ),
 				'link'        => home_url( "/movies/{$slug}/" ),
-				'title'       => '<div class="movie_rating_display stars_' . str_replace( '.', '_', $slug ) . '"><div class="stars_labels"><span class="stars_label stars_label_' . str_replace( '.', '_', $slug ) . '">' . esc_attr( $rating_title ) . '</span></div></div>'
+				'title'       => '<div class="movie_rating_display stars_' . str_replace( '.', '_', $slug ) . '"><div class="stars_labels"><span class="stars_label stars_label_' . str_replace( '.', '_', $slug ) . '">' . esc_attr__( $rating_title, WPML_SLUG ) . '</span></div></div>'
 			);
 	endforeach;
 
-	$html = apply_filters( 'wpml_format_widget_lists', $items, false, null, __( 'Select a Movie', WPML_SLUG ) );
+	$html = apply_filters( 'wpml_format_widget_lists', $items, array( 'dropdown' => false, 'styling' => false, 'title' => __( 'Select a Movie', WPML_SLUG ), 'title_filter' => null ) );
 
 	echo $html;
 

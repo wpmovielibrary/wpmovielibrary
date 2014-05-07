@@ -19,7 +19,7 @@ if ( $actors && ! is_wp_error( $actors ) ) :
 			'title'       => esc_attr( $actor->name . ( 1 == $count ? sprintf( '&nbsp;(%d)', $actor->count ) : '' ) )
 		);
 
-	$html = apply_filters( 'wpml_format_widget_lists', $items, $list, $css, __( 'Select an Actor', WPML_SLUG ) );
+	$html = apply_filters( 'wpml_format_widget_lists', $items, array( 'dropdown' => $list, 'styling' => $css, 'title' => __( 'Select an Actor', WPML_SLUG ) ) );
 
 	echo $html;
 else :

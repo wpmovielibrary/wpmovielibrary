@@ -19,7 +19,7 @@ if ( $collections && ! is_wp_error( $collections ) ) :
 			'title'       => esc_attr( $collection->name . ( $count ? sprintf( '&nbsp;(%d)', $collection->count ) : '' ) )
 		);
 
-	$html = apply_filters( 'wpml_format_widget_lists', $items, $list, $css, __( 'Select a Collection', WPML_SLUG ) );
+	$html = apply_filters( 'wpml_format_widget_lists', $items, array( 'dropdown' => $list, 'styling' => $css, 'title' => __( 'Select a Collection', WPML_SLUG ) ) );
 
 	echo $html;
 else :
