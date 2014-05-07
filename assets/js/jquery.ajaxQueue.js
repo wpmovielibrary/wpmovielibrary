@@ -16,10 +16,11 @@
 			jqXHR = $.ajax({
 				type: 'POST',
 				url: ajaxurl,
-				data: ajaxOpts.data,
-				success: ajaxOpts.success,
-				beforeSend: ajaxOpts.beforeSend,
-				complete: ajaxOpts.complete
+				data: ajaxOpts.data || {},
+				error: ajaxOpts.error || function() {},
+				success: ajaxOpts.success || function() {},
+				beforeSend: ajaxOpts.beforeSend || function() {},
+				complete: ajaxOpts.complete || function() {}
 			});
 			jqXHR.done( dfd.resolve )
 			    .fail( dfd.reject )
