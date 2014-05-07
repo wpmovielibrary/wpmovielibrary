@@ -576,7 +576,10 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 				// Autofilling Actors
 				if ( WPML_Settings::taxonomies__enable_actor() && WPML_Settings::taxonomies__actor_autocomplete() ) {
+					$limit = intval( WPML_Settings::taxonomies__actor_limit() );
 					$actors = explode( ',', $movie_meta['crew']['cast'] );
+					if ( $limit )
+						$actors = array_slice( $actors, 0, $limit );
 					$actors = wp_set_object_terms( $post_ID, $actors, 'actor', false );
 				}
 

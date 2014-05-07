@@ -312,6 +312,14 @@ $wpml_settings = array(
 				'type'     => 'toggle',
 				'default' => 1
 			),
+
+			// Enable Actors Autocomplete
+			'actor_limit' => array(
+				'title'    => __( 'Actors limit', WPML_SLUG ),
+				'description' => __( 'Limit the number of actors per movie. This is useful if you\'re dealing with big libraries and don\'t want to have massive lists of actors created. Limiting the Actors will result in keeping only the most famous/important actors as taxonomies, while the complete list of actors will remained stored as a regular metadata. Set to 0 to disable.', WPML_SLUG ),
+				'type'     => 'input',
+				'default' => 0
+			),
 		),
 	),
 

@@ -425,6 +425,7 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				$(wpml_meta.search).next('.spinner').css({display: 'inline-block'});
 				$('#tmdb_data > *, .tmdb_select_movie').remove();
 
+				wpml_state.clear();
 				if ( wpml_meta.type == 'title' )
 					wpml_state.set( wpml_ajax.lang.search_movie_title + ' "' + wpml_meta.data + '"', 'warning' );
 				else if ( wpml_meta.type == 'id' )
@@ -619,7 +620,10 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				});
 
 				if ( data.taxonomy.actors.length ) {
-					$.each( data.taxonomy.actors, function(i) {
+					var limit = parseInt( $('#wpml_actor_limit').val() ) || 0,
+					    actors = ( limit ? data.taxonomy.actors.splice( 0, limit ) : data.taxonomy.actors );
+
+					$.each( actors, function(i) {
 						$('#tagsdiv-actor .tagchecklist').append('<span><a id="actor-check-num-' + i + '" class="ntdelbutton">X</a>&nbsp;' + this + '</span>');
 						tagBox.flushTags( $('#actor.tagsdiv'), $('<span>' + this + '</span>') );
 					});
@@ -640,6 +644,7 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				}
 
 				$('#tmdb_query').focus();
+				wpml_state.clear();
 				wpml_state.set( wpml_ajax.lang.done, 'success' );
 			};
 

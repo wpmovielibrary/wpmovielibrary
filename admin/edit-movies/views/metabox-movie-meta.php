@@ -30,7 +30,8 @@ endif;
 			<div style="clear:both"></div>
 
 			<div id="tmdb_data"></div>
-			<input type="text" id="tmdb_data_tmdb_id" name="tmdb_data[tmdb_id]" class="hide-if-js hide-if-no-js" value="<?php echo $value['tmdb_id'] ?>" />
+			<input type="hidden" id="tmdb_data_tmdb_id" name="tmdb_data[tmdb_id]" class="hide-if-js hide-if-no-js" value="<?php echo $value['tmdb_id'] ?>" />
+			<input type="hidden" id="wpml_actor_limit" class="hide-if-js hide-if-no-js" value="<?php echo WPML_Settings::taxonomies__actor_limit() ?>" />
 
 <?php foreach ( WPML_Settings::get_supported_movie_meta( $type = null, false ) as $id => $box ) : ?>
 			<table class="list-table tmdb_<?php echo $id ?>">
