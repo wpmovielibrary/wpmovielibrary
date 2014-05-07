@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/WPMovieLibrary\n"
-"POT-Creation-Date: 2014-05-07 00:56:10+00:00\n"
+"POT-Creation-Date: 2014-05-07 06:25:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1284,27 +1284,27 @@ msgstr ""
 msgid "Uninstall"
 msgstr ""
 
-#: includes/class-wpml-utils.php:85
+#: includes/class-wpml-utils.php:85 public/movies/class-wpml-movies.php:315
 msgid "available"
 msgstr ""
 
-#: includes/class-wpml-utils.php:86
+#: includes/class-wpml-utils.php:86 public/movies/class-wpml-movies.php:317
 msgid "loaned"
 msgstr ""
 
-#: includes/class-wpml-utils.php:87
+#: includes/class-wpml-utils.php:87 public/movies/class-wpml-movies.php:319
 msgid "scheduled"
 msgstr ""
 
-#: includes/class-wpml-utils.php:88
+#: includes/class-wpml-utils.php:88 public/movies/class-wpml-movies.php:302
 msgid "bluray"
 msgstr ""
 
-#: includes/class-wpml-utils.php:89
+#: includes/class-wpml-utils.php:89 public/movies/class-wpml-movies.php:304
 msgid "cinema"
 msgstr ""
 
-#: includes/class-wpml-utils.php:90
+#: includes/class-wpml-utils.php:90 public/movies/class-wpml-movies.php:306
 msgid "other"
 msgstr ""
 

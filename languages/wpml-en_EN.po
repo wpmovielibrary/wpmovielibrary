@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary v1.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/WPMovieLibrary\n"
-"POT-Creation-Date: 2014-05-07 00:56:10+00:00\n"
-"PO-Revision-Date: 2014-05-07 03:22+0100\n"
+"POT-Creation-Date: 2014-05-07 06:25:15+00:00\n"
+"PO-Revision-Date: 2014-05-07 08:26+0100\n"
 "Last-Translator: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language-Team: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language: English\n"
@@ -1375,27 +1375,27 @@ msgstr "Deactivate"
 msgid "Uninstall"
 msgstr "Uninstall"
 
-#: includes/class-wpml-utils.php:85
+#: includes/class-wpml-utils.php:85 public/movies/class-wpml-movies.php:315
 msgid "available"
 msgstr "available"
 
-#: includes/class-wpml-utils.php:86
+#: includes/class-wpml-utils.php:86 public/movies/class-wpml-movies.php:317
 msgid "loaned"
 msgstr "loaned"
 
-#: includes/class-wpml-utils.php:87
+#: includes/class-wpml-utils.php:87 public/movies/class-wpml-movies.php:319
 msgid "scheduled"
 msgstr "scheduled"
 
-#: includes/class-wpml-utils.php:88
+#: includes/class-wpml-utils.php:88 public/movies/class-wpml-movies.php:302
 msgid "bluray"
 msgstr "bluray"
 
-#: includes/class-wpml-utils.php:89
+#: includes/class-wpml-utils.php:89 public/movies/class-wpml-movies.php:304
 msgid "cinema"
 msgstr "cinema"
 
-#: includes/class-wpml-utils.php:90
+#: includes/class-wpml-utils.php:90 public/movies/class-wpml-movies.php:306
 msgid "other"
 msgstr "other"
 
