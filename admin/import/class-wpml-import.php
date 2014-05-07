@@ -391,6 +391,8 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 		/**
 		 * Render movie import page
+		 * 
+		 * TODO: use WP_Error
 		 *
 		 * @since    1.0.0
 		 */

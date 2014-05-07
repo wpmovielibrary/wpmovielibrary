@@ -179,6 +179,19 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
+		 * Simple function to check WordPress version. This is mainly
+		 * used for styling as WP3.8 introduced a brand new dashboard
+		 * look n feel.
+		 *
+		 * @since    1.0.0
+		 *
+		 * @return   boolean    Older/newer than WordPress 3.8?
+		 */
+		public static function is_modern_wp() {
+			return version_compare( get_bloginfo( 'version' ), '3.8', '>=' );
+		}
+
+		/**
 		 * Return Movie's stored TMDb data.
 		 * 
 		 * @uses wpml_get_movie_postmeta()

@@ -104,6 +104,7 @@ body.post-php.post-type-movie #postimagediv {
 	border-left: 4px solid #DD3D36;
 	-webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
 	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+	padding: 0.25em 0.5em;
 }
 
 /* #WPML-Help
@@ -465,14 +466,23 @@ body.post-php.post-type-movie #postimagediv {
 
 /* Modal */
 
-.media-frame.movie-images .attachments-browser .attachments {
+.media-frame.movie-images .attachments-browser .attachments,
+.media-frame.movie-posters .attachments-browser .attachments {
 	top: 10px;
 }
 
 .media-frame.movie-images .media-frame-router,
 .media-frame.movie-images .attachments-browser .media-toolbar,
 .media-frame.movie-images .attachment-details .setting,
-.media-frame.movie-images .attachment-details .edit-attachment {
+.media-frame.movie-images .attachment-details .uploaded,
+.media-frame.movie-images .attachment-details .edit-attachment,
+.media-frame.movie-images .attachment-details .delete-attachment,
+.media-frame.movie-posters .media-frame-router,
+.media-frame.movie-posters .attachments-browser .media-toolbar,
+.media-frame.movie-posters .attachment-details .setting,
+.media-frame.movie-posters .attachment-details .uploaded,
+.media-frame.movie-posters .attachment-details .edit-attachment,
+.media-frame.movie-posters .attachment-details .delete-attachment {
 	display: none;
 }
 
@@ -746,32 +756,63 @@ body.post-php.post-type-movie #postimagediv {
 /* #TMDb Meta Box
  ****************************************************/
 
-.wpml-details {
+#wpml_details {
     
 }
 
-#movie-status-display,
-#movie-media-display {
+#wpml_details #wpml-details-major-publishing-actions {
+	background: #F5F5F5;
+	border-top: 1px solid #DDD;
+	clear: both;
+	margin: 10px -12px -12px -12px;
+	padding: 10px;
+}
+
+#wpml_details #wpml-details-major-publishing-action {
+	text-align: right;
+	float: right;
+	line-height: 23px;
+}
+
+#wpml_details .misc-pub-section {
+	padding-left: 0;
+}
+
+#wpml_details .misc-pub-section .dashicons {
+	color: #888;
+	margin-right: 0.25em;
+}
+
+#wpml_details #movie-status-display,
+#wpml_details #movie-media-display {
 	font-weight: bold;
 }
 
-#movie-status-icon {
+#wpml_details label {
+	vertical-align: baseline;
+}
+
+#wpml_details .movie-status-icon {
 	background: url(../img/icon-status.png) left 2px no-repeat;
 	margin-left: -0.5em;
 	padding: 0.25em 0 0.25em 1.75em;
 }
 
-#movie-media-icon {
+#wpml_details .movie-media-icon {
 	background: url(../img/icon-media.png) left 2px no-repeat;
 	margin-left: -0.5em;
 	padding: 0.25em 0 0.25em 1.75em;
 }
 
-#movie-rating-icon {
+#wpml_details .movie-rating-icon {
 	background: url(../img/icon-star-half.png) left 2px no-repeat;
 	margin-left: -0.5em;
 	padding: 0.25em 0 0.25em 1.75em;
 }
+
+/*
+ * Rating
+ */
 
 #movie-rating-display,
 .stars {
@@ -788,10 +829,6 @@ body.post-php.post-type-movie #postimagediv {
 	display: inline-block;
 	margin: 4px 4px -4px 4px;
 	padding: 0;
-}
-
-#movie-rating-display.hide-if-no-js {
-	/*display: none;*/
 }
 
 .movie-rating-block {
@@ -848,12 +885,12 @@ body.post-php.post-type-movie #postimagediv {
 
 @media (max-width: 1440px) {
 	
-	#tmdbstuff .tmdb_meta {
+	#wpml-tmdb .tmdb_meta {
 		margin-right: 1%;
 		width: 49%;
 	}
 
-	#tmdbstuff .tmdb_crew {
+	#wpml-tmdb .tmdb_crew {
 		margin-left: 1%;
 		width: 49%;
 	}
@@ -870,13 +907,34 @@ body.post-php.post-type-movie #postimagediv {
 		width: 100% !important;
 	}
 	
-	#tmdbstuff .tmdb_meta,
-	#tmdbstuff .tmdb_crew {
+	#wpml-tmdb .tmdb_meta,
+	#wpml-tmdb .tmdb_crew {
 		margin: 0;
 		width: 100% !important;
 	}
 	
-	#tmdbstuff .tmdb_meta {
-		margin-bottom: 8px;
+	#wpml-tmdb .tmdb_meta {
+		margin-bottom: 2em;
+	}
+	
+	#wpml-tmdb .list-table td.left {
+		width: 22%;
+	}
+	
+	#tmdb_images_preview .tmdb_movie_images,
+	.media-frame.movie-images .attachment-preview,
+	.media-frame.movie-images .attachment-preview .thumbnail,
+	.media-frame.movie-images .landscape .thumbnail img {
+		height: 114px !important;
+		width: 200px !important;
+	}
+	
+	#tmdb_images_preview #tmdb_load_images {
+		line-height: 109px;
+	}
+	
+	.media-frame.movie-images .attachment {
+		width: 200px !important;
 	}
 }
+
