@@ -62,6 +62,15 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 							movie_rating: $('#movie-rating').val()
 						}
 					},
+					error: function( response ) {
+						$('#wpml-details-status').html('<p>' + wpml_ajax.lang.oops + '</p>');
+					},
+					success: function( response ) {
+						$('#wpml-details-status').html('<p>' + wpml_ajax.lang.done + '</p>');
+						timer = window.setTimeout(function() {
+							$('#wpml-details-status').fadeOut( 1500, function() { $(this).empty() });
+						}, 2000 );
+					},
 					complete: function() {
 						$('#wpml_save').prev('.spinner').hide();
 					}

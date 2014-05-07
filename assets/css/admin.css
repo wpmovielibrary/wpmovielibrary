@@ -774,6 +774,21 @@ body.post-php.post-type-movie #postimagediv {
 	line-height: 23px;
 }
 
+#wpml_details #wpml-details-status {
+	color: #888;
+	float: left;
+	font-style: italic;
+}
+
+#wpml_details #wpml-details-status p {
+	margin: 0.5em;
+}
+
+#wpml_details #wpml-details-major-publishing-action .spinner {
+	float: left;
+	margin-top: 6px;
+}
+
 #wpml_details .misc-pub-section {
 	padding-left: 0;
 }

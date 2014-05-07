@@ -83,6 +83,7 @@
 		</div>
 
 		<div id="wpml-details-major-publishing-actions" class="hide-if-no-js">
+			<div id="wpml-details-status"></div>
 			<div id="wpml-details-major-publishing-action">
 				<span class="spinner"></span>
 				<input type="button" name="wpml_save" id="wpml_save" class="button button-secondary button-large" value="<?php _e( 'Save', WPML_SLUG ); ?>" accesskey="s">
