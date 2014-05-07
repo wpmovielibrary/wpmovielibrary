@@ -399,7 +399,6 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		public static function import_page() {
 
 			$errors = array();
-			$_notice = '';
 			$_section = '';
 
 			$_imported = self::get_imported_movies_count();
@@ -416,7 +415,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				}
 
 				if ( empty( $errors ) )
-					$_notice = sprintf( __( '%d Movies imported successfully!', WPML_SLUG ), count( $_POST['tmdb'] ) );
+					WPML_Utils::admin_notice( sprintf( __( '%d Movies imported successfully!', WPML_SLUG ), count( $_POST['tmdb'] ) ), 'updated' );
 			}
 
 			if ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'wpml_import', 'wpml_import_queue', 'wpml_imported' ) ) )

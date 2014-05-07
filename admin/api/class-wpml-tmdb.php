@@ -216,7 +216,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			if ( false === $movies ) {
 				$movies = self::_get_movie_by_title( $title, $lang, $_id );
 
-				if ( true === WPML_Settings::tmdb__caching() ) {
+				if ( true === WPML_Settings::tmdb__caching() && ! is_wp_error( $movies ) ) {
 					$expire = (int) ( 86400 * WPML_Settings::tmdb__caching_time() );
 					set_transient( "wpml_movies_{$title}_{$lang}", $movies, $expire );
 				}
@@ -248,6 +248,9 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			$title  = WPML_Utils::clean_search_title( $title );
 			$data   = $tmdb->searchMovie( $title, 1, FALSE, NULL, $lang );
 
+			if ( is_wp_error( $data ) )
+				return $data;
+
 			$_result  = 'empty';
 			$_message = __( 'Sorry, your search returned no result. Try a more specific query?', WPML_SLUG );
 			$_movies  = array();
@@ -266,7 +269,10 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 				$_result   = 'movie';
 				$_message  = null;
-				$_movies[] = self::get_movie_by_id( $data['results'][0]['id'], $lang, $_id );
+				$_movie    = self::get_movie_by_id( $data['results'][0]['id'], $lang, $_id );
+				if ( is_wp_error( $_movie ) )
+					return $_movie;
+				$_movies[] = $_movie;
 				$_post_id  = $_id;
 			}
 			else if ( $data['total_results'] > 1 ) {
@@ -311,13 +317,14 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			if ( false === $movie ) {
 				$movie = self::_get_movie_by_id( $id, $lang, $_id );
 
-				if ( true === WPML_Settings::tmdb__caching() ) {
+				if ( true === WPML_Settings::tmdb__caching() && ! is_wp_error( $movie ) ) {
 					$expire = (int) ( 86400 * WPML_Settings::tmdb__caching_time() );
 					set_transient( "wpml_movie_{$id}_{$lang}", $movie, 3600 * 24 );
 				}
 			}
 
-			$movie['_id'] = $_id;
+			if ( ! is_wp_error( $movie ) )
+				$movie['_id'] = $_id;
 
 			return $movie;
 		}
@@ -336,9 +343,17 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			$tmdb = new TMDb;
 
-			$movie  = $tmdb->getMovie( $id, $lang );
-			$casts  = $tmdb->getMovieCast( $id );
-			$images = $tmdb->getMovieImages( $id, '' );
+			$data = array(
+				'movie'  => $tmdb->getMovie( $id, $lang ),
+				'casts'  => $tmdb->getMovieCast( $id ),
+				'images' => $tmdb->getMovieImages( $id, '' )
+			);
+
+			foreach ( $data as $d )
+				if ( is_wp_error( $d ) )
+					return $d;
+
+			extract( $data, EXTR_SKIP );
 			$images = $images['backdrops'];
 
 			// Keep only limited number of images
