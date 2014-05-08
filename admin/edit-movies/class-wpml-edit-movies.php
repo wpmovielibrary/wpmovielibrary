@@ -141,7 +141,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 					$_details = WPML_Settings::get_supported_movie_details();
 					if ( isset( $_details[ $column_name ]['options'][ $meta ] ) ) {
 						$html = $_details[ $column_name ]['options'][ $meta ];
-						$html = __( $html, WPML_SLUG ) . '<a href="#" onclick="return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
+						$html = '<span class="' . $column_name . '_title">' . __( $html, WPML_SLUG ) . '</span><a href="#" onclick="wpml_' . str_replace( 'movie_', '', $column_name ) . '.inline_editor( this ); return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
 					}
 					else
 						$html = '&mdash;';

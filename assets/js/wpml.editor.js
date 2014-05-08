@@ -120,9 +120,20 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				/**
 				 * Inline editor
 				 */
-				wpml.editor.details.status.inline_edit = function( link ) {
+				wpml.editor.details.status.inline_editor = function( link ) {
 					var $editor = $('.wpml-inline-edit-status'),
+					    display = ( 'none' == $editor.css('display') ),
 					    $link = $(link);
+
+					if ( display ) {
+						$link.prev('.movie_status_title').css({visibility: 'hidden'});
+						$editor.show();
+						$editor.appendTo( $link.parent('td') ).show();
+					}
+					else {
+						$link.prev('.movie_status_title').css({visibility: 'visible'});
+						$editor.hide();
+					}
 				};
 
 				/**
@@ -200,9 +211,36 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				/**
 				 * Inline editor
 				 */
-				wpml.editor.details.media.inline_edit = function( link ) {
+				wpml.editor.details.media.inline_editor = function( link ) {
 					var $editor = $('.wpml-inline-edit-media'),
+					    display = ( 'none' == $editor.css('display') ),
 					    $link = $(link);
+
+					if ( display ) {
+						$link.prev('.movie_media_title').css({visibility: 'hidden'});
+						$editor.show();
+						$editor.appendTo( $link.parent('td') ).show();
+					}
+					else {
+						$link.prev('.movie_media_title').css({visibility: 'visible'});
+						$editor.hide();
+					}
+				};
+
+				/**
+				 * Inline edit value
+				 */
+				wpml.editor.details.media.inline_edit = function( link ) {
+					var $parent = $(link).parents('tr'),
+					    post_id = $parent.prop('id').replace('post-',''),
+					    _link = $parent.find('.column-movie_media > a'),
+					    _span = $parent.find('.movie_media_title'),
+					    media = $(link).attr('data-media'),
+					    title = $(link).attr('data-media-title');
+
+					_span.text( title );
+					wpml_media.inline_editor( _link );
+					
 				};
 
 				/**

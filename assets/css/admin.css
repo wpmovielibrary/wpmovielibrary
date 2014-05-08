@@ -79,21 +79,31 @@ body.post-php.post-type-movie #postimagediv {
 	font-style: italic;
 }
 
+.wpml-inline-edit-rating,
+.wpml-inline-edit-status,
 .wpml-inline-edit-media {
-	position: absolute;
+	display: none;
+	margin-top: -2em;
+	padding: 0.5em 0;
 }
 
-.column-movie_status a .dashicons-admin-generic,
-.column-movie_media a .dashicons-admin-generic,
-.column-movie_rating a .dashicons-admin-generic {
-	display: none;
+.wpml-inline-edit-rating ul,
+.wpml-inline-edit-status ul,
+.wpml-inline-edit-media ul {
+	margin: 0;
+}
+
+.column-movie_status .dashicons-admin-generic,
+.column-movie_media .dashicons-admin-generic,
+.column-movie_rating .dashicons-admin-generic {
 	font-size: 0.75em;
+	opacity: 0;
 }
 
 .column-movie_status:hover .dashicons-admin-generic,
 .column-movie_media:hover .dashicons-admin-generic,
 .column-movie_rating:hover .dashicons-admin-generic {
-	display: inline-block;
+	opacity: 1.0;
 }
 
 /* WPML Notice
