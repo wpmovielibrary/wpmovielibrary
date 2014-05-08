@@ -118,6 +118,14 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				};
 
 				/**
+				 * Inline editor
+				 */
+				wpml.editor.details.status.inline_edit = function( link ) {
+					var $editor = $('.wpml-inline-edit-status'),
+					    $link = $(link);
+				};
+
+				/**
 				 * Show the editor
 				 */
 				wpml.editor.details.status.show = function() {
@@ -187,6 +195,14 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 						e.preventDefault();
 						wpml_media.revert();
 					});
+				};
+
+				/**
+				 * Inline editor
+				 */
+				wpml.editor.details.media.inline_edit = function( link ) {
+					var $editor = $('.wpml-inline-edit-media'),
+					    $link = $(link);
 				};
 
 				/**

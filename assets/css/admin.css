@@ -79,6 +79,23 @@ body.post-php.post-type-movie #postimagediv {
 	font-style: italic;
 }
 
+.wpml-inline-edit-media {
+	position: absolute;
+}
+
+.column-movie_status a .dashicons-admin-generic,
+.column-movie_media a .dashicons-admin-generic,
+.column-movie_rating a .dashicons-admin-generic {
+	display: none;
+	font-size: 0.75em;
+}
+
+.column-movie_status:hover .dashicons-admin-generic,
+.column-movie_media:hover .dashicons-admin-generic,
+.column-movie_rating:hover .dashicons-admin-generic {
+	display: inline-block;
+}
+
 /* WPML Notice
  ****************************************************/
 

@@ -38,6 +38,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
+			add_action( 'admin_footer', array( $this, 'edit_details_inline' ) );
+
 			add_filter( 'manage_movie_posts_columns', __CLASS__ . '::movies_columns_head' );
 			add_action( 'manage_movie_posts_custom_column', __CLASS__ . '::movies_columns_content', 10, 2 );
 			add_action( 'quick_edit_custom_box', __CLASS__ . '::quick_edit_movies', 10, 2 );
@@ -76,6 +78,17 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 *                      "All Movies" WP List Table
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		public function edit_details_inline() {
+
+			if ( 'edit-movie' != get_current_screen()->id )
+				return false;
+
+			$default_movie_media = WPML_Settings::get_available_movie_media();
+			$default_movie_status = WPML_Settings::get_available_movie_status();
+
+			include( plugin_dir_path( __FILE__ ) . '/views/edit-details-inline.php' );
+		}
 
 		/**
 		 * Add a custom column to Movies WP_List_Table list.
@@ -128,7 +141,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 					$_details = WPML_Settings::get_supported_movie_details();
 					if ( isset( $_details[ $column_name ]['options'][ $meta ] ) ) {
 						$html = $_details[ $column_name ]['options'][ $meta ];
-						$html = __( $html, WPML_SLUG );
+						$html = __( $html, WPML_SLUG ) . '<a href="#" onclick="return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
 					}
 					else
 						$html = '&mdash;';
@@ -136,9 +149,9 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				case 'movie_rating':
 					$meta = get_post_meta( $post_id, '_wpml_movie_rating', true );
 					if ( '' != $meta )
-						$html = '<div id="movie-rating-display" class="stars-' . str_replace( '.', '-', $meta ) . '"></div>';
+						$html = '<div id="movie-rating-display" class="stars-' . str_replace( '.', '-', $meta ) . '"></div>' . '<a href="#" onclick="return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
 					else
-						$html = '<div id="movie-rating-display" class="stars-0-0"></div>';
+						$html = '<div id="movie-rating-display" class="stars-0-0"></div>' . '<a href="#" onclick="return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
 					break;
 				default:
 					$html = '';
