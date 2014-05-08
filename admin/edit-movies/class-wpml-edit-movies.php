@@ -543,11 +543,21 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * @param    object     $post Post Object of the current Post
 		 * @param    boolean    $queue Queued movie?
 		 * @param    array      $movie_meta Movie Metadata to save with the post
+		 * 
+		 * @return   int|WP_Error
 		 */
 		public static function save_movie_meta( $post_ID, $post, $queue = false, $movie_meta = null ) {
 
-			if ( ! $post = get_post( $post_ID ) || ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) || 'movie' != get_post_type( $post ) || ! current_user_can( 'edit_post', $post_ID ) )
-				return false;
+			if ( ! current_user_can( 'edit_post', $post_ID ) )
+				return new WP_Error( __( 'You are not allowed to edit posts.', WPML_SLUG ) );
+
+			if ( ! $post = get_post( $post_ID ) || 'movie' != get_post_type( $post ) )
+				return new WP_Error( sprintf( __( 'Posts with #%s is invalid or is not a movie.', WPML_SLUG ), $post_ID ) );
+
+			if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
+				return $post_ID;
+
+			$errors = new WP_Error();
 
 			if ( ! is_null( $movie_meta ) && count( $movie_meta ) ) {
 
@@ -559,19 +569,27 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 				// Set poster as featured image
 				if ( WPML_Settings::tmdb__poster_featured() && ! $queue ) {
-					$id = WPML_Media::set_image_as_featured( $movie_meta['poster'], $post_ID, $movie_meta['tmdb_id'], $movie_meta['meta']['title'] );
-					update_post_meta( $post_ID, '_thumbnail_id', $id );
+					$upload = WPML_Media::set_image_as_featured( $movie_meta['poster'], $post_ID, $movie_meta['tmdb_id'], $movie_meta['meta']['title'] );
+					if ( is_wp_error( $upload ) )
+						$errors->add( $upload->get_error_code(), $upload->get_error_message() );
+					else
+						update_post_meta( $post_ID, '_thumbnail_id', $upload );
 				}
 
 				// Switch status from import draft to published
 				if ( 'import-draft' == get_post_status( $post_ID ) && ! $queue ) {
-					$update = wp_update_post( array(
-						'ID' => $post_ID,
-						'post_name'   => sanitize_title_with_dashes( $movie_meta['meta']['title'] ),
-						'post_status' => 'publish',
-						'post_title'  => $movie_meta['meta']['title'],
-						'post_date'   => current_time( 'mysql' )
-					) );
+					$update = wp_update_post(
+						array(
+							'ID' => $post_ID,
+							'post_name'   => sanitize_title_with_dashes( $movie_meta['meta']['title'] ),
+							'post_status' => 'publish',
+							'post_title'  => $movie_meta['meta']['title'],
+							'post_date'   => current_time( 'mysql' )
+						),
+						$wp_error = true
+					);
+					if ( is_wp_error( $update ) )
+						$errors->add( $update->get_error_code(), $update->get_error_message() );
 				}
 
 				// Autofilling Actors
@@ -611,6 +629,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				$wpml_details = $_REQUEST['wpml_details'];
 				self::save_movie_details( $post_ID, $wpml_details );
 			}
+
+			return ( ! empty( $errors->errors ) ? $errors : $post_ID );
 		}
 
 		/**

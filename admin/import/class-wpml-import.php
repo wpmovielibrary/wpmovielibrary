@@ -398,9 +398,10 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 */
 		public static function import_page() {
 
-			$errors = array();
-			$_section = '';
+			$errors = new WP_Error();
+			$imported = array();
 
+			$_section = '';
 			$_imported = self::get_imported_movies_count();
 			$_queued = WPML_Queue::get_queued_movies_count();
 
@@ -410,12 +411,23 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 				foreach ( $_POST['tmdb'] as $tmdb_data ) {
 					if ( 0 != $tmdb_data['tmdb_id'] ) {
-						WPML_Edit_Movies::save_movie_meta( $tmdb_data['post_id'], $post = null, $queue = false, $tmdb_data );
+						$update = WPML_Edit_Movies::save_movie_meta( $tmdb_data['post_id'], $post = null, $queue = false, $tmdb_data );
+						if ( is_wp_error( $update ) )
+							$errors->add( $update->get_error_code(), $update->get_error_message() );
+						else
+							$imported[] = $update;
 					}
 				}
 
-				if ( empty( $errors ) )
-					WPML_Utils::admin_notice( sprintf( __( '%d Movies imported successfully!', WPML_SLUG ), count( $_POST['tmdb'] ) ), 'updated' );
+				if ( ! empty( $errors->errors ) ) {
+					$_errors = array();
+					foreach ( $errors->errors as $error )
+						$_errors[] = '<li>' . $error->message . '</li>';
+					WPML_Utils::admin_notice( sprintf( __( 'The following errors occured: <ul>%s</ul>', WPML_SLUG ), implode( '', $_errors ) ), 'error' );
+				}
+
+				if ( ! empty( $imported ) )
+					WPML_Utils::admin_notice( sprintf( _n( 'One movie imported successfully!', '%d movies imported successfully!', count( $imported ), WPML_SLUG ), count( $imported ) ), 'updated' );
 			}
 
 			if ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'wpml_import', 'wpml_import_queue', 'wpml_imported' ) ) )

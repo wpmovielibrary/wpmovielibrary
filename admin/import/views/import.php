@@ -1,7 +1,6 @@
 <div id="wpml-import" class="wrap">
 	<h2><?php _e( 'Movies Import', WPML_SLUG ); ?></h2>
 
-	<?php WPML_Utils::admin_notice( $_notice ); ?>
 	<?php wp_nonce_field( 'wpml-set-imported-movies-screen-nonce', 'wpml_set_imported_movies_screen_nonce' ); ?>
 
 	<div class="no-js-alert hide-if-js"><?php _e( 'It seems you have JavaScript deactivated; the import feature will not work correctly without it, please check your browser\'s settings.', WPML_SLUG ); ?></div>
