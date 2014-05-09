@@ -86,6 +86,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			$default_movie_media = WPML_Settings::get_available_movie_media();
 			$default_movie_status = WPML_Settings::get_available_movie_status();
+			$default_movie_rating = WPML_Settings::get_available_movie_rating();
 
 			include( plugin_dir_path( __FILE__ ) . '/views/edit-details-inline.php' );
 		}
@@ -141,17 +142,19 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 					$_details = WPML_Settings::get_supported_movie_details();
 					if ( isset( $_details[ $column_name ]['options'][ $meta ] ) ) {
 						$html = $_details[ $column_name ]['options'][ $meta ];
-						$html = '<span class="' . $column_name . '_title">' . __( $html, WPML_SLUG ) . '</span><a href="#" onclick="wpml_' . str_replace( 'movie_', '', $column_name ) . '.inline_editor( this ); return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
+						$html = '<span class="' . $column_name . '_title">' . __( $html, WPML_SLUG ) . '</span>';
 					}
 					else
-						$html = '&mdash;';
+						$html = '<span class="' . $column_name . '_title"><em>' . __( 'None', WPML_SLUG ) . '</em></span>';
+					$html .= '<a href="#" class="wpml-inline-edit-toggle" onclick="wpml_details.inline_editor( \'' . str_replace( 'movie_', '', $column_name ) . '\', this ); return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
 					break;
 				case 'movie_rating':
 					$meta = get_post_meta( $post_id, '_wpml_movie_rating', true );
 					if ( '' != $meta )
-						$html = '<div id="movie-rating-display" class="stars-' . str_replace( '.', '-', $meta ) . '"></div>' . '<a href="#" onclick="return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
+						$html = '<div id="movie-rating-display" class="movie_rating_title stars stars-' . str_replace( '.', '-', $meta ) . '"></div>';
 					else
-						$html = '<div id="movie-rating-display" class="stars-0-0"></div>' . '<a href="#" onclick="return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
+						$html = '<div id="movie-rating-display" class="movie_rating_title stars stars-0-0"></div>';
+					$html .= '<a href="#" class="wpml-inline-edit-toggle" onclick="wpml_details.inline_editor( \'rating\', this ); return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
 					break;
 				default:
 					$html = '';
