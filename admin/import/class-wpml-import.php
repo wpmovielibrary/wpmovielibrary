@@ -248,8 +248,8 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			$post_date     = wp_checkdate( substr( $post_date, 5, 2 ), substr( $post_date, 8, 2 ), substr( $post_date, 0, 4 ), $post_date );
 			$post_date_gmt = get_gmt_from_date( $post_date );
 			$post_author   = get_current_user_id();
-			$post_content  = '&nbsp;';
-			$post_excerpt  = '&nbsp;';
+			$post_content  = '';
+			$post_excerpt  = '';
 			$post_title    = apply_filters( 'the_title', $movie['movietitle'] );
 
 			$page = get_page_by_title( $post_title, OBJECT, 'movie' );
