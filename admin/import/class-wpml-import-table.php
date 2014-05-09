@@ -503,11 +503,6 @@ class WPML_Import_Table extends WP_List_Table {
 
 	<tbody id="the-list"<?php if ( $singular ) echo " data-wp-lists='list:$singular'"; ?>>
 		<?php $this->display_rows_or_placeholder(); ?>
-		<tr>
-			<td colspan="<?php echo count( $this->column_names ); ?>">
-				<div id="progressbar_bg"><div id="progressbar"><div class="progress-label">0</div></div><a href="#" id="hide_progressbar"><?php _e( 'Hide', WPML_SLUG ) ?></a></div>
-			</td>
-		</tr>
 	</tbody>
 </table>
 <?php

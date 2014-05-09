@@ -418,7 +418,7 @@ body.post-php.post-type-movie #postimagediv {
 #wpml-tabs #wpml-queued-list .column-actions,
 #wpml-tabs #wpml-queued-list-header .column-actions {
 	float: right;
-	max-width: 4em !important;
+	max-width: 6em !important;
 	text-align: center;
 }
 
