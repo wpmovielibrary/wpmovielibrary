@@ -1,7 +1,31 @@
+.wpml-inline-edit-details {
+	margin-left: 0 !important;
+}
+
+.alt .wpml-inline-edit-details,
+.alternate .wpml-inline-edit-details {
+	background-color: #fcfcfc;
+}
+
+.dashicons.dashicons-no,
 .dashicons.dashicons-admin-generic {
-	background: url(../img/icon-gear.png) center center no-repeat;
+	background-color: transparent;
+	background-position: center center;
+	background-repeat: no-repeat;
 	display: inline-block;
 	height: 16px;
 	margin: 4px 0 -4px 6px;
 	width: 16px;
 } 
+
+.dashicons.dashicons-admin-generic {
+	background-image: url(../img/icon-gear.png);
+}
+
+.dashicons.dashicons-no {
+	background-image: url(../img/icon-close.png);
+}
+
+.dashicons.dashicons-arrow-right-alt2 {
+	background-image: url(../img/icon-right.png);
+}
