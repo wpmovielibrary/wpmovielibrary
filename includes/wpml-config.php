@@ -528,7 +528,7 @@ $wpml_movie_meta = array(
 				'title' => __( 'Overview', WPML_SLUG ),
 				'type' => 'textarea',
 				'filter' => 'wp_kses',
-				'filter_args' => array( 'b' => array(), 'i' => array(), 'em' => array(), 'strong' => array(), 'sup' => array(), 'sub' => array() )
+				'filter_args' => array( 'b' => array(), 'i' => array(), 'em' => array(), 'strong' => array(), 'sup' => array(), 'sub' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(), 'br' => array(), 'span' => array() )
 			),
 			'production_companies' => array(
 				'title' => __( 'Production', WPML_SLUG ),
