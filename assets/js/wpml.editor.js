@@ -139,9 +139,10 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				wpml._post({
 					data: {
 						action: 'wpml_set_detail',
-						nonce: nonce,
+						wpml_inline_edit_nonce: nonce,
 						type: type,
-						data: value
+						data: value,
+						post_id: post_id
 					},
 					error: function( response ) {
 						wpml_state.clear();
@@ -151,7 +152,10 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 					},
 					success: function( response ) {
 
-						
+						_span.after('<div id="wpml_temp_status"><em>' + wpml_ajax.lang.done + '</em></div>');
+						timer = window.setTimeout(function() {
+							$('#wpml_temp_status').fadeOut( 1000, function() { $(this).remove() });
+						}, 1000 );
 					}
 				});
 			};
