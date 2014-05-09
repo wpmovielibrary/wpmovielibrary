@@ -156,18 +156,16 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
 			if ( ! isset( $_GET['key'] ) || '' == $_GET['key'] || 32 !== strlen( $_GET['key'] ) )
-				wp_die( -1 );
+				return new WP_Error( 'invalid', __( 'Invalid API key - the key should be an alphanumerica 32 chars long string.', WPML_SLUG ) );
 
-			$response = self::check_api_key( esc_attr( $_GET['key'] ) );
+			$check = self::check_api_key( esc_attr( $_GET['key'] ) );
 
-			// TODO: make use of WPML_Utils::ajax_response()
-			if ( isset( $response['status_code'] ) && 7 === $response['status_code'] )
-				$_response = new WP_Error( 'invalid', __( 'Invalid API key - You must be granted a valid key', WPML_SLUG ) );
+			if ( is_wp_error( $check ) )
+				$response = new WP_Error( 'invalid', __( 'Invalid API key - You must be granted a valid key', WPML_SLUG ) );
 			else
-				$_response = new WPML_Ajax( array( 'message' => __( 'Valid API key - Save your settings and have fun!', WPML_SLUG ) ) );
+				$response = array( 'message' => __( 'Valid API key - Save your settings and have fun!', WPML_SLUG ) );
 
-			WPML_Utils::json_header( is_wp_error( $_response ) );
-			wp_die( json_encode( $_response ) );
+			WPML_Utils::ajax_response( $response );
 		}
 
 		/**

@@ -164,6 +164,9 @@ if ( ! class_exists( 'TMDb' ) ) :
 			$config = $this->_makeCall( 'configuration' );
 
 			if ( is_wp_error( $config ) ) {
+				if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+					return $config;
+
 				WPML_Utils::admin_notice( $config->get_error_message(), 'error' );
 				return array();
 			}

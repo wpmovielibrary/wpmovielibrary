@@ -165,7 +165,7 @@ wpml.settings = wpml_settings = {
 				$input.after( '<span id="api_status" class="invalid">' + response.responseJSON.errors.invalid[ 0 ] + '</span>' );
 			},
 			success: function( response ) {
-				$input.after( '<span id="api_status" class="valid">' + response.message + '</span>' );
+				$input.after( '<span id="api_status" class="valid">' + response.data.message + '</span>' );
 			}
 		});
 	};
