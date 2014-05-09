@@ -38,6 +38,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
+			add_action( 'admin_footer', array( $this, 'edit_details_inline' ) );
+
 			add_filter( 'manage_movie_posts_columns', __CLASS__ . '::movies_columns_head' );
 			add_action( 'manage_movie_posts_custom_column', __CLASS__ . '::movies_columns_content', 10, 2 );
 			add_action( 'quick_edit_custom_box', __CLASS__ . '::quick_edit_movies', 10, 2 );
@@ -51,6 +53,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			add_action( 'add_meta_boxes', __CLASS__ . '::add_meta_boxes', 10 );
 			add_action( 'save_post_movie', __CLASS__ . '::save_movie_meta', 10, 4 );
 
+			add_action( 'wp_ajax_wpml_set_detail', __CLASS__ . '::set_detail_callback' );
 			add_action( 'wp_ajax_wpml_save_details', __CLASS__ . '::save_details_callback' );
 		}
 
@@ -76,6 +79,18 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 *                      "All Movies" WP List Table
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		public function edit_details_inline() {
+
+			if ( 'edit-movie' != get_current_screen()->id )
+				return false;
+
+			$default_movie_media = WPML_Settings::get_available_movie_media();
+			$default_movie_status = WPML_Settings::get_available_movie_status();
+			$default_movie_rating = WPML_Settings::get_available_movie_rating();
+
+			include( plugin_dir_path( __FILE__ ) . '/views/edit-details-inline.php' );
+		}
 
 		/**
 		 * Add a custom column to Movies WP_List_Table list.
@@ -128,17 +143,19 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 					$_details = WPML_Settings::get_supported_movie_details();
 					if ( isset( $_details[ $column_name ]['options'][ $meta ] ) ) {
 						$html = $_details[ $column_name ]['options'][ $meta ];
-						$html = __( $html, WPML_SLUG );
+						$html = '<span class="' . $column_name . '_title">' . __( $html, WPML_SLUG ) . '</span>';
 					}
 					else
-						$html = '&mdash;';
+						$html = '<span class="' . $column_name . '_title"><em>' . __( 'None', WPML_SLUG ) . '</em></span>';
+					$html .= '<a href="#" class="wpml-inline-edit-toggle" onclick="wpml_details.inline_editor( \'' . str_replace( 'movie_', '', $column_name ) . '\', this ); return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
 					break;
 				case 'movie_rating':
 					$meta = get_post_meta( $post_id, '_wpml_movie_rating', true );
 					if ( '' != $meta )
-						$html = '<div id="movie-rating-display" class="stars-' . str_replace( '.', '-', $meta ) . '"></div>';
+						$html = '<div id="movie-rating-display" class="movie_rating_title stars stars-' . str_replace( '.', '-', $meta ) . '"></div>';
 					else
-						$html = '<div id="movie-rating-display" class="stars-0-0"></div>';
+						$html = '<div id="movie-rating-display" class="movie_rating_title stars stars-0-0"></div>';
+					$html .= '<a href="#" class="wpml-inline-edit-toggle" onclick="wpml_details.inline_editor( \'rating\', this ); return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
 					break;
 				default:
 					$html = '';
@@ -360,6 +377,30 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
+		 * "All Movies" WP List Table inline edit shortcut for details.
+		 *
+		 * @since    1.0.0
+		 */
+		public static function set_detail_callback() {
+
+			$detail = ( isset( $_POST['type'] ) && in_array( $_POST['type'], array( 'status', 'media', 'rating' ) ) ? esc_attr( $_POST['type'] ) : null );
+			if ( is_null( $detail ) )
+				return new WP_Error( 'invalid', __( 'Invalid detail: should be status, media or rating.', WPML_SLUG ) );
+
+			check_ajax_referer( 'wpml-' . $detail . '-inline-edit', 'wpml_inline_edit_nonce' );
+
+			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
+			$value = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? esc_attr( $_POST['data'] ) : null );
+
+			if ( is_null( $post_id ) || is_null( $detail ) || is_null( $value ) )
+				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', WPML_SLUG ) );
+
+			$response = self::set_movie_detail( $post_id, $detail, $value );
+
+			WPML_Utils::ajax_response( $response );
+		}
+
+		/**
 		 * Save movie details: media, status, rating.
 		 * 
 		 * Although values are submitted as array each value is stored in a
@@ -498,6 +539,49 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		}
 
 		/**
+		 * Set specific movie detail.
+		 * 
+		 * @since     1.0.0
+		 * 
+		 * @param    int       $post_id ID of the current Post
+		 * @param    string    $detail Movie detail: media, status or rating
+		 * @param    string    $value Detail value
+		 * 
+		 * @return   int|object    WP_Error object is anything went
+		 *                                  wrong, true else
+		 */
+		public static function set_movie_detail( $post_id, $detail, $value ) {
+
+			$post = get_post( $post_id );
+			if ( ! $post || 'movie' != get_post_type( $post ) )
+				return new WP_Error( 'invalid_post', sprintf( __( 'Error: invalid post, post #%s is not a movie.', WPML_SLUG ), $post_id ) );
+
+			if ( 'status' == $detail || 'media' == $detail ) {
+
+				$allowed = call_user_func( "WPML_Settings::get_available_movie_{$detail}" );
+				if ( ! in_array( $value, array_keys( $allowed ) ) )
+					return new WP_Error( 'invalid_value', sprintf( __( 'Error: invalid value, allowed values for \'%s\' are %s.', WPML_SLUG ), $detail, implode( ', ', array_keys( $allowed ) ) ) );
+
+				update_post_meta( $post_id, '_wpml_movie_' . $detail, $value );
+				$updated = get_post_meta( $post_id, '_wpml_movie_' . $detail, true );
+				if ( '' == $updated || $value != $updated )
+					return new WP_Error( 'update_error', __( 'Error: couldn\'t update movie detail.', WPML_SLUG ) );
+			}
+			else if ( 'rating' == $detail ) {
+				$value = floatval( $value );
+				if ( 0 > floor( $value ) || 5 < ceil( $value ) )
+					return new WP_Error( 'invalid_value', sprintf( __( 'Error: invalid value, allowed values for \'rating\' are floats between 0.0 and 5.0.', WPML_SLUG ) ) );
+
+				update_post_meta( $post_id, '_wpml_movie_' . $detail, $value );
+				$updated = get_post_meta( $post_id, '_wpml_movie_' . $detail, true );
+				if ( '' == $updated || 0 != abs( $value - $updated ) )
+					return new WP_Error( 'update_error', __( 'Error: couldn\'t update movie detail.', WPML_SLUG ) );
+			}
+
+			return $post_id;
+		}
+
+		/**
 		 * Save movie details.
 		 * 
 		 * @since     1.0.0
@@ -511,8 +595,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		public static function save_movie_details( $post_id, $details ) {
 
 			$post = get_post( $post_id );
-			if ( 'movie' != get_post_type( $post ) )
-				return new WP_Error( 'not_movie', __( 'Error: submitted post is not a movie.', WPML_SLUG ) );
+			if ( ! $post || 'movie' != get_post_type( $post ) )
+				return new WP_Error( 'invalid_post', __( 'Error: submitted post is not a movie.', WPML_SLUG ) );
 
 			if ( ! is_array( $details ) || ! isset( $details['movie_media'] ) || ! isset( $details['movie_status'] ) || ! isset( $details['movie_rating'] ) )
 				return new WP_Error( 'invalid_details', __( 'Error: the submitted movie details are invalid.', WPML_SLUG ) );
