@@ -74,6 +74,9 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			// Add the options page and menu item.
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 
+			// highlight the proper top level menu
+			add_action( 'parent_file', array( $this, 'admin_menu_highlight' ) );
+
 			// Load admin style sheet and JavaScript.
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
@@ -231,6 +234,57 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			add_submenu_page(
 				'wpmovielibrary',
+				__( 'All Movies', WPML_SLUG ),
+				__( 'All Movies', WPML_SLUG ),
+				'manage_options',
+				'wpml_movies',
+				__CLASS__ . '::admin_page'
+			);
+
+			add_submenu_page(
+				'wpmovielibrary',
+				__( 'Add New', WPML_SLUG ),
+				__( 'Add New', WPML_SLUG ),
+				'manage_options',
+				'post-new.php?post_type=movie',
+				null
+			);
+
+			if ( WPML_Settings::taxonomies__enable_collection() ) :
+			add_submenu_page(
+				'wpmovielibrary',
+				__( 'Collections', WPML_SLUG ),
+				__( 'Collections', WPML_SLUG ),
+				'manage_options',
+				'edit-tags.php?taxonomy=collection&post_type=movie',
+				null
+			);
+			endif;
+
+			if ( WPML_Settings::taxonomies__enable_genre() ) :
+			add_submenu_page(
+				'wpmovielibrary',
+				__( 'Genres', WPML_SLUG ),
+				__( 'Genres', WPML_SLUG ),
+				'manage_options',
+				'edit-tags.php?taxonomy=genre&post_type=movie',
+				null
+			);
+			endif;
+
+			if ( WPML_Settings::taxonomies__enable_actor() ) :
+			add_submenu_page(
+				'wpmovielibrary',
+				__( 'Actors', WPML_SLUG ),
+				__( 'Actors', WPML_SLUG ),
+				'manage_options',
+				'edit-tags.php?taxonomy=actor&post_type=movie',
+				null
+			);
+			endif;
+
+			add_submenu_page(
+				'wpmovielibrary',
 				__( 'Import Movies', WPML_SLUG ),
 				__( 'Import Movies', WPML_SLUG ),
 				'manage_options',
@@ -253,6 +307,33 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'wpml_edit_settings',
 				__CLASS__ . '::admin_page'
 			);
+		}
+
+		/**
+		 * Highlight Admin submenu for related admin pages
+		 * 
+		 * @link    http://wordpress.org/support/topic/moving-taxonomy-ui-to-another-main-menu#post-2432769
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @return   string    Updated parent if needed, current else
+		 */
+		public function admin_menu_highlight() {
+
+			global $current_screen, $submenu_file, $submenu, $parent_file;
+
+			if ( isset( $submenu['wpmovielibrary'] ) )
+				foreach ( $submenu['wpmovielibrary'] as $item )
+					if ( htmlspecialchars_decode( $submenu_file ) == $item[ 2 ] )
+						$submenu_file = htmlspecialchars_decode( $submenu_file );
+
+			if ( 'movie' != $current_screen->post_type )
+				return $parent_file;
+
+			if ( in_array( $current_screen->taxonomy, array( 'collection', 'genre', 'actor' ) ) )
+				$parent_file = 'wpmovielibrary';
+
+			return $parent_file;
 		}
 
 		/**
