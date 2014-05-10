@@ -39,9 +39,27 @@
 
 		</div>
 
-		<div class="main-panel">
-			<div class="thumbnails-container">
-			</div>
-		</div>
+		<!--<div id="dashboard-widgets-wrap">
+			<div id="dashboard-widgets" class="metabox-holder">-->
+				<div id="postbox-container-1" class="postbox-container">
+					<div id="normal-sortables" class="meta-box-sortables ui-sortable">
+						<div id="dashboard_right_now" class="postbox ">
+							<div class="handlediv" title="Cliquer pour inverser."><br></div>
+							<h3 class="hndle"><span>D’un coup d’œil</span></h3>
+							<div class="inside">
+							<div class="main">
+								<ul>
+									<li class="post-count"><a href="edit.php?post_type=post">1 articles</a></li>
+									<li class="page-count"><a href="edit.php?post_type=page">1 page</a></li>
+									<li class="comment-count"><a href="edit-comments.php">1 commentaire</a></li>
+								</ul>
+							    <p id="wp-version-message">WordPress 3.9 avec le thème <a href="themes.php">Twenty Fourteen</a>. <a href="http://wp39/wp-admin/update-core.php" class="button">Mettre à jour vers la version 3.9.1</a></p>
+							    <p><a href="options-reading.php" title="Votre site indique aux moteurs de recherche de ne pas indexer son contenu">Moteurs de recherche refusés</a></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			<!--</div>
+		</div>-->
 
 	</div>

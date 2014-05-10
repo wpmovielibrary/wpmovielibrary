@@ -401,6 +401,14 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public static function landing_page() {
 
+			$args = array(
+				'post_type' => 'movie',
+				'post_status' => 'publish',
+				'posts_per_page' => 16
+			);
+			
+			$movies = new WP_Query( $args );
+
 			include_once( plugin_dir_path( __FILE__ ) . 'common/views/landing-page.php' );
 		}
 
