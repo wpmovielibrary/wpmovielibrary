@@ -485,6 +485,7 @@ body.post-php.post-type-movie #postimagediv {
 #wpml-tabs .default_movie_meta_sortable .default_movie_meta_selected,
 #wpml-tabs .default_movie_meta_sortable .default_movie_meta_droppable {
 	border-radius: 0.15rem;
+	cursor: move;
 	margin: 0.25rem;
 	padding: 0.5rem;
 }
@@ -495,9 +496,17 @@ body.post-php.post-type-movie #postimagediv {
 	font-weight: bold;
 }
 
+#wpml-tabs .default_movie_meta_sortable .default_movie_meta_selected:hover {
+	background-color: #2EA2CC;
+}
+
 #wpml-tabs .default_movie_meta_sortable .default_movie_meta_droppable {
-	background-color: #333;
+	background-color: #222;
 	color: #ddd;
+}
+
+#wpml-tabs .default_movie_meta_sortable .default_movie_meta_droppable:hover {
+	background-color: #333;
 }
 
 #wpml-tabs .default_movie_meta_sortable .highlight {
@@ -505,6 +514,50 @@ body.post-php.post-type-movie #postimagediv {
 	border: 1px solid #ccc;
 	height: 2em;
 	margin: 0.25rem;
+}
+
+/* Movie Details sortable-like */
+
+#wpml-tabs .default_movie_details {
+	max-width: 23em;
+}
+
+#wpml-tabs .default_movie_details .default_movie_detail.selected,
+#wpml-tabs .default_movie_details .default_movie_detail {
+	border-radius: 0.15rem;
+	cursor: pointer;
+	margin: 0.25rem;
+	padding: 0.5rem;
+}
+
+#wpml-tabs .default_movie_details .default_movie_detail {
+	background-color: #222;
+	color: #ddd;
+}
+
+#wpml-tabs .default_movie_details .default_movie_detail:hover {
+	background-color: #333;
+}
+
+#wpml-tabs .default_movie_details .default_movie_detail.selected {
+	background-color: #0074A2;
+	color: #fff;
+	font-weight: bold;
+	position: relative;
+}
+
+#wpml-tabs .default_movie_details .default_movie_detail.selected:hover {
+	background-color: #2EA2CC;
+}
+
+#wpml-tabs .default_movie_detail .dashicons {
+	display: none;
+	right: 0.5em;
+	position: absolute;
+}
+
+#wpml-tabs .default_movie_detail.selected .dashicons {
+	display: inline-block;
 }
 
 /* Buttons & Color */

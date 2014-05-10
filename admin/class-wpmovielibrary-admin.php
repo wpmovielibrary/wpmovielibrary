@@ -294,17 +294,22 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				// Is the setting valid?
 				if ( isset( $defaults[ $slug ] ) ) {
 
-					if ( is_array( $setting ) && 1 == count( $setting ) )
-						$setting = $setting[0];
+					if ( in_array( $slug, array( 'default_movie_meta', 'default_movie_details' ) ) ) {
+						$allowed = array_keys( call_user_func( 'WPML_Settings::get_supported_' . str_replace( 'default_', '', $slug ) ) );
+						$_settings[ $slug ] = array_intersect( $setting, $allowed );
+					}
+					else {
+						if ( is_array( $setting ) && 1 == count( $setting ) )
+							$setting = $setting[0];
 
-					if ( is_array( $setting ) )
-						$setting = self::validate_settings( $setting, $defaults[ $slug ] );
-					else if ( is_numeric( $setting ) )
-						$setting = filter_var( $setting, FILTER_VALIDATE_INT );
-					else
-						$setting = sanitize_text_field( $setting );
-
-					$_settings[ $slug ] = $setting;
+						if ( is_array( $setting ) )
+							$setting = self::validate_settings( $setting, $defaults[ $slug ] );
+						else if ( is_numeric( $setting ) )
+							$setting = filter_var( $setting, FILTER_VALIDATE_INT );
+						else
+							$setting = sanitize_text_field( $setting );
+						$_settings[ $slug ] = $setting;
+					}
 				}
 			}
 
