@@ -210,8 +210,27 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public function admin_menu() {
 
+			add_menu_page(
+				$page_title = WPML_NAME,
+				$menu_title = __( 'Movies', WPML_SLUG ),
+				$capability = 'manage_options',
+				$menu_slug = 'wpmovielibrary',
+				$function = null,
+				$icon_url = ( WPML_Utils::is_modern_wp() ? 'dashicons-format-video' : WPML_URL . '/assets/img/icon-movie.png' ),
+				$position = 6
+			);
+
 			add_submenu_page(
-				'edit.php?post_type=movie',
+				'wpmovielibrary',
+				WPML_NAME,
+				WPML_NAME,
+				'manage_options',
+				'wpmovielibrary',
+				__CLASS__ . '::admin_page'
+			);
+
+			add_submenu_page(
+				'wpmovielibrary',
 				__( 'Import Movies', WPML_SLUG ),
 				__( 'Import Movies', WPML_SLUG ),
 				'manage_options',
@@ -219,7 +238,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'WPML_Import::import_page'
 			);
 			/*add_submenu_page(
-				'edit.php?post_type=movie',
+				'wpmovielibrary',
 				__( 'Export Movies', WPML_SLUG ),
 				__( 'Export Movies', WPML_SLUG ),
 				'manage_options',
@@ -227,7 +246,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				__CLASS__ . '::export_page'
 			);*/
 			add_submenu_page(
-				'edit.php?post_type=movie',
+				'wpmovielibrary',
 				__( 'Settings', WPML_SLUG ),
 				__( 'Settings', WPML_SLUG ),
 				'manage_options',
