@@ -122,10 +122,10 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$screen = get_current_screen();
 			if ( in_array( $screen->id, $this->plugin_screen_hook_suffix ) ) {
 
-				if ( 'edit-movie' == $screen->id )
-					wp_enqueue_script( 'jquery-ui-progressbar' );
+				/*if ( 'edit-movie' == $screen->id )
+					wp_enqueue_script( 'jquery-ui-progressbar' );*/
 
-				if ( 'movie_page_settings' == $screen->id ) {
+				if ( $screen->id == $this->plugin_screen_hook_suffix['landing_page'] ) {
 					wp_enqueue_script( 'jquery-ui-sortable' );
 					wp_enqueue_script( 'jquery-ui-draggable' );
 					wp_enqueue_script( 'jquery-ui-droppable' );
@@ -223,7 +223,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$position = 6
 			);
 
-			add_submenu_page(
+			$this->plugin_screen_hook_suffix['landing_page'] = add_submenu_page(
 				'wpmovielibrary',
 				WPML_NAME,
 				WPML_NAME,
@@ -232,16 +232,16 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				__CLASS__ . '::admin_page'
 			);
 
-			add_submenu_page(
+			$this->plugin_screen_hook_suffix['all_movies'] = add_submenu_page(
 				'wpmovielibrary',
 				__( 'All Movies', WPML_SLUG ),
 				__( 'All Movies', WPML_SLUG ),
 				'manage_options',
-				'wpml_movies',
-				__CLASS__ . '::admin_page'
+				'edit.php?post_type=movie',
+				null
 			);
 
-			add_submenu_page(
+			$this->plugin_screen_hook_suffix['new_movie'] = add_submenu_page(
 				'wpmovielibrary',
 				__( 'Add New', WPML_SLUG ),
 				__( 'Add New', WPML_SLUG ),
@@ -251,7 +251,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			);
 
 			if ( WPML_Settings::taxonomies__enable_collection() ) :
-			add_submenu_page(
+			$this->plugin_screen_hook_suffix['collections'] = add_submenu_page(
 				'wpmovielibrary',
 				__( 'Collections', WPML_SLUG ),
 				__( 'Collections', WPML_SLUG ),
@@ -262,7 +262,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			endif;
 
 			if ( WPML_Settings::taxonomies__enable_genre() ) :
-			add_submenu_page(
+			$this->plugin_screen_hook_suffix['genres'] = add_submenu_page(
 				'wpmovielibrary',
 				__( 'Genres', WPML_SLUG ),
 				__( 'Genres', WPML_SLUG ),
@@ -273,7 +273,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			endif;
 
 			if ( WPML_Settings::taxonomies__enable_actor() ) :
-			add_submenu_page(
+			$this->plugin_screen_hook_suffix['actors'] = add_submenu_page(
 				'wpmovielibrary',
 				__( 'Actors', WPML_SLUG ),
 				__( 'Actors', WPML_SLUG ),
@@ -283,12 +283,12 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			);
 			endif;
 
-			add_submenu_page(
+			$this->plugin_screen_hook_suffix['import'] = add_submenu_page(
 				'wpmovielibrary',
 				__( 'Import Movies', WPML_SLUG ),
 				__( 'Import Movies', WPML_SLUG ),
 				'manage_options',
-				'import',
+				'wpml_import',
 				'WPML_Import::import_page'
 			);
 			/*add_submenu_page(
@@ -299,7 +299,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'export',
 				__CLASS__ . '::export_page'
 			);*/
-			add_submenu_page(
+			$this->plugin_screen_hook_suffix['settings'] = add_submenu_page(
 				'wpmovielibrary',
 				__( 'Settings', WPML_SLUG ),
 				__( 'Settings', WPML_SLUG ),
@@ -331,7 +331,10 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				return $parent_file;
 
 			if ( in_array( $current_screen->taxonomy, array( 'collection', 'genre', 'actor' ) ) )
-				$parent_file = 'wpmovielibrary';
+				return $parent_file = 'wpmovielibrary';
+
+			if ( in_array( $current_screen->id, $this->plugin_screen_hook_suffix ) )
+				return $parent_file = 'wpmovielibrary';
 
 			return $parent_file;
 		}
@@ -637,7 +640,9 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public function init() {
 
 			$this->plugin_screen_hook_suffix = array(
-				'movie_page_import', 'movie_page_wpml_edit_settings', 'edit-movie', 'movie', 'plugins'
+				'edit_movie' => 'edit-movie',
+				'movie' => 'movie',
+				'plugins' => 'plugins'
 			);
 
 			self::$default_settings = WPML_Settings::get_default_settings();
