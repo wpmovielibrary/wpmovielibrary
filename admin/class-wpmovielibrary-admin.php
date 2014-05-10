@@ -229,7 +229,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				WPML_NAME,
 				'manage_options',
 				'wpmovielibrary',
-				__CLASS__ . '::admin_page'
+				__CLASS__ . '::landing_page'
 			);
 
 			$this->plugin_screen_hook_suffix['all_movies'] = add_submenu_page(
@@ -340,154 +340,11 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		}
 
 		/**
-		 * Registers settings sections, fields and settings
-		 *
-		 * @since    1.0.0
-		 */
-		public function register_settings() {
-
-			global $wpml_settings;
-
-			foreach ( $wpml_settings as $section ) {
-
-				if ( isset( $section['section'] ) && isset( $section['settings'] ) ) {
-
-					$section_id = $section['section']['id'];
-					$section_title = $section['section']['title'];
-
-					add_settings_section( "wpml_settings-$section_id", $section_title, __CLASS__ . '::markup_section_headers', 'wpml_settings' );
-
-					foreach ( $section['settings'] as $id => $field ) {
-
-						$callback = isset( $field['callback'] ) ? $field['callback'] : 'markup_fields';
-
-						add_settings_field( $id, __( $field['title'], WPML_SLUG ), array( $this, $callback ), 'wpml_settings', "wpml_settings-$section_id", array( 'id' => $id, 'section' => $section_id ) + $field );
-					}
-				}
-			}
-
-			// The settings container
-			register_setting(
-				'wpml_edit_settings',
-				'wpml_settings'
-			);
-		}
-
-		/**
-		 * Filter the submitted settings to detect unsupported data.
-		 *
-		 * @since    1.0.0
+		 * Render the Settings Page.
 		 * 
-		 * @param    array    $settings Settings array to filter
-		 * @param    array    $defaults Default Settings to match against submitted settings
-		 * 
-		 * @return   array    Filtered Settings
-		 */
-		protected static function validate_settings( $settings, $defaults = array() ) {
-
-			$defaults = ( ! empty( $defaults ) ? $defaults : WPML_Settings::get_default_settings() );
-			$_settings = array();
-
-			if ( is_null( $settings ) || ! is_array( $settings ) )
-				return $settings;
-
-			// Loop through settings
-			foreach ( $settings as $slug => $setting ) {
-
-				// Is the setting valid?
-				if ( isset( $defaults[ $slug ] ) ) {
-
-					if ( in_array( $slug, array( 'default_movie_meta', 'default_movie_details' ) ) ) {
-						$allowed = array_keys( call_user_func( 'WPML_Settings::get_supported_' . str_replace( 'default_', '', $slug ) ) );
-						$_settings[ $slug ] = array_intersect( $setting, $allowed );
-					}
-					else {
-						if ( is_array( $setting ) && 1 == count( $setting ) )
-							$setting = $setting[0];
-
-						if ( is_array( $setting ) )
-							$setting = self::validate_settings( $setting, $defaults[ $slug ] );
-						else if ( is_numeric( $setting ) )
-							$setting = filter_var( $setting, FILTER_VALIDATE_INT );
-						else
-							$setting = sanitize_text_field( $setting );
-						$_settings[ $slug ] = $setting;
-					}
-				}
-			}
-
-			return $_settings;
-		}
-
-		/**
-		 * Validate the submitted Settings
-		 * 
-		 * This essentially checks for sorted movie meta, as this option
-		 * is more a visual stuff an as such, not stored in a regular
-		 * setting field.
-		 * 
-		 * Also check for changes on the URL Rewriting of Taxonomies to
-		 * update the Rewrite Rules if needed. We need to do so to avoid
-		 * users to get 404 when they try to access their content if they
-		 * didn't previously reload the Dashboard Permalink page.
-		 * 
-		 * TODO: Add error handling & notification
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @param    array    $new_settings Array containing the new settings
-		 * @param    array    $old_settings Array containing the old settings
-		 * 
-		 * @return   array    Validated settings
-		 */
-		public static function filter_settings( $new_settings, $old_settings ) {
-
-			$settings = self::validate_settings( $new_settings );
-			$settings[ WPML_SETTINGS_REVISION_NAME ] = WPML_SETTINGS_REVISION;
-
-			if ( isset( $new_settings['wpml']['default_movie_meta_sorted'] ) && '' != $new_settings['wpml']['default_movie_meta_sorted'] ) {
-
-				$meta_sorted = explode( ',', $new_settings['wpml']['default_movie_meta_sorted'] );
-				$meta = WPML_Settings::get_supported_movie_meta();
-
-				foreach ( $meta_sorted as $i => $_meta )
-					if ( ! in_array( $_meta, array_keys( $meta ) ) )
-						unset( $meta_sorted[ $i ] );
-
-				$settings['wpml']['default_movie_meta_sorted'] = $meta_sorted;
-				$settings['wpml']['default_movie_meta'] = $meta_sorted;
-			}
-
-			// Check for changes in URL Rewrite
-			$updated_movie_rewrite = ( isset( $old_settings['wpml']['movie_rewrite'] ) &&
-						   isset( $settings['wpml']['movie_rewrite'] ) &&
-						   $old_settings['wpml']['movie_rewrite'] != $settings['wpml']['movie_rewrite'] );
-
-			$updated_details_rewrite = ( isset( $old_settings['wpml']['details_rewrite'] ) &&
-						   isset( $settings['wpml']['details_rewrite'] ) &&
-						   $old_settings['wpml']['details_rewrite'] != $settings['wpml']['details_rewrite'] );
-
-			$updated_collection_rewrite = ( isset( $old_settings['taxonomies']['collection_rewrite'] ) &&
-							isset( $settings['taxonomies']['collection_rewrite'] ) &&
-							$old_settings['taxonomies']['collection_rewrite'] != $settings['taxonomies']['collection_rewrite'] );
-
-			$updated_genre_rewrite = ( isset( $old_settings['taxonomies']['genre_rewrite'] ) &&
-						   isset( $settings['taxonomies']['genre_rewrite'] ) &&
-						   $old_settings['taxonomies']['genre_rewrite'] != $settings['taxonomies']['genre_rewrite'] );
-
-			$updated_actor_rewrite = ( isset( $old_settings['taxonomies']['actor_rewrite'] ) &&
-						   isset( $settings['taxonomies']['actor_rewrite'] ) &&
-						   $old_settings['taxonomies']['actor_rewrite'] != $settings['taxonomies']['actor_rewrite'] );
-
-			// Update Rewrite Rules if needed
-			if ( $updated_movie_rewrite || $updated_details_rewrite || $updated_collection_rewrite || $updated_genre_rewrite || $updated_actor_rewrite )
-				add_settings_error( null, 'url_rewrite', sprintf( __( 'You update the taxonomies URL rewrite. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', WPML_SLUG ), admin_url( '/options-permalink.php' ) ), 'updated' );
-
-			return $settings;
-		}
-
-		/**
-		 * Render options page.
+		 * Is either one of the maintenance tools is at use, handle it
+		 * before doing anything. As of now maintenance tools are 
+		 * restricted to default settings restoration and cache cleaning.
 		 *
 		 * @since    1.0.0
 		 */
@@ -532,6 +389,53 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$_section = ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], $_allowed ) ) ? esc_attr( $_REQUEST['wpml_section'] ) : 'api' ;
 
 			include_once( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings.php' );
+		}
+
+		/**
+		 * Render WPML Landing Page.
+		 * 
+		 * Create a nice landing page for the plugin, displaying recent
+		 * movies and other stuff like a simple shortcut menu.
+		 * 
+		 * @since    1.0.0
+		 */
+		public static function landing_page() {
+
+			include_once( plugin_dir_path( __FILE__ ) . 'common/views/landing-page.php' );
+		}
+
+		/**
+		 * Registers settings sections, fields and settings
+		 *
+		 * @since    1.0.0
+		 */
+		public function register_settings() {
+
+			global $wpml_settings;
+
+			foreach ( $wpml_settings as $section ) {
+
+				if ( isset( $section['section'] ) && isset( $section['settings'] ) ) {
+
+					$section_id = $section['section']['id'];
+					$section_title = $section['section']['title'];
+
+					add_settings_section( "wpml_settings-$section_id", $section_title, __CLASS__ . '::markup_section_headers', 'wpml_settings' );
+
+					foreach ( $section['settings'] as $id => $field ) {
+
+						$callback = isset( $field['callback'] ) ? $field['callback'] : 'markup_fields';
+
+						add_settings_field( $id, __( $field['title'], WPML_SLUG ), array( $this, $callback ), 'wpml_settings', "wpml_settings-$section_id", array( 'id' => $id, 'section' => $section_id ) + $field );
+					}
+				}
+			}
+
+			// The settings container
+			register_setting(
+				'wpml_edit_settings',
+				'wpml_settings'
+			);
 		}
 
 		/**
@@ -605,6 +509,124 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			endforeach;
 
 			include( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings-fields.php' );
+		}
+
+		/**
+		 * Filter the submitted settings to detect unsupported data.
+		 * 
+		 * Most fields can be tested easily, but the default movie meta
+		 * and details need a for specific test using array_intersect()
+		 * to avoid storing unsupported values.
+		 * 
+		 * Settings submitted as array when there's no use to are converted
+		 * to simpler types.
+		 *
+		 * @since    1.0.0
+		 * 
+		 * @param    array    $settings Settings array to filter
+		 * @param    array    $defaults Default Settings to match against submitted settings
+		 * 
+		 * @return   array    Filtered Settings
+		 */
+		protected static function validate_settings( $settings, $defaults = array() ) {
+
+			$defaults = ( ! empty( $defaults ) ? $defaults : WPML_Settings::get_default_settings() );
+			$_settings = array();
+
+			if ( is_null( $settings ) || ! is_array( $settings ) )
+				return $settings;
+
+			// Loop through settings
+			foreach ( $settings as $slug => $setting ) {
+
+				// Is the setting valid?
+				if ( isset( $defaults[ $slug ] ) ) {
+
+					if ( in_array( $slug, array( 'default_movie_meta', 'default_movie_details' ) ) ) {
+						$allowed = array_keys( call_user_func( 'WPML_Settings::get_supported_' . str_replace( 'default_', '', $slug ) ) );
+						$_settings[ $slug ] = array_intersect( $setting, $allowed );
+					}
+					else {
+						if ( is_array( $setting ) && 1 == count( $setting ) )
+							$setting = $setting[0];
+
+						if ( is_array( $setting ) )
+							$setting = self::validate_settings( $setting, $defaults[ $slug ] );
+						else if ( is_numeric( $setting ) )
+							$setting = filter_var( $setting, FILTER_VALIDATE_INT );
+						else
+							$setting = sanitize_text_field( $setting );
+						$_settings[ $slug ] = $setting;
+					}
+				}
+			}
+
+			return $_settings;
+		}
+
+		/**
+		 * Validate the submitted Settings
+		 * 
+		 * This essentially checks for sorted movie meta, as this option
+		 * is more a visual stuff an as such, not stored in a regular
+		 * setting field.
+		 * 
+		 * Also check for changes on the URL Rewriting of Taxonomies to
+		 * update the Rewrite Rules if needed. We need to do so to avoid
+		 * users to get 404 when they try to access their content if they
+		 * didn't previously reload the Dashboard Permalink page.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    array    $new_settings Array containing the new settings
+		 * @param    array    $old_settings Array containing the old settings
+		 * 
+		 * @return   array    Validated settings
+		 */
+		public static function filter_settings( $new_settings, $old_settings ) {
+
+			$settings = self::validate_settings( $new_settings );
+			$settings[ WPML_SETTINGS_REVISION_NAME ] = WPML_SETTINGS_REVISION;
+
+			if ( isset( $new_settings['wpml']['default_movie_meta_sorted'] ) && '' != $new_settings['wpml']['default_movie_meta_sorted'] ) {
+
+				$meta_sorted = explode( ',', $new_settings['wpml']['default_movie_meta_sorted'] );
+				$meta = WPML_Settings::get_supported_movie_meta();
+
+				foreach ( $meta_sorted as $i => $_meta )
+					if ( ! in_array( $_meta, array_keys( $meta ) ) )
+						unset( $meta_sorted[ $i ] );
+
+				$settings['wpml']['default_movie_meta_sorted'] = $meta_sorted;
+				$settings['wpml']['default_movie_meta'] = $meta_sorted;
+			}
+
+			// Check for changes in URL Rewrite
+			$updated_movie_rewrite = ( isset( $old_settings['wpml']['movie_rewrite'] ) &&
+						   isset( $settings['wpml']['movie_rewrite'] ) &&
+						   $old_settings['wpml']['movie_rewrite'] != $settings['wpml']['movie_rewrite'] );
+
+			$updated_details_rewrite = ( isset( $old_settings['wpml']['details_rewrite'] ) &&
+						   isset( $settings['wpml']['details_rewrite'] ) &&
+						   $old_settings['wpml']['details_rewrite'] != $settings['wpml']['details_rewrite'] );
+
+			$updated_collection_rewrite = ( isset( $old_settings['taxonomies']['collection_rewrite'] ) &&
+							isset( $settings['taxonomies']['collection_rewrite'] ) &&
+							$old_settings['taxonomies']['collection_rewrite'] != $settings['taxonomies']['collection_rewrite'] );
+
+			$updated_genre_rewrite = ( isset( $old_settings['taxonomies']['genre_rewrite'] ) &&
+						   isset( $settings['taxonomies']['genre_rewrite'] ) &&
+						   $old_settings['taxonomies']['genre_rewrite'] != $settings['taxonomies']['genre_rewrite'] );
+
+			$updated_actor_rewrite = ( isset( $old_settings['taxonomies']['actor_rewrite'] ) &&
+						   isset( $settings['taxonomies']['actor_rewrite'] ) &&
+						   $old_settings['taxonomies']['actor_rewrite'] != $settings['taxonomies']['actor_rewrite'] );
+
+			// Update Rewrite Rules if needed
+			if ( $updated_movie_rewrite || $updated_details_rewrite || $updated_collection_rewrite || $updated_genre_rewrite || $updated_actor_rewrite )
+				add_settings_error( null, 'url_rewrite', sprintf( __( 'You update the taxonomies URL rewrite. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', WPML_SLUG ), admin_url( '/options-permalink.php' ) ), 'updated' );
+
+			return $settings;
 		}
 
 		/**

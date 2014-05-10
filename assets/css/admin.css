@@ -60,6 +60,24 @@ body.post-php.post-type-movie #postimagediv {
 	color: #fff;
 }
 
+/* WPML Landing Page
+ ****************************************************/
+
+#wpml-welcome-panel .welcome-panel-column li .dashicons {
+	color: #999;
+	margin-right: 0.5em;
+	vertical-align: text-top;
+}
+
+#wpml-welcome-panel .welcome-panel-close .dashicons-dismiss {
+	font-size: 1em;
+	color: #aaa;
+}
+
+#wpml-welcome-panel .welcome-panel-close:hover .dashicons-dismiss {
+	color: #c00;
+}
+
 /* WPML Movie List
  ****************************************************/
 
