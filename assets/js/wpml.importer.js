@@ -123,8 +123,17 @@ var wpml_importer;
 				error: function( response ) {
 					wpml_state.clear();
 					$.each( response.responseJSON.errors, function() {
-						wpml_state.set( this, 'error' );
+						if ( $.isArray( this ) ) {
+							$.each( this, function() {
+								wpml_state.set( this, 'error' );
+							});
+						}
+						else {
+							wpml_state.set( this, 'error' );
+						}
 					});
+					$(wpml_importer.list).val('');
+					wpml_importer.reload({});
 				},
 				success: function( response ) {
 
