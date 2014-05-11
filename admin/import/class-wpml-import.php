@@ -422,8 +422,16 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 				if ( ! empty( $errors->errors ) ) {
 					$_errors = array();
-					foreach ( $errors->errors as $error )
-						$_errors[] = '<li>' . $error->message . '</li>';
+					foreach ( $errors->errors as $error ) {
+						if ( is_array( $error ) ) {
+							foreach ( $error as $e ) {
+								$_errors[] = '<li>' . $e . '</li>';
+							}
+						}
+						else {
+							$_errors[] = '<li>' . $error . '</li>';
+						}
+					}
 					WPML_Utils::admin_notice( sprintf( __( 'The following errors occured: <ul>%s</ul>', WPML_SLUG ), implode( '', $_errors ) ), 'error' );
 				}
 

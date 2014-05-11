@@ -163,14 +163,14 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 .wpml-inline-edit-toggle {
+	outline: none !important;
 	position: relative;
 	z-index: 10;
 }
 
 .wpml-inline-edit-toggle.active {
+	float: right;
 	visibility: visible !important;
-	position: absolute;
-	right: 0;
 }
 
 .wpml-inline-edit-toggle .dashicons {
