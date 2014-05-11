@@ -58,7 +58,8 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 */
 		public function admin_enqueue_scripts( $hook ) {
 
-			if ( 'movie_page_import' != $hook )
+			global $admin_page_hooks;
+			if ( $admin_page_hooks['wpmovielibrary'] . '_page_wpml_import' != $hook )
 				return;
 
 			wp_enqueue_script( WPML_SLUG . '-jquery-ajax-queue', WPML_URL . '/assets/js/jquery.ajaxQueue.js', array( 'jquery' ), WPML_VERSION, true );
