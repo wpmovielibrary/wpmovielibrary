@@ -92,7 +92,7 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 				    prev = ( 'rating' == type ? '.movie-rating-display' : '.movie_' + type + '_title' ),
 				    $prev = $link.prev( prev ),
 				    active = ( $parent.find('.wpml-inline-edit-' + type).length ),
-				    links = '.wpml-inline-edit-toggle';
+				    links = '.column-movie_' + type + '.inline_editing .wpml-inline-edit-toggle';
 
 				if ( display || ! active ) {
 					if ( ! active ) {
@@ -100,12 +100,14 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 						$(links).find('.dashicons').removeClass().addClass('dashicons dashicons-admin-generic');
 					}
 					$editor.show();
+					$parent.addClass('inline_editing');
 					$link.addClass('active');
 					$link.find('.dashicons').removeClass().addClass('dashicons dashicons-no');
 					$editor.appendTo( $link.parent('td') ).show();
 				}
 				else {
 					$link.removeClass('active');
+					$parent.removeClass('inline_editing');
 					$link.find('.dashicons').removeClass().addClass('dashicons dashicons-admin-generic');
 					$editor.hide();
 				}
