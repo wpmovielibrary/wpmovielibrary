@@ -1,4 +1,4 @@
-	<div class="wrap">
+	<div id="wpml-home" class="wrap">
 
 		<h2>WPMovieLibrary</h2>
 
@@ -39,8 +39,22 @@
 
 		</div>
 
-		<!--<div id="dashboard-widgets-wrap">
-			<div id="dashboard-widgets" class="metabox-holder">-->
+		<div id="dashboard-widgets-wrap">
+			<div id="dashboard-movies" class="metabox-holder">
+<?php if ( $movies->have_posts() ) :
+	foreach ( $movies->posts as $movie ) :
+?>
+				<div id="movie-<?php echo $movie->ID ?>" class="wpml-movie">
+					<a href="<?php echo get_permalink( $movie->ID ) ?>">
+						<?php echo get_the_post_thumbnail( $movie->ID, 'medium' ) ?>
+					</a>
+				</div>
+<?php
+	endforeach;
+endif;
+?>
+			</div>
+			<div id="dashboard-widgets" class="metabox-holder">
 				<div id="postbox-container-1" class="postbox-container">
 					<div id="normal-sortables" class="meta-box-sortables ui-sortable">
 						<div id="dashboard_right_now" class="postbox ">
@@ -59,7 +73,7 @@
 						</div>
 					</div>
 				</div>
-			<!--</div>
-		</div>-->
+			</div>
+		</div>
 
 	</div>

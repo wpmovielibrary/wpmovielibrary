@@ -78,6 +78,42 @@ body.post-php.post-type-movie #postimagediv {
 	color: #c00;
 }
 
+#wpml-home #dashboard-widgets {
+	float: right;
+	max-width: 420px;
+	width: 28%;
+}
+
+#wpml-home #dashboard-widgets #postbox-container-1 {
+	width: 100% !important;
+}
+
+#wpml-home #dashboard-movies {
+	float: left;
+	padding: 10px;
+	width: 70%;
+}
+
+#wpml-home #dashboard-movies .wpml-movie {
+	background: #fff;
+	border-radius: 0.25em;
+	display: inline-block;
+	margin: 0.25em;
+	max-height: 300px;
+	max-width: 202px;
+	width: 24%;
+}
+
+#wpml-home #dashboard-movies .wpml-movie img {
+	border-radius: 0.25em;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#wpml-home #dashboard-movies .wpml-movie img:hover {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.85);
+	opacity: 0.95;
+}
+
 /* WPML Movie List
  ****************************************************/
 
