@@ -420,7 +420,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @return   string    Filtered runtime
 		 */
 		public static function filter_runtime( $runtime ) {
-			return date_i18n( get_option( 'time_format' ), mktime( 0, $runtime ) );
+			return ( ! is_null( $runtime ) && '' != $runtime ? date_i18n( get_option( 'time_format' ), mktime( 0, $runtime ) ) : $runtime );
 		}
 
 
@@ -434,7 +434,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @return   string    Filtered release date
 		 */
 		public static function filter_release_date( $release_date ) {
-			return date_i18n( get_option( 'date_format' ), strtotime( $release_date ) );
+			return ( ! is_null( $release_date ) && '' != $release_date ? date_i18n( get_option( 'date_format' ), strtotime( $release_date ) ) : $release_date );
 		}
 
 		/**
