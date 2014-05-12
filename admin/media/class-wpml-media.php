@@ -136,7 +136,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * 
 		 * @return   array    The prepared images
 		 */
-		public function fake_jsonify_movie_images( $images, $post, $image_type ) {
+		public static function fake_jsonify_movie_images( $images, $post, $image_type ) {
 
 			$image_type = ( 'poster' == $image_type ? 'poster' : 'image' );
 
