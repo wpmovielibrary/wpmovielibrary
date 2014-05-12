@@ -77,3 +77,5 @@ endif;
 		</div>
 
 	</div>
+
+<?php include_once( 'movie-showcase.php' ); ?>

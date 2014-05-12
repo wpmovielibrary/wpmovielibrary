@@ -73,6 +73,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			// Add the options page and menu item.
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+			//add_action( 'admin_footer', array( $this, 'movie_showcase' ) );
 
 			// highlight the proper top level menu
 			add_action( 'parent_file', array( $this, 'admin_menu_highlight' ) );
@@ -410,6 +411,16 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$movies = new WP_Query( $args );
 
 			include_once( plugin_dir_path( __FILE__ ) . 'common/views/landing-page.php' );
+		}
+
+		public function movie_showcase() {
+
+			global $current_screen;
+
+			if ( $current_screen->id != $this->plugin_screen_hook_suffix['landing_page'] )
+				return false;
+
+			include_once( plugin_dir_path( __FILE__ ) . 'common/views/movie-showcase.php' );
 		}
 
 		/**

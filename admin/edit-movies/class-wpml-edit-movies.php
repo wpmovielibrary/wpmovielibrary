@@ -574,7 +574,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 				update_post_meta( $post_id, '_wpml_movie_' . $detail, $value );
 				$updated = get_post_meta( $post_id, '_wpml_movie_' . $detail, true );
-				if ( '' == $updated || 0 != abs( $value - $updated ) )
+				if ( '' == $updated || 0 != abs( $value - floatval( $updated ) ) )
 					return new WP_Error( 'update_error', __( 'Error: couldn\'t update movie detail.', WPML_SLUG ) );
 			}
 

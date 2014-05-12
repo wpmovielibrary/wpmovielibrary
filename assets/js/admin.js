@@ -222,7 +222,30 @@ wpml = {
 		return true;
 	};
 
+/**
+ * WIP: landing page showcase
+ */
 
+$('.wpml-movie > a').on( 'click', function( e ) {
+	e.preventDefault();
+	$('#wpml-movie-showcase-bg').show().animate( { right: 0 }, 250 );
+});
+
+$('#wpml-movie-showcase-close').on( 'click', function( e ) {
+	e.preventDefault();
+	$('#wpml-movie-showcase-bg').animate( { right: ( 0 - window.innerWidth ) }, 250, function() { $(this).hide() } );
+});
+
+$('#wpml-movie-showcase-bg').css({
+	width: ( window.innerWidth - 175 ),
+	height: ( window.innerHeight - 32 ),
+	right: ( 0 - window.innerWidth )
+});
+
+$('#wpml-movie-showcase').css({
+	width: ( window.innerWidth - 214 ),
+	height: ( window.innerHeight - 74 )
+});
 
 
 

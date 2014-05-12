@@ -252,21 +252,28 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 				switch ( $field ) {
 					case 'genres':
 						$genres = WPML_Settings::taxonomies__enable_genre() ? get_the_term_list( get_the_ID(), 'genre', '', ', ', '' ) : $tmdb_data[ $field ];
+						$genres = ( '' != $genres ? $genres : sprintf( '<em>%s</em>', '&ndash;' ) );
 						$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, $genres );
 						break;
 					case 'cast':
 						$actors = WPML_Settings::taxonomies__enable_actor() ? get_the_term_list( get_the_ID(), 'actor', '', ', ', '' ) : $tmdb_data[ $field ];
+						$actors = ( '' != $actors ? $actors : sprintf( '<em>%s</em>', '&ndash;' ) );
 						$html .= sprintf( $default_format, $field, __( 'Staring', WPML_SLUG ), $field, $actors );
 						break;
 					case 'release_date':
-						$html .= sprintf( $default_format, $field, __( $default_fields[ $field ]['title'], WPML_SLUG ), $field, WPML_Utils::filter_release_date( $tmdb_data[ $field ] ) );
+						$release_date = WPML_Utils::filter_release_date( $tmdb_data[ $field ] );
+						$release_date = ( '' != $release_date ? $release_date : sprintf( '<em>%s</em>', '&ndash;' ) );
+						$html .= sprintf( $default_format, $field, __( $default_fields[ $field ]['title'], WPML_SLUG ), $field, $release_date );
 						break;
 					case 'runtime':
-						$html .= sprintf( $default_format, $field, __( $default_fields[ $field ]['title'], WPML_SLUG ), $field, WPML_Utils::filter_runtime( $tmdb_data[ $field ] ) );
+						$runtime = WPML_Utils::filter_runtime( $tmdb_data[ $field ] );
+						$runtime = ( '' != $runtime ? $runtime : sprintf( '<em>%s</em>', '&ndash;' ) );
+						$html .= sprintf( $default_format, $field, __( $default_fields[ $field ]['title'], WPML_SLUG ), $field, $runtime );
 						break;
 					case 'director':
 						$term = WPML_Settings::taxonomies__enable_collection() ? get_term_by( 'name', $tmdb_data[ $field ], 'collection' ) : $tmdb_data[ $field ];
 						$collection = ( $term && ! is_wp_error( $link = get_term_link( $term, 'collection' ) ) ) ? '<a href="' . $link . '">' . $tmdb_data[ $field ] . '</a>' : $tmdb_data[ $field ];
+						$collection = ( '' != $collection ? $collection : sprintf( '<em>%s</em>', '&ndash;' ) );
 						$html .= sprintf( $default_format, $field, __( 'Directed by', WPML_SLUG ), $field, $collection );
 						break;
 					default:
