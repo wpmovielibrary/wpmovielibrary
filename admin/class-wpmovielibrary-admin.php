@@ -116,85 +116,82 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public function enqueue_admin_scripts() {
 
-			if ( ! isset( $this->plugin_screen_hook_suffix ) ) {
+			global $current_screen;
+
+			if ( ! isset( $this->plugin_screen_hook_suffix ) || ! in_array( $current_screen->id, $this->plugin_screen_hook_suffix ) )
 				return;
-			}
 
-			$screen = get_current_screen();
-			if ( in_array( $screen->id, $this->plugin_screen_hook_suffix ) ) {
+			// Main admin script, containing basic functions
+			wp_enqueue_script( WPML_SLUG . '-admin-script', WPML_URL . '/assets/js/admin.js', array( 'jquery' ), WPML_VERSION, true );
+			wp_localize_script(
+				WPML_SLUG . '-admin-script', 'wpml_ajax',
+				$this->localize_script()
+			);
 
-				/*if ( 'edit-movie' == $screen->id )
-					wp_enqueue_script( 'jquery-ui-progressbar' );*/
+			// Settings script
+			if ( $current_screen->id == $this->plugin_screen_hook_suffix['settings'] )
+				wp_enqueue_script( WPML_SLUG . '-settings', WPML_URL . '/assets/js/wpml.settings.js', array( WPML_SLUG . '-admin-script', 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable' ), WPML_VERSION, true );
 
-				if ( $screen->id == $this->plugin_screen_hook_suffix['landing_page'] ) {
-					wp_enqueue_script( 'jquery-ui-sortable' );
-					wp_enqueue_script( 'jquery-ui-draggable' );
-					wp_enqueue_script( 'jquery-ui-droppable' );
-				}
+			if ( $current_screen->id == $this->plugin_screen_hook_suffix['landing_page'] )
+				wp_enqueue_script( WPML_SLUG . '-landing', WPML_URL . '/assets/js/wpml.landing.js', array( 'jquery' ), WPML_VERSION, true );
 
-				$base_urls = WPML_TMDb::get_image_url();
+			/*if ( $current_screen->id == $this->plugin_screen_hook_suffix['new_movie'] )
+				wp_enqueue_script( 'jquery-effects-shake' );*/
 
-				$localize = array(
-					'utils' => array(
-						'wpml_check' => wp_create_nonce( 'wpml-callbacks-nonce' ),
-						'base_url' => array(
-							'xxsmall'	=> $base_urls['poster']['xx-small'],
-							'xsmall'	=> $base_urls['poster']['x-small'],
-							'small'		=> $base_urls['image']['small'],
-							'medium'	=> $base_urls['image']['medium'],
-							'full'		=> $base_urls['image']['full'],
-							'original'	=> $base_urls['image']['original'],
-						)
-					),
-					'lang' => array(
-						'deleted_movie'		=> __( 'One movie successfully deleted.', WPML_SLUG ),
-						'deleted_movies'	=> __( '%s movies successfully deleted.', WPML_SLUG ),
-						'dequeued_movie'	=> __( 'One movie removed from the queue.', WPML_SLUG ),
-						'dequeued_movies'	=> __( '%s movies removed from the queue.', WPML_SLUG ),
-						'done'			=> __( 'Done!', WPML_SLUG ),
-						'empty_key'		=> __( 'I can\'t test an empty key, you know.', WPML_SLUG ),
-						'enqueued_movie'	=> __( 'One movie added to the queue.', WPML_SLUG ),
-						'enqueued_movies'	=> __( '%s movies added to the queue.', WPML_SLUG ),
-						'images_added'		=> __( 'Images added!', WPML_SLUG ),
-						'image_from'		=> __( 'Image from', WPML_SLUG ),
-						'images_uploaded'	=> __( 'Images uploaded!', WPML_SLUG ),
-						'import_images'		=> __( 'Import Images', WPML_SLUG ),
-						'import_images_title'	=> __( 'Import Images for "%s"', WPML_SLUG ),
-						'import_images_wait'	=> __( 'Please wait while the images are uploaded...', WPML_SLUG ),
-						'import_poster'		=> __( 'Import Poster', WPML_SLUG ),
-						'import_poster_title'	=> __( 'Select a poster for "%s"', WPML_SLUG ),
-						'import_poster_wait'	=> __( 'Please wait while the poster is uploaded...', WPML_SLUG ),
-						'imported'		=> __( 'Imported', WPML_SLUG ),
-						'imported_movie'	=> __( 'One movie successfully imported!', WPML_SLUG ),
-						'imported_movies'	=> __( '%s movies successfully imported!', WPML_SLUG ),
-						'in_progress'		=> __( 'Progressing', WPML_SLUG ),
-						'length_key'		=> __( 'Invalid key: it should be 32 characters long.', WPML_SLUG ),
-						'load_images'		=> __( 'Load Images', WPML_SLUG ),
-						'load_more'		=> __( 'Load More', WPML_SLUG ),
-						'loading_images'	=> __( 'Loading Images…', WPML_SLUG ),
-						'oops'			=> __( 'Oops… Did something went wrong?', WPML_SLUG ),
-						'poster'		=> __( 'Poster', WPML_SLUG ),
-						'save_image'		=> __( 'Saving Images…', WPML_SLUG ),
-						'search_movie_title'	=> __( 'Searching movie', WPML_SLUG ),
-						'search_movie'		=> __( 'Fetching movie data', WPML_SLUG ),
-						'see_less'		=> __( 'see no more', WPML_SLUG ),
-						'see_more'		=> __( 'see more', WPML_SLUG ),
-						'set_featured'		=> __( 'Setting featured image…', WPML_SLUG ),
+		}
+
+		private function localize_script() {
+
+			
+			$base_urls = WPML_TMDb::get_image_url();
+			$localize = array(
+				'utils' => array(
+					'wpml_check' => wp_create_nonce( 'wpml-callbacks-nonce' ),
+					'base_url' => array(
+						'xxsmall'	=> $base_urls['poster']['xx-small'],
+						'xsmall'	=> $base_urls['poster']['x-small'],
+						'small'		=> $base_urls['image']['small'],
+						'medium'	=> $base_urls['image']['medium'],
+						'full'		=> $base_urls['image']['full'],
+						'original'	=> $base_urls['image']['original'],
 					)
-				);
-
-				if ( 'movie' == $screen->id )
-					wp_enqueue_script( 'jquery-effects-shake' );
-
-				wp_enqueue_script( WPML_SLUG . '-admin-script', WPML_URL . '/assets/js/admin.js', array( 'jquery' ), WPML_VERSION, true );
-				wp_enqueue_script( WPML_SLUG . '-settings', WPML_URL . '/assets/js/wpml.settings.js', array( 'jquery', 'jquery-ui-sortable' ), WPML_VERSION, true );
-
-				wp_localize_script(
-					WPML_SLUG . '-admin-script', 'wpml_ajax',
-					$localize
-				);
-			}
-
+				),
+				'lang' => array(
+					'deleted_movie'		=> __( 'One movie successfully deleted.', WPML_SLUG ),
+					'deleted_movies'	=> __( '%s movies successfully deleted.', WPML_SLUG ),
+					'dequeued_movie'	=> __( 'One movie removed from the queue.', WPML_SLUG ),
+					'dequeued_movies'	=> __( '%s movies removed from the queue.', WPML_SLUG ),
+					'done'			=> __( 'Done!', WPML_SLUG ),
+					'empty_key'		=> __( 'I can\'t test an empty key, you know.', WPML_SLUG ),
+					'enqueued_movie'	=> __( 'One movie added to the queue.', WPML_SLUG ),
+					'enqueued_movies'	=> __( '%s movies added to the queue.', WPML_SLUG ),
+					'images_added'		=> __( 'Images added!', WPML_SLUG ),
+					'image_from'		=> __( 'Image from', WPML_SLUG ),
+					'images_uploaded'	=> __( 'Images uploaded!', WPML_SLUG ),
+					'import_images'		=> __( 'Import Images', WPML_SLUG ),
+					'import_images_title'	=> __( 'Import Images for "%s"', WPML_SLUG ),
+					'import_images_wait'	=> __( 'Please wait while the images are uploaded...', WPML_SLUG ),
+					'import_poster'		=> __( 'Import Poster', WPML_SLUG ),
+					'import_poster_title'	=> __( 'Select a poster for "%s"', WPML_SLUG ),
+					'import_poster_wait'	=> __( 'Please wait while the poster is uploaded...', WPML_SLUG ),
+					'imported'		=> __( 'Imported', WPML_SLUG ),
+					'imported_movie'	=> __( 'One movie successfully imported!', WPML_SLUG ),
+					'imported_movies'	=> __( '%s movies successfully imported!', WPML_SLUG ),
+					'in_progress'		=> __( 'Progressing', WPML_SLUG ),
+					'length_key'		=> __( 'Invalid key: it should be 32 characters long.', WPML_SLUG ),
+					'load_images'		=> __( 'Load Images', WPML_SLUG ),
+					'load_more'		=> __( 'Load More', WPML_SLUG ),
+					'loading_images'	=> __( 'Loading Images…', WPML_SLUG ),
+					'oops'			=> __( 'Oops… Did something went wrong?', WPML_SLUG ),
+					'poster'		=> __( 'Poster', WPML_SLUG ),
+					'save_image'		=> __( 'Saving Images…', WPML_SLUG ),
+					'search_movie_title'	=> __( 'Searching movie', WPML_SLUG ),
+					'search_movie'		=> __( 'Fetching movie data', WPML_SLUG ),
+					'see_less'		=> __( 'see no more', WPML_SLUG ),
+					'see_more'		=> __( 'see more', WPML_SLUG ),
+					'set_featured'		=> __( 'Setting featured image…', WPML_SLUG ),
+				)
+			);
 		}
 
 

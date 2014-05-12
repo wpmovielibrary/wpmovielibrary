@@ -98,10 +98,9 @@ body.post-php.post-type-movie #postimagediv {
 	background: #fff;
 	border-radius: 0.25em;
 	display: inline-block;
-	margin: 0.25em;
-	max-height: 300px;
-	max-width: 202px;
-	width: 24%;
+	height: 300px;
+	margin: 0.45em 0.25em;
+	width: 202px;
 }
 
 #wpml-home #dashboard-movies .wpml-movie img {
