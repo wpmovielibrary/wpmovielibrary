@@ -367,7 +367,8 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				'meta'    => apply_filters( 'wpml_filter_meta_data', $movie ),
 				'crew'    => apply_filters( 'wpml_filter_crew_data', $casts ),
 				'images'  => $images,
-				'poster_path'  => ( ! is_null( $movie['poster_path'] ) ? self::get_image_url( $movie['poster_path'], 'poster', 'small' ) : WPML_DEFAULT_POSTER_URL ),
+				'poster' => ( ! is_null( $movie['poster_path'] ) ? self::get_image_url( $movie['poster_path'], 'poster', 'small' ) : WPML_DEFAULT_POSTER_URL ),
+				'poster_path'  => ( ! is_null( $movie['poster_path'] ) ? $movie['poster_path'] : WPML_DEFAULT_POSTER_URL ),
 				'_result' => 'movie',
 				'_full'   => $_full,
 			);

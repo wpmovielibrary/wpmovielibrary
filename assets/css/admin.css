@@ -564,7 +564,7 @@ body.post-php.post-type-movie #postimagediv {
 #wpml-tabs #wpml-queued-list .column-director,
 #wpml-tabs #wpml-queued-list-header .column-movietitle,
 #wpml-tabs #wpml-queued-list-header .column-director {
-	width: 30%;
+	width: 24%;
 }
 
 #wpml-tabs #wpml-queued-list .column-status {
