@@ -59,54 +59,7 @@ endif;
 
 			<div id="dashboard-widgets" class="metabox-holder">
 				<div id="postbox-container-1" class="postbox-container">
-					<?php $screen = get_current_screen(); do_meta_boxes( $screen->id, 'normal', '' ); ?>
-					<!--<div id="normal-sortables" class="meta-box-sortables ui-sortable">
-						<div id="wpml-widget-stats" class="postbox ">
-							<div class="handlediv" title="<?php _e( 'Click to toggle', WPML_SLUG ) ?>"><br></div>
-							<h3 class="hndle"><span><?php _e( 'Your library', WPML_SLUG ) ?></span></h3>
-							<div class="inside">
-							<div class="main">
-								<ul>
-<?php
-$list = array( '', 'drafted', 'imported', 'queued' );
-foreach ( $list as $l ) :
-	$movies = call_user_func( "WPML_Stats::get_{$l}_movies_count" );
-
-	if ( $movies )
-		$link = sprintf( '<a href="%s">%s</a>', admin_url( 'edit.php?post_type=movie' ), sprintf( _n( 'One movie', '%d movies', $movies, WPML_SLUG ), $movies ) );
-	else
-		$link = sprintf( '%s <a href="%s">%s</a>', _e( 'No movie added yet.', WPML_SLUG ), admin_url( 'post-new.php?post_type=movie' ), _e( 'Add one!', WPML_SLUG ) );
-?>
-
-<?php endforeach; ?>
-									<li><?php echo $link ?></a></li>
-									<li><a href="<?php echo admin_url( 'admin.php?page=wpml_import&amp;wpml_section=wpml_imported' ) ?>"><?php
-										$imported = WPML_Stats::get_imported_movies_count();
-										if ( $imported )
-											printf( _n( 'One imported movie', '%d imported movies', $imported, WPML_SLUG ), $imported );
-										else
-											_e( '', WPML_SLUG );
-									?></a></li>
-									<li><a href="<?php echo admin_url( 'edit.php?post_status=draft&post_type=movie' ) ?>"><?php
-										$drafted = WPML_Stats::get_drafted_movies_count();
-										if ( $drafted )
-											printf( _n( 'One drafted movie', '%d drafted movies', $drafted, WPML_SLUG ), $drafted );
-										else
-											_e( '', WPML_SLUG );
-									?></a></li>
-									<li><a href="<?php echo admin_url( 'admin.php?page=wpml_import&amp;wpml_section=wpml_import_queue' ) ?>"><?php
-										$queued = WPML_Stats::get_queued_movies_count();
-										if ( $queued )
-											printf( _n( 'One queued movie', '%d queued movies', $queued, WPML_SLUG ), $queued );
-										else
-											_e( '', WPML_SLUG );
-									?></a></li>
-								</ul>
-								<p id="wp-version-message">WordPress 3.9 avec le thème <a href="themes.php">Twenty Fourteen</a>. <a href="http://wp39/wp-admin/update-core.php" class="button">Mettre à jour vers la version 3.9.1</a></p>
-								<p><a href="options-reading.php" title="Votre site indique aux moteurs de recherche de ne pas indexer son contenu">Moteurs de recherche refusés</a></p>
-							</div>
-						</div>
-					</div>-->
+					<?php $screen = get_current_screen(); do_meta_boxes( $screen->id, 'side', '' ); ?>
 				</div>
 			</div>
 		</div>

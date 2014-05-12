@@ -94,6 +94,17 @@ body.post-php.post-type-movie #postimagediv {
 	width: 70%;
 }
 
+#wpml_dashboard_stats_widget li {
+	display: inline-block;
+	width: 50%;
+}
+
+#wpml_dashboard_stats_widget li .dashicons {
+	color: #999;
+	margin-right: 0.25em;
+	vertical-align: text-top;
+}
+
 #wpml-home #dashboard-movies .wpml-movie {
 	background: #fff;
 	border-radius: 0.25em;
