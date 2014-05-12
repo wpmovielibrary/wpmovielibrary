@@ -49,7 +49,9 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$this->register_hook_callbacks();
 
 			$this->modules = array(
+				'WPML_Dashboard'   => WPML_Dashboard::get_instance(),
 				'WPML_Settings'    => WPML_Settings::get_instance(),
+				'WPML_Stats'       => WPML_Stats::get_instance(),
 				'WPML_TMDb'        => WPML_TMDb::get_instance(),
 				'WPML_Utils'       => WPML_Utils::get_instance(),
 				'WPML_Edit_Movies' => WPML_Edit_Movies::get_instance(),
@@ -131,7 +133,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			);
 
 			// Settings script
-			if ( $current_screen->id == $this->plugin_screen_hook_suffix['settings'] )
+			if ( $current_screen->id == $this->plugin_screen_hook_suffix['settings'] || $current_screen->id == $this->plugin_screen_hook_suffix['import'] )
 				wp_enqueue_script( WPML_SLUG . '-settings', WPML_URL . '/assets/js/wpml.settings.js', array( WPML_SLUG . '-admin-script', 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable' ), WPML_VERSION, true );
 
 			if ( $current_screen->id == $this->plugin_screen_hook_suffix['landing_page'] )

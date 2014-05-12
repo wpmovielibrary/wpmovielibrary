@@ -92,7 +92,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			self::display_queued_movie_list();
 			$rows = ob_get_clean();
 
-			$total_items = self::get_queued_movies_count();
+			$total_items = WPML_Stats::get_queued_movies_count();
 
 			$response = array( 'rows' => $rows );
 			$i18n = array();
@@ -380,26 +380,6 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			}
 
 			return $columns;
-		}
-
-		/**
-		 * Get queued imported movies count.
-		 * 
-		 * @since     1.0.0
-		 * 
-		 * @return    int    Total number of imported movies
-		 */
-		public static function get_queued_movies_count() {
-
-			$args = array(
-				'posts_per_page' => -1,
-				'post_type'   => 'movie',
-				'post_status' => 'import-queued'
-			);
-
-			$query = query_posts( $args );
-
-			return count( $query );
 		}
 
 		/**

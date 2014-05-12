@@ -345,26 +345,6 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		}
 
 		/**
-		 * Get imported movies count.
-		 * 
-		 * @since     1.0.0
-		 * 
-		 * @return    int    Total number of imported movies
-		 */
-		public static function get_imported_movies_count() {
-
-			$args = array(
-				'posts_per_page' => -1,
-				'post_type'   => 'movie',
-				'post_status' => 'import-draft'
-			);
-
-			$query = query_posts( $args );
-
-			return count( $query );
-		}
-
-		/**
 		 * Add a Screen Option panel on Movie Import Page.
 		 *
 		 * @since     1.0.0
@@ -403,8 +383,8 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			$imported = array();
 
 			$_section = '';
-			$_imported = self::get_imported_movies_count();
-			$_queued = WPML_Queue::get_queued_movies_count();
+			$_imported = WPML_Stats::get_imported_movies_count();
+			$_queued = WPML_Stats::get_queued_movies_count();
 
 			if ( isset( $_POST['wpml_save_imported'] ) && '' != $_POST['wpml_save_imported'] && isset( $_POST['tmdb'] ) && count( $_POST['tmdb'] ) ) {
 
