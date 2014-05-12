@@ -28,6 +28,7 @@ wpml.landing = wpml_landing = {
 		_open: function() {},
 		_close: function() {},
 		_resize: function() {},
+		_update: function() {},
 	};
 
 		/**
@@ -62,12 +63,33 @@ wpml.landing = wpml_landing = {
 		};
 
 		/**
+		 * Update showcase box with wanted movie data
+		 */
+		wpml.landing.showcase._update = function( link ) {
+			var $link = $(link),
+			     data = $.parseJSON( $link.attr('data-movie-meta') ),
+			     poster = $link.attr('data-movie-poster'),
+			     backdrop = $link.attr('data-movie-backdrop'),
+			     rating = $link.attr('data-movie-rating');
+
+			data.overview = data.overview.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;','>');
+
+			$('#wpml-movie-showcase-title').html( data.title );
+			$('#wpml-movie-showcase-runtime').text( data.runtime );
+			$('#wpml-movie-showcase-release_date').text( data.release_date );
+			$('#wpml-movie-showcase-overview').html( data.overview );
+			$('#wpml-movie-showcase-inner').css( { backgroundImage: 'url(' + backdrop + ')' } );
+			$('#wpml-movie-showcase-poster img').attr( 'src', poster ).attr( 'alt', data.title );
+		};
+
+		/**
 		 * Showcase and events init
 		 */
 		wpml.landing.showcase.init = function() {
 
 			$(wpml_showcase._showcase_open).on( 'click', function( e ) {
 				e.preventDefault();
+				wpml_showcase._update( this );
 				wpml_showcase._open();
 			});
 

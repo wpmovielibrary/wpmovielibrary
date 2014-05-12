@@ -5,7 +5,7 @@
 		<div id="wpml-welcome-panel" class="welcome-panel">
 			<a href="<?php echo admin_url( 'admin.php?page=wpmovielibrary&amp;wpml_welcome_panel=dismiss' ) ?>" class="welcome-panel-close"><span class="dashicons dashicons-dismiss"></span><?php _e( 'Dismiss', WPML_SLUG ); ?></a>
 			<div class="welcome-panel-content">
-				<h3><?php _e( 'Welcome to WordPress Movie Library!', WPML ); ?></h3>
+				<h3><?php _e( 'Welcome to WordPress Movie Library!', WPML_SLUG ); ?></h3>
 				<p class="about-description">
 					<?php _e( 'Thank you for using WPMovieLibrary. We made this plugin for movie lovers! Here are a few links to get you started.', WPML_SLUG ); ?>
 				</p>
@@ -41,11 +41,11 @@
 
 		<div id="dashboard-widgets-wrap">
 			<div id="dashboard-movies" class="metabox-holder">
-<?php if ( $movies->have_posts() ) :
-	foreach ( $movies->posts as $movie ) :
+<?php if ( ! empty( $movies ) ) :
+	foreach ( $movies as $movie ) :
 ?>
 				<div id="movie-<?php echo $movie->ID ?>" class="wpml-movie">
-					<a href="<?php echo get_permalink( $movie->ID ) ?>">
+					<a href="<?php echo get_permalink( $movie->ID ) ?>" data-movie-meta="<?php echo htmlspecialchars( $movie->meta ) ?>" data-movie-rating="<?php echo $movie->rating ?>" data-movie-poster="<?php echo $movie->poster ?>" data-movie-backdrop="<?php echo $movie->backdrop ?>">
 						<?php echo get_the_post_thumbnail( $movie->ID, 'medium' ) ?>
 					</a>
 				</div>

@@ -210,7 +210,8 @@ body.post-php.post-type-movie #postimagediv {
 	font-weight: bold;
 }
 
-#wpml-movie-showcase-overview {
+#wpml-movie-showcase-overview,
+#wpml-movie-showcase-overview p {
 	font-size: 15px;
 	line-height: 30px;
 	margin: 30px 0;

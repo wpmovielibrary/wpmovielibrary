@@ -57,6 +57,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'WPML_Import'      => WPML_Import::get_instance(),
 				'WPML_Queue'       => WPML_Queue::get_instance()
 			);
+
+			error_reporting( E_ALL );
 		}
 
 		/**
@@ -142,7 +144,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 		private function localize_script() {
 
-			
 			$base_urls = WPML_TMDb::get_image_url();
 			$localize = array(
 				'utils' => array(
@@ -192,6 +193,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					'set_featured'		=> __( 'Setting featured image…', WPML_SLUG ),
 				)
 			);
+
+			return $localize;
 		}
 
 
@@ -399,13 +402,49 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public static function landing_page() {
 
-			$args = array(
-				'post_type' => 'movie',
-				'post_status' => 'publish',
-				'posts_per_page' => 16
+			global $wpdb;
+
+			$movies = $wpdb->get_results(
+				'SELECT p.*, m.meta_value AS meta, mm.meta_value AS rating
+				 FROM ' . $wpdb->posts . ' AS p
+				 LEFT JOIN ' . $wpdb->postmeta . ' AS m ON m.post_id=p.ID AND m.meta_key="_wpml_movie_data"
+				 LEFT JOIN ' . $wpdb->postmeta . ' AS mm ON mm.post_id=p.ID AND mm.meta_key="_wpml_movie_rating"
+				 WHERE post_type="movie"
+				   AND post_status="publish"
+				 GROUP BY p.ID
+				 ORDER BY post_date
+				 LIMIT 0,8'
 			);
-			
-			$movies = new WP_Query( $args );
+
+			if ( ! empty( $movies ) ) {
+				foreach ( $movies as $movie ) {
+
+					$movie->meta = unserialize( $movie->meta );
+					$movie->meta = array(
+						'title' => apply_filters( 'the_title', $movie->meta['meta']['title'] ),
+						'runtime' => apply_filters( 'wpml_filter_filter_runtime', $movie->meta['meta']['runtime'] ),
+						'release_date' => apply_filters( 'wpml_filter_filter_release_date', $movie->meta['meta']['release_date'] ),
+						'overview' => apply_filters( 'the_content', $movie->meta['meta']['overview'] )
+					);
+					$movie->meta = json_encode( $movie->meta );
+
+					if ( has_post_thumbnail( $movie->ID ) ) {
+						$movie->poster = wp_get_attachment_image_src( get_post_thumbnail_id( $movie->ID ), 'large' );
+						$movie->poster = $movie->poster[0];
+					}
+					else
+						$movie->poster = WPML_DEFAULT_POSTER_URL;
+
+					$attachments = get_children( $args = array( 'post_parent' => $movie->ID, 'post_type' => 'attachment' ) );
+					if ( ! empty( $attachments ) ) {
+						shuffle( $attachments );
+						$movie->backdrop = wp_get_attachment_image_src( $attachments[0]->ID, 'full' );
+						$movie->backdrop = $movie->backdrop[0];
+					}
+					else
+						$movie->backdrop = $movie->poster;
+				}
+			}
 
 			include_once( plugin_dir_path( __FILE__ ) . 'common/views/landing-page.php' );
 		}
