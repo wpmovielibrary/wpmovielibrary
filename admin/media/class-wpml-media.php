@@ -138,7 +138,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 */
 		public static function fake_jsonify_movie_images( $images, $post, $image_type ) {
 
-			$image_type = ( 'poster' == $image_type ? 'poster' : 'image' );
+			$image_type = ( 'poster' == $image_type ? 'poster' : 'backdrop' );
 
 			$base_url = WPML_TMDb::get_image_url( null, $image_type );
 			$json_images = array();

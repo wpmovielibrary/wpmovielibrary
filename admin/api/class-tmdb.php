@@ -192,7 +192,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 			$size_alias = array(
 				'poster' => array( 'xx-small', 'x-small', 'small', 'medium', 'large', 'full', 'original' ),
-				'image' => array( 'small', 'medium', 'full', 'original' )
+				'backdrop' => array( 'small', 'medium', 'full', 'original' )
 			);
 
 			if ( isset( $config['images'] ) ) {
@@ -208,7 +208,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 							'full'      => $base_url . $config['images']['poster_sizes'][5],
 							'original'  => $base_url . $config['images']['poster_sizes'][6]
 						),
-						'image' => array(
+						'backdrop' => array(
 							'small'     => $base_url . $config['images']['backdrop_sizes'][0],
 							'medium'    => $base_url . $config['images']['backdrop_sizes'][1],
 							'full'      => $base_url . $config['images']['backdrop_sizes'][2],
@@ -218,7 +218,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 				if ( is_null( $filepath ) && is_null( $imagetype ) && is_null( $size ) )
 					return $defaults;
-				else if ( is_null( $filepath ) && ! is_null( $imagetype ) && in_array( $imagetype, array( 'poster', 'image' ) ) )
+				else if ( is_null( $filepath ) && ! is_null( $imagetype ) && in_array( $imagetype, array( 'poster', 'backdrop' ) ) )
 					return $defaults[ $imagetype ];
 
 				$available_sizes = self::getAvailableImageSizes( $imagetype );
