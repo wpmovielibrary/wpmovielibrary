@@ -26,18 +26,6 @@ if ( ! class_exists( 'WPML_Stats' ) ) :
 		}
 
 		/**
-		 * Get total number of drafted movies
-		 * Alias for get_movies_count()
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @return   int    Total number of movies
-		 */
-		public static function get_drafted_movies_count() {
-			return self::get_movies_count( 'draft' );
-		}
-
-		/**
 		 * Get total number of queued movies
 		 * Alias for get_movies_count()
 		 * 

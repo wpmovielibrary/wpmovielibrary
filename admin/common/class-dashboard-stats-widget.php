@@ -106,61 +106,6 @@ if ( ! class_exists( 'WPML_Dashboard_Stats_Widget' ) ) :
 
 		public function dashboard_widget() {
 
-			//TODO: limit usage off WPML_Stats callbacks -> wp_count_posts()
-
-			$links = array();
-			$list = array(
-				'movies' => array(
-					// __( 'One movie', '%d movies', $movies, WPML_SLUG )
-					'single' => 'One movie',
-					'plural' => '%d movies',
-					'empty'  => sprintf( '%s <a href="%s">%s</a>', __( 'No movie added yet.', WPML_SLUG ), admin_url( 'post-new.php?post_type=movie' ), __( 'Add one!', WPML_SLUG ) ),
-					'url'    => admin_url( 'edit.php?post_type=movie' ),
-					'icon'   => 'dashicons dashicons-format-video',
-					'string' => '<a href="%s">%s</a>'
-				),
-				'drafted_movies' => array(
-					// _n( 'One drafted movie', '%d movies drafts', $movies, WPML_SLUG )
-					'single' => 'One movie draft',
-					'plural' => '%d movies drafts',
-					'empty'  => __( 'No draft', WPML_SLUG ),
-					'url'    => admin_url( 'edit.php?post_status=draft&post_type=movie' ),
-					'icon'   => 'dashicons dashicons-edit',
-					'string' => '<a href="%s">%s</a>'
-				),
-				'queued_movies' => array(
-					// _n( 'One queued movie', '%d queued movies', $movies, WPML_SLUG )
-					'single' => 'One queued movie',
-					'plural' => '%d queued movies',
-					'empty'  => sprintf( '%s <a href="%s">%s</a>', __( 'No movie added yet.', WPML_SLUG ), admin_url( 'post-new.php?post_type=movie' ), __( 'Add one!', WPML_SLUG ) ),
-					'url'    => admin_url( 'admin.php?page=wpml_import&amp;wpml_section=wpml_import_queue' ),
-					'icon'   => 'dashicons dashicons-playlist-video',
-					'string' => '<a href="%s">%s</a>'
-				),
-				'imported_movies' => array(
-					// _n( 'One imported movie', '%d imported movies', $movies, WPML_SLUG )
-					'single' => 'One imported movie',
-					'plural' => '%d imported movies',
-					'empty'  => sprintf( '%s <a href="%s">%s</a>', __( 'No movie added yet.', WPML_SLUG ), admin_url( 'post-new.php?post_type=movie' ), __( 'Add one!', WPML_SLUG ) ),
-					'url'    => admin_url( 'admin.php?page=wpml_import&amp;wpml_section=wpml_imported' ),
-					'icon'   => 'dashicons dashicons-download',
-					'string' => '<a href="%s">%s</a>'
-				)
-			);
-
-			foreach ( $list as $callback => $data ) {
-				$movies = call_user_func( "WPML_Stats::get_{$callback}_count" );
-				if ( $movies )
-					$link = sprintf( $data['string'], $data['url'], sprintf( _n( $data['single'], $data['plural'], $movies, WPML_SLUG ), $movies ) );
-				else
-					$link = $data['empty'];
-
-				$links[] = '<li><span class="' . $data['icon'] . '"></span> ' . $link . '</li>';
-
-			}
-
-			$links = implode( '', $links );
-
 			$count = (array) wp_count_posts( 'movie' );
 			$count = array(
 				'movie'       => $count['publish'],
@@ -173,6 +118,61 @@ if ( ! class_exists( 'WPML_Dashboard_Stats_Widget' ) ) :
 			$count['collections'] = wp_count_terms( 'collection' );
 			$count['genres'] = wp_count_terms( 'genre' );
 			$count['actors'] = wp_count_terms( 'actor' );
+
+			$links = array();
+			$list = array(
+				'movie' => array(
+					// __( 'One movie', '%d movies', $movies, WPML_SLUG )
+					'single' => 'One online movie',
+					'plural' => '%d online movies',
+					'empty'  => sprintf( '%s <a href="%s">%s</a>', __( 'No movie added yet.', WPML_SLUG ), admin_url( 'post-new.php?post_status=publish&post_type=movie' ), __( 'Add one!', WPML_SLUG ) ),
+					'url'    => admin_url( 'edit.php?post_type=movie' ),
+					'icon'   => 'dashicons dashicons-format-video',
+					'string' => '<a href="%s">%s</a>'
+				),
+				'draft' => array(
+					// _n( 'One drafted movie', '%d movies drafts', $movies, WPML_SLUG )
+					'single' => 'One movie draft',
+					'plural' => '%d movies drafts',
+					'empty'  => __( 'No draft', WPML_SLUG ),
+					'url'    => admin_url( 'edit.php?post_status=draft&post_type=movie' ),
+					'icon'   => 'dashicons dashicons-edit',
+					'string' => '<a href="%s">%s</a>'
+				),
+				'queued' => array(
+					// _n( 'One queued movie', '%d queued movies', $movies, WPML_SLUG )
+					'single' => 'One queued movie',
+					'plural' => '%d queued movies',
+					'empty'  => sprintf( '%s <a href="%s">%s</a>', __( 'No movie added yet.', WPML_SLUG ), admin_url( 'post-new.php?post_type=movie' ), __( 'Add one!', WPML_SLUG ) ),
+					'url'    => admin_url( 'admin.php?page=wpml_import&amp;wpml_section=wpml_import_queue' ),
+					'icon'   => 'dashicons dashicons-playlist-video',
+					'string' => '<a href="%s">%s</a>'
+				),
+				'imported' => array(
+					// _n( 'One imported movie', '%d imported movies', $movies, WPML_SLUG )
+					'single' => 'One imported movie',
+					'plural' => '%d imported movies',
+					'empty'  => sprintf( '%s <a href="%s">%s</a>', __( 'No movie added yet.', WPML_SLUG ), admin_url( 'post-new.php?post_type=movie' ), __( 'Add one!', WPML_SLUG ) ),
+					'url'    => admin_url( 'admin.php?page=wpml_import&amp;wpml_section=wpml_imported' ),
+					'icon'   => 'dashicons dashicons-download',
+					'string' => '<a href="%s">%s</a>'
+				)
+			);
+
+			foreach ( $list as $status => $data ) {
+				if ( isset( $count[ $status ] ) ) {
+					$movies = $count[ $status ];
+					if ( $movies )
+						$link = sprintf( $data['string'], $data['url'], sprintf( _n( $data['single'], $data['plural'], $movies, WPML_SLUG ), $movies ) );
+					else
+						$link = $data['empty'];
+
+					$links[] = '<li><span class="' . $data['icon'] . '"></span> ' . $link . '</li>';
+
+				}
+			}
+
+			$links = implode( '', $links );
 
 			include_once( WPML_PATH . '/admin/common/views/dashboard-stats-widget.php' );
 		}

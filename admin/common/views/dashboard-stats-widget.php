@@ -5,12 +5,11 @@
 									<?php echo $links ?>
 								</ul>
 								<p><?php
-								//TODO: <strong> only for numbers
 								printf(
 									__( 'All combined you have a total of %s in your library, regrouped in %s, %s and %s.', WPML_SLUG ),
-									sprintf( '<strong>%s</strong>', sprintf( _n( 'one movie', '%d movies', $count['total'], WPML_SLUG ), $count['total'] ) ),
-									sprintf( '<strong>%s</strong>', sprintf( _n( 'one collection', '%d collections', $count['collections'], WPML_SLUG ), $count['collections'] ) ),
-									sprintf( '<strong>%s</strong>', sprintf( _n( 'one ', '%d genres', $count['genres'], WPML_SLUG ), $count['genres'] ) ),
-									sprintf( '<strong>%s</strong>', sprintf( _n( 'one ', '%d actors', $count['actors'], WPML_SLUG ), $count['actors'] ) )
+									sprintf( '<a href="%s">%s</a>', admin_url( 'edit.php?post_type=movie' ), sprintf( _n( 'one movie', '%s movies', $count['total'], WPML_SLUG ), '<strong>' . $count['total'] . '</strong>' ) ),
+									sprintf( '<a href="%s">%s</a>', admin_url( 'edit-tags.php?taxonomy=collection&post_type=movie' ), sprintf( _n( 'one collection', '%s collections', $count['collections'], WPML_SLUG ), '<strong>' . $count['collections'] . '</strong>' ) ),
+									sprintf( '<a href="%s">%s</a>', admin_url( 'edit-tags.php?taxonomy=genre&post_type=movie' ), sprintf( _n( 'one ', '%s genres', $count['genres'], WPML_SLUG ), '<strong>' . $count['genres'] . '</strong>' ) ),
+									sprintf( '<a href="%s">%s</a>', admin_url( 'edit-tags.php?taxonomy=actor&post_type=movie' ), sprintf( _n( 'one ', '%s actors', $count['actors'], WPML_SLUG ), '<strong>' . $count['actors'] . '</strong>' ) )
 								) ?></p>
 							</div>

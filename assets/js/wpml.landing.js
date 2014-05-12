@@ -136,9 +136,9 @@ wpml.landing = wpml_landing = {
 	 */
 	wpml.landing.init = function() {
 
-		/*$('.hndle').on( 'click', function() {
+		$('.handlediv').on( 'click', function() {
 			wpml_landing.widget_toggle( this );
-		});*/
+		});
 
 		wpml_landing.showcase.init();
 	};

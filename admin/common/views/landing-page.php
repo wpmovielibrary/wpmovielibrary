@@ -42,23 +42,11 @@
 		</div>
 
 		<div id="dashboard-widgets-wrap">
-			<div id="dashboard-movies" class="metabox-holder">
-<?php if ( ! empty( $movies ) ) :
-	foreach ( $movies as $movie ) :
-?>
-				<div id="movie-<?php echo $movie->ID ?>" class="wpml-movie">
-					<a href="<?php echo get_permalink( $movie->ID ) ?>" data-movie-meta="<?php echo htmlspecialchars( $movie->meta ) ?>" data-movie-rating="<?php echo $movie->rating ?>" data-movie-poster="<?php echo $movie->poster ?>" data-movie-backdrop="<?php echo $movie->backdrop ?>">
-						<?php echo get_the_post_thumbnail( $movie->ID, 'medium' ) ?>
-					</a>
-				</div>
-<?php
-	endforeach;
-endif;
-?>
-			</div>
-
 			<div id="dashboard-widgets" class="metabox-holder">
 				<div id="postbox-container-1" class="postbox-container">
+					<?php $screen = get_current_screen(); do_meta_boxes( $screen->id, 'normal', '' ); ?>
+				</div>
+				<div id="postbox-container-2" class="postbox-container">
 					<?php $screen = get_current_screen(); do_meta_boxes( $screen->id, 'side', '' ); ?>
 				</div>
 			</div>
