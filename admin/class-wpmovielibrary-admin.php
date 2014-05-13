@@ -425,7 +425,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				}
 			}
 
-			$_allowed = array( 'api', 'movies', 'taxonomies', 'deactivate', 'uninstall', 'maintenance' );
+			$_allowed = array( 'api', 'movies', 'images', 'taxonomies', 'deactivate', 'uninstall', 'maintenance' );
 			$_section = ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], $_allowed ) ) ? esc_attr( $_REQUEST['wpml_section'] ) : 'api' ;
 
 			include_once( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings.php' );

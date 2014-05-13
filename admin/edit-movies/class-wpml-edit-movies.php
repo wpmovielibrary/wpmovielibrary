@@ -652,7 +652,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				update_post_meta( $post_ID, '_wpml_movie_data', $movie_meta );
 
 				// Set poster as featured image
-				if ( WPML_Settings::tmdb__poster_featured() && ! $queue ) {
+				if ( WPML_Settings::images__poster_featured() && ! $queue ) {
 					$upload = WPML_Media::set_image_as_featured( $movie_meta['poster'], $post_ID, $movie_meta['tmdb_id'], $movie_meta['meta']['title'] );
 					if ( is_wp_error( $upload ) )
 						$errors->add( $upload->get_error_code(), $upload->get_error_message() );

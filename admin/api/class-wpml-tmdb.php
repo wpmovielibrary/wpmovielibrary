@@ -352,14 +352,8 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 					return $d;
 
 			extract( $data, EXTR_SKIP );
-			$images = $images['backdrops'];
 
-			// Keep only limited number of images
-			$images_max = WPML_Settings::tmdb__images_max();
-			if ( $images_max > 0 && count( $images ) > $images_max )
-				$images = array_slice( $images, 0, $images_max );
-
-			$_images = array( 'images' => $images );
+			$_images = array( 'images' => $images['backdrops'] );
 			$_full = array_merge( $movie, $casts, $images );
 			$_movie = array(
 				'_id'     => $_id,

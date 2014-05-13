@@ -71,53 +71,6 @@ $wpml_settings = array(
 				'default' => 'https'
 			),
 
-			// Movie posters size
-			'poster_size' => array(
-				'title' => __( 'Posters Default Size', WPML_SLUG ),
-				'description' => __( 'Movie Poster size. Default is TMDb&rsquo;s original size.', WPML_SLUG ),
-				'type' => 'select',
-				'values' => array(
-					'xx-small'  => __( 'Invisible (~100px)', WPML_SLUG ),
-					'x-small'  => __( 'Tiny (~150px)', WPML_SLUG ),
-					'small'  => __( 'Small (~200px)', WPML_SLUG ),
-					'medium'  => __( 'Medium (~350px)', WPML_SLUG ),
-					'large'  => __( 'Large (~500px)', WPML_SLUG ),
-					'full' => __( 'Full (~800px) ', WPML_SLUG ),
-					'original' => __( 'Original', WPML_SLUG )
-				),
-				'default' => 'original'
-			),
-
-			// Use posters as featured images
-			'poster_featured' => array(
-				'title' => __( 'Add Posters As Thumbnails', WPML_SLUG ),
-				'description' => __( 'Using posters as movies thumbnails will automatically import new movies&rsquo; poster and set them as post featured image. This setting doesn’t affect movie import by list where posters are automatically saved and set as featured image.', WPML_SLUG ),
-				'type' => 'toggle',
-				'default' => 1
-			),
-
-			// Images size
-			'images_size' => array(
-				'title' => __( 'Images Default Size', WPML_SLUG ),
-				'description' => __( 'Movie Image size. Default is TMDb&rsquo;s original size.', WPML_SLUG ),
-				'type' => 'select',
-				'values' => array(
-					'small'  => __( 'Small (~200px)', WPML_SLUG ),
-					'medium'  => __( 'Medium (~350px)', WPML_SLUG ),
-					'full' => __( 'Full (~800px) ', WPML_SLUG ),
-					'original' => __( 'Original', WPML_SLUG )
-				),
-				'default' =>'original'
-			),
-
-			// Maximum number of image to show
-			'images_max' => array(
-				'title' => __( 'Maximum Images To Fetch', WPML_SLUG ),
-				'description' => __( 'Maximum amount of images to fetch. Especially useful if you activated automatic images import. Default is12, set at 0 to fetch all images.', WPML_SLUG ),
-				'type' => 'input',
-				'default' => 12
-			),
-
 			// Results caching
 			'caching' => array(
 				'title' => __( 'Enable Caching', WPML_SLUG ),
@@ -229,6 +182,71 @@ $wpml_settings = array(
 					'movie_media',
 					'movie_status'
 				)
+			),
+		),
+	),
+
+	// Taxonomies
+	'images' => array(
+		'section' => array(
+			'id'       => 'images',
+			'title'    => __( 'Images', WPML_SLUG ),
+		),
+		'settings' => array(
+
+			// Use posters as featured images
+			'poster_featured' => array(
+				'title' => __( 'Add Posters As Thumbnails', WPML_SLUG ),
+				'description' => __( 'Using posters as movies thumbnails will automatically import new movies&rsquo; poster and set them as post featured image. This setting doesn’t affect movie import by list where posters are automatically saved and set as featured image.', WPML_SLUG ),
+				'type' => 'toggle',
+				'default' => 1
+			),
+
+			// Movie posters size
+			'poster_size' => array(
+				'title' => __( 'Posters Default Size', WPML_SLUG ),
+				'description' => __( 'Movie Poster size. Default is TMDb&rsquo;s original size.', WPML_SLUG ),
+				'type' => 'select',
+				'values' => array(
+					'xx-small'  => __( 'Invisible (~100px)', WPML_SLUG ),
+					'x-small'  => __( 'Tiny (~150px)', WPML_SLUG ),
+					'small'  => __( 'Small (~200px)', WPML_SLUG ),
+					'medium'  => __( 'Medium (~350px)', WPML_SLUG ),
+					'large'  => __( 'Large (~500px)', WPML_SLUG ),
+					'full' => __( 'Full (~800px) ', WPML_SLUG ),
+					'original' => __( 'Original', WPML_SLUG )
+				),
+				'default' => 'original'
+			),
+
+			// Images size
+			'images_size' => array(
+				'title' => __( 'Images Default Size', WPML_SLUG ),
+				'description' => __( 'Movie Image size. Default is TMDb&rsquo;s original size.', WPML_SLUG ),
+				'type' => 'select',
+				'values' => array(
+					'small'  => __( 'Small (~200px)', WPML_SLUG ),
+					'medium'  => __( 'Medium (~350px)', WPML_SLUG ),
+					'full' => __( 'Full (~800px) ', WPML_SLUG ),
+					'original' => __( 'Original', WPML_SLUG )
+				),
+				'default' =>'original'
+			),
+
+			// Maximum number of image to show
+			'delete_images' => array(
+				'title' => __( 'Delete images with movies', WPML_SLUG ),
+				'description' => __( 'Enable this if you want to delete all imported images along with movies. Handy if you have a great number of movies to delete and possibly dozens of images attached.', WPML_SLUG ),
+				'type' => 'toggle',
+				'default' => 0
+			),
+
+			// Maximum number of image to show
+			'delete_posters' => array(
+				'title' => __( 'Delete posters with movies', WPML_SLUG ),
+				'description' => __( 'Enable this if you want to delete posters along with movies.', WPML_SLUG ),
+				'type' => 'toggle',
+				'default' => 0
 			),
 		),
 	),

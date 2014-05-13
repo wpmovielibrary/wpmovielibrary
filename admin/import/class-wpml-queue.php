@@ -329,7 +329,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				'post_status' => 'publish'
 			);
 
-			if ( WPML_Settings::tmdb__poster_featured() ) {
+			if ( WPML_Settings::images__poster_featured() ) {
 				$id = WPML_Media::set_image_as_featured( $meta['poster'], $post_id, $meta['tmdb_id'], $meta['meta']['title'] );
 				update_post_meta( $post_id, '_thumbnail_id', $id );
 			}

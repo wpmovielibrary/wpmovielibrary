@@ -35,6 +35,8 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
+			add_action( 'before_delete_post', __CLASS__ . '::delete_movies_attachments', 10, 1 );
+
 			add_filter( 'wpml_check_for_existing_images', __CLASS__ . '::check_for_existing_images', 10, 3 );
 			add_filter( 'wpml_jsonify_movie_images', __CLASS__ . '::fake_jsonify_movie_images', 10, 3 );
 			add_action( 'wp_ajax_wpml_upload_image', __CLASS__ . '::upload_image_callback' );
@@ -57,6 +59,42 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			$_id = get_post_thumbnail_id( $post_id );
 			$img = ( $_id ? wp_get_attachment_image_src( $_id, $size ) : array( WPML_DEFAULT_POSTER_URL ) );
 			return $img[0];
+		}
+
+		// TODO: doc
+		public static function delete_movies_attachments( $post_id ) {
+
+			// Do nothing
+			if ( ! WPML_Settings::images__delete_images() && ! WPML_Settings::images__delete_posters() )
+				return false;
+
+			// Delete posters only
+			if ( ! WPML_Settings::images__delete_images() && WPML_Settings::images__delete_posters() )
+				if ( has_post_thumbnail( $post_id ) )
+					return wp_delete_attachment( get_post_thumbnail_id( $post_id ), $force_delete = true );
+
+			// Delete images only
+			$args = array(
+				'post_parent' => $post_id,
+				'post_type' => 'attachment'
+			);
+
+			if ( ! WPML_Settings::images__delete_posters() )
+				if ( has_post_thumbnail( $post_id ) )
+					$args['exclude'] = get_post_thumbnail_id( $post_id );
+
+			$attached = get_children( $args );
+			$_attached = array();
+
+			if ( empty( $attached ) )
+				return false;
+
+			foreach ( $attached as $a )
+				if ( '' != get_post_meta( $a->ID, '_wpml_backdrop_related_tmdb_id', true ) ||
+				     '' != get_post_meta( $a->ID, '_wpml_poster_related_tmdb_id', true ) )
+					wp_delete_attachment( $a->ID, $force_delete = true );
+
+			return $post_id;
 		}
 
 		/**
@@ -279,7 +317,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			$title   = ( isset( $_POST['title'] )   && '' != $_POST['title']   ? $_POST['title']   : null );
 			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : null );
 
-			if ( 1 != WPML_Settings::tmdb__poster_featured() )
+			if ( 1 != WPML_Settings::images__poster_featured() )
 				return new WP_Error( 'no_featured', __( 'Movie Posters as featured images option is deactivated. Update your settings to activate this.', WPML_SLUG ) );
 
 			if ( is_null( $image ) || is_null( $post_id ) )
@@ -369,7 +407,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload is empty.', WPML_SLUG ) );
 
 			$image_type = ( 'poster' == $image_type ? 'poster' : 'backdrop' );
-			$size = WPML_Settings::tmdb__images_size();
+			$size = WPML_Settings::images__images_size();
 
 			if ( is_array( $file ) ) {
 				$data = $file;
