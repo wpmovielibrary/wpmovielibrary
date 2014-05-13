@@ -284,7 +284,11 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) || ! in_array( $meta, $allowed_meta ) )
 				return false;
 
-			return get_post_meta( $post_id, "_wpml_movie_{$meta}", true );
+			$value = get_post_meta( $post_id, "_wpml_movie_{$meta}", true );
+			if ( 'rating' == $meta )
+				$value = number_format( $value, 1 );
+
+			return $value;
 		}
 
 		/**
