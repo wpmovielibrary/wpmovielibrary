@@ -147,6 +147,32 @@ body.post-php.post-type-movie #postimagediv {
 	opacity: 0.95;
 }
 
+#wpml_dashboard_quickaction_widget li {
+	display: inline-block;
+	line-height: 96px;
+	height: 96px;
+	vertical-align: middle;
+	text-align: center;
+	width: 33%;
+}
+
+#wpml_dashboard_quickaction_widget li a {
+	display: inline-block;
+	height: 100%;
+	width: 100%;
+}
+
+#wpml_dashboard_quickaction_widget li a .dashicons {
+	display: block;
+	font-size: 42px;
+	margin: 16px auto -16px auto;
+	width: 100%;
+}
+
+/*
+ * Showcase
+ */
+
 #wpml-movie-showcase-bg {
 	background: rgba(0, 0, 0, 0.78);
 	bottom: 0;
@@ -157,10 +183,6 @@ body.post-php.post-type-movie #postimagediv {
 	width: 100%;
 	z-index: 99999;
 }
-
-/*
- * Showcase
- */
 
 #wpml-movie-showcase {
 	background: #000;
@@ -1267,6 +1289,14 @@ body.post-php.post-type-movie #postimagediv {
 	
 	.media-frame.movie-images .attachment {
 		width: 200px !important;
+	}
+	
+	#wpml-home #dashboard-widgets #postbox-container-1 {
+		width: 68%;
+	}
+	
+	#wpml-home #dashboard-widgets #postbox-container-2 {
+		width: 32%;
 	}
 }
 

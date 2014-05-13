@@ -37,7 +37,8 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 
 			$this->widgets = array(
 				'WPML_Dashboard_Stats_Widget' => WPML_Dashboard_Stats_Widget::get_instance(),
-				'WPML_Dashboard_Movies_Widget' => WPML_Dashboard_Movies_Widget::get_instance()
+				'WPML_Dashboard_Movies_Widget' => WPML_Dashboard_Movies_Widget::get_instance(),
+				'WPML_Dashboard_Quickaction_Widget' => WPML_Dashboard_Quickaction_Widget::get_instance(),
 			);
 		}
  
@@ -73,7 +74,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 				}
 			}*/
 
-			$side_widgets = array( 'wpml_dashboard_stats_widget' );
+			$side_widgets = array( 'wpml_dashboard_stats_widget', 'wpml_dashboard_quickaction_widget' );
 			$location = ( in_array( $widget_id, $side_widgets ) ? 'side' : 'normal' );
 			$priority = 'core';
 

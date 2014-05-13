@@ -51,7 +51,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$this->modules = array(
 				'WPML_Dashboard'   => WPML_Dashboard::get_instance(),
 				'WPML_Settings'    => WPML_Settings::get_instance(),
-				//'WPML_Stats'       => WPML_Stats::get_instance(),
 				'WPML_TMDb'        => WPML_TMDb::get_instance(),
 				'WPML_Utils'       => WPML_Utils::get_instance(),
 				'WPML_Edit_Movies' => WPML_Edit_Movies::get_instance(),
