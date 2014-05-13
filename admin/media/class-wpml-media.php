@@ -35,7 +35,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'before_delete_post', __CLASS__ . '::delete_movies_attachments', 10, 1 );
+			add_action( 'deleted_post', __CLASS__ . '::delete_movies_attachments', 10, 1 );
 
 			add_filter( 'wpml_check_for_existing_images', __CLASS__ . '::check_for_existing_images', 10, 3 );
 			add_filter( 'wpml_jsonify_movie_images', __CLASS__ . '::fake_jsonify_movie_images', 10, 3 );
@@ -61,7 +61,18 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			return $img[0];
 		}
 
-		// TODO: doc
+		/**
+		 * Perform delete actions on movies' images and posters.
+		 * 
+		 * User can set through the Settings whether the imported images,
+		 * posters or both should be deleted along with the movie's Post.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    int    Post ID
+		 * 
+		 * @return   boolean|object    Attachment deletion status
+		 */
 		public static function delete_movies_attachments( $post_id ) {
 
 			// Do nothing
