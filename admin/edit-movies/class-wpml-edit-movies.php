@@ -568,13 +568,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 					return new WP_Error( 'update_error', __( 'Error: couldn\'t update movie detail.', WPML_SLUG ) );
 			}
 			else if ( 'rating' == $detail ) {
-				$value = floatval( $value );
+				$value = number_format( $value, 1 );
 				if ( 0 > floor( $value ) || 5 < ceil( $value ) )
 					return new WP_Error( 'invalid_value', sprintf( __( 'Error: invalid value, allowed values for \'rating\' are floats between 0.0 and 5.0.', WPML_SLUG ) ) );
 
 				update_post_meta( $post_id, '_wpml_movie_' . $detail, $value );
 				$updated = get_post_meta( $post_id, '_wpml_movie_' . $detail, true );
-				if ( '' == $updated || 0 != abs( $value - floatval( $updated ) ) )
+				if ( '' == $updated || 0 != abs( $value - number_format( $updated, 1 ) ) )
 					return new WP_Error( 'update_error', __( 'Error: couldn\'t update movie detail.', WPML_SLUG ) );
 			}
 
