@@ -80,7 +80,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 				'public'             => true,
 				'publicly_queryable' => true,
 				'show_ui'            => true,
-				'show_in_menu'       => true,
+				'show_in_menu'       => false,
 				'has_archive'        => true,
 				'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
 				'menu_position'      => 5

@@ -35,7 +35,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'deleted_post', __CLASS__ . '::delete_movies_attachments', 10, 1 );
+			add_action( 'before_delete_post', __CLASS__ . '::delete_movies_attachments', 10, 1 );
 
 			add_filter( 'wpml_check_for_existing_images', __CLASS__ . '::check_for_existing_images', 10, 3 );
 			add_filter( 'wpml_jsonify_movie_images', __CLASS__ . '::fake_jsonify_movie_images', 10, 3 );
@@ -75,6 +75,10 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 */
 		public static function delete_movies_attachments( $post_id ) {
 
+			$post = get_post( $post_id );
+			if ( ! $post || 'movie' != get_post_type( $post ) )
+				return false;
+
 			// Do nothing
 			if ( ! WPML_Settings::images__delete_images() && ! WPML_Settings::images__delete_posters() )
 				return false;
@@ -95,7 +99,6 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 					$args['exclude'] = get_post_thumbnail_id( $post_id );
 
 			$attached = get_children( $args );
-			$_attached = array();
 
 			if ( empty( $attached ) )
 				return false;

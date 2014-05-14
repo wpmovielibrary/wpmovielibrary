@@ -1,4 +1,8 @@
 
+#wpml_settings-tmdb-apikey {
+background: #333;
+}
+
 body.post-php.post-type-movie #postimagediv {
 	text-align: center;
 }
@@ -58,6 +62,233 @@ body.post-php.post-type-movie #postimagediv {
 .label_off.active:focus {
 	background: #2EA2CC;
 	color: #fff;
+}
+
+/* WPML Landing Page
+ ****************************************************/
+
+#wpml-welcome-panel .welcome-panel-column li .dashicons {
+	color: #999;
+	margin-right: 0.5em;
+	vertical-align: text-top;
+}
+
+#wpml-welcome-panel .welcome-panel-close .dashicons-dismiss {
+	font-size: 1em;
+	color: #aaa;
+}
+
+#wpml-welcome-panel .welcome-panel-close:hover .dashicons-dismiss {
+	color: #c00;
+}
+
+/*
+ * Custom Dashboard
+ */
+
+#wpml-home #dashboard-widgets {
+	width: 100% !important;
+}
+
+#wpml-home #dashboard-widgets .hndle {
+	padding-left: 24px;
+}
+
+#wpml-home #dashboard-widgets #postbox-container-1 {
+	float: left;
+	width: 72%;
+}
+
+#wpml-home #dashboard-widgets #postbox-container-2 {
+	float: right;
+	max-width: 420px;
+	width: 28%;
+}
+
+#wpml-home #dashboard-widgets .postbox-container .ui-sortable-placeholder,
+#wpml-home #dashboard-widgets .postbox-container .ui-sortable-placeholder {
+	border: 3px dashed #ccc !important;
+	min-height: 72px;
+}
+
+#wpml_dashboard_stats_widget li {
+	display: inline-block;
+	vertical-align: top;
+	width: 50%;
+}
+
+#wpml_dashboard_stats_widget li .dashicons {
+	color: #999;
+	margin-right: 0.25em;
+	vertical-align: text-top;
+}
+
+#wpml_dashboard_movies_widget,
+#wpml_dashboard_most_rated_movies_widget {
+	border-color: rgba(0, 0, 0, 0);
+	background: rgba(0, 0, 0, 0);
+}
+
+#wpml_dashboard_movies_widget .hndle,
+#wpml_dashboard_most_rated_movies_widget .hndle {
+	padding-left: 24px;
+}
+
+#wpml_dashboard_movies_widget .inside,
+#wpml_dashboard_most_rated_movies_widget .inside {
+	margin-top: 0;
+}
+
+#wpml-home #wpml_dashboard_movies_widget .wpml-movie,
+#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie {
+	background: #fff;
+	border-radius: 0.25em;
+	display: inline-block;
+	height: 300px;
+	margin: 0.45em 0.25em;
+	width: 202px;
+}
+
+#wpml-home #wpml_dashboard_movies_widget .wpml-movie img,
+#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie img {
+	border-radius: 0.25em;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+	height: 100%;
+	width: 100%;
+}
+
+#wpml-home #wpml_dashboard_movies_widget .wpml-movie img:hover,
+#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie img:hover {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.85);
+	opacity: 0.95;
+}
+
+#wpml_dashboard_quickaction_widget li {
+	display: inline-block;
+	line-height: 96px;
+	height: 96px;
+	vertical-align: middle;
+	text-align: center;
+	width: 33%;
+}
+
+#wpml_dashboard_quickaction_widget li a {
+	display: inline-block;
+	height: 100%;
+	width: 100%;
+}
+
+#wpml_dashboard_quickaction_widget li a .dashicons {
+	display: block;
+	font-size: 42px;
+	margin: 16px auto -16px auto;
+	width: 100%;
+}
+
+/*
+ * Showcase
+ */
+
+#wpml-movie-showcase-bg {
+	background: rgba(0, 0, 0, 0.78);
+	bottom: 0;
+	display: none;
+	height: 100%;
+	position: fixed;
+	right: 0;
+	width: 100%;
+	z-index: 99999;
+}
+
+#wpml-movie-showcase {
+	background: #000;
+	box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
+	height: 88%;
+	left: 160px;
+	margin: 16px;
+	position: absolute;
+	top: 32px;
+	width: 96%;
+	z-index: 100000;
+}
+
+#wpml-movie-showcase-inner {
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	left: 0;
+	height: 100%;
+	opacity: 0.2;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+#wpml-movie-showcase-close {
+	color: #fff;
+	opacity: 0.25;
+	position: absolute;
+	right: 1%;
+	text-decoration: none;
+	top: 2%;
+}
+
+#wpml-movie-showcase-close:hover {
+	opacity: 0.85;
+}
+
+#wpml-movie-showcase-poster {
+	display: inline-block;
+	height: 78%;
+	margin: 4% 0 0 4%;
+	width: 34%;
+}
+
+#wpml-movie-showcase-poster img {
+	border: 1px solid #000;
+	border-radius: 0.25em;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.75);
+	height: 100%;
+	width: auto;
+}
+
+#wpml-movie-showcase-content {
+	color: #fff;
+	display: inline-block;
+	margin: 4% 0 0 0;
+	text-shadow: 0 2px 1px #000;
+	vertical-align: top;
+	width: 56%;
+}
+
+#wpml-movie-showcase-title {
+	color: #fff;
+	font-size: 36px;
+	font-weight: 100;
+	margin: 0 0 0.25em 0;
+}
+
+#wpml-movie-showcase-meta {
+	color: #ddd;
+	font-size: 16px;
+	font-weight: 100;
+}
+
+#wpml-movie-showcase-release_date,
+#wpml-movie-showcase-runtime,
+#wpml-movie-showcase-genres,
+#wpml-movie-showcase-rating {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#wpml-movie-showcase-overview,
+#wpml-movie-showcase-overview p {
+	font-size: 15px;
+	line-height: 30px;
+	margin: 30px 0;
+	text-align: justify;
 }
 
 /* WPML Movie List
@@ -1076,6 +1307,14 @@ body.post-php.post-type-movie #postimagediv {
 	
 	.media-frame.movie-images .attachment {
 		width: 200px !important;
+	}
+	
+	#wpml-home #dashboard-widgets #postbox-container-1 {
+		width: 68%;
+	}
+	
+	#wpml-home #dashboard-widgets #postbox-container-2 {
+		width: 32%;
 	}
 }
 
