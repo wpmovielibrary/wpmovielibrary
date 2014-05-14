@@ -165,7 +165,6 @@ body.post-php.post-type-movie #postimagediv {
 
 #wpml_dashboard_quickaction_widget li {
 	display: inline-block;
-	line-height: 96px;
 	height: 96px;
 	vertical-align: middle;
 	text-align: center;
@@ -181,6 +180,7 @@ body.post-php.post-type-movie #postimagediv {
 #wpml_dashboard_quickaction_widget li a .dashicons {
 	display: block;
 	font-size: 42px;
+	height: 64px;
 	margin: 16px auto -16px auto;
 	width: 100%;
 }
