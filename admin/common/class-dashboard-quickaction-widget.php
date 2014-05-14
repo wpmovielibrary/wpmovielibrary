@@ -126,7 +126,7 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 			);
 
 			foreach ( $list as $slug => $data )
-				$links[] = sprintf( '<li><a href="%s"><span class="%s"></span> %s</a></li>', $data['url'], $data['icon'], $data['title'] );
+				$links[] = sprintf( '<li><a href="%s"><span class="%s"></span><span class="link">%s</span></a></li>', $data['url'], $data['icon'], $data['title'] );
 
 			$links = implode( '', $links );
 
