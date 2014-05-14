@@ -13,7 +13,12 @@
 .dashicons.dashicons-post-trash,
 .dashicons.dashicons-plus,
 .dashicons.dashicons-admin-generic,
-.dashicons.dashicons-arrow-right-alt2 {
+.dashicons.dashicons-arrow-right-alt2,
+.dashicons.dashicons-format-video,
+.dashicons.dashicons-category,
+.dashicons.dashicons-text,
+.dashicons.dashicons-tag,
+.dashicons.dashicons-edit {
 	background-color: transparent;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -49,6 +54,26 @@
 
 .dashicons.dashicons-arrow-right-alt2 {
 	background-image: url(../img/legacy/icon-right.png);
+}
+
+.dashicons.dashicons-text {
+	background-image: url(../img/legacy/icon-queue.png);
+}
+
+.dashicons.dashicons-format-video {
+	background-image: url(../img/legacy/icon-movie.png);
+}
+
+.dashicons.dashicons-edit {
+	background-image: url(../img/legacy/icon-edit-2.png);
+}
+
+.dashicons.dashicons-category {
+	background-image: url(../img/legacy/icon-category.png);
+}
+
+.dashicons.dashicons-tag {
+	background-image: url(../img/legacy/icon-tag.png);
 }
 
 .dequeue_movie .dashicons.dashicons-no {
