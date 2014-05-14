@@ -1,4 +1,8 @@
 
+#wpml_settings-tmdb-apikey {
+background: #333;
+}
+
 body.post-php.post-type-movie #postimagediv {
 	text-align: center;
 }

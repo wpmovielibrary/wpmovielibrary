@@ -22,7 +22,7 @@
 						<h4><?php _e( 'Start building your library', WPML_SLUG ); ?></h4>
 						<ul>
 							<li><span class="dashicons dashicons-welcome-write-blog"></span><a href="<?php echo admin_url( 'post-new.php?post_type=movie' ) ?>"><?php _e( 'Create your first movie', WPML_SLUG ); ?></a></li>
-							<li><span class="dashicons dashicons-playlist-video"></span><a href="<?php echo admin_url( 'admin.php?page=wpml_import' ) ?>"><?php _e( 'Import lists of movies', WPML_SLUG ); ?></a></li>
+							<li><span class="dashicons dashicons-text"></span><a href="<?php echo admin_url( 'admin.php?page=wpml_import' ) ?>"><?php _e( 'Import lists of movies', WPML_SLUG ); ?></a></li>
 							<li><span class="dashicons dashicons-format-video"></span><a href="<?php echo admin_url( 'edit.php?post_type=movie' ) ?>"><?php _e( 'Manage your movies', WPML_SLUG ); ?></a></li>
 						</ul>
 					</div>

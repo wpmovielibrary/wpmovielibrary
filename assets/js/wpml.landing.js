@@ -77,6 +77,7 @@ wpml.landing = wpml_landing = {
 			$('#wpml-movie-showcase-title').html( data.title );
 			$('#wpml-movie-showcase-runtime').text( data.runtime );
 			$('#wpml-movie-showcase-release_date').text( data.release_date );
+			$('#wpml-movie-showcase-genres').text( data.genres );
 			$('#wpml-movie-showcase-overview').html( data.overview );
 			$('#wpml-movie-showcase-inner').css( { backgroundImage: 'url(' + backdrop + ')' } );
 			$('#wpml-movie-showcase-poster img').attr( 'src', poster ).attr( 'alt', data.title );

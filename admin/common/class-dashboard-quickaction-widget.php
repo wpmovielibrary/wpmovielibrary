@@ -116,7 +116,7 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 				'import'    => array(
 					'url'   => admin_url( 'admin.php?page=wpml_import' ),
 					'title' => __( 'Import movies', WPML_SLUG ),
-					'icon'  => 'dashicons dashicons-playlist-video'
+					'icon'  => 'dashicons dashicons-text'
 				),
 				'settings'  => array(
 					'url'   => admin_url( 'edit.php?post_type=movie' ),

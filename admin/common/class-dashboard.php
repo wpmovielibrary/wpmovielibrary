@@ -58,54 +58,12 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			global $wp_dashboard_control_callbacks;
 
 			$screen = get_current_screen();
-
-			/*if ( $control_callback && current_user_can( 'edit_dashboard' ) && is_callable( $control_callback ) ) {
-
-				$wp_dashboard_control_callbacks[$widget_id] = $control_callback;
-
-				if ( isset( $_GET['edit'] ) && $widget_id == $_GET['edit'] ) {
-					list( $url ) = explode( '#', add_query_arg( 'edit', false ), 2 );
-					$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( $url ) . '">' . __( 'Cancel' ) . '</a></span>';
-					//$callback = array( $this, '_wp_dashboard_control_callback' );
-					$callback = null;
-				}
-				else {
-					list($url) = explode( '#', add_query_arg( 'edit', $widget_id ), 2 );
-					$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( "$url#$widget_id" ) . '" class="edit-box open-box">' . __( 'Configure' ) . '</a></span>';
-				}
-			}*/
-
 			$side_widgets = array( 'wpml_dashboard_stats_widget', 'wpml_dashboard_quickaction_widget' );
 			$location = ( in_array( $widget_id, $side_widgets ) ? 'side' : 'normal' );
 			$priority = 'core';
 
 			add_meta_box( $widget_id, $widget_name, $callback, $screen, $location, $priority, $callback_args );
 
-		}
-
-		public function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
-			echo '<form action="" method="post" class="dashboard-widget-control-form">';
-			$this->wp_dashboard_trigger_widget_control( $meta_box['id'] );
-			wp_nonce_field( 'edit-dashboard-widget_' . $meta_box['id'], 'dashboard-widget-nonce' );
-			echo '<input type="hidden" name="widget_id" value="' . esc_attr($meta_box['id']) . '" />';
-			submit_button( __('Submit') );
-			echo '</form>';
-		}
-
-		/**
-		 * Calls widget control callback.
-		 *
-		 * @since    1.0.0
-		 *
-		 * @param    int    $widget_control_id Registered Widget ID.
-		 */
-		public function wp_dashboard_trigger_widget_control( $widget_control_id = false ) {
-
-			global $wp_dashboard_control_callbacks;
-
-			if ( is_scalar( $widget_control_id ) && $widget_control_id && isset( $wp_dashboard_control_callbacks[ $widget_control_id ] ) && is_callable( $wp_dashboard_control_callbacks[ $widget_control_id ] ) ) {
-				call_user_func( $wp_dashboard_control_callbacks[ $widget_control_id ], '', array( 'id' => $widget_control_id, 'callback' => $wp_dashboard_control_callbacks[ $widget_control_id ] ) );
-			}
 		}
 
 		/**

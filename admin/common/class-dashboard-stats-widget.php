@@ -143,16 +143,16 @@ if ( ! class_exists( 'WPML_Dashboard_Stats_Widget' ) ) :
 					// _n( 'One queued movie', '%d queued movies', $movies, WPML_SLUG )
 					'single' => 'One queued movie',
 					'plural' => '%d queued movies',
-					'empty'  => sprintf( '%s <a href="%s">%s</a>', __( 'No movie added yet.', WPML_SLUG ), admin_url( 'post-new.php?post_type=movie' ), __( 'Add one!', WPML_SLUG ) ),
+					'empty'  => __( 'No queued movie.', WPML_SLUG ),
 					'url'    => admin_url( 'admin.php?page=wpml_import&amp;wpml_section=wpml_import_queue' ),
-					'icon'   => 'dashicons dashicons-playlist-video',
+					'icon'   => 'dashicons dashicons-text',
 					'string' => '<a href="%s">%s</a>'
 				),
 				'imported' => array(
 					// _n( 'One imported movie', '%d imported movies', $movies, WPML_SLUG )
 					'single' => 'One imported movie',
 					'plural' => '%d imported movies',
-					'empty'  => sprintf( '%s <a href="%s">%s</a>', __( 'No movie added yet.', WPML_SLUG ), admin_url( 'post-new.php?post_type=movie' ), __( 'Add one!', WPML_SLUG ) ),
+					'empty'  => __( 'No imported movie.', WPML_SLUG ),
 					'url'    => admin_url( 'admin.php?page=wpml_import&amp;wpml_section=wpml_imported' ),
 					'icon'   => 'dashicons dashicons-download',
 					'string' => '<a href="%s">%s</a>'
