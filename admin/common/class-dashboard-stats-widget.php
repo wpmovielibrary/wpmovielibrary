@@ -123,8 +123,8 @@ if ( ! class_exists( 'WPML_Dashboard_Stats_Widget' ) ) :
 			$list = array(
 				'movie' => array(
 					// __( 'One movie', '%d movies', $movies, WPML_SLUG )
-					'single' => 'One online movie',
-					'plural' => '%d online movies',
+					'single' => 'One movie',
+					'plural' => '%d movies',
 					'empty'  => sprintf( '%s <a href="%s">%s</a>', __( 'No movie added yet.', WPML_SLUG ), admin_url( 'post-new.php?post_status=publish&post_type=movie' ), __( 'Add one!', WPML_SLUG ) ),
 					'url'    => admin_url( 'edit.php?post_type=movie' ),
 					'icon'   => 'dashicons dashicons-format-video',

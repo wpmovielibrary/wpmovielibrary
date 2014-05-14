@@ -50,11 +50,11 @@ wpml.landing = wpml_landing = {
 		 */
 		wpml.landing.showcase._resize = function() {
 
-			$(wpml_showcase._showcase_bg).css({
-				width: ( window.innerWidth - 175 ),
-				height: ( window.innerHeight - 32 ),
-				right: ( 0 - window.innerWidth )
-			});
+// 			$(wpml_showcase._showcase_bg).css({
+// 				width: ( window.innerWidth - 175 ),
+// 				height: ( window.innerHeight - 32 ),
+// 				right: ( 0 - window.innerWidth )
+// 			});
 
 			$(wpml_showcase._showcase).css({
 				width: ( window.innerWidth - 214 ),
@@ -139,6 +139,8 @@ wpml.landing = wpml_landing = {
 		$('.handlediv').on( 'click', function() {
 			wpml_landing.widget_toggle( this );
 		});
+
+		$('.meta-box-sortables').sortable( /*'option', 'containment', 'document'*/ );
 
 		wpml_landing.showcase.init();
 	};

@@ -133,10 +133,12 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			// Settings script
 			if ( $current_screen->id == $this->plugin_screen_hook_suffix['settings'] || $current_screen->id == $this->plugin_screen_hook_suffix['import'] )
-				wp_enqueue_script( WPML_SLUG . '-settings', WPML_URL . '/assets/js/wpml.settings.js', array( WPML_SLUG . '-admin-script', 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable' ), WPML_VERSION, true );
+				wp_enqueue_script( WPML_SLUG . '-settings', WPML_URL . '/assets/js/wpml.settings.js', array( WPML_SLUG . '-admin-script', 'jquery', 'jquery-ui-draggable', 'jquery-ui-droppable' ), WPML_VERSION, true );
 
-			if ( $current_screen->id == $this->plugin_screen_hook_suffix['landing_page'] )
-				wp_enqueue_script( WPML_SLUG . '-landing', WPML_URL . '/assets/js/wpml.landing.js', array( 'jquery' ), WPML_VERSION, true );
+			if ( $current_screen->id == $this->plugin_screen_hook_suffix['landing_page'] ) {
+				//wp_enqueue_script( 'jquery-ui-sortable' );
+				wp_enqueue_script( WPML_SLUG . '-landing', WPML_URL . '/assets/js/wpml.landing.js', array( 'jquery', 'jquery-ui-draggable', 'jquery-ui-sortable' ), WPML_VERSION, true );
+			}
 
 			/*if ( $current_screen->id == $this->plugin_screen_hook_suffix['new_movie'] )
 				wp_enqueue_script( 'jquery-effects-shake' );*/

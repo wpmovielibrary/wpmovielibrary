@@ -38,6 +38,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			$this->widgets = array(
 				'WPML_Dashboard_Stats_Widget' => WPML_Dashboard_Stats_Widget::get_instance(),
 				'WPML_Dashboard_Movies_Widget' => WPML_Dashboard_Movies_Widget::get_instance(),
+				'WPML_Dashboard_Most_Rated_Movies_Widget' => WPML_Dashboard_Most_Rated_Movies_Widget::get_instance(),
 				'WPML_Dashboard_Quickaction_Widget' => WPML_Dashboard_Quickaction_Widget::get_instance(),
 			);
 		}

@@ -87,7 +87,6 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 #wpml-home #dashboard-widgets .hndle {
-	cursor: auto;
 	padding-left: 24px;
 }
 
@@ -102,8 +101,15 @@ body.post-php.post-type-movie #postimagediv {
 	width: 28%;
 }
 
+#wpml-home #dashboard-widgets .postbox-container .ui-sortable-placeholder,
+#wpml-home #dashboard-widgets .postbox-container .ui-sortable-placeholder {
+	border: 3px dashed #ccc !important;
+	min-height: 72px;
+}
+
 #wpml_dashboard_stats_widget li {
 	display: inline-block;
+	vertical-align: top;
 	width: 50%;
 }
 
@@ -113,20 +119,24 @@ body.post-php.post-type-movie #postimagediv {
 	vertical-align: text-top;
 }
 
-#wpml_dashboard_movies_widget {
+#wpml_dashboard_movies_widget,
+#wpml_dashboard_most_rated_movies_widget {
 	border-color: rgba(0, 0, 0, 0);
 	background: rgba(0, 0, 0, 0);
 }
 
-#wpml_dashboard_movies_widget .hndle {
+#wpml_dashboard_movies_widget .hndle,
+#wpml_dashboard_most_rated_movies_widget .hndle {
 	padding-left: 24px;
 }
 
-#wpml_dashboard_movies_widget .inside {
+#wpml_dashboard_movies_widget .inside,
+#wpml_dashboard_most_rated_movies_widget .inside {
 	margin-top: 0;
 }
 
-#wpml-home #wpml_dashboard_movies_widget .wpml-movie {
+#wpml-home #wpml_dashboard_movies_widget .wpml-movie,
+#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie {
 	background: #fff;
 	border-radius: 0.25em;
 	display: inline-block;
@@ -135,14 +145,16 @@ body.post-php.post-type-movie #postimagediv {
 	width: 202px;
 }
 
-#wpml-home #wpml_dashboard_movies_widget .wpml-movie img {
+#wpml-home #wpml_dashboard_movies_widget .wpml-movie img,
+#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie img {
 	border-radius: 0.25em;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 	height: 100%;
 	width: 100%;
 }
 
-#wpml-home #wpml_dashboard_movies_widget .wpml-movie img:hover {
+#wpml-home #wpml_dashboard_movies_widget .wpml-movie img:hover,
+#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie img:hover {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.85);
 	opacity: 0.95;
 }
@@ -188,8 +200,10 @@ body.post-php.post-type-movie #postimagediv {
 	background: #000;
 	box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
 	height: 88%;
+	left: 160px;
 	margin: 16px;
 	position: absolute;
+	top: 32px;
 	width: 96%;
 	z-index: 100000;
 }
