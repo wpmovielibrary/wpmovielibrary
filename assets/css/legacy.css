@@ -56,7 +56,7 @@
 	background-image: url(../img/legacy/icon-right.png);
 }
 
-.dashicons.dashicons-text {
+.dashicons.dashicons-list-view {
 	background-image: url(../img/legacy/icon-queue.png);
 }
 
@@ -76,7 +76,8 @@
 	background-image: url(../img/legacy/icon-tag.png);
 }
 
-.dequeue_movie .dashicons.dashicons-no {
+.dequeue_movie .dashicons.dashicons-no,
+#wpml-movie-showcase-close .dashicons.dashicons-no {
 	background-image: url(../img/legacy/icon-dequeue.png);
 }
 

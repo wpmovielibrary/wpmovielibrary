@@ -91,6 +91,10 @@ var wpml_queue;
 
 				if ( post_id && wpml_queue._get_val('tmdb_id') )
 					queue.push( wpml_queue._prepare_queue() );
+
+				$('#enqueue_' + post_id + ' .dashicons').after('<span class="spinner"></span>');
+				$('#enqueue_' + post_id).addClass('loading');
+				
 			}
 			
 			wpml._post({

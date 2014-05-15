@@ -579,6 +579,21 @@ body.post-php.post-type-movie #postimagediv {
 	color: #D54E21;
 }
 
+#wpml-tabs .wp-list-table .enqueue_movie.loading {
+	position: relative;
+}
+
+#wpml-tabs .wp-list-table .enqueue_movie.loading .dashicons {
+	opacity: 0;
+}
+
+#wpml-tabs .wp-list-table .enqueue_movie.loading .spinner {
+	display: block;
+	left: 8px;
+	position: absolute;
+	top: -7px;
+}
+
 #wpml-tabs .wp-list-table #poster {
 	width: 6em;
 }
@@ -1309,6 +1324,24 @@ body.post-php.post-type-movie #postimagediv {
 	
 	#wpml-home #dashboard-widgets #postbox-container-2 {
 		width: 32%;
+	}
+	
+	.column-movie_status,
+	.column-movie_media,
+	.column-movie_rating {
+		padding: 8px 4px !important;
+	}
+	
+	.wpml-inline-edit-details {
+		margin-left: 0 !important;
+	}
+	
+	.wpml-inline-edit-details .dashicons-arrow-right-alt2 {
+		display: none;
+	}
+	
+	.wpml-inline-edit-toggle .dashicons-no {
+		margin-right: 0 !important;
 	}
 }
 

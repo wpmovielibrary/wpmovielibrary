@@ -142,7 +142,7 @@ if ( ! class_exists( 'WPML_Dashboard_Stats_Widget' ) ) :
 					'plural' => __( '%d queued movies', WPML_SLUG ),
 					'empty'  => __( 'No queued movie.', WPML_SLUG ),
 					'url'    => admin_url( 'admin.php?page=wpml_import&amp;wpml_section=wpml_import_queue' ),
-					'icon'   => 'dashicons dashicons-text',
+					'icon'   => 'dashicons dashicons-list-view',
 					'string' => '<a href="%s">%s</a>'
 				),
 				'imported' => array(

@@ -617,17 +617,21 @@ var wpml_meta, wpml_details, wpml_media, wpml_status, wpml_rating;
 
 				$(wpml_edit_movies.actors).each( function() {
 
-					var visible = []; var hidden = [];
-					var links = $(this).find('a');
-					var _visible = links.slice( 0, 5 );
-					var _hidden = links.slice( 5 );
+					var $links = $(this).find('a');
 
-					_visible.each(function() { visible.push( this.outerHTML ); });
-					_hidden.each(function() { hidden.push( this.outerHTML ); });
+					if ( $links.length ) {
+						var visible = [],
+						    hidden = [],
+						_visible = $links.slice( 0, 5 ),
+						    _hidden = $links.slice( 5 );
 
-					$(this).html('<span class="visible-actors"></span><span class="hidden-actors"></span>, <a class="more-actors" href="#">' + wpml_ajax.lang.see_more + '</a>');
-					$(this).find(wpml_edit_movies.visible).html( visible.join(', ') );
-					$(this).find(wpml_edit_movies.hidden).html( hidden.join(', ') );
+						_visible.each(function() { visible.push( this.outerHTML ); });
+						_hidden.each(function() { hidden.push( this.outerHTML ); });
+
+						$(this).html('<span class="visible-actors"></span>, <span class="hidden-actors"></span><a class="more-actors" href="#">' + wpml_ajax.lang.see_more + '</a>');
+						$(this).find(wpml_edit_movies.visible).html( visible.join(', ') );
+						$(this).find(wpml_edit_movies.hidden).html( hidden.join(', ') );
+					}
 				});
 			};
 
