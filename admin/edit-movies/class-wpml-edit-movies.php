@@ -69,9 +69,9 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			if ( ! in_array( $hook, array( 'edit.php', 'post.php', 'post-new.php' ) ) || 'movie' != get_post_type() )
 				return;
 
-			wp_enqueue_script( WPML_SLUG . '-media' , WPML_URL . '/assets/js/wpml.media.js' , array( 'jquery' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-movies' , WPML_URL . '/assets/js/wpml.movies.js' , array( 'jquery' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-editor' , WPML_URL . '/assets/js/wpml.editor.js' , array( 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-media' , WPML_URL . '/assets/js/wpml.media.js' , array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-movies' , WPML_URL . '/assets/js/wpml.movies.js' , array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-editor' , WPML_URL . '/assets/js/wpml.editor.js' , array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
