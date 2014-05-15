@@ -46,13 +46,13 @@ body.post-php.post-type-movie #postimagediv {
 .label_off:hover,
 .label_on:focus,
 .label_off:focus {
-	background: #333;
+	opacity: 0.9;
 	color: #ccc;
 }
 
 .label_on.active,
 .label_off.active {
-	background: #0074A2;
+	background: #2EA2CC;
 	color: #eee;
 }
 
@@ -60,8 +60,8 @@ body.post-php.post-type-movie #postimagediv {
 .label_off.active:hover,
 .label_on.active:focus,
 .label_off.active:focus {
-	background: #2EA2CC;
 	color: #fff;
+	opacity: 0.9;
 }
 
 /* WPML Landing Page
@@ -616,7 +616,7 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 #wpml-tabs #wpml-queued-list > li:nth-child(odd) {
-	background: #E8F4F8;
+	background: #f2f2f2;
 }
 
 #wpml-tabs #wpml-queued-list > li > div {
@@ -722,13 +722,9 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 #wpml-tabs .default_movie_meta_sortable .default_movie_meta_selected {
-	background-color: #0074A2;
+	background-color: #2EA2CC;
 	color: #fff;
 	font-weight: bold;
-}
-
-#wpml-tabs .default_movie_meta_sortable .default_movie_meta_selected:hover {
-	background-color: #2EA2CC;
 }
 
 #wpml-tabs .default_movie_meta_sortable .default_movie_meta_droppable {
@@ -736,8 +732,9 @@ body.post-php.post-type-movie #postimagediv {
 	color: #ddd;
 }
 
-#wpml-tabs .default_movie_meta_sortable .default_movie_meta_droppable:hover {
-	background-color: #333;
+#wpml-tabs .default_movie_meta_sortable .default_movie_meta_droppable:hover,
+#wpml-tabs .default_movie_meta_sortable .default_movie_meta_selected:hover {
+	opacity: 0.9;
 }
 
 #wpml-tabs .default_movie_meta_sortable .highlight {
@@ -766,19 +763,16 @@ body.post-php.post-type-movie #postimagediv {
 	color: #ddd;
 }
 
-#wpml-tabs .default_movie_details .default_movie_detail:hover {
-	background-color: #333;
-}
-
 #wpml-tabs .default_movie_details .default_movie_detail.selected {
-	background-color: #0074A2;
+	background-color: #2EA2CC;
 	color: #fff;
 	font-weight: bold;
 	position: relative;
 }
 
-#wpml-tabs .default_movie_details .default_movie_detail.selected:hover {
-	background-color: #2EA2CC;
+#wpml-tabs .default_movie_details .default_movie_detail.selected:hover,
+#wpml-tabs .default_movie_details .default_movie_detail:hover {
+	opacity: 0.9;
 }
 
 #wpml-tabs .default_movie_detail .dashicons {
@@ -921,7 +915,7 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 #progress {
-	background: #0074A2;
+	background: #2EA2CC;
 	border-radius: 6px;
 	height: 5px;
 	position: absolute;

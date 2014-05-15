@@ -46,7 +46,18 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( ! is_admin() )
 				return false;
 
+			$this->init();
 			$this->register_hook_callbacks();
+		}
+
+		/**
+		 * Initializes variables
+		 *
+		 * @since    1.0.0
+		 */
+		public function init() {
+
+			//error_reporting( E_ALL );
 
 			$this->modules = array(
 				'WPML_Dashboard'   => WPML_Dashboard::get_instance(),
@@ -59,7 +70,15 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'WPML_Queue'       => WPML_Queue::get_instance()
 			);
 
-			//error_reporting( E_ALL );
+			$this->plugin_screen_hook_suffix = array(
+				'edit_movie' => 'edit-movie',
+				'movie' => 'movie',
+				'plugins' => 'plugins'
+			);
+
+			self::$default_settings = WPML_Settings::get_default_settings();
+			$this->settings = WPML_Settings::get_settings();
+
 		}
 
 		/**
@@ -72,11 +91,13 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			add_action( 'init', array( $this, 'init' ) );
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 
+			if ( WPML_Utils::is_modern_wp() )
+				add_action( 'admin_head', array( $this, 'custom_admin_colors' ) );
+
 			add_filter( 'pre_update_option_wpml_settings', array( $this, 'filter_settings' ), 10, 2 );
 
 			// Add the options page and menu item.
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-			//add_action( 'admin_footer', array( $this, 'movie_showcase' ) );
 
 			// highlight the proper top level menu
 			add_action( 'parent_file', array( $this, 'admin_menu_highlight' ) );
@@ -140,11 +161,16 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				wp_enqueue_script( WPML_SLUG . '-landing', WPML_URL . '/assets/js/wpml.landing.js', array( 'jquery', 'jquery-ui-sortable' ), WPML_VERSION, true );
 			}
 
-			/*if ( $current_screen->id == $this->plugin_screen_hook_suffix['new_movie'] )
-				wp_enqueue_script( 'jquery-effects-shake' );*/
-
 		}
 
+		/**
+		 * i18n method for script
+		 * 
+		 * Adds a translation object to the plugin's JavaScript object
+		 * containing localized texts.
+		 * 
+		 * @since    1.0.0
+		 */
 		private function localize_script() {
 
 			$base_urls = WPML_TMDb::get_image_url();
@@ -198,6 +224,43 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			);
 
 			return $localize;
+		}
+
+		/**
+		 * Adapt Plugin Import and Settings pages to match the current
+		 * user's dashboard color set. This is only available in the
+		 * new WP3.8 Dashboard.
+		 * 
+		 * @since    1.0.0
+		 */
+		public function custom_admin_colors() {
+
+			global $current_screen, $_wp_admin_css_colors;
+
+			$pages = array( $this->plugin_screen_hook_suffix['settings'], $this->plugin_screen_hook_suffix['import'] );
+			$color = get_user_meta( get_current_user_id(), 'admin_color', true );
+
+			if ( ! in_array( $current_screen->id, $pages ) || '' == $color || ! isset( $_wp_admin_css_colors[ $color ] ) || empty( $_wp_admin_css_colors[ $color ] ) )
+				return false;
+
+			$colors = $_wp_admin_css_colors[ $color ];
+			$_eq_dark_grey  = $colors->colors[ 0 ];
+			$_eq_light_grey = $colors->colors[ 1 ];
+			$_eq_dark_blue  = $colors->colors[ 2 ];
+			$_eq_light_blue = $colors->colors[ 3 ];
+			$_eq_text_color = $colors->icon_colors['base'];
+			$_eq_hover_color = $colors->icon_colors['focus'];
+?>
+	<style>
+		.label_off.active, .label_on.active, .wpml-tabs-nav > li:hover h4 span, #progress, #wpml-tabs .default_movie_details .default_movie_detail.selected, #wpml-tabs .default_movie_meta_sortable .default_movie_meta_selected, #queue_progress { background-color: <?php echo $_eq_light_blue ?> !important; }
+		#tmdb_images_preview #tmdb_load_images:hover { border-color: <?php echo $_eq_light_blue ?>; }
+		.wpml-tabs-nav > li > a { color: <?php echo $_eq_text_color ?>; }
+		.wpml-tabs-nav > li:hover a { color: <?php echo $_eq_hover_color ?>; }
+		.label_off, .label_on, .wpml-tabs-nav > li:hover { background-color: <?php echo $_eq_dark_grey ?>; }
+		.wpml-tabs-nav { background-color: <?php echo $_eq_light_grey ?>; }
+		.wpml-tabs-nav > li.active a, .wpml-tabs-nav > li.active:hover a { background-color: <?php echo $_eq_dark_blue ?>; }
+	</style>
+<?php
 		}
 
 
@@ -667,24 +730,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * @since    1.0.0
 		 */
 		public function deactivate() {}
-
-		/**
-		 * Initializes variables
-		 *
-		 * @since    1.0.0
-		 */
-		public function init() {
-
-			$this->plugin_screen_hook_suffix = array(
-				'edit_movie' => 'edit-movie',
-				'movie' => 'movie',
-				'plugins' => 'plugins'
-			);
-
-			self::$default_settings = WPML_Settings::get_default_settings();
-			$this->settings         = WPML_Settings::get_settings();
-
-		}
 
 	}
 endif;
