@@ -13,12 +13,8 @@ wpml = wpml || {};
 		 */
 		wpml.editor.details = wpml_edit_details = {
 
-			status: '#wpml-details-status',
-
-			_save: {
-				element: '#wpml_save',
-				event: 'click'
-			}
+			details_status: '#wpml-details-status',
+			save_details: '#wpml_save'
 		};
 
 			/**
@@ -26,12 +22,6 @@ wpml = wpml || {};
 			 */
 			wpml.editor.details.init = function() {
 
-				$( wpml_edit_details._save.element ).on( wpml_edit_details._save.event, function() {
-					wpml.editor.details.save();
-				});
-
-				wpml.editor.details.status.init();
-				wpml.editor.details.media.init();
 				wpml.editor.details.rating.init();
 			};
 
@@ -54,19 +44,21 @@ wpml = wpml || {};
 						}
 					},
 					beforeSend: function() {
-						$( wpml_edit_details._save.element ).prev( '.spinner' ).css( { display: 'inline-block' } );
+						$( wpml_edit_details.save_details ).prev( '.spinner' ).css( { display: 'inline-block' } );
 					},
 					error: function( response ) {
-						$( wpml_edit_details.status ).html( '<p>' + wpml_ajax.lang.oops + '</p>' );
+						console.log('!!');
+						$( wpml_edit_details.details_status ).html( '<p>' + wpml_ajax.lang.oops + '</p>' );
 					},
 					success: function( response ) {
-						$( wpml_edit_details.status ).html( '<p>' + wpml_ajax.lang.done + '</p>' );
+						console.log('!');
+						$( wpml_edit_details.details_status ).html( '<p>' + wpml_ajax.lang.done + '</p>' );
 						timer = window.setTimeout( function() {
-							$( wpml_edit_details.status ).fadeOut( 1500, function() { $( this ).empty() } );
+							$( wpml_edit_details.details_status ).fadeOut( 1500, function() { $( this ).empty() } );
 						}, 2000 );
 					},
 					complete: function() {
-						$( wpml_edit_details._save.element ).prev( '.spinner' ).hide();
+						$( wpml_edit_details.save_details ).prev( '.spinner' ).hide();
 					}
 				});
 			};
@@ -75,6 +67,9 @@ wpml = wpml || {};
 			 * Inline editor
 			 * 
 			 * @since    1.0.0
+			 * 
+			 * @param    string    Detail type: status, media, rating
+			 * @param    object    Caller link DOM Element
 			 */
 			wpml.editor.details.inline_editor = function( type, link ) {
 
@@ -113,6 +108,9 @@ wpml = wpml || {};
 			 * Inline edit value
 			 * 
 			 * @since    1.0.0
+			 * 
+			 * @param    string    Detail type: status, media, rating
+			 * @param    object    Caller link DOM Element
 			 */
 			wpml.editor.details.inline_edit = function( type, link ) {
 
@@ -173,34 +171,10 @@ wpml = wpml || {};
 				save: '#save-movie-status',
 				cancel: '#cancel-movie-status',
 
-				init: function() {},
 				show: function() {},
 				update: function() {},
 				revert: function() {}
 			};
-
-				/**
-				 * Init Events
-				 * 
-				 * @since    1.0.0
-				 */
-				wpml.editor.details.status.init = function() {
-
-					$( wpml_status.edit ).on( 'click', function( e ) {
-						e.preventDefault();
-						wpml_status.show();
-					});
-
-					$( wpml_status.save ).on( 'click', function( e ) {
-						e.preventDefault();
-						wpml_status.update();
-					});
-
-					$( wpml_status.cancel ).on( 'click', function( e ) {
-						e.preventDefault();
-						wpml_status.revert();
-					});
-				};
 
 				/**
 				 * Show the editor
@@ -255,34 +229,10 @@ wpml = wpml || {};
 				save: '#save-movie-media',
 				cancel: '#cancel-movie-media',
 
-				init: function() {},
 				show: function() {},
 				update: function() {},
 				revert: function() {}
 			};
-
-				/**
-				 * Init Events
-				 * 
-				 * @since    1.0.0
-				 */
-				wpml.editor.details.media.init = function() {
-
-					$( wpml_media.edit ).on( 'click', function( e ) {
-						e.preventDefault();
-						wpml_media.show();
-					});
-
-					$( wpml_media.save ).on( 'click', function( e ) {
-						e.preventDefault();
-						wpml_media.update();
-					});
-
-					$( wpml_media.cancel).on( 'click', function( e ) {
-						e.preventDefault();
-						wpml_media.revert();
-					});
-				};
 
 				/**
 				 * Show the editor
@@ -290,7 +240,7 @@ wpml = wpml || {};
 				 * @since    1.0.0
 				 */
 				wpml.editor.details.media.show = function() {
-					if ( $( wpml_media.select ).is(":hidden") ) {
+					if ( $( wpml_media.select ).is( ':hidden' ) ) {
 						$( wpml_media.select ).slideDown( 'fast' );
 						$( wpml_media.edit ).hide();
 					}
@@ -327,12 +277,11 @@ wpml = wpml || {};
 			 */
 			wpml.editor.details.rating = wpml_rating = {
 
-				stars: '#stars, #bulk_stars',
-
 				select: '#movie-rating-select',
 				hidden: '#hidden-movie-rating',
 				display: '#movie-rating-display',
 
+				stars: '#stars, #bulk_stars',
 				edit: '#edit-movie-rating',
 				save: '#save-movie-rating',
 				cancel: '#cancel-movie-rating',
@@ -352,21 +301,6 @@ wpml = wpml || {};
 				 * @since    1.0.0
 				 */
 				wpml.editor.details.rating.init = function() {
-
-					$( wpml_rating.edit ).on( 'click', function( e ) {
-						e.preventDefault();
-						wpml_rating.show();
-					});
-
-					$( wpml_rating.cancel).on( 'click', function( e ) {
-						e.preventDefault();
-						wpml_rating.revert();
-					});
-
-					$( wpml_rating.save ).on( 'click', function( e ) {
-						e.preventDefault();
-						wpml_rating.update();
-					});
 
 					$( wpml_rating.stars ).on( 'click', function( e ) {
 						e.preventDefault();

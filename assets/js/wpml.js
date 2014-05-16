@@ -18,9 +18,10 @@ wpml = {};
 		 */
 		wpml.editor.meta = {};
 			wpml.editor.meta.search = function( post_id, title, caller ) {};
-			wpml.editor.meta.select = function( post_id, tmdb_id, caller ) {};
-			wpml.editor.meta.get = function( post_id, tmdb_id, caller ) {};
-			wpml.editor.meta.set = function( post_id, data ) {};
+			wpml.editor.meta.select = function( movies, message ) {};
+			wpml.editor.meta.get = function( tmdb_id ) {};
+			wpml.editor.meta.set = function( data ) {};
+			wpml.editor.meta.prefill_title = function( title ) {};
 
 		/**
 		 * Movies Post Editor page's Details part
@@ -31,8 +32,8 @@ wpml = {};
 			wpml.editor.details = {};
 				wpml.editor.details.init = function() {};
 				wpml.editor.details.save = function() {};
-				wpml.editor.details.inline_editor = function() {};
-				wpml.editor.details.inline_edit = function() {};
+				wpml.editor.details.inline_editor = function( type, link ) {};
+				wpml.editor.details.inline_edit = function( type, link ) {};
 
 			wpml.editor.details.media = {};
 				wpml.editor.details.init = function() {};
@@ -47,23 +48,31 @@ wpml = {};
 				wpml.editor.details.revert = function() {};
 
 		/**
-		 * TODO
+		 * Handles the Imported part of the Importer: search for movies'
+		 * metadata, select movies in lists, set data fields.
 		 * 
 		 * @since    1.0.0
 		 */
 		wpml.importer.meta = {};
-			wpml.importer.meta.search = function() {};
-			wpml.importer.meta.select = function() {};
-			wpml.importer.meta.get = function() {};
-			wpml.importer.meta.set = function() {};
+			wpml.importer.meta.do = function( action ) {};
+			wpml.importer.meta.search = function( post_id ) {};
+			wpml.importer.meta.select = function( movies, message ) {};
+			wpml.importer.meta.get = function( post_id, tmdb_id ) {};
+			wpml.importer.meta.set = function( data ) {};
 
+		/**
+		 * Handles the Import part of the Importer: import lists of movies
+		 * or delete movies
+		 * 
+		 * @since    1.0.0
+		 */
 		wpml.importer.movies = {};
-			wpml.importer.movies.add = function() {};
 			wpml.importer.movies.delete = function() {};
 			wpml.importer.movies.import = function() {};
 
 		/**
-		 * TODO
+		 * Handles the Importer view alterations like AJAX nav or counter
+		 * updates.
 		 * 
 		 * @since    1.0.0
 		 */
@@ -71,6 +80,7 @@ wpml = {};
 			wpml.importer.view.reload = function() {};
 			wpml.importer.view.navigate = function() {};
 			wpml.importer.view.paginate = function() {};
+			wpml.importer.view.update_count = function() {};
 
 		/**
 		 * TODO
@@ -81,6 +91,7 @@ wpml = {};
 			wpml.queue.movies.add = function() {};
 			wpml.queue.movies.remove = function() {};
 			wpml.queue.movies.prepare = function() {};
+			wpml.queue.movies.import = function() {};
 
 		/**
 		 * TODO

@@ -179,6 +179,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$localize = array(
 				'utils' => array(
 					'wpml_check' => wp_create_nonce( 'wpml-callbacks-nonce' ),
+					'language' => WPML_Settings::tmdb__lang(),
 					'base_url' => array(
 						'xxsmall'	=> $base_urls['poster']['xx-small'],
 						'xsmall'	=> $base_urls['poster']['x-small'],

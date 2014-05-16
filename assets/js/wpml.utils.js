@@ -1,15 +1,7 @@
 
 $ = jQuery;
 
-wpml = {
-	__ajax: function() {},
-	_get: function() {},
-	_post: function() {},
-	switch_data: function() {},
-	http_query_var: function() {},
-
-	status: {}
-};
+wpml = wpml || {};
 
 	/**
 	 * WPML filter for AJAX Request
@@ -37,6 +29,7 @@ wpml = {
 		wpml.__ajax({
 			type: 'GET',
 			data: data.data || {},
+			beforeSend: data.beforeSend || function() {},
 			success: data.success || function() {},
 			complete: data.complete || function() {},
 			error: data.error || function() {}
@@ -52,6 +45,7 @@ wpml = {
 		wpml.__ajax({
 			type: 'POST',
 			data: data.data || {},
+			beforeSend: data.beforeSend || function() {},
 			success: data.success || function() {},
 			complete: data.complete || function() {},
 			error: data.error || function() {}
