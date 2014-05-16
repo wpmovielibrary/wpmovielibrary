@@ -39,7 +39,6 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
-			add_action( 'load-movie_page_import', __CLASS__ . '::import_movie_list_add_options' );
 			add_filter( 'set-screen-option', __CLASS__ . '::import_movie_list_set_option', 10, 3 );
 
 			add_action( 'wp_ajax_wpml_delete_movies', __CLASS__ . '::delete_movies_callback' );

@@ -97,7 +97,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			add_filter( 'pre_update_option_wpml_settings', array( $this, 'filter_settings' ), 10, 2 );
 
 			// Add the options page and menu item.
-			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+			add_action( 'admin_menu', array( $this, 'admin_menu' ), 9 );
 
 			// highlight the proper top level menu
 			add_action( 'parent_file', array( $this, 'admin_menu_highlight' ) );
@@ -374,6 +374,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'wpml_edit_settings',
 				__CLASS__ . '::admin_page'
 			);
+
+			add_action( 'load-' . $this->plugin_screen_hook_suffix['import'], 'WPML_Import::import_movie_list_add_options' );
 		}
 
 		/**
