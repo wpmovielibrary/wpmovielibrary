@@ -143,69 +143,71 @@ wpml.settings = wpml_settings = {
 			$('#default_movie_meta_sorted').val( values.join(',') );
 		};
 
-	wpml.settings.details_select = function( item ) {
-		var $item = $(item),
-		    value = $item.attr('data-movie-detail');
+	wpml.settings.utils = {};
 
-		if ( $item.hasClass('selected') ) {
-			$item.removeClass('selected');
-			$('#wpml_settings-wpml-default_movie_details option[value="'+value+'"]').prop( 'selected', false );
-		}
-		else {
-			$item.addClass('selected');
-			$('#wpml_settings-wpml-default_movie_details option[value="'+value+'"]').prop( 'selected', true );
-		}
-	}
+		wpml.settings.utils.details_select = function( item ) {
+			var $item = $(item),
+			    value = $item.attr('data-movie-detail');
 
-	wpml.settings.api_ckeck = function() {
-
-		var $input = $('input#APIKey_check');
-
-		var key = $('input#wpml_settings-tmdb-apikey').val();
-		$('#api_status').remove();
-
-		if ( '' == key ) {
-			$input.after('<span id="api_status" class="invalid">'+wpml_ajax.lang.empty_key+'</span>');
-			return false;
-		}
-		else if ( 32 != key.length ) {
-			$input.after('<span id="api_status" class="invalid">'+wpml_ajax.lang.length_key+'</span>');
-			return false;
-		}
-		
-		wpml._get({
-			data: {
-				action: 'wpml_check_api_key',
-				wpml_check: wpml_ajax.utils.wpml_check,
-				key: key
-			},
-			error: function( response ) {
-				$input.after( '<span id="api_status" class="invalid">' + response.responseJSON.errors.invalid[ 0 ] + '</span>' );
-			},
-			success: function( response ) {
-				$input.after( '<span id="api_status" class="valid">' + response.data.message + '</span>' );
+			if ( $item.hasClass('selected') ) {
+				$item.removeClass('selected');
+				$('#wpml_settings-wpml-default_movie_details option[value="'+value+'"]').prop( 'selected', false );
 			}
-		});
-	};
-
-	wpml.settings.toggle_radio = function( toggle, status ) {
-
-		var $label_off = $(toggle).parent('.label_onoff').find('.label_off'),
-		    $label_on = $(toggle).parent('.label_onoff').find('.label_on'),
-		    $disable = $(toggle).parent('.label_onoff').next('.label_onoff_radio').find('.enable'),
-		    $enable = $(toggle).parent('.label_onoff').next('.label_onoff_radio').find('.disable'),
-		    disable = status || false;
-
-		if ( ! disable ) {
-			$enable.prop('checked', true);
-			$label_on.removeClass('active');
-			$label_off.addClass('active');
+			else {
+				$item.addClass('selected');
+				$('#wpml_settings-wpml-default_movie_details option[value="'+value+'"]').prop( 'selected', true );
+			}
 		}
-		else {
-			$disable.prop('checked', true);
-			$label_off.removeClass('active');
-			$label_on.addClass('active');
-		}
-	};
+
+		wpml.settings.utils.api_ckeck = function() {
+
+			var $input = $('input#APIKey_check');
+
+			var key = $('input#wpml_settings-tmdb-apikey').val();
+			$('#api_status').remove();
+
+			if ( '' == key ) {
+				$input.after('<span id="api_status" class="invalid">'+wpml_ajax.lang.empty_key+'</span>');
+				return false;
+			}
+			else if ( 32 != key.length ) {
+				$input.after('<span id="api_status" class="invalid">'+wpml_ajax.lang.length_key+'</span>');
+				return false;
+			}
+			
+			wpml._get({
+				data: {
+					action: 'wpml_check_api_key',
+					wpml_check: wpml_ajax.utils.wpml_check,
+					key: key
+				},
+				error: function( response ) {
+					$input.after( '<span id="api_status" class="invalid">' + response.responseJSON.errors.invalid[ 0 ] + '</span>' );
+				},
+				success: function( response ) {
+					$input.after( '<span id="api_status" class="valid">' + response.data.message + '</span>' );
+				}
+			});
+		};
+
+		wpml.settings.utils.toggle_radio = function( toggle, status ) {
+
+			var $label_off = $(toggle).parent('.label_onoff').find('.label_off'),
+			    $label_on = $(toggle).parent('.label_onoff').find('.label_on'),
+			    $disable = $(toggle).parent('.label_onoff').next('.label_onoff_radio').find('.enable'),
+			    $enable = $(toggle).parent('.label_onoff').next('.label_onoff_radio').find('.disable'),
+			    disable = status || false;
+
+			if ( ! disable ) {
+				$enable.prop('checked', true);
+				$label_on.removeClass('active');
+				$label_off.addClass('active');
+			}
+			else {
+				$disable.prop('checked', true);
+				$label_off.removeClass('active');
+				$label_on.addClass('active');
+			}
+		};
 
 	wpml.settings.init();

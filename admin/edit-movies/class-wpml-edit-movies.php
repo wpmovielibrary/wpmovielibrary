@@ -71,7 +71,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			wp_enqueue_script( WPML_SLUG . '-media' , WPML_URL . '/assets/js/wpml.media.js' , array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
 			wp_enqueue_script( WPML_SLUG . '-movies' , WPML_URL . '/assets/js/wpml.movies.js' , array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-editor' , WPML_URL . '/assets/js/wpml.editor.js' , array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-editor-meta' , WPML_URL . '/assets/js/wpml.editor.details.js' , array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-editor-meta' , WPML_URL . '/assets/js/wpml.editor.meta.js' , array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -147,7 +148,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 					}
 					else
 						$html = '<span class="' . $column_name . '_title"><em>' . __( 'None', WPML_SLUG ) . '</em></span>';
-					$html .= '<a href="#" class="wpml-inline-edit-toggle" onclick="wpml_details.inline_editor( \'' . str_replace( 'movie_', '', $column_name ) . '\', this ); return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
+					$html .= '<a href="#" class="wpml-inline-edit-toggle" onclick="wpml_edit_details.inline_editor( \'' . str_replace( 'movie_', '', $column_name ) . '\', this ); return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
 					break;
 				case 'movie_rating':
 					$meta = get_post_meta( $post_id, '_wpml_movie_rating', true );
@@ -155,7 +156,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 						$html = '<div id="movie-rating-display" class="movie_rating_title stars stars-' . str_replace( '.', '-', $meta ) . '"></div>';
 					else
 						$html = '<div id="movie-rating-display" class="movie_rating_title stars stars-0-0"></div>';
-					$html .= '<a href="#" class="wpml-inline-edit-toggle" onclick="wpml_details.inline_editor( \'rating\', this ); return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
+					$html .= '<a href="#" class="wpml-inline-edit-toggle" onclick="wpml_edit_details.inline_editor( \'rating\', this ); return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
 					break;
 				default:
 					$html = '';

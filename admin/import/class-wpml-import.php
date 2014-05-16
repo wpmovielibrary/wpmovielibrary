@@ -63,10 +63,10 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				return;
 
 			wp_enqueue_script( WPML_SLUG . '-jquery-ajax-queue', WPML_URL . '/assets/js/jquery.ajaxQueue.js', array( 'jquery' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-movies' , WPML_URL . '/assets/js/wpml.movies.js' , array( 'jquery' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-import', WPML_URL . '/assets/js/wpml.import.js', array( WPML_SLUG . '-admin-script' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-importer', WPML_URL . '/assets/js/wpml.importer.js', array( WPML_SLUG . '-admin-script' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-queue', WPML_URL . '/assets/js/wpml.queue.js', array( WPML_SLUG . '-admin-script' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-movies' , WPML_URL . '/assets/js/wpml.movies.js' , array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-import', WPML_URL . '/assets/js/wpml.import.js', array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-importer', WPML_URL . '/assets/js/wpml.importer.js', array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-queue', WPML_URL . '/assets/js/wpml.queue.js', array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
 		}
 
 		/**
