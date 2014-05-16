@@ -62,10 +62,10 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				return;
 
 			wp_enqueue_script( WPML_SLUG . '-jquery-ajax-queue', WPML_URL . '/assets/js/jquery.ajaxQueue.js', array( 'jquery' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-importer-meta' , WPML_URL . '/assets/js/wpml.importer.meta.js' , array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-importer-movies', WPML_URL . '/assets/js/wpml.importer.movies.js', array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-importer-view', WPML_URL . '/assets/js/wpml.importer.view.js', array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-queue', WPML_URL . '/assets/js/wpml.queue.js', array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-importer-meta' , WPML_URL . '/assets/js/wpml.importer.meta.js' , array( WPML_SLUG, 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-importer-movies', WPML_URL . '/assets/js/wpml.importer.movies.js', array( WPML_SLUG, 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-importer-view', WPML_URL . '/assets/js/wpml.importer.view.js', array( WPML_SLUG, 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-queue', WPML_URL . '/assets/js/wpml.queue.js', array( WPML_SLUG, 'jquery' ), WPML_VERSION, true );
 		}
 
 		/**

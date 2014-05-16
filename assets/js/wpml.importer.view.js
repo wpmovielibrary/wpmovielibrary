@@ -17,7 +17,7 @@ wpml = wpml || {};
 			/**
 			 * Init Events
 			 */
-			wpml.importer.view.init();
+			wpml.importer.view.init = function() {
 
 				$( wpml_import_view.select_all ).unbind( 'click' ).on( 'click', function( e ) {
 					wpml.reinit_checkboxes_all( e, $( this ) );

@@ -69,10 +69,10 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			if ( ! in_array( $hook, array( 'edit.php', 'post.php', 'post-new.php' ) ) || 'movie' != get_post_type() )
 				return;
 
-			wp_enqueue_script( WPML_SLUG . '-media' , WPML_URL . '/assets/js/wpml.media.js' , array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-movies' , WPML_URL . '/assets/js/wpml.movies.js' , array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-editor-meta' , WPML_URL . '/assets/js/wpml.editor.details.js' , array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-editor-meta' , WPML_URL . '/assets/js/wpml.editor.meta.js' , array( WPML_SLUG . '-admin-script', 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-media' , WPML_URL . '/assets/js/wpml.media.js' , array( WPML_SLUG, 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-movies' , WPML_URL . '/assets/js/wpml.movies.js' , array( WPML_SLUG, 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-editor-details' , WPML_URL . '/assets/js/wpml.editor.details.js' , array( WPML_SLUG, 'jquery' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-editor-meta' , WPML_URL . '/assets/js/wpml.editor.meta.js' , array( WPML_SLUG, 'jquery' ), WPML_VERSION, true );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -253,7 +253,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="';
 			$actions['inline hide-if-no-js'] .= esc_attr( __( 'Edit this item inline' ) ) . '" ';
-			$actions['inline hide-if-no-js'] .= " onclick=\"wpml_edit_movies.populate_quick_edit({$details}, '{$nonce}')\">"; 
+			$actions['inline hide-if-no-js'] .= " onclick=\"wpml_edit_movies.quick_edit({$details}, '{$nonce}')\">"; 
 			$actions['inline hide-if-no-js'] .= __( 'Quick&nbsp;Edit' );
 			$actions['inline hide-if-no-js'] .= '</a>';
 

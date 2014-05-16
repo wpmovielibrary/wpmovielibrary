@@ -8,6 +8,7 @@
 }
 
 .dashicons.dashicons-no,
+.dashicons.dashicons-no-alt,
 .dashicons.dashicons-download,
 .dashicons.dashicons-welcome-write-blog,
 .dashicons.dashicons-post-trash,
@@ -18,7 +19,8 @@
 .dashicons.dashicons-category,
 .dashicons.dashicons-text,
 .dashicons.dashicons-tag,
-.dashicons.dashicons-edit {
+.dashicons.dashicons-edit,
+.dashicons.dashicons-list-view  {
 	background-color: transparent;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -28,7 +30,8 @@
 	width: 16px;
 }
 
-.dashicons.dashicons-no {
+.dashicons.dashicons-no,
+.dashicons.dashicons-no-alt {
 	background-image: url(../img/legacy/icon-close.png);
 }
 
@@ -76,8 +79,7 @@
 	background-image: url(../img/legacy/icon-tag.png);
 }
 
-.dequeue_movie .dashicons.dashicons-no,
-#wpml-movie-showcase-close .dashicons.dashicons-no {
+.dequeue_movie .dashicons.dashicons-no {
 	background-image: url(../img/legacy/icon-dequeue.png);
 }
 
