@@ -184,7 +184,7 @@ wpml.settings = wpml_settings = {}
 				wpml_settings_utils.toggle_radio( this, false );
 			});
 
-			$( wpml_settings_utils..element ).on( wpml_settings_utils._default_movie_detail.event, function() {
+			$( wpml_settings_utils._default_movie_detail.element ).on( wpml_settings_utils._default_movie_detail.event, function() {
 				wpml_settings_utils.details_select( this );
 			});
 		};
