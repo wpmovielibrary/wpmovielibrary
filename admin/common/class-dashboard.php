@@ -62,7 +62,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			$location = ( in_array( $widget_id, $side_widgets ) ? 'side' : 'normal' );
 			$priority = 'core';
 
-			add_meta_box( $widget_id, $widget_name, $callback, $screen, $location, $priority, $callback_args );
+			add_meta_box( $widget_id, esc_attr__( $widget_name, WPML_SLUG ), $callback, $screen, $location, $priority, $callback_args );
 
 		}
 

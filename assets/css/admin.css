@@ -1339,5 +1339,11 @@ body.post-php.post-type-movie #postimagediv {
 	.wpml-inline-edit-toggle .dashicons-no {
 		margin-right: 0 !important;
 	}
+	
+	#wpml-home #wpml_dashboard_movies_widget .wpml-movie,
+	#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie {
+		height: 264px !important;
+		width: 176px !important;
+	}
 }
 
