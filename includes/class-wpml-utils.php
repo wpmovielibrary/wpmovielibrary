@@ -286,7 +286,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			$value = get_post_meta( $post_id, "_wpml_movie_{$meta}", true );
 			if ( 'rating' == $meta )
-				$value = number_format( $value, 1 );
+				$value = number_format( floatval( $value ), 1 );
 
 			return $value;
 		}
