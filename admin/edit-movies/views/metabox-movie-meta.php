@@ -12,7 +12,7 @@ endif;
 			<p><strong><?php _e( 'Find movie on TMDb:', WPML_SLUG ); ?></strong></p>
 
 			<div>
-				<select id="tmdb_search_lang" name="wpml[lang]">
+				<select id="tmdb_search_lang" name="wpml[lang]" onchange="wpml_edit_meta.lang=this.value;">
 					<option value="en" <?php selected( WPML_Settings::tmdb__lang(), 'en' ); ?>><?php _e( 'English', WPML_SLUG ); ?></option>
 					<option value="fr" <?php selected( WPML_Settings::tmdb__lang(), 'fr' ); ?>><?php _e( 'French', WPML_SLUG ); ?></option>
 				</select>

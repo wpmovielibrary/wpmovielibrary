@@ -35,7 +35,7 @@
 								<p class="description"><?php _e( 'You may want to restore WPMovieLibrary default settings.', WPML_SLUG ); ?></p>
 								<p class="description"><?php _e( '<strong>Caution!</strong> Doing this you will erase permanently all your custom settings. Don&rsquo;t do this unless you are positively sure of what you&rsquo;re doing!', WPML_SLUG ); ?></p>
 								<p style="text-align:center">
-									<a href="<?php echo wp_nonce_url( admin_url( 'edit.php?post_type=movie&page=wpml_edit_settings&wpml_section=maintenance&wpml_restore_default=true' ), 'wpml-restore-default', 'wpml_restore_default_nonce') ?>" class="button button-secondary"><?php _e( 'Restore', WPML_SLUG ) ?></a>
+									<a href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=maintenance&wpml_restore_default=true' ), 'wpml-restore-default', 'wpml_restore_default_nonce') ?>" class="button button-secondary"><?php _e( 'Restore', WPML_SLUG ) ?></a>
 								</p>
 								
 							</td>
@@ -45,7 +45,7 @@
 							<td>
 								<p class="description"><?php _e( 'Delete all temporarily stored data. This can solve issues like incomplete movie metadata repeatedly returned or incorrect API results.', WPML_SLUG ); ?></p>
 								<p style="text-align:center">
-									<a href="<?php echo wp_nonce_url( admin_url( 'edit.php?post_type=movie&page=wpml_edit_settings&wpml_section=maintenance&wpml_empty_cache=true' ), 'wpml-empty-cache', 'wpml_empty_cache_nonce') ?>" class="button button-secondary"><?php _e( 'Empty cache', WPML_SLUG ) ?></a>
+									<a href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=maintenance&wpml_empty_cache=true' ), 'wpml-empty-cache', 'wpml_empty_cache_nonce') ?>" class="button button-secondary"><?php _e( 'Empty cache', WPML_SLUG ) ?></a>
 								</p>
 							</td>
 						</tr>
