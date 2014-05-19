@@ -1,38 +1,12 @@
 
 wpml = wpml || {};
 
-wpml.settings = wpml_settings = {
-
-	init: function() {},
-
-	panels: {},
-	sortable: {},
-
-	api_ckeck: function() {},
-	toggle_radio: function() {}
-}
+wpml.settings = wpml_settings = {}
 
 	wpml.settings.init = function() {
 
 		wpml.settings.panels.init();
 		wpml.settings.sortable.init();
-		
-		$('input#APIKey_check').on( 'click', function( e ) {
-			e.preventDefault();
-			wpml_settings.api_ckeck();
-		});
-
-		$('.label_onoff .label_on').on( 'click', function() {
-			wpml_settings.toggle_radio( this, true );
-		});
-
-		$('.label_onoff .label_off').on( 'click', function() {
-			wpml_settings.toggle_radio( this, false );
-		});
-
-		$('.default_movie_detail').on( 'click', function() {
-			wpml_settings.details_select( this );
-		});
 	};
 
 	wpml.settings.panels = wpml_panels = {
@@ -42,50 +16,59 @@ wpml.settings = wpml_settings = {
 		link_active: '#wpml-tabs .wpml-tabs-nav li.active',
 		panels: '#wpml-tabs .wpml-tabs-panels > .form-table',
 		active: 0,
-
-		init: function() {},
-		switch_panel: function() {}
 	};
 
+		/**
+		 * Init Events
+		 * 
+		 * @since    1.0.0
+		 */
 		wpml.settings.panels.init = function() {
 
-			if ( $(wpml_panels.link_active).length )
-				wpml_panels.active = $(wpml_panels.link).index( $(wpml_panels.link_active) );
+			if ( $( wpml_panels.link_active ).length )
+				wpml_panels.active = $( wpml_panels.link ).index( $( wpml_panels.link_active ) );
 
-			var panel = $(wpml_panels.panels)[ wpml_panels.active ];
+			var panel = $( wpml_panels.panels )[ wpml_panels.active ];
 
-			$(wpml_panels.panels).hide();
-			$(panel).addClass('active');
+			$( wpml_panels.panels ).hide();
+			$( panel ).addClass( 'active' );
 
-			$(wpml_panels.links).on( 'click', function( e ) {
+			$( wpml_panels.links ).on( 'click', function( e ) {
 				e.preventDefault();
 				wpml_panels.switch_panel( this );
 			});
 
 		};
 
+		/**
+		 * Switch between panels
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    object   Caller link DOM Element
+		 */
 		wpml.settings.panels.switch_panel = function( link ) {
 
 			__link = link;
 			var index = $(wpml_panels.links).index( link );
 
 			if ( wpml_panels.panels.length >= index )
-				var panel = $(wpml_panels.panels)[ index ];
+				var panel = $( wpml_panels.panels )[ index ];
 
-			var tab = $(link).attr('data-section');
-			var url = link.href.replace(link.hash, '');
+			var tab = $( link ).attr( 'data-section' );
+			var url = link.href.replace( link.hash, '' );
 			if ( link.hash.length || '#' == url.substring( url.length, url.length - 1 ) )
 				url = url.substring( 0, ( url.length - 1 ) );
 
-			    var section = link.href.indexOf('&wpml_section');
+			    var section = link.href.indexOf( '&wpml_section' );
 			if ( section > 0 )
 				url = url.substring( 0, section );
 
-			$('.wpml-tabs-panels .form-table, .wpml-tabs-nav').removeClass('active');
-			$(panel).addClass('active');
-			$(link).parent('li').addClass('active');
+			$( '.wpml-tabs-panels .form-table, .wpml-tabs-nav' ).removeClass( 'active' );
+			$( panel ).addClass( 'active' );
+			$( link ).parent( 'li' ).addClass( 'active' );
 
-			window.history.replaceState({}, '' + url + '&' + tab, '' + url + '&' + tab);
+			window.history.replaceState( {}, '' + url + '&' + tab, '' + url + '&' + tab );
 		};
 
 	wpml.settings.sortable = wpml_sortable = {
@@ -94,15 +77,16 @@ wpml.settings = wpml_settings = {
 		droppable: '#droppable',
 		default_selected: 'default_movie_meta_selected',
 		default_droppable: 'default_movie_meta_droppable',
-
-		init: function() {},
-		update_item_style: function() {},
-		update_item: function() {}
 	};
 
+		/**
+		 * Init Events
+		 * 
+		 * @since    1.0.0
+		 */
 		wpml.settings.sortable.init = function() {
 
-			$(wpml_sortable.draggable+', '+wpml_sortable.droppable).sortable({
+			$( wpml_sortable.draggable + ', ' + wpml_sortable.droppable ).sortable({
 				connectWith: 'ul',
 				placeholder: 'highlight',
 				update: function( event, ui ) {
@@ -113,10 +97,17 @@ wpml.settings = wpml_settings = {
 				}
 			});
 
-			$(wpml_sortable.draggable+', '+wpml_sortable.droppable).disableSelection();
+			$( wpml_sortable.draggable + ', ' + wpml_sortable.droppable ).disableSelection();
 		};
 
 
+		/**
+		 * Change item style depending on status
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    object    UI Object
+		 */
 		wpml.settings.sortable.update_item_style = function( ui ) {
 
 			if ( undefined == ui.sender || ! ui.sender.length )
@@ -126,86 +117,162 @@ wpml.settings = wpml_settings = {
 			var item = ui.item[0];
 
 			if ( 'draggable' == ui.sender[0].id )
-				$(item).removeClass(wpml_sortable.default_selected).addClass(wpml_sortable.default_droppable);
+				$( item ).removeClass( wpml_sortable.default_selected ).addClass( wpml_sortable.default_droppable );
 			else if ( 'droppable' == ui.sender[0].id )
-				$(item).removeClass(wpml_sortable.default_droppable).addClass(wpml_sortable.default_selected);
+				$( item ).removeClass( wpml_sortable.default_droppable ).addClass( wpml_sortable.default_selected );
 		};
 
+		/**
+		 * Init Events
+		 * 
+		 * @since    1.0.0
+		 */
 		wpml.settings.sortable.update_item = function() {
 
 			values = [];
 			var items = $('.'+wpml_sortable.default_selected);
-			$.each(items, function() {
-				var value = $(this).attr('data-movie-meta');
-				$('#wpml_settings-wpml-default_movie_meta option[value="'+value+'"]').prop( 'selected', true );
+			$.each( items, function() {
+				var value = $( this ).attr( 'data-movie-meta' );
+				$( '#wpml_settings-wpml-default_movie_meta option[value="'+value+'"]' ).prop( 'selected', true );
 				values.push( value );
 			});
-			$('#default_movie_meta_sorted').val( values.join(',') );
+			$( '#default_movie_meta_sorted' ).val( values.join( ',' ) );
 		};
 
-	wpml.settings.details_select = function( item ) {
-		var $item = $(item),
-		    value = $item.attr('data-movie-detail');
+	/**
+	 * Settings utils
+	 * 
+	 * @since    1.0.0
+	 */
+	wpml.settings.utils = wpml_settings_utils = {
 
-		if ( $item.hasClass('selected') ) {
-			$item.removeClass('selected');
-			$('#wpml_settings-wpml-default_movie_details option[value="'+value+'"]').prop( 'selected', false );
-		}
-		else {
-			$item.addClass('selected');
-			$('#wpml_settings-wpml-default_movie_details option[value="'+value+'"]').prop( 'selected', true );
-		}
-	}
+		_key_check: {
+			element: '#APIKey_check',
+			event: 'click'
+		},
+		_label_on: {
+			element: '.label_onoff .label_on',
+			event: 'click'
+		},
+		_label_off: {
+			element: '.label_onoff .label_off',
+			event: 'click'
+		},
+		_default_movie_detail: {
+			element: '.default_movie_detail',
+			event: 'click'
+		},
+	};
 
-	wpml.settings.api_ckeck = function() {
+		/**
+		 * Init Events
+		 * 
+		 * @since    1.0.0
+		 */
+		wpml.settings.utils.init = function() {
 
-		var $input = $('input#APIKey_check');
+			$( wpml_settings_utils._key_check.element ).on( wpml_settings_utils._key_check.event, function( e ) {
+				e.preventDefault();
+				wpml_settings_utils.api_ckeck();
+			});
 
-		var key = $('input#wpml_settings-tmdb-apikey').val();
-		$('#api_status').remove();
+			$( wpml_settings_utils._label_on.element ).on( wpml_settings_utils._label_on.event, function() {
+				wpml_settings_utils.toggle_radio( this, true );
+			});
 
-		if ( '' == key ) {
-			$input.after('<span id="api_status" class="invalid">'+wpml_ajax.lang.empty_key+'</span>');
-			return false;
-		}
-		else if ( 32 != key.length ) {
-			$input.after('<span id="api_status" class="invalid">'+wpml_ajax.lang.length_key+'</span>');
-			return false;
-		}
-		
-		wpml._get({
-			data: {
-				action: 'wpml_check_api_key',
-				wpml_check: wpml_ajax.utils.wpml_check,
-				key: key
-			},
-			error: function( response ) {
-				$input.after( '<span id="api_status" class="invalid">' + response.responseJSON.errors.invalid[ 0 ] + '</span>' );
-			},
-			success: function( response ) {
-				$input.after( '<span id="api_status" class="valid">' + response.data.message + '</span>' );
+			$( wpml_settings_utils._label_off.element ).on( wpml_settings_utils._label_off.event, function() {
+				wpml_settings_utils.toggle_radio( this, false );
+			});
+
+			$( wpml_settings_utils._default_movie_detail.element ).on( wpml_settings_utils._default_movie_detail.event, function() {
+				wpml_settings_utils.details_select( this );
+			});
+		};
+
+		/**
+		 * Movie Details styled select list
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    string    Detail type
+		 */
+		wpml.settings.utils.details_select = function( item ) {
+			var $item = $( item ),
+			    value = $item.attr( 'data-movie-detail' );
+
+			if ( $item.hasClass( 'selected' ) ) {
+				$item.removeClass( 'selected' );
+				$( '#wpml_settings-wpml-default_movie_details option[value="'+value+'"]' ).prop( 'selected', false );
 			}
-		});
-	};
-
-	wpml.settings.toggle_radio = function( toggle, status ) {
-
-		var $label_off = $(toggle).parent('.label_onoff').find('.label_off'),
-		    $label_on = $(toggle).parent('.label_onoff').find('.label_on'),
-		    $disable = $(toggle).parent('.label_onoff').next('.label_onoff_radio').find('.enable'),
-		    $enable = $(toggle).parent('.label_onoff').next('.label_onoff_radio').find('.disable'),
-		    disable = status || false;
-
-		if ( ! disable ) {
-			$enable.prop('checked', true);
-			$label_on.removeClass('active');
-			$label_off.addClass('active');
+			else {
+				$item.addClass( 'selected' );
+				$( '#wpml_settings-wpml-default_movie_details option[value="'+value+'"]' ).prop( 'selected', true );
+			}
 		}
-		else {
-			$disable.prop('checked', true);
-			$label_off.removeClass('active');
-			$label_on.addClass('active');
-		}
-	};
+
+		/**
+		 * Check API Key validity
+		 * 
+		 * @since    1.0.0
+		 */
+		wpml.settings.utils.api_ckeck = function() {
+
+			var $input = $( 'input#APIKey_check' ),
+			    key = $( 'input#wpml_settings-tmdb-apikey' ).val();
+
+			$( '#api_status' ).remove();
+
+			if ( '' == key ) {
+				$input.after( '<span id="api_status" class="invalid">' + wpml_ajax.lang.empty_key + '</span>' );
+				return false;
+			}
+			else if ( 32 != key.length ) {
+				$input.after( '<span id="api_status" class="invalid">' + wpml_ajax.lang.length_key + '</span>' );
+				return false;
+			}
+			
+			wpml._get({
+				data: {
+					action: 'wpml_check_api_key',
+					wpml_check: wpml_ajax.utils.wpml_check,
+					key: key
+				},
+				error: function( response ) {
+					$input.after( '<span id="api_status" class="invalid">' + response.responseJSON.errors.invalid[ 0 ] + '</span>' );
+				},
+				success: function( response ) {
+					$input.after( '<span id="api_status" class="valid">' + response.data.message + '</span>' );
+				}
+			});
+		};
+
+		/**
+		 * Styled input radio
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    object     DOM Element
+		 * @param    boolean    Checked false or true
+		 */
+		wpml.settings.utils.toggle_radio = function( toggle, status ) {
+
+			var $label_off = $( toggle ).parent( '.label_onoff' ).find( '.label_off' ),
+			    $label_on = $( toggle ).parent( '.label_onoff' ).find( '.label_on' ),
+			    $disable = $( toggle ).parent( '.label_onoff' ).next( '.label_onoff_radio' ).find( '.enable' ),
+			    $enable = $( toggle ).parent( '.label_onoff' ).next( '.label_onoff_radio' ).find( '.disable' ),
+			    disable = status || false;
+
+			if ( ! disable ) {
+				$enable.prop( 'checked', true );
+				$label_on.removeClass( 'active' );
+				$label_off.addClass( 'active' );
+			}
+			else {
+				$disable.prop( 'checked', true );
+				$label_off.removeClass( 'active' );
+				$label_on.addClass( 'active' );
+			}
+		};
 
 	wpml.settings.init();
+	wpml.settings.utils.init();

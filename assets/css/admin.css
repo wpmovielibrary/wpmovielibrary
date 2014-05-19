@@ -651,12 +651,6 @@ body.post-php.post-type-movie #postimagediv {
 	width: 24%;
 }
 
-#wpml-tabs #wpml-queued-list .column-status {
-	font-size: 0.85em !important;
-	font-style: italic;
-	padding: 1.1em 1.5em 1.1em 1.1em !important;
-}
-
 #wpml-tabs #wpml-queued-list .column-actions,
 #wpml-tabs #wpml-queued-list-header .column-actions {
 	float: right;
@@ -669,6 +663,14 @@ body.post-php.post-type-movie #postimagediv {
 	float: right;
 	max-width: 10em !important;
 	text-align: center;
+}
+
+#wpml-tabs #wpml-queued-list .column-status {
+	font-size: 0.85em !important;
+	font-style: italic;
+	max-width: none !important;
+	padding: 1.1em 1.5em 1.1em 1.1em !important;
+	width: 12em !important;
 }
 
 #wpml-tabs #wpml-imported .movietitle .import-error {

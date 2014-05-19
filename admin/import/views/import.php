@@ -55,13 +55,13 @@ WPML_Import::display_import_movie_list();
 									<option value="delete"><?php _e( 'Delete Movie', WPML_SLUG ); ?></option>
 									<option value="dequeue"><?php _e( 'Dequeue Movie', WPML_SLUG ); ?></option>
 							</select>
-							<input type="submit" name="" id="do-queue-action" class="button action" value="Apply">
+							<input type="submit" name="" id="do-queue-action" class="button action" value="Apply" onclick="wpml_movies_queue.do(); return false;">
 							<span class="spinner"></span>
 						</div>
 						<div class="tablenav-pages"><span class="displaying-num"><?php printf( _n( '1 item', '%s items', $_queued ), number_format_i18n( $_queued ) ) ?></span></div>
 					</div>
 					<div id="wpml-queued-list-header" class="hide-if-no-js">
-						<div class="check-column"><input type="checkbox" id="post_all" value="" /></div>
+						<div class="check-column"><input type="checkbox" id="post_all" value="" onclick="wpml_queue_utils.toggle_inputs();" /></div>
 							<div class="movietitle column-movietitle"><?php _e( 'Title', WPML_SLUG ) ?></div>
 							<div class="director column-director"><?php _e( 'Director', WPML_SLUG ) ?></div>
 							<div class="actions column-actions"><?php _e( 'Actions', WPML_SLUG ) ?></div>
@@ -79,7 +79,7 @@ WPML_Queue::display_queued_movie_list();
 					<?php wp_nonce_field( 'wpml-movie-dequeue', 'wpml_ajax_movie_dequeue' ); ?>
 
 					<p style="text-align:right">
-						<input type="submit" id="wpml_import_queued" name="wpml_import_queued" class="button button-primary button-large" value="<?php _e( 'Import Queued Movies', WPML_SLUG ); ?>" />
+						<input type="submit" id="wpml_import_queued" name="wpml_import_queued" class="button button-primary button-large" value="<?php _e( 'Import Queued Movies', WPML_SLUG ); ?>" onclick="wpml_movies_queue.import(); return false;" />
 						<input type="hidden" id="queue_progress_value" value="0" />
 						<div id="queue_progressbar"><div id="queue_progress"></div></div>
 						<div id="queue_status"><?php printf( '<span id="_queued_imported">%d</span> %s <span id="_queued_left">%d</span> %s', 0, __( 'of', WPML_SLUG ), number_format_i18n( $_queued ), __( 'imported', WPML_SLUG ) ); ?></div>
@@ -110,7 +110,7 @@ WPML_Queue::display_queued_movie_list();
 							<tr valign="top">
 								<th scope="row"></th>
 								<td style="text-align:right">
-									<input type="submit" id="wpml_importer" name="wpml_importer" class="button button-secondary button-large" value="<?php _e( 'Import Movies', WPML_SLUG ); ?>" />
+									<input type="submit" id="wpml_importer" name="wpml_importer" class="button button-secondary button-large" value="<?php _e( 'Import Movies', WPML_SLUG ); ?>" onclick="wpml_import_movies.import(); return false;" />
 								</td>
 							</tr>
 						</tbody>
