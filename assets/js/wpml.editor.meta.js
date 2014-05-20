@@ -25,7 +25,7 @@ wpml = wpml || {};
 				event: 'click'
 			},
 			_title: {
-				element: '#title, #tmdb_query',
+				element: '#title',
 				event: 'input'
 			},
 			_empty: {
@@ -245,6 +245,7 @@ wpml = wpml || {};
 			wpml.editor.meta.prefill_title = function( title ) {
 				if ( '' != title )
 					wpml_edit_meta.title = title;
+					$( '#tmdb_query' ).val( title );
 			};
 
 			/**

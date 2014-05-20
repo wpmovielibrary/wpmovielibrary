@@ -949,6 +949,7 @@ body.post-php.post-type-movie #postimagediv {
 
 #wpml-tmdb .list-table {
 	display: inline-table;
+	margin-top: 1.5em;
 	width: 49.5%;
 }
 
@@ -1266,12 +1267,12 @@ body.post-php.post-type-movie #postimagediv {
 	
 	#wpml-tmdb .tmdb_meta {
 		margin-right: 1%;
-		width: 49%;
+		width: 48%;
 	}
 
 	#wpml-tmdb .tmdb_crew {
 		margin-left: 1%;
-		width: 49%;
+		width: 48%;
 	}
 }
 
