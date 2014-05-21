@@ -591,59 +591,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		}
 
 		/**
-		 * Filter the submitted settings to detect unsupported data.
-		 * 
-		 * Most fields can be tested easily, but the default movie meta
-		 * and details need a for specific test using array_intersect()
-		 * to avoid storing unsupported values.
-		 * 
-		 * Settings submitted as array when there's no use to are converted
-		 * to simpler types.
-		 *
-		 * @since    1.0.0
-		 * 
-		 * @param    array    $settings Settings array to filter
-		 * @param    array    $defaults Default Settings to match against submitted settings
-		 * 
-		 * @return   array    Filtered Settings
-		 */
-		protected static function validate_settings( $settings, $defaults = array() ) {
-
-			$defaults = ( ! empty( $defaults ) ? $defaults : WPML_Settings::get_default_settings() );
-			$_settings = array();
-
-			if ( is_null( $settings ) || ! is_array( $settings ) )
-				return $settings;
-
-			// Loop through settings
-			foreach ( $settings as $slug => $setting ) {
-
-				// Is the setting valid?
-				if ( isset( $defaults[ $slug ] ) ) {
-
-					if ( in_array( $slug, array( 'default_movie_meta', 'default_movie_details' ) ) ) {
-						$allowed = array_keys( call_user_func( 'WPML_Settings::get_supported_' . str_replace( 'default_', '', $slug ) ) );
-						$_settings[ $slug ] = array_intersect( $setting, $allowed );
-					}
-					else {
-						if ( is_array( $setting ) && 1 == count( $setting ) )
-							$setting = $setting[0];
-
-						if ( is_array( $setting ) )
-							$setting = self::validate_settings( $setting, $defaults[ $slug ] );
-						else if ( is_numeric( $setting ) )
-							$setting = filter_var( $setting, FILTER_VALIDATE_INT );
-						else
-							$setting = sanitize_text_field( $setting );
-						$_settings[ $slug ] = $setting;
-					}
-				}
-			}
-
-			return $_settings;
-		}
-
-		/**
 		 * Validate the submitted Settings
 		 * 
 		 * This essentially checks for sorted movie meta, as this option
@@ -664,7 +611,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public static function filter_settings( $new_settings, $old_settings ) {
 
-			$settings = self::validate_settings( $new_settings );
+			$settings = WPML_Settings::validate_settings( $new_settings );
 			$settings[ WPML_SETTINGS_REVISION_NAME ] = WPML_SETTINGS_REVISION;
 
 			if ( isset( $new_settings['wpml']['default_movie_meta_sorted'] ) && '' != $new_settings['wpml']['default_movie_meta_sorted'] ) {

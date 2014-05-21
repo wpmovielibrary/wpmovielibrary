@@ -110,7 +110,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 
 			$settings = get_option( WPML_SETTINGS_SLUG, array() );
 			if ( empty( $settings ) || ! isset( $settings[ WPML_SETTINGS_REVISION_NAME ] ) || $settings[ WPML_SETTINGS_REVISION_NAME ] < WPML_SETTINGS_REVISION )
-				self::update_settings( $force = true );
+				self::update_settings();
 
 			$default_settings = apply_filters( 'wpml_summarize_settings', $wpml_settings );
 
@@ -144,7 +144,9 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 				$status = add_option( WPML_SETTINGS_SLUG, $default_settings, '', 'no' );
 			}
 			else if ( ! isset( $settings[ WPML_SETTINGS_REVISION_NAME ] ) || WPML_SETTINGS_REVISION > $settings[ WPML_SETTINGS_REVISION_NAME ] ) {
-				$updated_settings = shortcode_atts( $settings, $default_settings );
+				$updated_settings = self::merge_settings( $settings, $default_settings );
+				print_r( $updated_settings );
+				die();
 				if ( ! empty( $updated_settings ) ) {
 					$updated_settings[ WPML_SETTINGS_REVISION_NAME ] = WPML_SETTINGS_REVISION;
 					delete_option( WPML_SETTINGS_SLUG );
@@ -153,6 +155,108 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 			}
 
 			return $status;
+		}
+
+		/**
+		 * Filter the submitted settings to detect unsupported data.
+		 * 
+		 * Most fields can be tested easily, but the default movie meta
+		 * and details need a for specific test using array_intersect()
+		 * to avoid storing unsupported values.
+		 * 
+		 * Settings submitted as array when there's no use to are converted
+		 * to simpler types.
+		 *
+		 * @since    1.0.0
+		 * 
+		 * @param    array    $settings Settings array to filter
+		 * @param    array    $defaults Default Settings to match against submitted settings
+		 * 
+		 * @return   array    Filtered Settings
+		 */
+		protected static function validate_settings( $settings, $defaults = array() ) {
+
+			$defaults = ( ! empty( $defaults ) ? $defaults : self::get_default_settings() );
+			$_settings = array();
+
+			if ( is_null( $settings ) || ! is_array( $settings ) )
+				return $settings;
+
+			// Loop through settings
+			foreach ( $settings as $slug => $setting ) {
+
+				// Is the setting valid?
+				if ( isset( $defaults[ $slug ] ) ) {
+
+					if ( in_array( $slug, array( 'default_movie_meta', 'default_movie_details' ) ) ) {
+						$allowed = array_keys( call_user_func( __CLASS__ . '::get_supported_' . str_replace( 'default_', '', $slug ) ) );
+						$_settings[ $slug ] = array_intersect( $setting, $allowed );
+					}
+					else {
+						if ( is_array( $setting ) && 1 == count( $setting ) )
+							$setting = $setting[0];
+
+						if ( is_array( $setting ) )
+							$setting = self::validate_settings( $setting, $defaults[ $slug ] );
+						else if ( is_numeric( $setting ) )
+							$setting = filter_var( $setting, FILTER_VALIDATE_INT );
+						else
+							$setting = sanitize_text_field( $setting );
+						$_settings[ $slug ] = $setting;
+					}
+				}
+			}
+
+			return $_settings;
+		}
+
+		/**
+		 * Merge the default Settings with the current one. This is used
+		 * only when updating the Plugin Settings to take into account
+		 * the potentially new settings added by the last Plugin update.
+		 * 
+		 * This method is pretty similar to validate_settings(), the main
+		 * difference being that merge_settings() loops through the default
+		 * settings array, adding new key/value when needing, when the
+		 * validate_settings() loops through the existing settings to
+		 * avoid storing invalid settings.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    array    Current Settings array
+		 * @param    array    Default Settings array
+		 * 
+		 * @return   array    The update Settings array
+		 */
+		private static function merge_settings( $settings, $defaults = array() ) {
+
+			$defaults = ( ! empty( $defaults ) ? $defaults : self::get_default_settings() );
+			$_settings = array();
+
+			if ( is_null( $settings ) || ! is_array( $settings ) )
+				return $settings;
+
+			// Loop through settings
+			foreach ( $defaults as $slug => $setting ) {
+
+				// Is the setting already set?
+				if ( isset( $settings[ $slug ] ) ) {
+					if ( is_array( $setting ) && 1 == count( $setting ) )
+						$setting = $setting[0];
+
+					if ( is_array( $setting ) )
+						$_settings[ $slug ] = self::merge_settings( $setting, $settings[ $slug ] );
+					else
+						$_settings[ $slug ] = $setting;
+				}
+				else {
+					$_settings[ $slug ] = $setting;
+				}
+			}
+
+			$_settings = array_merge( $settings, $_settings );
+
+			return $_settings;
 		}
 
 		/**
