@@ -145,8 +145,6 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 			}
 			else if ( ! isset( $settings[ WPML_SETTINGS_REVISION_NAME ] ) || WPML_SETTINGS_REVISION > $settings[ WPML_SETTINGS_REVISION_NAME ] ) {
 				$updated_settings = self::merge_settings( $settings, $default_settings );
-				print_r( $updated_settings );
-				die();
 				if ( ! empty( $updated_settings ) ) {
 					$updated_settings[ WPML_SETTINGS_REVISION_NAME ] = WPML_SETTINGS_REVISION;
 					delete_option( WPML_SETTINGS_SLUG );
