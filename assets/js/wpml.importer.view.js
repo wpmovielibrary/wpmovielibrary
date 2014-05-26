@@ -10,12 +10,16 @@ wpml = wpml || {};
 			timer: undefined,
 			delay: 500,
 
-			select: '#the-list input[type=checkbox]',
-			select_all: '#the-list-header #cb-select-all-1, #the-list-header #cb-select-all-2',
+			select: '#wpml_imported #the-list input[type=checkbox]',
+			select_all: '#cb-select-all-1, #cb-select-all-2',
+
+			queue_select: '#wpml_import_queue #wpml-queued-list input[type=checkbox]'
 		};
 
 			/**
 			 * Init Events
+			 * 
+			 * @since    1.0.0
 			 */
 			wpml.importer.view.init = function() {
 
@@ -31,6 +35,8 @@ wpml = wpml || {};
 			/**
 			 * Reload the movie table. Used when new movies are imported or
 			 * when browsing through the table.
+			 * 
+			 * @since    1.0.0
 			 */
 			wpml.importer.view.reload = function( data, list ) {
 
@@ -66,7 +72,9 @@ wpml = wpml || {};
 						if ( response.data.rows.length )
 							$(_rows, _selector).html( response.data.rows );
 						if ( response.data.column_headers.length )
-							$( 'thead tr, tfoot tr', _selector ).html( response.data.column_headers );
+							$( 'thead tr', _selector ).html( response.data.column_headers );
+						if ( response.data.column_footers.length )
+							$( 'tfoot tr', _selector ).html( response.data.column_footers );
 						if ( response.data.pagination.bottom.length )
 							$( '.tablenav.top .tablenav-pages', _selector ).html( $(response.data.pagination.top).html() );
 						if ( response.data.pagination.top.length )
@@ -76,12 +84,17 @@ wpml = wpml || {};
 							wpml_import_view.update_count( 'import_queue', response.data.total_items, response.i18n.total_items_i18n );
 						else
 							wpml_import_view.update_count( 'imported', response.data.total_items, response.i18n.total_items_i18n );
+					},
+					complete: function() {
+						wpml_import_view.init();
 					}
 				});
 			};
 
 			/**
 			 * Navigate through the table pages using navigation arrow links
+			 * 
+			 * @since    1.0.0
 			 * 
 			 * @param    object    Link HTML Object
 			 */
@@ -97,6 +110,8 @@ wpml = wpml || {};
 
 			/**
 			 * Navigate through the table pages using pagination input
+			 * 
+			 * @since    1.0.0
 			 */
 			wpml.importer.view.paginate = function() {
 				var data = {
@@ -113,6 +128,8 @@ wpml = wpml || {};
 
 			/**
 			 * Update the menu badges containing movies counts.
+			 * 
+			 * @since    1.0.0
 			 * 
 			 * @param    string    Which menu, queued or imported?
 			 * @param    int       Increment or decrement?
@@ -131,6 +148,15 @@ wpml = wpml || {};
 				}
 			};
 
+			/**
+			 * Check the Select All checkboxes if all inputs are
+			 * checked in Import List Table
+			 * 
+			 * This is needed because of the AJAX update of the table 
+			 * breaking WordPress' JavaScript Events handlers.
+			 * 
+			 * @since    1.0.0
+			 */
 			wpml.importer.view.toggle_button = function() {
 
 				if ( $( wpml_import_view.select + ':checked' ).length != $( wpml_import_view.select ).length )
@@ -139,7 +165,18 @@ wpml = wpml || {};
 					$( wpml_import_view.select_all ).prop( 'checked', true );
 			};
 
-			wpml.importer.view.toggle_inputs = function() {
+			/**
+			 * Check the all checkboxes in Import List Table when any
+			 * of the Check All inputs is checked
+			 * 
+			 * This is needed because of the AJAX update of the table 
+			 * breaking WordPress' JavaScript Events handlers.
+			 * 
+			 * @since    1.0.0
+			 * 
+			 * @param    int    Which selector.
+			 */
+			wpml.importer.view.toggle_inputs = function( select ) {
 
 				if ( ! $( wpml_import_view.select_all ).prop('checked') )
 					$( wpml_import_view.select ).prop( 'checked', false );

@@ -222,7 +222,7 @@ class WPML_Import_Table extends WP_List_Table {
 	function get_columns(){
 
 		$columns = array(
-			'cb'        => '<input type="checkbox" onclick="wpml_import_view.toggle_inputs();" />',
+			'cb'        => '<input type="checkbox"  />',
 		);
 
 		foreach ( $this->column_names as $slug => $title )
@@ -277,7 +277,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * @return   string    HTML markup
 	 */
 	function column_cb( $item ) {
-		    return sprintf( '<input type="checkbox" id="post_%s" name="movie[]" value="%s" onclick="wpml_import_view.toggle_button();" />', $item['ID'], $item['ID'] );
+		    return sprintf( '<input type="checkbox" id="post_%s" name="movie[]" value="%s"  />', $item['ID'], $item['ID'] );
 	}
  
 	/**
@@ -519,8 +519,12 @@ class WPML_Import_Table extends WP_List_Table {
 		$rows = ob_get_clean();
 
 		ob_start();
-		$this->print_column_headers();
+		$this->print_column_headers( $with_id = true, $cb_counter = 1 );
 		$headers = ob_get_clean();
+
+		ob_start();
+		$this->print_column_headers( $with_id = false, $cb_counter = 2 );
+		$footers = ob_get_clean();
 
 		ob_start();
 		$this->pagination('top');
@@ -536,6 +540,7 @@ class WPML_Import_Table extends WP_List_Table {
 		$response['pagination']['top'] = $pagination_top;
 		$response['pagination']['bottom'] = $pagination_bottom;
 		$response['column_headers'] = $headers;
+		$response['column_footers'] = $footers;
 
 		if ( isset( $total_items ) ) {
 			$response['total_items'] = $total_items;
@@ -548,6 +553,74 @@ class WPML_Import_Table extends WP_List_Table {
 		}
 
 		WPML_Utils::ajax_response( $response, $i18n );
+	}
+
+	/**
+	 * Print column headers, accounting for hidden and sortable columns.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param    boolean    $with_id Whether to set the id attribute or not
+	 */
+	function print_column_headers( $with_id = true, $cb_counter = 1 ) {
+
+		list( $columns, $hidden, $sortable ) = $this->get_column_info();
+
+		$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+		$current_url = remove_query_arg( 'paged', $current_url );
+
+		if ( isset( $_GET['orderby'] ) )
+			$current_orderby = $_GET['orderby'];
+		else
+			$current_orderby = '';
+
+		if ( isset( $_GET['order'] ) && 'desc' == $_GET['order'] )
+			$current_order = 'desc';
+		else
+			$current_order = 'asc';
+
+		if ( ! empty( $columns['cb'] ) ) {
+			$columns['cb'] = '<label class="screen-reader-text" for="cb-select-all-' . $cb_counter . '">' . __( 'Select All' ) . '</label>'
+				. '<input id="cb-select-all-' . $cb_counter . '" type="checkbox"  />';
+		}
+
+		foreach ( $columns as $column_key => $column_display_name ) {
+			$class = array( 'manage-column', "column-$column_key" );
+
+			$style = '';
+			if ( in_array( $column_key, $hidden ) )
+				$style = 'display:none;';
+
+			$style = ' style="' . $style . '"';
+
+			if ( 'cb' == $column_key )
+				$class[] = 'check-column';
+			elseif ( in_array( $column_key, array( 'posts', 'comments', 'links' ) ) )
+				$class[] = 'num';
+
+			if ( isset( $sortable[$column_key] ) ) {
+				list( $orderby, $desc_first ) = $sortable[$column_key];
+
+				if ( $current_orderby == $orderby ) {
+					$order = 'asc' == $current_order ? 'desc' : 'asc';
+					$class[] = 'sorted';
+					$class[] = $current_order;
+				} else {
+					$order = $desc_first ? 'desc' : 'asc';
+					$class[] = 'sortable';
+					$class[] = $desc_first ? 'asc' : 'desc';
+				}
+
+				$column_display_name = '<a href="' . esc_url( add_query_arg( compact( 'orderby', 'order' ), $current_url ) ) . '"><span>' . $column_display_name . '</span><span class="sorting-indicator"></span></a>';
+			}
+
+			$id = $with_id ? "id='$column_key'" : '';
+
+			if ( !empty( $class ) )
+				$class = "class='" . join( ' ', $class ) . "'";
+
+			echo "<th scope='col' $id $class $style>$column_display_name</th>";
+		}
 	}
 
 	/**
@@ -573,13 +646,13 @@ class WPML_Import_Table extends WP_List_Table {
 <table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">
 	<thead>
 	<tr>
-		<?php $this->print_column_headers(); ?>
+		<?php $this->print_column_headers( $with_id = true, $cb_counter = 1 ); ?>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
-		<?php $this->print_column_headers( false ); ?>
+		<?php $this->print_column_headers( $with_id = false, $cb_counter = 2 ); ?>
 	</tr>
 	</tfoot>
 

@@ -193,7 +193,7 @@ wpml = wpml || {};
 			if ( !lastClicked ) { return true; }
 			checks = $( lastClicked ).closest( 'form' ).find( ':checkbox' );
 			first = checks.index( lastClicked );
-			last = checks.index( this );
+			last = checks.index( $input );
 			checked = $input.prop('checked');
 			if ( 0 < first && 0 < last && first != last ) {
 				sliced = ( last > first ) ? checks.slice( first, last ) : checks.slice( last, first );
@@ -205,7 +205,7 @@ wpml = wpml || {};
 				});
 			}
 		}
-		lastClicked = this;
+		lastClicked = $input;
 
 		// toggle "check all" checkboxes
 		var unchecked = $input.closest('tbody').find(':checkbox').filter(':visible').not(':checked');
