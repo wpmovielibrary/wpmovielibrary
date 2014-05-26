@@ -250,7 +250,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			$post_author   = get_current_user_id();
 			$post_content  = '';
 			$post_excerpt  = '';
-			$post_title    = apply_filters( 'the_title', $movie['movietitle'] );
+			$post_title    = $movie['movietitle'];
 
 			$page = get_page_by_title( $post_title, OBJECT, 'movie' );
 
@@ -295,6 +295,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 * @return    array    Default movie values
 		 */
 		private static function prepare_movie_import( $title ) {
+			$title = str_replace( "\&#039;", "'", $title );
 			return array(
 				'ID'         => 0,
 				'poster'     => '--',

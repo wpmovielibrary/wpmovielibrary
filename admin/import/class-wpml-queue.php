@@ -212,12 +212,12 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 
 			$post_id = esc_attr( $movie['post_id'] );
 			$post_title = esc_attr( $movie['meta']['title'] );
+			$post_title = str_replace( "&#039;", "'", $post_title );
 			$metadata = $movie;
 
 			$post_date     = current_time('mysql');
 			$post_date     = wp_checkdate( substr( $post_date, 5, 2 ), substr( $post_date, 8, 2 ), substr( $post_date, 0, 4 ), $post_date );
 			$post_date_gmt = get_gmt_from_date( $post_date );
-			$post_title    = apply_filters( 'the_title', $post_title );
 
 			$_post = array(
 				'ID'             => $post_id,
