@@ -239,13 +239,19 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 
 				// Is the setting already set?
 				if ( isset( $settings[ $slug ] ) ) {
-					if ( is_array( $setting ) && 1 == count( $setting ) )
-						$setting = $setting[0];
+					if ( in_array( $slug, array( 'default_movie_meta', 'default_movie_details' ) ) ) {
+						$allowed = array_keys( call_user_func( __CLASS__ . '::get_supported_' . str_replace( 'default_', '', $slug ) ) );
+						$_settings[ $slug ] = array_intersect( $setting, $allowed );
+					}
+					else {
+						if ( is_array( $setting ) && 1 == count( $setting ) )
+							$setting = $setting[0];
 
-					if ( is_array( $setting ) )
-						$_settings[ $slug ] = self::merge_settings( $setting, $settings[ $slug ] );
-					else
-						$_settings[ $slug ] = $setting;
+						if ( is_array( $setting ) )
+							$_settings[ $slug ] = self::merge_settings( $setting, $settings[ $slug ] );
+						else
+							$_settings[ $slug ] = $setting;
+					}
 				}
 				else {
 					$_settings[ $slug ] = $setting;
