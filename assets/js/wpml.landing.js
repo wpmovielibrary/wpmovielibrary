@@ -68,9 +68,10 @@ wpml.landing = wpml_landing = {
 		wpml.landing.showcase._update = function( link ) {
 			var $link = $(link),
 			     data = $.parseJSON( $link.attr('data-movie-meta') ),
-			     poster = $link.attr('data-movie-poster'),
-			     backdrop = $link.attr('data-movie-backdrop'),
-			     rating = $link.attr('data-movie-rating');
+			   poster = $link.attr('data-movie-poster'),
+			 backdrop = $link.attr('data-movie-backdrop'),
+			   rating = $link.attr('data-movie-rating'),
+			 editlink = $link.attr('data-movie-edit-link');
 
 			data.overview = data.overview.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;','>');
 
@@ -81,6 +82,9 @@ wpml.landing = wpml_landing = {
 			$('#wpml-movie-showcase-overview').html( data.overview );
 			$('#wpml-movie-showcase-inner').css( { backgroundImage: 'url(' + backdrop + ')' } );
 			$('#wpml-movie-showcase-poster img').attr( 'src', poster ).attr( 'alt', data.title );
+			$('#wpml-movie-showcase-rating').empty().append( '<div id="movie-rating-display" class="movie_rating_title stars stars-' + rating.replace( '.', '-' ) + '"></div>' );
+			$('#wpml-movie-showcase-edit').attr( 'href', editlink );
+			$('#wpml-movie-showcase-view').attr( 'href', link.href );
 		};
 
 		/**
