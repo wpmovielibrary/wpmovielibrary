@@ -407,6 +407,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			$_settings = array();
 
+			if ( is_null( $settings ) || ! is_array( $settings ) )
+				return $_settings;
+
 			foreach ( $settings as $id => $section )
 				if ( isset( $section['settings'] ) )
 					foreach ( $section['settings'] as $slug => $setting )

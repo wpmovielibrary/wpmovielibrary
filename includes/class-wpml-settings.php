@@ -88,9 +88,13 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 */
 		public static function get_settings() {
 
+			$settings = get_option( WPML_SETTINGS_SLUG, array() );
+			if ( empty( $settings ) || ! isset( $settings[ WPML_SETTINGS_REVISION_NAME ] ) || $settings[ WPML_SETTINGS_REVISION_NAME ] < WPML_SETTINGS_REVISION )
+				self::update_settings();
+
 			$settings = shortcode_atts(
 				self::get_default_settings(),
-				get_option( WPML_SETTINGS_SLUG, array() )
+				$settings
 			);
 
 			return $settings;
@@ -108,9 +112,8 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 
 			global $wpml_settings;
 
-			$settings = get_option( WPML_SETTINGS_SLUG, array() );
-			if ( empty( $settings ) || ! isset( $settings[ WPML_SETTINGS_REVISION_NAME ] ) || $settings[ WPML_SETTINGS_REVISION_NAME ] < WPML_SETTINGS_REVISION )
-				self::update_settings();
+			if ( is_null( $wpml_settings ) )
+				require( WPML_PATH . 'includes/wpml-config.php' );
 
 			$default_settings = apply_filters( 'wpml_summarize_settings', $wpml_settings );
 
@@ -133,9 +136,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 */
 		protected static function update_settings( $force = false ) {
 
-			global $wpml_settings;
-
-			$default_settings = apply_filters( 'wpml_summarize_settings', $wpml_settings );
+			$default_settings = self::get_default_settings();
 			$settings = get_option( WPML_SETTINGS_SLUG );
 			$status  = false;
 
