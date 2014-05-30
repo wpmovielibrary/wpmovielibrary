@@ -92,11 +92,11 @@ if ( is_admin() ) {
 
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-wpml-ajax.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-stats.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'admin/common/class-dashboard.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'admin/common/class-dashboard-stats-widget.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'admin/common/class-dashboard-movies-widget.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'admin/common/class-dashboard-most-rated-movies-widget.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'admin/common/class-dashboard-quickaction-widget.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/dashboard/class-dashboard.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/dashboard/class-dashboard-stats-widget.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/dashboard/class-dashboard-movies-widget.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/dashboard/class-dashboard-most-rated-movies-widget.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/dashboard/class-dashboard-quickaction-widget.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/api/class-tmdb.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/api/class-wpml-tmdb.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/class-wpmovielibrary-admin.php' );

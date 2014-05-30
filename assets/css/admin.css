@@ -185,7 +185,7 @@ body.post-php.post-type-movie #postimagediv {
  * Showcase
  */
 
-#wpml-movie-showcase-bg {
+#wpml-movie-modal-bg {
 	background: rgba(0, 0, 0, 0.78);
 	bottom: 0;
 	display: none;
@@ -196,7 +196,7 @@ body.post-php.post-type-movie #postimagediv {
 	z-index: 99999;
 }
 
-#wpml-movie-showcase {
+#wpml-movie-modal {
 	background: #000;
 	box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
 	height: 88%;
@@ -208,7 +208,7 @@ body.post-php.post-type-movie #postimagediv {
 	z-index: 100000;
 }
 
-#wpml-movie-showcase-inner {
+#wpml-movie-modal-inner {
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -221,7 +221,7 @@ body.post-php.post-type-movie #postimagediv {
 	z-index: -1;
 }
 
-#wpml-movie-showcase-close {
+#wpml-movie-modal-close {
 	color: #fff;
 	opacity: 0.25;
 	position: absolute;
@@ -230,18 +230,18 @@ body.post-php.post-type-movie #postimagediv {
 	top: 2%;
 }
 
-#wpml-movie-showcase-close:hover {
+#wpml-movie-modal-close:hover {
 	opacity: 0.85;
 }
 
-#wpml-movie-showcase-poster {
+#wpml-movie-modal-poster {
 	display: inline-block;
 	height: 78%;
 	margin: 4% 0 0 4%;
 	width: 34%;
 }
 
-#wpml-movie-showcase-poster img {
+#wpml-movie-modal-poster img {
 	border: 1px solid #000;
 	border-radius: 0.25em;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.75);
@@ -249,7 +249,7 @@ body.post-php.post-type-movie #postimagediv {
 	width: auto;
 }
 
-#wpml-movie-showcase-content {
+#wpml-movie-modal-content {
 	color: #fff;
 	display: inline-block;
 	margin: 4% 0 0 0;
@@ -258,40 +258,40 @@ body.post-php.post-type-movie #postimagediv {
 	width: 56%;
 }
 
-#wpml-movie-showcase-title {
+#wpml-movie-modal-title {
 	color: #fff;
 	font-size: 36px;
 	font-weight: 100;
 	margin: 0 0 0.25em 0;
 }
 
-#wpml-movie-showcase-meta {
+#wpml-movie-modal-meta {
 	color: #ddd;
 	font-size: 16px;
 	font-weight: 100;
 }
 
-#wpml-movie-showcase-release_date,
-#wpml-movie-showcase-runtime,
-#wpml-movie-showcase-genres,
-#wpml-movie-showcase-rating {
+#wpml-movie-modal-release_date,
+#wpml-movie-modal-runtime,
+#wpml-movie-modal-genres,
+#wpml-movie-modal-rating {
 	font-size: 16px;
 	font-weight: bold;
 }
 
-#wpml-movie-showcase-overview,
-#wpml-movie-showcase-overview p {
+#wpml-movie-modal-overview,
+#wpml-movie-modal-overview p {
 	font-size: 15px;
 	line-height: 30px;
 	margin: 30px 0;
 	text-align: justify;
 }
 
-#wpml-movie-showcase-links {
+#wpml-movie-modal-links {
 	text-align: right;
 }
 
-#wpml-movie-showcase .button {
+#wpml-movie-modal .button {
 	border: 0;
 	box-shadow: 0 0 0;
 	height: 2.5em;

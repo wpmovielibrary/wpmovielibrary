@@ -11,9 +11,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
+if ( ! class_exists( 'WPML_Dashboard_Movies_Widget' ) ) :
 
-	class WPML_Dashboard_Most_Rated_Movies_Widget extends WPML_Dashboard {
+	class WPML_Dashboard_Movies_Widget extends WPML_Dashboard {
 
 		/**
 		 * Widget ID
@@ -78,8 +78,8 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		 */
 		public function init() {
 
-			$this->widget_id = 'wpml_dashboard_most_rated_movies_widget';
-			$this->widget_name = __( 'Your most rated movies', WPML_SLUG );
+			$this->widget_id = 'wpml_dashboard_movies_widget';
+			$this->widget_name = __( 'Movies you recently added', WPML_SLUG );
 			$this->callback = array( $this, 'dashboard_widget' );
 			$this->control_callback = array( $this, 'dashboard_widget_handle' );
 		}
@@ -116,8 +116,8 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 				 WHERE post_type="movie"
 				   AND post_status="publish"
 				 GROUP BY p.ID
-				 ORDER BY rating DESC
-				 LIMIT 0,4'
+				 ORDER BY post_date DESC
+				 LIMIT 0,8'
 			);
 
 			if ( ! empty( $movies ) ) {
@@ -150,7 +150,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 				}
 			}
 
-			include_once( WPML_PATH . '/admin/common/views/dashboard-most-rated-movies-widget.php' );
+			include_once( WPML_PATH . '/admin/dashboard/views/dashboard-movies-widget.php' );
 		}
 
 		public function dashboard_widget_handle() {

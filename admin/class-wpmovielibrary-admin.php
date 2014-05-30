@@ -157,8 +157,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( $current_screen->id == $this->plugin_screen_hook_suffix['settings'] || $current_screen->id == $this->plugin_screen_hook_suffix['import'] )
 				wp_enqueue_script( WPML_SLUG . '-settings', WPML_URL . '/assets/js/wpml.settings.js', array( WPML_SLUG, 'jquery', 'jquery-ui-sortable' ), WPML_VERSION, true );
 
-			if ( $current_screen->id == $this->plugin_screen_hook_suffix['landing_page'] )
-				wp_enqueue_script( WPML_SLUG . '-landing', WPML_URL . '/assets/js/wpml.landing.js', array( WPML_SLUG, 'jquery', 'jquery-ui-sortable' ), WPML_VERSION, true );
+			if ( $current_screen->id == $this->plugin_screen_hook_suffix['dashboard'] )
+				wp_enqueue_script( WPML_SLUG . '-dashboard', WPML_URL . '/assets/js/wpml.dashboard.js', array( WPML_SLUG, 'jquery', 'jquery-ui-sortable' ), WPML_VERSION, true );
 
 		}
 
@@ -290,13 +290,13 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$position = 6
 			);
 
-			$this->plugin_screen_hook_suffix['landing_page'] = add_submenu_page(
+			$this->plugin_screen_hook_suffix['dashboard'] = add_submenu_page(
 				'wpmovielibrary',
 				WPML_NAME,
 				WPML_NAME,
 				'manage_options',
 				'wpmovielibrary',
-				__CLASS__ . '::landing_page'
+				'WPML_Dashboard::dashboard'
 			);
 
 			$this->plugin_screen_hook_suffix['all_movies'] = add_submenu_page(
@@ -358,14 +358,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'wpml_import',
 				'WPML_Import::import_page'
 			);
-			/*add_submenu_page(
-				'wpmovielibrary',
-				__( 'Export Movies', WPML_SLUG ),
-				__( 'Export Movies', WPML_SLUG ),
-				'manage_options',
-				'export',
-				__CLASS__ . '::export_page'
-			);*/
 			$this->plugin_screen_hook_suffix['settings'] = add_submenu_page(
 				'wpmovielibrary',
 				__( 'Settings', WPML_SLUG ),
@@ -458,29 +450,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$_section = ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], $_allowed ) ) ? esc_attr( $_REQUEST['wpml_section'] ) : 'api' ;
 
 			include_once( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings.php' );
-		}
-
-		/**
-		 * Render WPML Landing Page.
-		 * 
-		 * Create a nice landing page for the plugin, displaying recent
-		 * movies and other stuff like a simple shortcut menu.
-		 * 
-		 * @since    1.0.0
-		 */
-		public static function landing_page() {
-
-			include_once( plugin_dir_path( __FILE__ ) . 'common/views/landing-page.php' );
-		}
-
-		public function movie_showcase() {
-
-			global $current_screen;
-
-			if ( $current_screen->id != $this->plugin_screen_hook_suffix['landing_page'] )
-				return false;
-
-			include_once( plugin_dir_path( __FILE__ ) . 'common/views/movie-showcase.php' );
 		}
 
 		/**
@@ -653,15 +622,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				add_settings_error( null, 'url_rewrite', sprintf( __( 'You update the taxonomies URL rewrite. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', WPML_SLUG ), admin_url( '/options-permalink.php' ) ), 'updated' );
 
 			return $settings;
-		}
-
-		/**
-		 * Render movie export page
-		 *
-		 * @since    1.0.0
-		 */
-		public function export_page() {
-			// TODO: implement export
 		}
 
 		/**

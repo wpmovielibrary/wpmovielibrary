@@ -2,10 +2,10 @@
 
 	<div id="wpml-home" class="wrap">
 
-		<h2>WPMovieLibrary</h2>
+		<h2><?php echo WPML_NAME; ?></h2>
 
-		<div id="wpml-welcome-panel" class="welcome-panel">
-			<a href="<?php echo admin_url( 'admin.php?page=wpmovielibrary&amp;wpml_welcome_panel=dismiss' ) ?>" class="welcome-panel-close"><span class="dashicons dashicons-dismiss"></span><?php _e( 'Dismiss', WPML_SLUG ); ?></a>
+		<div id="wpml-welcome-panel" class="welcome-panel<?php if ( ! $visible ) echo ' hidden'; ?>">
+			<a id="wpml-welcome-panel-close" href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=wpmovielibrary&amp;wpml_welcome_panel_hide=1' ), 'wpml-welcome-panel-hide', 'wpml_welcome_panel_hide_nonce' ) ?>" class="welcome-panel-close"><span class="dashicons dashicons-dismiss"></span><?php _e( 'Dismiss', WPML_SLUG ); ?></a>
 			<div class="welcome-panel-content">
 				<h3><?php _e( 'Welcome to WordPress Movie Library!', WPML_SLUG ); ?></h3>
 				<p class="about-description">
@@ -38,7 +38,6 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 
 		<div id="dashboard-widgets-wrap">
@@ -54,4 +53,4 @@
 
 	</div>
 
-<?php include_once( 'movie-showcase.php' ); ?>
+<?php include_once( 'dashboard-movie-modal.php' ); ?>
