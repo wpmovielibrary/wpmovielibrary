@@ -173,6 +173,10 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		private function localize_script() {
 
 			$base_urls = WPML_TMDb::get_image_url();
+
+			if ( is_wp_error( $base_urls ) )
+				var_dump( $base_urls );
+
 			$localize = array(
 				'utils' => array(
 					'wpml_check' => wp_create_nonce( 'wpml-callbacks-nonce' ),

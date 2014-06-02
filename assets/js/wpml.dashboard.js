@@ -7,6 +7,7 @@ wpml.dashboard = wpml_dashboard = {
 
 	_handle: '.handlediv',
 	_metabox: '.meta-box-sortables',
+	_screen_options: '#adv-settings input',
 	_welcome_panel: '#wpml-welcome-panel',
 	_welcome_panel_show: '#show_wpml_welcome_panel',
 	_welcome_panel_close: '#wpml-welcome-panel-close',
@@ -112,6 +113,10 @@ wpml.dashboard = wpml_dashboard = {
 
 	/**
 	 * Activate toggle for dashboard page widgets
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    object     Link's DOM Element
 	 */
 	wpml.dashboard.widget_toggle = function( link ) {
 
@@ -136,15 +141,41 @@ wpml.dashboard = wpml_dashboard = {
 			$thisContent.slideUp( 250, function() { $thisParent.addClass( 'closed' ); });
 	};
 
-	wpml.dashboard.welcome_toggle = function( visible ) {
+	/**
+	 * Update Plugin's Dashboard screen options
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string     Option ID
+	 * @param    boolean    Option value
+	 */
+	wpml.dashboard.update_screen_option = function( option, status ) {
+
+		var option = option.replace( 'show_wpml_', '' )
+		     $elem = $( '#wpml_dashboard_' + option + '_widget' ),
+		    $input = $( '#show_wpml_' + option );
+
+		if ( null == status )
+			status = $input.prop( 'checked' );
+
+		var visible = ( true === status ? 1 : 0 );
+
+		if ( undefined == $elem )
+			return;
+
+		$elem.toggleClass( 'hidden hide-if-js', ! status );
+		$input.prop( 'checked', status );
+
 		wpml._post({
 			data: {
-				action: 'update_wpml_welcome_panel',
+				action: 'wpml_save_screen_option',
 				screenoptionnonce: $( '#screenoptionnonce' ).val(),
+				screenid: adminpage,
+				option: option,
 				visible: visible
 			}
 		});
-	}
+	};
 
 	/**
 	 * Init Landing page
@@ -153,14 +184,11 @@ wpml.dashboard = wpml_dashboard = {
 
 		$( wpml_dashboard._welcome_panel_close, wpml_dashboard._welcome_panel ).on( 'click', function( e ) {
 			e.preventDefault();
-			$( wpml_dashboard._welcome_panel ).addClass( 'hidden' );
-			$( wpml_dashboard._welcome_panel_show ).prop( 'checked', false );
-			wpml_dashboard.welcome_toggle( 0 );
+			wpml_dashboard.update_screen_option( 'welcome_panel', false );
 		});
 
-		$( wpml_dashboard._welcome_panel_show ).click( function() {
-			$( wpml_dashboard._welcome_panel ).toggleClass( 'hidden', ! this.checked );
-			wpml_dashboard.welcome_toggle( this.checked ? 1 : 0 );
+		$( wpml_dashboard._screen_options ).on( 'click', function() {
+			wpml_dashboard.update_screen_option( this.id, this.checked );
 		});
 
 		$( wpml_dashboard._handle ).on( 'click', function() {

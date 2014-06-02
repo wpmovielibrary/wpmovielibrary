@@ -11,9 +11,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Dashboard_Movies_Widget' ) ) :
+if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 
-	class WPML_Dashboard_Movies_Widget extends WPML_Dashboard {
+	class WPML_Dashboard_Latest_Movies_Widget extends WPML_Dashboard {
 
 		/**
 		 * Widget ID
@@ -78,7 +78,7 @@ if ( ! class_exists( 'WPML_Dashboard_Movies_Widget' ) ) :
 		 */
 		public function init() {
 
-			$this->widget_id = 'wpml_dashboard_movies_widget';
+			$this->widget_id = 'wpml_dashboard_latest_movies_widget';
 			$this->widget_name = __( 'Movies you recently added', WPML_SLUG );
 			$this->callback = array( $this, 'dashboard_widget' );
 			$this->control_callback = array( $this, 'dashboard_widget_handle' );
@@ -104,6 +104,11 @@ if ( ! class_exists( 'WPML_Dashboard_Movies_Widget' ) ) :
 			$this->add_dashboard_widget( $this->widget_id, $this->widget_name, $this->callback, $this->control_callback );
 		}
 
+		/**
+		 * Widget content
+		 * 
+		 * @since    1.0.0
+		 */
 		public function dashboard_widget() {
 
 			global $wpdb;
@@ -150,7 +155,7 @@ if ( ! class_exists( 'WPML_Dashboard_Movies_Widget' ) ) :
 				}
 			}
 
-			include_once( WPML_PATH . '/admin/dashboard/views/dashboard-movies-widget.php' );
+			include_once( WPML_PATH . '/admin/dashboard/views/dashboard-latest-movies-widget.php' );
 		}
 
 		public function dashboard_widget_handle() {

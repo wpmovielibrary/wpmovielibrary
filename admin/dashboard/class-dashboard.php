@@ -15,7 +15,22 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 
 	class WPML_Dashboard extends WPML_Module {
 
+		/**
+		 * Dashboard Widgets.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @var      array
+		 */
 		protected $widgets = array();
+
+		public static $allowed_options = array(
+			'welcome_panel',
+			'most_rated_movies',
+			'latest_movies',
+			'quickaction',
+			'stats'
+		);
 
 		/**
 		 * Constructor
@@ -37,9 +52,9 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 
 			$this->widgets = array(
 				'WPML_Dashboard_Stats_Widget' => WPML_Dashboard_Stats_Widget::get_instance(),
-				'WPML_Dashboard_Movies_Widget' => WPML_Dashboard_Movies_Widget::get_instance(),
-				'WPML_Dashboard_Most_Rated_Movies_Widget' => WPML_Dashboard_Most_Rated_Movies_Widget::get_instance(),
 				'WPML_Dashboard_Quickaction_Widget' => WPML_Dashboard_Quickaction_Widget::get_instance(),
+				'WPML_Dashboard_Latest_Movies_Widget' => WPML_Dashboard_Latest_Movies_Widget::get_instance(),
+				'WPML_Dashboard_Most_Rated_Movies_Widget' => WPML_Dashboard_Most_Rated_Movies_Widget::get_instance(),
 			);
 		}
 
@@ -53,28 +68,34 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			add_filter( 'set-screen-option', __CLASS__ . '::set_option', 10, 3 );
 			add_filter( 'screen_settings', __CLASS__ . '::screen_options', 10, 2 );
 
-			add_action( 'wp_ajax_update_wpml_welcome_panel', __CLASS__ . '::update_wpml_welcome_panel_callback' );
+			add_action( 'wp_ajax_wpml_save_screen_option', __CLASS__ . '::wpml_save_screen_option_callback' );
 		}
 
 		/**
-		 * AJAX Callback to update the plugin Welcome Panel show/hide
-		 * option.
-		 *
+		 * AJAX Callback to update the plugin screen options.
+		 * 
+		 * 
+		 * 
 		 * @since     1.0.0
 		 */
-		public static function update_wpml_welcome_panel_callback() {
+		public static function wpml_save_screen_option_callback() {
 
 			check_ajax_referer( 'screen-options-nonce', 'screenoptionnonce' );
 
-			$visible = ( isset( $_POST['visible'] ) && '1' == $_POST['visible'] ? '1' : '0' );
-			$update = update_user_meta( get_current_user_id(), 'show_wpml_welcome_panel', $visible );
-			$update = ( true === $update ? 1 : 0 );
+			$screen_id = ( isset( $_POST['screenid'] ) && '' != $_POST['screenid'] ? $_POST['screenid'] : null );
+			$visible = ( isset( $_POST['visible'] ) && in_array( $_POST['visible'], array( '0', '1' ) ) ? $_POST['visible'] : '0' );
+			$option = ( isset( $_POST['option'] ) && '' != $_POST['option'] ? $_POST['option'] : null );
+
+			if ( is_null( $screen_id ) || is_null( $option ) || ! in_array( $option, self::$allowed_options ) )
+				wp_die( 0 );
+
+			$update = self::save_screen_option( $option, $visible, $screen_id );
 
 			wp_die( $update );
 		}
 
 		/**
-		 * Save newly set Movie Drafts number in Movie Import Page.
+		 * Save plugin Welcome Panel screen option.
 		 *
 		 * @since    1.0.0
 		 * 
@@ -85,7 +106,8 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * @return   bool|string
 		 */
 		public static function set_option( $status, $option, $value ) {
-			if ( 'show_wpml_welcome_panel' == $option )
+
+			if ( in_array( $option, self::$allowed_options ) )
 				return $value;
 		}
 
@@ -94,7 +116,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 *
 		 * @since    1.0.0
 		 * 
-		 * @param    string    $screen_settings Screen settings.
+		 * @param    string    $status Screen settings markup.
 		 * @param    object    WP_Screen object.
 		 * 
 		 * @return   string    Updated screen settings
@@ -104,17 +126,101 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			if ( $args->base != 'toplevel_page_wpmovielibrary' )
 				return $status;
 
-			$visible = get_user_meta( get_current_user_id(), 'show_wpml_welcome_panel', true );
-			if ( '' == $visible ) {
-				add_user_meta( get_current_user_id(), 'show_wpml_welcome_panel', '1' );
-				$visible = '1';
-			}
+			$user_id = get_current_user_id();
+			$hidden = get_user_option( 'metaboxhidden_' . $args->base );
 
-			$return  = '<h5>' . __( 'Show on screen', WPML_SLUG ) . '</h5>';
-			$return .= '<label for="show_wpml_welcome_panel"><input id="show_wpml_welcome_panel" type="checkbox"' . checked( $visible, '1', false ) . ' />' . __( 'Welcome', WPML_SLUG ) . '</label>';
-			$return .= get_submit_button( __( 'Apply', WPML_SLUG ), 'button hide-if-js', 'screen-options-apply', false );
+			if ( ! is_array( $hidden ) )
+				update_user_option( $user_id, 'metaboxhidden_' . $args->base, array(), true );
+
+			$return = array( '<h5>' . __( 'Show on screen', WPML_SLUG ) . '</h5>' );
+			$return[] = self::set_screen_option( 'welcome_panel', __( 'Welcome', WPML_SLUG ), $status );
+			$return[] = self::set_screen_option( 'stats', __( 'Statistics', WPML_SLUG ), $status );
+			$return[] = self::set_screen_option( 'quickaction', __( 'Quick Actions', WPML_SLUG ), $status );
+			$return[] = self::set_screen_option( 'latest_movies', __( 'Latest Movies', WPML_SLUG ), $status );
+			$return[] = self::set_screen_option( 'most_rated_movies', __( 'Most Rated Movies', WPML_SLUG ), $status );
+			$return[] = get_submit_button( __( 'Apply', WPML_SLUG ), 'button hide-if-js', 'screen-options-apply', false );
+
+			$return = implode( '', $return );
 
 			return $return;
+		}
+
+		/**
+		 * Generate and render screen option.
+		 *
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $option Screen option ID.
+		 * @param    string    $title Screen option title.
+		 * @param    string    $status Screen setting markup.
+		 * 
+		 * @return   string    Updated screen settings
+		 */
+		private static function set_screen_option( $option, $title, $status ) {
+
+			if ( ! in_array( $option, self::$allowed_options ) )
+				return $status;
+
+			$hidden = get_user_option( 'metaboxhidden_' . get_current_screen()->id );
+			$visible = ( in_array( 'wpml_dashboard_' . $option . '_widget', $hidden ) ? '0' : '1' );
+
+			$return .= $status . '<label for="show_wpml_' . $option . '"><input id="show_wpml_' . $option . '" type="checkbox"' . checked( $visible, '1', false ) . ' />' . __( $title, WPML_SLUG ) . '</label>';
+			
+			return $return;
+		}
+
+		/**
+		 * Save Widgets screen options. This is used to init the screen
+		 * options if they don't exist yet.
+		 *
+		 * @since    1.0.0
+		 * 
+		 * @return   array    List of hidden Widgets ID
+		 */
+		private static function save_screen_options() {
+
+			$edited  = false;;
+			$user_id = get_current_user_id();
+			$screen  = get_current_screen();
+			$hidden = get_user_option( 'metaboxhidden_' . $screen->id );
+
+			return $hidden;
+		}
+
+		/**
+		 * Save a single Widget screen options.  This is used to save
+		 * the options through AJAX.
+		 *
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $option Screen setting ID.
+		 * @param    string    $value Screen setting value.
+		 * @param    string    $value Screen ID.
+		 * 
+		 * @return   int       Update status for JSON: 1 on success, 0 on failure.
+		 */
+		private static function save_screen_option( $option, $value, $screen_id ) {
+
+			$user_id = get_current_user_id();
+			$hidden = get_user_option( 'metaboxhidden_' . $screen_id );
+			$hidden = ( is_array( $hidden ) ? $hidden : array() );
+			$option = 'wpml_dashboard_' . $option . '_widget';
+
+			$_option = array_search( $option, $hidden );
+
+			if ( '0' == $value && ! $_option )
+				$hidden[] = $option;
+			else if ( '0' == $value && ! isset( $hidden[ $_option ] ) )
+				$hidden[] = $option;
+			else if ( '1' == $value && isset( $hidden[ $_option ] ) )
+				unset( $hidden[ $_option ] );
+
+			$hidden = array_unique( $hidden );
+
+			$update = update_user_option( $user_id, 'metaboxhidden_' . $screen_id, $hidden, true );
+			$update = ( true === $update ? 1 : 0 );
+
+			return $update;
 		}
 
 		/**
@@ -127,15 +233,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 */
 		public static function dashboard() {
 
-			$visible = get_user_meta( get_current_user_id(), 'show_wpml_welcome_panel', true );
-			$visible = ( '1' == $visible ? true : false );
-
-			if ( current_user_can( 'edit_theme_options' ) && isset( $_GET['show_wpml_welcome_panel'] ) && 1 == $_GET['show_wpml_welcome_panel'] ) {
-				if ( isset( $_GET['show_wpml_welcome_panel_nonce'] ) || wp_verify_nonce( $_GET['show_wpml_welcome_panel_nonce'], 'show-wpml-welcome-panel' ) ) {
-					update_user_meta( get_current_user_id(), 'show_wpml_welcome_panel', empty( $_POST['visible'] ) ? 0 : 1 );
-					$visible = false;
-				}
-			}
+			$hidden = self::save_screen_options();
 
 			include_once( plugin_dir_path( __FILE__ ) . '/views/dashboard.php' );
 		}
