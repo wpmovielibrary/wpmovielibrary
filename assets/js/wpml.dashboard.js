@@ -6,19 +6,16 @@ wpml = wpml || {};
 wpml.dashboard = wpml_dashboard = {
 
 	_home: '#wpml-home',
-	_edit: '.edit-box',
 	_movies: '.wpml-movie',
-	_handle: '.handlediv',
-	_metabox: '.meta-box-sortables',
 	_screen_options: '#adv-settings input',
 	_welcome_panel: '#wpml-welcome-panel',
 	_welcome_panel_show: '#show_wpml_welcome_panel',
 	_welcome_panel_close: '#wpml-welcome-panel-close',
 
 	modal: {},
-	
-	init: function() {},
-	widget_toggle: function() {}
+	widgets: {},
+
+	init: function() {}
 };
 
 	/**
@@ -114,56 +111,91 @@ wpml.dashboard = wpml_dashboard = {
 			wpml_modal._resize();
 		};
 
-	/**
-	 * Activate toggle for dashboard page widgets
-	 * 
-	 * @since    1.0.0
-	 * 
-	 * @param    object     Link's DOM Element
-	 */
-	wpml.dashboard.widget_toggle = function( link ) {
+	wpml.dashboard.widgets = wpml_widgets = {
 
-		var $link = $( link ),
-		    $thisParent = $link.parent(),
-		    $thisContent = $thisParent.find( '.inside' );
+		_edit: '.edit-box',
+		_handle: '.handlediv',
+		_metabox: '.meta-box-sortables',
 
-		if ( ! $thisParent.hasClass( 'exclude' ) ) {
-			$( '.hndle' ).each( function() {
-				var $parent = $link.parent();
-				if ( ! $parent.hasClass( 'exclude' ) && ! $parent.hasClass( 'closed' ) ) {
-					$parent.find( '.inside' ).slideUp( 250, function() {
-						$parent.addClass( 'closed' );
-					});
-				}
+		widget_toggle: function() {},
+		init: function() {}
+	};
+
+		/**
+		* Activate toggle for dashboard page widgets
+		* 
+		* @since    1.0.0
+		* 
+		* @param    object     Link's DOM Element
+		*/
+		wpml_widgets.toggle = function( link ) {
+
+			var $link = $( link ),
+			    $thisParent = $link.parent(),
+			    $thisContent = $thisParent.find( '.inside' );
+
+			if ( ! $thisParent.hasClass( 'exclude' ) ) {
+				$( '.hndle' ).each( function() {
+					var $parent = $link.parent();
+					if ( ! $parent.hasClass( 'exclude' ) && ! $parent.hasClass( 'closed' ) ) {
+						$parent.find( '.inside' ).slideUp( 250, function() {
+							$parent.addClass( 'closed' );
+						});
+					}
+				});
+			}
+
+			if ( $thisParent.hasClass( 'closed' ) )
+				$thisContent.slideDown( 250, function() { $thisParent.removeClass( 'closed' ); });
+			else
+				$thisContent.slideUp( 250, function() { $thisParent.addClass( 'closed' ); });
+		};
+
+		/**
+		* Show/Hide plugin Widgets config part 
+		* 
+		* @since    1.0.0
+		* 
+		* @param    object     Link's DOM Element
+		* @param    boolean    True to show config part, false to hide
+		*/
+		wpml_widgets.config_toggle = function( link, status ) {
+
+			var status = ( true === status ? true : false );
+
+			var $link = $( link ),
+			    $thisParent = $link.parents( '.postbox' ),
+			    $main = $thisParent.find('.main'),
+			$config = $thisParent.find('.main-config');
+
+			if ( status ) {
+				$config.slideDown( 250 );
+				$thisParent.find( '.close-box' ).css( { display: 'inline' } );
+				$thisParent.find( '.open-box' ).css( { display: 'none' } );
+			}
+			else {
+				$config.slideUp( 250 );
+				$thisParent.find( '.close-box' ).css( { display: 'none' } );
+				$thisParent.find( '.open-box' ).css( { display: '' } );
+			}
+		};
+
+		/**
+		 * Init Widgets Events
+		 */
+		wpml_widgets.init = function() {
+
+			$( wpml_widgets._handle ).on( 'click', function() {
+				wpml_widgets.toggle( this );
 			});
-		}
 
-		if ( $thisParent.hasClass( 'closed' ) )
-			$thisContent.slideDown( 250, function() { $thisParent.removeClass( 'closed' ); });
-		else
-			$thisContent.slideUp( 250, function() { $thisParent.addClass( 'closed' ); });
-	};
+			$( wpml_widgets._edit, wpml_dashboard._home ).on( 'click', function( e ) {
+				e.preventDefault();
+				wpml_widgets.config_toggle( this, $( this ).hasClass( 'open-box' ) );
+			});
 
-	wpml.dashboard.widget_config_toggle = function( link, status ) {
-
-		var status = ( true === status ? true : false );
-
-		var $link = $( link ),
-		    $thisParent = $link.parents( '.postbox' ),
-		    $main = $thisParent.find('.main'),
-		  $config = $thisParent.find('.main-config');
-
-		if ( status ) {
-			$config.slideDown( 250 );
-			$thisParent.find( '.close-box' ).css( { display: 'inline' } );
-			$thisParent.find( '.open-box' ).css( { display: 'none' } );
-		}
-		else {
-			$config.slideUp( 250 );
-			$thisParent.find( '.close-box' ).css( { display: 'none' } );
-			$thisParent.find( '.open-box' ).css( { display: '' } );
-		}
-	};
+			$( wpml_widgets._metabox ).sortable();
+		};
 
 	/**
 	 * Update Plugin's Dashboard screen options
@@ -227,25 +259,14 @@ wpml.dashboard = wpml_dashboard = {
 	 */
 	wpml.dashboard.init = function() {
 
-		$( wpml_dashboard._welcome_panel_close, wpml_dashboard._welcome_panel ).on( 'click', function( e ) {
-			e.preventDefault();
-			wpml_dashboard.update_screen_option( 'welcome_panel', false );
-		});
-
 		$( wpml_dashboard._screen_options ).on( 'click', function() {
 			wpml_dashboard.update_screen_option( this.id, this.checked );
 		});
 
-		$( wpml_dashboard._handle ).on( 'click', function() {
-			wpml_dashboard.widget_toggle( this );
-		});
-
-		$( wpml_dashboard._edit, wpml_dashboard._home ).on( 'click', function( e ) {
+		$( wpml_dashboard._welcome_panel_close, wpml_dashboard._welcome_panel ).on( 'click', function( e ) {
 			e.preventDefault();
-			wpml_dashboard.widget_config_toggle( this, $( this ).hasClass( 'open-box' ) );
+			wpml_dashboard.update_screen_option( 'welcome_panel', false );
 		});
-
-		$( wpml_dashboard._metabox ).sortable();
 
 		$( window ).on( 'resize', function() {
 			wpml_dashboard.resize_posters();
@@ -253,6 +274,7 @@ wpml.dashboard = wpml_dashboard = {
 
 		wpml_dashboard.resize_posters();
 		wpml_dashboard.modal.init();
+		wpml_dashboard.widgets.init();
 	};
 
 wpml_dashboard.init();

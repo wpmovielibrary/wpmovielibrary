@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary v1.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/WPMovieLibrary\n"
-"POT-Creation-Date: 2014-06-02 23:20:12+00:00\n"
-"PO-Revision-Date: 2014-06-03 01:22+0100\n"
+"POT-Creation-Date: 2014-06-03 14:58:55+00:00\n"
+"PO-Revision-Date: 2014-06-03 16:59+0100\n"
 "Last-Translator: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language-Team: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language: English\n"
@@ -463,6 +463,17 @@ msgstr "Status"
 msgid "Movies you recently added"
 msgstr "Movies you recently added"
 
+#: admin/dashboard/class-dashboard-latest-movies-widget.php:107
+msgid "Configure"
+msgstr "Configure"
+
+#: admin/dashboard/class-dashboard-latest-movies-widget.php:108
+#: admin/edit-movies/views/metabox-movie-details.php:24
+#: admin/edit-movies/views/metabox-movie-details.php:44
+#: admin/edit-movies/views/metabox-movie-details.php:75
+msgid "Cancel"
+msgstr "Cancel"
+
 #: admin/dashboard/class-dashboard-most-rated-movies-widget.php:82
 msgid "Your most rated movies"
 msgstr "Your most rated movies"
@@ -568,6 +579,48 @@ msgstr "Most Rated Movies"
 #: admin/import/class-wpml-import-table.php:447
 msgid "Apply"
 msgstr "Apply"
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:8
+msgid "Use the following options to customize this Widget."
+msgstr "Use the following options to customize this Widget."
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:13
+msgid "Number of movies:"
+msgstr "Number of movies:"
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:13
+msgid "movies"
+msgstr "movies"
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:16
+msgid "Show ratings"
+msgstr "Show ratings"
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:17
+msgid "Show \"Load more\" button"
+msgstr "Show \"Load more\" button"
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:18
+msgid "Open modal window on click"
+msgstr "Open modal window on click"
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:21
+msgid "Quick-Edit menu"
+msgstr "Quick-Edit menu"
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:22
+msgid "Stylized posters"
+msgstr "Stylized posters"
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:23
+msgid "Stylized Metabox"
+msgstr "Stylized Metabox"
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:29
+#: admin/edit-movies/views/metabox-movie-details.php:89
+#: admin/edit-movies/views/metabox-movie-details.php:90
+msgid "Save"
+msgstr "Save"
 
 #: admin/dashboard/views/dashboard-movie-modal.php:20
 #: admin/edit-movies/views/metabox-movie-details.php:13
@@ -773,12 +826,6 @@ msgstr "Status:"
 msgid "OK"
 msgstr "OK"
 
-#: admin/edit-movies/views/metabox-movie-details.php:24
-#: admin/edit-movies/views/metabox-movie-details.php:44
-#: admin/edit-movies/views/metabox-movie-details.php:75
-msgid "Cancel"
-msgstr "Cancel"
-
 #: admin/edit-movies/views/metabox-movie-details.php:31
 msgid "Media:"
 msgstr "Media:"
@@ -836,11 +883,6 @@ msgstr "Excellent"
 #: admin/edit-movies/views/quick-edit.php:41 includes/wpml-config.php:521
 msgid "Masterpiece"
 msgstr "Masterpiece"
-
-#: admin/edit-movies/views/metabox-movie-details.php:89
-#: admin/edit-movies/views/metabox-movie-details.php:90
-msgid "Save"
-msgstr "Save"
 
 #: admin/edit-movies/views/metabox-movie-images.php:2
 #: admin/edit-movies/views/metabox-movie-meta.php:6
