@@ -1,4 +1,6 @@
 
+<?php include_once( 'dashboard-latest-movies-widget-config.php' ); ?>
+
 							<div class="main">
 <?php
 if ( ! empty( $movies ) ) :

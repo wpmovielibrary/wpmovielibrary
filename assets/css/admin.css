@@ -101,6 +101,10 @@ body.post-php.post-type-movie #postimagediv {
 	width: 28%;
 }
 
+#wpml-home #dashboard-widgets #postbox-container-1 .main-config {
+	display: none;
+}
+
 #wpml-home #dashboard-widgets .postbox-container .ui-sortable-placeholder,
 #wpml-home #dashboard-widgets .postbox-container .ui-sortable-placeholder {
 	border: 3px dashed #ccc !important;
@@ -119,8 +123,8 @@ body.post-php.post-type-movie #postimagediv {
 	vertical-align: text-top;
 }
 
-#wpml_dashboard_latest_movies_widget,
-#wpml_dashboard_most_rated_movies_widget {
+#wpml_dashboard_latest_movies_widget.no-style,
+#wpml_dashboard_most_rated_movies_widget.no-style {
 	border-color: rgba(0, 0, 0, 0);
 	background: rgba(0, 0, 0, 0);
 }
@@ -130,8 +134,8 @@ body.post-php.post-type-movie #postimagediv {
 	padding-left: 24px;
 }
 
-#wpml_dashboard_latest_movies_widget .inside,
-#wpml_dashboard_most_rated_movies_widget .inside {
+#wpml_dashboard_latest_movies_widget.no-style .inside,
+#wpml_dashboard_most_rated_movies_widget.no-style .inside {
 	margin-top: 0;
 }
 
@@ -141,7 +145,7 @@ body.post-php.post-type-movie #postimagediv {
 	border-radius: 0.25em;
 	display: inline-block;
 	height: 300px;
-	margin: 0.45em 0.25em;
+	margin: 0.25%;
 	width: 202px;
 }
 
@@ -1357,8 +1361,8 @@ body.post-php.post-type-movie #postimagediv {
 	
 	#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie,
 	#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie {
-		height: 264px !important;
-		width: 176px !important;
+		height: 264px;
+		width: 176px;
 	}
 }
 

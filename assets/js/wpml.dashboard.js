@@ -5,6 +5,9 @@ wpml = wpml || {};
 
 wpml.dashboard = wpml_dashboard = {
 
+	_home: '#wpml-home',
+	_edit: '.edit-box',
+	_movies: '.wpml-movie',
 	_handle: '.handlediv',
 	_metabox: '.meta-box-sortables',
 	_screen_options: '#adv-settings input',
@@ -141,6 +144,27 @@ wpml.dashboard = wpml_dashboard = {
 			$thisContent.slideUp( 250, function() { $thisParent.addClass( 'closed' ); });
 	};
 
+	wpml.dashboard.widget_config_toggle = function( link, status ) {
+
+		var status = ( true === status ? true : false );
+
+		var $link = $( link ),
+		    $thisParent = $link.parents( '.postbox' ),
+		    $main = $thisParent.find('.main'),
+		  $config = $thisParent.find('.main-config');
+
+		if ( status ) {
+			$config.slideDown( 250 );
+			$thisParent.find( '.close-box' ).css( { display: 'inline' } );
+			$thisParent.find( '.open-box' ).css( { display: 'none' } );
+		}
+		else {
+			$config.slideUp( 250 );
+			$thisParent.find( '.close-box' ).css( { display: 'none' } );
+			$thisParent.find( '.open-box' ).css( { display: '' } );
+		}
+	};
+
 	/**
 	 * Update Plugin's Dashboard screen options
 	 * 
@@ -178,6 +202,27 @@ wpml.dashboard = wpml_dashboard = {
 	};
 
 	/**
+	 * Resize Dashboard movie posters to fit screen size
+	 */
+	wpml.dashboard.resize_posters = function() {
+
+		var $movies = $( wpml_dashboard._movies )
+		  container = $movies.parents('.postbox').width(),
+		      width = $movies.width(),
+		     height = $movies.height();
+
+		if ( 1200 < container )
+			var _width = '21.6%';
+		else if ( 700 < container )
+			var _width = '24.2%';
+		else if ( 700 >= container )
+			var _width = '32.2%';
+
+		$movies.css( { width: _width } );
+		$movies.css( { height: Math.ceil( $movies.width() * 1.5 ) } );
+	};
+
+	/**
 	 * Init Landing page
 	 */
 	wpml.dashboard.init = function() {
@@ -195,8 +240,18 @@ wpml.dashboard = wpml_dashboard = {
 			wpml_dashboard.widget_toggle( this );
 		});
 
+		$( wpml_dashboard._edit, wpml_dashboard._home ).on( 'click', function( e ) {
+			e.preventDefault();
+			wpml_dashboard.widget_config_toggle( this, $( this ).hasClass( 'open-box' ) );
+		});
+
 		$( wpml_dashboard._metabox ).sortable();
 
+		$( window ).on( 'resize', function() {
+			wpml_dashboard.resize_posters();
+		});
+
+		wpml_dashboard.resize_posters();
 		wpml_dashboard.modal.init();
 	};
 

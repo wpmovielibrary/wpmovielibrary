@@ -101,6 +101,16 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 */
 		public function _add_dashboard_widget() {
 
+			if ( current_user_can( 'edit_dashboard' ) && is_callable( $this->control_callback ) ) {
+				$widget_name = __( $this->widget_name, WPML_SLUG );
+				$widget_name .= ' <span class="postbox-title-action">';
+				$widget_name .= '<a href="#" class="edit-box open-box">' . __( 'Configure' ) . '</a>';
+				$widget_name .= '<a href="#" class="edit-box close-box" style="display:none">' . __( 'Cancel' ) . '</a>';
+				$widget_name .= '</span>';
+
+				$this->widget_name = $widget_name;
+			}
+
 			$this->add_dashboard_widget( $this->widget_id, $this->widget_name, $this->callback, $this->control_callback );
 		}
 
@@ -158,10 +168,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 			include_once( WPML_PATH . '/admin/dashboard/views/dashboard-latest-movies-widget.php' );
 		}
 
-		public function dashboard_widget_handle() {
-
-			
-		}
+		public function dashboard_widget_handle() {}
 
 	}
 
