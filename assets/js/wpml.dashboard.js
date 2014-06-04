@@ -5,17 +5,17 @@ wpml = wpml || {};
 
 wpml.dashboard = wpml_dashboard = {
 
-	_handle: '.handlediv',
-	_metabox: '.meta-box-sortables',
+	_home: '#wpml-home',
+	_movies: '.wpml-movie',
 	_screen_options: '#adv-settings input',
 	_welcome_panel: '#wpml-welcome-panel',
 	_welcome_panel_show: '#show_wpml_welcome_panel',
 	_welcome_panel_close: '#wpml-welcome-panel-close',
 
 	modal: {},
-	
-	init: function() {},
-	widget_toggle: function() {}
+	widgets: {},
+
+	init: function() {}
 };
 
 	/**
@@ -93,18 +93,20 @@ wpml.dashboard = wpml_dashboard = {
 		 */
 		wpml.dashboard.modal.init = function() {
 
-			$( wpml_modal._modal_open ).on( 'click', function( e ) {
+			$( wpml_modal._modal_open ).unbind( 'click' ).on( 'click', function( e ) {
+				if ( ! $( this ).parent( '.wpml-movie' ).hasClass( 'modal' ) )
+					return;
 				e.preventDefault();
 				wpml_modal._update( this );
 				wpml_modal._open();
 			});
 
-			$( wpml_modal._modal_close ).on( 'click', function( e ) {
+			$( wpml_modal._modal_close ).unbind( 'click' ).on( 'click', function( e ) {
 				e.preventDefault();
 				wpml_modal._close();
 			});
 
-			$( window ).on( 'resize', function() {
+			$( window ).unbind( 'resize' ).on( 'resize', function() {
 				wpml_modal._resize();
 			});
 
@@ -112,34 +114,280 @@ wpml.dashboard = wpml_dashboard = {
 		};
 
 	/**
-	 * Activate toggle for dashboard page widgets
-	 * 
-	 * @since    1.0.0
-	 * 
-	 * @param    object     Link's DOM Element
+	 * Plugin Dashboard Widgets
 	 */
-	wpml.dashboard.widget_toggle = function( link ) {
+	wpml.dashboard.widgets = wpml_widgets = {
 
-		var $link = $( link ),
-		    $thisParent = $link.parent(),
-		    $thisContent = $thisParent.find( '.inside' );
+		_edit: '.edit-box',
+		_handle: '.handlediv',
+		_metabox: '.meta-box-sortables',
 
-		if ( ! $thisParent.hasClass( 'exclude' ) ) {
-			$( '.hndle' ).each( function() {
-				var $parent = $link.parent();
-				if ( ! $parent.hasClass( 'exclude' ) && ! $parent.hasClass( 'closed' ) ) {
-					$parent.find( '.inside' ).slideUp( 250, function() {
-						$parent.addClass( 'closed' );
+		widget_toggle: function() {},
+		init: function() {}
+	};
+
+		/**
+		 * Latest Movies Widget
+		 */
+		wpml.dashboard.widgets.latest_movies = wpml_latest_movies = {
+
+			timer: undefined,
+			delay: 500,
+
+			_year: '.movie-year',
+			_rating: '.movie-rating',
+			_movies: '.wpml-movie',
+			_movies_per_page: '#latest_movies_movies_per_page',
+			_loadmore: '#latest_movies_load_more',
+			_quickedit: '.movie-quickedit',
+			_checkbox: '#wpml-latest-movies-widget-config input[type=checkbox]',
+			_show_year: '#latest_movies_show_year',
+			_container: '#wpml_dashboard_latest_movies_widget',
+			_container_main: '#wpml_dashboard_latest_movies_widget .main',
+		};
+
+			/**
+			 * Toggle Widget's settings
+			 * 
+			 * TODO: Nonce
+			 * 
+			 * @since    1.0.0
+			 * 
+			 * @param    string     Setting ID
+			 * @param    boolean    Toggle status
+			 */
+			wpml.dashboard.widgets.latest_movies.toggle_setting = function( id, status ) {
+
+				var action = id.replace( 'latest_movies_', '' );
+
+				switch ( action ) {
+					case 'show_year':
+						$( wpml_latest_movies._year, wpml_latest_movies._container_main ).toggle( status );
+						$( wpml_latest_movies._movies, wpml_latest_movies._container_main ).toggleClass( 'with-year', status );
+						break;
+					case 'show_rating':
+						$( wpml_latest_movies._rating, wpml_latest_movies._container_main ).toggle( status );
+						$( wpml_latest_movies._movies, wpml_latest_movies._container_main ).toggleClass( 'with-rating', status );
+						break;
+					case 'style_posters':
+						console.log( status );
+						$( wpml_latest_movies._movies, wpml_latest_movies._container_main ).toggleClass( 'stylized', status );
+						break;
+					case 'style_metabox':
+						$( wpml_latest_movies._container ).toggleClass( 'no-style', status );
+						break;
+					case 'show_more':
+						$( wpml_latest_movies._loadmore, wpml_latest_movies._container_main ).toggleClass( 'hide-if-js hide-if-no-js', ! status );
+						break;
+					case 'show_modal':
+						$( wpml_latest_movies._movies, wpml_latest_movies._container_main ).toggleClass( 'modal', status );
+						if ( ! status )
+							$( wpml_modal._modal_open ).unbind( 'click' );
+						else
+							wpml.dashboard.modal.init();
+						break;
+					case 'show_quickedit':
+						$( wpml_latest_movies._quickedit, wpml_latest_movies._container_main ).toggleClass( 'hide-if-js hide-if-no-js', ! status );
+						break;
+					default:
+						break;
+				};
+
+				wpml._post({
+					data: {
+						action: 'wpml_save_dashboard_widget_settings',
+						widget: 'WPML_Dashboard_Latest_Movies_Widget',
+						setting: action,
+						value: ( true === status ? 1 : 0 )
+					}
+				});
+			};
+
+			/**
+			 * Load more movies
+			 * 
+			 * Default limit is 8; if no offset is set, use the
+			 * total number of movies currently showed in the Widget.
+			 * 
+			 * TODO: Nonce
+			 * 
+			 * @since    1.0.0
+			 * 
+			 * @param    int    Number of movies to load
+			 * @param    int    Starting at which offset
+			 */
+			wpml.dashboard.widgets.latest_movies.load_more = function( limit, offset ) {
+
+				if ( null == limit )
+					var limit = 8;
+				if ( null == offset )
+					var offset = $( wpml_latest_movies._movies, wpml_latest_movies._container_main ).length;
+
+				wpml._get({
+					data: {
+						action: 'wpml_load_more_movies',
+						widget: 'WPML_Dashboard_Latest_Movies_Widget',
+						offset: offset,
+						limit: limit
+					},
+					beforeSend: function() {
+						$( wpml_latest_movies._loadmore ).find( 'span' ).css( { opacity: 0 } );
+						$( wpml_latest_movies._loadmore ).append( '<span class="spinner"></span>' );
+					},
+					success: function( data ) {
+						if ( '2' == data ) {
+							$( wpml_latest_movies._loadmore ).addClass( 'disabled' );
+							return true;
+						}
+
+						$( wpml_latest_movies._container_main ).append( data );
+						wpml_dashboard.resize_posters();
+					},
+					complete: function( data ) {
+						$( wpml_latest_movies._loadmore ).find( 'span' ).css( { opacity: 1.0 } );
+						$( wpml_latest_movies._loadmore ).find( '.spinner' ).remove();
+					}
+				});
+			};
+
+			/**
+			 * Update movies per page value
+			 * 
+			 * TODO: Nonce
+			 * 
+			 * @since    1.0.0
+			 * 
+			 * @param    int    Movies per page
+			 */
+			wpml.dashboard.widgets.latest_movies.movies_per_page = function( n ) {
+
+				var offset = $( wpml_latest_movies._movies, wpml_latest_movies._container_main ).length;
+				if ( 0 > n || 999 < n || isNaN( n ) )
+					var n = 8;
+				
+				if ( n < offset ) {
+					$( wpml_latest_movies._movies, wpml_latest_movies._container_main ).each(function( i, movie ) {
+						if ( i >= n )
+							$(movie).remove();
 					});
 				}
-			});
-		}
+				else {
+					$( wpml_latest_movies._movies, wpml_latest_movies._container_main ).remove();
+					wpml_latest_movies.load_more( n, 0 );
+				}
 
-		if ( $thisParent.hasClass( 'closed' ) )
-			$thisContent.slideDown( 250, function() { $thisParent.removeClass( 'closed' ); });
-		else
-			$thisContent.slideUp( 250, function() { $thisParent.addClass( 'closed' ); });
-	};
+				wpml._post({
+					data: {
+						action: 'wpml_save_dashboard_widget_settings',
+						widget: 'WPML_Dashboard_Latest_Movies_Widget',
+						setting: 'movies_per_page',
+						value: n
+					}
+				});
+			};
+
+			/**
+			 * Init Widget Events
+			 */
+			wpml.dashboard.widgets.latest_movies.init = function() {
+
+				$( wpml_latest_movies._checkbox ).on( 'click', function() {
+					wpml_latest_movies.toggle_setting( this.id, this.checked );
+				});
+
+				$( wpml_latest_movies._loadmore ).on( 'click', function( e ) {
+					e.preventDefault();
+					if ( $( this ).hasClass( 'disabled' ) )
+						return;
+					wpml_latest_movies.load_more( '', null );
+				});
+
+				$( wpml_latest_movies._movies_per_page ).on( 'input', function() {
+					var n = this.value;
+					window.clearTimeout( wpml_latest_movies.timer );
+					wpml_latest_movies.timer = window.setTimeout( function() {
+						wpml_latest_movies.movies_per_page( n );
+					}, wpml_latest_movies.delay );
+				});
+			};
+
+		/**
+		* Activate toggle for dashboard page widgets
+		* 
+		* @since    1.0.0
+		* 
+		* @param    object     Link's DOM Element
+		*/
+		wpml_widgets.toggle = function( link ) {
+
+			var $link = $( link ),
+			    $thisParent = $link.parent(),
+			    $thisContent = $thisParent.find( '.inside' );
+
+			if ( ! $thisParent.hasClass( 'exclude' ) ) {
+				$( '.hndle' ).each( function() {
+					var $parent = $link.parent();
+					if ( ! $parent.hasClass( 'exclude' ) && ! $parent.hasClass( 'closed' ) ) {
+						$parent.find( '.inside' ).slideUp( 250, function() {
+							$parent.addClass( 'closed' );
+						});
+					}
+				});
+			}
+
+			if ( $thisParent.hasClass( 'closed' ) )
+				$thisContent.slideDown( 250, function() { $thisParent.removeClass( 'closed' ); });
+			else
+				$thisContent.slideUp( 250, function() { $thisParent.addClass( 'closed' ); });
+		};
+
+		/**
+		* Show/Hide plugin Widgets config part 
+		* 
+		* @since    1.0.0
+		* 
+		* @param    object     Link's DOM Element
+		* @param    boolean    True to show config part, false to hide
+		*/
+		wpml_widgets.config_toggle = function( link, status ) {
+
+			var status = ( true === status ? true : false );
+
+			var $link = $( link ),
+			    $thisParent = $link.parents( '.postbox' ),
+			    $main = $thisParent.find('.main'),
+			$config = $thisParent.find('.main-config');
+
+			if ( status ) {
+				$config.slideDown( 250 );
+				$thisParent.find( '.close-box' ).css( { display: 'inline' } );
+				$thisParent.find( '.open-box' ).css( { display: 'none' } );
+			}
+			else {
+				$config.slideUp( 250 );
+				$thisParent.find( '.close-box' ).css( { display: 'none' } );
+				$thisParent.find( '.open-box' ).css( { display: '' } );
+			}
+		};
+
+		/**
+		 * Init Widgets Events
+		 */
+		wpml_widgets.init = function() {
+
+			$( wpml_widgets._handle ).on( 'click', function() {
+				wpml_widgets.toggle( this );
+			});
+
+			$( wpml_widgets._edit, wpml_dashboard._home ).on( 'click', function( e ) {
+				e.preventDefault();
+				wpml_widgets.config_toggle( this, $( this ).hasClass( 'open-box' ) );
+			});
+
+			$( wpml_widgets._metabox ).sortable();
+
+			wpml.dashboard.widgets.latest_movies.init();
+		};
 
 	/**
 	 * Update Plugin's Dashboard screen options
@@ -178,26 +426,47 @@ wpml.dashboard = wpml_dashboard = {
 	};
 
 	/**
+	 * Resize Dashboard movie posters to fit screen size
+	 */
+	wpml.dashboard.resize_posters = function() {
+
+		var $movies = $( wpml_dashboard._movies )
+		  container = $movies.parents('.postbox').width(),
+		      width = $movies.width(),
+		     height = $movies.height();
+
+		if ( 1200 < container )
+			var _width = '21.6%';
+		else if ( 700 < container )
+			var _width = '24.2%';
+		else if ( 700 >= container )
+			var _width = '32.2%';
+
+		$movies.css( { width: _width } );
+		$movies.css( { height: Math.ceil( $movies.width() * 1.5 ) } );
+	};
+
+	/**
 	 * Init Landing page
 	 */
 	wpml.dashboard.init = function() {
+
+		$( wpml_dashboard._screen_options ).on( 'click', function() {
+			wpml_dashboard.update_screen_option( this.id, this.checked );
+		});
 
 		$( wpml_dashboard._welcome_panel_close, wpml_dashboard._welcome_panel ).on( 'click', function( e ) {
 			e.preventDefault();
 			wpml_dashboard.update_screen_option( 'welcome_panel', false );
 		});
 
-		$( wpml_dashboard._screen_options ).on( 'click', function() {
-			wpml_dashboard.update_screen_option( this.id, this.checked );
+		$( window ).on( 'resize', function() {
+			wpml_dashboard.resize_posters();
 		});
 
-		$( wpml_dashboard._handle ).on( 'click', function() {
-			wpml_dashboard.widget_toggle( this );
-		});
-
-		$( wpml_dashboard._metabox ).sortable();
-
+		wpml_dashboard.resize_posters();
 		wpml_dashboard.modal.init();
+		wpml_dashboard.widgets.init();
 	};
 
 wpml_dashboard.init();

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/WPMovieLibrary\n"
-"POT-Creation-Date: 2014-06-02 23:20:12+00:00\n"
+"POT-Creation-Date: 2014-06-04 10:54:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -431,7 +431,7 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: admin/dashboard/class-dashboard-latest-movies-widget.php:82
+#: admin/dashboard/class-dashboard-latest-movies-widget.php:91
 msgid "Movies you recently added"
 msgstr ""
 
@@ -511,36 +511,129 @@ msgstr ""
 msgid "No imported movie."
 msgstr ""
 
-#: admin/dashboard/class-dashboard.php:135
+#: admin/dashboard/class-dashboard.php:158
 msgid "Show on screen"
 msgstr ""
 
-#: admin/dashboard/class-dashboard.php:136
+#: admin/dashboard/class-dashboard.php:159
 msgid "Welcome"
 msgstr ""
 
-#: admin/dashboard/class-dashboard.php:137
+#: admin/dashboard/class-dashboard.php:160
 msgid "Statistics"
 msgstr ""
 
-#: admin/dashboard/class-dashboard.php:138
+#: admin/dashboard/class-dashboard.php:161
 msgid "Quick Actions"
 msgstr ""
 
-#: admin/dashboard/class-dashboard.php:139
+#: admin/dashboard/class-dashboard.php:162
 msgid "Latest Movies"
 msgstr ""
 
-#: admin/dashboard/class-dashboard.php:140
+#: admin/dashboard/class-dashboard.php:163
 #: public/movies/class-most-rated-movies-widget.php:90
 msgid "Most Rated Movies"
 msgstr ""
 
-#: admin/dashboard/class-dashboard.php:141
+#: admin/dashboard/class-dashboard.php:164
 #: admin/import/class-wpml-import-table.php:447
 msgid "Apply"
 msgstr ""
 
+#: admin/dashboard/class-dashboard.php:326
+#: admin/dashboard/class-dashboard.php:332
+#: admin/edit-movies/views/metabox-movie-details.php:24
+#: admin/edit-movies/views/metabox-movie-details.php:44
+#: admin/edit-movies/views/metabox-movie-details.php:75
+msgid "Cancel"
+msgstr ""
+
+#: admin/dashboard/class-dashboard.php:331
+msgid "Configure"
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:8
+msgid "Use the following options to customize this Widget."
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:13
+msgid "Number of movies:"
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:14
+msgid "movies"
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:17
+msgid "Show year"
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:18
+msgid "Show movies release years below the poster."
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:19
+msgid "Show rating"
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:20
+msgid "Show movies ratings below the poster."
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:21
+msgid "Show \"Load more\" button"
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:22
+msgid "Show a button to load more movies to the Widget."
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:22
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:24
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:28
+msgid "JavaScript required"
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:23
+msgid "Open modal window on click"
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:24
+msgid "Show a previewing modal window when clicking posters."
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:27
+msgid "Quick-Edit menu"
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:28
+msgid "Show a quick edit menu to perform basic actions on movies."
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:29
+msgid "Stylized posters"
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:30
+msgid "Show more stylish poster without rounded borders and shadows."
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:31
+msgid "Stylized Metabox"
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:32
+msgid "Use transparent Metabox instead of regular WordPress Metabox"
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:38
+#: admin/edit-movies/views/metabox-movie-details.php:89
+#: admin/edit-movies/views/metabox-movie-details.php:90
+msgid "Save"
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget.php:14
 #: admin/dashboard/views/dashboard-movie-modal.php:20
 #: admin/edit-movies/views/metabox-movie-details.php:13
 #: admin/edit-movies/views/metabox-movie-details.php:33
@@ -550,9 +643,20 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
+#: admin/dashboard/views/dashboard-latest-movies-widget.php:15
+#: admin/import/class-wpml-import-table.php:353
+#: admin/import/class-wpml-queue.php:154
+msgid "Delete"
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget.php:16
 #: admin/dashboard/views/dashboard-movie-modal.php:21
 #: admin/import/class-wpml-import.php:263
 msgid "View"
+msgstr ""
+
+#: admin/dashboard/views/dashboard-latest-movies-widget.php:25
+msgid "Load more"
 msgstr ""
 
 #: admin/dashboard/views/dashboard-stats-widget.php:3
@@ -738,12 +842,6 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: admin/edit-movies/views/metabox-movie-details.php:24
-#: admin/edit-movies/views/metabox-movie-details.php:44
-#: admin/edit-movies/views/metabox-movie-details.php:75
-msgid "Cancel"
-msgstr ""
-
 #: admin/edit-movies/views/metabox-movie-details.php:31
 msgid "Media:"
 msgstr ""
@@ -800,11 +898,6 @@ msgstr ""
 #: admin/edit-movies/views/metabox-movie-details.php:70
 #: admin/edit-movies/views/quick-edit.php:41 includes/wpml-config.php:521
 msgid "Masterpiece"
-msgstr ""
-
-#: admin/edit-movies/views/metabox-movie-details.php:89
-#: admin/edit-movies/views/metabox-movie-details.php:90
-msgid "Save"
 msgstr ""
 
 #: admin/edit-movies/views/metabox-movie-images.php:2
@@ -920,11 +1013,6 @@ msgstr ""
 
 #: admin/import/class-wpml-import-table.php:352
 msgid "Enqueue"
-msgstr ""
-
-#: admin/import/class-wpml-import-table.php:353
-#: admin/import/class-wpml-queue.php:154
-msgid "Delete"
 msgstr ""
 
 #: admin/import/class-wpml-import-table.php:396
@@ -1217,29 +1305,29 @@ msgstr ""
 msgid "other"
 msgstr ""
 
-#: includes/class-wpml-utils.php:732
+#: includes/class-wpml-utils.php:735
 msgid "Invalid taxonomy"
 msgstr ""
 
-#: includes/class-wpml-utils.php:891
+#: includes/class-wpml-utils.php:894
 msgid ""
 "An error occured when trying to perform the request: invalid callback or "
 "data."
 msgstr ""
 
-#: includes/class-wpml-utils.php:911
+#: includes/class-wpml-utils.php:914
 msgid "An error occured when trying to perform the request."
 msgstr ""
 
-#: includes/class-wpml-utils.php:933
+#: includes/class-wpml-utils.php:936
 msgid "An error occured when trying to delete transients: %s"
 msgstr ""
 
-#: includes/class-wpml-utils.php:935
+#: includes/class-wpml-utils.php:938
 msgid "No transient found."
 msgstr ""
 
-#: includes/class-wpml-utils.php:937
+#: includes/class-wpml-utils.php:940
 msgid "1 transient deleted"
 msgid_plural "%s transients deleted."
 msgstr[0] ""

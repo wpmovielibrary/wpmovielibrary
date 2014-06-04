@@ -81,7 +81,7 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 			$this->widget_id = 'wpml_dashboard_quickaction_widget';
 			$this->widget_name = __( 'Quick action', WPML_SLUG );
 			$this->callback = array( $this, 'dashboard_widget' );
-			$this->control_callback = array( $this, 'dashboard_widget_handle' );
+			$this->control_callback = null;
 		}
 
 		/**
