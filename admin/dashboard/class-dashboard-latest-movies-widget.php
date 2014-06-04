@@ -166,6 +166,15 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 			printf( '<script type="text/javascript">document.getElementById("%s").classList.add("no-style");</script>', $this->widget_id );
 		}
 
+		/**
+		 * Prepare and include the Widget's content. Get and apply
+		 * settings.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    int    $limit Number of movies to show
+		 * @param    int    $offset Starting after n movies
+		 */
 		public function get_widget_content( $limit = 8, $offset = 0 ) {
 
 			$movies = $this->widget_content( $limit, $offset );
@@ -182,14 +191,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 			if ( '1' == $settings['show_modal'] )
 				$class .= ' modal';
 
-			if ( is_array( $movies ) ) {
-				include( WPML_PATH . '/admin/dashboard/views/dashboard-latest-movies-widget.php' );
-				return true;
-			}
-			else
-				echo $movies;
-
-			return true;
+			include( WPML_PATH . '/admin/dashboard/views/dashboard-latest-movies-widget.php' );
 		}
 
 		/**
