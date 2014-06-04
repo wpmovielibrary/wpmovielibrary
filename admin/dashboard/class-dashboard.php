@@ -70,6 +70,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 
 			add_action( 'wp_ajax_wpml_save_screen_option', __CLASS__ . '::wpml_save_screen_option_callback' );
 			add_action( 'wp_ajax_wpml_save_dashboard_widget_settings', __CLASS__ . '::wpml_save_dashboard_widget_settings_callback' );
+			add_action( 'wp_ajax_wpml_load_more_movies', __CLASS__ . '::wpml_load_more_movies_callback' );
 		}
 
 		/**
@@ -115,6 +116,25 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			$update = self::save_widget_setting( $class->widget_id, $setting, $value );
 
 			wp_die( $update );
+		}
+
+		/**
+		 * AJAX Callback to load more movies to the Widget.
+		 * 
+		 * @since     1.0.0
+		 */
+		public static function wpml_load_more_movies_callback() {
+
+			$widget = ( isset( $_GET['widget'] ) && '' != $_GET['widget'] ? $_GET['widget'] : null );
+			$offset = ( isset( $_GET['offset'] ) && '' != $_GET['offset'] ? $_GET['offset'] : 0 );
+			$limit  = ( isset( $_GET['limit'] ) && '' != $_GET['limit'] ? $_GET['limit'] : 8 );
+
+			if ( is_null( $widget ) || ! class_exists( $widget ) )
+				wp_die( 0 );
+
+			$class = $widget::get_instance();
+			$class->get_widget_content( $limit, $offset );
+			wp_die();
 		}
 
 		/**
@@ -316,7 +336,9 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 
 			global $wp_dashboard_control_callbacks;
 
-			if ( $control_callback && current_user_can( 'edit_dashboard' ) && is_callable( $control_callback ) ) {
+			$widget_name = __( $widget_name, WPML_SLUG );
+
+			if ( ! is_null( $control_callback ) && current_user_can( 'edit_dashboard' ) && is_callable( $control_callback ) ) {
 
 				$wp_dashboard_control_callbacks[ $widget_id ] = $control_callback;
 				$widget_name = __( $widget_name, WPML_SLUG );

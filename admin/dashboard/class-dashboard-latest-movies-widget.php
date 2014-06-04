@@ -89,11 +89,11 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 
 			$this->widget_id = 'wpml_dashboard_latest_movies_widget';
 			$this->widget_name = __( 'Movies you recently added', WPML_SLUG );
-			$this->callback = array( $this, 'dashboard_widget' );
-			$this->control_callback = array( $this, 'dashboard_widget_handle' );
+			$this->callback = array( $this, 'widget' );
+			$this->control_callback = array( $this, 'widget_handle' );
 			$this->callback_args = array( 'id' => $this->widget_id );
 
-			$this->settings = $this->dashboard_widget_settings();
+			$this->settings = $this->widget_settings();
 		}
 
 		/**
@@ -107,6 +107,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 
 			if ( '1' == $this->settings['style_metabox'] )
 				add_action( 'admin_footer', array( $this, 'dashboard_widget_metabox_style' ), 10 );
+
 		}
 
 		/**
@@ -127,7 +128,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 * 
 		 * @return   array    Widget Settings.
 		 */
-		private function dashboard_widget_settings() {
+		private function widget_settings() {
 
 			$widget_id = $this->widget_id;
 			$defaults = array(
@@ -160,69 +161,15 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 * 
 		 * @since    1.0.0
 		 */
-		public function dashboard_widget_metabox_style() {
+		public function widget_metabox_style() {
 
 			printf( '<script type="text/javascript">document.getElementById("%s").classList.add("no-style");</script>', $this->widget_id );
 		}
 
-		/**
-		 * Widget content.
-		 * 
-		 * Show a list of the most recently added movies with a panel of
-		 * settings to customize the view.
-		 * 
-		 * @since    1.0.0
-		 */
-		public function dashboard_widget() {
+		public function get_widget_content( $limit = 8, $offset = 0 ) {
 
-			global $wpdb;
-
-			$movies = $wpdb->get_results(
-				'SELECT p.*, m.meta_value AS meta, mm.meta_value AS rating
-				 FROM ' . $wpdb->posts . ' AS p
-				 LEFT JOIN ' . $wpdb->postmeta . ' AS m ON m.post_id=p.ID AND m.meta_key="_wpml_movie_data"
-				 LEFT JOIN ' . $wpdb->postmeta . ' AS mm ON mm.post_id=p.ID AND mm.meta_key="_wpml_movie_rating"
-				 WHERE post_type="movie"
-				   AND post_status="publish"
-				 GROUP BY p.ID
-				 ORDER BY post_date DESC
-				 LIMIT 0,8'
-			);
-
-			if ( ! empty( $movies ) ) {
-				foreach ( $movies as $movie ) {
-
-					$movie->meta = unserialize( $movie->meta );
-					$movie->meta = array(
-						'title' => apply_filters( 'the_title', $movie->meta['meta']['title'] ),
-						'runtime' => apply_filters( 'wpml_filter_filter_runtime', $movie->meta['meta']['runtime'] ),
-						'release_date' => apply_filters( 'wpml_filter_filter_release_date', $movie->meta['meta']['release_date'], 'Y' ),
-						'overview' => apply_filters( 'the_content', $movie->meta['meta']['overview'] )
-					);
-					$movie->year = $movie->meta['release_date'];
-					$movie->meta = json_encode( $movie->meta );
-
-					if ( has_post_thumbnail( $movie->ID ) ) {
-						$movie->poster = wp_get_attachment_image_src( get_post_thumbnail_id( $movie->ID ), 'large' );
-						$movie->poster = $movie->poster[0];
-					}
-					else
-						$movie->poster = WPML_DEFAULT_POSTER_URL;
-
-					$attachments = get_children( $args = array( 'post_parent' => $movie->ID, 'post_type' => 'attachment' ) );
-					if ( ! empty( $attachments ) ) {
-						shuffle( $attachments );
-						$movie->backdrop = wp_get_attachment_image_src( $attachments[0]->ID, 'full' );
-						$movie->backdrop = $movie->backdrop[0];
-					}
-					else
-						$movie->backdrop = $movie->poster;
-				}
-			}
-
-			$editing = false;
-			$settings = $this->dashboard_widget_settings();
-			include( WPML_PATH . '/admin/dashboard/views/dashboard-latest-movies-widget-config.php' );
+			$movies = $this->widget_content( $limit, $offset );
+			$settings = $this->widget_settings();
 
 			$class = 'wpml-movie';
 
@@ -235,7 +182,95 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 			if ( '1' == $settings['show_modal'] )
 				$class .= ' modal';
 
-			include_once( WPML_PATH . '/admin/dashboard/views/dashboard-latest-movies-widget.php' );
+			if ( is_array( $movies ) ) {
+				include( WPML_PATH . '/admin/dashboard/views/dashboard-latest-movies-widget.php' );
+				return true;
+			}
+			else
+				echo $movies;
+
+			return true;
+		}
+
+		/**
+		 * Retrieve and prepare the movies to display in the Widget.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    int    $limit How many movies to get
+		 * @param    int    $limit Offset to select movies
+		 * 
+		 * @return   array    Requested Movies.
+		 */
+		private function widget_content( $limit = 8, $offset = 0 ) {
+
+			global $wpdb;
+
+			$movies = $wpdb->get_results(
+				'SELECT p.*, m.meta_value AS meta, mm.meta_value AS rating
+				 FROM ' . $wpdb->posts . ' AS p
+				 LEFT JOIN ' . $wpdb->postmeta . ' AS m ON m.post_id=p.ID AND m.meta_key="_wpml_movie_data"
+				 LEFT JOIN ' . $wpdb->postmeta . ' AS mm ON mm.post_id=p.ID AND mm.meta_key="_wpml_movie_rating"
+				 WHERE post_type="movie"
+				   AND post_status="publish"
+				 GROUP BY p.ID
+				 ORDER BY post_date DESC
+				 LIMIT ' . $offset . ',' . $limit
+			);
+
+			if ( empty( $movies ) )
+				wp_die( 2 );
+
+			foreach ( $movies as $movie ) {
+
+				$movie->meta = unserialize( $movie->meta );
+				$movie->meta = array(
+					'title' => apply_filters( 'the_title', $movie->meta['meta']['title'] ),
+					'runtime' => apply_filters( 'wpml_filter_filter_runtime', $movie->meta['meta']['runtime'] ),
+					'release_date' => apply_filters( 'wpml_filter_filter_release_date', $movie->meta['meta']['release_date'], 'Y' ),
+					'overview' => apply_filters( 'the_content', $movie->meta['meta']['overview'] )
+				);
+				$movie->year = $movie->meta['release_date'];
+				$movie->meta = json_encode( $movie->meta );
+
+				if ( has_post_thumbnail( $movie->ID ) ) {
+					$movie->poster = wp_get_attachment_image_src( get_post_thumbnail_id( $movie->ID ), 'large' );
+					$movie->poster = $movie->poster[0];
+				}
+				else
+					$movie->poster = WPML_DEFAULT_POSTER_URL;
+
+				$attachments = get_children( $args = array( 'post_parent' => $movie->ID, 'post_type' => 'attachment' ) );
+				if ( ! empty( $attachments ) ) {
+					shuffle( $attachments );
+					$movie->backdrop = wp_get_attachment_image_src( $attachments[0]->ID, 'full' );
+					$movie->backdrop = $movie->backdrop[0];
+				}
+				else
+					$movie->backdrop = $movie->poster;
+			}
+
+			return $movies;
+		}
+
+		/**
+		 * The Widget content.
+		 * 
+		 * Show a list of the most recently added movies with a panel of
+		 * settings to customize the view.
+		 * 
+		 * @since    1.0.0
+		 */
+		public function widget() {
+
+			$editing = false;
+			$offset = false;
+			$movies = $this->widget_content();
+			$settings = $this->widget_settings();
+
+			include( WPML_PATH . '/admin/dashboard/views/dashboard-latest-movies-widget-config.php' );
+
+			$this->get_widget_content();
 		}
 
 		/**
@@ -246,9 +281,9 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 * @param    string    $context box context
 		 * @param    mixed     $object gets passed to the box callback function as first parameter
 		 */
-		public function dashboard_widget_handle( $context, $object ) {
+		public function widget_handle( $context, $object ) {
 
-			$settings = $this->dashboard_widget_settings();
+			$settings = $this->widget_settings();
 			$editing = ( isset( $_GET['edit'] ) && $object['id'] == $_GET['edit'] );
 
 			include( WPML_PATH . '/admin/dashboard/views/dashboard-latest-movies-widget-config.php' );

@@ -240,6 +240,22 @@ body.post-php.post-type-movie #postimagediv {
 	float: right;
 }
 
+#wpml-home #wpml_dashboard_latest_movies_widget #latest_movies_load_more,
+#wpml-home #wpml_dashboard_most_rated_movies_widget #latest_movies_load_more {
+	margin: 1.5em 0;
+	position: relative;
+}
+
+#wpml-home #wpml_dashboard_latest_movies_widget #latest_movies_load_more .spinner,
+#wpml-home #wpml_dashboard_most_rated_movies_widget #latest_movies_load_more .spinner {
+	position: absolute;
+	display: block;
+	float: none;
+	left: 50%;
+	margin-left: -10px;
+	top: 1px;
+}
+
 #wpml_dashboard_quickaction_widget li {
 	display: inline-block;
 	height: 96px;

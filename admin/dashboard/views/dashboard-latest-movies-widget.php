@@ -1,6 +1,9 @@
 
+<?php if ( ! $offset ) : ?>
 							<div class="main">
 <?php
+endif;
+
 if ( ! empty( $movies ) ) :
 	foreach ( $movies as $movie ) :
 ?>
@@ -19,10 +22,12 @@ if ( ! empty( $movies ) ) :
 <?php
 	endforeach;
 endif;
-?>
-								<p style="text-align:center">
-									<a href="#" id="latest_movies_load_more" class="button button-default hide-if-no-js<?php if ( '0' == $settings['show_more'] ) echo ' hide-if-js'; ?>">
-										<span class="dashicons dashicons-plus"></span> <span><?php _e( 'Load more', WPML_SLUG ) ?></span>
-									</a>
-								</p>
+
+if ( ! $offset ) : ?>
 							</div>
+							<div style="text-align:center">
+								<a href="#" id="latest_movies_load_more" class="button button-default hide-if-no-js<?php if ( '0' == $settings['show_more'] ) echo ' hide-if-js'; ?>">
+									<span class="dashicons dashicons-plus"></span> <span><?php _e( 'Load more', WPML_SLUG ) ?></span>
+								</a>
+							</div>
+<?php endif; ?>

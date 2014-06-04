@@ -131,9 +131,13 @@ wpml.dashboard = wpml_dashboard = {
 		 */
 		wpml.dashboard.widgets.latest_movies = wpml_latest_movies = {
 
+			timer: undefined,
+			delay: 500,
+
 			_year: '.movie-year',
 			_rating: '.movie-rating',
 			_movies: '.wpml-movie',
+			_movies_per_page: '#latest_movies_movies_per_page',
 			_loadmore: '#latest_movies_load_more',
 			_quickedit: '.movie-quickedit',
 			_checkbox: '#wpml-latest-movies-widget-config input[type=checkbox]',
@@ -200,12 +204,93 @@ wpml.dashboard = wpml_dashboard = {
 			};
 
 			/**
+			 * Load more movies
+			 * 
+			 * TODO: Nonce
+			 * 
+			 * @since    1.0.0
+			 */
+			wpml.dashboard.widgets.latest_movies.load_more = function( limit, offset ) {
+
+				if ( null == limit )
+					var limit = 8;
+				if ( null == offset )
+					var offset = $( wpml_latest_movies._movies, wpml_latest_movies._container_main ).length;
+
+				wpml._get({
+					data: {
+						action: 'wpml_load_more_movies',
+						widget: 'WPML_Dashboard_Latest_Movies_Widget',
+						offset: offset,
+						limit: limit
+					},
+					beforeSend: function() {
+						$( wpml_latest_movies._loadmore ).find( 'span' ).css( { opacity: 0 } );
+						$( wpml_latest_movies._loadmore ).append( '<span class="spinner"></span>' );
+					},
+					success: function( data ) {
+						if ( '2' == data ) {
+							$( wpml_latest_movies._loadmore ).addClass( 'disabled' );
+							return true;
+						}
+
+						$( wpml_latest_movies._container_main ).append( data );
+						wpml_dashboard.resize_posters();
+					},
+					complete: function( data ) {
+						$( wpml_latest_movies._loadmore ).find( 'span' ).css( { opacity: 1.0 } );
+						$( wpml_latest_movies._loadmore ).find( '.spinner' ).remove();
+					}
+				});
+			};
+
+			/**
+			 * Update movies per page value
+			 * 
+			 * TODO: Nonce
+			 * 
+			 * @since    1.0.0
+			 */
+			wpml.dashboard.widgets.latest_movies.movies_per_page = function( n ) {
+
+				var offset = $( wpml_latest_movies._movies, wpml_latest_movies._container_main ).length;
+				if ( 0 > n || 999 < n || isNaN( n ) )
+					var n = 8;
+				
+				if ( n < offset ) {
+					$( wpml_latest_movies._movies, wpml_latest_movies._container_main ).each(function( i, movie ) {
+						if ( i >= n )
+							$(movie).remove();
+					});
+				}
+				else {
+					$( wpml_latest_movies._movies, wpml_latest_movies._container_main ).remove();
+					wpml_latest_movies.load_more( n, 0 );
+				}
+			};
+
+			/**
 			 * Init Widget Events
 			 */
 			wpml.dashboard.widgets.latest_movies.init = function() {
 
 				$( wpml_latest_movies._checkbox ).on( 'click', function() {
 					wpml_latest_movies.toggle_setting( this.id, this.checked );
+				});
+
+				$( wpml_latest_movies._loadmore ).on( 'click', function( e ) {
+					e.preventDefault();
+					if ( $( this ).hasClass( 'disabled' ) )
+						return;
+					wpml_latest_movies.load_more( '', null );
+				});
+
+				$( wpml_latest_movies._movies_per_page ).on( 'input', function() {
+					var n = this.value;
+					window.clearTimeout( wpml_latest_movies.timer );
+					wpml_latest_movies.timer = window.setTimeout( function() {
+						wpml_latest_movies.movies_per_page( n );
+					}, wpml_latest_movies.delay );
 				});
 			};
 
@@ -361,8 +446,6 @@ wpml.dashboard = wpml_dashboard = {
 		$( window ).on( 'resize', function() {
 			wpml_dashboard.resize_posters();
 		});
-
-		
 
 		wpml_dashboard.resize_posters();
 		wpml_dashboard.modal.init();

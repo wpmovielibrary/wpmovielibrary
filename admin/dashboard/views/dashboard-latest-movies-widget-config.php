@@ -20,8 +20,8 @@
 													<em><?php _e( 'Show movies ratings below the poster.', WPML_SLUG ) ?></em><br />
 													<label><input id="latest_movies_show_more" name="wp_screen_options[wpml_dashboard_latest_movies_widget][show_more]"<?php checked( $settings['show_more'], '1' ) ?> type="checkbox" value="1" /> <strong><?php _e( 'Show "Load more" button', WPML_SLUG ) ?></strong></label><br />
 													<em><?php _e( 'Show a button to load more movies to the Widget.', WPML_SLUG ) ?></em> <em class="hide-if-js"><?php _e( 'JavaScript required', WPML_SLUG ) ?></em><br />
-													<label><input id="latest_movies_show_modal" name="wp_screen_options[wpml_dashboard_latest_movies_widget][show_modal]"<?php checked( $settings['show_modal'], '1' ) ?> type="checkbox" value="1" /> <strong><?php _e( 'Open modal window on click', WPML_SLUG ) ?></strong></label><br />
-													<em><?php _e( 'Show a previewing modal window when clicking posters.', WPML_SLUG ) ?></em> <em class="hide-if-js"><?php _e( 'JavaScript required', WPML_SLUG ) ?></em>
+													<label><input id="latest_movies_show_modal" name="wp_screen_options[wpml_dashboard_latest_movies_widget][show_modal]"<?php checked( $settings['show_modal'], '1' ) ?> type="checkbox" value="1" /> <strong><?php _e( 'Show a previewing modal window when clicking posters.', WPML_SLUG ) ?></strong></label><br />
+													<em><?php _e( 'Open modal window on click', WPML_SLUG ) ?></em> <em class="hide-if-js"><?php _e( 'JavaScript required', WPML_SLUG ) ?></em>
 												</td>
 												<td style="vertical-align:top;width:40%">
 													<label><input id="latest_movies_show_quickedit" name="wp_screen_options[wpml_dashboard_latest_movies_widget][show_quickedit]"<?php checked( $settings['show_quickedit'], '1' ) ?> type="checkbox" value="1" /> <strong><?php _e( 'Quick-Edit menu', WPML_SLUG ) ?></strong></label><br />
