@@ -61,6 +61,15 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		protected $callback_args = null;
 
 		/**
+		 * Widget settings.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @var      array
+		 */
+		protected $settings = null;
+
+		/**
 		 * Constructor
 		 *
 		 * @since   1.0.0
@@ -82,6 +91,9 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 			$this->widget_name = __( 'Movies you recently added', WPML_SLUG );
 			$this->callback = array( $this, 'dashboard_widget' );
 			$this->control_callback = array( $this, 'dashboard_widget_handle' );
+			$this->callback_args = array( 'id' => $this->widget_id );
+
+			$this->settings = $this->dashboard_widget_settings();
 		}
 
 		/**
@@ -92,6 +104,9 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		public function register_hook_callbacks() {
 
 			add_action( 'wpml_dashboard_setup', array( $this, '_add_dashboard_widget' ), 10 );
+
+			if ( '1' == $this->settings['style_metabox'] )
+				add_action( 'admin_footer', array( $this, 'dashboard_widget_metabox_style' ), 10 );
 		}
 
 		/**
@@ -101,21 +116,60 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 */
 		public function _add_dashboard_widget() {
 
-			if ( current_user_can( 'edit_dashboard' ) && is_callable( $this->control_callback ) ) {
-				$widget_name = __( $this->widget_name, WPML_SLUG );
-				$widget_name .= ' <span class="postbox-title-action">';
-				$widget_name .= '<a href="#" class="edit-box open-box">' . __( 'Configure' ) . '</a>';
-				$widget_name .= '<a href="#" class="edit-box close-box" style="display:none">' . __( 'Cancel' ) . '</a>';
-				$widget_name .= '</span>';
-
-				$this->widget_name = $widget_name;
-			}
-
 			$this->add_dashboard_widget( $this->widget_id, $this->widget_name, $this->callback, $this->control_callback );
 		}
 
 		/**
-		 * Widget content
+		 * Widget Settings. Get the stored Widget Settings if existing,
+		 * save default settings if none.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @return   array    Widget Settings.
+		 */
+		private function dashboard_widget_settings() {
+
+			$widget_id = $this->widget_id;
+			$defaults = array(
+				'movies_per_page' => 8,
+				'show_year' => 1,
+				'show_rating' => 1,
+				'show_more' => 1,
+				'show_modal' => 1,
+				'show_quickedit' => 1,
+				'style_posters' => 1,
+				'style_metabox' => 1
+			);
+			$settings = get_user_option( $widget_id . '_settings' );
+
+			if ( ! $settings ) {
+				update_user_option( get_current_user_id(), $widget_id . '_settings', $defaults );
+				$settings = $defaults;
+			}
+			else
+				$settings = wp_parse_args( $settings, $defaults );
+
+			return $settings;
+		}
+
+		/**
+		 * JavaScript part to apply custom styling on plugin Metaboxes.
+		 * 
+		 * This can't be done in PHP so we need to add a small JS code
+		 * to add a class the Metaboxes selected to be stylized.
+		 * 
+		 * @since    1.0.0
+		 */
+		public function dashboard_widget_metabox_style() {
+
+			printf( '<script type="text/javascript">document.getElementById("%s").classList.add("no-style");</script>', $this->widget_id );
+		}
+
+		/**
+		 * Widget content.
+		 * 
+		 * Show a list of the most recently added movies with a panel of
+		 * settings to customize the view.
 		 * 
 		 * @since    1.0.0
 		 */
@@ -142,9 +196,10 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 					$movie->meta = array(
 						'title' => apply_filters( 'the_title', $movie->meta['meta']['title'] ),
 						'runtime' => apply_filters( 'wpml_filter_filter_runtime', $movie->meta['meta']['runtime'] ),
-						'release_date' => apply_filters( 'wpml_filter_filter_release_date', $movie->meta['meta']['release_date'] ),
+						'release_date' => apply_filters( 'wpml_filter_filter_release_date', $movie->meta['meta']['release_date'], 'Y' ),
 						'overview' => apply_filters( 'the_content', $movie->meta['meta']['overview'] )
 					);
+					$movie->year = $movie->meta['release_date'];
 					$movie->meta = json_encode( $movie->meta );
 
 					if ( has_post_thumbnail( $movie->ID ) ) {
@@ -165,10 +220,39 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 				}
 			}
 
+			$editing = false;
+			$settings = $this->dashboard_widget_settings();
+			include( WPML_PATH . '/admin/dashboard/views/dashboard-latest-movies-widget-config.php' );
+
+			$class = 'wpml-movie';
+
+			if ( '1' == $settings['show_year'] )
+				$class .= ' with-year';
+			if ( '1' == $settings['show_rating'] )
+				$class .= ' with-rating';
+			if ( '1' == $settings['style_posters'] )
+				$class .= ' stylized';
+			if ( '1' == $settings['show_modal'] )
+				$class .= ' modal';
+
 			include_once( WPML_PATH . '/admin/dashboard/views/dashboard-latest-movies-widget.php' );
 		}
 
-		public function dashboard_widget_handle() {}
+		/**
+		 * Widget's configuration callback
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $context box context
+		 * @param    mixed     $object gets passed to the box callback function as first parameter
+		 */
+		public function dashboard_widget_handle( $context, $object ) {
+
+			$settings = $this->dashboard_widget_settings();
+			$editing = ( isset( $_GET['edit'] ) && $object['id'] == $_GET['edit'] );
+
+			include( WPML_PATH . '/admin/dashboard/views/dashboard-latest-movies-widget-config.php' );
+		}
 
 	}
 

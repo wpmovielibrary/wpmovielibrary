@@ -69,6 +69,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			add_filter( 'screen_settings', __CLASS__ . '::screen_options', 10, 2 );
 
 			add_action( 'wp_ajax_wpml_save_screen_option', __CLASS__ . '::wpml_save_screen_option_callback' );
+			add_action( 'wp_ajax_wpml_save_dashboard_widget_settings', __CLASS__ . '::wpml_save_dashboard_widget_settings_callback' );
 		}
 
 		/**
@@ -90,6 +91,28 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 				wp_die( 0 );
 
 			$update = self::save_screen_option( $option, $visible, $screen_id );
+
+			wp_die( $update );
+		}
+
+		/**
+		 * AJAX Callback to update the plugin Widgets settings.
+		 * 
+		 * 
+		 * 
+		 * @since     1.0.0
+		 */
+		public static function wpml_save_dashboard_widget_settings_callback() {
+
+			$widget = ( isset( $_POST['widget'] ) && '' != $_POST['widget'] ? $_POST['widget'] : null );
+			$setting = ( isset( $_POST['setting'] ) && '' != $_POST['setting'] ? $_POST['setting'] : null );
+			$value = ( isset( $_POST['value'] ) && '' != $_POST['value'] ? $_POST['value'] : null );
+
+			if ( is_null( $widget ) || is_null( $setting ) || is_null( $value ) || ! class_exists( $widget ) )
+				wp_die( 0 );
+
+			$class = $widget::get_instance();
+			$update = self::save_widget_setting( $class->widget_id, $setting, $value );
 
 			wp_die( $update );
 		}
@@ -224,6 +247,32 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		}
 
 		/**
+		 * Save a plugin Dashboard Widget setting.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $widget_id Widget ID
+		 * @param    string    $setting Setting name
+		 * @param    string    $value Setting value
+		 * 
+		 * @return   boolean   Update status, success or failure
+		 */
+		private static function save_widget_setting( $widget_id, $setting, $value ) {
+
+			$settings = get_user_option( $widget_id . '_settings' );
+
+			if ( ! $settings ) {
+				update_user_option( get_current_user_id(), $widget_id . '_settings', array() );
+				$settings = $defaults;
+			}
+
+			$settings[ $setting ] = esc_attr( $value );
+			$update = update_user_option( get_current_user_id(), $widget_id . '_settings', $settings );
+
+			return $update;
+		}
+
+		/**
 		 * Render WPML Dashboard Page.
 		 * 
 		 * Create a nice landing page for the plugin, displaying recent
@@ -266,6 +315,23 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		public function add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null, $callback_args = null ) {
 
 			global $wp_dashboard_control_callbacks;
+
+			if ( $control_callback && current_user_can( 'edit_dashboard' ) && is_callable( $control_callback ) ) {
+
+				$wp_dashboard_control_callbacks[ $widget_id ] = $control_callback;
+				$widget_name = __( $widget_name, WPML_SLUG );
+
+				if ( isset( $_GET['edit'] ) && $widget_id == $_GET['edit'] ) {
+					list( $url ) = explode( '#', add_query_arg( 'edit', false ), 2 );
+					$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( $url ) . '" class="edit-box close-box">' . __( 'Cancel' ) . '</a></span>';
+					$callback = $control_callback;
+				}
+				else {
+					list( $url ) = explode( '#', add_query_arg( 'edit', $widget_id ), 2 );
+					$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( "$url#$widget_id" ) . '" class="edit-box open-box">' . __( 'Configure' ) . '</a></span>';
+					$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( $url ) . '" class="edit-box close-box hide-if-no-js hide-if-js">' . __( 'Cancel' ) . '</a></span>';
+				}
+			}
 
 			$screen = get_current_screen();
 			$side_widgets = array( 'wpml_dashboard_stats_widget', 'wpml_dashboard_quickaction_widget' );

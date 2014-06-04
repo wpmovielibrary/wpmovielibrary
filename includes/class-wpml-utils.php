@@ -43,7 +43,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			add_filter( 'wpml_filter_crew_data', __CLASS__ . '::filter_crew_data', 10, 1 );
 			add_filter( 'wpml_filter_cast_data', __CLASS__ . '::filter_cast_data', 10, 1 );
 			add_filter( 'wpml_filter_filter_runtime', __CLASS__ . '::filter_runtime', 10, 1 );
-			add_filter( 'wpml_filter_filter_release_date', __CLASS__ . '::filter_release_date', 10, 1 );
+			add_filter( 'wpml_filter_filter_release_date', __CLASS__ . '::filter_release_date', 10, 2 );
 			add_filter( 'wpml_validate_meta_data', __CLASS__ . '::validate_meta_data', 10, 1 );
 
 			add_filter( 'wpml_stringify_array', __CLASS__ . '::stringify_array', 10, 3 );
@@ -442,8 +442,11 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   string    Filtered release date
 		 */
-		public static function filter_release_date( $release_date ) {
-			return ( ! is_null( $release_date ) && '' != $release_date ? date_i18n( get_option( 'date_format' ), strtotime( $release_date ) ) : $release_date );
+		public static function filter_release_date( $release_date, $date_format = null ) {
+			if ( is_null( $date_format ) )
+				$date_format = get_option( 'date_format' );
+
+			return ( ! is_null( $release_date ) && '' != $release_date ? date_i18n( $date_format, strtotime( $release_date ) ) : $release_date );
 		}
 
 		/**

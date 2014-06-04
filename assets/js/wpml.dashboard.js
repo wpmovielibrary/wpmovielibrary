@@ -93,24 +93,29 @@ wpml.dashboard = wpml_dashboard = {
 		 */
 		wpml.dashboard.modal.init = function() {
 
-			$( wpml_modal._modal_open ).on( 'click', function( e ) {
+			$( wpml_modal._modal_open ).unbind( 'click' ).on( 'click', function( e ) {
+				if ( ! $( this ).parent( '.wpml-movie' ).hasClass( 'modal' ) )
+					return;
 				e.preventDefault();
 				wpml_modal._update( this );
 				wpml_modal._open();
 			});
 
-			$( wpml_modal._modal_close ).on( 'click', function( e ) {
+			$( wpml_modal._modal_close ).unbind( 'click' ).on( 'click', function( e ) {
 				e.preventDefault();
 				wpml_modal._close();
 			});
 
-			$( window ).on( 'resize', function() {
+			$( window ).unbind( 'resize' ).on( 'resize', function() {
 				wpml_modal._resize();
 			});
 
 			wpml_modal._resize();
 		};
 
+	/**
+	 * Plugin Dashboard Widgets
+	 */
 	wpml.dashboard.widgets = wpml_widgets = {
 
 		_edit: '.edit-box',
@@ -120,6 +125,89 @@ wpml.dashboard = wpml_dashboard = {
 		widget_toggle: function() {},
 		init: function() {}
 	};
+
+		/**
+		 * Latest Movies Widget
+		 */
+		wpml.dashboard.widgets.latest_movies = wpml_latest_movies = {
+
+			_year: '.movie-year',
+			_rating: '.movie-rating',
+			_movies: '.wpml-movie',
+			_loadmore: '#latest_movies_load_more',
+			_quickedit: '.movie-quickedit',
+			_checkbox: '#wpml-latest-movies-widget-config input[type=checkbox]',
+			_show_year: '#latest_movies_show_year',
+			_container: '#wpml_dashboard_latest_movies_widget',
+			_container_main: '#wpml_dashboard_latest_movies_widget .main',
+		};
+
+			/**
+			 * Toggle Widget's settings
+			 * 
+			 * TODO: Nonce
+			 * 
+			 * @since    1.0.0
+			 * 
+			 * @param    string     Setting ID
+			 * @param    boolean    Toggle status
+			 */
+			wpml.dashboard.widgets.latest_movies.toggle_setting = function( id, status ) {
+
+				var action = id.replace( 'latest_movies_', '' );
+
+				switch ( action ) {
+					case 'show_year':
+						$( wpml_latest_movies._year, wpml_latest_movies._container_main ).toggle( status );
+						$( wpml_latest_movies._movies, wpml_latest_movies._container_main ).toggleClass( 'with-year', status );
+						break;
+					case 'show_rating':
+						$( wpml_latest_movies._rating, wpml_latest_movies._container_main ).toggle( status );
+						$( wpml_latest_movies._movies, wpml_latest_movies._container_main ).toggleClass( 'with-rating', status );
+						break;
+					case 'style_posters':
+						console.log( status );
+						$( wpml_latest_movies._movies, wpml_latest_movies._container_main ).toggleClass( 'stylized', status );
+						break;
+					case 'style_metabox':
+						$( wpml_latest_movies._container ).toggleClass( 'no-style', status );
+						break;
+					case 'show_more':
+						$( wpml_latest_movies._loadmore, wpml_latest_movies._container_main ).toggleClass( 'hide-if-js hide-if-no-js', ! status );
+						break;
+					case 'show_modal':
+						$( wpml_latest_movies._movies, wpml_latest_movies._container_main ).toggleClass( 'modal', status );
+						if ( ! status )
+							$( wpml_modal._modal_open ).unbind( 'click' );
+						else
+							wpml.dashboard.modal.init();
+						break;
+					case 'show_quickedit':
+						$( wpml_latest_movies._quickedit, wpml_latest_movies._container_main ).toggleClass( 'hide-if-js hide-if-no-js', ! status );
+						break;
+					default:
+						break;
+				};
+
+				wpml._post({
+					data: {
+						action: 'wpml_save_dashboard_widget_settings',
+						widget: 'WPML_Dashboard_Latest_Movies_Widget',
+						setting: action,
+						value: ( true === status ? 1 : 0 )
+					}
+				});
+			};
+
+			/**
+			 * Init Widget Events
+			 */
+			wpml.dashboard.widgets.latest_movies.init = function() {
+
+				$( wpml_latest_movies._checkbox ).on( 'click', function() {
+					wpml_latest_movies.toggle_setting( this.id, this.checked );
+				});
+			};
 
 		/**
 		* Activate toggle for dashboard page widgets
@@ -195,6 +283,8 @@ wpml.dashboard = wpml_dashboard = {
 			});
 
 			$( wpml_widgets._metabox ).sortable();
+
+			wpml.dashboard.widgets.latest_movies.init();
 		};
 
 	/**
@@ -271,6 +361,8 @@ wpml.dashboard = wpml_dashboard = {
 		$( window ).on( 'resize', function() {
 			wpml_dashboard.resize_posters();
 		});
+
+		
 
 		wpml_dashboard.resize_posters();
 		wpml_dashboard.modal.init();
