@@ -206,9 +206,15 @@ wpml.dashboard = wpml_dashboard = {
 			/**
 			 * Load more movies
 			 * 
+			 * Default limit is 8; if no offset is set, use the
+			 * total number of movies currently showed in the Widget.
+			 * 
 			 * TODO: Nonce
 			 * 
 			 * @since    1.0.0
+			 * 
+			 * @param    int    Number of movies to load
+			 * @param    int    Starting at which offset
 			 */
 			wpml.dashboard.widgets.latest_movies.load_more = function( limit, offset ) {
 
@@ -250,6 +256,8 @@ wpml.dashboard = wpml_dashboard = {
 			 * TODO: Nonce
 			 * 
 			 * @since    1.0.0
+			 * 
+			 * @param    int    Movies per page
 			 */
 			wpml.dashboard.widgets.latest_movies.movies_per_page = function( n ) {
 
@@ -267,6 +275,15 @@ wpml.dashboard = wpml_dashboard = {
 					$( wpml_latest_movies._movies, wpml_latest_movies._container_main ).remove();
 					wpml_latest_movies.load_more( n, 0 );
 				}
+
+				wpml._post({
+					data: {
+						action: 'wpml_save_dashboard_widget_settings',
+						widget: 'WPML_Dashboard_Latest_Movies_Widget',
+						setting: 'movies_per_page',
+						value: n
+					}
+				});
 			};
 
 			/**
