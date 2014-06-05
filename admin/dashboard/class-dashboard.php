@@ -345,13 +345,13 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 
 				if ( isset( $_GET['edit'] ) && $widget_id == $_GET['edit'] ) {
 					list( $url ) = explode( '#', add_query_arg( 'edit', false ), 2 );
-					$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( $url ) . '" class="edit-box close-box">' . __( 'Cancel' ) . '</a></span>';
+					$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( $url ) . '" class="edit-box close-box"><span class="hide-if-js">' . __( 'Cancel' ) . '</span><span class="hide-if-no-js">' . __( 'Close' ) . '</span></a></span>';
 					$callback = $control_callback;
 				}
 				else {
 					list( $url ) = explode( '#', add_query_arg( 'edit', $widget_id ), 2 );
 					$widget_name .= ' <span class="postbox-title-action"><a href="' . wp_nonce_url( "$url#$widget_id", "edit_$widget_id" ) . '" class="edit-box open-box">' . __( 'Configure' ) . '</a></span>';
-					$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( $url ) . '" class="edit-box close-box hide-if-no-js hide-if-js">' . __( 'Cancel' ) . '</a></span>';
+					$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( $url ) . '" class="edit-box close-box hide-if-no-js hide-if-js"><span class="hide-if-js">' . __( 'Cancel' ) . '</span><span class="hide-if-no-js">' . __( 'Close' ) . '</span></a></span>';
 				}
 			}
 

@@ -179,7 +179,7 @@ wpml.dashboard = wpml_dashboard = {
 						$( wpml_latest_movies._container ).toggleClass( 'no-style', status );
 						break;
 					case 'show_more':
-						$( wpml_latest_movies._loadmore, wpml_latest_movies._container_main ).toggleClass( 'hide-if-js hide-if-no-js', ! status );
+						$( wpml_latest_movies._loadmore, wpml_latest_movies._container ).toggleClass( 'hide-if-js hide-if-no-js', ! status );
 						break;
 					case 'show_modal':
 						$( wpml_latest_movies._movies, wpml_latest_movies._container_main ).toggleClass( 'modal', status );
@@ -371,7 +371,7 @@ wpml.dashboard = wpml_dashboard = {
 						$( wpml_most_rated_movies._container ).toggleClass( 'no-style', status );
 						break;
 					case 'show_more':
-						$( wpml_most_rated_movies._loadmore, wpml_most_rated_movies._container_main ).toggleClass( 'hide-if-js hide-if-no-js', ! status );
+						$( wpml_most_rated_movies._loadmore, wpml_most_rated_movies._container ).toggleClass( 'hide-if-js hide-if-no-js', ! status );
 						break;
 					case 'show_modal':
 						$( wpml_most_rated_movies._movies, wpml_most_rated_movies._container_main ).toggleClass( 'modal', status );
