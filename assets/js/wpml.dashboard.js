@@ -133,6 +133,8 @@ wpml.dashboard = wpml_dashboard = {
 
 			timer: undefined,
 			delay: 500,
+			action: 'wpml_save_dashboard_widget_settings',
+			widget: 'WPML_Dashboard_Latest_Movies_Widget',
 
 			_year: '.movie-year',
 			_rating: '.movie-rating',
@@ -195,8 +197,8 @@ wpml.dashboard = wpml_dashboard = {
 
 				wpml._post({
 					data: {
-						action: 'wpml_save_dashboard_widget_settings',
-						widget: 'WPML_Dashboard_Latest_Movies_Widget',
+						action: wpml_latest_movies.action,
+						widget: wpml_latest_movies.widget,
 						setting: action,
 						value: ( true === status ? 1 : 0 )
 					}
@@ -216,17 +218,19 @@ wpml.dashboard = wpml_dashboard = {
 			 * @param    int    Number of movies to load
 			 * @param    int    Starting at which offset
 			 */
-			wpml.dashboard.widgets.latest_movies.load_more = function( limit, offset ) {
+			wpml.dashboard.widgets.latest_movies.load_more = function( limit, offset, replace ) {
 
 				if ( null == limit )
 					var limit = 8;
 				if ( null == offset )
 					var offset = $( wpml_latest_movies._movies, wpml_latest_movies._container_main ).length;
 
+				var replace = ( true === replace ? true : false );
+
 				wpml._get({
 					data: {
 						action: 'wpml_load_more_movies',
-						widget: 'WPML_Dashboard_Latest_Movies_Widget',
+						widget: wpml_latest_movies.widget,
 						offset: offset,
 						limit: limit
 					},
@@ -239,6 +243,9 @@ wpml.dashboard = wpml_dashboard = {
 							$( wpml_latest_movies._loadmore ).addClass( 'disabled' );
 							return true;
 						}
+
+						if ( replace )
+							$( wpml_latest_movies._container_main ).empty();
 
 						$( wpml_latest_movies._container_main ).append( data );
 						wpml_dashboard.resize_posters();
@@ -273,13 +280,13 @@ wpml.dashboard = wpml_dashboard = {
 				}
 				else {
 					$( wpml_latest_movies._movies, wpml_latest_movies._container_main ).remove();
-					wpml_latest_movies.load_more( n, 0 );
+					wpml_latest_movies.load_more( n, 0, true );
 				}
 
 				wpml._post({
 					data: {
-						action: 'wpml_save_dashboard_widget_settings',
-						widget: 'WPML_Dashboard_Latest_Movies_Widget',
+						action: wpml_latest_movies.action,
+						widget: wpml_latest_movies.widget,
 						setting: 'movies_per_page',
 						value: n
 					}
@@ -299,7 +306,7 @@ wpml.dashboard = wpml_dashboard = {
 					e.preventDefault();
 					if ( $( this ).hasClass( 'disabled' ) )
 						return;
-					wpml_latest_movies.load_more( '', null );
+					wpml_latest_movies.load_more( '', null, false );
 				});
 
 				$( wpml_latest_movies._movies_per_page ).on( 'input', function() {
@@ -308,6 +315,198 @@ wpml.dashboard = wpml_dashboard = {
 					wpml_latest_movies.timer = window.setTimeout( function() {
 						wpml_latest_movies.movies_per_page( n );
 					}, wpml_latest_movies.delay );
+				});
+			};
+
+		/**
+		 * Latest Movies Widget
+		 */
+		wpml.dashboard.widgets.most_rated_movies = wpml_most_rated_movies = {
+
+			timer: undefined,
+			delay: 500,
+			action: 'wpml_save_dashboard_widget_settings',
+			widget: 'WPML_Dashboard_Most_Rated_Movies_Widget',
+
+			_year: '.movie-year',
+			_rating: '.movie-rating',
+			_movies: '.wpml-movie',
+			_movies_per_page: '#most_rated_movies_movies_per_page',
+			_loadmore: '#most_rated_movies_load_more',
+			_quickedit: '.movie-quickedit',
+			_checkbox: '#wpml-most-rated-movies-widget-config input[type=checkbox]',
+			_show_year: '#most_rated_movies_show_year',
+			_container: '#wpml_dashboard_most_rated_movies_widget',
+			_container_main: '#wpml_dashboard_most_rated_movies_widget .main',
+		};
+
+			/**
+			 * Toggle Widget's settings
+			 * 
+			 * TODO: Nonce
+			 * 
+			 * @since    1.0.0
+			 * 
+			 * @param    string     Setting ID
+			 * @param    boolean    Toggle status
+			 */
+			wpml.dashboard.widgets.most_rated_movies.toggle_setting = function( id, status ) {
+
+				var action = id.replace( 'most_rated_movies_', '' );
+
+				switch ( action ) {
+					case 'show_year':
+						$( wpml_most_rated_movies._year, wpml_most_rated_movies._container_main ).toggle( status );
+						$( wpml_most_rated_movies._movies, wpml_most_rated_movies._container_main ).toggleClass( 'with-year', status );
+						break;
+					case 'show_rating':
+						$( wpml_most_rated_movies._rating, wpml_most_rated_movies._container_main ).toggle( status );
+						$( wpml_most_rated_movies._movies, wpml_most_rated_movies._container_main ).toggleClass( 'with-rating', status );
+						break;
+					case 'style_posters':
+						console.log( status );
+						$( wpml_most_rated_movies._movies, wpml_most_rated_movies._container_main ).toggleClass( 'stylized', status );
+						break;
+					case 'style_metabox':
+						$( wpml_most_rated_movies._container ).toggleClass( 'no-style', status );
+						break;
+					case 'show_more':
+						$( wpml_most_rated_movies._loadmore, wpml_most_rated_movies._container_main ).toggleClass( 'hide-if-js hide-if-no-js', ! status );
+						break;
+					case 'show_modal':
+						$( wpml_most_rated_movies._movies, wpml_most_rated_movies._container_main ).toggleClass( 'modal', status );
+						if ( ! status )
+							$( wpml_modal._modal_open ).unbind( 'click' );
+						else
+							wpml.dashboard.modal.init();
+						break;
+					case 'show_quickedit':
+						$( wpml_most_rated_movies._quickedit, wpml_most_rated_movies._container_main ).toggleClass( 'hide-if-js hide-if-no-js', ! status );
+						break;
+					default:
+						break;
+				};
+
+				wpml._post({
+					data: {
+						action: wpml_most_rated_movies.action,
+						widget: wpml_most_rated_movies.widget,
+						setting: action,
+						value: ( true === status ? 1 : 0 )
+					}
+				});
+			};
+
+			/**
+			 * Load more movies
+			 * 
+			 * Default limit is 8; if no offset is set, use the
+			 * total number of movies currently showed in the Widget.
+			 * 
+			 * TODO: Nonce
+			 * 
+			 * @since    1.0.0
+			 * 
+			 * @param    int    Number of movies to load
+			 * @param    int    Starting at which offset
+			 */
+			wpml.dashboard.widgets.most_rated_movies.load_more = function( limit, offset, replace ) {
+
+				if ( null == limit )
+					var limit = 4;
+				if ( null == offset )
+					var offset = $( wpml_most_rated_movies._movies, wpml_most_rated_movies._container_main ).length;
+
+				var replace = ( true === replace ? true : false );
+
+				wpml._get({
+					data: {
+						action: 'wpml_load_more_movies',
+						widget: wpml_most_rated_movies.widget,
+						offset: offset,
+						limit: limit
+					},
+					beforeSend: function() {
+						$( wpml_most_rated_movies._loadmore ).find( 'span' ).css( { opacity: 0 } );
+						$( wpml_most_rated_movies._loadmore ).append( '<span class="spinner"></span>' );
+					},
+					success: function( data ) {
+						if ( '2' == data ) {
+							$( wpml_most_rated_movies._loadmore ).addClass( 'disabled' );
+							return true;
+						}
+
+						if ( replace )
+							$( wpml_most_rated_movies._container_main ).empty();
+
+						$( wpml_most_rated_movies._container_main ).append( data );
+						wpml_dashboard.resize_posters();
+					},
+					complete: function( data ) {
+						$( wpml_most_rated_movies._loadmore ).find( 'span' ).css( { opacity: 1.0 } );
+						$( wpml_most_rated_movies._loadmore ).find( '.spinner' ).remove();
+					}
+				});
+			};
+
+			/**
+			 * Update movies per page value
+			 * 
+			 * TODO: Nonce
+			 * 
+			 * @since    1.0.0
+			 * 
+			 * @param    int    Movies per page
+			 */
+			wpml.dashboard.widgets.most_rated_movies.movies_per_page = function( n ) {
+
+				var offset = $( wpml_most_rated_movies._movies, wpml_most_rated_movies._container_main ).length;
+				if ( 0 > n || 999 < n || isNaN( n ) )
+					var n = 8;
+				
+				if ( n < offset ) {
+					$( wpml_most_rated_movies._movies, wpml_most_rated_movies._container_main ).each(function( i, movie ) {
+						if ( i >= n )
+							$(movie).remove();
+					});
+				}
+				else {
+					$( wpml_most_rated_movies._movies, wpml_most_rated_movies._container_main ).remove();
+					wpml_most_rated_movies.load_more( n, 0, true );
+				}
+
+				wpml._post({
+					data: {
+						action: wpml_most_rated_movies.action,
+						widget: wpml_most_rated_movies.widget,
+						setting: 'movies_per_page',
+						value: n
+					}
+				});
+			};
+
+			/**
+			 * Init Widget Events
+			 */
+			wpml.dashboard.widgets.most_rated_movies.init = function() {
+
+				$( wpml_most_rated_movies._checkbox ).on( 'click', function() {
+					wpml_most_rated_movies.toggle_setting( this.id, this.checked );
+				});
+
+				$( wpml_most_rated_movies._loadmore ).on( 'click', function( e ) {
+					e.preventDefault();
+					if ( $( this ).hasClass( 'disabled' ) )
+						return;
+					wpml_most_rated_movies.load_more( '', null, false );
+				});
+
+				$( wpml_most_rated_movies._movies_per_page ).on( 'input', function() {
+					var n = this.value;
+					window.clearTimeout( wpml_most_rated_movies.timer );
+					wpml_most_rated_movies.timer = window.setTimeout( function() {
+						wpml_most_rated_movies.movies_per_page( n );
+					}, wpml_most_rated_movies.delay );
 				});
 			};
 
@@ -387,6 +586,7 @@ wpml.dashboard = wpml_dashboard = {
 			$( wpml_widgets._metabox ).sortable();
 
 			wpml.dashboard.widgets.latest_movies.init();
+			wpml.dashboard.widgets.most_rated_movies.init();
 		};
 
 	/**

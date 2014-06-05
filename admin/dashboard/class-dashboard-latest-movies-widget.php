@@ -106,7 +106,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 			add_action( 'wpml_dashboard_setup', array( $this, '_add_dashboard_widget' ), 10 );
 
 			if ( '1' == $this->settings['style_metabox'] )
-				add_action( 'admin_footer', array( $this, 'dashboard_widget_metabox_style' ), 10 );
+				add_action( 'admin_footer', array( $this, 'widget_metabox_style' ), 10 );
 
 		}
 
@@ -175,10 +175,10 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 * @param    int    $limit Number of movies to show
 		 * @param    int    $offset Starting after n movies
 		 */
-		public function get_widget_content( $limit = 8, $offset = 0 ) {
+		public function get_widget_content( $limit = null, $offset = 0 ) {
 
 			$movies = $this->widget_content( $limit, $offset );
-			$settings = $this->widget_settings();
+			$settings = $this->settings;
 
 			$class = 'wpml-movie';
 
@@ -204,9 +204,12 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 * 
 		 * @return   array    Requested Movies.
 		 */
-		private function widget_content( $limit = 8, $offset = 0 ) {
+		private function widget_content( $limit = null, $offset = 0 ) {
 
 			global $wpdb;
+
+			if ( is_null( $limit ) )
+				$limit = $this->settings['movies_per_page'];
 
 			$movies = $wpdb->get_results(
 				'SELECT p.*, m.meta_value AS meta, mm.meta_value AS rating
@@ -268,7 +271,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 			$editing = false;
 			$offset = false;
 			$movies = $this->widget_content();
-			$settings = $this->widget_settings();
+			$settings = $this->settings;
 
 			include( WPML_PATH . '/admin/dashboard/views/dashboard-latest-movies-widget-config.php' );
 
@@ -285,7 +288,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 */
 		public function widget_handle( $context, $object ) {
 
-			$settings = $this->widget_settings();
+			$settings = $this->settings;
 			$editing = ( isset( $_GET['edit'] ) && $object['id'] == $_GET['edit'] );
 
 			include( WPML_PATH . '/admin/dashboard/views/dashboard-latest-movies-widget-config.php' );

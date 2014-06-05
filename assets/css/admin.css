@@ -123,10 +123,6 @@ body.post-php.post-type-movie #postimagediv {
 	vertical-align: text-top;
 }
 
-#latest_movies_load_more .dashicons {
-	line-height: 1.5;
-}
-
 #wpml_dashboard_latest_movies_widget.no-style,
 #wpml_dashboard_most_rated_movies_widget.no-style {
 	border-color: rgba(0, 0, 0, 0);
@@ -241,13 +237,18 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 #wpml-home #wpml_dashboard_latest_movies_widget #latest_movies_load_more,
-#wpml-home #wpml_dashboard_most_rated_movies_widget #latest_movies_load_more {
+#wpml-home #wpml_dashboard_most_rated_movies_widget #most_rated_movies_load_more {
 	margin: 1.5em 0;
 	position: relative;
 }
 
+#wpml-home #wpml_dashboard_latest_movies_widget #latest_movies_load_more .dashicons,
+#wpml-home #wpml_dashboard_most_rated_movies_widget #most_rated_movies_load_more .dashicons {
+	line-height: 1.5;
+}
+
 #wpml-home #wpml_dashboard_latest_movies_widget #latest_movies_load_more .spinner,
-#wpml-home #wpml_dashboard_most_rated_movies_widget #latest_movies_load_more .spinner {
+#wpml-home #wpml_dashboard_most_rated_movies_widget #most_rated_movies_load_more .spinner {
 	position: absolute;
 	display: block;
 	float: none;

@@ -127,7 +127,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 
 			$widget = ( isset( $_GET['widget'] ) && '' != $_GET['widget'] ? $_GET['widget'] : null );
 			$offset = ( isset( $_GET['offset'] ) && '' != $_GET['offset'] ? $_GET['offset'] : 0 );
-			$limit  = ( isset( $_GET['limit'] ) && '' != $_GET['limit'] ? $_GET['limit'] : 8 );
+			$limit  = ( isset( $_GET['limit'] ) && '' != $_GET['limit'] ? $_GET['limit'] : null );
 
 			if ( is_null( $widget ) || ! class_exists( $widget ) )
 				wp_die( 0 );

@@ -25,6 +25,10 @@ endif;
 
 if ( ! $offset ) : ?>
 							</div>
+<?php
+endif;
+
+if ( true !== DOING_AJAX ) : ?>
 							<div style="text-align:center">
 								<a href="#" id="latest_movies_load_more" class="button button-default hide-if-no-js<?php if ( '0' == $settings['show_more'] ) echo ' hide-if-js'; ?>">
 									<span class="dashicons dashicons-plus"></span> <span><?php _e( 'Load more', WPML_SLUG ) ?></span>
