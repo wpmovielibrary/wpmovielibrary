@@ -70,6 +70,15 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		protected $settings = null;
 
 		/**
+		 * Widget default settings.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @var      array
+		 */
+		protected $default_settings = null;
+
+		/**
 		 * Constructor
 		 *
 		 * @since   1.0.0
@@ -93,6 +102,16 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 			$this->control_callback = array( $this, 'widget_handle' );
 			$this->callback_args = array( 'id' => $this->widget_id );
 
+			$this->default_settings = array(
+				'movies_per_page' => 8,
+				'show_year' => 1,
+				'show_rating' => 1,
+				'show_more' => 1,
+				'show_modal' => 1,
+				'show_quickedit' => 1,
+				'style_posters' => 1,
+				'style_metabox' => 1
+			);
 			$this->settings = $this->widget_settings();
 		}
 
@@ -131,16 +150,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		private function widget_settings() {
 
 			$widget_id = $this->widget_id;
-			$defaults = array(
-				'movies_per_page' => 8,
-				'show_year' => 1,
-				'show_rating' => 1,
-				'show_more' => 1,
-				'show_modal' => 1,
-				'show_quickedit' => 1,
-				'style_posters' => 1,
-				'style_metabox' => 1
-			);
+			$defaults = $this->default_settings;
 			$settings = get_user_option( $widget_id . '_settings' );
 
 			if ( ! $settings ) {
@@ -151,6 +161,38 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 				$settings = wp_parse_args( $settings, $defaults );
 
 			return $settings;
+		}
+
+		/**
+		 * Update Widget settings when config form is posted.
+		 * 
+		 * @since    1.0.0
+		 */
+		private function update_settings() {
+
+			$settings = get_user_option( $this->widget_id . '_settings' );
+			$nonce = "save_{$this->widget_id}_nonce";
+
+			if ( ! isset( $_POST[ $nonce ] ) || ! wp_verify_nonce( $_POST[ $nonce ], "save-{$this->widget_id}" ) ) {
+				printf( '%s <a href="%s">%s</a>', __( 'You are not allowed to edit this item.' ), admin_url( '/admin.php?page=wpmovielibrary' ), __( 'Go back' ) );
+				return false;
+			}
+
+			$_settings = array();
+			foreach ( $this->default_settings as $key => $value ) {
+				if ( ! isset( $_POST[ $this->widget_id ][ $key ] ) )
+					$_settings[ $key ] = 0;
+				else
+					$_settings[ $key ] = $_POST[ $this->widget_id ][ $key ];
+			}
+
+			$settings = wp_parse_args( $_settings, $settings );
+			$update = update_user_option( get_current_user_id(), $this->widget_id . '_settings', $settings );
+
+			if ( $update ) {
+				WPML_Utils::admin_notice( __( 'Settings saved.' ), $type = 'update' );
+				$this->settings = $settings;
+			}
 		}
 
 		/**
@@ -268,6 +310,9 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 */
 		public function widget() {
 
+			if ( isset( $_POST[ $this->widget_id ] ) )
+				$this->update_settings();
+
 			$editing = false;
 			$offset = false;
 			$movies = $this->widget_content();
@@ -290,6 +335,11 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 
 			$settings = $this->settings;
 			$editing = ( isset( $_GET['edit'] ) && $object['id'] == $_GET['edit'] );
+
+			if ( $editing && ( ! current_user_can( 'edit_dashboard' ) || ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( $_GET['_wpnonce'], "edit_{$this->widget_id}" ) ) ) ) {
+				printf( '%s <a href="%s">%s</a>', __( 'You are not allowed to edit this item.' ), admin_url( '/admin.php?page=wpmovielibrary' ), __( 'Go back' ) );
+				return false;
+			}
 
 			include( WPML_PATH . '/admin/dashboard/views/dashboard-latest-movies-widget-config.php' );
 		}

@@ -350,7 +350,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 				}
 				else {
 					list( $url ) = explode( '#', add_query_arg( 'edit', $widget_id ), 2 );
-					$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( "$url#$widget_id" ) . '" class="edit-box open-box">' . __( 'Configure' ) . '</a></span>';
+					$widget_name .= ' <span class="postbox-title-action"><a href="' . wp_nonce_url( "$url#$widget_id", "edit_$widget_id" ) . '" class="edit-box open-box">' . __( 'Configure' ) . '</a></span>';
 					$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( $url ) . '" class="edit-box close-box hide-if-no-js hide-if-js">' . __( 'Cancel' ) . '</a></span>';
 				}
 			}
