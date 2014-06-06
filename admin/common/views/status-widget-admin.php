@@ -1,9 +1,9 @@
 	<p>
-		<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', WPML_SLUG ); ?></label> 
+		<label for="<?php echo $this->get_field_id( 'title' ); ?>"><h4 class="wpml-widget-title"><?php _e( 'Title', WPML_SLUG ); ?></h4></label> 
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
 	</p>
 	<p>
-		<label for="<?php echo $this->get_field_id( 'description' ); ?>"><?php _e( 'Description', WPML_SLUG ); ?></label> 
+		<label for="<?php echo $this->get_field_id( 'description' ); ?>"><h4 class="wpml-widget-title"><?php _e( 'Description', WPML_SLUG ); ?></h4></label> 
 		<textarea class="widefat" id="<?php echo $this->get_field_id( 'description' ); ?>" name="<?php echo $this->get_field_name( 'description' ); ?>"><?php echo esc_textarea( $description ); ?></textarea>
 	</p>
 	<p>
@@ -18,10 +18,10 @@
 	</div>
 	<div id="_movies_only_<?php echo $this->get_field_id( 'status_only' ); ?>" class="<?php if ( 0 !== $status_only ) echo 'hide-if-js'; ?>">
 		<p>
-			<label for="<?php echo $this->get_field_id( 'type' ); ?>"><?php _e( 'Status', WPML_SLUG ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'type' ); ?>"><h4 class="wpml-widget-title"><?php _e( 'Status', WPML_SLUG ); ?></h4></label>
 			<select id="<?php echo $this->get_field_id( 'type' ); ?>" name="<?php echo $this->get_field_name( 'type' ); ?>" class="widefat">
 			<?php foreach ( WPML_Settings::get_available_movie_status() as $slug => $title ) : ?>
-				<option value="<?php echo $slug ?>" <?php selected( $type, $slug ) ?>><?php echo $title ?></option>
+				<option value="<?php echo $slug ?>" <?php selected( $type, $slug ) ?>><?php _e( $title, WPML_SLUG ) ?></option>
 			<?php endforeach; ?>
 			</select>
 		</p>

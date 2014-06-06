@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary v1.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/WPMovieLibrary\n"
-"POT-Creation-Date: 2014-06-04 10:54:07+00:00\n"
-"PO-Revision-Date: 2014-06-04 13:01+0100\n"
+"POT-Creation-Date: 2014-06-06 07:59:36+00:00\n"
+"PO-Revision-Date: 2014-06-06 10:00+0100\n"
 "Last-Translator: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language-Team: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language: Français\n"
@@ -303,6 +303,7 @@ msgstr ""
 #: admin/common/views/media-widget-admin.php:2
 #: admin/common/views/most-rated-movies-widget-admin.php:2
 #: admin/common/views/recent-movies-widget-admin.php:2
+#: admin/common/views/statistics-widget-admin.php:2
 #: admin/common/views/status-widget-admin.php:2
 #: admin/import/class-wpml-import-table.php:53
 #: admin/import/views/import.php:65 includes/wpml-config.php:535
@@ -400,6 +401,7 @@ msgstr "Contribuer"
 #: admin/common/views/media-widget-admin.php:6
 #: admin/common/views/most-rated-movies-widget-admin.php:6
 #: admin/common/views/recent-movies-widget-admin.php:6
+#: admin/common/views/statistics-widget-admin.php:6
 #: admin/common/views/status-widget-admin.php:6
 msgid "Description"
 msgstr "Description"
@@ -463,6 +465,10 @@ msgstr "Sous l’affiche"
 msgid "Above Poster"
 msgstr "Au dessus de l’affiche"
 
+#: admin/common/views/statistics-widget-admin.php:10
+msgid "Format"
+msgstr "Format"
+
 #: admin/common/views/status-widget-admin.php:21
 #: admin/edit-movies/class-wpml-edit-movies.php:116
 #: admin/edit-movies/views/quick-edit.php:17 admin/import/views/import.php:68
@@ -470,11 +476,30 @@ msgstr "Au dessus de l’affiche"
 msgid "Status"
 msgstr "Statut"
 
-#: admin/dashboard/class-dashboard-latest-movies-widget.php:91
+#: admin/dashboard/class-dashboard-latest-movies-widget.php:100
 msgid "Movies you recently added"
 msgstr "Les films ajoutés récemment"
 
-#: admin/dashboard/class-dashboard-most-rated-movies-widget.php:82
+#: admin/dashboard/class-dashboard-latest-movies-widget.php:177
+#: admin/dashboard/class-dashboard-latest-movies-widget.php:340
+#: admin/dashboard/class-dashboard-most-rated-movies-widget.php:176
+#: admin/dashboard/class-dashboard-most-rated-movies-widget.php:338
+msgid "You are not allowed to edit this item."
+msgstr "Vous n'êtes pas autorisé à éditer ce contenu."
+
+#: admin/dashboard/class-dashboard-latest-movies-widget.php:177
+#: admin/dashboard/class-dashboard-latest-movies-widget.php:340
+#: admin/dashboard/class-dashboard-most-rated-movies-widget.php:176
+#: admin/dashboard/class-dashboard-most-rated-movies-widget.php:338
+msgid "Go back"
+msgstr "Retour"
+
+#: admin/dashboard/class-dashboard-latest-movies-widget.php:193
+#: admin/dashboard/class-dashboard-most-rated-movies-widget.php:192
+msgid "Settings saved."
+msgstr "Préférences sauvegardées."
+
+#: admin/dashboard/class-dashboard-most-rated-movies-widget.php:100
 msgid "Your most rated movies"
 msgstr "Vos films les mieux notés"
 
@@ -550,131 +575,159 @@ msgstr "%d films importés."
 msgid "No imported movie."
 msgstr "Aucun film importé."
 
-#: admin/dashboard/class-dashboard.php:158
+#: admin/dashboard/class-dashboard.php:178
 msgid "Show on screen"
 msgstr "Afficher à l’écran"
 
-#: admin/dashboard/class-dashboard.php:159
+#: admin/dashboard/class-dashboard.php:179
 msgid "Welcome"
 msgstr "Bienvenue"
 
-#: admin/dashboard/class-dashboard.php:160
+#: admin/dashboard/class-dashboard.php:180
+#: public/statistics/class-statistics-widget.php:114
 msgid "Statistics"
 msgstr "Statistiques"
 
-#: admin/dashboard/class-dashboard.php:161
+#: admin/dashboard/class-dashboard.php:181
 msgid "Quick Actions"
 msgstr "Menu rapide"
 
-#: admin/dashboard/class-dashboard.php:162
+#: admin/dashboard/class-dashboard.php:182
 msgid "Latest Movies"
 msgstr " Films ajoutés récemment"
 
-#: admin/dashboard/class-dashboard.php:163
+#: admin/dashboard/class-dashboard.php:183
 #: public/movies/class-most-rated-movies-widget.php:90
 msgid "Most Rated Movies"
 msgstr "Films les mieux notés"
 
-#: admin/dashboard/class-dashboard.php:164
+#: admin/dashboard/class-dashboard.php:184
 #: admin/import/class-wpml-import-table.php:447
 msgid "Apply"
 msgstr "Appliquer"
 
-#: admin/dashboard/class-dashboard.php:326
-#: admin/dashboard/class-dashboard.php:332
+#: admin/dashboard/class-dashboard.php:348
+#: admin/dashboard/class-dashboard.php:354
 #: admin/edit-movies/views/metabox-movie-details.php:24
 #: admin/edit-movies/views/metabox-movie-details.php:44
 #: admin/edit-movies/views/metabox-movie-details.php:75
 msgid "Cancel"
 msgstr "Annuler"
 
-#: admin/dashboard/class-dashboard.php:331
+#: admin/dashboard/class-dashboard.php:348
+#: admin/dashboard/class-dashboard.php:354
+msgid "Close"
+msgstr "Fermer"
+
+#: admin/dashboard/class-dashboard.php:353
 msgid "Configure"
 msgstr "Configurer"
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:8
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:9
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:9
 msgid "Use the following options to customize this Widget."
 msgstr "Utilisez les options suivantes pour personnaliser ce Widget."
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:13
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:14
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:14
 msgid "Number of movies:"
 msgstr "Nombre de films :"
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:14
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:15
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:15
 msgid "movies"
 msgstr "films"
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:17
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:18
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:18
 msgid "Show year"
 msgstr "Afficher l'année"
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:18
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:19
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:19
 msgid "Show movies release years below the poster."
 msgstr "Affiche l'année de sortie sous l'affiche."
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:19
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:20
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:20
 msgid "Show rating"
 msgstr "Afficher la note"
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:20
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:21
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:21
 msgid "Show movies ratings below the poster."
 msgstr "Affiche la note du film sous l'affiche."
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:21
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:22
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:22
 msgid "Show \"Load more\" button"
 msgstr "Afficher le bouton « Plus de films »"
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:22
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:23
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:23
 msgid "Show a button to load more movies to the Widget."
 msgstr "Affiche un bouton pour charger les films plus anciens."
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:22
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:24
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:28
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:23
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:25
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:29
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:23
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:25
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:29
 msgid "JavaScript required"
 msgstr "Nécessite JavaScript"
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:23
-msgid "Open modal window on click"
-msgstr "Cliquer l'affiche ouvre une fenêtre de présentation du film"
-
 #: admin/dashboard/views/dashboard-latest-movies-widget-config.php:24
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:24
 msgid "Show a previewing modal window when clicking posters."
 msgstr "Affiche une fenêtre de présentation du film"
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:27
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:25
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:25
+msgid "Open modal window on click"
+msgstr "Cliquer l'affiche ouvre une fenêtre de présentation du film"
+
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:28
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:28
 msgid "Quick-Edit menu"
 msgstr "Menu d'édition rapide"
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:28
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:29
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:29
 msgid "Show a quick edit menu to perform basic actions on movies."
 msgstr ""
 "Affiche un menu de modification rapide pour accéder rapidement à la gestion "
 "des films."
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:29
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:30
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:30
 msgid "Stylized posters"
 msgstr "Affiches stylisées"
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:30
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:31
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:31
 msgid "Show more stylish poster without rounded borders and shadows."
 msgstr "Affiche des affiches plus stylisées avec angles arrondis et ombres."
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:31
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:32
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:32
 msgid "Stylized Metabox"
 msgstr "Widget stylisé"
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:32
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:33
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:33
 msgid "Use transparent Metabox instead of regular WordPress Metabox"
 msgstr "Rend la « boite » du Widget transparente."
 
-#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:38
+#: admin/dashboard/views/dashboard-latest-movies-widget-config.php:39
+#: admin/dashboard/views/dashboard-most-rated-movies-widget-config.php:39
 #: admin/edit-movies/views/metabox-movie-details.php:89
 #: admin/edit-movies/views/metabox-movie-details.php:90
 msgid "Save"
 msgstr "Enregistrer"
 
-#: admin/dashboard/views/dashboard-latest-movies-widget.php:14
+#: admin/dashboard/views/dashboard-latest-movies-widget.php:17
+#: admin/dashboard/views/dashboard-most-rated-movies-widget.php:17
 #: admin/dashboard/views/dashboard-movie-modal.php:20
 #: admin/edit-movies/views/metabox-movie-details.php:13
 #: admin/edit-movies/views/metabox-movie-details.php:33
@@ -684,19 +737,22 @@ msgstr "Enregistrer"
 msgid "Edit"
 msgstr "Éditer"
 
-#: admin/dashboard/views/dashboard-latest-movies-widget.php:15
+#: admin/dashboard/views/dashboard-latest-movies-widget.php:18
+#: admin/dashboard/views/dashboard-most-rated-movies-widget.php:18
 #: admin/import/class-wpml-import-table.php:353
 #: admin/import/class-wpml-queue.php:154
 msgid "Delete"
 msgstr "Supprimer"
 
-#: admin/dashboard/views/dashboard-latest-movies-widget.php:16
+#: admin/dashboard/views/dashboard-latest-movies-widget.php:19
+#: admin/dashboard/views/dashboard-most-rated-movies-widget.php:19
 #: admin/dashboard/views/dashboard-movie-modal.php:21
 #: admin/import/class-wpml-import.php:263
 msgid "View"
 msgstr "Voir"
 
-#: admin/dashboard/views/dashboard-latest-movies-widget.php:25
+#: admin/dashboard/views/dashboard-latest-movies-widget.php:34
+#: admin/dashboard/views/dashboard-most-rated-movies-widget.php:34
 msgid "Load more"
 msgstr "Charger plus"
 
@@ -713,24 +769,28 @@ msgstr ""
 "et %s."
 
 #: admin/dashboard/views/dashboard-stats-widget.php:10
+#: public/statistics/class-statistics-widget.php:70
 msgid "one movie"
 msgid_plural "%s movies"
 msgstr[0] "un film"
 msgstr[1] "%s films"
 
 #: admin/dashboard/views/dashboard-stats-widget.php:11
+#: public/statistics/class-statistics-widget.php:71
 msgid "one collection"
 msgid_plural "%s collections"
 msgstr[0] "une collection"
 msgstr[1] "%s collections"
 
 #: admin/dashboard/views/dashboard-stats-widget.php:12
+#: public/statistics/class-statistics-widget.php:72
 msgid "one genre"
 msgid_plural "%s genres"
 msgstr[0] "un genre"
 msgstr[1] "%s genres"
 
 #: admin/dashboard/views/dashboard-stats-widget.php:13
+#: public/statistics/class-statistics-widget.php:73
 msgid "one actor"
 msgid_plural "%s actors"
 msgstr[0] "un acteur"
@@ -2080,7 +2140,7 @@ msgstr "Selectionner un acteur"
 msgid "Nothing to display for \"Actor\" taxonomy."
 msgstr "Aucun acteur à afficher."
 
-#: public/class-wpmovielibrary.php:233 public/class-wpmovielibrary.php:236
+#: public/class-wpmovielibrary.php:234 public/class-wpmovielibrary.php:237
 #: public/movies/class-wpml-movies.php:62
 msgid "New Movie"
 msgstr "Nouveau film"
@@ -2256,6 +2316,22 @@ msgstr "Permalin pour &laquo; Films notés %s &raquo;"
 #: public/movies/views/recent-movies-widget.php:24
 msgid "Read more about"
 msgstr "Lire la suite"
+
+#: public/statistics/class-statistics-widget.php:36
+msgid "WPML Statistics"
+msgstr "WPML Statistiques"
+
+#: public/statistics/class-statistics-widget.php:39
+msgid "Display some statistics about your movie library"
+msgstr "Quelques statistiques à propos de votre bibliothèque"
+
+#: public/statistics/class-statistics-widget.php:116
+msgid ""
+"All combined you have a total of %total% in your library, regrouped in "
+"%collections%, %genres% and %actors%."
+msgstr ""
+"Vous possédez un total de %total% dans votre médiathèque, regroupé(s) en "
+"%collections%, %genres% et %actors%."
 
 #~ msgid "Enable Caching"
 #~ msgstr "Activer la mise en cache"
@@ -2468,9 +2544,6 @@ msgstr "Lire la suite"
 
 #~ msgid "TMDb − The Movie Database"
 #~ msgstr "TMDb − The Movie Database"
-
-#~ msgid "Settings saved."
-#~ msgstr "Préférences sauvegardées."
 
 #~ msgid "ID"
 #~ msgstr "ID"
