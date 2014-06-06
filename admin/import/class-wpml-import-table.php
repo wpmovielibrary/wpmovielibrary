@@ -349,7 +349,7 @@ class WPML_Import_Table extends WP_List_Table {
 			'edit'      => sprintf('<a class="edit_movie" id="edit_%1$s" href="%2$s" title="%3$s"><span class="dashicons dashicons-welcome-write-blog"></span></a>', $item['ID'], get_edit_post_link( $item['ID'] ), __( 'Edit', WPML_SLUG ) ),
 			'tmdb_data' => sprintf('<a class="search_movie" id="search_%1$s" href="%2$s" title="%3$s" onclick="wpml_import_meta.search(%4$s); return false;"><span class="dashicons dashicons-download"></span></a>', $item['ID'], get_edit_post_link( $item['ID'] ) . "&wpml_auto_fetch=1", __( 'Fetch data from TMDb', WPML_SLUG ), $item['ID'] ),
 			//'import'    => sprintf('<a class="import_movie" id="import_%1$s" href="#" title="%2$s"><span class="dashicons dashicons-welcome-add-page"></span></a>', $item['ID'], __( 'Import Movie', WPML_SLUG ) ),
-			'enqueue'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" href="#" title="%2$s" onclick="wpml_movies_queue.add(%3$s); return false;"><span class="dashicons dashicons-plus"></span></a>', $item['ID'], __( 'Enqueue', WPML_SLUG ), $item['ID'] ),
+			'enqueue hide-if-no-js'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" href="#" title="%2$s" onclick="wpml_movies_queue.add(%3$s); return false;"><span class="dashicons dashicons-plus"></span></a>', $item['ID'], __( 'Enqueue', WPML_SLUG ), $item['ID'] ),
 			'delete'    => sprintf('<a class="delete_movie" id="delete_%1$s" href="#" title="%2$s" onclick="wpml_import_movies.delete(%3$s); return false;"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], __( 'Delete', WPML_SLUG ), $item['ID'] ),
 		);
 

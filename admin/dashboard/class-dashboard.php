@@ -112,6 +112,9 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			if ( is_null( $widget ) || is_null( $setting ) || is_null( $value ) || ! class_exists( $widget ) )
 				wp_die( 0 );
 
+			
+			WPML_Utils::check_ajax_referer( 'save-' . strtolower( $widget ) );
+
 			$class = $widget::get_instance();
 			$update = self::save_widget_setting( $class->widget_id, $setting, $value );
 
@@ -124,6 +127,8 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * @since     1.0.0
 		 */
 		public static function wpml_load_more_movies_callback() {
+
+			WPML_Utils::check_ajax_referer( 'load-more-widget-movies' );
 
 			$widget = ( isset( $_GET['widget'] ) && '' != $_GET['widget'] ? $_GET['widget'] : null );
 			$offset = ( isset( $_GET['offset'] ) && '' != $_GET['offset'] ? $_GET['offset'] : 0 );

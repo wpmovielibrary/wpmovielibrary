@@ -422,15 +422,15 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( isset( $_GET['wpml_restore_default'] ) && 'true' == $_GET['wpml_restore_default'] ) {
 
 				// Check Nonce URL
-				if ( ! isset( $_GET[''] ) || ! wp_verify_nonce( $_GET[''], 'wpml-restore-default' ) ) {
-					add_settings_error(  null, 'restore_default', __( 'You don\'t have the permission do perform this action.', WPML_SLUG ), 'error' );
+				if ( ! isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpml-restore-default-settings' ) ) {
+					add_settings_error( null, 'restore_default', __( 'You don\'t have the permission do perform this action.', WPML_SLUG ), 'error' );
 				}
 				else {
 					$action = WPML_Settings::update_settings( $force = true );
 					if ( ! $action )
-						add_settings_error(  null, 'empty_cache', __( 'Unknown error: failed to restore default settings.', WPML_SLUG ), 'error' );
+						add_settings_error( null, 'restore_default', __( 'Unknown error: failed to restore default settings.', WPML_SLUG ), 'error' );
 					else
-						add_settings_error(  null, 'empty_cache', __( 'Default settings restored!', WPML_SLUG ), 'updated' );
+						add_settings_error( null, 'restore_default', __( 'Default settings restored!', WPML_SLUG ), 'updated' );
 				}
 			}
 
@@ -438,15 +438,15 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( isset( $_GET['wpml_empty_cache'] ) && 'true' == $_GET['wpml_empty_cache'] ) {
 
 				// Check Nonce URL
-				if ( ! isset( $_GET['wpml_empty_cache_nonce'] ) || ! wp_verify_nonce( $_GET['wpml_empty_cache_nonce'], 'wpml-empty-cache' ) ) {
-					add_settings_error(  null, 'empty_cache', __( 'You don\'t have the permission do perform this action.', WPML_SLUG ), 'error' );
+				if ( ! isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpml-empty-cache' ) ) {
+					add_settings_error( null, 'empty_cache', __( 'You don\'t have the permission do perform this action.', WPML_SLUG ), 'error' );
 				}
 				else {
 					$action = WPML_Utils::empty_cache();
 					if ( is_wp_error( $action ) )
-						add_settings_error(  null, 'empty_cache', $action->get_error_message(), 'error' );
+						add_settings_error( null, 'empty_cache', $action->get_error_message(), 'error' );
 					else
-						add_settings_error(  null, 'empty_cache', $action, 'updated' );
+						add_settings_error( null, 'empty_cache', $action, 'updated' );
 				}
 			}
 

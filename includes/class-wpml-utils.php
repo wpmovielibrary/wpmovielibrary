@@ -816,7 +816,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function create_nonce( $action ) {
 
-			return wp_create_nonce( '_wpmlnonce_' . str_replace( '-', '_', $action ) );
+			return wp_create_nonce( 'wpml-' . $action );
 		}
 
 		/**
@@ -832,6 +832,29 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$nonce_name = '_wpmlnonce_' . str_replace( '-', '_', $action );
 
 			return wp_nonce_field( $nonce_action, $nonce_name, $referer, $echo );
+		}
+
+		/**
+		 * Provide a plugin-wide, generic method for checking AJAX nonces.
+		 *
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $action Action name for nonce
+		 */
+		public static function check_admin_referer( $action, $query_arg = false ) {
+
+			if ( ! $query_arg )
+				$query_arg = '_wpmlnonce_' . str_replace( '-', '_', $action );
+
+			$error = new WP_Error();
+			$check = check_ajax_referer( 'wpml-' . $action, $query_arg, $die );
+
+			if ( $check )
+				return true;
+
+			$error->add( 'invalid_nonce', __( 'Are you sure you want to do this?' ) );
+
+			return $error;
 		}
 
 		/**

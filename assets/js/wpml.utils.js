@@ -267,6 +267,6 @@ wpml = wpml || {};
 
 		var nonce_name = '#_wpmlnonce_' + action.replace( /\-/g, '_' );
 
-		if ( undefined != $( nonce_name ) )
+		if ( undefined != $( nonce_name ) && undefined != nonce )
 			$( nonce_name ).val( nonce );
 	};

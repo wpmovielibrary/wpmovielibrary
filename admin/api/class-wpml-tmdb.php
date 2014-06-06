@@ -153,6 +153,8 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 */
 		public static function check_api_key_callback() {
 
+			WPML_Utils::check_ajax_referer( 'check-api-key' );
+
 			if ( ! isset( $_GET['key'] ) || '' == $_GET['key'] || 32 !== strlen( $_GET['key'] ) )
 				return new WP_Error( 'invalid', __( 'Invalid API key - the key should be an alphanumerica 32 chars long string.', WPML_SLUG ) );
 
@@ -172,6 +174,8 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 * @since     1.0.0
 		 */
 		public static function search_movie_callback() {
+
+			WPML_Utils::check_ajax_referer( 'search-movies' );
 
 			$type = ( isset( $_GET['type'] ) && '' != $_GET['type'] ? $_GET['type'] : '' );
 			$data = ( isset( $_GET['data'] ) && '' != $_GET['data'] ? $_GET['data'] : '' );

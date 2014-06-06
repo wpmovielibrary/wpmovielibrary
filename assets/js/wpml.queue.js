@@ -80,7 +80,7 @@ var wpml_queue;
 				wpml._post({
 					data: {
 						action: 'wpml_enqueue_movies',
-						wpml_ajax_movie_enqueue: $( '#wpml_ajax_movie_enqueue' ).val(),
+						nonce: wpml.get_nonce( 'enqueue-movies' ),
 						movies: queue
 					},
 					error: function( response ) {
@@ -97,6 +97,9 @@ var wpml_queue;
 						wpml_import_view.reload( {}, 'queued' );
 						$( '.spinner' ).hide();
 						$( '#p_' + post_id + '_tmdb_data' ).remove();
+					},
+					complete: function( r ) {
+						wpml.update_nonce( 'enqueue-movies', r.responseJSON.nonce );
 					}
 				});
 			};
@@ -124,7 +127,7 @@ var wpml_queue;
 
 				wpml._post({
 					data: {	action: 'wpml_dequeue_movies',
-						wpml_ajax_movie_dequeue: $( '#wpml_ajax_movie_dequeue' ).val(),
+						nonce: wpml.get_nonce( 'dequeue-movies' ),
 						movies: queue
 					},
 					error: function( response ) {
@@ -145,6 +148,9 @@ var wpml_queue;
 						wpml_import_view.reload( {} );
 						wpml_import_view.reload( {}, 'queued' );
 						$( '.spinner' ).hide();
+					},
+					complete: function( r ) {
+						wpml.update_nonce( 'dequeue-movies', r.responseJSON.nonce );
 					}
 				});
 			};
@@ -171,7 +177,7 @@ var wpml_queue;
 					$.ajaxQueue({
 						data: {
 							action: 'wpml_import_queued_movie',
-							wpml_movie_import_queue: $( '#wpml_movie_import_queue' ).val(),
+							nonce: wpml.get_nonce( 'import-queued-movies' ),
 							post_id: post_id
 						},
 						beforeSend: function() {
@@ -199,6 +205,7 @@ var wpml_queue;
 						},
 						complete: function() {
 							$status.text( wpml_ajax.lang.imported );
+							wpml.update_nonce( 'import-queued-movies', r.responseJSON.nonce );
 						},
 					}).done( function() {
 						window.clearTimeout( timer );

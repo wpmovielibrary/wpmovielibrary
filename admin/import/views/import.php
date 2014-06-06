@@ -28,6 +28,7 @@
 					<div id="tmdb_data" style="display:none"></div>
 
 					<p style="text-align:right">
+						<?php WPML_Utils::_nonce_field( 'save-imported-movies', $referer = false ) ?>
 						<input type="button" id="wpml_empty" name="wpml_empty" class="button button-secondary button-large" value="<?php _e( 'Empty All', WPML_SLUG ); ?>" />
 						<input type="submit" id="wpml_save_imported" name="wpml_save_imported" class="button button-primary button-large" value="<?php _e( 'Save Movies', WPML_SLUG ); ?>" />
 					</p>
@@ -94,6 +95,7 @@
 							<tr valign="top">
 								<th scope="row"></th>
 								<td style="text-align:right">
+									<?php WPML_Utils::_nonce_field( 'import-movies-list', $referer = false ) ?>
 									<input type="submit" id="wpml_importer" name="wpml_importer" class="button button-secondary button-large" value="<?php _e( 'Import Movies', WPML_SLUG ); ?>" onclick="wpml_import_movies.import(); return false;" />
 								</td>
 							</tr>
@@ -101,6 +103,13 @@
 					</table>
 
 				</form>
+
+				<?php WPML_Utils::_nonce_field( 'imported-movies', $referer = false ) ?>
+				<?php WPML_Utils::_nonce_field( 'search-movies', $referer = false ) ?>
+				<?php WPML_Utils::_nonce_field( 'enqueue-movies', $referer = false ) ?>
+				<?php WPML_Utils::_nonce_field( 'delete-movies', $referer = false ) ?>
+				<?php WPML_Utils::_nonce_field( 'queued-movies', $referer = false ) ?>
+				<?php WPML_Utils::_nonce_field( 'dequeue-movies', $referer = false ) ?>
 
 			</div>
 

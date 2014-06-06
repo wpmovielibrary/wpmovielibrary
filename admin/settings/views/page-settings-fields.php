@@ -4,7 +4,9 @@ if ( 'input' == $_type ) : ?>
 
 	<input type="text" id="<?php echo $_id ?>" name="<?php echo $_name ?>" value="<?php echo $_value ?>" size="40" maxlength="32" />
 <?php if ( 'apikey' == $field['id'] ) : ?>
+	<?php WPML_Utils::_nonce_field( 'check-api-key' ) ?>
 	<input id="APIKey_check" type="button" name="APIKey_check" class="button button-secondary" value="<?php _e( 'Check API Key', WPML_SLUG ); ?>" />
+	<span class="spinner"></span>
 <?php endif; ?>
 	<p class="description"><?php _e( $field['description'], WPML_SLUG ) ?></p>
 

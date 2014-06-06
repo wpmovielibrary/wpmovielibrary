@@ -115,14 +115,13 @@ wpml = wpml || {};
 					if ( post_id > 0 ) {
 
 						var edit_row = '#edit-' + post_id,
-						    $nonceInput = $( '#wpml_movie_details_nonce' ),
 						    $movie_media = $( '#movie-media', edit_row ),
 						    $movie_status = $( '#movie-status', edit_row ),
 						    $movie_rating = $( '#movie-rating', edit_row ),
 						    $hidden_movie_rating = $( '#hidden-movie-rating', edit_row ),
 						    $stars = $( '#stars', edit_row );
 
-						$nonceInput.val( nonce );
+						wpml.update_nonce( 'set-quickedit-movie-details', nonce );
 
 						$movie_media.children( 'option' ).each( function() {
 							$( this ).prop( 'selected', ( $( this ).val() == movie_details.movie_media ) );

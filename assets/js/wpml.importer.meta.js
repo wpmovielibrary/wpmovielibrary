@@ -88,7 +88,7 @@ wpml = wpml || {};
 				wpml._get({
 					data: {
 						action: 'wpml_search_movie',
-						wpml_check: wpml_ajax.utils.wpml_check,
+						nonce: wpml.get_nonce( 'search-movies' ),
 						type: 'title',
 						data: title,
 						lang: wpml_ajax.utils.language,
@@ -112,6 +112,9 @@ wpml = wpml || {};
 						else if ( 'movies' == response.data.result ) {
 							wpml_import_meta.select( post_id, response.data.movies, response.data.message );
 						}
+					},
+					complete: function( r ) {
+						wpml.update_nonce( 'search-movies', r.responseJSON.nonce );
 					}
 				});
 
@@ -167,7 +170,7 @@ wpml = wpml || {};
 				wpml._get({
 					data: {
 						action: 'wpml_search_movie',
-						wpml_check: wpml_ajax.utils.wpml_check,
+						nonce: wpml.get_nonce( 'search-movies' ),
 						type: 'id',
 						data: tmdb_id,
 						post_id: post_id
@@ -183,6 +186,9 @@ wpml = wpml || {};
 					},
 					success: function( response ) {
 						wpml_import_meta.set( response.data );
+					},
+					complete: function( r ) {
+						wpml.update_nonce( 'search-movies', r.responseJSON.nonce );
 					}
 				});
 		
