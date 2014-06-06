@@ -422,7 +422,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( isset( $_GET['wpml_restore_default'] ) && 'true' == $_GET['wpml_restore_default'] ) {
 
 				// Check Nonce URL
-				if ( ! isset( $_GET['wpml_restore_default_nonce'] ) || ! wp_verify_nonce( $_GET['wpml_restore_default_nonce'], 'wpml-restore-default' ) ) {
+				if ( ! isset( $_GET[''] ) || ! wp_verify_nonce( $_GET[''], 'wpml-restore-default' ) ) {
 					add_settings_error(  null, 'restore_default', __( 'You don\'t have the permission do perform this action.', WPML_SLUG ), 'error' );
 				}
 				else {

@@ -53,8 +53,6 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function enqueue_movies_callback() {
 
-			check_ajax_referer( 'wpml-movie-enqueue', 'wpml_ajax_movie_enqueue' );
-
 			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? $_POST['movies'] : null );
 
 			$response = self::enqueue_movies( $movies );
@@ -71,8 +69,6 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function dequeue_movies_callback() {
 
-			check_ajax_referer( 'wpml-movie-dequeue', 'wpml_ajax_movie_dequeue' );
-
 			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? $_POST['movies'] : null );
 
 			$response = self::dequeue_movies( $movies );
@@ -85,8 +81,6 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 * @since     1.0.0
 		 */
 		public static function fetch_queued_movies_callback() {
-
-			check_ajax_referer( 'wpml-fetch-queued-movies-nonce', 'wpml_fetch_queued_movies_nonce' );
 
 			ob_start();
 			self::display_queued_movie_list();
@@ -112,8 +106,6 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 * @since     1.0.0
 		 */
 		public static function import_queued_movie_callback() {
-
-			check_ajax_referer( 'wpml-movie-import-queue', 'wpml_movie_import_queue' );
 
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
 

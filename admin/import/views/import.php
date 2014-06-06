@@ -1,8 +1,6 @@
 <div id="wpml-import" class="wrap">
 	<h2><?php _e( 'Movies Import', WPML_SLUG ); ?></h2>
 
-	<?php wp_nonce_field( 'wpml-set-imported-movies-screen-nonce', 'wpml_set_imported_movies_screen_nonce' ); ?>
-
 	<div class="no-js-alert hide-if-js"><?php _e( 'It seems you have JavaScript deactivated; the import feature will not work correctly without it, please check your browser\'s settings.', WPML_SLUG ); ?></div>
 
 	<div id="wpml-tabs">
@@ -23,15 +21,9 @@
 					<p><?php _e( 'Here are the movies you previously updated but didn’t save. You can save them, edit them individually or apply bulk actions. Posters are automatically saved and set as featured images, but images are not. Use the bulk action to import, but be aware that it can take some time if you select a lot of movies. Don’t forget to save your imports when you’re done!', WPML_SLUG ); ?></p>
 				</div>
 
-<?php
-wp_nonce_field( 'wpml-fetch-imported-movies-nonce', 'wpml_fetch_imported_movies_nonce' );
-WPML_Import::display_import_movie_list();
-?>
+				<?php WPML_Import::display_import_movie_list(); ?>
 
 				<form method="post" id="tmdb_data_form">
-
-					<?php wp_nonce_field( 'wpml-movie-save-import' ); ?>
-					<?php wp_nonce_field( 'wpml-movie-enqueue', 'wpml_ajax_movie_enqueue' ); ?>
 
 					<div id="tmdb_data" style="display:none"></div>
 
@@ -67,16 +59,11 @@ WPML_Import::display_import_movie_list();
 							<div class="actions column-actions"><?php _e( 'Actions', WPML_SLUG ) ?></div>
 							<div class="status column-status"><?php _e( 'Status', WPML_SLUG ) ?></div>
 					</div>
-<?php
-wp_nonce_field( 'wpml-fetch-queued-movies-nonce', 'wpml_fetch_queued_movies_nonce' );
-WPML_Queue::display_queued_movie_list();
-?>
+
+					<?php WPML_Queue::display_queued_movie_list(); ?>
 				</form>
 
-				<form method="post">
-
-					<?php wp_nonce_field( 'wpml-movie-import-queue', 'wpml_movie_import_queue' ); ?>
-					<?php wp_nonce_field( 'wpml-movie-dequeue', 'wpml_ajax_movie_dequeue' ); ?>
+				<form method="post" action="">
 
 					<p style="text-align:right">
 						<input type="submit" id="wpml_import_queued" name="wpml_import_queued" class="button button-primary button-large" value="<?php _e( 'Import Queued Movies', WPML_SLUG ); ?>" onclick="wpml_movies_queue.import(); return false;" />
@@ -91,10 +78,7 @@ WPML_Queue::display_queued_movie_list();
 
 			<div id="wpml_import" class="form-table hide-if-js<?php if ( 'wpml_import' == $_section ) echo ' active'; ?>">
 
-				<form method="post">
-
-					<?php wp_nonce_field( 'wpml-movie-import', 'wpml_movie_import' ); ?>
-					<?php wp_nonce_field( 'wpml-movie-import', 'wpml_ajax_movie_import' ); ?>
+				<form method="post" action="">
 
 					<table class="form-table wpml-settings">
 						<tbody>

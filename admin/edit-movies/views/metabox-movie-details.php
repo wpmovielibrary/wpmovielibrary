@@ -86,6 +86,7 @@
 			<div id="wpml-details-status"></div>
 			<div id="wpml-details-major-publishing-action">
 				<span class="spinner"></span>
+				<?php WPML_Utils::_nonce_field( 'save-movie-details', $referer = false ) ?>
 				<input type="submit" name="wpml_save" id="wpml_save" class="button button-secondary button-large" value="<?php _e( 'Save', WPML_SLUG ); ?>" accesskey="s" onclick="wpml_edit_details.save(); return false;" />
 				<input name="wpml_details_save" type="hidden" id="wpml_details_save" value="<?php _e( 'Save', WPML_SLUG ); ?>" />
 			</div>

@@ -636,8 +636,6 @@ class WPML_Import_Table extends WP_List_Table {
 
 		$this->display_tablenav( 'top' );
 
-		wp_nonce_field( 'wpml-fetch-imported-movies-nonce', 'wpml_fetch_imported_movies_nonce' );
-
 		echo '<input id="order" type="hidden" name="order" value="' . $this->_pagination_args['order'] . '" />';
 		echo '<input id="orderby" type="hidden" name="orderby" value="' . $this->_pagination_args['orderby'] . '" />';
  

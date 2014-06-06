@@ -45,7 +45,6 @@ wpml = wpml || {};
 					    _rows = '.wp-list-table',
 					    _data = {
 						action: 'wpml_fetch_queued_movies',
-						wpml_fetch_queued_movies_nonce: $( '#wpml_fetch_queued_movies_nonce' ).val(),
 					};
 				}
 				else {
@@ -53,7 +52,6 @@ wpml = wpml || {};
 					    _rows = '.wp-list-table tbody',
 					    _data = {
 						action: 'wpml_fetch_imported_movies',
-						wpml_fetch_imported_movies_nonce: $( '#wpml_fetch_imported_movies_nonce' ).val(),
 					};
 				}
 

@@ -79,8 +79,6 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 */
 		public static function delete_movies_callback() {
 
-			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
-
 			$movies = ( isset( $_GET['movies'] ) && '' != $_GET['movies'] ? $_GET['movies'] : null );
 
 			$response = self::delete_movies( $movies );
@@ -97,8 +95,6 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 */
 		public static function fetch_imported_movies_callback() {
 
-			check_ajax_referer( 'wpml-fetch-imported-movies-nonce', 'wpml_fetch_imported_movies_nonce' );
-
 			$wp_list_table = new WPML_Import_Table();
 			$wp_list_table->ajax_response();
 		}
@@ -112,8 +108,6 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 * @since     1.0.0
 		 */
 		public static function import_movies_callback() {
-
-			check_ajax_referer( 'wpml-movie-import', 'wpml_ajax_movie_import' );
 
 			$movies = ( isset( $_POST['wpml_import_list'] ) && '' != $_POST['wpml_import_list'] ? esc_textarea( $_POST['wpml_import_list'] ) : null );
 
@@ -388,8 +382,6 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 			if ( isset( $_POST['wpml_save_imported'] ) && '' != $_POST['wpml_save_imported'] && isset( $_POST['tmdb'] ) && count( $_POST['tmdb'] ) ) {
 
-				check_admin_referer('wpml-movie-save-import');
-
 				foreach ( $_POST['tmdb'] as $tmdb_data ) {
 					if ( 0 != $tmdb_data['tmdb_id'] ) {
 						$update = WPML_Edit_Movies::save_movie_meta( $tmdb_data['post_id'], $post = null, $queue = false, $tmdb_data );
@@ -418,9 +410,13 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				if ( ! empty( $imported ) )
 					WPML_Utils::admin_notice( sprintf( _n( 'One movie imported successfully!', '%d movies imported successfully!', count( $imported ), WPML_SLUG ), count( $imported ) ), 'updated' );
 			}
+			else if ( isset( $_POST['wpml_importer'] ) && '' != $_POST['wpml_importer'] ) {
 
-			if ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'wpml_import', 'wpml_import_queue', 'wpml_imported' ) ) )
-				$_section =  $_REQUEST['wpml_section'];
+
+			}
+
+			if ( isset( $_GET['wpml_section'] ) && in_array( $_GET['wpml_section'], array( 'wpml_import', 'wpml_import_queue', 'wpml_imported' ) ) )
+				$_section =  $_GET['wpml_section'];
 
 			include_once( plugin_dir_path( __FILE__ ) . '/views/import.php' );
 		}

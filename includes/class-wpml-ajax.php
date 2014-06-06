@@ -65,7 +65,8 @@ if ( ! class_exists( 'WPML_Ajax' ) ) :
 				'message'	=> null,
 				'post_id'	=> null,
 				'tmdb_id'	=> null,
-				'i18n'		=> null
+				'i18n'		=> null,
+				'nonce'		=> null
 			);
 
 			$args = wp_parse_args( $args, $defaults );
@@ -77,6 +78,7 @@ if ( ! class_exists( 'WPML_Ajax' ) ) :
 			$this->post_id	= $post_id;
 			$this->tmdb_id	= $tmdb_id;
 			$this->i18n	= $i18n;
+			$this->nonce	= $nonce;
 		}
 
 	}

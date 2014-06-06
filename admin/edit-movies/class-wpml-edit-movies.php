@@ -388,7 +388,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			if ( is_null( $detail ) )
 				return new WP_Error( 'invalid', __( 'Invalid detail: should be status, media or rating.', WPML_SLUG ) );
 
-			check_ajax_referer( 'wpml-' . $detail . '-inline-edit', 'wpml_inline_edit_nonce' );
+			WPML_Utils::check_ajax_referer( $detail . '-inline-edit' );
 
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
 			$value = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? esc_attr( $_POST['data'] ) : null );
@@ -398,7 +398,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			$response = self::set_movie_detail( $post_id, $detail, $value );
 
-			WPML_Utils::ajax_response( $response );
+			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( $detail . '-inline-edit' ) );
 		}
 
 		/**
@@ -411,17 +411,17 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 */
 		public static function save_details_callback() {
 
-			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
-
 			$post_id = ( isset( $_POST['post_id'] )      && '' != $_POST['post_id']      ? intval( $_POST['post_id'] ) : null );
 			$details = ( isset( $_POST['wpml_details'] ) && '' != $_POST['wpml_details'] ? $_POST['wpml_details'] : null );
 
 			if ( is_null( $post_id ) || is_null( $details ) )
 				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', WPML_SLUG ) );
 
+			WPML_Utils::check_ajax_referer( 'save-movie-details' );
+
 			$response = self::save_movie_details( $post_id, $details );
 
-			WPML_Utils::ajax_response( $response );
+			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( $detail . '-inline-edit' ) );
 		}
 
 

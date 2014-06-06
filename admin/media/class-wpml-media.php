@@ -290,8 +290,6 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 */
 		public static function upload_image_callback() {
 
-			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
-
 			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
 			$title   = ( isset( $_POST['title'] )   && '' != $_POST['title']   ? $_POST['title']   : null );
@@ -323,8 +321,6 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * @return    string    Uploaded image ID
 		 */
 		public static function set_featured_image_callback() {
-
-			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
 
 			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
