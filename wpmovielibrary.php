@@ -69,6 +69,7 @@ require_once( plugin_dir_path( __FILE__ ) . 'public/movies/class-status-widget.p
 require_once( plugin_dir_path( __FILE__ ) . 'public/collections/class-collections-widget.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'public/genres/class-genres-widget.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'public/actors/class-actors-widget.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/statistics/class-statistics-widget.php' );
 
 /*
  * Register hooks that are fired when the plugin is activated or deactivated.
