@@ -261,7 +261,7 @@ wpml = wpml || {};
 				$( '.tmdb_data_field' ).val( '' );
 				$( '.categorydiv input[type=checkbox]' ).prop( 'checked', false );
 				$( '.tagchecklist' ).empty();
-				$( '#tmdb_data' ).remove();
+				$( '#tmdb_data' ).empty().hide();
 				$( '#remove-post-thumbnail' ).trigger( 'click' );
 
 				wpml_state.clear();
