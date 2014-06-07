@@ -308,7 +308,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 * 
 		 * @since     1.0.0
 		 */
-		private static function get_movie_by_id( $id, $lang, $_id = null ) {
+		public static function get_movie_by_id( $id, $lang, $_id = null ) {
 
 			$movie = ( WPML_Settings::tmdb__caching() ? get_transient( "wpml_movie_{$id}_{$lang}" ) : false );
 
@@ -337,7 +337,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @return    string    JSON formatted results.
 		 */
-		private static function _get_movie_by_id( $id, $lang, $_id = null ) {
+		public static function _get_movie_by_id( $id, $lang, $_id = null ) {
 
 			$tmdb = new TMDb;
 

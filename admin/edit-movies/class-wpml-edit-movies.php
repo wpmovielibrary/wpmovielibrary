@@ -459,9 +459,25 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			$value = get_post_meta( $post->ID, '_wpml_movie_data', true );
 			$value = apply_filters( 'wpml_filter_empty_array', $value );
+			$select = null;
+			$status = '';
 
-			if ( isset( $_REQUEST['wpml_auto_fetch'] ) && ( empty( $value ) || isset( $value['_empty'] ) ) )
-				$value = WPML_TMDb::_get_movie_by_title( $post->post_title, WPML_Settings::tmdb__lang() );
+			if ( isset( $_GET['wpml_search_movie'] ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'search-movies' ) && ( empty( $value ) || isset( $value['_empty'] ) ) ) {
+
+				$search_by = ( isset( $_GET['search_by'] ) && in_array( $_GET['search_by'], array( 'title', 'id' ) ) ? $_GET['search_by'] : null );
+				$search_query = ( isset( $_GET['search_query'] ) && '' != $_GET['search_query'] ? $_GET['search_query'] : null );
+
+				if ( ! is_null( $search_by ) && ! is_null( $search_query ) )
+					$value = call_user_func_array( array( 'WPML_TMDb', "_get_movie_by_$search_by" ), array( $search_query, WPML_Settings::tmdb__lang() ) );
+
+				if ( isset( $value['result'] ) ) {
+
+					if ( 'movie' == $value['result'] )
+						$value = $value['movies'][ 0 ];
+					else if ( 'movies' == $value['result'] )
+						$select = $value['movies'];
+				}
+			}
 
 			include_once( plugin_dir_path( __FILE__ ) . '/views/metabox-movie-meta.php' );
 		}
@@ -478,12 +494,6 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * @param    null      $metabox null
 		 */
 		public static function metabox_images( $post, $metabox ) {
-
-			$value = get_post_meta( $post->ID, '_wpml_movie_data', true );
-			$value = apply_filters( 'wpml_filter_empty_array', $value );
-
-			if ( isset( $_REQUEST['wpml_auto_fetch'] ) && ( empty( $value ) || isset( $value['_empty'] ) ) )
-				$value = WPML_TMDb::_get_movie_by_title( $post->post_title, WPML_Settings::tmdb__lang() );
 
 			include_once( plugin_dir_path( __FILE__ ) . '/views/metabox-movie-images.php' );
 		}
