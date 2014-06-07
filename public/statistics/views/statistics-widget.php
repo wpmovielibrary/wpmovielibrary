@@ -1,7 +1,7 @@
 
 		<?php echo $title; ?>
 
-		<p><?php echo $description; ?></p>
+		<?php echo $description; ?>
 		<p>
 			<?php echo $content; ?>
 		</p>
