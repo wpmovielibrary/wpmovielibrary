@@ -259,6 +259,7 @@ wpml.dashboard = wpml_dashboard = {
 					complete: function( r ) {
 						$( wpml_latest_movies._loadmore ).find( 'span' ).css( { opacity: 1.0 } );
 						$( wpml_latest_movies._loadmore ).find( '.spinner' ).remove();
+						wpml.update_nonce( wpml_latest_movies.nonce_name, r.responseJSON.nonce );
 					}
 				});
 			};
@@ -293,9 +294,12 @@ wpml.dashboard = wpml_dashboard = {
 					data: {
 						action: wpml_latest_movies.action,
 						widget: wpml_latest_movies.widget,
-						nonce: wpml.get_nonce( 'load-more-widget-movies' ),
+						nonce: wpml.get_nonce( wpml_latest_movies.nonce_name ),
 						setting: 'movies_per_page',
 						value: n
+					},
+					complete: function( r ) {
+						wpml.update_nonce( wpml_latest_movies.nonce_name, r.responseJSON.nonce );
 					}
 				});
 			};
