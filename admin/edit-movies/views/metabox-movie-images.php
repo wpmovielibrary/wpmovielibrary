@@ -1,6 +1,8 @@
 
 	<div class="no-js-alert hide-if-js"><?php _e( 'It seems you have JavaScript deactivated; the import feature will not work correctly without it, please check your browser\'s settings.', WPML_SLUG ); ?></div>
 
+	<?php WPML_Utils::_nonce_field( 'upload-movie-image', $referer = false ) ?>
+
 	<div id="tmdb_images_preview" class="hide-if-no-js">
 <?php if ( '' == WPML_Settings::tmdb__apikey() || WPML_Settings::tmdb__dummy() ) : ?>
 		<p><em><?php _e( 'You need a valid TMDb API Key to download movie images.', WPML_SLUG ) ?></em></p>

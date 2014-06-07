@@ -135,6 +135,7 @@ wpml.dashboard = wpml_dashboard = {
 			delay: 500,
 			action: 'wpml_save_dashboard_widget_settings',
 			widget: 'WPML_Dashboard_Latest_Movies_Widget',
+			nonce_name: 'save-wpml-dashboard-latest-movies-widget',
 
 			_year: '.movie-year',
 			_rating: '.movie-rating',
@@ -199,8 +200,12 @@ wpml.dashboard = wpml_dashboard = {
 					data: {
 						action: wpml_latest_movies.action,
 						widget: wpml_latest_movies.widget,
+						nonce: wpml.get_nonce( wpml_latest_movies.nonce_name ),
 						setting: action,
 						value: ( true === status ? 1 : 0 )
+					},
+					complete: function( r ) {
+						wpml.update_nonce( wpml_latest_movies.nonce_name, r.responseJSON.nonce );
 					}
 				});
 			};
@@ -231,6 +236,7 @@ wpml.dashboard = wpml_dashboard = {
 					data: {
 						action: 'wpml_load_more_movies',
 						widget: wpml_latest_movies.widget,
+						nonce: wpml.get_nonce( 'load-more-widget-movies' ),
 						offset: offset,
 						limit: limit
 					},
@@ -250,9 +256,10 @@ wpml.dashboard = wpml_dashboard = {
 						$( wpml_latest_movies._container_main ).append( data );
 						wpml_dashboard.resize_posters();
 					},
-					complete: function( data ) {
+					complete: function( r ) {
 						$( wpml_latest_movies._loadmore ).find( 'span' ).css( { opacity: 1.0 } );
 						$( wpml_latest_movies._loadmore ).find( '.spinner' ).remove();
+						wpml.update_nonce( wpml_latest_movies.nonce_name, r.responseJSON.nonce );
 					}
 				});
 			};
@@ -287,8 +294,12 @@ wpml.dashboard = wpml_dashboard = {
 					data: {
 						action: wpml_latest_movies.action,
 						widget: wpml_latest_movies.widget,
+						nonce: wpml.get_nonce( wpml_latest_movies.nonce_name ),
 						setting: 'movies_per_page',
 						value: n
+					},
+					complete: function( r ) {
+						wpml.update_nonce( wpml_latest_movies.nonce_name, r.responseJSON.nonce );
 					}
 				});
 			};
@@ -327,6 +338,7 @@ wpml.dashboard = wpml_dashboard = {
 			delay: 500,
 			action: 'wpml_save_dashboard_widget_settings',
 			widget: 'WPML_Dashboard_Most_Rated_Movies_Widget',
+			nonce_name: 'save-wpml-dashboard-most-rated-movies-widget',
 
 			_year: '.movie-year',
 			_rating: '.movie-rating',
@@ -391,8 +403,12 @@ wpml.dashboard = wpml_dashboard = {
 					data: {
 						action: wpml_most_rated_movies.action,
 						widget: wpml_most_rated_movies.widget,
+						nonce: wpml.get_nonce( wpml_most_rated_movies.nonce_name ),
 						setting: action,
 						value: ( true === status ? 1 : 0 )
+					},
+					complete: function( r ) {
+						wpml.update_nonce( wpml_most_rated_movies.nonce_name, r.responseJSON.nonce );
 					}
 				});
 			};
@@ -423,6 +439,7 @@ wpml.dashboard = wpml_dashboard = {
 					data: {
 						action: 'wpml_load_more_movies',
 						widget: wpml_most_rated_movies.widget,
+						nonce: wpml.get_nonce( 'load-more-widget-movies' ),
 						offset: offset,
 						limit: limit
 					},
@@ -442,7 +459,7 @@ wpml.dashboard = wpml_dashboard = {
 						$( wpml_most_rated_movies._container_main ).append( data );
 						wpml_dashboard.resize_posters();
 					},
-					complete: function( data ) {
+					complete: function( r ) {
 						$( wpml_most_rated_movies._loadmore ).find( 'span' ).css( { opacity: 1.0 } );
 						$( wpml_most_rated_movies._loadmore ).find( '.spinner' ).remove();
 					}
@@ -479,8 +496,12 @@ wpml.dashboard = wpml_dashboard = {
 					data: {
 						action: wpml_most_rated_movies.action,
 						widget: wpml_most_rated_movies.widget,
+						nonce: wpml.get_nonce( wpml_most_rated_movies.nonce_name ),
 						setting: 'movies_per_page',
 						value: n
+					},
+					complete: function( r ) {
+						wpml.update_nonce( wpml_most_rated_movies.nonce_name, r.responseJSON.nonce );
 					}
 				});
 			};
@@ -621,6 +642,9 @@ wpml.dashboard = wpml_dashboard = {
 				screenid: adminpage,
 				option: option,
 				visible: visible
+			},
+			complete: function( r ) {
+				wpml.update_nonce( 'screenoptionnonce', r.responseJSON.nonce );
 			}
 		});
 	};

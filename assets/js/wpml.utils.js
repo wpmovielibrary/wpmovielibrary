@@ -6,6 +6,8 @@ wpml = wpml || {};
 	/**
 	 * WPML filter for AJAX Request
 	 * 
+	 * @since    1.0.0
+	 * 
 	 * @param    string      Request type: GET, POST
 	 * @param    object      Data object to pass
 	 * @param    function    Function to run on success
@@ -23,6 +25,8 @@ wpml = wpml || {};
 	/**
 	 * WPML filter for AJAX GET Request
 	 * 
+	 * @since    1.0.0
+	 * 
 	 * @param    object      Data object to pass
 	 */
 	wpml._get = function( data ) {
@@ -39,6 +43,8 @@ wpml = wpml || {};
 	/**
 	 * WPML filter for AJAX POST Request
 	 * 
+	 * @since    1.0.0
+	 * 
 	 * @param    object      Data object to pass
 	 */
 	wpml._post = function( data ) {
@@ -54,6 +60,8 @@ wpml = wpml || {};
 
 	/**
 	 * Determine which data package the submitted field name belongs to.
+	 * 
+	 * @since    1.0.0
 	 * 
 	 * @param    string    Field name
 	 * 
@@ -105,6 +113,8 @@ wpml = wpml || {};
 		/**
 		 * Update status
 		 * 
+		 * @since    1.0.0
+		 * 
 		 * @param    string    Status Message
 		 * @param    string    Status type: error, update
 		 */
@@ -123,6 +133,8 @@ wpml = wpml || {};
 
 	/**
 	 * Parse URL Query part to extract specific variables
+	 * 
+	 * @since    1.0.0
 	 * 
 	 * @param    string    URL Query part to parse
 	 * @param    string    Wanted variable name
@@ -144,6 +156,8 @@ wpml = wpml || {};
 	 * Reinit WP_List_Table Checkboxes events. Events are messed up when
 	 * using AJAX to reload tables' contents, so we need to override WordPress
 	 * default jQuery handlers for Checkboxes click events.
+	 * 
+	 * @since    1.0.0
 	 * 
 	 * @param    object    Click Event Object
 	 * 
@@ -180,7 +194,13 @@ wpml = wpml || {};
 	};
 
 	/**
+	 * Reinit multiple checkboxes selection usin Shift+click.
 	 * 
+	 * Events are messed up when * using AJAX to reload tables' contents, so
+	 * we need to override WordPress default jQuery handlers for Checkboxes
+	 * click events.
+	 * 
+	 * @since    1.0.0
 	 * 
 	 * @param    object    Click Event Object
 	 * 
@@ -214,4 +234,39 @@ wpml = wpml || {};
 		});
 
 		return true;
+	};
+
+	/**
+	 * Find current action's nonce value.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    Action name
+	 * 
+	 * @return   boolean|string    Nonce value if available, false else.
+	 */
+	wpml.get_nonce = function( action ) {
+
+		var nonce_name = '#_wpmlnonce_' + action.replace( /\-/g, '_' ),
+		         nonce = null;
+
+		if ( undefined != $( nonce_name ) )
+			nonce = $( nonce_name ).val();
+
+		return nonce;
+	};
+
+	/**
+	 * Update current action's nonce value.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @param    string    Action name
+	 */
+	wpml.update_nonce = function( action, nonce ) {
+
+		var nonce_name = '#_wpmlnonce_' + action.replace( /\-/g, '_' );
+
+		if ( undefined != $( nonce_name ) && undefined != nonce )
+			$( nonce_name ).val( nonce );
 	};

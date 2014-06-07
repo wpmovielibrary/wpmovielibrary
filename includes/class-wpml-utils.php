@@ -808,6 +808,78 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
+		 * Provide a plugin-wide, generic method for generating nonce.
+		 *
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $action Action name for nonce
+		 */
+		public static function create_nonce( $action ) {
+
+			return wp_create_nonce( 'wpml-' . $action );
+		}
+
+		/**
+		 * Provide a plugin-wide, generic method for generating nonce fields.
+		 *
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $action Action name for nonce
+		 */
+		public static function _nonce_field( $action, $referer = true, $echo = true ) {
+
+			$nonce_action = 'wpml-' . $action;
+			$nonce_name = '_wpmlnonce_' . str_replace( '-', '_', $action );
+
+			return wp_nonce_field( $nonce_action, $nonce_name, $referer, $echo );
+		}
+
+		/**
+		 * Provide a plugin-wide, generic method for checking AJAX nonces.
+		 *
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $action Action name for nonce
+		 */
+		public static function check_admin_referer( $action, $query_arg = false ) {
+
+			if ( ! $query_arg )
+				$query_arg = '_wpmlnonce_' . str_replace( '-', '_', $action );
+
+			$error = new WP_Error();
+			$check = check_ajax_referer( 'wpml-' . $action, $query_arg, $die );
+
+			if ( $check )
+				return true;
+
+			$error->add( 'invalid_nonce', __( 'Are you sure you want to do this?' ) );
+
+			return $error;
+		}
+
+		/**
+		 * Provide a plugin-wide, generic method for checking AJAX nonces.
+		 *
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $action Action name for nonce
+		 */
+		public static function check_ajax_referer( $action, $query_arg = false, $die = false ) {
+
+			if ( ! $query_arg )
+				$query_arg = 'nonce';
+
+			$error = new WP_Error();
+			$check = check_ajax_referer( 'wpml-' . $action, $query_arg, $die );
+
+			if ( $check )
+				return true;
+
+			$error->add( 'invalid_nonce', __( 'Are you sure you want to do this?' ) );
+			self::ajax_response( $error, null, self::create_nonce( $action ) );
+		}
+
+		/**
 		 * Application/JSON headers content-type.
 		 * If no header was sent previously, send new header.
 		 *
@@ -903,17 +975,19 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Handle AJAX Callbacks results, prepare and format the AJAX
 		 * response and display it.
 		 * 
+		 * TODO: give priority to Nonce in args
+		 * 
 		 * @param    array    $response Array containing Callback results data
 		 * @param    array    $i18n Array containing Callback optional i18n
 		 */
-		public static function ajax_response( $response, $i18n = array() ) {
+		public static function ajax_response( $response, $i18n = array(), $nonce = null ) {
 
 			if ( is_wp_error( $response ) )
 				$_response = $response;
 			else if ( ! is_object( $response ) && ! is_int( $response ) && ! is_array( $response ) && true !== $response )
 				$_response = new WP_Error( 'callback_error', __( 'An error occured when trying to perform the request.', WPML_SLUG ) );
 			else
-				$_response = new WPML_Ajax( array( 'data' => $response, 'i18n' => $i18n ) );
+				$_response = new WPML_Ajax( array( 'data' => $response, 'i18n' => $i18n, 'nonce' => $nonce ) );
 
 			self::json_header( is_wp_error( $_response ) );
 			wp_die( json_encode( $_response ) );

@@ -104,7 +104,7 @@ var wpml_images, wpml_posters;
 				wpml._post({
 					data: {
 						action: 'wpml_upload_image',
-						wpml_check: wpml_ajax.utils.wpml_check,
+						nonce: wpml.get_nonce( 'upload-movie-image' ),
 						image: image.attributes.tmdb_data,
 						title: wpml_ajax.lang.image_from + ' ' + $('#tmdb_data_title').val(),
 						post_id: $('#post_ID').val(),
@@ -252,7 +252,7 @@ var wpml_images, wpml_posters;
 				wpml._post({
 					data: {
 						action: 'wpml_set_featured',
-						wpml_check: wpml_ajax.utils.wpml_check,
+						nonce: wpml.get_nonce( 'set-movie-poster' ),
 						image: _image,
 						title: $('#tmdb_data_title').val(),
 						post_id: $('#post_ID').val(),

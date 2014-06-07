@@ -234,14 +234,21 @@ wpml.settings = wpml_settings = {}
 			wpml._get({
 				data: {
 					action: 'wpml_check_api_key',
-					wpml_check: wpml_ajax.utils.wpml_check,
+					nonce: wpml.get_nonce( 'check-api-key' ),
 					key: key
+				},
+				beforeSend: function() {
+					$input.next( '.spinner' ).css( { position: 'absolute', display: 'inline' } );
 				},
 				error: function( response ) {
 					$input.after( '<span id="api_status" class="invalid">' + response.responseJSON.errors.invalid[ 0 ] + '</span>' );
 				},
 				success: function( response ) {
 					$input.after( '<span id="api_status" class="valid">' + response.data.message + '</span>' );
+				},
+				complete: function( r ) {
+					$input.nextAll( '.spinner' ).css( { position: '', display: '' } );
+					wpml.update_nonce( 'check-api-key', r.responseJSON.nonce );
 				}
 			});
 		};

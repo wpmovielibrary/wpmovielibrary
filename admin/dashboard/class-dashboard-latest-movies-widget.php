@@ -170,15 +170,11 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 */
 		private function update_settings() {
 
+			WPML_Utils::check_admin_referer( "save-{$this->widget_id}" );
+
 			$settings = get_user_option( $this->widget_id . '_settings' );
-			$nonce = "save_{$this->widget_id}_nonce";
-
-			if ( ! isset( $_POST[ $nonce ] ) || ! wp_verify_nonce( $_POST[ $nonce ], "save-{$this->widget_id}" ) ) {
-				printf( '%s <a href="%s">%s</a>', __( 'You are not allowed to edit this item.' ), admin_url( '/admin.php?page=wpmovielibrary' ), __( 'Go back' ) );
-				return false;
-			}
-
 			$_settings = array();
+
 			foreach ( $this->default_settings as $key => $value ) {
 				if ( ! isset( $_POST[ $this->widget_id ][ $key ] ) )
 					$_settings[ $key ] = 0;

@@ -35,7 +35,7 @@ wpml = wpml || {};
 				wpml._post({
 					data: {
 						action: 'wpml_save_details',
-						wpml_check: wpml_ajax.utils.wpml_check,
+						nonce: wpml.get_nonce( 'save-movie-details' ),
 						post_id: $( '#post_ID' ).val(),
 						wpml_details: {
 							movie_media: $( '#movie-media' ).val(),
@@ -47,18 +47,17 @@ wpml = wpml || {};
 						$( wpml_edit_details.save_details ).prev( '.spinner' ).css( { display: 'inline-block' } );
 					},
 					error: function( response ) {
-						console.log('!!');
 						$( wpml_edit_details.details_status ).html( '<p>' + wpml_ajax.lang.oops + '</p>' );
 					},
 					success: function( response ) {
-						console.log('!');
 						$( wpml_edit_details.details_status ).html( '<p>' + wpml_ajax.lang.done + '</p>' );
 						timer = window.setTimeout( function() {
 							$( wpml_edit_details.details_status ).fadeOut( 1500, function() { $( this ).empty() } );
 						}, 2000 );
 					},
-					complete: function() {
+					complete: function( r ) {
 						$( wpml_edit_details.save_details ).prev( '.spinner' ).hide();
+						wpml.update_nonce( 'save-movie-details', r.responseJSON.nonce );
 					}
 				});
 			};
@@ -123,7 +122,7 @@ wpml = wpml || {};
 				      _span = $parent.find( '.movie_' + type + '_title' ),
 				     value = $( link ).attr( 'data-' + type + '' ),
 				     title = $( link ).attr( 'data-' + type + '-title' ),
-				     nonce = $( '#wpml_' + type + '_inline_edit_nonce' ).val();
+				     nonce = wpml.get_nonce( type + '-inline-edit' );
 
 				if ( 'rating' == type )
 					_span.removeClass().addClass( 'movie-rating-title stars stars-' + value.replace( '.', '-' ) );
@@ -135,7 +134,7 @@ wpml = wpml || {};
 				wpml._post({
 					data: {
 						action: 'wpml_set_detail',
-						wpml_inline_edit_nonce: nonce,
+						nonce: nonce,
 						type: type,
 						data: value,
 						post_id: post_id
@@ -152,6 +151,9 @@ wpml = wpml || {};
 						timer = window.setTimeout( function() {
 							$( '#wpml_temp_status' ).fadeOut( 1000, function() { $(this ).remove() });
 						}, 1000 );
+					},
+					complete: function( r ) {
+						wpml.update_nonce( type + '-inline-edit', r.responseJSON.nonce );
 					}
 				});
 			};

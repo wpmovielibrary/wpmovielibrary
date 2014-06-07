@@ -3,15 +3,14 @@
 	return;
 endif;
 ?>
-		<div class="no-js-alert hide-if-js"><?php _e( 'It seems you have JavaScript deactivated; the import feature will not work correctly without it, please check your browser\'s settings.', WPML_SLUG ); ?></div>
-
-		<div id="wpml-tmdb" class="wpml-tmdb hide-if-no-js">
+		<div id="wpml-tmdb" class="wpml-tmdb">
 <?php if ( true === WPML_Settings::tmdb__dummy() ) : ?>
 			<div class="updated"><p><em><?php printf( __( 'WPMovieLibrary is using the dummy TMDb API; add your valid API key to the <a href="%s">Settings Page</a> or <a href="http://tmdb.caercam.org/">Learn more</a> about the dummy API.', WPML_SLUG ), admin_url( 'edit.php?post_type=movie&page=wpml_edit_settings' ) ); ?></em></p></div>
 <?php endif; ?>
 			<p><strong><?php _e( 'Find movie on TMDb:', WPML_SLUG ); ?></strong></p>
 
 			<div>
+				<?php WPML_Utils::_nonce_field( 'search-movies' ) ?>
 				<select id="tmdb_search_lang" name="wpml[lang]" onchange="wpml_edit_meta.lang=this.value;">
 					<option value="en" <?php selected( WPML_Settings::tmdb__lang(), 'en' ); ?>><?php _e( 'English', WPML_SLUG ); ?></option>
 					<option value="fr" <?php selected( WPML_Settings::tmdb__lang(), 'fr' ); ?>><?php _e( 'French', WPML_SLUG ); ?></option>
@@ -26,8 +25,25 @@ endif;
 				<a id="tmdb_empty" name="wpml[tmdb_empty]" type="submit" class="button button-secondary button-empty hide-if-no-js"><?php _e( 'Empty Results', WPML_SLUG ); ?></a>
 			</div>
 
-			<div id="wpml_status"></div>
+			<div id="wpml_status"><?php echo $status; ?></div>
 			<div style="clear:both"></div>
+
+<?php if ( ! is_null( $select ) ) : ?>
+			<div id="tmdb_data" style="display:block">
+<?php foreach ( $select as $movie ) : ?>
+
+				<div class="tmdb_select_movie">
+					<a id="tmdb_<?php echo $movie['id'] ?>" href="<?php echo wp_nonce_url( get_edit_post_link( get_the_ID() ) . "&amp;wpml_search_movie=1&amp;search_by=id&amp;search_query={$movie['id']}", 'search-movies' ) ?>" onclick="wpml_edit_meta.get( <?php echo $movie['id'] ?> ); return false;">
+						<img src="<?php echo $movie['poster'] ?>" alt="<?php echo $movie['title'] ?>" />
+						<em><?php echo $movie['title'] ?></em>
+					</a>
+					<input type="hidden" value='<?php echo $movie['json'] ?>' />
+				</div>
+<?php endforeach; ?>
+			</div>
+<?php else: ?>
+			<div id="tmdb_data"></div>
+<?php endif; ?>
 
 			<div id="tmdb_data"></div>
 			<input type="hidden" id="tmdb_data_tmdb_id" name="tmdb_data[tmdb_id]" class="hide-if-js hide-if-no-js" value="<?php echo $value['tmdb_id'] ?>" />

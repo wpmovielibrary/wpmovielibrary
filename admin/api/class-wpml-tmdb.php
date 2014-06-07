@@ -153,7 +153,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 */
 		public static function check_api_key_callback() {
 
-			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+			WPML_Utils::check_ajax_referer( 'check-api-key' );
 
 			if ( ! isset( $_GET['key'] ) || '' == $_GET['key'] || 32 !== strlen( $_GET['key'] ) )
 				return new WP_Error( 'invalid', __( 'Invalid API key - the key should be an alphanumerica 32 chars long string.', WPML_SLUG ) );
@@ -175,7 +175,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 */
 		public static function search_movie_callback() {
 
-			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+			WPML_Utils::check_ajax_referer( 'search-movies' );
 
 			$type = ( isset( $_GET['type'] ) && '' != $_GET['type'] ? $_GET['type'] : '' );
 			$data = ( isset( $_GET['data'] ) && '' != $_GET['data'] ? $_GET['data'] : '' );
@@ -308,7 +308,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 * 
 		 * @since     1.0.0
 		 */
-		private static function get_movie_by_id( $id, $lang, $_id = null ) {
+		public static function get_movie_by_id( $id, $lang, $_id = null ) {
 
 			$movie = ( WPML_Settings::tmdb__caching() ? get_transient( "wpml_movie_{$id}_{$lang}" ) : false );
 
@@ -337,7 +337,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 *
 		 * @return    string    JSON formatted results.
 		 */
-		private static function _get_movie_by_id( $id, $lang, $_id = null ) {
+		public static function _get_movie_by_id( $id, $lang, $_id = null ) {
 
 			$tmdb = new TMDb;
 

@@ -36,6 +36,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		public function register_hook_callbacks() {
 
 			add_action( 'before_delete_post', __CLASS__ . '::delete_movies_attachments', 10, 1 );
+			add_action( 'admin_post_thumbnail_html', __CLASS__ . '::load_posters_link', 10, 2 );
 
 			add_filter( 'wpml_check_for_existing_images', __CLASS__ . '::check_for_existing_images', 10, 3 );
 			add_filter( 'wpml_jsonify_movie_images', __CLASS__ . '::fake_jsonify_movie_images', 10, 3 );
@@ -290,7 +291,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 */
 		public static function upload_image_callback() {
 
-			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+			WPML_Utils::check_ajax_referer( 'upload-movie-image' );
 
 			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
@@ -324,7 +325,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 */
 		public static function set_featured_image_callback() {
 
-			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+			WPML_Utils::check_ajax_referer( 'set-movie-poster' );
 
 			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
@@ -460,6 +461,35 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			update_post_meta( $id, '_wpml_' . $image_type . '_related_tmdb_data', $data );
 
 			return $id;
+		}
+
+		/**
+		 * Add a link to the current Post's Featured Image Metabox to trigger
+		 * a Modal window. This will be used by the future Movie Posters
+		 * selection Modal, yet to be implemented.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    string    $content Current Post's Featured Image Metabox
+		 *                              content, ready to be edited.
+		 * @param    string    $post_id Current Post's ID (unused at that point)
+		 * 
+		 * @return   string    Updated $content
+		 */
+		public static function load_posters_link( $content, $post_id ) {
+
+			$post = get_post( $post_id );
+			if ( ! $post || 'movie' != get_post_type( $post ) )
+				return $content;
+
+			if ( '' == WPML_Settings::tmdb__apikey() || WPML_Settings::tmdb__dummy() )
+				$content .= '<em>' . __( 'You need a valid TMDb API Key to download movie posters.', WPML_SLUG ) . '</em>';
+			else {
+				$content .= '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', WPML_SLUG ) . '</a>';
+				$content .= WPML_Utils::_nonce_field( 'set-movie-poster', false, false );
+			}
+
+			return $content;
 		}
 
 		/**

@@ -43,7 +43,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 			add_action( 'wp_ajax_wpml_delete_movies', __CLASS__ . '::delete_movies_callback' );
 			add_action( 'wp_ajax_wpml_import_movies', __CLASS__ . '::import_movies_callback' );
-			add_action( 'wp_ajax_wpml_fetch_imported_movies', __CLASS__ . '::fetch_imported_movies_callback' );
+			add_action( 'wp_ajax_wpml_imported_movies', __CLASS__ . '::imported_movies_callback' );
 		}
 
 		/**
@@ -79,12 +79,12 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 */
 		public static function delete_movies_callback() {
 
-			check_ajax_referer( 'wpml-callbacks-nonce', 'wpml_check' );
+			WPML_Utils::check_ajax_referer( 'delete-movies' );
 
 			$movies = ( isset( $_GET['movies'] ) && '' != $_GET['movies'] ? $_GET['movies'] : null );
 
 			$response = self::delete_movies( $movies );
-			WPML_Utils::ajax_response( $response );
+			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( 'delete-movies' ) );
 		}
 
 		/**
@@ -95,9 +95,9 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 *
 		 * @since     1.0.0
 		 */
-		public static function fetch_imported_movies_callback() {
+		public static function imported_movies_callback() {
 
-			check_ajax_referer( 'wpml-fetch-imported-movies-nonce', 'wpml_fetch_imported_movies_nonce' );
+			WPML_Utils::check_ajax_referer( 'imported-movies' );
 
 			$wp_list_table = new WPML_Import_Table();
 			$wp_list_table->ajax_response();
@@ -113,12 +113,12 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 */
 		public static function import_movies_callback() {
 
-			check_ajax_referer( 'wpml-movie-import', 'wpml_ajax_movie_import' );
+			WPML_Utils::check_ajax_referer( 'import-movies-list' );
 
-			$movies = ( isset( $_POST['wpml_import_list'] ) && '' != $_POST['wpml_import_list'] ? esc_textarea( $_POST['wpml_import_list'] ) : null );
+			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? esc_textarea( $_POST['movies'] ) : null );
 
 			$response = self::import_movies( $movies );
-			WPML_Utils::ajax_response( $response );
+			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( 'import-movies-list' ) );
 		}
 
 		/**
@@ -265,7 +265,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				return new WP_Error( 'existing_movie', $message );
 			}
 
-			$_post = array(
+			$posts = array(
 				'ID'             => '',
 				'comment_status' => 'closed',
 				'ping_status'    => 'closed',
@@ -280,7 +280,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				'post_type'      => 'movie'
 			);
 
-			$import = wp_insert_post( $_post, $wp_error = true );
+			$import = wp_insert_post( $posts );
 
 			return $import;
 		}
@@ -388,7 +388,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 			if ( isset( $_POST['wpml_save_imported'] ) && '' != $_POST['wpml_save_imported'] && isset( $_POST['tmdb'] ) && count( $_POST['tmdb'] ) ) {
 
-				check_admin_referer('wpml-movie-save-import');
+				WPML_Utils::check_admin_referer( 'save-imported-movies' );
 
 				foreach ( $_POST['tmdb'] as $tmdb_data ) {
 					if ( 0 != $tmdb_data['tmdb_id'] ) {
@@ -418,9 +418,13 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				if ( ! empty( $imported ) )
 					WPML_Utils::admin_notice( sprintf( _n( 'One movie imported successfully!', '%d movies imported successfully!', count( $imported ), WPML_SLUG ), count( $imported ) ), 'updated' );
 			}
+			else if ( isset( $_POST['wpml_importer'] ) && '' != $_POST['wpml_importer'] ) {
 
-			if ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], array( 'wpml_import', 'wpml_import_queue', 'wpml_imported' ) ) )
-				$_section =  $_REQUEST['wpml_section'];
+
+			}
+
+			if ( isset( $_GET['wpml_section'] ) && in_array( $_GET['wpml_section'], array( 'wpml_import', 'wpml_import_queue', 'wpml_imported' ) ) )
+				$_section =  $_GET['wpml_section'];
 
 			include_once( plugin_dir_path( __FILE__ ) . '/views/import.php' );
 		}

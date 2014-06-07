@@ -44,16 +44,18 @@ wpml = wpml || {};
 					var _selector = '#wpml_import_queue',
 					    _rows = '.wp-list-table',
 					    _data = {
-						action: 'wpml_fetch_queued_movies',
-						wpml_fetch_queued_movies_nonce: $( '#wpml_fetch_queued_movies_nonce' ).val(),
+						action: 'wpml_queued_movies',
+						nonce_name: 'queued-movies',
+						nonce: wpml.get_nonce( 'queued-movies' )
 					};
 				}
 				else {
 					var _selector = '#wpml_imported',
 					    _rows = '.wp-list-table tbody',
 					    _data = {
-						action: 'wpml_fetch_imported_movies',
-						wpml_fetch_imported_movies_nonce: $( '#wpml_fetch_imported_movies_nonce' ).val(),
+						action: 'wpml_imported_movies',
+						nonce_name: 'imported-movies',
+						nonce: wpml.get_nonce( 'imported-movies' )
 					};
 				}
 
@@ -69,15 +71,15 @@ wpml = wpml || {};
 					},
 					success: function( response ) {
 
-						if ( response.data.rows.length )
+						if ( undefined != response.data.rows )
 							$(_rows, _selector).html( response.data.rows );
-						if ( response.data.column_headers.length )
+						if ( undefined != response.data.column_headers )
 							$( 'thead tr', _selector ).html( response.data.column_headers );
-						if ( response.data.column_footers.length )
+						if ( undefined != response.data.column_footers )
 							$( 'tfoot tr', _selector ).html( response.data.column_footers );
-						if ( response.data.pagination.bottom.length )
+						if ( undefined != response.data.pagination.bottom )
 							$( '.tablenav.top .tablenav-pages', _selector ).html( $(response.data.pagination.top).html() );
-						if ( response.data.pagination.top.length )
+						if ( undefined != response.data.pagination.top )
 							$( '.tablenav.bottom .tablenav-pages', _selector ).html( $(response.data.pagination.bottom).html() );
 
 						if ( 'queued' == list )
@@ -85,7 +87,8 @@ wpml = wpml || {};
 						else
 							wpml_import_view.update_count( 'imported', response.data.total_items, response.i18n.total_items_i18n );
 					},
-					complete: function() {
+					complete: function( r ) {
+						wpml.update_nonce( data.nonce_name, r.responseJSON.nonce );
 						wpml_import_view.init();
 					}
 				});

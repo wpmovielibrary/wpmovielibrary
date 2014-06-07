@@ -1,6 +1,6 @@
 
 		<div class="wpml-inline-edit-details wpml-inline-edit-status">
-			<?php wp_nonce_field( 'wpml-status-inline-edit', 'wpml_status_inline_edit_nonce' ) ?>
+			<?php WPML_Utils::_nonce_field( 'status-inline-edit', $referer = false ) ?>
 
 			<ul>
 <?php foreach ( $default_movie_status as $slug => $title ) : ?>
@@ -10,7 +10,7 @@
 		</div>
 
 		<div class="wpml-inline-edit-details wpml-inline-edit-media">
-			<?php wp_nonce_field( 'wpml-media-inline-edit', 'wpml_media_inline_edit_nonce' ) ?>
+			<?php wp_nonce_field( 'wpml-media-inline-edit', '_wpmlnonce_media_inline_edit' ) ?>
 
 			<ul>
 <?php foreach ( $default_movie_media as $slug => $title ) : ?>
@@ -20,7 +20,7 @@
 		</div>
 
 		<div class="wpml-inline-edit-details wpml-inline-edit-rating">
-			<?php wp_nonce_field( 'wpml-rating-inline-edit', 'wpml_rating_inline_edit_nonce' ) ?>
+			<?php wp_nonce_field( 'wpml-rating-inline-edit', '_wpmlnonce_rating_inline_edit' ) ?>
 
 			<a href="#" class="wpml-inline-edit-rating-update" onclick="wpml_edit_details.inline_edit( 'rating', this ); return false;" data-rating="0.0"><div id="stars" data-default-rating="0.0" data-rating="0.0" data-rated="false" class="stars"></div></a>
 		</div>
