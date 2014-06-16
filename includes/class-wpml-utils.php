@@ -167,7 +167,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Setup an internal, dummy Archive page that will be used to
 		 * render archive pages for taxonomies. This should only be called
-		 * while activating.
+		 * only while activating.
 		 * 
 		 * @since    1.0.0
 		 */
@@ -194,6 +194,22 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			);
 
 			wp_insert_post( $post );
+		}
+
+		/**
+		 * Delete the Archive page. This should only be called only while
+		 * uninstalling.
+		 * 
+		 * @since    1.0.0
+		 */
+		public static function delete_archive_page() {
+
+			$page = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpml_page' );
+
+			if ( is_null( $page ) )
+				return false;
+
+			wp_delete_post( $page->ID, $force_delete = true );
 		}
 
 		/**
@@ -1215,6 +1231,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			self::clean_transient( 'uninstall' );
 			delete_option( 'rewrite_rules' );
+
+			self::delete_archive_page();
 		}
 
 		/**
