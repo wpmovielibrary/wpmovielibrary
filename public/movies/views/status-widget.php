@@ -31,7 +31,7 @@ if ( $status_only ) :
 			);
 		endforeach;
 
-		$html = apply_filters( 'wpml_format_widget_lists', $items, array( 'dropdown' => $list, 'styling' => $css, 'title' => __( 'Select a Movie', WPML_SLUG ) ) );
+		$html = apply_filters( 'wpml_format_widget_lists', $items, array( 'dropdown' => $list, 'styling' => $css, 'title' => __( 'Select a status', WPML_SLUG ) ) );
 
 		echo $html;
 	else :

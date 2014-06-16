@@ -10,6 +10,14 @@
 		<label><input name="<?php echo $this->get_field_name( 'status_only' ); ?>" type="radio" value="1" <?php checked( $status_only, 1 ); ?> onclick="document.getElementById('_status_only_<?php echo $this->get_field_id( 'status_only' ); ?>').style.display='block';document.getElementById('_movies_only_<?php echo $this->get_field_id( 'status_only' ); ?>').style.display='none';" /> <?php _e( 'Show Status only', WPML_SLUG ); ?></label>
 		<label><input name="<?php echo $this->get_field_name( 'status_only' ); ?>" type="radio" value="0" <?php checked( $status_only, 0 ); ?> onclick="document.getElementById('_status_only_<?php echo $this->get_field_id( 'status_only' ); ?>').style.display='none';document.getElementById('_movies_only_<?php echo $this->get_field_id( 'status_only' ); ?>').style.display='block';" /> <?php _e( 'Show Movies', WPML_SLUG ); ?></label>
 	</p>
+	<p>
+			<input id="<?php echo $this->get_field_id( 'list' ); ?>" name="<?php echo $this->get_field_name( 'list' ); ?>" type="checkbox" value="1" <?php checked( $list, 1 ); ?> onclick="if(this.checked){document.getElementById('_list_only_<?php echo $this->get_field_id( 'css' ); ?>').style.display='block'}else{document.getElementById('_list_only_<?php echo $this->get_field_id( 'css' ); ?>').style.display='none'}" /> 
+			<label for="<?php echo $this->get_field_id( 'list' ); ?>"><?php _e( 'Display as dropdown', WPML_SLUG ); ?></label><br />
+	</p>
+	<p id="_list_only_<?php echo $this->get_field_id( 'css' ); ?>" class="<?php if ( 1 !== $list ) echo 'hide-if-js'; ?>">
+			<input id="<?php echo $this->get_field_id( 'css' ); ?>" name="<?php echo $this->get_field_name( 'css' ); ?>" type="checkbox" value="1" <?php checked( $css, 1 ); ?>/> 
+			<label for="<?php echo $this->get_field_id( 'css' ); ?>"><?php _e( 'Custom Style (only for dropdown)', WPML_SLUG ); ?></label>
+	</p>
 	<div id="_status_only_<?php echo $this->get_field_id( 'status_only' ); ?>" class="<?php if ( 1 !== $status_only ) echo 'hide-if-js'; ?>">
 		<p>
 			<!--<input id="<?php echo $this->get_field_id( 'show_icons' ); ?>" name="<?php echo $this->get_field_name( 'show_icons' ); ?>" type="checkbox" value="1" <?php checked( $show_icons, 1 ); ?> /> 
@@ -26,11 +34,7 @@
 			</select>
 		</p>
 		<p>
-			<input id="<?php echo $this->get_field_id( 'list' ); ?>" name="<?php echo $this->get_field_name( 'list' ); ?>" type="checkbox" value="1" <?php checked( $list, 1 ); ?> /> 
-			<label for="<?php echo $this->get_field_id( 'list' ); ?>"><?php _e( 'Display as dropdown', WPML_SLUG ); ?></label><br />
 			<input id="<?php echo $this->get_field_id( 'thumbnails' ); ?>" name="<?php echo $this->get_field_name( 'thumbnails' ); ?>" type="checkbox" value="1" <?php checked( $thumbnails, 1 ); ?> /> 
-			<label for="<?php echo $this->get_field_id( 'thumbnails' ); ?>"><?php _e( 'Show thumbnails', WPML_SLUG ); ?></label><br />
-			<input id="<?php echo $this->get_field_id( 'css' ); ?>" name="<?php echo $this->get_field_name( 'css' ); ?>" type="checkbox" value="1" <?php checked( $css, 1 ); ?> /> 
-			<label for="<?php echo $this->get_field_id( 'css' ); ?>"><?php _e( 'Custom Style (only for dropdown)', WPML_SLUG ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'thumbnails' ); ?>"><?php _e( 'Show thumbnails', WPML_SLUG ); ?></label>
 		</p>
 	</div>
