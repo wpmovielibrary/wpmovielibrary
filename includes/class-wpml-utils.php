@@ -52,6 +52,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			add_filter( 'get_the_terms', __CLASS__ . '::get_the_terms', 10, 3 );
 			add_filter( 'wp_get_object_terms', __CLASS__ . '::get_ordered_object_terms', 10, 4 );
+
+			add_action( 'template_redirect', __CLASS__ . '::filter_404' );
 		}
 
 		/**
@@ -1050,6 +1052,103 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			}
 
 			return $result;
+		}
+
+		/**
+		 * Filter 4040 error pages to intercept taxonomies listing pages.
+		 * 
+		 * Query should be 404 with no posts found and matching either one
+		 * of the taxonomies slug.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @return   boolean    Filter result: true if template filtered,
+		 *                      false else.
+		 */
+		public static function filter_404() {
+
+			global $wp_query;
+			$_query = $wp_query;
+
+			// 404 only
+			if ( true !== $wp_query->is_404 || 0 !== $wp_query->post_count )
+				return false;
+
+			// Custom taxonomies only
+			$collection = WPML_Settings::taxonomies__collection_rewrite();
+			$genre = WPML_Settings::taxonomies__genre_rewrite();
+			$actor = WPML_Settings::taxonomies__actor_rewrite();
+			$slugs = array(
+				'collection'	=> ( '' != $collection ? $collection : 'collection' ),
+				'genre'		=> ( '' != $genre ? $genre : 'genre' ),
+				'actor'		=> ( '' != $actor ? $actor : 'actor' )
+			);
+
+			if ( ! in_array( $wp_query->query_vars['name'], $slugs ) )
+				return false;
+
+			// Change type of query
+			$wp_query->is_404 = false;
+			$wp_query->is_archive = true;
+			$wp_query->has_archive = true;
+			$wp_query->is_post_type_archive = true;
+			$wp_query->query_vars['post_type'] = 'movie';
+
+			$post = new WP_Post( new StdClass );
+			$post = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpml_page' );
+
+			if ( is_null( $post ) ) {
+				$wp_query = $_query;
+				return false;
+			}
+
+			// WP_Query trick: use an internal dummy page
+			$posts_per_page = $wp_query->query_vars['posts_per_page'];
+
+			// Term selection
+			if ( $wp_query->query_vars['name'] == $slugs['collection'] ) {
+				$term_slug = 'collection';
+				$term_title = __( 'View all movies from collection &laquo; %s &raquo;', WPML_SLUG );
+			}
+			else if ( $wp_query->query_vars['name'] == $slugs['genre'] ) {
+				$term_slug = 'genre';
+				$term_title = __( 'View all &laquo; %s &raquo; movies', WPML_SLUG );
+			}
+			else if ( $wp_query->query_vars['name'] == $slugs['actor'] ) {
+				$term_slug = 'actor';
+				$term_title = __( 'View all movies staring &laquo; %s &raquo;', WPML_SLUG );
+			}
+			else {
+				$wp_query = $_query;
+				return false;
+			}
+
+			$terms = get_terms( $term_slug, array() );
+			$content = '';
+
+			if ( is_wp_error( $terms ) )
+				$content = $terms->get_error_message();
+			else 
+				foreach ( $terms as $term )
+					$content[] = sprintf(
+						'<li><a href="%s" title="%s">%s (%s)</li>',
+						get_term_link( $term ),
+						sprintf( $term_title, $term->name ),
+						$term->name,
+						sprintf( _n( '%d movie', '%d movies', $term->count, WPML_SLUG ), $term->count )
+					);
+
+			if ( is_array( $content ) )
+				$content = implode( "\n", $content );
+
+			$post->post_content = $content;
+
+			$wp_query->posts[] = $post;
+			$wp_query->post_count = 1;
+			$wp_query->found_posts = 1;
+
+			// Make sure HTTP status is good
+			status_header( '200' );
 		}
 
 		/**
