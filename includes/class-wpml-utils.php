@@ -165,6 +165,38 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
+		 * Setup an internal, dummy Archive page that will be used to
+		 * render archive pages for taxonomies. This should only be called
+		 * while activating.
+		 * 
+		 * @since    1.0.0
+		 */
+		public static function set_archive_page() {
+
+			$page = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpml_page' );
+
+			if ( ! is_null( $page ) )
+				return false;
+
+			$post = array(
+				'ID'             => null,
+				'post_content'   => '',
+				'post_name'      => 'wpml_wpmovielibrary',
+				'post_title'     => 'WPMovieLibrary Archives',
+				'post_status'    => 'publish',
+				'post_type'      => 'page',
+				'post_author'    => 1,
+				'ping_status'    => 'closed',
+				'post_excerpt'   => '',
+				'post_date'      => '0000-00-00 00:00:00',
+				'post_date_gmt'  => '0000-00-00 00:00:00',
+				'comment_status' => 'closed'
+			);
+
+			wp_insert_post( $post );
+		}
+
+		/**
 		 * Render a notice box.
 		 * 
 		 * Mostly used to inform about specific plugin needs or info
@@ -1159,6 +1191,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @param bool $network_wide
 		 */
 		public function activate( $network_wide ) {
+
+			self::set_archive_page();
 		}
 
 		/**
