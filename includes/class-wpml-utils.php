@@ -1179,7 +1179,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			else 
 				foreach ( $terms as $term )
 					$content[] = sprintf(
-						'<li><a href="%s" title="%s">%s (%s)</li>',
+						'<li><a href="%s" title="%s">%s (%s)</a></li>',
 						get_term_link( $term ),
 						sprintf( $term_title, $term->name ),
 						$term->name,
