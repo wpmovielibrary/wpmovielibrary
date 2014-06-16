@@ -184,7 +184,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				'post_name'      => 'wpml_wpmovielibrary',
 				'post_title'     => 'WPMovieLibrary Archives',
 				'post_status'    => 'publish',
-				'post_type'      => 'page',
+				'post_type'      => 'wpml_page',
 				'post_author'    => 1,
 				'ping_status'    => 'closed',
 				'post_excerpt'   => '',
