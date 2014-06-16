@@ -9,6 +9,13 @@
 	top: 2px;
 }
 
+/** Public Page
+ ***************************************************/
+
+.hentry.wpml_page.type-wpml_page .entry-header {
+	display: none;
+}
+
 /** Movie Post TMDb
  ***************************************************/
 

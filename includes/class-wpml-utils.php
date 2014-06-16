@@ -52,6 +52,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			add_filter( 'get_the_terms', __CLASS__ . '::get_the_terms', 10, 3 );
 			add_filter( 'wp_get_object_terms', __CLASS__ . '::get_ordered_object_terms', 10, 4 );
+
+			add_action( 'template_redirect', __CLASS__ . '::filter_404' );
 		}
 
 		/**
@@ -160,6 +162,54 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				)
 			);
 
+		}
+
+		/**
+		 * Setup an internal, dummy Archive page that will be used to
+		 * render archive pages for taxonomies. This should only be called
+		 * only while activating.
+		 * 
+		 * @since    1.0.0
+		 */
+		public static function set_archive_page() {
+
+			$page = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpml_page' );
+
+			if ( ! is_null( $page ) )
+				return false;
+
+			$post = array(
+				'ID'             => null,
+				'post_content'   => '',
+				'post_name'      => 'wpml_wpmovielibrary',
+				'post_title'     => 'WPMovieLibrary Archives',
+				'post_status'    => 'publish',
+				'post_type'      => 'wpml_page',
+				'post_author'    => 1,
+				'ping_status'    => 'closed',
+				'post_excerpt'   => '',
+				'post_date'      => '0000-00-00 00:00:00',
+				'post_date_gmt'  => '0000-00-00 00:00:00',
+				'comment_status' => 'closed'
+			);
+
+			wp_insert_post( $post );
+		}
+
+		/**
+		 * Delete the Archive page. This should only be called only while
+		 * uninstalling.
+		 * 
+		 * @since    1.0.0
+		 */
+		public static function delete_archive_page() {
+
+			$page = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpml_page' );
+
+			if ( is_null( $page ) )
+				return false;
+
+			wp_delete_post( $page->ID, $force_delete = true );
 		}
 
 		/**
@@ -1053,6 +1103,103 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
+		 * Filter 4040 error pages to intercept taxonomies listing pages.
+		 * 
+		 * Query should be 404 with no posts found and matching either one
+		 * of the taxonomies slug.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @return   boolean    Filter result: true if template filtered,
+		 *                      false else.
+		 */
+		public static function filter_404() {
+
+			global $wp_query;
+			$_query = $wp_query;
+
+			// 404 only
+			if ( true !== $wp_query->is_404 || 0 !== $wp_query->post_count )
+				return false;
+
+			// Custom taxonomies only
+			$collection = WPML_Settings::taxonomies__collection_rewrite();
+			$genre = WPML_Settings::taxonomies__genre_rewrite();
+			$actor = WPML_Settings::taxonomies__actor_rewrite();
+			$slugs = array(
+				'collection'	=> ( '' != $collection ? $collection : 'collection' ),
+				'genre'		=> ( '' != $genre ? $genre : 'genre' ),
+				'actor'		=> ( '' != $actor ? $actor : 'actor' )
+			);
+
+			if ( ! in_array( $wp_query->query_vars['name'], $slugs ) )
+				return false;
+
+			// Change type of query
+			$wp_query->is_404 = false;
+			$wp_query->is_archive = true;
+			$wp_query->has_archive = true;
+			$wp_query->is_post_type_archive = true;
+			$wp_query->query_vars['post_type'] = 'movie';
+
+			$post = new WP_Post( new StdClass );
+			$post = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpml_page' );
+
+			if ( is_null( $post ) ) {
+				$wp_query = $_query;
+				return false;
+			}
+
+			// WP_Query trick: use an internal dummy page
+			$posts_per_page = $wp_query->query_vars['posts_per_page'];
+
+			// Term selection
+			if ( $wp_query->query_vars['name'] == $slugs['collection'] ) {
+				$term_slug = 'collection';
+				$term_title = __( 'View all movies from collection &laquo; %s &raquo;', WPML_SLUG );
+			}
+			else if ( $wp_query->query_vars['name'] == $slugs['genre'] ) {
+				$term_slug = 'genre';
+				$term_title = __( 'View all &laquo; %s &raquo; movies', WPML_SLUG );
+			}
+			else if ( $wp_query->query_vars['name'] == $slugs['actor'] ) {
+				$term_slug = 'actor';
+				$term_title = __( 'View all movies staring &laquo; %s &raquo;', WPML_SLUG );
+			}
+			else {
+				$wp_query = $_query;
+				return false;
+			}
+
+			$terms = get_terms( $term_slug, array() );
+			$content = '';
+
+			if ( is_wp_error( $terms ) )
+				$content = $terms->get_error_message();
+			else 
+				foreach ( $terms as $term )
+					$content[] = sprintf(
+						'<li><a href="%s" title="%s">%s (%s)</li>',
+						get_term_link( $term ),
+						sprintf( $term_title, $term->name ),
+						$term->name,
+						sprintf( _n( '%d movie', '%d movies', $term->count, WPML_SLUG ), $term->count )
+					);
+
+			if ( is_array( $content ) )
+				$content = implode( "\n", $content );
+
+			$post->post_content = $content;
+
+			$wp_query->posts[] = $post;
+			$wp_query->post_count = 1;
+			$wp_query->found_posts = 1;
+
+			// Make sure HTTP status is good
+			status_header( '200' );
+		}
+
+		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
 		 * @since    1.0.0
@@ -1060,6 +1207,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @param bool $network_wide
 		 */
 		public function activate( $network_wide ) {
+
+			self::set_archive_page();
 		}
 
 		/**
@@ -1082,6 +1231,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			self::clean_transient( 'uninstall' );
 			delete_option( 'rewrite_rules' );
+
+			self::delete_archive_page();
 		}
 
 		/**

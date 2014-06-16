@@ -112,7 +112,7 @@ class WPML_Statistics_Widget extends WP_Widget {
 		);
 
 		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Statistics', WPML_SLUG ) );
-		$description = ( isset( $instance['description'] ) ? $instance['description'] : '' );
+		$description = ( isset( $instance['description'] ) ? '<p>' . $instance['description'] . '</p>' : '' );
 		$format = ( isset( $instance['format'] ) ? $instance['format'] : __( 'All combined you have a total of %total% in your library, regrouped in %collections%, %genres% and %actors%.', WPML_SLUG ) );
 
 		// Display the admin form
