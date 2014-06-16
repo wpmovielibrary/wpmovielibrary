@@ -66,11 +66,20 @@ class WPML_Statistics_Widget extends WP_Widget {
 		$count['genres'] = wp_count_terms( 'genre' );
 		$count['actors'] = wp_count_terms( 'actor' );
 
+		$movie = WPML_Settings::wpml__movie_rewrite();
+		$movie = ( '' != $movie ? $movie : 'collection' );
+		$collection = WPML_Settings::taxonomies__collection_rewrite();
+		$collection = ( '' != $collection ? $collection : 'collection' );
+		$genre = WPML_Settings::taxonomies__genre_rewrite();
+		$genre = ( '' != $genre ? $genre : 'genre' );
+		$actor = WPML_Settings::taxonomies__actor_rewrite();
+		$actor = ( '' != $actor ? $actor : 'actor' );
+
 		$links = array(
-			'%total%' 	=> sprintf( '<a href="%s">%s</a>', admin_url( 'edit.php?post_type=movie' ), sprintf( _n( 'one movie', '%s movies', $count['total'], WPML_SLUG ), '<strong>' . $count['total'] . '</strong>' ) ),
-			'%collections%'	=> sprintf( '<a href="%s">%s</a>', admin_url( 'edit-tags.php?taxonomy=collection&post_type=movie' ), sprintf( _n( 'one collection', '%s collections', $count['collections'], WPML_SLUG ), '<strong>' . $count['collections'] . '</strong>' ) ),
-			'%genres%'	=> sprintf( '<a href="%s">%s</a>', admin_url( 'edit-tags.php?taxonomy=genre&post_type=movie' ), sprintf( _n( 'one genre', '%s genres', $count['genres'], WPML_SLUG ), '<strong>' . $count['genres'] . '</strong>' ) ),
-			'%actors%'	=> sprintf( '<a href="%s">%s</a>', admin_url( 'edit-tags.php?taxonomy=actor&post_type=movie' ), sprintf( _n( 'one actor', '%s actors', $count['actors'], WPML_SLUG ), '<strong>' . $count['actors'] . '</strong>' ) )
+			'%total%' 	=> sprintf( '<a href="%s">%s</a>', home_url( $movie . '/' ), sprintf( _n( 'one movie', '%s movies', $count['total'], WPML_SLUG ), '<strong>' . $count['total'] . '</strong>' ) ),
+			'%collections%'	=> sprintf( '<a href="%s">%s</a>', home_url( $collection . '/' ), sprintf( _n( 'one collection', '%s collections', $count['collections'], WPML_SLUG ), '<strong>' . $count['collections'] . '</strong>' ) ),
+			'%genres%'	=> sprintf( '<a href="%s">%s</a>', home_url( $genre . '/' ), sprintf( _n( 'one genre', '%s genres', $count['genres'], WPML_SLUG ), '<strong>' . $count['genres'] . '</strong>' ) ),
+			'%actors%'	=> sprintf( '<a href="%s">%s</a>', home_url( $actor . '/' ), sprintf( _n( 'one actor', '%s actors', $count['actors'], WPML_SLUG ), '<strong>' . $count['actors'] . '</strong>' ) )
 		);
 
 		$title = $before_title . apply_filters( 'widget_title', $instance['title'] ) . $after_title;
@@ -111,9 +120,9 @@ class WPML_Statistics_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Statistics', WPML_SLUG ) );
-		$description = ( isset( $instance['description'] ) ? '<p>' . $instance['description'] . '</p>' : '' );
-		$format = ( isset( $instance['format'] ) ? $instance['format'] : __( 'All combined you have a total of %total% in your library, regrouped in %collections%, %genres% and %actors%.', WPML_SLUG ) );
+		$title = ( isset( $instance['title'] ) && '' != $instance['title'] ? $instance['title'] : __( 'Statistics', WPML_SLUG ) );
+		$description = ( isset( $instance['description'] ) && '' != $instance['description'] ? '<p>' . $instance['description'] . '</p>' : '' );
+		$format = ( isset( $instance['format'] ) && '' != $instance['format'] ? $instance['format'] : __( 'All combined you have a total of %total% in your library, regrouped in %collections%, %genres% and %actors%.', WPML_SLUG ) );
 
 		// Display the admin form
 		include( WPML_PATH . 'admin/common/views/statistics-widget-admin.php' );
