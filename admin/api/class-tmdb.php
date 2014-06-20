@@ -24,7 +24,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 	{
 		const API_VERSION    = '3';
 		const API_URL        = '://api.themoviedb.org';
-		const API_DUMMY_URL  = '://tmdb.caercam.org/api';
+		const API_RELAY_URL  = '://tmdb.caercam.org/api';
 
 		/**
 		 * The TMDb-config
@@ -45,7 +45,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 *
 		 * @var boolean
 		 */
-		protected $_dummy = false;
+		protected $internal = false;
 
 		/**
 		 * Default constructor
@@ -63,7 +63,10 @@ if ( ! class_exists( 'TMDb' ) ) :
 				self::getConfiguration();
 
 			$this->_api_key = WPML_Settings::tmdb__apikey();
-			$this->_dummy = WPML_Settings::tmdb__dummy();
+			$this->internal = WPML_Settings::tmdb__internal_api();
+
+			if ( '' == $this->_api_key )
+				$this->internal = true;
 		}
 
 		/**
@@ -76,7 +79,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		public function checkApiKey( $key ) {
 
 			$this->_api_key = esc_attr( $key );
-			$this->_dummy = false;
+			$this->internal = false;
 
 			return self::_makeCall( 'configuration' );
 		}
@@ -265,8 +268,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 			$url = WPML_Settings::tmdb__scheme() . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( array( 'api_key' => $this->_api_key ), '', '&' );
 			$url .= ( ! is_null( $params ) && ! empty( $params ) ) ? '&' . http_build_query( $params, '', '&' ) : '';
 
-			if ( true === $this->_dummy ) {
-				$url = 'http' . TMDb::API_DUMMY_URL . '/' . $function;
+			if ( true === $this->internal ) {
+				$url = 'http' . TMDb::API_RELAY_URL . '/' . $function;
 				if ( isset( $params['query'] ) && '' != $params['query'] )
 					$url .= '/' . rawurlencode( $params['query'] );
 				if ( isset( $params['language'] ) && false !== $params['language'] )

@@ -309,6 +309,9 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 
 			$hidden = self::save_screen_options();
 
+			if ( isset( $_GET['show_wpml_api_key_notice'] ) )
+				WPMovieLibrary_Admin::show_api_key_notice();
+
 			include_once( plugin_dir_path( __FILE__ ) . '/views/dashboard.php' );
 		}
 

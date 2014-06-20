@@ -2,8 +2,6 @@
 
 	<h2><?php esc_html_e( WPML_NAME ); ?> Settings</h2>
 
-	<?php if ( '' == WPML_Settings::tmdb__apikey() ) WPML_Utils::admin_notice( sprintf( __( 'Congratulation, you successfully installed WPMovieLibrary. You need a valid <acronym title="TheMovieDB">TMDb</acronym> API key to start adding your movies. Go to the <a href="%s">WPMovieLibrary Settings page</a> to add your API key.', WPML_SLUG ), admin_url( 'edit.php?post_type=movie&page=settings' ) ), WPML_SLUG ); ?>
-
 	<?php settings_errors(); ?>
 
 	<div id="wpml-tabs">

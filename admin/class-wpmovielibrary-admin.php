@@ -105,6 +105,48 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			// Load admin style sheet and JavaScript.
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
+
+			add_action( 'admin_notices', array( $this, 'api_key_notice' ) );
+		}
+
+		/**
+		 * Notify the absence of set API key. If no API key is set and
+		 * the internal API isn't enabled, show an admin notice on all
+		 * the plugin's pages.
+		 *
+		 * @since     1.0.0
+		 */
+		public function api_key_notice() {
+
+			$screen = get_current_screen();
+			if ( ! in_array( $screen->id, $this->plugin_screen_hook_suffix ) )
+				return false;
+
+			$hide_notice = get_option( 'wpml_api_key_notice_hide', '0' );
+			$hide_notice = ( '1' == $hide_notice ? true : false );
+
+			if ( true === $hide_notice || '' != WPML_Settings::wpml__apikey() || 1 == WPML_Settings::wpml__internal_api() )
+				return false;
+
+?>
+	<div class="update-nag wpml">
+		<?php _e( 'You haven\'t specified a valid <acronym title="TheMovieDB">TMDb</acronym> API key in your Settings; this is required for the plugin to search a get movies metadata. WPMovieLibrary will use an internal API key, but you may consider getting your own personnal one at <a href="https://www.themoviedb.org/">TMDb</a> to get better results.', WPML_SLUG ) ?><br />
+		<span style="float:right">
+			<a class="button-secondary" href="http://tmdb.caercam.org/"><?php _e( 'Learn more about the internal API key', WPML_SLUG ) ?></a>
+			<a class="button-primary" href="<?php echo wp_nonce_url( admin_url( '/admin.php?page=wpmovielibrary&amp;show_wpml_api_key_notice=1' ), 'show-wpml-api-key-notice', '_nonce' ) ?>"><?php _e( 'Do not notify me again', WPML_SLUG ) ?></a>
+		</span>
+	</div>
+
+<?php
+		}
+
+		public static function show_api_key_notice() {
+
+			if ( ! isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'show-wpml-api-key-notice' ) )
+				return false;
+
+			$hide_notice = ( '1' == $_GET['show_wpml_api_key_notice'] ? 1 : 0 );
+			update_option( 'wpml_api_key_notice_hide', $hide_notice );
 		}
 
 		/**
@@ -115,7 +157,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * @return    null    Return early if no settings page is registered.
 		 */
 		public function enqueue_admin_styles() {
-
 
 			if ( ! isset( $this->plugin_screen_hook_suffix ) )
 				return;

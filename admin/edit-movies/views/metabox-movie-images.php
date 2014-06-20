@@ -4,13 +4,9 @@
 	<?php WPML_Utils::_nonce_field( 'upload-movie-image', $referer = false ) ?>
 
 	<div id="tmdb_images_preview" class="hide-if-no-js">
-<?php if ( '' == WPML_Settings::tmdb__apikey() || WPML_Settings::tmdb__dummy() ) : ?>
-		<p><em><?php _e( 'You need a valid TMDb API Key to download movie images.', WPML_SLUG ) ?></em></p>
-<?php else : ?>
 		<ul>
 			<?php echo WPML_Media::get_movie_imported_images() ?>
 			<li class="tmdb_movie_images tmdb_movie_imported_image"><a href="#" id="tmdb_load_images"><?php _e( 'Load Images', WPML_SLUG ); ?></a></li>
 		</ul>
-<?php endif; ?>
 	</div>
 	<div style="clear:both"></div>
