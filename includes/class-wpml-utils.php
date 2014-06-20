@@ -1132,7 +1132,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				'actor'		=> ( '' != $actor ? $actor : 'actor' )
 			);
 
-			if ( ! in_array( $wp_query->query_vars['name'], $slugs ) )
+			if ( ! in_array( $wp_query->query_vars['name'], $slugs ) && ! in_array( $wp_query->query_vars['category_name'], $slugs ) )
 				return false;
 
 			// Change type of query
@@ -1154,15 +1154,15 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$posts_per_page = $wp_query->query_vars['posts_per_page'];
 
 			// Term selection
-			if ( $wp_query->query_vars['name'] == $slugs['collection'] ) {
+			if ( in_array( $slugs['collection'], array( $wp_query->query_vars['name'], $wp_query->query_vars['category_name'] ) ) ) {
 				$term_slug = 'collection';
 				$term_title = __( 'View all movies from collection &laquo; %s &raquo;', WPML_SLUG );
 			}
-			else if ( $wp_query->query_vars['name'] == $slugs['genre'] ) {
+			else if (in_array( $slugs['genre'], array( $wp_query->query_vars['name'], $wp_query->query_vars['category_name'] ) ) ) {
 				$term_slug = 'genre';
 				$term_title = __( 'View all &laquo; %s &raquo; movies', WPML_SLUG );
 			}
-			else if ( $wp_query->query_vars['name'] == $slugs['actor'] ) {
+			else if ( in_array( $slugs['actor'], array( $wp_query->query_vars['name'], $wp_query->query_vars['category_name'] ) ) ) {
 				$term_slug = 'actor';
 				$term_title = __( 'View all movies staring &laquo; %s &raquo;', WPML_SLUG );
 			}
