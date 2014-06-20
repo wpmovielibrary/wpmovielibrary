@@ -190,6 +190,9 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			if ( empty( $fields ) )
 				return null;
 
+			if ( is_string( $fields ) )
+				$fields = array( $fields );
+
 			$html = '<div class="wpml_movie_detail">';
 
 			foreach ( $fields as $field ) {
@@ -244,6 +247,9 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 
 			if ( '' == $tmdb_data || empty( $fields ) )
 				return null;
+
+			if ( is_string( $fields ) )
+				$fields = array( $fields );
 
 			$html = '<dl class="wpml_movie">';
 
