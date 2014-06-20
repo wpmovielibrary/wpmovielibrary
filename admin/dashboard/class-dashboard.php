@@ -29,6 +29,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			'most_rated_movies',
 			'latest_movies',
 			'quickaction',
+			'helper',
 			'stats'
 		);
 
@@ -53,8 +54,9 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			$this->widgets = array(
 				'WPML_Dashboard_Stats_Widget' => WPML_Dashboard_Stats_Widget::get_instance(),
 				'WPML_Dashboard_Quickaction_Widget' => WPML_Dashboard_Quickaction_Widget::get_instance(),
+				'WPML_Dashboard_Helper_Widget' => WPML_Dashboard_Helper_Widget::get_instance(),
 				'WPML_Dashboard_Latest_Movies_Widget' => WPML_Dashboard_Latest_Movies_Widget::get_instance(),
-				'WPML_Dashboard_Most_Rated_Movies_Widget' => WPML_Dashboard_Most_Rated_Movies_Widget::get_instance(),
+				'WPML_Dashboard_Most_Rated_Movies_Widget' => WPML_Dashboard_Most_Rated_Movies_Widget::get_instance()
 			);
 		}
 
@@ -184,6 +186,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			$return[] = self::set_screen_option( 'welcome_panel', __( 'Welcome', WPML_SLUG ), $status );
 			$return[] = self::set_screen_option( 'stats', __( 'Statistics', WPML_SLUG ), $status );
 			$return[] = self::set_screen_option( 'quickaction', __( 'Quick Actions', WPML_SLUG ), $status );
+			$return[] = self::set_screen_option( 'helper', __( 'Help', WPML_SLUG ), $status );
 			$return[] = self::set_screen_option( 'latest_movies', __( 'Latest Movies', WPML_SLUG ), $status );
 			$return[] = self::set_screen_option( 'most_rated_movies', __( 'Most Rated Movies', WPML_SLUG ), $status );
 			$return[] = get_submit_button( __( 'Apply', WPML_SLUG ), 'button hide-if-js', 'screen-options-apply', false );
@@ -364,7 +367,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			}
 
 			$screen = get_current_screen();
-			$side_widgets = array( 'wpml_dashboard_stats_widget', 'wpml_dashboard_quickaction_widget' );
+			$side_widgets = array( 'wpml_dashboard_stats_widget', 'wpml_dashboard_quickaction_widget', 'wpml_dashboard_helper_widget' );
 			$location = ( in_array( $widget_id, $side_widgets ) ? 'side' : 'normal' );
 			$priority = 'core';
 

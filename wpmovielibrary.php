@@ -98,6 +98,7 @@ if ( is_admin() ) {
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/dashboard/class-dashboard-latest-movies-widget.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/dashboard/class-dashboard-most-rated-movies-widget.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/dashboard/class-dashboard-quickaction-widget.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/dashboard/class-dashboard-helper-widget.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/api/class-tmdb.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/api/class-wpml-tmdb.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/class-wpmovielibrary-admin.php' );

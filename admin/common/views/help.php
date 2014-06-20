@@ -21,5 +21,8 @@
 
 		<p></p>
 
-		<p style="text-align:center"><script id='flattrbtn'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=CaerCam&url='+encodeURIComponent(document.URL);f.title='Flattr';f.height=62;f.width=55;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('flattrbtn');</script></p>
+		<p style="text-align:center">
+			<script id='flattrbtn'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=CaerCam&url='+encodeURIComponent(document.URL);f.title='Flattr';f.height=62;f.width=55;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('flattrbtn');</script>
+			<script data-tax="0" data-shipping="0" data-name="WPMovieLibrary" data-button="donate" src="https://www.paypalobjects.com/js/external/paypal-button.min.js?merchant=2JCJ779PFB9Y2"></script>
+		</p>
 	</div>

@@ -111,13 +111,15 @@ body.post-php.post-type-movie #postimagediv {
 	min-height: 72px;
 }
 
-#wpml_dashboard_stats_widget li {
+#wpml_dashboard_stats_widget li,
+#wpml_dashboard_helper_widget li {
 	display: inline-block;
 	vertical-align: top;
-	width: 50%;
+	width: 49%;
 }
 
-#wpml_dashboard_stats_widget li .dashicons {
+#wpml_dashboard_stats_widget li .dashicons,
+#wpml_dashboard_helper_widget li .dashicons {
 	color: #999;
 	margin-right: 0.25em;
 	vertical-align: text-top;
