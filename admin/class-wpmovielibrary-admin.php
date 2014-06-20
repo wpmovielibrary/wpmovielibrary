@@ -107,6 +107,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
 			add_action( 'admin_notices', array( $this, 'api_key_notice' ) );
+
+			add_action( 'in_admin_footer', array( $this, 'legal_mentions' ) );
 		}
 
 		/**
@@ -147,6 +149,17 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			$hide_notice = ( '1' == $_GET['show_wpml_api_key_notice'] ? 1 : 0 );
 			update_option( 'wpml_api_key_notice_hide', $hide_notice );
+		}
+
+		public function legal_mentions() {
+
+			$screen = get_current_screen();
+			if ( ! in_array( $screen->id, $this->plugin_screen_hook_suffix ) )
+				return false;
+?>
+
+			<p id="footer-center" style="text-align:center;margin-bottom:-22px;"><?php _e( 'WPMovieLibrary uses the <a href="http://docs.themoviedb.apiary.io/">TMDb API</a> but is not endorsed or certified by <a href="http://=www.themoviedb.org/">TMDb</a>.', WPML_SLUG ); ?></p>
+<?php
 		}
 
 		/**
@@ -337,8 +350,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			$this->plugin_screen_hook_suffix['dashboard'] = add_submenu_page(
 				'wpmovielibrary',
-				WPML_NAME,
-				WPML_NAME,
+				__( 'Your library', WPML_SLUG ),
+				__( 'Your library', WPML_SLUG ),
 				'manage_options',
 				'wpmovielibrary',
 				'WPML_Dashboard::dashboard'

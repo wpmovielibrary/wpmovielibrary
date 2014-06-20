@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary v1.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/WPMovieLibrary\n"
-"POT-Creation-Date: 2014-06-16 22:52:26+00:00\n"
-"PO-Revision-Date: 2014-06-17 00:53+0100\n"
+"POT-Creation-Date: 2014-06-20 16:33:54+00:00\n"
+"PO-Revision-Date: 2014-06-20 18:36+0100\n"
 "Last-Translator: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language-Team: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language: English\n"
@@ -16,30 +16,30 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: admin/api/class-tmdb.php:230
+#: admin/api/class-tmdb.php:233
 msgid "The size \"%s\" is not supported by TMDb"
 msgstr "The size \"%s\" is not supported by TMDb"
 
-#: admin/api/class-tmdb.php:233
+#: admin/api/class-tmdb.php:236
 msgid "No configuration available for image URL generation"
 msgstr "No configuration available for image URL generation"
 
-#: admin/api/class-tmdb.php:250
+#: admin/api/class-tmdb.php:253
 msgid "API Error: no configuration available to retrieve available image sizes"
 msgstr ""
 "API Error: no configuration available to retrieve available image sizes"
 
-#: admin/api/class-tmdb.php:285
+#: admin/api/class-tmdb.php:288
 msgid "API Error: server connection to \"%s\" returned error %s: %s"
 msgstr "API Error: server connection to \"%s\" returned error %s: %s"
 
-#: admin/api/class-tmdb.php:294
+#: admin/api/class-tmdb.php:297
 msgid ""
 "API Error: connection to TheMovieDB API failed with message \"%s\" (code %s)"
 msgstr ""
 "API Error: connection to TheMovieDB API failed with message \"%s\" (code %s)"
 
-#: admin/api/class-tmdb.php:297
+#: admin/api/class-tmdb.php:300
 msgid "API Error: unknown server error, unable to perform request."
 msgstr "API Error: unknown server error, unable to perform request."
 
@@ -77,206 +77,244 @@ msgstr ""
 "Your request showed multiple results. Select your movie in the list or try "
 "another search:"
 
-#: admin/class-wpmovielibrary-admin.php:194
+#: admin/class-wpmovielibrary-admin.php:135
+msgid ""
+"You haven't specified a valid <acronym title=\"TheMovieDB\">TMDb</acronym> "
+"API key in your Settings; this is required for the plugin to search a get "
+"movies metadata. WPMovieLibrary will use an internal API key, but you may "
+"consider getting your own personnal one at <a href=\"https://www.themoviedb."
+"org/\">TMDb</a> to get better results."
+msgstr ""
+"You haven't specified a valid <acronym title=\"TheMovieDB\">TMDb</acronym> "
+"API key in your Settings; this is required for the plugin to search a get "
+"movies metadata. WPMovieLibrary will use an internal API key, but you may "
+"consider getting your own personnal one at <a href=\"https://www.themoviedb."
+"org/\">TMDb</a> to get better results."
+
+#: admin/class-wpmovielibrary-admin.php:137
+msgid "Learn more about the internal API key"
+msgstr "Learn more about the internal API key"
+
+#: admin/class-wpmovielibrary-admin.php:138
+msgid "Do not notify me again"
+msgstr "Do not notify me again"
+
+#: admin/class-wpmovielibrary-admin.php:161
+msgid ""
+"WPMovieLibrary uses the <a href=\"http://docs.themoviedb.apiary.io/\">TMDb "
+"API</a> but is not endorsed or certified by <a href=\"http://=www.themoviedb."
+"org/\">TMDb</a>."
+msgstr ""
+"WPMovieLibrary uses the <a href=\"http://docs.themoviedb.apiary.io/\">TMDb "
+"API</a> but is not endorsed or certified by <a href=\"http://=www.themoviedb."
+"org/\">TMDb</a>."
+
+#: admin/class-wpmovielibrary-admin.php:248
 msgid "One movie successfully deleted."
 msgstr "One movie successfully deleted."
 
-#: admin/class-wpmovielibrary-admin.php:195
+#: admin/class-wpmovielibrary-admin.php:249
 msgid "%s movies successfully deleted."
 msgstr "%s movies successfully deleted."
 
-#: admin/class-wpmovielibrary-admin.php:196
+#: admin/class-wpmovielibrary-admin.php:250
 msgid "One movie removed from the queue."
 msgstr "One movie removed from the queue."
 
-#: admin/class-wpmovielibrary-admin.php:197
+#: admin/class-wpmovielibrary-admin.php:251
 msgid "%s movies removed from the queue."
 msgstr "%s movies removed from the queue."
 
-#: admin/class-wpmovielibrary-admin.php:198
+#: admin/class-wpmovielibrary-admin.php:252
 msgid "Done!"
 msgstr "Done!"
 
-#: admin/class-wpmovielibrary-admin.php:199
+#: admin/class-wpmovielibrary-admin.php:253
 msgid "I can't test an empty key, you know."
 msgstr "I can't test an empty key, you know."
 
-#: admin/class-wpmovielibrary-admin.php:200
+#: admin/class-wpmovielibrary-admin.php:254
 msgid "One movie added to the queue."
 msgstr "The size \"%s\" is not supported by TMDb"
 
-#: admin/class-wpmovielibrary-admin.php:201
+#: admin/class-wpmovielibrary-admin.php:255
 msgid "%s movies added to the queue."
 msgstr "%s movies added to the queue."
 
-#: admin/class-wpmovielibrary-admin.php:202
+#: admin/class-wpmovielibrary-admin.php:256
 msgid "Images added!"
 msgstr "Images added!"
 
-#: admin/class-wpmovielibrary-admin.php:203
+#: admin/class-wpmovielibrary-admin.php:257
 msgid "Image from"
 msgstr "Image from"
 
-#: admin/class-wpmovielibrary-admin.php:204
+#: admin/class-wpmovielibrary-admin.php:258
 msgid "Images uploaded!"
 msgstr "Images uploaded!"
 
-#: admin/class-wpmovielibrary-admin.php:205
+#: admin/class-wpmovielibrary-admin.php:259
 msgid "Import Images"
 msgstr "Import Images"
 
-#: admin/class-wpmovielibrary-admin.php:206
+#: admin/class-wpmovielibrary-admin.php:260
 msgid "Import Images for \"%s\""
 msgstr "Import Images for \"%s\""
 
-#: admin/class-wpmovielibrary-admin.php:207
+#: admin/class-wpmovielibrary-admin.php:261
 msgid "Please wait while the images are uploaded..."
 msgstr "Please wait while the images are uploaded..."
 
-#: admin/class-wpmovielibrary-admin.php:208
+#: admin/class-wpmovielibrary-admin.php:262
 msgid "Import Poster"
 msgstr "Import Poster"
 
-#: admin/class-wpmovielibrary-admin.php:209
+#: admin/class-wpmovielibrary-admin.php:263
 msgid "Select a poster for \"%s\""
 msgstr "Select a poster for \"%s\""
 
-#: admin/class-wpmovielibrary-admin.php:210
+#: admin/class-wpmovielibrary-admin.php:264
 msgid "Please wait while the poster is uploaded..."
 msgstr "Please wait while the poster is uploaded..."
 
-#: admin/class-wpmovielibrary-admin.php:211
+#: admin/class-wpmovielibrary-admin.php:265
 msgid "Imported"
 msgstr "Imported"
 
-#: admin/class-wpmovielibrary-admin.php:212
+#: admin/class-wpmovielibrary-admin.php:266
 msgid "One movie successfully imported!"
 msgstr "One movie successfully imported!"
 
-#: admin/class-wpmovielibrary-admin.php:213
+#: admin/class-wpmovielibrary-admin.php:267
 msgid "%s movies successfully imported!"
 msgstr "%s movies successfully imported!"
 
-#: admin/class-wpmovielibrary-admin.php:214
+#: admin/class-wpmovielibrary-admin.php:268
 msgid "Progressing"
 msgstr "Progressing"
 
-#: admin/class-wpmovielibrary-admin.php:215
+#: admin/class-wpmovielibrary-admin.php:269
 msgid "Invalid key: it should be 32 characters long."
 msgstr "Invalid key: it should be 32 characters long."
 
-#: admin/class-wpmovielibrary-admin.php:216
-#: admin/edit-movies/views/metabox-movie-images.php:12
+#: admin/class-wpmovielibrary-admin.php:270
+#: admin/edit-movies/views/metabox-movie-images.php:9
 msgid "Load Images"
 msgstr "Load Images"
 
-#: admin/class-wpmovielibrary-admin.php:217
+#: admin/class-wpmovielibrary-admin.php:271
 msgid "Load More"
 msgstr "Load More"
 
-#: admin/class-wpmovielibrary-admin.php:218
+#: admin/class-wpmovielibrary-admin.php:272
 msgid "Loading Images…"
 msgstr "Loading Images…"
 
-#: admin/class-wpmovielibrary-admin.php:219
+#: admin/class-wpmovielibrary-admin.php:273
 msgid "Oops… Did something went wrong?"
 msgstr "Oops… Did something went wrong?"
 
-#: admin/class-wpmovielibrary-admin.php:220
+#: admin/class-wpmovielibrary-admin.php:274
 #: admin/edit-movies/class-wpml-edit-movies.php:113
 #: admin/import/class-wpml-import-table.php:52
 msgid "Poster"
 msgstr "Poster"
 
-#: admin/class-wpmovielibrary-admin.php:221
+#: admin/class-wpmovielibrary-admin.php:275
 msgid "Saving Images…"
 msgstr "Saving Images…"
 
-#: admin/class-wpmovielibrary-admin.php:222
+#: admin/class-wpmovielibrary-admin.php:276
 msgid "Searching movie"
 msgstr "Searching movie"
 
-#: admin/class-wpmovielibrary-admin.php:223
+#: admin/class-wpmovielibrary-admin.php:277
 msgid "Fetching movie data"
 msgstr "Fetching movie data"
 
-#: admin/class-wpmovielibrary-admin.php:224
+#: admin/class-wpmovielibrary-admin.php:278
 msgid "see no more"
 msgstr "see no more"
 
-#: admin/class-wpmovielibrary-admin.php:225
+#: admin/class-wpmovielibrary-admin.php:279
 msgid "see more"
 msgstr "see more"
 
-#: admin/class-wpmovielibrary-admin.php:226
+#: admin/class-wpmovielibrary-admin.php:280
 msgid "Setting featured image…"
 msgstr "Setting featured image…"
 
-#: admin/class-wpmovielibrary-admin.php:289
-#: admin/settings/views/page-settings.php:15
+#: admin/class-wpmovielibrary-admin.php:343
+#: admin/settings/views/page-settings.php:13
 #: public/movies/class-wpml-movies.php:57
 #: public/movies/class-wpml-movies.php:69
 msgid "Movies"
 msgstr "Movies"
 
-#: admin/class-wpmovielibrary-admin.php:308
-#: admin/class-wpmovielibrary-admin.php:309
+#: admin/class-wpmovielibrary-admin.php:353
+#: admin/class-wpmovielibrary-admin.php:354
+#: admin/dashboard/class-dashboard-stats-widget.php:82
+msgid "Your library"
+msgstr "Your library"
+
+#: admin/class-wpmovielibrary-admin.php:362
+#: admin/class-wpmovielibrary-admin.php:363
 #: public/movies/class-wpml-movies.php:63
 msgid "All Movies"
 msgstr "All Movies"
 
-#: admin/class-wpmovielibrary-admin.php:317
-#: admin/class-wpmovielibrary-admin.php:318
+#: admin/class-wpmovielibrary-admin.php:371
+#: admin/class-wpmovielibrary-admin.php:372
 #: public/movies/class-wpml-movies.php:59
 msgid "Add New"
 msgstr "Add New"
 
-#: admin/class-wpmovielibrary-admin.php:327
-#: admin/class-wpmovielibrary-admin.php:328
+#: admin/class-wpmovielibrary-admin.php:381
+#: admin/class-wpmovielibrary-admin.php:382
 #: public/collections/class-wpml-collections.php:70
 msgid "Collections"
 msgstr "Collections"
 
-#: admin/class-wpmovielibrary-admin.php:338
-#: admin/class-wpmovielibrary-admin.php:339 includes/wpml-config.php:577
+#: admin/class-wpmovielibrary-admin.php:392
+#: admin/class-wpmovielibrary-admin.php:393 includes/wpml-config.php:577
 #: public/genres/class-wpml-genres.php:69
 msgid "Genres"
 msgstr "Genres"
 
-#: admin/class-wpmovielibrary-admin.php:349
-#: admin/class-wpmovielibrary-admin.php:350 includes/wpml-config.php:631
+#: admin/class-wpmovielibrary-admin.php:403
+#: admin/class-wpmovielibrary-admin.php:404 includes/wpml-config.php:631
 #: public/actors/class-wpml-actors.php:72
 msgid "Actors"
 msgstr "Actors"
 
-#: admin/class-wpmovielibrary-admin.php:359
-#: admin/class-wpmovielibrary-admin.php:360 admin/import/views/import.php:99
+#: admin/class-wpmovielibrary-admin.php:413
+#: admin/class-wpmovielibrary-admin.php:414 admin/import/views/import.php:99
 msgid "Import Movies"
 msgstr "Import Movies"
 
-#: admin/class-wpmovielibrary-admin.php:367
-#: admin/class-wpmovielibrary-admin.php:368
+#: admin/class-wpmovielibrary-admin.php:421
+#: admin/class-wpmovielibrary-admin.php:422
 msgid "Settings"
 msgstr "Settings"
 
-#: admin/class-wpmovielibrary-admin.php:419
+#: admin/class-wpmovielibrary-admin.php:473
 msgid "Access denied."
 msgstr "Access denied."
 
-#: admin/class-wpmovielibrary-admin.php:426
-#: admin/class-wpmovielibrary-admin.php:442
+#: admin/class-wpmovielibrary-admin.php:480
+#: admin/class-wpmovielibrary-admin.php:496
 msgid "You don't have the permission do perform this action."
 msgstr "You don't have the permission do perform this action."
 
-#: admin/class-wpmovielibrary-admin.php:431
+#: admin/class-wpmovielibrary-admin.php:485
 msgid "Unknown error: failed to restore default settings."
 msgstr "Unknown error: failed to restore default settings."
 
-#: admin/class-wpmovielibrary-admin.php:433
+#: admin/class-wpmovielibrary-admin.php:487
 msgid "Default settings restored!"
 msgstr "Default settings restored!"
 
-#: admin/class-wpmovielibrary-admin.php:626
+#: admin/class-wpmovielibrary-admin.php:680
 msgid ""
 "You update the taxonomies URL rewrite. You should visit <a href=\"%s"
 "\">WordPress Permalink</a> page to update the Rewrite rules; you may "
@@ -528,10 +566,6 @@ msgstr "Import movies"
 msgid "Manage movies"
 msgstr "Manage movies"
 
-#: admin/dashboard/class-dashboard-stats-widget.php:82
-msgid "Your library"
-msgstr "The size \"%s\" is not supported by TMDb"
-
 #: admin/dashboard/class-dashboard-stats-widget.php:125
 msgid "One movie"
 msgstr "One movie"
@@ -593,7 +627,7 @@ msgid "Welcome"
 msgstr "Welcome"
 
 #: admin/dashboard/class-dashboard.php:185
-#: public/statistics/class-statistics-widget.php:114
+#: public/statistics/class-statistics-widget.php:123
 msgid "Statistics"
 msgstr "Statistics"
 
@@ -615,20 +649,20 @@ msgstr "Most Rated Movies"
 msgid "Apply"
 msgstr "Apply"
 
-#: admin/dashboard/class-dashboard.php:353
-#: admin/dashboard/class-dashboard.php:359
+#: admin/dashboard/class-dashboard.php:356
+#: admin/dashboard/class-dashboard.php:362
 #: admin/edit-movies/views/metabox-movie-details.php:24
 #: admin/edit-movies/views/metabox-movie-details.php:44
 #: admin/edit-movies/views/metabox-movie-details.php:75
 msgid "Cancel"
 msgstr "Cancel"
 
-#: admin/dashboard/class-dashboard.php:353
-#: admin/dashboard/class-dashboard.php:359
+#: admin/dashboard/class-dashboard.php:356
+#: admin/dashboard/class-dashboard.php:362
 msgid "Close"
 msgstr "Close"
 
-#: admin/dashboard/class-dashboard.php:358
+#: admin/dashboard/class-dashboard.php:361
 msgid "Configure"
 msgstr "Configure"
 
@@ -776,28 +810,28 @@ msgstr ""
 "%s."
 
 #: admin/dashboard/views/dashboard-stats-widget.php:10
-#: public/statistics/class-statistics-widget.php:70
+#: public/statistics/class-statistics-widget.php:79
 msgid "one movie"
 msgid_plural "%s movies"
 msgstr[0] "one movie"
 msgstr[1] "%s movies"
 
 #: admin/dashboard/views/dashboard-stats-widget.php:11
-#: public/statistics/class-statistics-widget.php:71
+#: public/statistics/class-statistics-widget.php:80
 msgid "one collection"
 msgid_plural "%s collections"
 msgstr[0] "one collection"
 msgstr[1] "%s collections"
 
 #: admin/dashboard/views/dashboard-stats-widget.php:12
-#: public/statistics/class-statistics-widget.php:72
+#: public/statistics/class-statistics-widget.php:81
 msgid "one genre"
 msgid_plural "%s genres"
 msgstr[0] "one genre"
 msgstr[1] "%s genres"
 
 #: admin/dashboard/views/dashboard-stats-widget.php:13
-#: public/statistics/class-statistics-widget.php:73
+#: public/statistics/class-statistics-widget.php:82
 msgid "one actor"
 msgid_plural "%s actors"
 msgstr[0] "one actor"
@@ -1016,57 +1050,33 @@ msgstr ""
 "It seems you have JavaScript deactivated; the import feature will not work "
 "correctly without it, please check your browser's settings."
 
-#: admin/edit-movies/views/metabox-movie-images.php:8
-msgid "You need a valid TMDb API Key to download movie images."
-msgstr "You need a valid TMDb API Key to download movie images."
-
-#: admin/edit-movies/views/metabox-movie-meta.php:2
-msgid ""
-"You need a valid <acronym title=\"TheMovieDB\">TMDb</acronym> API key to "
-"start adding your movies. Go to the <a href=\"https://www.themoviedb.org/"
-"\">WPMovieLibrary Settings page</a> to add your API key."
-msgstr ""
-"You need a valid <acronym title=\"TheMovieDB\">TMDb</acronym> API key to "
-"start adding your movies. Go to the <a href=\"https://www.themoviedb.org/"
-"\">WPMovieLibrary Settings page</a> to add your API key."
-
-#: admin/edit-movies/views/metabox-movie-meta.php:8
-msgid ""
-"WPMovieLibrary is using the dummy TMDb API; add your valid API key to the <a "
-"href=\"%s\">Settings Page</a> or <a href=\"http://tmdb.caercam.org/\">Learn "
-"more</a> about the dummy API."
-msgstr ""
-"WPMovieLibrary is using the dummy TMDb API; add your valid API key to the <a "
-"href=\"%s\">Settings Page</a> or <a href=\"http://tmdb.caercam.org/\">Learn "
-"more</a> about the dummy API."
-
-#: admin/edit-movies/views/metabox-movie-meta.php:10
+#: admin/edit-movies/views/metabox-movie-meta.php:4
 msgid "Find movie on TMDb:"
 msgstr "Find movie on TMDb:"
 
-#: admin/edit-movies/views/metabox-movie-meta.php:15
+#: admin/edit-movies/views/metabox-movie-meta.php:9
 #: includes/wpml-config.php:56
 msgid "English"
 msgstr "English"
 
-#: admin/edit-movies/views/metabox-movie-meta.php:16
+#: admin/edit-movies/views/metabox-movie-meta.php:10
 #: includes/wpml-config.php:57
 msgid "French"
 msgstr "French"
 
-#: admin/edit-movies/views/metabox-movie-meta.php:19
+#: admin/edit-movies/views/metabox-movie-meta.php:13
 msgid "Movie Title"
 msgstr "Movie Title"
 
-#: admin/edit-movies/views/metabox-movie-meta.php:20
+#: admin/edit-movies/views/metabox-movie-meta.php:14
 msgid "TMDb ID"
 msgstr "TMDb ID"
 
-#: admin/edit-movies/views/metabox-movie-meta.php:23
+#: admin/edit-movies/views/metabox-movie-meta.php:17
 msgid "Fetch data"
 msgstr "Fetch data"
 
-#: admin/edit-movies/views/metabox-movie-meta.php:25
+#: admin/edit-movies/views/metabox-movie-meta.php:19
 msgid "Empty Results"
 msgstr "Empty Results"
 
@@ -1311,10 +1321,6 @@ msgstr "The image you're trying to upload is empty."
 msgid "The image you're trying to upload already exists."
 msgstr "The image you're trying to upload already exists."
 
-#: admin/media/class-wpml-media.php:486
-msgid "You need a valid TMDb API Key to download movie posters."
-msgstr "You need a valid TMDb API Key to download movie posters."
-
 #: admin/media/class-wpml-media.php:488
 msgid "See available Movie Posters"
 msgstr "See available Movie Posters"
@@ -1345,52 +1351,40 @@ msgstr ""
 "Javascript seems to be deactivated; please active it to customize your Movie "
 "metadata order."
 
-#: admin/settings/views/page-settings.php:5
-msgid ""
-"Congratulation, you successfully installed WPMovieLibrary. You need a valid "
-"<acronym title=\"TheMovieDB\">TMDb</acronym> API key to start adding your "
-"movies. Go to the <a href=\"%s\">WPMovieLibrary Settings page</a> to add "
-"your API key."
-msgstr ""
-"Congratulation, you successfully installed WPMovieLibrary. You need a valid "
-"<acronym title=\"TheMovieDB\">TMDb</acronym> API key to start adding your "
-"movies. Go to the <a href=\"%s\">WPMovieLibrary Settings page</a> to add "
-"your API key."
-
-#: admin/settings/views/page-settings.php:14
+#: admin/settings/views/page-settings.php:12
 msgid "TMDb API"
 msgstr "TMDb API"
 
-#: admin/settings/views/page-settings.php:16 includes/wpml-config.php:194
+#: admin/settings/views/page-settings.php:14 includes/wpml-config.php:194
 msgid "Images"
 msgstr "Images"
 
-#: admin/settings/views/page-settings.php:17 includes/wpml-config.php:259
+#: admin/settings/views/page-settings.php:15 includes/wpml-config.php:259
 msgid "Taxonomies"
 msgstr "Taxonomies"
 
-#: admin/settings/views/page-settings.php:18 includes/wpml-config.php:349
+#: admin/settings/views/page-settings.php:16 includes/wpml-config.php:349
 msgid "Deactivate"
 msgstr "Deactivate"
 
-#: admin/settings/views/page-settings.php:19 includes/wpml-config.php:418
+#: admin/settings/views/page-settings.php:17 includes/wpml-config.php:418
 msgid "Uninstall"
 msgstr "Uninstall"
 
-#: admin/settings/views/page-settings.php:20
-#: admin/settings/views/page-settings.php:29
+#: admin/settings/views/page-settings.php:18
+#: admin/settings/views/page-settings.php:27
 msgid "Maintenance"
 msgstr "Maintenance"
 
-#: admin/settings/views/page-settings.php:34
+#: admin/settings/views/page-settings.php:32
 msgid "Restore Default Settings"
 msgstr "Restore Default Settings"
 
-#: admin/settings/views/page-settings.php:36
+#: admin/settings/views/page-settings.php:34
 msgid "You may want to restore WPMovieLibrary default settings."
 msgstr "You may want to restore WPMovieLibrary default settings."
 
-#: admin/settings/views/page-settings.php:37
+#: admin/settings/views/page-settings.php:35
 msgid ""
 "<strong>Caution!</strong> Doing this you will erase permanently all your "
 "custom settings. Don&rsquo;t do this unless you are positively sure of what "
@@ -1400,15 +1394,15 @@ msgstr ""
 "custom settings. Don&rsquo;t do this unless you are positively sure of what "
 "you&rsquo;re doing!"
 
-#: admin/settings/views/page-settings.php:39
+#: admin/settings/views/page-settings.php:37
 msgid "Restore"
 msgstr "Restore"
 
-#: admin/settings/views/page-settings.php:46
+#: admin/settings/views/page-settings.php:44
 msgid "Empty Cache"
 msgstr "Empty Cache"
 
-#: admin/settings/views/page-settings.php:48
+#: admin/settings/views/page-settings.php:46
 msgid ""
 "Delete all temporarily stored data. This can solve issues like incomplete "
 "movie metadata repeatedly returned or incorrect API results."
@@ -1416,47 +1410,47 @@ msgstr ""
 "Delete all temporarily stored data. This can solve issues like incomplete "
 "movie metadata repeatedly returned or incorrect API results."
 
-#: admin/settings/views/page-settings.php:50
+#: admin/settings/views/page-settings.php:48
 msgid "Empty cache"
 msgstr "Empty cache"
 
-#: admin/settings/views/page-settings.php:61
+#: admin/settings/views/page-settings.php:59
 msgid "Save Changes"
 msgstr "Save Changes"
 
-#: includes/class-wpml-utils.php:90 public/movies/class-wpml-movies.php:322
+#: includes/class-wpml-utils.php:89 public/movies/class-wpml-movies.php:322
 msgid "available"
 msgstr "available"
 
-#: includes/class-wpml-utils.php:91 public/movies/class-wpml-movies.php:324
+#: includes/class-wpml-utils.php:90 public/movies/class-wpml-movies.php:324
 msgid "loaned"
 msgstr "loaned"
 
-#: includes/class-wpml-utils.php:92 public/movies/class-wpml-movies.php:326
+#: includes/class-wpml-utils.php:91 public/movies/class-wpml-movies.php:326
 msgid "scheduled"
 msgstr "scheduled"
 
-#: includes/class-wpml-utils.php:93 public/movies/class-wpml-movies.php:309
+#: includes/class-wpml-utils.php:92 public/movies/class-wpml-movies.php:309
 msgid "bluray"
 msgstr "bluray"
 
-#: includes/class-wpml-utils.php:94 public/movies/class-wpml-movies.php:311
+#: includes/class-wpml-utils.php:93 public/movies/class-wpml-movies.php:311
 msgid "cinema"
 msgstr "cinema"
 
-#: includes/class-wpml-utils.php:95 public/movies/class-wpml-movies.php:313
+#: includes/class-wpml-utils.php:94 public/movies/class-wpml-movies.php:313
 msgid "other"
 msgstr "other"
 
-#: includes/class-wpml-utils.php:738
+#: includes/class-wpml-utils.php:785
 msgid "Invalid taxonomy"
 msgstr "Invalid taxonomy"
 
-#: includes/class-wpml-utils.php:858 includes/class-wpml-utils.php:881
+#: includes/class-wpml-utils.php:905 includes/class-wpml-utils.php:928
 msgid "Are you sure you want to do this?"
 msgstr "Are you sure you want to do this?"
 
-#: includes/class-wpml-utils.php:969
+#: includes/class-wpml-utils.php:1016
 msgid ""
 "An error occured when trying to perform the request: invalid callback or "
 "data."
@@ -1464,37 +1458,37 @@ msgstr ""
 "An error occured when trying to perform the request: invalid callback or "
 "data."
 
-#: includes/class-wpml-utils.php:991
+#: includes/class-wpml-utils.php:1038
 msgid "An error occured when trying to perform the request."
 msgstr "An error occured when trying to perform the request."
 
-#: includes/class-wpml-utils.php:1013
+#: includes/class-wpml-utils.php:1060
 msgid "An error occured when trying to delete transients: %s"
 msgstr "An error occured when trying to delete transients: %s"
 
-#: includes/class-wpml-utils.php:1015
+#: includes/class-wpml-utils.php:1062
 msgid "No transient found."
 msgstr "No transient found."
 
-#: includes/class-wpml-utils.php:1017
+#: includes/class-wpml-utils.php:1064
 msgid "1 transient deleted"
 msgid_plural "%s transients deleted."
 msgstr[0] "1 transient deleted"
 msgstr[1] "%s transients deleted."
 
-#: includes/class-wpml-utils.php:1110
+#: includes/class-wpml-utils.php:1159
 msgid "View all movies from collection &laquo; %s &raquo;"
 msgstr "View all movies from collection &laquo; %s &raquo;"
 
-#: includes/class-wpml-utils.php:1114
+#: includes/class-wpml-utils.php:1163
 msgid "View all &laquo; %s &raquo; movies"
 msgstr "View all &laquo; %s &raquo; movies"
 
-#: includes/class-wpml-utils.php:1118
+#: includes/class-wpml-utils.php:1167
 msgid "View all movies staring &laquo; %s &raquo;"
 msgstr "View all movies staring &laquo; %s &raquo;"
 
-#: includes/class-wpml-utils.php:1137
+#: includes/class-wpml-utils.php:1186
 msgid "%d movie"
 msgid_plural "%d movies"
 msgstr[0] "%d movie"
@@ -1512,21 +1506,37 @@ msgstr "API Key"
 msgid ""
 "You need a valid TMDb API key in order to fetch informations on the movies "
 "you add to WPMovieLibrary. You can get an individual API key by registering "
-"on <a href=\"https://www.themoviedb.org/\">TheMovieDB</a>. If you don&rsquo;"
-"t want to get your own API Key, WPMovieLibrary will use a dummy, more "
-"restricted API. <a href=\"http://tmdb.caercam.org/\">Learn more about the "
-"dummy API</a>."
+"on <a href=\"https://www.themoviedb.org/\">TheMovieDB</a>."
 msgstr ""
 "You need a valid TMDb API key in order to fetch informations on the movies "
 "you add to WPMovieLibrary. You can get an individual API key by registering "
-"on <a href=\"https://www.themoviedb.org/\">TheMovieDB</a>. If you don&rsquo;"
-"t want to get your own API Key, WPMovieLibrary will use a dummy, more "
-"restricted API. <a href=\"http://tmdb.caercam.org/\">Learn more about the "
-"dummy API</a>."
+"on <a href=\"https://www.themoviedb.org/\">TheMovieDB</a>."
 
 #: includes/wpml-config.php:44
-msgid "Use dummy API"
-msgstr "Use dummy API"
+msgid "Use internal API Key"
+msgstr "Use internal API Key"
+
+#: includes/wpml-config.php:45
+msgid ""
+"If you enable this, WPML will send all queries to the API through a relay "
+"server at http://tmdb.caercam.org/; The main purpose of this is to avoid you "
+"the need to register a personnal account on TMDb and request a personnal API "
+"key to use the plugin. Note that the relay server provides no warrantly and "
+"is most indicated for testing the plugin or a minimal usage of it; if you "
+"are planning to use WPMovieLibrary extensively, you should consider getting "
+"your own API key at <a href=\"https://www.themoviedb.org/\">TheMovieDB</a>. "
+"<a href=\"http://tmdb.caercam.org/\">Learn more about the internal API key</"
+"a>."
+msgstr ""
+"If you enable this, WPML will send all queries to the API through a relay "
+"server at http://tmdb.caercam.org/; The main purpose of this is to avoid you "
+"the need to register a personnal account on TMDb and request a personnal API "
+"key to use the plugin. Note that the relay server provides no warrantly and "
+"is most indicated for testing the plugin or a minimal usage of it; if you "
+"are planning to use WPMovieLibrary extensively, you should consider getting "
+"your own API key at <a href=\"https://www.themoviedb.org/\">TheMovieDB</a>. "
+"<a href=\"http://tmdb.caercam.org/\">Learn more about the internal API key</"
+"a>."
 
 #: includes/wpml-config.php:52
 msgid "API Language"
@@ -2325,13 +2335,66 @@ msgstr "WPML Statistics"
 msgid "Display some statistics about your movie library"
 msgstr "Display some statistics about your movie library"
 
-#: public/statistics/class-statistics-widget.php:116
+#: public/statistics/class-statistics-widget.php:125
 msgid ""
 "All combined you have a total of %total% in your library, regrouped in "
 "%collections%, %genres% and %actors%."
 msgstr ""
 "All combined you have a total of %total% in your library, regrouped in "
 "%collections%, %genres% and %actors%."
+
+#~ msgid "You need a valid TMDb API Key to download movie images."
+#~ msgstr "You need a valid TMDb API Key to download movie images."
+
+#~ msgid ""
+#~ "You need a valid <acronym title=\"TheMovieDB\">TMDb</acronym> API key to "
+#~ "start adding your movies. Go to the <a href=\"https://www.themoviedb.org/"
+#~ "\">WPMovieLibrary Settings page</a> to add your API key."
+#~ msgstr ""
+#~ "You need a valid <acronym title=\"TheMovieDB\">TMDb</acronym> API key to "
+#~ "start adding your movies. Go to the <a href=\"https://www.themoviedb.org/"
+#~ "\">WPMovieLibrary Settings page</a> to add your API key."
+
+#~ msgid ""
+#~ "WPMovieLibrary is using the dummy TMDb API; add your valid API key to the "
+#~ "<a href=\"%s\">Settings Page</a> or <a href=\"http://tmdb.caercam.org/"
+#~ "\">Learn more</a> about the dummy API."
+#~ msgstr ""
+#~ "WPMovieLibrary is using the dummy TMDb API; add your valid API key to the "
+#~ "<a href=\"%s\">Settings Page</a> or <a href=\"http://tmdb.caercam.org/"
+#~ "\">Learn more</a> about the dummy API."
+
+#~ msgid "You need a valid TMDb API Key to download movie posters."
+#~ msgstr "You need a valid TMDb API Key to download movie posters."
+
+#~ msgid ""
+#~ "Congratulation, you successfully installed WPMovieLibrary. You need a "
+#~ "valid <acronym title=\"TheMovieDB\">TMDb</acronym> API key to start "
+#~ "adding your movies. Go to the <a href=\"%s\">WPMovieLibrary Settings "
+#~ "page</a> to add your API key."
+#~ msgstr ""
+#~ "Congratulation, you successfully installed WPMovieLibrary. You need a "
+#~ "valid <acronym title=\"TheMovieDB\">TMDb</acronym> API key to start "
+#~ "adding your movies. Go to the <a href=\"%s\">WPMovieLibrary Settings "
+#~ "page</a> to add your API key."
+
+#~ msgid ""
+#~ "You need a valid TMDb API key in order to fetch informations on the "
+#~ "movies you add to WPMovieLibrary. You can get an individual API key by "
+#~ "registering on <a href=\"https://www.themoviedb.org/\">TheMovieDB</a>. If "
+#~ "you don&rsquo;t want to get your own API Key, WPMovieLibrary will use a "
+#~ "dummy, more restricted API. <a href=\"http://tmdb.caercam.org/\">Learn "
+#~ "more about the dummy API</a>."
+#~ msgstr ""
+#~ "You need a valid TMDb API key in order to fetch informations on the "
+#~ "movies you add to WPMovieLibrary. You can get an individual API key by "
+#~ "registering on <a href=\"https://www.themoviedb.org/\">TheMovieDB</a>. If "
+#~ "you don&rsquo;t want to get your own API Key, WPMovieLibrary will use a "
+#~ "dummy, more restricted API. <a href=\"http://tmdb.caercam.org/\">Learn "
+#~ "more about the dummy API</a>."
+
+#~ msgid "Use dummy API"
+#~ msgstr "Use dummy API"
 
 #~ msgid "collection"
 #~ msgstr "collection"
@@ -2517,21 +2580,6 @@ msgstr ""
 
 #~ msgid "I&rsquo;m Jack&rsquo;s empty result."
 #~ msgstr "I&rsquo;m Jack&rsquo;s empty result."
-
-#~ msgid ""
-#~ "You need a valid TMDb API key in order to fetch informations on the "
-#~ "movies you add to WPMovieLibrary. You can get an individual API key by "
-#~ "registering on <a href=\"https://www.themoviedb.org/\">TheMovieDB</a>. If "
-#~ "you don&rsquo;t want to get your own API Key, WPMovieLibrary will use a "
-#~ "dummy, more restricted API. <a href=\"http://tmdb.caercam.org/\">Learn "
-#~ "more ~ the dummy API</a>."
-#~ msgstr ""
-#~ "You need a valid TMDb API key in order to fetch informations on the "
-#~ "movies you add to WPMovieLibrary. You can get an individual API key by "
-#~ "registering on <a href=\"https://www.themoviedb.org/\">TheMovieDB</a>. If "
-#~ "you don&rsquo;t want to get your own API Key, WPMovieLibrary will use a "
-#~ "dummy, more restricted API. <a href=\"http://tmdb.caercam.org/\">Learn "
-#~ "more ~ the dummy API</a>."
 
 #, fuzzy
 #~ msgid ""
