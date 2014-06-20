@@ -35,14 +35,14 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'WPML_NAME',                   'WPMovieLibrary' );
 define( 'WPML_VERSION',                '1.0.0' );
 define( 'WPML_SLUG',                   'wpml' );
-define( 'WPML_URL',                    plugins_url( WPML_NAME ) );
+define( 'WPML_URL',                    plugins_url( basename( __DIR__ ) ) );
 define( 'WPML_PATH',                   plugin_dir_path( __FILE__ ) );
 define( 'WPML_REQUIRED_PHP_VERSION',   '5.3' );
 define( 'WPML_REQUIRED_WP_VERSION',    '3.6' );
 define( 'WPML_SETTINGS_SLUG',          'wpml_settings' );
 define( 'WPML_SETTINGS_REVISION_NAME', 'settings_revision' );
 define( 'WPML_SETTINGS_REVISION',      9 );
-define( 'WPML_DEFAULT_POSTER_URL',     plugins_url( WPML_NAME ) . '/assets/img/no_poster.png' );
+define( 'WPML_DEFAULT_POSTER_URL',     plugins_url( basename( __DIR__ ) ) . '/assets/img/no_poster.png' );
 define( 'WPML_DEFAULT_POSTER_PATH',    plugin_dir_path( __FILE__ ) . '/assets/img/no_poster.png' );
 
 /*----------------------------------------------------------------------------*
