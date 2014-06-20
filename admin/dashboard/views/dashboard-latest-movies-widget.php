@@ -21,6 +21,10 @@ if ( ! empty( $movies ) ) :
 								</div>
 <?php
 	endforeach;
+else :
+?>
+							<em><?php _e( 'No movies found', WPML_SLUG ); ?></em>
+<?php
 endif;
 
 if ( ! $offset ) : ?>

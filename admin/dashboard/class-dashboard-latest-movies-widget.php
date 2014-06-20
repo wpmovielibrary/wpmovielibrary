@@ -262,7 +262,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 			);
 
 			if ( empty( $movies ) )
-				wp_die( 2 );
+				return false;
 
 			foreach ( $movies as $movie ) {
 
