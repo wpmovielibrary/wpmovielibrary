@@ -8,11 +8,11 @@ Stable tag: 1.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-WPMovieLibrary is an advanced movie library managing plugin to turn your WordPress Blog into a Movie Library. Manage collections of movies, automatically fetch metadata, images and posters, create collections by mass importing lists of movie titles.
+WPMovieLibrary is an advanced movie library managing plugin to turn your WordPress Blog into a Movie Library.
 
 == Description ==
 
-Share your favorite or latest seen movies, manage collections of genres, actors or crew, fetch overviews, casts and posters in a single clic, show the world your love for movies. WPMovieLibrary uses TheMovieDB API (see http://themoviedb.org) to fetch metadata about your movies: director, genres, actors, producer, country, languages… You can also import images and posters directly to your blog to illustrate your library. WPMovieLibrary has an import tool to import movies by the dozen by simply listing titles.
+The best way to manage your personnal movie library. Handle collections of movies, automatically fetch metadata, images and posters, create collections by mass importing lists of movie titles. Share your favorite or latest seen movies, manage collections of genres, actors or crew, fetch overviews, casts and posters in a single clic, show the world your love for movies. WPMovieLibrary uses TheMovieDB API (see http://themoviedb.org) to fetch metadata about your movies: director, genres, actors, producer, country, languages… You can also import images and posters directly to your blog to illustrate your library. WPMovieLibrary has an import tool to import movies by the dozen by simply listing titles.
 
 Features:
 
