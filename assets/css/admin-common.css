@@ -1,0 +1,14 @@
+
+#wp-admin-bar-wpmovielibrary img {
+	margin: 6px 4px -3px 0;
+}
+
+#wpadminbar  #wp-admin-bar-wpmovielibrary.haz-dashicon > .ab-item:before,
+#wpadminbar  #wp-admin-bar-wpmovielibrary.haz-dashicon > .ab-item:before {
+	content: "\f126";
+	top: 2px;
+}
+
+.widgets-holder-wrap .wpml-widget-title {
+	margin: 1.33em 0 0.25em 0;
+}
