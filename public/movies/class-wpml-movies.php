@@ -325,7 +325,9 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 
 			if ( in_array( 'wpml_movie_status', $key_vars ) ) {
 				$value = $wp_query->get( 'wpml_movie_status' );
-				if ( $value == __( 'available', WPML_SLUG ) )
+				if ( $value == __( 'unavailable', WPML_SLUG ) )
+					$value = 'unavailable';
+				else if ( $value == __( 'available', WPML_SLUG ) )
 					$value = 'available';
 				else if ( $value == __( 'loaned', WPML_SLUG ) )
 					$value = 'loaned';

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary 1.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wpmovielibrary\n"
-"POT-Creation-Date: 2014-06-20 22:44:49+00:00\n"
+"POT-Creation-Date: 2014-06-23 08:25:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -68,7 +68,7 @@ msgid ""
 "another search:"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:135
+#: admin/class-wpmovielibrary-admin.php:134
 msgid ""
 "You haven't specified a valid <acronym title=\"TheMovieDB\">TMDb</acronym> "
 "API key in your Settings; this is required for the plugin to search a get "
@@ -77,227 +77,227 @@ msgid ""
 "org/\">TMDb</a> to get better results."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:137
+#: admin/class-wpmovielibrary-admin.php:136
 msgid "Learn more about the internal API key"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:138
+#: admin/class-wpmovielibrary-admin.php:137
 msgid "Do not notify me again"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:161
+#: admin/class-wpmovielibrary-admin.php:173
 msgid ""
 "WPMovieLibrary uses the <a href=\"http://docs.themoviedb.apiary.io/\">TMDb "
 "API</a> but is not endorsed or certified by <a href=\"http://=www.themoviedb."
 "org/\">TMDb</a>."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:248
+#: admin/class-wpmovielibrary-admin.php:260
 msgid "One movie successfully deleted."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:249
+#: admin/class-wpmovielibrary-admin.php:261
 msgid "%s movies successfully deleted."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:250
+#: admin/class-wpmovielibrary-admin.php:262
 msgid "One movie removed from the queue."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:251
+#: admin/class-wpmovielibrary-admin.php:263
 msgid "%s movies removed from the queue."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:252
+#: admin/class-wpmovielibrary-admin.php:264
 msgid "Done!"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:253
+#: admin/class-wpmovielibrary-admin.php:265
 msgid "I can't test an empty key, you know."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:254
+#: admin/class-wpmovielibrary-admin.php:266
 msgid "One movie added to the queue."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:255
+#: admin/class-wpmovielibrary-admin.php:267
 msgid "%s movies added to the queue."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:256
+#: admin/class-wpmovielibrary-admin.php:268
 msgid "Images added!"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:257
+#: admin/class-wpmovielibrary-admin.php:269
 msgid "Image from"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:258
+#: admin/class-wpmovielibrary-admin.php:270
 msgid "Images uploaded!"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:259
+#: admin/class-wpmovielibrary-admin.php:271
 msgid "Import Images"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:260
+#: admin/class-wpmovielibrary-admin.php:272
 msgid "Import Images for \"%s\""
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:261
+#: admin/class-wpmovielibrary-admin.php:273
 msgid "Please wait while the images are uploaded..."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:262
+#: admin/class-wpmovielibrary-admin.php:274
 msgid "Import Poster"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:263
+#: admin/class-wpmovielibrary-admin.php:275
 msgid "Select a poster for \"%s\""
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:264
+#: admin/class-wpmovielibrary-admin.php:276
 msgid "Please wait while the poster is uploaded..."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:265
+#: admin/class-wpmovielibrary-admin.php:277
 msgid "Imported"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:266
+#: admin/class-wpmovielibrary-admin.php:278
 msgid "One movie successfully imported!"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:267
+#: admin/class-wpmovielibrary-admin.php:279
 msgid "%s movies successfully imported!"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:268
+#: admin/class-wpmovielibrary-admin.php:280
 msgid "Progressing"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:269
+#: admin/class-wpmovielibrary-admin.php:281
 msgid "Invalid key: it should be 32 characters long."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:270
+#: admin/class-wpmovielibrary-admin.php:282
 #: admin/edit-movies/views/metabox-movie-images.php:9
 msgid "Load Images"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:271
+#: admin/class-wpmovielibrary-admin.php:283
 msgid "Load More"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:272
+#: admin/class-wpmovielibrary-admin.php:284
 msgid "Loading Images…"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:273
+#: admin/class-wpmovielibrary-admin.php:285
 msgid "Oops… Did something went wrong?"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:274
+#: admin/class-wpmovielibrary-admin.php:286
 #: admin/edit-movies/class-wpml-edit-movies.php:113
 #: admin/import/class-wpml-import-table.php:52
 msgid "Poster"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:275
+#: admin/class-wpmovielibrary-admin.php:287
 msgid "Saving Images…"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:276
+#: admin/class-wpmovielibrary-admin.php:288
 msgid "Searching movie"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:277
+#: admin/class-wpmovielibrary-admin.php:289
 msgid "Fetching movie data"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:278
+#: admin/class-wpmovielibrary-admin.php:290
 msgid "see no more"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:279
+#: admin/class-wpmovielibrary-admin.php:291
 msgid "see more"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:280
+#: admin/class-wpmovielibrary-admin.php:292
 msgid "Setting featured image…"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:343
+#: admin/class-wpmovielibrary-admin.php:355
 #: admin/settings/views/page-settings.php:13
 #: public/movies/class-wpml-movies.php:57
 #: public/movies/class-wpml-movies.php:69
 msgid "Movies"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:353
-#: admin/class-wpmovielibrary-admin.php:354
+#: admin/class-wpmovielibrary-admin.php:365
+#: admin/class-wpmovielibrary-admin.php:366
 #: admin/dashboard/class-dashboard-stats-widget.php:82
 msgid "Your library"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:362
-#: admin/class-wpmovielibrary-admin.php:363
+#: admin/class-wpmovielibrary-admin.php:374
+#: admin/class-wpmovielibrary-admin.php:375
 #: public/movies/class-wpml-movies.php:63
 msgid "All Movies"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:371
-#: admin/class-wpmovielibrary-admin.php:372
+#: admin/class-wpmovielibrary-admin.php:383
+#: admin/class-wpmovielibrary-admin.php:384
 #: public/movies/class-wpml-movies.php:59
 msgid "Add New"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:381
-#: admin/class-wpmovielibrary-admin.php:382
+#: admin/class-wpmovielibrary-admin.php:393
+#: admin/class-wpmovielibrary-admin.php:394
 #: public/collections/class-wpml-collections.php:70
 msgid "Collections"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:392
-#: admin/class-wpmovielibrary-admin.php:393 includes/wpml-config.php:577
+#: admin/class-wpmovielibrary-admin.php:404
+#: admin/class-wpmovielibrary-admin.php:405 includes/wpml-config.php:579
 #: public/genres/class-wpml-genres.php:69
 msgid "Genres"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:403
-#: admin/class-wpmovielibrary-admin.php:404 includes/wpml-config.php:631
+#: admin/class-wpmovielibrary-admin.php:415
+#: admin/class-wpmovielibrary-admin.php:416 includes/wpml-config.php:633
 #: public/actors/class-wpml-actors.php:72
 msgid "Actors"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:413
-#: admin/class-wpmovielibrary-admin.php:414 admin/import/views/import.php:99
+#: admin/class-wpmovielibrary-admin.php:425
+#: admin/class-wpmovielibrary-admin.php:426 admin/import/views/import.php:99
 msgid "Import Movies"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:421
-#: admin/class-wpmovielibrary-admin.php:422
+#: admin/class-wpmovielibrary-admin.php:433
+#: admin/class-wpmovielibrary-admin.php:434
 msgid "Settings"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:473
+#: admin/class-wpmovielibrary-admin.php:485
 msgid "Access denied."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:480
-#: admin/class-wpmovielibrary-admin.php:496
+#: admin/class-wpmovielibrary-admin.php:492
+#: admin/class-wpmovielibrary-admin.php:508
 msgid "You don't have the permission do perform this action."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:485
+#: admin/class-wpmovielibrary-admin.php:497
 msgid "Unknown error: failed to restore default settings."
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:487
+#: admin/class-wpmovielibrary-admin.php:499
 msgid "Default settings restored!"
 msgstr ""
 
-#: admin/class-wpmovielibrary-admin.php:680
+#: admin/class-wpmovielibrary-admin.php:692
 msgid ""
 "You update the taxonomies URL rewrite. You should visit <a href=\"%s"
 "\">WordPress Permalink</a> page to update the Rewrite rules; you may "
@@ -315,7 +315,7 @@ msgstr ""
 #: admin/common/views/statistics-widget-admin.php:2
 #: admin/common/views/status-widget-admin.php:2
 #: admin/import/class-wpml-import-table.php:53
-#: admin/import/views/import.php:58 includes/wpml-config.php:535
+#: admin/import/views/import.php:58 includes/wpml-config.php:537
 msgid "Title"
 msgstr ""
 
@@ -486,7 +486,7 @@ msgstr ""
 #: admin/common/views/status-widget-admin.php:29
 #: admin/edit-movies/class-wpml-edit-movies.php:115
 #: admin/edit-movies/views/quick-edit.php:17 admin/import/views/import.php:61
-#: includes/wpml-config.php:179 includes/wpml-config.php:499
+#: includes/wpml-config.php:179 includes/wpml-config.php:500
 msgid "Status"
 msgstr ""
 
@@ -885,7 +885,7 @@ msgstr ""
 
 #: admin/edit-movies/class-wpml-edit-movies.php:117
 #: admin/edit-movies/views/quick-edit.php:27 includes/wpml-config.php:180
-#: includes/wpml-config.php:510
+#: includes/wpml-config.php:512
 msgid "Rating"
 msgstr ""
 
@@ -978,52 +978,52 @@ msgid "Rating:"
 msgstr ""
 
 #: admin/edit-movies/views/metabox-movie-details.php:61
-#: admin/edit-movies/views/quick-edit.php:32 includes/wpml-config.php:512
+#: admin/edit-movies/views/quick-edit.php:32 includes/wpml-config.php:514
 msgid "Junk"
 msgstr ""
 
 #: admin/edit-movies/views/metabox-movie-details.php:62
-#: admin/edit-movies/views/quick-edit.php:33 includes/wpml-config.php:513
+#: admin/edit-movies/views/quick-edit.php:33 includes/wpml-config.php:515
 msgid "Very bad"
 msgstr ""
 
 #: admin/edit-movies/views/metabox-movie-details.php:63
-#: admin/edit-movies/views/quick-edit.php:34 includes/wpml-config.php:514
+#: admin/edit-movies/views/quick-edit.php:34 includes/wpml-config.php:516
 msgid "Bad"
 msgstr ""
 
 #: admin/edit-movies/views/metabox-movie-details.php:64
-#: admin/edit-movies/views/quick-edit.php:35 includes/wpml-config.php:515
+#: admin/edit-movies/views/quick-edit.php:35 includes/wpml-config.php:517
 msgid "Not that bad"
 msgstr ""
 
 #: admin/edit-movies/views/metabox-movie-details.php:65
-#: admin/edit-movies/views/quick-edit.php:36 includes/wpml-config.php:516
+#: admin/edit-movies/views/quick-edit.php:36 includes/wpml-config.php:518
 msgid "Average"
 msgstr ""
 
 #: admin/edit-movies/views/metabox-movie-details.php:66
-#: admin/edit-movies/views/quick-edit.php:37 includes/wpml-config.php:517
+#: admin/edit-movies/views/quick-edit.php:37 includes/wpml-config.php:519
 msgid "Not bad"
 msgstr ""
 
 #: admin/edit-movies/views/metabox-movie-details.php:67
-#: admin/edit-movies/views/quick-edit.php:38 includes/wpml-config.php:518
+#: admin/edit-movies/views/quick-edit.php:38 includes/wpml-config.php:520
 msgid "Good"
 msgstr ""
 
 #: admin/edit-movies/views/metabox-movie-details.php:68
-#: admin/edit-movies/views/quick-edit.php:39 includes/wpml-config.php:519
+#: admin/edit-movies/views/quick-edit.php:39 includes/wpml-config.php:521
 msgid "Very good"
 msgstr ""
 
 #: admin/edit-movies/views/metabox-movie-details.php:69
-#: admin/edit-movies/views/quick-edit.php:40 includes/wpml-config.php:520
+#: admin/edit-movies/views/quick-edit.php:40 includes/wpml-config.php:522
 msgid "Excellent"
 msgstr ""
 
 #: admin/edit-movies/views/metabox-movie-details.php:70
-#: admin/edit-movies/views/quick-edit.php:41 includes/wpml-config.php:521
+#: admin/edit-movies/views/quick-edit.php:41 includes/wpml-config.php:523
 msgid "Masterpiece"
 msgstr ""
 
@@ -1069,7 +1069,7 @@ msgid "Movie Dtails"
 msgstr ""
 
 #: admin/import/class-wpml-import-table.php:54
-#: admin/import/views/import.php:59 includes/wpml-config.php:595
+#: admin/import/views/import.php:59 includes/wpml-config.php:597
 msgid "Director"
 msgstr ""
 
@@ -1386,74 +1386,78 @@ msgid "Save Changes"
 msgstr ""
 
 #: includes/class-wpml-utils.php:89 public/movies/class-wpml-movies.php:328
-msgid "available"
+msgid "unavailable"
 msgstr ""
 
 #: includes/class-wpml-utils.php:90 public/movies/class-wpml-movies.php:330
-msgid "loaned"
+msgid "available"
 msgstr ""
 
 #: includes/class-wpml-utils.php:91 public/movies/class-wpml-movies.php:332
+msgid "loaned"
+msgstr ""
+
+#: includes/class-wpml-utils.php:92 public/movies/class-wpml-movies.php:334
 msgid "scheduled"
 msgstr ""
 
-#: includes/class-wpml-utils.php:92 public/movies/class-wpml-movies.php:315
+#: includes/class-wpml-utils.php:93 public/movies/class-wpml-movies.php:315
 msgid "bluray"
 msgstr ""
 
-#: includes/class-wpml-utils.php:93 public/movies/class-wpml-movies.php:317
+#: includes/class-wpml-utils.php:94 public/movies/class-wpml-movies.php:317
 msgid "cinema"
 msgstr ""
 
-#: includes/class-wpml-utils.php:94 public/movies/class-wpml-movies.php:319
+#: includes/class-wpml-utils.php:95 public/movies/class-wpml-movies.php:319
 msgid "other"
 msgstr ""
 
-#: includes/class-wpml-utils.php:785
+#: includes/class-wpml-utils.php:786
 msgid "Invalid taxonomy"
 msgstr ""
 
-#: includes/class-wpml-utils.php:905 includes/class-wpml-utils.php:928
+#: includes/class-wpml-utils.php:906 includes/class-wpml-utils.php:929
 msgid "Are you sure you want to do this?"
 msgstr ""
 
-#: includes/class-wpml-utils.php:1016
+#: includes/class-wpml-utils.php:1017
 msgid ""
 "An error occured when trying to perform the request: invalid callback or "
 "data."
 msgstr ""
 
-#: includes/class-wpml-utils.php:1038
+#: includes/class-wpml-utils.php:1039
 msgid "An error occured when trying to perform the request."
 msgstr ""
 
-#: includes/class-wpml-utils.php:1060
+#: includes/class-wpml-utils.php:1061
 msgid "An error occured when trying to delete transients: %s"
 msgstr ""
 
-#: includes/class-wpml-utils.php:1062
+#: includes/class-wpml-utils.php:1063
 msgid "No transient found."
 msgstr ""
 
-#: includes/class-wpml-utils.php:1064
+#: includes/class-wpml-utils.php:1065
 msgid "1 transient deleted"
 msgid_plural "%s transients deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-wpml-utils.php:1159
+#: includes/class-wpml-utils.php:1160
 msgid "View all movies from collection &laquo; %s &raquo;"
 msgstr ""
 
-#: includes/class-wpml-utils.php:1163
+#: includes/class-wpml-utils.php:1164
 msgid "View all &laquo; %s &raquo; movies"
 msgstr ""
 
-#: includes/class-wpml-utils.php:1167
+#: includes/class-wpml-utils.php:1168
 msgid "View all movies staring &laquo; %s &raquo;"
 msgstr ""
 
-#: includes/class-wpml-utils.php:1186
+#: includes/class-wpml-utils.php:1187
 msgid "%d movie"
 msgid_plural "%d movies"
 msgstr[0] ""
@@ -1904,103 +1908,111 @@ msgstr ""
 msgid "How to handle Cached data when WPML is uninstalled."
 msgstr ""
 
-#: includes/wpml-config.php:487 includes/wpml-config.php:495
+#: includes/wpml-config.php:487 includes/wpml-config.php:496
 msgid "DVD"
 msgstr ""
 
 #: includes/wpml-config.php:488
-msgid "BluRay"
+msgid "Blu-ray"
 msgstr ""
 
 #: includes/wpml-config.php:489
-msgid "VOD"
+msgid "VoD"
 msgstr ""
 
 #: includes/wpml-config.php:490
-msgid "VHS"
+msgid "DivX"
 msgstr ""
 
 #: includes/wpml-config.php:491
-msgid "Cinema"
+msgid "VHS"
 msgstr ""
 
 #: includes/wpml-config.php:492
+msgid "Cinema"
+msgstr ""
+
+#: includes/wpml-config.php:493
 msgid "Other"
 msgstr ""
 
-#: includes/wpml-config.php:501 includes/wpml-config.php:506
+#: includes/wpml-config.php:502 includes/wpml-config.php:508
 msgid "Available"
 msgstr ""
 
-#: includes/wpml-config.php:502
+#: includes/wpml-config.php:503
 msgid "Loaned"
 msgstr ""
 
-#: includes/wpml-config.php:503
+#: includes/wpml-config.php:504
 msgid "Scheduled"
 msgstr ""
 
-#: includes/wpml-config.php:531
+#: includes/wpml-config.php:505
+msgid "Unvailable"
+msgstr ""
+
+#: includes/wpml-config.php:533
 msgid "Type"
 msgstr ""
 
-#: includes/wpml-config.php:532
+#: includes/wpml-config.php:534
 msgid "Value"
 msgstr ""
 
-#: includes/wpml-config.php:541
+#: includes/wpml-config.php:543
 msgid "Original Title"
 msgstr ""
 
-#: includes/wpml-config.php:547
+#: includes/wpml-config.php:549
 msgid "Overview"
 msgstr ""
 
-#: includes/wpml-config.php:553
+#: includes/wpml-config.php:555
 msgid "Production"
 msgstr ""
 
-#: includes/wpml-config.php:559
+#: includes/wpml-config.php:561
 msgid "Country"
 msgstr ""
 
-#: includes/wpml-config.php:565
+#: includes/wpml-config.php:567
 msgid "Languages"
 msgstr ""
 
-#: includes/wpml-config.php:571
+#: includes/wpml-config.php:573
 msgid "Runtime"
 msgstr ""
 
-#: includes/wpml-config.php:583
+#: includes/wpml-config.php:585
 msgid "Release Date"
 msgstr ""
 
-#: includes/wpml-config.php:591
+#: includes/wpml-config.php:593
 msgid "Job"
 msgstr ""
 
-#: includes/wpml-config.php:592
+#: includes/wpml-config.php:594
 msgid "Name(s)"
 msgstr ""
 
-#: includes/wpml-config.php:601
+#: includes/wpml-config.php:603
 msgid "Producer"
 msgstr ""
 
-#: includes/wpml-config.php:607
+#: includes/wpml-config.php:609
 msgid "Director of Photography"
 msgstr ""
 
-#: includes/wpml-config.php:613
+#: includes/wpml-config.php:615
 msgid "Original Music Composer"
 msgstr ""
 
-#: includes/wpml-config.php:619
+#: includes/wpml-config.php:621
 msgid "Author"
 msgstr ""
 
-#: includes/wpml-config.php:625
+#: includes/wpml-config.php:627
 msgid "Writer"
 msgstr ""
 
