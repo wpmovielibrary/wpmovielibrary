@@ -1,0 +1,89 @@
+.wpml-inline-edit-details {
+	margin-left: 0 !important;
+}
+
+.alt .wpml-inline-edit-details,
+.alternate .wpml-inline-edit-details {
+	background-color: #fcfcfc;
+}
+
+.dashicons.dashicons-no,
+.dashicons.dashicons-no-alt,
+.dashicons.dashicons-download,
+.dashicons.dashicons-welcome-write-blog,
+.dashicons.dashicons-post-trash,
+.dashicons.dashicons-plus,
+.dashicons.dashicons-admin-generic,
+.dashicons.dashicons-arrow-right-alt2,
+.dashicons.dashicons-format-video,
+.dashicons.dashicons-category,
+.dashicons.dashicons-text,
+.dashicons.dashicons-tag,
+.dashicons.dashicons-edit,
+.dashicons.dashicons-list-view  {
+	background-color: transparent;
+	background-position: center center;
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 16px;
+	margin: 4px 0 -4px 6px;
+	width: 16px;
+}
+
+.dashicons.dashicons-no,
+.dashicons.dashicons-no-alt {
+	background-image: url(../img/legacy/icon-close.png);
+}
+
+.dashicons.dashicons-download {
+	background-image: url(../img/legacy/icon-download.png);
+}
+
+.dashicons.dashicons-welcome-write-blog {
+	background-image: url(../img/legacy/icon-edit.png);
+}
+
+.dashicons.dashicons-post-trash {
+	background-image: url(../img/legacy/icon-delete.png);
+}
+
+.dashicons.dashicons-plus {
+	background-image: url(../img/legacy/icon-add.png);
+}
+
+.dashicons.dashicons-admin-generic {
+	background-image: url(../img/legacy/icon-gear.png);
+}
+
+.dashicons.dashicons-arrow-right-alt2 {
+	background-image: url(../img/legacy/icon-right.png);
+}
+
+.dashicons.dashicons-list-view {
+	background-image: url(../img/legacy/icon-queue.png);
+}
+
+.dashicons.dashicons-format-video {
+	background-image: url(../img/legacy/icon-movie.png);
+}
+
+.dashicons.dashicons-edit {
+	background-image: url(../img/legacy/icon-edit-2.png);
+}
+
+.dashicons.dashicons-category {
+	background-image: url(../img/legacy/icon-category.png);
+}
+
+.dashicons.dashicons-tag {
+	background-image: url(../img/legacy/icon-tag.png);
+}
+
+.dequeue_movie .dashicons.dashicons-no {
+	background-image: url(../img/legacy/icon-dequeue.png);
+}
+
+.row-actions .dashicons {
+	margin: 0;
+	vertical-align: bottom;
+}
