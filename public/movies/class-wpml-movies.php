@@ -207,7 +207,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 							}
 							else {
 								$default_fields = call_user_func( "WPML_Settings::get_available_{$field}" );
-								$html .= '<div class="wpml_' . $field . ' ' . $meta . ' wpml_detail_label"><span class="wpml_movie_detail_item">' . $default_fields[ $meta ] . '</span></div>';
+								$html .= '<div class="wpml_' . $field . ' ' . $meta . ' wpml_detail_label"><span class="wpml_movie_detail_item">' . __( $default_fields[ $meta ], WPML_SLUG ) . '</span></div>';
 							}
 						}
 						break;

@@ -93,7 +93,7 @@
 	background-color: #e1e1e6;
 	background-position: center;
 	background-repeat: no-repeat;
-	background-size: 75%;
+	background-size: 24px 24px;
 	border-radius: 0.35em;
 	height: 32px;
 	min-width: 32px;
@@ -114,6 +114,10 @@
 	background-image: url(../img/icon-vod.png);
 }
 
+.wpml_movie_media.wpml_detail_icon.divx {
+	background-image: url(../img/icon-divx.png);
+}
+
 .wpml_movie_media.wpml_detail_icon.vhs {
 	background-image: url(../img/icon-vhs.png);
 }
@@ -124,6 +128,10 @@
 
 .wpml_movie_media.wpml_detail_icon.other {
 	background-image: url(../img/icon-other.png);
+}
+
+.wpml_movie_status.wpml_detail_icon.unavailable {
+	background-image: url(../img/icon-unavailable.png);
 }
 
 .wpml_movie_status.wpml_detail_icon.available {
