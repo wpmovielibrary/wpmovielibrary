@@ -72,6 +72,12 @@
 }
 
 .wpml_movie_status.available .wpml_movie_detail_item {
+	background: #888;
+	color: #fff;
+	text-shadow: 0 1px 0 #333;
+}
+
+.wpml_movie_status.available .wpml_movie_detail_item {
 	background: #7dd667;
 	color: #fff;
 	text-shadow: 0 1px 0 #4ea239;
