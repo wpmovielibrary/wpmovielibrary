@@ -108,20 +108,25 @@ if ( ! class_exists( 'WPML_Dashboard_Helper_Widget' ) ) :
 
 			$links = array();
 			$list = array(
-				'new_movie' => array(
-					'url'   => admin_url( 'post-new.php?post_type=movie' ),
-					'title' => __( 'New movie', WPML_SLUG ),
-					'icon'  => 'dashicons dashicons-welcome-write-blog'
+				'support' => array(
+					'url'   => 'http://wordpress.org/support/plugin/wpmovielibrary',
+					'title' => __( 'Support', WPML_SLUG ),
+					'icon'  => 'dashicons dashicons-arrow-right-alt2'
 				),
-				'import'    => array(
-					'url'   => admin_url( 'admin.php?page=wpml_import' ),
-					'title' => __( 'Import movies', WPML_SLUG ),
-					'icon'  => 'dashicons dashicons-list-view'
+				'report' => array(
+					'url'   => 'https://github.com/Askelon/wpmovielibrary/issues/new',
+					'title' => __( 'Report a bug', WPML_SLUG ),
+					'icon'  => 'dashicons dashicons-arrow-right-alt2'
 				),
-				'settings'  => array(
-					'url'   => admin_url( 'edit.php?post_type=movie' ),
-					'title' => __( 'Manage movies', WPML_SLUG ),
-					'icon'  => 'dashicons dashicons-format-video'
+				'contribute' => array(
+					'url'   => 'https://github.com/Askelon/wpmovielibrary',
+					'title' => __( 'Contribute', WPML_SLUG ),
+					'icon'  => 'dashicons dashicons-arrow-right-alt2'
+				),
+				'donate' => array(
+					'url'   => 'http://www.caercam.org/contribute.html',
+					'title' => __( 'Donate', WPML_SLUG ),
+					'icon'  => 'dashicons dashicons-arrow-right-alt2'
 				)
 			);
 
