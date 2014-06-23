@@ -127,8 +127,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$hide_notice = get_option( 'wpml_api_key_notice_hide', '0' );
 			$hide_notice = ( '1' == $hide_notice ? true : false );
 
-			if ( true === $hide_notice || '' != WPML_Settings::wpml__apikey() || 1 == WPML_Settings::wpml__internal_api() )
-				return false;
+			if ( false === $hide_notice && '' == WPML_Settings::tmdb__apikey() && false === WPML_Settings::tmdb__internal_api() ) {
 
 ?>
 	<div class="update-nag wpml">
@@ -140,8 +139,16 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 	</div>
 
 <?php
+			}
+
+			return true;
 		}
 
+		/**
+		 * Update API key notice visibility option
+		 *
+		 * @since     1.0.0
+		 */
 		public static function show_api_key_notice() {
 
 			if ( ! isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'show-wpml-api-key-notice' ) )
@@ -151,6 +158,11 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			update_option( 'wpml_api_key_notice_hide', $hide_notice );
 		}
 
+		/**
+		 * Add TMDb legal mention to the plugin pages' admin footer
+		 *
+		 * @since     1.0.0
+		 */
 		public function legal_mentions() {
 
 			$screen = get_current_screen();
