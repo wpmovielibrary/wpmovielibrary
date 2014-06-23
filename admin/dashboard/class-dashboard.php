@@ -312,8 +312,11 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 
 			$hidden = self::save_screen_options();
 
-			if ( isset( $_GET['show_wpml_api_key_notice'] ) )
+			if ( isset( $_GET['hide_wpml_api_key_notice'] ) && ( isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'hide-wpml-api-key-notice' ) ) )
 				WPMovieLibrary_Admin::show_api_key_notice();
+
+			if ( isset( $_GET['wpml_set_archive_page'] ) && ( isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpml-set-archive-page' ) ) )
+				WPML_Utils::set_archive_page();
 
 			include_once( plugin_dir_path( __FILE__ ) . '/views/dashboard.php' );
 		}

@@ -107,6 +107,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
 			add_action( 'admin_notices', array( $this, 'api_key_notice' ) );
+			add_action( 'admin_notices', array( $this, 'missing_archive_page' ) );
 
 			add_action( 'in_admin_footer', array( $this, 'legal_mentions' ) );
 		}
@@ -121,7 +122,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public function api_key_notice() {
 
 			$screen = get_current_screen();
-			if ( ! in_array( $screen->id, $this->plugin_screen_hook_suffix ) )
+			if ( ! in_array( $screen->id, $this->plugin_screen_hook_suffix ) || ( isset( $_GET['hide_wpml_api_key_notice'] ) && '1' == $_GET['hide_wpml_api_key_notice'] ) )
 				return false;
 
 			$hide_notice = get_option( 'wpml_api_key_notice_hide', '0' );
@@ -134,7 +135,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		<?php _e( 'You haven\'t specified a valid <acronym title="TheMovieDB">TMDb</acronym> API key in your Settings; this is required for the plugin to search a get movies metadata. WPMovieLibrary will use an internal API key, but you may consider getting your own personnal one at <a href="https://www.themoviedb.org/">TMDb</a> to get better results.', WPML_SLUG ) ?><br />
 		<span style="float:right">
 			<a class="button-secondary" href="http://tmdb.caercam.org/"><?php _e( 'Learn more about the internal API key', WPML_SLUG ) ?></a>
-			<a class="button-primary" href="<?php echo wp_nonce_url( admin_url( '/admin.php?page=wpmovielibrary&amp;show_wpml_api_key_notice=1' ), 'show-wpml-api-key-notice', '_nonce' ) ?>"><?php _e( 'Do not notify me again', WPML_SLUG ) ?></a>
+			<a class="button-primary" href="<?php echo wp_nonce_url( admin_url( '/admin.php?page=wpmovielibrary&amp;hide_wpml_api_key_notice=1' ), 'hide-wpml-api-key-notice', '_nonce' ) ?>"><?php _e( 'Do not notify me again', WPML_SLUG ) ?></a>
 		</span>
 	</div>
 
@@ -151,11 +152,38 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public static function show_api_key_notice() {
 
-			if ( ! isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'show-wpml-api-key-notice' ) )
+			$hide_notice = ( '1' == $_GET['hide_wpml_api_key_notice'] ? 1 : 0 );
+			update_option( 'wpml_api_key_notice_hide', $hide_notice );
+		}
+
+		/**
+		 * Notify the absence of set API key. If no API key is set and
+		 * the internal API isn't enabled, show an admin notice on all
+		 * the plugin's pages.
+		 *
+		 * @since     1.0.0
+		 */
+		public function missing_archive_page() {
+
+			$screen = get_current_screen();
+			if ( ! in_array( $screen->id, $this->plugin_screen_hook_suffix ) || ( isset( $_GET['wpml_set_archive_page'] ) && '1' == $_GET['wpml_set_archive_page'] ) )
 				return false;
 
-			$hide_notice = ( '1' == $_GET['show_wpml_api_key_notice'] ? 1 : 0 );
-			update_option( 'wpml_api_key_notice_hide', $hide_notice );
+			$page = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpml_page' );
+
+			if ( ! is_null( $page ) )
+				return false;
+
+?>
+
+	<div class="update-nag">
+		<?php _e( 'WPMovieLibrary couldn\'t find an archive page; this page is required to provide archives of your collections, genres and actors.', WPML_SLUG ) ?><br /><br />
+		<span style="float:right">
+			<a class="button-primary" href="<?php echo wp_nonce_url( admin_url( '/admin.php?page=wpmovielibrary&amp;wpml_set_archive_page=1' ), 'wpml-set-archive-page', '_nonce' ) ?>"><?php _e( 'Create an archive page', WPML_SLUG ) ?></a>
+		</span>
+	</div>
+
+<?php
 		}
 
 		/**
