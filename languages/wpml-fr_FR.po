@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: WPMovieLibrary v1.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wpmovielibrary\n"
 "POT-Creation-Date: 2014-06-23 08:25:47+00:00\n"
-"PO-Revision-Date: 2014-06-23 10:28+0100\n"
+"PO-Revision-Date: 2014-06-23 19:19+0100\n"
 "Last-Translator: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language-Team: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language: Français\n"
@@ -2226,7 +2226,7 @@ msgstr "Permalien pour &laquo; %s &raquo;"
 
 #: public/actors/views/actors-widget.php:22
 msgid "Select an Actor"
-msgstr "Selectionner un acteur"
+msgstr "Sélectionner un acteur"
 
 #: public/actors/views/actors-widget.php:26
 msgid "Nothing to display for \"Actor\" taxonomy."
@@ -2255,7 +2255,7 @@ msgstr "Nouvelle collection"
 
 #: public/collections/views/collections-widget.php:22
 msgid "Select a Collection"
-msgstr "Selectionner une collection"
+msgstr "Sélectionner une collection"
 
 #: public/collections/views/collections-widget.php:26
 msgid "Nothing to display for \"Collection\" taxonomy."
@@ -2279,7 +2279,7 @@ msgstr "Nouveau genre"
 
 #: public/genres/views/genres-widget.php:22
 msgid "Select a Genre"
-msgstr "Selectionner un genre"
+msgstr "Sélectionner un genre"
 
 #: public/genres/views/genres-widget.php:26
 msgid "Nothing to display for \"Genre\" taxonomy."
@@ -2383,7 +2383,7 @@ msgstr "Réalisé par"
 
 #: public/movies/views/media-widget.php:35
 msgid "Select a media"
-msgstr "Selectionner un média"
+msgstr "Sélectionner un média"
 
 #: public/movies/views/media-widget.php:39
 #: public/movies/views/media-widget.php:64
@@ -2396,7 +2396,7 @@ msgstr "Rien à afficher"
 #: public/movies/views/most-rated-movies-widget.php:27
 #: public/movies/views/status-widget.php:59
 msgid "Select a Movie"
-msgstr "Selectionner un film"
+msgstr "Sélectionner un film"
 
 #: public/movies/views/most-rated-movies-widget.php:21
 msgid "Permalink for &laquo; %s Rated Movies &raquo;"
@@ -2409,7 +2409,7 @@ msgstr "Lire la suite"
 
 #: public/movies/views/status-widget.php:34
 msgid "Select a status"
-msgstr "Selectionner un statut"
+msgstr "Sélectionner un statut"
 
 #: public/statistics/class-statistics-widget.php:36
 msgid "WPML Statistics"
