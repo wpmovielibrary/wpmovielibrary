@@ -12,3 +12,7 @@
 .widgets-holder-wrap .wpml-widget-title {
 	margin: 1.33em 0 0.25em 0;
 }
+
+#dashboard_right_now .movie-count::before {
+	content: "\f126";
+}

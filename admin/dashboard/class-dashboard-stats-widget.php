@@ -122,7 +122,7 @@ if ( ! class_exists( 'WPML_Dashboard_Stats_Widget' ) ) :
 			$links = array();
 			$list = array(
 				'movie' => array(
-					'single' => __( 'One movie', WPML_SLUG ),
+					'single' => __( '%d movie', WPML_SLUG ),
 					'plural' => __( '%d movies', WPML_SLUG ),
 					'empty'  => sprintf( '%s <a href="%s">%s</a>', __( 'No movie added yet.', WPML_SLUG ), admin_url( 'post-new.php?post_status=publish&post_type=movie' ), __( 'Add one!', WPML_SLUG ) ),
 					'url'    => admin_url( 'edit.php?post_type=movie' ),
