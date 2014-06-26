@@ -1,3 +1,21 @@
+#wpml_details .movie-status-icon {
+	background: url(../img/legacy/icon-status.png) left 2px no-repeat;
+	margin-left: -0.5em;
+	padding: 0.25em 0 0.25em 1.75em;
+}
+
+#wpml_details .movie-media-icon {
+	background: url(../img/legacy/icon-media.png) left 2px no-repeat;
+	margin-left: -0.5em;
+	padding: 0.25em 0 0.25em 1.75em;
+}
+
+#wpml_details .movie-rating-icon {
+	background: url(../img/legacy/icon-star-half.png) left 2px no-repeat;
+	margin-left: -0.5em;
+	padding: 0.25em 0 0.25em 1.75em;
+}
+
 .wpml-inline-edit-details {
 	margin-left: 0 !important;
 }
@@ -12,6 +30,7 @@
 .dashicons.dashicons-download,
 .dashicons.dashicons-welcome-write-blog,
 .dashicons.dashicons-post-trash,
+.dashicons.dashicons-trash,
 .dashicons.dashicons-plus,
 .dashicons.dashicons-admin-generic,
 .dashicons.dashicons-arrow-right-alt2,
@@ -26,7 +45,7 @@
 	background-repeat: no-repeat;
 	display: inline-block;
 	height: 16px;
-	margin: 4px 0 -4px 6px;
+	margin: -2px 0 -4px 6px;
 	width: 16px;
 }
 
@@ -43,7 +62,8 @@
 	background-image: url(../img/legacy/icon-edit.png);
 }
 
-.dashicons.dashicons-post-trash {
+.dashicons.dashicons-post-trash,
+.dashicons.dashicons-trash {
 	background-image: url(../img/legacy/icon-delete.png);
 }
 
@@ -68,7 +88,7 @@
 }
 
 .dashicons.dashicons-edit {
-	background-image: url(../img/legacy/icon-edit-2.png);
+	background-image: url(../img/legacy/icon-draft.png);
 }
 
 .dashicons.dashicons-category {
@@ -83,7 +103,20 @@
 	background-image: url(../img/legacy/icon-dequeue.png);
 }
 
+.enqueue_movie .dashicons.dashicons-plus {
+	background-image: url(../img/legacy/icon-enqueue.png);
+}
+
+.btn .dashicons.dashicons-plus {
+	background-image: url(../img/legacy/icon-add-alt.png);
+}
+
 .row-actions .dashicons {
 	margin: 0;
 	vertical-align: bottom;
 }
+
+#wpml_dashboard_quickaction_widget .dashicons { margin-bottom: -10px; }
+#wpml_dashboard_quickaction_widget .dashicons.dashicons-welcome-write-blog { background-image: url(../img/legacy/icon-add-2x.png); }
+#wpml_dashboard_quickaction_widget .dashicons.dashicons-list-view { background-image: url(../img/legacy/icon-queue-2x.png); }
+#wpml_dashboard_quickaction_widget .dashicons.dashicons-format-video { background-image: url(../img/legacy/icon-movie-2x.png); }

@@ -17,8 +17,8 @@
 				</div>
 				<div id="wpml-movie-modal-overview"></div>
 				<div id="wpml-movie-modal-links">
-					<a class="button button-primary" id="wpml-movie-modal-edit" href=""><?php _e( 'Edit', WPML_SLUG ) ?></a>
-					<a class="button button-primary" id="wpml-movie-modal-view" href=""><?php _e( 'View', WPML_SLUG ) ?></a>
+					<a class="button button-primary" id="wpml-movie-modal-edit" href=""><div class="dashicons dashicons-edit"></div>&nbsp; <?php _e( 'Edit', WPML_SLUG ) ?></a>
+					<a class="button button-primary" id="wpml-movie-modal-view" href=""><div class="dashicons dashicons-visibility"></div>&nbsp; <?php _e( 'View', WPML_SLUG ) ?></a>
 				</div>
 			</div>
 		</div>

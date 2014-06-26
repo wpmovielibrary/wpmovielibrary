@@ -202,6 +202,15 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 <?php
 		}
 
+		/**
+		 * Add a new item to the Right Now Dashboard Widget
+		 *
+		 * @since    1.0.1
+		 * 
+		 * @param    array    Additional items
+		 * 
+		 * @return   array    Additional items
+		 */
 		public function dashboard_glance_items( $items = array() ) {
 
 			$movies = wp_count_posts( 'movie' );
@@ -392,7 +401,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$capability = 'manage_options',
 				$menu_slug = 'wpmovielibrary',
 				$function = null,
-				$icon_url = ( WPML_Utils::is_modern_wp() ? 'dashicons-format-video' : WPML_URL . '/assets/img/icon-movie.png' ),
+				$icon_url = ( WPML_Utils::is_modern_wp() ? 'dashicons-format-video' : WPML_URL . '/assets/img/legacy/icon-movie.png' ),
 				$position = 6
 			);
 

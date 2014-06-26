@@ -220,8 +220,12 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		/**
 		 * Add a New Movie link to WP Admin Bar.
 		 * 
-		 * WordPress 3.8 introduces Dashicons, for older versions we use a PNG
-		 * icon instead.
+		 * WordPress 3.8 introduces Dashicons, for older versions we use
+		 * a PNG icon instead.
+		 * 
+		 * This method is in the public part because the Admin Bar shows
+		 * on the frontend as well, so although it is admin related this
+		 * must be public.
 		 *
 		 * @since    1.0.0
 		 */
@@ -240,7 +244,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 
 			// Dashicons or PNG
 			if ( version_compare( get_bloginfo( 'version' ), '3.8', '<' ) ) {
-				$args['title'] = '<img src="' . WPML_URL . '/assets/img/icon-movie.png" alt="" />' . $args['title'];
+				$args['title'] = '<img src="' . WPML_URL . '/assets/img/legacy/icon-movie.png" alt="" />' . $args['title'];
 			}
 			else {
 				$args['meta']['class'] = 'haz-dashicon';

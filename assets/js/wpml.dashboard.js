@@ -72,7 +72,7 @@ wpml.dashboard = wpml_dashboard = {
 			   poster = $link.attr( 'data-movie-poster' ),
 			 backdrop = $link.attr( 'data-movie-backdrop' ),
 			   rating = $link.attr( 'data-movie-rating' ),
-			 editlink = $link.attr( 'data-movie-edit-link' );
+			permalink = $link.attr( 'data-movie-permalink' );
 
 			data.overview = data.overview.replace( '&amp;', '&' ).replace( '&lt;', '<' ).replace( '&gt;','>' );
 
@@ -84,8 +84,8 @@ wpml.dashboard = wpml_dashboard = {
 			$( '#wpml-movie-modal-inner' ).css( { backgroundImage: 'url( ' + backdrop + ' )' } );
 			$( '#wpml-movie-modal-poster img' ).attr( 'src', poster ).attr( 'alt', data.title );
 			$( '#wpml-movie-modal-rating' ).empty().append( '<div id="movie-rating-display" class="movie_rating_title stars stars-' + rating.replace( '.', '-' ) + '"></div>' );
-			$( '#wpml-movie-modal-edit' ).attr( 'href', editlink );
-			$( '#wpml-movie-modal-view' ).attr( 'href', link.href );
+			$( '#wpml-movie-modal-edit' ).attr( 'href', link.href );
+			$( '#wpml-movie-modal-view' ).attr( 'href', permalink );
 		};
 
 		/**
@@ -106,7 +106,7 @@ wpml.dashboard = wpml_dashboard = {
 				wpml_modal._close();
 			});
 
-			$( window ).unbind( 'resize' ).on( 'resize', function() {
+			$( window ).on( 'resize', function() {
 				wpml_modal._resize();
 			});
 
@@ -654,7 +654,7 @@ wpml.dashboard = wpml_dashboard = {
 	 */
 	wpml.dashboard.resize_posters = function() {
 
-		var $movies = $( wpml_dashboard._movies )
+		var $movies = $( wpml_dashboard._movies ),
 		  container = $movies.parents('.postbox').width(),
 		      width = $movies.width(),
 		     height = $movies.height();
@@ -662,7 +662,7 @@ wpml.dashboard = wpml_dashboard = {
 		if ( 1200 < container )
 			var _width = '21.6%';
 		else if ( 700 < container )
-			var _width = '24.2%';
+			var _width = '24%';
 		else if ( 700 >= container )
 			var _width = '32.2%';
 
