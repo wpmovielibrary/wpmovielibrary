@@ -1,10 +1,10 @@
 === WPMovieLibrary ===
 Contributors: askelon
 Donate link: 
-Tags: movie, movies, movie library, movie collection, cinema, movie genre, actor
+Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor
 Requires at least: 3.6
 Tested up to: 3.9.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -72,9 +72,19 @@ Use the import tool: simply paste a list of titles, all your movies will be crea
 
 == Changelog ==
 
-= 1.0 =
+= 1.0.1
+* Dev - Check plugin requirements before loading
+* Fix - Missing status icon in frontend
+* Fix - JS Search error in Movie Meta metabox
+* Fix - Missing nonce in importer
+* Fix - 12-hour time format bug on runtime
+* Fix - JS error with custom dashboard widgets
+* Tweak - Add 20+ new language for the API
+* Tweak - New item in Dashboard "Right Now" Widget
+* Tweak - WordPress < 3.8 icons and styling update
+* Tweak - Backend CSS
+* Tweak - Add an admin notice in case of missing Archive page
+* Tweak - Language packs updated
+
+= 1.0.0 =
 * First stable release
-
-== Upgrade Notice ==
-
-== Arbitrary section ==
