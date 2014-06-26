@@ -120,3 +120,12 @@
 #wpml_dashboard_quickaction_widget .dashicons.dashicons-welcome-write-blog { background-image: url(../img/legacy/icon-add-2x.png); }
 #wpml_dashboard_quickaction_widget .dashicons.dashicons-list-view { background-image: url(../img/legacy/icon-queue-2x.png); }
 #wpml_dashboard_quickaction_widget .dashicons.dashicons-format-video { background-image: url(../img/legacy/icon-movie-2x.png); }
+
+#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie .movie-quickedit a,
+#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie .movie-quickedit a {
+	margin-left: -0.35em;
+}
+
+#wpml-movie-modal .button .dashicons {
+	display: none;
+}
