@@ -418,6 +418,20 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		}
 
 		/**
+		 * Return all available languages for TMDb API
+		 *
+		 * @since    1.0.1
+		 *
+		 * @return   array    Supported languages
+		 */
+		public static function get_available_languages() {
+
+			global $wpml_settings;
+
+			return $wpml_settings['tmdb']['settings']['lang']['values'];
+		}
+
+		/**
 		 * Return all supported Movie Details fields
 		 *
 		 * @since    1.0.0

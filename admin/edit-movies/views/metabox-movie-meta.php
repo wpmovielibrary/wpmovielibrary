@@ -6,8 +6,9 @@
 			<div>
 				<?php WPML_Utils::_nonce_field( 'search-movies' ) ?>
 				<select id="tmdb_search_lang" name="wpml[lang]" onchange="wpml_edit_meta.lang=this.value;">
-					<option value="en" <?php selected( WPML_Settings::tmdb__lang(), 'en' ); ?>><?php _e( 'English', WPML_SLUG ); ?></option>
-					<option value="fr" <?php selected( WPML_Settings::tmdb__lang(), 'fr' ); ?>><?php _e( 'French', WPML_SLUG ); ?></option>
+<?php foreach ( WPML_Settings::get_available_languages() as $code => $lang ) : ?>
+					<option value="<?php echo $code ?>" <?php selected( WPML_Settings::tmdb__lang(), $code ); ?>><?php echo $lang ?></option>
+<?php endforeach; ?>
 				</select>
 				<select id="tmdb_search_type" name="wpml[tmdb_search_type]">
 					<option value="title" selected="selected"><?php _e( 'Movie Title', WPML_SLUG ); ?></option>
