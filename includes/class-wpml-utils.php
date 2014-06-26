@@ -473,6 +473,10 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Filter a Movie's Runtime to match WordPress time format
 		 * 
+		 * Check if the time format is 12-hour, in which case set the
+		 * format to a standard hours:minutes form to avoid some weird
+		 * "2:38AM" runtime.
+		 * 
 		 * @since    1.0.0
 		 * 
 		 * @param    string    $runtime Movie runtime
@@ -480,7 +484,15 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @return   string    Filtered runtime
 		 */
 		public static function filter_runtime( $runtime ) {
-			return ( ! is_null( $runtime ) && '' != $runtime ? date_i18n( get_option( 'time_format' ), mktime( 0, $runtime ) ) : $runtime );
+
+			if ( is_null( $runtime ) && '' != $runtime )
+				return $runtime;
+
+			$time = date_i18n( get_option( 'time_format' ), mktime( 0, $runtime ) );
+			if ( false !== stripos( $time, 'am' ) || false !== stripos( $time, 'pm' ) )
+				$time = date_i18n( 'g:i', mktime( 0, $runtime ) );
+
+			return $time;
 		}
 
 
