@@ -57,8 +57,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public function init() {
 
-			//error_reporting( E_ALL );
-
 			$this->modules = array(
 				'WPML_Dashboard'   => WPML_Dashboard::get_instance(),
 				'WPML_Settings'    => WPML_Settings::get_instance(),

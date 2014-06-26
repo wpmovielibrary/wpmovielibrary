@@ -200,7 +200,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		 */
 		public function widget_metabox_style() {
 
-			printf( '<script type="text/javascript">document.getElementById("%s").classList.add("no-style");</script>', $this->widget_id );
+			printf( '<script type="text/javascript">var _widget = document.getElementById("%s"); if ( null != _widget ) _widget.classList.add("no-style");</script>', $this->widget_id );
 		}
 
 		/**
