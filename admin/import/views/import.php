@@ -110,6 +110,7 @@
 				<?php WPML_Utils::_nonce_field( 'delete-movies', $referer = false ) ?>
 				<?php WPML_Utils::_nonce_field( 'queued-movies', $referer = false ) ?>
 				<?php WPML_Utils::_nonce_field( 'dequeue-movies', $referer = false ) ?>
+				<?php WPML_Utils::_nonce_field( 'import-queued-movies', $referer = false ) ?>
 
 			</div>
 
