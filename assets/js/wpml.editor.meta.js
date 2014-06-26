@@ -32,6 +32,10 @@ wpml = wpml || {};
 				element: '#tmdb_empty',
 				event: 'click'
 			},
+			_query: {
+				element: '#tmdb_query',
+				event: 'input'
+			},
 
 			fields: '#tmdb_data',
 		};
@@ -54,6 +58,10 @@ wpml = wpml || {};
 					e.preventDefault();
 					wpml_edit_meta.empty_results();
 				});
+
+				$( wpml_edit_meta._query.element ).on( wpml_edit_meta._query.event, function() {
+					wpml_edit_meta.title = $(this).val();
+				});
 			};
 
 			/**
@@ -70,7 +78,7 @@ wpml = wpml || {};
 					wpml_edit_meta.title = $( '#tmdb_query' ).val();
 
 				$( wpml_edit_meta._search.element ).next('.spinner' ).css({display: 'inline-block'});
-				$( wpml_edit_meta.fields ).empty();
+				$( wpml_edit_meta.fields ).empty().hide();
 
 				wpml_state.clear();
 				if ( wpml_edit_meta.type == 'title' )
