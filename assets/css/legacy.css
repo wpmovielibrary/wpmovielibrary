@@ -107,7 +107,7 @@
 	background-image: url(../img/legacy/icon-enqueue.png);
 }
 
-.btn .dashicons.dashicons-plus {
+.button .dashicons.dashicons-plus {
 	background-image: url(../img/legacy/icon-add-alt.png);
 }
 
@@ -116,7 +116,7 @@
 	vertical-align: bottom;
 }
 
-#wpml_dashboard_quickaction_widget .dashicons { margin-bottom: -10px; }
+#wpml_dashboard_quickaction_widget .dashicons { margin-bottom: -10px !important; }
 #wpml_dashboard_quickaction_widget .dashicons.dashicons-welcome-write-blog { background-image: url(../img/legacy/icon-add-2x.png); }
 #wpml_dashboard_quickaction_widget .dashicons.dashicons-list-view { background-image: url(../img/legacy/icon-queue-2x.png); }
 #wpml_dashboard_quickaction_widget .dashicons.dashicons-format-video { background-image: url(../img/legacy/icon-movie-2x.png); }
