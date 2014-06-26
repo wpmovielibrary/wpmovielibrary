@@ -715,7 +715,8 @@ body.post-php.post-type-movie #postimagediv {
 
 #wpml-tabs #wpml-queued-list {
 	border: 1px solid #ddd;
-	height: 32em;
+	max-height: 32em;
+	max-height: 12em;
 	margin-top: 0;
 	overflow: auto;
 	padding-bottom: 1em;

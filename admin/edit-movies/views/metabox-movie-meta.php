@@ -14,7 +14,7 @@
 					<option value="id"><?php _e( 'TMDb ID', WPML_SLUG ); ?></option>
 				</select>
 				<input id="tmdb_query" type="text" name="wpml[tmdb_query]" value="" size="40" maxlength="32" />
-				<a id="tmdb_search" name="wpml[tmdb_search]" href="<?php echo get_edit_post_link() ?>&amp;wpml_auto_fetch=1" class="button button-secondary"><?php _e( 'Fetch data', WPML_SLUG ); ?></a>
+				<a id="tmdb_search" name="wpml[tmdb_search]" href="<?php echo get_edit_post_link() ?>&amp;wpml_auto_fetch=1" class="button button-secondary"><?php _e( 'Search', WPML_SLUG ); ?></a>
 				<span class="spinner"></span>
 				<a id="tmdb_empty" name="wpml[tmdb_empty]" type="submit" class="button button-secondary button-empty hide-if-no-js"><?php _e( 'Empty Results', WPML_SLUG ); ?></a>
 			</div>
