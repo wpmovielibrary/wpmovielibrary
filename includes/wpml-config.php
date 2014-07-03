@@ -713,18 +713,18 @@ $wpml_shortcodes = array(
 				'filter'  => 'intval'
 			),
 			'poster' => array(
-				'default' => 'true',
-				'values'  => 'boolean',
-				'filter'  => null
-			),
-			'size' => array(
-				'default' => "medium",
-				'values'  => array( 'small', 'medium', 'large', 'original' ),
+				'default' => 'medium',
+				'values'  => array( 'none', 'small', 'medium', 'large', 'original' ),
 				'filter'  => 'esc_attr'
 			),
-			'data' => array(
-				'default' => null,
-				'values'  => null,
+			'meta' => array(
+				'default' => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview' ),
+				'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview', 'title', 'original_title', 'production', 'country', 'manguages', 'producer', 'photography', 'composer', 'author', 'writer' ),
+				'filter'  => null
+			),
+			'details' => array(
+				'default' => array( 'media', 'status', 'rating' ),
+				'values'  => array( 'media', 'status', 'rating' ),
 				'filter'  => null
 			)
 		),
@@ -745,18 +745,23 @@ $wpml_shortcodes = array(
 				'filter'  => 'esc_attr'
 			),
 			'poster' => array(
-				'default' => 'true',
-				'values'  => 'boolean',
-				'filter'  => null
+				'default' => 'medium',
+				'values'  => array( 'none', 'small', 'medium', 'large', 'original' ),
+				'filter'  => 'esc_attr'
 			),
 			'size' => array(
 				'default' => 'medium',
 				'values'  => array( 'small', 'medium', 'large', 'original' ),
 				'filter'  => 'esc_attr'
 			),
-			'data' => array(
-				'default' => null,
-				'values'  => null,
+			'meta' => array(
+				'default' => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview' ),
+				'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview', 'title', 'original_title', 'production', 'country', 'manguages', 'producer', 'photography', 'composer', 'author', 'writer' ),
+				'filter'  => null
+			),
+			'details' => array(
+				'default' => array( 'media', 'status', 'rating' ),
+				'values'  => array( 'media', 'status', 'rating' ),
 				'filter'  => null
 			)
 		),

@@ -683,42 +683,50 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( ! is_array( $atts ) || empty( $atts ) )
 				return $atts;
 
-			$default = WPML_Settings::get_available_shortcodes();
-			$default = $default[ $shortcode ][ 'atts' ];
+			$defaults = WPML_Settings::get_available_shortcodes();
+			$defaults = $defaults[ $shortcode ][ 'atts' ];
 
 			$attributes = array();
 
 			// Loop through the Shortcode's attributes
-			foreach ( $atts as $slug => $attr ) {
+			foreach ( $defaults as $slug => $default ) {
+
+				$attr = $atts[ $slug ];
 
 				// Attribute is not null
 				if ( is_null( $attr ) ) {
-					$attributes[ $slug ] = null;
-
-					if ( isset( $default[ $slug ][ 'default' ] ) )
-						$attributes[ $slug ] = $default[ $slug ][ 'default' ];
+					$attributes[ $slug ] = $default[ 'default' ];
 				}
-				if ( ! is_null( $attr ) ) {
+				else if ( ! is_null( $attr ) ) {
 
 					$value = $attr;
 
 					// Attribute has limited values
-					if ( ! is_null( $default[ $slug ][ 'values' ] ) ) {
+					if ( ! is_null( $default[ 'values' ] ) ) {
 
 						// Value should be boolean
-						if ( 'boolean' == $default[ $slug ][ 'values' ] && in_array( strtolower( $attr ), array( 'true', 'false', 'yes', 'no' ) ) ) {
-							$value = apply_filters( 'wpml_is_boolean', $value );
+						if ( 'boolean' == $default[ 'values' ] && in_array( strtolower( $attr ), array( 'true', 'false', 'yes', 'no' ) ) ) {
+							$value = apply_filters( 'wpml_is_boolean', $attr );
+							var_dump( '!' );
 						}
-						// Value is limited
-						else if ( is_array( $default[ $slug ][ 'values' ] ) ) {
-							if ( in_array( strtolower( $attr ), $default[ $slug ][ 'values' ] ) )
+						// Value is array
+						else if ( is_array( $default[ 'values' ] ) ) {
+							// multiple values
+							if ( false !== strpos( $attr, '|' ) ) {
+								$value = explode( '|', $attr );
+								foreach ( $value as $i => $v )
+									if ( ! in_array( $v, $default[ 'values' ] ) )
+										unset( $value[ $i ] );
+							}
+							// single value
+							else if ( in_array( strtolower( $attr ), $default[ 'values' ] ) )
 								$value = $attr;
 						}
 					}
 
 					// Attribute has a valid filter
-					if ( is_string( $value ) && function_exists( $default[ $slug ][ 'filter' ] ) && is_callable( $default[ $slug ][ 'filter' ] ) )
-						$value = call_user_func( $default[ $slug ][ 'filter' ], $value );
+					if ( is_string( $value ) && function_exists( $default[ 'filter' ] ) && is_callable( $default[ 'filter' ] ) )
+						$value = call_user_func( $default[ 'filter' ], $value );
 
 					$attributes[ $slug ] = $value;
 				}

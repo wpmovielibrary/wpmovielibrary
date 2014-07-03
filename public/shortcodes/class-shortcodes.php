@@ -126,6 +126,35 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			$query = implode( '&', $query );
 			$query = new WP_Query( $query );
 
+			$movies = array();
+
+			if ( $query->have_posts() ) {
+
+				foreach ( $query->posts as $i => $post ) {
+
+					$movies[ $i ] = array(
+						'id'    => get_the_ID(),
+						'title' => get_the_title(),
+						'url'   => get_permalink()
+					);
+
+					if ( ! is_null( $poster ) && has_post_thumbnail() )
+						$movies[ $i ]['poster'] = get_the_post_thumbnail( get_the_ID(), $poster );
+
+					if ( ! is_null( $meta ) ) {
+						
+					}
+
+					if ( ! is_null( $details ) ) {
+						
+					}
+				}
+			}
+
+			
+
+			include( plugin_dir_path( __FILE__ ) . '/views/movies.php' );
+
 			return $content;
 		}
 
