@@ -677,3 +677,74 @@ $wpml_movie_meta = array(
 		)
 	)
 );
+
+$wpml_shortcodes = array(
+
+	'movies' => array(
+		'atts' => array(
+			'collection' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'genre' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'actor' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'sort' => array(
+				'default' => 'post_date',
+				'values'  => array( 'post_date', 'post_title', 'rating' ),
+				'filter'  => 'esc_attr'
+			),
+			'sort_by' => array(
+				'default' => 'desc',
+				'values'  => array( 'asc', 'desc' ),
+				'filter'  => 'esc_attr'
+			),
+			'count' => array(
+				'default' => 4,
+				'values'  => null,
+				'filter'  => 'intval'
+			),
+			'poster' => array(
+				'default' => "true",
+				'values'  => 'boolean',
+				'filter'  => null
+			),
+			'size' => array(
+				'default' => "medium",
+				'values'  => array( 'small', 'medium', 'large', 'original' ),
+				'filter'  => 'esc_attr'
+			),
+			'date' => array(
+				'default' => "true",
+				'values'  => 'boolean',
+				'filter'  => null
+			),
+			'year' => array(
+				'default' => "true",
+				'values'  => 'boolean',
+				'filter'  => null
+			),
+			'overview' => array(
+				'default' => "true",
+				'values'  => 'boolean',
+				'filter'  => null
+			)
+		),
+		'content'  => null,
+		'callback' => 'movies_shortcode',
+	),
+
+	'movie' => array(
+		'atts'     => array(),
+		'content'  => null,
+		'callback' => null,
+	),
+);

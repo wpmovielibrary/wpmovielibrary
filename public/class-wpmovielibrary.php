@@ -44,6 +44,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				'WPML_Collections' => WPML_Collections::get_instance(),
 				'WPML_Genres'      => WPML_Genres::get_instance(),
 				'WPML_Actors'      => WPML_Actors::get_instance(),
+				'WPML_Shortcodes'  => WPML_Shortcodes::get_instance(),
 			);
 
 			$this->widgets = array(

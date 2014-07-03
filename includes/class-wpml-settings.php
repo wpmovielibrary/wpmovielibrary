@@ -432,6 +432,20 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		}
 
 		/**
+		 * Return all available shortcodes
+		 *
+		 * @since    1.1.0
+		 *
+		 * @return   array    Available shortcodes
+		 */
+		public static function get_available_shortcodes() {
+
+			global $wpml_shortcodes;
+
+			return $wpml_shortcodes;
+		}
+
+		/**
 		 * Return all supported Movie Details fields
 		 *
 		 * @since    1.0.0

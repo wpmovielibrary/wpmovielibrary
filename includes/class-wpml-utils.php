@@ -45,6 +45,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			add_filter( 'wpml_filter_filter_runtime', __CLASS__ . '::filter_runtime', 10, 1 );
 			add_filter( 'wpml_filter_filter_release_date', __CLASS__ . '::filter_release_date', 10, 2 );
 			add_filter( 'wpml_validate_meta_data', __CLASS__ . '::validate_meta_data', 10, 1 );
+			add_filter( 'wpml_filter_shortcode_atts', __CLASS__ . '::filter_shortcode_atts', 10, 2 );
+			add_filter( 'wpml_is_boolean', __CLASS__ . '::is_boolean', 10, 1 );
 
 			add_filter( 'wpml_stringify_array', __CLASS__ . '::stringify_array', 10, 3 );
 			add_filter( 'wpml_filter_empty_array', __CLASS__ . '::filter_empty_array', 10, 1 );
@@ -659,6 +661,97 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			);
 
 			return $_data;
+		}
+
+		/**
+		 * Filter an array of Shortcode attributes.
+		 * 
+		 * Shortcodes have limited attributes and possibly limited values
+		 * for some attributes. This method matches each submitted attr
+		 * to its limited values if available, and apply a filter to the
+		 * value before returning the array.
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $shortcode Shortcode's ID
+		 * @param    array     $atts Attributes to filter
+		 * 
+		 * @return   array    Filtered Attributes
+		 */
+		public static function filter_shortcode_atts( $shortcode, $atts = array() ) {
+
+			if ( ! is_array( $atts ) || empty( $atts ) )
+				return $atts;
+
+			$default = WPML_Settings::get_available_shortcodes();
+			$default = $default[ $shortcode ][ 'atts' ];
+
+			$attributes = array();
+
+			// Loop through the Shortcode's attributes
+			foreach ( $atts as $slug => $attr ) {
+
+				// Attribute is not null
+				if ( is_null( $attr ) ) {
+					$attributes[ $slug ] = null;
+				}
+				if ( ! is_null( $attr ) ) {
+
+					$value = $attr;
+
+					// Attribute has limited values
+					if ( ! is_null( $default[ $slug ][ 'values' ] ) ) {
+
+						// Value should be boolean
+						if ( 'boolean' == $default[ $slug ][ 'values' ] && in_array( strtolower( $attr ), array( 'true', 'false', 'yes', 'no' ) ) ) {
+							$value = apply_filters( 'wpml_is_boolean', $value );
+						}
+						// Value is limited
+						else if ( is_array( $default[ $slug ][ 'values' ] ) ) {
+							if ( in_array( strtolower( $attr ), $default[ $slug ][ 'values' ] ) )
+								$value = $attr;
+						}
+					}
+
+					// Attribute has a valid filter
+					if ( is_string( $value ) && function_exists( $default[ $slug ][ 'filter' ] ) && is_callable( $default[ $slug ][ 'filter' ] ) )
+						$value = call_user_func( $default[ $slug ][ 'filter' ], $value );
+
+					$attributes[ $slug ] = $value;
+				}
+			}
+
+			return $attributes;
+		}
+
+		/**
+		 * Filter a string value to determine a suitable boolean value.
+		 * 
+		 * This is mostly used for Shortcodes where boolean-like values
+		 * can be used.
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    Value to filter
+		 * 
+		 * @return   boolean   Filtered value
+		 */
+		public static function is_boolean( $value ) {
+
+			$value = strtolower( $value );
+
+			$true = array( 'true', true, 'yes', '1', 1 );
+			$false = array( 'false', false, 'no', '0', 0 );
+
+			foreach ( $true as $t )
+				if ( $value === $t )
+					return true;
+
+			foreach ( $false as $f )
+				if ( $value === $f )
+					return false;
+
+			return false;
 		}
 
 		/**
