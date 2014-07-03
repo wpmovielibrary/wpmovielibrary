@@ -694,6 +694,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				// Attribute is not null
 				if ( is_null( $attr ) ) {
 					$attributes[ $slug ] = null;
+
+					if ( isset( $default[ $slug ][ 'default' ] ) )
+						$attributes[ $slug ] = $default[ $slug ][ 'default' ];
 				}
 				if ( ! is_null( $attr ) ) {
 

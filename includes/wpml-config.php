@@ -697,14 +697,14 @@ $wpml_shortcodes = array(
 				'values'  => null,
 				'filter'  => 'esc_attr'
 			),
-			'sort' => array(
-				'default' => 'post_date',
-				'values'  => array( 'post_date', 'post_title', 'rating' ),
-				'filter'  => 'esc_attr'
-			),
-			'sort_by' => array(
+			'order' => array(
 				'default' => 'desc',
 				'values'  => array( 'asc', 'desc' ),
+				'filter'  => 'esc_attr'
+			),
+			'orderby' => array(
+				'default' => 'date',
+				'values'  => array( 'date', 'title', 'rating' ),
 				'filter'  => 'esc_attr'
 			),
 			'count' => array(
@@ -713,7 +713,7 @@ $wpml_shortcodes = array(
 				'filter'  => 'intval'
 			),
 			'poster' => array(
-				'default' => "true",
+				'default' => 'true',
 				'values'  => 'boolean',
 				'filter'  => null
 			),
@@ -722,19 +722,9 @@ $wpml_shortcodes = array(
 				'values'  => array( 'small', 'medium', 'large', 'original' ),
 				'filter'  => 'esc_attr'
 			),
-			'date' => array(
-				'default' => "true",
-				'values'  => 'boolean',
-				'filter'  => null
-			),
-			'year' => array(
-				'default' => "true",
-				'values'  => 'boolean',
-				'filter'  => null
-			),
-			'overview' => array(
-				'default' => "true",
-				'values'  => 'boolean',
+			'data' => array(
+				'default' => null,
+				'values'  => null,
 				'filter'  => null
 			)
 		),
@@ -743,7 +733,33 @@ $wpml_shortcodes = array(
 	),
 
 	'movie' => array(
-		'atts'     => array(),
+		'atts'     => array(
+			'id' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'title' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'poster' => array(
+				'default' => 'true',
+				'values'  => 'boolean',
+				'filter'  => null
+			),
+			'size' => array(
+				'default' => 'medium',
+				'values'  => array( 'small', 'medium', 'large', 'original' ),
+				'filter'  => 'esc_attr'
+			),
+			'data' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => null
+			)
+		),
 		'content'  => null,
 		'callback' => null,
 	),

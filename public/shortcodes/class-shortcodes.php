@@ -59,6 +59,8 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				if ( ! is_null( $shortcode['callback'] ) && method_exists( $this, $shortcode['callback'] ) )
 					$callback = array( $this, $shortcode['callback'] );
+				else if ( method_exists( $this, "{$slug}_shortcode" ) )
+					$callback = array( $this, "{$slug}_shortcode" );
 
 				add_shortcode( $slug, $callback );
 			}
@@ -79,9 +81,50 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			return $content;
 		}
 
+		/**
+		 * Movies shortcode. Display a list of movies with various sorting
+		 * and display options.
+		 *
+		 * @since    1.1.0
+		 * 
+		 * @param    array     Shortcode attributes
+		 * @param    string    Shortcode content
+		 * 
+		 * @return   string    Shortcode display
+		 */
 		public function movies_shortcode( $atts = array(), $content = null ) {
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movies', $atts );
+			extract( $atts );
+
+			$query = array(
+				'post_type=movie',
+				'post_status=publish',
+				'posts_per_page=' . $count
+			);
+
+			if ( ! is_null( $order ) )
+				$query[] = 'order=' . $order;
+
+			if ( ! is_null( $orderby ) ) {
+				if ( 'rating' == $orderby ) {
+					$query[] = 'orderby=meta_value_num';
+					$query[] = 'meta_key=_wpml_movie_rating';
+				}
+				else {
+					$query[] = 'orderby=' . $orderby;
+				}
+			}
+
+			if ( ! is_null( $collection ) )
+				$query[] = 'collection=' . $collection;
+			elseif ( ! is_null( $genre ) )
+				$query[] = 'genre=' . $genre;
+			elseif ( ! is_null( $actor ) )
+				$query[] = 'actor=' . $actor;
+
+			$query = implode( '&', $query );
+			$query = new WP_Query( $query );
 
 			return $content;
 		}
