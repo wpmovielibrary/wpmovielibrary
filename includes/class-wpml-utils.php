@@ -488,7 +488,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( is_null( $runtime ) && '' != $runtime )
 				return $runtime;
 
-			$time = date_i18n( get_option( 'time_format' ), mktime( 0, $runtime ) );
+			$time = date_i18n( WPML_Settings::wpml__time_format(), mktime( 0, $runtime ) );
 			if ( false !== stripos( $time, 'am' ) || false !== stripos( $time, 'pm' ) )
 				$time = date_i18n( 'g:i', mktime( 0, $runtime ) );
 
@@ -506,8 +506,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @return   string    Filtered release date
 		 */
 		public static function filter_release_date( $release_date, $date_format = null ) {
+
 			if ( is_null( $date_format ) )
-				$date_format = get_option( 'date_format' );
+				$date_format = WPML_Settings::wpml__date_format();
 
 			return ( ! is_null( $release_date ) && '' != $release_date ? date_i18n( $date_format, strtotime( $release_date ) ) : $release_date );
 		}
