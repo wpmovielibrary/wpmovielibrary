@@ -714,16 +714,16 @@ $wpml_shortcodes = array(
 			),
 			'poster' => array(
 				'default' => 'medium',
-				'values'  => array( 'none', 'small', 'medium', 'large', 'original' ),
+				'values'  => array( 'none', 'thumb', 'thumbnail', 'medium', 'large', 'full' ),
 				'filter'  => 'esc_attr'
 			),
 			'meta' => array(
-				'default' => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview' ),
-				'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview', 'title', 'original_title', 'production', 'country', 'manguages', 'producer', 'photography', 'composer', 'author', 'writer' ),
+				'default' => null,
+				'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'cast', 'overview', 'title', 'original_title', 'production', 'country', 'manguages', 'producer', 'photography', 'composer', 'author', 'writer' ),
 				'filter'  => null
 			),
 			'details' => array(
-				'default' => array( 'media', 'status', 'rating' ),
+				'default' => null,
 				'values'  => array( 'media', 'status', 'rating' ),
 				'filter'  => null
 			)
@@ -746,17 +746,12 @@ $wpml_shortcodes = array(
 			),
 			'poster' => array(
 				'default' => 'medium',
-				'values'  => array( 'none', 'small', 'medium', 'large', 'original' ),
-				'filter'  => 'esc_attr'
-			),
-			'size' => array(
-				'default' => 'medium',
-				'values'  => array( 'small', 'medium', 'large', 'original' ),
+				'values'  => array( 'none', 'thumb', 'thumbnail', 'medium', 'large', 'full' ),
 				'filter'  => 'esc_attr'
 			),
 			'meta' => array(
-				'default' => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview' ),
-				'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview', 'title', 'original_title', 'production', 'country', 'manguages', 'producer', 'photography', 'composer', 'author', 'writer' ),
+				'default' => array( 'director', 'runtime', 'release_date', 'genres', 'cast', 'overview' ),
+				'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'cast', 'overview', 'title', 'original_title', 'production', 'country', 'manguages', 'producer', 'photography', 'composer', 'author', 'writer' ),
 				'filter'  => null
 			),
 			'details' => array(

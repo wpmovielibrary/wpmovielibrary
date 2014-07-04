@@ -253,40 +253,14 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 
 			$html = '<dl class="wpml_movie">';
 
-			foreach ( $fields as $field ) {
+			foreach ( $fields as $key => $field ) {
+				if ( has_filter( "wpml_format_movie_{$field}" ) )
+					$_field = apply_filters( "wpml_format_movie_{$field}", $tmdb_data[ $field ] );
+				else
+					$_field = apply_filters( "wpml_format_movie_field", $tmdb_data[ $field ] );
 
-				switch ( $field ) {
-					case 'genres':
-						$genres = WPML_Settings::taxonomies__enable_genre() ? get_the_term_list( get_the_ID(), 'genre', '', ', ', '' ) : $tmdb_data[ $field ];
-						$genres = ( '' != $genres ? $genres : sprintf( '<em>%s</em>', '&ndash;' ) );
-						$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, $genres );
-						break;
-					case 'cast':
-						$actors = WPML_Settings::taxonomies__enable_actor() ? get_the_term_list( get_the_ID(), 'actor', '', ', ', '' ) : $tmdb_data[ $field ];
-						$actors = ( '' != $actors ? $actors : sprintf( '<em>%s</em>', '&ndash;' ) );
-						$html .= sprintf( $default_format, $field, __( 'Staring', WPML_SLUG ), $field, $actors );
-						break;
-					case 'release_date':
-						$release_date = WPML_Utils::filter_release_date( $tmdb_data[ $field ] );
-						$release_date = ( '' != $release_date ? $release_date : sprintf( '<em>%s</em>', '&ndash;' ) );
-						$html .= sprintf( $default_format, $field, __( $default_fields[ $field ]['title'], WPML_SLUG ), $field, $release_date );
-						break;
-					case 'runtime':
-						$runtime = WPML_Utils::filter_runtime( $tmdb_data[ $field ] );
-						$runtime = ( '' != $runtime ? $runtime : sprintf( '<em>%s</em>', '&ndash;' ) );
-						$html .= sprintf( $default_format, $field, __( $default_fields[ $field ]['title'], WPML_SLUG ), $field, $runtime );
-						break;
-					case 'director':
-						$term = WPML_Settings::taxonomies__enable_collection() ? get_term_by( 'name', $tmdb_data[ $field ], 'collection' ) : $tmdb_data[ $field ];
-						$collection = ( $term && ! is_wp_error( $link = get_term_link( $term, 'collection' ) ) ) ? '<a href="' . $link . '">' . $tmdb_data[ $field ] . '</a>' : $tmdb_data[ $field ];
-						$collection = ( '' != $collection ? $collection : sprintf( '<em>%s</em>', '&ndash;' ) );
-						$html .= sprintf( $default_format, $field, __( 'Directed by', WPML_SLUG ), $field, $collection );
-						break;
-					default:
-						if ( in_array( $field, $fields ) && isset( $tmdb_data[ $field ] ) && '' != $tmdb_data[ $field ] )
-							$html .= sprintf( $default_format, $field, __( $default_fields[ $field ]['title'], WPML_SLUG ), $field, $tmdb_data[ $field ] );
-						break;
-				}
+				$fields[ $key ] = $_field;
+				$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, $_field );
 			}
 
 			$html .= '</dl>';
