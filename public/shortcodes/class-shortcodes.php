@@ -129,29 +129,41 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			$movies = array();
 
 			if ( $query->have_posts() ) {
+				while ( $query->have_posts() ) {
 
-				foreach ( $query->posts as $i => $post ) {
+					$query->the_post();
 
-					$movies[ $i ] = array(
+					$movies[ $query->current_post ] = array(
 						'id'    => get_the_ID(),
 						'title' => get_the_title(),
 						'url'   => get_permalink()
 					);
 
-					if ( ! is_null( $poster ) && has_post_thumbnail() )
-						$movies[ $i ]['poster'] = get_the_post_thumbnail( get_the_ID(), $poster );
+					if ( ! is_null( $poster ) && has_post_thumbnail( get_the_ID() ) )
+						$movies[ $query->current_post ]['poster'] = get_the_post_thumbnail( get_the_ID(), $poster );
 
 					if ( ! is_null( $meta ) ) {
-						
+
+						$_meta = WPML_Utils::get_movie_data( get_the_ID() );
+						$_meta = WPML_Utils::filter_undimension_array( $_meta );
+
+						foreach ( $_meta as $slug => $m )
+							if ( ! in_array( $slug, $meta ) )
+								unset( $_meta[ $slug ] );
+
+						$movies[ $query->current_post ]['meta'] = $_meta;
 					}
 
 					if ( ! is_null( $details ) ) {
-						
+						if ( in_array( 'media', $details ) )
+							$movies[ $query->current_post ]['details']['media'] = WPML_Utils::get_movie_media( get_the_ID() );
+						if ( in_array( 'status', $details ) )
+							$movies[ $query->current_post ]['details']['status'] = WPML_Utils::get_movie_status( get_the_ID() );
+						if ( in_array( 'rating', $details ) )
+							$movies[ $query->current_post ]['details']['rating'] = WPML_Utils::get_movie_rating( get_the_ID() );
 					}
 				}
 			}
-
-			
 
 			include( plugin_dir_path( __FILE__ ) . '/views/movies.php' );
 

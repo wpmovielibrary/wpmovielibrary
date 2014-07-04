@@ -1,23 +1,26 @@
 <div class="wpml_shortcodes wpml_movies">
 <?php
-if ( $query->have_posts() ) :
-	while ( $query->have_posts() ) :
-		$query->the_post();
+if ( ! empty( $movies ) ) :
+	foreach ( $movies as $movie ) :
 ?>
 	<div class="wpml_movie">
 		<div class="wpml_movie_poster">
-			
+			<?php echo $movie['poster']; ?>
 		</div>
 
-		<h4><?php the_title(); ?></h4>
+		<h4><?php echo $movie['title']; ?></h4>
 
-		<div class="wpml_movie_meta"></div>
+		<div class="wpml_movie_meta">
+			<?php echo $movie['meta']; ?>
+		</div>
 
-		<div class="wpml_movie_details"></div>
+		<div class="wpml_movie_details">
+			<?php echo $movie['details']; ?>
+		</div>
 	</div>
 
 <?php
-	endwhile;
+	endforeach;
 endif;
 ?>
 </div>
