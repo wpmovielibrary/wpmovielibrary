@@ -42,6 +42,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			add_filter( 'wpml_filter_meta_data', __CLASS__ . '::filter_meta_data', 10, 1 );
 			add_filter( 'wpml_filter_crew_data', __CLASS__ . '::filter_crew_data', 10, 1 );
 			add_filter( 'wpml_filter_cast_data', __CLASS__ . '::filter_cast_data', 10, 1 );
+			add_filter( 'wpml_filter_slug_aliases', __CLASS__ . '::filter_slug_aliases', 10, 1 );
 
 			add_filter( 'wpml_format_movie_genres', __CLASS__ . '::format_movie_genres', 10, 2 );
 			add_filter( 'wpml_format_movie_actors', __CLASS__ . '::format_movie_actors', 10, 2 );
@@ -616,6 +617,26 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$data[ $i ] = $d['name'];
 
 			return $data;
+		}
+
+		/**
+		 * Filter a Movie's Metadata slug to handle aliases.
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $slug Metadata slug
+		 * 
+		 * @return   string    Filtered slug
+		 */
+		public static function filter_slug_aliases( $slug ) {
+
+			$aliases = WPML_Settings::get_supported_shortcodes_aliases();
+			$_slug = str_replace( 'movie_', '', $slug );
+
+			if ( isset( $aliases[ $_slug ] ) )
+				$slug = $aliases[ $_slug ];
+
+			return $slug;
 		}
 
 		/**

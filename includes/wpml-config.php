@@ -719,7 +719,7 @@ $wpml_shortcodes = array(
 			),
 			'meta' => array(
 				'default' => null,
-				'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'cast', 'overview', 'title', 'original_title', 'production', 'country', 'manguages', 'producer', 'photography', 'composer', 'author', 'writer' ),
+				'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview', 'title', 'original_title', 'production', 'country', 'language', 'producer', 'photography', 'composer', 'author', 'writer' ),
 				'filter'  => null
 			),
 			'details' => array(
@@ -751,8 +751,8 @@ $wpml_shortcodes = array(
 				'filter'  => 'esc_attr'
 			),
 			'meta' => array(
-				'default' => array( 'director', 'runtime', 'release_date', 'genres', 'cast', 'overview' ),
-				'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'cast', 'overview', 'title', 'original_title', 'production', 'country', 'manguages', 'producer', 'photography', 'composer', 'author', 'writer' ),
+				'default' => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview' ),
+				'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview', 'title', 'original_title', 'production', 'country', 'language', 'producer', 'photography', 'composer', 'author', 'writer' ),
 				'filter'  => null
 			),
 			'details' => array(
@@ -780,7 +780,7 @@ $wpml_shortcodes = array(
 			),
 			'key' => array(
 				'default' => null,
-				'values'  => array( 'title', 'director', 'original_title', 'release_date', 'runtime', 'overview', 'producer', 'language', 'country', 'production_country', 'photography', 'writer', 'author', 'composer' ),
+				'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview', 'title', 'original_title', 'production', 'country', 'language', 'producer', 'photography', 'composer', 'author', 'writer' ),
 				'filter'  => 'esc_attr'
 			),
 			'label' => array(
@@ -792,20 +792,22 @@ $wpml_shortcodes = array(
 		'content'  => null,
 		'callback' => 'movie_meta_shortcode',
 		'aliases' => array(
-			'movie_title'/* => array( 'key' => '' )*/,
-			'movie_director'/* => array( 'key' => '' )*/,
-			'movie_original_title',
-			'movie_release_date',
+			'movie_director',
 			'movie_runtime',
+			'movie_release_date',
+			'movie_genres',
+			'movie_actors',
 			'movie_overview',
+			'movie_title',
+			'movie_original_title',
+			'movie_production',
+			'movie_country',
+			'movie_language',
 			'movie_producer',
-			'movie_spoken_languages',
-			'movie_production_companies',
-			'movie_production_countries',
 			'movie_photography',
-			'movie_writer',
+			'movie_composer',
 			'movie_author',
-			'movie_composer'
+			'movie_writer'
 		)
 	),
 
@@ -863,4 +865,16 @@ $wpml_shortcodes = array(
 			'movie_rating'
 		)
 	),
+);
+
+$wpml_shortcodes_aliases = array(
+
+	'country'    => 'production_countries',
+	'production' => 'production_companies',
+	'lang'       => 'spoken_languages',
+	'language'   => 'spoken_languages',
+	'languages'  => 'spoken_languages',
+	'actors'     => 'cast',
+	'resume'     => 'overview',
+	'date'       => 'release_date'
 );

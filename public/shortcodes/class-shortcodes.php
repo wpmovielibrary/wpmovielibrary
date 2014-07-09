@@ -162,6 +162,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 						$_meta = WPML_Utils::filter_undimension_array( $_meta );
 
 						foreach ( $_meta as $slug => $m ) {
+
 							if ( ! in_array( $slug, $meta ) ) {
 								unset( $_meta[ $slug ] );
 							}
@@ -321,8 +322,10 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		public function movie_meta_shortcode( $atts = array(), $content = null, $tag = null ) {
 
 			// Is this an alias?
-			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ )
+			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ ) {
+				$tag = apply_filters( 'wpml_filter_slug_aliases', $tag );
 				$atts['key'] = str_replace( 'movie_', '', $tag );
+			}
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_meta', $atts );
 			extract( $atts );

@@ -486,6 +486,20 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		}
 
 		/**
+		 * Return all supported Shortcodes aliases
+		 *
+		 * @since    1.1.0
+		 *
+		 * @return   array    WPML Supported Shortcodes aliases.
+		 */
+		public static function get_supported_shortcodes_aliases() {
+
+			global $wpml_shortcodes_aliases;
+
+			return $wpml_shortcodes_aliases;
+		}
+
+		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
 		 * @since    1.0.0
