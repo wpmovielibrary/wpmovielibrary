@@ -642,9 +642,14 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Format a Movie's genres for display
 		 * 
+		 * Match each genre against the genre taxonomy to detect missing
+		 * terms. If term genre exists, provide a link, raw text value
+		 * if no matching term could be found.
+		 * 
 		 * @since    1.1.0
 		 * 
 		 * @param    string    $data field value
+		 * @param    int       $post_id Movie's post ID if needed (required for shortcodes)
 		 * 
 		 * @return   string    Formatted output
 		 */
@@ -652,8 +657,19 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			$post_id = is_null( $post_id ) ? get_the_ID() : intval( $post_id );
 
-			$output = WPML_Settings::taxonomies__enable_genre() ? get_the_term_list( $post_id, 'genre', '', ', ', '' ) : $data;
-			$output  = ( '' != $output ? $output : sprintf( '<em>%s</em>', '&ndash;' ) );
+			if ( '' == $data )
+				return '<em>&ndash;</em>';
+
+			if ( ! WPML_Settings::taxonomies__enable_genre() )
+				return $data;
+
+			$_genres = array();
+			$genres = get_the_terms( $post_id, 'genre' );
+			if ( is_wp_error( $genres ) )
+				return $data;
+
+			$output = self::format_movie_terms_list( $data, $genres, 'genre' );
+			$output  = ( '' != $output ? $output : $data );
 
 			return $output;
 		}
@@ -665,6 +681,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @since    1.1.0
 		 * 
 		 * @param    string    $data field value
+		 * @param    int       $post_id Movie's post ID if needed (required for shortcodes)
 		 * 
 		 * @return   string    Formatted output
 		 */
@@ -676,9 +693,14 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Format a Movie's casting for display
 		 * 
+		 * Match each actor against the actor taxonomy to detect missing
+		 * terms. If term actor exists, provide a link, raw text value
+		 * if no matching term could be found.
+		 * 
 		 * @since    1.1.0
 		 * 
 		 * @param    string    $data field value
+		 * @param    int       $post_id Movie's post ID if needed (required for shortcodes)
 		 * 
 		 * @return   string    Formatted output
 		 */
@@ -686,8 +708,18 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			$post_id = is_null( $post_id ) ? get_the_ID() : intval( $post_id );
 
-			$output = WPML_Settings::taxonomies__enable_actor() ? get_the_term_list( $post_id, 'actor', '', ', ', '' ) : $data;
-			$output = ( '' != $output ? $output : sprintf( '<em>%s</em>', '&ndash;' ) );
+			if ( '' == $data )
+				return '<em>&ndash;</em>';
+
+			if ( ! WPML_Settings::taxonomies__enable_actor() )
+				return $data;
+
+			$actors = get_the_terms( $post_id, 'actor' );
+			if ( is_wp_error( $actors ) )
+				return $data;
+
+			$output = self::format_movie_terms_list( $data, $actors, 'actor' );
+			$output  = ( '' != $output ? $output : $data );
 
 			return $output;
 		}
@@ -704,7 +736,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		public static function format_movie_release_date( $data ) {
 
 			$output = WPML_Utils::filter_release_date( $data );
-			$output = ( '' != $output ? $output : sprintf( '<em>%s</em>', '&ndash;' ) );
+			$output = ( '' != $output ? $output : '<em>&ndash;</em>' );
 
 			return $output;
 		}
@@ -721,7 +753,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		public static function format_movie_runtime( $data ) {
 
 			$output = WPML_Utils::filter_runtime( $data );
-			$output = ( '' != $output ? $output : sprintf( '<em>%s</em>', '&ndash;' ) );
+			$output = ( '' != $output ? $output : '<em>&ndash;</em>' );
 
 			return $output;
 		}
@@ -754,7 +786,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$output[ $i ] = $o;
 			}
 
-			$output = ( ! empty( $output ) ? implode( ', ', $output ) : sprintf( '<em>%s</em>', '&ndash;' ) );
+			$output = ( ! empty( $output ) ? implode( ', ', $output ) : '<em>&ndash;</em>' );
 
 			return $output;
 		}
@@ -771,6 +803,45 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		public static function format_movie_field( $data ) {
 
 			return $data;
+		}
+
+		/**
+		 * Format a Movie's misc actors/genres list depending on
+		 * existing terms.
+		 * 
+		 * This is used to provide links for actors and genres lists
+		 * by using the metadata lists instead of taxonomies. But since
+		 * actors and genres can be added to the metadata and not terms,
+		 * we rely on metadata to show a correct list.
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data field value
+		 * @param    array     $terms term list to match against
+		 * @param    string    $taxonomy taxonomy we're dealing with
+		 * 
+		 * @return   string    Formatted output
+		 */
+		private static function format_movie_terms_list( $data, $terms, $taxonomy ) {
+
+			$_terms = array();
+			foreach ( $terms as $i => $term )
+				$_terms[ $i ] = $term->name;
+
+			$_data = explode( ',', $data );
+			foreach ( $_data as $key => $value ) {
+				$value = trim( $value );
+				if ( in_array( $value, $_terms ) ) {
+					$term = $terms[ array_search( $value, $_terms ) ];
+					$_data[ $key ] = sprintf( '<a href="%s">%s</a>', get_term_link( $term, $taxonomy ), $term->name );
+				}
+				else
+					$_data[ $key ] = $value;
+			}
+
+			$output = implode( ', ', $_data );
+
+			return $output;
 		}
 
 		/**
