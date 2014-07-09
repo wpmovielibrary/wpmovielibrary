@@ -619,7 +619,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
-		 * Format a Movie's  for display
+		 * Format a Movie's genres for display
 		 * 
 		 * @since    1.1.0
 		 * 
@@ -635,11 +635,30 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			return $output;
 		}
 
+		/**
+		 * Format a Movie's casting for display
+		 * This is an alias for self::format_movie_cast()
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
 		public static function format_movie_actors( $data ) {
 
 			return self::format_movie_cast( $data );
 		}
 
+		/**
+		 * Format a Movie's casting for display
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
 		public static function format_movie_cast( $data ) {
 
 			$output = WPML_Settings::taxonomies__enable_actor() ? get_the_term_list( get_the_ID(), 'actor', '', ', ', '' ) : $data;
@@ -648,6 +667,15 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			return $output;
 		}
 
+		/**
+		 * Format a Movie's release date for display
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
 		public static function format_movie_release_date( $data ) {
 
 			$output = WPML_Utils::filter_release_date( $data );
@@ -656,6 +684,15 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			return $output;
 		}
 
+		/**
+		 * Format a Movie's runtime for display
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
 		public static function format_movie_runtime( $data ) {
 
 			$output = WPML_Utils::filter_runtime( $data );
@@ -664,6 +701,15 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			return $output;
 		}
 
+		/**
+		 * Format a Movie's director for display
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
 		public static function format_movie_director( $data ) {
 
 			$has_collections = WPML_Settings::taxonomies__enable_collection();
@@ -688,6 +734,15 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			return $output;
 		}
 
+		/**
+		 * Format a Movie's misc field for display
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
 		public static function format_movie_field( $data ) {
 
 			return $data;
