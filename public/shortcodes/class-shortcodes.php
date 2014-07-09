@@ -274,8 +274,8 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		}
 
 		/**
-		 * Movie Meta shortcode. Display a single movie with various display
-		 * options. This shortcode supports aliases.
+		 * Movie Meta shortcode. Display various movie metas with or 
+		 * without label. This shortcode supports aliases.
 		 *
 		 * @since    1.1.0
 		 * 
@@ -319,6 +319,38 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				$meta = '<span class="wpml_shortcode_span wpml_movie_' . $key . '">' . $meta . '</span>';
 
 			return $meta;
+		}
+
+		/**
+		 * Movie Poster shortcode.
+		 *
+		 * @since    1.1.0
+		 * 
+		 * @param    array     Shortcode attributes
+		 * @param    string    Shortcode content
+		 * 
+		 * @return   string    Shortcode display
+		 */
+		public function movie_poster_shortcode( $atts = array(), $content = null ) {
+
+			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_poster', $atts );
+			extract( $atts );
+
+			if ( ! is_null( $id ) )
+				$movie_id = $id;
+			else if ( ! is_null( $title ) ) {
+				$movie_id = get_page_by_title( $title, OBJECT, 'movie' );
+				if ( ! is_null( $movie_id ) )
+					$movie_id = $movie_id->ID;
+			}
+
+			if ( ! has_post_thumbnail( $movie_id ) )
+				return $content;
+
+			$thumbnail = get_the_post_thumbnail( $movie_id, $size );
+			$thumbnail = '<div class="wpml_shortcode_div wpml_movie_poster wpml_movie_poster_' . $size . '">' . $thumbnail . '</div>';
+
+			return $thumbnail;
 		}
 
 		/**

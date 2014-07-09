@@ -730,7 +730,7 @@ $wpml_shortcodes = array(
 		),
 		'content'  => null,
 		'callback' => 'movies_shortcode',
-		'aliases'  => null,
+		'aliases'  => null
 	),
 
 	'movie' => array(
@@ -763,7 +763,7 @@ $wpml_shortcodes = array(
 		),
 		'content'  => null,
 		'callback' => 'movie_shortcode',
-		'aliases'  => null,
+		'aliases'  => null
 	),
 
 	'movie_meta' => array(
@@ -805,6 +805,30 @@ $wpml_shortcodes = array(
 			'movie_photography',
 			'movie_writer',
 			'movie_author',
-			'movie_composer' ),
+			'movie_composer'
+		)
+	),
+
+	'movie_poster' => array(
+		'atts'     => array(
+			'id' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'title' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'size' => array(
+				'default' => 'medium',
+				'values'  => array( 'none', 'thumb', 'thumbnail', 'medium', 'large', 'full' ),
+				'filter'  => 'esc_attr'
+			),
+		),
+		'content'  => null,
+		'callback' => 'movie_poster_shortcode',
+		'aliases'  => null
 	),
 );
