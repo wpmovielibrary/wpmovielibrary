@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary 1.0.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wpmovielibrary\n"
-"POT-Creation-Date: 2014-07-03 01:15:29+00:00\n"
+"POT-Creation-Date: 2014-07-09 16:00:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -104,7 +104,7 @@ msgstr ""
 
 #: admin/class-wpmovielibrary-admin.php:217
 #: admin/dashboard/class-dashboard-stats-widget.php:125
-#: includes/class-wpml-utils.php:1200
+#: includes/class-wpml-utils.php:1450
 msgid "%d movie"
 msgid_plural "%d movies"
 msgstr[0] ""
@@ -658,6 +658,7 @@ msgstr ""
 
 #: admin/dashboard/class-dashboard.php:192
 #: admin/import/class-wpml-import-table.php:447
+#: admin/import/views/import.php:51
 msgid "Apply"
 msgstr ""
 
@@ -1404,75 +1405,75 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: includes/class-wpml-utils.php:89 public/movies/class-wpml-movies.php:328
+#: includes/class-wpml-utils.php:100 public/movies/class-wpml-movies.php:302
 msgid "unavailable"
 msgstr ""
 
-#: includes/class-wpml-utils.php:90 public/movies/class-wpml-movies.php:330
+#: includes/class-wpml-utils.php:101 public/movies/class-wpml-movies.php:304
 msgid "available"
 msgstr ""
 
-#: includes/class-wpml-utils.php:91 public/movies/class-wpml-movies.php:332
+#: includes/class-wpml-utils.php:102 public/movies/class-wpml-movies.php:306
 msgid "loaned"
 msgstr ""
 
-#: includes/class-wpml-utils.php:92 public/movies/class-wpml-movies.php:334
+#: includes/class-wpml-utils.php:103 public/movies/class-wpml-movies.php:308
 msgid "scheduled"
 msgstr ""
 
-#: includes/class-wpml-utils.php:93 public/movies/class-wpml-movies.php:315
+#: includes/class-wpml-utils.php:104 public/movies/class-wpml-movies.php:289
 msgid "bluray"
 msgstr ""
 
-#: includes/class-wpml-utils.php:94 public/movies/class-wpml-movies.php:317
+#: includes/class-wpml-utils.php:105 public/movies/class-wpml-movies.php:291
 msgid "cinema"
 msgstr ""
 
-#: includes/class-wpml-utils.php:95 public/movies/class-wpml-movies.php:319
+#: includes/class-wpml-utils.php:106 public/movies/class-wpml-movies.php:293
 msgid "other"
 msgstr ""
 
-#: includes/class-wpml-utils.php:799
+#: includes/class-wpml-utils.php:1049
 msgid "Invalid taxonomy"
 msgstr ""
 
-#: includes/class-wpml-utils.php:919 includes/class-wpml-utils.php:942
+#: includes/class-wpml-utils.php:1169 includes/class-wpml-utils.php:1192
 msgid "Are you sure you want to do this?"
 msgstr ""
 
-#: includes/class-wpml-utils.php:1030
+#: includes/class-wpml-utils.php:1280
 msgid ""
 "An error occured when trying to perform the request: invalid callback or "
 "data."
 msgstr ""
 
-#: includes/class-wpml-utils.php:1052
+#: includes/class-wpml-utils.php:1302
 msgid "An error occured when trying to perform the request."
 msgstr ""
 
-#: includes/class-wpml-utils.php:1074
+#: includes/class-wpml-utils.php:1324
 msgid "An error occured when trying to delete transients: %s"
 msgstr ""
 
-#: includes/class-wpml-utils.php:1076
+#: includes/class-wpml-utils.php:1326
 msgid "No transient found."
 msgstr ""
 
-#: includes/class-wpml-utils.php:1078
+#: includes/class-wpml-utils.php:1328
 msgid "1 transient deleted"
 msgid_plural "%s transients deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-wpml-utils.php:1173
+#: includes/class-wpml-utils.php:1423
 msgid "View all movies from collection &laquo; %s &raquo;"
 msgstr ""
 
-#: includes/class-wpml-utils.php:1177
+#: includes/class-wpml-utils.php:1427
 msgid "View all &laquo; %s &raquo; movies"
 msgstr ""
 
-#: includes/class-wpml-utils.php:1181
+#: includes/class-wpml-utils.php:1431
 msgid "View all movies staring &laquo; %s &raquo;"
 msgstr ""
 
@@ -2084,7 +2085,7 @@ msgstr ""
 msgid "Nothing to display for \"Actor\" taxonomy."
 msgstr ""
 
-#: public/class-wpmovielibrary.php:238 public/class-wpmovielibrary.php:241
+#: public/class-wpmovielibrary.php:239 public/class-wpmovielibrary.php:242
 #: public/movies/class-wpml-movies.php:62
 msgid "New Movie"
 msgstr ""
@@ -2224,14 +2225,6 @@ msgid "Queued Movie <span class=\"count\">(%s)</span>"
 msgid_plural "Queued Movies <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
-
-#: public/movies/class-wpml-movies.php:267
-msgid "Staring"
-msgstr ""
-
-#: public/movies/class-wpml-movies.php:283
-msgid "Directed by"
-msgstr ""
 
 #: public/movies/views/media-widget.php:35
 msgid "Select a media"

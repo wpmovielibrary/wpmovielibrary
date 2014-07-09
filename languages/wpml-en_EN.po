@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary v1.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wpmovielibrary\n"
-"POT-Creation-Date: 2014-07-03 01:15:29+00:00\n"
-"PO-Revision-Date: 2014-07-03 03:16+0100\n"
+"POT-Creation-Date: 2014-07-09 16:00:12+00:00\n"
+"PO-Revision-Date: 2014-07-09 18:01+0100\n"
 "Last-Translator: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language-Team: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language: English\n"
@@ -123,7 +123,7 @@ msgstr ""
 
 #: admin/class-wpmovielibrary-admin.php:217
 #: admin/dashboard/class-dashboard-stats-widget.php:125
-#: includes/class-wpml-utils.php:1200
+#: includes/class-wpml-utils.php:1450
 msgid "%d movie"
 msgid_plural "%d movies"
 msgstr[0] "%d movie"
@@ -703,6 +703,7 @@ msgstr "Most Rated Movies"
 
 #: admin/dashboard/class-dashboard.php:192
 #: admin/import/class-wpml-import-table.php:447
+#: admin/import/views/import.php:51
 msgid "Apply"
 msgstr "Apply"
 
@@ -1475,43 +1476,43 @@ msgstr "Empty cache"
 msgid "Save Changes"
 msgstr "Save Changes"
 
-#: includes/class-wpml-utils.php:89 public/movies/class-wpml-movies.php:328
+#: includes/class-wpml-utils.php:100 public/movies/class-wpml-movies.php:302
 msgid "unavailable"
 msgstr "unavailable"
 
-#: includes/class-wpml-utils.php:90 public/movies/class-wpml-movies.php:330
+#: includes/class-wpml-utils.php:101 public/movies/class-wpml-movies.php:304
 msgid "available"
 msgstr "available"
 
-#: includes/class-wpml-utils.php:91 public/movies/class-wpml-movies.php:332
+#: includes/class-wpml-utils.php:102 public/movies/class-wpml-movies.php:306
 msgid "loaned"
 msgstr "loaned"
 
-#: includes/class-wpml-utils.php:92 public/movies/class-wpml-movies.php:334
+#: includes/class-wpml-utils.php:103 public/movies/class-wpml-movies.php:308
 msgid "scheduled"
 msgstr "scheduled"
 
-#: includes/class-wpml-utils.php:93 public/movies/class-wpml-movies.php:315
+#: includes/class-wpml-utils.php:104 public/movies/class-wpml-movies.php:289
 msgid "bluray"
 msgstr "bluray"
 
-#: includes/class-wpml-utils.php:94 public/movies/class-wpml-movies.php:317
+#: includes/class-wpml-utils.php:105 public/movies/class-wpml-movies.php:291
 msgid "cinema"
 msgstr "cinema"
 
-#: includes/class-wpml-utils.php:95 public/movies/class-wpml-movies.php:319
+#: includes/class-wpml-utils.php:106 public/movies/class-wpml-movies.php:293
 msgid "other"
 msgstr "other"
 
-#: includes/class-wpml-utils.php:799
+#: includes/class-wpml-utils.php:1049
 msgid "Invalid taxonomy"
 msgstr "Invalid taxonomy"
 
-#: includes/class-wpml-utils.php:919 includes/class-wpml-utils.php:942
+#: includes/class-wpml-utils.php:1169 includes/class-wpml-utils.php:1192
 msgid "Are you sure you want to do this?"
 msgstr "Are you sure you want to do this?"
 
-#: includes/class-wpml-utils.php:1030
+#: includes/class-wpml-utils.php:1280
 msgid ""
 "An error occured when trying to perform the request: invalid callback or "
 "data."
@@ -1519,33 +1520,33 @@ msgstr ""
 "An error occured when trying to perform the request: invalid callback or "
 "data."
 
-#: includes/class-wpml-utils.php:1052
+#: includes/class-wpml-utils.php:1302
 msgid "An error occured when trying to perform the request."
 msgstr "An error occured when trying to perform the request."
 
-#: includes/class-wpml-utils.php:1074
+#: includes/class-wpml-utils.php:1324
 msgid "An error occured when trying to delete transients: %s"
 msgstr "An error occured when trying to delete transients: %s"
 
-#: includes/class-wpml-utils.php:1076
+#: includes/class-wpml-utils.php:1326
 msgid "No transient found."
 msgstr "No transient found."
 
-#: includes/class-wpml-utils.php:1078
+#: includes/class-wpml-utils.php:1328
 msgid "1 transient deleted"
 msgid_plural "%s transients deleted."
 msgstr[0] "1 transient deleted"
 msgstr[1] "%s transients deleted."
 
-#: includes/class-wpml-utils.php:1173
+#: includes/class-wpml-utils.php:1423
 msgid "View all movies from collection &laquo; %s &raquo;"
 msgstr "View all movies from collection &laquo; %s &raquo;"
 
-#: includes/class-wpml-utils.php:1177
+#: includes/class-wpml-utils.php:1427
 msgid "View all &laquo; %s &raquo; movies"
 msgstr "View all &laquo; %s &raquo; movies"
 
-#: includes/class-wpml-utils.php:1181
+#: includes/class-wpml-utils.php:1431
 msgid "View all movies staring &laquo; %s &raquo;"
 msgstr "View all movies staring &laquo; %s &raquo;"
 
@@ -2233,7 +2234,7 @@ msgstr "Select an Actor"
 msgid "Nothing to display for \"Actor\" taxonomy."
 msgstr "Nothing to display for \"Actor\" taxonomy."
 
-#: public/class-wpmovielibrary.php:238 public/class-wpmovielibrary.php:241
+#: public/class-wpmovielibrary.php:239 public/class-wpmovielibrary.php:242
 #: public/movies/class-wpml-movies.php:62
 msgid "New Movie"
 msgstr "New Movie"
@@ -2374,14 +2375,6 @@ msgid_plural "Queued Movies <span class=\"count\">(%s)</span>"
 msgstr[0] "Queued Movie <span class=\"count\">(%s)</span>"
 msgstr[1] "Queued Movies <span class=\"count\">(%s)</span>"
 
-#: public/movies/class-wpml-movies.php:267
-msgid "Staring"
-msgstr "Staring"
-
-#: public/movies/class-wpml-movies.php:283
-msgid "Directed by"
-msgstr "Directed by"
-
 #: public/movies/views/media-widget.php:35
 msgid "Select a media"
 msgstr "Select a media"
@@ -2447,6 +2440,12 @@ msgstr "Charlie MERLAND"
 #. Author URI of the plugin/theme
 msgid "http://www.caercam.org/"
 msgstr "http://www.caercam.org/"
+
+#~ msgid "Staring"
+#~ msgstr "Staring"
+
+#~ msgid "Directed by"
+#~ msgstr "Directed by"
 
 #~ msgid "One movie"
 #~ msgstr "One movie"
