@@ -157,6 +157,18 @@
 	margin-left: 8px;
 }
 
+/** Shortcodes **/
+
+.wpml_shortcode_span.wpml_shortcode_span_title {
+	display: block;
+	font-weight: bold;
+}
+
+.wpml_shortcode_span.wpml_shortcode_span_value {
+	display: block;
+	margin-left: 0.5em;
+}
+
 /** Movie Rating **/
 
 .movie_rating_display {

@@ -122,6 +122,7 @@ if ( wpml_requirements_met() ) {
 	require_once( WPML_PATH . 'public/genres/class-genres-widget.php' );
 	require_once( WPML_PATH . 'public/actors/class-actors-widget.php' );
 	require_once( WPML_PATH . 'public/statistics/class-statistics-widget.php' );
+	require_once( WPML_PATH . 'public/shortcodes/class-shortcodes.php' );
 
 	/*
 	 * Register hooks that are fired when the plugin is activated or deactivated.

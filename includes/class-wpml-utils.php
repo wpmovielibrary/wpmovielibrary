@@ -42,9 +42,20 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			add_filter( 'wpml_filter_meta_data', __CLASS__ . '::filter_meta_data', 10, 1 );
 			add_filter( 'wpml_filter_crew_data', __CLASS__ . '::filter_crew_data', 10, 1 );
 			add_filter( 'wpml_filter_cast_data', __CLASS__ . '::filter_cast_data', 10, 1 );
+
+			add_filter( 'wpml_format_movie_genres', __CLASS__ . '::format_movie_genres', 10, 2 );
+			add_filter( 'wpml_format_movie_actors', __CLASS__ . '::format_movie_actors', 10, 2 );
+			add_filter( 'wpml_format_movie_cast', __CLASS__ . '::format_movie_cast', 10, 2 );
+			add_filter( 'wpml_format_movie_release_date', __CLASS__ . '::format_movie_release_date', 10, 2 );
+			add_filter( 'wpml_format_movie_runtime', __CLASS__ . '::format_movie_runtime', 10, 2 );
+			add_filter( 'wpml_format_movie_director', __CLASS__ . '::format_movie_director', 10, 2 );
+			add_filter( 'wpml_format_movie_field', __CLASS__ . '::format_movie_field', 10, 2 );
+
 			add_filter( 'wpml_filter_filter_runtime', __CLASS__ . '::filter_runtime', 10, 1 );
 			add_filter( 'wpml_filter_filter_release_date', __CLASS__ . '::filter_release_date', 10, 2 );
 			add_filter( 'wpml_validate_meta_data', __CLASS__ . '::validate_meta_data', 10, 1 );
+			add_filter( 'wpml_filter_shortcode_atts', __CLASS__ . '::filter_shortcode_atts', 10, 2 );
+			add_filter( 'wpml_is_boolean', __CLASS__ . '::is_boolean', 10, 1 );
 
 			add_filter( 'wpml_stringify_array', __CLASS__ . '::stringify_array', 10, 3 );
 			add_filter( 'wpml_filter_empty_array', __CLASS__ . '::filter_empty_array', 10, 1 );
@@ -608,6 +619,136 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
+		 * Format a Movie's genres for display
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_genres( $data ) {
+
+			$output = WPML_Settings::taxonomies__enable_genre() ? get_the_term_list( get_the_ID(), 'genre', '', ', ', '' ) : $data;
+			$output  = ( '' != $output ? $output : sprintf( '<em>%s</em>', '&ndash;' ) );
+
+			return $output;
+		}
+
+		/**
+		 * Format a Movie's casting for display
+		 * This is an alias for self::format_movie_cast()
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_actors( $data ) {
+
+			return self::format_movie_cast( $data );
+		}
+
+		/**
+		 * Format a Movie's casting for display
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_cast( $data ) {
+
+			$output = WPML_Settings::taxonomies__enable_actor() ? get_the_term_list( get_the_ID(), 'actor', '', ', ', '' ) : $data;
+			$output = ( '' != $output ? $output : sprintf( '<em>%s</em>', '&ndash;' ) );
+
+			return $output;
+		}
+
+		/**
+		 * Format a Movie's release date for display
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_release_date( $data ) {
+
+			$output = WPML_Utils::filter_release_date( $data );
+			$output = ( '' != $output ? $output : sprintf( '<em>%s</em>', '&ndash;' ) );
+
+			return $output;
+		}
+
+		/**
+		 * Format a Movie's runtime for display
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_runtime( $data ) {
+
+			$output = WPML_Utils::filter_runtime( $data );
+			$output = ( '' != $output ? $output : sprintf( '<em>%s</em>', '&ndash;' ) );
+
+			return $output;
+		}
+
+		/**
+		 * Format a Movie's director for display
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_director( $data ) {
+
+			$has_collections = WPML_Settings::taxonomies__enable_collection();
+
+			// Could be more than one director
+			$output = explode( ',', $data );
+
+			foreach ( $output as $i => $o ) {
+
+				$o = trim( $o );
+				$o = $has_collections ? get_term_by( 'name', $o, 'collection' ) : $o;
+
+				if ( is_object( $o ) && '' != $o->name ) {
+					$link = get_term_link( $o, 'collection' );
+					$o = ( ! is_wp_error( $link ) ? '<a href="' . $link . '">' . $o->name . '</a>' : $o );
+				}
+				$output[ $i ] = $o;
+			}
+
+			$output = ( ! empty( $output ) ? implode( ', ', $output ) : sprintf( '<em>%s</em>', '&ndash;' ) );
+
+			return $output;
+		}
+
+		/**
+		 * Format a Movie's misc field for display
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_field( $data ) {
+
+			return $data;
+		}
+
+		/**
 		 * Filter the Movie Metadata submitted when saving a post to
 		 * avoid storing unexpected data to the database.
 		 * 
@@ -659,6 +800,115 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			);
 
 			return $_data;
+		}
+
+		/**
+		 * Filter an array of Shortcode attributes.
+		 * 
+		 * Shortcodes have limited attributes and possibly limited values
+		 * for some attributes. This method matches each submitted attr
+		 * to its limited values if available, and apply a filter to the
+		 * value before returning the array.
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $shortcode Shortcode's ID
+		 * @param    array     $atts Attributes to filter
+		 * 
+		 * @return   array    Filtered Attributes
+		 */
+		public static function filter_shortcode_atts( $shortcode, $atts = array() ) {
+
+			if ( ! is_array( $atts ) || empty( $atts ) )
+				return $atts;
+
+			$defaults = WPML_Settings::get_available_shortcodes();
+			$defaults = $defaults[ $shortcode ][ 'atts' ];
+
+			$attributes = array();
+
+			// Loop through the Shortcode's attributes
+			foreach ( $defaults as $slug => $default ) {
+
+				if ( isset( $atts[ $slug ] ) ) {
+
+					$attr = $atts[ $slug ];
+
+					// Attribute is not null
+					if ( is_null( $attr ) ) {
+						$attributes[ $slug ] = $default[ 'default' ];
+					}
+					else if ( ! is_null( $attr ) ) {
+
+						$value = $attr;
+
+						// Attribute has limited values
+						if ( ! is_null( $default[ 'values' ] ) ) {
+
+							// Value should be boolean
+							if ( 'boolean' == $default[ 'values' ] && in_array( strtolower( $attr ), array( 'true', 'false', 'yes', 'no' ) ) ) {
+								$value = apply_filters( 'wpml_is_boolean', $attr );
+							}
+							// Value is array
+							else if ( is_array( $default[ 'values' ] ) ) {
+								// multiple values
+								if ( false !== strpos( $attr, '|' ) ) {
+									$value = str_replace( 'actors', 'cast', $attr );
+									$value = explode( '|', $value );
+									foreach ( $value as $i => $v )
+										if ( ! in_array( $v, $default[ 'values' ] ) )
+											unset( $value[ $i ] );
+
+									array_unique( $value );
+								}
+								// single value
+								else if ( in_array( strtolower( $attr ), $default[ 'values' ] ) )
+									$value = $attr;
+							}
+						}
+
+						// Attribute has a valid filter
+						if ( is_string( $value ) && function_exists( $default[ 'filter' ] ) && is_callable( $default[ 'filter' ] ) )
+							$value = call_user_func( $default[ 'filter' ], $value );
+
+						$attributes[ $slug ] = $value;
+					}
+				}
+				else
+					$attributes[ $slug ] = $default[ 'default' ];
+			}
+
+			return $attributes;
+		}
+
+		/**
+		 * Filter a string value to determine a suitable boolean value.
+		 * 
+		 * This is mostly used for Shortcodes where boolean-like values
+		 * can be used.
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    Value to filter
+		 * 
+		 * @return   boolean   Filtered value
+		 */
+		public static function is_boolean( $value ) {
+
+			$value = strtolower( $value );
+
+			$true = array( 'true', true, 'yes', '1', 1 );
+			$false = array( 'false', false, 'no', '0', 0 );
+
+			foreach ( $true as $t )
+				if ( $value === $t )
+					return true;
+
+			foreach ( $false as $f )
+				if ( $value === $f )
+					return false;
+
+			return false;
 		}
 
 		/**
