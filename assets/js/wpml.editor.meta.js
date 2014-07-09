@@ -108,6 +108,9 @@ wpml = wpml || {};
 						else if ( 'movies' == response.data.result ) {
 							wpml_edit_meta.select( response.data.movies, response.data.message );
 						}
+						else if ( 'empty' == response.data.result ) {
+							wpml_state.set( response.data.message, 'error' );
+						}
 					},
 					complete: function( r ) {
 						$( wpml_edit_meta._search.element ).next('.spinner' ).hide();
