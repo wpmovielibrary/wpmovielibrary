@@ -497,7 +497,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function filter_runtime( $runtime ) {
 
-			if ( is_null( $runtime ) && '' != $runtime )
+			if ( is_null( $runtime ) || '' == $runtime )
 				return $runtime;
 
 			$time = date_i18n( WPML_Settings::wpml__time_format(), mktime( 0, $runtime ) );
