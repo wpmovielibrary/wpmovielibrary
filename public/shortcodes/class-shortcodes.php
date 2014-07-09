@@ -100,6 +100,8 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 */
 		public function movies_shortcode( $atts = array(), $content = null ) {
 
+			$default_fields = WPML_Settings::get_supported_movie_meta();
+
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movies', $atts );
 			extract( $atts );
 
@@ -153,6 +155,9 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 					if ( ! is_null( $meta ) ) {
 
+						if ( ! is_array( $meta ) )
+							$meta = array( $meta );
+
 						$_meta = WPML_Utils::get_movie_data( get_the_ID() );
 						$_meta = WPML_Utils::filter_undimension_array( $_meta );
 
@@ -165,6 +170,11 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 									$_meta[ $slug ] = apply_filters( "wpml_format_movie_{$slug}", $_meta[ $slug ] );
 								else
 									$_meta[ $slug ] = apply_filters( "wpml_format_movie_field", $_meta[ $slug ] );
+
+								$_meta[ $slug ] = array(
+									'title' => $default_fields[ $slug ]['title'],
+									'value' => $_meta[ $slug ]
+								);
 							}
 						}
 
@@ -172,12 +182,20 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 					}
 
 					if ( ! is_null( $details ) ) {
-						if ( in_array( 'media', $details ) )
+
+						if ( ! is_array( $details ) )
+							$details = array( $details );
+
+						if ( in_array( 'media', $details ) ) {
 							$movies[ $query->current_post ]['details']['media'] = WPML_Utils::get_movie_media( get_the_ID() );
-						if ( in_array( 'status', $details ) )
+							
+						}
+						if ( in_array( 'status', $details ) ) {
 							$movies[ $query->current_post ]['details']['status'] = WPML_Utils::get_movie_status( get_the_ID() );
-						if ( in_array( 'rating', $details ) )
+						}
+						if ( in_array( 'rating', $details ) ) {
 							$movies[ $query->current_post ]['details']['rating'] = WPML_Utils::get_movie_rating( get_the_ID() );
+						}
 					}
 				}
 			}
@@ -242,6 +260,9 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 					if ( ! is_null( $meta ) ) {
 
+						if ( ! is_array( $meta ) )
+							$meta = array( $meta );
+
 						$_meta = WPML_Utils::get_movie_data( get_the_ID() );
 						$_meta = WPML_Utils::filter_undimension_array( $_meta );
 
@@ -262,6 +283,10 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 					}
 
 					if ( ! is_null( $details ) ) {
+
+						if ( ! is_array( $details ) )
+							$details = array( $details );
+
 						if ( in_array( 'media', $details ) )
 							$movies[ $query->current_post ]['details']['media'] = WPML_Utils::get_movie_media( get_the_ID() );
 						if ( in_array( 'status', $details ) )
@@ -378,7 +403,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ )
 				$atts['key'] = str_replace( 'movie_', '', $tag );
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_meta', $atts );
+			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_detail', $atts );
 			extract( $atts );
 
 			if ( ! is_null( $id ) )

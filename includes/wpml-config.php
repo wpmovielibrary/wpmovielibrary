@@ -849,7 +849,7 @@ $wpml_shortcodes = array(
 				'values'  => array( 'media', 'status', 'rating' ),
 				'filter'  => 'esc_attr'
 			),
-			'label' => array(
+			'raw' => array(
 				'default' => true,
 				'values'  => 'boolean',
 				'filter'  => 'esc_attr'
