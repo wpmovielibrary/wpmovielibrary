@@ -648,9 +648,11 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_genres( $data ) {
+		public static function format_movie_genres( $data, $post_id = null ) {
 
-			$output = WPML_Settings::taxonomies__enable_genre() ? get_the_term_list( get_the_ID(), 'genre', '', ', ', '' ) : $data;
+			$post_id = is_null( $post_id ) ? get_the_ID() : intval( $post_id );
+
+			$output = WPML_Settings::taxonomies__enable_genre() ? get_the_term_list( $post_id, 'genre', '', ', ', '' ) : $data;
 			$output  = ( '' != $output ? $output : sprintf( '<em>%s</em>', '&ndash;' ) );
 
 			return $output;
@@ -666,9 +668,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_actors( $data ) {
+		public static function format_movie_actors( $data, $post_id = null ) {
 
-			return self::format_movie_cast( $data );
+			return self::format_movie_cast( $data, $post_id );
 		}
 
 		/**
@@ -680,9 +682,11 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_cast( $data ) {
+		public static function format_movie_cast( $data, $post_id = null ) {
 
-			$output = WPML_Settings::taxonomies__enable_actor() ? get_the_term_list( get_the_ID(), 'actor', '', ', ', '' ) : $data;
+			$post_id = is_null( $post_id ) ? get_the_ID() : intval( $post_id );
+
+			$output = WPML_Settings::taxonomies__enable_actor() ? get_the_term_list( $post_id, 'actor', '', ', ', '' ) : $data;
 			$output = ( '' != $output ? $output : sprintf( '<em>%s</em>', '&ndash;' ) );
 
 			return $output;

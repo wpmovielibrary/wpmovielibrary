@@ -358,6 +358,93 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		}
 
 		/**
+		 * Movie Actors shortcode. This shortcode supports aliases.
+		 *
+		 * @since    1.1.0
+		 * 
+		 * @param    array     Shortcode attributes
+		 * @param    string    Shortcode content
+		 * @param    string    Shortcode tag name
+		 * 
+		 * @return   string    Shortcode display
+		 */
+		public function movie_actors_shortcode( $atts = array(), $content = null, $tag = null ) {
+
+			// Is this an alias?
+			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ )
+				$atts['key'] = str_replace( 'movie_', '', $tag );
+
+			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_actors', $atts );
+			extract( $atts );
+
+			if ( ! is_null( $id ) )
+				$movie_id = $id;
+			else if ( ! is_null( $title ) ) {
+				$movie_id = get_page_by_title( $title, OBJECT, 'movie' );
+				if ( ! is_null( $movie_id ) )
+					$movie_id = $movie_id->ID;
+			}
+
+			$actors = WPML_Utils::get_movie_data( $movie_id );
+			$actors = $actors['crew']['cast'];
+			$actors = apply_filters( "wpml_format_movie_actors", $actors, $movie_id );
+
+			if ( ! is_null( $count ) ) {
+				$actors = explode( ', ', $actors );
+				$actors = array_splice( $actors, 0, $count );
+				$actors = implode( ', ', $actors );
+			}
+
+			if ( $label )
+				$actors = '<div class="wpml_shortcode_spans"><span class="wpml_shortcode_span wpml_shortcode_span_title wpml_movie_actor_title">' . __( 'Actors', WPML_SLUG ) . '</span><span class="wpml_shortcode_span wpml_shortcode_span_value wpml_movie_actor_value">' . $actors . '</span></div>';
+			else
+				$actors = '<span class="wpml_shortcode_span wpml_movie_actor">' . $actors . '</span>';
+
+			return $actors;
+		}
+
+		/**
+		 * Movie Genres shortcode.
+		 *
+		 * @since    1.1.0
+		 * 
+		 * @param    array     Shortcode attributes
+		 * @param    string    Shortcode content
+		 * 
+		 * @return   string    Shortcode display
+		 */
+		public function movie_genres_shortcode( $atts = array(), $content = null ) {
+
+			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_genres', $atts );
+			extract( $atts );
+
+			if ( ! is_null( $id ) )
+				$movie_id = $id;
+			else if ( ! is_null( $title ) ) {
+				$movie_id = get_page_by_title( $title, OBJECT, 'movie' );
+				if ( ! is_null( $movie_id ) )
+					$movie_id = $movie_id->ID;
+			}
+
+			$genres = WPML_Utils::get_movie_data( $movie_id );
+			$genres = $genres['meta']['genres'];
+			$genres = apply_filters( "wpml_format_movie_genres", $genres, $movie_id );
+
+			if ( ! is_null( $count ) ) {
+				$genres = explode( ', ', $genres );
+				$genres = array_splice( $genres, 0, $count );
+				$genres = implode( ', ', $genres );
+			}
+
+			if ( $label )
+				$genres = '<div class="wpml_shortcode_spans"><span class="wpml_shortcode_span wpml_shortcode_span_title wpml_movie_actor_title">' . __( 'Genres', WPML_SLUG ) . '</span><span class="wpml_shortcode_span wpml_shortcode_span_value wpml_movie_actor_value">' . $genres . '</span></div>';
+			else
+				$genres = '<span class="wpml_shortcode_span wpml_movie_actor">' . $genres . '</span>';
+
+			return $genres;
+		}
+
+		/**
 		 * Movie Poster shortcode.
 		 *
 		 * @since    1.1.0
