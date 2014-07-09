@@ -678,6 +678,19 @@ $wpml_movie_meta = array(
 	)
 );
 
+$wpml_movie_meta_aliases = array(
+
+	'country'    => 'production_countries',
+	'production' => 'production_companies',
+	'lang'       => 'spoken_languages',
+	'language'   => 'spoken_languages',
+	'languages'  => 'spoken_languages',
+	'actors'     => 'cast',
+	'resume'     => 'overview',
+	'date'       => 'release_date',
+	'musician'   => 'composer'
+);
+
 $wpml_shortcodes = array(
 
 	'movies' => array(
@@ -865,16 +878,4 @@ $wpml_shortcodes = array(
 			'movie_rating'
 		)
 	),
-);
-
-$wpml_shortcodes_aliases = array(
-
-	'country'    => 'production_countries',
-	'production' => 'production_companies',
-	'lang'       => 'spoken_languages',
-	'language'   => 'spoken_languages',
-	'languages'  => 'spoken_languages',
-	'actors'     => 'cast',
-	'resume'     => 'overview',
-	'date'       => 'release_date'
 );

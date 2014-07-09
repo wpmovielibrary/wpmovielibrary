@@ -323,7 +323,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 			// Is this an alias?
 			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ ) {
-				$tag = apply_filters( 'wpml_filter_slug_aliases', $tag );
+				$tag = apply_filters( 'wpml_filter_movie_meta_aliases', $tag );
 				$atts['key'] = str_replace( 'movie_', '', $tag );
 			}
 

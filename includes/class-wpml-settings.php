@@ -492,11 +492,11 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @return   array    WPML Supported Shortcodes aliases.
 		 */
-		public static function get_supported_shortcodes_aliases() {
+		public static function get_supported_movie_meta_aliases() {
 
-			global $wpml_shortcodes_aliases;
+			global $wpml_movie_meta_aliases;
 
-			return $wpml_shortcodes_aliases;
+			return $wpml_movie_meta_aliases;
 		}
 
 		/**
