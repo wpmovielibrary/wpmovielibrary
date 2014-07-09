@@ -793,7 +793,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 							// Value should be boolean
 							if ( 'boolean' == $default[ 'values' ] && in_array( strtolower( $attr ), array( 'true', 'false', 'yes', 'no' ) ) ) {
 								$value = apply_filters( 'wpml_is_boolean', $attr );
-								var_dump( '!' );
 							}
 							// Value is array
 							else if ( is_array( $default[ 'values' ] ) ) {

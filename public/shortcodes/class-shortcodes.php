@@ -45,6 +45,8 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 		/**
 		 * Register all shortcodes
+		 * 
+		 * Shortcodes can have their own callback or handle aliases.
 		 *
 		 * @since    1.1.0
 		 */
@@ -61,6 +63,10 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 					$callback = array( $this, $shortcode['callback'] );
 				else if ( method_exists( $this, "{$slug}_shortcode" ) )
 					$callback = array( $this, "{$slug}_shortcode" );
+
+				if ( ! is_null( $shortcode['aliases'] ) )
+					foreach ( $shortcode['aliases'] as $alias )
+						add_shortcode( $alias, $callback );
 
 				add_shortcode( $slug, $callback );
 			}
@@ -265,6 +271,54 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			wp_reset_postdata();
 
 			include( plugin_dir_path( __FILE__ ) . '/views/movies.php' );
+		}
+
+		/**
+		 * Movie Meta shortcode. Display a single movie with various display
+		 * options. This shortcode supports aliases.
+		 *
+		 * @since    1.1.0
+		 * 
+		 * @param    array     Shortcode attributes
+		 * @param    string    Shortcode content
+		 * @param    string    Shortcode tag name
+		 * 
+		 * @return   string    Shortcode display
+		 */
+		public function movie_meta_shortcode( $atts = array(), $content = null, $tag = null ) {
+
+			// Is this an alias?
+			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ )
+				$atts['key'] = str_replace( 'movie_', '', $tag );
+
+			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_meta', $atts );
+			extract( $atts );
+
+			if ( ! is_null( $id ) )
+				$movie_id = $id;
+			else if ( ! is_null( $title ) ) {
+				$movie_id = get_page_by_title( $title, OBJECT, 'movie' );
+				if ( ! is_null( $movie_id ) )
+					$movie_id = $movie_id->ID;
+			}
+
+			$meta = WPML_Utils::get_movie_data( $movie_id );
+			$meta = apply_filters( 'wpml_filter_undimension_array', $meta );
+
+			if ( ! isset( $meta[ $key ] ) )
+				return $content;
+
+			$meta = apply_filters( "wpml_format_movie_$key", $meta[ $key ] );
+			$meta = '' != $meta ? $meta : ' &mdash; ';
+
+			if ( $label ) {
+				$_meta = WPML_Settings::get_supported_movie_meta();
+				$meta = '<div class="wpml_shortcode_spans"><span class="wpml_shortcode_span wpml_shortcode_span_title wpml_movie_' . $key . '_title">' . __( $_meta[ $key ]['title'], WPML_SLUG ) . '</span><span class="wpml_shortcode_span wpml_shortcode_span_value wpml_movie_' . $key . '_value">' . $meta . '</span></div>';
+			}
+			else
+				$meta = '<span class="wpml_shortcode_span wpml_movie_' . $key . '">' . $meta . '</span>';
+
+			return $meta;
 		}
 
 		/**

@@ -730,6 +730,7 @@ $wpml_shortcodes = array(
 		),
 		'content'  => null,
 		'callback' => 'movies_shortcode',
+		'aliases'  => null,
 	),
 
 	'movie' => array(
@@ -761,6 +762,49 @@ $wpml_shortcodes = array(
 			)
 		),
 		'content'  => null,
-		'callback' => null,
+		'callback' => 'movie_shortcode',
+		'aliases'  => null,
+	),
+
+	'movie_meta' => array(
+		'atts'     => array(
+			'id' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'title' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'key' => array(
+				'default' => null,
+				'values'  => array( 'title', 'director', 'original_title', 'release_date', 'runtime', 'overview', 'producer', 'language', 'country', 'production_country', 'photography', 'writer', 'author', 'composer' ),
+				'filter'  => 'esc_attr'
+			),
+			'label' => array(
+				'default' => true,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			),
+		),
+		'content'  => null,
+		'callback' => 'movie_meta_shortcode',
+		'aliases' => array(
+			'movie_title'/* => array( 'key' => '' )*/,
+			'movie_director'/* => array( 'key' => '' )*/,
+			'movie_original_title',
+			'movie_release_date',
+			'movie_runtime',
+			'movie_overview',
+			'movie_producer',
+			'movie_spoken_languages',
+			'movie_production_companies',
+			'movie_production_countries',
+			'movie_photography',
+			'movie_writer',
+			'movie_author',
+			'movie_composer' ),
 	),
 );
