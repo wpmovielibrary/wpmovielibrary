@@ -477,6 +477,58 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		}
 
 		/**
+		 * Movie Poster shortcode.
+		 *
+		 * @since    1.1.0
+		 * 
+		 * @param    array     Shortcode attributes
+		 * @param    string    Shortcode content
+		 * 
+		 * @return   string    Shortcode display
+		 */
+		public function movie_images_shortcode( $atts = array(), $content = null ) {
+
+			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_images', $atts );
+			extract( $atts );
+
+			if ( ! is_null( $id ) )
+				$movie_id = $id;
+			else if ( ! is_null( $title ) ) {
+				$movie_id = get_page_by_title( $title, OBJECT, 'movie' );
+				if ( ! is_null( $movie_id ) )
+					$movie_id = $movie_id->ID;
+			}
+
+			$images = '';
+
+			$args = array(
+				'post_type'   => 'attachment',
+				'orderby'     => 'title',
+				'numberposts' => -1,
+				'post_status' => null,
+				'post_parent' => $movie_id,
+				'exclude'     => get_post_thumbnail_id( $movie_id )
+			);
+
+			$attachments = get_posts( $args );
+
+			if ( $attachments ) {
+
+				if ( ! is_null( $count ) )
+					$attachments = array_splice( $attachments, 0, $count );
+
+				$images .= '<ul class="wpml_shortcode_ul wpml_movie_images">';
+
+				foreach ( $attachments as $attachment )
+					$images .= '<li class="wpml_movie_image wpml_movie_imported_image">' . wp_get_attachment_image( $attachment->ID, $size ) . '</li>';
+
+				$images .= '</ul>';
+			}
+
+			return $images;
+		}
+
+		/**
 		 * Movie Detail shortcode. This shortcode supports aliases.
 		 *
 		 * @since    1.1.0

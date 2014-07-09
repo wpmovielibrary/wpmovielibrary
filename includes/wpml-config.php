@@ -900,6 +900,39 @@ $wpml_shortcodes = array(
 		'aliases'  => null
 	),
 
+	'movie_images' => array(
+		'atts'     => array(
+			'id' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'title' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'size' => array(
+				'default' => 'thumbnail',
+				'values'  => array( 'none', 'thumb', 'thumbnail', 'medium', 'large', 'full' ),
+				'filter'  => 'esc_attr'
+			),
+			'count' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'intval'
+			),
+			'label' => array(
+				'default' => true,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			)
+		),
+		'content'  => null,
+		'callback' => 'movie_images_shortcode',
+		'aliases'  => array( 'movie_pictures', 'movie_photos' )
+	),
+
 	'movie_detail' => array(
 		'atts'     => array(
 			'id' => array(
