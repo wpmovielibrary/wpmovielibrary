@@ -831,4 +831,36 @@ $wpml_shortcodes = array(
 		'callback' => 'movie_poster_shortcode',
 		'aliases'  => null
 	),
+
+	'movie_detail' => array(
+		'atts'     => array(
+			'id' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'title' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'key' => array(
+				'default' => null,
+				'values'  => array( 'media', 'status', 'rating' ),
+				'filter'  => 'esc_attr'
+			),
+			'label' => array(
+				'default' => true,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			),
+		),
+		'content'  => null,
+		'callback' => 'movie_detail_shortcode',
+		'aliases' => array(
+			'movie_media',
+			'movie_status',
+			'movie_rating'
+		)
+	),
 );

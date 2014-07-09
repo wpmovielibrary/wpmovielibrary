@@ -182,7 +182,10 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				}
 			}
 
+			ob_start();
 			include( plugin_dir_path( __FILE__ ) . '/views/movies.php' );
+			$content = ob_get_contents();
+			ob_end_clean();
 
 			return $content;
 		}
@@ -270,7 +273,12 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			}
 			wp_reset_postdata();
 
+			ob_start();
 			include( plugin_dir_path( __FILE__ ) . '/views/movies.php' );
+			$content = ob_get_contents();
+			ob_end_clean();
+
+			return $content;
 		}
 
 		/**
@@ -351,6 +359,45 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			$thumbnail = '<div class="wpml_shortcode_div wpml_movie_poster wpml_movie_poster_' . $size . '">' . $thumbnail . '</div>';
 
 			return $thumbnail;
+		}
+
+		/**
+		 * Movie Detail shortcode. This shortcode supports aliases.
+		 *
+		 * @since    1.1.0
+		 * 
+		 * @param    array     Shortcode attributes
+		 * @param    string    Shortcode content
+		 * @param    string    Shortcode tag name
+		 * 
+		 * @return   string    Shortcode display
+		 */
+		public function movie_detail_shortcode( $atts = array(), $content = null, $tag = null ) {
+
+			// Is this an alias?
+			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ )
+				$atts['key'] = str_replace( 'movie_', '', $tag );
+
+			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_meta', $atts );
+			extract( $atts );
+
+			if ( ! is_null( $id ) )
+				$movie_id = $id;
+			else if ( ! is_null( $title ) ) {
+				$movie_id = get_page_by_title( $title, OBJECT, 'movie' );
+				if ( ! is_null( $movie_id ) )
+					$movie_id = $movie_id->ID;
+			}
+
+			if ( ! method_exists( 'WPML_Utils', 'get_movie_' . $key ) )
+				return $content;
+
+			$detail = call_user_func( 'WPML_Utils::get_movie_' . $key, $movie_id );
+
+			if ( ! $raw )
+				$detail = apply_filters( 'wpml_format_movie_' . $key, $detail );
+
+			return $detail;
 		}
 
 		/**
