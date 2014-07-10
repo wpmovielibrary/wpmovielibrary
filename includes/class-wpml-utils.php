@@ -649,27 +649,12 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @since    1.1.0
 		 * 
 		 * @param    string    $data field value
-		 * @param    int       $post_id Movie's post ID if needed (required for shortcodes)
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_genres( $data, $post_id = null ) {
+		public static function format_movie_genres( $data ) {
 
-			$post_id = is_null( $post_id ) ? get_the_ID() : intval( $post_id );
-
-			if ( '' == $data )
-				return '<em>&ndash;</em>';
-
-			if ( ! WPML_Settings::taxonomies__enable_genre() )
-				return $data;
-
-			$_genres = array();
-			$genres = get_the_terms( $post_id, 'genre' );
-			if ( is_wp_error( $genres ) )
-				return $data;
-
-			$output = self::format_movie_terms_list( $data, $genres, 'genre' );
-			$output  = ( '' != $output ? $output : $data );
+			$output = self::format_movie_terms_list( $data, 'genre' );
 
 			return $output;
 		}
@@ -685,9 +670,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_actors( $data, $post_id = null ) {
+		public static function format_movie_actors( $data ) {
 
-			return self::format_movie_cast( $data, $post_id );
+			return self::format_movie_cast( $data );
 		}
 
 		/**
@@ -700,26 +685,12 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @since    1.1.0
 		 * 
 		 * @param    string    $data field value
-		 * @param    int       $post_id Movie's post ID if needed (required for shortcodes)
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_cast( $data, $post_id = null ) {
+		public static function format_movie_cast( $data ) {
 
-			$post_id = is_null( $post_id ) ? get_the_ID() : intval( $post_id );
-
-			if ( '' == $data )
-				return '<em>&ndash;</em>';
-
-			if ( ! WPML_Settings::taxonomies__enable_actor() )
-				return $data;
-
-			$actors = get_the_terms( $post_id, 'actor' );
-			if ( is_wp_error( $actors ) )
-				return $data;
-
-			$output = self::format_movie_terms_list( $data, $actors, 'actor' );
-			$output  = ( '' != $output ? $output : $data );
+			$output = self::format_movie_terms_list( $data,  'actor' );
 
 			return $output;
 		}
@@ -764,29 +735,13 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @since    1.1.0
 		 * 
 		 * @param    string    $data field value
+		 * @param    int       $post_id Movie's post ID if needed (required for shortcodes)
 		 * 
 		 * @return   string    Formatted output
 		 */
 		public static function format_movie_director( $data ) {
 
-			$has_collections = WPML_Settings::taxonomies__enable_collection();
-
-			// Could be more than one director
-			$output = explode( ',', $data );
-
-			foreach ( $output as $i => $o ) {
-
-				$o = trim( $o );
-				$o = $has_collections ? get_term_by( 'name', $o, 'collection' ) : $o;
-
-				if ( is_object( $o ) && '' != $o->name ) {
-					$link = get_term_link( $o, 'collection' );
-					$o = ( ! is_wp_error( $link ) ? '<a href="' . $link . '">' . $o->name . '</a>' : $o );
-				}
-				$output[ $i ] = $o;
-			}
-
-			$output = ( ! empty( $output ) ? implode( ', ', $output ) : '<em>&ndash;</em>' );
+			$output = self::format_movie_terms_list( $data, 'collection' );
 
 			return $output;
 		}
@@ -817,31 +772,32 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @since    1.1.0
 		 * 
 		 * @param    string    $data field value
-		 * @param    array     $terms term list to match against
 		 * @param    string    $taxonomy taxonomy we're dealing with
 		 * 
 		 * @return   string    Formatted output
 		 */
-		private static function format_movie_terms_list( $data, $terms, $taxonomy ) {
+		private static function format_movie_terms_list( $data, $taxonomy ) {
 
-			$_terms = array();
-			foreach ( $terms as $i => $term )
-				$_terms[ $i ] = $term->name;
-
+			$has_taxonomy = call_user_func( "WPML_Settings::taxonomies__enable_$taxonomy" );
 			$_data = explode( ',', $data );
-			foreach ( $_data as $key => $value ) {
-				$value = trim( $value );
-				if ( in_array( $value, $_terms ) ) {
-					$term = $terms[ array_search( $value, $_terms ) ];
-					$_data[ $key ] = sprintf( '<a href="%s">%s</a>', get_term_link( $term, $taxonomy ), $term->name );
+
+			foreach ( $_data as $key => $term ) {
+				$_term = trim( $term );
+				$_term = ( $has_taxonomy ? get_term_by( 'name', $term, $taxonomy ) : $term );
+
+				if ( ! $_term )
+					$_term = $term;
+
+				if ( is_object( $_term ) && '' != $_term->name ) {
+					$link = get_term_link( $_term, $taxonomy );
+					$_term = ( is_wp_error( $link ) ? $_term->name : sprintf( '<a href="%s">%s</a>', $link, $_term->name ) );
 				}
-				else
-					$_data[ $key ] = $value;
+				$_data[ $key ] = $_term;
 			}
 
-			$output = implode( ', ', $_data );
+			$_data = ( ! empty( $_data ) ? implode( ', ', $_data ) : '<em>&ndash;</em>' );
 
-			return $output;
+			return $_data;
 		}
 
 		/**
