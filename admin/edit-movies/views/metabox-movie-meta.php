@@ -43,6 +43,7 @@
 			<div id="tmdb_data"></div>
 			<input type="hidden" id="tmdb_data_tmdb_id" name="tmdb_data[tmdb_id]" class="hide-if-js hide-if-no-js" value="<?php echo $value['tmdb_id'] ?>" />
 			<input type="hidden" id="wpml_actor_limit" class="hide-if-js hide-if-no-js" value="<?php echo WPML_Settings::taxonomies__actor_limit() ?>" />
+			<input type="hidden" id="wpml_poster_featured" class="hide-if-js hide-if-no-js" value="<?php echo ( 1 == WPML_Settings::images__poster_featured() ? '1' : '0' ) ?>" />
 
 <?php foreach ( WPML_Settings::get_supported_movie_meta( $type = null, false ) as $id => $box ) : ?>
 			<table class="list-table tmdb_<?php echo $id ?>">

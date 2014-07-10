@@ -18,6 +18,7 @@ wpml = wpml || {};
 			title: $( '#tmdb_query' ).val(),
 			post_id: parseInt( $( '#post_ID' ).val() ),
 			tmdb_id: undefined,
+			poster_featured: $( '#wpml_poster_featured' ).val(),
 
 			// Events
 			_search: {
@@ -62,6 +63,8 @@ wpml = wpml || {};
 				$( wpml_edit_meta._query.element ).on( wpml_edit_meta._query.event, function() {
 					wpml_edit_meta.title = $(this).val();
 				});
+
+				wpml_edit_meta.poster_featured = ( undefined != wpml_edit_meta.poster_featured && '1' == wpml_edit_meta.poster_featured );
 			};
 
 			/**
@@ -103,7 +106,8 @@ wpml = wpml || {};
 					success: function( response ) {
 						if ( 'movie' == response.data.result ) {
 							wpml_edit_meta.set( response.data.movies[ 0 ] );
-							wpml_posters.set_featured( response.data.movies[ 0 ].poster_path );
+							if ( wpml_edit_meta.poster_featured )
+								wpml_posters.set_featured( response.data.movies[ 0 ].poster_path );
 						}
 						else if ( 'movies' == response.data.result ) {
 							wpml_edit_meta.select( response.data.movies, response.data.message );
@@ -170,7 +174,8 @@ wpml = wpml || {};
 						$( wpml_edit_meta.fields ).empty().hide();
 						wpml_edit_meta.tmdb_id = response.data._tmdb_id;
 						wpml_edit_meta.set( response.data );
-						wpml_posters.set_featured( response.data.poster_path );
+						if ( wpml_edit_meta.poster_featured )
+							wpml_posters.set_featured( response.data.poster_path );
 					},
 					complete: function( r ) {
 						$( wpml_edit_meta._search.element ).next( '.spinner' ).hide();
