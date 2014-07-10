@@ -190,35 +190,16 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			if ( empty( $fields ) )
 				return null;
 
+			$post_id = get_the_ID();
+
 			if ( is_string( $fields ) )
 				$fields = array( $fields );
 
 			$html = '<div class="wpml_movie_detail">';
 
 			foreach ( $fields as $field ) {
-
-				switch ( $field ) {
-					case 'movie_media':
-					case 'movie_status':
-						$meta = call_user_func_array( "WPML_Utils::get_{$field}", array( get_the_ID() ) );
-						if ( '' != $meta ) {
-							if ( 1 ==  WPML_Settings::wpml__details_as_icons() ) {
-								$html .= '<div class="wpml_' . $field . ' ' . $meta . ' wpml_detail_icon"></div>';
-							}
-							else {
-								$default_fields = call_user_func( "WPML_Settings::get_available_{$field}" );
-								$html .= '<div class="wpml_' . $field . ' ' . $meta . ' wpml_detail_label"><span class="wpml_movie_detail_item">' . __( $default_fields[ $meta ], WPML_SLUG ) . '</span></div>';
-							}
-						}
-						break;
-					case 'movie_rating':
-						$movie_rating = WPML_Utils::get_movie_rating( get_the_ID() );
-						$html .= sprintf( '<div class="wpml_movie_rating wpml_detail_icon"><div class="movie_rating_display stars_%s"></div></div>', ( '' == $movie_rating ? '0_0' : str_replace( '.', '_', $movie_rating ) ) );
-						break;
-					default:
-						
-						break;
-				}
+				$detail = call_user_func( "WPML_Utils::get_{$field}", $post_id );
+				$html .= apply_filters( "wpml_format_{$field}", $detail );
 			}
 
 			$html .= '</div>';

@@ -14,7 +14,6 @@ if ( ! empty( $movies ) ) :
 <?php
 		if ( ! is_null( $movie['meta'] ) ) :
 			foreach ( $movie['meta'] as $slug => $meta ) :
-				//var_dump( $slug, $meta );
 ?>
 			<dt class="wpml_<?php echo $slug ?>_field_title"><?php echo $meta['title'] ?></dt>
 			<dd class="wpml_<?php echo $slug ?>_field_value"><?php echo $meta['value'] ?></dd>
@@ -25,7 +24,10 @@ if ( ! empty( $movies ) ) :
 		</div>
 
 		<div class="wpml_movie_details">
-
+<?php
+		if ( ! is_null( $movie['details'] ) )
+			echo $movie['details'];
+?>
 		</div>
 	</div>
 

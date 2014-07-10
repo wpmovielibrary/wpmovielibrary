@@ -52,6 +52,10 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			add_filter( 'wpml_format_movie_director', __CLASS__ . '::format_movie_director', 10, 2 );
 			add_filter( 'wpml_format_movie_field', __CLASS__ . '::format_movie_field', 10, 2 );
 
+			add_filter( 'wpml_format_movie_media', __CLASS__ . '::format_movie_media', 10, 2 );
+			add_filter( 'wpml_format_movie_status', __CLASS__ . '::format_movie_status', 10, 2 );
+			add_filter( 'wpml_format_movie_rating', __CLASS__ . '::format_movie_rating', 10, 2 );
+
 			add_filter( 'wpml_filter_filter_runtime', __CLASS__ . '::filter_runtime', 10, 1 );
 			add_filter( 'wpml_filter_filter_release_date', __CLASS__ . '::filter_release_date', 10, 2 );
 			add_filter( 'wpml_validate_meta_data', __CLASS__ . '::validate_meta_data', 10, 1 );
@@ -756,6 +760,79 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @return   string    Formatted output
 		 */
 		public static function format_movie_field( $data ) {
+
+			return $data;
+		}
+
+		/**
+		 * Format a Movie's media. If format is HTML, will return a
+		 * HTML formatted string; will return the value without change
+		 * if raw is asked.
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data rating value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_media( $data, $format = 'html' ) {
+
+			$format = ( 'raw' == $format ? 'raw' : 'html' );
+
+			if ( WPML_Settings::wpml__details_as_icons() ) {
+				$data = '<div class="wpml_movie_media ' . $data . ' wpml_detail_icon"></div>';
+			}
+			else if ( 'html' == $format ) {
+				$default_fields = WPML_Settings::get_available_movie_media();
+				$data = '<div class="wpml_movie_media ' . $data . ' wpml_detail_label"><span class="wpml_movie_detail_item">' . __( $default_fields[ $data ], WPML_SLUG ) . '</span></div>';
+			}
+
+			return $data;
+		}
+
+		/**
+		 * Format a Movie's status. If format is HTML, will return a
+		 * HTML formatted string; will return the value without change
+		 * if raw is asked.
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data rating value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_status( $data, $format = 'html' ) {
+
+			$format = ( 'raw' == $format ? 'raw' : 'html' );
+
+			if ( WPML_Settings::wpml__details_as_icons() ) {
+				$data = '<div class="wpml_movie_status ' . $data . ' wpml_detail_icon"></div>';
+			}
+			else if ( 'html' == $format ) {
+				$default_fields = WPML_Settings::get_available_movie_status();
+				$data = '<div class="wpml_movie_status ' . $data . ' wpml_detail_label"><span class="wpml_movie_detail_item">' . __( $default_fields[ $data ], WPML_SLUG ) . '</span></div>';
+			}
+
+			return $data;
+		}
+
+		/**
+		 * Format a Movie's rating. If format is HTML, will return a
+		 * HTML formatted string; will return the value without change
+		 * if raw is asked.
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $data rating value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_rating( $data, $format = 'html' ) {
+
+			$format = ( 'raw' == $format ? 'raw' : 'html' );
+
+			if ( 'html' == $format )
+				$data = sprintf( '<div class="wpml_movie_rating wpml_detail_icon"><div class="movie_rating_display stars_%s"></div></div>', ( '' == $data ? '0_0' : str_replace( '.', '_', $data ) ) );
 
 			return $data;
 		}
