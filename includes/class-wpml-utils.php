@@ -70,6 +70,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			add_filter( 'wp_get_object_terms', __CLASS__ . '::get_ordered_object_terms', 10, 4 );
 
 			add_action( 'template_redirect', __CLASS__ . '::filter_404' );
+			add_filter( 'post_type_archive_title', __CLASS__ . '::filter_post_type_archive_title', 10, 2 );
 		}
 
 		/**
@@ -1564,6 +1565,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				return false;
 			}
 
+			$post->post_title = __( ucwords( $term_slug . 's' ), WPML_SLUG );
+
 			$args = 'number=50';
 			$paged = $wp_query->get( 'paged' );
 
@@ -1607,6 +1610,30 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			// Make sure HTTP status is good
 			status_header( '200' );
+		}
+
+		/**
+		 * Filter page titles to replace custom archive pages titles
+		 * with the correct term title.
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $name Current page title
+		 * @param    string    $args Current page post_type
+		 * 
+		 * @return   string    Updated page title.
+		*/
+		public static function filter_post_type_archive_title( $name, $post_type ) {
+
+			global $wp_query;
+
+			if ( 'movie' != $post_type )
+				return $name;
+
+			if ( $wp_query->have_posts() && $wp_query->posts[0]->post_name )
+				$name = $wp_query->posts[0]->post_title;
+
+			return $name;
 		}
 
 		/**
