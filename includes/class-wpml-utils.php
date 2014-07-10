@@ -1564,7 +1564,14 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				return false;
 			}
 
-			$terms = get_terms( $term_slug, array() );
+			$args = 'number=50';
+			$paged = $wp_query->get( 'paged' );
+
+			if ( $paged )
+				$args .= '&offset=' . ( 50 * ( $paged - 1 ) );
+
+			$terms = get_terms( $term_slug, $args );
+			$total = wp_count_terms( $term_slug );
 			$content = '';
 
 			if ( is_wp_error( $terms ) )
@@ -1582,6 +1589,16 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( is_array( $content ) )
 				$content = implode( "\n", $content );
 
+			//if ( $paged ) {
+				$args = array(
+					'type'    => 'list',
+					'total'   => ceil( ( $total - 1 ) / 50 ),
+					'current' => max( 1, $paged ),
+					'format'  => home_url( $slugs[ $term_slug ] . '/page/%#%/' ),
+				);
+				$content .= self::paginate_links( $args );
+			//}
+
 			$post->post_content = $content;
 
 			$wp_query->posts[] = $post;
@@ -1590,6 +1607,78 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			// Make sure HTTP status is good
 			status_header( '200' );
+		}
+
+		/**
+		 * Retrieve paginated link for archive post pages.
+		 * 
+		 * This is a partial rewrite of WordPress paginate_links() function
+		 * that doesn't work on the plugin's built-in archive pages.
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    array    $args Optional. Override defaults.
+		 * 
+		 * @return   string   String of page links or array of page links.
+		*/
+		private static function paginate_links( $args = '' ) {
+
+			$defaults = array(
+				'base'      => '%_%',
+				'format'    => '/page/%#%/',
+				'total'     => 1,
+				'current'   => 0,
+				'prev_text' => __( '&laquo; Previous' ),
+				'next_text' => __( 'Next &raquo;' ),
+				'end_size'  => 1,
+				'mid_size'  => 2,
+			);
+
+			$args = wp_parse_args( $args, $defaults );
+			extract( $args, EXTR_SKIP );
+
+			// Who knows what else people pass in $args
+			$total = (int) $total;
+			if ( $total < 2 )
+				return;
+			$current  = (int) $current;
+			$end_size = 0  < (int) $end_size ? (int) $end_size : 1; // Out of bounds?  Make it the default.
+			$mid_size = 0 <= (int) $mid_size ? (int) $mid_size : 2;
+			$r = '';
+			$page_links = array();
+			$n = 0;
+			$dots = false;
+
+			if ( $current && 1 < $current ) :
+				$link = str_replace( '%_%', $format, $base );
+				$link = str_replace( '%#%', $current - 1, $link );
+				$page_links[] = '<a class="prev page-numbers" href="' . esc_url( $link ) . '">' . $prev_text . '</a>';
+			endif;
+			for ( $n = 1; $n <= $total; $n++ ) :
+				if ( $n == $current ) :
+					$page_links[] = "<span class='page-numbers current'>" . number_format_i18n( $n ) . "</span>";
+					$dots = true;
+				else :
+					if ( $n <= $end_size || ( $current && $n >= $current - $mid_size && $n <= $current + $mid_size ) || $n > $total - $end_size ) :
+						$link = str_replace( '%_%', $format, $base );
+						$link = str_replace( '%#%', $n, $link );
+						$page_links[] = "<a class='page-numbers' href='" . esc_url( $link ) . "'>" . number_format_i18n( $n ) . "</a>";
+						$dots = true;
+					elseif ( $dots ) :
+						$page_links[] = '<span class="page-numbers dots">' . __( '&hellip;' ) . '</span>';
+						$dots = false;
+					endif;
+				endif;
+			endfor;
+			if ( $current && ( $current < $total || -1 == $total ) ) :
+				$link = str_replace( '%_%', $format, $base );
+				$link = str_replace( '%#%', $current + 1, $link );
+				$page_links[] = '<a class="next page-numbers" href="' . esc_url( $link ) . '">' . $next_text . '</a>';
+			endif;
+
+			$r = '<ul class="page-numbers"><li>' . join( '</li><li>', $page_links ) . '</li></ul>';
+
+			return $r;
 		}
 
 		/**

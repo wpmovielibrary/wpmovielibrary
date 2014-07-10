@@ -16,6 +16,15 @@
 	display: none;
 }
 
+.hentry.wpml_page .page-numbers {
+	text-align: center;
+}
+
+.hentry.wpml_page .page-numbers li {
+	display: inline-block;
+	margin: 0px 0.5em;
+}
+
 /** Movie Post TMDb
  ***************************************************/
 
