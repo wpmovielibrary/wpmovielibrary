@@ -883,7 +883,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$_data = explode( ',', $data );
 
 			foreach ( $_data as $key => $term ) {
-				$_term = trim( $term );
+				
+				$term = trim( $term );
 				$_term = ( $has_taxonomy ? get_term_by( 'name', $term, $taxonomy ) : $term );
 
 				if ( ! $_term )
