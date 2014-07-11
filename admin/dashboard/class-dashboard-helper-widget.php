@@ -111,22 +111,22 @@ if ( ! class_exists( 'WPML_Dashboard_Helper_Widget' ) ) :
 				'support' => array(
 					'url'   => 'http://wordpress.org/support/plugin/wpmovielibrary',
 					'title' => __( 'Support', WPML_SLUG ),
-					'icon'  => 'dashicons dashicons-arrow-right-alt2'
+					'icon'  => 'dashicons dashicons-sos'
 				),
 				'report' => array(
 					'url'   => 'https://github.com/Askelon/wpmovielibrary/issues/new',
 					'title' => __( 'Report a bug', WPML_SLUG ),
-					'icon'  => 'dashicons dashicons-arrow-right-alt2'
+					'icon'  => 'dashicons dashicons-flag'
 				),
 				'contribute' => array(
 					'url'   => 'https://github.com/Askelon/wpmovielibrary',
 					'title' => __( 'Contribute', WPML_SLUG ),
-					'icon'  => 'dashicons dashicons-arrow-right-alt2'
+					'icon'  => 'dashicons dashicons-admin-tools'
 				),
 				'donate' => array(
-					'url'   => 'http://www.caercam.org/contribute.html',
+					'url'   => 'http://wpmovielibrary.com/contribute/#donate',
 					'title' => __( 'Donate', WPML_SLUG ),
-					'icon'  => 'dashicons dashicons-arrow-right-alt2'
+					'icon'  => 'dashicons dashicons-heart'
 				)
 			);
 
