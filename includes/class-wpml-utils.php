@@ -1588,7 +1588,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				return false;
 			}
 
-			$post->post_title = __( ucwords( $term_slug . 's' ), WPML_SLUG );
+			$wp_query->query_vars['wpml_archive_page'] = 1;
+			$wp_query->query_vars['wpml_archive_title'] = __( ucwords( $term_slug . 's' ), WPML_SLUG );
 
 			$args = 'number=50';
 			$paged = $wp_query->get( 'paged' );
@@ -1615,15 +1616,13 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( is_array( $content ) )
 				$content = implode( "\n", $content );
 
-			//if ( $paged ) {
-				$args = array(
-					'type'    => 'list',
-					'total'   => ceil( ( $total - 1 ) / 50 ),
-					'current' => max( 1, $paged ),
-					'format'  => home_url( $slugs[ $term_slug ] . '/page/%#%/' ),
-				);
-				$content .= self::paginate_links( $args );
-			//}
+			$args = array(
+				'type'    => 'list',
+				'total'   => ceil( ( $total - 1 ) / 50 ),
+				'current' => max( 1, $paged ),
+				'format'  => home_url( $slugs[ $term_slug ] . '/page/%#%/' ),
+			);
+			$content .= self::paginate_links( $args );
 
 			$post->post_content = $content;
 
@@ -1653,8 +1652,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( 'movie' != $post_type )
 				return $name;
 
-			if ( $wp_query->have_posts() && $wp_query->posts[0]->post_name )
-				$name = $wp_query->posts[0]->post_title;
+			if ( 1 == $wp_query->get( 'wpml_archive_page' ) && '' != $wp_query->get( 'wpml_archive_title' ) )
+				$name = $wp_query->get( 'wpml_archive_title' );
 
 			return $name;
 		}
