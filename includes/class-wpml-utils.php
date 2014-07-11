@@ -497,15 +497,20 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @since    1.0.0
 		 * 
 		 * @param    string    $runtime Movie runtime
+		 * @param    string    $time_format Optional time format to apply
 		 * 
 		 * @return   string    Filtered runtime
 		 */
-		public static function filter_runtime( $runtime ) {
+		public static function filter_runtime( $runtime, $time_format = null ) {
 
 			if ( is_null( $runtime ) || '' == $runtime )
 				return $runtime;
 
-			$time = date_i18n( WPML_Settings::wpml__time_format(), mktime( 0, $runtime ) );
+			$time_format = WPML_Settings::wpml__time_format();
+			if ( '' == $time_format )
+				$time_format = 'H \h i \m\i\n';
+
+			$time = date_i18n( $time_format, mktime( 0, $runtime ) );
 			if ( false !== stripos( $time, 'am' ) || false !== stripos( $time, 'pm' ) )
 				$time = date_i18n( 'g:i', mktime( 0, $runtime ) );
 
@@ -519,15 +524,24 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @since    1.0.0
 		 * 
 		 * @param    string    $release_date Movie release date
+		 * @param    string    $date_format Optional date format to apply
 		 * 
 		 * @return   string    Filtered release date
 		 */
 		public static function filter_release_date( $release_date, $date_format = null ) {
 
+			if ( is_null( $release_date ) || '' == $release_date )
+				return $release_date;
+
 			if ( is_null( $date_format ) )
 				$date_format = WPML_Settings::wpml__date_format();
 
-			return ( ! is_null( $release_date ) && '' != $release_date ? date_i18n( $date_format, strtotime( $release_date ) ) : $release_date );
+			if ( '' == $date_format )
+				$date_format = 'F Y';
+
+			$date = date_i18n( $date_format, strtotime( $release_date ) );
+
+			return $date;
 		}
 
 		/**
