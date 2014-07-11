@@ -780,6 +780,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			$format = ( 'raw' == $format ? 'raw' : 'html' );
 
+			if ( '' == $data )
+				return $data;
+
 			if ( WPML_Settings::wpml__details_as_icons() ) {
 				$data = '<div class="wpml_movie_media ' . $data . ' wpml_detail_icon"></div>';
 			}
@@ -806,6 +809,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			$format = ( 'raw' == $format ? 'raw' : 'html' );
 
+			if ( '' == $data )
+				return $data;
+
 			if ( WPML_Settings::wpml__details_as_icons() ) {
 				$data = '<div class="wpml_movie_status ' . $data . ' wpml_detail_icon"></div>';
 			}
@@ -831,6 +837,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		public static function format_movie_rating( $data, $format = 'html' ) {
 
 			$format = ( 'raw' == $format ? 'raw' : 'html' );
+
+			if ( '' == $data )
+				return $data;
 
 			if ( 'html' == $format )
 				$data = sprintf( '<div class="wpml_movie_rating wpml_detail_icon"><div class="movie_rating_display stars_%s"></div></div>', ( '' == $data ? '0_0' : str_replace( '.', '_', $data ) ) );
