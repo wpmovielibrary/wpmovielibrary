@@ -241,7 +241,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 					$_field = apply_filters( "wpml_format_movie_field", $tmdb_data[ $field ] );
 
 				$fields[ $key ] = $_field;
-				$html .= sprintf( $default_format, $field, $default_fields[ $field ]['title'], $field, $_field );
+				$html .= sprintf( $default_format, $field, __( $default_fields[ $field ]['title'], WPML_SLUG ), $field, $_field );
 			}
 
 			$html .= '</dl>';
