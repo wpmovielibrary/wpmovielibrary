@@ -241,9 +241,13 @@ wpml = wpml || {};
 				}
 
 				if ( data.crew.director.length ) {
-					$.each( data.crew.director, function(i) {
-						$( '#newcollection' ).prop( 'value', this );
-						$( '#collection-add-submit' ).click();
+					
+					$.each( data.crew.director, function( i, val ) {
+						$( '#newcollection' ).delay( 1000 ).queue( function( next ) {
+							$( this ).prop( 'value', val );
+							$( '#collection-add-submit' ).click();
+							next();
+						});
 					});
 				}
 
