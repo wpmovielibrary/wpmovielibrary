@@ -15,7 +15,7 @@
 					<div class="welcome-panel-column-container">
 						<div class="welcome-panel-column">
 							<h4><?php _e( 'Get Started', WPML_SLUG ); ?></h4>
-							<a class="button button-primary button-hero" href="http://caercam.org/wpmovielibrary/documentation.html"><?php _e( 'View the Documentation', WPML_SLUG ); ?></a>
+							<a class="button button-primary button-hero" href="http://wpmovielibrary.com/documentation/"><?php _e( 'View the Documentation', WPML_SLUG ); ?></a>
 							<p><?php printf( __( 'and you may want to look at the <a href="%s">plugin settings</a>.', WPML_SLUG ), admin_url( 'admin.php?page=wpml_edit_settings' ) ) ?></p>
 						</div>
 
