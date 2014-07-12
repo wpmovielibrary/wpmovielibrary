@@ -213,7 +213,7 @@ $wpml_settings = array(
 				'title' => __( 'Release date format', WPML_SLUG ),
 				'description' => __( 'Apply a custom date format to movies\' release dates. Leave empty to use the default API format. Check the <a href="http://codex.wordpress.org/Formatting_Date_and_Time">documentation on date and time formatting</a>.', WPML_SLUG ),
 				'type' => 'input',
-				'default' => 'F Y'
+				'default' => 'j F Y'
 			),
 
 			// Release date formatting
@@ -221,7 +221,7 @@ $wpml_settings = array(
 				'title' => __( 'Runtime format', WPML_SLUG ),
 				'description' => __( 'Apply a custom time format to movies\' runtimes. Leave empty to use the default API format.', WPML_SLUG ),
 				'type' => 'input',
-				'default' => 'H \h i \m\i\n'
+				'default' => 'h \h i \m\i\n'
 			),
 		),
 	),
