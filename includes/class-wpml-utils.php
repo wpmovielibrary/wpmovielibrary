@@ -1592,14 +1592,14 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$wp_query->query_vars['wpml_archive_page'] = 1;
 			$wp_query->query_vars['wpml_archive_title'] = __( ucwords( $term_slug . 's' ), WPML_SLUG );
 
-			$args = 'number=50';
+			$args = 'hide_empty=true&number=50';
 			$paged = $wp_query->get( 'paged' );
 
 			if ( $paged )
 				$args .= '&offset=' . ( 50 * ( $paged - 1 ) );
 
 			$terms = get_terms( $term_slug, $args );
-			$total = wp_count_terms( $term_slug );
+			$total = wp_count_terms( $term_slug, 'hide_empty=true' );
 			$content = '';
 
 			if ( is_wp_error( $terms ) )
