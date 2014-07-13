@@ -1615,7 +1615,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 					);
 
 			if ( is_array( $content ) )
-				$content = implode( "\n", $content );
+				$content = '<ul class="wpml_archives wpml_' . $term_slug . '_archives">' . implode( "\n", $content ) . '</ul>';
 
 			$args = array(
 				'type'    => 'list',
