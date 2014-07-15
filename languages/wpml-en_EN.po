@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary v1.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wpmovielibrary\n"
-"POT-Creation-Date: 2014-07-09 16:00:12+00:00\n"
-"PO-Revision-Date: 2014-07-09 18:01+0100\n"
+"POT-Creation-Date: 2014-07-15 23:49:55+00:00\n"
+"PO-Revision-Date: 2014-07-16 01:50+0100\n"
 "Last-Translator: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language-Team: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language: English\n"
@@ -123,7 +123,7 @@ msgstr ""
 
 #: admin/class-wpmovielibrary-admin.php:217
 #: admin/dashboard/class-dashboard-stats-widget.php:125
-#: includes/class-wpml-utils.php:1450
+#: includes/class-wpml-utils.php:1663
 msgid "%d movie"
 msgid_plural "%d movies"
 msgstr[0] "%d movie"
@@ -298,12 +298,14 @@ msgstr "Collections"
 #: admin/class-wpmovielibrary-admin.php:449
 #: admin/class-wpmovielibrary-admin.php:450 includes/wpml-config.php:618
 #: public/genres/class-wpml-genres.php:69
+#: public/shortcodes/class-shortcodes.php:305
 msgid "Genres"
 msgstr "Genres"
 
 #: admin/class-wpmovielibrary-admin.php:460
 #: admin/class-wpmovielibrary-admin.php:461 includes/wpml-config.php:672
 #: public/actors/class-wpml-actors.php:72
+#: public/shortcodes/class-shortcodes.php:268
 msgid "Actors"
 msgstr "Actors"
 
@@ -380,6 +382,19 @@ msgstr "Show movies count"
 #: admin/common/views/status-widget-admin.php:19
 msgid "Custom Style (only for dropdown)"
 msgstr "Custom Style (only for dropdown)"
+
+#: admin/common/views/actors-widget-admin.php:12
+msgid "Number of actors to show"
+msgstr "Number of actors to show"
+
+#: admin/common/views/actors-widget-admin.php:13
+#: admin/common/views/collections-widget-admin.php:13
+msgid "Set to 0 to disable limit. Not recommended."
+msgstr "The size \"%s\" is not supported by TMDb"
+
+#: admin/common/views/collections-widget-admin.php:12
+msgid "Number of collections to show"
+msgstr "Number of collections to show"
 
 #: admin/common/views/help.php:4
 msgid "About WPMovieLibrary"
@@ -697,7 +712,7 @@ msgid "Latest Movies"
 msgstr "Latest Movies"
 
 #: admin/dashboard/class-dashboard.php:191
-#: public/movies/class-most-rated-movies-widget.php:90
+#: public/movies/class-most-rated-movies-widget.php:97
 msgid "Most Rated Movies"
 msgstr "Most Rated Movies"
 
@@ -1359,11 +1374,11 @@ msgstr ""
 msgid "List of movie titles separated by commas"
 msgstr "List of movie titles separated by commas"
 
-#: admin/media/class-wpml-media.php:302 admin/media/class-wpml-media.php:339
+#: admin/media/class-wpml-media.php:284 admin/media/class-wpml-media.php:321
 msgid "An error occured when trying to import image: invalid data or Post ID."
 msgstr "An error occured when trying to import image: invalid data or Post ID."
 
-#: admin/media/class-wpml-media.php:336
+#: admin/media/class-wpml-media.php:318
 msgid ""
 "Movie Posters as featured images option is deactivated. Update your settings "
 "to activate this."
@@ -1371,15 +1386,15 @@ msgstr ""
 "Movie Posters as featured images option is deactivated. Update your settings "
 "to activate this."
 
-#: admin/media/class-wpml-media.php:422
+#: admin/media/class-wpml-media.php:404
 msgid "The image you're trying to upload is empty."
 msgstr "The image you're trying to upload is empty."
 
-#: admin/media/class-wpml-media.php:441
+#: admin/media/class-wpml-media.php:423
 msgid "The image you're trying to upload already exists."
 msgstr "The image you're trying to upload already exists."
 
-#: admin/media/class-wpml-media.php:488
+#: admin/media/class-wpml-media.php:470
 msgid "See available Movie Posters"
 msgstr "See available Movie Posters"
 
@@ -1476,43 +1491,43 @@ msgstr "Empty cache"
 msgid "Save Changes"
 msgstr "Save Changes"
 
-#: includes/class-wpml-utils.php:100 public/movies/class-wpml-movies.php:302
+#: includes/class-wpml-utils.php:108 public/movies/class-wpml-movies.php:286
 msgid "unavailable"
 msgstr "unavailable"
 
-#: includes/class-wpml-utils.php:101 public/movies/class-wpml-movies.php:304
+#: includes/class-wpml-utils.php:109 public/movies/class-wpml-movies.php:288
 msgid "available"
 msgstr "available"
 
-#: includes/class-wpml-utils.php:102 public/movies/class-wpml-movies.php:306
+#: includes/class-wpml-utils.php:110 public/movies/class-wpml-movies.php:290
 msgid "loaned"
 msgstr "loaned"
 
-#: includes/class-wpml-utils.php:103 public/movies/class-wpml-movies.php:308
+#: includes/class-wpml-utils.php:111 public/movies/class-wpml-movies.php:292
 msgid "scheduled"
 msgstr "scheduled"
 
-#: includes/class-wpml-utils.php:104 public/movies/class-wpml-movies.php:289
+#: includes/class-wpml-utils.php:112 public/movies/class-wpml-movies.php:273
 msgid "bluray"
 msgstr "bluray"
 
-#: includes/class-wpml-utils.php:105 public/movies/class-wpml-movies.php:291
+#: includes/class-wpml-utils.php:113 public/movies/class-wpml-movies.php:275
 msgid "cinema"
 msgstr "cinema"
 
-#: includes/class-wpml-utils.php:106 public/movies/class-wpml-movies.php:293
+#: includes/class-wpml-utils.php:114 public/movies/class-wpml-movies.php:277
 msgid "other"
 msgstr "other"
 
-#: includes/class-wpml-utils.php:1049
+#: includes/class-wpml-utils.php:1252
 msgid "Invalid taxonomy"
 msgstr "Invalid taxonomy"
 
-#: includes/class-wpml-utils.php:1169 includes/class-wpml-utils.php:1192
+#: includes/class-wpml-utils.php:1372 includes/class-wpml-utils.php:1395
 msgid "Are you sure you want to do this?"
 msgstr "Are you sure you want to do this?"
 
-#: includes/class-wpml-utils.php:1280
+#: includes/class-wpml-utils.php:1483
 msgid ""
 "An error occured when trying to perform the request: invalid callback or "
 "data."
@@ -1520,35 +1535,47 @@ msgstr ""
 "An error occured when trying to perform the request: invalid callback or "
 "data."
 
-#: includes/class-wpml-utils.php:1302
+#: includes/class-wpml-utils.php:1505
 msgid "An error occured when trying to perform the request."
 msgstr "An error occured when trying to perform the request."
 
-#: includes/class-wpml-utils.php:1324
+#: includes/class-wpml-utils.php:1527
 msgid "An error occured when trying to delete transients: %s"
 msgstr "An error occured when trying to delete transients: %s"
 
-#: includes/class-wpml-utils.php:1326
+#: includes/class-wpml-utils.php:1529
 msgid "No transient found."
 msgstr "No transient found."
 
-#: includes/class-wpml-utils.php:1328
+#: includes/class-wpml-utils.php:1531
 msgid "1 transient deleted"
 msgid_plural "%s transients deleted."
 msgstr[0] "1 transient deleted"
 msgstr[1] "%s transients deleted."
 
-#: includes/class-wpml-utils.php:1423
+#: includes/class-wpml-utils.php:1626
 msgid "View all movies from collection &laquo; %s &raquo;"
 msgstr "View all movies from collection &laquo; %s &raquo;"
 
-#: includes/class-wpml-utils.php:1427
+#: includes/class-wpml-utils.php:1630
 msgid "View all &laquo; %s &raquo; movies"
 msgstr "View all &laquo; %s &raquo; movies"
 
-#: includes/class-wpml-utils.php:1431
+#: includes/class-wpml-utils.php:1634
 msgid "View all movies staring &laquo; %s &raquo;"
 msgstr "View all movies staring &laquo; %s &raquo;"
+
+#: includes/class-wpml-utils.php:1730
+msgid "&laquo; Previous"
+msgstr "&laquo; Previous"
+
+#: includes/class-wpml-utils.php:1731
+msgid "Next &raquo;"
+msgstr "Next &raquo;"
+
+#: includes/class-wpml-utils.php:1767
+msgid "&hellip;"
+msgstr "&hellip;"
 
 #: includes/wpml-config.php:22
 msgid "API Settings"
@@ -2208,7 +2235,7 @@ msgstr "WPML Actors"
 msgid "Display Movie Actors Lists"
 msgstr "Display Movie Actors Lists"
 
-#: public/actors/class-actors-widget.php:90
+#: public/actors/class-actors-widget.php:106
 msgid "Movie Actors"
 msgstr "Movie Actors"
 
@@ -2216,15 +2243,24 @@ msgstr "Movie Actors"
 msgid "New Actor"
 msgstr "New Actor"
 
-#: public/actors/views/actors-widget.php:17
-#: public/collections/views/collections-widget.php:17
-#: public/genres/views/genres-widget.php:17
-#: public/movies/views/media-widget.php:29
-#: public/movies/views/media-widget.php:52
-#: public/movies/views/status-widget.php:28
-#: public/movies/views/status-widget.php:51
+#: public/actors/views/actors-widget.php:10
+#: public/collections/views/collections-widget.php:10
+#: public/genres/views/genres-widget.php:10
+#: public/movies/class-media-widget.php:81
+#: public/movies/class-media-widget.php:104
+#: public/movies/views/status-widget.php:19
+#: public/movies/views/status-widget.php:42
 msgid "Permalink for &laquo; %s &raquo;"
 msgstr "Permalink for &laquo; %s &raquo;"
+
+#: public/actors/views/actors-widget.php:17
+msgid "View all actors"
+msgstr "View all actors"
+
+#: public/actors/views/actors-widget.php:19
+#: public/collections/views/collections-widget.php:19
+msgid "View the complete list"
+msgstr "View the complete list"
 
 #: public/actors/views/actors-widget.php:22
 msgid "Select an Actor"
@@ -2247,13 +2283,17 @@ msgstr "WPML Collections"
 msgid "Display Movie Collections Lists"
 msgstr "Display Movie Collections Lists"
 
-#: public/collections/class-collections-widget.php:90
+#: public/collections/class-collections-widget.php:106
 msgid "Movie Collections"
 msgstr "Movie Collections"
 
 #: public/collections/class-wpml-collections.php:71
 msgid "New Movie Collection"
 msgstr "New Movie Collection"
+
+#: public/collections/views/collections-widget.php:17
+msgid "View all collections"
+msgstr "View all collections"
 
 #: public/collections/views/collections-widget.php:22
 msgid "Select a Collection"
@@ -2271,7 +2311,7 @@ msgstr "WPML Genres"
 msgid "Display Movie Genres Lists"
 msgstr "Display Movie Genres Lists"
 
-#: public/genres/class-genres-widget.php:90
+#: public/genres/class-genres-widget.php:98
 msgid "Movie Genres"
 msgstr "Movie Genres"
 
@@ -2279,11 +2319,11 @@ msgstr "Movie Genres"
 msgid "New Genre"
 msgstr "New Genre"
 
-#: public/genres/views/genres-widget.php:22
+#: public/genres/views/genres-widget.php:15
 msgid "Select a Genre"
 msgstr "Select a Genre"
 
-#: public/genres/views/genres-widget.php:26
+#: public/genres/views/genres-widget.php:19
 msgid "Nothing to display for \"Genre\" taxonomy."
 msgstr "Nothing to display for \"Genre\" taxonomy."
 
@@ -2295,7 +2335,24 @@ msgstr "WPML Media"
 msgid "Display Movies from a specific media"
 msgstr "Display Movies from a specific media"
 
-#: public/movies/class-media-widget.php:94
+#: public/movies/class-media-widget.php:87
+msgid "Select a media"
+msgstr "Select a media"
+
+#: public/movies/class-media-widget.php:91
+#: public/movies/class-media-widget.php:116
+#: public/movies/views/status-widget.php:29
+#: public/movies/views/status-widget.php:54
+msgid "Nothing to display."
+msgstr "Nothing to display."
+
+#: public/movies/class-media-widget.php:112
+#: public/movies/views/most-rated-movies-widget.php:20
+#: public/movies/views/status-widget.php:50
+msgid "Select a Movie"
+msgstr "Select a Movie"
+
+#: public/movies/class-media-widget.php:156
 msgid "Movie by Media"
 msgstr "Movie by Media"
 
@@ -2307,7 +2364,7 @@ msgstr "WPML Most Rated Movies"
 msgid "Display most rated Movies."
 msgstr "Display most rated Movies."
 
-#: public/movies/class-most-rated-movies-widget.php:91
+#: public/movies/class-most-rated-movies-widget.php:98
 msgid "Movies I really enjoyed"
 msgstr "Movies I really enjoyed"
 
@@ -2319,11 +2376,11 @@ msgstr "WPML Recent Movies"
 msgid "Display most recently added Movies."
 msgstr "Display most recently added Movies."
 
-#: public/movies/class-recent-movies-widget.php:88
+#: public/movies/class-recent-movies-widget.php:102
 msgid "Recent Movies"
 msgstr "Recent Movies"
 
-#: public/movies/class-recent-movies-widget.php:89
+#: public/movies/class-recent-movies-widget.php:103
 msgid "Movies I recently added to my library"
 msgstr "Movies I recently added to my library"
 
@@ -2335,7 +2392,7 @@ msgstr "WPML Status"
 msgid "Display Movies from a specific status"
 msgstr "Display Movies from a specific status"
 
-#: public/movies/class-status-widget.php:93
+#: public/movies/class-status-widget.php:102
 msgid "Movie by Status"
 msgstr "Movie by Status"
 
@@ -2375,33 +2432,16 @@ msgid_plural "Queued Movies <span class=\"count\">(%s)</span>"
 msgstr[0] "Queued Movie <span class=\"count\">(%s)</span>"
 msgstr[1] "Queued Movies <span class=\"count\">(%s)</span>"
 
-#: public/movies/views/media-widget.php:35
-msgid "Select a media"
-msgstr "Select a media"
-
-#: public/movies/views/media-widget.php:39
-#: public/movies/views/media-widget.php:64
-#: public/movies/views/status-widget.php:38
-#: public/movies/views/status-widget.php:63
-msgid "Nothing to display."
-msgstr "Nothing to display."
-
-#: public/movies/views/media-widget.php:60
-#: public/movies/views/most-rated-movies-widget.php:27
-#: public/movies/views/status-widget.php:59
-msgid "Select a Movie"
-msgstr "Select a Movie"
-
-#: public/movies/views/most-rated-movies-widget.php:21
+#: public/movies/views/most-rated-movies-widget.php:14
 msgid "Permalink for &laquo; %s Rated Movies &raquo;"
 msgstr "Permalink for &laquo; %s Rated Movies &raquo;"
 
-#: public/movies/views/most-rated-movies-widget.php:52
-#: public/movies/views/recent-movies-widget.php:24
+#: public/movies/views/most-rated-movies-widget.php:45
+#: public/movies/views/recent-movies-widget.php:11
 msgid "Read more about"
 msgstr "Read more about"
 
-#: public/movies/views/status-widget.php:34
+#: public/movies/views/status-widget.php:25
 msgid "Select a status"
 msgstr "Select a status"
 

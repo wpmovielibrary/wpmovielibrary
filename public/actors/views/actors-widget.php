@@ -14,7 +14,7 @@ if ( $actors && ! is_wp_error( $actors ) ) :
 
 	if ( $limit )
 		$items[] = array(
-			'attr_title'  => __( 'View all collections', WPML_SLUG ),
+			'attr_title'  => __( 'View all actors', WPML_SLUG ),
 			'link'        => home_url( '/' . $archive ),
 			'title'       => __( 'View the complete list', WPML_SLUG )
 		);
