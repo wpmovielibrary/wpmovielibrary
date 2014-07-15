@@ -50,6 +50,21 @@ class WPML_Collections_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		extract( $args, EXTR_SKIP );
+		extract( $instance, EXTR_SKIP );
+
+		$title = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
+
+		$list  = ( 1 == $list ? true : false );
+		$css   = ( 1 == $css ? true : false );
+		$count = ( 1 == $count ? true : false );
+		$limit = ( isset( $limit ) ? intval( $limit ) : WPML_MAX_TAXONOMY_LIST );
+		$archive = WPML_Settings::taxonomies__collection_rewrite();
+
+		$args = '';
+		if ( 0 < $limit )
+			$args = 'order=DESC&orderby=count&number=' . $limit;
+
+		$collections = get_terms( array( 'collection' ), $args );
 
 		echo $before_widget;
 
@@ -72,6 +87,7 @@ class WPML_Collections_Widget extends WP_Widget {
 		$instance['list']  = intval( $new_instance['list'] );
 		$instance['count'] = intval( $new_instance['count'] );
 		$instance['css']   = intval( $new_instance['css'] );
+		$instance['limit'] = intval( $new_instance['limit'] );
 
 		return $instance;
 	}
@@ -88,9 +104,10 @@ class WPML_Collections_Widget extends WP_Widget {
 		);
 
 		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Collections', WPML_SLUG ) );
-		$list  = ( isset( $instance['list'] ) ? $instance['list'] : 1 );
-		$count = ( isset( $instance['count'] ) ? $instance['count'] : 0 );
-		$css   = ( isset( $instance['css'] ) ? $instance['css'] : 0 );
+		$list  = ( isset( $instance['list'] ) && 1 == $instance['list'] ? true : false );
+		$count = ( isset( $instance['count'] )  && 1 == $instance['count'] ? true : false );
+		$css   = ( isset( $instance['css'] )  && 1 == $instance['css'] ? true : false );
+		$limit = ( isset( $instance['limit'] ) ? $instance['limit'] : WPML_MAX_TAXONOMY_LIST );
 
 		// Display the admin form
 		include( WPML_PATH . 'admin/common/views/collections-widget-admin.php' );

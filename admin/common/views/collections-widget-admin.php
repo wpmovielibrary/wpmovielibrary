@@ -9,4 +9,6 @@
 		<label for="<?php echo $this->get_field_id( 'count' ); ?>"><?php _e( 'Show movies count', WPML_SLUG ); ?></label><br />
 		<input id="<?php echo $this->get_field_id( 'css' ); ?>" name="<?php echo $this->get_field_name( 'css' ); ?>" type="checkbox" value="1" <?php checked( $css, 1 ); ?> /> 
 		<label for="<?php echo $this->get_field_id( 'css' ); ?>"><?php _e( 'Custom Style (only for dropdown)', WPML_SLUG ); ?></label>
+		<label for="<?php echo $this->get_field_id( 'limit' ); ?>"><h4 class="wpml-widget-title"><?php _e( 'Number of collections to show', WPML_SLUG ); ?></h4></label>
+		<input id="<?php echo $this->get_field_id( 'limit' ); ?>" name="<?php echo $this->get_field_name( 'limit' ); ?>" type="text" size="3" value="<?php echo esc_attr( $limit ); ?>" /> <em><?php _e( 'Set to 0 to disable limit. Not recommended.', WPML_SLUG ); ?></em>
 	</p>

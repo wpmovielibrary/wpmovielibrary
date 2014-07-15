@@ -44,6 +44,7 @@ define( 'WPML_SETTINGS_REVISION_NAME', 'settings_revision' );
 define( 'WPML_SETTINGS_REVISION',      12 );
 define( 'WPML_DEFAULT_POSTER_URL',     plugins_url( basename( __DIR__ ) ) . '/assets/img/no_poster{size}.jpg' );
 define( 'WPML_DEFAULT_POSTER_PATH',    WPML_PATH . '/assets/img/no_poster{size}.jpg' );
+define( 'WPML_MAX_TAXONOMY_LIST',      50 );
 
 
 
