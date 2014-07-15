@@ -175,6 +175,8 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 */
 		protected static function validate_settings( $settings, $defaults = array() ) {
 
+			require_once( WPML_PATH . 'includes/wpml-config.php' );
+
 			$defaults = ( ! empty( $defaults ) ? $defaults : self::get_default_settings() );
 			$_settings = array();
 
@@ -242,6 +244,8 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 				if ( isset( $settings[ $slug ] ) ) {
 					if ( in_array( $slug, array( 'default_movie_meta', 'default_movie_details' ) ) ) {
 						$allowed = array_keys( call_user_func( __CLASS__ . '::get_supported_' . str_replace( 'default_', '', $slug ) ) );
+						if ( ! is_array( $default ) )
+							$default = array( $default );
 						$_settings[ $slug ] = array_intersect( $setting, $allowed );
 					}
 					else {
@@ -456,6 +460,9 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 
 			global $wpml_movie_details;
 
+			if ( is_null( $wpml_movie_details ) )
+				require( WPML_PATH . 'includes/wpml-config.php' );
+
 			if ( ! is_null( $type ) && isset( $wpml_movie_details[ $type ] ) )
 				return $wpml_movie_meta[ $type ];
 
@@ -476,6 +483,9 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		public static function get_supported_movie_meta( $type = null, $merge = true ) {
 
 			global $wpml_movie_meta;
+
+			if ( is_null( $wpml_movie_meta ) )
+				require( WPML_PATH . 'includes/wpml-config.php' );
 
 			if ( is_null( $type ) && false === $merge )
 				return $wpml_movie_meta;
