@@ -50,6 +50,15 @@ class WPML_Status_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		extract( $args, EXTR_SKIP );
+		extract( $instance );
+
+		$title = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
+		$description = esc_attr( $description );
+		$type = esc_attr( $type );
+		$list = ( 1 == $list ? true : false );
+		$css = ( 1 == $css ? true : false );
+		$thumbnails = ( 1 == $thumbnails ? true : false );
+		$status_only = ( 1 == $status_only ? true : false );
 
 		echo $before_widget;
 

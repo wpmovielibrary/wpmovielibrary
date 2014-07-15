@@ -1,11 +1,4 @@
-<?php
-$title = $before_title . apply_filters( 'widget_title', $instance['title'] ) . $after_title;
-$list  = ( 1 == $instance['list'] ? true : false );
-$css = ( 1 == $instance['css'] ? true : false );
-$count = ( 1 == $instance['count'] ? true : false );
 
-$genres = get_terms( array( 'genre' ) );
-?>
 		<?php echo $title; ?>
 <?php
 if ( $genres && ! is_wp_error( $genres ) ) :

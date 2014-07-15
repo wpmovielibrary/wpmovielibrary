@@ -1,11 +1,4 @@
-<?php
-$title = $before_title . apply_filters( 'widget_title', $instance['title'] ) . $after_title;
-$description = $instance['description'];
-$number = $instance['number'];
-$display_rating = $instance['display_rating'];
-$rating_only = ( 1 == $instance['rating_only'] ? true : false );
 
-?>
 		<?php echo $title; ?>
 		<p class="widget-description"><?php echo $description; ?></p>
 <?php

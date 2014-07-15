@@ -50,6 +50,14 @@ class WPML_Genres_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		extract( $args, EXTR_SKIP );
+		extract( $instance );
+
+		$title = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
+		$list  = ( 1 == $list ? true : false );
+		$css = ( 1 == $css ? true : false );
+		$count = ( 1 == $count ? true : false );
+
+		$genres = get_terms( array( 'genre' ) );
 
 		echo $before_widget;
 

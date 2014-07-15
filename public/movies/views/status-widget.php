@@ -1,13 +1,4 @@
-<?php
-$title = $before_title . apply_filters( 'widget_title', $instance['title'] ) . $after_title;
-$description = $instance['description'];
-$type = $instance['type'];
-$list = ( 1 == $instance['list'] ? true : false );
-$css = ( 1 == $instance['css'] ? true : false );
-$thumbnails = ( 1 == $instance['thumbnails'] ? true : false );
-$status_only = ( 1 == $instance['status_only'] ? true : false );
 
-?>
 		<?php echo $title; ?>
 <?php
 

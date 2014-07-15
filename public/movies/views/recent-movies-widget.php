@@ -1,17 +1,4 @@
-<?php
-$title       = $before_title . apply_filters( 'widget_title', $instance['title'] ) . $after_title;
-$description = $instance['description'];
-$number      = $instance['number'];
 
-$movies = new WP_Query(
-	array(
-		'posts_per_page' => $number,
-		'post_type'      => 'movie',
-		'order'          => 'DESC',
-		'orderby'        => 'date'
-	)
-);
-?>
 		<?php echo $title; ?>
 		<p class="widget-description"><?php echo $description; ?></p>
 

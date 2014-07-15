@@ -49,8 +49,15 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		extract( $args, EXTR_SKIP );
+		extract( $instance );
 
 		echo $before_widget;
+
+		$title = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
+		$description = esc_attr( $description );
+		$number = intval( $number );
+		$display_rating = esc_attr( $display_rating );
+		$rating_only = ( 1 == $rating_only ? true : false );
 
 		include( plugin_dir_path( __FILE__ ) . '/views/most-rated-movies-widget.php' );
 

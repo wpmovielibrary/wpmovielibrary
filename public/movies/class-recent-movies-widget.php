@@ -49,6 +49,20 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		extract( $args, EXTR_SKIP );
+		extract( $instance );
+
+		$title       = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
+		$description = esc_attr( $description );
+		$number      = intval( $number );
+
+		$movies = new WP_Query(
+			array(
+				'posts_per_page' => $number,
+				'post_type'      => 'movie',
+				'order'          => 'DESC',
+				'orderby'        => 'date'
+			)
+		);
 
 		echo $before_widget;
 
