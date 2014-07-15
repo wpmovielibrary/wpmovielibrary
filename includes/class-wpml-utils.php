@@ -776,6 +776,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function format_movie_field( $data ) {
 
+			if ( '' == $data )
+				$data = '&mdash;';
+
 			return $data;
 		}
 

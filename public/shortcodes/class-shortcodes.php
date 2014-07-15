@@ -472,8 +472,11 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 					foreach ( $_meta as $slug => $m ) {
 						if ( in_array( $slug, $meta ) ) {
-							$filter = ( has_filter( "wpml_format_movie_{$slug}" ) ? "wpml_format_movie_{$slug}" : "wpml_format_movie_field" );
-							$metadata[ array_search( $slug, $meta ) ] = array( 'title' => __( $default_fields[ $slug ]['title'], WPML_SLUG ), 'value' => apply_filters( $filter, $_meta[ $slug ] ) );
+							$title = __( $default_fields[ $slug ]['title'], WPML_SLUG );
+							$value = apply_filters( "wpml_format_movie_field", $_meta[ $slug ] );
+							if ( has_filter( "wpml_format_movie_{$slug}" ) )
+								$value = apply_filters( "wpml_format_movie_{$slug}", $value );
+							$metadata[ array_search( $slug, $meta ) ] = array( 'title' => $title, 'value' => $value );
 						}
 					}
 
