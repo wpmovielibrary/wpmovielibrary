@@ -45,24 +45,6 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		}
 
 		/**
-		 * Get the movie's featured image.
-		 * If a poster was uploaded and set as featured image for the moive's
-		 * post, return the image URL. If no featured image is set, return the
-		 * default poster.
-		 *
-		 * @since     1.0.0
-		 * 
-		 * @param     int       $post_id The movie's post ID
-		 *
-		 * @return    string    Featured image URL
-		 */
-		public static function get_featured_image( $post_id, $size = 'thumbnail' ) {
-			$_id = get_post_thumbnail_id( $post_id );
-			$img = ( $_id ? wp_get_attachment_image_src( $_id, $size ) : array( WPML_DEFAULT_POSTER_URL ) );
-			return $img[0];
-		}
-
-		/**
 		 * Perform delete actions on movies' images and posters.
 		 * 
 		 * User can set through the Settings whether the imported images,

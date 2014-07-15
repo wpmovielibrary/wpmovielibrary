@@ -66,6 +66,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			add_filter( 'wpml_filter_empty_array', __CLASS__ . '::filter_empty_array', 10, 1 );
 			add_filter( 'wpml_filter_undimension_array', __CLASS__ . '::filter_undimension_array', 10, 1 );
 
+			add_filter( 'post_thumbnail_html', __CLASS__ . '::filter_default_thumbnail', 10, 5 );
+
 			add_filter( 'get_the_terms', __CLASS__ . '::get_the_terms', 10, 3 );
 			add_filter( 'wp_get_object_terms', __CLASS__ . '::get_ordered_object_terms', 10, 4 );
 
@@ -1145,6 +1147,50 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			}
 
 			return $_array;
+		}
+
+		/**
+		 * Filter the post thumbnail HTML to return the plugin's default
+		 * poster.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param    string    $html The post thumbnail HTML.
+		 * @param    string    $post_id The post ID.
+		 * @param    string    $post_thumbnail_id The post thumbnail ID.
+		 * @param    string    $size The post thumbnail size.
+		 * @param    string    $attr Query string of attributes.
+		 * 
+		 * @return   string    Default poster HTML markup
+		 */
+		public static function filter_default_thumbnail( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+
+			if ( '' != $html )
+				return $html;
+
+			// Filter available sizes
+			switch ( $size ) {
+				case 'post-thumbnail':
+					$size = '-large';
+					break;
+				case 'thumb':
+				case 'thumbnail':
+				case 'medium':
+				case 'large':
+					$size = '-' . $size;
+					break;
+				case 'full':
+					$size = '';
+					break;
+				default:
+					$size = '-large';
+					break;
+			}
+
+			$url = str_replace( '{size}', $size, WPML_DEFAULT_POSTER_URL );
+			$html = '<img class="attachment-post-thumbnail wp-post-image" src="' . $url . '" alt="" />';
+
+			return $html;
 		}
 
 		/**

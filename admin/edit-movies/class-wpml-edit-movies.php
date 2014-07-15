@@ -135,7 +135,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			switch ( $column_name ) {
 				case 'poster':
-					$html = '<img src="'.WPML_Media::get_featured_image( $post_id ).'" alt="" />';
+					$html = get_the_post_thumbnail( $post_id, 'thumbnail' );
 					break;
 				case 'movie_status':
 				case 'movie_media':
