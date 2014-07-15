@@ -221,7 +221,7 @@ $wpml_settings = array(
 				'title' => __( 'Runtime format', WPML_SLUG ),
 				'description' => __( 'Apply a custom time format to movies\' runtimes. Leave empty to use the default API format.', WPML_SLUG ),
 				'type' => 'input',
-				'default' => 'g \h i \m\i\n'
+				'default' => 'G \h i \m\i\n'
 			),
 		),
 	),
