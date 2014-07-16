@@ -4,7 +4,7 @@ Donate link:
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor
 Requires at least: 3.6
 Tested up to: 3.9.1
-Stable tag: 1.0.2
+Stable tag: 1.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -72,6 +72,27 @@ Use the import tool: simply paste a list of titles, all your movies will be crea
 
 == Changelog ==
 
+== 1.1.0 ==
+
+* Features - Implements shortcodes
+* Features - Create 8 new shortcodes
+* Features - Create 16+ aliases for specific shortcodes
+* Features - New default poster
+* Tweak - Better display of directors, actors and genres in fronted, metadata are now matched against existing taxonomies to provide relevant links
+* Tweak - Custom archive pages pagination
+* Tweak - Custom archive pages specific titles
+* Tweak - Show a dash instead of empty metadata in frontend
+* Tweak - Add default runtime and release date/time formats
+* Tweak - Limited number of items in Collections and Actors Widgets to lighten loading time
+* Tweak - Updated default poster
+* Dev - Better use of filters to display movie metadata and details and handle shortcodes and metadata aliases
+* Dev - Cleaner Widgets views
+* Fix - JavaScript bug in the movie editor preventing from manually setting a featured image after metadata import
+* Fix - missing links on directors when a movie has two or more directors
+* Fix - frontend PHP Warning when movie runtime is empty
+* Fix - JavaScript bug when setting collections in movie editor
+* Fix - Warnings on plugin activation when updating settings
+
 = 1.0.2 =
 * Fix - Markup error in readme
 * Fix - Wrong PHP version requirement (PHP 5.3 required, not 5.2) - Thanks Ravavamouna
@@ -90,5 +111,5 @@ Use the import tool: simply paste a list of titles, all your movies will be crea
 * Tweak - Add an admin notice in case of missing Archive page
 * Tweak - Language packs updated
 
-= 1.0.0 =
+== 1.0.0 ==
 * First stable release
