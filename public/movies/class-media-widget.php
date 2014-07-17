@@ -52,8 +52,6 @@ class WPML_Media_Widget extends WP_Widget {
 		extract( $args, EXTR_SKIP );
 		extract( $instance );
 
-		echo $before_widget;
-
 		$title = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
 		$description = esc_attr( $description );
 		$type = esc_attr( $type );
@@ -62,7 +60,7 @@ class WPML_Media_Widget extends WP_Widget {
 		$thumbnails = ( 1 == $thumbnails ? true : false );
 		$media_only = ( 1 == $media_only ? true : false );
 
-		echo $title;
+		$html = '';
 
 		if ( $media_only ) :
 
@@ -73,10 +71,10 @@ class WPML_Media_Widget extends WP_Widget {
 			if ( ! empty( $media ) ) :
 
 				$items = array();
-				$style = 'wpml-list';
+				$style = 'wpml-widget wpml-media-list';
 
 				if ( $css )
-					$style = 'wpml-list custom';
+					$style = 'wpml-widget wpml-media-list wpml-list custom';
 
 				foreach ( $media as $slug => $media_title ) :
 					$_slug = ( $rewrite ? __( $slug, WPML_SLUG ) : $slug );
@@ -89,15 +87,15 @@ class WPML_Media_Widget extends WP_Widget {
 				endforeach;
 
 				$items = apply_filters( 'wpml_widget_media_lists', $items, $list, $css );
-				$attributes = array( 'items' => $items, 'title' => $title, 'description' => $description, 'style' => $style );
+				$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style );
 
 				if ( $list ) :
-					echo WPMovieLibrary::render_template( 'media-widget/media-dropdown-widget.php', $attributes );
+					$html = WPMovieLibrary::render_template( 'media-widget/media-dropdown-widget.php', $attributes );
 				else :
-					echo WPMovieLibrary::render_template( 'media-widget/media-widget.php', $attributes );
+					$html = WPMovieLibrary::render_template( 'media-widget/media-widget.php', $attributes );
 				endif;
 			else :
-				printf( '<em>%s</em>', __( 'Nothing to display.', WPML_SLUG ) );
+				$html = sprintf( '<em>%s</em>', __( 'Nothing to display.', WPML_SLUG ) );
 			endif;
 
 		else :
@@ -106,10 +104,10 @@ class WPML_Media_Widget extends WP_Widget {
 			if ( ! empty( $movies ) ) :
 
 				$items = array();
-				$style = 'wpml-media-list';
+				$style = 'wpml-widget wpml-media-movies-list';
 
 				if ( $thumbnails )
-					$style = 'wpml-media-list wpml-list-with-thumbnail';
+					$style = 'wpml-widget wpml-media-movies-list wpml-movies wpml-movies-with-thumbnail';
 
 				foreach ( $movies as $movie )
 					$items[] = array(
@@ -120,19 +118,19 @@ class WPML_Media_Widget extends WP_Widget {
 					);
 
 				$items = apply_filters( 'wpml_widget_media_lists', $items, $list, $css );
-				$attributes = array( 'items' => $items, 'title' => $title, 'description' => $description, 'style' => $style );
+				$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style );
 
 				if ( $thumbnails )
-					echo WPMovieLibrary::render_template( 'media-widget/movies-by-media.php', $attributes );
+					$html = WPMovieLibrary::render_template( 'media-widget/movies-by-media.php', $attributes );
 				else
-					echo WPMovieLibrary::render_template( 'media-widget/media-widget.php', $attributes );
+					$html = WPMovieLibrary::render_template( 'media-widget/media-widget.php', $attributes );
 
 			else :
-				printf( '<em>%s</em>', __( 'Nothing to display.', WPML_SLUG ) );
+				$html = WPMovieLibrary::render_template( 'empty.php' );
 			endif;
 		endif;
 
-		echo $after_widget;
+		echo $before_widget . $title . $html . $after_widget;
 	}
 
 	/**
