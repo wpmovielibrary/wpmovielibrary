@@ -66,11 +66,41 @@ class WPML_Actors_Widget extends WP_Widget {
 
 		$actors = get_terms( array( 'actor' ), $args );
 
-		echo $before_widget;
+		if ( $actors && ! is_wp_error( $actors ) ) {
 
-		include( plugin_dir_path( __FILE__ ) . '/views/actors-widget.php' );
+			$items = array();
+			$style = 'wpml-widget wpml-actor-list';
 
-		echo $after_widget;
+			if ( $css )
+				$style = 'wpml-widget wpml-actor-list wpml-list custom';
+
+			foreach ( $actors as $actor )
+				$items[] = array(
+					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $actor->name ),
+					'link'        => get_term_link( sanitize_term( $actor, 'actor' ), 'actor' ),
+					'title'       => esc_attr( $actor->name . ( $count ? sprintf( '&nbsp;(%d)', $actor->count ) : '' ) )
+				);
+
+			if ( $limit )
+				$items[] = array(
+					'attr_title'  => __( 'View all actors', WPML_SLUG ),
+					'link'        => home_url( '/' . $archive ),
+					'title'       => __( 'View the complete list', WPML_SLUG )
+				);
+
+			$items = apply_filters( 'wpml_widget_actor_list', $items, $list, $css );
+			$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style );
+
+			if ( $list )
+				$html = WPMovieLibrary::render_template( 'actor-widget/actor-dropdown-widget.php', $attributes );
+			else
+				$html = WPMovieLibrary::render_template( 'actor-widget/actor-widget.php', $attributes );
+		}
+		else {
+			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display for "Actor" taxonomy.', WPML_SLUG ) ) );
+		}
+
+		echo $before_widget . $title . $html . $after_widget;
 	}
 
 	/**

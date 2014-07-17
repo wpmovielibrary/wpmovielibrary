@@ -91,12 +91,10 @@ class WPML_Collections_Widget extends WP_Widget {
 			$items = apply_filters( 'wpml_widget_collection_list', $items, $list, $css );
 			$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style );
 
-			if ( $list ) :
-					$html = WPMovieLibrary::render_template( 'collection-widget/collection-dropdown-widget.php', $attributes );
-				else :
-					$html = WPMovieLibrary::render_template( 'collection-widget/collection-widget.php', $attributes );
-				endif;
-
+			if ( $list )
+				$html = WPMovieLibrary::render_template( 'collection-widget/collection-dropdown-widget.php', $attributes );
+			else
+				$html = WPMovieLibrary::render_template( 'collection-widget/collection-widget.php', $attributes );
 		}
 		else {
 			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display for "Collection" taxonomy.', WPML_SLUG ) ) );

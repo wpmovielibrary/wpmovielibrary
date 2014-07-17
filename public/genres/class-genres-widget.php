@@ -59,11 +59,34 @@ class WPML_Genres_Widget extends WP_Widget {
 
 		$genres = get_terms( array( 'genre' ) );
 
-		echo $before_widget;
+		if ( $genres && ! is_wp_error( $genres ) ) {
 
-		include( plugin_dir_path( __FILE__ ) . '/views/genres-widget.php' );
+			$items = array();
+			$style = 'wpml-widget wpml-genre-list';
 
-		echo $after_widget;
+			if ( $css )
+				$style = 'wpml-widget wpml-genre-list wpml-list custom';
+
+			foreach ( $genres as $genre )
+				$items[] = array(
+					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $genre->name ),
+					'link'        => get_term_link( sanitize_term( $genre, 'genre' ), 'genre' ),
+					'title'       => esc_attr( $genre->name . ( 1 == $count ? sprintf( '&nbsp;(%d)', $genre->count ) : '' ) )
+				);
+
+			$items = apply_filters( 'wpml_widget_genre_list', $items, $list, $css );
+			$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style );
+
+			if ( $list )
+				$html = WPMovieLibrary::render_template( 'genre-widget/genre-dropdown-widget.php', $attributes );
+			else
+				$html = WPMovieLibrary::render_template( 'genre-widget/genre-widget.php', $attributes );
+		}
+		else {
+			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display for "Genre" taxonomy.', WPML_SLUG ) ) );
+		}
+
+		echo $before_widget . $title . $html . $after_widget;
 	}
 
 	/**
