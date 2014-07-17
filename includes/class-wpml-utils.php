@@ -34,8 +34,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			add_filter( 'rewrite_rules_array', __CLASS__ . '::register_permalinks', 11 );
 
-			add_filter( 'wpml_format_widget_lists', __CLASS__ . '::format_widget_lists', 10, 4 );
-			add_filter( 'wpml_format_widget_lists_thumbnails', __CLASS__ . '::format_widget_lists_thumbnails', 10, 1 );
+			//add_filter( 'wpml_format_widget_lists', __CLASS__ . '::format_widget_lists', 10, 4 );
+			//add_filter( 'wpml_format_widget_lists_thumbnails', __CLASS__ . '::format_widget_lists_thumbnails', 10, 1 );
 
 			add_filter( 'wpml_summarize_settings', __CLASS__ . '::summarize_settings', 10, 1 );
 
@@ -376,91 +376,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$s = trim( $query );
 			$s = preg_replace( '/[^\p{L}\p{N}\s]/u', '', $s );
 			return $s;
-		}
-
-		/**
-		 * Generate Movies dropdown or classic lists.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @param    array    $items Array of Movies objects
-		 * @param    array    $args Filter params
-		 * 
-		 * @return   string     HTML string List of movies
-		 */
-		public static function format_widget_lists( $items, $args = array() ) {
-
-			if ( ! is_array( $items ) || empty( $items ) )
-				return null;
-
-			$defaults = array(
-				'dropdown'	=> false,
-				'styling'	=> false,
-				'title'		=> null,
-				'attr_filter'	=> 'esc_attr__',
-				'attr_args'	=> WPML_SLUG,
-				'title_filter'	=> 'esc_attr__',
-				'title_args'	=> WPML_SLUG
-			);
-			$args = wp_parse_args( $args, $defaults );
-			extract( $args, EXTR_SKIP );
-
-			$html = array();
-			$style = 'wpml-list';
-			$first = '';
-
-			if ( $styling )
-				$style = 'wpml-list custom';
-
-			if ( ! is_null( $title ) )
-				$first = sprintf( '<option value="">%s</option>', esc_attr( $title ) );
-
-			foreach ( $items as $item ) {
-				$item_title = ( function_exists( $title_filter ) ? call_user_func( $title_filter, $item['title'], $title_args ) : $item['title'] );
-				$item_attr_title = ( function_exists( $attr_filter ) ? call_user_func( $attr_filter, $item['attr_title'], $attr_args ) : $item['attr_title'] );
-				$item_url = esc_url( $item['link'] );
-
-				if ( $dropdown )
-					$html[] = '<option value="' . $item_url . '">' . $item_title . '</option>';
-				else
-					$html[] = '<li><a href="' . $item_url . '" title="' . $item_attr_title . '">' . $item_title . '</a></li>';
-			}
-
-			if ( false !== $dropdown )
-				$html = '<select class="' . $style . '">' . $first . join( $html ) . '</select>';
-			else
-				$html = '<ul>' . join( $html ) . '</ul>';
-
-			return $html;
-		}
-
-		/**
-		 * Generate Movies lists including Poster.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @param    array    $items Array of Movies objects
-		 * 
-		 * @return   string   HTML string of movies' links and Posters
-		 */
-		public static function format_widget_lists_thumbnails( $items ) {
-
-			if ( ! is_array( $items ) || empty( $items ) )
-				return null;
-
-			$html = array();
-
-			foreach ( $items as $item ) {
-				$html[] = '<a href="' . esc_url( $item['link'] ) . '" title="' . esc_attr( $item['attr_title'] ) . '">';
-				$html[] = '<figure class="widget-movie">';
-				$html[] = get_the_post_thumbnail( $item['ID'], 'thumbnail' );
-				$html[] = '</figure>';
-				$html[] = '</a>';
-			}
-
-			$html = '<div class="widget-movies">' . implode( "\n", $html ) . '</div>';
-
-			return $html;
 		}
 
 		/**

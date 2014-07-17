@@ -66,11 +66,43 @@ class WPML_Collections_Widget extends WP_Widget {
 
 		$collections = get_terms( array( 'collection' ), $args );
 
-		echo $before_widget;
+		if ( $collections && ! is_wp_error( $collections ) ) {
 
-		include( plugin_dir_path( __FILE__ ) . '/views/collections-widget.php' );
+			$items = array();
+			$style = 'wpml-widget wpml-collection-list';
 
-		echo $after_widget;
+			if ( $css )
+				$style = 'wpml-widget wpml-collection-list wpml-list custom';
+
+			foreach ( $collections as $collection )
+				$items[] = array(
+					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $collection->name ),
+					'link'        => get_term_link( sanitize_term( $collection, 'collection' ), 'collection' ),
+					'title'       => esc_attr( $collection->name . ( $count ? sprintf( '&nbsp;(%d)', $collection->count ) : '' ) )
+				);
+
+			if ( $limit )
+				$items[] = array(
+					'attr_title'  => __( 'View all collections', WPML_SLUG ),
+					'link'        => home_url( '/' . $archive ),
+					'title'       => __( 'View the complete list', WPML_SLUG )
+				);
+
+			$items = apply_filters( 'wpml_widget_collection_list', $items, $list, $css );
+			$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style );
+
+			if ( $list ) :
+					$html = WPMovieLibrary::render_template( 'collection-widget/collection-dropdown-widget.php', $attributes );
+				else :
+					$html = WPMovieLibrary::render_template( 'collection-widget/collection-widget.php', $attributes );
+				endif;
+
+		}
+		else {
+			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display for "Collection" taxonomy.', WPML_SLUG ) ) );
+		}
+
+		echo $before_widget . $title . $html . $after_widget;
 	}
 
 	/**
