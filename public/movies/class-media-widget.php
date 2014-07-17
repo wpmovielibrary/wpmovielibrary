@@ -123,7 +123,7 @@ class WPML_Media_Widget extends WP_Widget {
 				$attributes = array( 'items' => $items, 'title' => $title, 'description' => $description, 'style' => $style );
 
 				if ( $thumbnails )
-					echo apply_filters( 'wpml_format_widget_lists_thumbnails', $items );
+					echo WPMovieLibrary::render_template( 'media-widget/movies-by-media.php', $attributes );
 				else
 					echo WPMovieLibrary::render_template( 'media-widget/media-widget.php', $attributes );
 
