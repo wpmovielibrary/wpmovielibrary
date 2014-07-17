@@ -73,20 +73,29 @@ class WPML_Media_Widget extends WP_Widget {
 			if ( ! empty( $media ) ) :
 
 				$items = array();
+				$style = 'wpml-list';
+
+				if ( $css )
+					$style = 'wpml-list custom';
 
 				foreach ( $media as $slug => $media_title ) :
 					$_slug = ( $rewrite ? __( $slug, WPML_SLUG ) : $slug );
 					$items[] = array(
 						'ID'          => $slug,
-						'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $media_title ),
+						'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), esc_attr( $media_title ) ),
 						'link'        => home_url( "/{$movies}/{$_slug}/" ),
-						'title'       => $media_title,
+						'title'       => esc_attr( $media_title ),
 					);
 				endforeach;
 
-				$html = apply_filters( 'wpml_format_widget_lists', $items, array( 'dropdown' => $list, 'styling' => $css, 'title' => __( 'Select a media', WPML_SLUG ) ) );
+				$items = apply_filters( 'wpml_widget_media_lists', $items, $list, $css );
+				$attributes = array( 'items' => $items, 'title' => $title, 'description' => $description, 'style' => $style );
 
-				echo $html;
+				if ( $list ) :
+					echo WPMovieLibrary::render_template( 'media-widget/media-dropdown-widget.php', $attributes );
+				else :
+					echo WPMovieLibrary::render_template( 'media-widget/media-widget.php', $attributes );
+				endif;
 			else :
 				printf( '<em>%s</em>', __( 'Nothing to display.', WPML_SLUG ) );
 			endif;
@@ -97,6 +106,10 @@ class WPML_Media_Widget extends WP_Widget {
 			if ( ! empty( $movies ) ) :
 
 				$items = array();
+				$style = 'wpml-media-list';
+
+				if ( $thumbnails )
+					$style = 'wpml-media-list wpml-list-with-thumbnail';
 
 				foreach ( $movies as $movie )
 					$items[] = array(
@@ -106,12 +119,14 @@ class WPML_Media_Widget extends WP_Widget {
 						'title'       => $movie->post_title,
 					);
 
-				if ( $thumbnails )
-					$html = apply_filters( 'wpml_format_widget_lists_thumbnails', $items );
-				else
-					$html = apply_filters( 'wpml_format_widget_lists', $items, $list, $css, __( 'Select a Movie', WPML_SLUG ) );
+				$items = apply_filters( 'wpml_widget_media_lists', $items, $list, $css );
+				$attributes = array( 'items' => $items, 'title' => $title, 'description' => $description, 'style' => $style );
 
-				echo $html;
+				if ( $thumbnails )
+					echo apply_filters( 'wpml_format_widget_lists_thumbnails', $items );
+				else
+					echo WPMovieLibrary::render_template( 'media-widget/media-widget.php', $attributes );
+
 			else :
 				printf( '<em>%s</em>', __( 'Nothing to display.', WPML_SLUG ) );
 			endif;
