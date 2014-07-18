@@ -1165,7 +1165,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function filter_default_thumbnail( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
 
-			if ( '' != $html )
+			if ( '' != $html || 'movie' != get_post_type( $post_id ) )
 				return $html;
 
 			// Filter available sizes
