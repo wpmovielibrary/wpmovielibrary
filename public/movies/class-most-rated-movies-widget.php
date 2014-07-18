@@ -82,7 +82,7 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 				$items = apply_filters( 'wpml_widget_rating_items', $items );
 				$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style );
 
-				$html = WPMovieLibrary::render_template( 'rating-widget/rating-widget.php', $attributes );
+				$html = WPMovieLibrary::render_template( 'rating-widget/rating-list.php', $attributes );
 			}
 			else {
 				$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display.', WPML_SLUG ) ) );
@@ -118,7 +118,7 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 					$items[] = $item;
 				}
 
-				$items = apply_filters( 'wpml_widget_most_rated_movies', $items, $list, $css );
+				$items = apply_filters( 'wpml_widget_most_rated_movies', $items );
 				$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style, 'display_rating' => $display_rating );
 
 				$html = WPMovieLibrary::render_template( 'rating-widget/movies-by-rating.php', $attributes );

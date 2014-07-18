@@ -1,8 +1,8 @@
 <?php
 /**
- * Movies-by-Media Default Template
+ * Status Default Template
  * 
- * Display a dropdown list of items
+ * Display a list of status links
  * 
  * @since    1.2.0
  * 
@@ -15,12 +15,11 @@
 
 		<div class="wpml-widget-description"><?php echo $description ?></div>
 
-		<select class="wpml-list">
-			<option value=""><?php _e( 'Select a media', WPML_SLUG ) ?></option>
+		<ul class="wpml-widget-list">
 <?php foreach ( $items as $item ) : ?>
-			<option value="<?php echo $item['link'] ?>"><?php echo $item['title'] ?></option>
+			<li class="wpml-widget-list-item"><a href="<?php echo $item['link'] ?>" title="<?php echo $item['attr_title'] ?>"><?php echo $item['title'] ?></a></li>
 
 <?php endforeach; ?>
-		</select>
+		</ul>
 
 	</div>

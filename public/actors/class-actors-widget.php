@@ -50,7 +50,7 @@ class WPML_Actors_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		extract( $args, EXTR_SKIP );
-		extract( $instance, EXTR_SKIP );
+		extract( $instance );
 
 		$title = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
 
@@ -89,12 +89,12 @@ class WPML_Actors_Widget extends WP_Widget {
 				);
 
 			$items = apply_filters( 'wpml_widget_actor_list', $items, $list, $css );
-			$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style );
+			$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => __( 'Select an actor', WPML_SLUG ), 'style' => $style );
 
 			if ( $list )
-				$html = WPMovieLibrary::render_template( 'actor-widget/actor-dropdown-widget.php', $attributes );
+				$html = WPMovieLibrary::render_template( 'actor-widget/actor-dropdown-list.php', $attributes );
 			else
-				$html = WPMovieLibrary::render_template( 'actor-widget/actor-widget.php', $attributes );
+				$html = WPMovieLibrary::render_template( 'actor-widget/actor-list.php', $attributes );
 		}
 		else {
 			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display for "Actor" taxonomy.', WPML_SLUG ) ) );

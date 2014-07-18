@@ -1,6 +1,6 @@
 <?php
 /**
- * Movies-by-Media Default Template
+ * Movies-by-Status Default Template
  * 
  * Display a list of movies links with thumbnails
  * 

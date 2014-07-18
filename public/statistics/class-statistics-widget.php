@@ -50,8 +50,7 @@ class WPML_Statistics_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		extract( $args, EXTR_SKIP );
-
-		echo $before_widget;
+		extract( $instance );
 
 		$count = (array) wp_count_posts( 'movie' );
 		$count = array(
@@ -82,14 +81,18 @@ class WPML_Statistics_Widget extends WP_Widget {
 			'%actors%'	=> sprintf( '<a href="%s">%s</a>', home_url( $actor . '/' ), sprintf( _n( 'one actor', '%s actors', $count['actors'], WPML_SLUG ), '<strong>' . $count['actors'] . '</strong>' ) )
 		);
 
-		$title = $before_title . apply_filters( 'widget_title', $instance['title'] ) . $after_title;
-		$description = $instance['description'];
-		$format = $instance['format'];
+		$title = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
+		$description = esc_attr( $description );
+		$format = wpautop( wp_kses( $format, array( 'ul', 'ol', 'li', 'p', 'span', 'em', 'i', 'p', 'strong', 'b', 'br' ) ) );
+
 		$content = str_replace( array_keys( $links ), array_values( $links ), $format );
+		$style = 'wpml-widget wpml-statistics';
 
-		include( plugin_dir_path( __FILE__ ) . '/views/statistics-widget.php' );
+		$attributes = array( 'content' => $content, 'description' => $description, 'style' => $style );
 
-		echo $after_widget;
+		$html = WPMovieLibrary::render_template( 'stats-widget/statistics-widget.php', $attributes );
+
+		echo $before_widget . $title . $html . $after_widget;
 	}
 
 	/**

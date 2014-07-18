@@ -75,12 +75,12 @@ class WPML_Genres_Widget extends WP_Widget {
 				);
 
 			$items = apply_filters( 'wpml_widget_genre_list', $items, $list, $css );
-			$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style );
+			$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => __( 'Select a genre', WPML_SLUG ), 'style' => $style );
 
 			if ( $list )
-				$html = WPMovieLibrary::render_template( 'genre-widget/genre-dropdown-widget.php', $attributes );
+				$html = WPMovieLibrary::render_template( 'genre-widget/genre-dropdown-list.php', $attributes );
 			else
-				$html = WPMovieLibrary::render_template( 'genre-widget/genre-widget.php', $attributes );
+				$html = WPMovieLibrary::render_template( 'genre-widget/genre-list.php', $attributes );
 		}
 		else {
 			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display for "Genre" taxonomy.', WPML_SLUG ) ) );

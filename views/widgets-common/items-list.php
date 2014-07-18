@@ -1,8 +1,8 @@
 <?php
 /**
- * Collections Default Template
+ * General Template for Items lists
  * 
- * Display a list of movies collections links
+ * Display a list of items links
  * 
  * @since    1.2.0
  * 

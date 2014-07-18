@@ -8,6 +8,9 @@
  * 
  * @uses    $message
  */
+
+if ( ! isset( $message ) )
+	$message = __( 'Nothing to display.', WPML_SLUG );
 ?>
 	<div class="wpml-empty">
 		<em><?php echo $message ?></em>

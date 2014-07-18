@@ -1,8 +1,6 @@
 <?php
 /**
- * Genres Default Template
- * 
- * Display a list of movies genres links
+ * General Template for Movies lists width thumbnails
  * 
  * @since    1.2.0
  * 
@@ -11,15 +9,17 @@
  * @uses    $description Widget's description
  */
 ?>
+
 	<div class="<?php echo $style ?>">
 
 		<div class="wpml-widget-description"><?php echo $description ?></div>
 
-		<ul class="wpml-widget-list">
 <?php foreach ( $items as $item ) : ?>
-			<li class="wpml-widget-list-item"><a href="<?php echo $item['link'] ?>" title="<?php echo $item['attr_title'] ?>"><?php echo $item['title'] ?></a></li>
+		<a href="<?php echo $item['link'] ?>" title="<?php echo $item['attr_title'] ?>">
+			<figure class="widget-movie">
+				<?php echo get_the_post_thumbnail( $item['ID'], 'thumbnail' ) ?>
+			</figure>
+		</a>
 
 <?php endforeach; ?>
-		</ul>
-
 	</div>

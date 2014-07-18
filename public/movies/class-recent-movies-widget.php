@@ -64,11 +64,35 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 			)
 		);
 
-		echo $before_widget;
+		$style = 'wpml-widget wpml-latest-movies-list wpml-movies';
 
-		include( plugin_dir_path( __FILE__ ) . '/views/recent-movies-widget.php' );
+		if ( ! empty( $movies->posts ) ) {
 
-		echo $after_widget;
+			$items = array();
+			$style = 'wpml-widget wpml-media-latest-list wpml-movies wpml-movies-with-thumbnail';
+
+			foreach ( $movies->posts as $movie ) {
+				$item = array(
+					'ID'          => $movie->ID,
+					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $movie->post_title ),
+					'link'        => get_permalink( $movie->ID ),
+					'rating'      => get_post_meta( $movie->ID, '_wpml_movie_rating', true ),
+					'thumbnail'   => get_the_post_thumbnail( $movie->ID, 'thumbnail' )
+				);
+				$item['rating_str'] = ( '' == $item['rating'] ? "stars_0_0" : 'stars_' . str_replace( '.', '_', $item['rating'] ) );
+				$items[] = $item;
+			}
+
+			$items = apply_filters( 'wpml_widget_most_rated_movies', $items );
+			$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style );
+
+			$html = WPMovieLibrary::render_template( 'latest-widget/latest-movies.php', $attributes );
+		}
+		else {
+			$html = WPMovieLibrary::render_template( 'empty.php' );
+		}
+
+		echo $before_widget . $title . $html . $after_widget;
 	}
 
 	/**

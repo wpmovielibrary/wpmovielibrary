@@ -1,8 +1,8 @@
 <?php
 /**
- * Movies-by-Media Default Template
+ * Genres Default Template
  * 
- * Display a list of movies links with thumbnails
+ * Display a list of movies genres links
  * 
  * @since    1.2.0
  * 
@@ -11,5 +11,5 @@
  * @uses    $description Widget's description
  */
 
-require( WPML_PATH . 'views/widgets-common/movies-with-thumbnails.php' );
+require( WPML_PATH . 'views/widgets-common/items-list.php' );
 ?>

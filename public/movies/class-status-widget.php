@@ -60,11 +60,78 @@ class WPML_Status_Widget extends WP_Widget {
 		$thumbnails = ( 1 == $thumbnails ? true : false );
 		$status_only = ( 1 == $status_only ? true : false );
 
-		echo $before_widget;
+		$html = '';
 
-		include( plugin_dir_path( __FILE__ ) . '/views/status-widget.php' );
+		if ( $status_only ) {
 
-		echo $after_widget;
+			$status = WPML_Settings::get_available_movie_status();
+			$movies = WPML_Settings::wpml__movie_rewrite();
+			$rewrite = WPML_Settings::wpml__details_rewrite();
+
+			if ( ! empty( $status ) ) {
+
+				$items = array();
+				$style = 'wpml-widget wpml-status-list';
+
+				if ( $css )
+					$style = 'wpml-widget wpml-status-list wpml-list custom';
+
+				foreach ( $status as $slug => $status_title ) {
+					$_slug = ( $rewrite ? __( $slug, WPML_SLUG ) : $slug );
+					$items[] = array(
+						'ID'          => $slug,
+						'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $status_title ),
+						'link'        => home_url( "/{$movies}/{$_slug}/" ),
+						'title'       => esc_attr( $status_title ),
+					);
+				}
+
+				$items = apply_filters( 'wpml_widget_media_lists', $items, $list, $css );
+				$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => __( 'Select a status', WPML_SLUG ), 'style' => $style );
+
+				if ( $list )
+					$html = WPMovieLibrary::render_template( 'status-widget/status-dropdown-list.php', $attributes );
+				else
+					$html = WPMovieLibrary::render_template( 'status-widget/status-list.php', $attributes );
+			}
+			else {
+				$html = WPMovieLibrary::render_template( 'empty.php' );
+			}
+
+		}
+		else {
+			$movies = WPML_Movies::get_movies_from_status();
+
+			if ( ! empty( $movies ) ) {
+
+				$items = array();
+				$style = 'wpml-widget wpml-status-movies-list';
+
+				if ( $thumbnails )
+					$style = 'wpml-widget wpml-status-movies-list wpml-movies wpml-movies-with-thumbnail';
+
+				foreach ( $movies as $movie )
+					$items[] = array(
+						'ID'          => $movie->ID,
+						'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $movie->post_title ),
+						'link'        => get_permalink( $movie->ID ),
+						'title'       => esc_attr( $movie->post_title ),
+					);
+
+				$items = apply_filters( 'wpml_widget_media_lists', $items, $list, $css );
+				$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style );
+
+				if ( $thumbnails )
+					$html = WPMovieLibrary::render_template( 'status-widget/movies-by-status.php', $attributes );
+				else
+					$html = WPMovieLibrary::render_template( 'status-widget/status-list.php', $attributes );
+			}
+			else {
+				$html = WPMovieLibrary::render_template( 'empty.php' );
+			}
+		}
+
+		echo $before_widget . $title . $html . $after_widget;
 	}
 
 	/**
