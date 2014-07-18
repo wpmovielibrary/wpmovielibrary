@@ -236,12 +236,14 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 
 			foreach ( $fields as $key => $field ) {
 
-				// Filter empty field
-				$_field = apply_filters( "wpml_format_movie_field", $tmdb_data[ $field ] );
+				$_field = $tmdb_data[ $field ];
 
 				// Custom filter if available
 				if ( has_filter( "wpml_format_movie_{$field}" ) )
 					$_field = apply_filters( "wpml_format_movie_{$field}", $_field );
+
+				// Filter empty field
+				$_field = apply_filters( "wpml_format_movie_field", $_field );
 
 				$fields[ $key ] = $_field;
 				$html .= sprintf( $default_format, $field, __( $default_fields[ $field ]['title'], WPML_SLUG ), $field, $_field );
