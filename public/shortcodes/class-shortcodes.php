@@ -136,10 +136,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 			$movies = self::prepare_movies( $query, $atts );
 
-			ob_start();
-			include( plugin_dir_path( __FILE__ ) . '/views/movies.php' );
-			$content = ob_get_contents();
-			ob_end_clean();
+			$content = WPMovieLibrary::render_template( 'shortcodes/movies.php', array( 'movies' => $movies ), $require = 'always' ); 
 
 			return $content;
 		}
@@ -176,10 +173,8 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 			$movies = self::prepare_movies( $query, $atts );
 
-			ob_start();
-			include( plugin_dir_path( __FILE__ ) . '/views/movies.php' );
-			$content = ob_get_contents();
-			ob_end_clean();
+			//$content = ':)';
+			$content = WPMovieLibrary::render_template( 'shortcodes/movies.php', array( 'movies' => $movies ), $require = 'always' );
 
 			return $content;
 		}
