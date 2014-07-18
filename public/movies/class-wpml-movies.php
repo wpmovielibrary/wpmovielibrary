@@ -195,14 +195,14 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			if ( is_string( $fields ) )
 				$fields = array( $fields );
 
-			$html = '<div class="wpml_movie_detail">';
+			$items = array();
 
 			foreach ( $fields as $field ) {
 				$detail = call_user_func( "WPML_Utils::get_{$field}", $post_id );
-				$html .= apply_filters( "wpml_format_{$field}", $detail );
+				$items[] = apply_filters( "wpml_format_{$field}", $detail );
 			}
 
-			$html .= '</div>';
+			$html = WPMovieLibrary::render_template( 'movies/movie-details.php', array( 'items' => $items ) );
 
 			return $html;
 		}
@@ -223,7 +223,6 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			$tmdb_data = WPML_Utils::filter_undimension_array( $tmdb_data );
 
 			$fields = WPML_Settings::wpml__default_movie_meta();
-			$default_format = '<dt class="wpml_%s_field_title">%s</dt><dd class="wpml_%s_field_value">%s</dd>';
 			$default_fields = WPML_Settings::get_supported_movie_meta();
 
 			if ( '' == $tmdb_data || empty( $fields ) )
@@ -232,7 +231,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			if ( is_string( $fields ) )
 				$fields = array( $fields );
 
-			$html = '<dl class="wpml_movie">';
+			$items = array();
 
 			foreach ( $fields as $key => $field ) {
 
@@ -244,10 +243,10 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 					$_field = apply_filters( "wpml_format_movie_{$field}", $_field );
 
 				$fields[ $key ] = $_field;
-				$html .= sprintf( $default_format, $field, __( $default_fields[ $field ]['title'], WPML_SLUG ), $field, $_field );
+				$items[] = array( 'slug' => $field, 'title' => __( $default_fields[ $field ]['title'], WPML_SLUG ), 'value' => $_field );
 			}
 
-			$html .= '</dl>';
+			$html = WPMovieLibrary::render_template( 'movies/movie-metadata.php', array( 'items' => $items ) );
 
 			return $html;
 		}
