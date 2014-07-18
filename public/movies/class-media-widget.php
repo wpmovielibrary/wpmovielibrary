@@ -62,13 +62,13 @@ class WPML_Media_Widget extends WP_Widget {
 
 		$html = '';
 
-		if ( $media_only ) :
+		if ( $media_only ) {
 
 			$media = WPML_Settings::get_available_movie_media();
 			$movies = WPML_Settings::wpml__movie_rewrite();
 			$rewrite = WPML_Settings::wpml__details_rewrite();
 
-			if ( ! empty( $media ) ) :
+			if ( ! empty( $media ) ) {
 
 				$items = array();
 				$style = 'wpml-widget wpml-media-list';
@@ -76,7 +76,7 @@ class WPML_Media_Widget extends WP_Widget {
 				if ( $css )
 					$style = 'wpml-widget wpml-media-list wpml-list custom';
 
-				foreach ( $media as $slug => $media_title ) :
+				foreach ( $media as $slug => $media_title )
 					$_slug = ( $rewrite ? __( $slug, WPML_SLUG ) : $slug );
 					$items[] = array(
 						'ID'          => $slug,
@@ -84,24 +84,22 @@ class WPML_Media_Widget extends WP_Widget {
 						'link'        => home_url( "/{$movies}/{$_slug}/" ),
 						'title'       => esc_attr( $media_title ),
 					);
-				endforeach;
 
 				$items = apply_filters( 'wpml_widget_media_lists', $items, $list, $css );
 				$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style );
 
-				if ( $list ) :
+				if ( $list )
 					$html = WPMovieLibrary::render_template( 'media-widget/media-dropdown-widget.php', $attributes );
-				else :
+				else
 					$html = WPMovieLibrary::render_template( 'media-widget/media-widget.php', $attributes );
-				endif;
-			else :
+			}
+			else
 				$html = sprintf( '<em>%s</em>', __( 'Nothing to display.', WPML_SLUG ) );
-			endif;
-
-		else :
+		}
+		else {
 
 			$movies = WPML_Movies::get_movies_from_media( $type );
-			if ( ! empty( $movies ) ) :
+			if ( ! empty( $movies ) ) {
 
 				$items = array();
 				$style = 'wpml-widget wpml-media-movies-list';
@@ -125,10 +123,11 @@ class WPML_Media_Widget extends WP_Widget {
 				else
 					$html = WPMovieLibrary::render_template( 'media-widget/media-widget.php', $attributes );
 
-			else :
+			}
+			else {
 				$html = WPMovieLibrary::render_template( 'empty.php' );
-			endif;
-		endif;
+			}
+		}
 
 		echo $before_widget . $title . $html . $after_widget;
 	}

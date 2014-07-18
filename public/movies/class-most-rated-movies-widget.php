@@ -51,17 +51,84 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 		extract( $args, EXTR_SKIP );
 		extract( $instance );
 
-		echo $before_widget;
-
 		$title = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
 		$description = esc_attr( $description );
 		$number = intval( $number );
 		$display_rating = esc_attr( $display_rating );
 		$rating_only = ( 1 == $rating_only ? true : false );
 
-		include( plugin_dir_path( __FILE__ ) . '/views/most-rated-movies-widget.php' );
+		$html = '';
 
-		echo $after_widget;
+		if ( $rating_only ) {
+
+			$ratings = array_reverse( WPML_Settings::get_available_movie_rating() );
+
+			if ( ! empty( $ratings ) ) {
+
+				$items = array();
+				$movies = WPML_Settings::wpml__movie_rewrite();
+
+				$items = array();
+				$style = 'wpml-widget wpml-rating-list';
+
+				foreach ( $ratings as $slug => $rating_title )
+					$items[] = array(
+							'ID'          => $slug,
+							'attr_title'  => sprintf( __( 'Permalink for &laquo; %s Rated Movies &raquo;', WPML_SLUG ), esc_attr__( $rating_title, WPML_SLUG ) ),
+							'link'        => home_url( "/{$movies}/{$slug}/" ),
+							'title'       => '<div class="movie_rating_display stars_' . str_replace( '.', '_', $slug ) . '"><div class="stars_labels"><span class="stars_label stars_label_' . str_replace( '.', '_', $slug ) . '">' . esc_attr__( $rating_title, WPML_SLUG ) . '</span></div></div>'
+						);
+
+				$items = apply_filters( 'wpml_widget_rating_items', $items );
+				$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style );
+
+				$html = WPMovieLibrary::render_template( 'rating-widget/rating-widget.php', $attributes );
+			}
+			else {
+				$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display.', WPML_SLUG ) ) );
+			}
+		}
+		else {
+			$movies = new WP_Query(
+				array(
+					'posts_per_page' => $number,
+					'post_type'      => 'movie',
+					'order'          => 'DESC',
+					'orderby'        => 'meta_value_num',
+					'meta_key'       => '_wpml_movie_rating',
+				)
+			);
+
+			$style = 'wpml-widget wpml-rating-movies-list wpml-movies wpml-movies-with-thumbnail';
+
+			if ( ! empty( $movies->posts ) ) {
+
+				$items = array();
+				$style = 'wpml-widget wpml-media-rating-list wpml-movies wpml-movies-with-thumbnail';
+
+				foreach ( $movies->posts as $movie ) {
+					$item = array(
+						'ID'          => $movie->ID,
+						'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $movie->post_title ),
+						'link'        => get_permalink( $movie->ID ),
+						'rating'      => get_post_meta( $movie->ID, '_wpml_movie_rating', true ),
+						'thumbnail'   => get_the_post_thumbnail( $movie->ID, 'thumbnail' )
+					);
+					$item['rating_str'] = ( '' == $item['rating'] ? "stars_0_0" : 'stars_' . str_replace( '.', '_', $item['rating'] ) );
+					$items[] = $item;
+				}
+
+				$items = apply_filters( 'wpml_widget_most_rated_movies', $items, $list, $css );
+				$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style, 'display_rating' => $display_rating );
+
+				$html = WPMovieLibrary::render_template( 'rating-widget/movies-by-rating.php', $attributes );
+			}
+			else {
+				$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display.', WPML_SLUG ) ) );
+			}
+		}
+
+		echo $before_widget . $title . $html . $after_widget;
 	}
 
 	/**
