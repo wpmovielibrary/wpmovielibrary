@@ -1,10 +1,10 @@
 === WPMovieLibrary ===
 Contributors: askelon
-Donate link: 
+Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor
 Requires at least: 3.6
 Tested up to: 3.9.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -71,6 +71,11 @@ Use the import tool: simply paste a list of titles, all your movies will be crea
 7. Import queue
 
 == Changelog ==
+
+= 1.1.1 =
+
+* Fix - Default poster for movies only
+* Fix - PHP Warning with runtime and release date
 
 == 1.1.0 ==
 
