@@ -1,6 +1,6 @@
 <?php
 /**
- * Movies view Template
+ * Movies Shortcode view Template
  * 
  * Showing a list of movies.
  * 

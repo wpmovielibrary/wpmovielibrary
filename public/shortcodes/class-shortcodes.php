@@ -213,16 +213,16 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				return $content;
 
 			$meta = apply_filters( "wpml_format_movie_$key", $meta[ $key ] );
-			$meta = '' != $meta ? $meta : ' &mdash; ';
+			$meta = apply_filters( "wpml_format_movie_field", $meta );
 
 			if ( $label ) {
 				$_meta = WPML_Settings::get_supported_movie_meta();
-				$meta = '<div class="wpml_shortcode_spans"><span class="wpml_shortcode_span wpml_shortcode_span_title wpml_movie_' . $key . '_title">' . __( $_meta[ $key ]['title'], WPML_SLUG ) . '</span><span class="wpml_shortcode_span wpml_shortcode_span_value wpml_movie_' . $key . '_value">' . $meta . '</span></div>';
+				$content = WPMovieLibrary::render_template( 'shortcodes/metadata-label.php', array( 'key' => $key, 'meta' => $meta, 'title' => __( $_meta[ $key ]['title'], WPML_SLUG ) ), $require = 'always' );
 			}
 			else
-				$meta = '<span class="wpml_shortcode_span wpml_movie_' . $key . '">' . $meta . '</span>';
+				$content = WPMovieLibrary::render_template( 'shortcodes/metadata.php', array( 'key' => $key, 'meta' => $meta ), $require = 'always' );
 
-			return $meta;
+			return $content;
 		}
 
 		/**
@@ -260,11 +260,11 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			}
 
 			if ( $label )
-				$actors = '<div class="wpml_shortcode_spans"><span class="wpml_shortcode_span wpml_shortcode_span_title wpml_movie_actor_title">' . __( 'Actors', WPML_SLUG ) . '</span><span class="wpml_shortcode_span wpml_shortcode_span_value wpml_movie_actor_value">' . $actors . '</span></div>';
+				$content = WPMovieLibrary::render_template( 'shortcodes/actors-label.php', array( 'actors' => $actors, 'title' => __( 'Actors', WPML_SLUG ) ), $require = 'always' );
 			else
-				$actors = '<span class="wpml_shortcode_span wpml_movie_actor">' . $actors . '</span>';
+				$content = WPMovieLibrary::render_template( 'shortcodes/actors.php', array( 'actors' => $actors ), $require = 'always' );
 
-			return $actors;
+			return $content;
 		}
 
 		/**
@@ -297,11 +297,11 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			}
 
 			if ( $label )
-				$genres = '<div class="wpml_shortcode_spans"><span class="wpml_shortcode_span wpml_shortcode_span_title wpml_movie_actor_title">' . __( 'Genres', WPML_SLUG ) . '</span><span class="wpml_shortcode_span wpml_shortcode_span_value wpml_movie_actor_value">' . $genres . '</span></div>';
+				$content = WPMovieLibrary::render_template( 'shortcodes/genres-label.php', array( 'genres' => $genres, 'title' => __( 'Genres', WPML_SLUG ) ), $require = 'always' );
 			else
-				$genres = '<span class="wpml_shortcode_span wpml_movie_actor">' . $genres . '</span>';
+				$content = WPMovieLibrary::render_template( 'shortcodes/genres.php', array( 'genres' => $genres ), $require = 'always' );
 
-			return $genres;
+			return $content;
 		}
 
 		/**
@@ -482,10 +482,10 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				}
 
 				/* 
-				    * Details are passed to the template as a string
-				    * This is simpler because formatting is already
-				    * done via filters
-				    */
+				 * Details are passed to the template as a string
+				 * This is simpler because formatting is already
+				 * done via filters
+				 */
 				if ( ! is_null( $details ) ) {
 
 					$movies[ $query->current_post ]['details'] = '';

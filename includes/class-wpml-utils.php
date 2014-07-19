@@ -591,6 +591,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		public static function format_movie_genres( $data ) {
 
 			$output = self::format_movie_terms_list( $data, 'genre' );
+			$output = self::format_movie_field( $output );
 
 			return $output;
 		}
@@ -627,6 +628,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		public static function format_movie_cast( $data ) {
 
 			$output = self::format_movie_terms_list( $data,  'actor' );
+			$output = self::format_movie_field( $output );
 
 			return $output;
 		}
@@ -643,7 +645,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		public static function format_movie_release_date( $data ) {
 
 			$output = WPML_Utils::filter_release_date( $data );
-			$output = ( '' != $output ? $output : '<em>&ndash;</em>' );
+			$output = self::format_movie_field( $output );
 
 			return $output;
 		}
@@ -660,7 +662,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		public static function format_movie_runtime( $data ) {
 
 			$output = WPML_Utils::filter_runtime( $data );
-			$output = ( '' != $output ? $output : '<em>&ndash;</em>' );
+			$output = self::format_movie_field( $output );
 
 			return $output;
 		}
@@ -678,6 +680,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		public static function format_movie_director( $data ) {
 
 			$output = self::format_movie_terms_list( $data, 'collection' );
+			$output = self::format_movie_field( $output );
 
 			return $output;
 		}
@@ -817,7 +820,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$_data[ $key ] = $_term;
 			}
 
-			$_data = ( ! empty( $_data ) ? implode( ', ', $_data ) : '<em>&ndash;</em>' );
+			$_data = ( ! empty( $_data ) ? implode( ', ', $_data ) : '&mdash;' );
 
 			return $_data;
 		}
