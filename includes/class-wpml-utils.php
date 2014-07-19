@@ -720,12 +720,12 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( '' == $data )
 				return $data;
 
-			if ( WPML_Settings::wpml__details_as_icons() ) {
-				$data = '<div class="wpml_movie_media ' . $data . ' wpml_detail_icon"></div>';
+			if ( WPML_Settings::wpml__details_as_icons() && 'html' == $format  ) {
+				$data = WPMovieLibrary::render_template( 'shortcodes/detail-icon.php', array( 'detail' => 'media', 'data' => $data ), $require = 'always' );
 			}
 			else if ( 'html' == $format ) {
 				$default_fields = WPML_Settings::get_available_movie_media();
-				$data = '<div class="wpml_movie_media ' . $data . ' wpml_detail_label"><span class="wpml_movie_detail_item">' . __( $default_fields[ $data ], WPML_SLUG ) . '</span></div>';
+				$data = WPMovieLibrary::render_template( 'shortcodes/detail.php', array( 'detail' => 'media', 'data' => $data, 'title' => __( $default_fields[ $data ], WPML_SLUG ) ), $require = 'always' );
 			}
 
 			return $data;
@@ -749,12 +749,12 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( '' == $data )
 				return $data;
 
-			if ( WPML_Settings::wpml__details_as_icons() ) {
-				$data = '<div class="wpml_movie_status ' . $data . ' wpml_detail_icon"></div>';
+			if ( WPML_Settings::wpml__details_as_icons() && 'html' == $format  ) {
+				$data = WPMovieLibrary::render_template( 'shortcodes/detail-icon.php', array( 'detail' => 'status', 'data' => $data ), $require = 'always' );
 			}
 			else if ( 'html' == $format ) {
 				$default_fields = WPML_Settings::get_available_movie_status();
-				$data = '<div class="wpml_movie_status ' . $data . ' wpml_detail_label"><span class="wpml_movie_detail_item">' . __( $default_fields[ $data ], WPML_SLUG ) . '</span></div>';
+				$data = WPMovieLibrary::render_template( 'shortcodes/detail.php', array( 'detail' => 'status', 'data' => $data, 'title' => __( $default_fields[ $data ], WPML_SLUG ) ), $require = 'always' );
 			}
 
 			return $data;
@@ -779,7 +779,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				return $data;
 
 			if ( 'html' == $format )
-				$data = sprintf( '<div class="wpml_movie_rating wpml_detail_icon"><div class="movie_rating_display stars_%s"></div></div>', ( '' == $data ? '0_0' : str_replace( '.', '_', $data ) ) );
+				$data = WPMovieLibrary::render_template( 'shortcodes/rating.php', array( 'style' => ( '' == $data ? '0_0' : str_replace( '.', '_', $data ) ) ), $require = 'always' );
 
 			return $data;
 		}

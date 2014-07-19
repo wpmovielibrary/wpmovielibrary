@@ -327,9 +327,9 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				return $content;
 
 			$thumbnail = get_the_post_thumbnail( $movie_id, $size );
-			$thumbnail = '<div class="wpml_shortcode_div wpml_movie_poster wpml_movie_poster_' . $size . '">' . $thumbnail . '</div>';
+			$content = WPMovieLibrary::render_template( 'shortcodes/poster.php', array( 'size' => $size, 'thumbnail' => $thumbnail ), $require = 'always' );
 
-			return $thumbnail;
+			return $content;
 		}
 
 		/**
@@ -363,21 +363,20 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			);
 
 			$attachments = get_posts( $args );
+			$images = array();
 
 			if ( $attachments ) {
 
 				if ( ! is_null( $count ) )
 					$attachments = array_splice( $attachments, 0, $count );
 
-				$images .= '<ul class="wpml_shortcode_ul wpml_movie_images">';
-
 				foreach ( $attachments as $attachment )
-					$images .= '<li class="wpml_movie_image wpml_movie_imported_image">' . wp_get_attachment_image( $attachment->ID, $size ) . '</li>';
+					$images[] = wp_get_attachment_image( $attachment->ID, $size );
 
-				$images .= '</ul>';
+				$content = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => $size, 'images' => $images ), $require = 'always' );
 			}
 
-			return $images;
+			return $content;
 		}
 
 		/**
@@ -410,7 +409,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			$detail = call_user_func( 'WPML_Utils::get_movie_' . $key, $movie_id );
 
 			$format = ( ! $raw ? 'html' : 'raw' );
-			$detail = apply_filters( 'wpml_format_movie_' . $key, $detail );
+			$detail = apply_filters( 'wpml_format_movie_' . $key, $detail, $format );
 
 			return $detail;
 		}

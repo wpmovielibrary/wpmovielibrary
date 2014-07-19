@@ -9,6 +9,7 @@
  * @uses    $movies
  */
 ?>
+
 	<div class="wpml_shortcodes wpml_movies">
 <?php foreach ( $movies as $movie ) : ?>
 		<div class="wpml_movie">
