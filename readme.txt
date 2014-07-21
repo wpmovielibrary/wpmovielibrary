@@ -4,7 +4,7 @@ Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor
 Requires at least: 3.6
 Tested up to: 3.9.1
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -71,6 +71,11 @@ Use the import tool: simply paste a list of titles, all your movies will be crea
 7. Import queue
 
 == Changelog ==
+
+= 1.1.2 =
+
+* Fix - PHP Warnings with shortcodes when no attribute is passed
+* Tweak - Movie Images shortcodes basic styling
 
 = 1.1.1 =
 

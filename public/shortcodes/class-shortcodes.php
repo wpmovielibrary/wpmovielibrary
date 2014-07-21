@@ -374,10 +374,10 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				if ( ! is_null( $count ) )
 					$attachments = array_splice( $attachments, 0, $count );
 
-				$images .= '<ul class="wpml_shortcode_ul wpml_movie_images">';
+				$images .= '<ul class="wpml_shortcode_ul wpml_movie_images ' . $size . '">';
 
 				foreach ( $attachments as $attachment )
-					$images .= '<li class="wpml_movie_image wpml_movie_imported_image">' . wp_get_attachment_image( $attachment->ID, $size ) . '</li>';
+					$images .= '<li class="wpml_movie_image wpml_movie_imported_image ' . $size . '">' . wp_get_attachment_image( $attachment->ID, $size ) . '</li>';
 
 				$images .= '</ul>';
 			}

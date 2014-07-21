@@ -978,8 +978,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function filter_shortcode_atts( $shortcode, $atts = array() ) {
 
-			if ( ! is_array( $atts ) || empty( $atts ) )
-				return $atts;
+			if ( ! is_array( $atts ) )
+				$atts = array( $atts );
 
 			$defaults = WPML_Settings::get_available_shortcodes();
 			$defaults = $defaults[ $shortcode ][ 'atts' ];
