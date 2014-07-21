@@ -133,14 +133,14 @@ class WPML_Actors_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Actors', WPML_SLUG ) );
-		$list  = ( isset( $instance['list'] ) && 1 == $instance['list'] ? true : false );
-		$count = ( isset( $instance['count'] )  && 1 == $instance['count'] ? true : false );
-		$css   = ( isset( $instance['css'] )  && 1 == $instance['css'] ? true : false );
-		$limit = ( isset( $instance['limit'] ) ? $instance['limit'] : WPML_MAX_TAXONOMY_LIST );
+		$instance['title'] = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Actors', WPML_SLUG ) );
+		$instance['list']  = ( isset( $instance['list'] ) && 1 == $instance['list'] ? true : false );
+		$instance['count'] = ( isset( $instance['count'] )  && 1 == $instance['count'] ? true : false );
+		$instance['css']   = ( isset( $instance['css'] )  && 1 == $instance['css'] ? true : false );
+		$instance['limit'] = ( isset( $instance['limit'] ) ? $instance['limit'] : WPML_MAX_TAXONOMY_LIST );
 
 		// Display the admin form
-		include( WPML_PATH . 'admin/common/views/actors-widget-admin.php' );
+		echo WPMovieLibrary::render_template( 'actor-widget/actor-admin.php', array( 'widget' => $this, 'instance' => $instance ), $require = 'always' );
 	}
 
 	/**

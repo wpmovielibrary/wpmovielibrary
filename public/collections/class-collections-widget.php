@@ -140,7 +140,7 @@ class WPML_Collections_Widget extends WP_Widget {
 		$limit = ( isset( $instance['limit'] ) ? $instance['limit'] : WPML_MAX_TAXONOMY_LIST );
 
 		// Display the admin form
-		include( WPML_PATH . 'admin/common/views/collections-widget-admin.php' );
+		echo WPMovieLibrary::render_template( 'collection-widget/collection-admin.php', array( 'widget' => $this, 'instance' => $instance ), $require = 'always' );
 	}
 
 	/**

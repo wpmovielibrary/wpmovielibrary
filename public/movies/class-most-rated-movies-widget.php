@@ -161,14 +161,14 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Most Rated Movies', WPML_SLUG ) );
-		$description = ( isset( $instance['description'] ) ? $instance['description'] : __( 'Movies I really enjoyed', WPML_SLUG ) );
-		$number = ( isset( $instance['number'] ) ? $instance['number'] : 4 );
-		$display_rating = ( isset( $instance['display_rating'] ) ? $instance['display_rating'] : 'no' );
-		$rating_only = ( isset( $instance['rating_only'] ) ? $instance['rating_only'] : 0 );
+		$instance['title']          = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Most Rated Movies', WPML_SLUG ) );
+		$instance['description']    = ( isset( $instance['description'] ) ? $instance['description'] : __( 'Movies I really enjoyed', WPML_SLUG ) );
+		$instance['number']         = ( isset( $instance['number'] ) ? $instance['number'] : 4 );
+		$instance['display_rating'] = ( isset( $instance['display_rating'] ) ? $instance['display_rating'] : 'no' );
+		$instance['rating_only']    = ( isset( $instance['rating_only'] ) ? $instance['rating_only'] : 0 );
 
 		// Display the admin form
-		include( WPML_PATH . 'admin/common/views/most-rated-movies-widget-admin.php' );
+		echo WPMovieLibrary::render_template( 'rating-widget/rating-admin.php', array( 'widget' => $this, 'instance' => $instance ), $require = 'always' );
 	}
 
 	/**

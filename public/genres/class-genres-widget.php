@@ -118,13 +118,13 @@ class WPML_Genres_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Genres', WPML_SLUG ) );
-		$list  = ( isset( $instance['list'] ) ? $instance['list'] : 1 );
-		$count = ( isset( $instance['count'] ) ? $instance['count'] : 0 );
-		$css   = ( isset( $instance['css'] ) ? $instance['css'] : 0 );
+		$instance['title'] = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Genres', WPML_SLUG ) );
+		$instance['list']  = ( isset( $instance['list'] ) ? $instance['list'] : 1 );
+		$instance['count'] = ( isset( $instance['count'] ) ? $instance['count'] : 0 );
+		$instance['css']   = ( isset( $instance['css'] ) ? $instance['css'] : 0 );
 
 		// Display the admin form
-		include( WPML_PATH . 'admin/common/views/genres-widget-admin.php' );
+		echo WPMovieLibrary::render_template( 'genre-widget/genre-admin.php', array( 'widget' => $this, 'instance' => $instance ), $require = 'always' );
 	}
 
 	/**

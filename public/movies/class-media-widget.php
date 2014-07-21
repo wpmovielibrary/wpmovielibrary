@@ -166,17 +166,17 @@ class WPML_Media_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie by Media', WPML_SLUG ) );
-		$description = ( isset( $instance['description'] ) ? $instance['description'] : '' );
-		$type = ( isset( $instance['type'] ) ? $instance['type'] : null );
-		$list = ( isset( $instance['list'] ) ? $instance['list'] : 0 );
-		$thumbnails = ( isset( $instance['thumbnails'] ) ? $instance['thumbnails'] : 0 );
-		$css = ( isset( $instance['css'] ) ? $instance['css'] : 0 );
-		$media_only = ( isset( $instance['media_only'] ) ? $instance['media_only'] : 0 );
+		$instance['title']       = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie by Media', WPML_SLUG ) );
+		$instance['description'] = ( isset( $instance['description'] ) ? $instance['description'] : '' );
+		$instance['type']        = ( isset( $instance['type'] ) ? $instance['type'] : null );
+		$instance['list']        = ( isset( $instance['list'] ) ? $instance['list'] : 0 );
+		$instance['thumbnails']  = ( isset( $instance['thumbnails'] ) ? $instance['thumbnails'] : 0 );
+		$instance['css']         = ( isset( $instance['css'] ) ? $instance['css'] : 0 );
+		$instance['media_only']  = ( isset( $instance['media_only'] ) ? $instance['media_only'] : 0 );
 		//$show_icons = ( isset( $instance['show_icons'] ) ? $instance['show_icons'] : 0 );
 
 		// Display the admin form
-		include( WPML_PATH . '/admin/common/views/media-widget-admin.php' );
+		echo WPMovieLibrary::render_template( 'media-widget/media-admin.php', array( 'widget' => $this, 'instance' => $instance ), $require = 'always' );
 	}
 
 	/**

@@ -123,12 +123,12 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title        = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Recent Movies', WPML_SLUG ) );
-		$description  = ( isset( $instance['description'] ) ? $instance['description'] : __( 'Movies I recently added to my library', WPML_SLUG ) );
-		$number       = ( isset( $instance['number'] ) ? $instance['number'] : 4 );
+		$instance['title']        = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Recent Movies', WPML_SLUG ) );
+		$instance['description']  = ( isset( $instance['description'] ) ? $instance['description'] : __( 'Movies I recently added to my library', WPML_SLUG ) );
+		$instance['number']       = ( isset( $instance['number'] ) ? $instance['number'] : 4 );
 
 		// Display the admin form
-		include( WPML_PATH . 'admin/common/views/recent-movies-widget-admin.php' );
+		echo WPMovieLibrary::render_template( 'latest-widget/latest-movies-admin.php', array( 'widget' => $this, 'instance' => $instance ), $require = 'always' );
 	}
 
 	/**
