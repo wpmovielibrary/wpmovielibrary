@@ -190,6 +190,16 @@
 	margin-left: 0.5em;
 }
 
+.wpml_shortcode_ul.wpml_movie_images {
+	list-style: none;
+	text-align: center;
+}
+
+.wpml_shortcode_ul.wpml_movie_images > .wpml_movie_image {
+	display: inline-block;
+	margin: 2px 6px;
+}
+
 /** Movie Rating **/
 
 .movie_rating_display {
