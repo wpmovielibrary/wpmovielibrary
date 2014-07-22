@@ -15,6 +15,7 @@
 			    <li class="wpml-tabs-nav<?php if ( 'taxonomies' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=taxonomies#wpml_section_taxonomies' ) ?>" data-section="wpml_section=taxonomies"><h4><?php _e( 'Taxonomies', WPML_SLUG ); ?></h4></a></li>
 			    <li class="wpml-tabs-nav<?php if ( 'deactivate' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=deactivate#wpml_section_deactivate' ) ?>" data-section="wpml_section=deactivate"><h4><?php _e( 'Deactivate', WPML_SLUG ); ?></h4></a></li>
 			    <li class="wpml-tabs-nav<?php if ( 'uninstall' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=uninstall#wpml_section_uninstall' ) ?>" data-section="wpml_section=uninstall"><h4><?php _e( 'Uninstall', WPML_SLUG ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'cache' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=cache#wpml_section_cache' ) ?>" data-section="wpml_section=cache"><h4><?php _e( 'Cache', WPML_SLUG ); ?></h4></a></li>
 			    <li class="wpml-tabs-nav<?php if ( 'maintenance' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=maintenance#wpml_section_maintenance' ) ?>" data-section="wpml_section=maintenance"><h4><?php _e( 'Maintenance', WPML_SLUG ); ?></h4></a></li>
 			</ul>
 

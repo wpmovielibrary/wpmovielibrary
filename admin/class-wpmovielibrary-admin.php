@@ -539,7 +539,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				}
 			}
 
-			$_allowed = array( 'api', 'movies', 'taxonomies', 'deactivate', 'uninstall', 'maintenance' );
+			$_allowed = array( 'api', 'movies', 'taxonomies', 'deactivate', 'uninstall', 'cache', 'maintenance' );
 			$_section = ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], $_allowed ) ) ? esc_attr( $_REQUEST['wpml_section'] ) : 'api' ;
 
 			$attributes = array(
