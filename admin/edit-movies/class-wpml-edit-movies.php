@@ -85,11 +85,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			if ( 'edit-movie' != get_current_screen()->id )
 				return false;
 
-			$default_movie_media = WPML_Settings::get_available_movie_media();
-			$default_movie_status = WPML_Settings::get_available_movie_status();
-			$default_movie_rating = WPML_Settings::get_available_movie_rating();
+			$attributes = array(
+				'default_movie_media' => WPML_Settings::get_available_movie_media(),
+				'default_movie_status' => WPML_Settings::get_available_movie_status(),
+				'default_movie_rating' => WPML_Settings::get_available_movie_rating()
+			);
 
-			include( plugin_dir_path( __FILE__ ) . '/views/edit-details-inline.php' );
+			echo self::render_template( 'edit-movies/edit-details-inline.php', $attributes );
 		}
 
 		/**
@@ -210,12 +212,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			if ( ! in_array( $type, array( 'quick', 'bulk' ) ) )
 				return false;
 
-			$default_movie_media = WPML_Settings::get_available_movie_media();
-			$default_movie_status = WPML_Settings::get_available_movie_status();
+			$attributes = array(
+				'default_movie_media' => WPML_Settings::get_available_movie_media(),
+				'default_movie_status' => WPML_Settings::get_available_movie_status(),
+				'check' => 'is_' . $type . 'edit'
+			);
 
-			$check = 'is_' . $type . 'edit';
-
-			include( plugin_dir_path( __FILE__ ) . '/views/quick-edit.php' );
+			echo self::render_template( 'edit-movies/quick-edit.php', $attributes );
 		}
 
 		/**
@@ -457,29 +460,37 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 */
 		public static function metabox_meta( $post, $metabox ) {
 
-			$value = get_post_meta( $post->ID, '_wpml_movie_data', true );
-			$value = apply_filters( 'wpml_filter_empty_array', $value );
+			$metadata = get_post_meta( $post->ID, '_wpml_movie_data', true );
+			$metadata = apply_filters( 'wpml_filter_empty_array', $metadata );
 			$select = null;
 			$status = '';
 
-			if ( isset( $_GET['wpml_search_movie'] ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'search-movies' ) && ( empty( $value ) || isset( $value['_empty'] ) ) ) {
+			if ( isset( $_GET['wpml_search_movie'] ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'search-movies' ) && ( empty( $metadata ) || isset( $metadata['_empty'] ) ) ) {
 
 				$search_by = ( isset( $_GET['search_by'] ) && in_array( $_GET['search_by'], array( 'title', 'id' ) ) ? $_GET['search_by'] : null );
 				$search_query = ( isset( $_GET['search_query'] ) && '' != $_GET['search_query'] ? $_GET['search_query'] : null );
 
 				if ( ! is_null( $search_by ) && ! is_null( $search_query ) )
-					$value = call_user_func_array( array( 'WPML_TMDb', "_get_movie_by_$search_by" ), array( $search_query, WPML_Settings::tmdb__lang() ) );
+					$metadata = call_user_func_array( array( 'WPML_TMDb', "_get_movie_by_$search_by" ), array( $search_query, WPML_Settings::tmdb__lang() ) );
 
-				if ( isset( $value['result'] ) ) {
+				if ( isset( $metadata['result'] ) ) {
 
-					if ( 'movie' == $value['result'] )
-						$value = $value['movies'][ 0 ];
-					else if ( 'movies' == $value['result'] )
-						$select = $value['movies'];
+					if ( 'movie' == $metadata['result'] )
+						$metadata = $metadata['movies'][ 0 ];
+					else if ( 'movies' == $metadata['result'] )
+						$select = $metadata['movies'];
 				}
 			}
 
-			include_once( plugin_dir_path( __FILE__ ) . '/views/metabox-movie-meta.php' );
+			$attributes = array(
+				'languages' => WPML_Settings::get_available_languages(),
+				'metas' => WPML_Settings::get_supported_movie_meta( $type = null, false ),
+				'metadata' => $metadata,
+				'status' => $status,
+				'select' => $select
+			);
+
+			echo self::render_template( 'metaboxes/movie-meta.php', $attributes );
 		}
 
 		/**
@@ -495,7 +506,12 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 */
 		public static function metabox_images( $post, $metabox ) {
 
-			include_once( plugin_dir_path( __FILE__ ) . '/views/metabox-movie-images.php' );
+			$attributes = array(
+				'nonce' => WPML_Utils::_nonce_field( 'upload-movie-image', $referer = false ),
+				'images' => WPML_Media::get_movie_imported_images(),
+			);
+
+			echo self::render_template( 'metaboxes/movie-images.php', $attributes );
 		}
 
 		/**
@@ -509,17 +525,19 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 */
 		public static function metabox_details( $post, $metabox ) {
 
+			$attributes = array();
+
 			$v = get_post_meta( $post->ID, '_wpml_movie_status', true );
-			$movie_status = ( isset( $v ) && '' != $v ? $v : '' );
+			$attributes['movie_status'] = ( isset( $v ) && '' != $v ? $v : '' );
 
 			$v = get_post_meta( $post->ID, '_wpml_movie_media', true );
-			$movie_media  = ( isset( $v ) && '' != $v ? $v : '' );
+			$attributes['movie_media']  = ( isset( $v ) && '' != $v ? $v : '' );
 
 			$v = get_post_meta( $post->ID, '_wpml_movie_rating', true );
-			$movie_rating = ( isset( $v ) && '' != $v ? number_format( $v, 1 ) : 0.0 );
-			$movie_rating_str = str_replace( '.', '-', $movie_rating );
+			$attributes['movie_rating'] = ( isset( $v ) && '' != $v ? number_format( $v, 1 ) : 0.0 );
+			$attributes['movie_rating_str'] = str_replace( '.', '-', $attributes['movie_rating'] );
 
-			include_once( plugin_dir_path( __FILE__ ) . 'views/metabox-movie-details.php' );
+			echo self::render_template( 'metaboxes/movie-details.php', $attributes );
 		}
 
 		/**

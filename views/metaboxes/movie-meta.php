@@ -6,7 +6,7 @@
 			<div>
 				<?php WPML_Utils::_nonce_field( 'search-movies' ) ?>
 				<select id="tmdb_search_lang" name="wpml[lang]" onchange="wpml_edit_meta.lang=this.value;">
-<?php foreach ( WPML_Settings::get_available_languages() as $code => $lang ) : ?>
+<?php foreach ( $languages as $code => $lang ) : ?>
 					<option value="<?php echo $code ?>" <?php selected( WPML_Settings::tmdb__lang(), $code ); ?>><?php echo $lang ?></option>
 <?php endforeach; ?>
 				</select>
@@ -41,11 +41,11 @@
 <?php endif; ?>
 
 			<div id="tmdb_data"></div>
-			<input type="hidden" id="tmdb_data_tmdb_id" name="tmdb_data[tmdb_id]" class="hide-if-js hide-if-no-js" value="<?php echo $value['tmdb_id'] ?>" />
+			<input type="hidden" id="tmdb_data_tmdb_id" name="tmdb_data[tmdb_id]" class="hide-if-js hide-if-no-js" value="<?php echo $metadata['tmdb_id'] ?>" />
 			<input type="hidden" id="wpml_actor_limit" class="hide-if-js hide-if-no-js" value="<?php echo WPML_Settings::taxonomies__actor_limit() ?>" />
 			<input type="hidden" id="wpml_poster_featured" class="hide-if-js hide-if-no-js" value="<?php echo ( 1 == WPML_Settings::images__poster_featured() ? '1' : '0' ) ?>" />
 
-<?php foreach ( WPML_Settings::get_supported_movie_meta( $type = null, false ) as $id => $box ) : ?>
+<?php foreach ( $metas as $id => $box ) : ?>
 			<table class="list-table tmdb_<?php echo $id ?>">
 				<thead>
 					<tr>
@@ -56,8 +56,8 @@
 				<tbody>
 <?php foreach ( $box['data'] as $slug => $meta ) :
 	$_value = '';
-	if ( isset( $value[ $id ][ $slug ] ) )
-		$_value = apply_filters( 'wpml_stringify_array', $value[ $id ][ $slug ] );
+	if ( isset( $metadata[ $id ][ $slug ] ) )
+		$_value = apply_filters( 'wpml_stringify_array', $metadata[ $id ][ $slug ] );
 ?>
 					<tr>
 						<td class="left"><?php _e( $meta['title'], WPML_SLUG ) ?></td>

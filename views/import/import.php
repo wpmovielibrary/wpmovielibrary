@@ -118,6 +118,6 @@
 
 	</div>
 
-	<?php include_once( plugin_dir_path( __FILE__ ) . '../../common/views/help.php' ); ?>
+	<?php echo self::render_template( '/help.php' ); ?>
 
 </div>

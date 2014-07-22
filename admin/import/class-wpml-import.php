@@ -426,7 +426,13 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			if ( isset( $_GET['wpml_section'] ) && in_array( $_GET['wpml_section'], array( 'wpml_import', 'wpml_import_queue', 'wpml_imported' ) ) )
 				$_section =  $_GET['wpml_section'];
 
-			include_once( plugin_dir_path( __FILE__ ) . '/views/import.php' );
+			$attributes = array(
+				'_section' => $_section,
+				'_queued' => $_queued,
+				'_imported' => $_imported
+			);
+
+			echo self::render_template( '/import/import.php', $attributes );
 		}
 
 		/**
