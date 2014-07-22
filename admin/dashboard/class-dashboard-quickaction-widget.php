@@ -130,7 +130,7 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 
 			$links = implode( '', $links );
 
-			include_once( WPML_PATH . '/admin/dashboard/views/dashboard-quickaction-widget.php' );
+			echo self::render_template( '/dashboard-quickaction/quickaction.php', array( 'links' => $links ) );
 		}
 
 		public function dashboard_widget_handle() {

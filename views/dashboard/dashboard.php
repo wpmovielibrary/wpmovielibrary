@@ -54,5 +54,3 @@
 		</div>
 
 	</div>
-
-<?php include_once( 'dashboard-movie-modal.php' ); ?>

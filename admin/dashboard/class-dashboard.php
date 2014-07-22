@@ -318,7 +318,8 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			if ( isset( $_GET['wpml_set_archive_page'] ) && ( isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpml-set-archive-page' ) ) )
 				WPML_Utils::set_archive_page();
 
-			include_once( plugin_dir_path( __FILE__ ) . '/views/dashboard.php' );
+			echo self::render_template( '/dashboard/dashboard.php' );
+			echo self::render_template( '/dashboard/movie-modal.php' );
 		}
 
 		/**
@@ -326,15 +327,15 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * 
 		 * @since    1.0.0
 		 */
-		public function movie_showcase() {
+		/*public function movie_showcase() {
 
 			global $current_screen;
 
 			if ( $current_screen->id != $this->plugin_screen_hook_suffix['dashboard'] )
 				return false;
 
-			include_once( plugin_dir_path( __FILE__ ) . '/views/dashboard-movie-modal.php' );
-		}
+			echo self::render_template( '/dashboard/movie-modal.php' );
+		}*/
  
 		/**
 		 * Adds a new widget to the Plugin's Dashboard.

@@ -172,7 +172,7 @@ if ( ! class_exists( 'WPML_Dashboard_Stats_Widget' ) ) :
 
 			$links = implode( '', $links );
 
-			include_once( WPML_PATH . '/admin/dashboard/views/dashboard-stats-widget.php' );
+			echo self::render_template( '/dashboard-statistics/statistics.php', array( 'links' => $links ) );
 		}
 
 		public function dashboard_widget_handle() {

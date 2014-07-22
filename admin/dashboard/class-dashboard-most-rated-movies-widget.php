@@ -228,7 +228,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 			if ( '1' == $settings['show_modal'] )
 				$class .= ' modal';
 
-			include_once( WPML_PATH . '/admin/dashboard/views/dashboard-most-rated-movies-widget.php' );
+			echo self::render_template( 'dashboard-most-rated-movies/most-rated-movies.php', array( 'movies' => $movies, 'class' => $class, 'offset' => $offset, 'settings' => $settings ) );
 		}
 
 		/**
@@ -313,7 +313,8 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 			$movies = $this->widget_content();
 			$settings = $this->settings;
 
-			include_once( WPML_PATH . '/admin/dashboard/views/dashboard-most-rated-movies-widget-config.php' );
+
+			echo self::render_template( '/dashboard-latest-movies/latest-movies-admin.php', array( 'movies' => $movies, 'offset' => $offset, 'settings' => $settings, 'editing' => $editing ), $require = 'always' );
 
 			$this->get_widget_content();
 		}
@@ -336,7 +337,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 				return false;
 			}
 
-			include_once( WPML_PATH . '/admin/dashboard/views/dashboard-most-rated-movies-widget-config.php' );
+			echo self::render_template( '/dashboard-latest-movies/latest-movies-admin.php', array( 'movies' => $movies, 'offset' => $offset, 'settings' => $settings, 'editing' => $editing, 'widget' => $this ), $require = 'always' );
 		}
 
 	}
