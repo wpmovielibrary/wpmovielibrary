@@ -106,6 +106,7 @@ if ( wpml_requirements_met() ) {
 	require_once( WPML_PATH . 'public/class-wpmovielibrary.php' );
 
 	require_once( WPML_PATH . 'includes/class-wpml-settings.php' );
+	require_once( WPML_PATH . 'includes/class-wpml-cache.php' );
 	require_once( WPML_PATH . 'includes/class-wpml-utils.php' );
 
 	require_once( WPML_PATH . 'public/movies/class-wpml-movies.php' );

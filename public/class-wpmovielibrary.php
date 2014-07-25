@@ -39,6 +39,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 
 			$this->modules = array(
 				'WPML_Settings'    => WPML_Settings::get_instance(),
+				'WPML_Cache'       => WPML_Cache::get_instance(),
 				'WPML_Utils'       => WPML_Utils::get_instance(),
 				'WPML_Movies'      => WPML_Movies::get_instance(),
 				'WPML_Collections' => WPML_Collections::get_instance(),

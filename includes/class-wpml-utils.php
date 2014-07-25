@@ -34,9 +34,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			add_filter( 'rewrite_rules_array', __CLASS__ . '::register_permalinks', 11 );
 
-			//add_filter( 'wpml_format_widget_lists', __CLASS__ . '::format_widget_lists', 10, 4 );
-			//add_filter( 'wpml_format_widget_lists_thumbnails', __CLASS__ . '::format_widget_lists_thumbnails', 10, 1 );
-
 			add_filter( 'wpml_summarize_settings', __CLASS__ . '::summarize_settings', 10, 1 );
 
 			add_filter( 'wpml_filter_meta_data', __CLASS__ . '::filter_meta_data', 10, 1 );
@@ -1429,65 +1426,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
-		 * General method for cache cleaning.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @return   string|WP_Error    Result notification or WP_Error
-		 */
-		public static function empty_cache() {
-
-			global $wpdb;
-
-			$transient = self::clean_transient( null, $force = true );
-
-			if ( false === $transient )
-				return new WP_Error( 'transient_error', sprintf( __( 'An error occured when trying to delete transients: %s', WPML_SLUG ), $wpdb->last_error ) );
-			else if ( ! $transient )
-				return __( 'No transient found.', WPML_SLUG );
-			else if ( $transient )
-				return sprintf( _n( '1 transient deleted', '%s transients deleted.', $transient, WPML_SLUG ), $transient );
-		}
-
-		/**
-		 * Handle Transients cleaning. Mainly used for deactivation and
-		 * uninstallation actions, and occasionally manual cache cleaning.
-		 * 
-		 * When deactivating/uninstalling, delete all Plugin's related
-		 * movie transient, depending on the Plugin settings.
-		 * 
-		 * @param    string     $action Are we deactivating or uninstalling
-		 *                             the plugin?
-		 * @param    boolean    $force Force cleaning
-		 * 
-		 * @return   int        $result Number of deleted rows
-		 */
-		public static function clean_transient( $action, $force = false ) {
-
-			global $wpdb, $_wp_using_ext_object_cache;
-
-			$force = ( true === $force );
-			$result = 0;
-
-			if ( ! $force ) {
-				$_action = get_option( 'wpml_settings' );
-				if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['cache'] ) )
-					return false;
-
-				$action = $_action[ $action ]['cache'];
-				if ( is_array( $action ) )
-					$action = $action[0];
-			}
-
-			if ( $force || ( ! $_wp_using_ext_object_cache && 'empty' == $action ) ) {
-				$result = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE \"_transient_%wpml%\"" );
-				$wpdb->query( 'OPTIMIZE TABLE ' . $wpdb->options );
-			}
-
-			return $result;
-		}
-
-		/**
 		 * Filter 4040 error pages to intercept taxonomies listing pages.
 		 * 
 		 * Query should be 404 with no posts found and matching either one
@@ -1717,7 +1655,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public function deactivate() {
 
-			self::clean_transient( 'deactivate' );
+			WPML_Cache::clean_transient( 'deactivate' );
 			delete_option( 'rewrite_rules' );
 		}
 
@@ -1728,7 +1666,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function uninstall() {
 
-			self::clean_transient( 'uninstall' );
+			WPML_Cache::clean_transient( 'uninstall' );
 			delete_option( 'rewrite_rules' );
 
 			self::delete_archive_page();
