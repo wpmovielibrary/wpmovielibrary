@@ -120,6 +120,9 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 		$instance['description'] = strip_tags( $new_instance['description'] );
 		$instance['number']      = intval( $new_instance['number'] );
 
+		$name = apply_filters( 'wpml_cache_name', 'recent_widget' );
+		WPML_Cache::delete( $name );
+
 		return $instance;
 	}
 

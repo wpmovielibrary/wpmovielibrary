@@ -158,6 +158,9 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 		$instance['display_rating'] = strip_tags( $new_instance['display_rating'] );
 		$instance['rating_only'] = intval( $new_instance['rating_only'] );
 
+		$name = apply_filters( 'wpml_cache_name', 'most_rated_widget' );
+		WPML_Cache::delete( $name );
+
 		return $instance;
 	}
 

@@ -57,7 +57,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 			if ( empty( $value ) || is_null( $value ) || '' == $value )
 				return false;
 
-			$set = set_transient( $transient, $value );
+			$set = set_transient( 'wpml_cache_' . $transient, $value );
 
 			return $set;
 		}
@@ -72,6 +72,18 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 		public static function get( $transient ) {
 
 			return get_transient( $transient );
+		}
+
+		/**
+		 * Delete a cached data using Transient API
+		 * 
+		 * @param    string    $transient Transient name
+		 * 
+		 * @return   boolean   true if successful, false otherwise
+		 */
+		public static function delete( $transient ) {
+
+			return delete_transient( 'wpml_cache_' . $transient );
 		}
 
 		/**
@@ -200,6 +212,9 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 		 * @return   int        $result Number of deleted rows
 		 */
 		public static function wpml_cache_name( $name, $extra = null ) {
+
+			if ( is_null( $extra ) )
+				return $name;
 
 			if ( is_array( $extra ) || is_object( $extra ) )
 				$extra = serialize( $extra );

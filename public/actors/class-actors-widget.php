@@ -131,6 +131,9 @@ class WPML_Actors_Widget extends WP_Widget {
 		$instance['css']   = intval( $new_instance['css'] );
 		$instance['limit'] = intval( $new_instance['limit'] );
 
+		$name = apply_filters( 'wpml_cache_name', 'actors_widget' );
+		WPML_Cache::delete( $name );
+
 		return $instance;
 	}
 

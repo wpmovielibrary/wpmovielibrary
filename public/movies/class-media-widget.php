@@ -163,6 +163,9 @@ class WPML_Media_Widget extends WP_Widget {
 		$instance['media_only'] = intval( $new_instance['media_only'] );
 		//$instance['show_icons'] = intval( $new_instance['show_icons'] );
 
+		$name = apply_filters( 'wpml_cache_name', 'media_widget' );
+		WPML_Cache::delete( $name );
+
 		return $instance;
 	}
 

@@ -117,6 +117,9 @@ class WPML_Genres_Widget extends WP_Widget {
 		$instance['count'] = intval( $new_instance['count'] );
 		$instance['css']   = intval( $new_instance['css'] );
 
+		$name = apply_filters( 'wpml_cache_name', 'genres_widget' );
+		WPML_Cache::delete( $name );
+
 		return $instance;
 	}
 

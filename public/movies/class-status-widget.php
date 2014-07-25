@@ -163,6 +163,9 @@ class WPML_Status_Widget extends WP_Widget {
 		$instance['css'] = intval( $new_instance['css'] );
 		$instance['status_only'] = intval( $new_instance['status_only'] );
 
+		$name = apply_filters( 'wpml_cache_name', 'status_widget' );
+		WPML_Cache::delete( $name );
+
 		return $instance;
 	}
 
