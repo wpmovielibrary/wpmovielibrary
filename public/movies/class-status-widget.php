@@ -24,13 +24,6 @@ class WPML_Status_Widget extends WP_Widget {
 	 */
 	public function __construct() {
 
-		// load plugin text domain
-		add_action( 'init', array( $this, 'widget_textdomain' ) );
-
-		// Hooks fired when the Widget is activated and deactivated
-		register_activation_hook( __FILE__, array( $this, 'activate' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
-
 		parent::__construct(
 			'wpml-status-widget',
 			__( 'WPML Status', WPML_SLUG ),
@@ -42,12 +35,30 @@ class WPML_Status_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Outputs the content of the widget.
+	 * Output the Widget content.
 	 *
 	 * @param	array	args		The array of form elements
 	 * @param	array	instance	The current instance of the widget
 	 */
 	public function widget( $args, $instance ) {
+
+		// Caching
+		$name = apply_filters( 'wpml_cache_name', 'status_widget' );
+		$content = WPML_Cache::output( $name, function() use ( $args, $instance ) {
+
+			return $this->widget_content( $args, $instance );
+		});
+
+		echo $content;
+	}
+
+	/**
+	 * Generate the content of the widget.
+	 *
+	 * @param	array	args		The array of form elements
+	 * @param	array	instance	The current instance of the widget
+	 */
+	private function widget_content( $args, $instance ) {
 
 		extract( $args, EXTR_SKIP );
 		extract( $instance );
@@ -131,7 +142,7 @@ class WPML_Status_Widget extends WP_Widget {
 			}
 		}
 
-		echo $before_widget . $title . $html . $after_widget;
+		return $before_widget . $title . $html . $after_widget;
 	}
 
 	/**
@@ -176,13 +187,6 @@ class WPML_Status_Widget extends WP_Widget {
 
 		// Display the admin form
 		echo WPMovieLibrary::render_template( 'status-widget/status-admin.php', array( 'widget' => $this, 'instance' => $instance ), $require = 'always' );
-	}
-
-	/**
-	 * Loads the Widget's text domain for localization and translation.
-	 */
-	public function widget_textdomain() {
-		load_plugin_textdomain( 'wpml', false, plugin_dir_path( __FILE__ ) . '/lang/' );
 	}
 
 }

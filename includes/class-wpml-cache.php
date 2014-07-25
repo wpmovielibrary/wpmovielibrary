@@ -59,7 +59,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 
 			$set = set_transient( $transient, $value );
 
-			return $set
+			return $set;
 		}
 
 		/**
@@ -89,19 +89,22 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 		 * 
 		 * @return   void|string    return nothing if $echo set to true, return the output else
 		 */
-		public static function output( $name, $function, $echo = true ) {
+		public static function output( $name, $function, $echo = false ) {
 
 			/*if ( is_user_logged_in() ) {
 				call_user_func( $function );
 				return;
 			}*/
 
+			//return call_user_func( $function );
+
 			$expire = WPML_Settings::cache__caching_time();
 			if ( ! $expire )
 				return;
 
 			$name = 'wpml_cache_' . $name;
-			$output = wp_cache_get( $name, 'wpml-cache' );
+			//$output = wp_cache_get( $name, 'wpml-cache' );
+			$output = get_transient( $name );
 
 			if ( ! empty( $output ) )
 				return $output;
@@ -116,7 +119,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 			else
 				$output = call_user_func( $function );
 
-			wp_cache_add( $name, $output, 'wpml-cache', $expire );
+			set_transient( $name, $output, $expire );
 
 			return $output;
 		}

@@ -103,8 +103,9 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			$default_fields = WPML_Settings::get_supported_movie_meta();
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movies', $atts );
-			$name = apply_filters( 'wpml_cache_name', 'movies_shortcode', $atts );
 
+			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movies_shortcode', $atts );
 			$content = WPML_Cache::output( $name, function() use ( $atts ) {
 
 				extract( $atts );
@@ -164,9 +165,9 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		public static function movie_shortcode( $atts = array(), $content = null ) {
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie', $atts );
-			$name = apply_filters( 'wpml_cache_name', 'movie_shortcode', $atts );
 
 			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_shortcode', $atts );
 			$content = WPML_Cache::output( $name, function() use ( $atts ) {
 
 				extract( $atts );
@@ -213,9 +214,9 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			}
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_meta', $atts );
-			$name = apply_filters( 'wpml_cache_name', 'movie_meta_shortcode', $atts );
 
 			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_meta_shortcode', $atts );
 			$content = WPML_Cache::output( $name, function() use ( $atts ) {
 
 				extract( $atts );
@@ -268,9 +269,9 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				$atts['key'] = str_replace( 'movie_', '', $tag );
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_actors', $atts );
-			$name = apply_filters( 'wpml_cache_name', 'movie_actors_shortcode', $atts );
 
 			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_actors_shortcode', $atts );
 			$content = WPML_Cache::output( $name, function() use ( $atts ) {
 
 				extract( $atts );
@@ -315,9 +316,9 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		public static function movie_genres_shortcode( $atts = array(), $content = null ) {
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_genres', $atts );
-			$name = apply_filters( 'wpml_cache_name', 'movie_genres_shortcode', $atts );
 
 			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_genres_shortcode', $atts );
 			$content = WPML_Cache::output( $name, function() use ( $atts ) {
 
 				extract( $atts );
@@ -362,9 +363,9 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		public static function movie_poster_shortcode( $atts = array(), $content = null ) {
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_poster', $atts );
-			$name = apply_filters( 'wpml_cache_name', 'movie_posters_shortcode', $atts );
 
 			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_posters_shortcode', $atts );
 			$content = WPML_Cache::output( $name, function() use ( $atts ) {
 
 				extract( $atts );
@@ -401,9 +402,9 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		public static function movie_images_shortcode( $atts = array(), $content = null ) {
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_images', $atts );
-			$name = apply_filters( 'wpml_cache_name', 'movie_images_shortcode', $atts );
 
 			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_images_shortcode', $atts );
 			$content = WPML_Cache::output( $name, function() use ( $atts ) {
 
 				extract( $atts );
@@ -463,9 +464,9 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				$atts['key'] = str_replace( 'movie_', '', $tag );
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_detail', $atts );
-			$name = apply_filters( 'wpml_cache_name', 'movie_detail_shortcode', $atts );
 
 			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_detail_shortcode', $atts );
 			$content = WPML_Cache::output( $name, function() use ( $atts ) {
 
 				extract( $atts );

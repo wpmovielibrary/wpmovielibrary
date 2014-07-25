@@ -24,13 +24,6 @@ class WPML_Genres_Widget extends WP_Widget {
 	 */
 	public function __construct() {
 
-		// load plugin text domain
-		add_action( 'init', array( $this, 'widget_textdomain' ) );
-
-		// Hooks fired when the Widget is activated and deactivated
-		register_activation_hook( __FILE__, array( $this, 'activate' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
-
 		parent::__construct(
 			'wpml-genres-widget',
 			__( 'WPML Genres', WPML_SLUG ),
@@ -42,17 +35,36 @@ class WPML_Genres_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Outputs the content of the widget.
+	 * Output the Widget content.
 	 *
 	 * @param	array	args		The array of form elements
 	 * @param	array	instance	The current instance of the widget
 	 */
 	public function widget( $args, $instance ) {
 
+		// Caching
+		$name = apply_filters( 'wpml_cache_name', 'genres_widget' );
+		$content = WPML_Cache::output( $name, function() use ( $args, $instance ) {
+
+			return $this->widget_content( $args, $instance );
+		});
+
+		echo $content;
+	}
+
+	/**
+	 * Generate the content of the widget.
+	 *
+	 * @param	array	args		The array of form elements
+	 * @param	array	instance	The current instance of the widget
+	 */
+	private function widget_content( $args, $instance ) {
+
 		extract( $args, EXTR_SKIP );
 		extract( $instance );
 
 		$title = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
+		$description = esc_attr( $description );
 		$list  = ( 1 == $list ? true : false );
 		$css = ( 1 == $css ? true : false );
 		$count = ( 1 == $count ? true : false );
@@ -86,7 +98,7 @@ class WPML_Genres_Widget extends WP_Widget {
 			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display for "Genre" taxonomy.', WPML_SLUG ) ) );
 		}
 
-		echo $before_widget . $title . $html . $after_widget;
+		return $before_widget . $title . $html . $after_widget;
 	}
 
 	/**
@@ -100,6 +112,7 @@ class WPML_Genres_Widget extends WP_Widget {
 		$instance = $old_instance;
 
 		$instance['title'] = strip_tags( $new_instance['title'] );
+		$instance['description'] = strip_tags( $new_instance['description'] );
 		$instance['list']  = intval( $new_instance['list'] );
 		$instance['count'] = intval( $new_instance['count'] );
 		$instance['css']   = intval( $new_instance['css'] );
@@ -119,19 +132,13 @@ class WPML_Genres_Widget extends WP_Widget {
 		);
 
 		$instance['title'] = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Genres', WPML_SLUG ) );
+		$instance['description'] = ( isset( $instance['description'] ) ? $instance['description'] : '' );
 		$instance['list']  = ( isset( $instance['list'] ) ? $instance['list'] : 1 );
 		$instance['count'] = ( isset( $instance['count'] ) ? $instance['count'] : 0 );
 		$instance['css']   = ( isset( $instance['css'] ) ? $instance['css'] : 0 );
 
 		// Display the admin form
 		echo WPMovieLibrary::render_template( 'genre-widget/genre-admin.php', array( 'widget' => $this, 'instance' => $instance ), $require = 'always' );
-	}
-
-	/**
-	 * Loads the Widget's text domain for localization and translation.
-	 */
-	public function widget_textdomain() {
-		load_plugin_textdomain( 'wpml', false, plugin_dir_path( __FILE__ ) . '/lang/' );
 	}
 
 }
