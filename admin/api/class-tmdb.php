@@ -164,18 +164,24 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 */
 		public function getConfiguration() {
 
-			$config = $this->_makeCall( 'configuration' );
+			$config = WPML_Cache::get( 'tmdb_api_config' );
+			if ( ! $config ) {
 
-			if ( is_wp_error( $config ) ) {
-				if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
-					return $config;
+				$config = $this->_makeCall( 'configuration' );
 
-				WPML_Utils::admin_notice( $config->get_error_message(), 'error' );
-				return array();
+				if ( is_wp_error( $config ) ) {
+					if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+						return $config;
+
+					WPML_Utils::admin_notice( $config->get_error_message(), 'error' );
+					return array();
+				}
+
+				if ( ! empty( $config ) && null == $this->_config )
+					$this->_config = $config;
+
+				WPML_Cache::set( 'tmdb_api_config', $config );
 			}
-
-			if ( ! empty( $config ) && null == $this->_config )
-				$this->_config = $config;
 
 			return $config;
 		}
