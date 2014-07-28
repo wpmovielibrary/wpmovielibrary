@@ -20,7 +20,26 @@ wpml = wpml || {};
 			select_list: '.wpml-import-movie-select',
 			select_all: '.movies > thead input[type=checkbox], .movies > tfoot input[type=checkbox]',
 			selected: '.movies > tbody input[type=checkbox]',
+			imported: '#wpml_imported_ids',
 		};
+
+			wpml.importer.meta.init = function() {
+
+				$( wpml_import_meta.selected ).on( 'click', function() {
+					wpml_import_meta.update_ids();
+				});
+			};
+
+			/**
+			* Update the imported IDs list
+			*/
+			wpml.importer.meta.update_ids = function() {
+				var ids = [];
+				$( wpml_import_meta.selected + ':checked' ).each( function( i ) {
+					ids.push( this.value );
+				});
+				$( wpml_import_meta.imported ).val( ids );
+			};
 
 			/**
 			* Handle Bulk actions
@@ -242,3 +261,5 @@ wpml = wpml || {};
 				$( _post_id + '_tmdb_data' ).appendTo( '#tmdb_data' );
 				$parent.find( '.loading' ).removeClass( 'loading' );
 			};
+
+		wpml_import_meta.init();

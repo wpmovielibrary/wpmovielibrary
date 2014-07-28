@@ -392,12 +392,14 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			$_imported = WPML_Stats::get_imported_movies_count();
 			$_queued = WPML_Stats::get_queued_movies_count();
 
-			if ( isset( $_POST['wpml_save_imported'] ) && '' != $_POST['wpml_save_imported'] && isset( $_POST['tmdb'] ) && count( $_POST['tmdb'] ) ) {
+			if ( isset( $_POST['wpml_save_imported'] ) && '' != $_POST['wpml_save_imported'] && isset( $_POST['wpml_imported_ids'] ) && '' != $_POST['wpml_imported_ids'] && isset( $_POST['tmdb'] ) && count( $_POST['tmdb'] ) ) {
 
 				WPML_Utils::check_admin_referer( 'save-imported-movies' );
 
+				$post_ids = explode( ',', $_POST['wpml_imported_ids'] );
+
 				foreach ( $_POST['tmdb'] as $tmdb_data ) {
-					if ( 0 != $tmdb_data['tmdb_id'] ) {
+					if ( 0 != $tmdb_data['tmdb_id'] && in_array( $tmdb_data['post_id'], $post_ids ) ) {
 						$update = WPML_Edit_Movies::save_movie_meta( $tmdb_data['post_id'], $post = null, $queue = false, $tmdb_data );
 						if ( is_wp_error( $update ) )
 							$errors->add( $update->get_error_code(), $update->get_error_message() );

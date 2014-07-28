@@ -29,6 +29,7 @@
 
 					<p style="text-align:right">
 						<?php WPML_Utils::_nonce_field( 'save-imported-movies', $referer = false ) ?>
+						<input type="hidden" id="wpml_imported_ids" name="wpml_imported_ids" value="" />
 						<input type="button" id="wpml_empty" name="wpml_empty" class="button button-secondary button-large" value="<?php _e( 'Empty All', WPML_SLUG ); ?>" />
 						<input type="submit" id="wpml_save_imported" name="wpml_save_imported" class="button button-primary button-large" value="<?php _e( 'Save Movies', WPML_SLUG ); ?>" />
 					</p>
