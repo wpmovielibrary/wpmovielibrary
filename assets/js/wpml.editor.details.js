@@ -47,10 +47,10 @@ wpml = wpml || {};
 						$( wpml_edit_details.save_details ).prev( '.spinner' ).css( { display: 'inline-block' } );
 					},
 					error: function( response ) {
-						$( wpml_edit_details.details_status ).html( '<p>' + wpml_ajax.lang.oops + '</p>' );
+						$( wpml_edit_details.details_status ).show().html( '<p>' + wpml_ajax.lang.oops + '</p>' );
 					},
 					success: function( response ) {
-						$( wpml_edit_details.details_status ).html( '<p>' + wpml_ajax.lang.done + '</p>' );
+						$( wpml_edit_details.details_status ).show().html( '<p>' + wpml_ajax.lang.done + '</p>' );
 						timer = window.setTimeout( function() {
 							$( wpml_edit_details.details_status ).fadeOut( 1500, function() { $( this ).empty() } );
 						}, 2000 );

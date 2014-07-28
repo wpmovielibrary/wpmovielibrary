@@ -421,7 +421,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			$response = self::save_movie_details( $post_id, $details );
 
-			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( $detail . '-inline-edit' ) );
+			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( 'save-movie-details' ) );
 		}
 
 		/**
