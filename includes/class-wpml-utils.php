@@ -68,7 +68,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			add_filter( 'get_the_terms', __CLASS__ . '::get_the_terms', 10, 3 );
 			add_filter( 'wp_get_object_terms', __CLASS__ . '::get_ordered_object_terms', 10, 4 );
 
-			add_action( 'template_redirect', __CLASS__ . '::filter_404' );
+			add_action( 'template_redirect', __CLASS__ . '::filter_404', 10 );
 			add_filter( 'post_type_archive_title', __CLASS__ . '::filter_post_type_archive_title', 10, 2 );
 		}
 
@@ -1496,41 +1496,55 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				return false;
 			}
 
-			$wp_query->query_vars['wpml_archive_page'] = 1;
-			$wp_query->query_vars['wpml_archive_title'] = __( ucwords( $term_slug . 's' ), WPML_SLUG );
+			// Caching
+			// TODO: this is nasty. Should be a way to make sure the filter
+			// is added before all this to avoid the has_filter() call...
+			if ( has_filter( 'wpml_cache_name' ) )
+				$name = apply_filters( 'wpml_cache_name', $term_slug . '_archive', $wp_query->query_vars );
+			else
+				$name = WPML_Cache::wpml_cache_name( $term_slug . '_archive', $wp_query->query_vars );
+			$content = WPML_Cache::output( $name, function() use ( $wp_query, $slugs, $term_slug, $term_title ) {
 
-			$args = 'hide_empty=true&number=50';
-			$paged = $wp_query->get( 'paged' );
+				$wp_query->query_vars['wpml_archive_page'] = 1;
+				$wp_query->query_vars['wpml_archive_title'] = __( ucwords( $term_slug . 's' ), WPML_SLUG );
 
-			if ( $paged )
-				$args .= '&offset=' . ( 50 * ( $paged - 1 ) );
+				$args = 'hide_empty=true&number=50';
+				$paged = $wp_query->get( 'paged' );
 
-			$terms = get_terms( $term_slug, $args );
-			$total = wp_count_terms( $term_slug, 'hide_empty=true' );
-			$content = '';
+				if ( $paged )
+					$args .= '&offset=' . ( 50 * ( $paged - 1 ) );
 
-			if ( is_wp_error( $terms ) )
-				$content = $terms->get_error_message();
-			else 
-				foreach ( $terms as $term )
-					$content[] = sprintf(
-						'<li><a href="%s" title="%s">%s (%s)</a></li>',
-						get_term_link( $term ),
-						sprintf( $term_title, $term->name ),
-						$term->name,
-						sprintf( _n( '%d movie', '%d movies', $term->count, WPML_SLUG ), $term->count )
-					);
+				$terms = get_terms( $term_slug, $args );
+				$total = wp_count_terms( $term_slug, 'hide_empty=true' );
+				$links = array();
 
-			if ( is_array( $content ) )
-				$content = '<ul class="wpml_archives wpml_' . $term_slug . '_archives">' . implode( "\n", $content ) . '</ul>';
+				if ( is_wp_error( $terms ) )
+					$links = $terms;
+				else 
+					foreach ( $terms as $term )
+						$links[] = array(
+							'url'        => get_term_link( $term ),
+							'attr_title' => sprintf( $term_title, $term->name ),
+							'title'      => $term->name,
+							'count'      => sprintf( _n( '%d movie', '%d movies', $term->count, WPML_SLUG ), $term->count )
+						);
 
-			$args = array(
-				'type'    => 'list',
-				'total'   => ceil( ( $total - 1 ) / 50 ),
-				'current' => max( 1, $paged ),
-				'format'  => home_url( $slugs[ $term_slug ] . '/page/%#%/' ),
-			);
-			$content .= self::paginate_links( $args );
+				$args = array(
+					'type'    => 'list',
+					'total'   => ceil( ( $total - 1 ) / 50 ),
+					'current' => max( 1, $paged ),
+					'format'  => home_url( $slugs[ $term_slug ] . '/page/%#%/' ),
+				);
+
+				$attributes = array( 'taxonomy' => $term_slug, 'links' => $links );
+				$content = WPMovieLibrary::render_template( 'archives/archives.php', $attributes, $require = 'always' );
+
+				$pagination = self::paginate_links( $args );
+
+				$content = $content . $pagination;
+
+				return $content;
+			});
 
 			$post->post_content = $content;
 
@@ -1592,6 +1606,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			);
 
 			$args = wp_parse_args( $args, $defaults );
+
 			extract( $args, EXTR_SKIP );
 
 			// Who knows what else people pass in $args
@@ -1602,40 +1617,46 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$end_size = 0  < (int) $end_size ? (int) $end_size : 1; // Out of bounds?  Make it the default.
 			$mid_size = 0 <= (int) $mid_size ? (int) $mid_size : 2;
 			$r = '';
-			$page_links = array();
+			$links = array();
 			$n = 0;
 			$dots = false;
 
-			if ( $current && 1 < $current ) :
+			if ( $current && 1 < $current ) {
 				$link = str_replace( '%_%', $format, $base );
 				$link = str_replace( '%#%', $current - 1, $link );
-				$page_links[] = '<a class="prev page-numbers" href="' . esc_url( $link ) . '">' . $prev_text . '</a>';
-			endif;
-			for ( $n = 1; $n <= $total; $n++ ) :
-				if ( $n == $current ) :
-					$page_links[] = "<span class='page-numbers current'>" . number_format_i18n( $n ) . "</span>";
+				$links[] = array( 'url' => esc_url( $link ), 'class' => 'prev page-numbers', 'title' => $prev_text );
+			}
+
+			for ( $n = 1; $n <= $total; $n++ ) {
+				if ( $n == $current ) {
+					$links[] = array( 'url' => null, 'class' => 'page-numbers current', 'title' => number_format_i18n( $n ) );
 					$dots = true;
-				else :
-					if ( $n <= $end_size || ( $current && $n >= $current - $mid_size && $n <= $current + $mid_size ) || $n > $total - $end_size ) :
+				}
+				else {
+					if ( $n <= $end_size || ( $current && $n >= $current - $mid_size && $n <= $current + $mid_size ) || $n > $total - $end_size ) {
 						$link = str_replace( '%_%', $format, $base );
 						$link = str_replace( '%#%', $n, $link );
-						$page_links[] = "<a class='page-numbers' href='" . esc_url( $link ) . "'>" . number_format_i18n( $n ) . "</a>";
+						$links[] = array( 'url' => esc_url( $link ), 'class' => 'page-numbers', 'title' => number_format_i18n( $n ) );
 						$dots = true;
-					elseif ( $dots ) :
-						$page_links[] = '<span class="page-numbers dots">' . __( '&hellip;' ) . '</span>';
+					}
+					else if ( $dots ) {
+						$links[] = array( 'url' => null, 'class' => 'page-numbers dots', 'title' => __( '&hellip;' ) );
 						$dots = false;
-					endif;
-				endif;
-			endfor;
-			if ( $current && ( $current < $total || -1 == $total ) ) :
+					}
+				}
+			}
+
+			if ( $current && ( $current < $total || -1 == $total ) ) {
 				$link = str_replace( '%_%', $format, $base );
 				$link = str_replace( '%#%', $current + 1, $link );
-				$page_links[] = '<a class="next page-numbers" href="' . esc_url( $link ) . '">' . $next_text . '</a>';
-			endif;
+				$links[] = array( 'url' => esc_url( $link ), 'class' => 'next page-numbers', 'title' => $next_text );
+			}
 
-			$r = '<ul class="page-numbers"><li>' . join( '</li><li>', $page_links ) . '</li></ul>';
+			$attributes = array( 'links' => $links );
 
-			return $r;
+			$content = WPMovieLibrary::render_template( 'archives/pagination.php', $attributes, $require = 'always' );
+
+			return $content;
 		}
 
 		/**
