@@ -54,6 +54,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			add_action( 'wp_ajax_wpml_set_detail', __CLASS__ . '::set_detail_callback' );
 			add_action( 'wp_ajax_wpml_save_details', __CLASS__ . '::save_details_callback' );
+			add_action( 'wp_ajax_wpml_empty_meta', __CLASS__ . '::empty_meta_callback' );
 		}
 
 		/**
@@ -423,6 +424,25 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( $detail . '-inline-edit' ) );
 		}
 
+		/**
+		 * Remove all currently edited post' metadata and taxonomies.
+		 *
+		 * @since    1.2
+		 */
+		public static function empty_meta_callback() {
+
+			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
+
+			if ( is_null( $post_id ) )
+				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', WPML_SLUG ) );
+
+			WPML_Utils::check_ajax_referer( 'empty-movie-meta' );
+
+			$response = self::empty_movie_meta( $post_id );
+
+			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( 'empty-movie-meta' ) );
+		}
+
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
@@ -615,6 +635,23 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		}
 
 		/**
+		 * Remove movie meta and taxonomies.
+		 * 
+		 * @since     1.2
+		 * 
+		 * @param    int      $post_id ID of the current Post
+		 * 
+		 * @return   boolean  Always return true
+		 */
+		public static function empty_movie_meta( $post_id ) {
+
+			wp_delete_object_term_relationships( $post_id, array( 'collection', 'genre', 'actor' ) );
+			delete_post_meta( $post_id, '_wpml_movie_data' );
+
+			return true;
+		}
+
+		/**
 		 * Save TMDb fetched data.
 		 * 
 		 * Uses the 'save_post_movie' action hook to save the movie metadata
@@ -623,9 +660,6 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * most likely creating a new movie, use $_REQUEST to get the data.
 		 * 
 		 * Saves the movie details as well.
-		 * 
-		 * TODO: add some security to harden the $_REQUEST use.
-		 * TODO: use WP_Error
 		 *
 		 * @since     1.0.0
 		 * 

@@ -279,10 +279,33 @@ wpml = wpml || {};
 			wpml.editor.meta.empty_results = function() {
 
 				$( '.tmdb_data_field' ).val( '' );
-				$( '.categorydiv input[type=checkbox]' ).prop( 'checked', false );
-				$( '.tagchecklist' ).empty();
 				$( '#tmdb_data' ).empty().hide();
 				$( '#remove-post-thumbnail' ).trigger( 'click' );
+
+				wpml._post({
+					data: {
+						action: 'wpml_empty_meta',
+						nonce: wpml.get_nonce( 'empty-movie-meta' ),
+						post_id: wpml_edit_meta.post_id
+					},
+					beforeSend: function() {
+						$( wpml_edit_meta._empty.element ).prev( '.spinner' ).css( { display: 'inline-block' } );
+					},
+					error: function( response ) {
+						wpml_state.clear();
+						$.each( response.responseJSON.errors, function() {
+							wpml_state.set( this, 'error' );
+						});
+					},
+					success: function( response ) {
+						$( '.categorydiv input[type=checkbox]' ).prop( 'checked', false );
+						$( '.tagchecklist' ).empty();
+					},
+					complete: function( r ) {
+						$( wpml_edit_meta._search.element ).prev( '.spinner' ).hide();
+						wpml.update_nonce( 'empty-meta', r.responseJSON.nonce );
+					}
+				});
 
 				wpml_state.clear();
 			};
