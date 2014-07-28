@@ -426,7 +426,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				$attachments = get_posts( $args );
 				$images = array();
-
+				$data = '';
 				
 				if ( $attachments ) {
 
@@ -436,7 +436,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 					foreach ( $attachments as $attachment )
 						$images[] = wp_get_attachment_image( $attachment->ID, $size );
 
-					$content = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => $size, 'images' => $images ), $require = 'always' );
+					$content = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => $size, 'data' => $data, 'images' => $images ), $require = 'always' );
 				}
 
 				return $content;

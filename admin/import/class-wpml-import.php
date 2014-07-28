@@ -166,6 +166,9 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			}
 
 			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'delete_movie' ), array( $movies ), $loop = true );
+
+			WPML_Cache::clean_transient( 'clean', $force = true );
+
 			return $response;
 		}
 
@@ -226,6 +229,9 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			}
 
 			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'import_movie' ), array( $movies ), $loop = true );
+
+			WPML_Cache::clean_transient( 'clean', $force = true );
+
 			return $response;
 		}
 

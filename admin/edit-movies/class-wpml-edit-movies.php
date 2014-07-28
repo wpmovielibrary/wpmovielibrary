@@ -580,6 +580,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 					return new WP_Error( 'update_error', __( 'Error: couldn\'t update movie detail.', WPML_SLUG ) );
 			}
 
+			WPML_Cache::clean_transient( 'clean', $force = true );
+
 			return $post_id;
 		}
 
@@ -606,6 +608,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			update_post_meta( $post_id, '_wpml_movie_media', $details['movie_media'] );
 			update_post_meta( $post_id, '_wpml_movie_status', $details['movie_status'] );
 			update_post_meta( $post_id, '_wpml_movie_rating', number_format( $details['movie_rating'], 1 ) );
+
+			WPML_Cache::clean_transient( 'clean', $force = true );
 
 			return $post_id;
 		}
@@ -715,6 +719,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				$wpml_details = $_REQUEST['wpml_details'];
 				self::save_movie_details( $post_ID, $wpml_details );
 			}
+
+			WPML_Cache::clean_transient( 'clean', $force = true );
 
 			return ( ! empty( $errors->errors ) ? $errors : $post_ID );
 		}

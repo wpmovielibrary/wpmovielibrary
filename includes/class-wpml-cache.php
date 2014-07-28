@@ -99,27 +99,48 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 		 * @param    function    anonymous function executing the code to cache
 		 * @param    boolean     should we echo the result of just return it?
 		 * 
-		 * @return   void|string    return nothing if $echo set to true, return the output else
+		 * @return   mixed
 		 */
 		public static function output( $name, $function, $echo = false ) {
 
-			/*if ( is_user_logged_in() ) {
-				call_user_func( $function );
-				return;
-			}*/
-
-			//return call_user_func( $function );
+			// Cache is disabled, or user is logged in but user cache is disabled
+			if ( ! WPML_Settings::cache__caching() || ( is_user_logged_in() && ! WPML_Settings::cache__user_caching() ) )
+				return self::output_callback( $function, $echo );
 
 			$expire = WPML_Settings::cache__caching_time();
 			if ( ! $expire )
-				return;
+				return false;
 
 			$name = 'wpml_cache_' . $name;
-			//$output = wp_cache_get( $name, 'wpml-cache' );
 			$output = get_transient( $name );
 
 			if ( ! empty( $output ) )
 				return $output;
+
+			$output = self::output_callback( $function, $echo );
+
+			set_transient( $name, $output, $expire );
+
+			return $output;
+		}
+
+		/**
+		 * Cache outputs callback.
+		 * 
+		 * Used to handle the cache callback function depending on the
+		 * wanted output, echo or return.
+		 * 
+		 * @since    1.2
+		 * 
+		 * @param    function    anonymous function executing the code to cache
+		 * @param    boolean     should we echo the result of just return it?
+		 * 
+		 * @return   mixed       return a string if $echo set to true and callback work, false if callback is bogus, void if valid callback
+		 */
+		private static function output_callback( $function, $echo = false ) {
+
+			if ( ! is_callable( $function ) )
+				return false;
 
 			if ( true === $echo ) {
 				ob_start();
@@ -130,8 +151,6 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 			}
 			else
 				$output = call_user_func( $function );
-
-			set_transient( $name, $output, $expire );
 
 			return $output;
 		}
@@ -189,8 +208,13 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 			}
 
 			if ( $force || ( ! $_wp_using_ext_object_cache && 'empty' == $action ) ) {
-				$result = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE \"_transient_%wpml%\"" );
-				$wpdb->query( 'OPTIMIZE TABLE ' . $wpdb->options );
+				if ( 'clean' == $action )
+					$where = 'option_name LIKE "_transient_%wpml_cache_%"';
+				else
+					$where = 'option_name LIKE "_transient_%wpml%"';
+
+				$result = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE {$where}" );
+				$wpdb->query( "OPTIMIZE TABLE {$wpdb->options}" );
 			}
 
 			return $result;

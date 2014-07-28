@@ -531,7 +531,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					add_settings_error( null, 'empty_cache', __( 'You don\'t have the permission do perform this action.', WPML_SLUG ), 'error' );
 				}
 				else {
-					$action = WPML_Utils::empty_cache();
+					$action = WPML_Cache::empty_cache();
 					if ( is_wp_error( $action ) )
 						add_settings_error( null, 'empty_cache', $action->get_error_message(), 'error' );
 					else

@@ -40,16 +40,15 @@
 								
 							</td>
 						</tr>
-						<!-- Cache deactivated until WPML 1.1.0 -->
-						<!--<tr>
+						<tr>
 							<th scope="row"><?php _e( 'Empty Cache', WPML_SLUG ); ?></th>
 							<td>
-								<p class="description"><?php _e( 'Delete all temporarily stored data. This can solve issues like incomplete movie metadata repeatedly returned or incorrect API results.', WPML_SLUG ); ?></p>
+								<p class="description"><?php _e( 'Delete all temporarily stored data. This can solve issues like incomplete movie metadata repeatedly returned, outdated Widgets or Shortcodes display...', WPML_SLUG ); ?></p>
 								<p style="text-align:center">
 									<a href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=maintenance&wpml_empty_cache=true' ), 'wpml-empty-cache', '_nonce') ?>" class="button button-secondary"><?php _e( 'Empty cache', WPML_SLUG ) ?></a>
 								</p>
 							</td>
-						</tr>-->
+						</tr>
 					</tbody>
 				</table>
 

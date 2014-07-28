@@ -509,17 +509,17 @@ $wpml_settings = array(
 		),
 		'settings' => array(
 			// Results caching
-			'db_caching' => array(
-				'title' => __( 'Enable Data Caching', WPML_SLUG ),
-				'description' => __( 'If enabled, WPML will cache movie related data to prevent too frequent queries to the database.', WPML_SLUG ),
+			'caching' => array(
+				'title' => __( 'Enable Caching', WPML_SLUG ),
+				'description' => __( 'If enabled, WPML will cache movie related data to prevent too frequent queries to the database. <a href="http://wpmovielibrary.com/documentation/performance">Learn more about caching</a>.', WPML_SLUG ),
 				'type' => 'toggle',
 				'default' => 1
 			),
 
 			// Results caching
-			'html_caching' => array(
-				'title' => __( 'Enable HTML Caching', WPML_SLUG ),
-				'description' => __( 'If enabled, WPML will cache the plugin\'s recurrent visual parts like Widgets or Shortcodes to enhance performance.', WPML_SLUG ),
+			'user_caching' => array(
+				'title' => __( 'User Caching', WPML_SLUG ),
+				'description' => __( 'If enabled, caching will be activated for logged in users as well as guests.', WPML_SLUG ),
 				'type' => 'toggle',
 				'default' => 0
 			),

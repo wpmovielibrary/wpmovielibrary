@@ -76,7 +76,7 @@ function wpml_requirements_met() {
 function wpml_requirements_error() {
 	global $wp_version;
 
-	require_once WPML_PATH . 'admin/common/views/requirements-error.php';
+	require_once WPML_PATH . 'views/requirements-error.php';
 }
 
 /**

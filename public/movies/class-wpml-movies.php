@@ -167,16 +167,19 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_content_' . get_the_ID() );
-			$content = WPML_Cache::output( $name, function() use ( $content ) {
+			$html = WPML_Cache::output( $name, function() use ( $content ) {
 
 				$details  = WPML_Movies::movie_details();
 				$metadata = WPML_Movies::movie_metadata();
 
-				$content = $details . $metadata . $content;
+				$html = $details . $metadata;
 
-				return $content;
+				return $html;
 
 			}, $echo = false );
+
+			// Original content should not be cached
+			$content = $html . $content;
 
 			return $content;
 		}
