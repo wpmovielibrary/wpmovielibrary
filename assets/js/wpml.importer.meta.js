@@ -33,11 +33,17 @@ wpml = wpml || {};
 			/**
 			* Update the imported IDs list
 			*/
-			wpml.importer.meta.update_ids = function() {
+			wpml.importer.meta.update_ids = function( id ) {
 				var ids = [];
-				$( wpml_import_meta.selected + ':checked' ).each( function( i ) {
-					ids.push( this.value );
-				});
+				if ( undefined != $( '#p_' + id ) ) {
+					ids = $( wpml_import_meta.imported ).val().split( ',' );
+					ids.push( id );
+				}
+				else {
+					$( wpml_import_meta.selected + ':checked' ).each( function( i ) {
+						ids.push( this.value );
+					});
+				}
 				$( wpml_import_meta.imported ).val( ids );
 			};
 
@@ -259,6 +265,7 @@ wpml = wpml || {};
 				$parent.find( '.movie_tmdb_id' ).html( '<a href="http://www.themoviedb.org/movie/' + data._tmdb_id + '">' + data._tmdb_id + '</a>' );
 
 				$( _post_id + '_tmdb_data' ).appendTo( '#tmdb_data' );
+				wpml_import_meta.update_ids( data._id );
 				$parent.find( '.loading' ).removeClass( 'loading' );
 			};
 
