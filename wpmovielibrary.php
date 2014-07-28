@@ -109,22 +109,22 @@ if ( wpml_requirements_met() ) {
 	require_once( WPML_PATH . 'includes/class-wpml-cache.php' );
 	require_once( WPML_PATH . 'includes/class-wpml-utils.php' );
 
-	require_once( WPML_PATH . 'public/movies/class-wpml-movies.php' );
-	require_once( WPML_PATH . 'public/collections/class-wpml-collections.php' );
-	require_once( WPML_PATH . 'public/genres/class-wpml-genres.php' );
-	require_once( WPML_PATH . 'public/actors/class-wpml-actors.php' );
+	require_once( WPML_PATH . 'public/class-wpml-movies.php' );
+	require_once( WPML_PATH . 'public/class-wpml-collections.php' );
+	require_once( WPML_PATH . 'public/class-wpml-genres.php' );
+	require_once( WPML_PATH . 'public/class-wpml-actors.php' );
+	require_once( WPML_PATH . 'public/class-shortcodes.php' );
 
 	/* Widgets */
 
-	require_once( WPML_PATH . 'public/movies/class-media-widget.php' );
-	require_once( WPML_PATH . 'public/movies/class-most-rated-movies-widget.php' );
-	require_once( WPML_PATH . 'public/movies/class-recent-movies-widget.php' );
-	require_once( WPML_PATH . 'public/movies/class-status-widget.php' );
-	require_once( WPML_PATH . 'public/collections/class-collections-widget.php' );
-	require_once( WPML_PATH . 'public/genres/class-genres-widget.php' );
-	require_once( WPML_PATH . 'public/actors/class-actors-widget.php' );
-	require_once( WPML_PATH . 'public/statistics/class-statistics-widget.php' );
-	require_once( WPML_PATH . 'public/shortcodes/class-shortcodes.php' );
+	require_once( WPML_PATH . 'public/widgets/class-media-widget.php' );
+	require_once( WPML_PATH . 'public/widgets/class-most-rated-movies-widget.php' );
+	require_once( WPML_PATH . 'public/widgets/class-recent-movies-widget.php' );
+	require_once( WPML_PATH . 'public/widgets/class-status-widget.php' );
+	require_once( WPML_PATH . 'public/widgets/class-collections-widget.php' );
+	require_once( WPML_PATH . 'public/widgets/class-genres-widget.php' );
+	require_once( WPML_PATH . 'public/widgets/class-actors-widget.php' );
+	require_once( WPML_PATH . 'public/widgets/class-statistics-widget.php' );
 
 	/*
 	 * Register hooks that are fired when the plugin is activated or deactivated.
@@ -147,21 +147,20 @@ if ( wpml_requirements_met() ) {
 	if ( is_admin() ) {
 
 		require_once( WPML_PATH . 'includes/class-wpml-ajax.php' );
-		require_once( WPML_PATH . 'includes/class-stats.php' );
-		require_once( WPML_PATH . 'admin/dashboard/class-dashboard.php' );
-		require_once( WPML_PATH . 'admin/dashboard/class-dashboard-stats-widget.php' );
-		require_once( WPML_PATH . 'admin/dashboard/class-dashboard-latest-movies-widget.php' );
-		require_once( WPML_PATH . 'admin/dashboard/class-dashboard-most-rated-movies-widget.php' );
-		require_once( WPML_PATH . 'admin/dashboard/class-dashboard-quickaction-widget.php' );
-		require_once( WPML_PATH . 'admin/dashboard/class-dashboard-helper-widget.php' );
-		require_once( WPML_PATH . 'admin/api/class-tmdb.php' );
-		require_once( WPML_PATH . 'admin/api/class-wpml-tmdb.php' );
 		require_once( WPML_PATH . 'admin/class-wpmovielibrary-admin.php' );
-		require_once( WPML_PATH . 'admin/edit-movies/class-wpml-edit-movies.php' );
-		require_once( WPML_PATH . 'admin/media/class-wpml-media.php' );
-		require_once( WPML_PATH . 'admin/import/class-wpml-import-table.php' );
-		require_once( WPML_PATH . 'admin/import/class-wpml-import.php' );
-		require_once( WPML_PATH . 'admin/import/class-wpml-queue.php' );
+		require_once( WPML_PATH . 'admin/class-dashboard.php' );
+		require_once( WPML_PATH . 'admin/class-dashboard-stats-widget.php' );
+		require_once( WPML_PATH . 'admin/class-dashboard-latest-movies-widget.php' );
+		require_once( WPML_PATH . 'admin/class-dashboard-most-rated-movies-widget.php' );
+		require_once( WPML_PATH . 'admin/class-dashboard-quickaction-widget.php' );
+		require_once( WPML_PATH . 'admin/class-dashboard-helper-widget.php' );
+		require_once( WPML_PATH . 'admin/class-wpml-api.php' );
+		require_once( WPML_PATH . 'admin/class-wpml-api-wrapper.php' );
+		require_once( WPML_PATH . 'admin/class-wpml-edit-movies.php' );
+		require_once( WPML_PATH . 'admin/class-wpml-media.php' );
+		require_once( WPML_PATH . 'admin/class-wpml-import-table.php' );
+		require_once( WPML_PATH . 'admin/class-wpml-import-queue.php' );
+		require_once( WPML_PATH . 'admin/class-wpml-import.php' );
 
 		add_action( 'plugins_loaded', array( 'WPMovieLibrary_Admin', 'get_instance' ) );
 

@@ -389,8 +389,10 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			$imported = array();
 
 			$_section = '';
-			$_imported = WPML_Stats::get_imported_movies_count();
-			$_queued = WPML_Stats::get_queued_movies_count();
+
+			$movies = (array) wp_count_posts( 'movie' );
+			$_imported = $movies['import-draft'];
+			$_queued = $movies['import-queued'];
 
 			if ( isset( $_POST['wpml_save_imported'] ) && '' != $_POST['wpml_save_imported'] && isset( $_POST['wpml_imported_ids'] ) && '' != $_POST['wpml_imported_ids'] && isset( $_POST['tmdb'] ) && count( $_POST['tmdb'] ) ) {
 
