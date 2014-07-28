@@ -53,7 +53,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			add_filter( 'wpml_format_movie_status', __CLASS__ . '::format_movie_status', 10, 2 );
 			add_filter( 'wpml_format_movie_rating', __CLASS__ . '::format_movie_rating', 10, 2 );
 
-			add_filter( 'wpml_filter_filter_runtime', __CLASS__ . '::filter_runtime', 10, 1 );
+			add_filter( 'wpml_filter_filter_runtime', __CLASS__ . '::filter_runtime', 10, 2 );
 			add_filter( 'wpml_filter_filter_release_date', __CLASS__ . '::filter_release_date', 10, 2 );
 			add_filter( 'wpml_validate_meta_data', __CLASS__ . '::validate_meta_data', 10, 1 );
 			add_filter( 'wpml_filter_shortcode_atts', __CLASS__ . '::filter_shortcode_atts', 10, 2 );
@@ -420,13 +420,15 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( is_null( $runtime ) || '' == $runtime )
 				return $runtime;
 
-			$time_format = WPML_Settings::wpml__time_format();
+			if ( is_null( $time_format ) )
+				$time_format = WPML_Settings::wpml__time_format();
+
 			if ( '' == $time_format )
-				$time_format = 'H \h i \m\i\n';
+				$time_format = 'G \h i \m\i\n';
 
 			$time = date_i18n( $time_format, mktime( 0, $runtime ) );
 			if ( false !== stripos( $time, 'am' ) || false !== stripos( $time, 'pm' ) )
-				$time = date_i18n( 'g:i', mktime( 0, $runtime ) );
+				$time = date_i18n( 'G:i', mktime( 0, $runtime ) );
 
 			return $time;
 		}
@@ -451,7 +453,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$date_format = WPML_Settings::wpml__date_format();
 
 			if ( '' == $date_format )
-				$date_format = 'F Y';
+				$date_format = 'j F Y';
 
 			$date = date_i18n( $date_format, strtotime( $release_date ) );
 
@@ -639,9 +641,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_release_date( $data ) {
+		public static function format_movie_release_date( $data, $format = null ) {
 
-			$output = WPML_Utils::filter_release_date( $data );
+			$output = WPML_Utils::filter_release_date( $data, $format );
 			$output = self::format_movie_field( $output );
 
 			return $output;
@@ -656,9 +658,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_runtime( $data ) {
+		public static function format_movie_runtime( $data, $format = null ) {
 
-			$output = WPML_Utils::filter_runtime( $data );
+			$output = self::filter_runtime( $data, $format );
 			$output = self::format_movie_field( $output );
 
 			return $output;

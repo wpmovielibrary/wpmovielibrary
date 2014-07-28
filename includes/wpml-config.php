@@ -703,6 +703,8 @@ $wpml_movie_meta_aliases = array(
 	'languages'  => 'spoken_languages',
 	'actors'     => 'cast',
 	'resume'     => 'overview',
+	'musician'   => 'composer',
+	'date'       => 'release_date',
 	'musician'   => 'composer'
 );
 
@@ -821,20 +823,75 @@ $wpml_shortcodes = array(
 		'callback' => 'movie_meta_shortcode',
 		'aliases' => array(
 			'movie_director',
-			'movie_runtime',
-			'movie_release_date',
 			'movie_overview',
 			'movie_title',
 			'movie_original_title',
 			'movie_production',
 			'movie_country',
 			'movie_language',
+			'movie_lang',
 			'movie_producer',
 			'movie_photography',
 			'movie_composer',
 			'movie_author',
 			'movie_writer'
 		)
+	),
+
+	'movie_runtime' => array(
+		'atts'     => array(
+			'id' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'title' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'format' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'label' => array(
+				'default' => true,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			)
+		),
+		'content'  => null,
+		'callback' => 'movie_runtime_shortcode',
+		'aliases'  => null
+	),
+
+	'movie_release_date' => array(
+		'atts'     => array(
+			'id' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'title' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'format' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'label' => array(
+				'default' => true,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			)
+		),
+		'content'  => null,
+		'callback' => 'movie_release_date_shortcode',
+		'aliases'  => array( 'movie_date' )
 	),
 
 	'movie_actors' => array(

@@ -217,7 +217,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_meta_shortcode', $atts );
-			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+			$content = WPML_Cache::output( $name, function() use ( $atts, $content ) {
 
 				extract( $atts );
 
@@ -239,6 +239,99 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				if ( $label ) {
 					$_meta = WPML_Settings::get_supported_movie_meta();
 					$attributes['title'] = __( $_meta[ $key ]['title'], WPML_SLUG );
+					$view = 'shortcodes/metadata-label.php';
+				}
+
+				$content = WPMovieLibrary::render_template( $view, $attributes, $require = 'always' );
+
+				return $content;
+
+			}, $echo = false );
+
+			return $content;
+		}
+
+		/**
+		 * Movie Runtime shortcode. This shortcode supports aliases.
+		 *
+		 * @since    1.2
+		 * 
+		 * @param    array     Shortcode attributes
+		 * @param    string    Shortcode content
+		 * @param    string    Shortcode tag name
+		 * 
+		 * @return   string    Shortcode display
+		 */
+		public static function movie_release_date_shortcode( $atts = array(), $content = null, $tag = null ) {
+
+			// Is this an alias?
+			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ )
+				$tag = apply_filters( 'wpml_filter_movie_meta_aliases', $tag );
+
+			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_release_date', $atts );
+
+			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_release_date_shortcode', $atts );
+			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+
+				extract( $atts );
+
+				$movie_id = self::find_movie_id( $id, $title );
+				if ( is_null( $movie_id ) )
+					return $content;
+
+				$release_date = WPML_Utils::get_movie_data( $movie_id );
+				$release_date = $release_date['meta']['release_date'];
+				$release_date = apply_filters( "wpml_format_movie_release_date", $release_date, $format );
+
+				$view = 'shortcodes/metadata.php';
+				$attributes = array( 'meta' => $release_date );
+				if ( $label ) {
+					$attributes['title'] = __( 'Release Date', WPML_SLUG );
+					$view = 'shortcodes/metadata-label.php';
+				}
+
+				$content = WPMovieLibrary::render_template( $view, $attributes, $require = 'always' );
+
+				return $content;
+
+			}, $echo = false );
+
+			return $content;
+		}
+
+		/**
+		 * Movie Runtime shortcode. This shortcode does not support aliases.
+		 *
+		 * @since    1.2
+		 * 
+		 * @param    array     Shortcode attributes
+		 * @param    string    Shortcode content
+		 * 
+		 * @return   string    Shortcode display
+		 */
+		public static function movie_runtime_shortcode( $atts = array(), $content = null ) {
+
+			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_runtime', $atts );
+
+			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_runtime_shortcode', $atts );
+			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+
+				extract( $atts );
+
+				$movie_id = self::find_movie_id( $id, $title );
+				if ( is_null( $movie_id ) )
+					return $content;
+
+				$runtime = WPML_Utils::get_movie_data( $movie_id );
+				$runtime = $runtime['meta']['runtime'];
+				$runtime = apply_filters( "wpml_format_movie_runtime", $runtime, $format );
+
+				$view = 'shortcodes/metadata.php';
+				$attributes = array( 'meta' => $runtime );
+				if ( $label ) {
+					$attributes['title'] = __( 'Runtime', WPML_SLUG );
 					$view = 'shortcodes/metadata-label.php';
 				}
 
@@ -282,7 +375,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				$actors = WPML_Utils::get_movie_data( $movie_id );
 				$actors = $actors['crew']['cast'];
-				$actors = apply_filters( "wpml_format_movie_actors", $actors, $movie_id );
+				$actors = apply_filters( "wpml_format_movie_actors", $actors );
 
 				if ( ! is_null( $count ) ) {
 					$actors = explode( ', ', $actors );
