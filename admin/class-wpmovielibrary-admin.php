@@ -128,19 +128,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$hide_notice = get_option( 'wpml_api_key_notice_hide', '0' );
 			$hide_notice = ( '1' == $hide_notice ? true : false );
 
-			if ( false === $hide_notice && '' == WPML_Settings::tmdb__apikey() && false === WPML_Settings::tmdb__internal_api() ) {
-
-?>
-	<div class="update-nag wpml">
-		<?php _e( 'You haven\'t specified a valid <acronym title="TheMovieDB">TMDb</acronym> API key in your Settings; this is required for the plugin to search a get movies metadata. WPMovieLibrary will use an internal API key, but you may consider getting your own personnal one at <a href="https://www.themoviedb.org/">TMDb</a> to get better results.', WPML_SLUG ) ?><br />
-		<span style="float:right">
-			<a class="button-secondary" href="http://tmdb.caercam.org/"><?php _e( 'Learn more about the internal API key', WPML_SLUG ) ?></a>
-			<a class="button-primary" href="<?php echo wp_nonce_url( admin_url( '/admin.php?page=wpmovielibrary&amp;hide_wpml_api_key_notice=1' ), 'hide-wpml-api-key-notice', '_nonce' ) ?>"><?php _e( 'Do not notify me again', WPML_SLUG ) ?></a>
-		</span>
-	</div>
-
-<?php
-			}
+			if ( false === $hide_notice && '' == WPML_Settings::tmdb__apikey() && false === WPML_Settings::tmdb__internal_api() )
+				echo self::render_template( 'admin-notice.php', array( 'notice' => 'api-key-error' ) );
 
 			return true;
 		}
@@ -174,16 +163,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( ! is_null( $page ) )
 				return false;
 
-?>
-
-	<div class="update-nag">
-		<?php _e( 'WPMovieLibrary couldn\'t find an archive page; this page is required to provide archives of your collections, genres and actors.', WPML_SLUG ) ?><br /><br />
-		<span style="float:right">
-			<a class="button-primary" href="<?php echo wp_nonce_url( admin_url( '/admin.php?page=wpmovielibrary&amp;wpml_set_archive_page=1' ), 'wpml-set-archive-page', '_nonce' ) ?>"><?php _e( 'Create an archive page', WPML_SLUG ) ?></a>
-		</span>
-	</div>
-
-<?php
+			echo self::render_template( 'admin-notice.php', array( 'notice' => 'missing-archive' ) );
 		}
 
 		/**
@@ -196,10 +176,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$screen = get_current_screen();
 			if ( ! in_array( $screen->id, $this->plugin_screen_hook_suffix ) )
 				return false;
-?>
 
-			<p id="footer-center" style="text-align:center;margin-bottom:-22px;"><?php _e( 'WPMovieLibrary uses the <a href="http://docs.themoviedb.apiary.io/">TMDb API</a> but is not endorsed or certified by <a href="http://=www.themoviedb.org/">TMDb</a>.', WPML_SLUG ); ?></p>
-<?php
+			echo self::render_template( 'admin-footer.php' );
 		}
 
 		/**
@@ -553,7 +531,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					add_settings_error( null, 'empty_cache', __( 'You don\'t have the permission do perform this action.', WPML_SLUG ), 'error' );
 				}
 				else {
-					$action = WPML_Utils::empty_cache();
+					$action = WPML_Cache::empty_cache();
 					if ( is_wp_error( $action ) )
 						add_settings_error( null, 'empty_cache', $action->get_error_message(), 'error' );
 					else
@@ -561,10 +539,14 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				}
 			}
 
-			$_allowed = array( 'api', 'movies', 'taxonomies', 'deactivate', 'uninstall', 'maintenance' );
+			$_allowed = array( 'api', 'movies', 'taxonomies', 'deactivate', 'uninstall', 'cache', 'maintenance' );
 			$_section = ( isset( $_REQUEST['wpml_section'] ) && in_array( $_REQUEST['wpml_section'], $_allowed ) ) ? esc_attr( $_REQUEST['wpml_section'] ) : 'api' ;
 
-			include_once( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings.php' );
+			$attributes = array(
+				'_section' => $_section
+			);
+
+			echo self::render_template( 'settings/settings.php', $attributes );
 		}
 
 		/**
@@ -609,7 +591,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * @param array $section
 		 */
 		public static function markup_section_headers( $section ) {
-			include( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings-section-headers.php' );
+			echo self::render_template( 'settings/section-headers.php', array( 'section' => $section ) );
 		}
 
 		/**
@@ -622,14 +604,17 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public function markup_fields( $field ) {
 
 			$settings = WPML_Settings::get_settings();
+			$attributes = array();
 
-			$_type  = esc_attr( $field['type'] );
-			$_title = esc_attr( $field['title'] );
-			$_id    = "wpml_settings-{$field['section']}-{$field['id']}";
-			$_name  = "wpml_settings[{$field['section']}][{$field['id']}]";
-			$_value = $settings[ $field['section'] ][ $field['id'] ];
+			$attributes['_type']  = esc_attr( $field['type'] );
+			$attributes['_title'] = esc_attr( $field['title'] );
+			$attributes['_id']    = "wpml_settings-{$field['section']}-{$field['id']}";
+			$attributes['_name']  = "wpml_settings[{$field['section']}][{$field['id']}]";
+			$attributes['_value'] = $settings[ $field['section'] ][ $field['id'] ];
+			$attributes['settings'] = $settings;
+			$attributes['field'] = $field;
 
-			include( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings-fields.php' );
+			echo self::render_template( 'settings/fields.php', $attributes, $require = 'always' );
 		}
 
 		/**
@@ -671,7 +656,21 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$options .= '<option value="' . $slug . '"' . selected( $check, true, false ) . '>' . __( $meta['title'], WPML_SLUG ) . '</option>';
 			endforeach;
 
-			include( plugin_dir_path( __FILE__ ) . 'settings/views/page-settings-fields.php' );
+			$attributes = array(
+				'_type' => $_type,
+				'_id' => $_id,
+				'_name' => $_name,
+				'_title' => $_title,
+				'_value' => $_value,
+				'field' => $field,
+				'draggable' => $draggable,
+				'droppable' => $droppable,
+				'selected' => $selected,
+				'options' => $options,
+				'items' => $items
+			);
+
+			echo self::render_template( 'settings/fields.php', $attributes, $require = 'always' );
 		}
 
 		/**

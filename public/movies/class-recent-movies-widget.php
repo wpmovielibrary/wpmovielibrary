@@ -23,13 +23,6 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 	 */
 	public function __construct() {
 
-		// load plugin text domain
-		add_action( 'init', array( $this, 'widget_textdomain' ) );
-
-		// Hooks fired when the Widget is activated and deactivated
-		register_activation_hook( __FILE__, array( $this, 'activate' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
-
 		parent::__construct(
 			'wpml-recent-movies-widget',
 			__( 'WPML Recent Movies', WPML_SLUG ),
@@ -41,12 +34,30 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Outputs the content of the widget.
+	 * Output the Widget content.
 	 *
 	 * @param	array	args		The array of form elements
 	 * @param	array	instance	The current instance of the widget
 	 */
 	public function widget( $args, $instance ) {
+
+		// Caching
+		$name = apply_filters( 'wpml_cache_name', 'recent_widget' );
+		$content = WPML_Cache::output( $name, function() use ( $args, $instance ) {
+
+			return $this->widget_content( $args, $instance );
+		});
+
+		echo $content;
+	}
+
+	/**
+	 * Generate the content of the widget.
+	 *
+	 * @param	array	args		The array of form elements
+	 * @param	array	instance	The current instance of the widget
+	 */
+	private function widget_content( $args, $instance ) {
 
 		extract( $args, EXTR_SKIP );
 		extract( $instance );
@@ -64,11 +75,35 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 			)
 		);
 
-		echo $before_widget;
+		$style = 'wpml-widget wpml-latest-movies-list wpml-movies';
 
-		include( plugin_dir_path( __FILE__ ) . '/views/recent-movies-widget.php' );
+		if ( ! empty( $movies->posts ) ) {
 
-		echo $after_widget;
+			$items = array();
+			$style = 'wpml-widget wpml-media-latest-list wpml-movies wpml-movies-with-thumbnail';
+
+			foreach ( $movies->posts as $movie ) {
+				$item = array(
+					'ID'          => $movie->ID,
+					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $movie->post_title ),
+					'link'        => get_permalink( $movie->ID ),
+					'rating'      => get_post_meta( $movie->ID, '_wpml_movie_rating', true ),
+					'thumbnail'   => get_the_post_thumbnail( $movie->ID, 'thumbnail' )
+				);
+				$item['rating_str'] = ( '' == $item['rating'] ? "stars_0_0" : 'stars_' . str_replace( '.', '_', $item['rating'] ) );
+				$items[] = $item;
+			}
+
+			$items = apply_filters( 'wpml_widget_most_rated_movies', $items );
+			$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style );
+
+			$html = WPMovieLibrary::render_template( 'latest-widget/latest-movies.php', $attributes );
+		}
+		else {
+			$html = WPMovieLibrary::render_template( 'empty.php' );
+		}
+
+		return $before_widget . $title . $html . $after_widget;
 	}
 
 	/**
@@ -85,6 +120,9 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 		$instance['description'] = strip_tags( $new_instance['description'] );
 		$instance['number']      = intval( $new_instance['number'] );
 
+		$name = apply_filters( 'wpml_cache_name', 'recent_widget' );
+		WPML_Cache::delete( $name );
+
 		return $instance;
 	}
 
@@ -99,19 +137,12 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title        = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Recent Movies', WPML_SLUG ) );
-		$description  = ( isset( $instance['description'] ) ? $instance['description'] : __( 'Movies I recently added to my library', WPML_SLUG ) );
-		$number       = ( isset( $instance['number'] ) ? $instance['number'] : 4 );
+		$instance['title']        = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Recent Movies', WPML_SLUG ) );
+		$instance['description']  = ( isset( $instance['description'] ) ? $instance['description'] : __( 'Movies I recently added to my library', WPML_SLUG ) );
+		$instance['number']       = ( isset( $instance['number'] ) ? $instance['number'] : 4 );
 
 		// Display the admin form
-		include( WPML_PATH . 'admin/common/views/recent-movies-widget-admin.php' );
-	}
-
-	/**
-	 * Loads the Widget's text domain for localization and translation.
-	 */
-	public function widget_textdomain() {
-		load_plugin_textdomain( 'wpml', false, plugin_dir_path( __FILE__ ) . '/lang/' );
+		echo WPMovieLibrary::render_template( 'latest-widget/latest-movies-admin.php', array( 'widget' => $this, 'instance' => $instance ), $require = 'always' );
 	}
 
 }

@@ -41,7 +41,7 @@ define( 'WPML_REQUIRED_PHP_VERSION',   '5.3' );
 define( 'WPML_REQUIRED_WP_VERSION',    '3.6' );
 define( 'WPML_SETTINGS_SLUG',          'wpml_settings' );
 define( 'WPML_SETTINGS_REVISION_NAME', 'settings_revision' );
-define( 'WPML_SETTINGS_REVISION',      12 );
+define( 'WPML_SETTINGS_REVISION',      14 );
 define( 'WPML_DEFAULT_POSTER_URL',     plugins_url( basename( __DIR__ ) ) . '/assets/img/no_poster{size}.jpg' );
 define( 'WPML_DEFAULT_POSTER_PATH',    WPML_PATH . '/assets/img/no_poster{size}.jpg' );
 define( 'WPML_MAX_TAXONOMY_LIST',      50 );
@@ -76,7 +76,7 @@ function wpml_requirements_met() {
 function wpml_requirements_error() {
 	global $wp_version;
 
-	require_once WPML_PATH . 'admin/common/views/requirements-error.php';
+	require_once WPML_PATH . 'views/requirements-error.php';
 }
 
 /**
@@ -106,6 +106,7 @@ if ( wpml_requirements_met() ) {
 	require_once( WPML_PATH . 'public/class-wpmovielibrary.php' );
 
 	require_once( WPML_PATH . 'includes/class-wpml-settings.php' );
+	require_once( WPML_PATH . 'includes/class-wpml-cache.php' );
 	require_once( WPML_PATH . 'includes/class-wpml-utils.php' );
 
 	require_once( WPML_PATH . 'public/movies/class-wpml-movies.php' );

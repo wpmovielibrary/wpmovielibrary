@@ -24,13 +24,6 @@ class WPML_Media_Widget extends WP_Widget {
 	 */
 	public function __construct() {
 
-		// load plugin text domain
-		add_action( 'init', array( $this, 'widget_textdomain' ) );
-
-		// Hooks fired when the Widget is activated and deactivated
-		register_activation_hook( __FILE__, array( $this, 'activate' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
-
 		parent::__construct(
 			'wpml-media-widget',
 			__( 'WPML Media', WPML_SLUG ),
@@ -42,17 +35,33 @@ class WPML_Media_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Outputs the content of the widget.
+	 * Output the Widget content.
 	 *
 	 * @param	array	args		The array of form elements
 	 * @param	array	instance	The current instance of the widget
 	 */
 	public function widget( $args, $instance ) {
 
+		// Caching
+		$name = apply_filters( 'wpml_cache_name', 'media_widget' );
+		$content = WPML_Cache::output( $name, function() use ( $args, $instance ) {
+
+			return $this->widget_content( $args, $instance );
+		});
+
+		echo $content;
+	}
+
+	/**
+	 * Generate the content of the widget.
+	 *
+	 * @param	array	args		The array of form elements
+	 * @param	array	instance	The current instance of the widget
+	 */
+	private function widget_content( $args, $instance ) {
+
 		extract( $args, EXTR_SKIP );
 		extract( $instance );
-
-		echo $before_widget;
 
 		$title = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
 		$description = esc_attr( $description );
@@ -62,41 +71,53 @@ class WPML_Media_Widget extends WP_Widget {
 		$thumbnails = ( 1 == $thumbnails ? true : false );
 		$media_only = ( 1 == $media_only ? true : false );
 
-		echo $title;
+		$html = '';
 
-		if ( $media_only ) :
+		if ( $media_only ) {
 
 			$media = WPML_Settings::get_available_movie_media();
 			$movies = WPML_Settings::wpml__movie_rewrite();
 			$rewrite = WPML_Settings::wpml__details_rewrite();
 
-			if ( ! empty( $media ) ) :
+			if ( ! empty( $media ) ) {
 
 				$items = array();
+				$style = 'wpml-widget wpml-media-list';
 
-				foreach ( $media as $slug => $media_title ) :
+				if ( $css )
+					$style = 'wpml-widget wpml-media-list wpml-list custom';
+
+				foreach ( $media as $slug => $media_title ) {
 					$_slug = ( $rewrite ? __( $slug, WPML_SLUG ) : $slug );
 					$items[] = array(
 						'ID'          => $slug,
-						'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $media_title ),
+						'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), esc_attr( $media_title ) ),
 						'link'        => home_url( "/{$movies}/{$_slug}/" ),
-						'title'       => $media_title,
+						'title'       => esc_attr( $media_title ),
 					);
-				endforeach;
+				}
 
-				$html = apply_filters( 'wpml_format_widget_lists', $items, array( 'dropdown' => $list, 'styling' => $css, 'title' => __( 'Select a media', WPML_SLUG ) ) );
+				$items = apply_filters( 'wpml_widget_media_lists', $items, $list, $css );
+				$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => __( 'Select a media', WPML_SLUG ), 'style' => $style );
 
-				echo $html;
-			else :
-				printf( '<em>%s</em>', __( 'Nothing to display.', WPML_SLUG ) );
-			endif;
-
-		else :
+				if ( $list )
+					$html = WPMovieLibrary::render_template( 'media-widget/media-dropdown-list.php', $attributes );
+				else
+					$html = WPMovieLibrary::render_template( 'media-widget/media-list.php', $attributes );
+			}
+			else
+				$html = sprintf( '<em>%s</em>', __( 'Nothing to display.', WPML_SLUG ) );
+		}
+		else {
 
 			$movies = WPML_Movies::get_movies_from_media( $type );
-			if ( ! empty( $movies ) ) :
+			if ( ! empty( $movies ) ) {
 
 				$items = array();
+				$style = 'wpml-widget wpml-media-movies-list';
+
+				if ( $thumbnails )
+					$style = 'wpml-widget wpml-media-movies-list wpml-movies wpml-movies-with-thumbnail';
 
 				foreach ( $movies as $movie )
 					$items[] = array(
@@ -106,18 +127,21 @@ class WPML_Media_Widget extends WP_Widget {
 						'title'       => $movie->post_title,
 					);
 
+				$items = apply_filters( 'wpml_widget_media_lists', $items, $list, $css );
+				$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style );
+
 				if ( $thumbnails )
-					$html = apply_filters( 'wpml_format_widget_lists_thumbnails', $items );
+					$html = WPMovieLibrary::render_template( 'media-widget/movies-by-media.php', $attributes );
 				else
-					$html = apply_filters( 'wpml_format_widget_lists', $items, $list, $css, __( 'Select a Movie', WPML_SLUG ) );
+					$html = WPMovieLibrary::render_template( 'media-widget/media-list.php', $attributes );
 
-				echo $html;
-			else :
-				printf( '<em>%s</em>', __( 'Nothing to display.', WPML_SLUG ) );
-			endif;
-		endif;
+			}
+			else {
+				$html = WPMovieLibrary::render_template( 'empty.php' );
+			}
+		}
 
-		echo $after_widget;
+		return $before_widget . $title . $html . $after_widget;
 	}
 
 	/**
@@ -139,6 +163,9 @@ class WPML_Media_Widget extends WP_Widget {
 		$instance['media_only'] = intval( $new_instance['media_only'] );
 		//$instance['show_icons'] = intval( $new_instance['show_icons'] );
 
+		$name = apply_filters( 'wpml_cache_name', 'media_widget' );
+		WPML_Cache::delete( $name );
+
 		return $instance;
 	}
 
@@ -153,24 +180,17 @@ class WPML_Media_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie by Media', WPML_SLUG ) );
-		$description = ( isset( $instance['description'] ) ? $instance['description'] : '' );
-		$type = ( isset( $instance['type'] ) ? $instance['type'] : null );
-		$list = ( isset( $instance['list'] ) ? $instance['list'] : 0 );
-		$thumbnails = ( isset( $instance['thumbnails'] ) ? $instance['thumbnails'] : 0 );
-		$css = ( isset( $instance['css'] ) ? $instance['css'] : 0 );
-		$media_only = ( isset( $instance['media_only'] ) ? $instance['media_only'] : 0 );
+		$instance['title']       = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie by Media', WPML_SLUG ) );
+		$instance['description'] = ( isset( $instance['description'] ) ? $instance['description'] : '' );
+		$instance['type']        = ( isset( $instance['type'] ) ? $instance['type'] : null );
+		$instance['list']        = ( isset( $instance['list'] ) ? $instance['list'] : 0 );
+		$instance['thumbnails']  = ( isset( $instance['thumbnails'] ) ? $instance['thumbnails'] : 0 );
+		$instance['css']         = ( isset( $instance['css'] ) ? $instance['css'] : 0 );
+		$instance['media_only']  = ( isset( $instance['media_only'] ) ? $instance['media_only'] : 0 );
 		//$show_icons = ( isset( $instance['show_icons'] ) ? $instance['show_icons'] : 0 );
 
 		// Display the admin form
-		include( WPML_PATH . '/admin/common/views/media-widget-admin.php' );
-	}
-
-	/**
-	 * Loads the Widget's text domain for localization and translation.
-	 */
-	public function widget_textdomain() {
-		load_plugin_textdomain( 'wpml', false, plugin_dir_path( __FILE__ ) . '/lang/' );
+		echo WPMovieLibrary::render_template( 'media-widget/media-admin.php', array( 'widget' => $this, 'instance' => $instance ), $require = 'always' );
 	}
 
 }

@@ -57,12 +57,12 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 			foreach ( $this->shortcodes as $slug => $shortcode ) {
 
-				$callback = array( $this, 'default_shortcode' );
+				$callback = array( __CLASS__, 'default_shortcode' );
 
-				if ( ! is_null( $shortcode['callback'] ) && method_exists( $this, $shortcode['callback'] ) )
-					$callback = array( $this, $shortcode['callback'] );
-				else if ( method_exists( $this, "{$slug}_shortcode" ) )
-					$callback = array( $this, "{$slug}_shortcode" );
+				if ( ! is_null( $shortcode['callback'] ) && method_exists( __CLASS__, $shortcode['callback'] ) )
+					$callback = array( __CLASS__, $shortcode['callback'] );
+				else if ( method_exists( __CLASS__, "{$slug}_shortcode" ) )
+					$callback = array( __CLASS__, "{$slug}_shortcode" );
 
 				if ( ! is_null( $shortcode['aliases'] ) )
 					foreach ( $shortcode['aliases'] as $alias )
@@ -82,7 +82,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * 
 		 * @return   string    Shortcode display
 		 */
-		public function default_shortcode( $atts = array(), $content = null ) {
+		public static function default_shortcode( $atts = array(), $content = null ) {
 
 			return $content;
 		}
@@ -98,48 +98,55 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * 
 		 * @return   string    Shortcode display
 		 */
-		public function movies_shortcode( $atts = array(), $content = null ) {
+		public static function movies_shortcode( $atts = array(), $content = null ) {
 
 			$default_fields = WPML_Settings::get_supported_movie_meta();
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movies', $atts );
-			extract( $atts );
 
-			$query = array(
-				'post_type=movie',
-				'post_status=publish',
-				'posts_per_page=' . $count
-			);
+			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movies_shortcode', $atts );
+			$content = WPML_Cache::output( $name, function() use ( $atts ) {
 
-			if ( ! is_null( $order ) )
-				$query[] = 'order=' . $order;
+				extract( $atts );
 
-			if ( ! is_null( $orderby ) ) {
-				if ( 'rating' == $orderby ) {
-					$query[] = 'orderby=meta_value_num';
-					$query[] = 'meta_key=_wpml_movie_rating';
+				$query = array(
+					'post_type=movie',
+					'post_status=publish',
+					'posts_per_page=' . $count
+				);
+	
+				if ( ! is_null( $order ) )
+					$query[] = 'order=' . $order;
+	
+				if ( ! is_null( $orderby ) ) {
+					if ( 'rating' == $orderby ) {
+						$query[] = 'orderby=meta_value_num';
+						$query[] = 'meta_key=_wpml_movie_rating';
+					}
+					else {
+						$query[] = 'orderby=' . $orderby;
+					}
 				}
-				else {
-					$query[] = 'orderby=' . $orderby;
-				}
-			}
+	
+				if ( ! is_null( $collection ) )
+					$query[] = 'collection=' . $collection;
+				elseif ( ! is_null( $genre ) )
+					$query[] = 'genre=' . $genre;
+				elseif ( ! is_null( $actor ) )
+					$query[] = 'actor=' . $actor;
+	
+				$query = implode( '&', $query );
+				$query = new WP_Query( $query );
+	
+				$movies = self::prepare_movies( $query, $atts );
+				$attributes = array( 'movies' => $movies );
+	
+				$content = WPMovieLibrary::render_template( 'shortcodes/movies.php', $attributes, $require = 'always' );
 
-			if ( ! is_null( $collection ) )
-				$query[] = 'collection=' . $collection;
-			elseif ( ! is_null( $genre ) )
-				$query[] = 'genre=' . $genre;
-			elseif ( ! is_null( $actor ) )
-				$query[] = 'actor=' . $actor;
+				return $content;
 
-			$query = implode( '&', $query );
-			$query = new WP_Query( $query );
-
-			$movies = self::prepare_movies( $query, $atts );
-
-			ob_start();
-			include( plugin_dir_path( __FILE__ ) . '/views/movies.php' );
-			$content = ob_get_contents();
-			ob_end_clean();
+			}, $echo = false );
 
 			return $content;
 		}
@@ -155,31 +162,33 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * 
 		 * @return   string    Shortcode display
 		 */
-		public function movie_shortcode( $atts = array(), $content = null ) {
+		public static function movie_shortcode( $atts = array(), $content = null ) {
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie', $atts );
-			extract( $atts );
 
-			$query = array(
-				'post_type=movie',
-				'post_status=publish'
-			);
+			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_shortcode', $atts );
+			$content = WPML_Cache::output( $name, function() use ( $atts ) {
 
-			if ( ! is_null( $id ) )
-				$query[] = 'p=' . $id;
-			else if ( ! is_null( $title ) )
-				$query[] = 'name=' . sanitize_title_with_dashes( remove_accents( $title ) );
-			
+				extract( $atts );
 
-			$query = implode( '&', $query );
-			$query = new WP_Query( $query );
+				if ( ! is_null( $id ) )
+					$select = 'p=' . $id;
+				else if ( ! is_null( $title ) )
+					$select = 'name=' . sanitize_title_with_dashes( remove_accents( $title ) );
 
-			$movies = self::prepare_movies( $query, $atts );
+				$query = 'post_type=movie&post_status=publish&' . $select;
+				$query = new WP_Query( $query );
 
-			ob_start();
-			include( plugin_dir_path( __FILE__ ) . '/views/movies.php' );
-			$content = ob_get_contents();
-			ob_end_clean();
+				$movies = self::prepare_movies( $query, $atts );
+
+				$attributes = array( 'movies' => $movies );
+
+				$content = WPMovieLibrary::render_template( 'shortcodes/movies.php', $attributes, $require = 'always' );
+
+				return $content;
+
+			}, $echo = false );
 
 			return $content;
 		}
@@ -196,7 +205,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * 
 		 * @return   string    Shortcode display
 		 */
-		public function movie_meta_shortcode( $atts = array(), $content = null, $tag = null ) {
+		public static function movie_meta_shortcode( $atts = array(), $content = null, $tag = null ) {
 
 			// Is this an alias?
 			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ ) {
@@ -205,29 +214,41 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			}
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_meta', $atts );
-			extract( $atts );
 
-			$movie_id = self::find_movie_id( $id, $title );
-			if ( is_null( $movie_id ) )
+			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_meta_shortcode', $atts );
+			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+
+				extract( $atts );
+
+				$movie_id = self::find_movie_id( $id, $title );
+				if ( is_null( $movie_id ) )
+					return $content;
+
+				$meta = WPML_Utils::get_movie_data( $movie_id );
+				$meta = apply_filters( 'wpml_filter_undimension_array', $meta );
+
+				if ( ! isset( $meta[ $key ] ) )
+					return $content;
+
+				$meta = apply_filters( "wpml_format_movie_$key", $meta[ $key ] );
+				$meta = apply_filters( "wpml_format_movie_field", $meta );
+
+				$view = 'shortcodes/metadata.php';
+				$attributes = array( 'key' => $key, 'meta' => $meta );
+				if ( $label ) {
+					$_meta = WPML_Settings::get_supported_movie_meta();
+					$attributes['title'] = __( $_meta[ $key ]['title'], WPML_SLUG );
+					$view = 'shortcodes/metadata-label.php';
+				}
+
+				$content = WPMovieLibrary::render_template( $view, $attributes, $require = 'always' );
+
 				return $content;
 
-			$meta = WPML_Utils::get_movie_data( $movie_id );
-			$meta = apply_filters( 'wpml_filter_undimension_array', $meta );
+			}, $echo = false );
 
-			if ( ! isset( $meta[ $key ] ) )
-				return $content;
-
-			$meta = apply_filters( "wpml_format_movie_$key", $meta[ $key ] );
-			$meta = '' != $meta ? $meta : ' &mdash; ';
-
-			if ( $label ) {
-				$_meta = WPML_Settings::get_supported_movie_meta();
-				$meta = '<div class="wpml_shortcode_spans"><span class="wpml_shortcode_span wpml_shortcode_span_title wpml_movie_' . $key . '_title">' . __( $_meta[ $key ]['title'], WPML_SLUG ) . '</span><span class="wpml_shortcode_span wpml_shortcode_span_value wpml_movie_' . $key . '_value">' . $meta . '</span></div>';
-			}
-			else
-				$meta = '<span class="wpml_shortcode_span wpml_movie_' . $key . '">' . $meta . '</span>';
-
-			return $meta;
+			return $content;
 		}
 
 		/**
@@ -241,35 +262,45 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * 
 		 * @return   string    Shortcode display
 		 */
-		public function movie_actors_shortcode( $atts = array(), $content = null, $tag = null ) {
+		public static function movie_actors_shortcode( $atts = array(), $content = null, $tag = null ) {
 
 			// Is this an alias?
 			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ )
 				$atts['key'] = str_replace( 'movie_', '', $tag );
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_actors', $atts );
-			extract( $atts );
 
-			$movie_id = self::find_movie_id( $id, $title );
-			if ( is_null( $movie_id ) )
+			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_actors_shortcode', $atts );
+			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+
+				extract( $atts );
+
+				$movie_id = self::find_movie_id( $id, $title );
+				if ( is_null( $movie_id ) )
+					return $content;
+
+				$actors = WPML_Utils::get_movie_data( $movie_id );
+				$actors = $actors['crew']['cast'];
+				$actors = apply_filters( "wpml_format_movie_actors", $actors, $movie_id );
+
+				if ( ! is_null( $count ) ) {
+					$actors = explode( ', ', $actors );
+					$actors = array_splice( $actors, 0, $count );
+					$actors = implode( ', ', $actors );
+				}
+
+				$attributes = array( 'actors' => $actors );
+				if ( $label )
+					$attributes['title'] = __( 'Actors', WPML_SLUG );
+
+				$content = WPMovieLibrary::render_template( 'shortcodes/actors.php', $attributes, $require = 'always' );
+
 				return $content;
 
-			$actors = WPML_Utils::get_movie_data( $movie_id );
-			$actors = $actors['crew']['cast'];
-			$actors = apply_filters( "wpml_format_movie_actors", $actors, $movie_id );
+			}, $echo = false );
 
-			if ( ! is_null( $count ) ) {
-				$actors = explode( ', ', $actors );
-				$actors = array_splice( $actors, 0, $count );
-				$actors = implode( ', ', $actors );
-			}
-
-			if ( $label )
-				$actors = '<div class="wpml_shortcode_spans"><span class="wpml_shortcode_span wpml_shortcode_span_title wpml_movie_actor_title">' . __( 'Actors', WPML_SLUG ) . '</span><span class="wpml_shortcode_span wpml_shortcode_span_value wpml_movie_actor_value">' . $actors . '</span></div>';
-			else
-				$actors = '<span class="wpml_shortcode_span wpml_movie_actor">' . $actors . '</span>';
-
-			return $actors;
+			return $content;
 		}
 
 		/**
@@ -282,31 +313,41 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * 
 		 * @return   string    Shortcode display
 		 */
-		public function movie_genres_shortcode( $atts = array(), $content = null ) {
+		public static function movie_genres_shortcode( $atts = array(), $content = null ) {
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_genres', $atts );
-			extract( $atts );
 
-			$movie_id = self::find_movie_id( $id, $title );
-			if ( is_null( $movie_id ) )
+			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_genres_shortcode', $atts );
+			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+
+				extract( $atts );
+
+				$movie_id = self::find_movie_id( $id, $title );
+				if ( is_null( $movie_id ) )
+					return $content;
+
+				$genres = WPML_Utils::get_movie_data( $movie_id );
+				$genres = $genres['meta']['genres'];
+				$genres = apply_filters( "wpml_format_movie_genres", $genres, $movie_id );
+
+				if ( ! is_null( $count ) ) {
+					$genres = explode( ', ', $genres );
+					$genres = array_splice( $genres, 0, $count );
+					$genres = implode( ', ', $genres );
+				}
+
+				$attributes = array( 'genres' => $genres );
+				if ( $label )
+					$attributes['title'] = __( 'Genres', WPML_SLUG );
+
+				$content = WPMovieLibrary::render_template( 'shortcodes/genres.php', $attributes, $require = 'always' );
+
 				return $content;
 
-			$genres = WPML_Utils::get_movie_data( $movie_id );
-			$genres = $genres['meta']['genres'];
-			$genres = apply_filters( "wpml_format_movie_genres", $genres, $movie_id );
+			}, $echo = false );
 
-			if ( ! is_null( $count ) ) {
-				$genres = explode( ', ', $genres );
-				$genres = array_splice( $genres, 0, $count );
-				$genres = implode( ', ', $genres );
-			}
-
-			if ( $label )
-				$genres = '<div class="wpml_shortcode_spans"><span class="wpml_shortcode_span wpml_shortcode_span_title wpml_movie_actor_title">' . __( 'Genres', WPML_SLUG ) . '</span><span class="wpml_shortcode_span wpml_shortcode_span_value wpml_movie_actor_value">' . $genres . '</span></div>';
-			else
-				$genres = '<span class="wpml_shortcode_span wpml_movie_actor">' . $genres . '</span>';
-
-			return $genres;
+			return $content;
 		}
 
 		/**
@@ -319,22 +360,33 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * 
 		 * @return   string    Shortcode display
 		 */
-		public function movie_poster_shortcode( $atts = array(), $content = null ) {
+		public static function movie_poster_shortcode( $atts = array(), $content = null ) {
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_poster', $atts );
-			extract( $atts );
 
-			$movie_id = self::find_movie_id( $id, $title );
-			if ( is_null( $movie_id ) )
+			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_posters_shortcode', $atts );
+			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+
+				extract( $atts );
+
+				$movie_id = self::find_movie_id( $id, $title );
+				if ( is_null( $movie_id ) )
+					return $content;
+
+				if ( ! has_post_thumbnail( $movie_id ) )
+					return $content;
+
+				$thumbnail = get_the_post_thumbnail( $movie_id, $size );
+				$attributes = array( 'size' => $size, 'thumbnail' => $thumbnail );
+
+				$content = WPMovieLibrary::render_template( 'shortcodes/poster.php', $attributes, $require = 'always' );
+
 				return $content;
 
-			if ( ! has_post_thumbnail( $movie_id ) )
-				return $content;
+			}, $echo = false );
 
-			$thumbnail = get_the_post_thumbnail( $movie_id, $size );
-			$thumbnail = '<div class="wpml_shortcode_div wpml_movie_poster wpml_movie_poster_' . $size . '">' . $thumbnail . '</div>';
-
-			return $thumbnail;
+			return $content;
 		}
 
 		/**
@@ -347,42 +399,51 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * 
 		 * @return   string    Shortcode display
 		 */
-		public function movie_images_shortcode( $atts = array(), $content = null ) {
+		public static function movie_images_shortcode( $atts = array(), $content = null ) {
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_images', $atts );
-			extract( $atts );
 
-			$movie_id = self::find_movie_id( $id, $title );
-			if ( is_null( $movie_id ) )
+			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_images_shortcode', $atts );
+			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+
+				extract( $atts );
+
+				$movie_id = self::find_movie_id( $id, $title );
+				if ( is_null( $movie_id ) )
+					return $content;
+
+				$images = '';
+
+				$args = array(
+					'post_type'   => 'attachment',
+					'orderby'     => 'title',
+					'numberposts' => -1,
+					'post_status' => null,
+					'post_parent' => $movie_id,
+					'exclude'     => get_post_thumbnail_id( $movie_id )
+				);
+
+				$attachments = get_posts( $args );
+				$images = array();
+				$data = '';
+				
+				if ( $attachments ) {
+
+					if ( ! is_null( $count ) )
+						$attachments = array_splice( $attachments, 0, $count );
+
+					foreach ( $attachments as $attachment )
+						$images[] = wp_get_attachment_image( $attachment->ID, $size );
+
+					$content = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => $size, 'data' => $data, 'images' => $images ), $require = 'always' );
+				}
+
 				return $content;
 
-			$images = '';
+			}, $echo = false );
 
-			$args = array(
-				'post_type'   => 'attachment',
-				'orderby'     => 'title',
-				'numberposts' => -1,
-				'post_status' => null,
-				'post_parent' => $movie_id,
-				'exclude'     => get_post_thumbnail_id( $movie_id )
-			);
-
-			$attachments = get_posts( $args );
-
-			if ( $attachments ) {
-
-				if ( ! is_null( $count ) )
-					$attachments = array_splice( $attachments, 0, $count );
-
-				$images .= '<ul class="wpml_shortcode_ul wpml_movie_images ' . $size . '">';
-
-				foreach ( $attachments as $attachment )
-					$images .= '<li class="wpml_movie_image wpml_movie_imported_image ' . $size . '">' . wp_get_attachment_image( $attachment->ID, $size ) . '</li>';
-
-				$images .= '</ul>';
-			}
-
-			return $images;
+			return $content;
 		}
 
 		/**
@@ -396,28 +457,37 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * 
 		 * @return   string    Shortcode display
 		 */
-		public function movie_detail_shortcode( $atts = array(), $content = null, $tag = null ) {
+		public static function movie_detail_shortcode( $atts = array(), $content = null, $tag = null ) {
 
 			// Is this an alias?
 			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ )
 				$atts['key'] = str_replace( 'movie_', '', $tag );
 
 			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_detail', $atts );
-			extract( $atts );
 
-			$movie_id = self::find_movie_id( $id, $title );
-			if ( is_null( $movie_id ) )
+			// Caching
+			$name = apply_filters( 'wpml_cache_name', 'movie_detail_shortcode', $atts );
+			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+
+				extract( $atts );
+
+				$movie_id = self::find_movie_id( $id, $title );
+				if ( is_null( $movie_id ) )
+					return $content;
+
+				if ( ! method_exists( 'WPML_Utils', 'get_movie_' . $key ) )
+					return $content;
+
+				$content = call_user_func( 'WPML_Utils::get_movie_' . $key, $movie_id );
+
+				$format = ( ! $raw ? 'html' : 'raw' );
+				$content = apply_filters( 'wpml_format_movie_' . $key, $content, $format );
+
 				return $content;
 
-			if ( ! method_exists( 'WPML_Utils', 'get_movie_' . $key ) )
-				return $content;
+			}, $echo = false );
 
-			$detail = call_user_func( 'WPML_Utils::get_movie_' . $key, $movie_id );
-
-			$format = ( ! $raw ? 'html' : 'raw' );
-			$detail = apply_filters( 'wpml_format_movie_' . $key, $detail );
-
-			return $detail;
+			return $content;
 		}
 
 		/**
@@ -487,10 +557,10 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				}
 
 				/* 
-				    * Details are passed to the template as a string
-				    * This is simpler because formatting is already
-				    * done via filters
-				    */
+				 * Details are passed to the template as a string
+				 * This is simpler because formatting is already
+				 * done via filters
+				 */
 				if ( ! is_null( $details ) ) {
 
 					$movies[ $query->current_post ]['details'] = '';

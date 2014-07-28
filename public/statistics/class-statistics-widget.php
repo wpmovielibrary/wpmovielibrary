@@ -24,13 +24,6 @@ class WPML_Statistics_Widget extends WP_Widget {
 	 */
 	public function __construct() {
 
-		// load plugin text domain
-		add_action( 'init', array( $this, 'widget_textdomain' ) );
-
-		// Hooks fired when the Widget is activated and deactivated
-		register_activation_hook( __FILE__, array( $this, 'activate' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
-
 		parent::__construct(
 			'wpml-statistics-widget',
 			__( 'WPML Statistics', WPML_SLUG ),
@@ -42,16 +35,33 @@ class WPML_Statistics_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Outputs the content of the widget.
+	 * Output the Widget content.
 	 *
 	 * @param	array	args		The array of form elements
 	 * @param	array	instance	The current instance of the widget
 	 */
 	public function widget( $args, $instance ) {
 
-		extract( $args, EXTR_SKIP );
+		// Caching
+		$name = apply_filters( 'wpml_cache_name', 'statistics_widget' );
+		$content = WPML_Cache::output( $name, function() use ( $args, $instance ) {
 
-		echo $before_widget;
+			return $this->widget_content( $args, $instance );
+		});
+
+		echo $content;
+	}
+
+	/**
+	 * Generate the content of the widget.
+	 *
+	 * @param	array	args		The array of form elements
+	 * @param	array	instance	The current instance of the widget
+	 */
+	private function widget_content( $args, $instance ) {
+
+		extract( $args, EXTR_SKIP );
+		extract( $instance );
 
 		$count = (array) wp_count_posts( 'movie' );
 		$count = array(
@@ -82,14 +92,18 @@ class WPML_Statistics_Widget extends WP_Widget {
 			'%actors%'	=> sprintf( '<a href="%s">%s</a>', home_url( $actor . '/' ), sprintf( _n( 'one actor', '%s actors', $count['actors'], WPML_SLUG ), '<strong>' . $count['actors'] . '</strong>' ) )
 		);
 
-		$title = $before_title . apply_filters( 'widget_title', $instance['title'] ) . $after_title;
-		$description = $instance['description'];
-		$format = $instance['format'];
+		$title = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
+		$description = esc_attr( $description );
+		$format = wpautop( wp_kses( $format, array( 'ul', 'ol', 'li', 'p', 'span', 'em', 'i', 'p', 'strong', 'b', 'br' ) ) );
+
 		$content = str_replace( array_keys( $links ), array_values( $links ), $format );
+		$style = 'wpml-widget wpml-statistics';
 
-		include( plugin_dir_path( __FILE__ ) . '/views/statistics-widget.php' );
+		$attributes = array( 'content' => $content, 'description' => $description, 'style' => $style );
 
-		echo $after_widget;
+		$html = WPMovieLibrary::render_template( 'stats-widget/statistics-widget.php', $attributes );
+
+		return $before_widget . $title . $html . $after_widget;
 	}
 
 	/**
@@ -120,19 +134,12 @@ class WPML_Statistics_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title = ( isset( $instance['title'] ) && '' != $instance['title'] ? $instance['title'] : __( 'Statistics', WPML_SLUG ) );
-		$description = ( isset( $instance['description'] ) && '' != $instance['description'] ? '<p>' . $instance['description'] . '</p>' : '' );
-		$format = ( isset( $instance['format'] ) && '' != $instance['format'] ? $instance['format'] : __( 'All combined you have a total of %total% in your library, regrouped in %collections%, %genres% and %actors%.', WPML_SLUG ) );
+		$instance['title'] = ( isset( $instance['title'] ) && '' != $instance['title'] ? $instance['title'] : __( 'Statistics', WPML_SLUG ) );
+		$instance['description'] = ( isset( $instance['description'] ) && '' != $instance['description'] ? '<p>' . $instance['description'] . '</p>' : '' );
+		$instance['format'] = ( isset( $instance['format'] ) && '' != $instance['format'] ? $instance['format'] : __( 'All combined you have a total of %total% in your library, regrouped in %collections%, %genres% and %actors%.', WPML_SLUG ) );
 
 		// Display the admin form
-		include( WPML_PATH . 'admin/common/views/statistics-widget-admin.php' );
-	}
-
-	/**
-	 * Loads the Widget's text domain for localization and translation.
-	 */
-	public function widget_textdomain() {
-		load_plugin_textdomain( 'wpml', false, plugin_dir_path( __FILE__ ) . '/lang/' );
+		echo WPMovieLibrary::render_template( 'stats-widget/statistics-admin.php', array( 'widget' => $this, 'instance' => $instance ), $require = 'always' );
 	}
 
 }

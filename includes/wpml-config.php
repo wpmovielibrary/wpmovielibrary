@@ -93,23 +93,6 @@ $wpml_settings = array(
 				),
 				'default' => 'https'
 			),
-
-			// Cache deactivated until WPML 1.1.0
-			// Results caching
-			/*'caching' => array(
-				'title' => __( 'Enable Caching', WPML_SLUG ),
-				'description' => __( 'When enabled, WPML will store for a variable time the data fetched from TMDb. This prevents WPML from generating excessive, useless duplicate queries to the API. This is especially useful if you’re using the dummy API. <a href="http://www.caercam.org/wpmovielibrary/">Learn more ~ WPML Caching</a>', WPML_SLUG ),
-				'type' => 'toggle',
-				'default' => 1
-			),*/
-
-			// Caching delay
-			/*'caching_time' => array(
-				'title' => __( 'Caching Time', WPML_SLUG ),
-				'description' => __( 'Time of validity for Cached data, in days.', WPML_SLUG ),
-				'type' => 'input',
-				'default' => 15
-			),*/
 		)
 	),
 	'wpml' => array(
@@ -514,6 +497,39 @@ $wpml_settings = array(
 					'empty' => __( 'Empty (recommended)', WPML_SLUG ),
 				),
 				'default' => 'empty'
+			)
+		)
+	),
+
+	// Caching
+	'cache' => array(
+		'section' => array(
+			'id'       => 'cache',
+			'title'    => __( 'Cache', WPML_SLUG ),
+		),
+		'settings' => array(
+			// Results caching
+			'caching' => array(
+				'title' => __( 'Enable Caching', WPML_SLUG ),
+				'description' => __( 'If enabled, WPML will cache movie related data to prevent too frequent queries to the database. <a href="http://wpmovielibrary.com/documentation/performance">Learn more about caching</a>.', WPML_SLUG ),
+				'type' => 'toggle',
+				'default' => 1
+			),
+
+			// Results caching
+			'user_caching' => array(
+				'title' => __( 'User Caching', WPML_SLUG ),
+				'description' => __( 'If enabled, caching will be activated for logged in users as well as guests.', WPML_SLUG ),
+				'type' => 'toggle',
+				'default' => 0
+			),
+
+			// Caching delay
+			'caching_time' => array(
+				'title' => __( 'Caching Time', WPML_SLUG ),
+				'description' => __( 'Time of validity for cached data, in seconds. Default is 3600 (one hour)', WPML_SLUG ),
+				'type' => 'input',
+				'default' => 3600
 			)
 		)
 	)

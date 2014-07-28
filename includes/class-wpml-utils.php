@@ -34,9 +34,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			add_filter( 'rewrite_rules_array', __CLASS__ . '::register_permalinks', 11 );
 
-			add_filter( 'wpml_format_widget_lists', __CLASS__ . '::format_widget_lists', 10, 4 );
-			add_filter( 'wpml_format_widget_lists_thumbnails', __CLASS__ . '::format_widget_lists_thumbnails', 10, 1 );
-
 			add_filter( 'wpml_summarize_settings', __CLASS__ . '::summarize_settings', 10, 1 );
 
 			add_filter( 'wpml_filter_meta_data', __CLASS__ . '::filter_meta_data', 10, 1 );
@@ -379,91 +376,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
-		 * Generate Movies dropdown or classic lists.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @param    array    $items Array of Movies objects
-		 * @param    array    $args Filter params
-		 * 
-		 * @return   string     HTML string List of movies
-		 */
-		public static function format_widget_lists( $items, $args = array() ) {
-
-			if ( ! is_array( $items ) || empty( $items ) )
-				return null;
-
-			$defaults = array(
-				'dropdown'	=> false,
-				'styling'	=> false,
-				'title'		=> null,
-				'attr_filter'	=> 'esc_attr__',
-				'attr_args'	=> WPML_SLUG,
-				'title_filter'	=> 'esc_attr__',
-				'title_args'	=> WPML_SLUG
-			);
-			$args = wp_parse_args( $args, $defaults );
-			extract( $args, EXTR_SKIP );
-
-			$html = array();
-			$style = 'wpml-list';
-			$first = '';
-
-			if ( $styling )
-				$style = 'wpml-list custom';
-
-			if ( ! is_null( $title ) )
-				$first = sprintf( '<option value="">%s</option>', esc_attr( $title ) );
-
-			foreach ( $items as $item ) {
-				$item_title = ( function_exists( $title_filter ) ? call_user_func( $title_filter, $item['title'], $title_args ) : $item['title'] );
-				$item_attr_title = ( function_exists( $attr_filter ) ? call_user_func( $attr_filter, $item['attr_title'], $attr_args ) : $item['attr_title'] );
-				$item_url = esc_url( $item['link'] );
-
-				if ( $dropdown )
-					$html[] = '<option value="' . $item_url . '">' . $item_title . '</option>';
-				else
-					$html[] = '<li><a href="' . $item_url . '" title="' . $item_attr_title . '">' . $item_title . '</a></li>';
-			}
-
-			if ( false !== $dropdown )
-				$html = '<select class="' . $style . '">' . $first . join( $html ) . '</select>';
-			else
-				$html = '<ul>' . join( $html ) . '</ul>';
-
-			return $html;
-		}
-
-		/**
-		 * Generate Movies lists including Poster.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @param    array    $items Array of Movies objects
-		 * 
-		 * @return   string   HTML string of movies' links and Posters
-		 */
-		public static function format_widget_lists_thumbnails( $items ) {
-
-			if ( ! is_array( $items ) || empty( $items ) )
-				return null;
-
-			$html = array();
-
-			foreach ( $items as $item ) {
-				$html[] = '<a href="' . esc_url( $item['link'] ) . '" title="' . esc_attr( $item['attr_title'] ) . '">';
-				$html[] = '<figure class="widget-movie">';
-				$html[] = get_the_post_thumbnail( $item['ID'], 'thumbnail' );
-				$html[] = '</figure>';
-				$html[] = '</a>';
-			}
-
-			$html = '<div class="widget-movies">' . implode( "\n", $html ) . '</div>';
-
-			return $html;
-		}
-
-		/**
 		 * Filter Plugin Settings to obtain a single dimension array with
 		 * all prefixed settings.
 		 * 
@@ -676,6 +588,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		public static function format_movie_genres( $data ) {
 
 			$output = self::format_movie_terms_list( $data, 'genre' );
+			$output = self::format_movie_field( $output );
 
 			return $output;
 		}
@@ -712,6 +625,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		public static function format_movie_cast( $data ) {
 
 			$output = self::format_movie_terms_list( $data,  'actor' );
+			$output = self::format_movie_field( $output );
 
 			return $output;
 		}
@@ -728,7 +642,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		public static function format_movie_release_date( $data ) {
 
 			$output = WPML_Utils::filter_release_date( $data );
-			$output = ( '' != $output ? $output : '<em>&ndash;</em>' );
+			$output = self::format_movie_field( $output );
 
 			return $output;
 		}
@@ -745,7 +659,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		public static function format_movie_runtime( $data ) {
 
 			$output = WPML_Utils::filter_runtime( $data );
-			$output = ( '' != $output ? $output : '<em>&ndash;</em>' );
+			$output = self::format_movie_field( $output );
 
 			return $output;
 		}
@@ -763,6 +677,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		public static function format_movie_director( $data ) {
 
 			$output = self::format_movie_terms_list( $data, 'collection' );
+			$output = self::format_movie_field( $output );
 
 			return $output;
 		}
@@ -802,12 +717,12 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( '' == $data )
 				return $data;
 
-			if ( WPML_Settings::wpml__details_as_icons() ) {
-				$data = '<div class="wpml_movie_media ' . $data . ' wpml_detail_icon"></div>';
+			if ( WPML_Settings::wpml__details_as_icons() && 'html' == $format  ) {
+				$data = WPMovieLibrary::render_template( 'shortcodes/detail-icon.php', array( 'detail' => 'media', 'data' => $data ), $require = 'always' );
 			}
 			else if ( 'html' == $format ) {
 				$default_fields = WPML_Settings::get_available_movie_media();
-				$data = '<div class="wpml_movie_media ' . $data . ' wpml_detail_label"><span class="wpml_movie_detail_item">' . __( $default_fields[ $data ], WPML_SLUG ) . '</span></div>';
+				$data = WPMovieLibrary::render_template( 'shortcodes/detail.php', array( 'detail' => 'media', 'data' => $data, 'title' => __( $default_fields[ $data ], WPML_SLUG ) ), $require = 'always' );
 			}
 
 			return $data;
@@ -831,12 +746,12 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( '' == $data )
 				return $data;
 
-			if ( WPML_Settings::wpml__details_as_icons() ) {
-				$data = '<div class="wpml_movie_status ' . $data . ' wpml_detail_icon"></div>';
+			if ( WPML_Settings::wpml__details_as_icons() && 'html' == $format  ) {
+				$data = WPMovieLibrary::render_template( 'shortcodes/detail-icon.php', array( 'detail' => 'status', 'data' => $data ), $require = 'always' );
 			}
 			else if ( 'html' == $format ) {
 				$default_fields = WPML_Settings::get_available_movie_status();
-				$data = '<div class="wpml_movie_status ' . $data . ' wpml_detail_label"><span class="wpml_movie_detail_item">' . __( $default_fields[ $data ], WPML_SLUG ) . '</span></div>';
+				$data = WPMovieLibrary::render_template( 'shortcodes/detail.php', array( 'detail' => 'status', 'data' => $data, 'title' => __( $default_fields[ $data ], WPML_SLUG ) ), $require = 'always' );
 			}
 
 			return $data;
@@ -861,7 +776,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				return $data;
 
 			if ( 'html' == $format )
-				$data = sprintf( '<div class="wpml_movie_rating wpml_detail_icon"><div class="movie_rating_display stars_%s"></div></div>', ( '' == $data ? '0_0' : str_replace( '.', '_', $data ) ) );
+				$data = WPMovieLibrary::render_template( 'shortcodes/rating.php', array( 'style' => ( '' == $data ? '0_0' : str_replace( '.', '_', $data ) ) ), $require = 'always' );
 
 			return $data;
 		}
@@ -902,7 +817,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$_data[ $key ] = $_term;
 			}
 
-			$_data = ( ! empty( $_data ) ? implode( ', ', $_data ) : '<em>&ndash;</em>' );
+			$_data = ( ! empty( $_data ) ? implode( ', ', $_data ) : '&mdash;' );
 
 			return $_data;
 		}
@@ -1511,65 +1426,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
-		 * General method for cache cleaning.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @return   string|WP_Error    Result notification or WP_Error
-		 */
-		public static function empty_cache() {
-
-			global $wpdb;
-
-			$transient = self::clean_transient( null, $force = true );
-
-			if ( false === $transient )
-				return new WP_Error( 'transient_error', sprintf( __( 'An error occured when trying to delete transients: %s', WPML_SLUG ), $wpdb->last_error ) );
-			else if ( ! $transient )
-				return __( 'No transient found.', WPML_SLUG );
-			else if ( $transient )
-				return sprintf( _n( '1 transient deleted', '%s transients deleted.', $transient, WPML_SLUG ), $transient );
-		}
-
-		/**
-		 * Handle Transients cleaning. Mainly used for deactivation and
-		 * uninstallation actions, and occasionally manual cache cleaning.
-		 * 
-		 * When deactivating/uninstalling, delete all Plugin's related
-		 * movie transient, depending on the Plugin settings.
-		 * 
-		 * @param    string     $action Are we deactivating or uninstalling
-		 *                             the plugin?
-		 * @param    boolean    $force Force cleaning
-		 * 
-		 * @return   int        $result Number of deleted rows
-		 */
-		public static function clean_transient( $action, $force = false ) {
-
-			global $wpdb, $_wp_using_ext_object_cache;
-
-			$force = ( true === $force );
-			$result = 0;
-
-			if ( ! $force ) {
-				$_action = get_option( 'wpml_settings' );
-				if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['cache'] ) )
-					return false;
-
-				$action = $_action[ $action ]['cache'];
-				if ( is_array( $action ) )
-					$action = $action[0];
-			}
-
-			if ( $force || ( ! $_wp_using_ext_object_cache && 'empty' == $action ) ) {
-				$result = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE \"_transient_%wpml%\"" );
-				$wpdb->query( 'OPTIMIZE TABLE ' . $wpdb->options );
-			}
-
-			return $result;
-		}
-
-		/**
 		 * Filter 4040 error pages to intercept taxonomies listing pages.
 		 * 
 		 * Query should be 404 with no posts found and matching either one
@@ -1799,7 +1655,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public function deactivate() {
 
-			self::clean_transient( 'deactivate' );
+			WPML_Cache::clean_transient( 'deactivate' );
 			delete_option( 'rewrite_rules' );
 		}
 
@@ -1810,7 +1666,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function uninstall() {
 
-			self::clean_transient( 'uninstall' );
+			WPML_Cache::clean_transient( 'uninstall' );
 			delete_option( 'rewrite_rules' );
 
 			self::delete_archive_page();

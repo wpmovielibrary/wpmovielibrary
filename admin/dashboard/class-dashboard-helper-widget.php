@@ -135,7 +135,7 @@ if ( ! class_exists( 'WPML_Dashboard_Helper_Widget' ) ) :
 
 			$links = implode( '', $links );
 
-			include_once( WPML_PATH . '/admin/dashboard/views/dashboard-helper-widget.php' );
+			echo self::render_template( '/dashboard-help/help.php', array( 'links' => $links ) );
 		}
 
 		public function dashboard_widget_handle() {
