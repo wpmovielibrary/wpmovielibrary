@@ -169,11 +169,11 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 			$transient = self::clean_transient( null, $force = true );
 
 			if ( false === $transient )
-				return new WP_Error( 'transient_error', sprintf( __( 'An error occured when trying to delete transients: %s', WPML_SLUG ), $wpdb->last_error ) );
+				return new WP_Error( 'transient_error', sprintf( __( 'An error occured when trying to delete transients: %s', 'wpmovielibrary' ), $wpdb->last_error ) );
 			else if ( ! $transient )
-				return __( 'No transient found.', WPML_SLUG );
+				return __( 'No transient found.', 'wpmovielibrary' );
 			else if ( $transient )
-				return sprintf( _n( '1 transient deleted', '%s transients deleted.', $transient, WPML_SLUG ), $transient );
+				return sprintf( _n( '1 transient deleted', '%s transients deleted.', $transient, 'wpmovielibrary-admin' ), $transient );
 		}
 
 		/**

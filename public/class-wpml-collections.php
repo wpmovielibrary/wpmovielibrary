@@ -67,8 +67,8 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 				'movie',
 				array(
 					'labels'   => array(
-						'name'          => __( 'Collections', WPML_SLUG ),
-						'add_new_item'  => __( 'New Movie Collection', WPML_SLUG )
+						'name'          => __( 'Collections', 'wpmovielibrary' ),
+						'add_new_item'  => __( 'New Movie Collection', 'wpmovielibrary' )
 					),
 					'show_ui'           => true,
 					'show_tagcloud'     => false,

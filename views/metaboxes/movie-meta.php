@@ -1,7 +1,7 @@
 
 		<div id="wpml-tmdb" class="wpml-tmdb">
 
-			<p><strong><?php _e( 'Find movie on TMDb:', WPML_SLUG ); ?></strong></p>
+			<p><strong><?php _e( 'Find movie on TMDb:', 'wpmovielibrary-admin' ); ?></strong></p>
 
 			<div>
 				<?php WPML_Utils::_nonce_field( 'search-movies' ) ?>
@@ -11,14 +11,14 @@
 <?php endforeach; ?>
 				</select>
 				<select id="tmdb_search_type" name="wpml[tmdb_search_type]">
-					<option value="title" selected="selected"><?php _e( 'Movie Title', WPML_SLUG ); ?></option>
-					<option value="id"><?php _e( 'TMDb ID', WPML_SLUG ); ?></option>
+					<option value="title" selected="selected"><?php _e( 'Movie Title', 'wpmovielibrary-admin' ); ?></option>
+					<option value="id"><?php _e( 'TMDb ID', 'wpmovielibrary-admin' ); ?></option>
 				</select>
 				<input id="tmdb_query" type="text" name="wpml[tmdb_query]" value="" size="40" maxlength="32" />
-				<a id="tmdb_search" name="wpml[tmdb_search]" href="<?php echo get_edit_post_link() ?>&amp;wpml_auto_fetch=1" class="button button-secondary"><?php _e( 'Search', WPML_SLUG ); ?></a>
+				<a id="tmdb_search" name="wpml[tmdb_search]" href="<?php echo get_edit_post_link() ?>&amp;wpml_auto_fetch=1" class="button button-secondary"><?php _e( 'Search', 'wpmovielibrary-admin' ); ?></a>
 				<span class="spinner"></span>
 				<?php WPML_Utils::_nonce_field( 'empty-movie-meta' ) ?>
-				<a id="tmdb_empty" name="wpml[tmdb_empty]" type="submit" class="button button-secondary button-empty hide-if-no-js"><?php _e( 'Empty Results', WPML_SLUG ); ?></a>
+				<a id="tmdb_empty" name="wpml[tmdb_empty]" type="submit" class="button button-secondary button-empty hide-if-no-js"><?php _e( 'Empty Results', 'wpmovielibrary-admin' ); ?></a>
 			</div>
 
 			<div id="wpml_status"><?php echo $status; ?></div>
@@ -61,7 +61,7 @@
 		$_value = apply_filters( 'wpml_stringify_array', $metadata[ $id ][ $slug ] );
 ?>
 					<tr>
-						<td class="left"><?php _e( $meta['title'], WPML_SLUG ) ?></td>
+						<td class="left"><?php _e( $meta['title'], 'wpmovielibrary-admin' ) ?></td>
 <?php if ( isset( $meta['type'] ) && 'textarea' == $meta['type'] ) : ?>
 						<td>
 							<textarea id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $id; ?>][<?php echo $slug; ?>]" class="tmdb_data_field" rows="6"><?php echo $_value ?></textarea>

@@ -97,7 +97,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		public function init() {
 
 			$this->widget_id = 'wpml_dashboard_most_rated_movies_widget';
-			$this->widget_name = __( 'Your most rated movies', WPML_SLUG );
+			$this->widget_name = __( 'Your most rated movies', 'wpmovielibrary-admin' );
 			$this->callback = array( $this, 'widget' );
 			$this->control_callback = array( $this, 'widget_handle' );
 			$this->callback_args = array( 'id' => $this->widget_id );

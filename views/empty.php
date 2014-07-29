@@ -10,7 +10,7 @@
  */
 
 if ( ! isset( $message ) )
-	$message = __( 'Nothing to display.', WPML_SLUG );
+	$message = __( 'Nothing to display.', 'wpmovielibrary' );
 ?>
 	<div class="wpml-empty">
 		<em><?php echo $message ?></em>

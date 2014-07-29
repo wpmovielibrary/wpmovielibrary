@@ -17,7 +17,7 @@
 		<div class="wpml-widget-description"><?php echo $description ?></div>
 
 <?php foreach ( $items as $item ) : ?>
-		<a href="<?php echo $item['link'] ?>" title="<?php echo __( 'Read more about', WPML_SLUG ) . $item['title'] ?>">
+		<a href="<?php echo $item['link'] ?>" title="<?php echo __( 'Read more about', 'wpmovielibrary-admin' ) . $item['title'] ?>">
 			<figure id="movie-<?php the_ID(); ?>" class="most-rated-movie">
 				<?php echo $item['thumbnail']; ?>
 <?php if ( 'no' != $display_rating ) : ?>

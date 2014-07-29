@@ -54,19 +54,19 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		public static function register_post_type() {
 
 			$labels = array(
-				'name'               => __( 'Movies', WPML_SLUG ),
-				'singular_name'      => __( 'Movie', WPML_SLUG ),
-				'add_new'            => __( 'Add New', WPML_SLUG ),
-				'add_new_item'       => __( 'Add New Movie', WPML_SLUG ),
-				'edit_item'          => __( 'Edit Movie', WPML_SLUG ),
-				'new_item'           => __( 'New Movie', WPML_SLUG ),
-				'all_items'          => __( 'All Movies', WPML_SLUG ),
-				'view_item'          => __( 'View Movie', WPML_SLUG ),
-				'search_items'       => __( 'Search Movies', WPML_SLUG ),
-				'not_found'          => __( 'No movies found', WPML_SLUG ),
-				'not_found_in_trash' => __( 'No movies found in Trash', WPML_SLUG ),
+				'name'               => __( 'Movies', 'wpmovielibrary' ),
+				'singular_name'      => __( 'Movie', 'wpmovielibrary' ),
+				'add_new'            => __( 'Add New', 'wpmovielibrary' ),
+				'add_new_item'       => __( 'Add New Movie', 'wpmovielibrary' ),
+				'edit_item'          => __( 'Edit Movie', 'wpmovielibrary' ),
+				'new_item'           => __( 'New Movie', 'wpmovielibrary' ),
+				'all_items'          => __( 'All Movies', 'wpmovielibrary' ),
+				'view_item'          => __( 'View Movie', 'wpmovielibrary' ),
+				'search_items'       => __( 'Search Movies', 'wpmovielibrary' ),
+				'not_found'          => __( 'No movies found', 'wpmovielibrary' ),
+				'not_found_in_trash' => __( 'No movies found in Trash', 'wpmovielibrary' ),
 				'parent_item_colon'  => '',
-				'menu_name'          => __( 'Movies', WPML_SLUG )
+				'menu_name'          => __( 'Movies', 'wpmovielibrary' )
 			);
 
 			$slug = WPML_Settings::wpml__movie_rewrite();
@@ -92,7 +92,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			register_post_type( 'movie', $args );
 
 			register_post_status( 'import-draft', array(
-				'label'                     => _x( 'Imported Draft', WPML_SLUG ),
+				'label'                     => _x( 'Imported Draft', 'wpmovielibrary' ),
 				'public'                    => false,
 				'exclude_from_search'       => true,
 				'show_in_admin_all_list'    => false,
@@ -101,7 +101,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			) );
 
 			register_post_status( 'import-queued', array(
-				'label'                     => _x( 'Queued Movie', WPML_SLUG ),
+				'label'                     => _x( 'Queued Movie', 'wpmovielibrary' ),
 				'public'                    => false,
 				'exclude_from_search'       => true,
 				'show_in_admin_all_list'    => false,
@@ -256,7 +256,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 				$_field = apply_filters( "wpml_format_movie_field", $_field );
 
 				$fields[ $key ] = $_field;
-				$items[] = array( 'slug' => $field, 'title' => __( $default_fields[ $field ]['title'], WPML_SLUG ), 'value' => $_field );
+				$items[] = array( 'slug' => $field, 'title' => __( $default_fields[ $field ]['title'], 'wpmovielibrary' ), 'value' => $_field );
 			}
 
 			$html = WPMovieLibrary::render_template( 'movies/movie-metadata.php', array( 'items' => $items ), $require = 'always' );
@@ -282,11 +282,11 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 
 			if ( in_array( 'wpml_movie_media', $key_vars ) ) {
 				$value = $wp_query->get( 'wpml_movie_media' );
-				if ( $value == __( 'bluray', WPML_SLUG ) )
+				if ( $value == __( 'bluray', 'wpmovielibrary' ) )
 					$value = 'bluray';
-				else if ( $value == __( 'cinema', WPML_SLUG ) )
+				else if ( $value == __( 'cinema', 'wpmovielibrary' ) )
 					$value = 'cinema';
-				else if ( $value == __( 'other', WPML_SLUG ) )
+				else if ( $value == __( 'other', 'wpmovielibrary' ) )
 					$value = 'other';
 
 				$wp_query->set( 'meta_key', '_wpml_movie_media' );
@@ -295,13 +295,13 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 
 			if ( in_array( 'wpml_movie_status', $key_vars ) ) {
 				$value = $wp_query->get( 'wpml_movie_status' );
-				if ( $value == __( 'unavailable', WPML_SLUG ) )
+				if ( $value == __( 'unavailable', 'wpmovielibrary' ) )
 					$value = 'unavailable';
-				else if ( $value == __( 'available', WPML_SLUG ) )
+				else if ( $value == __( 'available', 'wpmovielibrary' ) )
 					$value = 'available';
-				else if ( $value == __( 'loaned', WPML_SLUG ) )
+				else if ( $value == __( 'loaned', 'wpmovielibrary' ) )
 					$value = 'loaned';
-				else if ( $value == __( 'scheduled', WPML_SLUG ) )
+				else if ( $value == __( 'scheduled', 'wpmovielibrary' ) )
 					$value = 'scheduled';
 
 				$wp_query->set( 'meta_key', '_wpml_movie_status' );

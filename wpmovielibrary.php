@@ -85,9 +85,9 @@ function wpml_requirements_error() {
  * @since    1.0.1
  */
 function wpml_l10n() {
-	$locale = apply_filters( 'plugin_locale', get_locale(), WPML_SLUG );
-	load_textdomain( WPML_SLUG, trailingslashit( WP_LANG_DIR ) . basename( __DIR__ ) . '/languages/' . WPML_SLUG . '-' . $locale . '.mo' );
-	load_plugin_textdomain( WPML_SLUG, FALSE, basename( __DIR__ ) . '/languages/' );
+	$locale = apply_filters( 'plugin_locale', get_locale(), 'wpmovielibrary' );
+	load_textdomain( 'wpmovielibrary', trailingslashit( WP_LANG_DIR ) . basename( __DIR__ ) . '/languages/' . 'wpmovielibrary' . '-' . $locale . '.mo' );
+	load_plugin_textdomain( 'wpmovielibrary', FALSE, basename( __DIR__ ) . '/languages/' );
 }
 
 /*

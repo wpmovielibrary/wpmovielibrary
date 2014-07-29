@@ -4,7 +4,7 @@
 
 			<ul>
 <?php foreach ( $default_movie_status as $slug => $title ) : ?>
-				<li><span class="dashicons dashicons-arrow-right-alt2"></span> <a href="#" onclick="wpml_edit_details.inline_edit( 'status', this ); return false;" data-status="<?php echo $slug ?>" data-status-title="<?php _e( $title, WPML_SLUG ) ?>"><?php _e( $title, WPML_SLUG ) ?></a></li>
+				<li><span class="dashicons dashicons-arrow-right-alt2"></span> <a href="#" onclick="wpml_edit_details.inline_edit( 'status', this ); return false;" data-status="<?php echo $slug ?>" data-status-title="<?php _e( $title, 'wpmovielibrary-admin' ) ?>"><?php _e( $title, 'wpmovielibrary-admin' ) ?></a></li>
 <?php endforeach; ?>
 			</ul>
 		</div>
@@ -14,7 +14,7 @@
 
 			<ul>
 <?php foreach ( $default_movie_media as $slug => $title ) : ?>
-				<li><span class="dashicons dashicons-arrow-right-alt2"></span> <a href="#" onclick="wpml_edit_details.inline_edit( 'media', this ); return false;" data-media="<?php echo $slug ?>" data-media-title="<?php _e( $title, WPML_SLUG ) ?>"><?php _e( $title, WPML_SLUG ) ?></a></li>
+				<li><span class="dashicons dashicons-arrow-right-alt2"></span> <a href="#" onclick="wpml_edit_details.inline_edit( 'media', this ); return false;" data-media="<?php echo $slug ?>" data-media-title="<?php _e( $title, 'wpmovielibrary-admin' ) ?>"><?php _e( $title, 'wpmovielibrary-admin' ) ?></a></li>
 <?php endforeach; ?>
 			</ul>
 		</div>

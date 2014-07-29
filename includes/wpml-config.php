@@ -19,13 +19,13 @@ $wpml_settings = array(
 	'tmdb' => array(
 		'section' => array(
 			'id'       => 'tmdb',
-			'title'    => __( 'API Settings', WPML_SLUG ),
+			'title'    => __( 'API Settings', 'wpmovielibrary-admin' ),
 		),
 		'settings' => array(
 
 			// Foo Bar test option
 			/*'foobar' => array(
-				'title' => __( 'Foo', WPML_SLUG ),
+				'title' => __( 'Foo', 'wpmovielibrary-admin' ),
 				'description' => 'Bar',
 				'type' => 'input',
 				'default' => 'foobar'
@@ -33,24 +33,24 @@ $wpml_settings = array(
 
 			// TMDb API Key
 			'apikey' => array(
-				'title' => __( 'API Key', WPML_SLUG ),
-				'description' => __( 'You need a valid TMDb API key in order to fetch informations on the movies you add to WPMovieLibrary. You can get an individual API key by registering on <a href="https://www.themoviedb.org/">TheMovieDB</a>.', WPML_SLUG ),
+				'title' => __( 'API Key', 'wpmovielibrary-admin' ),
+				'description' => __( 'You need a valid TMDb API key in order to fetch informations on the movies you add to WPMovieLibrary. You can get an individual API key by registering on <a href="https://www.themoviedb.org/">TheMovieDB</a>.', 'wpmovielibrary-admin' ),
 				'type' => 'input',
 				'default' => ''
 			),
 
 			// API internal mode
 			'internal_api' => array(
-				'title' => __( 'Use internal API Key', WPML_SLUG ),
-				'description' => __( 'If you enable this, WPML will send all queries to the API through a relay server at http://tmdb.caercam.org/; The main purpose of this is to avoid you the need to register a personal account on TMDb and request a personal API key to use the plugin. Note that the relay server provides no warranty and is most indicated for testing the plugin or a minimal usage of it; if you are planning to use WPMovieLibrary extensively, you should consider getting your own API key at <a href="https://www.themoviedb.org/">TheMovieDB</a>. <a href="http://tmdb.caercam.org/">Learn more about the internal API key</a>.', WPML_SLUG ),
+				'title' => __( 'Use internal API Key', 'wpmovielibrary-admin' ),
+				'description' => __( 'If you enable this, WPML will send all queries to the API through a relay server at http://tmdb.caercam.org/; The main purpose of this is to avoid you the need to register a personal account on TMDb and request a personal API key to use the plugin. Note that the relay server provides no warranty and is most indicated for testing the plugin or a minimal usage of it; if you are planning to use WPMovieLibrary extensively, you should consider getting your own API key at <a href="https://www.themoviedb.org/">TheMovieDB</a>. <a href="http://tmdb.caercam.org/">Learn more about the internal API key</a>.', 'wpmovielibrary-admin' ),
 				'type'=> 'toggle',
 				'default' => 1
 			),
 
 			// API Lang
 			'lang' => array(
-				'title' => __( 'API Language', WPML_SLUG ),
-				'description' => __( 'Default language to use when fetching informations from TMDb. Default is english. You can always change this manually when add a new movie.', WPML_SLUG ),
+				'title' => __( 'API Language', 'wpmovielibrary-admin' ),
+				'description' => __( 'Default language to use when fetching informations from TMDb. Default is english. You can always change this manually when add a new movie.', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
 					"bg" => "български език",
@@ -84,12 +84,12 @@ $wpml_settings = array(
 
 			// API Scheme
 			'scheme' => array(
-				'title' => __( 'API Scheme', WPML_SLUG ),
-				'description' => __( 'Default scheme used to contact TMDb API. Default is HTTPS.', WPML_SLUG ),
+				'title' => __( 'API Scheme', 'wpmovielibrary-admin' ),
+				'description' => __( 'Default scheme used to contact TMDb API. Default is HTTPS.', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
-					'http' => __( 'HTTP', WPML_SLUG ),
-					'https' => __( 'HTTPS', WPML_SLUG )
+					'http' => __( 'HTTP', 'wpmovielibrary-admin' ),
+					'https' => __( 'HTTPS', 'wpmovielibrary-admin' )
 				),
 				'default' => 'https'
 			),
@@ -104,45 +104,45 @@ $wpml_settings = array(
 
 			// Add movies to the main loop
 			'show_in_home' => array(
-				'title'    => __( 'Show Movies in Home Page', WPML_SLUG ),
-				'description' => __( 'If enable, movies will appear among other Posts in the Home Page.', WPML_SLUG ),
+				'title'    => __( 'Show Movies in Home Page', 'wpmovielibrary-admin' ),
+				'description' => __( 'If enable, movies will appear among other Posts in the Home Page.', 'wpmovielibrary-admin' ),
 				'type'     => 'toggle',
 				'default' => 1
 			),
 
 			// Movie URL Rewrite Rule
 			'movie_rewrite' => array(
-				'title'    => __( 'Movies URL Rewrite', WPML_SLUG ),
-				'description' => __( 'URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>http://yourblog/movies/fight-club</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ),
+				'title'    => __( 'Movies URL Rewrite', 'wpmovielibrary-admin' ),
+				'description' => __( 'URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>http://yourblog/movies/fight-club</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary-admin' ),
 				'type'     => 'input',
 				'default' => 'movies'
 			),
 
 			// Movie URL Rewrite Rule
 			'details_rewrite' => array(
-				'title'    => __( 'Movie Details URL Rewrite', WPML_SLUG ),
-				'description' => __( 'Use localized URLs for Movie Details. Enable this to have URLs like <code>http://yourblog/films/disponible</code> for French rather than the default <code>http://yourblog/movies/available</code>. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ),
+				'title'    => __( 'Movie Details URL Rewrite', 'wpmovielibrary-admin' ),
+				'description' => __( 'Use localized URLs for Movie Details. Enable this to have URLs like <code>http://yourblog/films/disponible</code> for French rather than the default <code>http://yourblog/movies/available</code>. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary-admin' ),
 				'type'     => 'toggle',
 				'default' => 0
 			),
 
 			// Show movie meta in posts
 			'meta_in_posts' => array(
-				'title' => __( 'Show basic movie metadata', WPML_SLUG ),
-				'description' => __( 'Add metadata to posts&rsquo; content: director, genres, runtime…', WPML_SLUG ),
+				'title' => __( 'Show basic movie metadata', 'wpmovielibrary-admin' ),
+				'description' => __( 'Add metadata to posts&rsquo; content: director, genres, runtime…', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
-					'everywhere' => __( 'Everywhere', WPML_SLUG ),
-					'posts_only' => __( 'Only In Post Read', WPML_SLUG ),
-					'nowhere'    => __( 'Don&rsquo;t Show', WPML_SLUG ),
+					'everywhere' => __( 'Everywhere', 'wpmovielibrary-admin' ),
+					'posts_only' => __( 'Only In Post Read', 'wpmovielibrary-admin' ),
+					'nowhere'    => __( 'Don&rsquo;t Show', 'wpmovielibrary-admin' ),
 				),
 				'default' => 'posts_only'
 			),
 
 			// Default movie meta to show
 			'default_movie_meta' => array(
-				'title' => __( 'Movie metadata', WPML_SLUG ),
-				'description' => __( 'Which metadata to display in posts: director, genres, runtime, rating…', WPML_SLUG ),
+				'title' => __( 'Movie metadata', 'wpmovielibrary-admin' ),
+				'description' => __( 'Which metadata to display in posts: director, genres, runtime, rating…', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'callback' => 'sorted_markup_fields',
 				'default' => array(
@@ -156,34 +156,34 @@ $wpml_settings = array(
 
 			// Show movie details in posts
 			'details_in_posts' => array(
-				'title' => __( 'Show movie details', WPML_SLUG ),
-				'description' => __( 'Add details to posts&rsquo; content: movie status, media…', WPML_SLUG ),
+				'title' => __( 'Show movie details', 'wpmovielibrary-admin' ),
+				'description' => __( 'Add details to posts&rsquo; content: movie status, media…', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
-					'everywhere'  => __( 'Everywhere', WPML_SLUG ),
-					'posts_only'  => __( 'Only In Post Read', WPML_SLUG ),
-					'nowhere'     => __( 'Don&rsquo;t Show', WPML_SLUG )
+					'everywhere'  => __( 'Everywhere', 'wpmovielibrary-admin' ),
+					'posts_only'  => __( 'Only In Post Read', 'wpmovielibrary-admin' ),
+					'nowhere'     => __( 'Don&rsquo;t Show', 'wpmovielibrary-admin' )
 				),
 				'default' => 'posts_only'
 			),
 
 			// Show movie details as icons
 			'details_as_icons' => array(
-				'title' => __( 'Show details as icons', WPML_SLUG ),
-				'description' => __( 'If enable, movie details will appear in the form of icons rather than default colored labels.', WPML_SLUG ),
+				'title' => __( 'Show details as icons', 'wpmovielibrary-admin' ),
+				'description' => __( 'If enable, movie details will appear in the form of icons rather than default colored labels.', 'wpmovielibrary-admin' ),
 				'type' => 'toggle',
 				'default' => 1
 			),
 
 			// Default movie detail to show
 			'default_movie_details' => array(
-				'title' => __( 'Movie details', WPML_SLUG ),
-				'description' => __( 'Which detail to display in posts: movie status, media…', WPML_SLUG ),
+				'title' => __( 'Movie details', 'wpmovielibrary-admin' ),
+				'description' => __( 'Which detail to display in posts: movie status, media…', 'wpmovielibrary-admin' ),
 				'type' => 'multiple',
 				'values' => array(
-					'movie_media'  => __( 'Media', WPML_SLUG ),
-					'movie_status' => __( 'Status', WPML_SLUG ),
-					'movie_rating' => __( 'Rating', WPML_SLUG )
+					'movie_media'  => __( 'Media', 'wpmovielibrary-admin' ),
+					'movie_status' => __( 'Status', 'wpmovielibrary-admin' ),
+					'movie_rating' => __( 'Rating', 'wpmovielibrary-admin' )
 				),
 				'default' => array(
 					'movie_media',
@@ -193,16 +193,16 @@ $wpml_settings = array(
 
 			// Release date formatting
 			'date_format' => array(
-				'title' => __( 'Release date format', WPML_SLUG ),
-				'description' => __( 'Apply a custom date format to movies\' release dates. Leave empty to use the default API format. Check the <a href="http://codex.wordpress.org/Formatting_Date_and_Time">documentation on date and time formatting</a>.', WPML_SLUG ),
+				'title' => __( 'Release date format', 'wpmovielibrary-admin' ),
+				'description' => __( 'Apply a custom date format to movies\' release dates. Leave empty to use the default API format. Check the <a href="http://codex.wordpress.org/Formatting_Date_and_Time">documentation on date and time formatting</a>.', 'wpmovielibrary-admin' ),
 				'type' => 'input',
 				'default' => 'j F Y'
 			),
 
 			// Release date formatting
 			'time_format' => array(
-				'title' => __( 'Runtime format', WPML_SLUG ),
-				'description' => __( 'Apply a custom time format to movies\' runtimes. Leave empty to use the default API format.', WPML_SLUG ),
+				'title' => __( 'Runtime format', 'wpmovielibrary-admin' ),
+				'description' => __( 'Apply a custom time format to movies\' runtimes. Leave empty to use the default API format.', 'wpmovielibrary-admin' ),
 				'type' => 'input',
 				'default' => 'G \h i \m\i\n'
 			),
@@ -213,61 +213,61 @@ $wpml_settings = array(
 	'images' => array(
 		'section' => array(
 			'id'       => 'images',
-			'title'    => __( 'Images', WPML_SLUG ),
+			'title'    => __( 'Images', 'wpmovielibrary-admin' ),
 		),
 		'settings' => array(
 
 			// Use posters as featured images
 			'poster_featured' => array(
-				'title' => __( 'Add Posters As Thumbnails', WPML_SLUG ),
-				'description' => __( 'Using posters as movies thumbnails will automatically import new movies&rsquo; poster and set them as post featured image. This setting doesn’t affect movie import by list where posters are automatically saved and set as featured image.', WPML_SLUG ),
+				'title' => __( 'Add Posters As Thumbnails', 'wpmovielibrary-admin' ),
+				'description' => __( 'Using posters as movies thumbnails will automatically import new movies&rsquo; poster and set them as post featured image. This setting doesn’t affect movie import by list where posters are automatically saved and set as featured image.', 'wpmovielibrary-admin' ),
 				'type' => 'toggle',
 				'default' => 1
 			),
 
 			// Movie posters size
 			'poster_size' => array(
-				'title' => __( 'Posters Default Size', WPML_SLUG ),
-				'description' => __( 'Movie Poster size. Default is TMDb&rsquo;s original size.', WPML_SLUG ),
+				'title' => __( 'Posters Default Size', 'wpmovielibrary-admin' ),
+				'description' => __( 'Movie Poster size. Default is TMDb&rsquo;s original size.', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
-					'xx-small'  => __( 'Invisible (~100px)', WPML_SLUG ),
-					'x-small'  => __( 'Tiny (~150px)', WPML_SLUG ),
-					'small'  => __( 'Small (~200px)', WPML_SLUG ),
-					'medium'  => __( 'Medium (~350px)', WPML_SLUG ),
-					'large'  => __( 'Large (~500px)', WPML_SLUG ),
-					'full' => __( 'Full (~800px) ', WPML_SLUG ),
-					'original' => __( 'Original', WPML_SLUG )
+					'xx-small'  => __( 'Invisible (~100px)', 'wpmovielibrary-admin' ),
+					'x-small'  => __( 'Tiny (~150px)', 'wpmovielibrary-admin' ),
+					'small'  => __( 'Small (~200px)', 'wpmovielibrary-admin' ),
+					'medium'  => __( 'Medium (~350px)', 'wpmovielibrary-admin' ),
+					'large'  => __( 'Large (~500px)', 'wpmovielibrary-admin' ),
+					'full' => __( 'Full (~800px) ', 'wpmovielibrary-admin' ),
+					'original' => __( 'Original', 'wpmovielibrary-admin' )
 				),
 				'default' => 'original'
 			),
 
 			// Images size
 			'images_size' => array(
-				'title' => __( 'Images Default Size', WPML_SLUG ),
-				'description' => __( 'Movie Image size. Default is TMDb&rsquo;s original size.', WPML_SLUG ),
+				'title' => __( 'Images Default Size', 'wpmovielibrary-admin' ),
+				'description' => __( 'Movie Image size. Default is TMDb&rsquo;s original size.', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
-					'small'  => __( 'Small (~200px)', WPML_SLUG ),
-					'medium'  => __( 'Medium (~350px)', WPML_SLUG ),
-					'full' => __( 'Full (~800px) ', WPML_SLUG ),
-					'original' => __( 'Original', WPML_SLUG )
+					'small'  => __( 'Small (~200px)', 'wpmovielibrary-admin' ),
+					'medium'  => __( 'Medium (~350px)', 'wpmovielibrary-admin' ),
+					'full' => __( 'Full (~800px) ', 'wpmovielibrary-admin' ),
+					'original' => __( 'Original', 'wpmovielibrary-admin' )
 				),
 				'default' =>'original'
 			),
 
 			// Maximum number of image to show
 			'delete_images' => array(
-				'title' => __( 'Delete images with movies', WPML_SLUG ),
-				'description' => __( 'Enable this if you want to delete all imported images along with movies. Handy if you have a great number of movies to delete and possibly dozens of images attached.', WPML_SLUG ),
+				'title' => __( 'Delete images with movies', 'wpmovielibrary-admin' ),
+				'description' => __( 'Enable this if you want to delete all imported images along with movies. Handy if you have a great number of movies to delete and possibly dozens of images attached.', 'wpmovielibrary-admin' ),
 				'type' => 'toggle',
 				'default' => 0
 			),
 
 			// Maximum number of image to show
 			'delete_posters' => array(
-				'title' => __( 'Delete posters with movies', WPML_SLUG ),
-				'description' => __( 'Enable this if you want to delete posters along with movies.', WPML_SLUG ),
+				'title' => __( 'Delete posters with movies', 'wpmovielibrary-admin' ),
+				'description' => __( 'Enable this if you want to delete posters along with movies.', 'wpmovielibrary-admin' ),
 				'type' => 'toggle',
 				'default' => 0
 			),
@@ -278,86 +278,86 @@ $wpml_settings = array(
 	'taxonomies' => array(
 		'section' => array(
 			'id'       => 'taxonomies',
-			'title'    => __( 'Taxonomies', WPML_SLUG ),
+			'title'    => __( 'Taxonomies', 'wpmovielibrary' ),
 		),
 		'settings' => array(
 
 			// Enable Collections Taxonomy
 			'enable_collection' => array(
-				'title'    => __( 'Enable Collections', WPML_SLUG ),
-				'description' => __( 'Enable Collections Custom Taxonomy. Collections work for movies as Categories work for Posts: a hierarchical taxonomy to group your movies coherently. The default behavior is to use Collections to group movies by director, but you can use them differently at your will.', WPML_SLUG ),
+				'title'    => __( 'Enable Collections', 'wpmovielibrary-admin' ),
+				'description' => __( 'Enable Collections Custom Taxonomy. Collections work for movies as Categories work for Posts: a hierarchical taxonomy to group your movies coherently. The default behavior is to use Collections to group movies by director, but you can use them differently at your will.', 'wpmovielibrary-admin' ),
 				'type'     => 'toggle',
 				'default' => 1
 			),
 
 			// Collections URL Rewrite Rule
 			'collection_rewrite' => array(
-				'title'    => __( 'Collections URL Rewrite', WPML_SLUG ),
-				'description' => __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>http://yourblog/collection/david-fincher</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ),
+				'title'    => __( 'Collections URL Rewrite', 'wpmovielibrary-admin' ),
+				'description' => __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>http://yourblog/collection/david-fincher</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary-admin' ),
 				'type'     => 'input',
 				'default' => 'collection'
 			),
 
 			// Enable Collections Autocomplete
 			'collection_autocomplete' => array(
-				'title'    => __( 'Add Collections automatically', WPML_SLUG ),
-				'description' => __( 'Automatically add custom taxonomies when adding/importing movies. If enabled, each added/imported movie will be automatically added to the collection corresponding to its director(s).', WPML_SLUG ),
+				'title'    => __( 'Add Collections automatically', 'wpmovielibrary-admin' ),
+				'description' => __( 'Automatically add custom taxonomies when adding/importing movies. If enabled, each added/imported movie will be automatically added to the collection corresponding to its director(s).', 'wpmovielibrary-admin' ),
 				'type'     => 'toggle',
 				'default' => 1
 			),
 
 			// Enable Genres Taxonomy
 			'enable_genre' => array(
-				'title'    => __( 'Enable Genres', WPML_SLUG ),
-				'description' => __( 'Enable Genres Custom Taxonomy. Genres work for movies as Tags work for Posts: a non-hierarchical taxonomy to improve movies management.', WPML_SLUG ),
+				'title'    => __( 'Enable Genres', 'wpmovielibrary-admin' ),
+				'description' => __( 'Enable Genres Custom Taxonomy. Genres work for movies as Tags work for Posts: a non-hierarchical taxonomy to improve movies management.', 'wpmovielibrary-admin' ),
 				'type'     => 'toggle',
 				'default' => 1
 			),
 
 			// Genres URL Rewrite Rule
 			'genre_rewrite' => array(
-				'title'    => __( 'Genres URL Rewrite', WPML_SLUG ),
-				'description' => __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>http://yourblog/genre/thriller</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ),
+				'title'    => __( 'Genres URL Rewrite', 'wpmovielibrary-admin' ),
+				'description' => __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>http://yourblog/genre/thriller</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary-admin' ),
 				'type'     => 'input',
 				'default' => 'genre'
 			),
 
 			// Enable Genres Autocomplete
 			'genre_autocomplete' => array(
-				'title'    => __( 'Add Genres automatically', WPML_SLUG ),
-				'description' => __( 'Automatically add Genres when adding/importing movies.', WPML_SLUG ),
+				'title'    => __( 'Add Genres automatically', 'wpmovielibrary-admin' ),
+				'description' => __( 'Automatically add Genres when adding/importing movies.', 'wpmovielibrary-admin' ),
 				'type'     => 'toggle',
 				'default' => 1
 			),
 
 			// Enable Actors Taxonomy
 			'enable_actor' => array(
-				'title'    => __( 'Enable Actors', WPML_SLUG ),
-				'description' => __( 'Enable Actors Custom Taxonomy. Actors work for movies as Tags work for Posts: a non-hierarchical taxonomy to improve movies management. WPMovieLibrary stores Actors in a custom order, the most important actors appearing in the top of the list, then the supporting roles, and so on.', WPML_SLUG ),
+				'title'    => __( 'Enable Actors', 'wpmovielibrary-admin' ),
+				'description' => __( 'Enable Actors Custom Taxonomy. Actors work for movies as Tags work for Posts: a non-hierarchical taxonomy to improve movies management. WPMovieLibrary stores Actors in a custom order, the most important actors appearing in the top of the list, then the supporting roles, and so on.', 'wpmovielibrary-admin' ),
 				'type'     => 'toggle',
 				'default' => 1
 			),
 
 			// Actors URL Rewrite Rule
 			'actor_rewrite' => array(
-				'title'    => __( 'Actors URL Rewrite', WPML_SLUG ),
-				'description' => __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', WPML_SLUG ),
+				'title'    => __( 'Actors URL Rewrite', 'wpmovielibrary-admin' ),
+				'description' => __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary-admin' ),
 				'type'     => 'input',
 				'default' => 'actor'
 			),
 
 			// Enable Actors Autocomplete
 			'actor_autocomplete' => array(
-				'title'    => __( 'Add Actors automatically', WPML_SLUG ),
-				'description' => __( 'Automatically add Actors when adding/importing movies.', WPML_SLUG ),
+				'title'    => __( 'Add Actors automatically', 'wpmovielibrary-admin' ),
+				'description' => __( 'Automatically add Actors when adding/importing movies.', 'wpmovielibrary-admin' ),
 				'type'     => 'toggle',
 				'default' => 1
 			),
 
 			// Enable Actors Autocomplete
 			'actor_limit' => array(
-				'title'    => __( 'Actors limit', WPML_SLUG ),
-				'description' => __( 'Limit the number of actors per movie. This is useful if you\'re dealing with big libraries and don\'t want to have massive lists of actors created. Limiting the Actors will result in keeping only the most famous/important actors as taxonomies, while the complete list of actors will remained stored as a regular metadata. Set to 0 to disable.', WPML_SLUG ),
+				'title'    => __( 'Actors limit', 'wpmovielibrary-admin' ),
+				'description' => __( 'Limit the number of actors per movie. This is useful if you\'re dealing with big libraries and don\'t want to have massive lists of actors created. Limiting the Actors will result in keeping only the most famous/important actors as taxonomies, while the complete list of actors will remained stored as a regular metadata. Set to 0 to disable.', 'wpmovielibrary-admin' ),
 				'type'     => 'input',
 				'default' => 0
 			),
@@ -368,65 +368,65 @@ $wpml_settings = array(
 	'deactivate' => array(
 		'section' => array(
 			'id'       => 'deactivate',
-			'title'    => __( 'Deactivate', WPML_SLUG ),
+			'title'    => __( 'Deactivate', 'wpmovielibrary-admin' ),
 		),
 		'settings' => array(
 			'movies' => array(
-				'title' => __( 'Movie Post Type', WPML_SLUG ),
-				'description' => __( 'How to handle Movies when WPML is deactivated.', WPML_SLUG ),
+				'title' => __( 'Movie Post Type', 'wpmovielibrary-admin' ),
+				'description' => __( 'How to handle Movies when WPML is deactivated.', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
-					'convert' => __( 'Convert to Posts', WPML_SLUG ),
-					'remove' => __( 'Delete (irreversible)', WPML_SLUG ),
-					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+					'conserve' => __( 'Conserve (recommended)', 'wpmovielibrary-admin' ),
+					'convert' => __( 'Convert to Posts', 'wpmovielibrary-admin' ),
+					'remove' => __( 'Delete (irreversible)', 'wpmovielibrary-admin' ),
+					'delete' => __( 'Delete Completely (irreversible)', 'wpmovielibrary-admin' ),
 				),
 				'default' => 'conserve'
 			),
 
 			'collections' => array(
-				'title' => __( 'Collections Taxonomy', WPML_SLUG ),
-				'description' => __( 'How to handle Collections Taxonomy when WPML is deactivated.', WPML_SLUG ),
+				'title' => __( 'Collections Taxonomy', 'wpmovielibrary-admin' ),
+				'description' => __( 'How to handle Collections Taxonomy when WPML is deactivated.', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
-					'convert' => __( 'Convert to Categories', WPML_SLUG ),
-					'delete' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'conserve' => __( 'Conserve (recommended)', 'wpmovielibrary-admin' ),
+					'convert' => __( 'Convert to Categories', 'wpmovielibrary-admin' ),
+					'delete' => __( 'Delete (irreversible)', 'wpmovielibrary-admin' ),
 				),
 				'default' => 'conserve'
 			),
 
 			'genres'      => array(
-				'title' => __( 'Genres Taxonomy', WPML_SLUG ),
-				'description' => __( 'How to handle Genres Taxonomy when WPML is deactivated.', WPML_SLUG ),
+				'title' => __( 'Genres Taxonomy', 'wpmovielibrary-admin' ),
+				'description' => __( 'How to handle Genres Taxonomy when WPML is deactivated.', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
-					'convert' => __( 'Convert to Tags', WPML_SLUG ),
-					'delete' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'conserve' => __( 'Conserve (recommended)', 'wpmovielibrary-admin' ),
+					'convert' => __( 'Convert to Tags', 'wpmovielibrary-admin' ),
+					'delete' => __( 'Delete (irreversible)', 'wpmovielibrary-admin' ),
 				),
 				'default' => 'conserve'
 			),
 
 			'actors'      => array(
-				'title' => __( 'Actors Taxonomy', WPML_SLUG ),
-				'description' => __( 'How to handle Actors Taxonomy when WPML is deactivated.', WPML_SLUG ),
+				'title' => __( 'Actors Taxonomy', 'wpmovielibrary-admin' ),
+				'description' => __( 'How to handle Actors Taxonomy when WPML is deactivated.', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve (recommended)', WPML_SLUG ),
-					'convert' => __( 'Convert to Tags', WPML_SLUG ),
-					'delete' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'conserve' => __( 'Conserve (recommended)', 'wpmovielibrary-admin' ),
+					'convert' => __( 'Convert to Tags', 'wpmovielibrary-admin' ),
+					'delete' => __( 'Delete (irreversible)', 'wpmovielibrary-admin' ),
 				),
 				'default' => 'conserve'
 			),
 
 			'cache'       => array(
-				'title' => __( 'Cache', WPML_SLUG ),
-				'description' => __( 'How to handle Cached data when WPML is deactivated.', WPML_SLUG ),
+				'title' => __( 'Cache', 'wpmovielibrary-admin' ),
+				'description' => __( 'How to handle Cached data when WPML is deactivated.', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve', WPML_SLUG ),
-					'empty' => __( 'Empty (recommended)', WPML_SLUG ),
+					'conserve' => __( 'Conserve', 'wpmovielibrary-admin' ),
+					'empty' => __( 'Empty (recommended)', 'wpmovielibrary-admin' ),
 				),
 				'default' => 'empty'
 			)
@@ -437,64 +437,64 @@ $wpml_settings = array(
 	'uninstall' => array(
 		'section' => array(
 			'id'       => 'uninstall',
-			'title'    => __( 'Uninstall', WPML_SLUG ),
+			'title'    => __( 'Uninstall', 'wpmovielibrary-admin' ),
 		),
 		'settings' => array(
 			'movies'      => array(
-				'title' => __( 'Movie Post Type', WPML_SLUG ),
-				'description' => __( 'How to handle Movies when WPML is uninstalled.', WPML_SLUG ),
+				'title' => __( 'Movie Post Type', 'wpmovielibrary' ),
+				'description' => __( 'How to handle Movies when WPML is uninstalled.', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve', WPML_SLUG ),
-					'convert' => __( 'Convert to Posts (recommended)', WPML_SLUG ),
-					'delete' => __( 'Delete Completely (irreversible)', WPML_SLUG ),
+					'conserve' => __( 'Conserve', 'wpmovielibrary-admin' ),
+					'convert' => __( 'Convert to Posts (recommended)', 'wpmovielibrary-admin' ),
+					'delete' => __( 'Delete Completely (irreversible)', 'wpmovielibrary-admin' ),
 				),
 				'default' => 'convert'
 			),
 
 			'collections' => array(
-				'title' => __( 'Collections Taxonomy', WPML_SLUG ),
-				'description' => __( 'How to handle Collections Taxonomy when WPML is uninstalled.', WPML_SLUG ),
+				'title' => __( 'Collections Taxonomy', 'wpmovielibrary-admin' ),
+				'description' => __( 'How to handle Collections Taxonomy when WPML is uninstalled.', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve', WPML_SLUG ),
-					'convert' => __( 'Convert to Categories (recommended)', WPML_SLUG ),
-					'delete' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'conserve' => __( 'Conserve', 'wpmovielibrary-admin' ),
+					'convert' => __( 'Convert to Categories (recommended)', 'wpmovielibrary-admin' ),
+					'delete' => __( 'Delete (irreversible)', 'wpmovielibrary-admin' ),
 				),
 				'default' => 'convert'
 			),
 
 			'genres'      => array(
-				'title' => __( 'Genres Taxonomy', WPML_SLUG ),
-				'description' => __( 'How to handle Genres Taxonomy when WPML is uninstalled.', WPML_SLUG ),
+				'title' => __( 'Genres Taxonomy', 'wpmovielibrary-admin' ),
+				'description' => __( 'How to handle Genres Taxonomy when WPML is uninstalled.', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve', WPML_SLUG ),
-					'convert' => __( 'Convert to Tags (recommended)', WPML_SLUG ),
-					'delete' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'conserve' => __( 'Conserve', 'wpmovielibrary-admin' ),
+					'convert' => __( 'Convert to Tags (recommended)', 'wpmovielibrary-admin' ),
+					'delete' => __( 'Delete (irreversible)', 'wpmovielibrary-admin' ),
 				),
 				'default' => 'convert'
 			),
 
 			'actors'      => array(
-				'title' => __( 'Actors Taxonomy', WPML_SLUG ),
-				'description' => __( 'How to handle Actors Taxonomy when WPML is uninstalled.', WPML_SLUG ),
+				'title' => __( 'Actors Taxonomy', 'wpmovielibrary-admin' ),
+				'description' => __( 'How to handle Actors Taxonomy when WPML is uninstalled.', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve', WPML_SLUG ),
-					'convert' => __( 'Convert to Tags (recommended)', WPML_SLUG ),
-					'delete' => __( 'Delete (irreversible)', WPML_SLUG ),
+					'conserve' => __( 'Conserve', 'wpmovielibrary-admin' ),
+					'convert' => __( 'Convert to Tags (recommended)', 'wpmovielibrary-admin' ),
+					'delete' => __( 'Delete (irreversible)', 'wpmovielibrary-admin' ),
 				),
 				'default' => 'convert'
 			),
 
 			'cache'       => array(
-				'title' => __( 'Cache', WPML_SLUG ),
-				'description' => __( 'How to handle Cached data when WPML is uninstalled.', WPML_SLUG ),
+				'title' => __( 'Cache', 'wpmovielibrary-admin' ),
+				'description' => __( 'How to handle Cached data when WPML is uninstalled.', 'wpmovielibrary-admin' ),
 				'type' => 'select',
 				'values' => array(
-					'conserve' => __( 'Conserve', WPML_SLUG ),
-					'empty' => __( 'Empty (recommended)', WPML_SLUG ),
+					'conserve' => __( 'Conserve', 'wpmovielibrary-admin' ),
+					'empty' => __( 'Empty (recommended)', 'wpmovielibrary-admin' ),
 				),
 				'default' => 'empty'
 			)
@@ -505,29 +505,29 @@ $wpml_settings = array(
 	'cache' => array(
 		'section' => array(
 			'id'       => 'cache',
-			'title'    => __( 'Cache', WPML_SLUG ),
+			'title'    => __( 'Cache', 'wpmovielibrary-admin' ),
 		),
 		'settings' => array(
 			// Results caching
 			'caching' => array(
-				'title' => __( 'Enable Caching', WPML_SLUG ),
-				'description' => __( 'If enabled, WPML will cache movie related data to prevent too frequent queries to the database. <a href="http://wpmovielibrary.com/documentation/performance">Learn more about caching</a>.', WPML_SLUG ),
+				'title' => __( 'Enable Caching', 'wpmovielibrary-admin' ),
+				'description' => __( 'If enabled, WPML will cache movie related data to prevent too frequent queries to the database. <a href="http://wpmovielibrary.com/documentation/performance">Learn more about caching</a>.', 'wpmovielibrary-admin' ),
 				'type' => 'toggle',
 				'default' => 1
 			),
 
 			// Results caching
 			'user_caching' => array(
-				'title' => __( 'User Caching', WPML_SLUG ),
-				'description' => __( 'If enabled, caching will be activated for logged in users as well as guests.', WPML_SLUG ),
+				'title' => __( 'User Caching', 'wpmovielibrary-admin' ),
+				'description' => __( 'If enabled, caching will be activated for logged in users as well as guests.', 'wpmovielibrary-admin' ),
 				'type' => 'toggle',
 				'default' => 0
 			),
 
 			// Caching delay
 			'caching_time' => array(
-				'title' => __( 'Caching Time', WPML_SLUG ),
-				'description' => __( 'Time of validity for cached data, in seconds. Default is 3600 (one hour)', WPML_SLUG ),
+				'title' => __( 'Caching Time', 'wpmovielibrary-admin' ),
+				'description' => __( 'Time of validity for cached data, in seconds. Default is 3600 (one hour)', 'wpmovielibrary-admin' ),
 				'type' => 'input',
 				'default' => 3600
 			)
@@ -537,45 +537,45 @@ $wpml_settings = array(
 
 $wpml_movie_details = array(
 	'movie_media'   => array(
-		'title' => __( 'Media', WPML_SLUG ),
+		'title' => __( 'Media', 'wpmovielibrary' ),
 		'options' => array(
-			'dvd'     => __( 'DVD', WPML_SLUG ),
-			'bluray'  => __( 'Blu-ray', WPML_SLUG ),
-			'vod'     => __( 'VoD', WPML_SLUG ),
-			'divx'    => __( 'DivX', WPML_SLUG ),
-			'vhs'     => __( 'VHS', WPML_SLUG ),
-			'cinema'  => __( 'Cinema', WPML_SLUG ),
-			'other'   => __( 'Other', WPML_SLUG ),
+			'dvd'     => __( 'DVD', 'wpmovielibrary' ),
+			'bluray'  => __( 'Blu-ray', 'wpmovielibrary' ),
+			'vod'     => __( 'VoD', 'wpmovielibrary' ),
+			'divx'    => __( 'DivX', 'wpmovielibrary' ),
+			'vhs'     => __( 'VHS', 'wpmovielibrary' ),
+			'cinema'  => __( 'Cinema', 'wpmovielibrary' ),
+			'other'   => __( 'Other', 'wpmovielibrary' ),
 		),
 		'default' => array(
-			'dvd'   => __( 'DVD', WPML_SLUG ),
+			'dvd'   => __( 'DVD', 'wpmovielibrary' ),
 		),
 	),
 	'movie_status'  => array(
-		'title' => __( 'Status', WPML_SLUG ),
+		'title' => __( 'Status', 'wpmovielibrary' ),
 		'options' => array(
-			'available'   => __( 'Available', WPML_SLUG ),
-			'loaned'      => __( 'Loaned', WPML_SLUG ),
-			'scheduled'   => __( 'Scheduled', WPML_SLUG ),
-			'unavailable' => __( 'Unvailable', WPML_SLUG ),
+			'available'   => __( 'Available', 'wpmovielibrary' ),
+			'loaned'      => __( 'Loaned', 'wpmovielibrary' ),
+			'scheduled'   => __( 'Scheduled', 'wpmovielibrary' ),
+			'unavailable' => __( 'Unvailable', 'wpmovielibrary' ),
 		),
 		'default' => array(
-			'available' => __( 'Available', WPML_SLUG ),
+			'available' => __( 'Available', 'wpmovielibrary' ),
 		)
 	),
 	'movie_rating'  => array(
-		'title' => __( 'Rating', WPML_SLUG ),
+		'title' => __( 'Rating', 'wpmovielibrary' ),
 		'options' => array(
-			'0.5' => __( 'Junk', WPML_SLUG ),
-			'1.0' => __( 'Very bad', WPML_SLUG ),
-			'1.5' => __( 'Bad', WPML_SLUG ),
-			'2.0' => __( 'Not that bad', WPML_SLUG ),
-			'2.5' => __( 'Average', WPML_SLUG ),
-			'3.0' => __( 'Not bad', WPML_SLUG ),
-			'3.5' => __( 'Good', WPML_SLUG ),
-			'4.0' => __( 'Very good', WPML_SLUG ),
-			'4.5' => __( 'Excellent', WPML_SLUG ),
-			'5.0' => __( 'Masterpiece', WPML_SLUG )
+			'0.5' => __( 'Junk', 'wpmovielibrary' ),
+			'1.0' => __( 'Very bad', 'wpmovielibrary' ),
+			'1.5' => __( 'Bad', 'wpmovielibrary' ),
+			'2.0' => __( 'Not that bad', 'wpmovielibrary' ),
+			'2.5' => __( 'Average', 'wpmovielibrary' ),
+			'3.0' => __( 'Not bad', 'wpmovielibrary' ),
+			'3.5' => __( 'Good', 'wpmovielibrary' ),
+			'4.0' => __( 'Very good', 'wpmovielibrary' ),
+			'4.5' => __( 'Excellent', 'wpmovielibrary' ),
+			'5.0' => __( 'Masterpiece', 'wpmovielibrary' )
 		),
 		'default' => array(
 			'0.0' => '',
@@ -585,59 +585,59 @@ $wpml_movie_details = array(
 
 $wpml_movie_meta = array(
 	'meta' => array(
-		'type' => __( 'Type', WPML_SLUG ),
-		'value' => __( 'Value', WPML_SLUG ),
+		'type' => __( 'Type', 'wpmovielibrary' ),
+		'value' => __( 'Value', 'wpmovielibrary' ),
 		'data' => array(
 			'title' => array(
-				'title' => __( 'Title', WPML_SLUG ),
+				'title' => __( 'Title', 'wpmovielibrary' ),
 				'type' => 'text',
 				'filter' => 'wp_kses',
 				'filter_args' => array( 'b' => array(), 'i' => array(), 'em' => array(), 'strong' => array(), 'sup' => array(), 'sub' => array() )
 			),
 			'original_title' => array(
-				'title' => __( 'Original Title', WPML_SLUG ),
+				'title' => __( 'Original Title', 'wpmovielibrary' ),
 				'type' => 'text',
 				'filter' => 'wp_kses',
 				'filter_args' => array( 'b' => array(), 'i' => array(), 'em' => array(), 'strong' => array(), 'sup' => array(), 'sub' => array() )
 			),
 			'overview' => array(
-				'title' => __( 'Overview', WPML_SLUG ),
+				'title' => __( 'Overview', 'wpmovielibrary' ),
 				'type' => 'textarea',
 				'filter' => 'wp_kses',
 				'filter_args' => array( 'b' => array(), 'i' => array(), 'em' => array(), 'strong' => array(), 'sup' => array(), 'sub' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(), 'br' => array(), 'span' => array() )
 			),
 			'production_companies' => array(
-				'title' => __( 'Production', WPML_SLUG ),
+				'title' => __( 'Production', 'wpmovielibrary' ),
 				'type' => 'text',
 				'filter' => 'esc_html',
 				'filter_args' => null
 			),
 			'production_countries' => array(
-				'title' => __( 'Country', WPML_SLUG ),
+				'title' => __( 'Country', 'wpmovielibrary' ),
 				'type' => 'text',
 				'filter' => 'esc_html',
 				'filter_args' => null
 			),
 			'spoken_languages' => array(
-				'title' => __( 'Languages', WPML_SLUG ),
+				'title' => __( 'Languages', 'wpmovielibrary' ),
 				'type' => 'text',
 				'filter' => 'esc_html',
 				'filter_args' => null
 			),
 			'runtime' => array(
-				'title' => __( 'Runtime', WPML_SLUG ),
+				'title' => __( 'Runtime', 'wpmovielibrary' ),
 				'type' => 'text',
 				'filter' => 'esc_html',
 				'filter_args' => null
 			),
 			'genres' => array(
-				'title' => __( 'Genres', WPML_SLUG ),
+				'title' => __( 'Genres', 'wpmovielibrary' ),
 				'type' => 'text',
 				'filter' => 'esc_html',
 				'filter_args' => null
 			),
 			'release_date' => array(
-				'title' => __( 'Release Date', WPML_SLUG ),
+				'title' => __( 'Release Date', 'wpmovielibrary' ),
 				'type' => 'text',
 				'filter' => 'esc_html',
 				'filter_args' => null
@@ -645,47 +645,47 @@ $wpml_movie_meta = array(
 		)
 	),
 	'crew' => array(
-		'type' => __( 'Job', WPML_SLUG ),
-		'value' => __( 'Name(s)', WPML_SLUG ),
+		'type' => __( 'Job', 'wpmovielibrary' ),
+		'value' => __( 'Name(s)', 'wpmovielibrary' ),
 		'data' => array(
 			'director' => array(
-				'title' => __( 'Director', WPML_SLUG ),
+				'title' => __( 'Director', 'wpmovielibrary' ),
 				'type' => 'text',
 				'filter' => 'esc_html',
 				'filter_args' => null
 			),
 			'producer' => array(
-				'title' => __( 'Producer', WPML_SLUG ),
+				'title' => __( 'Producer', 'wpmovielibrary' ),
 				'type' => 'text',
 				'filter' => 'esc_html',
 				'filter_args' => null
 			),
 			'photography' => array(
-				'title' => __( 'Director of Photography', WPML_SLUG ),
+				'title' => __( 'Director of Photography', 'wpmovielibrary' ),
 				'type' => 'text',
 				'filter' => 'esc_html',
 				'filter_args' => null
 			),
 			'composer' => array(
-				'title' => __( 'Original Music Composer', WPML_SLUG ),
+				'title' => __( 'Original Music Composer', 'wpmovielibrary' ),
 				'type' => 'text',
 				'filter' => 'esc_html',
 				'filter_args' => null
 			),
 			'author' => array(
-				'title' => __( 'Author', WPML_SLUG ),
+				'title' => __( 'Author', 'wpmovielibrary' ),
 				'type' => 'text',
 				'filter' => 'esc_html',
 				'filter_args' => null
 			),
 			'writer' => array(
-				'title' => __( 'Writer', WPML_SLUG ),
+				'title' => __( 'Writer', 'wpmovielibrary' ),
 				'type' => 'text',
 				'filter' => 'esc_html',
 				'filter_args' => null
 			),
 			'cast' => array(
-				'title' => __( 'Actors', WPML_SLUG ),
+				'title' => __( 'Actors', 'wpmovielibrary' ),
 				'type' => 'textarea',
 				'filter' => 'esc_html',
 				'filter_args' => null

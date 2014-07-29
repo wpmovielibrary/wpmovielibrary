@@ -238,7 +238,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				$attributes = array( 'key' => $key, 'meta' => $meta );
 				if ( $label ) {
 					$_meta = WPML_Settings::get_supported_movie_meta();
-					$attributes['title'] = __( $_meta[ $key ]['title'], WPML_SLUG );
+					$attributes['title'] = __( $_meta[ $key ]['title'], 'wpmovielibrary' );
 					$view = 'shortcodes/metadata-label.php';
 				}
 
@@ -287,7 +287,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				$view = 'shortcodes/metadata.php';
 				$attributes = array( 'meta' => $release_date );
 				if ( $label ) {
-					$attributes['title'] = __( 'Release Date', WPML_SLUG );
+					$attributes['title'] = __( 'Release Date', 'wpmovielibrary' );
 					$view = 'shortcodes/metadata-label.php';
 				}
 
@@ -331,7 +331,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				$view = 'shortcodes/metadata.php';
 				$attributes = array( 'meta' => $runtime );
 				if ( $label ) {
-					$attributes['title'] = __( 'Runtime', WPML_SLUG );
+					$attributes['title'] = __( 'Runtime', 'wpmovielibrary' );
 					$view = 'shortcodes/metadata-label.php';
 				}
 
@@ -385,7 +385,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				$attributes = array( 'actors' => $actors );
 				if ( $label )
-					$attributes['title'] = __( 'Actors', WPML_SLUG );
+					$attributes['title'] = __( 'Actors', 'wpmovielibrary' );
 
 				$content = WPMovieLibrary::render_template( 'shortcodes/actors.php', $attributes, $require = 'always' );
 
@@ -432,7 +432,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				$attributes = array( 'genres' => $genres );
 				if ( $label )
-					$attributes['title'] = __( 'Genres', WPML_SLUG );
+					$attributes['title'] = __( 'Genres', 'wpmovielibrary' );
 
 				$content = WPMovieLibrary::render_template( 'shortcodes/genres.php', $attributes, $require = 'always' );
 
@@ -635,7 +635,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 					foreach ( $_meta as $slug => $m ) {
 						if ( in_array( $slug, $meta ) ) {
-							$title = __( $default_fields[ $slug ]['title'], WPML_SLUG );
+							$title = __( $default_fields[ $slug ]['title'], 'wpmovielibrary' );
 							$value = $_meta[ $slug ];
 							if ( has_filter( "wpml_format_movie_{$slug}" ) )
 								$value = apply_filters( "wpml_format_movie_{$slug}", $value );

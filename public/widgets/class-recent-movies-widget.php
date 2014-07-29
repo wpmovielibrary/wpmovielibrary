@@ -25,10 +25,10 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 
 		parent::__construct(
 			'wpml-recent-movies-widget',
-			__( 'WPML Recent Movies', WPML_SLUG ),
+			__( 'WPML Recent Movies', 'wpmovielibrary-admin' ),
 			array(
 				'classname'	=>	'wpml-recent-movies-widget',
-				'description'	=>	__( 'Display most recently added Movies.', WPML_SLUG )
+				'description'	=>	__( 'Display most recently added Movies.', 'wpmovielibrary-admin' )
 			)
 		);
 	}
@@ -85,7 +85,7 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 			foreach ( $movies->posts as $movie ) {
 				$item = array(
 					'ID'          => $movie->ID,
-					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $movie->post_title ),
+					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary-admin' ), $movie->post_title ),
 					'link'        => get_permalink( $movie->ID ),
 					'rating'      => get_post_meta( $movie->ID, '_wpml_movie_rating', true ),
 					'thumbnail'   => get_the_post_thumbnail( $movie->ID, 'thumbnail' )
@@ -137,8 +137,8 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$instance['title']        = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Recent Movies', WPML_SLUG ) );
-		$instance['description']  = ( isset( $instance['description'] ) ? $instance['description'] : __( 'Movies I recently added to my library', WPML_SLUG ) );
+		$instance['title']        = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Recent Movies', 'wpmovielibrary-admin' ) );
+		$instance['description']  = ( isset( $instance['description'] ) ? $instance['description'] : __( 'Movies I recently added to my library', 'wpmovielibrary-admin' ) );
 		$instance['number']       = ( isset( $instance['number'] ) ? $instance['number'] : 4 );
 
 		// Display the admin form

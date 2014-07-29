@@ -236,10 +236,10 @@ if ( ! class_exists( 'TMDb' ) ) :
 				if ( isset( $config['images'][ $imagetype . '_sizes' ][ $_size ] ) )
 					return $base_url . $config['images'][ $imagetype . '_sizes' ][ $_size ] . $filepath;
 				else
-					return new WP_Error( 'wrong_size', sprintf( __( 'The size "%s" is not supported by TMDb', WPML_SLUG ), $size ) );
+					return new WP_Error( 'wrong_size', sprintf( __( 'The size "%s" is not supported by TMDb', 'wpmovielibrary-admin' ), $size ) );
 			}
 			else
-				return new WP_Error( 'no_config', __( 'No configuration available for image URL generation', WPML_SLUG ) );
+				return new WP_Error( 'no_config', __( 'No configuration available for image URL generation', 'wpmovielibrary-admin' ) );
 		}
 
 		/**
@@ -256,7 +256,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 			if ( isset( $config['images'][$imagetype.'_sizes'] ) )
 				return $config['images'][$imagetype.'_sizes'];
 			else
-				return new WP_Error( 'no_config', __( 'API Error: no configuration available to retrieve available image sizes', WPML_SLUG ) );
+				return new WP_Error( 'no_config', __( 'API Error: no configuration available to retrieve available image sizes', 'wpmovielibrary-admin' ) );
 		}
 
 		/**
@@ -291,7 +291,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 				return $response;
 
 			if ( isset( $response['response']['code'] ) && 200 != $response['response']['code'] )
-				return new WP_Error( 'connect_failed', sprintf( __( 'API Error: server connection to "%s" returned error %s: %s', WPML_SLUG ), $url, $response['response']['code'], $response['response']['message'] ) );
+				return new WP_Error( 'connect_failed', sprintf( __( 'API Error: server connection to "%s" returned error %s: %s', 'wpmovielibrary-admin' ), $url, $response['response']['code'], $response['response']['message'] ) );
 
 			$header = $response['headers'];
 			$body   = $response['body'];
@@ -300,10 +300,10 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 			// Using array_key_exists() instead of isset() to prevent weird bug in PHP 5.3
 			if ( is_array( $body ) && array_key_exists( 'status_code', $body ) && array_key_exists( 'status_message', $body ) )
-				return new WP_Error( 'connect_failed', sprintf( __( 'API Error: connection to TheMovieDB API failed with message "%s" (code %s)', WPML_SLUG ), $body['status_code'], $body['status_message'] ) );
+				return new WP_Error( 'connect_failed', sprintf( __( 'API Error: connection to TheMovieDB API failed with message "%s" (code %s)', 'wpmovielibrary-admin' ), $body['status_code'], $body['status_message'] ) );
 
 			if ( is_null( $results ) )
-				return new WP_Error( 'unknown_error', __( 'API Error: unknown server error, unable to perform request.', WPML_SLUG ) );
+				return new WP_Error( 'unknown_error', __( 'API Error: unknown server error, unable to perform request.', 'wpmovielibrary-admin' ) );
 
 			return $results;
 		}

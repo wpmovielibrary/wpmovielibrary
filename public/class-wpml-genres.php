@@ -66,8 +66,8 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 				'movie',
 				array(
 					'labels'   => array(
-						'name'          => __( 'Genres', WPML_SLUG ),
-						'add_new_item'  => __( 'New Genre', WPML_SLUG )
+						'name'          => __( 'Genres', 'wpmovielibrary' ),
+						'add_new_item'  => __( 'New Genre', 'wpmovielibrary' )
 					),
 					'show_ui'           => true,
 					'show_tagcloud'     => true,

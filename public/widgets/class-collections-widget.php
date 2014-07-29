@@ -26,10 +26,10 @@ class WPML_Collections_Widget extends WP_Widget {
 
 		parent::__construct(
 			'wpml-collections-widget',
-			__( 'WPML Collections', WPML_SLUG ),
+			__( 'WPML Collections', 'wpmovielibrary-admin' ),
 			array(
 				'classname'	=>	'wpml-collections-widget',
-				'description'	=>	__( 'Display Movie Collections Lists', WPML_SLUG )
+				'description'	=>	__( 'Display Movie Collections Lists', 'wpmovielibrary-admin' )
 			)
 		);
 	}
@@ -87,20 +87,20 @@ class WPML_Collections_Widget extends WP_Widget {
 
 			foreach ( $collections as $collection )
 				$items[] = array(
-					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $collection->name ),
+					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary-admin' ), $collection->name ),
 					'link'        => get_term_link( sanitize_term( $collection, 'collection' ), 'collection' ),
 					'title'       => esc_attr( $collection->name . ( $count ? sprintf( '&nbsp;(%d)', $collection->count ) : '' ) )
 				);
 
 			if ( $limit )
 				$items[] = array(
-					'attr_title'  => __( 'View all collections', WPML_SLUG ),
+					'attr_title'  => __( 'View all collections', 'wpmovielibrary-admin' ),
 					'link'        => home_url( '/' . $archive ),
-					'title'       => __( 'View the complete list', WPML_SLUG )
+					'title'       => __( 'View the complete list', 'wpmovielibrary-admin' )
 				);
 
 			$items = apply_filters( 'wpml_widget_collection_list', $items, $list, $css );
-			$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => __( 'Select a collection', WPML_SLUG ), 'style' => $style );
+			$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => __( 'Select a collection', 'wpmovielibrary-admin' ), 'style' => $style );
 
 			if ( $list )
 				$html = WPMovieLibrary::render_template( 'collection-widget/collection-dropdown-list.php', $attributes );
@@ -108,7 +108,7 @@ class WPML_Collections_Widget extends WP_Widget {
 				$html = WPMovieLibrary::render_template( 'collection-widget/collection-list.php', $attributes );
 		}
 		else {
-			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display for "Collection" taxonomy.', WPML_SLUG ) ) );
+			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display for "Collection" taxonomy.', 'wpmovielibrary-admin' ) ) );
 		}
 
 		return $before_widget . $title . $html . $after_widget;
@@ -148,7 +148,7 @@ class WPML_Collections_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Collections', WPML_SLUG ) );
+		$title = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Collections', 'wpmovielibrary-admin' ) );
 		$instance['description'] = ( isset( $instance['description'] ) ? $instance['description'] : '' );
 		$list  = ( isset( $instance['list'] ) && 1 == $instance['list'] ? true : false );
 		$count = ( isset( $instance['count'] )  && 1 == $instance['count'] ? true : false );

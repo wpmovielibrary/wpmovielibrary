@@ -182,14 +182,14 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			if ( ! is_array( $hidden ) )
 				update_user_option( $user_id, 'metaboxhidden_' . $args->base, array(), true );
 
-			$return = array( '<h5>' . __( 'Show on screen', WPML_SLUG ) . '</h5>' );
-			$return[] = self::set_screen_option( 'welcome_panel', __( 'Welcome', WPML_SLUG ), $status );
-			$return[] = self::set_screen_option( 'stats', __( 'Statistics', WPML_SLUG ), $status );
-			$return[] = self::set_screen_option( 'quickaction', __( 'Quick Actions', WPML_SLUG ), $status );
-			$return[] = self::set_screen_option( 'helper', __( 'Help', WPML_SLUG ), $status );
-			$return[] = self::set_screen_option( 'latest_movies', __( 'Latest Movies', WPML_SLUG ), $status );
-			$return[] = self::set_screen_option( 'most_rated_movies', __( 'Most Rated Movies', WPML_SLUG ), $status );
-			$return[] = get_submit_button( __( 'Apply', WPML_SLUG ), 'button hide-if-js', 'screen-options-apply', false );
+			$return = array( '<h5>' . __( 'Show on screen', 'wpmovielibrary-admin' ) . '</h5>' );
+			$return[] = self::set_screen_option( 'welcome_panel', __( 'Welcome', 'wpmovielibrary-admin' ), $status );
+			$return[] = self::set_screen_option( 'stats', __( 'Statistics', 'wpmovielibrary-admin' ), $status );
+			$return[] = self::set_screen_option( 'quickaction', __( 'Quick Actions', 'wpmovielibrary-admin' ), $status );
+			$return[] = self::set_screen_option( 'helper', __( 'Help', 'wpmovielibrary-admin' ), $status );
+			$return[] = self::set_screen_option( 'latest_movies', __( 'Latest Movies', 'wpmovielibrary-admin' ), $status );
+			$return[] = self::set_screen_option( 'most_rated_movies', __( 'Most Rated Movies', 'wpmovielibrary-admin' ), $status );
+			$return[] = get_submit_button( __( 'Apply', 'wpmovielibrary-admin' ), 'button hide-if-js', 'screen-options-apply', false );
 
 			$return = implode( '', $return );
 
@@ -215,7 +215,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			$hidden = get_user_option( 'metaboxhidden_' . get_current_screen()->id );
 			$visible = ( in_array( 'wpml_dashboard_' . $option . '_widget', $hidden ) ? '0' : '1' );
 
-			$return .= $status . '<label for="show_wpml_' . $option . '"><input id="show_wpml_' . $option . '" type="checkbox"' . checked( $visible, '1', false ) . ' />' . __( $title, WPML_SLUG ) . '</label>';
+			$return .= $status . '<label for="show_wpml_' . $option . '"><input id="show_wpml_' . $option . '" type="checkbox"' . checked( $visible, '1', false ) . ' />' . __( $title, 'wpmovielibrary-admin' ) . '</label>';
 			
 			return $return;
 		}
@@ -351,12 +351,12 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 
 			global $wp_dashboard_control_callbacks;
 
-			$widget_name = __( $widget_name, WPML_SLUG );
+			$widget_name = __( $widget_name, 'wpmovielibrary-admin' );
 
 			if ( ! is_null( $control_callback ) && current_user_can( 'edit_dashboard' ) && is_callable( $control_callback ) ) {
 
 				$wp_dashboard_control_callbacks[ $widget_id ] = $control_callback;
-				$widget_name = __( $widget_name, WPML_SLUG );
+				$widget_name = __( $widget_name, 'wpmovielibrary-admin' );
 
 				if ( isset( $_GET['edit'] ) && $widget_id == $_GET['edit'] ) {
 					list( $url ) = explode( '#', add_query_arg( 'edit', false ), 2 );

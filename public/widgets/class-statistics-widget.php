@@ -26,10 +26,10 @@ class WPML_Statistics_Widget extends WP_Widget {
 
 		parent::__construct(
 			'wpml-statistics-widget',
-			__( 'WPML Statistics', WPML_SLUG ),
+			__( 'WPML Statistics', 'wpmovielibrary-admin' ),
 			array(
 				'classname'	=>	'wpml-statistics-widget',
-				'description'	=>	__( 'Display some statistics about your movie library', WPML_SLUG )
+				'description'	=>	__( 'Display some statistics about your movie library', 'wpmovielibrary-admin' )
 			)
 		);
 	}
@@ -86,10 +86,10 @@ class WPML_Statistics_Widget extends WP_Widget {
 		$actor = ( '' != $actor ? $actor : 'actor' );
 
 		$links = array(
-			'%total%' 	=> sprintf( '<a href="%s">%s</a>', home_url( $movie . '/' ), sprintf( _n( 'one movie', '%s movies', $count['total'], WPML_SLUG ), '<strong>' . $count['total'] . '</strong>' ) ),
-			'%collections%'	=> sprintf( '<a href="%s">%s</a>', home_url( $collection . '/' ), sprintf( _n( 'one collection', '%s collections', $count['collections'], WPML_SLUG ), '<strong>' . $count['collections'] . '</strong>' ) ),
-			'%genres%'	=> sprintf( '<a href="%s">%s</a>', home_url( $genre . '/' ), sprintf( _n( 'one genre', '%s genres', $count['genres'], WPML_SLUG ), '<strong>' . $count['genres'] . '</strong>' ) ),
-			'%actors%'	=> sprintf( '<a href="%s">%s</a>', home_url( $actor . '/' ), sprintf( _n( 'one actor', '%s actors', $count['actors'], WPML_SLUG ), '<strong>' . $count['actors'] . '</strong>' ) )
+			'%total%' 	=> sprintf( '<a href="%s">%s</a>', home_url( $movie . '/' ), sprintf( _n( 'one movie', '%s movies', $count['total'], 'wpmovielibrary-admin' ), '<strong>' . $count['total'] . '</strong>' ) ),
+			'%collections%'	=> sprintf( '<a href="%s">%s</a>', home_url( $collection . '/' ), sprintf( _n( 'one collection', '%s collections', $count['collections'], 'wpmovielibrary-admin' ), '<strong>' . $count['collections'] . '</strong>' ) ),
+			'%genres%'	=> sprintf( '<a href="%s">%s</a>', home_url( $genre . '/' ), sprintf( _n( 'one genre', '%s genres', $count['genres'], 'wpmovielibrary-admin' ), '<strong>' . $count['genres'] . '</strong>' ) ),
+			'%actors%'	=> sprintf( '<a href="%s">%s</a>', home_url( $actor . '/' ), sprintf( _n( 'one actor', '%s actors', $count['actors'], 'wpmovielibrary-admin' ), '<strong>' . $count['actors'] . '</strong>' ) )
 		);
 
 		$title = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
@@ -134,9 +134,9 @@ class WPML_Statistics_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$instance['title'] = ( isset( $instance['title'] ) && '' != $instance['title'] ? $instance['title'] : __( 'Statistics', WPML_SLUG ) );
+		$instance['title'] = ( isset( $instance['title'] ) && '' != $instance['title'] ? $instance['title'] : __( 'Statistics', 'wpmovielibrary-admin' ) );
 		$instance['description'] = ( isset( $instance['description'] ) && '' != $instance['description'] ? '<p>' . $instance['description'] . '</p>' : '' );
-		$instance['format'] = ( isset( $instance['format'] ) && '' != $instance['format'] ? $instance['format'] : __( 'All combined you have a total of %total% in your library, regrouped in %collections%, %genres% and %actors%.', WPML_SLUG ) );
+		$instance['format'] = ( isset( $instance['format'] ) && '' != $instance['format'] ? $instance['format'] : __( 'All combined you have a total of %total% in your library, regrouped in %collections%, %genres% and %actors%.', 'wpmovielibrary-admin' ) );
 
 		// Display the admin form
 		echo WPMovieLibrary::render_template( 'stats-widget/statistics-admin.php', array( 'widget' => $this, 'instance' => $instance ), $require = 'always' );

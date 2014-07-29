@@ -25,10 +25,10 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 
 		parent::__construct(
 			'wpml-most-rated-movies-widget',
-			__( 'WPML Most Rated Movies', WPML_SLUG ),
+			__( 'WPML Most Rated Movies', 'wpmovielibrary-admin' ),
 			array(
 				'classname'	=>	'wpml-most-rated-movies-widget',
-				'description'	=>	__( 'Display most rated Movies.', WPML_SLUG )
+				'description'	=>	__( 'Display most rated Movies.', 'wpmovielibrary-admin' )
 			)
 		);
 	}
@@ -85,9 +85,9 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 				foreach ( $ratings as $slug => $rating_title )
 					$items[] = array(
 							'ID'          => $slug,
-							'attr_title'  => sprintf( __( 'Permalink for &laquo; %s Rated Movies &raquo;', WPML_SLUG ), esc_attr__( $rating_title, WPML_SLUG ) ),
+							'attr_title'  => sprintf( __( 'Permalink for &laquo; %s Rated Movies &raquo;', 'wpmovielibrary-admin' ), esc_attr__( $rating_title, 'wpmovielibrary-admin' ) ),
 							'link'        => home_url( "/{$movies}/{$slug}/" ),
-							'title'       => '<div class="movie_rating_display stars_' . str_replace( '.', '_', $slug ) . '"><div class="stars_labels"><span class="stars_label stars_label_' . str_replace( '.', '_', $slug ) . '">' . esc_attr__( $rating_title, WPML_SLUG ) . '</span></div></div>'
+							'title'       => '<div class="movie_rating_display stars_' . str_replace( '.', '_', $slug ) . '"><div class="stars_labels"><span class="stars_label stars_label_' . str_replace( '.', '_', $slug ) . '">' . esc_attr__( $rating_title, 'wpmovielibrary-admin' ) . '</span></div></div>'
 						);
 
 				$items = apply_filters( 'wpml_widget_rating_items', $items );
@@ -96,7 +96,7 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 				$html = WPMovieLibrary::render_template( 'rating-widget/rating-list.php', $attributes );
 			}
 			else {
-				$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display.', WPML_SLUG ) ) );
+				$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display.', 'wpmovielibrary-admin' ) ) );
 			}
 		}
 		else {
@@ -120,7 +120,7 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 				foreach ( $movies->posts as $movie ) {
 					$item = array(
 						'ID'          => $movie->ID,
-						'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $movie->post_title ),
+						'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary-admin' ), $movie->post_title ),
 						'link'        => get_permalink( $movie->ID ),
 						'rating'      => get_post_meta( $movie->ID, '_wpml_movie_rating', true ),
 						'thumbnail'   => get_the_post_thumbnail( $movie->ID, 'thumbnail' )
@@ -135,7 +135,7 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 				$html = WPMovieLibrary::render_template( 'rating-widget/movies-by-rating.php', $attributes );
 			}
 			else {
-				$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display.', WPML_SLUG ) ) );
+				$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display.', 'wpmovielibrary-admin' ) ) );
 			}
 		}
 
@@ -175,8 +175,8 @@ class WPML_Most_Rated_Movies_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$instance['title']          = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Most Rated Movies', WPML_SLUG ) );
-		$instance['description']    = ( isset( $instance['description'] ) ? $instance['description'] : __( 'Movies I really enjoyed', WPML_SLUG ) );
+		$instance['title']          = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Most Rated Movies', 'wpmovielibrary-admin' ) );
+		$instance['description']    = ( isset( $instance['description'] ) ? $instance['description'] : __( 'Movies I really enjoyed', 'wpmovielibrary-admin' ) );
 		$instance['number']         = ( isset( $instance['number'] ) ? $instance['number'] : 4 );
 		$instance['display_rating'] = ( isset( $instance['display_rating'] ) ? $instance['display_rating'] : 'no' );
 		$instance['rating_only']    = ( isset( $instance['rating_only'] ) ? $instance['rating_only'] : 0 );

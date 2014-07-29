@@ -69,8 +69,8 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 				'movie',
 				array(
 					'labels'   => array(
-						'name'          => __( 'Actors', WPML_SLUG ),
-						'add_new_item'  => __( 'New Actor', WPML_SLUG )
+						'name'          => __( 'Actors', 'wpmovielibrary' ),
+						'add_new_item'  => __( 'New Actor', 'wpmovielibrary' )
 					),
 					'show_ui'           => true,
 					'show_tagcloud'     => true,

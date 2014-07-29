@@ -26,10 +26,10 @@ class WPML_Status_Widget extends WP_Widget {
 
 		parent::__construct(
 			'wpml-status-widget',
-			__( 'WPML Status', WPML_SLUG ),
+			__( 'WPML Status', 'wpmovielibrary-admin' ),
 			array(
 				'classname'	=>	'wpml-status-widget',
-				'description'	=>	__( 'Display Movies from a specific status', WPML_SLUG )
+				'description'	=>	__( 'Display Movies from a specific status', 'wpmovielibrary-admin' )
 			)
 		);
 	}
@@ -88,17 +88,17 @@ class WPML_Status_Widget extends WP_Widget {
 					$style = 'wpml-widget wpml-status-list wpml-list custom';
 
 				foreach ( $status as $slug => $status_title ) {
-					$_slug = ( $rewrite ? __( $slug, WPML_SLUG ) : $slug );
+					$_slug = ( $rewrite ? __( $slug, 'wpmovielibrary-admin' ) : $slug );
 					$items[] = array(
 						'ID'          => $slug,
-						'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $status_title ),
+						'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary-admin' ), $status_title ),
 						'link'        => home_url( "/{$movies}/{$_slug}/" ),
 						'title'       => esc_attr( $status_title ),
 					);
 				}
 
 				$items = apply_filters( 'wpml_widget_media_lists', $items, $list, $css );
-				$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => __( 'Select a status', WPML_SLUG ), 'style' => $style );
+				$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => __( 'Select a status', 'wpmovielibrary-admin' ), 'style' => $style );
 
 				if ( $list )
 					$html = WPMovieLibrary::render_template( 'status-widget/status-dropdown-list.php', $attributes );
@@ -124,7 +124,7 @@ class WPML_Status_Widget extends WP_Widget {
 				foreach ( $movies as $movie )
 					$items[] = array(
 						'ID'          => $movie->ID,
-						'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', WPML_SLUG ), $movie->post_title ),
+						'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary-admin' ), $movie->post_title ),
 						'link'        => get_permalink( $movie->ID ),
 						'title'       => esc_attr( $movie->post_title ),
 					);
@@ -180,7 +180,7 @@ class WPML_Status_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$instance['title']       = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie by Status', WPML_SLUG ) );
+		$instance['title']       = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie by Status', 'wpmovielibrary-admin' ) );
 		$instance['description'] = ( isset( $instance['description'] ) ? $instance['description'] : '' );
 		$instance['type']        = ( isset( $instance['type'] ) ? $instance['type'] : null );
 		$instance['list']        = ( isset( $instance['list'] ) ? $instance['list'] : 0 );

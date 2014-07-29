@@ -102,13 +102,13 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$i18n = array();
 			$_i18n = WPML_Settings::wpml__details_rewrite();
 
-			$i18n['unavailable'] = ( $_i18n ? __( 'unavailable', WPML_SLUG ) : 'unavailable' );
-			$i18n['available']   = ( $_i18n ? __( 'available', WPML_SLUG ) : 'available' );
-			$i18n['loaned']      = ( $_i18n ? __( 'loaned', WPML_SLUG ) : 'loaned' );
-			$i18n['scheduled']   = ( $_i18n ? __( 'scheduled', WPML_SLUG ) : 'scheduled' );
-			$i18n['bluray']      = ( $_i18n ? __( 'bluray', WPML_SLUG ) : 'bluray' );
-			$i18n['cinema']      = ( $_i18n ? __( 'cinema', WPML_SLUG ) : 'cinema' );
-			$i18n['other']       = ( $_i18n ? __( 'other', WPML_SLUG ) : 'other' );
+			$i18n['unavailable'] = ( $_i18n ? __( 'unavailable', 'wpmovielibrary' ) : 'unavailable' );
+			$i18n['available']   = ( $_i18n ? __( 'available', 'wpmovielibrary' ) : 'available' );
+			$i18n['loaned']      = ( $_i18n ? __( 'loaned', 'wpmovielibrary' ) : 'loaned' );
+			$i18n['scheduled']   = ( $_i18n ? __( 'scheduled', 'wpmovielibrary' ) : 'scheduled' );
+			$i18n['bluray']      = ( $_i18n ? __( 'bluray', 'wpmovielibrary' ) : 'bluray' );
+			$i18n['cinema']      = ( $_i18n ? __( 'cinema', 'wpmovielibrary' ) : 'cinema' );
+			$i18n['other']       = ( $_i18n ? __( 'other', 'wpmovielibrary' ) : 'other' );
 
 			$new_rules = array(
 				$movies . '/(dvd|vod|divx|' . $i18n['bluray'] . '|vhs|' . $i18n['cinema'] . '|' . $i18n['other'] . ')/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]',
@@ -245,7 +245,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( '' == $notice )
 				return false;
 
-			if ( ! in_array( $type, array( 'error', 'warning', 'update', WPML_SLUG ) ) || 'update' == $type )
+			if ( ! in_array( $type, array( 'error', 'warning', 'update', 'wpmovielibrary' ) ) || 'update' == $type )
 				$class = 'updated';
 			else if ( 'wpml' == $type )
 				$class = 'updated wpml';
@@ -724,7 +724,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			}
 			else if ( 'html' == $format ) {
 				$default_fields = WPML_Settings::get_available_movie_media();
-				$data = WPMovieLibrary::render_template( 'shortcodes/detail.php', array( 'detail' => 'media', 'data' => $data, 'title' => __( $default_fields[ $data ], WPML_SLUG ) ), $require = 'always' );
+				$data = WPMovieLibrary::render_template( 'shortcodes/detail.php', array( 'detail' => 'media', 'data' => $data, 'title' => __( $default_fields[ $data ], 'wpmovielibrary' ) ), $require = 'always' );
 			}
 
 			return $data;
@@ -753,7 +753,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			}
 			else if ( 'html' == $format ) {
 				$default_fields = WPML_Settings::get_available_movie_status();
-				$data = WPMovieLibrary::render_template( 'shortcodes/detail.php', array( 'detail' => 'status', 'data' => $data, 'title' => __( $default_fields[ $data ], WPML_SLUG ) ), $require = 'always' );
+				$data = WPMovieLibrary::render_template( 'shortcodes/detail.php', array( 'detail' => 'status', 'data' => $data, 'title' => __( $default_fields[ $data ], 'wpmovielibrary' ) ), $require = 'always' );
 			}
 
 			return $data;
@@ -1397,7 +1397,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				}
 			}
 			else
-				$errors->add( 'callback_error', __( 'An error occured when trying to perform the request: invalid callback or data.', WPML_SLUG ) );
+				$errors->add( 'callback_error', __( 'An error occured when trying to perform the request: invalid callback or data.', 'wpmovielibrary' ) );
 
 			if ( ! empty( $errors->errors ) )
 				$response = $errors;
@@ -1419,7 +1419,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( is_wp_error( $response ) )
 				$_response = $response;
 			else if ( ! is_object( $response ) && ! is_int( $response ) && ! is_array( $response ) && true !== $response )
-				$_response = new WP_Error( 'callback_error', __( 'An error occured when trying to perform the request.', WPML_SLUG ) );
+				$_response = new WP_Error( 'callback_error', __( 'An error occured when trying to perform the request.', 'wpmovielibrary' ) );
 			else
 				$_response = new WPML_Ajax( array( 'data' => $response, 'i18n' => $i18n, 'nonce' => $nonce ) );
 
@@ -1481,15 +1481,15 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			// Term selection
 			if ( in_array( $slugs['collection'], array( $wp_query->query_vars['name'], $wp_query->query_vars['category_name'] ) ) ) {
 				$term_slug = 'collection';
-				$term_title = __( 'View all movies from collection &laquo; %s &raquo;', WPML_SLUG );
+				$term_title = __( 'View all movies from collection &laquo; %s &raquo;', 'wpmovielibrary' );
 			}
 			else if (in_array( $slugs['genre'], array( $wp_query->query_vars['name'], $wp_query->query_vars['category_name'] ) ) ) {
 				$term_slug = 'genre';
-				$term_title = __( 'View all &laquo; %s &raquo; movies', WPML_SLUG );
+				$term_title = __( 'View all &laquo; %s &raquo; movies', 'wpmovielibrary' );
 			}
 			else if ( in_array( $slugs['actor'], array( $wp_query->query_vars['name'], $wp_query->query_vars['category_name'] ) ) ) {
 				$term_slug = 'actor';
-				$term_title = __( 'View all movies staring &laquo; %s &raquo;', WPML_SLUG );
+				$term_title = __( 'View all movies staring &laquo; %s &raquo;', 'wpmovielibrary' );
 			}
 			else {
 				$wp_query = $_query;
@@ -1506,7 +1506,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$content = WPML_Cache::output( $name, function() use ( $wp_query, $slugs, $term_slug, $term_title ) {
 
 				$wp_query->query_vars['wpml_archive_page'] = 1;
-				$wp_query->query_vars['wpml_archive_title'] = __( ucwords( $term_slug . 's' ), WPML_SLUG );
+				$wp_query->query_vars['wpml_archive_title'] = __( ucwords( $term_slug . 's' ), 'wpmovielibrary' );
 
 				$args = 'hide_empty=true&number=50';
 				$paged = $wp_query->get( 'paged' );
@@ -1526,7 +1526,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 							'url'        => get_term_link( $term ),
 							'attr_title' => sprintf( $term_title, $term->name ),
 							'title'      => $term->name,
-							'count'      => sprintf( _n( '%d movie', '%d movies', $term->count, WPML_SLUG ), $term->count )
+							'count'      => sprintf( _n( '%d movie', '%d movies', $term->count, 'wpmovielibrary' ), $term->count )
 						);
 
 				$args = array(

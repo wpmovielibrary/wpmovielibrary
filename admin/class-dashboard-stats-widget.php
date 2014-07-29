@@ -79,7 +79,7 @@ if ( ! class_exists( 'WPML_Dashboard_Stats_Widget' ) ) :
 		public function init() {
 
 			$this->widget_id = 'wpml_dashboard_stats_widget';
-			$this->widget_name = __( 'Your library', WPML_SLUG );
+			$this->widget_name = __( 'Your library', 'wpmovielibrary-admin' );
 			$this->callback = array( $this, 'dashboard_widget' );
 			$this->control_callback = null;
 		}
@@ -122,33 +122,33 @@ if ( ! class_exists( 'WPML_Dashboard_Stats_Widget' ) ) :
 			$links = array();
 			$list = array(
 				'movie' => array(
-					'single' => __( 'One movie', WPML_SLUG ),
-					'plural' => __( '%d movies', WPML_SLUG ),
-					'empty'  => sprintf( '%s <a href="%s">%s</a>', __( 'No movie added yet.', WPML_SLUG ), admin_url( 'post-new.php?post_status=publish&post_type=movie' ), __( 'Add one!', WPML_SLUG ) ),
+					'single' => __( 'One movie', 'wpmovielibrary-admin' ),
+					'plural' => __( '%d movies', 'wpmovielibrary-admin' ),
+					'empty'  => sprintf( '%s <a href="%s">%s</a>', __( 'No movie added yet.', 'wpmovielibrary-admin' ), admin_url( 'post-new.php?post_status=publish&post_type=movie' ), __( 'Add one!', 'wpmovielibrary-admin' ) ),
 					'url'    => admin_url( 'edit.php?post_type=movie' ),
 					'icon'   => 'dashicons dashicons-format-video',
 					'string' => '<a href="%s">%s</a>'
 				),
 				'draft' => array(
-					'single' => __( 'One movie draft', WPML_SLUG ),
-					'plural' => __( '%d movies drafts', WPML_SLUG ),
-					'empty'  => __( 'No draft', WPML_SLUG ),
+					'single' => __( 'One movie draft', 'wpmovielibrary-admin' ),
+					'plural' => __( '%d movies drafts', 'wpmovielibrary-admin' ),
+					'empty'  => __( 'No draft', 'wpmovielibrary-admin' ),
 					'url'    => admin_url( 'edit.php?post_status=draft&post_type=movie' ),
 					'icon'   => 'dashicons dashicons-edit',
 					'string' => '<a href="%s">%s</a>'
 				),
 				'queued' => array(
-					'single' => __( 'One queued movie', WPML_SLUG ),
-					'plural' => __( '%d queued movies', WPML_SLUG ),
-					'empty'  => __( 'No queued movie.', WPML_SLUG ),
+					'single' => __( 'One queued movie', 'wpmovielibrary-admin' ),
+					'plural' => __( '%d queued movies', 'wpmovielibrary-admin' ),
+					'empty'  => __( 'No queued movie.', 'wpmovielibrary-admin' ),
 					'url'    => admin_url( 'admin.php?page=wpml_import&amp;wpml_section=wpml_import_queue' ),
 					'icon'   => 'dashicons dashicons-list-view',
 					'string' => '<a href="%s">%s</a>'
 				),
 				'imported' => array(
-					'single' => __( 'One imported movie', WPML_SLUG ),
-					'plural' => __( '%d imported movies', WPML_SLUG ),
-					'empty'  => __( 'No imported movie.', WPML_SLUG ),
+					'single' => __( 'One imported movie', 'wpmovielibrary-admin' ),
+					'plural' => __( '%d imported movies', 'wpmovielibrary-admin' ),
+					'empty'  => __( 'No imported movie.', 'wpmovielibrary-admin' ),
 					'url'    => admin_url( 'admin.php?page=wpml_import&amp;wpml_section=wpml_imported' ),
 					'icon'   => 'dashicons dashicons-download',
 					'string' => '<a href="%s">%s</a>'
