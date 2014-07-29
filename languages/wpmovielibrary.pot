@@ -1,14 +1,20 @@
+# Copyright (C) 2014 WPMovieLibrary
+# This file is distributed under the same license as the WPMovieLibrary package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPMovieLibrary 1.1.2 Front-end\n"
-"Report-Msgid-Bugs-To: https://github.com/Askelon/wpmovielibrary/issues\n"
-"POT-Creation-Date: 2014-07-29 01:29:18+00:00\n"
+"Project-Id-Version: WPMovieLibrary 1.2\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/wpmovielibrary\n"
+"POT-Creation-Date: 2014-07-29 02:17:42+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2014-07-29 04:20+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: WPMovieLibrary <support@wpmovielibrary.com>\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: English\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 #: admin/class-dashboard-helper-widget.php:82 admin/class-dashboard.php:189
 msgid "Help"
@@ -135,7 +141,8 @@ msgstr ""
 msgid "Welcome"
 msgstr ""
 
-#: admin/class-dashboard.php:187 public/widgets/class-statistics-widget.php:137
+#: admin/class-dashboard.php:187
+#: public/widgets/class-statistics-widget.php:137
 msgid "Statistics"
 msgstr ""
 
@@ -180,7 +187,8 @@ msgid "Connection to TheMovieDB API failed with message \"%s\" (code %s)"
 msgstr ""
 
 #: admin/class-wpml-api-wrapper.php:159
-msgid "Invalid API key - the key should be an alphanumerica 32 chars long string."
+msgid ""
+"Invalid API key - the key should be an alphanumerica 32 chars long string."
 msgstr ""
 
 #: admin/class-wpml-api-wrapper.php:164
@@ -196,7 +204,9 @@ msgid "Sorry, your search returned no result. Try a more specific query?"
 msgstr ""
 
 #: admin/class-wpml-api-wrapper.php:279
-msgid "Your request showed multiple results. Select your movie in the list or try another search:"
+msgid ""
+"Your request showed multiple results. Select your movie in the list or try "
+"another search:"
 msgstr ""
 
 #: admin/class-wpml-api.php:239
@@ -216,7 +226,8 @@ msgid "API Error: server connection to \"%s\" returned error %s: %s"
 msgstr ""
 
 #: admin/class-wpml-api.php:303
-msgid "API Error: connection to TheMovieDB API failed with message \"%s\" (code %s)"
+msgid ""
+"API Error: connection to TheMovieDB API failed with message \"%s\" (code %s)"
 msgstr ""
 
 #: admin/class-wpml-api.php:306
@@ -292,7 +303,9 @@ msgid "Error: couldn't update movie detail."
 msgstr ""
 
 #: admin/class-wpml-edit-movies.php:595
-msgid "Error: invalid value, allowed values for 'rating' are floats between 0.0 and 5.0."
+msgid ""
+"Error: invalid value, allowed values for 'rating' are floats between 0.0 and "
+"5.0."
 msgstr ""
 
 #: admin/class-wpml-edit-movies.php:623
@@ -477,7 +490,9 @@ msgid "An error occured when trying to import image: invalid data or Post ID."
 msgstr ""
 
 #: admin/class-wpml-media.php:318
-msgid "Movie Posters as featured images option is deactivated. Update your settings to activate this."
+msgid ""
+"Movie Posters as featured images option is deactivated. Update your settings "
+"to activate this."
 msgstr ""
 
 #: admin/class-wpml-media.php:404
@@ -687,7 +702,12 @@ msgid "Default settings restored!"
 msgstr ""
 
 #: admin/class-wpmovielibrary-admin.php:736
-msgid "You update the taxonomies URL rewrite. You should visit <a href=\"%s\">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don't need to change anything in the Permalink page: simply loading it will update the rules."
+msgid ""
+"You update the taxonomies URL rewrite. You should visit <a href=\"%s"
+"\">WordPress Permalink</a> page to update the Rewrite rules; you may "
+"experience errors when trying to load pages using the new URL if the "
+"structures are not update correctly. Tip: you don't need to change anything "
+"in the Permalink page: simply loading it will update the rules."
 msgstr ""
 
 #: includes/class-wpml-cache.php:172
@@ -741,7 +761,9 @@ msgid "Are you sure you want to do this?"
 msgstr ""
 
 #: includes/class-wpml-utils.php:1400
-msgid "An error occured when trying to perform the request: invalid callback or data."
+msgid ""
+"An error occured when trying to perform the request: invalid callback or "
+"data."
 msgstr ""
 
 #: includes/class-wpml-utils.php:1422
@@ -781,7 +803,10 @@ msgid "API Key"
 msgstr ""
 
 #: includes/wpml-config.php:37
-msgid "You need a valid TMDb API key in order to fetch informations on the movies you add to WPMovieLibrary. You can get an individual API key by registering on <a href=\"https://www.themoviedb.org/\">TheMovieDB</a>."
+msgid ""
+"You need a valid TMDb API key in order to fetch informations on the movies "
+"you add to WPMovieLibrary. You can get an individual API key by registering "
+"on <a href=\"https://www.themoviedb.org/\">TheMovieDB</a>."
 msgstr ""
 
 #: includes/wpml-config.php:44
@@ -789,7 +814,16 @@ msgid "Use internal API Key"
 msgstr ""
 
 #: includes/wpml-config.php:45
-msgid "If you enable this, WPML will send all queries to the API through a relay server at http://tmdb.caercam.org/; The main purpose of this is to avoid you the need to register a personal account on TMDb and request a personal API key to use the plugin. Note that the relay server provides no warranty and is most indicated for testing the plugin or a minimal usage of it; if you are planning to use WPMovieLibrary extensively, you should consider getting your own API key at <a href=\"https://www.themoviedb.org/\">TheMovieDB</a>. <a href=\"http://tmdb.caercam.org/\">Learn more about the internal API key</a>."
+msgid ""
+"If you enable this, WPML will send all queries to the API through a relay "
+"server at http://tmdb.caercam.org/; The main purpose of this is to avoid you "
+"the need to register a personal account on TMDb and request a personal API "
+"key to use the plugin. Note that the relay server provides no warranty and "
+"is most indicated for testing the plugin or a minimal usage of it; if you "
+"are planning to use WPMovieLibrary extensively, you should consider getting "
+"your own API key at <a href=\"https://www.themoviedb.org/\">TheMovieDB</a>. "
+"<a href=\"http://tmdb.caercam.org/\">Learn more about the internal API key</"
+"a>."
 msgstr ""
 
 #: includes/wpml-config.php:52
@@ -797,7 +831,9 @@ msgid "API Language"
 msgstr ""
 
 #: includes/wpml-config.php:53
-msgid "Default language to use when fetching informations from TMDb. Default is english. You can always change this manually when add a new movie."
+msgid ""
+"Default language to use when fetching informations from TMDb. Default is "
+"english. You can always change this manually when add a new movie."
 msgstr ""
 
 #: includes/wpml-config.php:87
@@ -829,7 +865,13 @@ msgid "Movies URL Rewrite"
 msgstr ""
 
 #: includes/wpml-config.php:116
-msgid "URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>http://yourblog/movies/fight-club</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn't modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site's visibility."
+msgid ""
+"URL Rewrite Rule to apply on movies. Default is <code>movies</code>, "
+"resulting in URL like <code>http://yourblog/movies/fight-club</code>. You "
+"can use this field to translate URLs to your language. <strong>Beware</"
+"strong>: you probably shouldn't modify this more than once if your site "
+"relies on search engines; changing URLs too often will most likely affect "
+"with your site's visibility."
 msgstr ""
 
 #: includes/wpml-config.php:123
@@ -837,7 +879,13 @@ msgid "Movie Details URL Rewrite"
 msgstr ""
 
 #: includes/wpml-config.php:124
-msgid "Use localized URLs for Movie Details. Enable this to have URLs like <code>http://yourblog/films/disponible</code> for French rather than the default <code>http://yourblog/movies/available</code>. <strong>Beware</strong>: you probably shouldn't modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site's visibility."
+msgid ""
+"Use localized URLs for Movie Details. Enable this to have URLs like "
+"<code>http://yourblog/films/disponible</code> for French rather than the "
+"default <code>http://yourblog/movies/available</code>. <strong>Beware</"
+"strong>: you probably shouldn't modify this more than once if your site "
+"relies on search engines; changing URLs too often will most likely affect "
+"with your site's visibility."
 msgstr ""
 
 #: includes/wpml-config.php:131
@@ -881,7 +929,9 @@ msgid "Show details as icons"
 msgstr ""
 
 #: includes/wpml-config.php:173
-msgid "If enable, movie details will appear in the form of icons rather than default colored labels."
+msgid ""
+"If enable, movie details will appear in the form of icons rather than "
+"default colored labels."
 msgstr ""
 
 #: includes/wpml-config.php:180
@@ -897,7 +947,10 @@ msgid "Release date format"
 msgstr ""
 
 #: includes/wpml-config.php:197
-msgid "Apply a custom date format to movies' release dates. Leave empty to use the default API format. Check the <a href=\"http://codex.wordpress.org/Formatting_Date_and_Time\">documentation on date and time formatting</a>."
+msgid ""
+"Apply a custom date format to movies' release dates. Leave empty to use the "
+"default API format. Check the <a href=\"http://codex.wordpress.org/"
+"Formatting_Date_and_Time\">documentation on date and time formatting</a>."
 msgstr ""
 
 #: includes/wpml-config.php:204
@@ -905,7 +958,9 @@ msgid "Runtime format"
 msgstr ""
 
 #: includes/wpml-config.php:205
-msgid "Apply a custom time format to movies' runtimes. Leave empty to use the default API format."
+msgid ""
+"Apply a custom time format to movies' runtimes. Leave empty to use the "
+"default API format."
 msgstr ""
 
 #: includes/wpml-config.php:216 views/settings/settings.php:14
@@ -917,7 +972,11 @@ msgid "Add Posters As Thumbnails"
 msgstr ""
 
 #: includes/wpml-config.php:223
-msgid "Using posters as movies thumbnails will automatically import new movies&rsquo; poster and set them as post featured image. This setting doesn’t affect movie import by list where posters are automatically saved and set as featured image."
+msgid ""
+"Using posters as movies thumbnails will automatically import new "
+"movies&rsquo; poster and set them as post featured image. This setting "
+"doesn’t affect movie import by list where posters are automatically saved "
+"and set as featured image."
 msgstr ""
 
 #: includes/wpml-config.php:230
@@ -969,7 +1028,10 @@ msgid "Delete images with movies"
 msgstr ""
 
 #: includes/wpml-config.php:262
-msgid "Enable this if you want to delete all imported images along with movies. Handy if you have a great number of movies to delete and possibly dozens of images attached."
+msgid ""
+"Enable this if you want to delete all imported images along with movies. "
+"Handy if you have a great number of movies to delete and possibly dozens of "
+"images attached."
 msgstr ""
 
 #: includes/wpml-config.php:269
@@ -989,7 +1051,11 @@ msgid "Enable Collections"
 msgstr ""
 
 #: includes/wpml-config.php:288
-msgid "Enable Collections Custom Taxonomy. Collections work for movies as Categories work for Posts: a hierarchical taxonomy to group your movies coherently. The default behavior is to use Collections to group movies by director, but you can use them differently at your will."
+msgid ""
+"Enable Collections Custom Taxonomy. Collections work for movies as "
+"Categories work for Posts: a hierarchical taxonomy to group your movies "
+"coherently. The default behavior is to use Collections to group movies by "
+"director, but you can use them differently at your will."
 msgstr ""
 
 #: includes/wpml-config.php:295
@@ -997,7 +1063,13 @@ msgid "Collections URL Rewrite"
 msgstr ""
 
 #: includes/wpml-config.php:296
-msgid "URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>http://yourblog/collection/david-fincher</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn't modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site's visibility."
+msgid ""
+"URL Rewrite Rule to apply on collections. Default is <code>collection</"
+"code>, resulting in URL like <code>http://yourblog/collection/david-fincher</"
+"code>. You can use this field to translate URLs to your language. "
+"<strong>Beware</strong>: you probably shouldn't modify this more than once "
+"if your site relies on search engines; changing URLs too often will most "
+"likely affect with your site's visibility."
 msgstr ""
 
 #: includes/wpml-config.php:303
@@ -1005,7 +1077,10 @@ msgid "Add Collections automatically"
 msgstr ""
 
 #: includes/wpml-config.php:304
-msgid "Automatically add custom taxonomies when adding/importing movies. If enabled, each added/imported movie will be automatically added to the collection corresponding to its director(s)."
+msgid ""
+"Automatically add custom taxonomies when adding/importing movies. If "
+"enabled, each added/imported movie will be automatically added to the "
+"collection corresponding to its director(s)."
 msgstr ""
 
 #: includes/wpml-config.php:311
@@ -1013,7 +1088,9 @@ msgid "Enable Genres"
 msgstr ""
 
 #: includes/wpml-config.php:312
-msgid "Enable Genres Custom Taxonomy. Genres work for movies as Tags work for Posts: a non-hierarchical taxonomy to improve movies management."
+msgid ""
+"Enable Genres Custom Taxonomy. Genres work for movies as Tags work for "
+"Posts: a non-hierarchical taxonomy to improve movies management."
 msgstr ""
 
 #: includes/wpml-config.php:319
@@ -1021,7 +1098,13 @@ msgid "Genres URL Rewrite"
 msgstr ""
 
 #: includes/wpml-config.php:320
-msgid "URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>http://yourblog/genre/thriller</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn't modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site's visibility."
+msgid ""
+"URL Rewrite Rule to apply on genres. Default is <code>genre</code>, "
+"resulting in URL like <code>http://yourblog/genre/thriller</code>. You can "
+"use this field to translate URLs to your language. <strong>Beware</strong>: "
+"you probably shouldn't modify this more than once if your site relies on "
+"search engines; changing URLs too often will most likely affect with your "
+"site's visibility."
 msgstr ""
 
 #: includes/wpml-config.php:327
@@ -1037,7 +1120,11 @@ msgid "Enable Actors"
 msgstr ""
 
 #: includes/wpml-config.php:336
-msgid "Enable Actors Custom Taxonomy. Actors work for movies as Tags work for Posts: a non-hierarchical taxonomy to improve movies management. WPMovieLibrary stores Actors in a custom order, the most important actors appearing in the top of the list, then the supporting roles, and so on."
+msgid ""
+"Enable Actors Custom Taxonomy. Actors work for movies as Tags work for "
+"Posts: a non-hierarchical taxonomy to improve movies management. "
+"WPMovieLibrary stores Actors in a custom order, the most important actors "
+"appearing in the top of the list, then the supporting roles, and so on."
 msgstr ""
 
 #: includes/wpml-config.php:343
@@ -1045,7 +1132,13 @@ msgid "Actors URL Rewrite"
 msgstr ""
 
 #: includes/wpml-config.php:344
-msgid "URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn't modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site's visibility."
+msgid ""
+"URL Rewrite Rule to apply on actors. Default is <code>actor</code>, "
+"resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can "
+"use this field to translate URLs to your language. <strong>Beware</strong>: "
+"you probably shouldn't modify this more than once if your site relies on "
+"search engines; changing URLs too often will most likely affect with your "
+"site's visibility."
 msgstr ""
 
 #: includes/wpml-config.php:351
@@ -1061,7 +1154,12 @@ msgid "Actors limit"
 msgstr ""
 
 #: includes/wpml-config.php:360
-msgid "Limit the number of actors per movie. This is useful if you're dealing with big libraries and don't want to have massive lists of actors created. Limiting the Actors will result in keeping only the most famous/important actors as taxonomies, while the complete list of actors will remained stored as a regular metadata. Set to 0 to disable."
+msgid ""
+"Limit the number of actors per movie. This is useful if you're dealing with "
+"big libraries and don't want to have massive lists of actors created. "
+"Limiting the Actors will result in keeping only the most famous/important "
+"actors as taxonomies, while the complete list of actors will remained stored "
+"as a regular metadata. Set to 0 to disable."
 msgstr ""
 
 #: includes/wpml-config.php:371 views/settings/settings.php:16
@@ -1188,7 +1286,10 @@ msgid "Enable Caching"
 msgstr ""
 
 #: includes/wpml-config.php:514
-msgid "If enabled, WPML will cache movie related data to prevent too frequent queries to the database. <a href=\"http://wpmovielibrary.com/documentation/performance\">Learn more about caching</a>."
+msgid ""
+"If enabled, WPML will cache movie related data to prevent too frequent "
+"queries to the database. <a href=\"http://wpmovielibrary.com/documentation/"
+"performance\">Learn more about caching</a>."
 msgstr ""
 
 #: includes/wpml-config.php:521
@@ -1196,7 +1297,8 @@ msgid "User Caching"
 msgstr ""
 
 #: includes/wpml-config.php:522
-msgid "If enabled, caching will be activated for logged in users as well as guests."
+msgid ""
+"If enabled, caching will be activated for logged in users as well as guests."
 msgstr ""
 
 #: includes/wpml-config.php:529
@@ -1204,7 +1306,8 @@ msgid "Caching Time"
 msgstr ""
 
 #: includes/wpml-config.php:530
-msgid "Time of validity for cached data, in seconds. Default is 3600 (one hour)"
+msgid ""
+"Time of validity for cached data, in seconds. Default is 3600 (one hour)"
 msgstr ""
 
 #: includes/wpml-config.php:542 includes/wpml-config.php:551
@@ -1610,7 +1713,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: public/widgets/class-statistics-widget.php:139
-msgid "All combined you have a total of %total% in your library, regrouped in %collections%, %genres% and %actors%."
+msgid ""
+"All combined you have a total of %total% in your library, regrouped in "
+"%collections%, %genres% and %actors%."
 msgstr ""
 
 #: public/widgets/class-status-widget.php:29
@@ -1668,11 +1773,19 @@ msgid "Set to 0 to disable limit. Not recommended."
 msgstr ""
 
 #: views/admin-footer.php:2
-msgid "WPMovieLibrary uses the <a href=\"http://docs.themoviedb.apiary.io/\">TMDb API</a> but is not endorsed or certified by <a href=\"http://=www.themoviedb.org/\">TMDb</a>."
+msgid ""
+"WPMovieLibrary uses the <a href=\"http://docs.themoviedb.apiary.io/\">TMDb "
+"API</a> but is not endorsed or certified by <a href=\"http://=www.themoviedb."
+"org/\">TMDb</a>."
 msgstr ""
 
 #: views/admin-notice.php:4
-msgid "You haven't specified a valid <acronym title=\"TheMovieDB\">TMDb</acronym> API key in your Settings; this is required for the plugin to search a get movies metadata. WPMovieLibrary will use an internal API key, but you may consider getting your own personnal one at <a href=\"https://www.themoviedb.org/\">TMDb</a> to get better results."
+msgid ""
+"You haven't specified a valid <acronym title=\"TheMovieDB\">TMDb</acronym> "
+"API key in your Settings; this is required for the plugin to search a get "
+"movies metadata. WPMovieLibrary will use an internal API key, but you may "
+"consider getting your own personnal one at <a href=\"https://www.themoviedb."
+"org/\">TMDb</a> to get better results."
 msgstr ""
 
 #: views/admin-notice.php:6
@@ -1684,7 +1797,9 @@ msgid "Do not notify me again"
 msgstr ""
 
 #: views/admin-notice.php:13
-msgid "WPMovieLibrary couldn't find an archive page; this page is required to provide archives of your collections, genres and actors."
+msgid ""
+"WPMovieLibrary couldn't find an archive page; this page is required to "
+"provide archives of your collections, genres and actors."
 msgstr ""
 
 #: views/admin-notice.php:15
@@ -1704,7 +1819,9 @@ msgid "Welcome to WordPress Movie Library!"
 msgstr ""
 
 #: views/dashboard/dashboard.php:13
-msgid "Thank you for using WPMovieLibrary. We made this plugin for movie lovers! Here are a few links to get you started."
+msgid ""
+"Thank you for using WPMovieLibrary. We made this plugin for movie lovers! "
+"Here are a few links to get you started."
 msgstr ""
 
 #: views/dashboard/dashboard.php:17
@@ -1744,7 +1861,8 @@ msgid "Create and manage Collections"
 msgstr ""
 
 #: views/dashboard/dashboard.php:35
-msgid "Create and manage <a href=\"%s\">Genres</a> and <a href=\"%s\">Actors</a>"
+msgid ""
+"Create and manage <a href=\"%s\">Genres</a> and <a href=\"%s\">Actors</a>"
 msgstr ""
 
 #: views/dashboard-help/help.php:3
@@ -1861,7 +1979,9 @@ msgid "Here's some statistics about your movie library:"
 msgstr ""
 
 #: views/dashboard-statistics/statistics.php:9
-msgid "All combined you have a total of %s in your library, regrouped in %s, %s and %s."
+msgid ""
+"All combined you have a total of %s in your library, regrouped in %s, %s and "
+"%s."
 msgstr ""
 
 #: views/edit-movies/quick-edit.php:3
@@ -1877,7 +1997,12 @@ msgid "About"
 msgstr ""
 
 #: views/help.php:8
-msgid "WPMovieLibrary − shortened to WPML − is a WordPress Plugin designed to handle a personnal library of movies. Using Custom Post Type you can add new movies, manage collections, write reviews and share your latest-seen/favorite movies. WPML uses TMDb to gather movies' informations a store your movies as posts along with TMDb data and images."
+msgid ""
+"WPMovieLibrary − shortened to WPML − is a WordPress Plugin designed to "
+"handle a personnal library of movies. Using Custom Post Type you can add new "
+"movies, manage collections, write reviews and share your latest-seen/"
+"favorite movies. WPML uses TMDb to gather movies' informations a store your "
+"movies as posts along with TMDb data and images."
 msgstr ""
 
 #: views/help.php:10
@@ -1889,15 +2014,24 @@ msgid "The following people took a part, active or not, in WPML development:"
 msgstr ""
 
 #: views/help.php:15
-msgid "<a href=\"http://th0th.me/log/\">th0th</a>, author of <a href=\"http://wordpress.org/plugins/th0ths-movie-collection/\"><em>th0th's Movie Collection</em></a>, the plugin WPML started as a fork of before becoming a complete new, homemade tool."
+msgid ""
+"<a href=\"http://th0th.me/log/\">th0th</a>, author of <a href=\"http://"
+"wordpress.org/plugins/th0ths-movie-collection/\"><em>th0th's Movie "
+"Collection</em></a>, the plugin WPML started as a fork of before becoming a "
+"complete new, homemade tool."
 msgstr ""
 
 #: views/help.php:16
-msgid "<a href=\"http://www.glamorous.be\">Jonas De Smet</a>, author of <a href=\"https://github.com/glamorous/TMDb-PHP-API\">TMDb-PHP-API</a> which WPML is based on."
+msgid ""
+"<a href=\"http://www.glamorous.be\">Jonas De Smet</a>, author of <a href="
+"\"https://github.com/glamorous/TMDb-PHP-API\">TMDb-PHP-API</a> which WPML is "
+"based on."
 msgstr ""
 
 #: views/help.php:17
-msgid "<a href=\"https://github.com/lesurfeur\">Spiky (lesurfeur)</a>, very first user of WPML, who provided nice ideas and productive feedback."
+msgid ""
+"<a href=\"https://github.com/lesurfeur\">Spiky (lesurfeur)</a>, very first "
+"user of WPML, who provided nice ideas and productive feedback."
 msgstr ""
 
 #: views/import/import.php:2
@@ -1905,7 +2039,9 @@ msgid "Movies Import"
 msgstr ""
 
 #: views/import/import.php:4 views/metaboxes/movie-images.php:2
-msgid "It seems you have JavaScript deactivated; the import feature will not work correctly without it, please check your browser's settings."
+msgid ""
+"It seems you have JavaScript deactivated; the import feature will not work "
+"correctly without it, please check your browser's settings."
 msgstr ""
 
 #: views/import/import.php:11
@@ -1921,7 +2057,12 @@ msgid "Import New Movies"
 msgstr ""
 
 #: views/import/import.php:21
-msgid "Here are the movies you previously updated but didn’t save. You can save them, edit them individually or apply bulk actions. Posters are automatically saved and set as featured images, but images are not. Use the bulk action to import, but be aware that it can take some time if you select a lot of movies. Don’t forget to save your imports when you’re done!"
+msgid ""
+"Here are the movies you previously updated but didn’t save. You can save "
+"them, edit them individually or apply bulk actions. Posters are "
+"automatically saved and set as featured images, but images are not. Use the "
+"bulk action to import, but be aware that it can take some time if you select "
+"a lot of movies. Don’t forget to save your imports when you’re done!"
 msgstr ""
 
 #: views/import/import.php:33
@@ -1953,7 +2094,10 @@ msgid "Input a list of movies to search and import separated by commas:"
 msgstr ""
 
 #: views/import/import.php:90
-msgid "Titles don’t have to be exact, but try to be specific to get better results.<br /> Ex: interview with the vampire, Se7en, Twelve Monkeys, joe black, fight club, snatch, babel, inglourious basterds"
+msgid ""
+"Titles don’t have to be exact, but try to be specific to get better results."
+"<br /> Ex: interview with the vampire, Se7en, Twelve Monkeys, joe black, "
+"fight club, snatch, babel, inglourious basterds"
 msgstr ""
 
 #: views/import/import.php:93
@@ -2066,7 +2210,9 @@ msgid "Above Poster"
 msgstr ""
 
 #: views/requirements-error.php:2
-msgid "WPMovieLibrary error: your environment does not meet all of the system requirements listed below."
+msgid ""
+"WPMovieLibrary error: your environment does not meet all of the system "
+"requirements listed below."
 msgstr ""
 
 #: views/requirements-error.php:7 views/requirements-error.php:11
@@ -2074,7 +2220,10 @@ msgid "(You're running version %s)"
 msgstr ""
 
 #: views/requirements-error.php:15
-msgid "If you need to upgrade your version of PHP you can ask your hosting company for assistance, and if you need help upgrading WordPress you can refer to <a href=\"http://codex.wordpress.org/Upgrading_WordPress\">the Codex</a>."
+msgid ""
+"If you need to upgrade your version of PHP you can ask your hosting company "
+"for assistance, and if you need help upgrading WordPress you can refer to <a "
+"href=\"http://codex.wordpress.org/Upgrading_WordPress\">the Codex</a>."
 msgstr ""
 
 #: views/settings/fields.php:8
@@ -2090,7 +2239,9 @@ msgid "Don&rsquo;t"
 msgstr ""
 
 #: views/settings/fields.php:45
-msgid "Javascript seems to be deactivated; please active it to customize your Movie metadata order."
+msgid ""
+"Javascript seems to be deactivated; please active it to customize your Movie "
+"metadata order."
 msgstr ""
 
 #: views/settings/settings.php:12
@@ -2110,7 +2261,10 @@ msgid "You may want to restore WPMovieLibrary default settings."
 msgstr ""
 
 #: views/settings/settings.php:36
-msgid "<strong>Caution!</strong> Doing this you will erase permanently all your custom settings. Don&rsquo;t do this unless you are positively sure of what you&rsquo;re doing!"
+msgid ""
+"<strong>Caution!</strong> Doing this you will erase permanently all your "
+"custom settings. Don&rsquo;t do this unless you are positively sure of what "
+"you&rsquo;re doing!"
 msgstr ""
 
 #: views/settings/settings.php:38
@@ -2122,7 +2276,9 @@ msgid "Empty Cache"
 msgstr ""
 
 #: views/settings/settings.php:46
-msgid "Delete all temporarily stored data. This can solve issues like incomplete movie metadata repeatedly returned, outdated Widgets or Shortcodes display..."
+msgid ""
+"Delete all temporarily stored data. This can solve issues like incomplete "
+"movie metadata repeatedly returned, outdated Widgets or Shortcodes display..."
 msgstr ""
 
 #: views/settings/settings.php:48
@@ -2138,7 +2294,9 @@ msgid "Format"
 msgstr ""
 
 #: views/stats-widget/statistics-admin.php:14
-msgid "You can edit the format of the Widget's content; basic HTML tags are allowed (ul, ol, li, p, span, em, i, p, strong, b, br). Format Tags are:"
+msgid ""
+"You can edit the format of the Widget's content; basic HTML tags are allowed "
+"(ul, ol, li, p, span, em, i, p, strong, b, br). Format Tags are:"
 msgstr ""
 
 #: views/stats-widget/statistics-admin.php:16
@@ -2156,6 +2314,11 @@ msgstr ""
 #: views/stats-widget/statistics-admin.php:19
 msgid "Number of Actors."
 msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WPMovieLibrary"
+msgstr ""
+
 #. Plugin URI of the plugin/theme
 msgid "http://wpmovielibrary.com"
 msgstr ""

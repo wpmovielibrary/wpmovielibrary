@@ -199,7 +199,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 */
 		public function load_plugin_textdomain() {
 
-			$domain = WPML_SLUG;
+			$domain = 'wpmovielibrary';
 			$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
 			load_textdomain( $domain, WPML_PATH . '/' . $domain . '-' . $locale . '.mo' );
