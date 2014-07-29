@@ -49,11 +49,8 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 			);
 
 			$this->widgets = array(
-				'WPML_Recent_Movies_Widget',
-				'WPML_Most_Rated_Movies_Widget',
-				'WPML_Media_Widget',
-				'WPML_Status_Widget',
-				'WPML_Statistics_Widget'
+				'WPML_Statistics_Widget',
+				'WPML_Taxonomies_Widget'
 			);
 
 		}

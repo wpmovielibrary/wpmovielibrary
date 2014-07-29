@@ -25,10 +25,6 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		public function __construct() {
 
 			$this->register_hook_callbacks();
-
-			$this->widgets = array(
-				'WPML_Collections_Widget'
-			);
 		}
 
 		/**
@@ -39,7 +35,6 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		public function register_hook_callbacks() {
 
 			add_action( 'init', __CLASS__ . '::register_collection_taxonomy' );
-			add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 			
 		}
 
@@ -80,18 +75,6 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 				)
 			);
 
-		}
-
-		/**
-		 * Register the Class Widgets
-		 * 
-		 * @since    1.0.0 
-		 */
-		public function register_widgets() {
-
-			foreach ( $this->widgets as $widget )
-				if ( class_exists( $widget ) )
-					register_widget( $widget );
 		}
 
 		/**

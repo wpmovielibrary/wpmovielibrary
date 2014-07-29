@@ -117,14 +117,9 @@ if ( wpml_requirements_met() ) {
 
 	/* Widgets */
 
-	require_once( WPML_PATH . 'public/widgets/class-media-widget.php' );
-	require_once( WPML_PATH . 'public/widgets/class-most-rated-movies-widget.php' );
-	require_once( WPML_PATH . 'public/widgets/class-recent-movies-widget.php' );
-	require_once( WPML_PATH . 'public/widgets/class-status-widget.php' );
-	require_once( WPML_PATH . 'public/widgets/class-collections-widget.php' );
-	require_once( WPML_PATH . 'public/widgets/class-genres-widget.php' );
-	require_once( WPML_PATH . 'public/widgets/class-actors-widget.php' );
+	require_once( WPML_PATH . 'includes/class-wpml-widget.php' );
 	require_once( WPML_PATH . 'public/widgets/class-statistics-widget.php' );
+	require_once( WPML_PATH . 'public/widgets/class-taxonomies-widget.php' );
 
 	/*
 	 * Register hooks that are fired when the plugin is activated or deactivated.

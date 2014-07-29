@@ -65,6 +65,7 @@ class WPML_Recent_Movies_Widget extends WP_Widget {
 		$title       = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
 		$description = esc_attr( $description );
 		$number      = intval( $number );
+		$thumbnails  = ( 1 == $thumbnails ? true : false );
 
 		$movies = new WP_Query(
 			array(
