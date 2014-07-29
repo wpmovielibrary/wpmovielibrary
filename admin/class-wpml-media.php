@@ -281,7 +281,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : null );
 
 			if ( ! is_array( $image ) || is_null( $post_id ) )
-				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', 'wpmovielibrary-admin' ) );
+				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', 'wpmovielibrary' ) );
 
 			$response = self::image_upload( $image['file_path'], $post_id, $tmdb_id, $title, 'backdrop', $image );
 			WPML_Utils::ajax_response( $response );
@@ -315,10 +315,10 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : null );
 
 			if ( 1 != WPML_Settings::images__poster_featured() )
-				return new WP_Error( 'no_featured', __( 'Movie Posters as featured images option is deactivated. Update your settings to activate this.', 'wpmovielibrary-admin' ) );
+				return new WP_Error( 'no_featured', __( 'Movie Posters as featured images option is deactivated. Update your settings to activate this.', 'wpmovielibrary' ) );
 
 			if ( is_null( $image ) || is_null( $post_id ) )
-				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', 'wpmovielibrary-admin' ) );
+				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', 'wpmovielibrary' ) );
 
 			$response = self::set_image_as_featured( $image, $post_id, $tmdb_id, $title );
 			WPML_Utils::ajax_response( $response );
@@ -401,7 +401,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		private static function image_upload( $file, $post_id, $tmdb_id, $title, $image_type = 'backdrop', $data = null ) {
 
 			if ( empty( $file ) )
-				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload is empty.', 'wpmovielibrary-admin' ) );
+				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload is empty.', 'wpmovielibrary' ) );
 
 			$image_type = ( 'poster' == $image_type ? 'poster' : 'backdrop' );
 			$size = WPML_Settings::images__images_size();
@@ -420,7 +420,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 
 			$existing = self::check_for_existing_images( $tmdb_id, $image_type, $image );
 			if ( false !== $existing )
-				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload already exists.', 'wpmovielibrary-admin' ) );
+				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload already exists.', 'wpmovielibrary' ) );
 
 			$tmp = download_url( $file );
 
@@ -465,9 +465,9 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				return $content;
 
 			/*if ( '' == WPML_Settings::tmdb__apikey() || WPML_Settings::tmdb__interna() )
-				$content .= '<em>' . __( 'You need a valid TMDb API Key to download movie posters.', 'wpmovielibrary-admin' ) . '</em>';
+				$content .= '<em>' . __( 'You need a valid TMDb API Key to download movie posters.', 'wpmovielibrary' ) . '</em>';
 			else {
-				*/$content .= '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', 'wpmovielibrary-admin' ) . '</a>';
+				*/$content .= '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', 'wpmovielibrary' ) . '</a>';
 				$content .= WPML_Utils::_nonce_field( 'set-movie-poster', false, false );
 			//}
 

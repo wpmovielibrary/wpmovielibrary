@@ -113,11 +113,11 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			$defaults = array_merge(
 				array_slice( $defaults, 0, $title, true ),
-				array( 'poster' => __( 'Poster', 'wpmovielibrary-admin' ) ),
+				array( 'poster' => __( 'Poster', 'wpmovielibrary' ) ),
 				array_slice( $defaults, $title, $comments, true ),
-				array( 'movie_status' => __( 'Status', 'wpmovielibrary-admin' ) ),
-				array( 'movie_media' => __( 'Media', 'wpmovielibrary-admin' ) ),
-				array( 'movie_rating' => __( 'Rating', 'wpmovielibrary-admin' ) ),
+				array( 'movie_status' => __( 'Status', 'wpmovielibrary' ) ),
+				array( 'movie_media' => __( 'Media', 'wpmovielibrary' ) ),
+				array( 'movie_rating' => __( 'Rating', 'wpmovielibrary' ) ),
 				array_slice( $defaults, $comments, count( $defaults ), true )
 			);
 
@@ -146,10 +146,10 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 					$_details = WPML_Settings::get_supported_movie_details();
 					if ( isset( $_details[ $column_name ]['options'][ $meta ] ) ) {
 						$html = $_details[ $column_name ]['options'][ $meta ];
-						$html = '<span class="' . $column_name . '_title">' . __( $html, 'wpmovielibrary-admin' ) . '</span>';
+						$html = '<span class="' . $column_name . '_title">' . __( $html, 'wpmovielibrary' ) . '</span>';
 					}
 					else
-						$html = '<span class="' . $column_name . '_title"><em>' . __( 'None', 'wpmovielibrary-admin' ) . '</em></span>';
+						$html = '<span class="' . $column_name . '_title"><em>' . __( 'None', 'wpmovielibrary' ) . '</em></span>';
 					$html .= '<a href="#" class="wpml-inline-edit-toggle hide-if-no-js" onclick="wpml_edit_details.inline_editor( \'' . str_replace( 'movie_', '', $column_name ) . '\', this ); return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
 					break;
 				case 'movie_rating':
@@ -386,7 +386,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			$detail = ( isset( $_POST['type'] ) && in_array( $_POST['type'], array( 'status', 'media', 'rating' ) ) ? esc_attr( $_POST['type'] ) : null );
 			if ( is_null( $detail ) )
-				return new WP_Error( 'invalid', __( 'Invalid detail: should be status, media or rating.', 'wpmovielibrary-admin' ) );
+				return new WP_Error( 'invalid', __( 'Invalid detail: should be status, media or rating.', 'wpmovielibrary' ) );
 
 			WPML_Utils::check_ajax_referer( $detail . '-inline-edit' );
 
@@ -394,7 +394,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			$value = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? esc_attr( $_POST['data'] ) : null );
 
 			if ( is_null( $post_id ) || is_null( $detail ) || is_null( $value ) )
-				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', 'wpmovielibrary-admin' ) );
+				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', 'wpmovielibrary' ) );
 
 			$response = self::set_movie_detail( $post_id, $detail, $value );
 
@@ -415,7 +415,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			$details = ( isset( $_POST['wpml_details'] ) && '' != $_POST['wpml_details'] ? $_POST['wpml_details'] : null );
 
 			if ( is_null( $post_id ) || is_null( $details ) )
-				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', 'wpmovielibrary-admin' ) );
+				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', 'wpmovielibrary' ) );
 
 			WPML_Utils::check_ajax_referer( 'save-movie-details' );
 
@@ -434,7 +434,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
 
 			if ( is_null( $post_id ) )
-				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', 'wpmovielibrary-admin' ) );
+				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', 'wpmovielibrary' ) );
 
 			WPML_Utils::check_ajax_referer( 'empty-movie-meta' );
 
@@ -458,13 +458,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		public static function add_meta_boxes() {
 
 			// Movie Metadata
-			add_meta_box( 'wpml_meta', __( 'WPMovieLibrary − Movie Meta', 'wpmovielibrary-admin' ), __CLASS__ . '::metabox_meta', 'movie', 'normal', 'high', null );
+			add_meta_box( 'wpml_meta', __( 'WPMovieLibrary − Movie Meta', 'wpmovielibrary' ), __CLASS__ . '::metabox_meta', 'movie', 'normal', 'high', null );
 
 			// Movie Details
-			add_meta_box( 'wpml_images', __( 'WPMovieLibrary − Movie Images', 'wpmovielibrary-admin' ), __CLASS__ . '::metabox_images', 'movie', 'normal', 'high', null );
+			add_meta_box( 'wpml_images', __( 'WPMovieLibrary − Movie Images', 'wpmovielibrary' ), __CLASS__ . '::metabox_images', 'movie', 'normal', 'high', null );
 
 			// Movie Details
-			add_meta_box( 'wpml_details', __( 'WPMovieLibrary − Movie Details', 'wpmovielibrary-admin' ), __CLASS__ . '::metabox_details', 'movie', 'side', 'default', null );
+			add_meta_box( 'wpml_details', __( 'WPMovieLibrary − Movie Details', 'wpmovielibrary' ), __CLASS__ . '::metabox_details', 'movie', 'side', 'default', null );
 		}
 
 		/**
@@ -576,28 +576,28 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			$post = get_post( $post_id );
 			if ( ! $post || 'movie' != get_post_type( $post ) )
-				return new WP_Error( 'invalid_post', sprintf( __( 'Error: invalid post, post #%s is not a movie.', 'wpmovielibrary-admin' ), $post_id ) );
+				return new WP_Error( 'invalid_post', sprintf( __( 'Error: invalid post, post #%s is not a movie.', 'wpmovielibrary' ), $post_id ) );
 
 			if ( 'status' == $detail || 'media' == $detail ) {
 
 				$allowed = call_user_func( "WPML_Settings::get_available_movie_{$detail}" );
 				if ( ! in_array( $value, array_keys( $allowed ) ) )
-					return new WP_Error( 'invalid_value', sprintf( __( 'Error: invalid value, allowed values for \'%s\' are %s.', 'wpmovielibrary-admin' ), $detail, implode( ', ', array_keys( $allowed ) ) ) );
+					return new WP_Error( 'invalid_value', sprintf( __( 'Error: invalid value, allowed values for \'%s\' are %s.', 'wpmovielibrary' ), $detail, implode( ', ', array_keys( $allowed ) ) ) );
 
 				update_post_meta( $post_id, '_wpml_movie_' . $detail, $value );
 				$updated = get_post_meta( $post_id, '_wpml_movie_' . $detail, true );
 				if ( '' == $updated || $value != $updated )
-					return new WP_Error( 'update_error', __( 'Error: couldn\'t update movie detail.', 'wpmovielibrary-admin' ) );
+					return new WP_Error( 'update_error', __( 'Error: couldn\'t update movie detail.', 'wpmovielibrary' ) );
 			}
 			else if ( 'rating' == $detail ) {
 				$value = number_format( $value, 1 );
 				if ( 0 > floor( $value ) || 5 < ceil( $value ) )
-					return new WP_Error( 'invalid_value', sprintf( __( 'Error: invalid value, allowed values for \'rating\' are floats between 0.0 and 5.0.', 'wpmovielibrary-admin' ) ) );
+					return new WP_Error( 'invalid_value', sprintf( __( 'Error: invalid value, allowed values for \'rating\' are floats between 0.0 and 5.0.', 'wpmovielibrary' ) ) );
 
 				update_post_meta( $post_id, '_wpml_movie_' . $detail, $value );
 				$updated = get_post_meta( $post_id, '_wpml_movie_' . $detail, true );
 				if ( '' == $updated || 0 != abs( $value - number_format( $updated, 1 ) ) )
-					return new WP_Error( 'update_error', __( 'Error: couldn\'t update movie detail.', 'wpmovielibrary-admin' ) );
+					return new WP_Error( 'update_error', __( 'Error: couldn\'t update movie detail.', 'wpmovielibrary' ) );
 			}
 
 			WPML_Cache::clean_transient( 'clean', $force = true );
@@ -620,10 +620,10 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			$post = get_post( $post_id );
 			if ( ! $post || 'movie' != get_post_type( $post ) )
-				return new WP_Error( 'invalid_post', __( 'Error: submitted post is not a movie.', 'wpmovielibrary-admin' ) );
+				return new WP_Error( 'invalid_post', __( 'Error: submitted post is not a movie.', 'wpmovielibrary' ) );
 
 			if ( ! is_array( $details ) || ! isset( $details['movie_media'] ) || ! isset( $details['movie_status'] ) || ! isset( $details['movie_rating'] ) )
-				return new WP_Error( 'invalid_details', __( 'Error: the submitted movie details are invalid.', 'wpmovielibrary-admin' ) );
+				return new WP_Error( 'invalid_details', __( 'Error: the submitted movie details are invalid.', 'wpmovielibrary' ) );
 
 			update_post_meta( $post_id, '_wpml_movie_media', $details['movie_media'] );
 			update_post_meta( $post_id, '_wpml_movie_status', $details['movie_status'] );
@@ -673,10 +673,10 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		public static function save_movie_meta( $post_ID, $post, $queue = false, $movie_meta = null ) {
 
 			if ( ! current_user_can( 'edit_post', $post_ID ) )
-				return new WP_Error( __( 'You are not allowed to edit posts.', 'wpmovielibrary-admin' ) );
+				return new WP_Error( __( 'You are not allowed to edit posts.', 'wpmovielibrary' ) );
 
 			if ( ! $post = get_post( $post_ID ) || 'movie' != get_post_type( $post ) )
-				return new WP_Error( sprintf( __( 'Posts with #%s is invalid or is not a movie.', 'wpmovielibrary-admin' ), $post_ID ) );
+				return new WP_Error( sprintf( __( 'Posts with #%s is invalid or is not a movie.', 'wpmovielibrary' ), $post_ID ) );
 
 			if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
 				return $post_ID;

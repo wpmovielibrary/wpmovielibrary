@@ -97,7 +97,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		public function init() {
 
 			$this->widget_id = 'wpml_dashboard_latest_movies_widget';
-			$this->widget_name = __( 'Movies you recently added', 'wpmovielibrary-admin' );
+			$this->widget_name = __( 'Movies you recently added', 'wpmovielibrary' );
 			$this->callback = array( $this, 'widget' );
 			$this->control_callback = array( $this, 'widget_handle' );
 			$this->callback_args = array( 'id' => $this->widget_id );

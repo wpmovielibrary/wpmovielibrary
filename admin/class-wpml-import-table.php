@@ -49,10 +49,10 @@ class WPML_Import_Table extends WP_List_Table {
 		$this->columns = WPML_Import::get_imported_movies();
 
 		$this->column_names = array(
-			'poster'     => __( 'Poster', 'wpmovielibrary-admin' ),
-			'movietitle' => __( 'Title', 'wpmovielibrary-admin' ),
-			'director'   => __( 'Director', 'wpmovielibrary-admin' ),
-			'actions'    => __( 'Actions', 'wpmovielibrary-admin' )
+			'poster'     => __( 'Poster', 'wpmovielibrary' ),
+			'movietitle' => __( 'Title', 'wpmovielibrary' ),
+			'director'   => __( 'Director', 'wpmovielibrary' ),
+			'actions'    => __( 'Actions', 'wpmovielibrary' )
 		);
 	}
 
@@ -83,7 +83,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * @access   public
 	 */
 	function no_items() {
-		_e( 'No movies found, dude.', 'wpmovielibrary-admin' );
+		_e( 'No movies found, dude.', 'wpmovielibrary' );
 	}
 
 	/**
@@ -346,11 +346,11 @@ class WPML_Import_Table extends WP_List_Table {
 	function column_actions( $item ) {
 
 		$actions = array(
-			'edit'      => sprintf('<a class="edit_movie" id="edit_%1$s" href="%2$s" title="%3$s"><span class="dashicons dashicons-welcome-write-blog"></span></a>', $item['ID'], get_edit_post_link( $item['ID'] ), __( 'Edit', 'wpmovielibrary-admin' ) ),
-			'tmdb_data' => sprintf('<a class="search_movie" id="search_%1$s" href="%2$s" title="%3$s" onclick="wpml_import_meta.search(%4$s); return false;"><span class="dashicons dashicons-download"></span></a>', $item['ID'], wp_nonce_url( get_edit_post_link( $item['ID'] ) . "&amp;wpml_search_movie=1&amp;search_by=title&amp;search_query={$item['movietitle']}", 'search-movies' ), __( 'Fetch data from TMDb', 'wpmovielibrary-admin' ), $item['ID'] ),
-			//'import'    => sprintf('<a class="import_movie" id="import_%1$s" href="#" title="%2$s"><span class="dashicons dashicons-welcome-add-page"></span></a>', $item['ID'], __( 'Import Movie', 'wpmovielibrary-admin' ) ),
-			'enqueue hide-if-no-js'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" href="#" title="%2$s" onclick="wpml_movies_queue.add(%3$s); return false;"><span class="dashicons dashicons-plus"></span></a>', $item['ID'], __( 'Enqueue', 'wpmovielibrary-admin' ), $item['ID'] ),
-			'delete'    => sprintf('<a class="delete_movie" id="delete_%1$s" href="%2$s" title="%3$s" onclick="wpml_import_movies.delete(%4$s); return false;"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], get_delete_post_link( $item['ID'] ), __( 'Delete', 'wpmovielibrary-admin' ), $item['ID'] ),
+			'edit'      => sprintf('<a class="edit_movie" id="edit_%1$s" href="%2$s" title="%3$s"><span class="dashicons dashicons-welcome-write-blog"></span></a>', $item['ID'], get_edit_post_link( $item['ID'] ), __( 'Edit', 'wpmovielibrary' ) ),
+			'tmdb_data' => sprintf('<a class="search_movie" id="search_%1$s" href="%2$s" title="%3$s" onclick="wpml_import_meta.search(%4$s); return false;"><span class="dashicons dashicons-download"></span></a>', $item['ID'], wp_nonce_url( get_edit_post_link( $item['ID'] ) . "&amp;wpml_search_movie=1&amp;search_by=title&amp;search_query={$item['movietitle']}", 'search-movies' ), __( 'Fetch data from TMDb', 'wpmovielibrary' ), $item['ID'] ),
+			//'import'    => sprintf('<a class="import_movie" id="import_%1$s" href="#" title="%2$s"><span class="dashicons dashicons-welcome-add-page"></span></a>', $item['ID'], __( 'Import Movie', 'wpmovielibrary' ) ),
+			'enqueue hide-if-no-js'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" href="#" title="%2$s" onclick="wpml_movies_queue.add(%3$s); return false;"><span class="dashicons dashicons-plus"></span></a>', $item['ID'], __( 'Enqueue', 'wpmovielibrary' ), $item['ID'] ),
+			'delete'    => sprintf('<a class="delete_movie" id="delete_%1$s" href="%2$s" title="%3$s" onclick="wpml_import_movies.delete(%4$s); return false;"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], get_delete_post_link( $item['ID'] ), __( 'Delete', 'wpmovielibrary' ), $item['ID'] ),
 		);
 
 		return $this->row_actions( $actions, $always_visible = true );
@@ -393,9 +393,9 @@ class WPML_Import_Table extends WP_List_Table {
 	function get_bulk_actions() {
 
 		$actions = array(
-			'search'  => __( 'Find Metadata', 'wpmovielibrary-admin' ),
-			'enqueue' => __( 'Enqueue Movie', 'wpmovielibrary-admin' ),
-			'delete'  => __( 'Delete Movie', 'wpmovielibrary-admin' ),
+			'search'  => __( 'Find Metadata', 'wpmovielibrary' ),
+			'enqueue' => __( 'Enqueue Movie', 'wpmovielibrary' ),
+			'delete'  => __( 'Delete Movie', 'wpmovielibrary' ),
 		);
 
 		return $actions;

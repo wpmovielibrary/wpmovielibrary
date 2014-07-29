@@ -47,7 +47,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			$this->register_hook_callbacks();
 
 			if ( '' == WPML_Settings::tmdb__apikey() ) {
-				WPML_Utils::admin_notice( __( '', 'wpmovielibrary-admin' ), 'error' );
+				WPML_Utils::admin_notice( __( '', 'wpmovielibrary' ), 'error' );
 				return false;
 			}
 		}
@@ -88,11 +88,11 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			$config = $tmdb->getConfig();
 
 			if ( is_null( $config ) ) {
-				WPML_Utils::admin_notice( __( 'Unknown error, connection to TheMovieDB API failed.', 'wpmovielibrary-admin' ), 'error' );
+				WPML_Utils::admin_notice( __( 'Unknown error, connection to TheMovieDB API failed.', 'wpmovielibrary' ), 'error' );
 				return false;
 			}
 			else if ( isset( $config['status_code'] ) && in_array( $config['status_code'], array( 7, 403 ) ) ) {
-				WPML_Utils::admin_notice( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpmovielibrary-admin' ), $config['status_message'], $config['status_code'] ), 'error' );
+				WPML_Utils::admin_notice( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpmovielibrary' ), $config['status_message'], $config['status_code'] ), 'error' );
 				return false;
 			}
 
@@ -156,14 +156,14 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			WPML_Utils::check_ajax_referer( 'check-api-key' );
 
 			if ( ! isset( $_GET['key'] ) || '' == $_GET['key'] || 32 !== strlen( $_GET['key'] ) )
-				return new WP_Error( 'invalid', __( 'Invalid API key - the key should be an alphanumerica 32 chars long string.', 'wpmovielibrary-admin' ) );
+				return new WP_Error( 'invalid', __( 'Invalid API key - the key should be an alphanumerica 32 chars long string.', 'wpmovielibrary' ) );
 
 			$check = self::check_api_key( esc_attr( $_GET['key'] ) );
 
 			if ( is_wp_error( $check ) )
-				$response = new WP_Error( 'invalid', __( 'Invalid API key - You must be granted a valid key', 'wpmovielibrary-admin' ) );
+				$response = new WP_Error( 'invalid', __( 'Invalid API key - You must be granted a valid key', 'wpmovielibrary' ) );
 			else
-				$response = array( 'message' => __( 'Valid API key - Save your settings and have fun!', 'wpmovielibrary-admin' ) );
+				$response = array( 'message' => __( 'Valid API key - Save your settings and have fun!', 'wpmovielibrary' ) );
 
 			WPML_Utils::ajax_response( $response );
 		}
@@ -250,7 +250,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				return $data;
 
 			$_result  = 'empty';
-			$_message = __( 'Sorry, your search returned no result. Try a more specific query?', 'wpmovielibrary-admin' );
+			$_message = __( 'Sorry, your search returned no result. Try a more specific query?', 'wpmovielibrary' );
 			$_movies  = array();
 			$_post_id = $_id;
 
@@ -260,7 +260,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			else if ( ! isset( $data['total_results'] ) ) {
 
 				$_result  = 'empty';
-				$_message = __( 'Sorry, your search returned no result. Try a more specific query?', 'wpmovielibrary-admin' );
+				$_message = __( 'Sorry, your search returned no result. Try a more specific query?', 'wpmovielibrary' );
 				$_post_id = $_id;
 			}
 			else if ( 1 == $data['total_results'] ) {
@@ -276,7 +276,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			else if ( $data['total_results'] > 1 ) {
 
 				$_result  = 'movies';
-				$_message = __( 'Your request showed multiple results. Select your movie in the list or try another search:', 'wpmovielibrary-admin' );
+				$_message = __( 'Your request showed multiple results. Select your movie in the list or try another search:', 'wpmovielibrary' );
 				$_movies  = array();
 				$_post_id = $_id;
 

@@ -9,14 +9,14 @@
 		<form action="options.php" method="post">
 
 			<ul class="wpml-tabs-nav">
-			    <li class="wpml-tabs-nav<?php if ( 'api' == $_section || '' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=tmdb#wpml_section_tmdb' ) ?>" data-section="wpml_section=api"><h4><?php _e( 'TMDb API', 'wpmovielibrary-admin' ); ?></h4></a></li>
-			    <li class="wpml-tabs-nav<?php if ( 'movies' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=wpml#wpml_section_wpml' ) ?>" data-section="wpml_section=movies"><h4><?php _e( 'Movies', 'wpmovielibrary-admin' ); ?></h4></a></li>
-			    <li class="wpml-tabs-nav<?php if ( 'images' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=images#wpml_section_images' ) ?>" data-section="wpml_section=images"><h4><?php _e( 'Images', 'wpmovielibrary-admin' ); ?></h4></a></li>
-			    <li class="wpml-tabs-nav<?php if ( 'taxonomies' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=taxonomies#wpml_section_taxonomies' ) ?>" data-section="wpml_section=taxonomies"><h4><?php _e( 'Taxonomies', 'wpmovielibrary-admin' ); ?></h4></a></li>
-			    <li class="wpml-tabs-nav<?php if ( 'deactivate' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=deactivate#wpml_section_deactivate' ) ?>" data-section="wpml_section=deactivate"><h4><?php _e( 'Deactivate', 'wpmovielibrary-admin' ); ?></h4></a></li>
-			    <li class="wpml-tabs-nav<?php if ( 'uninstall' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=uninstall#wpml_section_uninstall' ) ?>" data-section="wpml_section=uninstall"><h4><?php _e( 'Uninstall', 'wpmovielibrary-admin' ); ?></h4></a></li>
-			    <li class="wpml-tabs-nav<?php if ( 'cache' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=cache#wpml_section_cache' ) ?>" data-section="wpml_section=cache"><h4><?php _e( 'Cache', 'wpmovielibrary-admin' ); ?></h4></a></li>
-			    <li class="wpml-tabs-nav<?php if ( 'maintenance' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=maintenance#wpml_section_maintenance' ) ?>" data-section="wpml_section=maintenance"><h4><?php _e( 'Maintenance', 'wpmovielibrary-admin' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'api' == $_section || '' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=tmdb#wpml_section_tmdb' ) ?>" data-section="wpml_section=api"><h4><?php _e( 'TMDb API', 'wpmovielibrary' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'movies' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=wpml#wpml_section_wpml' ) ?>" data-section="wpml_section=movies"><h4><?php _e( 'Movies', 'wpmovielibrary' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'images' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=images#wpml_section_images' ) ?>" data-section="wpml_section=images"><h4><?php _e( 'Images', 'wpmovielibrary' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'taxonomies' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=taxonomies#wpml_section_taxonomies' ) ?>" data-section="wpml_section=taxonomies"><h4><?php _e( 'Taxonomies', 'wpmovielibrary' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'deactivate' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=deactivate#wpml_section_deactivate' ) ?>" data-section="wpml_section=deactivate"><h4><?php _e( 'Deactivate', 'wpmovielibrary' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'uninstall' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=uninstall#wpml_section_uninstall' ) ?>" data-section="wpml_section=uninstall"><h4><?php _e( 'Uninstall', 'wpmovielibrary' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'cache' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=cache#wpml_section_cache' ) ?>" data-section="wpml_section=cache"><h4><?php _e( 'Cache', 'wpmovielibrary' ); ?></h4></a></li>
+			    <li class="wpml-tabs-nav<?php if ( 'maintenance' == $_section ) echo ' active'; ?>"><a href="<?php echo admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=maintenance#wpml_section_maintenance' ) ?>" data-section="wpml_section=maintenance"><h4><?php _e( 'Maintenance', 'wpmovielibrary' ); ?></h4></a></li>
 			</ul>
 
 <?php settings_fields( 'wpml_edit_settings' ); ?>
@@ -25,27 +25,27 @@
 
 <?php do_settings_sections( 'wpml_settings' ); ?>
 
-				<h3><?php _e( 'Maintenance', 'wpmovielibrary-admin' ); ?></h3>
+				<h3><?php _e( 'Maintenance', 'wpmovielibrary' ); ?></h3>
 				<span id="wpml_section_maintenance"></span>
 				<table class="form-table" style="display: none;">
 					<tbody>
 						<tr>
-							<th scope="row"><?php _e( 'Restore Default Settings', 'wpmovielibrary-admin' ); ?></th>
+							<th scope="row"><?php _e( 'Restore Default Settings', 'wpmovielibrary' ); ?></th>
 							<td>
-								<p class="description"><?php _e( 'You may want to restore WPMovieLibrary default settings.', 'wpmovielibrary-admin' ); ?></p>
-								<p class="description"><?php _e( '<strong>Caution!</strong> Doing this you will erase permanently all your custom settings. Don&rsquo;t do this unless you are positively sure of what you&rsquo;re doing!', 'wpmovielibrary-admin' ); ?></p>
+								<p class="description"><?php _e( 'You may want to restore WPMovieLibrary default settings.', 'wpmovielibrary' ); ?></p>
+								<p class="description"><?php _e( '<strong>Caution!</strong> Doing this you will erase permanently all your custom settings. Don&rsquo;t do this unless you are positively sure of what you&rsquo;re doing!', 'wpmovielibrary' ); ?></p>
 								<p style="text-align:center">
-									<a href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=maintenance&wpml_restore_default=true' ), 'wpml-restore-default-settings', '_nonce') ?>" class="button button-secondary"><?php _e( 'Restore', 'wpmovielibrary-admin' ) ?></a>
+									<a href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=maintenance&wpml_restore_default=true' ), 'wpml-restore-default-settings', '_nonce') ?>" class="button button-secondary"><?php _e( 'Restore', 'wpmovielibrary' ) ?></a>
 								</p>
 								
 							</td>
 						</tr>
 						<tr>
-							<th scope="row"><?php _e( 'Empty Cache', 'wpmovielibrary-admin' ); ?></th>
+							<th scope="row"><?php _e( 'Empty Cache', 'wpmovielibrary' ); ?></th>
 							<td>
-								<p class="description"><?php _e( 'Delete all temporarily stored data. This can solve issues like incomplete movie metadata repeatedly returned, outdated Widgets or Shortcodes display...', 'wpmovielibrary-admin' ); ?></p>
+								<p class="description"><?php _e( 'Delete all temporarily stored data. This can solve issues like incomplete movie metadata repeatedly returned, outdated Widgets or Shortcodes display...', 'wpmovielibrary' ); ?></p>
 								<p style="text-align:center">
-									<a href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=maintenance&wpml_empty_cache=true' ), 'wpml-empty-cache', '_nonce') ?>" class="button button-secondary"><?php _e( 'Empty cache', 'wpmovielibrary-admin' ) ?></a>
+									<a href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=wpml_edit_settings&wpml_section=maintenance&wpml_empty_cache=true' ), 'wpml-empty-cache', '_nonce') ?>" class="button button-secondary"><?php _e( 'Empty cache', 'wpmovielibrary' ) ?></a>
 								</p>
 							</td>
 						</tr>

@@ -192,7 +192,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public function dashboard_glance_items( $items = array() ) {
 
 			$movies = wp_count_posts( 'movie' );
-			$items[] = sprintf( '<a class="movie-count" href="%s">%s</a>', admin_url( '/edit.php?post_type=movie' ), sprintf( _n( '%d movie', '%d movies', $movies->publish, 'wpmovielibrary-admin' ), $movies->publish ) );
+			$items[] = sprintf( '<a class="movie-count" href="%s">%s</a>', admin_url( '/edit.php?post_type=movie' ), sprintf( _n( '%d movie', '%d movies', $movies->publish, 'wpmovielibrary' ), $movies->publish ) );
 
 			return $items;
 		}
@@ -236,7 +236,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			// Main admin script, containing basic functions
 			wp_enqueue_script( WPML_SLUG, WPML_URL . '/assets/js/wpml.js', array( 'jquery' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-utils', WPML_URL . '/assets/js/wpml.utils.js', array( 'jquery', 'wpmovielibrary-admin' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-utils', WPML_URL . '/assets/js/wpml.utils.js', array( 'jquery', 'wpmovielibrary' ), WPML_VERSION, true );
 			wp_localize_script(
 				WPML_SLUG, 'wpml_ajax',
 				$this->localize_script()
@@ -280,39 +280,39 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					)
 				),
 				'lang' => array(
-					'deleted_movie'		=> __( 'One movie successfully deleted.', 'wpmovielibrary-admin' ),
-					'deleted_movies'	=> __( '%s movies successfully deleted.', 'wpmovielibrary-admin' ),
-					'dequeued_movie'	=> __( 'One movie removed from the queue.', 'wpmovielibrary-admin' ),
-					'dequeued_movies'	=> __( '%s movies removed from the queue.', 'wpmovielibrary-admin' ),
-					'done'			=> __( 'Done!', 'wpmovielibrary-admin' ),
-					'empty_key'		=> __( 'I can\'t test an empty key, you know.', 'wpmovielibrary-admin' ),
-					'enqueued_movie'	=> __( 'One movie added to the queue.', 'wpmovielibrary-admin' ),
-					'enqueued_movies'	=> __( '%s movies added to the queue.', 'wpmovielibrary-admin' ),
-					'images_added'		=> __( 'Images added!', 'wpmovielibrary-admin' ),
-					'image_from'		=> __( 'Image from', 'wpmovielibrary-admin' ),
-					'images_uploaded'	=> __( 'Images uploaded!', 'wpmovielibrary-admin' ),
-					'import_images'		=> __( 'Import Images', 'wpmovielibrary-admin' ),
-					'import_images_title'	=> __( 'Import Images for "%s"', 'wpmovielibrary-admin' ),
-					'import_images_wait'	=> __( 'Please wait while the images are uploaded...', 'wpmovielibrary-admin' ),
-					'import_poster'		=> __( 'Import Poster', 'wpmovielibrary-admin' ),
-					'import_poster_title'	=> __( 'Select a poster for "%s"', 'wpmovielibrary-admin' ),
-					'import_poster_wait'	=> __( 'Please wait while the poster is uploaded...', 'wpmovielibrary-admin' ),
-					'imported'		=> __( 'Imported', 'wpmovielibrary-admin' ),
-					'imported_movie'	=> __( 'One movie successfully imported!', 'wpmovielibrary-admin' ),
-					'imported_movies'	=> __( '%s movies successfully imported!', 'wpmovielibrary-admin' ),
-					'in_progress'		=> __( 'Progressing', 'wpmovielibrary-admin' ),
-					'length_key'		=> __( 'Invalid key: it should be 32 characters long.', 'wpmovielibrary-admin' ),
-					'load_images'		=> __( 'Load Images', 'wpmovielibrary-admin' ),
-					'load_more'		=> __( 'Load More', 'wpmovielibrary-admin' ),
-					'loading_images'	=> __( 'Loading Images…', 'wpmovielibrary-admin' ),
-					'oops'			=> __( 'Oops… Did something went wrong?', 'wpmovielibrary-admin' ),
-					'poster'		=> __( 'Poster', 'wpmovielibrary-admin' ),
-					'save_image'		=> __( 'Saving Images…', 'wpmovielibrary-admin' ),
-					'search_movie_title'	=> __( 'Searching movie', 'wpmovielibrary-admin' ),
-					'search_movie'		=> __( 'Fetching movie data', 'wpmovielibrary-admin' ),
-					'see_less'		=> __( 'see no more', 'wpmovielibrary-admin' ),
-					'see_more'		=> __( 'see more', 'wpmovielibrary-admin' ),
-					'set_featured'		=> __( 'Setting featured image…', 'wpmovielibrary-admin' ),
+					'deleted_movie'		=> __( 'One movie successfully deleted.', 'wpmovielibrary' ),
+					'deleted_movies'	=> __( '%s movies successfully deleted.', 'wpmovielibrary' ),
+					'dequeued_movie'	=> __( 'One movie removed from the queue.', 'wpmovielibrary' ),
+					'dequeued_movies'	=> __( '%s movies removed from the queue.', 'wpmovielibrary' ),
+					'done'			=> __( 'Done!', 'wpmovielibrary' ),
+					'empty_key'		=> __( 'I can\'t test an empty key, you know.', 'wpmovielibrary' ),
+					'enqueued_movie'	=> __( 'One movie added to the queue.', 'wpmovielibrary' ),
+					'enqueued_movies'	=> __( '%s movies added to the queue.', 'wpmovielibrary' ),
+					'images_added'		=> __( 'Images added!', 'wpmovielibrary' ),
+					'image_from'		=> __( 'Image from', 'wpmovielibrary' ),
+					'images_uploaded'	=> __( 'Images uploaded!', 'wpmovielibrary' ),
+					'import_images'		=> __( 'Import Images', 'wpmovielibrary' ),
+					'import_images_title'	=> __( 'Import Images for "%s"', 'wpmovielibrary' ),
+					'import_images_wait'	=> __( 'Please wait while the images are uploaded...', 'wpmovielibrary' ),
+					'import_poster'		=> __( 'Import Poster', 'wpmovielibrary' ),
+					'import_poster_title'	=> __( 'Select a poster for "%s"', 'wpmovielibrary' ),
+					'import_poster_wait'	=> __( 'Please wait while the poster is uploaded...', 'wpmovielibrary' ),
+					'imported'		=> __( 'Imported', 'wpmovielibrary' ),
+					'imported_movie'	=> __( 'One movie successfully imported!', 'wpmovielibrary' ),
+					'imported_movies'	=> __( '%s movies successfully imported!', 'wpmovielibrary' ),
+					'in_progress'		=> __( 'Progressing', 'wpmovielibrary' ),
+					'length_key'		=> __( 'Invalid key: it should be 32 characters long.', 'wpmovielibrary' ),
+					'load_images'		=> __( 'Load Images', 'wpmovielibrary' ),
+					'load_more'		=> __( 'Load More', 'wpmovielibrary' ),
+					'loading_images'	=> __( 'Loading Images…', 'wpmovielibrary' ),
+					'oops'			=> __( 'Oops… Did something went wrong?', 'wpmovielibrary' ),
+					'poster'		=> __( 'Poster', 'wpmovielibrary' ),
+					'save_image'		=> __( 'Saving Images…', 'wpmovielibrary' ),
+					'search_movie_title'	=> __( 'Searching movie', 'wpmovielibrary' ),
+					'search_movie'		=> __( 'Fetching movie data', 'wpmovielibrary' ),
+					'see_less'		=> __( 'see no more', 'wpmovielibrary' ),
+					'see_more'		=> __( 'see more', 'wpmovielibrary' ),
+					'set_featured'		=> __( 'Setting featured image…', 'wpmovielibrary' ),
 				)
 			);
 
@@ -375,7 +375,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			add_menu_page(
 				$page_title = WPML_NAME,
-				$menu_title = __( 'Movies', 'wpmovielibrary-admin' ),
+				$menu_title = __( 'Movies', 'wpmovielibrary' ),
 				$capability = 'manage_options',
 				$menu_slug = 'wpmovielibrary',
 				$function = null,
@@ -385,8 +385,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			$this->plugin_screen_hook_suffix['dashboard'] = add_submenu_page(
 				'wpmovielibrary',
-				__( 'Your library', 'wpmovielibrary-admin' ),
-				__( 'Your library', 'wpmovielibrary-admin' ),
+				__( 'Your library', 'wpmovielibrary' ),
+				__( 'Your library', 'wpmovielibrary' ),
 				'manage_options',
 				'wpmovielibrary',
 				'WPML_Dashboard::dashboard'
@@ -394,8 +394,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			$this->plugin_screen_hook_suffix['all_movies'] = add_submenu_page(
 				'wpmovielibrary',
-				__( 'All Movies', 'wpmovielibrary-admin' ),
-				__( 'All Movies', 'wpmovielibrary-admin' ),
+				__( 'All Movies', 'wpmovielibrary' ),
+				__( 'All Movies', 'wpmovielibrary' ),
 				'manage_options',
 				'edit.php?post_type=movie',
 				null
@@ -403,8 +403,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			$this->plugin_screen_hook_suffix['new_movie'] = add_submenu_page(
 				'wpmovielibrary',
-				__( 'Add New', 'wpmovielibrary-admin' ),
-				__( 'Add New', 'wpmovielibrary-admin' ),
+				__( 'Add New', 'wpmovielibrary' ),
+				__( 'Add New', 'wpmovielibrary' ),
 				'manage_options',
 				'post-new.php?post_type=movie',
 				null
@@ -413,8 +413,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( WPML_Settings::taxonomies__enable_collection() ) :
 			$this->plugin_screen_hook_suffix['collections'] = add_submenu_page(
 				'wpmovielibrary',
-				__( 'Collections', 'wpmovielibrary-admin' ),
-				__( 'Collections', 'wpmovielibrary-admin' ),
+				__( 'Collections', 'wpmovielibrary' ),
+				__( 'Collections', 'wpmovielibrary' ),
 				'manage_options',
 				'edit-tags.php?taxonomy=collection&post_type=movie',
 				null
@@ -424,8 +424,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( WPML_Settings::taxonomies__enable_genre() ) :
 			$this->plugin_screen_hook_suffix['genres'] = add_submenu_page(
 				'wpmovielibrary',
-				__( 'Genres', 'wpmovielibrary-admin' ),
-				__( 'Genres', 'wpmovielibrary-admin' ),
+				__( 'Genres', 'wpmovielibrary' ),
+				__( 'Genres', 'wpmovielibrary' ),
 				'manage_options',
 				'edit-tags.php?taxonomy=genre&post_type=movie',
 				null
@@ -435,8 +435,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( WPML_Settings::taxonomies__enable_actor() ) :
 			$this->plugin_screen_hook_suffix['actors'] = add_submenu_page(
 				'wpmovielibrary',
-				__( 'Actors', 'wpmovielibrary-admin' ),
-				__( 'Actors', 'wpmovielibrary-admin' ),
+				__( 'Actors', 'wpmovielibrary' ),
+				__( 'Actors', 'wpmovielibrary' ),
 				'manage_options',
 				'edit-tags.php?taxonomy=actor&post_type=movie',
 				null
@@ -445,16 +445,16 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			$this->plugin_screen_hook_suffix['import'] = add_submenu_page(
 				'wpmovielibrary',
-				__( 'Import Movies', 'wpmovielibrary-admin' ),
-				__( 'Import Movies', 'wpmovielibrary-admin' ),
+				__( 'Import Movies', 'wpmovielibrary' ),
+				__( 'Import Movies', 'wpmovielibrary' ),
 				'manage_options',
 				'wpml_import',
 				'WPML_Import::import_page'
 			);
 			$this->plugin_screen_hook_suffix['settings'] = add_submenu_page(
 				'wpmovielibrary',
-				__( 'Settings', 'wpmovielibrary-admin' ),
-				__( 'Settings', 'wpmovielibrary-admin' ),
+				__( 'Settings', 'wpmovielibrary' ),
+				__( 'Settings', 'wpmovielibrary' ),
 				'manage_options',
 				'wpml_edit_settings',
 				__CLASS__ . '::admin_page'
@@ -505,21 +505,21 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public static function admin_page() {
 
 			if ( ! current_user_can( 'manage_options' ) )
-				wp_die( __( 'Access denied.', 'wpmovielibrary-admin' ) );
+				wp_die( __( 'Access denied.', 'wpmovielibrary' ) );
 
 			// Restore default settings?
 			if ( isset( $_GET['wpml_restore_default'] ) && 'true' == $_GET['wpml_restore_default'] ) {
 
 				// Check Nonce URL
 				if ( ! isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpml-restore-default-settings' ) ) {
-					add_settings_error( null, 'restore_default', __( 'You don\'t have the permission do perform this action.', 'wpmovielibrary-admin' ), 'error' );
+					add_settings_error( null, 'restore_default', __( 'You don\'t have the permission do perform this action.', 'wpmovielibrary' ), 'error' );
 				}
 				else {
 					$action = WPML_Settings::update_settings( $force = true );
 					if ( ! $action )
-						add_settings_error( null, 'restore_default', __( 'Unknown error: failed to restore default settings.', 'wpmovielibrary-admin' ), 'error' );
+						add_settings_error( null, 'restore_default', __( 'Unknown error: failed to restore default settings.', 'wpmovielibrary' ), 'error' );
 					else
-						add_settings_error( null, 'restore_default', __( 'Default settings restored!', 'wpmovielibrary-admin' ), 'updated' );
+						add_settings_error( null, 'restore_default', __( 'Default settings restored!', 'wpmovielibrary' ), 'updated' );
 				}
 			}
 
@@ -528,7 +528,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 				// Check Nonce URL
 				if ( ! isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpml-empty-cache' ) ) {
-					add_settings_error( null, 'empty_cache', __( 'You don\'t have the permission do perform this action.', 'wpmovielibrary-admin' ), 'error' );
+					add_settings_error( null, 'empty_cache', __( 'You don\'t have the permission do perform this action.', 'wpmovielibrary' ), 'error' );
 				}
 				else {
 					$action = WPML_Cache::empty_cache();
@@ -571,7 +571,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 						$callback = isset( $field['callback'] ) ? $field['callback'] : 'markup_fields';
 
-						add_settings_field( $id, __( $field['title'], 'wpmovielibrary-admin' ), array( $this, $callback ), 'wpml_settings', "wpml_settings-$section_id", array( 'id' => $id, 'section' => $section_id ) + $field );
+						add_settings_field( $id, __( $field['title'], 'wpmovielibrary' ), array( $this, $callback ), 'wpml_settings', "wpml_settings-$section_id", array( 'id' => $id, 'section' => $section_id ) + $field );
 					}
 				}
 			}
@@ -645,15 +645,15 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			foreach ( $selected as $meta ) :
 				if ( isset( $items[ $meta ] ) )
-					$draggable .= '<li data-movie-meta="' . $meta . '" class="default_movie_meta_selected">' . __( $items[ $meta ]['title'], 'wpmovielibrary-admin' ) . '</li>';
+					$draggable .= '<li data-movie-meta="' . $meta . '" class="default_movie_meta_selected">' . __( $items[ $meta ]['title'], 'wpmovielibrary' ) . '</li>';
 			endforeach;
 			foreach ( $selectable as $meta ) :
-				$droppable .= '<li data-movie-meta="' . $meta . '" class="default_movie_meta_droppable">' . __( $items[ $meta ]['title'], 'wpmovielibrary-admin' ) . '</li>';
+				$droppable .= '<li data-movie-meta="' . $meta . '" class="default_movie_meta_droppable">' . __( $items[ $meta ]['title'], 'wpmovielibrary' ) . '</li>';
 			endforeach;
 
 			foreach ( $items as $slug => $meta ) :
 				$check = in_array( $slug, $_value );
-				$options .= '<option value="' . $slug . '"' . selected( $check, true, false ) . '>' . __( $meta['title'], 'wpmovielibrary-admin' ) . '</option>';
+				$options .= '<option value="' . $slug . '"' . selected( $check, true, false ) . '>' . __( $meta['title'], 'wpmovielibrary' ) . '</option>';
 			endforeach;
 
 			$attributes = array(
@@ -733,7 +733,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			// Update Rewrite Rules if needed
 			if ( $updated_movie_rewrite || $updated_details_rewrite || $updated_collection_rewrite || $updated_genre_rewrite || $updated_actor_rewrite )
-				add_settings_error( null, 'url_rewrite', sprintf( __( 'You update the taxonomies URL rewrite. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', 'wpmovielibrary-admin' ), admin_url( '/options-permalink.php' ) ), 'updated' );
+				add_settings_error( null, 'url_rewrite', sprintf( __( 'You update the taxonomies URL rewrite. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', 'wpmovielibrary' ), admin_url( '/options-permalink.php' ) ), 'updated' );
 
 			return $settings;
 		}

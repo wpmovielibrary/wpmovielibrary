@@ -173,7 +173,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 			else if ( ! $transient )
 				return __( 'No transient found.', 'wpmovielibrary' );
 			else if ( $transient )
-				return sprintf( _n( '1 transient deleted', '%s transients deleted.', $transient, 'wpmovielibrary-admin' ), $transient );
+				return sprintf( _n( '1 transient deleted', '%s transients deleted.', $transient, 'wpmovielibrary' ), $transient );
 		}
 
 		/**

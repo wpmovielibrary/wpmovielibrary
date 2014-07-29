@@ -155,7 +155,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			$errors = new WP_Error();
 
 			if ( is_null( $movies ) || ! is_array( $movies ) ) {
-				$errors->add( 'invalid', __( 'Invalid movie list submitted.', 'wpmovielibrary-admin' ) );
+				$errors->add( 'invalid', __( 'Invalid movie list submitted.', 'wpmovielibrary' ) );
 				return $errors;
 			}
 
@@ -202,7 +202,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 
 			$update = wp_update_post( $_post, $wp_error = true );
 			if ( is_wp_error( $update ) )
-				return new WP_Error( 'error', sprintf( __( 'An error occured when adding "%s" to the queue: %s', 'wpmovielibrary-admin' ), $post_title, $update->get_error_message() ) );
+				return new WP_Error( 'error', sprintf( __( 'An error occured when adding "%s" to the queue: %s', 'wpmovielibrary' ), $post_title, $update->get_error_message() ) );
 
 			// TODO: Use WP_Error
 			WPML_Edit_Movies::save_movie_meta( $update, $post = null, $queue = true, $metadata );
@@ -230,7 +230,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			$errors = new WP_Error();
 
 			if ( is_null( $movies ) || ! is_array( $movies ) ) {
-				$errors->add( 'invalid', __( 'Invalid movie list submitted.', 'wpmovielibrary-admin' ) );
+				$errors->add( 'invalid', __( 'Invalid movie list submitted.', 'wpmovielibrary' ) );
 				return $errors;
 			}
 
@@ -266,11 +266,11 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 
 			$update = wp_update_post( $_post, $wp_error = true );
 			if ( is_wp_error( $update ) )
-				return new WP_Error( 'error', sprintf( __( 'An error occured when trying to remove "%s" from the queue: %s', 'wpmovielibrary-admin' ), get_the_title( $post_id ), $update->get_error_message() ) );
+				return new WP_Error( 'error', sprintf( __( 'An error occured when trying to remove "%s" from the queue: %s', 'wpmovielibrary' ), get_the_title( $post_id ), $update->get_error_message() ) );
 
 			$update = delete_post_meta( $post_id, '_wpml_movie_data' );
 			if ( false === $update )
-				return new WP_Error( 'error', sprintf( __( 'An error occured when trying to delete "%s" metadata.', 'wpmovielibrary-admin' ), get_the_title( $post_id ) ) );
+				return new WP_Error( 'error', sprintf( __( 'An error occured when trying to delete "%s" metadata.', 'wpmovielibrary' ), get_the_title( $post_id ) ) );
 
 			return $post_id;
 		}
@@ -290,11 +290,11 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		private static function import_queued_movie( $post_id ) {
 
 			if ( is_null( $post_id ) || ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) )
-				return new WP_Error( 'invalid_movie', sprintf( __( 'Error: submitted Post ID doesn\t match any valid movie.', 'wpmovielibrary-admin' ) ) );
+				return new WP_Error( 'invalid_movie', sprintf( __( 'Error: submitted Post ID doesn\t match any valid movie.', 'wpmovielibrary' ) ) );
 
 			$meta = get_post_meta( $post_id, '_wpml_movie_data', true );
 			if ( '' == $meta || ! is_array( $meta ) || ! isset( $meta['poster'] ) || ! isset( $meta['tmdb_id'] ) )
-				return new WP_Error( 'invalid_meta', sprintf( __( 'Error: cannot find submitted movie\'s metadata, try enqueuing it again.', 'wpmovielibrary-admin' ) ) );
+				return new WP_Error( 'invalid_meta', sprintf( __( 'Error: cannot find submitted movie\'s metadata, try enqueuing it again.', 'wpmovielibrary' ) ) );
 
 			$_post = array(
 				'ID'          => $post_id,
@@ -308,7 +308,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 
 			$update = wp_update_post( $_post, $wp_error = true );
 			if ( is_wp_error( $update ) )
-				return new WP_Error( 'error', sprintf( __( 'An error occured when trying to imported queued movie "%s": %s', 'wpmovielibrary-admin' ), get_the_title( $post_id ), $update->get_error_message() ) );
+				return new WP_Error( 'error', sprintf( __( 'An error occured when trying to imported queued movie "%s": %s', 'wpmovielibrary' ), get_the_title( $post_id ), $update->get_error_message() ) );
 
 			return $update;
 		}

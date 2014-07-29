@@ -79,7 +79,7 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 		public function init() {
 
 			$this->widget_id = 'wpml_dashboard_quickaction_widget';
-			$this->widget_name = __( 'Quick action', 'wpmovielibrary-admin' );
+			$this->widget_name = __( 'Quick action', 'wpmovielibrary' );
 			$this->callback = array( $this, 'dashboard_widget' );
 			$this->control_callback = null;
 		}
@@ -110,17 +110,17 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 			$list = array(
 				'new_movie' => array(
 					'url'   => admin_url( 'post-new.php?post_type=movie' ),
-					'title' => __( 'New movie', 'wpmovielibrary-admin' ),
+					'title' => __( 'New movie', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-welcome-write-blog'
 				),
 				'import'    => array(
 					'url'   => admin_url( 'admin.php?page=wpml_import' ),
-					'title' => __( 'Import movies', 'wpmovielibrary-admin' ),
+					'title' => __( 'Import movies', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-list-view'
 				),
 				'settings'  => array(
 					'url'   => admin_url( 'edit.php?post_type=movie' ),
-					'title' => __( 'Manage movies', 'wpmovielibrary-admin' ),
+					'title' => __( 'Manage movies', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-format-video'
 				)
 			);

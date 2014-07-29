@@ -161,7 +161,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			$response = array();
 
 			if ( is_null( $movies ) || ! is_array( $movies ) ) {
-				$errors->add( 'invalid', __( 'Invalid movie list submitted.', 'wpmovielibrary-admin' ) );
+				$errors->add( 'invalid', __( 'Invalid movie list submitted.', 'wpmovielibrary' ) );
 				return $errors;
 			}
 
@@ -189,12 +189,12 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		public static function delete_movie( $post_id ) {
 
 			if ( false === wp_delete_post( $post_id, $force_delete = true ) )
-				return new WP_Error( 'error', sprintf( __( 'An error occured trying to delete Post #%s', 'wpmovielibrary-admin' ), $post_id ) );
+				return new WP_Error( 'error', sprintf( __( 'An error occured trying to delete Post #%s', 'wpmovielibrary' ), $post_id ) );
 
 			$thumb_id = get_post_thumbnail_id( $post_id );
 			if ( '' != $thumb_id )
 				if ( false === wp_delete_attachment( $thumb_id ) )
-					return new WP_Error( 'error', sprintf( __( 'An error occured trying to delete Attachment #%s', 'wpmovielibrary-admin' ), $thumb_id ) );
+					return new WP_Error( 'error', sprintf( __( 'An error occured trying to delete Attachment #%s', 'wpmovielibrary' ), $thumb_id ) );
 
 			return $post_id;
 		}
@@ -224,7 +224,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			$movies = array_map( __CLASS__ . '::prepare_movie_import', $movies );
 
 			if ( is_null( $movies ) || ! is_array( $movies ) ) {
-				$errors->add( 'invalid', __( 'Invalid movie list submitted.', 'wpmovielibrary-admin' ) );
+				$errors->add( 'invalid', __( 'Invalid movie list submitted.', 'wpmovielibrary' ) );
 				return $errors;
 			}
 
@@ -262,11 +262,11 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 			if ( ! is_null( $page ) ) {
 				$message = sprintf( '%s − <span class="edit"><a href="%s">%s</a> |</span> <span class="view"><a href="%s">%s</a></span>',
-					sprintf( __( 'Movie "%s" already imported.', 'wpmovielibrary-admin' ), "<em>" . get_the_title( $page->ID ) . "</em>" ),
+					sprintf( __( 'Movie "%s" already imported.', 'wpmovielibrary' ), "<em>" . get_the_title( $page->ID ) . "</em>" ),
 					get_edit_post_link( $page->ID ),
-					__( 'Edit', 'wpmovielibrary-admin' ),
+					__( 'Edit', 'wpmovielibrary' ),
 					get_permalink( $page->ID ),
-					__( 'View', 'wpmovielibrary-admin' )
+					__( 'View', 'wpmovielibrary' )
 				);
 				return new WP_Error( 'existing_movie', $message );
 			}
@@ -359,7 +359,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 			$option = 'per_page';
 			$args = array(
-				'label'   => __( 'Import Drafts', 'wpmovielibrary-admin' ),
+				'label'   => __( 'Import Drafts', 'wpmovielibrary' ),
 				'default' => 30,
 				'option'  => 'drafts_per_page'
 			);
@@ -422,11 +422,11 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 							$_errors[] = '<li>' . $error . '</li>';
 						}
 					}
-					WPML_Utils::admin_notice( sprintf( __( 'The following errors occured: <ul>%s</ul>', 'wpmovielibrary-admin' ), implode( '', $_errors ) ), 'error' );
+					WPML_Utils::admin_notice( sprintf( __( 'The following errors occured: <ul>%s</ul>', 'wpmovielibrary' ), implode( '', $_errors ) ), 'error' );
 				}
 
 				if ( ! empty( $imported ) )
-					WPML_Utils::admin_notice( sprintf( _n( 'One movie imported successfully!', '%d movies imported successfully!', count( $imported ), 'wpmovielibrary-admin' ), count( $imported ) ), 'updated' );
+					WPML_Utils::admin_notice( sprintf( _n( 'One movie imported successfully!', '%d movies imported successfully!', count( $imported ), 'wpmovielibrary' ), count( $imported ) ), 'updated' );
 			}
 			else if ( isset( $_POST['wpml_importer'] ) && '' != $_POST['wpml_importer'] ) {
 

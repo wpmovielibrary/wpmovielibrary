@@ -23,7 +23,7 @@ if ( ! empty( $movies ) ) :
 	endforeach;
 else :
 ?>
-							<em><?php _e( 'No movies found', 'wpmovielibrary-admin' ); ?></em>
+							<em><?php _e( 'No movies found', 'wpmovielibrary' ); ?></em>
 <?php
 endif;
 
@@ -35,7 +35,7 @@ endif;
 if ( true !== DOING_AJAX ) : ?>
 							<div style="text-align:center">
 								<a href="#" id="latest_movies_load_more" class="button button-default hide-if-no-js<?php if ( '0' == $settings['show_more'] ) echo ' hide-if-js'; ?>">
-									<span class="dashicons dashicons-plus"></span> <span><?php _e( 'Load more', 'wpmovielibrary-admin' ) ?></span>
+									<span class="dashicons dashicons-plus"></span> <span><?php _e( 'Load more', 'wpmovielibrary' ) ?></span>
 								</a>
 							</div>
 <?php endif; ?>

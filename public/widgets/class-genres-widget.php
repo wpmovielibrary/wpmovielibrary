@@ -26,10 +26,10 @@ class WPML_Genres_Widget extends WP_Widget {
 
 		parent::__construct(
 			'wpml-genres-widget',
-			__( 'WPML Genres', 'wpmovielibrary-admin' ),
+			__( 'WPML Genres', 'wpmovielibrary' ),
 			array(
 				'classname'	=>	'wpml-genres-widget',
-				'description'	=>	__( 'Display Movie Genres Lists', 'wpmovielibrary-admin' )
+				'description'	=>	__( 'Display Movie Genres Lists', 'wpmovielibrary' )
 			)
 		);
 	}
@@ -81,13 +81,13 @@ class WPML_Genres_Widget extends WP_Widget {
 
 			foreach ( $genres as $genre )
 				$items[] = array(
-					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary-admin' ), $genre->name ),
+					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary' ), $genre->name ),
 					'link'        => get_term_link( sanitize_term( $genre, 'genre' ), 'genre' ),
 					'title'       => esc_attr( $genre->name . ( 1 == $count ? sprintf( '&nbsp;(%d)', $genre->count ) : '' ) )
 				);
 
 			$items = apply_filters( 'wpml_widget_genre_list', $items, $list, $css );
-			$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => __( 'Select a genre', 'wpmovielibrary-admin' ), 'style' => $style );
+			$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => __( 'Select a genre', 'wpmovielibrary' ), 'style' => $style );
 
 			if ( $list )
 				$html = WPMovieLibrary::render_template( 'genre-widget/genre-dropdown-list.php', $attributes );
@@ -95,7 +95,7 @@ class WPML_Genres_Widget extends WP_Widget {
 				$html = WPMovieLibrary::render_template( 'genre-widget/genre-list.php', $attributes );
 		}
 		else {
-			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display for "Genre" taxonomy.', 'wpmovielibrary-admin' ) ) );
+			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display for "Genre" taxonomy.', 'wpmovielibrary' ) ) );
 		}
 
 		return $before_widget . $title . $html . $after_widget;
@@ -134,7 +134,7 @@ class WPML_Genres_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$instance['title'] = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Genres', 'wpmovielibrary-admin' ) );
+		$instance['title'] = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Genres', 'wpmovielibrary' ) );
 		$instance['description'] = ( isset( $instance['description'] ) ? $instance['description'] : '' );
 		$instance['list']  = ( isset( $instance['list'] ) ? $instance['list'] : 1 );
 		$instance['count'] = ( isset( $instance['count'] ) ? $instance['count'] : 0 );

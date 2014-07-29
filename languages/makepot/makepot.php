@@ -68,15 +68,15 @@ class WPML_Makepot {
 		$this->projects = array(
 			'wpmovielibrary' => array(
 				'title'    => 'Front-end',
-				'file'     => $this->wpmovielibrary_path . '/languages/wpmovielibrary.pot',
-				'excludes' => array(),
+				'file'     => $this->wpmovielibrary_path . 'languages/wpmovielibrary.pot',
+				'excludes' => array( '/admin/(.*?)', '(.*?)admin(.*?)' ),
 				'includes' => array(),
 			),
-			'wpmovielibrary-admin' => array(
+			'wpmovielibrary' => array(
 				'title'    => 'Admin',
-				'file'     => $this->wpmovielibrary_path . '/languages/wpmovielibrary-admin.pot',
+				'file'     => $this->wpmovielibrary_path . 'languages/wpmovielibrary-admin.pot',
 				'excludes' => array(),
-				'includes' => array(),
+				'includes' => array( '/admin/(.*?)', '(.*?)admin(.*?)' ),
 			),
 		);
 
@@ -116,6 +116,8 @@ class WPML_Makepot {
 
 		// Extract translatable strings from the WooCommerce plugin
 		$originals = $this->extractor->extract_from_directory( $this->wpmovielibrary_path, $config['excludes'], $config['includes'] );
+		/*var_dump( $config, $project );
+		print_r( $originals ); die();*/
 
 		// Build POT file
 		$pot = new PO;

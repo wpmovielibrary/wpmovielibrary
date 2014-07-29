@@ -26,10 +26,10 @@ class WPML_Actors_Widget extends WP_Widget {
 
 		parent::__construct(
 			'wpml-actors-widget',
-			__( 'WPML Actors', 'wpmovielibrary-admin' ),
+			__( 'WPML Actors', 'wpmovielibrary' ),
 			array(
 				'classname'	=>	'wpml-actors-widget',
-				'description'	=>	__( 'Display Movie Actors Lists', 'wpmovielibrary-admin' )
+				'description'	=>	__( 'Display Movie Actors Lists', 'wpmovielibrary' )
 			)
 		);
 	}
@@ -87,20 +87,20 @@ class WPML_Actors_Widget extends WP_Widget {
 
 			foreach ( $actors as $actor )
 				$items[] = array(
-					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary-admin' ), $actor->name ),
+					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary' ), $actor->name ),
 					'link'        => get_term_link( sanitize_term( $actor, 'actor' ), 'actor' ),
 					'title'       => esc_attr( $actor->name . ( $count ? sprintf( '&nbsp;(%d)', $actor->count ) : '' ) )
 				);
 
 			if ( $limit )
 				$items[] = array(
-					'attr_title'  => __( 'View all actors', 'wpmovielibrary-admin' ),
+					'attr_title'  => __( 'View all actors', 'wpmovielibrary' ),
 					'link'        => home_url( '/' . $archive ),
-					'title'       => __( 'View the complete list', 'wpmovielibrary-admin' )
+					'title'       => __( 'View the complete list', 'wpmovielibrary' )
 				);
 
 			$items = apply_filters( 'wpml_widget_actor_list', $items, $list, $css );
-			$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => __( 'Select an actor', 'wpmovielibrary-admin' ), 'style' => $style );
+			$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => __( 'Select an actor', 'wpmovielibrary' ), 'style' => $style );
 
 			if ( $list )
 				$html = WPMovieLibrary::render_template( 'actor-widget/actor-dropdown-list.php', $attributes );
@@ -108,7 +108,7 @@ class WPML_Actors_Widget extends WP_Widget {
 				$html = WPMovieLibrary::render_template( 'actor-widget/actor-list.php', $attributes );
 		}
 		else {
-			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display for "Actor" taxonomy.', 'wpmovielibrary-admin' ) ) );
+			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display for "Actor" taxonomy.', 'wpmovielibrary' ) ) );
 		}
 
 		return $before_widget . $title . $html . $after_widget;
@@ -148,7 +148,7 @@ class WPML_Actors_Widget extends WP_Widget {
 			(array) $instance
 		);
 
-		$instance['title'] = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Actors', 'wpmovielibrary-admin' ) );
+		$instance['title'] = ( isset( $instance['title'] ) ? $instance['title'] : __( 'Movie Actors', 'wpmovielibrary' ) );
 		$instance['description'] = ( isset( $instance['description'] ) ? $instance['description'] : '' );
 		$instance['list']  = ( isset( $instance['list'] ) && 1 == $instance['list'] ? true : false );
 		$instance['count'] = ( isset( $instance['count'] )  && 1 == $instance['count'] ? true : false );

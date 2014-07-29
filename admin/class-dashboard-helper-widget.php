@@ -79,7 +79,7 @@ if ( ! class_exists( 'WPML_Dashboard_Helper_Widget' ) ) :
 		public function init() {
 
 			$this->widget_id = 'wpml_dashboard_helper_widget';
-			$this->widget_name = __( 'Help', 'wpmovielibrary-admin' );
+			$this->widget_name = __( 'Help', 'wpmovielibrary' );
 			$this->callback = array( $this, 'dashboard_widget' );
 			$this->control_callback = null;
 		}
@@ -110,22 +110,22 @@ if ( ! class_exists( 'WPML_Dashboard_Helper_Widget' ) ) :
 			$list = array(
 				'support' => array(
 					'url'   => 'http://wordpress.org/support/plugin/wpmovielibrary',
-					'title' => __( 'Support', 'wpmovielibrary-admin' ),
+					'title' => __( 'Support', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-sos'
 				),
 				'report' => array(
 					'url'   => 'https://github.com/Askelon/wpmovielibrary/issues/new',
-					'title' => __( 'Report a bug', 'wpmovielibrary-admin' ),
+					'title' => __( 'Report a bug', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-flag'
 				),
 				'contribute' => array(
 					'url'   => 'https://github.com/Askelon/wpmovielibrary',
-					'title' => __( 'Contribute', 'wpmovielibrary-admin' ),
+					'title' => __( 'Contribute', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-admin-tools'
 				),
 				'donate' => array(
 					'url'   => 'http://wpmovielibrary.com/contribute/#donate',
-					'title' => __( 'Donate', 'wpmovielibrary-admin' ),
+					'title' => __( 'Donate', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-heart'
 				)
 			);
