@@ -35,7 +35,6 @@ extract( $instance );
 <?php endforeach; ?>
 
 		</select>
-
 	</p>
 	<p>
 		<label for="<?php echo $widget->get_field_id( 'sort' ); ?>"><h4 class="wpml-widget-title"><?php _e( 'Sort movies ...', 'wpmovielibrary' ); ?></h4></label>
@@ -43,18 +42,16 @@ extract( $instance );
 			<option value="ASC" <?php selected( $sort, 'ASC' ); ?>><?php _e( 'Ascending' ); ?></option>
 			<option value="DESC" <?php selected( $sort, 'DESC' ); ?>><?php _e( 'Descending' ); ?></option>
 		</select>
-
-
 	</p>
 	<p>
 		<label for="<?php echo $widget->get_field_id( 'limit' ); ?>"><h4 class="wpml-widget-title"><?php _e( 'Number of movies to show', 'wpmovielibrary' ); ?></h4></label> 
 		<input id="<?php echo $widget->get_field_id( 'limit' ); ?>" name="<?php echo $widget->get_field_name( 'limit' ); ?>" type="text" value="<?php echo esc_attr( $limit ); ?>" size="3" />
 	</p>
 	<p>
-		<label for="<?php echo $widget->get_field_id( 'display_rating' ); ?>"><h4 class="wpml-widget-title"><?php _e( 'Display movie rating', 'wpmovielibrary' ); ?></h4></label>
-		<select id="<?php echo $widget->get_field_id( 'display_rating' ); ?>" name="<?php echo $widget->get_field_name( 'display_rating' ); ?>">
-			<option value="no" <?php selected( $display_rating, 'no' ); ?>><?php _e( 'No', 'wpmovielibrary' ); ?></option>
-			<option value="below" <?php selected( $display_rating, 'below' ); ?>><?php _e( 'Below Poster', 'wpmovielibrary' ); ?></option>
-			<option value="above" <?php selected( $display_rating, 'above' ); ?>><?php _e( 'Above Poster', 'wpmovielibrary' ); ?></option>
+		<label for="<?php echo $widget->get_field_id( 'rating' ); ?>"><h4 class="wpml-widget-title"><?php _e( 'Display movie rating', 'wpmovielibrary' ); ?></h4></label>
+		<select id="<?php echo $widget->get_field_id( 'rating' ); ?>" name="<?php echo $widget->get_field_name( 'rating' ); ?>">
+			<option value="no" <?php selected( $rating, 'no' ); ?>><?php _e( 'No', 'wpmovielibrary' ); ?></option>
+			<option value="below" <?php selected( $rating, 'below' ); ?>><?php _e( 'Below Poster', 'wpmovielibrary' ); ?></option>
+			<option value="above" <?php selected( $rating, 'above' ); ?>><?php _e( 'Above Poster', 'wpmovielibrary' ); ?></option>
 		</select>
 	</p>

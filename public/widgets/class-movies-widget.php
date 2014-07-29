@@ -31,16 +31,20 @@ class WPML_Movies_Widget extends WPML_Widget {
 
 		$this->widget_params      = array(
 			'title'  => array(
-				'type'  => 'text',
-				'std'   => __( 'Movies', 'wpmovielibrary' )
+				'type' => 'text',
+				'std'  => __( 'Movies', 'wpmovielibrary' )
 			),
 			'description' => array(
-				'type'  => 'text',
-				'std' => ''
+				'type' => 'text',
+				'std'  => ''
 			),
 			'limit' =>  array(
-				'type'  => 'number',
-				'std' => 4
+				'type' => 'number',
+				'std'  => 4
+			),
+			'rating' =>  array(
+				'type' => 'select',
+				'std'  => 'below'
 			)
 		);
 
@@ -122,9 +126,9 @@ class WPML_Movies_Widget extends WPML_Widget {
 				}
 
 				$items = apply_filters( 'wpml_widget_most_rated_movies', $items );
-				$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style, 'display_rating' => $display_rating );
+				$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style, 'rating' => $rating );
 
-				$html = WPMovieLibrary::render_template( 'rating-widget/movies-by-rating.php', $attributes );
+				$html = WPMovieLibrary::render_template( 'movies-widget/movies.php', $attributes );
 			}
 			else {
 				$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display.', 'wpmovielibrary' ) ) );
