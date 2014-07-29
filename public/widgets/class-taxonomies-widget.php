@@ -24,10 +24,10 @@ class WPML_Taxonomies_Widget extends WPML_Widget {
 	 */
 	public function __construct() {
 
-		$this->widget_css         = 'wpmovielibrary wpml-taxonomies-widget';
-		$this->widget_description = __( 'Display a list of terms from a specific taxonomy: collections, genres or actors.', 'wpmovielibrary' );
-		$this->widget_id          = 'wpmovielibrary_taxonomies_widget';
 		$this->widget_name        = __( 'WPMovieLibrary Taxonomies', 'wpmovielibrary' );
+		$this->widget_description = __( 'Display a list of terms from a specific taxonomy: collections, genres or actors.', 'wpmovielibrary' );
+		$this->widget_css         = 'wpmovielibrary wpml-taxonomies-widget';
+		$this->widget_id          = 'wpmovielibrary_taxonomies_widget';
 		$this->widget_form        = 'taxonomies-widget/taxonomies-admin.php';
 
 		$this->widget_params      = array(

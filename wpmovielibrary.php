@@ -120,6 +120,7 @@ if ( wpml_requirements_met() ) {
 	require_once( WPML_PATH . 'includes/class-wpml-widget.php' );
 	require_once( WPML_PATH . 'public/widgets/class-statistics-widget.php' );
 	require_once( WPML_PATH . 'public/widgets/class-taxonomies-widget.php' );
+	require_once( WPML_PATH . 'public/widgets/class-movies-widget.php' );
 
 	/*
 	 * Register hooks that are fired when the plugin is activated or deactivated.
