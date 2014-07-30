@@ -44,15 +44,15 @@ class WPML_Movies_Widget extends WPML_Widget {
 			),
 			'select_status' =>  array(
 				'type' => 'select',
-				'std'  => ''
+				'std'  => 'all'
 			),
 			'select_media' =>  array(
 				'type' => 'select',
-				'std'  => ''
+				'std'  => 'all'
 			),
 			'select_rating' =>  array(
 				'type' => 'select',
-				'std'  => ''
+				'std'  => 'all'
 			),
 			'sort' =>  array(
 				'type' => 'select',
@@ -133,17 +133,17 @@ class WPML_Movies_Widget extends WPML_Widget {
 		switch ( $select ) {
 			case 'status':
 				$args = array( 'orderby' => 'meta_value', 'meta_key' => '_wpml_movie_status' );
-				if ( '' != $select_status )
+				if ( 'all' != $select_status )
 					$args['meta_value'] = $select_status;
 				break;
 			case 'media':
 				$args = array( 'orderby' => 'meta_value', 'meta_key' => '_wpml_movie_media' );
-				if ( '' != $select_media )
+				if ( 'all' != $select_media )
 					$args['meta_value'] = $select_media;
 				break;
 			case 'rating':
 				$args = array( 'orderby' => 'meta_value_num', 'meta_key' => '_wpml_movie_rating' );
-				if ( '' != $select_rating )
+				if ( 'all' != $select_rating )
 					$args['meta_value'] = $select_rating;
 				break;
 			case 'title':

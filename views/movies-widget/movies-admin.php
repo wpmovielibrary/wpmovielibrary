@@ -18,21 +18,21 @@ extract( $instance );
 
 		</select>
 		<select class="wpml-movies-widget-select-status<?php if ( 'status' == $select ) echo ' selected'; ?>" id="<?php echo $widget->get_field_id( 'select_status' ); ?>" name="<?php echo $widget->get_field_name( 'select_status' ); ?>" >
-			<option value="" <?php selected( $select_status, '' ); ?>>---</option>
+			<option value="all" <?php selected( $select_status, 'all' ); ?>><?php _e( 'All', 'wpmovielibrary' ); ?></option>
 <?php foreach ( $widget->status as $slug => $title ) : ?>
 			<option value="<?php echo $slug; ?>" <?php selected( $select_status, $slug ); ?>><?php _e( $title, 'wpmovielibrary' ); ?></option>
 <?php endforeach; ?>
 
 		</select>
 		<select class="wpml-movies-widget-select-media<?php if ( 'media' == $select ) echo ' selected'; ?>" id="<?php echo $widget->get_field_id( 'select_media' ); ?>" name="<?php echo $widget->get_field_name( 'select_media' ); ?>">
-			<option value="" <?php selected( $select_media, '' ); ?>>---</option>
+			<option value="all" <?php selected( $select_media, 'all' ); ?>><?php _e( 'All', 'wpmovielibrary' ); ?></option>
 <?php foreach ( $widget->media as $slug => $title ) : ?>
 			<option value="<?php echo $slug; ?>" <?php selected( $select_media, $slug ); ?>><?php _e( $title, 'wpmovielibrary' ); ?></option>
 <?php endforeach; ?>
 
 		</select>
 		<select class="wpml-movies-widget-select-rating<?php if ( 'rating' == $select ) echo ' selected'; ?>" id="<?php echo $widget->get_field_id( 'select_rating' ); ?>" name="<?php echo $widget->get_field_name( 'select_rating' ); ?>">
-			<option value="" <?php selected( $select_rating, '' ); ?>>---</option>
+			<option value="all" <?php selected( $select_rating, 'all' ); ?>><?php _e( 'All', 'wpmovielibrary' ); ?></option>
 <?php foreach ( $widget->rating as $slug => $title ) : ?>
 			<option value="<?php echo $slug; ?>" <?php selected( $select_rating, $slug ); ?>><?php _e( $title, 'wpmovielibrary' ); ?></option>
 <?php endforeach; ?>
