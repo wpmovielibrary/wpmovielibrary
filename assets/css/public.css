@@ -208,7 +208,7 @@
 	background-repeat: no-repeat;
 	display: inline-block;
 	height: 16px;
-	margin: 0 6px -3px 6px;
+	margin: 6px 4px !important;
 	overflow: hidden;
 	position: relative;
 	width: 82px;
@@ -246,25 +246,29 @@
 	opacity: 1;
 }
 
+/** Wigets **/
+
 .wpml-widget-description {
 	margin: 0.5em 0 !important;
 }
 
-.recent-movies,
-.most-rated-movies,
-.widget-movies {
+/** Movies Widgets **/
+
+.wpml-movies-widget {
 	position: relative;
 }
 
-.recent-movies a,
-.most-rated-movies a,
-.widget-movies a {
+.wpml-movies-widget .movie-title {
+	display: block;
+	font-weight: 600;
+	margin: 0.5em 0;
+}
+
+.wpml-movies-widget a {
 	text-decoration: none;
 }
 
-.recent-movie,
-.most-rated-movie,
-.widget-movie {
+.wpml-movies-widget .wpml-movie {
 	display: inline-table;
 	height: 100%;
 	max-height: 150px;
@@ -277,41 +281,28 @@
 	width: 49%;
 }
 
-.recent-movie img,
-.most-rated-movie img,
-.widget-movie img {
+.wpml-movies-widget .wpml-movie img {
 	height: 100%;
 	width: 100%;
 }
 
-.most-rated-movie .movie_rating_display.below {
+.wpml-movies-widget .wpml-movie .movie_rating_display.starsntext {
 	margin: 0.25em auto 0.75em auto;
 	text-align: right;
 	width: 94%;
 }
 
-.most-rated-movie .movie_rating_display.below small {
+.wpml-movies-widget .wpml-movie .movie_rating_display.starsntext small {
 	display: inline-block;
 	margin: 3px 0;
 }
 
-.most-rated-movie .movie_rating_display.above {
-	bottom: 0.75em;
-	left: 0.25em;
-	opacity: 0.5;
-	position: absolute;
-}
-
-.most-rated-movie:hover .movie_rating_display.above {
-	opacity: 1;
-}
-
-.wpml-most-rated-movies-widget .movie_rating_display {
+.wpml-movies-widget .wpml-movie .movie_rating_display {
 	overflow: visible;
 	width: 100%;
 }
 
-.wpml-most-rated-movies-widget .movie_rating_display .stars_label {
+.wpml-movies-widget .wpml-movie .movie_rating_display .stars_label {
 	left: 90px;
 	opacity: 1.0;
 	top: -2px;

@@ -25,7 +25,7 @@ class WPML_Movies_Widget extends WPML_Widget {
 
 		$this->widget_name        = __( 'WPMovieLibrary Movies', 'wpmovielibrary' );
 		$this->widget_description = __( 'Display a list of movies from a specific taxonomy, media, status, rating…', 'wpmovielibrary' );
-		$this->widget_css         = 'wpmovielibrary wpml-movies-widget';
+		$this->widget_css         = 'wpml-widget wpml-movies-widget wpml-movies';
 		$this->widget_id          = 'wpmovielibrary_movies_widget';
 		$this->widget_form        = 'movies-widget/movies-admin.php';
 
@@ -38,13 +38,41 @@ class WPML_Movies_Widget extends WPML_Widget {
 				'type' => 'text',
 				'std'  => ''
 			),
+			'select' =>  array(
+				'type' => 'select',
+				'std'  => 'date'
+			),
+			'select_status' =>  array(
+				'type' => 'select',
+				'std'  => ''
+			),
+			'select_media' =>  array(
+				'type' => 'select',
+				'std'  => ''
+			),
+			'select_rating' =>  array(
+				'type' => 'select',
+				'std'  => ''
+			),
+			'sort' =>  array(
+				'type' => 'select',
+				'std'  => 'DESC'
+			),
 			'limit' =>  array(
 				'type' => 'number',
 				'std'  => 4
 			),
-			'rating' =>  array(
+			'show_poster' =>  array(
 				'type' => 'select',
-				'std'  => 'below'
+				'std'  => 'normal'
+			),
+			'show_title' =>  array(
+				'type' => 'select',
+				'std'  => 'no'
+			),
+			'show_rating' =>  array(
+				'type' => 'select',
+				'std'  => 'starsntext'
 			)
 		);
 
@@ -94,46 +122,72 @@ class WPML_Movies_Widget extends WPML_Widget {
 
 		$title = apply_filters( 'widget_title', $title );
 
-		$html = '';
+		if ( 'no' != $show_poster )
+			$this->widget_css .= ' wpml-movies-with-thumbnail';
 
-			$movies = new WP_Query(
-				array(
-					'posts_per_page' => $limit,
-					'post_type'      => 'movie',
-					'order'          => 'DESC',
-					'orderby'        => 'meta_value_num',
-					'meta_key'       => '_wpml_movie_rating',
-				)
+		if ( 'normal' == $show_poster )
+			$thumbnail = 'medium';
+		else
+			$thumbnail = 'thumbnail';
+
+		switch ( $select ) {
+			case 'status':
+				$args = array( 'orderby' => 'meta_value', 'meta_key' => '_wpml_movie_status' );
+				if ( '' != $select_status )
+					$args['meta_value'] = $select_status;
+				break;
+			case 'media':
+				$args = array( 'orderby' => 'meta_value', 'meta_key' => '_wpml_movie_media' );
+				if ( '' != $select_media )
+					$args['meta_value'] = $select_media;
+				break;
+			case 'rating':
+				$args = array( 'orderby' => 'meta_value_num', 'meta_key' => '_wpml_movie_rating' );
+				if ( '' != $select_rating )
+					$args['meta_value'] = $select_rating;
+				break;
+			case 'title':
+				$args = array( 'orderby' => 'title' );
+				break;
+			case 'date':
+			default:
+				$args = array( 'orderby' => 'date' );
+				break;
+		}
+
+		$args = array_merge(
+			array(
+				'posts_per_page' => $limit,
+				'post_type'      => 'movie',
+				'order'          => $sort
+			),
+			$args
+		);
+
+		$movies = new WP_Query( $args );
+
+		if ( empty( $movies->posts ) ) {
+			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display.', 'wpmovielibrary' ) ) );
+			return $before_widget . $before_title . $title . $after_title . $html . $after_widget;
+		}
+
+		$items = array();
+
+		foreach ( $movies->posts as $movie ) {
+			$item = array(
+				'ID'          => $movie->ID,
+				'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary' ), $movie->post_title ),
+				'title'       => $movie->post_title,
+				'link'        => get_permalink( $movie->ID ),
+				'rating'      => get_post_meta( $movie->ID, '_wpml_movie_rating', true ),
+				'thumbnail'   => get_the_post_thumbnail( $movie->ID, $thumbnail )
 			);
+			$item['rating_str'] = ( '' == $item['rating'] ? "stars_0_0" : 'stars_' . str_replace( '.', '_', $item['rating'] ) );
+			$items[] = $item;
+		}
 
-			$style = 'wpml-widget wpml-rating-movies-list wpml-movies wpml-movies-with-thumbnail';
-
-			if ( ! empty( $movies->posts ) ) {
-
-				$items = array();
-				$style = 'wpml-widget wpml-media-rating-list wpml-movies wpml-movies-with-thumbnail';
-
-				foreach ( $movies->posts as $movie ) {
-					$item = array(
-						'ID'          => $movie->ID,
-						'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary' ), $movie->post_title ),
-						'link'        => get_permalink( $movie->ID ),
-						'rating'      => get_post_meta( $movie->ID, '_wpml_movie_rating', true ),
-						'thumbnail'   => get_the_post_thumbnail( $movie->ID, 'thumbnail' )
-					);
-					$item['rating_str'] = ( '' == $item['rating'] ? "stars_0_0" : 'stars_' . str_replace( '.', '_', $item['rating'] ) );
-					$items[] = $item;
-				}
-
-				$items = apply_filters( 'wpml_widget_most_rated_movies', $items );
-				$attributes = array( 'items' => $items, 'description' => $description, 'style' => $style, 'rating' => $rating );
-
-				$html = WPMovieLibrary::render_template( 'movies-widget/movies.php', $attributes );
-			}
-			else {
-				$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display.', 'wpmovielibrary' ) ) );
-			}
-
+		$attributes = array( 'items' => $items, 'description' => $description, 'show_rating' => $show_rating, 'show_title' => $show_title, 'show_poster' => $show_poster );
+		$html = WPMovieLibrary::render_template( 'movies-widget/movies.php', $attributes );
 
 		return $before_widget . $before_title . $title . $after_title . $html . $after_widget;
 	}

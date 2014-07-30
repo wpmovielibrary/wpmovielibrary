@@ -71,7 +71,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$this->plugin_screen_hook_suffix = array(
 				'edit_movie' => 'edit-movie',
 				'movie' => 'movie',
-				'plugins' => 'plugins'
+				'plugins' => 'plugins',
+				'widgets' => 'widgets.php'
 			);
 
 			self::$default_settings = WPML_Settings::get_default_settings();
@@ -245,6 +246,9 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			if ( $hook == $this->plugin_screen_hook_suffix['dashboard'] )
 				wp_enqueue_script( WPML_SLUG . '-dashboard', WPML_URL . '/assets/js/wpml.dashboard.js', array( WPML_SLUG, 'jquery', 'jquery-ui-sortable' ), WPML_VERSION, true );
+
+			if ( 'widgets.php' == $hook )
+				wp_enqueue_script( WPML_SLUG . '-widget', WPML_URL . '/assets/js/wpml.widget.js', array( WPML_SLUG, 'jquery' ), WPML_VERSION, false );
 
 		}
 

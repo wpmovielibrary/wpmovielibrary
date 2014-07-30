@@ -84,6 +84,13 @@ abstract class WPML_Widget extends WP_Widget {
 		if ( ! $this->widget_params || ! $this->widget_form )
 			return;
 
+		foreach ( $this->widget_params as $key => $setting ) {
+			if ( isset( $instance[ $key ] ) )
+				$instance[ $key ] = sanitize_text_field( $instance[ $key ] );
+			else
+				$instance[ $key ] = $setting['std'];
+		}
+
 		echo WPMovieLibrary::render_template( $this->widget_form, array( 'widget' => $this, 'instance' => $instance ), $require = 'always' );
 	}
 }
