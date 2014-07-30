@@ -186,7 +186,7 @@ class WPML_Movies_Widget extends WPML_Widget {
 			$items[] = $item;
 		}
 
-		$attributes = array( 'items' => $items, 'description' => $description, 'show_rating' => $show_rating, 'show_title' => $show_title, 'show_poster' => $show_poster );
+		$attributes = array( 'items' => $items, 'description' => $description, 'show_rating' => $show_rating, 'show_title' => $show_title, 'show_poster' => $show_poster, 'style' => $this->widget_css );
 		$html = WPMovieLibrary::render_template( 'movies-widget/movies.php', $attributes );
 
 		return $before_widget . $before_title . $title . $after_title . $html . $after_widget;

@@ -51,6 +51,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 			$this->widgets = array(
 				'WPML_Statistics_Widget',
 				'WPML_Taxonomies_Widget',
+				'WPML_Details_Widget',
 				'WPML_Movies_Widget'
 			);
 

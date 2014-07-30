@@ -26,7 +26,7 @@ class WPML_Taxonomies_Widget extends WPML_Widget {
 
 		$this->widget_name        = __( 'WPMovieLibrary Taxonomies', 'wpmovielibrary' );
 		$this->widget_description = __( 'Display a list of terms from a specific taxonomy: collections, genres or actors.', 'wpmovielibrary' );
-		$this->widget_css         = 'wpmovielibrary wpml-taxonomies-widget';
+		$this->widget_css         = 'wpmovielibrary wpml-widget wpml-taxonomies-widget';
 		$this->widget_id          = 'wpmovielibrary_taxonomies_widget';
 		$this->widget_form        = 'taxonomies-widget/taxonomies-admin.php';
 
@@ -134,10 +134,10 @@ class WPML_Taxonomies_Widget extends WPML_Widget {
 		if ( $taxonomies && ! is_wp_error( $taxonomies ) ) {
 
 			$items = array();
-			$style = "wpml-widget wpml-{$taxonomy}-list";
+			$this->widget_css .= " wpml-widget wpml-{$taxonomy}-list";
 
 			if ( $css )
-				$style = "wpml-widget wpml-{$taxonomy}-list wpml-list custom";
+				$this->widget_css .= 'wpml-list custom';
 
 			foreach ( $taxonomies as $term )
 				$items[] = array(
@@ -154,7 +154,7 @@ class WPML_Taxonomies_Widget extends WPML_Widget {
 				);
 
 			$items = apply_filters( 'wpml_widget_collection_list', $items, $list, $css );
-			$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => $this->taxonomies[ $taxonomy ]['default'], 'style' => $style );
+			$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => $this->taxonomies[ $taxonomy ]['default'], 'style' => $this->widget_css );
 
 			if ( $list )
 				$html = WPMovieLibrary::render_template( 'taxonomies-widget/taxonomies-dropdown-list.php', $attributes );

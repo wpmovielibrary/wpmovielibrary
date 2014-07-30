@@ -297,15 +297,17 @@
 	margin: 3px 0;
 }
 
-.wpml-movies-widget .wpml-movie .movie_rating_display {
+.wpml-rating-widget .movie_rating_display {
+	margin: 2px 6px -3px !important;
 	overflow: visible;
 	width: 100%;
 }
 
-.wpml-movies-widget .wpml-movie .movie_rating_display .stars_label {
+.wpml-rating-widget .movie_rating_display .stars_label {
 	left: 90px;
 	opacity: 1.0;
 	top: -2px;
+	width: auto !important;
 }
 
 .wpml-list.custom select {
