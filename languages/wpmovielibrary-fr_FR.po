@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary v1.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wpmovielibrary\n"
-"POT-Creation-Date: 2014-07-29 02:17:42+00:00\n"
-"PO-Revision-Date: 2014-07-29 04:23+0100\n"
+"POT-Creation-Date: 2014-07-30 17:32:58+00:00\n"
+"PO-Revision-Date: 2014-07-30 19:41+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language: Français\n"
@@ -76,8 +76,8 @@ msgid "Manage movies"
 msgstr "Gérer les films"
 
 #: admin/class-dashboard-stats-widget.php:82
-#: admin/class-wpmovielibrary-admin.php:388
 #: admin/class-wpmovielibrary-admin.php:389
+#: admin/class-wpmovielibrary-admin.php:390
 msgid "Your library"
 msgstr "Votre médiathèque"
 
@@ -142,7 +142,7 @@ msgid "Welcome"
 msgstr "Bienvenue"
 
 #: admin/class-dashboard.php:187
-#: public/widgets/class-statistics-widget.php:137
+#: includes/widgets/class-statistics-widget.php:136
 msgid "Statistics"
 msgstr "Statistiques"
 
@@ -155,7 +155,6 @@ msgid "Latest Movies"
 msgstr " Films ajoutés récemment"
 
 #: admin/class-dashboard.php:191
-#: public/widgets/class-most-rated-movies-widget.php:178
 msgid "Most Rated Movies"
 msgstr "Films les mieux notés"
 
@@ -246,24 +245,28 @@ msgstr ""
 "Erreur de l'API : une erreur s’est produite lors du traitement de la requête."
 
 #: admin/class-wpml-edit-movies.php:116 admin/class-wpml-import-table.php:52
-#: admin/class-wpmovielibrary-admin.php:309
+#: admin/class-wpmovielibrary-admin.php:310
 msgid "Poster"
 msgstr "Affiche"
 
-#: admin/class-wpml-edit-movies.php:118 includes/wpml-config.php:185
-#: includes/wpml-config.php:555 views/edit-movies/quick-edit.php:17
-#: views/import/import.php:62 views/status-widget/status-admin.php:32
+#: admin/class-wpml-edit-movies.php:118
+#: includes/widgets/class-movies-widget.php:80 includes/wpml-config.php:185
+#: includes/wpml-config.php:555 views/details-widget/details-admin.php:15
+#: views/edit-movies/quick-edit.php:17 views/import/import.php:62
 msgid "Status"
 msgstr "Statut"
 
-#: admin/class-wpml-edit-movies.php:119 includes/wpml-config.php:184
-#: includes/wpml-config.php:540 views/edit-movies/quick-edit.php:7
-#: views/media-widget/media-admin.php:32
+#: admin/class-wpml-edit-movies.php:119
+#: includes/widgets/class-movies-widget.php:81 includes/wpml-config.php:184
+#: includes/wpml-config.php:540 views/details-widget/details-admin.php:16
+#: views/edit-movies/quick-edit.php:7
 msgid "Media"
 msgstr "Média"
 
-#: admin/class-wpml-edit-movies.php:120 includes/wpml-config.php:186
-#: includes/wpml-config.php:567 views/edit-movies/quick-edit.php:27
+#: admin/class-wpml-edit-movies.php:120
+#: includes/widgets/class-movies-widget.php:82 includes/wpml-config.php:186
+#: includes/wpml-config.php:567 views/details-widget/details-admin.php:17
+#: views/edit-movies/quick-edit.php:27
 msgid "Rating"
 msgstr "Note"
 
@@ -380,14 +383,12 @@ msgstr ""
 "Une erreur s’est produite lors de l'importation de « %s » depuis la file "
 "d'attente."
 
-#: admin/class-wpml-import-table.php:53 includes/wpml-config.php:592
-#: views/actor-widget/actor-admin.php:5
-#: views/collection-widget/collection-admin.php:5
-#: views/genre-widget/genre-admin.php:5 views/import/import.php:59
-#: views/latest-widget/latest-movies-admin.php:5
-#: views/media-widget/media-admin.php:5 views/rating-widget/rating-admin.php:5
-#: views/stats-widget/statistics-admin.php:5
-#: views/status-widget/status-admin.php:5
+#: admin/class-wpml-import-table.php:53
+#: includes/widgets/class-movies-widget.php:83 includes/wpml-config.php:592
+#: views/details-widget/details-admin.php:5 views/import/import.php:59
+#: views/movies-widget/movies-admin.php:5
+#: views/statistics-widget/statistics-admin.php:5
+#: views/taxonomies-widget/taxonomies-admin.php:5
 msgid "Title"
 msgstr "Titre"
 
@@ -531,201 +532,205 @@ msgstr "L'image que vous essayez de télécharger existe déjà."
 msgid "See available Movie Posters"
 msgstr "Afficher les affiches disponibles"
 
-#: admin/class-wpmovielibrary-admin.php:195 includes/class-wpml-utils.php:1529
+#: admin/class-wpmovielibrary-admin.php:196 includes/class-wpml-utils.php:1529
 msgid "%d movie"
 msgid_plural "%d movies"
 msgstr[0] "%d film"
 msgstr[1] "%d films"
 
-#: admin/class-wpmovielibrary-admin.php:283
+#: admin/class-wpmovielibrary-admin.php:284
 msgid "One movie successfully deleted."
 msgstr "Un film a été supprimé."
 
-#: admin/class-wpmovielibrary-admin.php:284
+#: admin/class-wpmovielibrary-admin.php:285
 msgid "%s movies successfully deleted."
 msgstr "%s films ont été supprimés."
 
-#: admin/class-wpmovielibrary-admin.php:285
+#: admin/class-wpmovielibrary-admin.php:286
 msgid "One movie removed from the queue."
 msgstr "Un film retiré de la file d'attente."
 
-#: admin/class-wpmovielibrary-admin.php:286
+#: admin/class-wpmovielibrary-admin.php:287
 msgid "%s movies removed from the queue."
 msgstr "%s films retirés de la file d'attente."
 
-#: admin/class-wpmovielibrary-admin.php:287
+#: admin/class-wpmovielibrary-admin.php:288
 msgid "Done!"
 msgstr "Terminé !"
 
-#: admin/class-wpmovielibrary-admin.php:288
+#: admin/class-wpmovielibrary-admin.php:289
 msgid "I can't test an empty key, you know."
 msgstr "Je ne peux pas tester une clé vide."
 
-#: admin/class-wpmovielibrary-admin.php:289
+#: admin/class-wpmovielibrary-admin.php:290
 msgid "One movie added to the queue."
 msgstr "Un film ajouté à la liste d'attente."
 
-#: admin/class-wpmovielibrary-admin.php:290
+#: admin/class-wpmovielibrary-admin.php:291
 msgid "%s movies added to the queue."
 msgstr "%s films ajoutés à la file d'attente."
 
-#: admin/class-wpmovielibrary-admin.php:291
+#: admin/class-wpmovielibrary-admin.php:292
 msgid "Images added!"
 msgstr "Images ajoutées !"
 
-#: admin/class-wpmovielibrary-admin.php:292
+#: admin/class-wpmovielibrary-admin.php:293
 msgid "Image from"
 msgstr "Image de"
 
-#: admin/class-wpmovielibrary-admin.php:293
+#: admin/class-wpmovielibrary-admin.php:294
 msgid "Images uploaded!"
 msgstr "Images téléchargées !"
 
-#: admin/class-wpmovielibrary-admin.php:294
+#: admin/class-wpmovielibrary-admin.php:295
 msgid "Import Images"
 msgstr "Importer les images"
 
-#: admin/class-wpmovielibrary-admin.php:295
+#: admin/class-wpmovielibrary-admin.php:296
 msgid "Import Images for \"%s\""
 msgstr "Importer des images pour « %s »"
 
-#: admin/class-wpmovielibrary-admin.php:296
+#: admin/class-wpmovielibrary-admin.php:297
 msgid "Please wait while the images are uploaded..."
 msgstr "Veuillez patienter pendant le téléchargement des images…"
 
-#: admin/class-wpmovielibrary-admin.php:297
+#: admin/class-wpmovielibrary-admin.php:298
 msgid "Import Poster"
 msgstr "Importer l'affiche"
 
-#: admin/class-wpmovielibrary-admin.php:298
+#: admin/class-wpmovielibrary-admin.php:299
 msgid "Select a poster for \"%s\""
 msgstr "Sélectionner une affiche pour « %s »"
 
-#: admin/class-wpmovielibrary-admin.php:299
+#: admin/class-wpmovielibrary-admin.php:300
 msgid "Please wait while the poster is uploaded..."
 msgstr "Veuillez patienter pendant le téléchargement de l'affiche…"
 
-#: admin/class-wpmovielibrary-admin.php:300
+#: admin/class-wpmovielibrary-admin.php:301
 msgid "Imported"
 msgstr "Importé"
 
-#: admin/class-wpmovielibrary-admin.php:301
+#: admin/class-wpmovielibrary-admin.php:302
 msgid "One movie successfully imported!"
 msgstr "Un film importé avec succès !"
 
-#: admin/class-wpmovielibrary-admin.php:302
+#: admin/class-wpmovielibrary-admin.php:303
 msgid "%s movies successfully imported!"
 msgstr "%s films ont été importés avec succès !"
 
-#: admin/class-wpmovielibrary-admin.php:303
+#: admin/class-wpmovielibrary-admin.php:304
 msgid "Progressing"
 msgstr "En cours"
 
-#: admin/class-wpmovielibrary-admin.php:304
+#: admin/class-wpmovielibrary-admin.php:305
 msgid "Invalid key: it should be 32 characters long."
 msgstr "Clé invalide : votre clé doit comporter 32 caractères alphanumériques."
 
-#: admin/class-wpmovielibrary-admin.php:305 views/metaboxes/movie-images.php:9
+#: admin/class-wpmovielibrary-admin.php:306 views/metaboxes/movie-images.php:9
 msgid "Load Images"
 msgstr "Télécharger les images"
 
-#: admin/class-wpmovielibrary-admin.php:306
+#: admin/class-wpmovielibrary-admin.php:307
 msgid "Load More"
 msgstr "Charger plus"
 
-#: admin/class-wpmovielibrary-admin.php:307
+#: admin/class-wpmovielibrary-admin.php:308
 msgid "Loading Images…"
 msgstr "Chargement des images…"
 
-#: admin/class-wpmovielibrary-admin.php:308
+#: admin/class-wpmovielibrary-admin.php:309
 msgid "Oops… Did something went wrong?"
 msgstr "Oups… Quelque chose a échoué ?"
 
-#: admin/class-wpmovielibrary-admin.php:310
+#: admin/class-wpmovielibrary-admin.php:311
 msgid "Saving Images…"
 msgstr "Enregistrement des images…"
 
-#: admin/class-wpmovielibrary-admin.php:311
+#: admin/class-wpmovielibrary-admin.php:312
 msgid "Searching movie"
 msgstr "Recherche du film"
 
-#: admin/class-wpmovielibrary-admin.php:312
+#: admin/class-wpmovielibrary-admin.php:313
 msgid "Fetching movie data"
 msgstr "Téléchargement des données"
 
-#: admin/class-wpmovielibrary-admin.php:313
+#: admin/class-wpmovielibrary-admin.php:314
 msgid "see no more"
 msgstr "masquer"
 
-#: admin/class-wpmovielibrary-admin.php:314
+#: admin/class-wpmovielibrary-admin.php:315
 msgid "see more"
 msgstr "afficher la suite"
 
-#: admin/class-wpmovielibrary-admin.php:315
+#: admin/class-wpmovielibrary-admin.php:316
 msgid "Setting featured image…"
 msgstr "Ajout de l’aperçu…"
 
-#: admin/class-wpmovielibrary-admin.php:378 public/class-wpml-movies.php:57
+#: admin/class-wpmovielibrary-admin.php:379
+#: includes/widgets/class-movies-widget.php:35 public/class-wpml-movies.php:57
 #: public/class-wpml-movies.php:69 views/settings/settings.php:13
 msgid "Movies"
 msgstr "Films"
 
-#: admin/class-wpmovielibrary-admin.php:397
-#: admin/class-wpmovielibrary-admin.php:398 public/class-wpml-movies.php:63
+#: admin/class-wpmovielibrary-admin.php:398
+#: admin/class-wpmovielibrary-admin.php:399 public/class-wpml-movies.php:63
 msgid "All Movies"
 msgstr "Tous les films"
 
-#: admin/class-wpmovielibrary-admin.php:406
-#: admin/class-wpmovielibrary-admin.php:407 public/class-wpml-movies.php:59
+#: admin/class-wpmovielibrary-admin.php:407
+#: admin/class-wpmovielibrary-admin.php:408 public/class-wpml-movies.php:59
 msgid "Add New"
 msgstr "Nouveau"
 
-#: admin/class-wpmovielibrary-admin.php:416
 #: admin/class-wpmovielibrary-admin.php:417
-#: public/class-wpml-collections.php:70
+#: admin/class-wpmovielibrary-admin.php:418
+#: public/class-wpml-collections.php:65
+#: views/taxonomies-widget/taxonomies-admin.php:15
 msgid "Collections"
 msgstr "Collections"
 
-#: admin/class-wpmovielibrary-admin.php:427
-#: admin/class-wpmovielibrary-admin.php:428 includes/wpml-config.php:634
-#: public/class-shortcodes.php:435 public/class-wpml-genres.php:69
+#: admin/class-wpmovielibrary-admin.php:428
+#: admin/class-wpmovielibrary-admin.php:429 includes/wpml-config.php:634
+#: public/class-shortcodes.php:435 public/class-wpml-genres.php:64
+#: views/taxonomies-widget/taxonomies-admin.php:16
 msgid "Genres"
 msgstr "Genres"
 
-#: admin/class-wpmovielibrary-admin.php:438
-#: admin/class-wpmovielibrary-admin.php:439 includes/wpml-config.php:688
-#: public/class-shortcodes.php:388 public/class-wpml-actors.php:72
+#: admin/class-wpmovielibrary-admin.php:439
+#: admin/class-wpmovielibrary-admin.php:440 includes/wpml-config.php:688
+#: public/class-shortcodes.php:388 public/class-wpml-actors.php:67
+#: views/taxonomies-widget/taxonomies-admin.php:17
 msgid "Actors"
 msgstr "Acteurs"
 
-#: admin/class-wpmovielibrary-admin.php:448
-#: admin/class-wpmovielibrary-admin.php:449 views/import/import.php:100
+#: admin/class-wpmovielibrary-admin.php:449
+#: admin/class-wpmovielibrary-admin.php:450 views/import/import.php:100
 msgid "Import Movies"
 msgstr "Importer des films"
 
-#: admin/class-wpmovielibrary-admin.php:456
 #: admin/class-wpmovielibrary-admin.php:457
+#: admin/class-wpmovielibrary-admin.php:458
 msgid "Settings"
 msgstr "Réglages"
 
-#: admin/class-wpmovielibrary-admin.php:508
+#: admin/class-wpmovielibrary-admin.php:509
 msgid "Access denied."
 msgstr "Accès refusé."
 
-#: admin/class-wpmovielibrary-admin.php:515
-#: admin/class-wpmovielibrary-admin.php:531
+#: admin/class-wpmovielibrary-admin.php:516
+#: admin/class-wpmovielibrary-admin.php:532
 msgid "You don't have the permission do perform this action."
 msgstr "Vous n'avez pas la permission d'effectuer cette action."
 
-#: admin/class-wpmovielibrary-admin.php:520
+#: admin/class-wpmovielibrary-admin.php:521
 msgid "Unknown error: failed to restore default settings."
 msgstr "Erreur inconnue : impossible de restaurer les réglages par défaut."
 
-#: admin/class-wpmovielibrary-admin.php:522
+#: admin/class-wpmovielibrary-admin.php:523
 msgid "Default settings restored!"
 msgstr "Les options par défaut ont été restaurées."
 
-#: admin/class-wpmovielibrary-admin.php:736
+#: admin/class-wpmovielibrary-admin.php:737
 msgid ""
 "You update the taxonomies URL rewrite. You should visit <a href=\"%s"
 "\">WordPress Permalink</a> page to update the Rewrite rules; you may "
@@ -824,6 +829,167 @@ msgstr "Suivant &raquo;"
 #: includes/class-wpml-utils.php:1643
 msgid "&hellip;"
 msgstr "&hellip;"
+
+#: includes/widgets/class-details-widget.php:27
+msgid "WPMovieLibrary Details"
+msgstr "WPMovieLibrary − Détails"
+
+#: includes/widgets/class-details-widget.php:28
+msgid "Display a list of the available details: status, media and rating."
+msgstr "Afficher les détails disponibles : statut, média, notes…"
+
+#: includes/widgets/class-details-widget.php:36
+msgid "Movie Details"
+msgstr "Détails"
+
+#: includes/widgets/class-details-widget.php:58
+msgid "Select a status"
+msgstr "Sélectionner un statut"
+
+#: includes/widgets/class-details-widget.php:59
+msgid "No status to display."
+msgstr "Rien à afficher."
+
+#: includes/widgets/class-details-widget.php:62
+msgid "Select a media"
+msgstr "Sélectionner un média"
+
+#: includes/widgets/class-details-widget.php:63
+msgid "No media to display."
+msgstr "Aucun média à afficher."
+
+#: includes/widgets/class-details-widget.php:66
+msgid "Select a rating"
+msgstr "Sélectionner une note"
+
+#: includes/widgets/class-details-widget.php:67
+msgid "No rating to display."
+msgstr "Aucune note à afficher."
+
+#: includes/widgets/class-details-widget.php:130
+#: includes/widgets/class-movies-widget.php:179
+#: includes/widgets/class-taxonomies-widget.php:144
+msgid "Permalink for &laquo; %s &raquo;"
+msgstr "Permalien pour &laquo; %s &raquo;"
+
+#: includes/widgets/class-details-widget.php:150
+msgid "No detail no show"
+msgstr "Aucun détails à afficher."
+
+#: includes/widgets/class-movies-widget.php:26
+msgid "WPMovieLibrary Movies"
+msgstr "WPMovieLibrary − Films"
+
+#: includes/widgets/class-movies-widget.php:27
+msgid ""
+"Display a list of movies from a specific taxonomy, media, status, rating…"
+msgstr "Afficher les films par taxonomies, média, statut, note…"
+
+#: includes/widgets/class-movies-widget.php:84
+msgid "Date"
+msgstr "Date"
+
+#: includes/widgets/class-movies-widget.php:170 views/empty.php:13
+msgid "Nothing to display."
+msgstr "Rien à afficher"
+
+#: includes/widgets/class-statistics-widget.php:28
+msgid "WPMovieLibrary Statistics"
+msgstr "WPMovieLibrary Statistiques"
+
+#: includes/widgets/class-statistics-widget.php:31
+msgid "Display some statistics about your movie library"
+msgstr "Quelques statistiques à propos de votre médiathèque"
+
+#: includes/widgets/class-statistics-widget.php:88
+#: views/dashboard-statistics/statistics.php:10
+msgid "one movie"
+msgid_plural "%s movies"
+msgstr[0] "un film"
+msgstr[1] "%s films"
+
+#: includes/widgets/class-statistics-widget.php:89
+#: views/dashboard-statistics/statistics.php:11
+msgid "one collection"
+msgid_plural "%s collections"
+msgstr[0] "une collection"
+msgstr[1] "%s collections"
+
+#: includes/widgets/class-statistics-widget.php:90
+#: views/dashboard-statistics/statistics.php:12
+msgid "one genre"
+msgid_plural "%s genres"
+msgstr[0] "un genre"
+msgstr[1] "%s genres"
+
+#: includes/widgets/class-statistics-widget.php:91
+#: views/dashboard-statistics/statistics.php:13
+msgid "one actor"
+msgid_plural "%s actors"
+msgstr[0] "un acteur"
+msgstr[1] "%s acteurs"
+
+#: includes/widgets/class-statistics-widget.php:138
+msgid ""
+"All combined you have a total of %total% in your library, regrouped in "
+"%collections%, %genres% and %actors%."
+msgstr ""
+"Vous possédez un total de %total% dans votre médiathèque, regroupé(s) en "
+"%collections%, %genres% et %actors%."
+
+#: includes/widgets/class-taxonomies-widget.php:27
+msgid "WPMovieLibrary Taxonomies"
+msgstr "WPMovieLibrary Taxonomies"
+
+#: includes/widgets/class-taxonomies-widget.php:28
+msgid ""
+"Display a list of terms from a specific taxonomy: collections, genres or "
+"actors."
+msgstr "Afficher les éléments d'une taxonomie : collections, genres, acteurs…"
+
+#: includes/widgets/class-taxonomies-widget.php:36
+msgid "Movie Taxonomies"
+msgstr "Taxonomies"
+
+#: includes/widgets/class-taxonomies-widget.php:66
+msgid "Select a collection"
+msgstr "Sélectionner une collection"
+
+#: includes/widgets/class-taxonomies-widget.php:67
+msgid "View all collections"
+msgstr "Voir toutes les collections"
+
+#: includes/widgets/class-taxonomies-widget.php:68
+msgid "Nothing to display for \"Collection\" taxonomy."
+msgstr "Aucune collection à afficher."
+
+#: includes/widgets/class-taxonomies-widget.php:71
+msgid "Select a genre"
+msgstr "Sélectionner un genre"
+
+#: includes/widgets/class-taxonomies-widget.php:72
+msgid "View all genres"
+msgstr "Voir tous les genres"
+
+#: includes/widgets/class-taxonomies-widget.php:73
+msgid "Nothing to display for \"Genre\" taxonomy."
+msgstr "Aucun genre à afficher."
+
+#: includes/widgets/class-taxonomies-widget.php:76
+msgid "Select an actor"
+msgstr "Sélectionner un acteur"
+
+#: includes/widgets/class-taxonomies-widget.php:77
+msgid "View all actors"
+msgstr "Voir tous les acteurs"
+
+#: includes/widgets/class-taxonomies-widget.php:78
+msgid "Nothing to display for \"Actor\" taxonomy."
+msgstr "Aucun acteur à afficher."
+
+#: includes/widgets/class-taxonomies-widget.php:153
+msgid "View the complete list"
+msgstr "Voir la liste complète"
 
 #: includes/wpml-config.php:22
 msgid "API Settings"
@@ -1599,15 +1765,15 @@ msgstr "Auteur"
 msgid "Writer"
 msgstr "Écrivain"
 
-#: public/class-wpml-actors.php:73
+#: public/class-wpml-actors.php:68
 msgid "New Actor"
 msgstr "Nouvel acteur"
 
-#: public/class-wpml-collections.php:71
+#: public/class-wpml-collections.php:66
 msgid "New Movie Collection"
 msgstr "Nouvelle collection"
 
-#: public/class-wpml-genres.php:70
+#: public/class-wpml-genres.php:65
 msgid "New Genre"
 msgstr "Nouveau genre"
 
@@ -1623,8 +1789,8 @@ msgstr "Ajouter un film"
 msgid "Edit Movie"
 msgstr "Éditer un film"
 
-#: public/class-wpml-movies.php:62 public/class-wpmovielibrary.php:240
-#: public/class-wpmovielibrary.php:243
+#: public/class-wpml-movies.php:62 public/class-wpmovielibrary.php:239
+#: public/class-wpmovielibrary.php:242
 msgid "New Movie"
 msgstr "Nouveau film"
 
@@ -1667,243 +1833,6 @@ msgid "Queued Movie <span class=\"count\">(%s)</span>"
 msgid_plural "Queued Movies <span class=\"count\">(%s)</span>"
 msgstr[0] "Film en attente <span class=\"count\">(%s)</span>"
 msgstr[1] "Films en attente <span class=\"count\">(%s)</span>"
-
-#: public/widgets/class-actors-widget.php:29
-msgid "WPML Actors"
-msgstr "WPML Acteurs"
-
-#: public/widgets/class-actors-widget.php:32
-msgid "Display Movie Actors Lists"
-msgstr "Afficher les acteurs"
-
-#: public/widgets/class-actors-widget.php:90
-#: public/widgets/class-collections-widget.php:90
-#: public/widgets/class-genres-widget.php:84
-#: public/widgets/class-media-widget.php:94
-#: public/widgets/class-media-widget.php:125
-#: public/widgets/class-most-rated-movies-widget.php:123
-#: public/widgets/class-recent-movies-widget.php:88
-#: public/widgets/class-status-widget.php:94
-#: public/widgets/class-status-widget.php:127
-msgid "Permalink for &laquo; %s &raquo;"
-msgstr "Permalien pour &laquo; %s &raquo;"
-
-#: public/widgets/class-actors-widget.php:97
-msgid "View all actors"
-msgstr "Voir tous les acteurs"
-
-#: public/widgets/class-actors-widget.php:99
-#: public/widgets/class-collections-widget.php:99
-msgid "View the complete list"
-msgstr "Voir la liste complète"
-
-#: public/widgets/class-actors-widget.php:103
-msgid "Select an actor"
-msgstr "Sélectionner un acteur"
-
-#: public/widgets/class-actors-widget.php:111
-msgid "Nothing to display for \"Actor\" taxonomy."
-msgstr "Aucun acteur à afficher."
-
-#: public/widgets/class-actors-widget.php:151
-msgid "Movie Actors"
-msgstr "Acteurs"
-
-#: public/widgets/class-collections-widget.php:29
-msgid "WPML Collections"
-msgstr "WPML Collections"
-
-#: public/widgets/class-collections-widget.php:32
-msgid "Display Movie Collections Lists"
-msgstr "Afficher les collections"
-
-#: public/widgets/class-collections-widget.php:97
-msgid "View all collections"
-msgstr "Voir toutes les collections"
-
-#: public/widgets/class-collections-widget.php:103
-msgid "Select a collection"
-msgstr "Sélectionner une collection"
-
-#: public/widgets/class-collections-widget.php:111
-msgid "Nothing to display for \"Collection\" taxonomy."
-msgstr "Aucune collection à afficher."
-
-#: public/widgets/class-collections-widget.php:151
-msgid "Movie Collections"
-msgstr "Collections"
-
-#: public/widgets/class-genres-widget.php:29
-msgid "WPML Genres"
-msgstr "WPML Genres"
-
-#: public/widgets/class-genres-widget.php:32
-msgid "Display Movie Genres Lists"
-msgstr "Afficher les genres"
-
-#: public/widgets/class-genres-widget.php:90
-msgid "Select a genre"
-msgstr "Sélectionner un genre"
-
-#: public/widgets/class-genres-widget.php:98
-msgid "Nothing to display for \"Genre\" taxonomy."
-msgstr "Aucun genre à afficher."
-
-#: public/widgets/class-genres-widget.php:137
-msgid "Movie Genres"
-msgstr "Genres"
-
-#: public/widgets/class-media-widget.php:29
-msgid "WPML Media"
-msgstr "WPML Médias"
-
-#: public/widgets/class-media-widget.php:32
-msgid "Display Movies from a specific media"
-msgstr "Afficher les films selon leur média"
-
-#: public/widgets/class-media-widget.php:101
-msgid "Select a media"
-msgstr "Sélectionner un média"
-
-#: public/widgets/class-media-widget.php:109
-#: public/widgets/class-most-rated-movies-widget.php:99
-#: public/widgets/class-most-rated-movies-widget.php:138 views/empty.php:13
-msgid "Nothing to display."
-msgstr "Rien à afficher"
-
-#: public/widgets/class-media-widget.php:183
-msgid "Movie by Media"
-msgstr "Films par médias"
-
-#: public/widgets/class-most-rated-movies-widget.php:28
-msgid "WPML Most Rated Movies"
-msgstr "WPML Films les mieux notés"
-
-#: public/widgets/class-most-rated-movies-widget.php:31
-msgid "Display most rated Movies."
-msgstr "Afficher les films les plus appréciés."
-
-#: public/widgets/class-most-rated-movies-widget.php:88
-msgid "Permalink for &laquo; %s Rated Movies &raquo;"
-msgstr "Permalin pour &laquo; Films notés %s &raquo;"
-
-#: public/widgets/class-most-rated-movies-widget.php:179
-msgid "Movies I really enjoyed"
-msgstr "Les films qui m’ont le plus plu"
-
-#: public/widgets/class-recent-movies-widget.php:28
-msgid "WPML Recent Movies"
-msgstr "WPML Films récents"
-
-#: public/widgets/class-recent-movies-widget.php:31
-msgid "Display most recently added Movies."
-msgstr "Afficher les derniers flims ajoutés."
-
-#: public/widgets/class-recent-movies-widget.php:140
-msgid "Recent Movies"
-msgstr "Films récents"
-
-#: public/widgets/class-recent-movies-widget.php:141
-msgid "Movies I recently added to my library"
-msgstr "Les films récemment ajoutés à ma médiathèque"
-
-#: public/widgets/class-statistics-widget.php:29
-msgid "WPML Statistics"
-msgstr "WPML Statistiques"
-
-#: public/widgets/class-statistics-widget.php:32
-msgid "Display some statistics about your movie library"
-msgstr "Quelques statistiques à propos de votre médiathèque"
-
-#: public/widgets/class-statistics-widget.php:89
-#: views/dashboard-statistics/statistics.php:10
-msgid "one movie"
-msgid_plural "%s movies"
-msgstr[0] "un film"
-msgstr[1] "%s films"
-
-#: public/widgets/class-statistics-widget.php:90
-#: views/dashboard-statistics/statistics.php:11
-msgid "one collection"
-msgid_plural "%s collections"
-msgstr[0] "une collection"
-msgstr[1] "%s collections"
-
-#: public/widgets/class-statistics-widget.php:91
-#: views/dashboard-statistics/statistics.php:12
-msgid "one genre"
-msgid_plural "%s genres"
-msgstr[0] "un genre"
-msgstr[1] "%s genres"
-
-#: public/widgets/class-statistics-widget.php:92
-#: views/dashboard-statistics/statistics.php:13
-msgid "one actor"
-msgid_plural "%s actors"
-msgstr[0] "un acteur"
-msgstr[1] "%s acteurs"
-
-#: public/widgets/class-statistics-widget.php:139
-msgid ""
-"All combined you have a total of %total% in your library, regrouped in "
-"%collections%, %genres% and %actors%."
-msgstr ""
-"Vous possédez un total de %total% dans votre médiathèque, regroupé(s) en "
-"%collections%, %genres% et %actors%."
-
-#: public/widgets/class-status-widget.php:29
-msgid "WPML Status"
-msgstr "WPML Statuts"
-
-#: public/widgets/class-status-widget.php:32
-msgid "Display Movies from a specific status"
-msgstr "Afficher les films d'un statut particulier"
-
-#: public/widgets/class-status-widget.php:101
-msgid "Select a status"
-msgstr "Sélectionner un statut"
-
-#: public/widgets/class-status-widget.php:183
-msgid "Movie by Status"
-msgstr "Films par statuts"
-
-#: views/actor-widget/actor-admin.php:9
-#: views/collection-widget/collection-admin.php:9
-#: views/genre-widget/genre-admin.php:9
-#: views/latest-widget/latest-movies-admin.php:9
-#: views/media-widget/media-admin.php:9 views/rating-widget/rating-admin.php:9
-#: views/stats-widget/statistics-admin.php:9
-#: views/status-widget/status-admin.php:9
-msgid "Description"
-msgstr "Description"
-
-#: views/actor-widget/actor-admin.php:14
-#: views/collection-widget/collection-admin.php:14
-#: views/genre-widget/genre-admin.php:14
-msgid "Show as dropdown"
-msgstr "Afficher comme liste déroulante"
-
-#: views/actor-widget/actor-admin.php:16
-#: views/collection-widget/collection-admin.php:16
-#: views/genre-widget/genre-admin.php:16
-msgid "Show movies count"
-msgstr "Afficher le nombre de films"
-
-#: views/actor-widget/actor-admin.php:18
-#: views/collection-widget/collection-admin.php:18
-#: views/genre-widget/genre-admin.php:18 views/media-widget/media-admin.php:22
-#: views/status-widget/status-admin.php:22
-msgid "Custom Style (only for dropdown)"
-msgstr "Style spécial (seulement pour les listes déroulantes)"
-
-#: views/actor-widget/actor-admin.php:19
-msgid "Number of actors to show"
-msgstr "Nombre d'acteurs à afficher"
-
-#: views/actor-widget/actor-admin.php:20
-#: views/collection-widget/collection-admin.php:20
-msgid "Set to 0 to disable limit. Not recommended."
-msgstr "Laisser à 0 pour ne pas limiter la liste. Déconseillé."
 
 #: views/admin-footer.php:2
 msgid ""
@@ -1948,10 +1877,6 @@ msgstr ""
 #: views/admin-notice.php:15
 msgid "Create an archive page"
 msgstr "Créer une page d'archive"
-
-#: views/collection-widget/collection-admin.php:19
-msgid "Number of collections to show"
-msgstr "Nombre de collections à afficher"
 
 #: views/dashboard/dashboard.php:9
 msgid "Dismiss"
@@ -2136,6 +2061,27 @@ msgstr ""
 "Vous possédez un total de %s dans votre médiathèque, regroupé(s) en %s, %s "
 "et %s."
 
+#: views/details-widget/details-admin.php:9
+#: views/movies-widget/movies-admin.php:9
+#: views/statistics-widget/statistics-admin.php:9
+#: views/taxonomies-widget/taxonomies-admin.php:9
+msgid "Description"
+msgstr "Description"
+
+#: views/details-widget/details-admin.php:13
+msgid "Detail"
+msgstr "Détail"
+
+#: views/details-widget/details-admin.php:23
+#: views/taxonomies-widget/taxonomies-admin.php:22
+msgid "Show as dropdown"
+msgstr "Afficher comme liste déroulante"
+
+#: views/details-widget/details-admin.php:25
+#: views/taxonomies-widget/taxonomies-admin.php:26
+msgid "Custom Style (only for dropdown)"
+msgstr "Style spécial (seulement pour les listes déroulantes)"
+
 #: views/edit-movies/quick-edit.php:3
 msgid "Movie Dtails"
 msgstr "Détails"
@@ -2300,37 +2246,6 @@ msgstr "Retirer de la file d'attente"
 msgid "Queued"
 msgstr "Dans la file d'attente"
 
-#: views/latest-widget/latest-movies-admin.php:13
-#: views/rating-widget/rating-admin.php:24
-msgid "Number of movies to show"
-msgstr "Nombre de films à afficher"
-
-#: views/media-widget/media-admin.php:13
-msgid "Show Media only"
-msgstr "Afficher les médias uniquement"
-
-#: views/media-widget/media-admin.php:14
-#: views/rating-widget/rating-admin.php:14
-#: views/status-widget/status-admin.php:14
-msgid "Show Movies"
-msgstr "Afficher les films"
-
-#: views/media-widget/media-admin.php:18
-#: views/status-widget/status-admin.php:18
-msgid "Display as dropdown"
-msgstr "Afficher comme liste déroulante"
-
-#: views/media-widget/media-admin.php:27
-#: views/rating-widget/rating-admin.php:19
-#: views/status-widget/status-admin.php:27
-msgid "Show icons"
-msgstr "Afficher les icônes"
-
-#: views/media-widget/media-admin.php:41
-#: views/status-widget/status-admin.php:41
-msgid "Show thumbnails"
-msgstr "Afficher les miniatures"
-
 #: views/metaboxes/movie-details.php:11
 msgid "Status:"
 msgstr "Statut :"
@@ -2368,30 +2283,77 @@ msgstr "Chercher"
 msgid "Empty Results"
 msgstr "Vider les résultats"
 
-#: views/rating-widget/movies-by-rating.php:20
-msgid "Read more about"
-msgstr "Lire la suite"
+#: views/movies-widget/movies-admin.php:13
+msgid "Show movies by..."
+msgstr "Afficher les films par…"
 
-#: views/rating-widget/rating-admin.php:13
-#: views/status-widget/status-admin.php:13
-msgid "Show Status only"
-msgstr "Afficher les status uniquement"
+#: views/movies-widget/movies-admin.php:21
+#: views/movies-widget/movies-admin.php:28
+#: views/movies-widget/movies-admin.php:35
+msgid "All"
+msgstr "Tout"
 
-#: views/rating-widget/rating-admin.php:28
-msgid "Display movie rating"
+#: views/movies-widget/movies-admin.php:43
+msgid "Sort movies ..."
+msgstr "Classer les films par…"
+
+#: views/movies-widget/movies-admin.php:45
+msgid "Ascending"
+msgstr "Croissant"
+
+#: views/movies-widget/movies-admin.php:46
+msgid "Descending"
+msgstr "Décroissant"
+
+#: views/movies-widget/movies-admin.php:50
+msgid "Number of movies to show"
+msgstr "Nombre de films à afficher"
+
+#: views/movies-widget/movies-admin.php:54
+msgid "Show movie rating"
 msgstr "Afficher la note"
 
-#: views/rating-widget/rating-admin.php:30
+#: views/movies-widget/movies-admin.php:56
+#: views/movies-widget/movies-admin.php:64
+#: views/movies-widget/movies-admin.php:72
 msgid "No"
 msgstr "Non"
 
-#: views/rating-widget/rating-admin.php:31
-msgid "Below Poster"
-msgstr "Sous l’affiche"
+#: views/movies-widget/movies-admin.php:57
+msgid "Stars only"
+msgstr "Afficher les étoiles uniquement"
 
-#: views/rating-widget/rating-admin.php:32
-msgid "Above Poster"
-msgstr "Au dessus de l’affiche"
+#: views/movies-widget/movies-admin.php:58
+msgid "Stars and note"
+msgstr "Étoiles et texte"
+
+#: views/movies-widget/movies-admin.php:62
+msgid "Show movie poster"
+msgstr "Afficher les affiches"
+
+#: views/movies-widget/movies-admin.php:65
+msgid "Thumbnail"
+msgstr "Miniature"
+
+#: views/movies-widget/movies-admin.php:66
+msgid "Normal"
+msgstr "Normal"
+
+#: views/movies-widget/movies-admin.php:70
+msgid "Show movie title"
+msgstr "Afficher les titres des films"
+
+#: views/movies-widget/movies-admin.php:73
+msgid "Before poster"
+msgstr "Avant l’affiche"
+
+#: views/movies-widget/movies-admin.php:74
+msgid "After poster"
+msgstr "Après l’affiche"
+
+#: views/movies-widget/movies.php:23
+msgid "Read more about"
+msgstr "Lire la suite"
 
 #: views/requirements-error.php:2
 msgid ""
@@ -2488,11 +2450,11 @@ msgstr "Vider le cache"
 msgid "Save Changes"
 msgstr "Enregistrer les modifications"
 
-#: views/stats-widget/statistics-admin.php:13
+#: views/statistics-widget/statistics-admin.php:13
 msgid "Format"
 msgstr "Format"
 
-#: views/stats-widget/statistics-admin.php:14
+#: views/statistics-widget/statistics-admin.php:14
 msgid ""
 "You can edit the format of the Widget's content; basic HTML tags are allowed "
 "(ul, ol, li, p, span, em, i, p, strong, b, br). Format Tags are:"
@@ -2501,21 +2463,37 @@ msgstr ""
 "autorisées (ul, ol, li, p, span, em, i, p, strong, b, br). Les balises de "
 "formatage sont :"
 
-#: views/stats-widget/statistics-admin.php:16
+#: views/statistics-widget/statistics-admin.php:16
 msgid "Total number of movies"
 msgstr "Nombre de films"
 
-#: views/stats-widget/statistics-admin.php:17
+#: views/statistics-widget/statistics-admin.php:17
 msgid "Number of Collections."
 msgstr "Nombre de collections"
 
-#: views/stats-widget/statistics-admin.php:18
+#: views/statistics-widget/statistics-admin.php:18
 msgid "Number of Genres."
 msgstr "Nombre de genres"
 
-#: views/stats-widget/statistics-admin.php:19
+#: views/statistics-widget/statistics-admin.php:19
 msgid "Number of Actors."
 msgstr "Nombre d'acteurs"
+
+#: views/taxonomies-widget/taxonomies-admin.php:13
+msgid "Taxonomy"
+msgstr "Taxonomie"
+
+#: views/taxonomies-widget/taxonomies-admin.php:24
+msgid "Show movies count"
+msgstr "Afficher le nombre de films"
+
+#: views/taxonomies-widget/taxonomies-admin.php:27
+msgid "Number of collections to show"
+msgstr "Nombre de collections à afficher"
+
+#: views/taxonomies-widget/taxonomies-admin.php:28
+msgid "Set to 0 to disable limit. Not recommended."
+msgstr "Laisser à 0 pour ne pas limiter la liste. Déconseillé."
 
 #. Plugin Name of the plugin/theme
 msgid "WPMovieLibrary"
@@ -2536,6 +2514,87 @@ msgstr "Charlie MERLAND"
 #. Author URI of the plugin/theme
 msgid "http://www.caercam.org/"
 msgstr "http://www.caercam.org/"
+
+#~ msgid "WPML Actors"
+#~ msgstr "WPML Acteurs"
+
+#~ msgid "Display Movie Actors Lists"
+#~ msgstr "Afficher les acteurs"
+
+#~ msgid "Movie Actors"
+#~ msgstr "Acteurs"
+
+#~ msgid "WPML Collections"
+#~ msgstr "WPML Collections"
+
+#~ msgid "Display Movie Collections Lists"
+#~ msgstr "Afficher les collections"
+
+#~ msgid "Movie Collections"
+#~ msgstr "Collections"
+
+#~ msgid "WPML Genres"
+#~ msgstr "WPML Genres"
+
+#~ msgid "Display Movie Genres Lists"
+#~ msgstr "Afficher les genres"
+
+#~ msgid "Movie Genres"
+#~ msgstr "Genres"
+
+#~ msgid "WPML Media"
+#~ msgstr "WPML Médias"
+
+#~ msgid "Display Movies from a specific media"
+#~ msgstr "Afficher les films selon leur média"
+
+#~ msgid "Movie by Media"
+#~ msgstr "Films par médias"
+
+#~ msgid "WPML Most Rated Movies"
+#~ msgstr "WPML Films les mieux notés"
+
+#~ msgid "Display most rated Movies."
+#~ msgstr "Afficher les films les plus appréciés."
+
+#~ msgid "Permalink for &laquo; %s Rated Movies &raquo;"
+#~ msgstr "Permalin pour &laquo; Films notés %s &raquo;"
+
+#~ msgid "Movies I really enjoyed"
+#~ msgstr "Les films qui m’ont le plus plu"
+
+#~ msgid "WPML Recent Movies"
+#~ msgstr "WPML Films récents"
+
+#~ msgid "Display most recently added Movies."
+#~ msgstr "Afficher les derniers flims ajoutés."
+
+#~ msgid "Recent Movies"
+#~ msgstr "Films récents"
+
+#~ msgid "Movies I recently added to my library"
+#~ msgstr "Les films récemment ajoutés à ma médiathèque"
+
+#~ msgid "WPML Status"
+#~ msgstr "WPML Statuts"
+
+#~ msgid "Movie by Status"
+#~ msgstr "Films par statuts"
+
+#~ msgid "Number of actors to show"
+#~ msgstr "Nombre d'acteurs à afficher"
+
+#~ msgid "Show Media only"
+#~ msgstr "Afficher les médias uniquement"
+
+#~ msgid "Display as dropdown"
+#~ msgstr "Afficher comme liste déroulante"
+
+#~ msgid "Show icons"
+#~ msgstr "Afficher les icônes"
+
+#~ msgid "Display movie rating"
+#~ msgstr "Afficher la note"
 
 #~ msgid "Select a Movie"
 #~ msgstr "Sélectionner un film"

@@ -90,7 +90,7 @@ abstract class WPML_Widget extends WP_Widget {
 			return;
 
 		foreach ( $this->widget_params as $key => $setting ) {
-			var_dump( $setting['type'] );
+
 			if ( isset( $instance[ $key ] ) ) {
 				if ( 'html' === $setting['type'] )
 					$instance[ $key ] = wp_kses( $instance[ $key ], array( 'ul', 'ol', 'li', 'p', 'span', 'em', 'i', 'p', 'strong', 'b', 'br' ) );
