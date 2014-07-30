@@ -204,7 +204,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 *
 		 * @return    null    Return early if no settings page is registered.
 		 */
-		public function enqueue_admin_styles() {
+		public function enqueue_admin_styles( $hook ) {
 
 			if ( ! isset( $this->plugin_screen_hook_suffix ) )
 				return;
@@ -214,24 +214,21 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( ! WPML_Utils::is_modern_wp() )
 				wp_enqueue_style( WPML_SLUG . '-legacy', WPML_URL . '/assets/css/legacy.css', array(), WPML_VERSION );
 
-			$screen = get_current_screen();
-			if ( in_array( $screen->id, $this->plugin_screen_hook_suffix ) )
+			if ( in_array( $hook, $this->plugin_screen_hook_suffix ) )
 				wp_enqueue_style( WPML_SLUG .'-admin-styles', WPML_URL . '/assets/css/admin.css', array(), WPML_VERSION );
 
 		}
 
 		/**
 		 * Register and enqueue admin-specific JavaScript.
-		 *
+		 * 
 		 * @since     1.0.0
-		 *
+		 * 
 		 * @return    null    Return early if no settings page is registered.
 		 */
-		public function enqueue_admin_scripts() {
+		public function enqueue_admin_scripts( $hook ) {
 
-			global $current_screen;
-
-			if ( ! isset( $this->plugin_screen_hook_suffix ) || ! in_array( $current_screen->id, $this->plugin_screen_hook_suffix ) )
+			if ( ! isset( $this->plugin_screen_hook_suffix ) || ! in_array( $hook, $this->plugin_screen_hook_suffix ) )
 				return;
 
 			// Main admin script, containing basic functions
@@ -243,10 +240,10 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			);
 
 			// Settings script
-			if ( $current_screen->id == $this->plugin_screen_hook_suffix['settings'] || $current_screen->id == $this->plugin_screen_hook_suffix['import'] )
+			if ( $hook == $this->plugin_screen_hook_suffix['settings'] || $hook == $this->plugin_screen_hook_suffix['import'] )
 				wp_enqueue_script( WPML_SLUG . '-settings', WPML_URL . '/assets/js/wpml.settings.js', array( WPML_SLUG, 'jquery', 'jquery-ui-sortable' ), WPML_VERSION, true );
 
-			if ( $current_screen->id == $this->plugin_screen_hook_suffix['dashboard'] )
+			if ( $hook == $this->plugin_screen_hook_suffix['dashboard'] )
 				wp_enqueue_script( WPML_SLUG . '-dashboard', WPML_URL . '/assets/js/wpml.dashboard.js', array( WPML_SLUG, 'jquery', 'jquery-ui-sortable' ), WPML_VERSION, true );
 
 		}
