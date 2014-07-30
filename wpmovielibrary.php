@@ -102,26 +102,30 @@ if ( wpml_requirements_met() ) {
 	 * Public-Facing Functionality
 	 *----------------------------------------------------------------------------*/
 
+	/* Core */
 	require_once( WPML_PATH . 'includes/class-module.php' );
 	require_once( WPML_PATH . 'public/class-wpmovielibrary.php' );
 
+	/* Basics */
 	require_once( WPML_PATH . 'includes/class-wpml-settings.php' );
 	require_once( WPML_PATH . 'includes/class-wpml-cache.php' );
 	require_once( WPML_PATH . 'includes/class-wpml-utils.php' );
 
+	/* CPT and Taxo */
 	require_once( WPML_PATH . 'public/class-wpml-movies.php' );
 	require_once( WPML_PATH . 'public/class-wpml-collections.php' );
 	require_once( WPML_PATH . 'public/class-wpml-genres.php' );
 	require_once( WPML_PATH . 'public/class-wpml-actors.php' );
+
+	/* Self-speaking */
 	require_once( WPML_PATH . 'public/class-shortcodes.php' );
 
 	/* Widgets */
-
 	require_once( WPML_PATH . 'includes/class-wpml-widget.php' );
-	require_once( WPML_PATH . 'public/widgets/class-statistics-widget.php' );
-	require_once( WPML_PATH . 'public/widgets/class-taxonomies-widget.php' );
-	require_once( WPML_PATH . 'public/widgets/class-details-widget.php' );
-	require_once( WPML_PATH . 'public/widgets/class-movies-widget.php' );
+	require_once( WPML_PATH . 'includes/widgets/class-statistics-widget.php' );
+	require_once( WPML_PATH . 'includes/widgets/class-taxonomies-widget.php' );
+	require_once( WPML_PATH . 'includes/widgets/class-details-widget.php' );
+	require_once( WPML_PATH . 'includes/widgets/class-movies-widget.php' );
 
 	/*
 	 * Register hooks that are fired when the plugin is activated or deactivated.

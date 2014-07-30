@@ -59,10 +59,15 @@ abstract class WPML_Widget extends WP_Widget {
 			return $instance;
 
 		foreach ( $this->widget_params as $key => $setting ) {
-			if ( isset( $new_instance[ $key ] ) )
-				$instance[ $key ] = sanitize_text_field( $new_instance[ $key ] );
-			elseif ( 'checkbox' === $setting['type'] )
-				$instance[ $key ] = 0;
+			var_dump( $setting['type'] );
+			if ( isset( $new_instance[ $key ] ) ) {
+				if ( 'html' === $setting['type'] )
+					$instance[ $key ] = wpautop( wp_kses( $instance[ $key ], array( 'ul', 'ol', 'li', 'p', 'span', 'em', 'i', 'p', 'strong', 'b', 'br' ) ) );
+				else if ( 'checkbox' === $setting['type'] )
+					$instance[ $key ] = 0;
+				else
+					$instance[ $key ] = sanitize_text_field( $new_instance[ $key ] );
+			}
 			else
 				$instance[ $key ] = '';
 		}
@@ -85,8 +90,13 @@ abstract class WPML_Widget extends WP_Widget {
 			return;
 
 		foreach ( $this->widget_params as $key => $setting ) {
-			if ( isset( $instance[ $key ] ) )
-				$instance[ $key ] = sanitize_text_field( $instance[ $key ] );
+			var_dump( $setting['type'] );
+			if ( isset( $instance[ $key ] ) ) {
+				if ( 'html' === $setting['type'] )
+					$instance[ $key ] = wp_kses( $instance[ $key ], array( 'ul', 'ol', 'li', 'p', 'span', 'em', 'i', 'p', 'strong', 'b', 'br' ) );
+				else
+					$instance[ $key ] = sanitize_text_field( $instance[ $key ] );
+			}
 			else
 				$instance[ $key ] = $setting['std'];
 		}

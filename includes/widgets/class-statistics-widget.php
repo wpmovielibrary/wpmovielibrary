@@ -9,10 +9,9 @@
 
 
 /**
- * Status Widget.
+ * Statistics Widget.
  * 
- * Display a list of the Movies from a specific Status. Options: Title, Description,
- * Status, Show as dropdown.
+ * Display some public statistics about the plugin usage.
  * 
  * @since    1.0.0
  */
@@ -26,7 +25,7 @@ class WPML_Statistics_Widget extends WP_Widget {
 
 		parent::__construct(
 			'wpml-statistics-widget',
-			__( 'WPML Statistics', 'wpmovielibrary' ),
+			__( 'WPMovieLibrary Statistics', 'wpmovielibrary' ),
 			array(
 				'classname'	=>	'wpml-statistics-widget',
 				'description'	=>	__( 'Display some statistics about your movie library', 'wpmovielibrary' )
@@ -101,7 +100,7 @@ class WPML_Statistics_Widget extends WP_Widget {
 
 		$attributes = array( 'content' => $content, 'description' => $description, 'style' => $style );
 
-		$html = WPMovieLibrary::render_template( 'stats-widget/statistics-widget.php', $attributes );
+		$html = WPMovieLibrary::render_template( 'statistics-widget/statistics.php', $attributes );
 
 		return $before_widget . $title . $html . $after_widget;
 	}
@@ -139,7 +138,7 @@ class WPML_Statistics_Widget extends WP_Widget {
 		$instance['format'] = ( isset( $instance['format'] ) && '' != $instance['format'] ? $instance['format'] : __( 'All combined you have a total of %total% in your library, regrouped in %collections%, %genres% and %actors%.', 'wpmovielibrary' ) );
 
 		// Display the admin form
-		echo WPMovieLibrary::render_template( 'stats-widget/statistics-admin.php', array( 'widget' => $this, 'instance' => $instance ), $require = 'always' );
+		echo WPMovieLibrary::render_template( 'statistics-widget/statistics-admin.php', array( 'widget' => $this, 'instance' => $instance ), $require = 'always' );
 	}
 
 }
