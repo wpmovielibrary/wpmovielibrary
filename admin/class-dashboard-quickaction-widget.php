@@ -111,12 +111,12 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 				'new_movie' => array(
 					'url'   => admin_url( 'post-new.php?post_type=movie' ),
 					'title' => __( 'New movie', 'wpmovielibrary' ),
-					'icon'  => 'dashicons dashicons-welcome-write-blog'
+					'icon'  => 'dashicons dashicons-welcome-add-page'
 				),
 				'import'    => array(
 					'url'   => admin_url( 'admin.php?page=wpml_import' ),
 					'title' => __( 'Import movies', 'wpmovielibrary' ),
-					'icon'  => 'dashicons dashicons-list-view'
+					'icon'  => 'dashicons dashicons-download'
 				),
 				'settings'  => array(
 					'url'   => admin_url( 'edit.php?post_type=movie' ),

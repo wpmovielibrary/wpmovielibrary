@@ -124,7 +124,7 @@ if ( ! class_exists( 'WPML_Dashboard_Stats_Widget' ) ) :
 				'movie' => array(
 					'single' => __( 'One movie', 'wpmovielibrary' ),
 					'plural' => __( '%d movies', 'wpmovielibrary' ),
-					'empty'  => sprintf( '%s <a href="%s">%s</a>', __( 'No movie added yet.', 'wpmovielibrary' ), admin_url( 'post-new.php?post_status=publish&post_type=movie' ), __( 'Add one!', 'wpmovielibrary' ) ),
+					'empty'  => __( 'No movie added yet.', 'wpmovielibrary' ),
 					'url'    => admin_url( 'edit.php?post_type=movie' ),
 					'icon'   => 'dashicons dashicons-format-video',
 					'string' => '<a href="%s">%s</a>'

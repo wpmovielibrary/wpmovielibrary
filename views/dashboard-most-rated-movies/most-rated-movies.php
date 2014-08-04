@@ -21,9 +21,19 @@ if ( ! empty( $movies ) ) :
 								</div>
 <?php
 	endforeach;
+
+	if ( true !== DOING_AJAX ) : ?>
+							<div style="text-align:center">
+								<a href="#" id="most_rated_movies_load_more" class="button button-default hide-if-no-js<?php if ( '0' == $settings['show_more'] ) echo ' hide-if-js'; ?>">
+									<span class="dashicons dashicons-plus"></span> <span><?php _e( 'Load more', 'wpmovielibrary' ) ?></span>
+								</a>
+							</div>
+<?php
+	endif;
 else :
 ?>
 							<em><?php _e( 'No movies found', 'wpmovielibrary' ); ?></em>
+							<p style="text-align:center"><a href="<?php echo admin_url( 'post-new.php?post_status=publish&post_type=movie' ) ?>"><span class="dashicons dashicons-plus"></span> <?php _e( 'Add a movie!', 'wpmovielibrary' ) ?></a></p>
 <?php
 endif;
 
@@ -31,11 +41,3 @@ if ( ! $offset ) : ?>
 							</div>
 <?php
 endif;
-
-if ( true !== DOING_AJAX ) : ?>
-							<div style="text-align:center">
-								<a href="#" id="most_rated_movies_load_more" class="button button-default hide-if-no-js<?php if ( '0' == $settings['show_more'] ) echo ' hide-if-js'; ?>">
-									<span class="dashicons dashicons-plus"></span> <span><?php _e( 'Load more', 'wpmovielibrary' ) ?></span>
-								</a>
-							</div>
-<?php endif; ?>
