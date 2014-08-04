@@ -402,7 +402,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 				foreach ( $_POST['tmdb'] as $tmdb_data ) {
 					if ( 0 != $tmdb_data['tmdb_id'] && in_array( $tmdb_data['post_id'], $post_ids ) ) {
-						$update = WPML_Edit_Movies::save_movie_meta( $tmdb_data['post_id'], $post = null, $queue = false, $tmdb_data );
+						$update = WPML_Edit_Movies::save_movie( $tmdb_data['post_id'], $post = null, $queue = false, $tmdb_data );
 						if ( is_wp_error( $update ) )
 							$errors->add( $update->get_error_code(), $update->get_error_message() );
 						else

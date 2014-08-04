@@ -480,19 +480,23 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @return   array    WPML Supported Movie Meta fields.
 		 */
-		public static function get_supported_movie_meta( $type = null, $merge = true ) {
+		public static function get_supported_movie_meta( $type = null ) {
 
 			global $wpml_movie_meta;
 
 			if ( is_null( $wpml_movie_meta ) )
 				require( WPML_PATH . 'includes/wpml-config.php' );
 
-			if ( is_null( $type ) && false === $merge )
-				return $wpml_movie_meta;
-			else if ( ! is_null( $type ) && ! $merge && isset( $wpml_movie_meta[ $type ] ) )
-				return $wpml_movie_meta[ $type ]['data'];
-			else
-				return array_merge( $wpml_movie_meta['meta']['data'], $wpml_movie_meta['crew']['data'] );
+			if ( ! is_null( $type ) ) {
+				$meta = array();
+				foreach ( $wpml_movie_meta as $slug => $data )
+					if ( $data['group'] == $type )
+						$meta[ $slug ] = $data;
+
+				return $meta;
+			}
+
+			return $wpml_movie_meta;
 		}
 
 		/**

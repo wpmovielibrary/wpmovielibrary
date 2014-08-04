@@ -46,36 +46,54 @@
 			<input type="hidden" id="wpml_actor_limit" class="hide-if-js hide-if-no-js" value="<?php echo WPML_Settings::taxonomies__actor_limit() ?>" />
 			<input type="hidden" id="wpml_poster_featured" class="hide-if-js hide-if-no-js" value="<?php echo ( 1 == WPML_Settings::images__poster_featured() ? '1' : '0' ) ?>" />
 
-<?php foreach ( $metas as $id => $box ) : ?>
-			<table class="list-table tmdb_<?php echo $id ?>">
+			<table class="list-table meta">
 				<thead>
 					<tr>
-						<th class="left"><?php echo $box['type'] ?></th>
-						<th><?php echo $box['value'] ?></th>
+						<th class="left"><?php _e( 'Type', 'wpmovielibrary' ) ?></th>
+						<th><?php _e( 'Value', 'wpmovielibrary' ) ?></th>
 					</tr>
 				</thead>
 				<tbody>
-<?php foreach ( $box['data'] as $slug => $meta ) :
+<?php 
+$cur_meta = 'meta';
+foreach ( $metas as $slug => $meta ) :
+
+	if ( $meta['group'] != $cur_meta ) :
+		$cur_meta = $meta['group'];
+?>
+				</tbody>
+			</table>
+
+			<table class="list-table crew">
+				<thead>
+					<tr>
+						<th class="left"><?php _e( 'Job', 'wpmovielibrary' ) ?></th>
+						<th><?php _e( 'Name(s)', 'wpmovielibrary' ) ?></th>
+					</tr>
+				</thead>
+				<tbody>
+<?php
+	endif;
+
 	$_value = '';
-	if ( isset( $metadata[ $id ][ $slug ] ) )
-		$_value = apply_filters( 'wpml_stringify_array', $metadata[ $id ][ $slug ] );
+	if ( isset( $metadata[ $slug ] ) )
+		$_value = apply_filters( 'wpml_stringify_array', $metadata[ $slug ] );
 ?>
 					<tr>
 						<td class="left"><?php _e( $meta['title'], 'wpmovielibrary' ) ?></td>
 <?php if ( isset( $meta['type'] ) && 'textarea' == $meta['type'] ) : ?>
 						<td>
-							<textarea id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $id; ?>][<?php echo $slug; ?>]" class="tmdb_data_field" rows="6"><?php echo $_value ?></textarea>
+							<textarea id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $meta['group']; ?>][<?php echo $slug; ?>]" class="tmdb_data_field" rows="6"><?php echo $_value ?></textarea>
 						</td>
 <?php elseif ( isset( $meta['type'] ) && in_array( $meta['type'], array( 'text', 'hidden' ) ) ) : ?>
 						<td>
-							<input type="<?php echo $meta['type']; ?>" id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $id; ?>][<?php echo $slug; ?>]" class="tmdb_data_field" value="<?php echo $_value ?>" />
+							<input type="<?php echo $meta['type']; ?>" id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $meta['group']; ?>][<?php echo $slug; ?>]" class="tmdb_data_field" value="<?php echo $_value ?>" />
 						</td>
 <?php endif; ?>
 					</tr>
 <?php endforeach; ?>
 				</tbody>
 			</table>
-<?php endforeach; ?>
 
 			<div style="clear:both"></div>
 

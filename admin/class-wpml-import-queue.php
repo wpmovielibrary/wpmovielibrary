@@ -92,7 +92,8 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			self::display_queued_movie_list();
 			$rows = ob_get_clean();
 
-			$total_items = WPML_Stats::get_queued_movies_count();
+			$total_items = (array) wp_count_posts( 'movie' );
+			$total_items = $total_items['import-queued'];
 
 			$response = array( 'rows' => $rows );
 			$i18n = array();
@@ -205,7 +206,9 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				return new WP_Error( 'error', sprintf( __( 'An error occured when adding "%s" to the queue: %s', 'wpmovielibrary' ), $post_title, $update->get_error_message() ) );
 
 			// TODO: Use WP_Error
-			WPML_Edit_Movies::save_movie_meta( $update, $post = null, $queue = true, $metadata );
+			$update = WPML_Edit_Movies::save_movie( $update, $post = null, $queue = true, $metadata );
+			if ( is_wp_error( $update ) )
+				return new WP_Error( 'error', sprintf( __( 'An error occured when adding "%s" to the queue: %s', 'wpmovielibrary' ), $post_title, $update->get_error_message() ) );
 
 			return $post_id;
 		}
@@ -292,7 +295,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			if ( is_null( $post_id ) || ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) )
 				return new WP_Error( 'invalid_movie', sprintf( __( 'Error: submitted Post ID doesn\t match any valid movie.', 'wpmovielibrary' ) ) );
 
-			$meta = get_post_meta( $post_id, '_wpml_movie_data', true );
+			$meta = WPML_Utils::get_movie_data( 'data', $post_id );
 			if ( '' == $meta || ! is_array( $meta ) || ! isset( $meta['poster'] ) || ! isset( $meta['tmdb_id'] ) )
 				return new WP_Error( 'invalid_meta', sprintf( __( 'Error: cannot find submitted movie\'s metadata, try enqueuing it again.', 'wpmovielibrary' ) ) );
 
@@ -338,14 +341,11 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				while ( have_posts() ) {
 					the_post();
 					if ( 'import-queued' == get_post_status() ) {
-						//echo '<!-- '.print_r( $metadata, true ).' -->';
-						$metadata = WPML_Utils::get_movie_data( get_the_ID() );
 						$columns[ get_the_ID() ] = array(
-							'ID'         => get_the_ID(),
-							//'poster'     => '<img src="' . WPML_TMDb::get_image_url( $metadata['poster'], 'poster', 'xxx-small' ) . '" alt="' . get_the_title() . '" />',
-							'title' => get_the_title(),
-							'director'   => $metadata['crew']['director'],
-							'tmdb_id'    => get_post_meta( get_the_ID(), '_wpml_tmdb_id', true )
+							'ID'       => get_the_ID(),
+							'title'    => get_the_title(),
+							'director' => WPML_Utils::get_movie_data( 'director', get_the_ID() ),
+							'tmdb_id'  => get_post_meta( get_the_ID(), '_wpml_tmdb_id', true )
 						);
 					}
 				}

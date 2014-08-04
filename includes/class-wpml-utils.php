@@ -281,8 +281,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 *
 		 * @return   array|string    WPML Movie TMDb data if stored, empty string else.
 		 */
-		public static function get_movie_data( $post_id = null ) {
-			return WPML_Utils::get_movie_postmeta( 'data', $post_id );
+		public static function get_movie_data( $meta = 'data', $post_id = null ) {
+			return WPML_Utils::get_movie_postmeta( $meta, $post_id );
 		}
 
 		/**
@@ -343,13 +343,26 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		private static function get_movie_postmeta( $meta, $post_id = null ) {
 
-			$allowed_meta = array( 'data', 'status', 'media', 'rating' );
+			//$allowed_meta = array( 'data', 'status', 'media', 'rating' );
 
 			if ( is_null( $post_id ) )
 				$post_id =  get_the_ID();
 
 			if ( ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) || ! in_array( $meta, $allowed_meta ) )
 				return false;
+
+			if ( 'data' == $meta ) {
+				$_meta = WPML_Settings::get_supported_movie_meta();
+				$value = array();
+
+				$value['tmdb_id'] = get_post_meta( $post_id, "_wpml_movie_tmdb_id", true );
+				$value['poster'] = get_post_meta( $post_id, "_wpml_movie_poster", true );
+
+				foreach ( array_keys( $_meta ) as $slug )
+					$value[ $slug ] = get_post_meta( $post_id, "_wpml_movie_{$slug}", true );
+
+				return $value;
+			}
 
 			$value = get_post_meta( $post_id, "_wpml_movie_{$meta}", true );
 			if ( 'rating' == $meta )
@@ -476,8 +489,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			$filter = array();
 			$_data = array();
+			$_meta = WPML_Settings::get_supported_movie_meta( 'meta' );
 
-			foreach ( WPML_Settings::get_supported_movie_meta( 'meta' ) as $slug => $f ) {
+			foreach ( $_meta as $slug => $f ) {
 				$filter[] = $slug;
 				$_data[ $slug ] = '';
 			}
