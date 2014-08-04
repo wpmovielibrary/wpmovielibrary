@@ -243,7 +243,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			$tmdb = new TMDb;
 			$config = $tmdb->getConfig();
 
-			$title  = WPML_Utils::clean_search_title( $title );
+			$title  = preg_replace( '/[^\p{L}\p{N}\s]/u', '', trim( $title ) );
 			$data   = $tmdb->searchMovie( $title, 1, FALSE, NULL, $lang );
 
 			if ( is_wp_error( $data ) )

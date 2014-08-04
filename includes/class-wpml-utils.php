@@ -343,8 +343,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		private static function get_movie_postmeta( $meta, $post_id = null ) {
 
-			//$allowed_meta = array( 'data', 'status', 'media', 'rating' );
-
 			if ( is_null( $post_id ) )
 				$post_id =  get_the_ID();
 
@@ -369,23 +367,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$value = number_format( floatval( $value ), 1 );
 
 			return $value;
-		}
-
-		/**
-		 * Clean movie title prior to search.
-		 * 
-		 * Remove non-alphanumerical characters.
-		 *
-		 * @since     1.0.0
-		 * 
-		 * @param     string     $query movie title to clean up
-		 * 
-		 * @return    string     cleaned up movie title
-		 */
-		public static function clean_search_title( $query ) {
-			$s = trim( $query );
-			$s = preg_replace( '/[^\p{L}\p{N}\s]/u', '', $s );
-			return $s;
 		}
 
 		/**
