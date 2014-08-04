@@ -236,7 +236,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			// Main admin script, containing basic functions
 			wp_enqueue_script( WPML_SLUG, WPML_URL . '/assets/js/wpml.js', array( 'jquery' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-utils', WPML_URL . '/assets/js/wpml.utils.js', array( 'jquery', 'wpmovielibrary' ), WPML_VERSION, true );
+			wp_enqueue_script( WPML_SLUG . '-utils', WPML_URL . '/assets/js/wpml.utils.js', array( 'jquery', WPML_SLUG ), WPML_VERSION, true );
 			wp_localize_script(
 				WPML_SLUG, 'wpml_ajax',
 				$this->localize_script()
