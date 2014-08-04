@@ -205,7 +205,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 *
 		 * @return    null    Return early if no settings page is registered.
 		 */
-		public function enqueue_admin_styles( $hook ) {
+		public function enqueue_admin_styles() {
 
 			if ( ! isset( $this->plugin_screen_hook_suffix ) )
 				return;
@@ -215,7 +215,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( ! WPML_Utils::is_modern_wp() )
 				wp_enqueue_style( WPML_SLUG . '-legacy', WPML_URL . '/assets/css/legacy.css', array(), WPML_VERSION );
 
-			if ( in_array( $hook, $this->plugin_screen_hook_suffix ) )
+			$screen = get_current_screen();
+			if ( in_array( $screen->id, $this->plugin_screen_hook_suffix ) )
 				wp_enqueue_style( WPML_SLUG .'-admin-styles', WPML_URL . '/assets/css/admin.css', array(), WPML_VERSION );
 
 		}
@@ -229,7 +230,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public function enqueue_admin_scripts( $hook ) {
 
-			if ( ! isset( $this->plugin_screen_hook_suffix ) || ! in_array( $hook, $this->plugin_screen_hook_suffix ) )
+			$screen = get_current_screen();
+			if ( ! in_array( $hook, $this->plugin_screen_hook_suffix ) && ! in_array( $screen->id, $this->plugin_screen_hook_suffix ) )
 				return;
 
 			// Main admin script, containing basic functions
