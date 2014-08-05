@@ -90,7 +90,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			add_action( 'init', array( $this, 'init' ) );
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 
-			if ( WPML_Utils::is_modern_wp() )
+			if ( wpml_modern_wp() )
 				add_action( 'admin_head', array( $this, 'custom_admin_colors' ) );
 
 			add_filter( 'pre_update_option_wpml_settings', array( $this, 'filter_settings' ), 10, 2 );
@@ -212,7 +212,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			wp_enqueue_style( WPML_SLUG .'-admin-common', WPML_URL . '/assets/css/admin-common.css', array(), WPML_VERSION );
 
-			if ( ! WPML_Utils::is_modern_wp() )
+			if ( ! wpml_modern_wp() )
 				wp_enqueue_style( WPML_SLUG . '-legacy', WPML_URL . '/assets/css/legacy.css', array(), WPML_VERSION );
 
 			$screen = get_current_screen();
@@ -382,7 +382,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$capability = 'manage_options',
 				$menu_slug = 'wpmovielibrary',
 				$function = null,
-				$icon_url = ( WPML_Utils::is_modern_wp() ? 'dashicons-format-video' : WPML_URL . '/assets/img/legacy/icon-movie.png' ),
+				$icon_url = ( wpml_modern_wp() ? 'dashicons-format-video' : WPML_URL . '/assets/img/legacy/icon-movie.png' ),
 				$position = 6
 			);
 

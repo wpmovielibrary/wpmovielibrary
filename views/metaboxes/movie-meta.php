@@ -4,7 +4,7 @@
 			<p><strong><?php _e( 'Find movie on TMDb:', 'wpmovielibrary' ); ?></strong></p>
 
 			<div>
-				<?php WPML_Utils::_nonce_field( 'search-movies' ) ?>
+				<?php wpml_nonce_field( 'search-movies' ) ?>
 				<select id="tmdb_search_lang" name="wpml[lang]" onchange="wpml_edit_meta.lang=this.value;">
 <?php foreach ( $languages as $code => $lang ) : ?>
 					<option value="<?php echo $code ?>" <?php selected( WPML_Settings::tmdb__lang(), $code ); ?>><?php echo $lang ?></option>
@@ -17,7 +17,7 @@
 				<input id="tmdb_query" type="text" name="wpml[tmdb_query]" value="" size="40" maxlength="32" />
 				<a id="tmdb_search" name="wpml[tmdb_search]" href="<?php echo get_edit_post_link() ?>&amp;wpml_auto_fetch=1" class="button button-secondary"><?php _e( 'Search', 'wpmovielibrary' ); ?></a>
 				<span class="spinner"></span>
-				<?php WPML_Utils::_nonce_field( 'empty-movie-meta' ) ?>
+				<?php wpml_nonce_field( 'empty-movie-meta' ) ?>
 				<a id="tmdb_empty" name="wpml[tmdb_empty]" type="submit" class="button button-secondary button-empty hide-if-no-js"><?php _e( 'Empty Results', 'wpmovielibrary' ); ?></a>
 			</div>
 

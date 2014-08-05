@@ -153,7 +153,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 */
 		public static function check_api_key_callback() {
 
-			WPML_Utils::check_ajax_referer( 'check-api-key' );
+			wpml_check_ajax_referer( 'check-api-key' );
 
 			if ( ! isset( $_GET['key'] ) || '' == $_GET['key'] || 32 !== strlen( $_GET['key'] ) )
 				return new WP_Error( 'invalid', __( 'Invalid API key - the key should be an alphanumerica 32 chars long string.', 'wpmovielibrary' ) );
@@ -165,7 +165,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			else
 				$response = array( 'message' => __( 'Valid API key - Save your settings and have fun!', 'wpmovielibrary' ) );
 
-			WPML_Utils::ajax_response( $response );
+			wpml_ajax_response( $response );
 		}
 
 		/**
@@ -175,7 +175,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 */
 		public static function search_movie_callback() {
 
-			WPML_Utils::check_ajax_referer( 'search-movies' );
+			wpml_check_ajax_referer( 'search-movies' );
 
 			$type = ( isset( $_GET['type'] ) && '' != $_GET['type'] ? $_GET['type'] : '' );
 			$data = ( isset( $_GET['data'] ) && '' != $_GET['data'] ? $_GET['data'] : '' );
@@ -190,7 +190,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			else if ( 'id' == $type )
 				$response = self::get_movie_by_id( $data, $lang, $_id );
 
-			WPML_Utils::ajax_response( $response );
+			wpml_ajax_response( $response );
 		}
 
 

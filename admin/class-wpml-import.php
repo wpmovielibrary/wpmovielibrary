@@ -79,12 +79,12 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 */
 		public static function delete_movies_callback() {
 
-			WPML_Utils::check_ajax_referer( 'delete-movies' );
+			wpml_check_ajax_referer( 'delete-movies' );
 
 			$movies = ( isset( $_GET['movies'] ) && '' != $_GET['movies'] ? $_GET['movies'] : null );
 
 			$response = self::delete_movies( $movies );
-			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( 'delete-movies' ) );
+			wpml_ajax_response( $response, array(), wpml_create_nonce( 'delete-movies' ) );
 		}
 
 		/**
@@ -97,7 +97,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 */
 		public static function imported_movies_callback() {
 
-			WPML_Utils::check_ajax_referer( 'imported-movies' );
+			wpml_check_ajax_referer( 'imported-movies' );
 
 			$wp_list_table = new WPML_Import_Table();
 			$wp_list_table->ajax_response();
@@ -113,12 +113,12 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 		 */
 		public static function import_movies_callback() {
 
-			WPML_Utils::check_ajax_referer( 'import-movies-list' );
+			wpml_check_ajax_referer( 'import-movies-list' );
 
 			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? esc_textarea( $_POST['movies'] ) : null );
 
 			$response = self::import_movies( $movies );
-			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( 'import-movies-list' ) );
+			wpml_ajax_response( $response, array(), wpml_create_nonce( 'import-movies-list' ) );
 		}
 
 		/**
@@ -165,7 +165,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				return $errors;
 			}
 
-			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'delete_movie' ), array( $movies ), $loop = true );
+			$response = wpml_ajax_filter( array( __CLASS__, 'delete_movie' ), array( $movies ), $loop = true );
 
 			WPML_Cache::clean_transient( 'clean', $force = true );
 
@@ -228,7 +228,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				return $errors;
 			}
 
-			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'import_movie' ), array( $movies ), $loop = true );
+			$response = wpml_ajax_filter( array( __CLASS__, 'import_movie' ), array( $movies ), $loop = true );
 
 			WPML_Cache::clean_transient( 'clean', $force = true );
 
@@ -396,7 +396,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 
 			if ( isset( $_POST['wpml_save_imported'] ) && '' != $_POST['wpml_save_imported'] && isset( $_POST['wpml_imported_ids'] ) && '' != $_POST['wpml_imported_ids'] && isset( $_POST['tmdb'] ) && count( $_POST['tmdb'] ) ) {
 
-				WPML_Utils::check_admin_referer( 'save-imported-movies' );
+				wpml_check_admin_referer( 'save-imported-movies' );
 
 				$post_ids = explode( ',', $_POST['wpml_imported_ids'] );
 

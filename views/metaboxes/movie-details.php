@@ -7,7 +7,7 @@
 
 					<div class="misc-pub-section">
 
-						<span class="<?php echo ( WPML_Utils::is_modern_wp() ? 'dashicons dashicons-share-alt' : 'movie-status-icon' ) ?>"></span>
+						<span class="<?php echo ( wpml_modern_wp() ? 'dashicons dashicons-share-alt' : 'movie-status-icon' ) ?>"></span>
 						<label for="movie-status"><?php _e( 'Status:', 'wpmovielibrary' ); ?></label>
 						<span id="movie-status-display"><?php $_status = WPML_Settings::get_available_movie_status(); $_status = ( '' != $movie_status ? $_status[ $movie_status ] : 'None' ); _e( $_status, 'wpmovielibrary' ) ?></span>
 						<a href="#movie-status" id="edit-movie-status" class="edit-movie-status hide-if-no-js" onclick="wpml_status.show(); return false;"><?php _e( 'Edit', 'wpmovielibrary' ); ?></a>
@@ -27,7 +27,7 @@
 					</div><!-- .misc-pub-section -->
 
 					<div class="misc-pub-section">
-						<span class="<?php echo ( WPML_Utils::is_modern_wp() ? 'dashicons dashicons-editor-video' : 'movie-media-icon' ) ?>"></span>
+						<span class="<?php echo ( wpml_modern_wp() ? 'dashicons dashicons-editor-video' : 'movie-media-icon' ) ?>"></span>
 						<label for="movie-media"><?php _e( 'Media:', 'wpmovielibrary' ); ?></label>
 						<span id="movie-media-display"><?php $_media = WPML_Settings::get_available_movie_media(); $_media = ( '' != $movie_media ? $_media[ $movie_media ] : 'None' ); _e( $_media, 'wpmovielibrary' ) ?></span>
 						<a href="#movie-media" id="edit-movie-media" class="edit-movie-media hide-if-no-js" onclick="wpml_media.show(); return false;"><?php _e( 'Edit', 'wpmovielibrary' ); ?></a>
@@ -47,7 +47,7 @@
 					</div><!-- .misc-pub-section -->
 
 					<div class="misc-pub-section">
-						<span class="<?php echo ( WPML_Utils::is_modern_wp() ? 'dashicons dashicons-star-half' : 'movie-rating-icon' ) ?>"></span>
+						<span class="<?php echo ( wpml_modern_wp() ? 'dashicons dashicons-star-half' : 'movie-rating-icon' ) ?>"></span>
 						<label for="movie-rating"><?php _e( 'Rating:', 'wpmovielibrary' ); ?></label>
 						<div id="movie-rating-display" class="hide-if-no-js stars-<?php echo $movie_rating_str; ?>"></div>
 						<a href="#movie-rating" id="edit-movie-rating" class="edit-movie-rating hide-if-no-js" onclick="wpml_rating.show(); return false;"><?php _e( 'Edit', 'wpmovielibrary' ); ?></a>
@@ -86,7 +86,7 @@
 			<div id="wpml-details-status"></div>
 			<div id="wpml-details-major-publishing-action">
 				<span class="spinner"></span>
-				<?php WPML_Utils::_nonce_field( 'save-movie-details', $referer = false ) ?>
+				<?php wpml_nonce_field( 'save-movie-details', $referer = false ) ?>
 				<input type="submit" name="wpml_save" id="wpml_save" class="button button-secondary button-large" value="<?php _e( 'Save', 'wpmovielibrary' ); ?>" accesskey="s" onclick="wpml_edit_details.save(); return false;" />
 				<input name="wpml_details_save" type="hidden" id="wpml_details_save" value="<?php _e( 'Save', 'wpmovielibrary' ); ?>" />
 			</div>

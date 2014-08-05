@@ -115,7 +115,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 				wp_die( 0 );
 
 			
-			WPML_Utils::check_ajax_referer( 'save-' . strtolower( $widget ) );
+			wpml_check_ajax_referer( 'save-' . strtolower( $widget ) );
 
 			$class = $widget::get_instance();
 			$update = self::save_widget_setting( $class->widget_id, $setting, $value );
@@ -130,7 +130,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 */
 		public static function wpml_load_more_movies_callback() {
 
-			WPML_Utils::check_ajax_referer( 'load-more-widget-movies' );
+			wpml_check_ajax_referer( 'load-more-widget-movies' );
 
 			$widget = ( isset( $_GET['widget'] ) && '' != $_GET['widget'] ? $_GET['widget'] : null );
 			$offset = ( isset( $_GET['offset'] ) && '' != $_GET['offset'] ? $_GET['offset'] : 0 );

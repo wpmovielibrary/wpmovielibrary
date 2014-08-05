@@ -1,5 +1,5 @@
 
-<?php else if ( 'api-key-error' == $notice ) : ?>
+<?php if ( 'api-key-error' == $notice ) : ?>
 	<div class="update-nag wpml">
 		<?php _e( 'You haven\'t specified a valid <acronym title="TheMovieDB">TMDb</acronym> API key in your Settings; this is required for the plugin to search a get movies metadata. WPMovieLibrary will use an internal API key, but you may consider getting your own personnal one at <a href="https://www.themoviedb.org/">TMDb</a> to get better results.', 'wpmovielibrary' ) ?><br />
 		<span style="float:right">

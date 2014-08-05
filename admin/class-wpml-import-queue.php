@@ -53,12 +53,12 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function enqueue_movies_callback() {
 
-			WPML_Utils::check_ajax_referer( 'enqueue-movies' );
+			wpml_check_ajax_referer( 'enqueue-movies' );
 
 			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? $_POST['movies'] : null );
 
 			$response = self::enqueue_movies( $movies );
-			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( 'enqueue-movies' ) );
+			wpml_ajax_response( $response, array(), wpml_create_nonce( 'enqueue-movies' ) );
 		}
 
 		/**
@@ -71,12 +71,12 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function dequeue_movies_callback() {
 
-			WPML_Utils::check_ajax_referer( 'dequeue-movies' );
+			wpml_check_ajax_referer( 'dequeue-movies' );
 
 			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? $_POST['movies'] : null );
 
 			$response = self::dequeue_movies( $movies );
-			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( 'dequeue-movies' ) );
+			wpml_ajax_response( $response, array(), wpml_create_nonce( 'dequeue-movies' ) );
 		}
 
 		/**
@@ -86,7 +86,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function queued_movies_callback() {
 
-			WPML_Utils::check_ajax_referer( 'queued-movies' );
+			wpml_check_ajax_referer( 'queued-movies' );
 
 			ob_start();
 			self::display_queued_movie_list();
@@ -104,7 +104,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			$response['column_headers'] = '';
 			$i18n['total_items_i18n'] = sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) );
 
-			WPML_Utils::ajax_response( $response, $i18n, WPML_Utils::create_nonce( 'queued-movies' ) );
+			wpml_ajax_response( $response, $i18n, wpml_create_nonce( 'queued-movies' ) );
 		}
 
 		/**
@@ -114,12 +114,12 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function import_queued_movie_callback() {
 
-			WPML_Utils::check_ajax_referer( 'import-queued-movies' );
+			wpml_check_ajax_referer( 'import-queued-movies' );
 
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
 
 			$response = self::import_queued_movie( $post_id );
-			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( 'import-queued-movies' ) );
+			wpml_ajax_response( $response, array(), wpml_create_nonce( 'import-queued-movies' ) );
 		}
 
 		/**
@@ -160,7 +160,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				return $errors;
 			}
 
-			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'enqueue_movie' ), array( $movies ), $loop = true );
+			$response = wpml_ajax_filter( array( __CLASS__, 'enqueue_movie' ), array( $movies ), $loop = true );
 			return $response;
 		}
 
@@ -237,7 +237,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				return $errors;
 			}
 
-			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'dequeue_movie' ), array( $movies ), $loop = true );
+			$response = wpml_ajax_filter( array( __CLASS__, 'dequeue_movie' ), array( $movies ), $loop = true );
 			return $response;
 		}
 
@@ -344,8 +344,8 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 						$columns[ get_the_ID() ] = array(
 							'ID'       => get_the_ID(),
 							'title'    => get_the_title(),
-							'director' => WPML_Utils::get_movie_data( 'director', get_the_ID() ),
-							'tmdb_id'  => get_post_meta( get_the_ID(), '_wpml_tmdb_id', true )
+							'director' => wpml_get_movie_meta( get_the_ID(), 'director' ),
+							'tmdb_id'  => wpml_get_movie_meta( get_the_ID(), 'tmdb_id', true )
 						);
 					}
 				}

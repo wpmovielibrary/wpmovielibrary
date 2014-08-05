@@ -273,7 +273,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 */
 		public static function upload_image_callback() {
 
-			WPML_Utils::check_ajax_referer( 'upload-movie-image' );
+			wpml_check_ajax_referer( 'upload-movie-image' );
 
 			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
@@ -284,7 +284,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', 'wpmovielibrary' ) );
 
 			$response = self::image_upload( $image['file_path'], $post_id, $tmdb_id, $title, 'backdrop', $image );
-			WPML_Utils::ajax_response( $response );
+			wpml_ajax_response( $response );
 		}
 
 		/**
@@ -307,7 +307,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 */
 		public static function set_featured_image_callback() {
 
-			WPML_Utils::check_ajax_referer( 'set-movie-poster' );
+			wpml_check_ajax_referer( 'set-movie-poster' );
 
 			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
@@ -321,7 +321,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', 'wpmovielibrary' ) );
 
 			$response = self::set_image_as_featured( $image, $post_id, $tmdb_id, $title );
-			WPML_Utils::ajax_response( $response );
+			wpml_ajax_response( $response );
 		}
 
 		/**
@@ -468,7 +468,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				$content .= '<em>' . __( 'You need a valid TMDb API Key to download movie posters.', 'wpmovielibrary' ) . '</em>';
 			else {
 				*/$content .= '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', 'wpmovielibrary' ) . '</a>';
-				$content .= WPML_Utils::_nonce_field( 'set-movie-poster', false, false );
+				$content .= wpml_nonce_field( 'set-movie-poster', false, false );
 			//}
 
 			return $content;

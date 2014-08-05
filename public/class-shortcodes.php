@@ -101,8 +101,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		public static function movies_shortcode( $atts = array(), $content = null ) {
 
 			$default_fields = WPML_Settings::get_supported_movie_meta();
-
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movies', $atts );
+			$atts = self::wpml_filter_shortcode_atts( 'movies', $atts );
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movies_shortcode', $atts );
@@ -164,7 +163,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 */
 		public static function movie_shortcode( $atts = array(), $content = null ) {
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie', $atts );
+			$atts = self::wpml_filter_shortcode_atts( 'movie', $atts );
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_shortcode', $atts );
@@ -213,7 +212,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				$atts['key'] = str_replace( 'movie_', '', $tag );
 			}
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_meta', $atts );
+			$atts = self::wpml_filter_shortcode_atts( 'movie_meta', $atts );
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_meta_shortcode', $atts );
@@ -268,7 +267,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ )
 				$tag = apply_filters( 'wpml_filter_movie_meta_aliases', $tag );
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_release_date', $atts );
+			$atts = self::wpml_filter_shortcode_atts( 'movie_release_date', $atts );
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_release_date_shortcode', $atts );
@@ -312,7 +311,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 */
 		public static function movie_runtime_shortcode( $atts = array(), $content = null ) {
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_runtime', $atts );
+			$atts = self::wpml_filter_shortcode_atts( 'movie_runtime', $atts );
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_runtime_shortcode', $atts );
@@ -361,7 +360,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ )
 				$atts['key'] = str_replace( 'movie_', '', $tag );
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_actors', $atts );
+			$atts = self::wpml_filter_shortcode_atts( 'movie_actors', $atts );
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_actors_shortcode', $atts );
@@ -408,7 +407,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 */
 		public static function movie_genres_shortcode( $atts = array(), $content = null ) {
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_genres', $atts );
+			$atts = self::wpml_filter_shortcode_atts( 'movie_genres', $atts );
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_genres_shortcode', $atts );
@@ -455,7 +454,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 */
 		public static function movie_poster_shortcode( $atts = array(), $content = null ) {
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_poster', $atts );
+			$atts = self::wpml_filter_shortcode_atts( 'movie_poster', $atts );
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_posters_shortcode', $atts );
@@ -494,7 +493,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 */
 		public static function movie_images_shortcode( $atts = array(), $content = null ) {
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_images', $atts );
+			$atts = self::wpml_filter_shortcode_atts( 'movie_images', $atts );
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_images_shortcode', $atts );
@@ -556,7 +555,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ )
 				$atts['key'] = str_replace( 'movie_', '', $tag );
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_detail', $atts );
+			$atts = self::wpml_filter_shortcode_atts( 'movie_detail', $atts );
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_detail_shortcode', $atts );
@@ -702,6 +701,85 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			}
 
 			return $movie_id;
+		}
+
+		/**
+		 * Filter an array of Shortcode attributes.
+		 * 
+		 * Shortcodes have limited attributes and possibly limited values
+		 * for some attributes. This method matches each submitted attr
+		 * to its limited values if available, and apply a filter to the
+		 * value before returning the array.
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $shortcode Shortcode's ID
+		 * @param    array     $atts Attributes to filter
+		 * 
+		 * @return   array    Filtered Attributes
+		 */
+		private static function filter_shortcode_atts( $shortcode, $atts = array() ) {
+
+			if ( ! is_array( $atts ) )
+				$atts = array( $atts );
+
+			$defaults = WPML_Settings::get_available_shortcodes();
+			$defaults = $defaults[ $shortcode ][ 'atts' ];
+
+			$attributes = array();
+
+			// Loop through the Shortcode's attributes
+			foreach ( $defaults as $slug => $default ) {
+
+				if ( isset( $atts[ $slug ] ) ) {
+
+					$attr = $atts[ $slug ];
+
+					// Attribute is not null
+					if ( is_null( $attr ) ) {
+						$attributes[ $slug ] = $default[ 'default' ];
+					}
+					else if ( ! is_null( $attr ) ) {
+
+						$value = $attr;
+
+						// Attribute has limited values
+						if ( ! is_null( $default[ 'values' ] ) ) {
+
+							// Value should be boolean
+							if ( 'boolean' == $default[ 'values' ] && in_array( strtolower( $attr ), array( 'true', 'false', 'yes', 'no' ) ) ) {
+								$value = apply_filters( 'wpml_is_boolean', $attr );
+							}
+							// Value is array
+							else if ( is_array( $default[ 'values' ] ) ) {
+								// multiple values
+								if ( false !== strpos( $attr, '|' ) ) {
+									$value = str_replace( 'actors', 'cast', $attr );
+									$value = explode( '|', $value );
+									foreach ( $value as $i => $v )
+										if ( ! in_array( $v, $default[ 'values' ] ) )
+											unset( $value[ $i ] );
+
+									array_unique( $value );
+								}
+								// single value
+								else if ( in_array( strtolower( $attr ), $default[ 'values' ] ) )
+									$value = $attr;
+							}
+						}
+
+						// Attribute has a valid filter
+						if ( is_string( $value ) && function_exists( $default[ 'filter' ] ) && is_callable( $default[ 'filter' ] ) )
+							$value = call_user_func( $default[ 'filter' ], $value );
+
+						$attributes[ $slug ] = $value;
+					}
+				}
+				else
+					$attributes[ $slug ] = $default[ 'default' ];
+			}
+
+			return $attributes;
 		}
 
 		/**

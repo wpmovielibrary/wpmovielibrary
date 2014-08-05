@@ -170,7 +170,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 */
 		private function update_settings() {
 
-			WPML_Utils::check_admin_referer( "save-{$this->widget_id}" );
+			wpml_check_admin_referer( "save-{$this->widget_id}" );
 
 			$settings = get_user_option( $this->widget_id . '_settings' );
 			$_settings = array();
@@ -264,10 +264,10 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 			foreach ( $movies->posts as $movie ) {
 
 				$movie->meta = array(
-					'title'        => apply_filters( 'the_title', WPML_Utils::get_movie_data( 'title', $movie->ID ) ),
-					'runtime'      => apply_filters( 'wpml_filter_filter_runtime', WPML_Utils::get_movie_data( 'runtime', $movie->ID ) ),
-					'release_date' => apply_filters( 'wpml_filter_filter_release_date', WPML_Utils::get_movie_data( 'release_date', $movie->ID ), 'Y' ),
-					'overview'     => apply_filters( 'the_content', WPML_Utils::get_movie_data( 'overview', $movie->ID ) )
+					'title'        => apply_filters( 'the_title', wpml_get_movie_meta( 'title', $movie->ID ) ),
+					'runtime'      => apply_filters( 'wpml_format_movie_runtime', wpml_get_movie_meta( 'runtime', $movie->ID ) ),
+					'release_date' => apply_filters( 'wpml_format_movie_release_date', wpml_get_movie_meta( 'release_date', $movie->ID ), 'Y' ),
+					'overview'     => apply_filters( 'the_content', wpml_get_movie_meta( 'overview', $movie->ID ) )
 				);
 				$movie->year = $movie->meta['release_date'];
 				$movie->meta = json_encode( $movie->meta );

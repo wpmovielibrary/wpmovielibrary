@@ -103,6 +103,7 @@ if ( wpml_requirements_met() ) {
 	 *----------------------------------------------------------------------------*/
 
 	/* Core */
+	require_once( WPML_PATH . 'includes/wpml-core-functions.php' );
 	require_once( WPML_PATH . 'includes/class-module.php' );
 	require_once( WPML_PATH . 'public/class-wpmovielibrary.php' );
 

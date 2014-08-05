@@ -68,18 +68,6 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		}
 
 		/**
-		 * Register callbacks for actions and filters
-		 * 
-		 * @since    1.0.0
-		 */
-		public function register_hook_callbacks() {
-
-			add_filter( 'wpml_get_available_movie_media', __CLASS__ . '::get_available_movie_media' );
-			add_filter( 'wpml_get_available_movie_status', __CLASS__ . '::get_available_movie_status' );
-			add_filter( 'wpml_get_available_movie_rating', __CLASS__ . '::get_available_movie_rating' );
-		}
-
-		/**
 		 * Return the plugin settings.
 		 *
 		 * @since    1.0.0
@@ -115,7 +103,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 			if ( is_null( $wpml_settings ) )
 				require( WPML_PATH . 'includes/wpml-config.php' );
 
-			$default_settings = apply_filters( 'wpml_summarize_settings', $wpml_settings );
+			$default_settings = self::wpml_summarize_settings( $wpml_settings );
 
 			return $default_settings;
 		}
@@ -269,6 +257,32 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		}
 
 		/**
+		 * Filter Plugin Settings to obtain a single dimension array with
+		 * all prefixed settings.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    array    $array Plugin Settings
+		 * 
+		 * @return   array    Summarized Plugin Settings
+		 */
+		private static function wpml_summarize_settings( $settings ) {
+
+			$_settings = array();
+
+			if ( is_null( $settings ) || ! is_array( $settings ) )
+				return $_settings;
+
+			foreach ( $settings as $id => $section )
+				if ( isset( $section['settings'] ) )
+					foreach ( $section['settings'] as $slug => $setting )
+						$_settings[ $id ][ $slug ] = $setting['default'];
+			
+
+			return $_settings;
+		}
+
+		/**
 		 * Delete stored settings.
 		 * 
 		 * This is irreversible, but shouldn't be used anywhere else than
@@ -308,7 +322,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 
 			global $wpml_settings;
 
-			$default_settings = apply_filters( 'wpml_summarize_settings', $wpml_settings );
+			$default_settings = self::wpml_summarize_settings( $wpml_settings );
 			$options = get_option( WPML_SETTINGS_SLUG, $default_settings );
 
 			if ( '' != $search ) {
@@ -541,6 +555,13 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 
 			self::clean_settings();
 		}
+
+		/**
+		 * Register callbacks for actions and filters
+		 * 
+		 * @since    1.0.0
+		 */
+		public function register_hook_callbacks() {}
 
 		/**
 		 * Initializes variables

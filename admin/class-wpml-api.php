@@ -177,7 +177,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 					return array();
 				}
 
-				if ( ! empty( $config ) && null == $this->_config )
+				if ( ! empty( $config ) )
 					$this->_config = $config;
 
 				WPML_Cache::set( 'tmdb_api_config', $config );

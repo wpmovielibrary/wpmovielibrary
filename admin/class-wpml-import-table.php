@@ -551,7 +551,7 @@ class WPML_Import_Table extends WP_List_Table {
 			$i18n['total_pages_i18n'] = number_format_i18n( $total_pages );
 		}
 
-		WPML_Utils::ajax_response( $response, $i18n );
+		wpml_ajax_response( $response, $i18n );
 	}
 
 	/**

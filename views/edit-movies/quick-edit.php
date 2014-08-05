@@ -43,6 +43,6 @@
 					</div>
 				</label>
 			</div>
-			<?php WPML_Utils::_nonce_field( 'quickedit-movie-details', $referer = false ) ?>
+			<?php wpml_nonce_field( 'quickedit-movie-details', $referer = false ) ?>
 			<input type="hidden" name="<?php echo $check ?>" value="true" />
 		</div></fieldset>
