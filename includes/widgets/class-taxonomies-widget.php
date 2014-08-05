@@ -137,7 +137,7 @@ class WPML_Taxonomies_Widget extends WPML_Widget {
 			$this->widget_css .= " wpml-widget wpml-{$taxonomy}-list";
 
 			if ( $css )
-				$this->widget_css .= 'wpml-list custom';
+				$this->widget_css .= ' wpml-list custom';
 
 			foreach ( $taxonomies as $term )
 				$items[] = array(
