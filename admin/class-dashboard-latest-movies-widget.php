@@ -249,29 +249,25 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 			if ( is_null( $limit ) )
 				$limit = $this->settings['movies_per_page'];
 
-			$movies = $wpdb->get_results(
-				'SELECT p.*, m.meta_value AS meta, mm.meta_value AS rating
-				 FROM ' . $wpdb->posts . ' AS p
-				 LEFT JOIN ' . $wpdb->postmeta . ' AS m ON m.post_id=p.ID AND m.meta_key="_wpml_movie_data"
-				 LEFT JOIN ' . $wpdb->postmeta . ' AS mm ON mm.post_id=p.ID AND mm.meta_key="_wpml_movie_rating"
-				 WHERE post_type="movie"
-				   AND post_status="publish"
-				 GROUP BY p.ID
-				 ORDER BY post_date DESC
-				 LIMIT ' . $offset . ',' . $limit
+			$args = array(
+				'posts_per_page' => $limit,
+				'offset'         => $offset,
+				'post_type'      => 'movie',
+				'order'          => 'DESC',
+				'orderby'        => 'post_date'
 			);
+			$movies = new WP_Query( $args );
 
-			if ( empty( $movies ) )
+			if ( ! $movies->have_posts() )
 				return false;
 
-			foreach ( $movies as $movie ) {
+			foreach ( $movies->posts as $movie ) {
 
-				$movie->meta = unserialize( $movie->meta );
 				$movie->meta = array(
-					'title' => apply_filters( 'the_title', $movie->meta['meta']['title'] ),
-					'runtime' => apply_filters( 'wpml_filter_filter_runtime', $movie->meta['meta']['runtime'] ),
-					'release_date' => apply_filters( 'wpml_filter_filter_release_date', $movie->meta['meta']['release_date'], 'Y' ),
-					'overview' => apply_filters( 'the_content', $movie->meta['meta']['overview'] )
+					'title'        => apply_filters( 'the_title', WPML_Utils::get_movie_data( 'title', $movie->ID ) ),
+					'runtime'      => apply_filters( 'wpml_filter_filter_runtime', WPML_Utils::get_movie_data( 'runtime', $movie->ID ) ),
+					'release_date' => apply_filters( 'wpml_filter_filter_release_date', WPML_Utils::get_movie_data( 'release_date', $movie->ID ), 'Y' ),
+					'overview'     => apply_filters( 'the_content', WPML_Utils::get_movie_data( 'overview', $movie->ID ) )
 				);
 				$movie->year = $movie->meta['release_date'];
 				$movie->meta = json_encode( $movie->meta );
@@ -293,7 +289,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 					$movie->backdrop = $movie->poster;
 			}
 
-			return $movies;
+			return $movies->posts;
 		}
 
 		/**

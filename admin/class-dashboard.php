@@ -321,21 +321,6 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			echo self::render_template( '/dashboard/dashboard.php' );
 			echo self::render_template( '/dashboard/movie-modal.php' );
 		}
-
-		/**
-		 * Show the default modal for movies
-		 * 
-		 * @since    1.0.0
-		 */
-		/*public function movie_showcase() {
-
-			global $current_screen;
-
-			if ( $current_screen->id != $this->plugin_screen_hook_suffix['dashboard'] )
-				return false;
-
-			echo self::render_template( '/dashboard/movie-modal.php' );
-		}*/
  
 		/**
 		 * Adds a new widget to the Plugin's Dashboard.
