@@ -499,8 +499,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 */
 		public static function metabox_meta( $post, $metabox ) {
 
-
-			$metadata = wpml_get_movie_meta( 'data', $post->ID );
+			$metadata = wpml_get_movie_meta( $post->ID );
 			$metadata = wpml_filter_empty_array( $metadata );
 			$_meta = WPML_Settings::get_supported_movie_meta();
 			$select = null;

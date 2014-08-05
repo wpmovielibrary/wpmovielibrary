@@ -265,11 +265,12 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 			foreach ( $movies->posts as $movie ) {
 
 				$movie->meta = array(
-					'title'        => apply_filters( 'the_title', wpml_get_movie_meta( 'title', $movie->ID ) ),
-					'runtime'      => apply_filters( 'wpml_format_movie_runtime', wpml_get_movie_meta( 'runtime', $movie->ID ) ),
-					'release_date' => apply_filters( 'wpml_format_movie_release_date', wpml_get_movie_meta( 'release_date', $movie->ID ), 'Y' ),
-					'overview'     => apply_filters( 'the_content', wpml_get_movie_meta( 'overview', $movie->ID ) )
+					'title'        => apply_filters( 'the_title', wpml_get_movie_meta( $movie->ID, 'title' ) ),
+					'runtime'      => apply_filters( 'wpml_format_movie_runtime', wpml_get_movie_meta( $movie->ID, 'runtime' ) ),
+					'release_date' => apply_filters( 'wpml_format_movie_release_date', wpml_get_movie_meta( $movie->ID, 'release_date' ), 'Y' ),
+					'overview'     => apply_filters( 'the_content', wpml_get_movie_meta( $movie->ID, 'overview' ) )
 				);
+				$movie->rating = wpml_get_movie_meta( $movie->ID, 'rating' );
 				$movie->year = $movie->meta['release_date'];
 				$movie->meta = json_encode( $movie->meta );
 

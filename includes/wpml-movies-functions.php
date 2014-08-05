@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) )
  *
  * @return   array|string    WPML Movie TMDb data if stored, empty string else.
  */
-function wpml_get_movie_meta( $meta = 'data', $post_id = null ) {
+function wpml_get_movie_meta( $post_id = null, $meta = 'data' ) {
 	return WPML_Movies::get_movie_meta( $post_id, $meta );
 }
 

@@ -95,7 +95,7 @@ function wpml_ajax_filter( $callback, $args = array(), $loop = false ) {
  * @param    array    $response Array containing Callback results data
  * @param    array    $i18n Array containing Callback optional i18n
  */
-function ajax_response( $response, $i18n = array(), $nonce = null ) {
+function wpml_ajax_response( $response, $i18n = array(), $nonce = null ) {
 
 	if ( is_wp_error( $response ) )
 		$_response = $response;

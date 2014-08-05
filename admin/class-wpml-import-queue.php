@@ -295,7 +295,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			if ( is_null( $post_id ) || ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) )
 				return new WP_Error( 'invalid_movie', sprintf( __( 'Error: submitted Post ID doesn\t match any valid movie.', 'wpmovielibrary' ) ) );
 
-			$meta = WPML_Utils::get_movie_data( 'data', $post_id );
+			$meta = wpml_get_movie_meta( $post_id );
 			if ( '' == $meta || ! is_array( $meta ) || ! isset( $meta['poster'] ) || ! isset( $meta['tmdb_id'] ) )
 				return new WP_Error( 'invalid_meta', sprintf( __( 'Error: cannot find submitted movie\'s metadata, try enqueuing it again.', 'wpmovielibrary' ) ) );
 
