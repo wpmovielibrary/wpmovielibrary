@@ -71,7 +71,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 		 */
 		public static function get( $transient ) {
 
-			return get_transient( $transient );
+			return get_transient( 'wpml_cache_' . $transient );
 		}
 
 		/**
