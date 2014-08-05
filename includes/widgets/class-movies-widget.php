@@ -167,7 +167,7 @@ class WPML_Movies_Widget extends WPML_Widget {
 		$movies = new WP_Query( $args );
 
 		if ( empty( $movies->posts ) ) {
-			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display.', 'wpmovielibrary' ) ) );
+			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'Nothing to display.', 'wpmovielibrary' ) ), $require = 'always' );
 			return $before_widget . $before_title . $title . $after_title . $html . $after_widget;
 		}
 
@@ -187,7 +187,7 @@ class WPML_Movies_Widget extends WPML_Widget {
 		}
 
 		$attributes = array( 'items' => $items, 'description' => $description, 'show_rating' => $show_rating, 'show_title' => $show_title, 'show_poster' => $show_poster, 'style' => $this->widget_css );
-		$html = WPMovieLibrary::render_template( 'movies-widget/movies.php', $attributes );
+		$html = WPMovieLibrary::render_template( 'movies-widget/movies.php', $attributes, $require = 'always' );
 
 		return $before_widget . $before_title . $title . $after_title . $html . $after_widget;
 	}

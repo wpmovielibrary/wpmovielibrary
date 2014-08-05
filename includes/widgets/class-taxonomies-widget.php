@@ -157,12 +157,12 @@ class WPML_Taxonomies_Widget extends WPML_Widget {
 			$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => $this->taxonomies[ $taxonomy ]['default'], 'style' => $this->widget_css );
 
 			if ( $list )
-				$html = WPMovieLibrary::render_template( 'taxonomies-widget/taxonomies-dropdown-list.php', $attributes );
+				$html = WPMovieLibrary::render_template( 'taxonomies-widget/taxonomies-dropdown-list.php', $attributes, $require = 'always' );
 			else
-				$html = WPMovieLibrary::render_template( 'taxonomies-widget/taxonomies-list.php', $attributes );
+				$html = WPMovieLibrary::render_template( 'taxonomies-widget/taxonomies-list.php', $attributes, $require = 'always' );
 		}
 		else {
-			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => $this->taxonomies[ $taxonomy ]['empty'] ) );
+			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => $this->taxonomies[ $taxonomy ]['empty'] ), $require = 'always' );
 		}
 
 		return $before_widget . $before_title . $title . $after_title . $html . $after_widget;

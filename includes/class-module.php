@@ -50,7 +50,7 @@ if ( ! class_exists( 'WPML_Module' ) ) {
 
 			do_action( 'wpml_render_template_pre', $default_template_path, $variables );
 
-			$template_path = locate_template( basename( $default_template_path ) );
+			$template_path = locate_template( 'wpmovielibrary/' . $default_template_path, true, false );
 			if ( ! $template_path )
 				$template_path = dirname( __DIR__ ) . '/views/' . $default_template_path;
 
