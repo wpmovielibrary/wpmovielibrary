@@ -6,7 +6,7 @@
  * 
  * @since    1.2.0
  * 
- * @uses    $widget current Widget object
+ * @uses    $style current Widget style
  * @uses    $description Widget's description
  * @uses    $items array of movies
  * @uses    $show_poster which way to show posters
@@ -15,7 +15,7 @@
  */
 ?>
 
-	<div class="<?php echo $widget->widget_css ?>">
+	<div class="<?php echo $style ?>">
 
 		<div class="wpml-widget-description"><?php echo $description ?></div>
 
