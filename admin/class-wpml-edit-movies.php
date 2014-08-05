@@ -453,9 +453,15 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		/**
 		 * Register WPML Metaboxes
 		 * 
+		 * Alter $wp_meta_boxes to display the Details Metabox right below
+		 * WordPress standard Submit Metabox.
+		 * 
 		 * @since    1.0.0
 		 */
 		public static function add_meta_boxes() {
+
+			// Movie Details
+			add_meta_box( 'wpml_details', __( 'WPMovieLibrary − Movie Details', 'wpmovielibrary' ), __CLASS__ . '::metabox_details', 'movie', 'side', 'core', null );
 
 			// Movie Metadata
 			add_meta_box( 'wpml_meta', __( 'WPMovieLibrary − Movie Meta', 'wpmovielibrary' ), __CLASS__ . '::metabox_meta', 'movie', 'normal', 'high', null );
@@ -463,8 +469,19 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			// Movie Details
 			add_meta_box( 'wpml_images', __( 'WPMovieLibrary − Movie Images', 'wpmovielibrary' ), __CLASS__ . '::metabox_images', 'movie', 'normal', 'high', null );
 
-			// Movie Details
-			add_meta_box( 'wpml_details', __( 'WPMovieLibrary − Movie Details', 'wpmovielibrary' ), __CLASS__ . '::metabox_details', 'movie', 'side', 'default', null );
+			global $wp_meta_boxes;
+
+			$details = $wp_meta_boxes['movie']['side']['core']['wpml_details'];
+			$core = $wp_meta_boxes['movie']['side']['core'];
+			$submit = $wp_meta_boxes['movie']['side']['core']['submitdiv'];
+
+			unset( $core['wpml_details'], $core['submitdiv'] );
+
+			$wp_meta_boxes['movie']['side']['core'] = array_merge(
+				array( 'submitdiv' => $submit ),
+				array( 'wpml_details' => $details ),
+				$core
+			);
 		}
 
 		/**
