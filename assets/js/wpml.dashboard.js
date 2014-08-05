@@ -659,12 +659,14 @@ wpml.dashboard = wpml_dashboard = {
 		      width = $movies.width(),
 		     height = $movies.height();
 
-		if ( 1200 < container )
-			var _width = '21.6%';
-		else if ( 700 < container )
-			var _width = '24%';
+		if  ( 420 >= container )
+			var _width = '49.5%';
 		else if ( 700 >= container )
 			var _width = '32.2%';
+		else if ( 700 < container && 1024 >= container )
+			var _width = '22%';
+		else if ( 1024 < container )
+			var _width = '18%';
 
 		$movies.css( { width: _width } );
 		$movies.css( { height: Math.ceil( $movies.width() * 1.5 ) } );
