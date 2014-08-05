@@ -142,12 +142,12 @@ class WPML_Details_Widget extends WPML_Widget {
 			$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => $this->details[ $detail ]['default'], 'style' => $this->widget_css );
 
 			if ( 'rating' != $detail && $list )
-				$html = WPMovieLibrary::render_template( 'details-widget/details-dropdown-list.php', $attributes );
+				$html = WPMovieLibrary::render_template( 'details-widget/details-dropdown-list.php', $attributes, $require = 'always' );
 			else
-				$html = WPMovieLibrary::render_template( 'details-widget/details-list.php', $attributes );
+				$html = WPMovieLibrary::render_template( 'details-widget/details-list.php', $attributes, $require = 'always' );
 		}
 		else {
-			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'No detail no show', 'wpmovielibrary' ) ) );
+			$html = WPMovieLibrary::render_template( 'empty.php', array( 'message' => __( 'No detail no show', 'wpmovielibrary' ) ), $require = 'always' );
 		}
 
 		return $before_widget . $before_title . $title . $after_title . $html . $after_widget;

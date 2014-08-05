@@ -100,7 +100,7 @@ class WPML_Statistics_Widget extends WP_Widget {
 
 		$attributes = array( 'content' => $content, 'description' => $description, 'style' => $style );
 
-		$html = WPMovieLibrary::render_template( 'statistics-widget/statistics.php', $attributes );
+		$html = WPMovieLibrary::render_template( 'statistics-widget/statistics.php', $attributes, $require = 'always' );
 
 		return $before_widget . $title . $html . $after_widget;
 	}
