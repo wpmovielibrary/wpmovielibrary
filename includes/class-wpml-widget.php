@@ -64,7 +64,7 @@ abstract class WPML_Widget extends WP_Widget {
 				if ( 'html' === $setting['type'] )
 					$instance[ $key ] = wpautop( wp_kses( $instance[ $key ], array( 'ul', 'ol', 'li', 'p', 'span', 'em', 'i', 'p', 'strong', 'b', 'br' ) ) );
 				else if ( 'checkbox' === $setting['type'] )
-					$instance[ $key ] = 0;
+					$instance[ $key ] = (bool) $new_instance[ $key ];
 				else
 					$instance[ $key ] = sanitize_text_field( $new_instance[ $key ] );
 			}
