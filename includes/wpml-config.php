@@ -513,7 +513,7 @@ $wpml_settings = array(
 				'title' => __( 'Enable Caching', 'wpmovielibrary' ),
 				'description' => __( 'If enabled, WPML will cache movie related data to prevent too frequent queries to the database. <a href="http://wpmovielibrary.com/documentation/performance">Learn more about caching</a>.', 'wpmovielibrary' ),
 				'type' => 'toggle',
-				'default' => 1
+				'default' => 0
 			),
 
 			// Results caching

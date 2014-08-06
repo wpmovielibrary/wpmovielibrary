@@ -33,7 +33,7 @@ if ( 'input' == $_type ) : ?>
 
 	<select id="<?php echo $_id ?>" name="<?php echo $_name ?>[]"<?php if ( 'multiple' == $_type ) echo ' multiple="multiple"' ?> class="<?php if ( 'default_movie_details' == $field['id'] ) echo 'hide-if-js' ?>">
 <?php foreach ( $field['values'] as $slug => $option ) : ?>
-		<option value="<?php echo $slug ?>"<?php echo ( is_array( $_value ) ? ( in_array( $slug, $_value ) ? ' selected="selected"' : '' ) : selected( $_value, $slug, true ) ); ?>><?php _e( $option, 'wpmovielibrary' ); ?></option>
+		<option value="<?php echo $slug ?>"<?php if ( is_array( $_value ) && in_array( $slug, $_value ) ) echo ' selected="selected"'; else selected( $_value, $slug, true ); ?>><?php _e( $option, 'wpmovielibrary' ); ?></option>
 <?php endforeach; ?>
 	</select>
 	<p class="description"><?php _e( $field['description'], 'wpmovielibrary' ) ?></p>

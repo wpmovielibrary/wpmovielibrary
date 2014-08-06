@@ -30,7 +30,7 @@ if ( ! empty( $movies ) ) :
 							</div>
 <?php
 	endif;
-elseif ( ! DOING_AJAX ) :
+elseif ( true !== DOING_AJAX ) :
 ?>
 							<em><?php _e( 'No movies found', 'wpmovielibrary' ); ?></em>
 							<p style="text-align:center"><a href="<?php echo admin_url( 'post-new.php?post_status=publish&post_type=movie' ) ?>"><span class="dashicons dashicons-plus"></span> <?php _e( 'Add a movie!', 'wpmovielibrary' ) ?></a></p>
