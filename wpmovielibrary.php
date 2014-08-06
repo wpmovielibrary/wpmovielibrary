@@ -17,7 +17,7 @@
  * Plugin Name: WPMovieLibrary
  * Plugin URI:  http://wpmovielibrary.com
  * Description: A WordPress Plugin to manage a personnal library of movies.
- * Version:     1.1.2
+ * Version:     1.2-beta.1
  * Author:      Charlie MERLAND
  * Author URI:  http://www.caercam.org/
  * Text Domain: wpml
