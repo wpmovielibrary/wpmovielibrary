@@ -15,8 +15,12 @@ var wpml_queue;
 		select_all: '#wpml-queued-list-header #post_all',
 		
 		progress: '#queue_progress',
+		progress_block: '#queue_progress_block',
 		progress_value: '#queue_progress_value',
+		progress_status: '#queue_status',
+		progress_status_message: '#queue_status_message',
 		progress_queued: '#_queued_imported',
+		progress_left: '#_queued_left',
 	}
 
 		wpml.queue.movies = wpml_movies_queue = {};
@@ -199,9 +203,14 @@ var wpml_queue;
 							$status.text( '' );
 						},
 						success: function( response ) {
+							var progress = Math.ceil( ( index / wpml_queue.current_queue.length ) * 100 );
 							$( wpml_queue.progress_value ).val( parseInt( $( wpml_queue.progress_value ).val() ) + 1 );
 							$( wpml_queue.progress_queued ).text( index );
-							$( wpml_queue.progress ).width( Math.ceil( ( index / wpml_queue.current_queue.length ) * 100 ) + '%' );
+							$( wpml_queue.progress ).animate( { width:progress  + '%' }, 250 );
+							if ( 100 == progress ) {
+								$( wpml_queue.progress_status_message ).css( { display: 'inline-block' } ).text( wpml_ajax.lang.done );
+								$( wpml_queue.progress_status ).hide();
+							}
 						},
 						complete: function() {
 							$status.text( wpml_ajax.lang.imported );
@@ -278,3 +287,24 @@ var wpml_queue;
 				else
 					$( wpml_queue.select ).prop( 'checked', true );
 			};
+
+			wpml.queue.utils.update_progress = function() {
+
+				var checked = $( wpml_queue.select + ':checked' ).length;
+				if ( checked ) {
+					$( wpml_queue.progress_left ).text( checked );
+					$( wpml_queue.progress_block ).addClass('visible');
+				}
+				else {
+					$( wpml_queue.progress_left ).text( '0' );
+					$( wpml_queue.progress_block ).removeClass('visible');
+				}
+			};
+
+			wpml.queue.utils.init = function() {
+				$( wpml_queue.select + ', ' + wpml_queue.select_all ).on( 'click', function() {
+					wpml_queue_utils.update_progress();
+				});
+			};
+
+		wpml_queue_utils.init();

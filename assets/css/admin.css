@@ -730,7 +730,7 @@ body.post-php.post-type-movie #postimagediv {
 #wpml-tabs #wpml-queued-list {
 	border: 1px solid #ddd;
 	max-height: 32em;
-	max-height: 12em;
+	max-height: 16em;
 	margin-top: 0;
 	overflow: auto;
 	padding-bottom: 1em;
@@ -799,10 +799,26 @@ body.post-php.post-type-movie #postimagediv {
 	margin-right: 0.25em;
 }
 
+#queue_progress_block {
+	visibility: hidden;
+}
+
+#queue_progress_block.visible {
+	visibility: visible;
+}
+
 #queue_status {
 	display: inline-block;
 	font-size: 0.9em;
 	margin-top: 6px;
+	vertical-align: top;
+}
+
+#queue_status_message {
+	display: none;
+	font-size: small;
+	font-style: italic;
+	margin: 6px 0px 0px 6px;
 	vertical-align: top;
 }
 

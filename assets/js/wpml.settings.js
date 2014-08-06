@@ -69,6 +69,7 @@ wpml.settings = wpml_settings = {}
 			$( link ).parent( 'li' ).addClass( 'active' );
 
 			window.history.replaceState( {}, '' + url + '&' + tab, '' + url + '&' + tab );
+			$( 'input[name="_wp_http_referer"]' ).val( document.location.pathname + document.location.search + '&' + tab );
 		};
 
 	wpml.settings.sortable = wpml_sortable = {
