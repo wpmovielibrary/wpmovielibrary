@@ -86,6 +86,8 @@ wpml = wpml || {};
 							wpml_import_view.update_count( 'import_queue', response.data.total_items, response.i18n.total_items_i18n );
 						else
 							wpml_import_view.update_count( 'imported', response.data.total_items, response.i18n.total_items_i18n );
+
+						wpml_queue_utils.init();
 					},
 					complete: function( r ) {
 						wpml.update_nonce( data.nonce_name, r.responseJSON.nonce );
@@ -147,7 +149,13 @@ wpml = wpml || {};
 
 				if ( 'import_queue' == wot ) {
 					$( '.displaying-num', wpml_queue.queued_list ).text( i_i18n );
-					$( '#_queued_left', wpml_queue.queued_list ).text( i );
+					$( wpml_queue.progress_block ).removeClass( 'visible' );
+					$( wpml_queue.progress_left, wpml_queue.queued_list ).text( '0' );
+					$( wpml_queue.progress_queued, wpml_queue.queued_list ).text( '0' );
+					$( wpml_queue.progress_value ).val( 0 );
+					$( wpml_queue.progress ).width( 0 );
+					$( wpml_queue.progress_status ).css( { display: 'inline-block' } );
+					$( wpml_queue.progress_status_message ).hide();
 				}
 			};
 

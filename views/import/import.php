@@ -52,7 +52,7 @@
 							<input type="submit" name="" id="do-queue-action" class="button action" value="<?php _e( 'Apply', 'wpmovielibrary' ); ?>" onclick="wpml_movies_queue.do(); return false;">
 							<span class="spinner"></span>
 						</div>
-						<div class="tablenav-pages"><span class="displaying-num"><?php printf( _n( '1 item', '%s items', $_queued ), number_format_i18n( $_queued ) ) ?></span></div>
+						<div class="tablenav-pages"><span class="displaying-num"><?php if ( $_queued ) printf( _n( '1 item', '%s items', $_queued ), number_format_i18n( $_queued ) ); else _e( 'No item', 'wpmovielibrary' ); ?></span></div>
 					</div>
 					<div id="wpml-queued-list-header" class="hide-if-no-js">
 						<div class="check-column"><input type="checkbox" id="post_all" value="" onclick="wpml_queue_utils.toggle_inputs();" /></div>
@@ -70,8 +70,11 @@
 					<p style="text-align:right">
 						<input type="submit" id="wpml_import_queued" name="wpml_import_queued" class="button button-primary button-large" value="<?php _e( 'Import Queued Movies', 'wpmovielibrary' ); ?>" onclick="wpml_movies_queue.import(); return false;" />
 						<input type="hidden" id="queue_progress_value" value="0" />
-						<div id="queue_progressbar"><div id="queue_progress"></div></div>
-						<div id="queue_status"><?php printf( '<span id="_queued_imported">%d</span> %s <span id="_queued_left">%d</span> %s', 0, __( 'of', 'wpmovielibrary' ), number_format_i18n( $_queued ), __( 'imported', 'wpmovielibrary' ) ); ?></div>
+						<div id="queue_progress_block">
+							<div id="queue_progressbar"><div id="queue_progress"></div></div>
+							<div id="queue_status"><?php printf( '<span id="_queued_imported">%d</span> %s <span id="_queued_left">%d</span> %s', 0, __( 'of', 'wpmovielibrary' ), 0, __( 'imported', 'wpmovielibrary' ) ); ?></div>
+							<div id="queue_status_message"></div>
+						</div>
 					</p>
 
 				</form>

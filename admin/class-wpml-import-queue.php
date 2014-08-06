@@ -92,7 +92,8 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			self::display_queued_movie_list();
 			$rows = ob_get_clean();
 
-			$total_items = WPML_Stats::get_queued_movies_count();
+			$total_items = (array) wp_count_posts( 'movie' );
+			$total_items = $total_items['import-queued'];
 
 			$response = array( 'rows' => $rows );
 			$i18n = array();
@@ -101,7 +102,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			$response['pagination']['top'] = '';
 			$response['pagination']['bottom'] = '';
 			$response['column_headers'] = '';
-			$i18n['total_items_i18n'] = sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) );
+			$i18n['total_items_i18n'] = ( $total_items ? sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) ) : _( 'No item' ) );
 
 			WPML_Utils::ajax_response( $response, $i18n, WPML_Utils::create_nonce( 'queued-movies' ) );
 		}
@@ -133,7 +134,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 
 			$attributes = array(
 				'movies' => $movies,
-				'ajax' => $_ajax
+				'_ajax' => $_ajax
 			);
 
 			echo self::render_template( 'import/queued-movies.php', $attributes );
