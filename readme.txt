@@ -3,8 +3,8 @@ Contributors: askelon
 Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor
 Requires at least: 3.6
-Tested up to: 3.9.1
-Stable tag: 1.1.2
+Tested up to: 4.0-beta.2
+Stable tag: 1.2-beta.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
