@@ -7,7 +7,7 @@
 			<a class="button-primary" href="<?php echo wp_nonce_url( admin_url( '/admin.php?page=wpmovielibrary&amp;hide_wpml_api_key_notice=1' ), 'hide-wpml-api-key-notice', '_nonce' ) ?>"><?php _e( 'Do not notify me again', 'wpmovielibrary' ) ?></a>
 		</span>
 	</div>
-<?php else if ( 'missing-archive' == $notice ) : ?>
+<?php elseif ( 'missing-archive' == $notice ) : ?>
 
 	<div class="update-nag">
 		<?php _e( 'WPMovieLibrary couldn\'t find an archive page; this page is required to provide archives of your collections, genres and actors.', 'wpmovielibrary' ) ?><br /><br />
