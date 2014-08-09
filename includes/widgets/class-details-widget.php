@@ -121,6 +121,9 @@ class WPML_Details_Widget extends WPML_Widget {
 
 			$this->widget_css .= " wpml-{$detail}-widget";
 
+			if ( $css )
+				$this->widget_css .= ' wpml-list custom';
+
 			$items = array();
 			foreach ( $details as $slug => $_title ) {
 
@@ -133,6 +136,8 @@ class WPML_Details_Widget extends WPML_Widget {
 
 				if ( 'rating' != $detail )
 					$item['title'] = __( $_title, 'wpmovielibrary' );
+				else if ( 'rating' == $detail && $list )
+					$item['title'] = esc_attr__( $_title, 'wpmovielibrary' ) . ' (' . $slug . '&#9733;)';
 				else
 					$item['title'] = '<div class="movie_rating_display stars_' . str_replace( '.', '_', $slug ) . '"><div class="stars_labels"><span class="stars_label stars_label_' . str_replace( '.', '_', $slug ) . '">' . esc_attr__( $_title, 'wpmovielibrary' ) . '</span></div></div>';
 
@@ -141,7 +146,7 @@ class WPML_Details_Widget extends WPML_Widget {
 
 			$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => $this->details[ $detail ]['default'], 'style' => $this->widget_css );
 
-			if ( 'rating' != $detail && $list )
+			if ( $list )
 				$html = WPMovieLibrary::render_template( 'details-widget/details-dropdown-list.php', $attributes, $require = 'always' );
 			else
 				$html = WPMovieLibrary::render_template( 'details-widget/details-list.php', $attributes, $require = 'always' );
