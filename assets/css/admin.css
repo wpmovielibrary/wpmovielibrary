@@ -127,8 +127,9 @@ body.post-php.post-type-movie #postimagediv {
 
 #wpml_dashboard_latest_movies_widget.no-style,
 #wpml_dashboard_most_rated_movies_widget.no-style {
-	border-color: rgba(0, 0, 0, 0);
 	background: rgba(0, 0, 0, 0);
+	border-color: rgba(0, 0, 0, 0);
+	box-shadow: 0 0 0;
 }
 
 #wpml_dashboard_latest_movies_widget .hndle,

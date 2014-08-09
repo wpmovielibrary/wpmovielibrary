@@ -314,7 +314,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 			$movies = $this->widget_content();
 			$settings = $this->settings;
 
-			echo self::render_template( '/dashboard-latest-movies/latest-movies-admin.php', array( 'movies' => $movies, 'offset' => $offset, 'settings' => $settings, 'editing' => $editing, 'widget' => $this ), $require = 'always' );
+			echo self::render_template( '/dashboard-latest-movies/latest-movies-admin.php', array( 'movies' => $movies, 'offset' => $offset, 'settings' => $settings, 'editing' => $editing, 'widget_id' => $this->widget_id ), $require = 'always' );
 
 			$this->get_widget_content();
 		}
@@ -337,7 +337,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 				return false;
 			}
 
-			echo self::render_template( '/dashboard-latest-movies/latest-movies-admin.php', array( 'settings' => $settings, 'editing' => $editing, 'widget' => $this ), $require = 'always' );
+			echo self::render_template( '/dashboard-latest-movies/latest-movies-admin.php', array( 'settings' => $settings, 'editing' => $editing, 'widget_id' => $this->widget_id ), $require = 'always' );
 		}
 
 	}

@@ -26,8 +26,8 @@
 						<div class="welcome-panel-column">
 							<h4><?php _e( 'Furthermore', 'wpmovielibrary' ); ?></h4>
 							<ul>
-								<li><span class="dashicons dashicons-category"></span><a href="<?php echo admin_url( 'edit-tags.php?taxonomy=collection&post_type=movie' ) ?>"><?php _e( 'Create and manage Collections', 'wpmovielibrary' ); ?></a></li>
-								<li><span class="dashicons dashicons-tag"></span><?php printf( __( 'Create and manage <a href="%s">Genres</a> and <a href="%s">Actors</a>', 'wpmovielibrary' ), admin_url( 'edit-tags.php?taxonomy=genre&post_type=movie' ), admin_url( 'edit-tags.php?taxonomy=actor&post_type=movie' ) ) ?></a></li>
+								<li><span class="dashicons dashicons-category"></span><a href="<?php echo admin_url( 'edit-tags.php?taxonomy=collection&amp;post_type=movie' ) ?>"><?php _e( 'Create and manage Collections', 'wpmovielibrary' ); ?></a></li>
+								<li><span class="dashicons dashicons-tag"></span><?php printf( __( 'Create and manage <a href="%s">Genres</a> and <a href="%s">Actors</a>', 'wpmovielibrary' ), admin_url( 'edit-tags.php?taxonomy=genre&amp;post_type=movie' ), admin_url( 'edit-tags.php?taxonomy=actor&amp;post_type=movie' ) ) ?></li>
 							</ul>
 						</div>
 					</div>

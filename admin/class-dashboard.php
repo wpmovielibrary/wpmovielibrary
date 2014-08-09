@@ -114,13 +114,12 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			if ( is_null( $widget ) || is_null( $setting ) || is_null( $value ) || ! class_exists( $widget ) )
 				wp_die( 0 );
 
-			
 			WPML_Utils::check_ajax_referer( 'save-' . strtolower( $widget ) );
 
 			$class = $widget::get_instance();
 			$update = self::save_widget_setting( $class->widget_id, $setting, $value );
 
-			wp_die( $update );
+			WPML_Utils::ajax_response( $update, array(), WPML_Utils::create_nonce( 'save-' . strtolower( $widget ) ) );
 		}
 
 		/**
@@ -215,7 +214,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			$hidden = get_user_option( 'metaboxhidden_' . get_current_screen()->id );
 			$visible = ( in_array( 'wpml_dashboard_' . $option . '_widget', $hidden ) ? '0' : '1' );
 
-			$return .= $status . '<label for="show_wpml_' . $option . '"><input id="show_wpml_' . $option . '" type="checkbox"' . checked( $visible, '1', false ) . ' />' . __( $title, 'wpmovielibrary' ) . '</label>';
+			$return = $status . '<label for="show_wpml_' . $option . '"><input id="show_wpml_' . $option . '" type="checkbox"' . checked( $visible, '1', false ) . ' />' . __( $title, 'wpmovielibrary' ) . '</label>';
 			
 			return $return;
 		}
@@ -318,7 +317,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			if ( isset( $_GET['wpml_set_archive_page'] ) && ( isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpml-set-archive-page' ) ) )
 				WPML_Utils::set_archive_page();
 
-			echo self::render_template( '/dashboard/dashboard.php' );
+			echo self::render_template( '/dashboard/dashboard.php', array( 'screen' => get_current_screen() ) );
 			echo self::render_template( '/dashboard/movie-modal.php' );
 		}
 

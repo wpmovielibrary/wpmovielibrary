@@ -1281,7 +1281,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$query_arg = '_wpmlnonce_' . str_replace( '-', '_', $action );
 
 			$error = new WP_Error();
-			$check = check_ajax_referer( 'wpml-' . $action, $query_arg, $die );
+			$check = check_ajax_referer( 'wpml-' . $action, $query_arg );
 
 			if ( $check )
 				return true;
