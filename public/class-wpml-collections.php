@@ -147,7 +147,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 					$collections[] = $term->term_id;
 
 			if ( ! empty( $collections ) )
-				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "collection" WHERE term_id IN (' . implode( ',', $collections ) . ')' );
+				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "collection" WHERE term_id IN (' . implode( ',', $collections ) . ') AND taxonomy = "category"' );
 
 			$wpdb->query(
 				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_collection-", "")'

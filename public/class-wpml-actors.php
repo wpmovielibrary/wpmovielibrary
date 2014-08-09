@@ -148,7 +148,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 					$actors[] = $term->term_id;
 
 			if ( ! empty( $actors ) )
-				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "actor" WHERE term_id IN (' . implode( ',', $actors ) . ')' );
+				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "actor" WHERE term_id IN (' . implode( ',', $actors ) . ') AND taxonomy = "post_tag"' );
 
 			$wpdb->query(
 				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_actor-", "")'

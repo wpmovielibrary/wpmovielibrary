@@ -146,7 +146,7 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 					$genres[] = $term->term_id;
 
 			if ( ! empty( $genres ) )
-				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "genre" WHERE term_id IN (' . implode( ',', $genres ) . ')' );
+				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "genre" WHERE term_id IN (' . implode( ',', $genres ) . ') AND taxonomy = "post_tag"' );
 
 			$wpdb->query(
 				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_genre-", "")'
