@@ -510,6 +510,32 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		}
 
 		/**
+		 * Return Metaboxes data
+		 *
+		 * @since    1.2
+		 *
+		 * @return   array    WPML Metaboxes
+		 */
+		public static function get_metaboxes() {
+
+			global $wpml_metaboxes;
+
+			/**
+			 * Filter the Metaboxes list to add/remove metaboxes.
+			 *
+			 * This should be used through Plugins to create additionnal
+			 * Metaboxes.
+			 *
+			 * @since    1.2
+			 *
+			 * @param    array    $wpml_metaboxes Existing Metaboxes
+			 */
+			$wpml_metaboxes = apply_filters( 'wpml_filter_metaboxes', $wpml_metaboxes );
+
+			return $wpml_metaboxes;
+		}
+
+		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
 		 * @since    1.0.0

@@ -458,14 +458,17 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 */
 		public static function add_meta_boxes() {
 
-			// Movie Metadata
-			add_meta_box( 'wpml_meta', __( 'WPMovieLibrary − Movie Meta', 'wpmovielibrary' ), __CLASS__ . '::metabox_meta', 'movie', 'normal', 'high', null );
+			$metaboxes = WPML_Settings::get_metaboxes();
 
-			// Movie Details
-			add_meta_box( 'wpml_images', __( 'WPMovieLibrary − Movie Images', 'wpmovielibrary' ), __CLASS__ . '::metabox_images', 'movie', 'normal', 'high', null );
+			foreach ( $metaboxes as $i => $metabox ) {
 
-			// Movie Details
-			add_meta_box( 'wpml_details', __( 'WPMovieLibrary − Movie Details', 'wpmovielibrary' ), __CLASS__ . '::metabox_details', 'movie', 'side', 'default', null );
+				extract( $metabox, EXTR_OVERWRITE );
+
+				if ( 'side' != $context )
+					$id = "{$i}_{$id}";
+
+				add_meta_box( $id, $title, $callback, $screen, $context, $priority,  $callback_args );
+			}
 		}
 
 		/**

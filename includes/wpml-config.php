@@ -708,6 +708,37 @@ $wpml_movie_meta_aliases = array(
 	'musician'   => 'composer'
 );
 
+$wpml_metaboxes = array(
+
+	array(
+		'id'            => 'wpml_details',
+		'title'         => __( 'WPMovieLibrary − Movie Details', 'wpmovielibrary' ),
+		'callback'      => 'WPML_Edit_Movies::metabox_details',
+		'screen'        => 'movie',
+		'context'       => 'side',
+		'priority'      => 'default',
+		'callback_args' => null
+	),
+	array(
+		'id'            => 'wpml_meta',
+		'title'         => __( 'WPMovieLibrary − Movie Meta', 'wpmovielibrary' ),
+		'callback'      => 'WPML_Edit_Movies::metabox_meta',
+		'screen'        => 'movie',
+		'context'       => 'normal',
+		'priority'      => 'high',
+		'callback_args' => null
+	),
+	array(
+		'id'            => 'wpml_images',
+		'title'         => __( 'WPMovieLibrary − Movie Images', 'wpmovielibrary' ),
+		'callback'      => 'WPML_Edit_Movies::metabox_images',
+		'screen'        => 'movie',
+		'context'       => 'normal',
+		'priority'      => 'high',
+		'callback_args' => null
+	),
+);
+
 $wpml_shortcodes = array(
 
 	'movies' => array(
