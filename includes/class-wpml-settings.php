@@ -446,6 +446,18 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 
 			global $wpml_shortcodes;
 
+			/**
+			 * Filter the Shortcodes list to add/remove shortcodes.
+			 *
+			 * This should be used through Plugins to create additionnal
+			 * Shortcodes.
+			 *
+			 * @since    1.2
+			 *
+			 * @param    array    $wpml_shortcodes Existing Shortcodes
+			 */
+			$wpml_shortcodes = apply_filters( 'wpml_filter_shortcodes', $wpml_shortcodes );
+
 			return $wpml_shortcodes;
 		}
 

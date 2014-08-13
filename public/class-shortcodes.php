@@ -685,7 +685,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * 
 		 * @return   int|null  Movie ID if available, null else
 		 */
-		private static function find_movie_id( $id = null, $title = null ) {
+		public static function find_movie_id( $id = null, $title = null ) {
 
 			$movie_id = null;
 
