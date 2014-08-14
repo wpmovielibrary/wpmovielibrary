@@ -470,8 +470,11 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				if ( ! has_post_thumbnail( $movie_id ) )
 					return $content;
 
-				$thumbnail = get_the_post_thumbnail( $movie_id, $size );
-				$attributes = array( 'size' => $size, 'thumbnail' => $thumbnail );
+				$poster = array(
+					'thumbnail' => wp_get_attachment_image_src( get_post_thumbnail_id( $movie_id ), $size ),
+					'full'      => wp_get_attachment_image_src( get_post_thumbnail_id( $movie_id ), 'full' )
+				);
+				$attributes = array( 'size' => $size, 'movie_id' => $movie_id, 'poster' => $poster );
 
 				$content = WPMovieLibrary::render_template( 'shortcodes/poster.php', $attributes, $require = 'always' );
 
@@ -527,9 +530,12 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 						$attachments = array_splice( $attachments, 0, $count );
 
 					foreach ( $attachments as $attachment )
-						$images[] = wp_get_attachment_image( $attachment->ID, $size );
+						$images[] = array(
+							'thumbnail' => wp_get_attachment_image_src( $attachment->ID, $size ),
+							'full'      => wp_get_attachment_image_src( $attachment->ID, 'full' )
+						);
 
-					$content = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => $size, 'data' => $data, 'images' => $images ), $require = 'always' );
+					$content = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => $size, 'movie_id' => $movie_id, 'images' => $images ), $require = 'always' );
 				}
 
 				return $content;
