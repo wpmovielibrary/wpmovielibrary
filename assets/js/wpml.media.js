@@ -57,9 +57,18 @@ var wpml_images, wpml_posters;
 
 				this._frame.options.button.reset = false;
 				this._frame.options.button.close = false;
-				this._frame.state('library').unbind('select').on('select', this.select);
+				this._frame.state('library').unbind( 'select' ).on( 'select', this.select );
+				this._frame.on( 'open', this.ready );
 
 				return this._frame;
+			};
+
+			/**
+			 * Set the modal to browse mode
+			 */
+			wpml.media.images.ready = function() {
+
+				wpml_images._frame.content.mode( 'browse' );
 			};
 
 			/**
@@ -195,8 +204,17 @@ var wpml_images, wpml_posters;
 				this._frame.options.button.close = false;
 
 				this._frame.state('library').unbind('select').on('import_poster', this.select);
+				this._frame.on( 'open', this.ready );
 
 				return this._frame;
+			};
+
+			/**
+			 * Set the modal to browse mode
+			 */
+			wpml.media.posters.ready = function() {
+
+				wpml_posters._frame.content.mode( 'browse' );
 			};
 
 			/**
