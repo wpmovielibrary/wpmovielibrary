@@ -94,6 +94,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 				return false;
 
 			global $wpdb;
+			$wpdb->hide_errors();
 
 			$_action = get_option( 'wpml_settings' );
 			if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['collections'] ) )
@@ -138,6 +139,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		public function activate( $network_wide ) {
 
 			global $wpdb;
+			$wpdb->hide_errors();
 
 			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_collection%"' );
 			$collections = array();

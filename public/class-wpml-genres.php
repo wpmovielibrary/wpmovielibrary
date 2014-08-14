@@ -93,6 +93,7 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 				return false;
 
 			global $wpdb;
+			$wpdb->hide_errors();
 
 			$_action = get_option( 'wpml_settings' );
 			if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['genres'] ) )
@@ -137,6 +138,7 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 		public function activate( $network_wide ) {
 
 			global $wpdb;
+			$wpdb->hide_errors();
 
 			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_genre%"' );
 			$genres   = array();
