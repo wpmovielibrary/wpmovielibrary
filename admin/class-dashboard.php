@@ -76,7 +76,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			add_filter( 'screen_settings', array( $this, 'screen_options' ), 10, 2 );
 			add_filter( 'wpml_filter_widget_classname', array( $this, 'filter_widget_classname' ), 10, 1 );
 
-			add_action( 'wp_ajax_wpml_save_screen_option', __CLASS__ . '::wpml_save_screen_option_callback' );
+			add_action( 'wp_ajax_wpml_save_screen_option', array( $this, 'wpml_save_screen_option_callback' ) );
 			add_action( 'wp_ajax_wpml_save_dashboard_widget_settings', __CLASS__ . '::wpml_save_dashboard_widget_settings_callback' );
 			add_action( 'wp_ajax_wpml_load_more_movies', __CLASS__ . '::wpml_load_more_movies_callback' );
 		}
@@ -88,7 +88,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * 
 		 * @since     1.0.0
 		 */
-		public static function wpml_save_screen_option_callback() {
+		public function wpml_save_screen_option_callback() {
 
 			check_ajax_referer( 'screen-options-nonce', 'screenoptionnonce' );
 
@@ -96,7 +96,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			$visible = ( isset( $_POST['visible'] ) && in_array( $_POST['visible'], array( '0', '1' ) ) ? $_POST['visible'] : '0' );
 			$option = ( isset( $_POST['option'] ) && '' != $_POST['option'] ? $_POST['option'] : null );
 
-			if ( is_null( $screen_id ) || is_null( $option ) || ! in_array( $option, self::$allowed_options ) )
+			if ( is_null( $screen_id ) || is_null( $option ) || ! in_array( $option, $this->allowed_options ) )
 				wp_die( 0 );
 
 			$update = self::save_screen_option( $option, $visible, $screen_id );
@@ -327,7 +327,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			foreach ( $wpml_dashboard_widgets as $widget )
 				self::add_dashboard_widget( $widget );
 
-			echo self::render_template( '/dashboard/dashboard.php', array( 'screen' => get_current_screen() ) );
+			echo self::render_template( '/dashboard/dashboard.php', array( 'screen' => get_current_screen(), 'hidden' => $hidden ) );
 			echo self::render_template( '/dashboard/movie-modal.php' );
 		}
  
