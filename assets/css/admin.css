@@ -292,6 +292,64 @@ body.post-php.post-type-movie #postimagediv {
 	width: 100%;
 }
 
+#wpml_dashboard_vendor_widget {
+	background: transparent url(../img/bg.jpg) center top no-repeat;
+	background-size: cover;
+	color: #fff;
+	text-align: center;
+}
+
+#wpml_dashboard_vendor_widget .handlediv,
+#wpml_dashboard_vendor_widget .hndle {
+	display: none;
+}
+
+#wpml_dashboard_vendor_widget .title {
+	font-family: sans-serif;
+	font-size: 1.5em;
+	font-weight: 200;
+	text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+#wpml_dashboard_vendor_widget .title ,
+#wpml_dashboard_vendor_widget .joinus {
+	background: rgba(255,255,255,0.15);
+	padding: 0.25em 0;
+}
+
+#wpml_dashboard_vendor_widget .rateme {
+	margin: -0.75em 0 1.5em 0;
+}
+
+#wpml_dashboard_vendor_widget .rateme a {
+	color: rgba(255, 255, 255, 0.65);
+	text-shadow: 0px 0px 0.25em rgba(255, 255, 255, 0.4);
+}
+
+#wpml_dashboard_vendor_widget .rateme a:hover {
+	color: #fff;
+	text-shadow: 0px 0px 0.25em rgba(255, 255, 255, 0.6);
+}
+
+#wpml_dashboard_vendor_widget .rateme a .dashicons {
+	font-size: 2em;
+}
+
+#wpml_dashboard_vendor_widget .social li {
+	display: inline;
+	margin: 0 0.75em;
+}
+
+#wpml_dashboard_vendor_widget .social li a {
+	color: rgba(255, 255, 255, 0.65);
+}
+
+#wpml_dashboard_vendor_widget .social li a:hover {
+	color: #fff;
+	text-shadow: 0px 0px 0.25em rgba(255, 255, 255, 0.4);
+}
+
+
 /*
  * Showcase
  */
