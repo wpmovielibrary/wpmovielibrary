@@ -347,10 +347,11 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			$class = apply_filters( 'wpml_filter_widget_classname', $class );
 			$widget_id = strtolower( $class );
 			$widget_name = __( $name, 'wpmovielibrary' );
+			$location = ( 'side' == $location ? 'side' : 'normal' );
 			$instance = new $class;
 			$callback = array( $instance, 'dashboard_widget' );
 			$callback_args = array( 'id' => $widget_id );
-			$control_callback = array( $instance, 'dashboard_widget_handle' );
+			$control_callback = ( 'side' == $location ? null : array( $instance, 'dashboard_widget_handle' ) );
 
 			if ( ! is_null( $control_callback ) && current_user_can( 'edit_dashboard' ) && is_callable( $control_callback ) ) {
 
@@ -370,7 +371,6 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			}
 
 			$screen = get_current_screen();
-			$location = ( 'side' == $location ? 'side' : 'normal' );
 			$priority = 'core';
 
 			add_meta_box( $widget_id, $widget_name, $callback, $screen, $location, $priority, $callback_args );
