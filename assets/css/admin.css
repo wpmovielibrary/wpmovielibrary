@@ -961,9 +961,19 @@ body.post-php.post-type-movie #postimagediv {
 
 /* Modal */
 
+.media-frame.movie-images .media-frame-content,
+.media-frame.movie-posters .media-frame-content {
+	top: 60px !important;
+}
+
 .media-frame.movie-images .attachments-browser .attachments,
 .media-frame.movie-posters .attachments-browser .attachments {
 	top: 10px;
+}
+
+.media-frame.movie-images .attachments-browser.hide-sidebar .media-sidebar,
+.media-frame.movie-posters .attachments-browser.hide-sidebar .media-sidebar {
+	display: none;
 }
 
 .media-frame.movie-images .media-frame-router,
