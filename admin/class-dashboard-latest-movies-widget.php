@@ -22,43 +22,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 * 
 		 * @var      string
 		 */
-		protected $widget_id = '';
-
-		/**
-		 * Widget Name.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @var      string
-		 */
-		protected $widget_name = '';
-
-		/**
-		 * Widget callback method.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @var      array
-		 */
-		protected $callback = null;
-
-		/**
-		 * Widget Controls callback method.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @var      array
-		 */
-		protected $control_callback = null;
-
-		/**
-		 * Widget callback method arguments.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @var      array
-		 */
-		protected $callback_args = null;
+		protected $widget_id = 'wpml_dashboard_latest_movies_widget';
 
 		/**
 		 * Widget settings.
@@ -96,12 +60,6 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 */
 		public function init() {
 
-			$this->widget_id = 'wpml_dashboard_latest_movies_widget';
-			$this->widget_name = __( 'Movies you recently added', 'wpmovielibrary' );
-			$this->callback = array( $this, 'widget' );
-			$this->control_callback = array( $this, 'widget_handle' );
-			$this->callback_args = array( 'id' => $this->widget_id );
-
 			$this->default_settings = array(
 				'movies_per_page' => 8,
 				'show_year' => 1,
@@ -122,21 +80,9 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'wpml_dashboard_setup', array( $this, '_add_dashboard_widget' ), 10 );
-
 			if ( '1' == $this->settings['style_metabox'] )
 				add_action( 'admin_footer', array( $this, 'widget_metabox_style' ), 10 );
 
-		}
-
-		/**
-		 * Register the Widget
-		 * 
-		 * @since    1.0.0
-		 */
-		public function _add_dashboard_widget() {
-
-			$this->add_dashboard_widget( $this->widget_id, $this->widget_name, $this->callback, $this->control_callback );
 		}
 
 		/**
@@ -304,7 +250,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 * 
 		 * @since    1.0.0
 		 */
-		public function widget() {
+		public function dashboard_widget() {
 
 			if ( isset( $_POST[ $this->widget_id ] ) )
 				$this->update_settings();
@@ -327,7 +273,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 * @param    string    $context box context
 		 * @param    mixed     $object gets passed to the box callback function as first parameter
 		 */
-		public function widget_handle( $context, $object ) {
+		public function dashboard_widget_handle( $context, $object ) {
 
 			$settings = $this->settings;
 			$editing = ( isset( $_GET['edit'] ) && $object['id'] == $_GET['edit'] );

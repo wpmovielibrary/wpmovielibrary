@@ -739,6 +739,45 @@ $wpml_metaboxes = array(
 	),
 );
 
+$wpml_dashboard_widgets = array(
+	'statistics' => array(
+		'class'    => 'Stats',
+		'title'    => __( 'Statistics', 'wpmovielibrary' ),
+		'name'     => __( 'Your library', 'wpmovielibrary' ),
+		'location' => 'side'
+	),
+	'quickaction' => array(
+		'class'    => 'Quickaction',
+		'title'    => __( 'Quick Actions', 'wpmovielibrary' ),
+		'name'     => __( 'Quick Actions', 'wpmovielibrary' ),
+		'location' => 'side'
+	),
+	'helper' => array(
+		'class'    => 'Helper',
+		'title'    => __( 'Help', 'wpmovielibrary' ),
+		'name'     => __( 'Help', 'wpmovielibrary' ),
+		'location' => 'side'
+	),
+	'vendor' => array(
+		'class'    => 'Vendor',
+		'title'    => __( 'Rate me!', 'wpmovielibrary' ),
+		'name'     => __( 'Rate me!', 'wpmovielibrary' ),
+		'location' => 'side'
+	),
+	'latest_movies' => array(
+		'class' => 'Latest_Movies',
+		'title' => __( 'Latest Movies', 'wpmovielibrary' ),
+		'name'  => __( 'Movies you recently added', 'wpmovielibrary' ),
+		'location' => 'normal'
+	),
+	'most_rated_movies' => array(
+		'class' => 'Most_Rated_Movies',
+		'title' => __( 'Most Rated Movies', 'wpmovielibrary' ),
+		'name'  => __( 'Your most rated movies', 'wpmovielibrary' ),
+		'location' => 'normal'
+	),
+);
+
 $wpml_shortcodes = array(
 
 	'movies' => array(

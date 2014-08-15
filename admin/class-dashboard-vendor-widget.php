@@ -2,7 +2,7 @@
 /**
  * WPMovieLibrary Dashboard Class extension.
  * 
- * Create a Quick Action Widget.
+ * Create a Promotional Widget.
  *
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie.merland@gmail.com>
@@ -11,9 +11,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
+if ( ! class_exists( 'WPML_Dashboard_Vendor_Widget' ) ) :
 
-	class WPML_Dashboard_Quickaction_Widget extends WPML_Dashboard {
+	class WPML_Dashboard_Vendor_Widget extends WPML_Dashboard {
 
 		/**
 		 * Widget ID
@@ -22,7 +22,7 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 		 * 
 		 * @var      string
 		 */
-		protected $widget_id = 'wpml_dashboard_quickaction_widget';
+		protected $widget_id = 'wpml_dashboard_vendor_widget';
 
 		/**
 		 * Constructor
@@ -40,20 +40,20 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 
 			$links = array();
 			$list = array(
-				'new_movie' => array(
-					'url'   => admin_url( 'post-new.php?post_type=movie' ),
-					'title' => __( 'New movie', 'wpmovielibrary' ),
-					'icon'  => 'dashicons dashicons-welcome-add-page'
+				'facebook' => array(
+					'url'   => 'http://facebook.com/wpmovielibrary',
+					'title' => 'Facebook',
+					'icon'  => 'dashicons dashicons-facebook-alt'
 				),
-				'import'    => array(
-					'url'   => admin_url( 'admin.php?page=wpml_import' ),
-					'title' => __( 'Import movies', 'wpmovielibrary' ),
-					'icon'  => 'dashicons dashicons-download'
+				'twitter' => array(
+					'url'   => 'https://twitter.com/WPMovieLibrary',
+					'title' => 'Twitter',
+					'icon'  => 'dashicons dashicons-twitter'
 				),
-				'settings'  => array(
-					'url'   => admin_url( 'edit.php?post_type=movie' ),
-					'title' => __( 'Manage movies', 'wpmovielibrary' ),
-					'icon'  => 'dashicons dashicons-format-video'
+				'google' => array(
+					'url'   => 'https://www.google.com/+Wpmovielibraryplugin',
+					'title' => 'Google+',
+					'icon'  => 'dashicons dashicons-googleplus'
 				)
 			);
 
@@ -62,7 +62,7 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 
 			$links = implode( '', $links );
 
-			echo self::render_template( '/dashboard-quickaction/quickaction.php', array( 'links' => $links ) );
+			echo self::render_template( '/dashboard-vendor/vendor.php', array( 'links' => $links ) );
 		}
 
 		/**

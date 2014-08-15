@@ -155,6 +155,7 @@ if ( wpml_requirements_met() ) {
 		require_once( WPML_PATH . 'admin/class-dashboard-most-rated-movies-widget.php' );
 		require_once( WPML_PATH . 'admin/class-dashboard-quickaction-widget.php' );
 		require_once( WPML_PATH . 'admin/class-dashboard-helper-widget.php' );
+		require_once( WPML_PATH . 'admin/class-dashboard-vendor-widget.php' );
 		require_once( WPML_PATH . 'admin/class-wpml-api.php' );
 		require_once( WPML_PATH . 'admin/class-wpml-api-wrapper.php' );
 		require_once( WPML_PATH . 'admin/class-wpml-edit-movies.php' );
