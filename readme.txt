@@ -46,8 +46,6 @@ Features:
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Use it!
 
-== Other Notes ==
-
 == Frequently Asked Questions ==
 
 = Is this legal? =
@@ -83,7 +81,6 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 == Changelog ==
 
 == 1.2 ==
-
 * Feature - Implement caching
 * Feature - Implement templates
 * Feature - Complete Widgets reboot
@@ -112,17 +109,14 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 * Fix - Taxonomies Widget minor style bug
 
 = 1.1.2 =
-
 * Fix - PHP Warnings with shortcodes when no attribute is passed
 * Tweak - Movie Images shortcodes basic styling
 
 = 1.1.1 =
-
 * Fix - Default poster for movies only
 * Fix - PHP Warning with runtime and release date
 
 == 1.1 ==
-
 * Features - Implements shortcodes
 * Features - Create 8 new shortcodes
 * Features - Create 16+ aliases for specific shortcodes
@@ -162,3 +156,11 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 
 == 1.0 ==
 * First stable release
+
+== Upgrade Notice ==
+
+= 1.2 =
+Implementation of caching, templates, fully reworked Widgets and lots of tweaks and bug fixes
+
+= 1.1 =
+Plugin now includes shortcodes
