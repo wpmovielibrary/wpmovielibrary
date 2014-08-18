@@ -3,7 +3,7 @@
  * Fired when the plugin is uninstalled.
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0+
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org

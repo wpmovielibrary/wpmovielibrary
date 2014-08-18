@@ -3,7 +3,7 @@
  * WPMovieLibrary
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 Charlie MERLAND
@@ -15,7 +15,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 	* Plugin Admin class.
 	*
 	* @package WPMovieLibrary_Admin
-	* @author  Charlie MERLAND <charlie.merland@gmail.com>
+	* @author  Charlie MERLAND <charlie@caercam.org>
 	*/
 	class WPMovieLibrary_Admin extends WPML_Module {
 

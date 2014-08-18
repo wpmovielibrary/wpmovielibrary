@@ -5,7 +5,7 @@
  * Manage WPMovieLibrary settings
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org
@@ -17,7 +17,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 	 * WPML Cache class
 	 *
 	 * @package WPMovieLibrary
-	 * @author  Charlie MERLAND <charlie.merland@gmail.com>
+	 * @author  Charlie MERLAND <charlie@caercam.org>
 	 */
 	class WPML_Cache extends WPML_Module {
 
