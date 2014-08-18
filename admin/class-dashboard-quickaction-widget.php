@@ -18,7 +18,7 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 		/**
 		 * Widget ID
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @var      string
 		 */
@@ -34,7 +34,7 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 		/**
 		 * The Widget content.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function dashboard_widget() {
 
@@ -68,7 +68,7 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 		/**
 		 * Widget's configuration callback
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $context box context
 		 * @param    mixed     $object gets passed to the box callback function as first parameter

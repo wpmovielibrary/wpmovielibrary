@@ -14,7 +14,7 @@ wpml = {};
 		/**
 		 * Movies Post Editor page's Metadata part
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.editor.meta = {};
 			wpml.editor.meta.search = function( post_id, title, caller ) {};
@@ -26,7 +26,7 @@ wpml = {};
 		/**
 		 * Movies Post Editor page's Details part
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.editor.details = {};
 			wpml.editor.details = {};
@@ -51,7 +51,7 @@ wpml = {};
 		 * Handles the Imported part of the Importer: search for movies'
 		 * metadata, select movies in lists, set data fields.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.importer.meta = {};
 			wpml.importer.meta.do = function( action ) {};
@@ -64,7 +64,7 @@ wpml = {};
 		 * Handles the Import part of the Importer: import lists of movies
 		 * or delete movies
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.importer.movies = {};
 			wpml.importer.movies.delete = function() {};
@@ -74,7 +74,7 @@ wpml = {};
 		 * Handles the Importer view alterations like AJAX nav or counter
 		 * updates.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.importer.view = {};
 			wpml.importer.view.reload = function() {};
@@ -85,7 +85,7 @@ wpml = {};
 		/**
 		 * TODO
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.queue.movies = {};
 			wpml.queue.movies.add = function() {};
@@ -96,7 +96,7 @@ wpml = {};
 		/**
 		 * TODO
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.queue.utils = {};
 			wpml.queue.utils.toggle_button = function() {};
@@ -105,7 +105,7 @@ wpml = {};
 		/**
 		 * Movie Images handling
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.media.images = {};
 			wpml.media.images.init = function() {};
@@ -117,7 +117,7 @@ wpml = {};
 		/**
 		 * Movie Posters handling
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.media.posters = {};
 			wpml.media.posters.init = function() {};
@@ -129,7 +129,7 @@ wpml = {};
 		/**
 		 * TODO
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.landing.modal = {};
 			wpml.landing.modal.open = function() {};
@@ -140,7 +140,7 @@ wpml = {};
 		/**
 		 * TODO
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.landing.dashboard = {};
 			wpml.landing.dashboard.handle_widget = function() {};
@@ -148,7 +148,7 @@ wpml = {};
 		/**
 		 * Settings & Import Panels
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.settings.panels = {};
 			wpml.settings.panels.init = function() {};
@@ -157,7 +157,7 @@ wpml = {};
 		/**
 		 * Settings Metadata sorting part
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.settings.sortable = {};
 			wpml.settings.sortable.init = function() {};
@@ -167,7 +167,7 @@ wpml = {};
 		/**
 		 * 
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.settings.utils = {};
 			wpml.settings.utils.details_select = function() {};

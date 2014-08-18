@@ -152,7 +152,7 @@ wpml.dashboard = wpml_dashboard = {
 			 * 
 			 * TODO: Nonce
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    string     Setting ID
 			 * @param    boolean    Toggle status
@@ -216,7 +216,7 @@ wpml.dashboard = wpml_dashboard = {
 			 * 
 			 * TODO: Nonce
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    int    Number of movies to load
 			 * @param    int    Starting at which offset
@@ -267,7 +267,7 @@ wpml.dashboard = wpml_dashboard = {
 			 * 
 			 * TODO: Nonce
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    int    Movies per page
 			 */
@@ -355,7 +355,7 @@ wpml.dashboard = wpml_dashboard = {
 			 * 
 			 * TODO: Nonce
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    string     Setting ID
 			 * @param    boolean    Toggle status
@@ -419,7 +419,7 @@ wpml.dashboard = wpml_dashboard = {
 			 * 
 			 * TODO: Nonce
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    int    Number of movies to load
 			 * @param    int    Starting at which offset
@@ -469,7 +469,7 @@ wpml.dashboard = wpml_dashboard = {
 			 * 
 			 * TODO: Nonce
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    int    Movies per page
 			 */
@@ -532,7 +532,7 @@ wpml.dashboard = wpml_dashboard = {
 		/**
 		* Activate toggle for dashboard page widgets
 		* 
-		* @since    1.0.0
+		* @since    1.0
 		* 
 		* @param    object     Link's DOM Element
 		*/
@@ -562,7 +562,7 @@ wpml.dashboard = wpml_dashboard = {
 		/**
 		* Show/Hide plugin Widgets config part 
 		* 
-		* @since    1.0.0
+		* @since    1.0
 		* 
 		* @param    object     Link's DOM Element
 		* @param    boolean    True to show config part, false to hide
@@ -611,7 +611,7 @@ wpml.dashboard = wpml_dashboard = {
 	/**
 	 * Update Plugin's Dashboard screen options
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    string     Option ID
 	 * @param    boolean    Option value

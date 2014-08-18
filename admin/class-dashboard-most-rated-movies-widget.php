@@ -18,7 +18,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		/**
 		 * Widget ID
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @var      string
 		 */
@@ -27,7 +27,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		/**
 		 * Widget settings.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @var      array
 		 */
@@ -36,7 +36,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		/**
 		 * Widget default settings.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @var      array
 		 */
@@ -56,7 +56,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {
 
@@ -76,7 +76,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
 
@@ -88,7 +88,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		 * Widget Settings. Get the stored Widget Settings if existing,
 		 * save default settings if none.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @return   array    Widget Settings.
 		 */
@@ -111,7 +111,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		/**
 		 * Update Widget settings when config form is posted.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		private function update_settings() {
 
@@ -142,7 +142,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		 * This can't be done in PHP so we need to add a small JS code
 		 * to add a class the Metaboxes selected to be stylized.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function widget_metabox_style() {
 
@@ -153,7 +153,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		 * Prepare and include the Widget's content. Get and apply
 		 * settings.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    int    $limit Number of movies to show
 		 * @param    int    $offset Starting after n movies
@@ -180,7 +180,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		/**
 		 * Retrieve and prepare the movies to display in the Widget.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    int    $limit How many movies to get
 		 * @param    int    $limit Offset to select movies
@@ -247,7 +247,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		 * Show a list of the most recently added movies with a panel of
 		 * settings to customize the view.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function dashboard_widget() {
 
@@ -268,7 +268,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		/**
 		 * Widget's configuration callback
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $context box context
 		 * @param    mixed     $object gets passed to the box callback function as first parameter

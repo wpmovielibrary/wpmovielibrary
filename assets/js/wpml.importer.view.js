@@ -19,7 +19,7 @@ wpml = wpml || {};
 			/**
 			 * Init Events
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 */
 			wpml.importer.view.init = function() {
 
@@ -36,7 +36,7 @@ wpml = wpml || {};
 			 * Reload the movie table. Used when new movies are imported or
 			 * when browsing through the table.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 */
 			wpml.importer.view.reload = function( data, list ) {
 
@@ -99,7 +99,7 @@ wpml = wpml || {};
 			/**
 			 * Navigate through the table pages using navigation arrow links
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    object    Link HTML Object
 			 */
@@ -116,7 +116,7 @@ wpml = wpml || {};
 			/**
 			 * Navigate through the table pages using pagination input
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 */
 			wpml.importer.view.paginate = function() {
 				var data = {
@@ -134,7 +134,7 @@ wpml = wpml || {};
 			/**
 			 * Update the menu badges containing movies counts.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    string    Which menu, queued or imported?
 			 * @param    int       Increment or decrement?
@@ -166,7 +166,7 @@ wpml = wpml || {};
 			 * This is needed because of the AJAX update of the table 
 			 * breaking WordPress' JavaScript Events handlers.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 */
 			wpml.importer.view.toggle_button = function() {
 
@@ -183,7 +183,7 @@ wpml = wpml || {};
 			 * This is needed because of the AJAX update of the table 
 			 * breaking WordPress' JavaScript Events handlers.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    int    Which selector.
 			 */

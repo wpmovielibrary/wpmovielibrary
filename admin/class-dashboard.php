@@ -18,7 +18,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Dashboard Widgets.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @var      array
 		 */
@@ -47,7 +47,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {
 
@@ -68,7 +68,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
 
@@ -152,7 +152,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Save plugin Welcome Panel screen option.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    bool|int    $status Screen option value. Default false to skip.
 		 * @param    string      $option The option name.
@@ -169,7 +169,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Show plugin Welcome panel screen option form.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $status Screen settings markup.
 		 * @param    object    WP_Screen object.
@@ -204,7 +204,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Generate and render screen option.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $option Screen option ID.
 		 * @param    string    $title Screen option title.
@@ -229,7 +229,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * Save Widgets screen options. This is used to init the screen
 		 * options if they don't exist yet.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @return   array    List of hidden Widgets ID
 		 */
@@ -247,7 +247,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * Save a single Widget screen options.  This is used to save
 		 * the options through AJAX.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $option Screen setting ID.
 		 * @param    string    $value Screen setting value.
@@ -282,7 +282,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Save a plugin Dashboard Widget setting.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $widget_id Widget ID
 		 * @param    string    $setting Setting name
@@ -311,7 +311,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * Create a nice landing page for the plugin, displaying recent
 		 * movies and other stuff like a simple shortcut menu.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function dashboard() {
 
@@ -334,7 +334,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Adds a new widget to the Plugin's Dashboard.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array     $widget Widget data
 		 */
@@ -394,7 +394,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Prepare sites to use the plugin during single or network-wide activation
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param    bool    $network_wide
 		 */
@@ -403,7 +403,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Roll back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function deactivate() {}
 

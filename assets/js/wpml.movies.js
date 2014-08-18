@@ -50,7 +50,7 @@ wpml = wpml || {};
 			 * the list length to the first five names and show a link
 			 * to toggle the hidden rest on the list.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 */
 			wpml.editor.movies.short_actors = function() {
 
@@ -76,7 +76,7 @@ wpml = wpml || {};
 			/**
 			 * Toggle the Show/Hide all actors link.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    object    Link DOM object
 			 */
@@ -94,7 +94,7 @@ wpml = wpml || {};
 			 * This can't be done in PHP so we have to get the data
 			 * through AJAX and update the form manually.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    object    Movie details: status, media, rating
 			 * @param    string    Security Nonce

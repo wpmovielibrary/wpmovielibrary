@@ -8,7 +8,7 @@ wpml = wpml || {};
 		/**
 		 * Movies Importer Metadata part
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.importer.meta = wpml_import_meta = {
 
@@ -93,7 +93,7 @@ wpml = wpml || {};
 			 * Search movie by its title, update the table row with
 			 * Poster and Director and fill the data fields.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    int       Movie Post ID
 			 */
@@ -148,7 +148,7 @@ wpml = wpml || {};
 			/**
 			 * Display a list of movies matching the search.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    int       Movies Post ID
 			 * @param    object    Movies to add to the selection list
@@ -182,7 +182,7 @@ wpml = wpml || {};
 			/**
 			 * Display a list of movies matching the search.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    int    Movie Post ID
 			 * @param    int    Movie TMDb ID

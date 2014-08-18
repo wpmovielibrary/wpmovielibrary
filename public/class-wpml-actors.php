@@ -20,7 +20,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function __construct() {
 
@@ -30,7 +30,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
 
@@ -47,7 +47,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		 * @see wpml_movies_columns_head()
 		 * @see wpml_movies_columns_content()
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function register_actor_taxonomy() {
 
@@ -131,7 +131,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param bool $network_wide
 		 */
@@ -161,7 +161,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function deactivate() {
 
@@ -171,7 +171,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		/**
 		 * Set the uninstallation instructions
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function uninstall() {
 
@@ -181,7 +181,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {}
 

@@ -22,7 +22,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		/**
 		 * Slug of the plugin screen.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * @var      string
 		 */
 		protected $plugin_screen_hook_suffix = null;
@@ -30,7 +30,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		/**
 		 * Plugin Settings.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * @var      string
 		 */
 		protected $settings;
@@ -39,7 +39,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		protected function __construct() {
 
@@ -53,7 +53,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {
 
@@ -83,7 +83,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
 
@@ -260,7 +260,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * Adds a translation object to the plugin's JavaScript object
 		 * containing localized texts.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		private function localize_script() {
 
@@ -331,7 +331,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * user's dashboard color set. This is only available in the
 		 * new WP3.8 Dashboard.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function custom_admin_colors() {
 
@@ -376,7 +376,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * 
 		 * TODO: export support
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function admin_menu() {
 
@@ -475,7 +475,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * 
 		 * @link    http://wordpress.org/support/topic/moving-taxonomy-ui-to-another-main-menu#post-2432769
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @return   string    Updated parent if needed, current else
 		 */
@@ -507,7 +507,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * before doing anything. As of now maintenance tools are 
 		 * restricted to default settings restoration and cache cleaning.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function admin_page() {
 
@@ -559,7 +559,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		/**
 		 * Registers settings sections, fields and settings
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_settings() {
 
@@ -692,7 +692,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * users to get 404 when they try to access their content if they
 		 * didn't previously reload the Dashboard Permalink page.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $new_settings Array containing the new settings
 		 * @param    array    $old_settings Array containing the old settings
@@ -748,7 +748,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param bool $network_wide
 		 */
@@ -757,7 +757,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function deactivate() {}
 

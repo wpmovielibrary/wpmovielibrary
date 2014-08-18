@@ -13,7 +13,7 @@
  * 
  * Display some public statistics about the plugin usage.
  * 
- * @since    1.0.0
+ * @since    1.0
  */
 class WPML_Statistics_Widget extends WP_Widget {
 

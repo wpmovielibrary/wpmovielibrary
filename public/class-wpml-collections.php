@@ -20,7 +20,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function __construct() {
 
@@ -30,7 +30,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
 
@@ -47,7 +47,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		 * @see wpml_movies_columns_head()
 		 * @see wpml_movies_columns_content()
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function register_collection_taxonomy() {
 
@@ -132,7 +132,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param bool $network_wide
 		 */
@@ -162,7 +162,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function deactivate() {
 
@@ -172,7 +172,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		/**
 		 * Set the uninstallation instructions
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function uninstall() {
 
@@ -182,7 +182,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {}
 

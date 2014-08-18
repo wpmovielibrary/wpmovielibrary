@@ -28,7 +28,7 @@ wpml = wpml || {};
 			/**
 			 * Save Movie Details
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 */
 			wpml.editor.details.save = function() {
 
@@ -65,7 +65,7 @@ wpml = wpml || {};
 			/**
 			 * Inline editor
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    string    Detail type: status, media, rating
 			 * @param    object    Caller link DOM Element
@@ -106,7 +106,7 @@ wpml = wpml || {};
 			/**
 			 * Inline edit value
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    string    Detail type: status, media, rating
 			 * @param    object    Caller link DOM Element
@@ -161,7 +161,7 @@ wpml = wpml || {};
 			/**
 			 * Edit Movie Status
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 */
 			wpml.editor.details.status = wpml_status = {
 
@@ -181,7 +181,7 @@ wpml = wpml || {};
 				/**
 				 * Show the editor
 				 * 
-				 * @since    1.0.0
+				 * @since    1.0
 				 */
 				wpml.editor.details.status.show = function() {
 					if ( $( wpml_status.select ).is(":hidden") ) {
@@ -193,7 +193,7 @@ wpml = wpml || {};
 				/**
 				 * Update status
 				 * 
-				 * @since    1.0.0
+				 * @since    1.0
 				 */
 				wpml.editor.details.status.update = function() {
 					var option = '#movie-status > option:selected';
@@ -206,7 +206,7 @@ wpml = wpml || {};
 				/**
 				 * Hide the editor (cancel edit )
 				 * 
-				 * @since    1.0.0
+				 * @since    1.0
 				 */
 				wpml.editor.details.status.revert = function() {
 					var option = '#movie-status #'+$( wpml_status.hidden ).val();
@@ -219,7 +219,7 @@ wpml = wpml || {};
 			/**
 			 * Edit Movie Media
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 */
 			wpml.editor.details.media = wpml_media = {
 
@@ -239,7 +239,7 @@ wpml = wpml || {};
 				/**
 				 * Show the editor
 				 * 
-				 * @since    1.0.0
+				 * @since    1.0
 				 */
 				wpml.editor.details.media.show = function() {
 					if ( $( wpml_media.select ).is( ':hidden' ) ) {
@@ -251,7 +251,7 @@ wpml = wpml || {};
 				/**
 				 * Update media
 				 * 
-				 * @since    1.0.0
+				 * @since    1.0
 				 */
 				wpml.editor.details.media.update = function() {
 					var option = '#movie-media > option:selected';
@@ -275,7 +275,7 @@ wpml = wpml || {};
 			/**
 			 * Edit Movie Rating
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 */
 			wpml.editor.details.rating = wpml_rating = {
 
@@ -300,7 +300,7 @@ wpml = wpml || {};
 				/**
 				 * Init Events
 				 * 
-				 * @since    1.0.0
+				 * @since    1.0
 				 */
 				wpml.editor.details.rating.init = function() {
 
@@ -323,7 +323,7 @@ wpml = wpml || {};
 				/**
 				 * Show the editor
 				 * 
-				 * @since    1.0.0
+				 * @since    1.0
 				 */
 				wpml.editor.details.rating.show = function() {
 					if ( $( wpml_rating.select ).is( ":hidden" ) ) {
@@ -336,7 +336,7 @@ wpml = wpml || {};
 				/**
 				 * Update the rating
 				 * 
-				 * @since    1.0.0
+				 * @since    1.0
 				 */
 				wpml.editor.details.rating.update = function() {
 					var n = $( '#movie-rating' ).val();
@@ -349,7 +349,7 @@ wpml = wpml || {};
 				/**
 				 * Hide the editor (cancel edit )
 				 * 
-				 * @since    1.0.0
+				 * @since    1.0
 				 */
 				wpml.editor.details.rating.revert = function() {
 					$( wpml_rating.select ).slideUp( 'fast' );
@@ -360,7 +360,7 @@ wpml = wpml || {};
 				/**
 				 * Show the stars
 				 * 
-				 * @since    1.0.0
+				 * @since    1.0
 				 */
 				wpml.editor.details.rating.change_in = function( e ) {
 
@@ -393,7 +393,7 @@ wpml = wpml || {};
 				/**
 				 * Revert the stars to default/previous
 				 * 
-				 * @since    1.0.0
+				 * @since    1.0
 				 */
 				wpml.editor.details.rating.change_out = function( e ) {
 
@@ -416,7 +416,7 @@ wpml = wpml || {};
 				/**
 				 * Update the rating and fix the stars
 				 * 
-				 * @since    1.0.0
+				 * @since    1.0
 				 */
 				wpml.editor.details.rating.rate = function() {
 

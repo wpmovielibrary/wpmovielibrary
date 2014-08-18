@@ -19,7 +19,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function __construct() {
 			$this->register_hook_callbacks();
@@ -28,7 +28,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
 
@@ -83,7 +83,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * they seem not to be declared correctly when usin the regular
 		 * register_taxonomy 'rewrite' param.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param    object     $wp_rewrite Instance of WordPress WP_Rewrite Class
 		 */
@@ -186,7 +186,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * render archive pages for taxonomies. This should only be called
 		 * only while activating.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function set_archive_page() {
 
@@ -217,7 +217,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Delete the Archive page. This should only be called only while
 		 * uninstalling.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function delete_archive_page() {
 
@@ -235,7 +235,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Mostly used to inform about specific plugin needs or info
 		 * such as missing API Key, movie import, etc.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $notice The notice message
 		 * @param    string    $type Notice type: update, error, wpml?
@@ -262,7 +262,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * used for styling as WP3.8 introduced a brand new dashboard
 		 * look n feel.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @return   boolean    Older/newer than WordPress 3.8?
 		 */
@@ -275,7 +275,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @uses wpml_get_movie_postmeta()
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    int    Movie Post ID
 		 *
@@ -290,7 +290,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @uses wpml_get_movie_postmeta()
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    int    Movie Post ID
 		 *
@@ -305,7 +305,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @uses wpml_get_movie_postmeta()
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    int    Movie Post ID
 		 *
@@ -320,7 +320,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @uses wpml_get_movie_postmeta()
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    int    Movie Post ID
 		 *
@@ -334,7 +334,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Return various Movie's Post Meta. Possible meta: status, media, rating
 		 * and data.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    Meta type to return: data, status, media or rating
 		 * @param    int       Movie Post ID
@@ -379,7 +379,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Filter Plugin Settings to obtain a single dimension array with
 		 * all prefixed settings.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $array Plugin Settings
 		 * 
@@ -408,7 +408,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * format to a standard hours:minutes form to avoid some weird
 		 * "2:38AM" runtime.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $runtime Movie runtime
 		 * @param    string    $time_format Optional time format to apply
@@ -437,7 +437,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Filter a Movie's Release Date to match WordPress date format
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $release_date Movie release date
 		 * @param    string    $date_format Optional date format to apply
@@ -463,7 +463,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Filter a Movie's Metadata to extract only supported data.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $data Movie metadata
 		 * 
@@ -503,7 +503,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Filter a Movie's Crew to extract only supported data.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $data Movie Crew
 		 * 
@@ -537,7 +537,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Filter a Movie's Cast to extract only supported data.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $data Movie Cast
 		 * 
@@ -832,7 +832,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * and crew data, so we filter them separately. If the data slug
 		 * is valid, the value is escaped and added to the return array.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $data The Movie Metadata to filter
 		 * 
@@ -990,7 +990,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Convert an Array shaped list to a separated string.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $array Array shaped list
 		 * @param    string   $subrow optional subrow to select in subitems
@@ -1023,7 +1023,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Filter an array to detect empty associative arrays.
 		 * Uses wpml_stringify_array to stringify the array and check its length.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $array Array to check
 		 * 
@@ -1043,7 +1043,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Filter an array to remove any sub-array, reducing multidimensionnal
 		 * arrays.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $array Array to check
 		 * 
@@ -1115,7 +1115,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * Code from Luke Gedeon, see https://core.trac.wordpress.org/ticket/9547#comment:7
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param    array      $terms array of objects to be replaced with sorted list
 		 * @param    integer    $id post id
@@ -1244,7 +1244,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Provide a plugin-wide, generic method for generating nonce.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $action Action name for nonce
 		 */
@@ -1256,7 +1256,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Provide a plugin-wide, generic method for generating nonce fields.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $action Action name for nonce
 		 */
@@ -1271,7 +1271,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Provide a plugin-wide, generic method for checking AJAX nonces.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $action Action name for nonce
 		 */
@@ -1294,7 +1294,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Provide a plugin-wide, generic method for checking AJAX nonces.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $action Action name for nonce
 		 */
@@ -1317,7 +1317,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Application/JSON headers content-type.
 		 * If no header was sent previously, send new header.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    boolean    $error Error header or normal?
 		 */
@@ -1433,7 +1433,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Query should be 404 with no posts found and matching either one
 		 * of the taxonomies slug.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @return   boolean    Filter result: true if template filtered,
 		 *                      false else.
@@ -1662,7 +1662,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param bool $network_wide
 		 */
@@ -1674,7 +1674,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function deactivate() {
 
@@ -1685,7 +1685,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Set the uninstallation instructions
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function uninstall() {
 
@@ -1698,7 +1698,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {}
 

@@ -18,7 +18,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function __construct() {
 			$this->register_hook_callbacks();
@@ -27,7 +27,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
 
@@ -49,7 +49,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		/**
 		 * Register a 'movie' custom post type and 'import-draft' post status
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function register_post_type() {
 
@@ -319,7 +319,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		/**
 		 * Add Movie Details slugs to queryable vars
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array     Current WP_Query instance's queryable vars
 		 * 
@@ -337,7 +337,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 * 
 		 * Used to get a list of Movies depending on their Media
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    Media slug
 		 * 
@@ -383,7 +383,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 * 
 		 * Used to get a list of Movies depending on their Status
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    Status slug
 		 * 
@@ -485,7 +485,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param bool $network_wide
 		 */
@@ -514,7 +514,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function deactivate() {
 
@@ -524,7 +524,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		/**
 		 * Set the uninstallation instructions
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function uninstall() {
 
@@ -534,7 +534,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {}
 
