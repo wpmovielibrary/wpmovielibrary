@@ -17,14 +17,14 @@
  * Plugin Name: WPMovieLibrary
  * Plugin URI:  http://wpmovielibrary.com
  * Description: A WordPress Plugin to manage a personnal library of movies.
- * Version:     1.2-beta.2
+ * Version:     1.2
  * Author:      Charlie MERLAND
  * Author URI:  http://www.caercam.org/
  * Text Domain: wpml
  * License:     GPL-3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
  * Domain Path: /languages
- * GitHub Plugin URI: https://github.com/Askelon/WPMovieLibrary
+ * GitHub Plugin URI: https://github.com/CaerCam/WPMovieLibrary
  */
 
 // If this file is called directly, abort.

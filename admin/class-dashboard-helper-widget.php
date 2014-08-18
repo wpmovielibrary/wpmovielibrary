@@ -46,12 +46,12 @@ if ( ! class_exists( 'WPML_Dashboard_Helper_Widget' ) ) :
 					'icon'  => 'dashicons dashicons-sos'
 				),
 				'report' => array(
-					'url'   => 'https://github.com/Askelon/wpmovielibrary/issues/new',
+					'url'   => 'https://github.com/CaerCam/wpmovielibrary/issues/new',
 					'title' => __( 'Report a bug', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-flag'
 				),
 				'contribute' => array(
-					'url'   => 'https://github.com/Askelon/wpmovielibrary',
+					'url'   => 'https://github.com/CaerCam/wpmovielibrary',
 					'title' => __( 'Contribute', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-admin-tools'
 				),
@@ -59,6 +59,16 @@ if ( ! class_exists( 'WPML_Dashboard_Helper_Widget' ) ) :
 					'url'   => 'http://wpmovielibrary.com/contribute/#donate',
 					'title' => __( 'Donate', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-heart'
+				),
+				'documentation' => array(
+					'url'   => 'http://wpmovielibrary.com/documentation/',
+					'title' => __( 'Documentation', 'wpmovielibrary' ),
+					'icon'  => 'dashicons dashicons-welcome-learn-more'
+				),
+				'homepage' => array(
+					'url'   => 'http://wpmovielibrary.com/',
+					'title' => __( 'Official website', 'wpmovielibrary' ),
+					'icon'  => 'dashicons dashicons-admin-home'
 				)
 			);
 

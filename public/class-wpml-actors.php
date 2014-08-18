@@ -44,8 +44,6 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		 * are displayed by a custom way in admin columns. This is meant
 		 * to override WordPress default ordering of Taxonomies.
 		 * 
-		 * @see https://github.com/Askelon/WPMovieLibrary/issues/7
-		 * 
 		 * @see wpml_movies_columns_head()
 		 * @see wpml_movies_columns_content()
 		 *
