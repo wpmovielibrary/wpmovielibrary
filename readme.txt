@@ -35,15 +35,18 @@ Features:
 *    Plugin Custom Dashboard
 *    Much more!
 
-Official website: http://wpmovielibrary.com/
-Documentation: http://wpmovielibrary.com/documentation/
-Development: https://github.com/CaerCam/wpmovielibrary/
+
+*    Official website: http://wpmovielibrary.com/
+*    Documentation: http://wpmovielibrary.com/documentation/
+*    Development: https://github.com/CaerCam/wpmovielibrary/
 
 == Installation ==
 
 1. Upload the plugin folder to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Use it!
+
+== Other Notes ==
 
 == Frequently Asked Questions ==
 
