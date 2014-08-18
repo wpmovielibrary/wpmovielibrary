@@ -2,7 +2,7 @@
 /**
  * Statistics Default Template
  * 
- * @since    1.2.0
+ * @since    1.2
  * 
  * @uses    $content array of movies
  * @uses    $style container classes

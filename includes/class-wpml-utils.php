@@ -557,7 +557,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Filter a Movie's Metadata slug to handle aliases.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $slug Metadata slug
 		 * 
@@ -581,7 +581,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * terms. If term genre exists, provide a link, raw text value
 		 * if no matching term could be found.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * 
@@ -599,7 +599,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Format a Movie's casting for display
 		 * This is an alias for self::format_movie_cast()
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * @param    int       $post_id Movie's post ID if needed (required for shortcodes)
@@ -618,7 +618,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * terms. If term actor exists, provide a link, raw text value
 		 * if no matching term could be found.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * 
@@ -635,7 +635,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Format a Movie's release date for display
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * 
@@ -652,7 +652,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Format a Movie's runtime for display
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * 
@@ -669,7 +669,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Format a Movie's director for display
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * @param    int       $post_id Movie's post ID if needed (required for shortcodes)
@@ -687,7 +687,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Format a Movie's misc field for display
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * 
@@ -706,7 +706,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * HTML formatted string; will return the value without change
 		 * if raw is asked.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data rating value
 		 * 
@@ -735,7 +735,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * HTML formatted string; will return the value without change
 		 * if raw is asked.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data rating value
 		 * 
@@ -764,7 +764,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * HTML formatted string; will return the value without change
 		 * if raw is asked.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data rating value
 		 * 
@@ -792,7 +792,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * actors and genres can be added to the metadata and not terms,
 		 * we rely on metadata to show a correct list.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * @param    string    $taxonomy taxonomy we're dealing with
@@ -886,7 +886,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * to its limited values if available, and apply a filter to the
 		 * value before returning the array.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $shortcode Shortcode's ID
 		 * @param    array     $atts Attributes to filter
@@ -963,7 +963,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * This is mostly used for Shortcodes where boolean-like values
 		 * can be used.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    Value to filter
 		 * 
@@ -1560,7 +1560,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Filter page titles to replace custom archive pages titles
 		 * with the correct term title.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $name Current page title
 		 * @param    string    $args Current page post_type
@@ -1586,7 +1586,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * This is a partial rewrite of WordPress paginate_links() function
 		 * that doesn't work on the plugin's built-in archive pages.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array    $args Optional. Override defaults.
 		 * 

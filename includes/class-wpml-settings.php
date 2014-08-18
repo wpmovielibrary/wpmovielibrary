@@ -438,7 +438,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		/**
 		 * Return all available shortcodes
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 *
 		 * @return   array    Available shortcodes
 		 */
@@ -510,7 +510,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		/**
 		 * Return all supported Shortcodes aliases
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 *
 		 * @return   array    WPML Supported Shortcodes aliases.
 		 */

@@ -4,7 +4,7 @@
  * 
  * Display a list of movies collections links
  * 
- * @since    1.2.0
+ * @since    1.2
  * 
  * @uses    $items array of movies
  * @uses    $style container classes

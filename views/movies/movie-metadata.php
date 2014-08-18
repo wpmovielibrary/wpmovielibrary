@@ -4,7 +4,7 @@
  * 
  * Showing a movie's metadata.
  * 
- * @since    1.2.0
+ * @since    1.2
  * 
  * @uses    $items
  */

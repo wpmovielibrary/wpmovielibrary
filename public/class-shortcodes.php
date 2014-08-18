@@ -16,7 +16,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Shortcodes
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * @var      array
 		 */
 		protected $shortcodes;
@@ -24,7 +24,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Constructor
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 */
 		public function __construct() {
 
@@ -34,7 +34,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 */
 		public function init() {
 
@@ -48,7 +48,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * 
 		 * Shortcodes can have their own callback or handle aliases.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 */
 		private function register_shortcodes() {
 
@@ -75,7 +75,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Default shortcodes' callback method
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -91,7 +91,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * Movies shortcode. Display a list of movies with various sorting
 		 * and display options.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -155,7 +155,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * Movie shortcode. Display a single movie with various display
 		 * options.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -197,7 +197,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * Movie Meta shortcode. Display various movie metas with or 
 		 * without label. This shortcode supports aliases.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -347,7 +347,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Movie Actors shortcode. This shortcode supports aliases.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -399,7 +399,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Movie Genres shortcode.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -446,7 +446,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Movie Poster shortcode.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -488,7 +488,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Movie Poster shortcode.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -548,7 +548,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Movie Detail shortcode. This shortcode supports aliases.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -592,7 +592,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Prepare movies for Movies and Movie shortcodes.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    object    WP_Query object
 		 * @param    acrray    Shortcode attributes
@@ -684,7 +684,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * exists with the title passed and return its ID. If we still
 		 * don't have an ID, return the current movie ID.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    object    $id Submitted id
 		 * @param    array     $title Submitted title
@@ -713,14 +713,14 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 */
 		public function register_hook_callbacks() {}
 
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 *
 		 * @param bool $network_wide
 		 */
@@ -729,14 +729,14 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 */
 		public function deactivate() {}
 
 		/**
 		 * Set the uninstallation instructions
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 */
 		public static function uninstall() {}
 
