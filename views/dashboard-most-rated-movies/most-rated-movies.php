@@ -21,15 +21,15 @@ if ( ! empty( $movies ) ) :
 								</div>
 <?php
 	endforeach;
-
-if ( ! $offset ) : ?>
-							</div>
-<?php
-endif;
 elseif ( ! defined( 'DOING_AJAX' ) || true !== DOING_AJAX ) :
 ?>
 								<em><?php _e( 'No movies found', 'wpmovielibrary' ); ?></em>
 								<p style="text-align:center"><a href="<?php echo admin_url( 'post-new.php?post_status=publish&post_type=movie' ) ?>"><span class="dashicons dashicons-plus"></span> <?php _e( 'Add a movie!', 'wpmovielibrary' ) ?></a></p>
+<?php
+endif;
+
+if ( ! $offset ) : ?>
+							</div>
 <?php
 endif;
 
