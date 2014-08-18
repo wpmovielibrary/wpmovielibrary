@@ -9,8 +9,6 @@ wpml.dashboard = wpml_dashboard = {
 	_movies: '.wpml-movie',
 	_screen_options: '#adv-settings input',
 	_welcome_panel: '#wpml-welcome-panel',
-	_welcome_panel_show: '#show_wpml_welcome_panel',
-	_welcome_panel_close: '#wpml-welcome-panel-close',
 
 	modal: {},
 	widgets: {},
@@ -679,11 +677,6 @@ wpml.dashboard = wpml_dashboard = {
 
 		$( wpml_dashboard._screen_options ).on( 'click', function() {
 			wpml_dashboard.update_screen_option( this.id, this.checked );
-		});
-
-		$( wpml_dashboard._welcome_panel_close, wpml_dashboard._welcome_panel ).on( 'click', function( e ) {
-			e.preventDefault();
-			wpml_dashboard.update_screen_option( 'welcome_panel', false );
 		});
 
 		$( window ).on( 'resize', function() {
