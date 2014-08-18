@@ -22,8 +22,6 @@ class WPML_Import_Table extends WP_List_Table {
 	 * 
 	 * @since    1.0.0
 	 * 
-	 * @access   protected
-	 * 
 	 * @param    array    $columns  Associative array containing all the Movies
 	 *                              imported from list
 	 * @param    array    $metadata Associative array containing Movies metadata
@@ -59,7 +57,7 @@ class WPML_Import_Table extends WP_List_Table {
 	/**
 	 * Send required variables to JavaScript land
 	 *
-	 * @access private
+	 * @since    1.0
 	 */
 	function _js_vars() {
 	    $current_screen = get_current_screen();
@@ -79,8 +77,6 @@ class WPML_Import_Table extends WP_List_Table {
 	 * Message to be displayed when there are no items
 	 * 
 	 * @since    1.0.0
-	 * 
-	 * @access   public
 	 */
 	function no_items() {
 		_e( 'No movies found, dude.', 'wpmovielibrary' );
@@ -194,8 +190,6 @@ class WPML_Import_Table extends WP_List_Table {
 	 * The second format will make the initial sorting order be descending
 	 *
 	 * @since    1.0.0
-	 * 
-	 * @access   protected
 	 *
 	 * @return   array
 	 */
@@ -214,8 +208,6 @@ class WPML_Import_Table extends WP_List_Table {
 	 * 'internal-name' => 'Title'
 	 * 
 	 * @since    1.0.0
-	 * 
-	 * @access   protected
 	 * 
 	 * @return   array
 	 */
@@ -384,9 +376,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * Get an associative array ( option_name => option_title ) with the list
 	 * of bulk actions available on this table.
 	 * 
-	 * @since    1.0.0
-	 * 
-	 * @access   protected
+	 * @since    1.0
 	 * 
 	 * @return   array
 	 */
@@ -406,9 +396,10 @@ class WPML_Import_Table extends WP_List_Table {
 	 *
 	 * @since    1.0.0
 	 * 
-	 * @access   public
+	 * @param string $which The location of the bulk actions: 'top' or 'bottom'.
+	 *                      This is designated as optional for backwards-compatibility.
 	 */
-	function bulk_actions() {
+	function bulk_actions( $which = '' ) {
 		if ( is_null( $this->_actions ) ) {
 			$no_new_actions = $this->_actions = $this->get_bulk_actions();
 			/**
@@ -460,9 +451,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * @uses WPML_List_Table::get_items_per_page()
 	 * @uses WPML_List_Table::filter_search()
 	 *
-	 * @since 1.0.0
-	 * 
-	 * @access public
+	 * @since 1.0
 	 */
 	function prepare_items() {
 
@@ -501,7 +490,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * Copy of parent::ajax_response() with minor editing to return the
 	 * pagination links along with rows.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0
 	 */
 	function ajax_response() {
 
