@@ -28,7 +28,7 @@
 .dashicons.dashicons-no,
 .dashicons.dashicons-no-alt,
 .dashicons.dashicons-download,
-.dashicons.dashicons-welcome-write-blog,
+.dashicons.dashicons-welcome-add-page,
 .dashicons.dashicons-post-trash,
 .dashicons.dashicons-trash,
 .dashicons.dashicons-plus,
@@ -39,7 +39,12 @@
 .dashicons.dashicons-text,
 .dashicons.dashicons-tag,
 .dashicons.dashicons-edit,
-.dashicons.dashicons-list-view  {
+.dashicons.dashicons-list-view,
+.dashicons.dashicons-star-filled,
+.dashicons.dashicons-facebook,
+.dashicons.dashicons-facebook-alt,
+.dashicons.dashicons-twitter,
+.dashicons.dashicons-googleplus {
 	background-color: transparent;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -58,7 +63,7 @@
 	background-image: url(../img/legacy/icon-download.png);
 }
 
-.dashicons.dashicons-welcome-write-blog {
+.dashicons.dashicons-welcome-add-page {
 	background-image: url(../img/legacy/icon-edit.png);
 }
 
@@ -109,6 +114,23 @@
 
 .button .dashicons.dashicons-plus {
 	background-image: url(../img/legacy/icon-add-alt.png);
+}
+
+.dashicons.dashicons-star-filled {
+	background-image: url(../img/legacy/icon-star-full.png);
+}
+
+.dashicons.dashicons-facebook,
+.dashicons.dashicons-facebook-alt {
+	background-image: url(../img/legacy/icon-facebook.png);
+}
+
+.dashicons.dashicons-twitter {
+	background-image: url(../img/legacy/icon-twitter.png);
+}
+
+.dashicons.dashicons-googleplus {
+	background-image: url(../img/legacy/icon-googleplus.png);
 }
 
 .row-actions .dashicons {
