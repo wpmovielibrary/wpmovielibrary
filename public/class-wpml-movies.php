@@ -169,8 +169,8 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			$name = apply_filters( 'wpml_cache_name', 'movie_content_' . get_the_ID() );
 			$html = WPML_Cache::output( $name, function() use ( $content ) {
 
-				$details  = WPML_Movies::movie_details();
-				$metadata = WPML_Movies::movie_metadata();
+				$details  = self::movie_details();
+				$metadata = self::movie_metadata();
 
 				$html = $details . $metadata;
 

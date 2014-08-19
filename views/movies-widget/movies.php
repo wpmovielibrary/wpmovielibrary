@@ -15,7 +15,7 @@
  */
 ?>
 
-	<div class="<?php echo $widget->widget_css ?>">
+	<div class="<?php echo $style ?>">
 
 		<div class="wpml-widget-description"><?php echo $description ?></div>
 
