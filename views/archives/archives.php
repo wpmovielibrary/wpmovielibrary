@@ -2,7 +2,7 @@
 /**
  * Taxonomies Archive Template
  * 
- * @since    1.2.0
+ * @since    1.2
  * 
  * @uses    $taxonomy
  * @uses    $links

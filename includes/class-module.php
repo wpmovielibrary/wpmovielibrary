@@ -38,7 +38,7 @@ if ( ! class_exists( 'WPML_Module' ) ) {
 		 * the root folder. In both cases, the theme/plugin will have 
 		 * access to the variables so they can fully customize the output.
 		 *
-		 * @since    1.2.0
+		 * @since    1.2
 		 * 
 		 * @param    string    $default_template_path The path to the template, relative to the plugin's `views` folder
 		 * @param    array     $variables An array of variables to pass into the template's scope, indexed with the variable name so that it can be extract()-ed

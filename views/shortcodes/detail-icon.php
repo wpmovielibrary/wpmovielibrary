@@ -4,7 +4,7 @@
  * 
  * Showing a specific movie detail with icon.
  * 
- * @since    1.2.0
+ * @since    1.2
  * 
  * @uses    $detail
  * @uses    $data

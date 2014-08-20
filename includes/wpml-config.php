@@ -3,7 +3,7 @@
  * WPMovieLibrary Default Config
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 Charlie MERLAND
@@ -710,6 +710,76 @@ $wpml_movie_meta_aliases = array(
 	'musician'   => 'composer',
 	'date'       => 'release_date',
 	'musician'   => 'composer'
+);
+
+$wpml_metaboxes = array(
+
+	array(
+		'id'            => 'wpml_details',
+		'title'         => __( 'WPMovieLibrary − Movie Details', 'wpmovielibrary' ),
+		'callback'      => 'WPML_Edit_Movies::metabox_details',
+		'screen'        => 'movie',
+		'context'       => 'side',
+		'priority'      => 'default',
+		'callback_args' => null
+	),
+	array(
+		'id'            => 'wpml_meta',
+		'title'         => __( 'WPMovieLibrary − Movie Meta', 'wpmovielibrary' ),
+		'callback'      => 'WPML_Edit_Movies::metabox_meta',
+		'screen'        => 'movie',
+		'context'       => 'normal',
+		'priority'      => 'high',
+		'callback_args' => null
+	),
+	array(
+		'id'            => 'wpml_images',
+		'title'         => __( 'WPMovieLibrary − Movie Images', 'wpmovielibrary' ),
+		'callback'      => 'WPML_Edit_Movies::metabox_images',
+		'screen'        => 'movie',
+		'context'       => 'normal',
+		'priority'      => 'high',
+		'callback_args' => null
+	),
+);
+
+$wpml_dashboard_widgets = array(
+	'statistics' => array(
+		'class'    => 'Stats',
+		'title'    => __( 'Statistics', 'wpmovielibrary' ),
+		'name'     => __( 'Your library', 'wpmovielibrary' ),
+		'location' => 'side'
+	),
+	'quickaction' => array(
+		'class'    => 'Quickaction',
+		'title'    => __( 'Quick Actions', 'wpmovielibrary' ),
+		'name'     => __( 'Quick Actions', 'wpmovielibrary' ),
+		'location' => 'side'
+	),
+	'helper' => array(
+		'class'    => 'Helper',
+		'title'    => __( 'Help', 'wpmovielibrary' ),
+		'name'     => __( 'Help', 'wpmovielibrary' ),
+		'location' => 'side'
+	),
+	'vendor' => array(
+		'class'    => 'Vendor',
+		'title'    => __( 'Rate me!', 'wpmovielibrary' ),
+		'name'     => __( 'Rate me!', 'wpmovielibrary' ),
+		'location' => 'side'
+	),
+	'latest_movies' => array(
+		'class' => 'Latest_Movies',
+		'title' => __( 'Latest Movies', 'wpmovielibrary' ),
+		'name'  => __( 'Movies you recently added', 'wpmovielibrary' ),
+		'location' => 'normal'
+	),
+	'most_rated_movies' => array(
+		'class' => 'Most_Rated_Movies',
+		'title' => __( 'Most Rated Movies', 'wpmovielibrary' ),
+		'name'  => __( 'Your most rated movies', 'wpmovielibrary' ),
+		'location' => 'normal'
+	),
 );
 
 $wpml_shortcodes = array(

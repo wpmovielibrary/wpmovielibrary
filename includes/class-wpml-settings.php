@@ -5,7 +5,7 @@
  * Manage WPMovieLibrary settings
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org
@@ -19,14 +19,14 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 	 * WPML Settings class
 	 *
 	 * @package WPMovieLibrary
-	 * @author  Charlie MERLAND <charlie.merland@gmail.com>
+	 * @author  Charlie MERLAND <charlie@caercam.org>
 	 */
 	class WPML_Settings extends WPML_Module {
 
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function __construct() {
 			$this->register_hook_callbacks();
@@ -39,7 +39,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 * calls. If the name passed matches a method it will be called and
 		 * returned.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $name Name of the wanted property/method
 		 * @param    array     $arguments Arguments to pass to the mathod
@@ -70,7 +70,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		/**
 		 * Return the plugin settings.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @return   array    Plugin Settings
 		 */
@@ -92,7 +92,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 * Load WPML default settings. If no current settings can be found,
 		 * or if existing settings are outdated, update.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @return   array    The Plugin Settings
 		 */
@@ -116,7 +116,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 * differ from the currently stored settings, add the new options to the
 		 * latter.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param    boolean    $force Force to restore the default settings
 		 * 
@@ -154,7 +154,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 * Settings submitted as array when there's no use to are converted
 		 * to simpler types.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $settings Settings array to filter
 		 * @param    array    $defaults Default Settings to match against submitted settings
@@ -210,7 +210,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 * validate_settings() loops through the existing settings to
 		 * avoid storing invalid settings.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    Current Settings array
 		 * @param    array    Default Settings array
@@ -288,7 +288,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 * This is irreversible, but shouldn't be used anywhere else than
 		 * when uninstalling the plugin.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function clean_settings() {
 
@@ -311,7 +311,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 * string depending on search result. If value, return boolean true on
 		 * success, false on failure.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string        Search query for the option: 'aaa-bb-c'. Default none.
 		 * @param    string        Replacement value for the option. Default none.
@@ -352,7 +352,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		/**
 		 * Return the default Movie Media
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @return   array    WPML Default Movie Media.
 		 */
@@ -365,7 +365,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		/**
 		 * Return the default Movie Status
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @return   array    WPML Default Movie Status.
 		 */
@@ -378,7 +378,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		/**
 		 * Return available Movie Media
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @return   array    WPML Default Movie Media.
 		 */
@@ -398,7 +398,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		/**
 		 * Return available Movie Status
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @return   array    WPML Available Movie Status.
 		 */
@@ -418,7 +418,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		/**
 		 * Return available Movie Rating
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @return   array    WPML Available Movie Rating.
 		 */
@@ -452,7 +452,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		/**
 		 * Return all available shortcodes
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 *
 		 * @return   array    Available shortcodes
 		 */
@@ -460,13 +460,25 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 
 			global $wpml_shortcodes;
 
+			/**
+			 * Filter the Shortcodes list to add/remove shortcodes.
+			 *
+			 * This should be used through Plugins to create additionnal
+			 * Shortcodes.
+			 *
+			 * @since    1.2
+			 *
+			 * @param    array    $wpml_shortcodes Existing Shortcodes
+			 */
+			$wpml_shortcodes = apply_filters( 'wpml_filter_shortcodes', $wpml_shortcodes );
+
 			return $wpml_shortcodes;
 		}
 
 		/**
 		 * Return all supported Movie Details fields
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @return   array    WPML Supported Movie Details fields.
 		 */
@@ -490,7 +502,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		/**
 		 * Return all supported Movie Meta fields
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @return   array    WPML Supported Movie Meta fields.
 		 */
@@ -516,7 +528,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		/**
 		 * Return all supported Shortcodes aliases
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 *
 		 * @return   array    WPML Supported Shortcodes aliases.
 		 */
@@ -528,9 +540,35 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		}
 
 		/**
+		 * Return Metaboxes data
+		 *
+		 * @since    1.2
+		 *
+		 * @return   array    WPML Metaboxes
+		 */
+		public static function get_metaboxes() {
+
+			global $wpml_metaboxes;
+
+			/**
+			 * Filter the Metaboxes list to add/remove metaboxes.
+			 *
+			 * This should be used through Plugins to create additionnal
+			 * Metaboxes.
+			 *
+			 * @since    1.2
+			 *
+			 * @param    array    $wpml_metaboxes Existing Metaboxes
+			 */
+			$wpml_metaboxes = apply_filters( 'wpml_filter_metaboxes', $wpml_metaboxes );
+
+			return $wpml_metaboxes;
+		}
+
+		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param    bool    $network_wide
 		 */
@@ -542,14 +580,14 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function deactivate() {}
 
 		/**
 		 * Set the uninstallation instructions
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function uninstall() {
 
@@ -566,7 +604,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {}
 

@@ -5,7 +5,7 @@
  * Create a Help & Doc Widget.
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org
@@ -18,92 +18,24 @@ if ( ! class_exists( 'WPML_Dashboard_Helper_Widget' ) ) :
 		/**
 		 * Widget ID
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @var      string
 		 */
-		protected $widget_id = '';
-
-		/**
-		 * Widget Name.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @var      string
-		 */
-		protected $widget_name = '';
-
-		/**
-		 * Widget callback method.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @var      array
-		 */
-		protected $callback = null;
-
-		/**
-		 * Widget Controls callback method.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @var      array
-		 */
-		protected $control_callback = null;
-
-		/**
-		 * Widget callback method arguments.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @var      array
-		 */
-		protected $callback_args = null;
+		protected $widget_id = 'wpml_dashboard_helper_widget';
 
 		/**
 		 * Constructor
 		 *
 		 * @since   1.0.0
 		 */
-		public function __construct() {
-
-			$this->init();
-			$this->register_hook_callbacks();
-		}
+		public function __construct() {}
 
 		/**
-		 * Initializes variables
-		 *
-		 * @since    1.0.0
-		 */
-		public function init() {
-
-			$this->widget_id = 'wpml_dashboard_helper_widget';
-			$this->widget_name = __( 'Help', 'wpmovielibrary' );
-			$this->callback = array( $this, 'dashboard_widget' );
-			$this->control_callback = null;
-		}
-
-		/**
-		 * Register callbacks for actions and filters
+		 * The Widget content.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
-		public function register_hook_callbacks() {
-
-			add_action( 'wpml_dashboard_setup', array( $this, '_add_dashboard_widget' ), 10 );
-		}
-
-		/**
-		 * Register the Widget
-		 * 
-		 * @since    1.0.0
-		 */
-		public function _add_dashboard_widget() {
-
-			$this->add_dashboard_widget( $this->widget_id, $this->widget_name, $this->callback, $this->control_callback );
-		}
-
 		public function dashboard_widget() {
 
 			$links = array();
@@ -114,12 +46,12 @@ if ( ! class_exists( 'WPML_Dashboard_Helper_Widget' ) ) :
 					'icon'  => 'dashicons dashicons-sos'
 				),
 				'report' => array(
-					'url'   => 'https://github.com/Askelon/wpmovielibrary/issues/new',
+					'url'   => 'https://github.com/CaerCam/wpmovielibrary/issues/new',
 					'title' => __( 'Report a bug', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-flag'
 				),
 				'contribute' => array(
-					'url'   => 'https://github.com/Askelon/wpmovielibrary',
+					'url'   => 'https://github.com/CaerCam/wpmovielibrary',
 					'title' => __( 'Contribute', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-admin-tools'
 				),
@@ -127,6 +59,16 @@ if ( ! class_exists( 'WPML_Dashboard_Helper_Widget' ) ) :
 					'url'   => 'http://wpmovielibrary.com/contribute/#donate',
 					'title' => __( 'Donate', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-heart'
+				),
+				'documentation' => array(
+					'url'   => 'http://wpmovielibrary.com/documentation/',
+					'title' => __( 'Documentation', 'wpmovielibrary' ),
+					'icon'  => 'dashicons dashicons-welcome-learn-more'
+				),
+				'homepage' => array(
+					'url'   => 'http://wpmovielibrary.com/',
+					'title' => __( 'Official website', 'wpmovielibrary' ),
+					'icon'  => 'dashicons dashicons-admin-home'
 				)
 			);
 
@@ -138,10 +80,15 @@ if ( ! class_exists( 'WPML_Dashboard_Helper_Widget' ) ) :
 			echo self::render_template( '/dashboard-help/help.php', array( 'links' => $links ) );
 		}
 
-		public function dashboard_widget_handle() {
-
-			
-		}
+		/**
+		 * Widget's configuration callback
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $context box context
+		 * @param    mixed     $object gets passed to the box callback function as first parameter
+		 */
+		public function dashboard_widget_handle( $context, $object ) {}
 
 	}
 

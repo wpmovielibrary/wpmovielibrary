@@ -21,7 +21,7 @@ wpml.settings = wpml_settings = {}
 		/**
 		 * Init Events
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.settings.panels.init = function() {
 
@@ -43,7 +43,7 @@ wpml.settings = wpml_settings = {}
 		/**
 		 * Switch between panels
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    object   Caller link DOM Element
 		 */
@@ -83,7 +83,7 @@ wpml.settings = wpml_settings = {}
 		/**
 		 * Init Events
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.settings.sortable.init = function() {
 
@@ -105,7 +105,7 @@ wpml.settings = wpml_settings = {}
 		/**
 		 * Change item style depending on status
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    object    UI Object
 		 */
@@ -126,7 +126,7 @@ wpml.settings = wpml_settings = {}
 		/**
 		 * Init Events
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.settings.sortable.update_item = function() {
 
@@ -143,7 +143,7 @@ wpml.settings = wpml_settings = {}
 	/**
 	 * Settings utils
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 */
 	wpml.settings.utils = wpml_settings_utils = {
 
@@ -168,7 +168,7 @@ wpml.settings = wpml_settings = {}
 		/**
 		 * Init Events
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.settings.utils.init = function() {
 
@@ -193,7 +193,7 @@ wpml.settings = wpml_settings = {}
 		/**
 		 * Movie Details styled select list
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    Detail type
 		 */
@@ -214,7 +214,7 @@ wpml.settings = wpml_settings = {}
 		/**
 		 * Check API Key validity
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.settings.utils.api_ckeck = function() {
 
@@ -257,7 +257,7 @@ wpml.settings = wpml_settings = {}
 		/**
 		 * Styled input radio
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    object     DOM Element
 		 * @param    boolean    Checked false or true

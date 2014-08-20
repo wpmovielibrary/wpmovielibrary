@@ -3,7 +3,7 @@
  * WPMovieLibrary
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 Charlie MERLAND
@@ -15,7 +15,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 	* Plugin class
 	*
 	* @package WPMovieLibrary
-	* @author  Charlie MERLAND <charlie.merland@gmail.com>
+	* @author  Charlie MERLAND <charlie@caercam.org>
 	*/
 	class WPMovieLibrary extends WPML_Module {
 
@@ -60,7 +60,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
 
@@ -96,7 +96,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 * Taxonomies' registering functions and flush rewrite rules to update
 		 * the permalinks.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param    boolean    $network_wide    True if WPMU superadmin uses
 		 *                                       "Network Activate" action, false if
@@ -134,7 +134,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 * converted to WordPress standars or removed. Default is conserve on
 		 * deactivation, convert on uninstall.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function deactivate() {
 
@@ -146,7 +146,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		/**
 		 * Runs activation code on a new WPMS site when it's created
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param    int    $blog_id
 		 */
@@ -159,7 +159,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		/**
 		 * Prepares a single blog to use the plugin
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param    bool    $network_wide
 		 */
@@ -174,7 +174,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		/**
 		 * Register and enqueue public-facing style sheet.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function enqueue_styles() {
 
@@ -184,7 +184,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		/**
 		 * Register and enqueue public-facing style sheet.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function enqueue_scripts() {
 
@@ -194,7 +194,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		/**
 		 * Load the plugin text domain for translation.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function load_plugin_textdomain() {
 
@@ -209,7 +209,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		/**
 		 * Register the Class Widgets
 		 * 
-		 * @since    1.0.0 
+		 * @since    1.0 
 		 */
 		public function register_widgets() {
 
@@ -228,7 +228,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 * on the frontend as well, so although it is admin related this
 		 * must be public.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function admin_bar_menu() {
 
@@ -257,7 +257,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		/**
 		 * Uninstall the plugin, network wide.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function uninstall() {
 
@@ -283,7 +283,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		/**
 		 * Set the uninstallation instructions
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		private static function _uninstall() {
 
@@ -298,7 +298,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {
 		}

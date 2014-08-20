@@ -6,7 +6,7 @@
  * filters, terms ordering methods or permalinks creation.
  * 
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org
@@ -19,7 +19,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function __construct() {
 			$this->register_hook_callbacks();
@@ -28,7 +28,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
 
@@ -71,7 +71,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * they seem not to be declared correctly when usin the regular
 		 * register_taxonomy 'rewrite' param.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param    object     $wp_rewrite Instance of WordPress WP_Rewrite Class
 		 */
@@ -174,7 +174,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * render archive pages for taxonomies. This should only be called
 		 * only while activating.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function set_archive_page() {
 
@@ -205,7 +205,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Delete the Archive page. This should only be called only while
 		 * uninstalling.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function delete_archive_page() {
 
@@ -223,7 +223,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Mostly used to inform about specific plugin needs or info
 		 * such as missing API Key, movie import, etc.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $notice The notice message
 		 * @param    string    $type Notice type: update, error, wpml?
@@ -252,7 +252,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * format to a standard hours:minutes form to avoid some weird
 		 * "2:38AM" runtime.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $runtime Movie runtime
 		 * @param    string    $time_format Optional time format to apply
@@ -267,7 +267,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Filter a Movie's Metadata to extract only supported data.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $data Movie metadata
 		 * 
@@ -308,7 +308,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Filter a Movie's Crew to extract only supported data.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $data Movie Crew
 		 * 
@@ -342,7 +342,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Filter a Movie's Cast to extract only supported data.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $data Movie Cast
 		 * 
@@ -362,7 +362,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Filter a Movie's Metadata slug to handle aliases.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $slug Metadata slug
 		 * 
@@ -386,7 +386,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * terms. If term genre exists, provide a link, raw text value
 		 * if no matching term could be found.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * 
@@ -404,7 +404,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Format a Movie's casting for display
 		 * This is an alias for self::format_movie_cast()
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * @param    int       $post_id Movie's post ID if needed (required for shortcodes)
@@ -423,7 +423,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * terms. If term actor exists, provide a link, raw text value
 		 * if no matching term could be found.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * 
@@ -440,7 +440,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Format a Movie's release date for display
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * 
@@ -466,7 +466,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Format a Movie's runtime for display
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * 
@@ -495,7 +495,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Format a Movie's director for display
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * @param    int       $post_id Movie's post ID if needed (required for shortcodes)
@@ -513,7 +513,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Format a Movie's misc field for display
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * 
@@ -532,7 +532,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * HTML formatted string; will return the value without change
 		 * if raw is asked.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data rating value
 		 * 
@@ -561,7 +561,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * HTML formatted string; will return the value without change
 		 * if raw is asked.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data rating value
 		 * 
@@ -590,7 +590,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * HTML formatted string; will return the value without change
 		 * if raw is asked.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data rating value
 		 * 
@@ -618,7 +618,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * actors and genres can be added to the metadata and not terms,
 		 * we rely on metadata to show a correct list.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
 		 * @param    string    $taxonomy taxonomy we're dealing with
@@ -699,7 +699,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * Code from Luke Gedeon, see https://core.trac.wordpress.org/ticket/9547#comment:7
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param    array      $terms array of objects to be replaced with sorted list
 		 * @param    integer    $id post id
@@ -831,7 +831,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Query should be 404 with no posts found and matching either one
 		 * of the taxonomies slug.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @return   boolean    Filter result: true if template filtered,
 		 *                      false else.
@@ -958,7 +958,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * Filter page titles to replace custom archive pages titles
 		 * with the correct term title.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    string    $name Current page title
 		 * @param    string    $args Current page post_type
@@ -984,7 +984,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * This is a partial rewrite of WordPress paginate_links() function
 		 * that doesn't work on the plugin's built-in archive pages.
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array    $args Optional. Override defaults.
 		 * 
@@ -1060,7 +1060,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param bool $network_wide
 		 */
@@ -1072,7 +1072,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function deactivate() {
 
@@ -1083,7 +1083,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Set the uninstallation instructions
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function uninstall() {
 
@@ -1096,7 +1096,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {}
 

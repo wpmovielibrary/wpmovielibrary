@@ -28,7 +28,7 @@ var wpml_queue;
 			/**
 			* Handle Bulk actions
 			* 
-			* @since    1.0.0
+			* @since    1.0
 			*/
 			wpml.queue.movies.do = function() {
 
@@ -57,7 +57,7 @@ var wpml_queue;
 			/**
 			 * Add Movies to the Queue
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    array|int    One or more movies to enqueue
 			 */
@@ -111,7 +111,7 @@ var wpml_queue;
 			/**
 			 * Remove Movies from the Queue
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    array|int    One or more movies to dequeue
 			 */
@@ -162,7 +162,7 @@ var wpml_queue;
 			/**
 			 * Import Queued Movies
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 */
 			wpml.queue.movies.import = function() {
 
@@ -233,7 +233,7 @@ var wpml_queue;
 			/**
 			 * Prepare Metadata object
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 */
 			wpml.queue.utils.prepare_queue = function() {
 				return metadata = {
@@ -266,7 +266,7 @@ var wpml_queue;
 			/**
 			 * Get spectific field value
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 */
 			wpml.queue.utils.get_val = function( slug ) {
 				return $('input#p_' + wpml_queue.current_post_id + '_tmdb_data_' + slug, '#tmdb_data_form').val() || '';

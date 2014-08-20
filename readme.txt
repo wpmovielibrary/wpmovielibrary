@@ -3,8 +3,8 @@ Contributors: askelon
 Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor
 Requires at least: 3.6
-Tested up to: 4.0-beta.2
-Stable tag: 1.2-beta.1
+Tested up to: 4.0-beta.4
+Stable tag: 1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -36,6 +36,10 @@ Features:
 *    Much more!
 
 
+*    Official website: http://wpmovielibrary.com/
+*    Documentation: http://wpmovielibrary.com/documentation/
+*    Development: https://github.com/CaerCam/wpmovielibrary/
+
 == Installation ==
 
 1. Upload the plugin folder to the `/wp-content/plugins/` directory
@@ -60,6 +64,10 @@ Create a new Movie, input the movie title in search field below the content edit
 
 Use the import tool: simply paste a list of titles, all your movies will be created instantly. Now you can import metadata one-by-one or group the search, and then import directly the movies or add it to the queue for later final import.
 
+= My movies don't show in my homepage/slider/widget =
+
+Your theme/plugin/widget most likely doesn't support Custom Post Types; open a thread in the support forum to get some help.
+
 == Screenshots ==
 
 1. Plugin custom dashboard
@@ -72,18 +80,43 @@ Use the import tool: simply paste a list of titles, all your movies will be crea
 
 == Changelog ==
 
-= 1.1.2 =
+== 1.2 ==
+* Feature - Implement caching
+* Feature - Implement templates
+* Feature - Complete Widgets reboot
+* Tweak - AJAX Queue for movie images import
+* Tweak - Runtime and Release date Shortcodes format support
+* Tweak - Movie lang Shortcode alias
+* Tweak - Updated default dashboard Movies Widget when no movies
+* Tweak - No load more button if no movie in dashboard Movies Widget
+* Tweak - Custom Dashboard movies poster size update
+* Tweak - Import queue styling (progress bar) and i10n
+* Tweak - WP < 3.8 icons update
+* Tweak - Custom Dashboard Vendor Widget
+* Dev - WP_List_Table compat with WP4.0
+* Dev - Metaboxes now defined in config to allow filtering
+* Dev - API and Shortcodes more extendable
+* Dev - Images and Posters Shortcodes more extendable
+* Dev - Better API request error handling
+* Dev - i10n handling enhanced
+* Fix - Images/Posters modal bug causing random empty modals
+* Fix - Custom Dashboard multiple minor fixes
+* Fix - Don’t import unchecked movies in importer
+* Fix - Minor nonce error in detail metabox
+* Fix - Taxonomies not removed when emptying metadata
+* Fix - Erratic enqueue_admin_scripts/styles
+* Fix - Widgets checkbox options update
+* Fix - Taxonomies Widget minor style bug
 
+= 1.1.2 =
 * Fix - PHP Warnings with shortcodes when no attribute is passed
 * Tweak - Movie Images shortcodes basic styling
 
 = 1.1.1 =
-
 * Fix - Default poster for movies only
 * Fix - PHP Warning with runtime and release date
 
-== 1.1.0 ==
-
+== 1.1 ==
 * Features - Implements shortcodes
 * Features - Create 8 new shortcodes
 * Features - Create 16+ aliases for specific shortcodes
@@ -121,5 +154,13 @@ Use the import tool: simply paste a list of titles, all your movies will be crea
 * Tweak - Add an admin notice in case of missing Archive page
 * Tweak - Language packs updated
 
-== 1.0.0 ==
+== 1.0 ==
 * First stable release
+
+== Upgrade Notice ==
+
+= 1.2 =
+Implementation of caching, templates, fully reworked Widgets and lots of tweaks and bug fixes
+
+= 1.1 =
+Plugin now includes shortcodes

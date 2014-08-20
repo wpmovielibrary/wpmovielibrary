@@ -13,7 +13,7 @@ wpml = wpml || {};
 			/**
 			 * Delete one or more movie import drafts
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    array    Movies to delete
 			 */
@@ -62,7 +62,7 @@ wpml = wpml || {};
 			 * Call WPML_Import::import_movies_callback() to create movie draft
 			 * for each title submitted and update the table
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 */
 			wpml.importer.movies.import = function() {
 

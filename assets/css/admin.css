@@ -127,8 +127,9 @@ body.post-php.post-type-movie #postimagediv {
 
 #wpml_dashboard_latest_movies_widget.no-style,
 #wpml_dashboard_most_rated_movies_widget.no-style {
-	border-color: rgba(0, 0, 0, 0);
 	background: rgba(0, 0, 0, 0);
+	border-color: rgba(0, 0, 0, 0);
+	box-shadow: 0 0 0;
 }
 
 #wpml_dashboard_latest_movies_widget .hndle,
@@ -290,6 +291,64 @@ body.post-php.post-type-movie #postimagediv {
 	margin: 16px auto -16px auto;
 	width: 100%;
 }
+
+#wpml_dashboard_vendor_widget {
+	background: transparent url(../img/bg.jpg) center top no-repeat;
+	background-size: cover;
+	color: #fff;
+	text-align: center;
+}
+
+#wpml_dashboard_vendor_widget .handlediv,
+#wpml_dashboard_vendor_widget .hndle {
+	display: none;
+}
+
+#wpml_dashboard_vendor_widget .title {
+	font-family: sans-serif;
+	font-size: 1.5em;
+	font-weight: 200;
+	text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+#wpml_dashboard_vendor_widget .title ,
+#wpml_dashboard_vendor_widget .joinus {
+	background: rgba(255,255,255,0.15);
+	padding: 0.25em 0;
+}
+
+#wpml_dashboard_vendor_widget .rateme {
+	margin: -0.75em 0 1.5em 0;
+}
+
+#wpml_dashboard_vendor_widget .rateme a {
+	color: rgba(255, 255, 255, 0.65);
+	text-shadow: 0px 0px 0.25em rgba(255, 255, 255, 0.4);
+}
+
+#wpml_dashboard_vendor_widget .rateme a:hover {
+	color: #fff;
+	text-shadow: 0px 0px 0.25em rgba(255, 255, 255, 0.6);
+}
+
+#wpml_dashboard_vendor_widget .rateme a .dashicons {
+	font-size: 2em;
+}
+
+#wpml_dashboard_vendor_widget .social li {
+	display: inline;
+	margin: 0 0.75em;
+}
+
+#wpml_dashboard_vendor_widget .social li a {
+	color: rgba(255, 255, 255, 0.65);
+}
+
+#wpml_dashboard_vendor_widget .social li a:hover {
+	color: #fff;
+	text-shadow: 0px 0px 0.25em rgba(255, 255, 255, 0.4);
+}
+
 
 /*
  * Showcase
@@ -960,9 +1019,19 @@ body.post-php.post-type-movie #postimagediv {
 
 /* Modal */
 
+.media-frame.movie-images .media-frame-content,
+.media-frame.movie-posters .media-frame-content {
+	top: 60px !important;
+}
+
 .media-frame.movie-images .attachments-browser .attachments,
 .media-frame.movie-posters .attachments-browser .attachments {
 	top: 10px;
+}
+
+.media-frame.movie-images .attachments-browser.hide-sidebar .media-sidebar,
+.media-frame.movie-posters .attachments-browser.hide-sidebar .media-sidebar {
+	display: none;
 }
 
 .media-frame.movie-images .media-frame-router,

@@ -6,7 +6,7 @@ wpml = wpml || {};
 	/**
 	 * WPML filter for AJAX Request
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    string      Request type: GET, POST
 	 * @param    object      Data object to pass
@@ -25,7 +25,7 @@ wpml = wpml || {};
 	/**
 	 * WPML filter for AJAX GET Request
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    object      Data object to pass
 	 */
@@ -43,7 +43,7 @@ wpml = wpml || {};
 	/**
 	 * WPML filter for AJAX POST Request
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    object      Data object to pass
 	 */
@@ -61,7 +61,7 @@ wpml = wpml || {};
 	/**
 	 * Determine which data package the submitted field name belongs to.
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    string    Field name
 	 * 
@@ -113,7 +113,7 @@ wpml = wpml || {};
 		/**
 		 * Update status
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    Status Message
 		 * @param    string    Status type: error, update
@@ -134,7 +134,7 @@ wpml = wpml || {};
 	/**
 	 * Parse URL Query part to extract specific variables
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    string    URL Query part to parse
 	 * @param    string    Wanted variable name
@@ -157,7 +157,7 @@ wpml = wpml || {};
 	 * using AJAX to reload tables' contents, so we need to override WordPress
 	 * default jQuery handlers for Checkboxes click events.
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    object    Click Event Object
 	 * 
@@ -200,7 +200,7 @@ wpml = wpml || {};
 	 * we need to override WordPress default jQuery handlers for Checkboxes
 	 * click events.
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    object    Click Event Object
 	 * 
@@ -239,7 +239,7 @@ wpml = wpml || {};
 	/**
 	 * Find current action's nonce value.
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    string    Action name
 	 * 
@@ -259,7 +259,7 @@ wpml = wpml || {};
 	/**
 	 * Update current action's nonce value.
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    string    Action name
 	 */

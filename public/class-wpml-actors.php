@@ -5,7 +5,7 @@
  * Add and manage an Actor Custom Taxonomy
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org
@@ -20,7 +20,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function __construct() {
 
@@ -30,7 +30,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
 
@@ -44,12 +44,10 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		 * are displayed by a custom way in admin columns. This is meant
 		 * to override WordPress default ordering of Taxonomies.
 		 * 
-		 * @see https://github.com/Askelon/WPMovieLibrary/issues/7
-		 * 
 		 * @see wpml_movies_columns_head()
 		 * @see wpml_movies_columns_content()
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function register_actor_taxonomy() {
 
@@ -96,6 +94,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 				return false;
 
 			global $wpdb;
+			$wpdb->hide_errors();
 
 			$_action = get_option( 'wpml_settings' );
 			if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['actors'] ) )
@@ -132,13 +131,14 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param bool $network_wide
 		 */
 		public function activate( $network_wide ) {
 
 			global $wpdb, $wp_rewrite;
+			$wpdb->hide_errors();
 
 			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_actor%"' );
 			$actors      = array();
@@ -148,7 +148,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 					$actors[] = $term->term_id;
 
 			if ( ! empty( $actors ) )
-				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "actor" WHERE term_id IN (' . implode( ',', $actors ) . ')' );
+				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "actor" WHERE term_id IN (' . implode( ',', $actors ) . ') AND taxonomy = "post_tag"' );
 
 			$wpdb->query(
 				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_actor-", "")'
@@ -161,7 +161,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function deactivate() {
 
@@ -171,7 +171,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		/**
 		 * Set the uninstallation instructions
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function uninstall() {
 
@@ -181,7 +181,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {}
 

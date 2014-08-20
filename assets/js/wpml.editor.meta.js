@@ -8,7 +8,7 @@ wpml = wpml || {};
 		/**
 		 * Movies Post Editor page's Metadata part
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		wpml.editor.meta = wpml_edit_meta = {
 
@@ -73,7 +73,7 @@ wpml = wpml || {};
 			 * If a single match if found, set it; if multiple matches
 			 * are found, display a selection menu.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 */
 			wpml.editor.meta.search = function() {
 
@@ -126,7 +126,7 @@ wpml = wpml || {};
 			/**
 			 * Display a list of movies matching the search.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    object    Movies to add to the selection list
 			 * @param    string    Notice message to display
@@ -148,7 +148,7 @@ wpml = wpml || {};
 			/**
 			 * Get a movie by its ID.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    int       Movie TMDb ID
 			 */
@@ -187,7 +187,7 @@ wpml = wpml || {};
 			/**
 			 * Fill in the meta fields.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    object    Movie metadata
 			 */
@@ -260,7 +260,7 @@ wpml = wpml || {};
 			 * Prefill the Movie Meta Metabox search input with the
 			 * page title.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			 * 
 			 * @param    string    Movie Title
 			 */
@@ -274,7 +274,7 @@ wpml = wpml || {};
 			* Empty all Movie search result fields, reset all taxonomies 
 			* and remove the featured image.
 			 * 
-			 * @since    1.0.0
+			 * @since    1.0
 			*/
 			wpml.editor.meta.empty_results = function() {
 

@@ -2,7 +2,7 @@
 /**
  * General Template for Movies lists width thumbnails
  * 
- * @since    1.2.0
+ * @since    1.2
  * 
  * @uses    $items array of movies
  * @uses    $style container classes

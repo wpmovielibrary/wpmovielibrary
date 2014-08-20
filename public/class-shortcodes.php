@@ -3,7 +3,7 @@
  * WPMovieLibrary Shortcodes Class extension.
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 Charlie MERLAND
@@ -16,7 +16,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Shortcodes
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 * @var      array
 		 */
 		protected $shortcodes;
@@ -24,7 +24,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Constructor
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 */
 		public function __construct() {
 
@@ -34,7 +34,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 */
 		public function init() {
 
@@ -48,7 +48,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * 
 		 * Shortcodes can have their own callback or handle aliases.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 */
 		private function register_shortcodes() {
 
@@ -75,7 +75,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Default shortcodes' callback method
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -91,7 +91,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * Movies shortcode. Display a list of movies with various sorting
 		 * and display options.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -105,7 +105,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movies_shortcode', $atts );
-			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+			$content = WPML_Cache::output( $name, function() use ( $atts, $content ) {
 
 				extract( $atts );
 
@@ -154,7 +154,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * Movie shortcode. Display a single movie with various display
 		 * options.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -167,7 +167,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_shortcode', $atts );
-			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+			$content = WPML_Cache::output( $name, function() use ( $atts, $content ) {
 
 				extract( $atts );
 
@@ -196,7 +196,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * Movie Meta shortcode. Display various movie metas with or 
 		 * without label. This shortcode supports aliases.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -266,7 +266,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_release_date_shortcode', $atts );
-			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+			$content = WPML_Cache::output( $name, function() use ( $atts, $content ) {
 
 				extract( $atts );
 
@@ -309,7 +309,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_runtime_shortcode', $atts );
-			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+			$content = WPML_Cache::output( $name, function() use ( $atts, $content ) {
 
 				extract( $atts );
 
@@ -339,7 +339,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Movie Actors shortcode. This shortcode supports aliases.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -357,7 +357,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_actors_shortcode', $atts );
-			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+			$content = WPML_Cache::output( $name, function() use ( $atts, $content ) {
 
 				extract( $atts );
 
@@ -390,7 +390,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Movie Genres shortcode.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -403,7 +403,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_genres_shortcode', $atts );
-			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+			$content = WPML_Cache::output( $name, function() use ( $atts, $content ) {
 
 				extract( $atts );
 
@@ -436,7 +436,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Movie Poster shortcode.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -449,7 +449,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_posters_shortcode', $atts );
-			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+			$content = WPML_Cache::output( $name, function() use ( $atts, $content ) {
 
 				extract( $atts );
 
@@ -460,8 +460,11 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				if ( ! has_post_thumbnail( $movie_id ) )
 					return $content;
 
-				$thumbnail = get_the_post_thumbnail( $movie_id, $size );
-				$attributes = array( 'size' => $size, 'thumbnail' => $thumbnail );
+				$poster = array(
+					'thumbnail' => wp_get_attachment_image_src( get_post_thumbnail_id( $movie_id ), $size ),
+					'full'      => wp_get_attachment_image_src( get_post_thumbnail_id( $movie_id ), 'full' )
+				);
+				$attributes = array( 'size' => $size, 'movie_id' => $movie_id, 'poster' => $poster );
 
 				$content = WPMovieLibrary::render_template( 'shortcodes/poster.php', $attributes, $require = 'always' );
 
@@ -475,7 +478,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Movie Poster shortcode.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -488,7 +491,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_images_shortcode', $atts );
-			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+			$content = WPML_Cache::output( $name, function() use ( $atts, $content ) {
 
 				extract( $atts );
 
@@ -517,9 +520,12 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 						$attachments = array_splice( $attachments, 0, $count );
 
 					foreach ( $attachments as $attachment )
-						$images[] = wp_get_attachment_image( $attachment->ID, $size );
+						$images[] = array(
+							'thumbnail' => wp_get_attachment_image_src( $attachment->ID, $size ),
+							'full'      => wp_get_attachment_image_src( $attachment->ID, 'full' )
+						);
 
-					$content = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => $size, 'images' => $images ), $require = 'always' );
+					$content = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => $size, 'movie_id' => $movie_id, 'images' => $images ), $require = 'always' );
 				}
 
 				return $content;
@@ -532,7 +538,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Movie Detail shortcode. This shortcode supports aliases.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
@@ -550,7 +556,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movie_detail_shortcode', $atts );
-			$content = WPML_Cache::output( $name, function() use ( $atts ) {
+			$content = WPML_Cache::output( $name, function() use ( $atts, $content ) {
 
 				extract( $atts );
 
@@ -576,7 +582,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Prepare movies for Movies and Movie shortcodes.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    object    WP_Query object
 		 * @param    acrray    Shortcode attributes
@@ -668,14 +674,14 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 * exists with the title passed and return its ID. If we still
 		 * don't have an ID, return the current movie ID.
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 * 
 		 * @param    object    $id Submitted id
 		 * @param    array     $title Submitted title
 		 * 
 		 * @return   int|null  Movie ID if available, null else
 		 */
-		private static function find_movie_id( $id = null, $title = null ) {
+		public static function find_movie_id( $id = null, $title = null ) {
 
 			$movie_id = null;
 
@@ -776,14 +782,14 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.1.0
+		 * @since    1.1
 		 */
 		public function register_hook_callbacks() {}
 
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 *
 		 * @param bool $network_wide
 		 */
@@ -792,14 +798,14 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 */
 		public function deactivate() {}
 
 		/**
 		 * Set the uninstallation instructions
 		 *
-		 * @since    1.1.0
+		 * @since    1.1
 		 */
 		public static function uninstall() {}
 

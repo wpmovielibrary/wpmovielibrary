@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org
@@ -13,7 +13,7 @@
  * 
  * Display some public statistics about the plugin usage.
  * 
- * @since    1.0.0
+ * @since    1.0
  */
 class WPML_Statistics_Widget extends WP_Widget {
 

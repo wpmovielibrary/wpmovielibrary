@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary v1.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wpmovielibrary\n"
-"POT-Creation-Date: 2014-08-06 10:40:55+00:00\n"
-"PO-Revision-Date: 2014-08-06 12:42+0100\n"
+"POT-Creation-Date: 2014-08-18 17:30:15+00:00\n"
+"PO-Revision-Date: 2014-08-18 19:31+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language: English\n"
@@ -16,145 +16,114 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: admin/class-dashboard-helper-widget.php:82 admin/class-dashboard.php:189
-msgid "Help"
-msgstr "Help"
-
-#: admin/class-dashboard-helper-widget.php:113
+#: admin/class-dashboard-helper-widget.php:45
 msgid "Support"
 msgstr "Support"
 
-#: admin/class-dashboard-helper-widget.php:118
+#: admin/class-dashboard-helper-widget.php:50
 msgid "Report a bug"
 msgstr "Report a bug"
 
-#: admin/class-dashboard-helper-widget.php:123 views/help.php:20
+#: admin/class-dashboard-helper-widget.php:55 views/help.php:20
 msgid "Contribute"
 msgstr "Contribute"
 
-#: admin/class-dashboard-helper-widget.php:128
+#: admin/class-dashboard-helper-widget.php:60
 msgid "Donate"
 msgstr "Donate"
 
-#: admin/class-dashboard-latest-movies-widget.php:100
-msgid "Movies you recently added"
-msgstr "Movies you recently added"
+#: admin/class-dashboard-helper-widget.php:65
+msgid "Documentation"
+msgstr "Documentation"
 
-#: admin/class-dashboard-latest-movies-widget.php:189
-#: admin/class-dashboard-most-rated-movies-widget.php:188
+#: admin/class-dashboard-helper-widget.php:70
+msgid "Official website"
+msgstr "Official website"
+
+#: admin/class-dashboard-latest-movies-widget.php:135
+#: admin/class-dashboard-most-rated-movies-widget.php:134
 msgid "Settings saved."
 msgstr "Settings saved."
 
-#: admin/class-dashboard-latest-movies-widget.php:336
-#: admin/class-dashboard-most-rated-movies-widget.php:336
+#: admin/class-dashboard-latest-movies-widget.php:282
+#: admin/class-dashboard-most-rated-movies-widget.php:282
 msgid "You are not allowed to edit this item."
 msgstr "You are not allowed to edit this item."
 
-#: admin/class-dashboard-latest-movies-widget.php:336
-#: admin/class-dashboard-most-rated-movies-widget.php:336
+#: admin/class-dashboard-latest-movies-widget.php:282
+#: admin/class-dashboard-most-rated-movies-widget.php:282
 msgid "Go back"
 msgstr "Go back"
 
-#: admin/class-dashboard-most-rated-movies-widget.php:100
-msgid "Your most rated movies"
-msgstr "Your most rated movies"
-
-#: admin/class-dashboard-quickaction-widget.php:82
-msgid "Quick action"
-msgstr "Quick action"
-
-#: admin/class-dashboard-quickaction-widget.php:113
+#: admin/class-dashboard-quickaction-widget.php:45
 msgid "New movie"
 msgstr "New movie"
 
-#: admin/class-dashboard-quickaction-widget.php:118
+#: admin/class-dashboard-quickaction-widget.php:50
 msgid "Import movies"
 msgstr "Import movies"
 
-#: admin/class-dashboard-quickaction-widget.php:123
+#: admin/class-dashboard-quickaction-widget.php:55
 msgid "Manage movies"
 msgstr "Manage movies"
 
-#: admin/class-dashboard-stats-widget.php:82
-#: admin/class-wpmovielibrary-admin.php:395
-#: admin/class-wpmovielibrary-admin.php:396
-msgid "Your library"
-msgstr "Your library"
-
-#: admin/class-dashboard-stats-widget.php:125
+#: admin/class-dashboard-stats-widget.php:57
 msgid "One movie"
 msgstr "One movie"
 
-#: admin/class-dashboard-stats-widget.php:126
+#: admin/class-dashboard-stats-widget.php:58
 msgid "%d movies"
 msgstr "%d movies"
 
-#: admin/class-dashboard-stats-widget.php:127
+#: admin/class-dashboard-stats-widget.php:59
 msgid "No movie added yet."
 msgstr "No movie added yet."
 
-#: admin/class-dashboard-stats-widget.php:133
+#: admin/class-dashboard-stats-widget.php:65
 msgid "One movie draft"
 msgstr "One movie draft"
 
-#: admin/class-dashboard-stats-widget.php:134
+#: admin/class-dashboard-stats-widget.php:66
 msgid "%d movies drafts"
 msgstr "%d movies drafts"
 
-#: admin/class-dashboard-stats-widget.php:135
+#: admin/class-dashboard-stats-widget.php:67
 msgid "No draft"
 msgstr "No draft"
 
-#: admin/class-dashboard-stats-widget.php:141
+#: admin/class-dashboard-stats-widget.php:73
 msgid "One queued movie"
 msgstr "One queued movie"
 
-#: admin/class-dashboard-stats-widget.php:142
+#: admin/class-dashboard-stats-widget.php:74
 msgid "%d queued movies"
 msgstr "%d queued movies"
 
-#: admin/class-dashboard-stats-widget.php:143
+#: admin/class-dashboard-stats-widget.php:75
 msgid "No queued movie."
 msgstr "No queued movie."
 
-#: admin/class-dashboard-stats-widget.php:149
+#: admin/class-dashboard-stats-widget.php:81
 msgid "One imported movie"
 msgstr "One imported movie"
 
-#: admin/class-dashboard-stats-widget.php:150
+#: admin/class-dashboard-stats-widget.php:82
 msgid "%d imported movies"
 msgstr "%d imported movies"
 
-#: admin/class-dashboard-stats-widget.php:151
+#: admin/class-dashboard-stats-widget.php:83
 msgid "No imported movie."
 msgstr "No imported movie."
 
-#: admin/class-dashboard.php:185
+#: admin/class-dashboard.php:190
 msgid "Show on screen"
 msgstr "Show on screen"
 
-#: admin/class-dashboard.php:186
+#: admin/class-dashboard.php:191
 msgid "Welcome"
 msgstr "Welcome"
 
-#: admin/class-dashboard.php:187
-#: includes/widgets/class-statistics-widget.php:136
-msgid "Statistics"
-msgstr "Statistics"
-
-#: admin/class-dashboard.php:188
-msgid "Quick Actions"
-msgstr "Quick Actions"
-
-#: admin/class-dashboard.php:190
-msgid "Latest Movies"
-msgstr "Latest Movies"
-
-#: admin/class-dashboard.php:191
-msgid "Most Rated Movies"
-msgstr "Most Rated Movies"
-
-#: admin/class-dashboard.php:192 admin/class-wpml-import-table.php:447
+#: admin/class-dashboard.php:197 admin/class-wpml-import-table.php:447
 #: views/import/import.php:52
 msgid "Apply"
 msgstr "Apply"
@@ -234,79 +203,67 @@ msgstr ""
 msgid "API Error: unknown server error, unable to perform request."
 msgstr "API Error: unknown server error, unable to perform request."
 
-#: admin/class-wpml-edit-movies.php:116 admin/class-wpml-import-table.php:52
+#: admin/class-wpml-edit-movies.php:117 admin/class-wpml-import-table.php:52
 #: admin/class-wpmovielibrary-admin.php:299
 msgid "Poster"
 msgstr "Poster"
 
-#: admin/class-wpml-edit-movies.php:118
+#: admin/class-wpml-edit-movies.php:119
 #: includes/widgets/class-movies-widget.php:80 includes/wpml-config.php:185
 #: includes/wpml-config.php:555 views/details-widget/details-admin.php:15
 #: views/edit-movies/quick-edit.php:17 views/import/import.php:62
 msgid "Status"
 msgstr "Status"
 
-#: admin/class-wpml-edit-movies.php:119
+#: admin/class-wpml-edit-movies.php:120
 #: includes/widgets/class-movies-widget.php:81 includes/wpml-config.php:184
 #: includes/wpml-config.php:540 views/details-widget/details-admin.php:16
 #: views/edit-movies/quick-edit.php:7
 msgid "Media"
 msgstr "Media"
 
-#: admin/class-wpml-edit-movies.php:120
+#: admin/class-wpml-edit-movies.php:121
 #: includes/widgets/class-movies-widget.php:82 includes/wpml-config.php:186
 #: includes/wpml-config.php:567 views/details-widget/details-admin.php:17
 #: views/edit-movies/quick-edit.php:27
 msgid "Rating"
 msgstr "Rating"
 
-#: admin/class-wpml-edit-movies.php:152 views/metaboxes/movie-details.php:18
+#: admin/class-wpml-edit-movies.php:153 views/metaboxes/movie-details.php:18
 #: views/metaboxes/movie-details.php:38
 msgid "None"
 msgstr "None"
 
-#: admin/class-wpml-edit-movies.php:255
+#: admin/class-wpml-edit-movies.php:256
 msgid "Edit this item inline"
 msgstr "Edit this item inline"
 
-#: admin/class-wpml-edit-movies.php:257
+#: admin/class-wpml-edit-movies.php:258
 msgid "Quick&nbsp;Edit"
 msgstr "Quick&nbsp;Edit"
 
-#: admin/class-wpml-edit-movies.php:389
+#: admin/class-wpml-edit-movies.php:390
 msgid "Invalid detail: should be status, media or rating."
 msgstr "Invalid detail: should be status, media or rating."
 
-#: admin/class-wpml-edit-movies.php:397 admin/class-wpml-edit-movies.php:418
-#: admin/class-wpml-edit-movies.php:437
+#: admin/class-wpml-edit-movies.php:398 admin/class-wpml-edit-movies.php:419
+#: admin/class-wpml-edit-movies.php:438
 msgid "Empty or invalid Post ID or Movie Details"
 msgstr "Empty or invalid Post ID or Movie Details"
 
-#: admin/class-wpml-edit-movies.php:461
-msgid "WPMovieLibrary − Movie Meta"
-msgstr "WPMovieLibrary − Movie Meta"
-
-#: admin/class-wpml-edit-movies.php:464
-msgid "WPMovieLibrary − Movie Images"
-msgstr "WPMovieLibrary − Movie Images"
-
-#: admin/class-wpml-edit-movies.php:467
-msgid "WPMovieLibrary − Movie Details"
-msgstr "WPMovieLibrary − Movie Details"
-
-#: admin/class-wpml-edit-movies.php:579
+#: admin/class-wpml-edit-movies.php:583
 msgid "Error: invalid post, post #%s is not a movie."
 msgstr "Error: invalid post, post #%s is not a movie."
 
-#: admin/class-wpml-edit-movies.php:585
+#: admin/class-wpml-edit-movies.php:589
 msgid "Error: invalid value, allowed values for '%s' are %s."
 msgstr "Error: invalid value, allowed values for '%s' are %s."
 
-#: admin/class-wpml-edit-movies.php:590 admin/class-wpml-edit-movies.php:600
+#: admin/class-wpml-edit-movies.php:594 admin/class-wpml-edit-movies.php:604
 msgid "Error: couldn't update movie detail."
 msgstr "Error: couldn't update movie detail."
 
-#: admin/class-wpml-edit-movies.php:595
+#: admin/class-wpml-edit-movies.php:599
 msgid ""
 "Error: invalid value, allowed values for 'rating' are floats between 0.0 and "
 "5.0."
@@ -314,19 +271,19 @@ msgstr ""
 "Error: invalid value, allowed values for 'rating' are floats between 0.0 and "
 "5.0."
 
-#: admin/class-wpml-edit-movies.php:623
+#: admin/class-wpml-edit-movies.php:627
 msgid "Error: submitted post is not a movie."
 msgstr "Error: submitted post is not a movie."
 
-#: admin/class-wpml-edit-movies.php:626
+#: admin/class-wpml-edit-movies.php:630
 msgid "Error: the submitted movie details are invalid."
 msgstr "Error: the submitted movie details are invalid."
 
-#: admin/class-wpml-edit-movies.php:676
+#: admin/class-wpml-edit-movies.php:680
 msgid "You are not allowed to edit posts."
 msgstr "You are not allowed to edit posts."
 
-#: admin/class-wpml-edit-movies.php:679
+#: admin/class-wpml-edit-movies.php:683
 msgid "Posts with #%s is invalid or is not a movie."
 msgstr "Posts with #%s is invalid or is not a movie."
 
@@ -657,6 +614,11 @@ msgstr "Setting featured image…"
 msgid "Movies"
 msgstr "Movies"
 
+#: admin/class-wpmovielibrary-admin.php:395
+#: admin/class-wpmovielibrary-admin.php:396 includes/wpml-config.php:746
+msgid "Your library"
+msgstr "Your library"
+
 #: admin/class-wpmovielibrary-admin.php:404
 #: admin/class-wpmovielibrary-admin.php:405 public/class-wpml-movies.php:63
 msgid "All Movies"
@@ -683,7 +645,7 @@ msgstr "Genres"
 
 #: admin/class-wpmovielibrary-admin.php:445
 #: admin/class-wpmovielibrary-admin.php:446 includes/wpml-config.php:688
-#: public/class-shortcodes.php:388 public/class-wpml-actors.php:67
+#: public/class-shortcodes.php:388 public/class-wpml-actors.php:65
 #: views/taxonomies-widget/taxonomies-admin.php:17
 msgid "Actors"
 msgstr "Actors"
@@ -851,13 +813,13 @@ msgstr "Select a rating"
 msgid "No rating to display."
 msgstr "No rating to display."
 
-#: includes/widgets/class-details-widget.php:130
+#: includes/widgets/class-details-widget.php:133
 #: includes/widgets/class-movies-widget.php:179
 #: includes/widgets/class-taxonomies-widget.php:144
 msgid "Permalink for &laquo; %s &raquo;"
 msgstr "Permalink for &laquo; %s &raquo;"
 
-#: includes/widgets/class-details-widget.php:150
+#: includes/widgets/class-details-widget.php:155
 msgid "No detail no show"
 msgstr "No detail no show"
 
@@ -914,6 +876,11 @@ msgid "one actor"
 msgid_plural "%s actors"
 msgstr[0] "one actor"
 msgstr[1] "%s actors"
+
+#: includes/widgets/class-statistics-widget.php:136
+#: includes/wpml-config.php:745
+msgid "Statistics"
+msgstr "Statistics"
 
 #: includes/widgets/class-statistics-widget.php:138
 msgid ""
@@ -1734,7 +1701,47 @@ msgstr "Author"
 msgid "Writer"
 msgstr "Writer"
 
-#: public/class-wpml-actors.php:68
+#: includes/wpml-config.php:715
+msgid "WPMovieLibrary − Movie Details"
+msgstr "WPMovieLibrary − Movie Details"
+
+#: includes/wpml-config.php:724
+msgid "WPMovieLibrary − Movie Meta"
+msgstr "WPMovieLibrary − Movie Meta"
+
+#: includes/wpml-config.php:733
+msgid "WPMovieLibrary − Movie Images"
+msgstr "WPMovieLibrary − Movie Images"
+
+#: includes/wpml-config.php:751 includes/wpml-config.php:752
+msgid "Quick Actions"
+msgstr "Quick Actions"
+
+#: includes/wpml-config.php:757 includes/wpml-config.php:758
+msgid "Help"
+msgstr "Help"
+
+#: includes/wpml-config.php:763 includes/wpml-config.php:764
+msgid "Rate me!"
+msgstr "Rate me!"
+
+#: includes/wpml-config.php:769
+msgid "Latest Movies"
+msgstr "Latest Movies"
+
+#: includes/wpml-config.php:770
+msgid "Movies you recently added"
+msgstr "Movies you recently added"
+
+#: includes/wpml-config.php:775
+msgid "Most Rated Movies"
+msgstr "Most Rated Movies"
+
+#: includes/wpml-config.php:776
+msgid "Your most rated movies"
+msgstr "Your most rated movies"
+
+#: public/class-wpml-actors.php:66
 msgid "New Actor"
 msgstr "New Actor"
 
@@ -1772,8 +1779,8 @@ msgid "Search Movies"
 msgstr "Search Movies"
 
 #: public/class-wpml-movies.php:66
-#: views/dashboard-latest-movies/latest-movies.php:35
-#: views/dashboard-most-rated-movies/most-rated-movies.php:35
+#: views/dashboard-latest-movies/latest-movies.php:26
+#: views/dashboard-most-rated-movies/most-rated-movies.php:31
 msgid "No movies found"
 msgstr "No movies found"
 
@@ -2009,15 +2016,15 @@ msgstr "Use transparent Metabox instead of regular WordPress Metabox"
 msgid "Save"
 msgstr "Save"
 
-#: views/dashboard-latest-movies/latest-movies.php:28
-#: views/dashboard-most-rated-movies/most-rated-movies.php:28
-msgid "Load more"
-msgstr "Load more"
-
-#: views/dashboard-latest-movies/latest-movies.php:36
-#: views/dashboard-most-rated-movies/most-rated-movies.php:36
+#: views/dashboard-latest-movies/latest-movies.php:27
+#: views/dashboard-most-rated-movies/most-rated-movies.php:32
 msgid "Add a movie!"
 msgstr "Add a movie!"
+
+#: views/dashboard-latest-movies/latest-movies.php:39
+#: views/dashboard-most-rated-movies/most-rated-movies.php:39
+msgid "Load more"
+msgstr "Load more"
 
 #: views/dashboard-statistics/statistics.php:3
 msgid "Here's some statistics about your movie library:"
@@ -2030,6 +2037,22 @@ msgid ""
 msgstr ""
 "All combined you have a total of %s in your library, regrouped in %s, %s and "
 "%s."
+
+#: views/dashboard-vendor/vendor.php:4
+msgid "Use it, love it, rate it!"
+msgstr "Use it, love it, rate it!"
+
+#: views/dashboard-vendor/vendor.php:7
+msgid "Give us five shiny stars!"
+msgstr "Give us five shiny stars!"
+
+#: views/dashboard-vendor/vendor.php:11
+msgid "We're social guys, join us:"
+msgstr "We're social guys, join us:"
+
+#: views/dashboard-vendor/vendor.php:11
+msgid "We have cookies!"
+msgstr "We have cookies!"
 
 #: views/details-widget/details-admin.php:9
 #: views/movies-widget/movies-admin.php:9
@@ -2472,6 +2495,9 @@ msgstr "Charlie MERLAND"
 #. Author URI of the plugin/theme
 msgid "http://www.caercam.org/"
 msgstr "http://www.caercam.org/"
+
+#~ msgid "Quick action"
+#~ msgstr "Quick action"
 
 #~ msgid "Add one!"
 #~ msgstr "Add one!"

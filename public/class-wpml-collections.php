@@ -5,7 +5,7 @@
  * Add and manage a Collection Custom Taxonomy
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org
@@ -20,7 +20,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function __construct() {
 
@@ -30,7 +30,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
 
@@ -47,7 +47,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		 * @see wpml_movies_columns_head()
 		 * @see wpml_movies_columns_content()
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function register_collection_taxonomy() {
 
@@ -94,6 +94,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 				return false;
 
 			global $wpdb;
+			$wpdb->hide_errors();
 
 			$_action = get_option( 'wpml_settings' );
 			if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['collections'] ) )
@@ -131,13 +132,14 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param bool $network_wide
 		 */
 		public function activate( $network_wide ) {
 
 			global $wpdb;
+			$wpdb->hide_errors();
 
 			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_collection%"' );
 			$collections = array();
@@ -147,7 +149,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 					$collections[] = $term->term_id;
 
 			if ( ! empty( $collections ) )
-				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "collection" WHERE term_id IN (' . implode( ',', $collections ) . ')' );
+				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "collection" WHERE term_id IN (' . implode( ',', $collections ) . ') AND taxonomy = "category"' );
 
 			$wpdb->query(
 				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_collection-", "")'
@@ -160,7 +162,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function deactivate() {
 
@@ -170,7 +172,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		/**
 		 * Set the uninstallation instructions
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function uninstall() {
 
@@ -180,7 +182,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {}
 

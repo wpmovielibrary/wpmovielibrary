@@ -8,7 +8,7 @@
  * WPML uses TMDb to gather movies' informations.
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org
@@ -17,14 +17,14 @@
  * Plugin Name: WPMovieLibrary
  * Plugin URI:  http://wpmovielibrary.com
  * Description: A WordPress Plugin to manage a personnal library of movies.
- * Version:     1.2-beta.1
+ * Version:     1.2
  * Author:      Charlie MERLAND
  * Author URI:  http://www.caercam.org/
  * Text Domain: wpml
  * License:     GPL-3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
  * Domain Path: /languages
- * GitHub Plugin URI: https://github.com/Askelon/WPMovieLibrary
+ * GitHub Plugin URI: https://github.com/CaerCam/WPMovieLibrary
  */
 
 // If this file is called directly, abort.
@@ -33,7 +33,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 define( 'WPML_NAME',                   'WPMovieLibrary' );
-define( 'WPML_VERSION',                '1.2-beta.1' );
+define( 'WPML_VERSION',                '1.2' );
 define( 'WPML_SLUG',                   'wpml' );
 define( 'WPML_URL',                    plugins_url( basename( __DIR__ ) ) );
 define( 'WPML_PATH',                   plugin_dir_path( __FILE__ ) );
@@ -156,6 +156,7 @@ if ( wpml_requirements_met() ) {
 		require_once( WPML_PATH . 'admin/class-dashboard-most-rated-movies-widget.php' );
 		require_once( WPML_PATH . 'admin/class-dashboard-quickaction-widget.php' );
 		require_once( WPML_PATH . 'admin/class-dashboard-helper-widget.php' );
+		require_once( WPML_PATH . 'admin/class-dashboard-vendor-widget.php' );
 		require_once( WPML_PATH . 'admin/class-wpml-api.php' );
 		require_once( WPML_PATH . 'admin/class-wpml-api-wrapper.php' );
 		require_once( WPML_PATH . 'admin/class-wpml-edit-movies.php' );

@@ -4,7 +4,7 @@
  * 
  * Display a dropdown list of collections
  * 
- * @since    1.2.0
+ * @since    1.2
  * 
  * @uses    $items array of movies
  * @uses    $style container classes

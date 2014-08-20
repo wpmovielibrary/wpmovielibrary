@@ -12,7 +12,7 @@
  * @uses WordPress WP_Http Class instead of CURL like the original class.
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org
@@ -120,7 +120,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		/**
 		 * Retrieve all basic information for a particular movie
 		 *
-		 * @param    mixed    $idTMDb-id or IMDB-id
+		 * @param    mixed    $id TMDb-id or IMDB-id
 		 * @param    mixed    $lang Filter the result with a language
 		 * 
 		 * @return   array    TMDb result 
@@ -268,13 +268,13 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 * 
 		 * @return   array|string     TMDb result or error message
 		 */
-		private function _makeCall( $function, $params = null, $session_id = null, $method = 'get' ) {
+		protected function _makeCall( $function, $params = null, $session_id = null, $method = 'get' ) {
 
 			$params = ( ! is_array( $params ) ) ? array() : $params;
-			$url = WPML_Settings::tmdb__scheme() . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( array( 'api_key' => $this->_api_key ), '', '&' );
+			$url = WPML_Settings::tmdb__scheme() . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( array( 'api_key' => WPML_Settings::tmdb__apikey() ), '', '&' );
 			$url .= ( ! is_null( $params ) && ! empty( $params ) ) ? '&' . http_build_query( $params, '', '&' ) : '';
 
-			if ( true === $this->internal ) {
+			if ( true === WPML_Settings::tmdb__internal_api() ) {
 				$url = 'http' . TMDb::API_RELAY_URL . '/' . $function;
 				if ( isset( $params['query'] ) && '' != $params['query'] )
 					$url .= '/' . rawurlencode( $params['query'] );

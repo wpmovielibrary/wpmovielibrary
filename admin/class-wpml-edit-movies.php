@@ -6,7 +6,7 @@
  * Forms, Meta and Details Metaboxes, Images and Posters WP Media Modals.
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org
@@ -19,7 +19,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function __construct() {
 
@@ -32,7 +32,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
 
@@ -60,7 +60,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		/**
 		 * Register and enqueue admin-specific JavaScript.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $hook Current screen hook
 		 */
@@ -69,6 +69,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			if ( ! in_array( $hook, array( 'edit.php', 'post.php', 'post-new.php' ) ) || 'movie' != get_post_type() )
 				return;
 
+			wp_enqueue_script( WPML_SLUG . '-jquery-ajax-queue', WPML_URL . '/assets/js/jquery.ajaxQueue.js', array( 'jquery' ), WPML_VERSION, true );
 			wp_enqueue_script( WPML_SLUG . '-media' , WPML_URL . '/assets/js/wpml.media.js' , array( WPML_SLUG, 'jquery' ), WPML_VERSION, true );
 			wp_enqueue_script( WPML_SLUG . '-movies' , WPML_URL . '/assets/js/wpml.movies.js' , array( WPML_SLUG, 'jquery' ), WPML_VERSION, true );
 			wp_enqueue_script( WPML_SLUG . '-editor-details' , WPML_URL . '/assets/js/wpml.editor.details.js' , array( WPML_SLUG, 'jquery' ), WPML_VERSION, true );
@@ -174,7 +175,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * Add new fields to Movies' Quick Edit form in Movies Lists to edit
 		 * Movie Details directly from the list.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $column_name WP List Table Column name
 		 * @param    string    $post_type Post type
@@ -190,7 +191,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		/**
 		 * Add new fields to Movies' Bulk Edit form in Movies Lists.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $column_name WP List Table Column name
 		 * @param    string    $post_type Post type
@@ -206,7 +207,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		/**
 		 * Generic function to show WPML Quick/Bulk Edit form.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $type Form type, 'quick' or 'bulk'.
 		 */
@@ -230,7 +231,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * 
 		 * TODO: group Details in a single, cached query.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array     $actions List of current actions
 		 * @param    object    $post Current Post object
@@ -281,7 +282,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * WP Query to bypass wp_ajax_query_attachments() filtering of
 		 * the query options.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $query List of options for the query
 		 * 
@@ -312,7 +313,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * load them. If not, it's just a regular Post query, return the
 		 * Posts.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $posts Posts concerned by the hijack, should be only one
 		 * @param    array    $_query concerned WP_Query instance
@@ -344,7 +345,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		/**
 		 * Load the Movie Images and display a jsonified result.s
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    int      $tmdb_id Movie TMDb ID to fetch images
 		 * @param    array    $post Related Movie Post
@@ -360,7 +361,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		/**
 		 * Load the Movie Images and display a jsonified result.s
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    int      $tmdb_id Movie TMDb ID to fetch images
 		 * @param    array    $post Related Movie Post
@@ -382,7 +383,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		/**
 		 * "All Movies" WP List Table inline edit shortcut for details.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function set_detail_callback() {
 
@@ -409,7 +410,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * Although values are submitted as array each value is stored in a
 		 * dedicated post meta.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function save_details_callback() {
 
@@ -458,18 +459,21 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * Alter $wp_meta_boxes to display the Details Metabox right below
 		 * WordPress standard Submit Metabox.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function add_meta_boxes() {
 
-			// Movie Details
-			add_meta_box( 'wpml_details', __( 'WPMovieLibrary − Movie Details', 'wpmovielibrary' ), __CLASS__ . '::metabox_details', 'movie', 'side', 'core', null );
+			$metaboxes = WPML_Settings::get_metaboxes();
 
-			// Movie Metadata
-			add_meta_box( 'wpml_meta', __( 'WPMovieLibrary − Movie Meta', 'wpmovielibrary' ), __CLASS__ . '::metabox_meta', 'movie', 'normal', 'high', null );
+			foreach ( $metaboxes as $i => $metabox ) {
 
-			// Movie Details
-			add_meta_box( 'wpml_images', __( 'WPMovieLibrary − Movie Images', 'wpmovielibrary' ), __CLASS__ . '::metabox_images', 'movie', 'normal', 'high', null );
+				extract( $metabox, EXTR_OVERWRITE );
+
+				if ( 'side' != $context )
+					$id = "{$i}_{$id}";
+
+				add_meta_box( $id, $title, $callback, $screen, $context, $priority,  $callback_args );
+			}
 
 			global $wp_meta_boxes;
 
@@ -484,6 +488,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				array( 'wpml_details' => $details ),
 				$core
 			);
+
 		}
 
 		/**
@@ -492,7 +497,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * Display a large Metabox below post editor to fetch and edit movie
 		 * informations using the TMDb API.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    object    Current Post object
 		 * @param    null      $metabox null
@@ -540,7 +545,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * Display a large Metabox below post editor to fetch and edit movie
 		 * informations using the TMDb API.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    object    Current Post object
 		 * @param    null      $metabox null
@@ -559,7 +564,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * Left side Metabox: Movie details. Used to handle Movie
 		 * related details.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    object    Current Post object
 		 * @param    null      $metabox null
@@ -867,7 +872,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param    bool    $network_wide
 		 */
@@ -876,14 +881,14 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function deactivate() {}
 
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {}
 		

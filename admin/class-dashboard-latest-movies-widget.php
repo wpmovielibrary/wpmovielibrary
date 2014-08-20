@@ -5,7 +5,7 @@
  * Create a Movies preview Widget.
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org
@@ -18,52 +18,16 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		/**
 		 * Widget ID
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @var      string
 		 */
-		protected $widget_id = '';
-
-		/**
-		 * Widget Name.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @var      string
-		 */
-		protected $widget_name = '';
-
-		/**
-		 * Widget callback method.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @var      array
-		 */
-		protected $callback = null;
-
-		/**
-		 * Widget Controls callback method.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @var      array
-		 */
-		protected $control_callback = null;
-
-		/**
-		 * Widget callback method arguments.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @var      array
-		 */
-		protected $callback_args = null;
+		protected $widget_id = 'wpml_dashboard_latest_movies_widget';
 
 		/**
 		 * Widget settings.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @var      array
 		 */
@@ -72,7 +36,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		/**
 		 * Widget default settings.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @var      array
 		 */
@@ -92,15 +56,9 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {
-
-			$this->widget_id = 'wpml_dashboard_latest_movies_widget';
-			$this->widget_name = __( 'Movies you recently added', 'wpmovielibrary' );
-			$this->callback = array( $this, 'widget' );
-			$this->control_callback = array( $this, 'widget_handle' );
-			$this->callback_args = array( 'id' => $this->widget_id );
 
 			$this->default_settings = array(
 				'movies_per_page' => 8,
@@ -118,11 +76,9 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
-
-			add_action( 'wpml_dashboard_setup', array( $this, '_add_dashboard_widget' ), 10 );
 
 			if ( '1' == $this->settings['style_metabox'] )
 				add_action( 'admin_footer', array( $this, 'widget_metabox_style' ), 10 );
@@ -130,20 +86,10 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		}
 
 		/**
-		 * Register the Widget
-		 * 
-		 * @since    1.0.0
-		 */
-		public function _add_dashboard_widget() {
-
-			$this->add_dashboard_widget( $this->widget_id, $this->widget_name, $this->callback, $this->control_callback );
-		}
-
-		/**
 		 * Widget Settings. Get the stored Widget Settings if existing,
 		 * save default settings if none.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @return   array    Widget Settings.
 		 */
@@ -166,7 +112,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		/**
 		 * Update Widget settings when config form is posted.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		private function update_settings() {
 
@@ -197,7 +143,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 * This can't be done in PHP so we need to add a small JS code
 		 * to add a class the Metaboxes selected to be stylized.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function widget_metabox_style() {
 
@@ -208,7 +154,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 * Prepare and include the Widget's content. Get and apply
 		 * settings.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    int    $limit Number of movies to show
 		 * @param    int    $offset Starting after n movies
@@ -235,7 +181,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		/**
 		 * Retrieve and prepare the movies to display in the Widget.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    int    $limit How many movies to get
 		 * @param    int    $limit Offset to select movies
@@ -299,9 +245,9 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		 * Show a list of the most recently added movies with a panel of
 		 * settings to customize the view.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
-		public function widget() {
+		public function dashboard_widget() {
 
 			if ( isset( $_POST[ $this->widget_id ] ) )
 				$this->update_settings();
@@ -311,7 +257,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 			$movies = $this->widget_content();
 			$settings = $this->settings;
 
-			echo self::render_template( '/dashboard-latest-movies/latest-movies-admin.php', array( 'movies' => $movies, 'offset' => $offset, 'settings' => $settings, 'editing' => $editing, 'widget' => $this ), $require = 'always' );
+			echo self::render_template( '/dashboard-latest-movies/latest-movies-admin.php', array( 'movies' => $movies, 'offset' => $offset, 'settings' => $settings, 'editing' => $editing, 'widget_id' => $this->widget_id ), $require = 'always' );
 
 			$this->get_widget_content();
 		}
@@ -319,12 +265,12 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 		/**
 		 * Widget's configuration callback
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $context box context
 		 * @param    mixed     $object gets passed to the box callback function as first parameter
 		 */
-		public function widget_handle( $context, $object ) {
+		public function dashboard_widget_handle( $context, $object ) {
 
 			$settings = $this->settings;
 			$editing = ( isset( $_GET['edit'] ) && $object['id'] == $_GET['edit'] );
@@ -334,7 +280,7 @@ if ( ! class_exists( 'WPML_Dashboard_Latest_Movies_Widget' ) ) :
 				return false;
 			}
 
-			echo self::render_template( '/dashboard-latest-movies/latest-movies-admin.php', array( 'settings' => $settings, 'editing' => $editing, 'widget' => $this ), $require = 'always' );
+			echo self::render_template( '/dashboard-latest-movies/latest-movies-admin.php', array( 'settings' => $settings, 'editing' => $editing, 'widget_id' => $this->widget_id ), $require = 'always' );
 		}
 
 	}

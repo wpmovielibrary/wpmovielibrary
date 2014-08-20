@@ -5,7 +5,7 @@
  * Add and manage Movie Images and Posters
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org
@@ -18,7 +18,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		/**
 		 * Constructor
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function __construct() {
 
@@ -31,7 +31,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
 
@@ -50,7 +50,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * User can set through the Settings whether the imported images,
 		 * posters or both should be deleted along with the movie's Post.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    int    Post ID
 		 * 
@@ -104,7 +104,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * TMDb file name. If we're testing an image we make sure its
 		 * file name doesn't match a previously imported image.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $tmdb_id    The Movie's TMDb ID.
 		 * @param    string    $image_type Optional. Which type of image we're
@@ -164,7 +164,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * which needs to fed JSONified Attachments to the AJAX callback
 		 * to append to the modal.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $images The images to prepare
 		 * @param    object   $post Related Movie Posts
@@ -329,7 +329,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * to be showed in the Movie Edit page. Featured image (most likely the
 		 * movie poster) is excluded from the list.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @return   array    Movie list
 		 */
@@ -363,7 +363,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		/**
 		 * Set the image as featured image.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $file The image file name to set as featured
 		 * @param    int       $post_id The post ID the image is to be associated with
@@ -387,7 +387,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * 
 		 * @see http://codex.wordpress.org/Function_Reference/media_sideload_image
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $file The filename of the image to download
 		 * @param    int       $post_id The post ID the media is to be associated with
@@ -450,7 +450,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * a Modal window. This will be used by the future Movie Posters
 		 * selection Modal, yet to be implemented.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $content Current Post's Featured Image Metabox
 		 *                              content, ready to be edited.
@@ -477,7 +477,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 *
 		 * @param bool $network_wide
 		 */
@@ -486,14 +486,14 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function deactivate() {}
 
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {}
 

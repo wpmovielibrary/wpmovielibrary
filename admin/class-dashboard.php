@@ -5,7 +5,7 @@
  * Implement a simple custom Dashboard
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org
@@ -18,20 +18,20 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Dashboard Widgets.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @var      array
 		 */
 		protected $widgets = array();
 
-		public static $allowed_options = array(
-			'welcome_panel',
-			'most_rated_movies',
-			'latest_movies',
-			'quickaction',
-			'helper',
-			'stats'
-		);
+		/**
+		 * Dashboard allowed screen options.
+		 * 
+		 * @since    1.2
+		 * 
+		 * @var      array
+		 */
+		protected $allowed_options = array();
 
 		/**
 		 * Constructor
@@ -47,30 +47,36 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function init() {
 
-			$this->widgets = array(
-				'WPML_Dashboard_Stats_Widget' => WPML_Dashboard_Stats_Widget::get_instance(),
-				'WPML_Dashboard_Quickaction_Widget' => WPML_Dashboard_Quickaction_Widget::get_instance(),
-				'WPML_Dashboard_Helper_Widget' => WPML_Dashboard_Helper_Widget::get_instance(),
-				'WPML_Dashboard_Latest_Movies_Widget' => WPML_Dashboard_Latest_Movies_Widget::get_instance(),
-				'WPML_Dashboard_Most_Rated_Movies_Widget' => WPML_Dashboard_Most_Rated_Movies_Widget::get_instance()
-			);
+			global $wpml_dashboard_widgets;
+
+			$this->widgets = array();
+			$this->allowed_options = array( 'welcome_panel' );
+
+			foreach ( $wpml_dashboard_widgets as $slug => $widget ) {
+
+				$class = $this->filter_widget_classname( $widget['class'] );
+				$this->widgets[ $class ] = $class::get_instance();
+				$this->allowed_options[] = $slug;		
+			}
+
 		}
 
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
 
-			add_filter( 'set-screen-option', __CLASS__ . '::set_option', 10, 3 );
-			add_filter( 'screen_settings', __CLASS__ . '::screen_options', 10, 2 );
+			add_filter( 'set-screen-option', array( $this, 'set_option' ), 10, 3 );
+			add_filter( 'screen_settings', array( $this, 'screen_options' ), 10, 2 );
+			add_filter( 'wpml_filter_widget_classname', array( $this, 'filter_widget_classname' ), 10, 1 );
 
-			add_action( 'wp_ajax_wpml_save_screen_option', __CLASS__ . '::wpml_save_screen_option_callback' );
+			add_action( 'wp_ajax_wpml_save_screen_option', array( $this, 'wpml_save_screen_option_callback' ) );
 			add_action( 'wp_ajax_wpml_save_dashboard_widget_settings', __CLASS__ . '::wpml_save_dashboard_widget_settings_callback' );
 			add_action( 'wp_ajax_wpml_load_more_movies', __CLASS__ . '::wpml_load_more_movies_callback' );
 		}
@@ -82,7 +88,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * 
 		 * @since     1.0.0
 		 */
-		public static function wpml_save_screen_option_callback() {
+		public function wpml_save_screen_option_callback() {
 
 			check_ajax_referer( 'screen-options-nonce', 'screenoptionnonce' );
 
@@ -90,7 +96,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			$visible = ( isset( $_POST['visible'] ) && in_array( $_POST['visible'], array( '0', '1' ) ) ? $_POST['visible'] : '0' );
 			$option = ( isset( $_POST['option'] ) && '' != $_POST['option'] ? $_POST['option'] : null );
 
-			if ( is_null( $screen_id ) || is_null( $option ) || ! in_array( $option, self::$allowed_options ) )
+			if ( is_null( $screen_id ) || is_null( $option ) || ! in_array( $option, $this->allowed_options ) )
 				wp_die( 0 );
 
 			$update = self::save_screen_option( $option, $visible, $screen_id );
@@ -114,13 +120,12 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			if ( is_null( $widget ) || is_null( $setting ) || is_null( $value ) || ! class_exists( $widget ) )
 				wp_die( 0 );
 
-			
 			wpml_check_ajax_referer( 'save-' . strtolower( $widget ) );
 
 			$class = $widget::get_instance();
 			$update = self::save_widget_setting( $class->widget_id, $setting, $value );
 
-			wp_die( $update );
+			WPML_Utils::ajax_response( $update, array(), WPML_Utils::create_nonce( 'save-' . strtolower( $widget ) ) );
 		}
 
 		/**
@@ -147,7 +152,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Save plugin Welcome Panel screen option.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    bool|int    $status Screen option value. Default false to skip.
 		 * @param    string      $option The option name.
@@ -155,23 +160,23 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * 
 		 * @return   bool|string
 		 */
-		public static function set_option( $status, $option, $value ) {
+		public function set_option( $status, $option, $value ) {
 
-			if ( in_array( $option, self::$allowed_options ) )
+			if ( in_array( $option, $this->allowed_options ) )
 				return $value;
 		}
 
 		/**
 		 * Show plugin Welcome panel screen option form.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $status Screen settings markup.
 		 * @param    object    WP_Screen object.
 		 * 
 		 * @return   string    Updated screen settings
 		 */
-		public static function screen_options( $status, $args ) {
+		public function screen_options( $status, $args ) {
 
 			if ( $args->base != 'toplevel_page_wpmovielibrary' )
 				return $status;
@@ -183,12 +188,12 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 				update_user_option( $user_id, 'metaboxhidden_' . $args->base, array(), true );
 
 			$return = array( '<h5>' . __( 'Show on screen', 'wpmovielibrary' ) . '</h5>' );
-			$return[] = self::set_screen_option( 'welcome_panel', __( 'Welcome', 'wpmovielibrary' ), $status );
-			$return[] = self::set_screen_option( 'stats', __( 'Statistics', 'wpmovielibrary' ), $status );
-			$return[] = self::set_screen_option( 'quickaction', __( 'Quick Actions', 'wpmovielibrary' ), $status );
-			$return[] = self::set_screen_option( 'helper', __( 'Help', 'wpmovielibrary' ), $status );
-			$return[] = self::set_screen_option( 'latest_movies', __( 'Latest Movies', 'wpmovielibrary' ), $status );
-			$return[] = self::set_screen_option( 'most_rated_movies', __( 'Most Rated Movies', 'wpmovielibrary' ), $status );
+			$return[] = $this->set_screen_option( 'welcome_panel', __( 'Welcome', 'wpmovielibrary' ), $status );
+
+			global $wpml_dashboard_widgets;
+			foreach ( $wpml_dashboard_widgets as $slug => $widget )
+				$return[] = $this->set_screen_option( $slug, $widget['title'], $status );
+
 			$return[] = get_submit_button( __( 'Apply', 'wpmovielibrary' ), 'button hide-if-js', 'screen-options-apply', false );
 
 			$return = implode( '', $return );
@@ -199,7 +204,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Generate and render screen option.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $option Screen option ID.
 		 * @param    string    $title Screen option title.
@@ -207,15 +212,15 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * 
 		 * @return   string    Updated screen settings
 		 */
-		private static function set_screen_option( $option, $title, $status ) {
+		private function set_screen_option( $option, $title, $status ) {
 
-			if ( ! in_array( $option, self::$allowed_options ) )
+			if ( ! in_array( $option, $this->allowed_options ) )
 				return $status;
 
 			$hidden = get_user_option( 'metaboxhidden_' . get_current_screen()->id );
 			$visible = ( in_array( 'wpml_dashboard_' . $option . '_widget', $hidden ) ? '0' : '1' );
 
-			$return .= $status . '<label for="show_wpml_' . $option . '"><input id="show_wpml_' . $option . '" type="checkbox"' . checked( $visible, '1', false ) . ' />' . __( $title, 'wpmovielibrary' ) . '</label>';
+			$return = $status . '<label for="show_wpml_' . $option . '"><input id="show_wpml_' . $option . '" type="checkbox"' . checked( $visible, '1', false ) . ' />' . __( $title, 'wpmovielibrary' ) . '</label>';
 			
 			return $return;
 		}
@@ -224,7 +229,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * Save Widgets screen options. This is used to init the screen
 		 * options if they don't exist yet.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @return   array    List of hidden Widgets ID
 		 */
@@ -233,7 +238,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			$edited  = false;;
 			$user_id = get_current_user_id();
 			$screen  = get_current_screen();
-			$hidden = get_user_option( 'metaboxhidden_' . $screen->id );
+			$hidden  = get_user_option( 'metaboxhidden_' . $screen->id );
 
 			return $hidden;
 		}
@@ -242,7 +247,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * Save a single Widget screen options.  This is used to save
 		 * the options through AJAX.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $option Screen setting ID.
 		 * @param    string    $value Screen setting value.
@@ -277,7 +282,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Save a plugin Dashboard Widget setting.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    $widget_id Widget ID
 		 * @param    string    $setting Setting name
@@ -306,7 +311,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * Create a nice landing page for the plugin, displaying recent
 		 * movies and other stuff like a simple shortcut menu.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public static function dashboard() {
 
@@ -318,25 +323,35 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			if ( isset( $_GET['wpml_set_archive_page'] ) && ( isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpml-set-archive-page' ) ) )
 				WPML_Utils::set_archive_page();
 
-			echo self::render_template( '/dashboard/dashboard.php' );
+			global $wpml_dashboard_widgets;
+			foreach ( $wpml_dashboard_widgets as $widget )
+				self::add_dashboard_widget( $widget );
+
+			echo self::render_template( '/dashboard/dashboard.php', array( 'screen' => get_current_screen(), 'hidden' => $hidden ) );
 			echo self::render_template( '/dashboard/movie-modal.php' );
 		}
  
 		/**
 		 * Adds a new widget to the Plugin's Dashboard.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
-		 * @param    int       $widget_id Identifying slug for the widget. This will be used as its css class and its key in the array of widgets.
-		 * @param    string    $widget_name Name the widget will display in its heading.
-		 * @param    array     $callback Method that will display the actual contents of the widget.
-		 * @param    array     $control_callback Method that will handle submission of widget options (configuration) forms, and will also display the form elements.
+		 * @param    array     $widget Widget data
 		 */
-		public function add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null, $callback_args = null ) {
+		public static function add_dashboard_widget( $widget ) {
 
 			global $wp_dashboard_control_callbacks;
 
-			$widget_name = __( $widget_name, 'wpmovielibrary' );
+			extract( $widget );
+
+			$class = apply_filters( 'wpml_filter_widget_classname', $class );
+			$widget_id = strtolower( $class );
+			$widget_name = __( $name, 'wpmovielibrary' );
+			$location = ( 'side' == $location ? 'side' : 'normal' );
+			$instance = new $class;
+			$callback = array( $instance, 'dashboard_widget' );
+			$callback_args = array( 'id' => $widget_id );
+			$control_callback = ( 'side' == $location ? null : array( $instance, 'dashboard_widget_handle' ) );
 
 			if ( ! is_null( $control_callback ) && current_user_can( 'edit_dashboard' ) && is_callable( $control_callback ) ) {
 
@@ -356,8 +371,6 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			}
 
 			$screen = get_current_screen();
-			$side_widgets = array( 'wpml_dashboard_stats_widget', 'wpml_dashboard_quickaction_widget', 'wpml_dashboard_helper_widget' );
-			$location = ( in_array( $widget_id, $side_widgets ) ? 'side' : 'normal' );
 			$priority = 'core';
 
 			add_meta_box( $widget_id, $widget_name, $callback, $screen, $location, $priority, $callback_args );
@@ -365,18 +378,32 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		}
 
 		/**
-		 * Prepares sites to use the plugin during single or network-wide activation
+		 * Prepare Widgets Class Names
 		 *
-		 * @since    1.0.0
+		 * @since    1.2
+		 *
+		 * @param    string    Default classname
+		 *
+		 * @param    string    Filter classname
+		 */
+		public function filter_widget_classname( $name ) {
+
+			return "WPML_Dashboard_{$name}_Widget";
+		}
+
+		/**
+		 * Prepare sites to use the plugin during single or network-wide activation
+		 *
+		 * @since    1.0
 		 *
 		 * @param    bool    $network_wide
 		 */
 		public function activate( $network_wide ) {}
 
 		/**
-		 * Rolls back activation procedures when de-activating the plugin
+		 * Roll back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 */
 		public function deactivate() {}
 

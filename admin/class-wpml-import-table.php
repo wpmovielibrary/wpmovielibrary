@@ -3,7 +3,7 @@
  * WP_List_Table Class extension.
  *
  * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie.merland@gmail.com>
+ * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
  * @copyright 2014 CaerCam.org
@@ -20,9 +20,7 @@ class WPML_Import_Table extends WP_List_Table {
 	/**
 	 * Constructor. Calls WP_List_Table and set up data.
 	 * 
-	 * @since    1.0.0
-	 * 
-	 * @access   protected
+	 * @since    1.0
 	 * 
 	 * @param    array    $columns  Associative array containing all the Movies
 	 *                              imported from list
@@ -59,7 +57,7 @@ class WPML_Import_Table extends WP_List_Table {
 	/**
 	 * Send required variables to JavaScript land
 	 *
-	 * @access private
+	 * @since    1.0
 	 */
 	function _js_vars() {
 	    $current_screen = get_current_screen();
@@ -78,9 +76,7 @@ class WPML_Import_Table extends WP_List_Table {
 	/**
 	 * Message to be displayed when there are no items
 	 * 
-	 * @since    1.0.0
-	 * 
-	 * @access   public
+	 * @since    1.0
 	 */
 	function no_items() {
 		_e( 'No movies found, dude.', 'wpmovielibrary' );
@@ -89,7 +85,7 @@ class WPML_Import_Table extends WP_List_Table {
 	/**
 	 * Display the pagination.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0
 	 */
 	function pagination( $which ) {
 		if ( empty( $this->_pagination_args ) )
@@ -193,9 +189,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 *
 	 * The second format will make the initial sorting order be descending
 	 *
-	 * @since    1.0.0
-	 * 
-	 * @access   protected
+	 * @since    1.0
 	 *
 	 * @return   array
 	 */
@@ -213,9 +207,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * Get a list of columns. The format is:
 	 * 'internal-name' => 'Title'
 	 * 
-	 * @since    1.0.0
-	 * 
-	 * @access   protected
+	 * @since    1.0
 	 * 
 	 * @return   array
 	 */
@@ -240,7 +232,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * NOTE Huh. Not quite sure what I added this... It does change the
 	 * columns order, though, so lets keep it here for the moment.
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    string    $a Associative array containing Movie data.
 	 * @param    string    $b Associative array containing Movie data.
@@ -270,7 +262,7 @@ class WPML_Import_Table extends WP_List_Table {
 	/**
 	 * Show a checkbox related to the Movie's ID.
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    string    $item Associative array containing the item data.
 	 * 
@@ -283,7 +275,7 @@ class WPML_Import_Table extends WP_List_Table {
 	/**
 	 * Show the Movie's ID column.
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    string    $item Associative array containing the item data.
 	 * 
@@ -296,7 +288,7 @@ class WPML_Import_Table extends WP_List_Table {
 	/**
 	 * Show the Movie's Title column.
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    string    $item Associative array containing the item data.
 	 * 
@@ -319,7 +311,7 @@ class WPML_Import_Table extends WP_List_Table {
 	/**
 	 * Show the Movie's Director column.
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    string    $item Associative array containing the item data.
 	 * 
@@ -332,7 +324,7 @@ class WPML_Import_Table extends WP_List_Table {
 	/**
 	 * Show the Movie's TMDb ID column.
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @param    string    $item Associative array containing the item data.
 	 * 
@@ -360,7 +352,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * for matching Movie titles and return the filtered list; return the
 	 * full list if no search is asked.
 	 * 
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
 	 * @return   array    Associative array of Movies
 	 */
@@ -383,9 +375,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * Get an associative array ( option_name => option_title ) with the list
 	 * of bulk actions available on this table.
 	 * 
-	 * @since    1.0.0
-	 * 
-	 * @access   protected
+	 * @since    1.0
 	 * 
 	 * @return   array
 	 */
@@ -403,11 +393,12 @@ class WPML_Import_Table extends WP_List_Table {
 	/**
 	 * Display the bulk actions dropdown.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0
 	 * 
-	 * @access   public
+	 * @param string $which The location of the bulk actions: 'top' or 'bottom'.
+	 *                      This is designated as optional for backwards-compatibility.
 	 */
-	function bulk_actions() {
+	function bulk_actions( $which = '' ) {
 		if ( is_null( $this->_actions ) ) {
 			$no_new_actions = $this->_actions = $this->get_bulk_actions();
 			/**
@@ -459,9 +450,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * @uses WPML_List_Table::get_items_per_page()
 	 * @uses WPML_List_Table::filter_search()
 	 *
-	 * @since 1.0.0
-	 * 
-	 * @access public
+	 * @since 1.0
 	 */
 	function prepare_items() {
 
@@ -500,7 +489,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * Copy of parent::ajax_response() with minor editing to return the
 	 * pagination links along with rows.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0
 	 */
 	function ajax_response() {
 
@@ -627,7 +616,7 @@ class WPML_Import_Table extends WP_List_Table {
 	 * 
 	 * Copy of parent::display() adding an extra Nonce field.
 	 *
-	 * @since    1.0.0
+	 * @since    1.0
 	 */
 	function display() {
 

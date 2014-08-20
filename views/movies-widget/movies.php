@@ -4,7 +4,7 @@
  * 
  * Display a list of movies links with thumbnails
  * 
- * @since    1.2.0
+ * @since    1.2
  * 
  * @uses    $style current Widget style
  * @uses    $description Widget's description

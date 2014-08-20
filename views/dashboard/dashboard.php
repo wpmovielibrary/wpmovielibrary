@@ -1,4 +1,4 @@
-<?php do_action( 'wpml_dashboard_setup' ); ?>
+<?php //do_action( 'wpml_dashboard_setup' ); ?>
 
 	<div id="wpml-home" class="wrap">
 
