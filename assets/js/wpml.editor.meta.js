@@ -193,6 +193,9 @@ wpml = wpml || {};
 			 */
 			wpml.editor.meta.set = function( data ) {
 
+				wpml_media._movie_tmdb_id = data._tmdb_id;
+				wpml_media._movie_title   = data.meta.title;
+
 				$( '#tmdb_data_tmdb_id' ).val( data._tmdb_id );
 				$( '.tmdb_data_field' ).each( function() {
 

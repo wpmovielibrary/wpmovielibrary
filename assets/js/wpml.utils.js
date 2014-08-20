@@ -116,19 +116,35 @@ wpml = wpml || {};
 		 * @since    1.0
 		 * 
 		 * @param    string    Status Message
-		 * @param    string    Status type: error, update
+		 * @param    string    Status type: error, update, warning
 		 */
 		wpml.state.set = function( message, style ) {
-			$(wpml_state.container).append( '<p>' + message + '</p>' ).removeClass().addClass( style ).show().focus();
+
 			if ( 'error' == style )
-				$('.spinner, .loading').removeClass('spinner loading');
+				var bg = '#ff4e46';
+			else if ( 'warning' == style )
+				var bg = '#ffd259';
+			else if ( 'success' == style )
+				var bg = '#99ff5c';
+			else
+				var bg = '#fff';
+
+			$( wpml_state.container ).append( '<p>' + message + '</p>' ).removeClass().addClass( style ).show();
+
+			if ( 'error' == style ) {
+				$( '.spinner, .loading' ).removeClass( 'spinner loading' );
+				$( window ).scrollTop( $( wpml_state.container ).offset().top - 42 );
+			}
+
+			$( wpml_state.container ).css( { backgroundColor: bg } );
+			$( wpml_state.container ).animate( { backgroundColor: '#FFF' }, 1500 );
 		};
 
 		/**
 		 * Clear status
 		 */
 		wpml.state.clear = function() {
-			$(wpml_state.container).empty().removeClass().hide();
+			$( wpml_state.container ).empty().removeClass().hide();
 		};
 
 	/**
