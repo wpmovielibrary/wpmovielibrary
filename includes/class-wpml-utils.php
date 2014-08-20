@@ -1539,7 +1539,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$attributes = array( 'taxonomy' => $term_slug, 'links' => $links );
 				$content = WPMovieLibrary::render_template( 'archives/archives.php', $attributes, $require = 'always' );
 
-				$pagination = self::paginate_links( $args );
+				$pagination = WPML_Utils::paginate_links( $args );
 
 				$content = $content . $pagination;
 

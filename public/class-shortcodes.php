@@ -139,7 +139,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				$query = implode( '&', $query );
 				$query = new WP_Query( $query );
 	
-				$movies = self::prepare_movies( $query, $atts );
+				$movies = WPML_Shortcodes::prepare_movies( $query, $atts );
 				$attributes = array( 'movies' => $movies );
 	
 				$content = WPMovieLibrary::render_template( 'shortcodes/movies.php', $attributes, $require = 'always' );
@@ -180,7 +180,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				$query = 'post_type=movie&post_status=publish&' . $select;
 				$query = new WP_Query( $query );
 
-				$movies = self::prepare_movies( $query, $atts );
+				$movies = WPML_Shortcodes::prepare_movies( $query, $atts );
 
 				$attributes = array( 'movies' => $movies );
 
@@ -221,7 +221,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$movie_id = self::find_movie_id( $id, $title );
+				$movie_id = WPML_Shortcodes::find_movie_id( $id, $title );
 				if ( is_null( $movie_id ) )
 					return $content;
 
@@ -276,7 +276,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$movie_id = self::find_movie_id( $id, $title );
+				$movie_id = WPML_Shortcodes::find_movie_id( $id, $title );
 				if ( is_null( $movie_id ) )
 					return $content;
 
@@ -320,7 +320,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$movie_id = self::find_movie_id( $id, $title );
+				$movie_id = WPML_Shortcodes::find_movie_id( $id, $title );
 				if ( is_null( $movie_id ) )
 					return $content;
 
@@ -369,7 +369,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$movie_id = self::find_movie_id( $id, $title );
+				$movie_id = WPML_Shortcodes::find_movie_id( $id, $title );
 				if ( is_null( $movie_id ) )
 					return $content;
 
@@ -416,7 +416,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$movie_id = self::find_movie_id( $id, $title );
+				$movie_id = WPML_Shortcodes::find_movie_id( $id, $title );
 				if ( is_null( $movie_id ) )
 					return $content;
 
@@ -463,7 +463,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$movie_id = self::find_movie_id( $id, $title );
+				$movie_id = WPML_Shortcodes::find_movie_id( $id, $title );
 				if ( is_null( $movie_id ) )
 					return $content;
 
@@ -505,7 +505,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$movie_id = self::find_movie_id( $id, $title );
+				$movie_id = WPML_Shortcodes::find_movie_id( $id, $title );
 				if ( is_null( $movie_id ) )
 					return $content;
 
@@ -570,7 +570,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$movie_id = self::find_movie_id( $id, $title );
+				$movie_id = WPML_Shortcodes::find_movie_id( $id, $title );
 				if ( is_null( $movie_id ) )
 					return $content;
 
