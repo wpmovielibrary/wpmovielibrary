@@ -44,15 +44,15 @@ var wpml_images, wpml_posters;
 					return this._frame;
 
 				this._frame = wp.media({
-					title: wpml_ajax.lang.import_images_title.replace( '%s', wpml_media._movie_title ),
+					title: wpml_ajax.lang.import_images_title.replace( '%s', wpml.editor._movie_title ),
 					frame: 'select',
 					searchable: false,
 					library: {
 						// Dummy: avoid any image to be loaded
 						type: 'images',
-						post__in:[ wpml_media._movie_id ],
+						post__in:[ wpml.editor._movie_id ],
 						post__not_in:[0],
-						s: 'TMDb_ID=' + wpml_media._movie_tmdb_id + ',type=image'
+						s: 'TMDb_ID=' + wpml.editor._movie_tmdb_id + ',type=image'
 					},
 					multiple: true,
 					button: {
@@ -123,9 +123,9 @@ var wpml_images, wpml_posters;
 						action: 'wpml_upload_image',
 						nonce: wpml.get_nonce( 'upload-movie-image' ),
 						image: image.attributes.tmdb_data,
-						title: wpml_ajax.lang.image_from + ' ' + wpml_media._movie_title,
-						post_id: wpml_media._movie_id,
-						tmdb_id: wpml_media._movie_tmdb_id
+						title: wpml_ajax.lang.image_from + ' ' + wpml.editor._movie_title,
+						post_id: wpml.editor._movie_id,
+						tmdb_id: wpml.editor._movie_tmdb_id
 					},
 					beforeSend: function() {},
 					error: function( response ) {
@@ -136,7 +136,7 @@ var wpml_images, wpml_posters;
 					},
 					success: function( response ) {
 						if ( ! isNaN( response.data ) && parseInt( response.data ) == response.data ) {
-							$('#tmdb_load_images').parent('.tmdb_movie_images').before('<div class="tmdb_movie_images tmdb_movie_imported_image"><img width="' + image.attributes.sizes.medium.width + '" height="' + image.attributes.sizes.medium.height + '" src="' + image.attributes.sizes.medium.url + '" class="attachment-medium" class="attachment-medium" alt="' + wpml_media._movie_title + '" /></div>');
+							$('#tmdb_load_images').parent('.tmdb_movie_images').before('<div class="tmdb_movie_images tmdb_movie_imported_image"><img width="' + image.attributes.sizes.medium.width + '" height="' + image.attributes.sizes.medium.height + '" src="' + image.attributes.sizes.medium.url + '" class="attachment-medium" class="attachment-medium" alt="' + wpml.editor._movie_title + '" /></div>');
 						}
 					},
 					complete: function() {
@@ -192,15 +192,15 @@ var wpml_images, wpml_posters;
 					return this._frame;
 
 				this._frame = wp.media({
-					title: wpml_ajax.lang.import_poster_title.replace( '%s', wpml_media._movie_title ),
+					title: wpml_ajax.lang.import_poster_title.replace( '%s', wpml.editor._movie_title ),
 					frame: 'select',
 					searchable: false,
 					library: {
 						// Dummy: avoid any image to be loaded
 						type : 'image',
-						post__in:[ wpml_media._movie_id ],
+						post__in:[ wpml.editor._movie_id ],
 						post__not_in:[0],
-						s: 'TMDb_ID=' + wpml_media._movie_tmdb_id + ',type=poster'
+						s: 'TMDb_ID=' + wpml.editor._movie_tmdb_id + ',type=poster'
 					},
 					multiple: false,
 					button: {
@@ -286,9 +286,9 @@ var wpml_images, wpml_posters;
 						action: 'wpml_set_featured',
 						nonce: wpml.get_nonce( 'set-movie-poster' ),
 						image: _image,
-						title: wpml_media._movie_title,
-						post_id: wpml_media._movie_id,
-						tmdb_id: wpml_media._movie_tmdb_id
+						title: wpml.editor._movie_title,
+						post_id: wpml.editor._movie_id,
+						tmdb_id: wpml.editor._movie_tmdb_id
 					},
 					error: function( response ) {
 						wpml_state.clear();
@@ -329,7 +329,7 @@ var wpml_images, wpml_posters;
 			$('#tmdb_load_images').on( 'click', function( e ) {
 				e.preventDefault();
 
-				if ( undefined == wpml_media._movie_tmdb_id || '' == wpml_media._movie_tmdb_id ) {
+				if ( undefined == wpml.editor._movie_tmdb_id || '' == wpml.editor._movie_tmdb_id ) {
 					wpml.media.no_movie();
 					return false;
 				}
@@ -343,7 +343,7 @@ var wpml_images, wpml_posters;
 			$('#postimagediv').on( 'click', '#tmdb_load_posters', function( e ) {
 				e.preventDefault();
 
-				if ( undefined == wpml_media._movie_tmdb_id || '' == wpml_media._movie_tmdb_id ) {
+				if ( undefined == wpml.editor._movie_tmdb_id || '' == wpml.editor._movie_tmdb_id ) {
 					wpml.media.no_movie();
 					return false;
 				}

@@ -3,7 +3,13 @@ $ = $ || jQuery;
 
 wpml = wpml || {};
 
-	wpml.editor = {};
+	wpml.editor = {
+
+		_movie_id: $('#post_ID').val(),
+		_movie_title: $('#tmdb_data_title').val(),
+		_movie_tmdb_id: $('#tmdb_data_tmdb_id').val(),
+
+	};
 
 		/**
 		 * Movies Post Editor page's Metadata part
@@ -193,8 +199,8 @@ wpml = wpml || {};
 			 */
 			wpml.editor.meta.set = function( data ) {
 
-				wpml_media._movie_tmdb_id = data._tmdb_id;
-				wpml_media._movie_title   = data.meta.title;
+				wpml.editor._movie_tmdb_id = data._tmdb_id;
+				wpml.editor._movie_title   = data.meta.title;
 
 				$( '#tmdb_data_tmdb_id' ).val( data._tmdb_id );
 				$( '.tmdb_data_field' ).each( function() {

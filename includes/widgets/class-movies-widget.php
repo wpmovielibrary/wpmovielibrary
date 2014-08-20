@@ -101,9 +101,10 @@ class WPML_Movies_Widget extends WPML_Widget {
 
 		// Caching
 		$name = apply_filters( 'wpml_cache_name', 'movies_widget' );
-		$content = WPML_Cache::output( $name, function() use ( $args, $instance ) {
+		$widget = &$this;
+		$content = WPML_Cache::output( $name, function() use ( $widget, $args, $instance ) {
 
-			return $this->widget_content( $args, $instance );
+			return $widget->widget_content( $args, $instance );
 		});
 
 		echo $content;
