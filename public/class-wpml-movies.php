@@ -169,8 +169,9 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			$name = apply_filters( 'wpml_cache_name', 'movie_content_' . get_the_ID() );
 			$html = WPML_Cache::output( $name, function() use ( $content ) {
 
-				$details  = self::movie_details();
-				$metadata = self::movie_metadata();
+				// Naughty PHP 5.3 fix
+				$details  = WPML_Movies::movie_details();
+				$metadata = WPML_Movies::movie_metadata();
 
 				$html = $details . $metadata;
 
@@ -191,7 +192,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 *
 		 * @return    null|string    The current movie's metadata list
 		 */
-		private static function movie_details() {
+		public static function movie_details() {
 
 			if ( 'nowhere' == WPML_Settings::wpml__details_in_posts() || ( 'posts_only' == WPML_Settings::wpml__details_in_posts() && ! is_singular() ) )
 				return null;
@@ -225,7 +226,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 *
 		 * @return    null|string    The current movie's metadata list
 		 */
-		private static function movie_metadata() {
+		public static function movie_metadata() {
 
 			if ( 'nowhere' == WPML_Settings::wpml__meta_in_posts() || ( 'posts_only' == WPML_Settings::wpml__meta_in_posts() && ! is_singular() ) )
 				return null;

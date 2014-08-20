@@ -96,9 +96,11 @@ class WPML_Taxonomies_Widget extends WPML_Widget {
 
 		// Caching
 		$name = apply_filters( 'wpml_cache_name', 'taxonomies_widget', $args );
-		$content = WPML_Cache::output( $name, function() use ( $args, $instance ) {
+		// Naughty PHP 5.3 fix
+		$widget = &$this;
+		$content = WPML_Cache::output( $name, function() use ( $widget, $args, $instance ) {
 
-			return $this->widget_content( $args, $instance );
+			return $widget->widget_content( $args, $instance );
 		});
 
 		echo $content;
@@ -114,7 +116,7 @@ class WPML_Taxonomies_Widget extends WPML_Widget {
 	 * 
 	 * @return   string   The Widget Content
 	 */
-	private function widget_content( $args, $instance ) {
+	public function widget_content( $args, $instance ) {
 
 		if ( ! in_array( $instance['taxonomy'], array( 'collection', 'genre', 'actor' ) ) )
 			return false;
