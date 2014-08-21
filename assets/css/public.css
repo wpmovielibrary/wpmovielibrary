@@ -270,8 +270,6 @@
 
 .wpml-movies-widget .wpml-movie {
 	display: inline-table;
-	height: 100%;
-	max-height: 150px;
 	max-width: 150px;
 	min-height: 122px;
 	min-width: 122px;
