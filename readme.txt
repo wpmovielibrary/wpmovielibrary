@@ -118,9 +118,13 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 
 == 1.2.1 ==
 * Tweak - Added color effects on status box
+* Tweak - Dashboard now showing plugin version
+* Fix - Minor bug when movie runtime is set to 0
 * Fix - Images/Modal not showing if no movie metadata has been imported
 * Fix - Caching feature generating fatal errors with PHP 5.3
+* Fix - Caching feature messing with Shortcodes
 * Fix - CSS bug causing crushed posters in Movies Widget
+* Fix - PHP notice in Dashboard Movies Widget
 
 == 1.2 ==
 * Feature - Implement caching
