@@ -1592,7 +1592,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   string   String of page links or array of page links.
 		*/
-		private static function paginate_links( $args = '' ) {
+		public static function paginate_links( $args = '' ) {
 
 			$defaults = array(
 				'base'      => '%_%',
