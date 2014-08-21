@@ -42,7 +42,7 @@ class WPML_Statistics_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		// Caching
-		$name = apply_filters( 'wpml_cache_name', 'statistics_widget' );
+		$name = apply_filters( 'wpml_cache_name', 'statistics_widget', $args );
 		// Naughty PHP 5.3 fix
 		$widget = &$this;
 		$content = WPML_Cache::output( $name, function() use ( $widget, $args, $instance ) {

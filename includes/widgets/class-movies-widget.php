@@ -100,7 +100,7 @@ class WPML_Movies_Widget extends WPML_Widget {
 	public function widget( $args, $instance ) {
 
 		// Caching
-		$name = apply_filters( 'wpml_cache_name', 'movies_widget' );
+		$name = apply_filters( 'wpml_cache_name', 'movies_widget', $args );
 		// Naughty PHP 5.3 fix
 		$widget = &$this;
 		$content = WPML_Cache::output( $name, function() use ( $widget, $args, $instance ) {

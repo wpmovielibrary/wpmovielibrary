@@ -28,10 +28,10 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 		 */
 		public function __construct() {
 
+			$this->register_hook_callbacks();
+
 			if ( is_admin() || ( ! WPML_Settings::cache__db_caching() && ! WPML_Settings::cache__html_caching() ) || ! WPML_Settings::cache__caching_time() )
 				return false;
-
-			$this->register_hook_callbacks();
 		}
 
 		/**

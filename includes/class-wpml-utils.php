@@ -1504,6 +1504,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$name = apply_filters( 'wpml_cache_name', $term_slug . '_archive', $wp_query->query_vars );
 			else
 				$name = WPML_Cache::wpml_cache_name( $term_slug . '_archive', $wp_query->query_vars );
+
 			$content = WPML_Cache::output( $name, function() use ( $wp_query, $slugs, $term_slug, $term_title ) {
 
 				$wp_query->query_vars['wpml_archive_page'] = 1;

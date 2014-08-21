@@ -349,7 +349,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			$media = esc_attr( $media );
 
 			// Caching
-			$name = apply_filters( 'wpml_cache_name', 'movie_from_media' );
+			$name = apply_filters( 'wpml_cache_name', 'movie_from_media', $media );
 			$movies = WPML_Cache::output( $name, function() use ( $media ) {
 				$allowed = WPML_Settings::get_available_movie_media();
 				$allowed = array_keys( $allowed );
@@ -395,7 +395,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			$status = esc_attr( $status );
 
 			// Caching
-			$name = apply_filters( 'wpml_cache_name', 'movie_from_status' );
+			$name = apply_filters( 'wpml_cache_name', 'movie_from_status', $status );
 			$movies = WPML_Cache::output( $name, function() use ( $status ) {
 
 				$allowed = WPML_Settings::get_available_movie_status();
