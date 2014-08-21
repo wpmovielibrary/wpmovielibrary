@@ -426,6 +426,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( '' == $time_format )
 				$time_format = 'G \h i \m\i\n';
 
+			$runtime = intval( $runtime );
 			$time = date_i18n( $time_format, mktime( 0, $runtime ) );
 			if ( false !== stripos( $time, 'am' ) || false !== stripos( $time, 'pm' ) )
 				$time = date_i18n( 'G:i', mktime( 0, $runtime ) );
