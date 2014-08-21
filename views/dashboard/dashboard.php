@@ -2,7 +2,7 @@
 
 	<div id="wpml-home" class="wrap">
 
-		<h2><?php echo WPML_NAME; ?></h2>
+		<h2><?php echo WPML_NAME; ?><small>v<?php echo WPML_VERSION; ?></small></h2>
 
 <?php include( WPML_PATH . 'views/dashboard/welcome.php' ); ?>
 

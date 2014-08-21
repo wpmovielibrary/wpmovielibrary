@@ -82,6 +82,17 @@ body.post-php.post-type-movie #postimagediv {
  * Custom Dashboard
  */
 
+#wpml-home > h2 {
+	color: #444;
+	margin-left: 1em;
+}
+
+#wpml-home > h2 > small {
+	color: #888;
+	font-size: 0.85rem;
+	margin-left: 0.5rem;
+}
+
 #wpml-home #dashboard-widgets {
 	width: 100% !important;
 }
