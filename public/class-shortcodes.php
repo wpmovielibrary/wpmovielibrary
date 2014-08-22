@@ -239,10 +239,6 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$movie_id = WPML_Shortcodes::find_movie_id( $id, $title );
-				if ( is_null( $movie_id ) )
-					return $content;
-
 				$meta = WPML_Utils::get_movie_data( $movie_id );
 				$meta = apply_filters( 'wpml_filter_undimension_array', $meta );
 
@@ -300,10 +296,6 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$movie_id = WPML_Shortcodes::find_movie_id( $id, $title );
-				if ( is_null( $movie_id ) )
-					return $content;
-
 				$release_date = WPML_Utils::get_movie_data( $movie_id );
 				$release_date = $release_date['meta']['release_date'];
 				$release_date = apply_filters( "wpml_format_movie_release_date", $release_date, $format );
@@ -349,10 +341,6 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			$content = WPML_Cache::output( $name, function() use ( $atts, $content ) {
 
 				extract( $atts );
-
-				$movie_id = WPML_Shortcodes::find_movie_id( $id, $title );
-				if ( is_null( $movie_id ) )
-					return $content;
 
 				$runtime = WPML_Utils::get_movie_data( $movie_id );
 				$runtime = $runtime['meta']['runtime'];
@@ -405,10 +393,6 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$movie_id = WPML_Shortcodes::find_movie_id( $id, $title );
-				if ( is_null( $movie_id ) )
-					return $content;
-
 				$actors = WPML_Utils::get_movie_data( $movie_id );
 				$actors = $actors['crew']['cast'];
 				$actors = apply_filters( "wpml_format_movie_actors", $actors );
@@ -419,11 +403,14 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 					$actors = implode( ', ', $actors );
 				}
 
+				$view = 'shortcodes/actors.php';
 				$attributes = array( 'actors' => $actors );
-				if ( $label )
+				if ( $label ) {
 					$attributes['title'] = __( 'Actors', 'wpmovielibrary' );
+					$view = 'shortcodes/actors-label.php';
+				}
 
-				$content = WPMovieLibrary::render_template( 'shortcodes/actors.php', $attributes, $require = 'always' );
+				$content = WPMovieLibrary::render_template( $view, $attributes, $require = 'always' );
 
 				return $content;
 
@@ -458,10 +445,6 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$movie_id = WPML_Shortcodes::find_movie_id( $id, $title );
-				if ( is_null( $movie_id ) )
-					return $content;
-
 				$genres = WPML_Utils::get_movie_data( $movie_id );
 				$genres = $genres['meta']['genres'];
 				$genres = apply_filters( "wpml_format_movie_genres", $genres, $movie_id );
@@ -472,11 +455,14 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 					$genres = implode( ', ', $genres );
 				}
 
+				$view = 'shortcodes/genres.php';
 				$attributes = array( 'genres' => $genres );
-				if ( $label )
+				if ( $label ) {
 					$attributes['title'] = __( 'Genres', 'wpmovielibrary' );
+					$view = 'shortcodes/genres-label.php';
+				}
 
-				$content = WPMovieLibrary::render_template( 'shortcodes/genres.php', $attributes, $require = 'always' );
+				$content = WPMovieLibrary::render_template( $view, $attributes, $require = 'always' );
 
 				return $content;
 
@@ -555,10 +541,6 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$movie_id = WPML_Shortcodes::find_movie_id( $id, $title );
-				if ( is_null( $movie_id ) )
-					return $content;
-
 				$images = '';
 
 				$args = array(
@@ -625,10 +607,6 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			$content = WPML_Cache::output( $name, function() use ( $atts, $content ) {
 
 				extract( $atts );
-
-				$movie_id = WPML_Shortcodes::find_movie_id( $id, $title );
-				if ( is_null( $movie_id ) )
-					return $content;
 
 				if ( ! method_exists( 'WPML_Utils', 'get_movie_' . $key ) )
 					return $content;
