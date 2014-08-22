@@ -116,7 +116,7 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 
 == Changelog ==
 
-== 1.2.1 ==
+= 1.2.1 =
 * Tweak - Added color effects on status box
 * Tweak - Dashboard now showing plugin version
 * Fix - Minor bug when movie runtime is set to 0
@@ -126,7 +126,7 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 * Fix - CSS bug causing crushed posters in Movies Widget
 * Fix - PHP notice in Dashboard Movies Widget
 
-== 1.2 ==
+= 1.2 =
 * Feature - Implement caching
 * Feature - Implement templates
 * Feature - Complete Widgets reboot
@@ -162,7 +162,7 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 * Fix - Default poster for movies only
 * Fix - PHP Warning with runtime and release date
 
-== 1.1 ==
+= 1.1 =
 * Features - Implements shortcodes
 * Features - Create 8 new shortcodes
 * Features - Create 16+ aliases for specific shortcodes
@@ -200,5 +200,5 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 * Tweak - Add an admin notice in case of missing Archive page
 * Tweak - Language packs updated
 
-== 1.0 ==
+= 1.0 =
 * First stable release
