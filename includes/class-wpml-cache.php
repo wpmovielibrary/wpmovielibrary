@@ -187,10 +187,11 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 		 * 
 		 * @param    string     $action Are we deactivating or uninstalling the plugin?
 		 * @param    boolean    $force Force cleaning
+		 * @param    string     $search Search value to narrow the transients selection
 		 * 
 		 * @return   int        $result Number of deleted rows
 		 */
-		public static function clean_transient( $action, $force = false ) {
+		public static function clean_transient( $action, $force = false, $search = 'wpml' ) {
 
 			global $wpdb, $_wp_using_ext_object_cache;
 
@@ -208,12 +209,20 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 			}
 
 			if ( $force || ( ! $_wp_using_ext_object_cache && 'empty' == $action ) ) {
-				if ( 'clean' == $action )
-					$where = 'option_name LIKE "_transient_%wpml_cache_%"';
-				else
-					$where = 'option_name LIKE "_transient_%wpml%"';
 
-				$result = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE {$where}" );
+				if ( 'clean' == $action )
+					$where = 'wpml_cache_';
+				else
+					$where = $search;
+
+				// like_escape deprecated since WordPress 4.0
+				$where = '%_transient_' . ( method_exists( 'wpdb', 'esc_like' ) ? $wpdb->esc_like( $where ) : like_escape( $where ) ) . '_%';
+
+				// Restrict cleaning to Plugin's transients
+				if ( false === stripos( $where, 'wpml' ) )
+					$where = str_replace( '_transient_', '_transient_wpml%', $where );
+
+				$result = $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '%s'", $where ) );
 				$wpdb->query( "OPTIMIZE TABLE {$wpdb->options}" );
 			}
 
