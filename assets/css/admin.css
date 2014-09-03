@@ -1455,6 +1455,16 @@ body.post-php.post-type-movie #postimagediv {
 	float: none;
 }
 
+/** WordPress 4.0 **/
+
+body.branch-4 .media-frame.movie-images .attachment {
+	width: 316px !important;
+}
+
+body.branch-4 .media-frame.movie-posters .attachment {
+	width: 170px !important;
+}
+
 @media (max-width: 1440px) {
 	
 	#wpml-tmdb .tmdb_meta {
