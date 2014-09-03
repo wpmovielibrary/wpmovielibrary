@@ -3,8 +3,8 @@ Contributors: askelon
 Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 3.6
-Tested up to: 4.0-beta.4
-Stable tag: 1.2.1
+Tested up to: 4.0
+Stable tag: 1.2.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -116,6 +116,12 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 
 == Changelog ==
 
+= 1.2.2 =
+* Tweak - Media Modals CSS fixes for WordPress 4.0
+* Dev - Manually add 'movies' permalink structure as it seem to conflict with some themes/plugins
+* Fix - Genres and Actors Shortcodes missing labels
+* Fix - Cache cleaning updated for WordPress 4.0 (like_escape deprecated since WordPress 4.0)
+
 = 1.2.1 =
 * Tweak - Added color effects on status box
 * Tweak - Dashboard now showing plugin version
@@ -202,3 +208,4 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 
 = 1.0 =
 * First stable release
+
