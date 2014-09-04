@@ -511,7 +511,7 @@ $wpml_settings = array(
 			// Results caching
 			'caching' => array(
 				'title' => __( 'Enable Caching', 'wpmovielibrary' ),
-				'description' => __( 'If enabled, WPML will cache movie related data to prevent too frequent queries to the database. <a href="http://wpmovielibrary.com/documentation/performance">Learn more about caching</a>.', 'wpmovielibrary' ),
+				'description' => __( 'If enabled, WPML will cache movie related data to prevent too frequent queries to the database. <strong>This feature is experimental!</strong> Enabling this could generate <strong>huge</strong> amounts of entries in your database. It is recommended to use this feature sparingly, ideally not in production. <a href="http://wpmovielibrary.com/documentation/performance">Learn more about caching</a>.', 'wpmovielibrary' ),
 				'type' => 'toggle',
 				'default' => 0
 			),

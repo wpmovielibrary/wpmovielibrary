@@ -82,6 +82,17 @@ body.post-php.post-type-movie #postimagediv {
  * Custom Dashboard
  */
 
+#wpml-home > h2 {
+	color: #444;
+	margin-left: 1em;
+}
+
+#wpml-home > h2 > small {
+	color: #888;
+	font-size: 0.85rem;
+	margin-left: 0.5rem;
+}
+
 #wpml-home #dashboard-widgets {
 	width: 100% !important;
 }
@@ -1442,6 +1453,16 @@ body.post-php.post-type-movie #postimagediv {
 .inline-edit-col-wpml .inline-edit-group .title {
 	display: block;
 	float: none;
+}
+
+/** WordPress 4.0 **/
+
+body.branch-4 .media-frame.movie-images .attachment {
+	width: 316px !important;
+}
+
+body.branch-4 .media-frame.movie-posters .attachment {
+	width: 170px !important;
 }
 
 @media (max-width: 1440px) {

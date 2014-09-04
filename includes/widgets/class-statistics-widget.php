@@ -42,10 +42,12 @@ class WPML_Statistics_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		// Caching
-		$name = apply_filters( 'wpml_cache_name', 'statistics_widget' );
-		$content = WPML_Cache::output( $name, function() use ( $args, $instance ) {
+		$name = apply_filters( 'wpml_cache_name', 'statistics_widget', $args );
+		// Naughty PHP 5.3 fix
+		$widget = &$this;
+		$content = WPML_Cache::output( $name, function() use ( $widget, $args, $instance ) {
 
-			return $this->widget_content( $args, $instance );
+			return $widget->widget_content( $args, $instance );
 		});
 
 		echo $content;
@@ -57,7 +59,7 @@ class WPML_Statistics_Widget extends WP_Widget {
 	 * @param	array	args		The array of form elements
 	 * @param	array	instance	The current instance of the widget
 	 */
-	private function widget_content( $args, $instance ) {
+	public function widget_content( $args, $instance ) {
 
 		extract( $args, EXTR_SKIP );
 		extract( $instance );

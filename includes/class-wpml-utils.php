@@ -105,6 +105,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$movies . '/(' . $i18n['unavailable'] . '|' . $i18n['available'] . '|' . $i18n['loaned'] . '|' . $i18n['scheduled'] . ')/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]&paged=$matches[2]',
 				$movies . '/(0\.0|0\.5|1\.0|1\.5|2\.0|2\.5|3\.0|3\.5|4\.0|4\.5|5\.0)/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]',
 				$movies . '/(0\.0|0\.5|1\.0|1\.5|2\.0|2\.5|3\.0|3\.5|4\.0|4\.5|5\.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]&paged=$matches[2]',
+				$movies . '/([^/]+)/?$' => 'index.php?movie=$matches[1]',
 				$collection . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?collection=$matches[1]&feed=$matches[2]',
 				$collection . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?collection=$matches[1]&feed=$matches[2]',
 				$collection . '/([^/]+)/page/?([0-9]{1,})/?$' => 'index.php?collection=$matches[1]&paged=$matches[2]',
@@ -243,25 +244,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$class = 'update-nag';
 
 			echo '<div class="' . $class . '"><p>' . $notice . '</p></div>';
-		}
-
-		/**
-		 * Filter a Movie's Runtime to match WordPress time format
-		 * 
-		 * Check if the time format is 12-hour, in which case set the
-		 * format to a standard hours:minutes form to avoid some weird
-		 * "2:38AM" runtime.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    string    $runtime Movie runtime
-		 * @param    string    $time_format Optional time format to apply
-		 * 
-		 * @return   string    Filtered runtime
-		 */
-		public static function filter_runtime( $runtime, $time_format = null ) {
-
-			return $time;
 		}
 
 		/**
@@ -901,6 +883,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$name = apply_filters( 'wpml_cache_name', $term_slug . '_archive', $wp_query->query_vars );
 			else
 				$name = WPML_Cache::wpml_cache_name( $term_slug . '_archive', $wp_query->query_vars );
+
 			$content = WPML_Cache::output( $name, function() use ( $wp_query, $slugs, $term_slug, $term_title ) {
 
 				$wp_query->query_vars['wpml_archive_page'] = 1;
@@ -937,7 +920,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$attributes = array( 'taxonomy' => $term_slug, 'links' => $links );
 				$content = WPMovieLibrary::render_template( 'archives/archives.php', $attributes, $require = 'always' );
 
-				$pagination = self::paginate_links( $args );
+				$pagination = WPML_Utils::paginate_links( $args );
 
 				$content = $content . $pagination;
 
@@ -990,7 +973,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   string   String of page links or array of page links.
 		*/
-		private static function paginate_links( $args = '' ) {
+		public static function paginate_links( $args = '' ) {
 
 			$defaults = array(
 				'base'      => '%_%',

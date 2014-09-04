@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary v1.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wpmovielibrary\n"
-"POT-Creation-Date: 2014-08-18 17:30:15+00:00\n"
-"PO-Revision-Date: 2014-08-18 19:33+0100\n"
+"POT-Creation-Date: 2014-08-21 23:03:14+00:00\n"
+"PO-Revision-Date: 2014-08-22 01:08+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: Charlie MERLAND <charlie.merland@gmail.com>\n"
 "Language: Français\n"
@@ -123,7 +123,7 @@ msgstr "Afficher à l’écran"
 msgid "Welcome"
 msgstr "Bienvenue"
 
-#: admin/class-dashboard.php:197 admin/class-wpml-import-table.php:447
+#: admin/class-dashboard.php:197 admin/class-wpml-import-table.php:438
 #: views/import/import.php:52
 msgid "Apply"
 msgstr "Appliquer"
@@ -209,8 +209,8 @@ msgid "API Error: unknown server error, unable to perform request."
 msgstr ""
 "Erreur de l'API : une erreur s’est produite lors du traitement de la requête."
 
-#: admin/class-wpml-edit-movies.php:117 admin/class-wpml-import-table.php:52
-#: admin/class-wpmovielibrary-admin.php:299
+#: admin/class-wpml-edit-movies.php:117 admin/class-wpml-import-table.php:50
+#: admin/class-wpmovielibrary-admin.php:300
 msgid "Poster"
 msgstr "Affiche"
 
@@ -292,8 +292,8 @@ msgstr "Vous n'êtes pas autorisé à éditer les articles."
 msgid "Posts with #%s is invalid or is not a movie."
 msgstr "L'article #%s est invalide ou n'est pas un film."
 
-#: admin/class-wpml-import-queue.php:105 admin/class-wpml-import-table.php:100
-#: admin/class-wpml-import-table.php:547 views/import/import.php:55
+#: admin/class-wpml-import-queue.php:105 admin/class-wpml-import-table.php:96
+#: admin/class-wpml-import-table.php:536 views/import/import.php:55
 msgid "1 item"
 msgid_plural "%s items"
 msgstr[0] "1 élément"
@@ -340,7 +340,7 @@ msgstr ""
 "Une erreur s’est produite lors de l'importation de « %s » depuis la file "
 "d'attente."
 
-#: admin/class-wpml-import-table.php:53
+#: admin/class-wpml-import-table.php:51
 #: includes/widgets/class-movies-widget.php:83 includes/wpml-config.php:592
 #: views/details-widget/details-admin.php:5 views/import/import.php:59
 #: views/movies-widget/movies-admin.php:5
@@ -349,45 +349,45 @@ msgstr ""
 msgid "Title"
 msgstr "Titre"
 
-#: admin/class-wpml-import-table.php:54 includes/wpml-config.php:652
+#: admin/class-wpml-import-table.php:52 includes/wpml-config.php:652
 #: views/import/import.php:60
 msgid "Director"
 msgstr "Réalisateur"
 
-#: admin/class-wpml-import-table.php:55 views/import/import.php:61
+#: admin/class-wpml-import-table.php:53 views/import/import.php:61
 msgid "Actions"
 msgstr "Actions"
 
-#: admin/class-wpml-import-table.php:86
+#: admin/class-wpml-import-table.php:82
 msgid "No movies found, dude."
 msgstr "Aucun film trouvé."
 
-#: admin/class-wpml-import-table.php:118
+#: admin/class-wpml-import-table.php:114
 msgid "Go to the first page"
 msgstr "Aller à la première page"
 
-#: admin/class-wpml-import-table.php:125
+#: admin/class-wpml-import-table.php:121
 msgid "Go to the previous page"
 msgstr "Aller à la page précédente"
 
-#: admin/class-wpml-import-table.php:134
+#: admin/class-wpml-import-table.php:130
 msgid "Current page"
 msgstr "Page courante"
 
-#: admin/class-wpml-import-table.php:140
+#: admin/class-wpml-import-table.php:136
 msgctxt "paging"
 msgid "%1$s of %2$s"
 msgstr "%1$s sur %2$s"
 
-#: admin/class-wpml-import-table.php:144
+#: admin/class-wpml-import-table.php:140
 msgid "Go to the next page"
 msgstr "Aller à la prochaine page"
 
-#: admin/class-wpml-import-table.php:151
+#: admin/class-wpml-import-table.php:147
 msgid "Go to the last page"
 msgstr "Aller à la dernière page"
 
-#: admin/class-wpml-import-table.php:349 admin/class-wpml-import.php:267
+#: admin/class-wpml-import-table.php:341 admin/class-wpml-import.php:267
 #: views/dashboard/movie-modal.php:20
 #: views/dashboard-latest-movies/latest-movies.php:17
 #: views/dashboard-most-rated-movies/most-rated-movies.php:17
@@ -396,38 +396,38 @@ msgstr "Aller à la dernière page"
 msgid "Edit"
 msgstr "Éditer"
 
-#: admin/class-wpml-import-table.php:350
+#: admin/class-wpml-import-table.php:342
 msgid "Fetch data from TMDb"
 msgstr "Télécharger les données"
 
-#: admin/class-wpml-import-table.php:352
+#: admin/class-wpml-import-table.php:344
 msgid "Enqueue"
 msgstr "Ajouter à la file d'attente"
 
-#: admin/class-wpml-import-table.php:353
+#: admin/class-wpml-import-table.php:345
 #: views/dashboard-latest-movies/latest-movies.php:18
 #: views/dashboard-most-rated-movies/most-rated-movies.php:18
 #: views/import/queued-movies.php:14
 msgid "Delete"
 msgstr "Supprimer"
 
-#: admin/class-wpml-import-table.php:396
+#: admin/class-wpml-import-table.php:386
 msgid "Find Metadata"
 msgstr "Chercher les métadonnées"
 
-#: admin/class-wpml-import-table.php:397
+#: admin/class-wpml-import-table.php:387
 msgid "Enqueue Movie"
 msgstr "Ajouter à la file d'attente"
 
-#: admin/class-wpml-import-table.php:398 views/import/import.php:49
+#: admin/class-wpml-import-table.php:388 views/import/import.php:49
 msgid "Delete Movie"
 msgstr "Supprimer"
 
-#: admin/class-wpml-import-table.php:437 views/import/import.php:48
+#: admin/class-wpml-import-table.php:428 views/import/import.php:48
 msgid "Bulk Actions"
 msgstr "Actions groupées"
 
-#: admin/class-wpml-import-table.php:583
+#: admin/class-wpml-import-table.php:572
 msgid "Select All"
 msgstr "Tout sélectionner"
 
@@ -489,7 +489,7 @@ msgstr "L'image que vous essayez de télécharger existe déjà."
 msgid "See available Movie Posters"
 msgstr "Afficher les affiches disponibles"
 
-#: admin/class-wpmovielibrary-admin.php:196 includes/class-wpml-utils.php:1529
+#: admin/class-wpmovielibrary-admin.php:196 includes/class-wpml-utils.php:1531
 msgid "%d movie"
 msgid_plural "%d movies"
 msgstr[0] "%d film"
@@ -596,103 +596,111 @@ msgid "Loading Images…"
 msgstr "Chargement des images…"
 
 #: admin/class-wpmovielibrary-admin.php:298
+msgid ""
+"No movie could be found. You need to select a movie before importing images "
+"or posters."
+msgstr ""
+"Aucun film n'a pu être trouvé. Vous devez importer un film avec d'en "
+"télécharger les images et affiches."
+
+#: admin/class-wpmovielibrary-admin.php:299
 msgid "Oops… Did something went wrong?"
 msgstr "Oups… Quelque chose a échoué ?"
 
-#: admin/class-wpmovielibrary-admin.php:300
+#: admin/class-wpmovielibrary-admin.php:301
 msgid "Saving Images…"
 msgstr "Enregistrement des images…"
 
-#: admin/class-wpmovielibrary-admin.php:301
+#: admin/class-wpmovielibrary-admin.php:302
 msgid "Searching movie"
 msgstr "Recherche du film"
 
-#: admin/class-wpmovielibrary-admin.php:302
+#: admin/class-wpmovielibrary-admin.php:303
 msgid "Fetching movie data"
 msgstr "Téléchargement des données"
 
-#: admin/class-wpmovielibrary-admin.php:303
+#: admin/class-wpmovielibrary-admin.php:304
 msgid "see no more"
 msgstr "masquer"
 
-#: admin/class-wpmovielibrary-admin.php:304
+#: admin/class-wpmovielibrary-admin.php:305
 msgid "see more"
 msgstr "afficher la suite"
 
-#: admin/class-wpmovielibrary-admin.php:305
+#: admin/class-wpmovielibrary-admin.php:306
 msgid "Setting featured image…"
 msgstr "Ajout de l’aperçu…"
 
-#: admin/class-wpmovielibrary-admin.php:385
+#: admin/class-wpmovielibrary-admin.php:386
 #: includes/widgets/class-movies-widget.php:35 public/class-wpml-movies.php:57
 #: public/class-wpml-movies.php:69 views/settings/settings.php:13
 msgid "Movies"
 msgstr "Films"
 
-#: admin/class-wpmovielibrary-admin.php:395
-#: admin/class-wpmovielibrary-admin.php:396 includes/wpml-config.php:746
+#: admin/class-wpmovielibrary-admin.php:396
+#: admin/class-wpmovielibrary-admin.php:397 includes/wpml-config.php:746
 msgid "Your library"
 msgstr "Votre médiathèque"
 
-#: admin/class-wpmovielibrary-admin.php:404
-#: admin/class-wpmovielibrary-admin.php:405 public/class-wpml-movies.php:63
+#: admin/class-wpmovielibrary-admin.php:405
+#: admin/class-wpmovielibrary-admin.php:406 public/class-wpml-movies.php:63
 msgid "All Movies"
 msgstr "Tous les films"
 
-#: admin/class-wpmovielibrary-admin.php:413
-#: admin/class-wpmovielibrary-admin.php:414 public/class-wpml-movies.php:59
+#: admin/class-wpmovielibrary-admin.php:414
+#: admin/class-wpmovielibrary-admin.php:415 public/class-wpml-movies.php:59
 msgid "Add New"
 msgstr "Nouveau"
 
-#: admin/class-wpmovielibrary-admin.php:423
 #: admin/class-wpmovielibrary-admin.php:424
+#: admin/class-wpmovielibrary-admin.php:425
 #: public/class-wpml-collections.php:65
 #: views/taxonomies-widget/taxonomies-admin.php:15
 msgid "Collections"
 msgstr "Collections"
 
-#: admin/class-wpmovielibrary-admin.php:434
-#: admin/class-wpmovielibrary-admin.php:435 includes/wpml-config.php:634
-#: public/class-shortcodes.php:435 public/class-wpml-genres.php:64
+#: admin/class-wpmovielibrary-admin.php:435
+#: admin/class-wpmovielibrary-admin.php:436 includes/wpml-config.php:634
+#: public/class-shortcodes.php:477 public/class-wpml-genres.php:64
 #: views/taxonomies-widget/taxonomies-admin.php:16
 msgid "Genres"
 msgstr "Genres"
 
-#: admin/class-wpmovielibrary-admin.php:445
-#: admin/class-wpmovielibrary-admin.php:446 includes/wpml-config.php:688
-#: public/class-shortcodes.php:388 public/class-wpml-actors.php:65
+#: admin/class-wpmovielibrary-admin.php:446
+#: admin/class-wpmovielibrary-admin.php:447 includes/wpml-config.php:688
+#: public/class-shortcodes.php:424 public/class-wpml-actors.php:65
 #: views/taxonomies-widget/taxonomies-admin.php:17
 msgid "Actors"
 msgstr "Acteurs"
 
-#: admin/class-wpmovielibrary-admin.php:455
-#: admin/class-wpmovielibrary-admin.php:456 views/import/import.php:103
+#: admin/class-wpmovielibrary-admin.php:456
+#: admin/class-wpmovielibrary-admin.php:457 views/import/import.php:103
 msgid "Import Movies"
 msgstr "Importer des films"
 
-#: admin/class-wpmovielibrary-admin.php:463
 #: admin/class-wpmovielibrary-admin.php:464
+#: admin/class-wpmovielibrary-admin.php:465
 msgid "Settings"
 msgstr "Réglages"
 
-#: admin/class-wpmovielibrary-admin.php:515
+#: admin/class-wpmovielibrary-admin.php:516
 msgid "Access denied."
 msgstr "Accès refusé."
 
-#: admin/class-wpmovielibrary-admin.php:522
-#: admin/class-wpmovielibrary-admin.php:538
+#: admin/class-wpmovielibrary-admin.php:523
+#: admin/class-wpmovielibrary-admin.php:539
 msgid "You don't have the permission do perform this action."
 msgstr "Vous n'avez pas la permission d'effectuer cette action."
 
-#: admin/class-wpmovielibrary-admin.php:527
+#: admin/class-wpmovielibrary-admin.php:528
 msgid "Unknown error: failed to restore default settings."
 msgstr "Erreur inconnue : impossible de restaurer les réglages par défaut."
 
-#: admin/class-wpmovielibrary-admin.php:529
+#: admin/class-wpmovielibrary-admin.php:530
 msgid "Default settings restored!"
 msgstr "Les options par défaut ont été restaurées."
 
-#: admin/class-wpmovielibrary-admin.php:743
+#: admin/class-wpmovielibrary-admin.php:744
 msgid ""
 "You update the taxonomies URL rewrite. You should visit <a href=\"%s"
 "\">WordPress Permalink</a> page to update the Rewrite rules; you may "
@@ -721,74 +729,74 @@ msgid_plural "%s transients deleted."
 msgstr[0] "Un transient supprimé."
 msgstr[1] "%s transients supprimés."
 
-#: includes/class-wpml-utils.php:105 public/class-wpml-movies.php:298
+#: includes/class-wpml-utils.php:105 public/class-wpml-movies.php:299
 msgid "unavailable"
 msgstr "indisponible"
 
-#: includes/class-wpml-utils.php:106 public/class-wpml-movies.php:300
+#: includes/class-wpml-utils.php:106 public/class-wpml-movies.php:301
 msgid "available"
 msgstr "disponible"
 
-#: includes/class-wpml-utils.php:107 public/class-wpml-movies.php:302
+#: includes/class-wpml-utils.php:107 public/class-wpml-movies.php:303
 msgid "loaned"
 msgstr "prete"
 
-#: includes/class-wpml-utils.php:108 public/class-wpml-movies.php:304
+#: includes/class-wpml-utils.php:108 public/class-wpml-movies.php:305
 msgid "scheduled"
 msgstr "prevu"
 
-#: includes/class-wpml-utils.php:109 public/class-wpml-movies.php:285
+#: includes/class-wpml-utils.php:109 public/class-wpml-movies.php:286
 msgid "bluray"
 msgstr "bluray"
 
-#: includes/class-wpml-utils.php:110 public/class-wpml-movies.php:287
+#: includes/class-wpml-utils.php:110 public/class-wpml-movies.php:288
 msgid "cinema"
 msgstr "cinema"
 
-#: includes/class-wpml-utils.php:111 public/class-wpml-movies.php:289
+#: includes/class-wpml-utils.php:111 public/class-wpml-movies.php:290
 msgid "other"
 msgstr "autre"
 
-#: includes/class-wpml-utils.php:1169
+#: includes/class-wpml-utils.php:1170
 msgid "Invalid taxonomy"
 msgstr "Taxonomie invalide"
 
-#: includes/class-wpml-utils.php:1289 includes/class-wpml-utils.php:1312
+#: includes/class-wpml-utils.php:1290 includes/class-wpml-utils.php:1313
 msgid "Are you sure you want to do this?"
 msgstr "Êtes-vous sûr de vouloir faire cela ?"
 
-#: includes/class-wpml-utils.php:1400
+#: includes/class-wpml-utils.php:1401
 msgid ""
 "An error occured when trying to perform the request: invalid callback or "
 "data."
 msgstr ""
 "Une erreur s’est produite : fonction interne invalide ou données erronées."
 
-#: includes/class-wpml-utils.php:1422
+#: includes/class-wpml-utils.php:1423
 msgid "An error occured when trying to perform the request."
 msgstr "Une erreur s’est produite lors du traitement de la requête."
 
-#: includes/class-wpml-utils.php:1484
+#: includes/class-wpml-utils.php:1485
 msgid "View all movies from collection &laquo; %s &raquo;"
 msgstr "Voir tous les films de la collection &laquo; %s &raquo;"
 
-#: includes/class-wpml-utils.php:1488
+#: includes/class-wpml-utils.php:1489
 msgid "View all &laquo; %s &raquo; movies"
 msgstr "Voir tous les films &laquo; %s &raquo;"
 
-#: includes/class-wpml-utils.php:1492
+#: includes/class-wpml-utils.php:1493
 msgid "View all movies staring &laquo; %s &raquo;"
 msgstr "Voir tous les films avec &laquo; %s &raquo;"
 
-#: includes/class-wpml-utils.php:1602
+#: includes/class-wpml-utils.php:1604
 msgid "&laquo; Previous"
 msgstr "&laquo; Précédent"
 
-#: includes/class-wpml-utils.php:1603
+#: includes/class-wpml-utils.php:1605
 msgid "Next &raquo;"
 msgstr "Suivant &raquo;"
 
-#: includes/class-wpml-utils.php:1643
+#: includes/class-wpml-utils.php:1645
 msgid "&hellip;"
 msgstr "&hellip;"
 
@@ -828,13 +836,13 @@ msgstr "Sélectionner une note"
 msgid "No rating to display."
 msgstr "Aucune note à afficher."
 
-#: includes/widgets/class-details-widget.php:133
-#: includes/widgets/class-movies-widget.php:179
-#: includes/widgets/class-taxonomies-widget.php:144
+#: includes/widgets/class-details-widget.php:135
+#: includes/widgets/class-movies-widget.php:181
+#: includes/widgets/class-taxonomies-widget.php:146
 msgid "Permalink for &laquo; %s &raquo;"
 msgstr "Permalien pour &laquo; %s &raquo;"
 
-#: includes/widgets/class-details-widget.php:155
+#: includes/widgets/class-details-widget.php:157
 msgid "No detail no show"
 msgstr "Aucun détails à afficher."
 
@@ -851,7 +859,7 @@ msgstr "Afficher les films par taxonomies, média, statut, note…"
 msgid "Date"
 msgstr "Date"
 
-#: includes/widgets/class-movies-widget.php:170 views/empty.php:13
+#: includes/widgets/class-movies-widget.php:172 views/empty.php:13
 msgid "Nothing to display."
 msgstr "Rien à afficher"
 
@@ -863,40 +871,40 @@ msgstr "WPMovieLibrary Statistiques"
 msgid "Display some statistics about your movie library"
 msgstr "Quelques statistiques à propos de votre médiathèque"
 
-#: includes/widgets/class-statistics-widget.php:88
+#: includes/widgets/class-statistics-widget.php:90
 #: views/dashboard-statistics/statistics.php:10
 msgid "one movie"
 msgid_plural "%s movies"
 msgstr[0] "un film"
 msgstr[1] "%s films"
 
-#: includes/widgets/class-statistics-widget.php:89
+#: includes/widgets/class-statistics-widget.php:91
 #: views/dashboard-statistics/statistics.php:11
 msgid "one collection"
 msgid_plural "%s collections"
 msgstr[0] "une collection"
 msgstr[1] "%s collections"
 
-#: includes/widgets/class-statistics-widget.php:90
+#: includes/widgets/class-statistics-widget.php:92
 #: views/dashboard-statistics/statistics.php:12
 msgid "one genre"
 msgid_plural "%s genres"
 msgstr[0] "un genre"
 msgstr[1] "%s genres"
 
-#: includes/widgets/class-statistics-widget.php:91
+#: includes/widgets/class-statistics-widget.php:93
 #: views/dashboard-statistics/statistics.php:13
 msgid "one actor"
 msgid_plural "%s actors"
 msgstr[0] "un acteur"
 msgstr[1] "%s acteurs"
 
-#: includes/widgets/class-statistics-widget.php:136
+#: includes/widgets/class-statistics-widget.php:138
 #: includes/wpml-config.php:745
 msgid "Statistics"
 msgstr "Statistiques"
 
-#: includes/widgets/class-statistics-widget.php:138
+#: includes/widgets/class-statistics-widget.php:140
 msgid ""
 "All combined you have a total of %total% in your library, regrouped in "
 "%collections%, %genres% and %actors%."
@@ -954,7 +962,7 @@ msgstr "Voir tous les acteurs"
 msgid "Nothing to display for \"Actor\" taxonomy."
 msgstr "Aucun acteur à afficher."
 
-#: includes/widgets/class-taxonomies-widget.php:153
+#: includes/widgets/class-taxonomies-widget.php:155
 msgid "View the complete list"
 msgstr "Voir la liste complète"
 
@@ -1544,13 +1552,20 @@ msgstr "Activer la mise en cache"
 #: includes/wpml-config.php:514
 msgid ""
 "If enabled, WPML will cache movie related data to prevent too frequent "
-"queries to the database. <a href=\"http://wpmovielibrary.com/documentation/"
-"performance\">Learn more about caching</a>."
+"queries to the database. <strong>This feature is experimental!</strong> "
+"Enabling this could generate <strong>huge</strong> amounts of entries in "
+"your database. It is recommended to use this feature sparingly, ideally not "
+"in production. <a href=\"http://wpmovielibrary.com/documentation/performance"
+"\">Learn more about caching</a>."
 msgstr ""
 "Si activé, WPML conservera temporairement en cache une partie des données "
 "visibles des films pour éviter les requêtes trop fréquentes à la base de "
-"données. <a href=\"http://wpmovielibrary.com/documentation/performance\">En "
-"savoir plus sur le cache</a>."
+"données. <strong>Cette fonctionnalité est expérimentale !</strong> L'activer "
+"pourrait générer d'<strong>importantes</strong> quantités d'entrées dans la "
+"base de données. Il est recommandé de n'utiliser cette fonctionnalité "
+"qu'avec parcimonie, idéalement hors production. <a href=\"http://"
+"wpmovielibrary.com/documentation/performance\">En savoir plus sur le cache</"
+"a>."
 
 #: includes/wpml-config.php:521
 msgid "User Caching"
@@ -1696,11 +1711,11 @@ msgstr "Pays"
 msgid "Languages"
 msgstr "Langues"
 
-#: includes/wpml-config.php:628 public/class-shortcodes.php:334
+#: includes/wpml-config.php:628 public/class-shortcodes.php:364
 msgid "Runtime"
 msgstr "Durée"
 
-#: includes/wpml-config.php:640 public/class-shortcodes.php:290
+#: includes/wpml-config.php:640 public/class-shortcodes.php:314
 msgid "Release Date"
 msgstr "Date de sortie"
 
@@ -1811,7 +1826,7 @@ msgstr "Chercher des films"
 
 #: public/class-wpml-movies.php:66
 #: views/dashboard-latest-movies/latest-movies.php:26
-#: views/dashboard-most-rated-movies/most-rated-movies.php:31
+#: views/dashboard-most-rated-movies/most-rated-movies.php:26
 msgid "No movies found"
 msgstr "Aucun film trouvé"
 
@@ -2052,7 +2067,7 @@ msgid "Save"
 msgstr "Enregistrer"
 
 #: views/dashboard-latest-movies/latest-movies.php:27
-#: views/dashboard-most-rated-movies/most-rated-movies.php:32
+#: views/dashboard-most-rated-movies/most-rated-movies.php:27
 msgid "Add a movie!"
 msgstr "Ajouter un film !"
 

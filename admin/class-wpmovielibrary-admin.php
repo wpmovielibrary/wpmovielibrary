@@ -295,6 +295,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					'load_images'		=> __( 'Load Images', 'wpmovielibrary' ),
 					'load_more'		=> __( 'Load More', 'wpmovielibrary' ),
 					'loading_images'	=> __( 'Loading Images…', 'wpmovielibrary' ),
+					'media_no_movie'	=> __( 'No movie could be found. You need to select a movie before importing images or posters.', 'wpmovielibrary' ),
 					'oops'			=> __( 'Oops… Did something went wrong?', 'wpmovielibrary' ),
 					'poster'		=> __( 'Poster', 'wpmovielibrary' ),
 					'save_image'		=> __( 'Saving Images…', 'wpmovielibrary' ),

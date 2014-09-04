@@ -1,21 +1,38 @@
 === WPMovieLibrary ===
 Contributors: askelon
 Donate link: http://wpmovielibrary.com/contribute/#donate
-Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor
+Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 3.6
-Tested up to: 4.0-beta.4
-Stable tag: 1.2
+Tested up to: 4.0
+Stable tag: 1.2.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-WPMovieLibrary is an advanced movie library managing plugin to turn your WordPress Blog into a Movie Library.
+WordPress Movie Library is an advanced movie library managing plugin to turn your WordPress Blog into a Movie Library.
 
 == Description ==
 
-The best way to manage your personnal movie library. Handle collections of movies, automatically fetch metadata, images and posters, create collections by mass importing lists of movie titles. Share your favorite or latest seen movies, manage collections of genres, actors or crew, fetch overviews, casts and posters in a single clic, show the world your love for movies. WPMovieLibrary uses TheMovieDB API (see http://themoviedb.org) to fetch metadata about your movies: director, genres, actors, producer, country, languages… You can also import images and posters directly to your blog to illustrate your library. WPMovieLibrary has an import tool to import movies by the dozen by simply listing titles.
+The best way to manage your personnal movie library. Handle collections of movies, automatically fetch metadata, images and posters, create collections by mass importing lists of movie titles…
 
-Features:
+= Simple yet powerfull =
+WPMovieLibrary uses WordPress simple but efficient techniques to provide you a really simple tool to change your classic WordPress Blog to an extended management software for your movie collection.
 
+= Automatic metadata =
+WPMovieLibrary can import the metadata, images and posters of your movies. Simply fill in the title, hit the search button, and you're done. Director, genres, actors, producer, country, languages… All automatically fetched and related to your movie.
+
+= Mass import = 
+You own hundreds of DVDs? Provide a list of titles, WPMovieLibrary will import all your movies in a single shot.
+
+= Custom dashboard =
+WPMovieLibrary has its own custom dashboard and widgets to offer you a nice overview of your library.
+
+= Customizable =
+Using templates, WPMovieLibrary is extendable at will by themes or third-party plugins. The plugin is also open to developers and provides useful hooks to build external plugins. 
+
+= Features =
+Short list of supported features:
+
+*    Custom Dashboard
 *    Movie Custom Post Type
 *    One click metadata import: title, overview, production, country(ies), language(s), runtime, release date, director of photography, composer, writer, screenwriter, cast & crew
 *    One click images and posters download
@@ -27,21 +44,40 @@ Features:
 *    Collection, Genre and Actor Custom Taxonomies to filter and organize your library
 *    Mass import using lists of movie titles
 *    Import Queue to easily import big collections in a couple of clicks
-*    Recent Movies, Most Rated Movies Widgets
-*    Movies by Status and Movies by Media Widgets
-*    Collections, Genres  and Actors Widgets
+*    Movies, Details, Taxonomies and Statistics Widgets
 *    Archive pages for Taxonomies
 *    Complete configuration of the data you want to show on your blog
-*    Plugin Custom Dashboard
 *    Much more!
 
+= Extensions =
+Want to extend WPMovieLibrary? Additionnal extensions are available on [WPMovieLibrary/Extensions](http://wpmovielibrary.com/extensions/)
 
-*    Official website: http://wpmovielibrary.com/
-*    Documentation: http://wpmovielibrary.com/documentation/
-*    Development: https://github.com/CaerCam/wpmovielibrary/
+= Get involved =
+Developers and Translators can contribute to the source code on the [GitHub Repository](https://github.com/CaerCam/wpmovielibrary/).
+
+= Links =
+
+*    [Official website](http://wpmovielibrary.com/)
+*    [Documentation](http://wpmovielibrary.com/documentation/)
+*    [Development](https://github.com/CaerCam/wpmovielibrary/)
 
 == Installation ==
 
+= Minimum Requirements =
+
+* WordPress 3.8 or greater
+* PHP version 5.2.4 or greater
+* MySQL version 5.0 or greater
+* Some payment gateways require fsockopen support (for IPN access)
+
+= Automatic installation =
+
+The easiest Away to install WPMovieLibrary is to use the WordPress Extensions installer. Just log in to your WordPress dashboard, go to the Plugins page and hit "Add New". In the search field type input "wpmovielibrary" and click "Install". Easy!
+
+= Manual installation =
+
+1. Download the plugin from the WordPress.org Repository
+1. Unzip the plugin archive file
 1. Upload the plugin folder to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Use it!
@@ -80,7 +116,23 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 
 == Changelog ==
 
-== 1.2 ==
+= 1.2.2 =
+* Tweak - Media Modals CSS fixes for WordPress 4.0
+* Dev - Manually add 'movies' permalink structure as it seem to conflict with some themes/plugins
+* Fix - Genres and Actors Shortcodes missing labels
+* Fix - Cache cleaning updated for WordPress 4.0 (like_escape deprecated since WordPress 4.0)
+
+= 1.2.1 =
+* Tweak - Added color effects on status box
+* Tweak - Dashboard now showing plugin version
+* Fix - Minor bug when movie runtime is set to 0
+* Fix - Images/Modal not showing if no movie metadata has been imported
+* Fix - Caching feature generating fatal errors with PHP 5.3
+* Fix - Caching feature messing with Shortcodes
+* Fix - CSS bug causing crushed posters in Movies Widget
+* Fix - PHP notice in Dashboard Movies Widget
+
+= 1.2 =
 * Feature - Implement caching
 * Feature - Implement templates
 * Feature - Complete Widgets reboot
@@ -116,7 +168,7 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 * Fix - Default poster for movies only
 * Fix - PHP Warning with runtime and release date
 
-== 1.1 ==
+= 1.1 =
 * Features - Implements shortcodes
 * Features - Create 8 new shortcodes
 * Features - Create 16+ aliases for specific shortcodes
@@ -154,13 +206,6 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 * Tweak - Add an admin notice in case of missing Archive page
 * Tweak - Language packs updated
 
-== 1.0 ==
+= 1.0 =
 * First stable release
 
-== Upgrade Notice ==
-
-= 1.2 =
-Implementation of caching, templates, fully reworked Widgets and lots of tweaks and bug fixes
-
-= 1.1 =
-Plugin now includes shortcodes
