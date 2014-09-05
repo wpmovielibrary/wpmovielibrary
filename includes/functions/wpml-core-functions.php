@@ -16,8 +16,8 @@
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
-require WPML_PATH . 'includes/wpml-movies-functions.php';
-require WPML_PATH . 'includes/wpml-ajax-functions.php';
+require WPML_PATH . 'includes/functions/wpml-movies-functions.php';
+require WPML_PATH . 'includes/functions/wpml-ajax-functions.php';
 
 /**
  * Simple function wpml_to check WordPress version. This is mainly

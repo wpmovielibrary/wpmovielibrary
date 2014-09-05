@@ -11,7 +11,7 @@
  * @copyright 2014 CaerCam.org
  */
 
-require_once( plugin_dir_path( __FILE__ ) . 'wpml-config.php' );
+require_once( WPML_PATH . 'includes/wpml-config.php' );
 
 if ( ! class_exists( 'WPML_Settings' ) ) :
 
