@@ -18,19 +18,7 @@ if ( ! defined( 'ABSPATH' ) )
 
 require WPML_PATH . 'includes/functions/wpml-movies-functions.php';
 require WPML_PATH . 'includes/functions/wpml-ajax-functions.php';
-
-/**
- * Simple function wpml_to check WordPress version. This is mainly
- * used for styling as WP3.8 introduced a brand new dashboard
- * look n feel.
- *
- * @since    1.0.0
- *
- * @return   boolean    Older/newer than WordPress 3.8?
- */
-function wpml_modern_wp() {
-	return version_compare( get_bloginfo( 'version' ), '3.8', '>=' );
-}
+require WPML_PATH . 'includes/functions/wpml-legacy-functions.php';
 
 /**
  * Filter a string value to determine a suitable boolean value.

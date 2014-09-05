@@ -165,6 +165,9 @@ if ( wpml_requirements_met() ) {
 		require_once( WPML_PATH . 'admin/class-wpml-import-queue.php' );
 		require_once( WPML_PATH . 'admin/class-wpml-import.php' );
 
+		if ( wpml_has_deprecated_meta() )
+			require_once( WPML_PATH . 'includes/classes/legacy/class-wpml-deprecated-meta.php' );
+
 		add_action( 'plugins_loaded', array( 'WPMovieLibrary_Admin', 'get_instance' ) );
 
 	}
