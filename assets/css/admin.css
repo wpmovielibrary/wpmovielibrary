@@ -1317,6 +1317,7 @@ body.post-php.post-type-movie #postimagediv {
 	position: relative;
 }
 
+#wpml_import .spinner,
 #wpml_imported .spinner,
 #wpml_import_queue .spinner {
 	float: none;

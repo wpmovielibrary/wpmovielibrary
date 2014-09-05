@@ -100,6 +100,7 @@
 								<th scope="row"></th>
 								<td style="text-align:right">
 									<?php WPML_Utils::_nonce_field( 'import-movies-list', $referer = false ) ?>
+									<span class="spinner"></span>
 									<input type="submit" id="wpml_importer" name="wpml_importer" class="button button-secondary button-large" value="<?php _e( 'Import Movies', 'wpmovielibrary' ); ?>" onclick="wpml_import_movies.import(); return false;" />
 								</td>
 							</tr>
