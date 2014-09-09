@@ -400,6 +400,16 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'WPML_Dashboard::dashboard'
 			);
 
+			if ( ! empty( $_GET['page'] ) && 'wpml-update-movies' == $_GET['page'] ) :
+				$this->plugin_screen_hook_suffix['update-movies'] = add_dashboard_page(
+					__( 'Update movies to version 1.3', 'wpmovielibrary' ),
+					__( 'Update movies', 'wpmovielibrary' ),
+					'manage_options',
+					'wpml-update-movies',
+					'WPML_Deprecated_Meta::update_movies_page'
+				);
+			endif;
+
 			$this->plugin_screen_hook_suffix['all_movies'] = add_submenu_page(
 				'wpmovielibrary',
 				__( 'All Movies', 'wpmovielibrary' ),

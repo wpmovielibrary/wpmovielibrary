@@ -36,11 +36,32 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 		public function register_hook_callbacks() {
 
 			add_action( 'admin_notices', array( $this, 'deprecated_meta_notice' ) );
+
+			add_action( 'admin_head', array( $this, 'admin_head' ) );
+		}
+
+		/**
+		 * Remove dashboard page links.
+		 *
+		 * @since    1.3
+		 */
+		public function admin_head() {
+
+			remove_submenu_page( 'index.php', 'wpml-update-movies' );
+			//remove_submenu_page( 'index.php', 'wc-credits' );
 		}
 
 		public function deprecated_meta_notice() {
 
 			echo self::render_template( 'admin-notice.php', array( 'notice' => 'deprecated-meta' ) );
+		}
+
+		public static function update_movies_page() {
+
+			$deprecated = self::get_movies();
+			$updated    = self::get_updated_movies();
+
+			echo self::render_template( 'update-movies.php', array( 'deprecated' => $deprecated, 'updated' => $updated ) );
 		}
 
 		/**
@@ -60,7 +81,68 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 			$movies = $wpdb->get_results( "SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key='_wpml_movie_data' AND meta_value!=''" );
 			$movies = ( ! $wpdb->num_rows ? false : $movies );
 
-			var_dump( $movies );
+			return $movies;
+		}
+
+		/**
+		 * Get a list of updated Movie IDs.
+		 * 
+		 * @since    1.3
+		 * 
+		 * @return   array    
+		 */
+		public static function get_updated_movies() {
+
+			global $wpdb;
+
+			$movies = $wpdb->get_results( "SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key='_wpml_movie_data' AND meta_value!=''" );
+
+			foreach ( $movies as $i => $movie )
+				$movies[ $i ] = $movie->post_id;
+
+			$args = array(
+				'posts_per_page' => -1,
+				'orderby'        => 'post_title',
+				'order'          => 'ASC',
+				'post_type'      => 'movie',
+				'post_status'    => 'publish',
+				'post__not_in'   => $movies
+			);
+
+			$movies = get_posts( $args );
+
+			return $movies;
+		}
+
+		/**
+		 * Get a list of deprected Movie IDs.
+		 * 
+		 * Movie having an non-empty '_wpml_movie_data' custom field
+		 * are considered deprecated and needing updating.
+		 * 
+		 * @since    1.3
+		 * 
+		 * @return   int|bool    False is no deprecated could be find, number of deprecated movie else.
+		 */
+		private static function get_movies() {
+
+			$movies = self::get_deprecated_movies();
+			if ( false === $movies )
+				return false;
+
+			foreach ( $movies as $i => $movie )
+				$movies[ $i ] = $movie->post_id;
+
+			$args = array(
+				'posts_per_page' => -1,
+				'orderby'        => 'post_title',
+				'order'          => 'ASC',
+				'post_type'      => 'movie',
+				'post_status'    => 'publish',
+				'post__in'       => $movies
+			);
+
+			$movies = get_posts( $args );
 
 			return $movies;
 		}

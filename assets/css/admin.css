@@ -574,51 +574,6 @@ body.post-php.post-type-movie #postimagediv {
 	visibility: visible;
 }
 
-/* WPML Notice
- ****************************************************/
-
-.wpml {
-	border-color: #0099d5 !important;
-	padding: 0.75em 1.5em !important;
-}
-
-.wpml.update-nag {
-	padding: 0 !important;
-}
-
-.wpml.update-nag .label {
-	background: #0099D5;
-	display: block;
-	float: left;
-	min-height: 4em;
-	width: 4em;
-}
-
-.wpml.update-nag .label .dashicons {
-	color: #fff;
-	font-size: 2.5rem;
-	height: 2.5rem;
-	line-height: 3.5rem;
-	margin: 0px 0.5rem;
-	text-shadow: 0 1px 0 #0053A4;
-	width: 2.5rem;
-}
-
-.wpml.update-nag .content {
-	padding: 0.75rem 1rem;
-	margin-left: 4em;
-	text-align: justify;
-	line-height: 1.5em;
-}
-
-.no-js-alert {
-	background: #FFF;
-	border-left: 4px solid #DD3D36;
-	-webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
-	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
-	padding: 0.25em 0.5em;
-}
-
 /* #WPML-Help
  ****************************************************/
 
@@ -1483,6 +1438,77 @@ body.post-php.post-type-movie #postimagediv {
 .inline-edit-col-wpml .inline-edit-group .title {
 	display: block;
 	float: none;
+}
+
+/** Update Movies Page **/
+
+.update-movies {
+	background: url(../img/bg.jpg) center top no-repeat;
+	background-size: cover;
+	max-height: 32em;
+	overflow-y: scroll;
+}
+
+.update-movies .update-movies-header {
+	background: rgba(255, 255, 255, 0.95);
+	margin: 0.75em 1% 0.5em 1%;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+	width: 98%;
+}
+
+.update-movies .update-movies-header h4 {
+	color: #22207B;
+	display: inline-block;
+	text-align: center;
+	width: 32%;
+}
+
+.update-movies .update-movies-legend {}
+
+.update-movies .update-movies-legend h5 {
+	display: inline-block;
+	color: rgba(0, 0, 0, 0.5);
+	font-size: 1em;
+	font-variant: small-caps;
+	margin: 0.25rem 0;
+	text-align: center;
+	text-shadow: 0 -1px 0px rgba(255, 255, 255, 0.15);
+	width: 49%;
+}
+
+.update-movies .deprecated-movies,
+.update-movies .updated-movies {
+	display: inline-block;
+	margin: 0.25em 0.25%;
+	padding: 0px;
+	width: 49%;
+	vertical-align: top;
+}
+
+.update-movies .deprecated-movies li,
+.update-movies .updated-movies li {
+	margin: 0.25rem;
+	padding: 1rem 1.5rem;
+	background: rgba(255, 255, 255, 0.25);
+	border-radius: 0.15rem;
+	box-shadow: 0 1px 1px rgba(255,255,255,0.25) inset, 0 -1px 1px rgba(2, 2, 2, 0.25) inset, 0 0 0 rgba(0, 0, 0, 0.25);
+	color: #eee;
+	text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+}
+
+.update-movies .deprecated-movies li .dashicons,
+.update-movies .updated-movies li .dashicons {
+	float: right;
+}
+
+.update-movies .deprecated-movies li .dashicons {
+	color: #ffc600;
+}
+
+.update-movies .updated-movies li .dashicons {
+	color: #21ff00;
+	font-size: 32px;
+	margin-top: -6px;
 }
 
 /** WordPress 4.0 **/
