@@ -57,7 +57,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			add_filter( 'wpml_filter_filter_release_date', __CLASS__ . '::filter_release_date', 10, 2 );
 			add_filter( 'wpml_validate_meta_data', __CLASS__ . '::validate_meta_data', 10, 1 );
 			add_filter( 'wpml_filter_shortcode_atts', __CLASS__ . '::filter_shortcode_atts', 10, 2 );
-			add_filter( 'wpml_is_boolean', __CLASS__ . '::is_boolean', 10, 1 );
+			add_filter( 'wpml_is_boolean', __CLASS__ . '::is_boolean', 10, 2 );
 
 			add_filter( 'wpml_stringify_array', __CLASS__ . '::stringify_array', 10, 3 );
 			add_filter( 'wpml_filter_empty_array', __CLASS__ . '::filter_empty_array', 10, 1 );
@@ -924,8 +924,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 						if ( ! is_null( $default[ 'values' ] ) ) {
 
 							// Value should be boolean
-							if ( 'boolean' == $default[ 'values' ] && in_array( strtolower( $attr ), array( 'true', 'false', 'yes', 'no' ) ) ) {
-								$value = apply_filters( 'wpml_is_boolean', $attr );
+							if ( 'boolean' == $default[ 'values' ] ) {
+								$value = apply_filters( 'wpml_is_boolean', $attr, $default[ 'default' ] );
 							}
 							// Value is array
 							else if ( is_array( $default[ 'values' ] ) ) {
@@ -971,7 +971,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @return   boolean   Filtered value
 		 */
-		public static function is_boolean( $value ) {
+		public static function is_boolean( $value, $default = false ) {
 
 			$value = strtolower( $value );
 
@@ -986,7 +986,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				if ( $value === $f )
 					return false;
 
-			return false;
+			return $default;
 		}
 
 		/**
