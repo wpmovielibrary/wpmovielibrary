@@ -32,7 +32,7 @@ require WPML_PATH . 'includes/functions/wpml-legacy-functions.php';
  * 
  * @return   boolean   Filtered value
  */
-function wpml_is_boolean( $value ) {
+function wpml_is_boolean( $value, $default = false ) {
 
 	$value = strtolower( $value );
 
@@ -47,7 +47,7 @@ function wpml_is_boolean( $value ) {
 		if ( $value === $f )
 			return false;
 
-	return false;
+	return $default;
 }
 
 /**
