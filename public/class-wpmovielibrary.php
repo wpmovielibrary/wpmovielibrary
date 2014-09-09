@@ -48,6 +48,9 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				'WPML_Shortcodes'  => WPML_Shortcodes::get_instance(),
 			);
 
+			if ( wpml_has_deprecated_meta() )
+				$this->modules['WPML_Deprecated_Meta'] = WPML_Deprecated_Meta::get_instance();
+
 			$this->widgets = array(
 				'WPML_Statistics_Widget',
 				'WPML_Taxonomies_Widget',

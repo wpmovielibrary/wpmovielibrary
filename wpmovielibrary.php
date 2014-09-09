@@ -128,6 +128,9 @@ if ( wpml_requirements_met() ) {
 	require_once( WPML_PATH . 'includes/widgets/class-details-widget.php' );
 	require_once( WPML_PATH . 'includes/widgets/class-movies-widget.php' );
 
+	if ( wpml_has_deprecated_meta() )
+		require_once( WPML_PATH . 'includes/classes/legacy/class-wpml-deprecated-meta.php' );
+
 	/*
 	 * Register hooks that are fired when the plugin is activated or deactivated.
 	 * When the plugin is deleted, the uninstall.php file is loaded.
@@ -164,9 +167,6 @@ if ( wpml_requirements_met() ) {
 		require_once( WPML_PATH . 'admin/class-wpml-import-table.php' );
 		require_once( WPML_PATH . 'admin/class-wpml-import-queue.php' );
 		require_once( WPML_PATH . 'admin/class-wpml-import.php' );
-
-		if ( wpml_has_deprecated_meta() )
-			require_once( WPML_PATH . 'includes/classes/legacy/class-wpml-deprecated-meta.php' );
 
 		add_action( 'plugins_loaded', array( 'WPMovieLibrary_Admin', 'get_instance' ) );
 
