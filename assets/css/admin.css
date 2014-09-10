@@ -1442,73 +1442,68 @@ body.post-php.post-type-movie #postimagediv {
 
 /** Update Movies Page **/
 
-.update-movies {
-	background: url(../img/bg.jpg) center top no-repeat;
-	background-size: cover;
-	max-height: 32em;
-	overflow-y: scroll;
-}
-
-.update-movies .update-movies-header {
-	background: rgba(255, 255, 255, 0.95);
-	margin: 0.75em 1% 0.5em 1%;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-	width: 98%;
-}
-
-.update-movies .update-movies-header h4 {
-	color: #22207B;
-	display: inline-block;
-	text-align: center;
-	width: 32%;
-}
-
-.update-movies .update-movies-legend {}
-
-.update-movies .update-movies-legend h5 {
-	display: inline-block;
-	color: rgba(0, 0, 0, 0.5);
-	font-size: 1em;
-	font-variant: small-caps;
-	margin: 0.25rem 0;
-	text-align: center;
-	text-shadow: 0 -1px 0px rgba(255, 255, 255, 0.15);
-	width: 49%;
-}
-
-.update-movies .deprecated-movies,
-.update-movies .updated-movies {
+.deprecated-movies,
+.updated-movies {
 	display: inline-block;
 	margin: 0.25em 0.25%;
-	padding: 0px;
+	padding: 0;
 	width: 49%;
 	vertical-align: top;
 }
 
-.update-movies .deprecated-movies li,
-.update-movies .updated-movies li {
-	margin: 0.25rem;
-	padding: 1rem 1.5rem;
-	background: rgba(255, 255, 255, 0.25);
-	border-radius: 0.15rem;
-	box-shadow: 0 1px 1px rgba(255,255,255,0.25) inset, 0 -1px 1px rgba(2, 2, 2, 0.25) inset, 0 0 0 rgba(0, 0, 0, 0.25);
-	color: #eee;
-	text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+
+.deprecated-movies table,
+.updated-movies table {
+	width: 100%;
 }
 
-.update-movies .deprecated-movies li .dashicons,
-.update-movies .updated-movies li .dashicons {
-	float: right;
+.deprecated-movies tbody tr {
+	box-shadow: 0 0 1px #ffba00 inset;
 }
 
-.update-movies .deprecated-movies li .dashicons {
-	color: #ffc600;
+.updated-movies tbody tr {
+	box-shadow: 0 0 1px #7ad03a inset;
 }
 
-.update-movies .updated-movies li .dashicons {
-	color: #21ff00;
-	font-size: 32px;
-	margin-top: -6px;
+.deprecated-movies td.label,
+.updated-movies td.label {
+	vertical-align: top;
+	width: 24px;
+}
+
+.deprecated-movies td.label .dashicons,
+.updated-movies td.label .dashicons {
+	color: #fff;
+	height: 24px;
+	line-height: 25px;
+	margin-right: 6px;
+	padding-left: 2px;
+	width: 24px;
+}
+
+.deprecated-movies td.label .dashicons {
+	background: #ffba00;
+	font-size: 16px;
+}
+
+.updated-movies td.label .dashicons {
+	background: #7ad03a;
+	font-size: 22px;
+	padding-right: 2px;
+}
+
+.deprecated-movies .movie-title,
+.updated-movies .movie-title {
+	padding-top: 2px;
+}
+
+.deprecated-movies tbody tr.active {
+	box-shadow: 0px 0px 1px #0053a4 inset;
+	background: #eff7ff;
+}
+
+.deprecated-movies tbody tr.active td.label .dashicons {
+	background: #0099d5;
 }
 
 /** WordPress 4.0 **/
