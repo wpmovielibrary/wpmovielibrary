@@ -1506,6 +1506,68 @@ body.post-php.post-type-movie #postimagediv {
 	background: #0099d5;
 }
 
+#wpml_dashboard_deprecated_movies_update_status {
+	background: url(../img/bg.jpg) center center;
+	background-size: cover;
+}
+
+#wpml_dashboard_deprecated_movies_update_status .handlediv,
+#wpml_dashboard_deprecated_movies_update_status .hndle {
+	display: none;
+}
+
+#wpml_dashboard_deprecated_movies_update_status .main {
+	color: #fff;
+	padding-top: 2.5em;
+}
+
+#wpml_dashboard_deprecated_movies_update_status .main a {
+	color: #fff;
+	border-bottom: 1px dotted;
+}
+
+#wpml_dashboard_deprecated_movies_update_status .main a:hover {
+	color: #fff;
+	border-bottom: 1px solid #eee;
+}
+
+#update-movies-progressbar {
+	background: rgba(255, 255, 255, 0.25);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.15) inset;
+	height: 0.5em;
+	position: relative;
+	width: 100%;
+}
+
+#update-movies-progress {
+	background: rgba(255, 255, 255, 0.9);
+	box-shadow: 0 0 2px rgba(255, 255, 255, 0.9);
+	height: 100%;
+	position: absolute;
+	width: 42%;
+}
+
+#update-movies-progressbar-text {
+	padding-bottom: 0.5em;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+}
+
+#update-movies-progressbar-text .value {
+	float: right;
+	font-family: 'Roboto', sans-serif;
+	font-size: 3.5em;
+	font-weight: 100;
+	margin-top: -0.75rem;
+}
+
+#update-movies-log {
+	background: rgba(255, 255, 255, 0.25);
+	font-size: 0.9em;
+	max-height: 10em;
+	overflow-y: scroll;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
 /** WordPress 4.0 **/
 
 body.branch-4 .media-frame.movie-images .attachment {

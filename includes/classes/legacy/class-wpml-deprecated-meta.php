@@ -38,6 +38,36 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 			add_action( 'admin_notices', array( $this, 'deprecated_meta_notice' ) );
 
 			add_action( 'admin_head', array( $this, 'admin_head' ) );
+
+			// Load admin style sheet and JavaScript.
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
+		}
+
+		/**
+		 * Register and enqueue admin-specific style sheet.
+		 *
+		 * @since    1.3
+		 *
+		 * @return   null    Return early if no settings page is registered.
+		 */
+		public function enqueue_admin_styles( $hook ) {
+
+			if ( 'dashboard_page_wpml-update-movies' == $hook )
+				wp_enqueue_style( 'roboto-font', '//fonts.googleapis.com/css?family=Roboto:100', array(), WPML_VERSION );
+		}
+
+		/**
+		 * Register and enqueue admin-specific JavaScript.
+		 * 
+		 * @since    1.3
+		 * 
+		 * @return   null    Return early if no settings page is registered.
+		 */
+		public function enqueue_admin_scripts( $hook ) {
+
+			if ( 'dashboard_page_wpml-update-movies' == $hook )
+				wp_enqueue_script( WPML_SLUG . '-updates', WPML_URL . '/assets/js/wpml.updates.js', array( WPML_SLUG, 'jquery' ), WPML_VERSION, true );
 		}
 
 		/**
