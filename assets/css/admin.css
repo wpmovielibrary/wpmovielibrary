@@ -1562,6 +1562,7 @@ body.post-php.post-type-movie #postimagediv {
 
 #update-movies-log {
 	background: rgba(255, 255, 255, 0.25);
+	display: none;
 	font-size: 0.9em;
 	max-height: 10em;
 	overflow-y: scroll;
