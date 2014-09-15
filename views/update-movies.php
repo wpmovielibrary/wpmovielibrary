@@ -5,6 +5,9 @@
 
 			<p><?php _e( 'This page will allow you update your library to the new metadata format introduced in WPMovieLibrary 1.3.', 'wpmovielibrary' ); ?></p>
 
+			<?php wpml_nonce_field( 'update-movie', $referer = false ) ?>
+			<?php wpml_nonce_field( 'update-movies', $referer = false ) ?>
+
 			<div id="dashboard-widgets-wrap">
 				<div id="dashboard-widgets" class="metabox-holder">
 					<div id="postbox-container-1" class="postbox-container">
@@ -34,8 +37,8 @@ foreach ( $deprecated as $post ) :
 													<tr id="movie-<?php the_ID(); ?>">
 														<td class="label"><span class="dashicons dashicons-arrow-right-alt2"></span></td>
 														<td class="movie-title"><span><?php the_title(); ?></span></td>
-														<td class=""><a id="queue-movie-<?php the_ID(); ?>" href="#" onclick="wpml.updates.movies.enqueue( <?php the_ID(); ?> ); return false;"><span class="dashicons dashicons-yes"></span></a></td>
-														<td class=""><a id="update-movie-<?php the_ID(); ?>" href="#" onclick="wpml.updates.movies.update( <?php the_ID(); ?> ); return false;"><span class="dashicons dashicons-update"></span></a></td>
+														<td class="queue-movie"><a id="queue-movie-<?php the_ID(); ?>" href="#" onclick="wpml.updates.movies.enqueue( <?php the_ID(); ?> ); return false;"><span class="dashicons dashicons-yes"></span></a></td>
+														<td class="update-movie"><a id="update-movie-<?php the_ID(); ?>" href="#" onclick="wpml.updates.movies.update( <?php the_ID(); ?> ); return false;"><span class="dashicons dashicons-update"></span></a></td>
 													</tr>
 
 <?php
@@ -103,18 +106,7 @@ wp_reset_postdata();
 										<div id="update-movies-progressbar-text"><span class="text"><?php _e( 'ready when you are!', 'wpmovielibrary' ) ?></span><span class="value">0%</span><div style="clear:both"></div></div>
 										<div id="update-movies-progressbar"><div id="update-movies-progress"></div></div>
 										<p><strong><span id="update-movies-count">0</span></strong> <?php printf( _n( 'movie updated', 'movies updated', 0, 'wpmovielibrary' ) ) ?>, <strong><span id="update-movies-total">0</span></strong> <?php _e( 'selected', 'wpmovielibrary' ) ?>. <a href="#" onclick="$( '#update-movies-log' ).toggle(); return false;"><?php _e( 'See details', 'wpmovielibrary' ) ?></a></p>
-										<p id="update-movies-log">
-											 	<!--<span class="dashicons dashicons-yes"></span> Movie #38 « <em>12 Years a Slave</em> » updated succesfully<br />
-												<span class="dashicons dashicons-yes"></span> Movie #39 « <em>2012</em> » updated succesfully<br />
-												<span class="dashicons dashicons-no-alt"></span> Movie #40 « <em>300</em> » not updated (unknow error)<br />
-												<span class="dashicons dashicons-yes"></span> Movie #41 « <em>A Serious Man</em> » updated succesfully<br />
-												<span class="dashicons dashicons-yes"></span> Movie #42 « <em>A Single Man</em> » updated succesfully<br />
-											 	<span class="dashicons dashicons-yes"></span> Movie #38 « <em>12 Years a Slave</em> » updated succesfully<br />
-												<span class="dashicons dashicons-yes"></span> Movie #39 « <em>2012</em> » updated succesfully<br />
-												<span class="dashicons dashicons-no-alt"></span> Movie #40 « <em>300</em> » not updated (unknow error)<br />
-												<span class="dashicons dashicons-yes"></span> Movie #41 « <em>A Serious Man</em> » updated succesfully<br />
-												<span class="dashicons dashicons-yes"></span> Movie #42 « <em>A Single Man</em> » updated succesfully<br />-->
-										</p>
+										<p id="update-movies-log"></p>
 									</div>
 								</div>
 							</div>

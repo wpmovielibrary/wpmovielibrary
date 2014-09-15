@@ -42,6 +42,8 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 			// Load admin style sheet and JavaScript.
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
+
+			add_action( 'wp_ajax_wpml_update_movie', array( $this, 'update_movie_callback' ) );
 		}
 
 		/**
@@ -71,6 +73,16 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 		}
 
 		/**
+		 * Display an admin notice
+		 *
+		 * @since    1.3
+		 */
+		public function deprecated_meta_notice() {
+
+			echo self::render_template( 'admin-notice.php', array( 'notice' => 'deprecated-meta' ) );
+		}
+
+		/**
 		 * Remove dashboard page links.
 		 *
 		 * @since    1.3
@@ -81,11 +93,30 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 			//remove_submenu_page( 'index.php', 'wc-credits' );
 		}
 
-		public function deprecated_meta_notice() {
+		/**
+		 * AJAX callback for movie update.
+		 *
+		 * @since    1.3
+		 */
+		public function update_movie_callback() {
 
-			echo self::render_template( 'admin-notice.php', array( 'notice' => 'deprecated-meta' ) );
+			wpml_check_ajax_referer( 'update-movie' );
+
+			$movie_id = ( isset( $_POST['movie_id'] ) && '' != $_POST['movie_id'] ? intval( $_POST['movie_id'] ) : null );
+
+			if ( is_null( $movie_id ) )
+				wp_die( 0 );
+
+			$response = self::update_movie( $movie_id );
+
+			wpml_ajax_response( $response, array(), wpml_create_nonce( 'update-movie' ) );
 		}
 
+		/**
+		 * Dashboard movies update page
+		 *
+		 * @since    1.3
+		 */
 		public static function update_movies_page() {
 
 			$deprecated = self::get_movies();
@@ -175,6 +206,34 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 			$movies = get_posts( $args );
 
 			return $movies;
+		}
+
+		private static function update_movie( $movie_id ) {
+
+			if ( ! current_user_can( 'edit_post' ) )
+				return new WP_Error( 'permission_denied', __( 'Error: you are not allowed to edit this movie.', 'wpmovielibrary' ) );
+
+			if ( ! get_post( $movie_id ) || 'movie' != get_post_type( $movie_id ) )
+				return new WP_Error( 'invalid_post', __( 'Error: submitted post is not a movie.', 'wpmovielibrary' ) );
+
+			$update = self::update_meta( $movie_id );
+
+			return $update;
+		}
+
+		private static function update_meta( $movie_id ) {
+
+			$meta = get_post_meta( $movie_id, '_wpml_movie_data', $single = true );
+			if ( '' == $meta )
+				return false;
+
+			/*$update = WPML_Edit_Movies::save_movie_meta( $movie_id, $meta, $clean = false );
+
+			if ( ! is_wp_error( $update ) && $update == $movie_id )
+				delete_post_meta( $movie_id, '_wpml_movie_data', $meta );*/
+			$update = $movie_id;
+
+			return $update;
 		}
 
 		/**

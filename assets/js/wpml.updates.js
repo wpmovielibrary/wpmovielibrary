@@ -32,7 +32,33 @@ wpml = wpml || {};
 			};
 
 			wpml.updates.movies.update = function( id ) {
-				
+
+				wpml._post({
+					data: {
+						action: 'wpml_update_movie',
+						nonce: wpml.get_nonce( 'update-movie' ),
+						movie_id: id
+					},
+					error: function( response ) {
+						wpml_state.clear();
+						$.each( response.responseJSON.errors, function() {
+							wpml_state.set( this, 'error' );
+						});
+						$( '#update-movies-log' ).append( '<span class="dashicons dashicons-no-alt"></span> Movie #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » not updated' );
+					},
+					success: function( response ) {
+						var $tr = $( 'tr#movie-' + id );
+
+						$tr.find( '.dashicons-arrow-right-alt2' ).removeClass( 'dashicons-arrow-right-alt2' ).addClass( 'dashicons-yes' );
+						$tr.find( '.update-movie, .queue-movie' ).remove();
+						$( '#updated-movies' ).append( $tr );
+						$( '#update-movies-log' ).append( '<span class="update-movies-log-entry"><span class="dashicons dashicons-yes"></span> Movie #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » updated succesfully</span>' );
+						$( '#update-movies-log' ).scrollTop( Math.round( $( '.update-movies-log-entry' ).last().position().top + $( '.update-movies-log-entry' ).last().height() ) );
+					},
+					complete: function( r ) {
+						wpml.update_nonce( 'update-movie', r.responseJSON.nonce );
+					}
+				});
 			};
 
 			wpml.updates.movies.update_all = function() {

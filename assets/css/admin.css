@@ -1507,7 +1507,7 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 #wpml_dashboard_deprecated_movies_update_status {
-	background: url(../img/bg.jpg) center center;
+	background: url(../img/bg.jpg) center top;
 	background-size: cover;
 }
 
@@ -1567,6 +1567,10 @@ body.post-php.post-type-movie #postimagediv {
 	max-height: 10em;
 	overflow-y: scroll;
 	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.update-movies-log-entry {
+	display: block;
 }
 
 /** WordPress 4.0 **/

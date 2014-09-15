@@ -671,7 +671,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * @return   int|object    WP_Error object is anything went
 		 *                                  wrong, true else
 		 */
-		public static function save_movie_meta( $post_id, $movie_meta ) {
+		public static function save_movie_meta( $post_id, $movie_meta, $clean = true ) {
 
 			$post = get_post( $post_id );
 			if ( ! $post || 'movie' != get_post_type( $post ) )
@@ -688,8 +688,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			foreach ( $movie_meta['crew'] as $slug => $meta )
 				update_post_meta( $post_id, "_wpml_movie_{$slug}", $meta );
 
-
-			WPML_Cache::clean_transient( 'clean', $force = true );
+			if ( false !== $clean )
+				WPML_Cache::clean_transient( 'clean', $force = true );
 
 			return $post_id;
 		}
