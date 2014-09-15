@@ -68,8 +68,10 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 		 */
 		public function enqueue_admin_scripts( $hook ) {
 
-			if ( 'dashboard_page_wpml-update-movies' == $hook )
+			if ( 'dashboard_page_wpml-update-movies' == $hook ) {
+				wp_enqueue_script( WPML_SLUG . '-jquery-ajax-queue', WPML_URL . '/assets/js/jquery.ajaxQueue.js', array( 'jquery' ), WPML_VERSION, true );
 				wp_enqueue_script( WPML_SLUG . '-updates', WPML_URL . '/assets/js/wpml.updates.js', array( WPML_SLUG, 'jquery' ), WPML_VERSION, true );
+			}
 		}
 
 		/**

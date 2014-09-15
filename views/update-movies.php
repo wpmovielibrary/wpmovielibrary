@@ -1,4 +1,8 @@
 
+
+										<div class="error hide-if-js">
+											<p><?php _e( 'It seems you have JavaScript deactivated; the update tool will not work correctly without it, please check your browser\'s settings.', 'wpmovielibrary' ); ?></p>
+										</div>
 		<div id="wpml-home" class="wrap">
 
 			<h2><?php printf( '%s <small>v%s</small>', __( 'Welcome to WPMovieLibrary ', 'wpmovielibrary' ), WPML_VERSION ); ?></h2>
@@ -18,6 +22,7 @@
 								<div class="inside">
 
 									<div class="main">
+
 										<div class="deprecated-movies">
 											<table id="deprecated-movies">
 												<thead>
@@ -29,6 +34,10 @@
 													</tr>
 												</thead>
 												<tbody>
+													<tr>
+														<td class="label"><span class="dashicons"><input id="select-all-movies" type="checkbox" onclick="$('.queue-movie > a').click()" /></span></td>
+														<td><em><?php _e( 'Select all', 'wpmovielibrary' ) ?></em></td>
+													</tr>
 <?php
 global $post;
 foreach ( $deprecated as $post ) :
@@ -89,10 +98,10 @@ wp_reset_postdata();
 								<div class="handlediv" title="Click to toggle"><br></div>
 								<h3 class="hndle"><span>Update movies</span></h3>
 								<div class="inside">
-
 									<div class="main">
 										<p><?php printf( __( 'You have a total of <strong>%s</strong> using a deprecated metadata format; you can use the present page to update your library to new format and access new features.', 'wpmovielibrary' ), sprintf( _n( 'one movie', '%d movies', count( $deprecated ), 'wpmovielibrary' ), count( $deprecated ) ) ); ?></p>
 										<p><?php _e( 'You can update all your movies at once, select a few movies manually (<span class="dashicons dashicons-yes"></span> link) or update directly a specific movies (<span class="dashicons dashicons-update"></span> link).', 'wpmovielibrary' ) ?></p>
+										<p style="text-align:center"><a href="#" class="button button-hero button-primary button-wpml" id="launch-update" onclick="wpml.updates.movies.update_all(); return false;"><span class="dashicons dashicons-update"></span> <?php _e( 'Update movies', 'wpmovielibrary' ) ?></a></p>
 									</div>
 								</div>
 							</div>
