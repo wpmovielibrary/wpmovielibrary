@@ -209,3 +209,6 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 = 1.0 =
 * First stable release
 
+== Upgrade notice ==
+= 1.3 =
+WPMovieLibrary 1.3 is a major update. Test extensions and your theme prior to updating, see that extensions are up to date and 1.3 compatible, and be sure to keep backups of your databases. Reading the [release notes](http://wpmovielibrary/development/release-notes/#version-1.3) is a good idea too.
