@@ -34,8 +34,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			add_filter( 'rewrite_rules_array', __CLASS__ . '::register_permalinks', 11 );
 
-			add_filter( 'wpml_summarize_settings', __CLASS__ . '::summarize_settings', 10, 1 );
-
 			add_filter( 'wpml_filter_meta_data', __CLASS__ . '::filter_meta_data', 10, 1 );
 			add_filter( 'wpml_filter_crew_data', __CLASS__ . '::filter_crew_data', 10, 1 );
 			add_filter( 'wpml_filter_cast_data', __CLASS__ . '::filter_cast_data', 10, 1 );
@@ -52,16 +50,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			add_filter( 'wpml_format_movie_media', __CLASS__ . '::format_movie_media', 10, 2 );
 			add_filter( 'wpml_format_movie_status', __CLASS__ . '::format_movie_status', 10, 2 );
 			add_filter( 'wpml_format_movie_rating', __CLASS__ . '::format_movie_rating', 10, 2 );
-
-			add_filter( 'wpml_filter_filter_runtime', __CLASS__ . '::filter_runtime', 10, 2 );
-			add_filter( 'wpml_filter_filter_release_date', __CLASS__ . '::filter_release_date', 10, 2 );
-			add_filter( 'wpml_validate_meta_data', __CLASS__ . '::validate_meta_data', 10, 1 );
-			add_filter( 'wpml_filter_shortcode_atts', __CLASS__ . '::filter_shortcode_atts', 10, 2 );
-			add_filter( 'wpml_is_boolean', __CLASS__ . '::is_boolean', 10, 2 );
-
-			add_filter( 'wpml_stringify_array', __CLASS__ . '::stringify_array', 10, 3 );
-			add_filter( 'wpml_filter_empty_array', __CLASS__ . '::filter_empty_array', 10, 1 );
-			add_filter( 'wpml_filter_undimension_array', __CLASS__ . '::filter_undimension_array', 10, 1 );
 
 			add_filter( 'post_thumbnail_html', __CLASS__ . '::filter_default_thumbnail', 10, 5 );
 
@@ -259,210 +247,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
-		 * Simple function to check WordPress version. This is mainly
-		 * used for styling as WP3.8 introduced a brand new dashboard
-		 * look n feel.
-		 *
-		 * @since    1.0
-		 *
-		 * @return   boolean    Older/newer than WordPress 3.8?
-		 */
-		public static function is_modern_wp() {
-			return version_compare( get_bloginfo( 'version' ), '3.8', '>=' );
-		}
-
-		/**
-		 * Return Movie's stored TMDb data.
-		 * 
-		 * @uses wpml_get_movie_postmeta()
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    int    Movie Post ID
-		 *
-		 * @return   array|string    WPML Movie TMDb data if stored, empty string else.
-		 */
-		public static function get_movie_data( $post_id = null ) {
-			return WPML_Utils::get_movie_postmeta( 'data', $post_id );
-		}
-
-		/**
-		 * Return Movie's Status.
-		 * 
-		 * @uses wpml_get_movie_postmeta()
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    int    Movie Post ID
-		 *
-		 * @return   array|string    WPML Movie Status if stored, empty string else.
-		 */
-		public static function get_movie_status( $post_id = null ) {
-			return WPML_Utils::get_movie_postmeta( 'status', $post_id );
-		}
-
-		/**
-		 * Return Movie's Media.
-		 * 
-		 * @uses wpml_get_movie_postmeta()
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    int    Movie Post ID
-		 *
-		 * @return   array|string    WPML Movie Media if stored, empty string else.
-		 */
-		public static function get_movie_media( $post_id = null ) {
-			return WPML_Utils::get_movie_postmeta( 'media', $post_id );
-		}
-
-		/**
-		 * Return Movie's Rating.
-		 * 
-		 * @uses wpml_get_movie_postmeta()
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    int    Movie Post ID
-		 *
-		 * @return   array|string    WPML Movie Rating if stored, empty string else.
-		 */
-		public static function get_movie_rating( $post_id = null ) {
-			return WPML_Utils::get_movie_postmeta( 'rating', $post_id );
-		}
-
-		/**
-		 * Return various Movie's Post Meta. Possible meta: status, media, rating
-		 * and data.
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    string    Meta type to return: data, status, media or rating
-		 * @param    int       Movie Post ID
-		 *
-		 * @return   array|string    WPML Movie Meta if available, empty string else.
-		 */
-		private static function get_movie_postmeta( $meta, $post_id = null ) {
-
-			$allowed_meta = array( 'data', 'status', 'media', 'rating' );
-
-			if ( is_null( $post_id ) )
-				$post_id =  get_the_ID();
-
-			if ( ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) || ! in_array( $meta, $allowed_meta ) )
-				return false;
-
-			$value = get_post_meta( $post_id, "_wpml_movie_{$meta}", true );
-			if ( 'rating' == $meta )
-				$value = number_format( floatval( $value ), 1 );
-
-			return $value;
-		}
-
-		/**
-		 * Clean movie title prior to search.
-		 * 
-		 * Remove non-alphanumerical characters.
-		 *
-		 * @since     1.0.0
-		 * 
-		 * @param     string     $query movie title to clean up
-		 * 
-		 * @return    string     cleaned up movie title
-		 */
-		public static function clean_search_title( $query ) {
-			$s = trim( $query );
-			$s = preg_replace( '/[^\p{L}\p{N}\s]/u', '', $s );
-			return $s;
-		}
-
-		/**
-		 * Filter Plugin Settings to obtain a single dimension array with
-		 * all prefixed settings.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    array    $array Plugin Settings
-		 * 
-		 * @return   array    Summarized Plugin Settings
-		 */
-		public static function summarize_settings( $settings ) {
-
-			$_settings = array();
-
-			if ( is_null( $settings ) || ! is_array( $settings ) )
-				return $_settings;
-
-			foreach ( $settings as $id => $section )
-				if ( isset( $section['settings'] ) )
-					foreach ( $section['settings'] as $slug => $setting )
-						$_settings[ $id ][ $slug ] = $setting['default'];
-			
-
-			return $_settings;
-		}
-
-		/**
-		 * Filter a Movie's Runtime to match WordPress time format
-		 * 
-		 * Check if the time format is 12-hour, in which case set the
-		 * format to a standard hours:minutes form to avoid some weird
-		 * "2:38AM" runtime.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    string    $runtime Movie runtime
-		 * @param    string    $time_format Optional time format to apply
-		 * 
-		 * @return   string    Filtered runtime
-		 */
-		public static function filter_runtime( $runtime, $time_format = null ) {
-
-			if ( is_null( $runtime ) || '' == $runtime )
-				return $runtime;
-
-			if ( is_null( $time_format ) )
-				$time_format = WPML_Settings::wpml__time_format();
-
-			if ( '' == $time_format )
-				$time_format = 'G \h i \m\i\n';
-
-			$runtime = intval( $runtime );
-			$time = date_i18n( $time_format, mktime( 0, $runtime ) );
-			if ( false !== stripos( $time, 'am' ) || false !== stripos( $time, 'pm' ) )
-				$time = date_i18n( 'G:i', mktime( 0, $runtime ) );
-
-			return $time;
-		}
-
-
-		/**
-		 * Filter a Movie's Release Date to match WordPress date format
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    string    $release_date Movie release date
-		 * @param    string    $date_format Optional date format to apply
-		 * 
-		 * @return   string    Filtered release date
-		 */
-		public static function filter_release_date( $release_date, $date_format = null ) {
-
-			if ( is_null( $release_date ) || '' == $release_date )
-				return $release_date;
-
-			if ( is_null( $date_format ) )
-				$date_format = WPML_Settings::wpml__date_format();
-
-			if ( '' == $date_format )
-				$date_format = 'j F Y';
-
-			$date = date_i18n( $date_format, strtotime( $release_date ) );
-
-			return $date;
-		}
-
-		/**
 		 * Filter a Movie's Metadata to extract only supported data.
 		 * 
 		 * @since    1.0
@@ -478,8 +262,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			$filter = array();
 			$_data = array();
+			$_meta = WPML_Settings::get_supported_movie_meta( 'meta' );
 
-			foreach ( WPML_Settings::get_supported_movie_meta( 'meta' ) as $slug => $f ) {
+			foreach ( $_meta as $slug => $f ) {
 				$filter[] = $slug;
 				$_data[ $slug ] = '';
 			}
@@ -645,7 +430,16 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function format_movie_release_date( $data, $format = null ) {
 
-			$output = WPML_Utils::filter_release_date( $data, $format );
+			if ( is_null( $data ) || '' == $data )
+				return $data;
+
+			if ( is_null( $format ) )
+				$format = WPML_Settings::wpml__date_format();
+
+			if ( '' == $format )
+				$format = 'j F Y';
+
+			$output = date_i18n( $format, strtotime( $data ) );
 			$output = self::format_movie_field( $output );
 
 			return $output;
@@ -662,7 +456,19 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function format_movie_runtime( $data, $format = null ) {
 
-			$output = self::filter_runtime( $data, $format );
+			if ( is_null( $data ) || '' == $data )
+				return $data;
+
+			if ( is_null( $format ) )
+				$format = WPML_Settings::wpml__time_format();
+
+			if ( '' == $format )
+				$format = 'G \h i \m\i\n';
+
+			$output = date_i18n( $format, mktime( 0, $data ) );
+			if ( false !== stripos( $output, 'am' ) || false !== stripos( $output, 'pm' ) )
+				$output = date_i18n( 'G:i', mktime( 0, $data ) );
+
 			$output = self::format_movie_field( $output );
 
 			return $output;
@@ -824,248 +630,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$_data = ( ! empty( $_data ) ? implode( ', ', $_data ) : '&mdash;' );
 
 			return $_data;
-		}
-
-		/**
-		 * Filter the Movie Metadata submitted when saving a post to
-		 * avoid storing unexpected data to the database.
-		 * 
-		 * The Metabox array makes a distinction between pure metadata
-		 * and crew data, so we filter them separately. If the data slug
-		 * is valid, the value is escaped and added to the return array.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    array    $data The Movie Metadata to filter
-		 * 
-		 * @return   array    The filtered Metadata
-		 */
-		public static function validate_meta_data( $data ) {
-
-			if ( ! is_array( $data ) || empty( $data ) || ! isset( $data['tmdb_id'] ) || ! isset( $data['meta'] ) || ! isset( $data['crew'] ) )
-				return $data;
-
-			$supported = WPML_Settings::get_supported_movie_meta();
-			$keys = array_keys( $supported );
-			$movie_tmdb_id = esc_attr( $data['tmdb_id'] );
-			$movie_post_id = ( isset( $data['post_id'] ) && '' != $data['post_id'] ? esc_attr( $data['post_id'] ) : null );
-			$movie_poster = ( isset( $data['poster'] ) && '' != $data['poster'] ? esc_attr( $data['poster'] ) : null );
-			$movie_meta = array();
-			$movie_crew = array();
-
-			foreach ( $data['meta'] as $slug => $_meta ) {
-				if ( in_array( $slug, $keys ) ) {
-					$filter = ( isset( $supported[ $slug ]['filter'] ) && function_exists( $supported[ $slug ]['filter'] ) ? $supported[ $slug ]['filter'] : 'esc_html' );
-					$args   = ( isset( $supported[ $slug ]['filter_args'] ) && ! is_null( $supported[ $slug ]['filter_args'] ) ? $supported[ $slug ]['filter_args'] : null );
-					$movie_meta[ $slug ] = call_user_func( $filter, $_meta, $args );
-				}
-			}
-
-			foreach ( $data['crew'] as $slug => $_meta ) {
-				if ( in_array( $slug, $keys ) ) {
-					$filter = ( isset( $supported[ $slug ]['filter'] ) && function_exists( $supported[ $slug ]['filter'] ) ? $supported[ $slug ]['filter'] : 'esc_html' );
-					$args   = ( isset( $supported[ $slug ]['filter_args'] ) && ! is_null( $supported[ $slug ]['filter_args'] ) ? $supported[ $slug ]['filter_args'] : null );
-					$movie_crew[ $slug ] = call_user_func( $filter, $_meta, $args );
-				}
-			}
-
-			$_data = array(
-				'tmdb_id' => $movie_tmdb_id,
-				'post_id' => $movie_post_id,
-				'poster'  => $movie_poster,
-				'meta'    => $movie_meta,
-				'crew'    => $movie_crew
-			);
-
-			return $_data;
-		}
-
-		/**
-		 * Filter an array of Shortcode attributes.
-		 * 
-		 * Shortcodes have limited attributes and possibly limited values
-		 * for some attributes. This method matches each submitted attr
-		 * to its limited values if available, and apply a filter to the
-		 * value before returning the array.
-		 * 
-		 * @since    1.1
-		 * 
-		 * @param    string    $shortcode Shortcode's ID
-		 * @param    array     $atts Attributes to filter
-		 * 
-		 * @return   array    Filtered Attributes
-		 */
-		public static function filter_shortcode_atts( $shortcode, $atts = array() ) {
-
-			if ( ! is_array( $atts ) )
-				$atts = array( $atts );
-
-			$defaults = WPML_Settings::get_available_shortcodes();
-			$defaults = $defaults[ $shortcode ][ 'atts' ];
-
-			$attributes = array();
-
-			// Loop through the Shortcode's attributes
-			foreach ( $defaults as $slug => $default ) {
-
-				if ( isset( $atts[ $slug ] ) ) {
-
-					$attr = $atts[ $slug ];
-
-					// Attribute is not null
-					if ( is_null( $attr ) ) {
-						$attributes[ $slug ] = $default[ 'default' ];
-					}
-					else if ( ! is_null( $attr ) ) {
-
-						$value = $attr;
-
-						// Attribute has limited values
-						if ( ! is_null( $default[ 'values' ] ) ) {
-
-							// Value should be boolean
-							if ( 'boolean' == $default[ 'values' ] ) {
-								$value = apply_filters( 'wpml_is_boolean', $attr, $default[ 'default' ] );
-							}
-							// Value is array
-							else if ( is_array( $default[ 'values' ] ) ) {
-								// multiple values
-								if ( false !== strpos( $attr, '|' ) ) {
-									$value = str_replace( 'actors', 'cast', $attr );
-									$value = explode( '|', $value );
-									foreach ( $value as $i => $v )
-										if ( ! in_array( $v, $default[ 'values' ] ) )
-											unset( $value[ $i ] );
-
-									array_unique( $value );
-								}
-								// single value
-								else if ( in_array( strtolower( $attr ), $default[ 'values' ] ) )
-									$value = $attr;
-							}
-						}
-
-						// Attribute has a valid filter
-						if ( is_string( $value ) && function_exists( $default[ 'filter' ] ) && is_callable( $default[ 'filter' ] ) )
-							$value = call_user_func( $default[ 'filter' ], $value );
-
-						$attributes[ $slug ] = $value;
-					}
-				}
-				else
-					$attributes[ $slug ] = $default[ 'default' ];
-			}
-
-			return $attributes;
-		}
-
-		/**
-		 * Filter a string value to determine a suitable boolean value.
-		 * 
-		 * This is mostly used for Shortcodes where boolean-like values
-		 * can be used.
-		 * 
-		 * @since    1.1
-		 * 
-		 * @param    string    Value to filter
-		 * 
-		 * @return   boolean   Filtered value
-		 */
-		public static function is_boolean( $value, $default = false ) {
-
-			$value = strtolower( $value );
-
-			$true = array( 'true', true, 'yes', '1', 1 );
-			$false = array( 'false', false, 'no', '0', 0 );
-
-			foreach ( $true as $t )
-				if ( $value === $t )
-					return true;
-
-			foreach ( $false as $f )
-				if ( $value === $f )
-					return false;
-
-			return $default;
-		}
-
-		/**
-		 * Convert an Array shaped list to a separated string.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    array    $array Array shaped list
-		 * @param    string   $subrow optional subrow to select in subitems
-		 * @param    string   $separator Separator string to use to implode the list
-		 * 
-		 * @return   string   Separated list
-		 */
-		public static function stringify_array( $array, $subrow = 'name', $separator = ', ' ) {
-
-			if ( ! is_array( $array ) || empty( $array ) )
-				return $array;
-
-			foreach ( $array as $i => $row ) {
-				if ( ! is_array( $row ) )
-					$array[ $i ] = $row;
-				else if ( false === $subrow || ! is_array( $row ) )
-					$array[ $i ] = self::stringify_array( $row, $subrow, $separator );
-				else if ( is_array( $row ) && isset( $row[ $subrow ] ) )
-					$array[ $i ] = $row[ $subrow ];
-				else if ( is_array( $row ) )
-					$array[ $i ] = implode( $separator, $row );
-			}
-
-			$array = implode( $separator, $array );
-
-			return $array;
-		}
-
-		/**
-		 * Filter an array to detect empty associative arrays.
-		 * Uses wpml_stringify_array to stringify the array and check its length.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    array    $array Array to check
-		 * 
-		 * @return   array    Original array plus and notification row if empty
-		 */
-		public static function filter_empty_array( $array ) {
-
-			if ( ! is_array( $array ) || empty( $array ) )
-				return array();
-
-			$_array = self::stringify_array( $array, false, '' );
-
-			return strlen( $_array ) > 0 ? $array : array_merge( array( '_empty' => true ), $array );
-		}
-
-		/**
-		 * Filter an array to remove any sub-array, reducing multidimensionnal
-		 * arrays.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    array    $array Array to check
-		 * 
-		 * @return   array    Reduced array
-		 */
-		public static function filter_undimension_array( $array ) {
-
-			if ( ! is_array( $array ) || empty( $array ) )
-				return $array;
-
-			$_array = array();
-
-			foreach ( $array as $key => $row ) {
-				if ( is_array( $row ) )
-					$_array = array_merge( $_array, self::filter_undimension_array( $row ) );
-				else
-					$_array[ $key ] = $row;
-			}
-
-			return $_array;
 		}
 
 		/**
@@ -1241,192 +805,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$terms = array();
 
 			return $terms;
-		}
-
-		/**
-		 * Provide a plugin-wide, generic method for generating nonce.
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    string    $action Action name for nonce
-		 */
-		public static function create_nonce( $action ) {
-
-			return wp_create_nonce( 'wpml-' . $action );
-		}
-
-		/**
-		 * Provide a plugin-wide, generic method for generating nonce fields.
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    string    $action Action name for nonce
-		 */
-		public static function _nonce_field( $action, $referer = true, $echo = true ) {
-
-			$nonce_action = 'wpml-' . $action;
-			$nonce_name = '_wpmlnonce_' . str_replace( '-', '_', $action );
-
-			return wp_nonce_field( $nonce_action, $nonce_name, $referer, $echo );
-		}
-
-		/**
-		 * Provide a plugin-wide, generic method for checking AJAX nonces.
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    string    $action Action name for nonce
-		 */
-		public static function check_admin_referer( $action, $query_arg = false ) {
-
-			if ( ! $query_arg )
-				$query_arg = '_wpmlnonce_' . str_replace( '-', '_', $action );
-
-			$error = new WP_Error();
-			$check = check_ajax_referer( 'wpml-' . $action, $query_arg );
-
-			if ( $check )
-				return true;
-
-			$error->add( 'invalid_nonce', __( 'Are you sure you want to do this?' ) );
-
-			return $error;
-		}
-
-		/**
-		 * Provide a plugin-wide, generic method for checking AJAX nonces.
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    string    $action Action name for nonce
-		 */
-		public static function check_ajax_referer( $action, $query_arg = false, $die = false ) {
-
-			if ( ! $query_arg )
-				$query_arg = 'nonce';
-
-			$error = new WP_Error();
-			$check = check_ajax_referer( 'wpml-' . $action, $query_arg, $die );
-
-			if ( $check )
-				return true;
-
-			$error->add( 'invalid_nonce', __( 'Are you sure you want to do this?' ) );
-			self::ajax_response( $error, null, self::create_nonce( $action ) );
-		}
-
-		/**
-		 * Application/JSON headers content-type.
-		 * If no header was sent previously, send new header.
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    boolean    $error Error header or normal?
-		 */
-		private static function json_header( $error = false ) {
-
-			if ( false !== headers_sent() )
-				return false;
-
-			if ( $error ) {
-				header( 'HTTP/1.1 500 Internal Server Error' );
-				header( 'Content-Type: application/json; charset=UTF-8' );
-			}	
-			else {
-				header( 'Content-type: application/json' );
-			}
-		}
-
-		/**
-		 * Pre-handle AJAX Callbacks results to detect errors
-		 * 
-		 * Execute the callback and filter the result to prepare the AJAX
-		 * response. If errors are detected, return a WP_Error instance.
-		 * If no error, return the callback results.
-		 * 
-		 * @param    mixed    $callback Array containing Callback Class and Method or simple string for functions
-		 * @param    array    $args Array of arguments for callback
-		 * 
-		 * @return   array|WP_Error    Array of callback results if no error,
-		 *                             WP_Error instance if anything went wrong.
-		 */
-		public static function ajax_filter( $callback, $args = array(), $loop = false ) {
-
-			$loop = ( true === $loop ? true : false );
-			$response = array();
-			$errors = new WP_Error();
-
-			// Simple function callback
-			if ( ! is_array( $callback ) && function_exists( esc_attr( $callback ) ) ) {
-				// Loop through the arg
-				if ( $loop && is_array( $args ) && ! empty( $args ) ) {
-					foreach ( $args[0] as $arg ) {
-						$_response = call_user_func_array( $callback, array( $arg ) );
-						if ( is_wp_error( $_response ) )
-							$errors->add( $_response->get_error_code(), $_response->get_error_message() );
-						else
-							$response[] = $_response;
-					}
-				}
-				// Single callback call
-				else {
-					$_response = call_user_func_array( $callback, $args );
-					if ( is_wp_error( $_response ) )
-						$errors->add( $_response->get_error_code(), $_response->get_error_message() );
-					else
-						$response[] = $_response;
-				}
-			}
-			// Class Method callback
-			else if ( is_array( $callback ) && 2 == count( $callback ) && class_exists( $callback[0] ) && method_exists( $callback[0], $callback[1] ) ) {
-				// Loop through the arg
-				if ( $loop && is_array( $args ) && ! empty( $args ) ) {
-					foreach ( $args[0] as $arg ) {
-						$_response = call_user_func_array( array( $callback[0], $callback[1] ), array( $arg ) );
-						if ( is_wp_error( $_response ) )
-							$errors->add( $_response->get_error_code(), $_response->get_error_message() );
-						else
-							$response[] = $_response;
-					}
-				}
-				// Single callback call
-				else {
-					$_response = call_user_func_array( array( $callback[0], $callback[1] ), $args );
-					if ( is_wp_error( $_response ) )
-						$errors->add( $_response->get_error_code(), $_response->get_error_message() );
-					else
-						$response[] = $_response;
-				}
-			}
-			else
-				$errors->add( 'callback_error', __( 'An error occured when trying to perform the request: invalid callback or data.', 'wpmovielibrary' ) );
-
-			if ( ! empty( $errors->errors ) )
-				$response = $errors;
-
-			return $response;
-		}
-
-		/**
-		 * Handle AJAX Callbacks results, prepare and format the AJAX
-		 * response and display it.
-		 * 
-		 * TODO: give priority to Nonce in args
-		 * 
-		 * @param    array    $response Array containing Callback results data
-		 * @param    array    $i18n Array containing Callback optional i18n
-		 */
-		public static function ajax_response( $response, $i18n = array(), $nonce = null ) {
-
-			if ( is_wp_error( $response ) )
-				$_response = $response;
-			else if ( ! is_object( $response ) && ! is_int( $response ) && ! is_array( $response ) && true !== $response )
-				$_response = new WP_Error( 'callback_error', __( 'An error occured when trying to perform the request.', 'wpmovielibrary' ) );
-			else
-				$_response = new WPML_Ajax( array( 'data' => $response, 'i18n' => $i18n, 'nonce' => $nonce ) );
-
-			self::json_header( is_wp_error( $_response ) );
-			wp_die( json_encode( $_response ) );
 		}
 
 		/**

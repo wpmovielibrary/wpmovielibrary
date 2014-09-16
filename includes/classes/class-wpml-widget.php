@@ -55,11 +55,11 @@ abstract class WPML_Widget extends WP_Widget {
 
 		$instance = $old_instance;
 
+		//var_dump( $this->widget_params, $new_instance, $old_instance ); die();
 		if ( ! $this->widget_params )
 			return $instance;
 
 		foreach ( $this->widget_params as $key => $setting ) {
-			var_dump( $setting['type'] );
 			if ( isset( $new_instance[ $key ] ) ) {
 				if ( 'html' === $setting['type'] )
 					$instance[ $key ] = wpautop( wp_kses( $instance[ $key ], array( 'ul', 'ol', 'li', 'p', 'span', 'em', 'i', 'p', 'strong', 'b', 'br' ) ) );

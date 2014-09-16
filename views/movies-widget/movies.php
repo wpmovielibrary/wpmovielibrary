@@ -6,7 +6,7 @@
  * 
  * @since    1.2
  * 
- * @uses    $widget current Widget object
+ * @uses    $style current Widget style
  * @uses    $description Widget's description
  * @uses    $items array of movies
  * @uses    $show_poster which way to show posters

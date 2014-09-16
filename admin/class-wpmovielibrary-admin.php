@@ -90,7 +90,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			add_action( 'init', array( $this, 'init' ) );
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 
-			if ( WPML_Utils::is_modern_wp() )
+			if ( wpml_modern_wp() )
 				add_action( 'admin_head', array( $this, 'custom_admin_colors' ) );
 
 			add_filter( 'pre_update_option_wpml_settings', array( $this, 'filter_settings' ), 10, 2 );
@@ -130,7 +130,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$hide_notice = ( '1' == $hide_notice ? true : false );
 
 			if ( false === $hide_notice && '' == WPML_Settings::tmdb__apikey() && false === WPML_Settings::tmdb__internal_api() )
-				echo self::render_template( 'admin-notice.php', array( 'notice' => 'api-key-error' ) );
+				echo self::render_admin_template( 'admin-notice.php', array( 'notice' => 'api-key-error' ) );
 
 			return true;
 		}
@@ -164,7 +164,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( ! is_null( $page ) )
 				return false;
 
-			echo self::render_template( 'admin-notice.php', array( 'notice' => 'missing-archive' ) );
+			echo self::render_admin_template( 'admin-notice.php', array( 'notice' => 'missing-archive' ) );
 		}
 
 		/**
@@ -178,7 +178,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( ! in_array( $screen->id, $this->plugin_screen_hook_suffix ) )
 				return false;
 
-			echo self::render_template( 'admin-footer.php' );
+			echo self::render_admin_template( 'admin-footer.php' );
 		}
 
 		/**
@@ -212,7 +212,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			wp_enqueue_style( WPML_SLUG .'-admin-common', WPML_URL . '/assets/css/admin-common.css', array(), WPML_VERSION );
 
-			if ( ! WPML_Utils::is_modern_wp() )
+			if ( ! wpml_modern_wp() )
 				wp_enqueue_style( WPML_SLUG . '-legacy', WPML_URL . '/assets/css/legacy.css', array(), WPML_VERSION );
 
 			$screen = get_current_screen();
@@ -387,7 +387,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$capability = 'manage_options',
 				$menu_slug = 'wpmovielibrary',
 				$function = null,
-				$icon_url = ( WPML_Utils::is_modern_wp() ? 'dashicons-format-video' : WPML_URL . '/assets/img/legacy/icon-movie.png' ),
+				$icon_url = ( wpml_modern_wp() ? 'dashicons-format-video' : WPML_URL . '/assets/img/legacy/icon-movie.png' ),
 				$position = 6
 			);
 
@@ -399,6 +399,16 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'wpmovielibrary',
 				'WPML_Dashboard::dashboard'
 			);
+
+			if ( ! empty( $_GET['page'] ) && 'wpml-update-movies' == $_GET['page'] ) :
+				$this->plugin_screen_hook_suffix['update-movies'] = add_dashboard_page(
+					__( 'Update movies to version 1.3', 'wpmovielibrary' ),
+					__( 'Update movies', 'wpmovielibrary' ),
+					'manage_options',
+					'wpml-update-movies',
+					'WPML_Deprecated_Meta::update_movies_page'
+				);
+			endif;
 
 			$this->plugin_screen_hook_suffix['all_movies'] = add_submenu_page(
 				'wpmovielibrary',
@@ -554,7 +564,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'_section' => $_section
 			);
 
-			echo self::render_template( 'settings/settings.php', $attributes );
+			echo self::render_admin_template( 'settings/settings.php', $attributes );
 		}
 
 		/**
@@ -599,7 +609,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * @param array $section
 		 */
 		public static function markup_section_headers( $section ) {
-			echo self::render_template( 'settings/section-headers.php', array( 'section' => $section ) );
+			echo self::render_admin_template( 'settings/section-headers.php', array( 'section' => $section ) );
 		}
 
 		/**
@@ -622,7 +632,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$attributes['settings'] = $settings;
 			$attributes['field'] = $field;
 
-			echo self::render_template( 'settings/fields.php', $attributes, $require = 'always' );
+			echo self::render_admin_template( 'settings/fields.php', $attributes, $require = 'always' );
 		}
 
 		/**
@@ -678,7 +688,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'items' => $items
 			);
 
-			echo self::render_template( 'settings/fields.php', $attributes, $require = 'always' );
+			echo self::render_admin_template( 'settings/fields.php', $attributes, $require = 'always' );
 		}
 
 		/**

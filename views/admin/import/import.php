@@ -28,7 +28,7 @@
 					<div id="tmdb_data" style="display:none"></div>
 
 					<p style="text-align:right">
-						<?php WPML_Utils::_nonce_field( 'save-imported-movies', $referer = false ) ?>
+						<?php wpml_nonce_field( 'save-imported-movies', $referer = false ) ?>
 						<input type="hidden" id="wpml_imported_ids" name="wpml_imported_ids" value="" />
 						<input type="button" id="wpml_empty" name="wpml_empty" class="button button-secondary button-large" value="<?php _e( 'Empty All', 'wpmovielibrary' ); ?>" />
 						<input type="submit" id="wpml_save_imported" name="wpml_save_imported" class="button button-primary button-large" value="<?php _e( 'Save Movies', 'wpmovielibrary' ); ?>" />
@@ -99,7 +99,7 @@
 							<tr valign="top">
 								<th scope="row"></th>
 								<td style="text-align:right">
-									<?php WPML_Utils::_nonce_field( 'import-movies-list', $referer = false ) ?>
+									<?php wpml_nonce_field( 'import-movies-list', $referer = false ) ?>
 									<span class="spinner"></span>
 									<input type="submit" id="wpml_importer" name="wpml_importer" class="button button-secondary button-large" value="<?php _e( 'Import Movies', 'wpmovielibrary' ); ?>" onclick="wpml_import_movies.import(); return false;" />
 								</td>
@@ -109,13 +109,13 @@
 
 				</form>
 
-				<?php WPML_Utils::_nonce_field( 'imported-movies', $referer = false ) ?>
-				<?php WPML_Utils::_nonce_field( 'search-movies', $referer = false ) ?>
-				<?php WPML_Utils::_nonce_field( 'enqueue-movies', $referer = false ) ?>
-				<?php WPML_Utils::_nonce_field( 'delete-movies', $referer = false ) ?>
-				<?php WPML_Utils::_nonce_field( 'queued-movies', $referer = false ) ?>
-				<?php WPML_Utils::_nonce_field( 'dequeue-movies', $referer = false ) ?>
-				<?php WPML_Utils::_nonce_field( 'import-queued-movies', $referer = false ) ?>
+				<?php wpml_nonce_field( 'imported-movies', $referer = false ) ?>
+				<?php wpml_nonce_field( 'search-movies', $referer = false ) ?>
+				<?php wpml_nonce_field( 'enqueue-movies', $referer = false ) ?>
+				<?php wpml_nonce_field( 'delete-movies', $referer = false ) ?>
+				<?php wpml_nonce_field( 'queued-movies', $referer = false ) ?>
+				<?php wpml_nonce_field( 'dequeue-movies', $referer = false ) ?>
+				<?php wpml_nonce_field( 'import-queued-movies', $referer = false ) ?>
 
 			</div>
 
@@ -123,6 +123,6 @@
 
 	</div>
 
-	<?php echo self::render_template( '/help.php' ); ?>
+	<?php echo self::render_admin_template( '/help.php' ); ?>
 
 </div>

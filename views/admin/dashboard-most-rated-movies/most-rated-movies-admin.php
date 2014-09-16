@@ -1,8 +1,9 @@
 
 							<div id="wpml-most-rated-movies-widget-config"<?php if ( ! $editing ) echo ' class="main-config"'; ?>>
+<<<<<<< HEAD
 								<form method="post" action="<?php echo admin_url( "admin.php?page=wpmovielibrary#{$widget_id}" ) ?>">
-									<?php WPML_Utils::_nonce_field( "save-{$widget_id}" ) ?>
-									<?php WPML_Utils::_nonce_field( 'load-more-widget-movies' ) ?>
+									<?php wpml_nonce_field( "save-{widget_id}" ) ?>
+									<?php wpml_nonce_field( 'load-more-widget-movies' ) ?>
 									<table class="wp-list-table">
 										<tbody>
 											<tr>

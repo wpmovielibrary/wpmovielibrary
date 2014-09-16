@@ -101,8 +101,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		public static function movies_shortcode( $atts = array(), $content = null ) {
 
 			$default_fields = WPML_Settings::get_supported_movie_meta();
-
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movies', $atts );
+			$atts = self::filter_shortcode_atts( 'movies', $atts );
 
 			$movie_id = WPML_Shortcodes::find_movie_id( $atts['id'], $atts['title'] );
 			if ( is_null( $movie_id ) )
@@ -170,7 +169,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 */
 		public static function movie_shortcode( $atts = array(), $content = null ) {
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie', $atts );
+			$atts = self::filter_shortcode_atts( 'movie', $atts );
 
 			$movie_id = WPML_Shortcodes::find_movie_id( $atts['id'], $atts['title'] );
 			if ( is_null( $movie_id ) )
@@ -225,7 +224,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 				$atts['key'] = str_replace( 'movie_', '', $tag );
 			}
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_meta', $atts );
+			$atts = self::filter_shortcode_atts( 'movie_meta', $atts );
 
 			$movie_id = WPML_Shortcodes::find_movie_id( $atts['id'], $atts['title'] );
 			if ( is_null( $movie_id ) )
@@ -239,13 +238,8 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$meta = WPML_Utils::get_movie_data( $movie_id );
-				$meta = apply_filters( 'wpml_filter_undimension_array', $meta );
-
-				if ( ! isset( $meta[ $key ] ) )
-					return $content;
-
-				$meta = apply_filters( "wpml_format_movie_$key", $meta[ $key ] );
+				$meta = wpml_get_movie_meta( $movie_id, $key );
+				$meta = apply_filters( "wpml_format_movie_$key", $meta );
 				$meta = apply_filters( "wpml_format_movie_field", $meta );
 
 				$view = 'shortcodes/metadata.php';
@@ -282,7 +276,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ )
 				$tag = apply_filters( 'wpml_filter_movie_meta_aliases', $tag );
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_release_date', $atts );
+			$atts = self::filter_shortcode_atts( 'movie_release_date', $atts );
 
 			$movie_id = WPML_Shortcodes::find_movie_id( $atts['id'], $atts['title'] );
 			if ( is_null( $movie_id ) )
@@ -296,8 +290,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$release_date = WPML_Utils::get_movie_data( $movie_id );
-				$release_date = $release_date['meta']['release_date'];
+				$release_date = wpml_get_movie_meta( $movie_id, 'release_date' );
 				$release_date = apply_filters( "wpml_format_movie_release_date", $release_date, $format );
 
 				$view = 'shortcodes/metadata.php';
@@ -328,7 +321,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 */
 		public static function movie_runtime_shortcode( $atts = array(), $content = null ) {
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_runtime', $atts );
+			$atts = self::filter_shortcode_atts( 'movie_runtime', $atts );
 
 			$movie_id = WPML_Shortcodes::find_movie_id( $atts['id'], $atts['title'] );
 			if ( is_null( $movie_id ) )
@@ -342,8 +335,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$runtime = WPML_Utils::get_movie_data( $movie_id );
-				$runtime = $runtime['meta']['runtime'];
+				$runtime = wpml_get_movie_meta( $movie_id, 'runtime' );
 				$runtime = apply_filters( "wpml_format_movie_runtime", $runtime, $format );
 
 				$view = 'shortcodes/metadata.php';
@@ -379,7 +371,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ )
 				$atts['key'] = str_replace( 'movie_', '', $tag );
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_actors', $atts );
+			$atts = self::filter_shortcode_atts( 'movie_actors', $atts );
 
 			$movie_id = WPML_Shortcodes::find_movie_id( $atts['id'], $atts['title'] );
 			if ( is_null( $movie_id ) )
@@ -393,8 +385,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$actors = WPML_Utils::get_movie_data( $movie_id );
-				$actors = $actors['crew']['cast'];
+				$actors = wpml_get_movie_meta( $movie_id, 'cast' );
 				$actors = apply_filters( "wpml_format_movie_actors", $actors );
 
 				if ( ! is_null( $count ) ) {
@@ -431,7 +422,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 */
 		public static function movie_genres_shortcode( $atts = array(), $content = null ) {
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_genres', $atts );
+			$atts = self::filter_shortcode_atts( 'movie_genres', $atts );
 
 			$movie_id = WPML_Shortcodes::find_movie_id( $atts['id'], $atts['title'] );
 			if ( is_null( $movie_id ) )
@@ -445,8 +436,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$genres = WPML_Utils::get_movie_data( $movie_id );
-				$genres = $genres['meta']['genres'];
+				$genres = wpml_get_movie_meta( $movie_id, 'genres' );
 				$genres = apply_filters( "wpml_format_movie_genres", $genres, $movie_id );
 
 				if ( ! is_null( $count ) ) {
@@ -483,7 +473,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 */
 		public static function movie_poster_shortcode( $atts = array(), $content = null ) {
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_poster', $atts );
+			$atts = self::filter_shortcode_atts( 'movie_poster', $atts );
 
 			$movie_id = WPML_Shortcodes::find_movie_id( $atts['id'], $atts['title'] );
 			if ( is_null( $movie_id ) )
@@ -527,7 +517,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 		 */
 		public static function movie_images_shortcode( $atts = array(), $content = null ) {
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_images', $atts );
+			$atts = self::filter_shortcode_atts( 'movie_images', $atts );
 
 			$movie_id = WPML_Shortcodes::find_movie_id( $atts['id'], $atts['title'] );
 			if ( is_null( $movie_id ) )
@@ -554,7 +544,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				$attachments = get_posts( $args );
 				$images = array();
-				$data = '';
+				$content = '';
 				
 				if ( $attachments ) {
 
@@ -594,7 +584,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ )
 				$atts['key'] = str_replace( 'movie_', '', $tag );
 
-			$atts = apply_filters( 'wpml_filter_shortcode_atts', 'movie_detail', $atts );
+			$atts = self::filter_shortcode_atts( 'movie_detail', $atts );
 
 			$movie_id = WPML_Shortcodes::find_movie_id( $atts['id'], $atts['title'] );
 			if ( is_null( $movie_id ) )
@@ -608,13 +598,13 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				if ( ! method_exists( 'WPML_Utils', 'get_movie_' . $key ) )
+				if ( ! function_exists( "wpml_get_movie_{$key}" ) )
 					return $content;
 
-				$content = call_user_func( 'WPML_Utils::get_movie_' . $key, $movie_id );
+				$content = call_user_func( "wpml_get_movie_{$key}", $movie_id );
 
 				$format = ( ! $raw ? 'html' : 'raw' );
-				$content = apply_filters( 'wpml_format_movie_' . $key, $content, $format );
+				$content = apply_filters( "wpml_format_movie_{$key}", $content, $format );
 
 				return $content;
 
@@ -660,16 +650,16 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 					$movies[ $query->current_post ]['poster'] = get_the_post_thumbnail( get_the_ID(), $poster );
 
 				/* 
-				    * Meta are passed to the template as an array of values and titles
-				    * This gives more freedom to adapt the template
-				    */
+				 * Meta are passed to the template as an array of values and titles
+				 * This gives more freedom to adapt the template
+				 */
 				if ( ! is_null( $meta ) ) {
 
 					if ( ! is_array( $meta ) )
 						$meta = array( $meta );
 
-					$_meta = WPML_Utils::get_movie_data( get_the_ID() );
-					$_meta = WPML_Utils::filter_undimension_array( $_meta );
+					$_meta = wpml_get_movie_meta( get_the_ID(), 'data' );
+					$_meta = wpml_filter_undimension_array( $_meta );
 
 					$metadata = array();
 
@@ -679,7 +669,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 							$value = $_meta[ $slug ];
 							if ( has_filter( "wpml_format_movie_{$slug}" ) )
 								$value = apply_filters( "wpml_format_movie_{$slug}", $value );
-							$value = apply_filters( "wpml_format_movie_field", $value );
+							$value = apply_filters( 'wpml_format_movie_field', $value );
 							$metadata[ array_search( $slug, $meta ) ] = array( 'title' => $title, 'value' => $value );
 						}
 					}
@@ -702,7 +692,7 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 						$details = array( $details );
 
 					foreach ( $details as $detail ) {
-						$value = call_user_func( "WPML_Utils::get_movie_$detail", get_the_ID() );
+						$value = call_user_func( "wpml_get_movie_{$detail}", get_the_ID() );
 						$movies[ $query->current_post ]['details'] .= apply_filters( "wpml_format_movie_$detail", $value );
 					}
 				}
@@ -742,6 +732,85 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			}
 
 			return $movie_id;
+		}
+
+		/**
+		 * Filter an array of Shortcode attributes.
+		 * 
+		 * Shortcodes have limited attributes and possibly limited values
+		 * for some attributes. This method matches each submitted attr
+		 * to its limited values if available, and apply a filter to the
+		 * value before returning the array.
+		 * 
+		 * @since    1.1.0
+		 * 
+		 * @param    string    $shortcode Shortcode's ID
+		 * @param    array     $atts Attributes to filter
+		 * 
+		 * @return   array    Filtered Attributes
+		 */
+		private static function filter_shortcode_atts( $shortcode, $atts = array() ) {
+
+			if ( ! is_array( $atts ) )
+				$atts = array( $atts );
+
+			$defaults = WPML_Settings::get_available_shortcodes();
+			$defaults = $defaults[ $shortcode ][ 'atts' ];
+
+			$attributes = array();
+
+			// Loop through the Shortcode's attributes
+			foreach ( $defaults as $slug => $default ) {
+
+				if ( isset( $atts[ $slug ] ) ) {
+
+					$attr = $atts[ $slug ];
+
+					// Attribute is not null
+					if ( is_null( $attr ) ) {
+						$attributes[ $slug ] = $default[ 'default' ];
+					}
+					else if ( ! is_null( $attr ) ) {
+
+						$value = $attr;
+
+						// Attribute has limited values
+						if ( ! is_null( $default[ 'values' ] ) ) {
+
+							// Value should be boolean
+							if ( 'boolean' == $default[ 'values' ] && in_array( strtolower( $attr ), array( 'true', 'false', 'yes', 'no' ) ) ) {
+								$value = wpml_is_boolean( $attr );
+							}
+							// Value is array
+							else if ( is_array( $default[ 'values' ] ) ) {
+								// multiple values
+								if ( false !== strpos( $attr, '|' ) ) {
+									$value = str_replace( 'actors', 'cast', $attr );
+									$value = explode( '|', $value );
+									foreach ( $value as $i => $v )
+										if ( ! in_array( $v, $default[ 'values' ] ) )
+											unset( $value[ $i ] );
+
+									array_unique( $value );
+								}
+								// single value
+								else if ( in_array( strtolower( $attr ), $default[ 'values' ] ) )
+									$value = $attr;
+							}
+						}
+
+						// Attribute has a valid filter
+						if ( is_string( $value ) && function_exists( $default[ 'filter' ] ) && is_callable( $default[ 'filter' ] ) )
+							$value = call_user_func( $default[ 'filter' ], $value );
+
+						$attributes[ $slug ] = $value;
+					}
+				}
+				else
+					$attributes[ $slug ] = $default[ 'default' ];
+			}
+
+			return $attributes;
 		}
 
 		/**

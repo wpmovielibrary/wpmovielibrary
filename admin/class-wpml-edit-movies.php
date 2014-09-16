@@ -50,7 +50,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			add_action( 'ajax_query_attachments_args', __CLASS__ . '::load_images_dummy_query_args', 10, 1 );
 
 			add_action( 'add_meta_boxes', __CLASS__ . '::add_meta_boxes', 10 );
-			add_action( 'save_post_movie', __CLASS__ . '::save_movie_meta', 10, 4 );
+			add_action( 'save_post_movie', __CLASS__ . '::save_movie', 10, 4 );
 
 			add_action( 'wp_ajax_wpml_set_detail', __CLASS__ . '::set_detail_callback' );
 			add_action( 'wp_ajax_wpml_save_details', __CLASS__ . '::save_details_callback' );
@@ -93,7 +93,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				'default_movie_rating' => WPML_Settings::get_available_movie_rating()
 			);
 
-			echo self::render_template( 'edit-movies/edit-details-inline.php', $attributes );
+			echo self::render_admin_template( 'edit-movies/edit-details-inline.php', $attributes );
 		}
 
 		/**
@@ -129,6 +129,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		/**
 		 * Add a custom column to Movies WP_List_Table list.
 		 * Insert movies' poster set as featured image if available.
+		 * 
+		 * TODO: use wpml_get_movie_meta()
 		 * 
 		 * @since     1.0.0
 		 * 
@@ -220,7 +222,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				'check' => 'is_' . $type . 'edit'
 			);
 
-			echo self::render_template( 'edit-movies/quick-edit.php', $attributes );
+			echo self::render_admin_template( 'edit-movies/quick-edit.php', $attributes );
 		}
 
 		/**
@@ -243,7 +245,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			if ( isset( $current_screen ) && ( ( $current_screen->id != 'edit-movie' ) || ( $current_screen->post_type != 'movie' ) ) )
 				return $actions;
 
-			$nonce = WPML_Utils::create_nonce( 'set-quickedit-movie-details' );
+			$nonce = wpml_create_nonce( 'set-quickedit-movie-details' );
 
 			$details = '{';
 			$details .= 'movie_id: ' . $post->ID . ',';
@@ -389,7 +391,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			if ( is_null( $detail ) )
 				return new WP_Error( 'invalid', __( 'Invalid detail: should be status, media or rating.', 'wpmovielibrary' ) );
 
-			WPML_Utils::check_ajax_referer( $detail . '-inline-edit' );
+			wpml_check_ajax_referer( $detail . '-inline-edit' );
 
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
 			$value = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? esc_attr( $_POST['data'] ) : null );
@@ -399,7 +401,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			$response = self::set_movie_detail( $post_id, $detail, $value );
 
-			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( $detail . '-inline-edit' ) );
+			wpml_ajax_response( $response, array(), wpml_create_nonce( $detail . '-inline-edit' ) );
 		}
 
 		/**
@@ -418,11 +420,11 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			if ( is_null( $post_id ) || is_null( $details ) )
 				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', 'wpmovielibrary' ) );
 
-			WPML_Utils::check_ajax_referer( 'save-movie-details' );
+			wpml_check_ajax_referer( 'save-movie-details' );
 
 			$response = self::save_movie_details( $post_id, $details );
 
-			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( 'save-movie-details' ) );
+			wpml_ajax_response( $response, array(), wpml_create_nonce( 'save-movie-details' ) );
 		}
 
 		/**
@@ -437,11 +439,11 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			if ( is_null( $post_id ) )
 				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', 'wpmovielibrary' ) );
 
-			WPML_Utils::check_ajax_referer( 'empty-movie-meta' );
+			wpml_check_ajax_referer( 'empty-movie-meta' );
 
 			$response = self::empty_movie_meta( $post_id );
 
-			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( 'empty-movie-meta' ) );
+			wpml_ajax_response( $response, array(), wpml_create_nonce( 'empty-movie-meta' ) );
 		}
 
 
@@ -453,6 +455,9 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 		/**
 		 * Register WPML Metaboxes
+		 * 
+		 * Alter $wp_meta_boxes to display the Details Metabox right below
+		 * WordPress standard Submit Metabox.
 		 * 
 		 * @since    1.0
 		 */
@@ -469,6 +474,21 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 				add_meta_box( $id, $title, $callback, $screen, $context, $priority,  $callback_args );
 			}
+
+			global $wp_meta_boxes;
+
+			$details = $wp_meta_boxes['movie']['side']['core']['wpml_details'];
+			$core = $wp_meta_boxes['movie']['side']['core'];
+			$submit = $wp_meta_boxes['movie']['side']['core']['submitdiv'];
+
+			unset( $core['wpml_details'], $core['submitdiv'] );
+
+			$wp_meta_boxes['movie']['side']['core'] = array_merge(
+				array( 'submitdiv' => $submit ),
+				array( 'wpml_details' => $details ),
+				$core
+			);
+
 		}
 
 		/**
@@ -484,11 +504,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 */
 		public static function metabox_meta( $post, $metabox ) {
 
-			$metadata = get_post_meta( $post->ID, '_wpml_movie_data', true );
-			$metadata = apply_filters( 'wpml_filter_empty_array', $metadata );
+			$metadata = wpml_get_movie_meta( $post->ID );
+			$metadata = wpml_filter_empty_array( $metadata );
+			$_meta = WPML_Settings::get_supported_movie_meta();
 			$select = null;
 			$status = '';
 
+			// TODO: cleanup
 			if ( isset( $_GET['wpml_search_movie'] ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'search-movies' ) && ( empty( $metadata ) || isset( $metadata['_empty'] ) ) ) {
 
 				$search_by = ( isset( $_GET['search_by'] ) && in_array( $_GET['search_by'], array( 'title', 'id' ) ) ? $_GET['search_by'] : null );
@@ -508,13 +530,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			$attributes = array(
 				'languages' => WPML_Settings::get_available_languages(),
-				'metas' => WPML_Settings::get_supported_movie_meta( $type = null, false ),
+				'metas' => $_meta,
 				'metadata' => $metadata,
 				'status' => $status,
 				'select' => $select
 			);
 
-			echo self::render_template( 'metaboxes/movie-meta.php', $attributes );
+			echo self::render_admin_template( 'metaboxes/movie-meta.php', $attributes );
 		}
 
 		/**
@@ -531,11 +553,11 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		public static function metabox_images( $post, $metabox ) {
 
 			$attributes = array(
-				'nonce' => WPML_Utils::_nonce_field( 'upload-movie-image', $referer = false ),
+				'nonce' => wpml_nonce_field( 'upload-movie-image', $referer = false ),
 				'images' => WPML_Media::get_movie_imported_images(),
 			);
 
-			echo self::render_template( 'metaboxes/movie-images.php', $attributes );
+			echo self::render_admin_template( 'metaboxes/movie-images.php', $attributes );
 		}
 
 		/**
@@ -561,7 +583,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			$attributes['movie_rating'] = ( isset( $v ) && '' != $v ? number_format( $v, 1 ) : 0.0 );
 			$attributes['movie_rating_str'] = str_replace( '.', '-', $attributes['movie_rating'] );
 
-			echo self::render_template( 'metaboxes/movie-details.php', $attributes );
+			echo self::render_admin_template( 'metaboxes/movie-details.php', $attributes );
 		}
 
 		/**
@@ -639,6 +661,96 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		}
 
 		/**
+		 * Save movie metadata.
+		 * 
+		 * @since     1.3
+		 * 
+		 * @param    int      $post_id ID of the current Post
+		 * @param    array    $details Movie details: media, status, rating
+		 * 
+		 * @return   int|object    WP_Error object is anything went
+		 *                                  wrong, true else
+		 */
+		public static function save_movie_meta( $post_id, $movie_meta, $clean = true ) {
+
+			$post = get_post( $post_id );
+			if ( ! $post || 'movie' != get_post_type( $post ) )
+				return new WP_Error( 'invalid_post', __( 'Error: submitted post is not a movie.', 'wpmovielibrary' ) );
+
+			$movie_meta = self::validate_meta_data( $movie_meta );
+
+			update_post_meta( $post_id, "_wpml_movie_poster", $movie_meta['poster'] );
+			update_post_meta( $post_id, "_wpml_movie_tmdb_id", $movie_meta['tmdb_id'] );
+
+			foreach ( $movie_meta['meta'] as $slug => $meta )
+				update_post_meta( $post_id, "_wpml_movie_{$slug}", $meta );
+
+			foreach ( $movie_meta['crew'] as $slug => $meta )
+				update_post_meta( $post_id, "_wpml_movie_{$slug}", $meta );
+
+			if ( false !== $clean )
+				WPML_Cache::clean_transient( 'clean', $force = true );
+
+			return $post_id;
+		}
+
+		/**
+		 * Filter the Movie Metadata submitted when saving a post to
+		 * avoid storing unexpected data to the database.
+		 * 
+		 * The Metabox array makes a distinction between pure metadata
+		 * and crew data, so we filter them separately. If the data slug
+		 * is valid, the value is escaped and added to the return array.
+		 * 
+		 * @since    1.0.0
+		 * 
+		 * @param    array    $data The Movie Metadata to filter
+		 * 
+		 * @return   array    The filtered Metadata
+		 */
+		private static function validate_meta_data( $data ) {
+
+			if ( ! is_array( $data ) || empty( $data ) || ! isset( $data['tmdb_id'] ) || ! isset( $data['meta'] ) || ! isset( $data['crew'] ) )
+				return $data;
+
+			$data = wpml_filter_empty_array( $data );
+
+			$supported = WPML_Settings::get_supported_movie_meta();
+			$keys = array_keys( $supported );
+			$movie_tmdb_id = esc_attr( $data['tmdb_id'] );
+			$movie_post_id = ( isset( $data['post_id'] ) && '' != $data['post_id'] ? esc_attr( $data['post_id'] ) : null );
+			$movie_poster = ( isset( $data['poster'] ) && '' != $data['poster'] ? esc_attr( $data['poster'] ) : null );
+			$movie_meta = array();
+			$movie_crew = array();
+
+			foreach ( $data['meta'] as $slug => $_meta ) {
+				if ( in_array( $slug, $keys ) ) {
+					$filter = ( isset( $supported[ $slug ]['filter'] ) && function_exists( $supported[ $slug ]['filter'] ) ? $supported[ $slug ]['filter'] : 'esc_html' );
+					$args   = ( isset( $supported[ $slug ]['filter_args'] ) && ! is_null( $supported[ $slug ]['filter_args'] ) ? $supported[ $slug ]['filter_args'] : null );
+					$movie_meta[ $slug ] = call_user_func( $filter, $_meta, $args );
+				}
+			}
+
+			foreach ( $data['crew'] as $slug => $_meta ) {
+				if ( in_array( $slug, $keys ) ) {
+					$filter = ( isset( $supported[ $slug ]['filter'] ) && function_exists( $supported[ $slug ]['filter'] ) ? $supported[ $slug ]['filter'] : 'esc_html' );
+					$args   = ( isset( $supported[ $slug ]['filter_args'] ) && ! is_null( $supported[ $slug ]['filter_args'] ) ? $supported[ $slug ]['filter_args'] : null );
+					$movie_crew[ $slug ] = call_user_func( $filter, $_meta, $args );
+				}
+			}
+
+			$_data = array(
+				'tmdb_id' => $movie_tmdb_id,
+				'post_id' => $movie_post_id,
+				'poster'  => $movie_poster,
+				'meta'    => $movie_meta,
+				'crew'    => $movie_crew
+			);
+
+			return $_data;
+		}
+
+		/**
 		 * Remove movie meta and taxonomies.
 		 * 
 		 * @since     1.2
@@ -674,7 +786,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 		 * 
 		 * @return   int|WP_Error
 		 */
-		public static function save_movie_meta( $post_ID, $post, $queue = false, $movie_meta = null ) {
+		public static function save_movie( $post_ID, $post, $queue = false, $movie_meta = null ) {
 
 			if ( ! current_user_can( 'edit_post', $post_ID ) )
 				return new WP_Error( __( 'You are not allowed to edit posts.', 'wpmovielibrary' ) );
@@ -689,11 +801,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 
 			if ( ! is_null( $movie_meta ) && count( $movie_meta ) ) {
 
-				$movie_meta = apply_filters( 'wpml_filter_empty_array', $movie_meta );
-				$movie_meta = apply_filters( 'wpml_validate_meta_data', $movie_meta );
-
 				// Save TMDb data
-				update_post_meta( $post_ID, '_wpml_movie_data', $movie_meta );
+				self::save_movie_meta( $post_ID, $movie_meta );
 
 				// Set poster as featured image
 				if ( WPML_Settings::images__poster_featured() && ! $queue ) {
@@ -743,16 +852,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			}
 			else if ( isset( $_REQUEST['tmdb_data'] ) && '' != $_REQUEST['tmdb_data'] ) {
 
-				$movie_meta = apply_filters( 'wpml_filter_empty_array', $_REQUEST['tmdb_data'] );
-				$movie_meta = apply_filters( 'wpml_validate_meta_data', $movie_meta );
-
-				update_post_meta( $post_ID, '_wpml_movie_data', $movie_meta );
+				self::save_movie_meta( $post_ID, $_REQUEST['tmdb_data'] );
 			}
 
 			if ( isset( $_REQUEST['wpml_details'] ) && ! is_null( $_REQUEST['wpml_details'] ) ) {
 
 				if ( isset( $_REQUEST['is_quickedit'] ) || isset( $_REQUEST['is_bulkedit'] ) )
-					WPML_Utils::check_admin_referer( 'quickedit-movie-details' );
+					wpml_check_admin_referer( 'quickedit-movie-details' );
 
 				$wpml_details = $_REQUEST['wpml_details'];
 				self::save_movie_details( $post_ID, $wpml_details );

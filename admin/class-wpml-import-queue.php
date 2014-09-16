@@ -53,12 +53,12 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function enqueue_movies_callback() {
 
-			WPML_Utils::check_ajax_referer( 'enqueue-movies' );
+			wpml_check_ajax_referer( 'enqueue-movies' );
 
 			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? $_POST['movies'] : null );
 
 			$response = self::enqueue_movies( $movies );
-			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( 'enqueue-movies' ) );
+			wpml_ajax_response( $response, array(), wpml_create_nonce( 'enqueue-movies' ) );
 		}
 
 		/**
@@ -71,12 +71,12 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function dequeue_movies_callback() {
 
-			WPML_Utils::check_ajax_referer( 'dequeue-movies' );
+			wpml_check_ajax_referer( 'dequeue-movies' );
 
 			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? $_POST['movies'] : null );
 
 			$response = self::dequeue_movies( $movies );
-			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( 'dequeue-movies' ) );
+			wpml_ajax_response( $response, array(), wpml_create_nonce( 'dequeue-movies' ) );
 		}
 
 		/**
@@ -86,7 +86,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function queued_movies_callback() {
 
-			WPML_Utils::check_ajax_referer( 'queued-movies' );
+			wpml_check_ajax_referer( 'queued-movies' );
 
 			ob_start();
 			self::display_queued_movie_list();
@@ -104,7 +104,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			$response['column_headers'] = '';
 			$i18n['total_items_i18n'] = ( $total_items ? sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) ) : _( 'No item' ) );
 
-			WPML_Utils::ajax_response( $response, $i18n, WPML_Utils::create_nonce( 'queued-movies' ) );
+			wpml_ajax_response( $response, $i18n, wpml_create_nonce( 'queued-movies' ) );
 		}
 
 		/**
@@ -114,12 +114,12 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function import_queued_movie_callback() {
 
-			WPML_Utils::check_ajax_referer( 'import-queued-movies' );
+			wpml_check_ajax_referer( 'import-queued-movies' );
 
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
 
 			$response = self::import_queued_movie( $post_id );
-			WPML_Utils::ajax_response( $response, array(), WPML_Utils::create_nonce( 'import-queued-movies' ) );
+			wpml_ajax_response( $response, array(), wpml_create_nonce( 'import-queued-movies' ) );
 		}
 
 		/**
@@ -137,7 +137,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				'_ajax' => $_ajax
 			);
 
-			echo self::render_template( 'import/queued-movies.php', $attributes );
+			echo self::render_admin_template( 'import/queued-movies.php', $attributes );
 		}
 
 		/**
@@ -160,7 +160,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				return $errors;
 			}
 
-			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'enqueue_movie' ), array( $movies ), $loop = true );
+			$response = wpml_ajax_filter( array( __CLASS__, 'enqueue_movie' ), array( $movies ), $loop = true );
 			return $response;
 		}
 
@@ -206,7 +206,9 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				return new WP_Error( 'error', sprintf( __( 'An error occured when adding "%s" to the queue: %s', 'wpmovielibrary' ), $post_title, $update->get_error_message() ) );
 
 			// TODO: Use WP_Error
-			WPML_Edit_Movies::save_movie_meta( $update, $post = null, $queue = true, $metadata );
+			$update = WPML_Edit_Movies::save_movie( $update, $post = null, $queue = true, $metadata );
+			if ( is_wp_error( $update ) )
+				return new WP_Error( 'error', sprintf( __( 'An error occured when adding "%s" to the queue: %s', 'wpmovielibrary' ), $post_title, $update->get_error_message() ) );
 
 			return $post_id;
 		}
@@ -235,7 +237,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				return $errors;
 			}
 
-			$response = WPML_Utils::ajax_filter( array( __CLASS__, 'dequeue_movie' ), array( $movies ), $loop = true );
+			$response = wpml_ajax_filter( array( __CLASS__, 'dequeue_movie' ), array( $movies ), $loop = true );
 			return $response;
 		}
 
@@ -293,7 +295,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			if ( is_null( $post_id ) || ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) )
 				return new WP_Error( 'invalid_movie', sprintf( __( 'Error: submitted Post ID doesn\t match any valid movie.', 'wpmovielibrary' ) ) );
 
-			$meta = get_post_meta( $post_id, '_wpml_movie_data', true );
+			$meta = wpml_get_movie_meta( $post_id );
 			if ( '' == $meta || ! is_array( $meta ) || ! isset( $meta['poster'] ) || ! isset( $meta['tmdb_id'] ) )
 				return new WP_Error( 'invalid_meta', sprintf( __( 'Error: cannot find submitted movie\'s metadata, try enqueuing it again.', 'wpmovielibrary' ) ) );
 
@@ -339,14 +341,11 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				while ( have_posts() ) {
 					the_post();
 					if ( 'import-queued' == get_post_status() ) {
-						//echo '<!-- '.print_r( $metadata, true ).' -->';
-						$metadata = WPML_Utils::get_movie_data( get_the_ID() );
 						$columns[ get_the_ID() ] = array(
-							'ID'         => get_the_ID(),
-							//'poster'     => '<img src="' . WPML_TMDb::get_image_url( $metadata['poster'], 'poster', 'xxx-small' ) . '" alt="' . get_the_title() . '" />',
-							'title' => get_the_title(),
-							'director'   => $metadata['crew']['director'],
-							'tmdb_id'    => get_post_meta( get_the_ID(), '_wpml_tmdb_id', true )
+							'ID'       => get_the_ID(),
+							'title'    => get_the_title(),
+							'director' => wpml_get_movie_meta( get_the_ID(), 'director' ),
+							'tmdb_id'  => wpml_get_movie_meta( get_the_ID(), 'tmdb_id', true )
 						);
 					}
 				}

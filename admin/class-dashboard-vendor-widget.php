@@ -62,7 +62,7 @@ if ( ! class_exists( 'WPML_Dashboard_Vendor_Widget' ) ) :
 
 			$links = implode( '', $links );
 
-			echo self::render_template( '/dashboard-vendor/vendor.php', array( 'links' => $links ) );
+			echo self::render_admin_template( '/dashboard-vendor/vendor.php', array( 'links' => $links ) );
 		}
 
 		/**

@@ -87,7 +87,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			);
 
 			// Dashicons or PNG
-			$args['menu_icon'] = ( WPML_Utils::is_modern_wp() ? 'dashicons-format-video' : WPML_URL . '/assets/img/icon-movie.png' );
+			$args['menu_icon'] = ( wpml_modern_wp() ? 'dashicons-format-video' : WPML_URL . '/assets/img/icon-movie.png' );
 
 			register_post_type( 'movie', $args );
 
@@ -109,6 +109,45 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 				'label_count'               => _n_noop( 'Queued Movie <span class="count">(%s)</span>', 'Queued Movies <span class="count">(%s)</span>' ),
 			) );
 
+		}
+
+		/**
+		 * Return various Movie's Post Meta. Possible meta: status, media, rating
+		 * and data.
+		 *
+		 * @since    1.0.0
+		 * 
+		 * @param    string    Meta type to return: data, status, media or rating
+		 * @param    int       Movie Post ID
+		 *
+		 * @return   array|string    WPML Movie Meta if available, empty string else.
+		 */
+		public static function get_movie_meta( $post_id = null, $meta = null ) {
+
+			if ( is_null( $post_id ) )
+				$post_id =  get_the_ID();
+
+			if ( ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) || ! in_array( $meta, $allowed_meta ) )
+				return false;
+
+			if ( 'data' == $meta ) {
+				$_meta = WPML_Settings::get_supported_movie_meta();
+				$value = array();
+
+				$value['tmdb_id'] = get_post_meta( $post_id, "_wpml_movie_tmdb_id", true );
+				$value['poster'] = get_post_meta( $post_id, "_wpml_movie_poster", true );
+
+				foreach ( array_keys( $_meta ) as $slug )
+					$value[ $slug ] = get_post_meta( $post_id, "_wpml_movie_{$slug}", true );
+
+				return $value;
+			}
+
+			$value = get_post_meta( $post_id, "_wpml_movie_{$meta}", true );
+			if ( 'rating' == $meta )
+				$value = number_format( floatval( $value ), 1 );
+
+			return $value;
 		}
  
 		/**
@@ -210,7 +249,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			$items = array();
 
 			foreach ( $fields as $field ) {
-				$detail = call_user_func( "WPML_Utils::get_{$field}", $post_id );
+				$detail = call_user_func( "wpml_get_{$field}", $post_id );
 				$items[] = apply_filters( "wpml_format_{$field}", $detail );
 			}
 
@@ -231,8 +270,8 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			if ( 'nowhere' == WPML_Settings::wpml__meta_in_posts() || ( 'posts_only' == WPML_Settings::wpml__meta_in_posts() && ! is_singular() ) )
 				return null;
 
-			$metadata = WPML_Utils::get_movie_data();
-			$metadata = WPML_Utils::filter_undimension_array( $metadata );
+			$metadata = wpml_get_movie_meta();
+			$metadata = wpml_filter_undimension_array( $metadata );
 
 			$fields = WPML_Settings::wpml__default_movie_meta();
 			$default_fields = WPML_Settings::get_supported_movie_meta();

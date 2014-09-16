@@ -181,7 +181,7 @@ class WPML_Movies_Widget extends WPML_Widget {
 				'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary' ), $movie->post_title ),
 				'title'       => $movie->post_title,
 				'link'        => get_permalink( $movie->ID ),
-				'rating'      => get_post_meta( $movie->ID, '_wpml_movie_rating', true ),
+				'rating'      => wpml_get_movie_meta( $movie->ID, 'rating' ),
 				'thumbnail'   => get_the_post_thumbnail( $movie->ID, $thumbnail )
 			);
 			$item['rating_str'] = ( '' == $item['rating'] ? "stars_0_0" : 'stars_' . str_replace( '.', '_', $item['rating'] ) );

@@ -46,12 +46,12 @@ if ( ! class_exists( 'WPML_Dashboard_Helper_Widget' ) ) :
 					'icon'  => 'dashicons dashicons-sos'
 				),
 				'report' => array(
-					'url'   => 'https://github.com/CaerCam/wpmovielibrary/issues/new',
+					'url'   => 'https://github.com/wpmovielibrary/wpmovielibrary/issues/new',
 					'title' => __( 'Report a bug', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-flag'
 				),
 				'contribute' => array(
-					'url'   => 'https://github.com/CaerCam/wpmovielibrary',
+					'url'   => 'https://github.com/wpmovielibrary/wpmovielibrary',
 					'title' => __( 'Contribute', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-admin-tools'
 				),
@@ -77,7 +77,7 @@ if ( ! class_exists( 'WPML_Dashboard_Helper_Widget' ) ) :
 
 			$links = implode( '', $links );
 
-			echo self::render_template( '/dashboard-help/help.php', array( 'links' => $links ) );
+			echo self::render_admin_template( '/dashboard-help/help.php', array( 'links' => $links ) );
 		}
 
 		/**

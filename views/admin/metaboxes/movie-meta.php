@@ -4,7 +4,7 @@
 			<p><strong><?php _e( 'Find movie on TMDb:', 'wpmovielibrary' ); ?></strong></p>
 
 			<div>
-				<?php WPML_Utils::_nonce_field( 'search-movies' ) ?>
+				<?php wpml_nonce_field( 'search-movies' ) ?>
 				<select id="tmdb_search_lang" name="wpml[lang]" onchange="wpml_edit_meta.lang=this.value;">
 <?php foreach ( $languages as $code => $lang ) : ?>
 					<option value="<?php echo $code ?>" <?php selected( WPML_Settings::tmdb__lang(), $code ); ?>><?php echo $lang ?></option>
@@ -17,7 +17,7 @@
 				<input id="tmdb_query" type="text" name="wpml[tmdb_query]" value="" size="40" maxlength="32" />
 				<a id="tmdb_search" name="wpml[tmdb_search]" href="<?php echo get_edit_post_link() ?>&amp;wpml_auto_fetch=1" class="button button-secondary"><?php _e( 'Search', 'wpmovielibrary' ); ?></a>
 				<span class="spinner"></span>
-				<?php WPML_Utils::_nonce_field( 'empty-movie-meta' ) ?>
+				<?php wpml_nonce_field( 'empty-movie-meta' ) ?>
 				<a id="tmdb_empty" name="wpml[tmdb_empty]" type="submit" class="button button-secondary button-empty hide-if-no-js"><?php _e( 'Empty Results', 'wpmovielibrary' ); ?></a>
 			</div>
 
@@ -46,36 +46,54 @@
 			<input type="hidden" id="wpml_actor_limit" class="hide-if-js hide-if-no-js" value="<?php echo WPML_Settings::taxonomies__actor_limit() ?>" />
 			<input type="hidden" id="wpml_poster_featured" class="hide-if-js hide-if-no-js" value="<?php echo ( 1 == WPML_Settings::images__poster_featured() ? '1' : '0' ) ?>" />
 
-<?php foreach ( $metas as $id => $box ) : ?>
-			<table class="list-table tmdb_<?php echo $id ?>">
+			<table class="list-table meta">
 				<thead>
 					<tr>
-						<th class="left"><?php echo $box['type'] ?></th>
-						<th><?php echo $box['value'] ?></th>
+						<th class="left"><?php _e( 'Type', 'wpmovielibrary' ) ?></th>
+						<th><?php _e( 'Value', 'wpmovielibrary' ) ?></th>
 					</tr>
 				</thead>
 				<tbody>
-<?php foreach ( $box['data'] as $slug => $meta ) :
+<?php 
+$cur_meta = 'meta';
+foreach ( $metas as $slug => $meta ) :
+
+	if ( $meta['group'] != $cur_meta ) :
+		$cur_meta = $meta['group'];
+?>
+				</tbody>
+			</table>
+
+			<table class="list-table crew">
+				<thead>
+					<tr>
+						<th class="left"><?php _e( 'Job', 'wpmovielibrary' ) ?></th>
+						<th><?php _e( 'Name(s)', 'wpmovielibrary' ) ?></th>
+					</tr>
+				</thead>
+				<tbody>
+<?php
+	endif;
+
 	$_value = '';
-	if ( isset( $metadata[ $id ][ $slug ] ) )
-		$_value = apply_filters( 'wpml_stringify_array', $metadata[ $id ][ $slug ] );
+	if ( isset( $metadata[ $slug ] ) )
+		$_value = apply_filters( 'wpml_stringify_array', $metadata[ $slug ] );
 ?>
 					<tr>
 						<td class="left"><?php _e( $meta['title'], 'wpmovielibrary' ) ?></td>
 <?php if ( isset( $meta['type'] ) && 'textarea' == $meta['type'] ) : ?>
 						<td>
-							<textarea id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $id; ?>][<?php echo $slug; ?>]" class="tmdb_data_field" rows="6"><?php echo $_value ?></textarea>
+							<textarea id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $meta['group']; ?>][<?php echo $slug; ?>]" class="tmdb_data_field" rows="6"><?php echo $_value ?></textarea>
 						</td>
 <?php elseif ( isset( $meta['type'] ) && in_array( $meta['type'], array( 'text', 'hidden' ) ) ) : ?>
 						<td>
-							<input type="<?php echo $meta['type']; ?>" id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $id; ?>][<?php echo $slug; ?>]" class="tmdb_data_field" value="<?php echo $_value ?>" />
+							<input type="<?php echo $meta['type']; ?>" id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $meta['group']; ?>][<?php echo $slug; ?>]" class="tmdb_data_field" value="<?php echo $_value ?>" />
 						</td>
 <?php endif; ?>
 					</tr>
 <?php endforeach; ?>
 				</tbody>
 			</table>
-<?php endforeach; ?>
 
 			<div style="clear:both"></div>
 

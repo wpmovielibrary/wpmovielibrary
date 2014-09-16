@@ -17,7 +17,7 @@
  * Plugin Name: WPMovieLibrary
  * Plugin URI:  http://wpmovielibrary.com
  * Description: A WordPress Plugin to manage a personnal library of movies.
- * Version:     1.2.2
+ * Version:     1.3
  * Author:      Charlie MERLAND
  * Author URI:  http://www.caercam.org/
  * Text Domain: wpml
@@ -33,7 +33,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 define( 'WPML_NAME',                   'WPMovieLibrary' );
-define( 'WPML_VERSION',                '1.2.2' );
+define( 'WPML_VERSION',                '1.3' );
 define( 'WPML_SLUG',                   'wpml' );
 define( 'WPML_URL',                    plugins_url( basename( __DIR__ ) ) );
 define( 'WPML_PATH',                   plugin_dir_path( __FILE__ ) );
@@ -103,13 +103,14 @@ if ( wpml_requirements_met() ) {
 	 *----------------------------------------------------------------------------*/
 
 	/* Core */
-	require_once( WPML_PATH . 'includes/class-module.php' );
+	require_once( WPML_PATH . 'includes/functions/wpml-core-functions.php' );
+	require_once( WPML_PATH . 'includes/classes/class-module.php' );
 	require_once( WPML_PATH . 'public/class-wpmovielibrary.php' );
 
 	/* Basics */
-	require_once( WPML_PATH . 'includes/class-wpml-settings.php' );
-	require_once( WPML_PATH . 'includes/class-wpml-cache.php' );
-	require_once( WPML_PATH . 'includes/class-wpml-utils.php' );
+	require_once( WPML_PATH . 'includes/classes/class-wpml-settings.php' );
+	require_once( WPML_PATH . 'includes/classes/class-wpml-cache.php' );
+	require_once( WPML_PATH . 'includes/classes/class-wpml-utils.php' );
 
 	/* CPT and Taxo */
 	require_once( WPML_PATH . 'public/class-wpml-movies.php' );
@@ -118,14 +119,17 @@ if ( wpml_requirements_met() ) {
 	require_once( WPML_PATH . 'public/class-wpml-actors.php' );
 
 	/* Self-speaking */
-	require_once( WPML_PATH . 'public/class-shortcodes.php' );
+	require_once( WPML_PATH . 'public/class-wpml-shortcodes.php' );
 
 	/* Widgets */
-	require_once( WPML_PATH . 'includes/class-wpml-widget.php' );
+	require_once( WPML_PATH . 'includes/classes/class-wpml-widget.php' );
 	require_once( WPML_PATH . 'includes/widgets/class-statistics-widget.php' );
 	require_once( WPML_PATH . 'includes/widgets/class-taxonomies-widget.php' );
 	require_once( WPML_PATH . 'includes/widgets/class-details-widget.php' );
 	require_once( WPML_PATH . 'includes/widgets/class-movies-widget.php' );
+
+	if ( wpml_has_deprecated_meta() )
+		require_once( WPML_PATH . 'includes/classes/legacy/class-wpml-deprecated-meta.php' );
 
 	/*
 	 * Register hooks that are fired when the plugin is activated or deactivated.
@@ -147,7 +151,7 @@ if ( wpml_requirements_met() ) {
 	 */
 	if ( is_admin() ) {
 
-		require_once( WPML_PATH . 'includes/class-wpml-ajax.php' );
+		require_once( WPML_PATH . 'includes/classes/class-wpml-ajax.php' );
 		require_once( WPML_PATH . 'admin/class-wpmovielibrary-admin.php' );
 		require_once( WPML_PATH . 'admin/class-dashboard.php' );
 		require_once( WPML_PATH . 'admin/class-dashboard-stats-widget.php' );

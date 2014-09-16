@@ -584,113 +584,117 @@ $wpml_movie_details = array(
 );
 
 $wpml_movie_meta = array(
-	'meta' => array(
-		'type' => __( 'Type', 'wpmovielibrary' ),
-		'value' => __( 'Value', 'wpmovielibrary' ),
-		'data' => array(
-			'title' => array(
-				'title' => __( 'Title', 'wpmovielibrary' ),
-				'type' => 'text',
-				'filter' => 'wp_kses',
-				'filter_args' => array( 'b' => array(), 'i' => array(), 'em' => array(), 'strong' => array(), 'sup' => array(), 'sub' => array() )
-			),
-			'original_title' => array(
-				'title' => __( 'Original Title', 'wpmovielibrary' ),
-				'type' => 'text',
-				'filter' => 'wp_kses',
-				'filter_args' => array( 'b' => array(), 'i' => array(), 'em' => array(), 'strong' => array(), 'sup' => array(), 'sub' => array() )
-			),
-			'overview' => array(
-				'title' => __( 'Overview', 'wpmovielibrary' ),
-				'type' => 'textarea',
-				'filter' => 'wp_kses',
-				'filter_args' => array( 'b' => array(), 'i' => array(), 'em' => array(), 'strong' => array(), 'sup' => array(), 'sub' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(), 'br' => array(), 'span' => array() )
-			),
-			'production_companies' => array(
-				'title' => __( 'Production', 'wpmovielibrary' ),
-				'type' => 'text',
-				'filter' => 'esc_html',
-				'filter_args' => null
-			),
-			'production_countries' => array(
-				'title' => __( 'Country', 'wpmovielibrary' ),
-				'type' => 'text',
-				'filter' => 'esc_html',
-				'filter_args' => null
-			),
-			'spoken_languages' => array(
-				'title' => __( 'Languages', 'wpmovielibrary' ),
-				'type' => 'text',
-				'filter' => 'esc_html',
-				'filter_args' => null
-			),
-			'runtime' => array(
-				'title' => __( 'Runtime', 'wpmovielibrary' ),
-				'type' => 'text',
-				'filter' => 'esc_html',
-				'filter_args' => null
-			),
-			'genres' => array(
-				'title' => __( 'Genres', 'wpmovielibrary' ),
-				'type' => 'text',
-				'filter' => 'esc_html',
-				'filter_args' => null
-			),
-			'release_date' => array(
-				'title' => __( 'Release Date', 'wpmovielibrary' ),
-				'type' => 'text',
-				'filter' => 'esc_html',
-				'filter_args' => null
-			)
-		)
+	'title' => array(
+		'title' => __( 'Title', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'wp_kses',
+		'filter_args' => array( 'b' => array(), 'i' => array(), 'em' => array(), 'strong' => array(), 'sup' => array(), 'sub' => array() ),
+		'group' => 'meta'
 	),
-	'crew' => array(
-		'type' => __( 'Job', 'wpmovielibrary' ),
-		'value' => __( 'Name(s)', 'wpmovielibrary' ),
-		'data' => array(
-			'director' => array(
-				'title' => __( 'Director', 'wpmovielibrary' ),
-				'type' => 'text',
-				'filter' => 'esc_html',
-				'filter_args' => null
-			),
-			'producer' => array(
-				'title' => __( 'Producer', 'wpmovielibrary' ),
-				'type' => 'text',
-				'filter' => 'esc_html',
-				'filter_args' => null
-			),
-			'photography' => array(
-				'title' => __( 'Director of Photography', 'wpmovielibrary' ),
-				'type' => 'text',
-				'filter' => 'esc_html',
-				'filter_args' => null
-			),
-			'composer' => array(
-				'title' => __( 'Original Music Composer', 'wpmovielibrary' ),
-				'type' => 'text',
-				'filter' => 'esc_html',
-				'filter_args' => null
-			),
-			'author' => array(
-				'title' => __( 'Author', 'wpmovielibrary' ),
-				'type' => 'text',
-				'filter' => 'esc_html',
-				'filter_args' => null
-			),
-			'writer' => array(
-				'title' => __( 'Writer', 'wpmovielibrary' ),
-				'type' => 'text',
-				'filter' => 'esc_html',
-				'filter_args' => null
-			),
-			'cast' => array(
-				'title' => __( 'Actors', 'wpmovielibrary' ),
-				'type' => 'textarea',
-				'filter' => 'esc_html',
-				'filter_args' => null
-			)
-		)
+	'original_title' => array(
+		'title' => __( 'Original Title', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'wp_kses',
+		'filter_args' => array( 'b' => array(), 'i' => array(), 'em' => array(), 'strong' => array(), 'sup' => array(), 'sub' => array() ),
+		'group' => 'meta'
+	),
+	'overview' => array(
+		'title' => __( 'Overview', 'wpmovielibrary' ),
+		'type' => 'textarea',
+		'filter' => 'wp_kses',
+		'filter_args' => array( 'b' => array(), 'i' => array(), 'em' => array(), 'strong' => array(), 'sup' => array(), 'sub' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(), 'br' => array(), 'span' => array() ),
+		'group' => 'meta'
+	),
+	'production_companies' => array(
+		'title' => __( 'Production', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'esc_html',
+		'filter_args' => null,
+		'group' => 'meta'
+	),
+	'production_countries' => array(
+		'title' => __( 'Country', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'esc_html',
+		'filter_args' => null,
+		'group' => 'meta'
+	),
+	'spoken_languages' => array(
+		'title' => __( 'Languages', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'esc_html',
+		'filter_args' => null,
+		'group' => 'meta'
+	),
+	'runtime' => array(
+		'title' => __( 'Runtime', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'esc_html',
+		'filter_args' => null,
+		'group' => 'meta'
+	),
+	'genres' => array(
+		'title' => __( 'Genres', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'esc_html',
+		'filter_args' => null,
+		'group' => 'meta'
+	),
+	'release_date' => array(
+		'title' => __( 'Release Date', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'esc_html',
+		'filter_args' => null,
+		'group' => 'meta'
+	),
+	'director' => array(
+		'title' => __( 'Director', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'esc_html',
+		'filter_args' => null,
+		'group' => 'crew'
+	),
+	'producer' => array(
+		'title' => __( 'Producer', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'esc_html',
+		'filter_args' => null,
+		'group' => 'crew'
+	),
+	'photography' => array(
+		'title' => __( 'Director of Photography', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'esc_html',
+		'filter_args' => null,
+		'group' => 'crew'
+	),
+	'composer' => array(
+		'title' => __( 'Original Music Composer', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'esc_html',
+		'filter_args' => null,
+		'group' => 'crew'
+	),
+	'author' => array(
+		'title' => __( 'Author', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'esc_html',
+		'filter_args' => null,
+		'group' => 'crew'
+	),
+	'writer' => array(
+		'title' => __( 'Writer', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'esc_html',
+		'filter_args' => null,
+		'group' => 'crew'
+	),
+	'cast' => array(
+		'title' => __( 'Actors', 'wpmovielibrary' ),
+		'type' => 'textarea',
+		'filter' => 'esc_html',
+		'filter_args' => null,
+		'group' => 'crew'
 	)
 );
 

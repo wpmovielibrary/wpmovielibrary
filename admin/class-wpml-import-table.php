@@ -300,8 +300,7 @@ class WPML_Import_Table extends WP_List_Table {
 		$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_tmdb_id" type="hidden" name="tmdb[p_'.$item['ID'].'][tmdb_id]" value="0" />';
 		$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_poster" type="hidden" name="tmdb[p_'.$item['ID'].'][poster]" value="" />';
 
-		foreach ( $this->metadata as $id => $box )
-			foreach ( $box['data'] as $slug => $meta )
+		foreach ( array_keys( $this->metadata ) as $slug )
 				$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_'.$slug.'" type="hidden" name="tmdb[p_'.$item['ID'].']['.$id.']['.$slug.']" value="" />';
 
 		$inline_item = '<div id="p_'.$item['ID'].'_tmdb_data">'.$inline_item.'</div>';
@@ -541,7 +540,7 @@ class WPML_Import_Table extends WP_List_Table {
 			$i18n['total_pages_i18n'] = number_format_i18n( $total_pages );
 		}
 
-		WPML_Utils::ajax_response( $response, $i18n );
+		wpml_ajax_response( $response, $i18n );
 	}
 
 	/**

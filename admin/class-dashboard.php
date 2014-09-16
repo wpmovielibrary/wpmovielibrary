@@ -120,7 +120,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			if ( is_null( $widget ) || is_null( $setting ) || is_null( $value ) || ! class_exists( $widget ) )
 				wp_die( 0 );
 
-			WPML_Utils::check_ajax_referer( 'save-' . strtolower( $widget ) );
+			wpml_check_ajax_referer( 'save-' . strtolower( $widget ) );
 
 			$class = $widget::get_instance();
 			$update = self::save_widget_setting( $class->widget_id, $setting, $value );
@@ -135,7 +135,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 */
 		public static function wpml_load_more_movies_callback() {
 
-			WPML_Utils::check_ajax_referer( 'load-more-widget-movies' );
+			wpml_check_ajax_referer( 'load-more-widget-movies' );
 
 			$widget = ( isset( $_GET['widget'] ) && '' != $_GET['widget'] ? $_GET['widget'] : null );
 			$offset = ( isset( $_GET['offset'] ) && '' != $_GET['offset'] ? $_GET['offset'] : 0 );
@@ -327,8 +327,8 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			foreach ( $wpml_dashboard_widgets as $widget )
 				self::add_dashboard_widget( $widget );
 
-			echo self::render_template( '/dashboard/dashboard.php', array( 'screen' => get_current_screen(), 'hidden' => $hidden ) );
-			echo self::render_template( '/dashboard/movie-modal.php' );
+			echo self::render_admin_template( '/dashboard/dashboard.php', array( 'screen' => get_current_screen(), 'hidden' => $hidden ) );
+			echo self::render_admin_template( '/dashboard/movie-modal.php' );
 		}
  
 		/**

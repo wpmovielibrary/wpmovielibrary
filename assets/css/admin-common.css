@@ -16,3 +16,64 @@
 #dashboard_right_now .movie-count::before {
 	content: "\f126";
 }
+
+/* WPML Notice
+ ****************************************************/
+
+.wpml {
+	border-color: #0099d5 !important;
+	margin: 25px 20px 8px 15px !important;
+	padding: 0.75em 1.5em !important;
+}
+
+.no-js-alert {
+	background: #FFF;
+	border-left: 4px solid #DD3D36;
+	-webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+	padding: 0.25em 0.5em;
+}
+
+.wpml.update-nag {
+	padding: 0 !important;
+}
+
+.wpml.update-nag .label {
+	background: #0099D5;
+	display: block;
+	float: left;
+	min-height: 4em;
+	width: 4em;
+}
+
+.wpml.update-nag .label .dashicons {
+	color: #fff;
+	font-size: 2.5rem;
+	height: 2.5rem;
+	line-height: 3.5rem;
+	margin: 0px 0.5rem;
+	text-shadow: 0 1px 0 #0053A4;
+	width: 2.5rem;
+}
+
+.wpml.update-nag .content {
+	padding: 0.75rem 1rem;
+	margin-left: 4em;
+	text-align: justify;
+	line-height: 1.5em;
+}
+
+.wpml.update-nag.warning {
+	border-color: #e57e22 !important;
+}
+
+.wpml.update-nag.warning .label {
+	background: #e57e22;
+}
+
+.wpml.update-nag.warning .label .dashicons {
+	text-shadow: 0 1px 0 #a55d1c;
+}
+
+
+
