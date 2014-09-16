@@ -17,7 +17,9 @@
 
 	<div class="<?php echo $style ?>">
 
+<?php if ( '' != $description ) : ?>
 		<div class="wpml-widget-description"><?php echo $description ?></div>
+<?php endif; ?>
 
 <?php foreach ( $items as $item ) : ?>
 		<a href="<?php echo $item['link'] ?>" title="<?php echo __( 'Read more about', 'wpmovielibrary' ) . $item['title'] ?>">

@@ -13,7 +13,9 @@
 ?>
 	<div class="<?php echo $style ?>">
 
+<?php if ( '' != $description ) : ?>
 		<div class="wpml-widget-description"><?php echo $description ?></div>
+<?php endif; ?>
 
 		<ul class="wpml-widget-list">
 <?php foreach ( $items as $item ) : ?>

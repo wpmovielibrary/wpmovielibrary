@@ -12,7 +12,9 @@
 ?>
 	<div class="<?php echo $style ?>">
 
+<?php if ( '' != $description ) : ?>
 		<div class="wpml-widget-description"><?php echo $description ?></div>
+<?php endif; ?>
 
 		<select class="wpml-list">
 			<option value=""><?php echo $default_option ?></option>
