@@ -81,7 +81,8 @@ class WPML_Movies_Widget extends WPML_Widget {
 			'media'   => __( 'Media', 'wpmovielibrary' ),
 			'rating'  => __( 'Rating', 'wpmovielibrary' ),
 			'title'   => __( 'Title', 'wpmovielibrary' ),
-			'date'    => __( 'Date', 'wpmovielibrary' )
+			'date'    => __( 'Date', 'wpmovielibrary' ),
+			'random'  => __( 'Random', 'wpmovielibrary' )
 		);
 
 		$this->status = WPML_Settings::get_available_movie_status();
@@ -103,6 +104,11 @@ class WPML_Movies_Widget extends WPML_Widget {
 		$name = apply_filters( 'wpml_cache_name', 'movies_widget', $args );
 		// Naughty PHP 5.3 fix
 		$widget = &$this;
+
+		// Skip caching if random
+		if ( isset( $args['orderby'] ) && 'random' == $args['orderby'] )
+			return $widget->widget_content( $args, $instance );
+
 		$content = WPML_Cache::output( $name, function() use ( $widget, $args, $instance ) {
 
 			return $widget->widget_content( $args, $instance );
@@ -150,6 +156,9 @@ class WPML_Movies_Widget extends WPML_Widget {
 				break;
 			case 'title':
 				$args = array( 'orderby' => 'title' );
+				break;
+			case 'random':
+				$args = array( 'orderby' => 'rand' );
 				break;
 			case 'date':
 			default:
