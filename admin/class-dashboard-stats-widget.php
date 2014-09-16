@@ -104,7 +104,7 @@ if ( ! class_exists( 'WPML_Dashboard_Stats_Widget' ) ) :
 
 			$links = implode( '', $links );
 
-			echo self::render_template( '/dashboard-statistics/statistics.php', array( 'links' => $links, 'count' => $count ) );
+			echo self::render_admin_template( '/dashboard-statistics/statistics.php', array( 'links' => $links, 'count' => $count ) );
 		}
 
 		/**

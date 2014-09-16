@@ -119,7 +119,7 @@ wpml = wpml || {};
 				 progress = Math.round( ( number * 100 ) / total ) + '%';
 				$( wpml_updates._number ).text( number );
 				$( wpml_updates._percent ).text( progress );
-				$( wpml_updates._progress ).width( progress );
+				$( wpml_updates._progress ).animate( { width: progress }, 25 );
 			};
 
 			wpml.updates.progress.update_total = function( total ) {

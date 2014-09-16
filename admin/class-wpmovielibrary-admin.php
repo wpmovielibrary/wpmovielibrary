@@ -130,7 +130,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$hide_notice = ( '1' == $hide_notice ? true : false );
 
 			if ( false === $hide_notice && '' == WPML_Settings::tmdb__apikey() && false === WPML_Settings::tmdb__internal_api() )
-				echo self::render_template( 'admin-notice.php', array( 'notice' => 'api-key-error' ) );
+				echo self::render_admin_template( 'admin-notice.php', array( 'notice' => 'api-key-error' ) );
 
 			return true;
 		}
@@ -164,7 +164,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( ! is_null( $page ) )
 				return false;
 
-			echo self::render_template( 'admin-notice.php', array( 'notice' => 'missing-archive' ) );
+			echo self::render_admin_template( 'admin-notice.php', array( 'notice' => 'missing-archive' ) );
 		}
 
 		/**
@@ -178,7 +178,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( ! in_array( $screen->id, $this->plugin_screen_hook_suffix ) )
 				return false;
 
-			echo self::render_template( 'admin-footer.php' );
+			echo self::render_admin_template( 'admin-footer.php' );
 		}
 
 		/**
@@ -564,7 +564,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'_section' => $_section
 			);
 
-			echo self::render_template( 'settings/settings.php', $attributes );
+			echo self::render_admin_template( 'settings/settings.php', $attributes );
 		}
 
 		/**
@@ -609,7 +609,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * @param array $section
 		 */
 		public static function markup_section_headers( $section ) {
-			echo self::render_template( 'settings/section-headers.php', array( 'section' => $section ) );
+			echo self::render_admin_template( 'settings/section-headers.php', array( 'section' => $section ) );
 		}
 
 		/**
@@ -632,7 +632,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$attributes['settings'] = $settings;
 			$attributes['field'] = $field;
 
-			echo self::render_template( 'settings/fields.php', $attributes, $require = 'always' );
+			echo self::render_admin_template( 'settings/fields.php', $attributes, $require = 'always' );
 		}
 
 		/**
@@ -688,7 +688,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'items' => $items
 			);
 
-			echo self::render_template( 'settings/fields.php', $attributes, $require = 'always' );
+			echo self::render_admin_template( 'settings/fields.php', $attributes, $require = 'always' );
 		}
 
 		/**

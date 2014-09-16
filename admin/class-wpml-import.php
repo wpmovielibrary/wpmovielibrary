@@ -442,7 +442,7 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 				'_imported' => $_imported
 			);
 
-			echo self::render_template( '/import/import.php', $attributes );
+			echo self::render_admin_template( '/import/import.php', $attributes );
 		}
 
 		/**

@@ -17,8 +17,8 @@
 	</div>
 <?php elseif ( 'deprecated-meta' == $notice ) : ?>
 
-	<div class="update-nag wpml">
+	<div class="update-nag warning wpml">
 		<div class="label"><span class="dashicons dashicons-no"></span></div>
-		<div class="content"><?php printf( __( 'WPMovieLibrary found deprecated movie metadata; since version 1.3 movies metadata are stored and managed differently to provide extended search and filtering features. Therefore, you will need to update your movies to the new standard format. <strong>Not doing so will produce bugs and random behaviours when using the plugin</strong>. Please proceed to <a href="%s">update your movies</a> using the dedicated tool. <a href="http://wpmovielibrary/development/release-notes/#version-1.3">Learn more about this change</a>.', 'wpmovielibrary' ), admin_url( '/admin.php?page=wpml-update-movies' ) ) ?></div>
+		<div class="content"><?php printf( __( '<strong>WPMovieLibrary found deprecated movie metadata</strong>; since version 1.3 movies metadata are stored and managed differently to provide extended search and filtering features. Therefore, you will need to update your movies to the new standard format. <strong>Not doing so will produce bugs and random behaviours when using the plugin</strong>. Please proceed to <a href="%s">update your movies</a> using the dedicated tool. <a href="http://wpmovielibrary/development/release-notes/#version-1.3">Learn more about this change</a>.', 'wpmovielibrary' ), admin_url( '/admin.php?page=wpml-update-movies' ) ) ?></div>
 	</div>
 <?php endif; ?>

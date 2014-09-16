@@ -4,7 +4,7 @@
 
 		<h2><?php echo WPML_NAME; ?><small>v<?php echo WPML_VERSION; ?></small></h2>
 
-<?php include( WPML_PATH . 'views/dashboard/welcome.php' ); ?>
+<?php include( WPML_PATH . 'views/admin/dashboard/welcome.php' ); ?>
 
 		<div id="dashboard-widgets-wrap">
 			<div id="dashboard-widgets" class="metabox-holder">

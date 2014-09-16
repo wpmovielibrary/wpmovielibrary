@@ -137,7 +137,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				'_ajax' => $_ajax
 			);
 
-			echo self::render_template( 'import/queued-movies.php', $attributes );
+			echo self::render_admin_template( 'import/queued-movies.php', $attributes );
 		}
 
 		/**

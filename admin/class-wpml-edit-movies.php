@@ -93,7 +93,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				'default_movie_rating' => WPML_Settings::get_available_movie_rating()
 			);
 
-			echo self::render_template( 'edit-movies/edit-details-inline.php', $attributes );
+			echo self::render_admin_template( 'edit-movies/edit-details-inline.php', $attributes );
 		}
 
 		/**
@@ -222,7 +222,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				'check' => 'is_' . $type . 'edit'
 			);
 
-			echo self::render_template( 'edit-movies/quick-edit.php', $attributes );
+			echo self::render_admin_template( 'edit-movies/quick-edit.php', $attributes );
 		}
 
 		/**
@@ -536,7 +536,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				'select' => $select
 			);
 
-			echo self::render_template( 'metaboxes/movie-meta.php', $attributes );
+			echo self::render_admin_template( 'metaboxes/movie-meta.php', $attributes );
 		}
 
 		/**
@@ -557,7 +557,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				'images' => WPML_Media::get_movie_imported_images(),
 			);
 
-			echo self::render_template( 'metaboxes/movie-images.php', $attributes );
+			echo self::render_admin_template( 'metaboxes/movie-images.php', $attributes );
 		}
 
 		/**
@@ -583,7 +583,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			$attributes['movie_rating'] = ( isset( $v ) && '' != $v ? number_format( $v, 1 ) : 0.0 );
 			$attributes['movie_rating_str'] = str_replace( '.', '-', $attributes['movie_rating'] );
 
-			echo self::render_template( 'metaboxes/movie-details.php', $attributes );
+			echo self::render_admin_template( 'metaboxes/movie-details.php', $attributes );
 		}
 
 		/**

@@ -62,7 +62,7 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 
 			$links = implode( '', $links );
 
-			echo self::render_template( '/dashboard-quickaction/quickaction.php', array( 'links' => $links ) );
+			echo self::render_admin_template( '/dashboard-quickaction/quickaction.php', array( 'links' => $links ) );
 		}
 
 		/**

@@ -81,7 +81,7 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 		 */
 		public function deprecated_meta_notice() {
 
-			echo self::render_template( 'admin-notice.php', array( 'notice' => 'deprecated-meta' ) );
+			echo self::render_admin_template( 'admin-notice.php', array( 'notice' => 'deprecated-meta' ) );
 		}
 
 		/**
@@ -124,7 +124,7 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 			$deprecated = self::get_movies();
 			$updated    = self::get_updated_movies();
 
-			echo self::render_template( 'update-movies.php', array( 'deprecated' => $deprecated, 'updated' => $updated ) );
+			echo self::render_admin_template( 'update-movies.php', array( 'deprecated' => $deprecated, 'updated' => $updated ) );
 		}
 
 		/**

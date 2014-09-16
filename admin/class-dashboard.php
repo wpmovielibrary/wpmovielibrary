@@ -327,8 +327,8 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			foreach ( $wpml_dashboard_widgets as $widget )
 				self::add_dashboard_widget( $widget );
 
-			echo self::render_template( '/dashboard/dashboard.php', array( 'screen' => get_current_screen(), 'hidden' => $hidden ) );
-			echo self::render_template( '/dashboard/movie-modal.php' );
+			echo self::render_admin_template( '/dashboard/dashboard.php', array( 'screen' => get_current_screen(), 'hidden' => $hidden ) );
+			echo self::render_admin_template( '/dashboard/movie-modal.php' );
 		}
  
 		/**

@@ -62,3 +62,18 @@
 	text-align: justify;
 	line-height: 1.5em;
 }
+
+.wpml.update-nag.warning {
+	border-color: #e57e22 !important;
+}
+
+.wpml.update-nag.warning .label {
+	background: #e57e22;
+}
+
+.wpml.update-nag.warning .label .dashicons {
+	text-shadow: 0 1px 0 #a55d1c;
+}
+
+
+
