@@ -17,7 +17,7 @@
  * Plugin Name: WPMovieLibrary
  * Plugin URI:  http://wpmovielibrary.com
  * Description: A WordPress Plugin to manage a personnal library of movies.
- * Version:     1.3
+ * Version:     1.3-beta.1
  * Author:      Charlie MERLAND
  * Author URI:  http://www.caercam.org/
  * Text Domain: wpml
@@ -33,12 +33,12 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 define( 'WPML_NAME',                   'WPMovieLibrary' );
-define( 'WPML_VERSION',                '1.3' );
+define( 'WPML_VERSION',                '1.3-beta.1' );
 define( 'WPML_SLUG',                   'wpml' );
 define( 'WPML_URL',                    plugins_url( basename( __DIR__ ) ) );
 define( 'WPML_PATH',                   plugin_dir_path( __FILE__ ) );
-define( 'WPML_REQUIRED_PHP_VERSION',   '5.3' );
-define( 'WPML_REQUIRED_WP_VERSION',    '3.6' );
+define( 'WPML_REQUIRED_PHP_VERSION',   '5.4' );
+define( 'WPML_REQUIRED_WP_VERSION',    '3.8' );
 define( 'WPML_SETTINGS_SLUG',          'wpml_settings' );
 define( 'WPML_SETTINGS_REVISION_NAME', 'settings_revision' );
 define( 'WPML_SETTINGS_REVISION',      15 );
