@@ -210,6 +210,15 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 			return $movies;
 		}
 
+		/**
+		 * Update Movie metas.
+		 * 
+		 * @since    1.3
+		 *
+		 * @param    int    $movie_id
+		 * 
+		 * @return   int|object    Movie ID if meta were update successfully, WP_Error else
+		 */
 		private static function update_movie( $movie_id ) {
 
 			if ( ! current_user_can( 'edit_post' ) )
@@ -223,17 +232,25 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 			return $update;
 		}
 
+		/**
+		 * Update metas.
+		 * 
+		 * @since    1.3
+		 *
+		 * @param    int    $movie_id
+		 * 
+		 * @return   int|bool    False if update failed, true else
+		 */
 		private static function update_meta( $movie_id ) {
 
 			$meta = get_post_meta( $movie_id, '_wpml_movie_data', $single = true );
 			if ( '' == $meta )
 				return false;
 
-			/*$update = WPML_Edit_Movies::save_movie_meta( $movie_id, $meta, $clean = false );
+			$update = WPML_Edit_Movies::save_movie_meta( $movie_id, $meta, $clean = false );
 
 			if ( ! is_wp_error( $update ) && $update == $movie_id )
-				delete_post_meta( $movie_id, '_wpml_movie_data', $meta );*/
-			$update = $movie_id;
+				delete_post_meta( $movie_id, '_wpml_movie_data', $meta );
 
 			return $update;
 		}
