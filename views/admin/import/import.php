@@ -123,6 +123,6 @@
 
 	</div>
 
-	<?php echo self::render_template( '/help.php' ); ?>
+	<?php echo self::render_admin_template( '/help.php' ); ?>
 
 </div>
