@@ -126,6 +126,22 @@ $wpml_settings = array(
 				'default' => 0
 			),
 
+			// Replace excerpt by overview
+			'excerpt_overview' => array(
+				'title' => __( 'Replace excerpt by overview', 'wpmovielibrary' ),
+				'description' => __( 'Replace movie excerpts by the movie overview if available. <a href="http://codex.wordpress.org/Excerpt">Learn more about Excerpt</a>.', 'wpmovielibrary' ),
+				'type' => 'toggle',
+				'default' => 1
+			),
+
+			// Replace excerpt by overview
+			'excerpt_length' => array(
+				'title' => __( 'Excerpt overview length', 'wpmovielibrary' ),
+				'description' => __( 'Excerpt overview default number of words. This will override WordPress and Themes or Plugins default values for movies only.', 'wpmovielibrary' ),
+				'type' => 'input',
+				'default' => '75'
+			),
+
 			// Show movie meta in posts
 			'meta_in_posts' => array(
 				'title' => __( 'Show basic movie metadata', 'wpmovielibrary' ),

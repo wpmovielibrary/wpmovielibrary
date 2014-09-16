@@ -38,6 +38,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 
 			// Movie content
 			add_filter( 'the_content', __CLASS__ . '::movie_content' );
+			add_filter( 'get_the_excerpt', __CLASS__ . '::movie_excerpt' );
 
 			add_action( 'pre_get_posts', __CLASS__ . '::movies_query_meta', 10, 1 );
 			add_filter( 'query_vars', __CLASS__ . '::movies_query_vars', 10, 1 );
@@ -222,6 +223,36 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			$content = $html . $content;
 
 			return $content;
+		}
+
+		/**
+		 * Replace movies mxcerpt by movies overview if available.
+		 *
+		 * @since     1.3
+		 * 
+		 * @param     string      $excerpt The original post excerpt
+		 *
+		 * @return    string      The filtered excerpt containing the movie's overview if any, original excerpt else.
+		 */
+		public static function movie_excerpt( $excerpt ) {
+
+			if ( 'movie' != get_post_type() )
+				return $excerpt;
+
+			if ( ! WPML_Settings::wpml__excerpt_overview() )
+				return $excerpt;
+
+			$overview = wpml_get_movie_meta( get_the_ID(), 'overview' );
+			if ( '' == $overview )
+				return $excerpt;
+
+			$excerpt_length = WPML_Settings::wpml__excerpt_length();
+			if ( ! WPML_Settings::wpml__excerpt_length() )
+				$excerpt_length = apply_filters( 'excerpt_length', 55 );
+			$excerpt_more   = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
+			$overview       = wp_trim_words( $overview, $excerpt_length, $excerpt_more );
+
+			return $overview;
 		}
 
 		/**
