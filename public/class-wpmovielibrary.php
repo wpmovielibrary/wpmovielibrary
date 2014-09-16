@@ -239,22 +239,90 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 
 			$args = array(
 				'id'    => 'wpmovielibrary',
-				'title' => __( 'New Movie', 'wpmovielibrary' ),
-				'href'  => admin_url( 'post-new.php?post_type=movie' ),
-				'meta'  => array(
-					'title' => __( 'New Movie', 'wpmovielibrary' )
-				)
+				'title' => __( 'Movie Library', 'wpmovielibrary' ),
+				'href'  => admin_url( 'admin.php?page=wpmovielibrary' )
 			);
 
 			// Dashicons or PNG
-			if ( version_compare( get_bloginfo( 'version' ), '3.8', '<' ) ) {
+			if ( version_compare( get_bloginfo( 'version' ), '3.8', '<' ) )
 				$args['title'] = '<img src="' . WPML_URL . '/assets/img/legacy/icon-movie.png" alt="" />' . $args['title'];
-			}
-			else {
+			else
 				$args['meta']['class'] = 'haz-dashicon';
-			}
 
 			$wp_admin_bar->add_menu( $args );
+
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'wpmovielibrary',
+				'id'     => 'wpml-library',
+				'title'  => 'Your movie library',
+				'href'   => admin_url( 'admin.php?page=wpmovielibrary' ),
+			));
+
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'wpml-movies',
+				'id'     => 'wpml-all-movies',
+				'title'  => 'View all movies',
+				'href'   => admin_url( 'edit.php?post_type=movie' ),
+			));
+
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'wpml-movies',
+				'id'     => 'wpml-new-movie',
+				'title'  => 'Add new movie',
+				'href'   => admin_url( 'post-new.php?post_type=movie' ),
+			));
+
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'wpml-movies',
+				'id'     => 'wpml-import-movies',
+				'title'  => 'Import movies',
+				'href'   => admin_url( 'admin.php?page=wpml_import' ),
+			));
+
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'wpml-utils',
+				'id'     => 'wpml-settings',
+				'title'  => 'Library Settings',
+				'href'   => admin_url( 'admin.php?page=wpml_edit_settings' ),
+			));
+
+			if ( wpml_has_deprecated_meta() ) :
+				$wp_admin_bar->add_menu( array(
+					'parent' => 'wpml-utils',
+					'id'     => 'wpml-movie-update',
+					'title'  => 'Update movies',
+					'href'   => admin_url( 'admin.php?page=wpml-update-movies' ),
+					'meta'   => array(
+						'class' => 'active',
+					)
+				));
+			endif;
+
+			$wp_admin_bar->add_group( array(
+				'parent' => 'wpmovielibrary',
+				'id'     => 'wpml-movies',
+				'meta'   => array(
+					'class' => 'ab-sub-secondary',
+				),
+			) );
+
+			$wp_admin_bar->add_group( array(
+				'parent' => 'wpmovielibrary',
+				'id'     => 'wpml-utils',
+				'meta'   => array(
+					'class' => 'ab-sub-third',
+				),
+			) );
+
+			/*$wp_admin_bar->add_menu( array(
+				'id'     => 'wpml-settings',
+				'title'  => 'Library Settings',
+				'href'   => admin_url( 'admin.php?page=wpml_edit_settings' ),
+				'meta'   => array(
+					'title' => __( 'Library Settings', 'wpmovielibrary' )
+				),
+				'parent' => 'wpmovielibrary'
+			));*/
 		}
 
 		/**

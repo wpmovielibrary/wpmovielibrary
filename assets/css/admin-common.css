@@ -9,6 +9,10 @@
 	top: 2px;
 }
 
+#wpadminbar  #wp-admin-bar-wpmovielibrary .ab-submenu > .active > a {
+	color: #e57e22;
+}
+
 .widgets-holder-wrap .wpml-widget-title {
 	margin: 1.33em 0 0.25em 0;
 }
