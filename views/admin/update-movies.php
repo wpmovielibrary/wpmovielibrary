@@ -114,7 +114,7 @@ wp_reset_postdata();
 									<div class="main">
 										<div id="update-movies-progressbar-text"><span class="text"><?php _e( 'ready when you are!', 'wpmovielibrary' ) ?></span><span class="value">0%</span><div style="clear:both"></div></div>
 										<div id="update-movies-progressbar"><div id="update-movies-progress"></div></div>
-										<p><strong><span id="update-movies-count">0</span></strong> <?php printf( _n( 'movie updated', 'movies updated', 0, 'wpmovielibrary' ) ) ?>, <strong><span id="update-movies-total">0</span></strong> <?php _e( 'selected', 'wpmovielibrary' ) ?>. <a href="#" onclick="$( '#update-movies-log' ).toggle(); return false;"><?php _e( 'See details', 'wpmovielibrary' ) ?></a></p>
+										<p><strong><span id="update-movies-count">0</span></strong> <span id="update-movies-count-text"><?php _e( 'movie updated', 'wpmovielibrary' ) ?></span>, <strong><span id="update-movies-total">0</span></strong> <span id="update-movies-total-text"><?php _e( 'selected', 'wpmovielibrary' ) ?></span>. <a href="#" onclick="$( '#update-movies-log' ).toggle(); return false;"><?php _e( 'See details', 'wpmovielibrary' ) ?></a></p>
 										<p id="update-movies-log"></p>
 									</div>
 								</div>

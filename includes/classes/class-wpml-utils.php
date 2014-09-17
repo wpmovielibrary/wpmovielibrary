@@ -56,6 +56,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			add_filter( 'get_the_terms', __CLASS__ . '::get_the_terms', 10, 3 );
 			add_filter( 'wp_get_object_terms', __CLASS__ . '::get_ordered_object_terms', 10, 4 );
 
+			add_filter( 'pre_get_posts', __CLASS__ . '::filter_search_query', 10, 1 );
+
 			add_action( 'template_redirect', __CLASS__ . '::filter_404', 10 );
 			add_filter( 'post_type_archive_title', __CLASS__ . '::filter_post_type_archive_title', 10, 2 );
 		}
@@ -808,7 +810,33 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		}
 
 		/**
-		 * Filter 4040 error pages to intercept taxonomies listing pages.
+		 * Filter search query to add support for movies
+		 * 
+		 * @since    1.3
+		 * 
+		 * @return   ?    ?
+		 */
+		public static function filter_search_query( $wp_query ) {
+
+			if ( is_admin() )
+				return $wp_query;
+
+			/*if ( ! is_search() )
+				return $wp_query;
+
+			$wp_query->query['post_type'] = array( 'post', 'movie' );
+			$wp_query->set( 'post_type', array( 'post', 'movie' ) );
+			
+			/*if ( $wp_query->query['s'] != 'ben stiller' )
+				return $wp_query;
+
+			print_r( $wp_query );*/
+
+			return $wp_query;
+		}
+
+		/**
+		 * Filter 404 error pages to intercept taxonomies listing pages.
 		 * 
 		 * Query should be 404 with no posts found and matching either one
 		 * of the taxonomies slug.

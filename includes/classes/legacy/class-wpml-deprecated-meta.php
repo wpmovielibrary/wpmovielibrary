@@ -71,6 +71,21 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 			if ( 'dashboard_page_wpml-update-movies' == $hook ) {
 				wp_enqueue_script( WPML_SLUG . '-jquery-ajax-queue', WPML_URL . '/assets/js/jquery.ajaxQueue.js', array( 'jquery' ), WPML_VERSION, true );
 				wp_enqueue_script( WPML_SLUG . '-updates', WPML_URL . '/assets/js/wpml.updates.js', array( WPML_SLUG, 'jquery' ), WPML_VERSION, true );
+
+				wp_localize_script(
+					WPML_SLUG . '-updates', 'wpml_legacy',
+					array(
+						'lang' => array(
+							'updated'        => __( 'updated successfully', 'wpmovielibrary' ),
+							'not_updated'    => __( 'not updated', 'wpmovielibrary' ),
+							'updating'       => __( 'updating movies...', 'wpmovielibrary' ),
+							'selected'       => _n( 'selected', 'selected', 0, 'wpmovielibrary' ),
+							'x_selected'     => _n( 'selected', 'selected', 2, 'wpmovielibrary' ),
+							'movie_updated'  => _n( 'movie updated', 'movies updated', 0, 'wpmovielibrary' ),
+							'movies_updated' => _n( 'movie updated', 'movies updated', 2, 'wpmovielibrary' ),
+						)
+					)
+				);
 			}
 		}
 

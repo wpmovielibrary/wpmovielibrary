@@ -254,35 +254,35 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 			$wp_admin_bar->add_menu( array(
 				'parent' => 'wpmovielibrary',
 				'id'     => 'wpml-library',
-				'title'  => 'Your movie library',
+				'title'  => __( 'Your movie library', 'wpmovielibrary' ),
 				'href'   => admin_url( 'admin.php?page=wpmovielibrary' ),
 			));
 
 			$wp_admin_bar->add_menu( array(
 				'parent' => 'wpml-movies',
 				'id'     => 'wpml-all-movies',
-				'title'  => 'View all movies',
+				'title'  => __( 'View all movies', 'wpmovielibrary' ),
 				'href'   => admin_url( 'edit.php?post_type=movie' ),
 			));
 
 			$wp_admin_bar->add_menu( array(
 				'parent' => 'wpml-movies',
 				'id'     => 'wpml-new-movie',
-				'title'  => 'Add new movie',
+				'title'  => __( 'Add new movie', 'wpmovielibrary' ),
 				'href'   => admin_url( 'post-new.php?post_type=movie' ),
 			));
 
 			$wp_admin_bar->add_menu( array(
 				'parent' => 'wpml-movies',
 				'id'     => 'wpml-import-movies',
-				'title'  => 'Import movies',
+				'title'  => __( 'Import movies', 'wpmovielibrary' ),
 				'href'   => admin_url( 'admin.php?page=wpml_import' ),
 			));
 
 			$wp_admin_bar->add_menu( array(
 				'parent' => 'wpml-utils',
 				'id'     => 'wpml-settings',
-				'title'  => 'Library Settings',
+				'title'  => __( 'Library Settings', 'wpmovielibrary' ),
 				'href'   => admin_url( 'admin.php?page=wpml_edit_settings' ),
 			));
 
@@ -290,7 +290,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				$wp_admin_bar->add_menu( array(
 					'parent' => 'wpml-utils',
 					'id'     => 'wpml-movie-update',
-					'title'  => 'Update movies',
+					'title'  => __( 'Update movies', 'wpmovielibrary' ),
 					'href'   => admin_url( 'admin.php?page=wpml-update-movies' ),
 					'meta'   => array(
 						'class' => 'active',
