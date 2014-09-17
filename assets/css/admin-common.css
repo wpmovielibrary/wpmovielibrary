@@ -3,14 +3,13 @@
 	margin: 6px 4px -3px 0;
 }
 
-#wpadminbar  #wp-admin-bar-wpmovielibrary.haz-dashicon > .ab-item:before,
-#wpadminbar  #wp-admin-bar-wpmovielibrary.haz-dashicon > .ab-item:before {
-	content: "\f126";
-	top: 2px;
-}
-
 #wpadminbar  #wp-admin-bar-wpmovielibrary .ab-submenu > .active > a {
 	color: #e57e22;
+}
+
+#wp-toolbar #wp-admin-bar-wpmovielibrary > .ab-item > img,
+#wp-toolbar #wp-admin-bar-wpmovielibrary > .ab-item > img {
+	opacity: 0.75;
 }
 
 .widgets-holder-wrap .wpml-widget-title {

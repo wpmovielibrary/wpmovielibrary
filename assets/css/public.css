@@ -3,10 +3,9 @@
 	margin: -2px 6px 0 0;
 }
 
-#wp-toolbar #wp-admin-bar-wpmovielibrary.haz-dashicon > .ab-item:before,
-#wp-toolbar #wp-admin-bar-wpmovielibrary.haz-dashicon > .ab-item:before {
-	content: "\f126";
-	top: 2px;
+#wp-toolbar #wp-admin-bar-wpmovielibrary > .ab-item > img,
+#wp-toolbar #wp-admin-bar-wpmovielibrary > .ab-item > img {
+	opacity: 0.75;
 }
 
 /** Public Page

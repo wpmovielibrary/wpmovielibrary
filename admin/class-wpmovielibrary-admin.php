@@ -387,7 +387,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$capability = 'manage_options',
 				$menu_slug = 'wpmovielibrary',
 				$function = null,
-				$icon_url = ( wpml_modern_wp() ? 'dashicons-format-video' : WPML_URL . '/assets/img/legacy/icon-movie.png' ),
+				$icon_url = WPML_URL . '/assets/img/logo-18x18.png',
 				$position = 6
 			);
 

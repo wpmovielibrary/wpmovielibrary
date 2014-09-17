@@ -239,15 +239,9 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 
 			$args = array(
 				'id'    => 'wpmovielibrary',
-				'title' => __( 'Movie Library', 'wpmovielibrary' ),
+				'title' => '<img src="' . WPML_URL . '/assets/img/logo-18x18.png" alt="" />' . __( 'Movie Library', 'wpmovielibrary' ),
 				'href'  => admin_url( 'admin.php?page=wpmovielibrary' )
 			);
-
-			// Dashicons or PNG
-			if ( version_compare( get_bloginfo( 'version' ), '3.8', '<' ) )
-				$args['title'] = '<img src="' . WPML_URL . '/assets/img/legacy/icon-movie.png" alt="" />' . $args['title'];
-			else
-				$args['meta']['class'] = 'haz-dashicon';
 
 			$wp_admin_bar->add_menu( $args );
 
@@ -313,16 +307,6 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 					'class' => 'ab-sub-third',
 				),
 			) );
-
-			/*$wp_admin_bar->add_menu( array(
-				'id'     => 'wpml-settings',
-				'title'  => 'Library Settings',
-				'href'   => admin_url( 'admin.php?page=wpml_edit_settings' ),
-				'meta'   => array(
-					'title' => __( 'Library Settings', 'wpmovielibrary' )
-				),
-				'parent' => 'wpmovielibrary'
-			));*/
 		}
 
 		/**
