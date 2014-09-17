@@ -814,23 +814,17 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * 
 		 * @since    1.3
 		 * 
-		 * @return   ?    ?
+		 * @return   object    WP_Query object
 		 */
 		public static function filter_search_query( $wp_query ) {
 
 			if ( is_admin() )
 				return $wp_query;
 
-			/*if ( ! is_search() )
+			if ( ! is_search() )
 				return $wp_query;
 
-			$wp_query->query['post_type'] = array( 'post', 'movie' );
 			$wp_query->set( 'post_type', array( 'post', 'movie' ) );
-			
-			/*if ( $wp_query->query['s'] != 'ben stiller' )
-				return $wp_query;
-
-			print_r( $wp_query );*/
 
 			return $wp_query;
 		}
