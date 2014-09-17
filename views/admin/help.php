@@ -1,7 +1,7 @@
 
 	<div id="wpml-help" class="">
 
-		<h3 class="ui-widget-header"><?php _e( 'About WPMovieLibrary', 'wpmovielibrary' ); ?></h3>
+		<h3><?php _e( 'About WPMovieLibrary', 'wpmovielibrary' ); ?></h3>
 
 		<h4><?php _e( 'About', 'wpmovielibrary' ); ?></h4>
 
