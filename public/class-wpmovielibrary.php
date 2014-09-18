@@ -235,6 +235,9 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 */
 		public function admin_bar_menu() {
 
+			if ( ! current_user_can( 'manage_options' ) )
+				return false;
+
 			global $wp_admin_bar;
 
 			$args = array(
