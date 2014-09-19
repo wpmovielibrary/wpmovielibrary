@@ -49,7 +49,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			add_action( 'the_posts', __CLASS__ . '::the_posts_hijack', 10, 2 );
 			add_action( 'ajax_query_attachments_args', __CLASS__ . '::load_images_dummy_query_args', 10, 1 );
 
-			add_action( 'add_meta_boxes', __CLASS__ . '::add_meta_boxes', 10 );
+			add_action( 'add_meta_boxes_movie', __CLASS__ . '::add_meta_boxes', 10 );
 			add_action( 'save_post_movie', __CLASS__ . '::save_movie', 10, 4 );
 
 			add_action( 'wp_ajax_wpml_set_detail', __CLASS__ . '::set_detail_callback' );
