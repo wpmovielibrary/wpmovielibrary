@@ -141,6 +141,8 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 				}
 			}
 
+			WPML_Cache::empty_cache();
+
 			return $status;
 		}
 
