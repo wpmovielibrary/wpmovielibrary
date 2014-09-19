@@ -116,6 +116,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				array_slice( $defaults, 0, $title, true ),
 				array( 'poster' => __( 'Poster', 'wpmovielibrary' ) ),
 				array_slice( $defaults, $title, $comments, true ),
+				array( 'movie_release_date' => __( 'Year', 'wpmovielibrary' ) ),
 				array( 'movie_status' => __( 'Status', 'wpmovielibrary' ) ),
 				array( 'movie_media' => __( 'Media', 'wpmovielibrary' ) ),
 				array( 'movie_rating' => __( 'Rating', 'wpmovielibrary' ) ),
@@ -143,9 +144,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				case 'poster':
 					$html = get_the_post_thumbnail( $post_id, 'thumbnail' );
 					break;
+				case 'movie_release_date':
+					$meta = wpml_get_movie_meta( $post_id, 'release_date' );
+					$html = apply_filters( 'wpml_format_movie_release_date', $meta, 'Y' );
+					break;
 				case 'movie_status':
 				case 'movie_media':
-					$meta = get_post_meta( $post_id, '_wpml_' . $column_name, true );
+					$meta = call_user_func( "wpml_get_{$column_name}", $post_id );
 					$_details = WPML_Settings::get_supported_movie_details();
 					if ( isset( $_details[ $column_name ]['options'][ $meta ] ) ) {
 						$html = $_details[ $column_name ]['options'][ $meta ];
@@ -156,7 +161,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 					$html .= '<a href="#" class="wpml-inline-edit-toggle hide-if-no-js" onclick="wpml_edit_details.inline_editor( \'' . str_replace( 'movie_', '', $column_name ) . '\', this ); return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
 					break;
 				case 'movie_rating':
-					$meta = get_post_meta( $post_id, '_wpml_movie_rating', true );
+					$meta = wpml_get_movie_rating( $post_id );
 					if ( '' != $meta )
 						$html = '<div id="movie-rating-display" class="movie_rating_title stars stars-' . str_replace( '.', '-', $meta ) . '"></div>';
 					else
