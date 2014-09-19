@@ -464,12 +464,8 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			if ( ! $post || 'movie' != get_post_type( $post ) )
 				return $content;
 
-			/*if ( '' == WPML_Settings::tmdb__apikey() || WPML_Settings::tmdb__interna() )
-				$content .= '<em>' . __( 'You need a valid TMDb API Key to download movie posters.', 'wpmovielibrary' ) . '</em>';
-			else {
-				*/$content .= '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', 'wpmovielibrary' ) . '</a>';
-				$content .= wpml_nonce_field( 'set-movie-poster', false, false );
-			//}
+			$content .= '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', 'wpmovielibrary' ) . '</a>';
+			$content .= wpml_nonce_field( 'set-movie-poster', false, false );
 
 			return $content;
 		}
