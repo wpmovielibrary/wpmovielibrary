@@ -103,12 +103,6 @@ if ( ! class_exists( 'WPML_Shortcodes' ) ) :
 			$default_fields = WPML_Settings::get_supported_movie_meta();
 			$atts = self::filter_shortcode_atts( 'movies', $atts );
 
-			$movie_id = WPML_Shortcodes::find_movie_id( $atts['id'], $atts['title'] );
-			if ( is_null( $movie_id ) )
-				return $content;
-
-			$atts['movie_id'] = $movie_id;
-
 			// Caching
 			$name = apply_filters( 'wpml_cache_name', 'movies_shortcode', $atts );
 			$content = WPML_Cache::output( $name, function() use ( $atts, $content ) {
