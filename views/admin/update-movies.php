@@ -24,10 +24,12 @@
 									<div class="main">
 
 										<div class="deprecated-movies">
+<?php if ( $deprecated ) : ?>
+
 											<table id="deprecated-movies">
 												<thead>
 													<tr>
-														<th colspan="2"><?php printf( _n( 'The following movie needs an update:', 'The following movies needs an update:', $deprecated, 'wpmovielibrary' ) ); ?></th>
+														<th colspan="2"><?php echo _n( 'The following movie needs an update:', 'The following movies needs an update:', count( $deprecated ), 'wpmovielibrary' ); ?></th>
 													</tr>
 													<tr>
 														<th colspan="2" height="8"></th>
@@ -39,9 +41,9 @@
 														<td><em><?php _e( 'Select all', 'wpmovielibrary' ) ?></em></td>
 													</tr>
 <?php
-global $post;
-foreach ( $deprecated as $post ) :
-	setup_postdata( $post );
+	global $post;
+	foreach ( $deprecated as $post ) :
+		setup_postdata( $post );
 ?>
 													<tr id="movie-<?php the_ID(); ?>">
 														<td class="label"><span class="dashicons dashicons-arrow-right-alt2"></span></td>
@@ -51,11 +53,16 @@ foreach ( $deprecated as $post ) :
 													</tr>
 
 <?php
-endforeach;
-wp_reset_postdata();
+	endforeach;
+	wp_reset_postdata();
 ?>
 												</tbody>
 											</table>
+
+<?php else : ?>
+											<p><em><?php _e( 'No obsolete movie!', 'wpmovielibrary' ) ?></em></p>
+
+<?php endif; ?>
 										</div>
 
 										<div class="updated-movies">
