@@ -548,6 +548,23 @@ $wpml_settings = array(
 				'default' => 3600
 			)
 		)
+	),
+
+	// Legacy
+	'legacy' => array(
+		'section' => array(
+			'id'       => 'legacy',
+			'title'    => __( 'Legacy', 'wpmovielibrary' ),
+		),
+		'settings' => array(
+			// Results caching
+			'legacy_mode' => array(
+				'title' => __( 'Enable Legacy mode', 'wpmovielibrary' ),
+				'description' => __( 'If enabled, WPML will automatically update all movies to the new metadata format introduced by version 1.3. Each time a metadata is access, the plugin will look for obsolete metadata and will update it if needed. Once all movies are updated the plugin will stop looking, but you should deactivate this anyway. <a href="http://wpmovielibrary.com/documentation/performance">Learn more about caching</a>.', 'wpmovielibrary' ),
+				'type' => 'toggle',
+				'default' => 1
+			)
+		)
 	)
 );
 

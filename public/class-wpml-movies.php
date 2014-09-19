@@ -131,6 +131,9 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			if ( ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) || ! in_array( $meta, $allowed_meta ) )
 				return false;
 
+			if ( is_admin() && wpml_has_deprecated_meta() && WPML_Settings::legacy__legacy_mode() )
+				WPML_Deprecated_Meta::update_movie( $post_id );
+
 			if ( 'data' == $meta ) {
 				$_meta = WPML_Settings::get_supported_movie_meta();
 				$value = array();

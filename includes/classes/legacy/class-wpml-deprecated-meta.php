@@ -234,7 +234,7 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 		 * 
 		 * @return   int|object    Movie ID if meta were update successfully, WP_Error else
 		 */
-		private static function update_movie( $movie_id ) {
+		public static function update_movie( $movie_id ) {
 
 			if ( ! current_user_can( 'edit_post' ) )
 				return new WP_Error( 'permission_denied', __( 'Error: you are not allowed to edit this movie.', 'wpmovielibrary' ) );
