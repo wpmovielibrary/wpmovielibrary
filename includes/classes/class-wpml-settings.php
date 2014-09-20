@@ -568,6 +568,32 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		}
 
 		/**
+		 * Return Metaboxes data
+		 *
+		 * @since    1.2
+		 *
+		 * @return   array    WPML Metaboxes
+		 */
+		public static function get_admin_menu() {
+
+			global $wpml_admin_menu;
+
+			/**
+			 * Filter the Admin menu list to edit/add/remove subpages.
+			 *
+			 * This should be used through Plugins to create additionnal
+			 * subpages.
+			 *
+			 * @since    1.3
+			 *
+			 * @param    array    $wpml_admin_menu Admin menu
+			 */
+			$wpml_admin_menu = apply_filters( 'wpml_filter_admin_menu', $wpml_admin_menu );
+
+			return $wpml_admin_menu;
+		}
+
+		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
 		 * @since    1.0

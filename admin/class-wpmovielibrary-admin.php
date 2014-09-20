@@ -385,12 +385,13 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public function admin_menu() {
 
-			global $wpml_admin_menu;
-			extract( $wpml_admin_menu['page'] );
+			$admin_menu = WPML_Settings::get_admin_menu();
+
+			extract( $admin_menu['page'] );
 
 			add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
 
-			foreach ( $wpml_admin_menu['subpages'] as $id => $subpage ) {
+			foreach ( $admin_menu['subpages'] as $id => $subpage ) {
 
 				extract( $subpage, EXTR_PREFIX_ALL, 'subpage' );
 				if ( is_null( $condition ) || ( ! is_null( $condition ) && false !== $condition ) ) {
