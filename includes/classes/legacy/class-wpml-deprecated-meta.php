@@ -37,8 +37,6 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 
 			add_action( 'admin_notices', array( $this, 'deprecated_meta_notice' ) );
 
-			add_action( 'admin_head', array( $this, 'admin_head' ) );
-
 			// Load admin style sheet and JavaScript.
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
@@ -97,17 +95,6 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 		public function deprecated_meta_notice() {
 
 			echo self::render_admin_template( 'admin-notice.php', array( 'notice' => 'deprecated-meta' ) );
-		}
-
-		/**
-		 * Remove dashboard page links.
-		 *
-		 * @since    1.3
-		 */
-		public function admin_head() {
-
-			remove_submenu_page( 'index.php', 'wpml-update-movies' );
-			//remove_submenu_page( 'index.php', 'wc-credits' );
 		}
 
 		/**

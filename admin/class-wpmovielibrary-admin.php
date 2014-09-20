@@ -23,15 +23,16 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * Slug of the plugin screen.
 		 *
 		 * @since    1.0
-		 * @var      string
+		 * @var      array
 		 */
-		protected $plugin_screen_hook_suffix = null;
+		protected $screen_hooks = null;
+		protected $hidden_pages = null;
 
 		/**
 		 * Plugin Settings.
 		 *
 		 * @since    1.0
-		 * @var      string
+		 * @var      array
 		 */
 		protected $settings;
 		protected static $default_settings;
@@ -68,12 +69,14 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'WPML_Queue'       => WPML_Queue::get_instance()
 			);
 
-			$this->plugin_screen_hook_suffix = array(
+			$this->screen_hooks = array(
 				'edit_movie' => 'edit-movie',
-				'movie' => 'movie',
-				'plugins' => 'plugins',
-				'widgets' => 'widgets.php'
+				'movie'      => 'movie',
+				'plugins'    => 'plugins',
+				'widgets'    => 'widgets.php'
 			);
+
+			$this->hidden_pages = array();
 
 			self::$default_settings = WPML_Settings::get_default_settings();
 			$this->settings = WPML_Settings::get_settings();
@@ -97,6 +100,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			// Add the options page and menu item.
 			add_action( 'admin_menu', array( $this, 'admin_menu' ), 9 );
+			add_action( 'admin_head', array( $this, 'admin_head' ) );
 
 			// highlight the proper top level menu
 			add_action( 'parent_file', array( $this, 'admin_menu_highlight' ) );
@@ -123,7 +127,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public function api_key_notice() {
 
 			$screen = get_current_screen();
-			if ( ! in_array( $screen->id, $this->plugin_screen_hook_suffix ) || ( isset( $_GET['hide_wpml_api_key_notice'] ) && '1' == $_GET['hide_wpml_api_key_notice'] ) )
+			if ( ! in_array( $screen->id, $this->screen_hooks ) || ( isset( $_GET['hide_wpml_api_key_notice'] ) && '1' == $_GET['hide_wpml_api_key_notice'] ) )
 				return false;
 
 			$hide_notice = get_option( 'wpml_api_key_notice_hide', '0' );
@@ -156,7 +160,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public function missing_archive_page() {
 
 			$screen = get_current_screen();
-			if ( ! in_array( $screen->id, $this->plugin_screen_hook_suffix ) || ( isset( $_GET['wpml_set_archive_page'] ) && '1' == $_GET['wpml_set_archive_page'] ) )
+			if ( ! in_array( $screen->id, $this->screen_hooks ) || ( isset( $_GET['wpml_set_archive_page'] ) && '1' == $_GET['wpml_set_archive_page'] ) )
 				return false;
 
 			$page = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpml_page' );
@@ -175,7 +179,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public function legal_mentions() {
 
 			$screen = get_current_screen();
-			if ( ! in_array( $screen->id, $this->plugin_screen_hook_suffix ) )
+			if ( ! in_array( $screen->id, $this->screen_hooks ) )
 				return false;
 
 			echo self::render_admin_template( 'admin-footer.php' );
@@ -207,7 +211,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public function enqueue_admin_styles() {
 
-			if ( ! isset( $this->plugin_screen_hook_suffix ) )
+			if ( ! isset( $this->screen_hooks ) )
 				return;
 
 			wp_enqueue_style( WPML_SLUG .'-admin-common', WPML_URL . '/assets/css/admin-common.css', array(), WPML_VERSION );
@@ -216,7 +220,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				wp_enqueue_style( WPML_SLUG . '-legacy', WPML_URL . '/assets/css/legacy.css', array(), WPML_VERSION );
 
 			$screen = get_current_screen();
-			if ( in_array( $screen->id, $this->plugin_screen_hook_suffix ) )
+			if ( in_array( $screen->id, $this->screen_hooks ) )
 				wp_enqueue_style( WPML_SLUG .'-admin-styles', WPML_URL . '/assets/css/admin.css', array(), WPML_VERSION );
 
 		}
@@ -231,7 +235,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public function enqueue_admin_scripts( $hook ) {
 
 			$screen = get_current_screen();
-			if ( ! in_array( $hook, $this->plugin_screen_hook_suffix ) && ! in_array( $screen->id, $this->plugin_screen_hook_suffix ) )
+			if ( ! in_array( $hook, $this->screen_hooks ) && ! in_array( $screen->id, $this->screen_hooks ) )
 				return;
 
 			// Main admin script, containing basic functions
@@ -243,10 +247,10 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			);
 
 			// Settings script
-			if ( $hook == $this->plugin_screen_hook_suffix['settings'] || $hook == $this->plugin_screen_hook_suffix['import'] )
+			if ( $hook == $this->screen_hooks['settings'] || $hook == $this->screen_hooks['import'] )
 				wp_enqueue_script( WPML_SLUG . '-settings', WPML_URL . '/assets/js/wpml.settings.js', array( WPML_SLUG, 'jquery', 'jquery-ui-sortable' ), WPML_VERSION, true );
 
-			if ( $hook == $this->plugin_screen_hook_suffix['dashboard'] )
+			if ( $hook == $this->screen_hooks['dashboard'] )
 				wp_enqueue_script( WPML_SLUG . '-dashboard', WPML_URL . '/assets/js/wpml.dashboard.js', array( WPML_SLUG, 'jquery', 'jquery-ui-sortable' ), WPML_VERSION, true );
 
 			if ( 'widgets.php' == $hook )
@@ -338,7 +342,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			global $current_screen, $_wp_admin_css_colors;
 
-			$pages = array( $this->plugin_screen_hook_suffix['settings'], $this->plugin_screen_hook_suffix['import'] );
+			$pages = array( $this->screen_hooks['settings'], $this->screen_hooks['import'] );
 			$color = get_user_meta( get_current_user_id(), 'admin_color', true );
 
 			if ( ! in_array( $current_screen->id, $pages ) || '' == $color || ! isset( $_wp_admin_css_colors[ $color ] ) || empty( $_wp_admin_css_colors[ $color ] ) )
@@ -372,113 +376,55 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
-		 * Register the administration menu for this plugin into the WordPress
-		 * Dashboard menu.
+		 * Register the plugin's custom admin menu.
 		 * 
-		 * TODO: export support
-		 *
+		 * Page and subpages are defined in the related config file and
+		 * can be extended by filters.
+		 * 
 		 * @since    1.0
 		 */
 		public function admin_menu() {
 
-			add_menu_page(
-				$page_title = WPML_NAME,
-				$menu_title = __( 'Movies', 'wpmovielibrary' ),
-				$capability = 'manage_options',
-				$menu_slug = 'wpmovielibrary',
-				$function = null,
-				$icon_url = WPML_URL . '/assets/img/logo-18x18.png',
-				$position = 6
-			);
+			global $wpml_admin_menu;
+			extract( $wpml_admin_menu['page'] );
 
-			$this->plugin_screen_hook_suffix['dashboard'] = add_submenu_page(
-				'wpmovielibrary',
-				__( 'Your library', 'wpmovielibrary' ),
-				__( 'Your library', 'wpmovielibrary' ),
-				'manage_options',
-				'wpmovielibrary',
-				'WPML_Dashboard::dashboard'
-			);
+			add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
 
-			if ( ! empty( $_GET['page'] ) && 'wpml-update-movies' == $_GET['page'] ) :
-				$this->plugin_screen_hook_suffix['update-movies'] = add_dashboard_page(
-					__( 'Update movies to version 1.3', 'wpmovielibrary' ),
-					__( 'Update movies', 'wpmovielibrary' ),
-					'manage_options',
-					'wpml-update-movies',
-					'WPML_Deprecated_Meta::update_movies_page'
-				);
-			endif;
+			foreach ( $wpml_admin_menu['subpages'] as $id => $subpage ) {
 
-			$this->plugin_screen_hook_suffix['all_movies'] = add_submenu_page(
-				'wpmovielibrary',
-				__( 'All Movies', 'wpmovielibrary' ),
-				__( 'All Movies', 'wpmovielibrary' ),
-				'manage_options',
-				'edit.php?post_type=movie',
-				null
-			);
+				extract( $subpage, EXTR_PREFIX_ALL, 'subpage' );
+				if ( is_null( $condition ) || ( ! is_null( $condition ) && false !== $condition ) ) {
 
-			$this->plugin_screen_hook_suffix['new_movie'] = add_submenu_page(
-				'wpmovielibrary',
-				__( 'Add New', 'wpmovielibrary' ),
-				__( 'Add New', 'wpmovielibrary' ),
-				'manage_options',
-				'post-new.php?post_type=movie',
-				null
-			);
+					$screen_hook = add_submenu_page( $menu_slug, $subpage_page_title, $subpage_menu_title, $subpage_capability, $subpage_menu_slug, $subpage_function );
+					$this->screen_hooks[ $id ] = $screen_hook;
 
-			if ( WPML_Settings::taxonomies__enable_collection() ) :
-			$this->plugin_screen_hook_suffix['collections'] = add_submenu_page(
-				'wpmovielibrary',
-				__( 'Collections', 'wpmovielibrary' ),
-				__( 'Collections', 'wpmovielibrary' ),
-				'manage_options',
-				'edit-tags.php?taxonomy=collection&post_type=movie',
-				null
-			);
-			endif;
+					if ( true === $subpage_hide )
+						$this->hidden_pages[] = array( 'menu_slug' => $menu_slug, 'subpage_menu_slug' => $subpage_menu_slug );
 
-			if ( WPML_Settings::taxonomies__enable_genre() ) :
-			$this->plugin_screen_hook_suffix['genres'] = add_submenu_page(
-				'wpmovielibrary',
-				__( 'Genres', 'wpmovielibrary' ),
-				__( 'Genres', 'wpmovielibrary' ),
-				'manage_options',
-				'edit-tags.php?taxonomy=genre&post_type=movie',
-				null
-			);
-			endif;
+					if ( ! empty( $subpage_actions ) ) {
+						foreach ( $subpage_actions as $hook => $callback ) {
+							if ( is_callable( $callback ) ) {
+								$hook = str_replace( '{screen_hook}', $screen_hook, $hook );
+								add_action( $hook, $callback );
+							}
+						}
+					}
+				}
+			}
+		}
 
-			if ( WPML_Settings::taxonomies__enable_actor() ) :
-			$this->plugin_screen_hook_suffix['actors'] = add_submenu_page(
-				'wpmovielibrary',
-				__( 'Actors', 'wpmovielibrary' ),
-				__( 'Actors', 'wpmovielibrary' ),
-				'manage_options',
-				'edit-tags.php?taxonomy=actor&post_type=movie',
-				null
-			);
-			endif;
+		/**
+		 * Remove Admin menu hidden page links.
+		 *
+		 * @since    1.3
+		 */
+		public function admin_head() {
 
-			$this->plugin_screen_hook_suffix['import'] = add_submenu_page(
-				'wpmovielibrary',
-				__( 'Import Movies', 'wpmovielibrary' ),
-				__( 'Import Movies', 'wpmovielibrary' ),
-				'manage_options',
-				'wpml_import',
-				'WPML_Import::import_page'
-			);
-			$this->plugin_screen_hook_suffix['settings'] = add_submenu_page(
-				'wpmovielibrary',
-				__( 'Settings', 'wpmovielibrary' ),
-				__( 'Settings', 'wpmovielibrary' ),
-				'manage_options',
-				'wpml_edit_settings',
-				__CLASS__ . '::admin_page'
-			);
+			if ( ! is_array( $this->hidden_pages ) || empty( $this->hidden_pages ) )
+				return false;
 
-			add_action( 'load-' . $this->plugin_screen_hook_suffix['import'], 'WPML_Import::import_movie_list_add_options' );
+			foreach ( $this->hidden_pages as $page )
+				remove_submenu_page( $page['menu_slug'], $page['subpage_menu_slug'] );
 		}
 
 		/**
@@ -505,7 +451,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( in_array( $current_screen->taxonomy, array( 'collection', 'genre', 'actor' ) ) )
 				return $parent_file = 'wpmovielibrary';
 
-			if ( in_array( $current_screen->id, $this->plugin_screen_hook_suffix ) )
+			if ( in_array( $current_screen->id, $this->screen_hooks ) )
 				return $parent_file = 'wpmovielibrary';
 
 			return $parent_file;

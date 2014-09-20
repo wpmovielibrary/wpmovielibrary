@@ -36,7 +36,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * Constructor
 		 *
-		 * @since   1.0.0
+		 * @since   1.0
 		 */
 		public function __construct() {
 
@@ -86,7 +86,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * 
 		 * 
 		 * 
-		 * @since     1.0.0
+		 * @since     1.0
 		 */
 		public function wpml_save_screen_option_callback() {
 
@@ -109,7 +109,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * 
 		 * 
 		 * 
-		 * @since     1.0.0
+		 * @since     1.0
 		 */
 		public static function wpml_save_dashboard_widget_settings_callback() {
 
@@ -131,7 +131,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		/**
 		 * AJAX Callback to load more movies to the Widget.
 		 * 
-		 * @since     1.0.0
+		 * @since     1.0
 		 */
 		public static function wpml_load_more_movies_callback() {
 
@@ -147,6 +147,41 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			$class = $widget::get_instance();
 			$class->get_widget_content( $limit, $offset );
 			wp_die();
+		}
+
+		public static function add_tabs() {
+
+			$tabs = array(
+				// The assoc key represents the ID
+				// It is NOT allowed to contain spaces
+				'EXAMPLE' => array(
+					'title'   => 'TEST ME!'
+					,'content' => 'FOO'
+				)
+			);
+
+			foreach ( $tabs as $id => $data )
+			{
+				get_current_screen()->add_help_tab( array(
+					'id'       => $id
+					,'title'    => __( $data['title'], 'wpmovielibrary' )
+					// Use the content only if you want to add something
+					// static on every help tab. Example: Another title inside the tab
+					,'content'  => '<p>Some stuff that stays above every help text</p>'
+					,'callback' => __CLASS__ . '::prepare'
+				) );
+			}
+		}
+
+		public static function prepare( $screen, $tab )
+		    {
+			printf( 
+				'<p>%s</p>'
+				,__( 
+					$tab['callback'][0]->tabs[ $tab['id'] ]['content']
+					,'wpmovielibrary' 
+				)
+			);
 		}
 
 		/**
