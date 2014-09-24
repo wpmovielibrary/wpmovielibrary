@@ -844,7 +844,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 			}
 			else if ( isset( $_REQUEST['meta'] ) && '' != $_REQUEST['meta'] ) {
 
-				self::save_movie_meta( $post_ID, $_REQUEST['meta'] );
+				self::save_movie_meta( $post_ID, $_POST['meta'] );
 			}
 
 			if ( isset( $_REQUEST['wpml_details'] ) && ! is_null( $_REQUEST['wpml_details'] ) ) {

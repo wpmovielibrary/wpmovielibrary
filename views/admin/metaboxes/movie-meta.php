@@ -82,11 +82,11 @@ foreach ( $metas as $slug => $meta ) :
 						<td class="left"><?php _e( $meta['title'], 'wpmovielibrary' ) ?></td>
 <?php if ( isset( $meta['type'] ) && 'textarea' == $meta['type'] ) : ?>
 						<td>
-							<textarea id="meta_data_<?php echo $slug; ?>" name="meta_data[<?php echo $slug; ?>]" class="meta_data_field" rows="6"><?php echo $_value ?></textarea>
+							<textarea id="meta_data_<?php echo $slug; ?>" name="meta[<?php echo $slug; ?>]" class="meta_data_field" rows="6"><?php echo $_value ?></textarea>
 						</td>
 <?php elseif ( isset( $meta['type'] ) && in_array( $meta['type'], array( 'text', 'hidden' ) ) ) : ?>
 						<td>
-							<input type="<?php echo $meta['type']; ?>" id="meta_data_<?php echo $slug; ?>" name="meta_data[<?php echo $slug; ?>]" class="meta_data_field" value="<?php echo $_value ?>" />
+							<input type="<?php echo $meta['type']; ?>" id="meta_data_<?php echo $slug; ?>" name="meta[<?php echo $slug; ?>]" class="meta_data_field" value="<?php echo $_value ?>" />
 						</td>
 <?php endif; ?>
 					</tr>
