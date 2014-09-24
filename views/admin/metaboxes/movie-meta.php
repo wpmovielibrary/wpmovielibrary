@@ -25,7 +25,7 @@
 			<div style="clear:both"></div>
 
 <?php if ( ! is_null( $select ) ) : ?>
-			<div id="tmdb_data" style="display:block">
+			<div id="meta_data" style="display:block">
 <?php foreach ( $select as $movie ) : ?>
 
 				<div class="tmdb_select_movie">
@@ -38,11 +38,10 @@
 <?php endforeach; ?>
 			</div>
 <?php else: ?>
-			<div id="tmdb_data"></div>
+			<div id="meta_data"></div>
 <?php endif; ?>
 
-			<div id="tmdb_data"></div>
-			<input type="hidden" id="tmdb_data_tmdb_id" name="tmdb_data[tmdb_id]" class="hide-if-js hide-if-no-js" value="<?php echo $metadata['tmdb_id'] ?>" />
+			<input type="hidden" id="meta_data_tmdb_id" name="meta_data[tmdb_id]" class="hide-if-js hide-if-no-js" value="<?php echo $metadata['tmdb_id'] ?>" />
 			<input type="hidden" id="wpml_actor_limit" class="hide-if-js hide-if-no-js" value="<?php echo WPML_Settings::taxonomies__actor_limit() ?>" />
 			<input type="hidden" id="wpml_poster_featured" class="hide-if-js hide-if-no-js" value="<?php echo ( 1 == WPML_Settings::images__poster_featured() ? '1' : '0' ) ?>" />
 
@@ -83,11 +82,11 @@ foreach ( $metas as $slug => $meta ) :
 						<td class="left"><?php _e( $meta['title'], 'wpmovielibrary' ) ?></td>
 <?php if ( isset( $meta['type'] ) && 'textarea' == $meta['type'] ) : ?>
 						<td>
-							<textarea id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $meta['group']; ?>][<?php echo $slug; ?>]" class="tmdb_data_field" rows="6"><?php echo $_value ?></textarea>
+							<textarea id="meta_data_<?php echo $slug; ?>" name="meta_data[<?php echo $slug; ?>]" class="meta_data_field" rows="6"><?php echo $_value ?></textarea>
 						</td>
 <?php elseif ( isset( $meta['type'] ) && in_array( $meta['type'], array( 'text', 'hidden' ) ) ) : ?>
 						<td>
-							<input type="<?php echo $meta['type']; ?>" id="tmdb_data_<?php echo $slug; ?>" name="tmdb_data[<?php echo $meta['group']; ?>][<?php echo $slug; ?>]" class="tmdb_data_field" value="<?php echo $_value ?>" />
+							<input type="<?php echo $meta['type']; ?>" id="meta_data_<?php echo $slug; ?>" name="meta_data[<?php echo $slug; ?>]" class="meta_data_field" value="<?php echo $_value ?>" />
 						</td>
 <?php endif; ?>
 					</tr>

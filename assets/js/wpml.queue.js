@@ -100,7 +100,7 @@ var wpml_queue;
 						wpml_import_view.reload( {} );
 						wpml_import_view.reload( {}, 'queued' );
 						$( '.spinner' ).hide();
-						$( '#p_' + post_id + '_tmdb_data' ).remove();
+						$( '#p_' + post_id + '_meta_data' ).remove();
 					},
 					complete: function( r ) {
 						wpml.update_nonce( 'enqueue-movies', r.responseJSON.nonce );
@@ -240,26 +240,22 @@ var wpml_queue;
 					post_id: wpml_queue.utils.get_val('post_id'),
 					tmdb_id: wpml_queue.utils.get_val('tmdb_id'),
 					poster: wpml_queue.utils.get_val('poster'),
-					meta: {
-						title: wpml_queue.utils.get_val('title'),
-						original_title: wpml_queue.utils.get_val('original_title'),
-						overview: wpml_queue.utils.get_val('overview'),
-						production_companies: wpml_queue.utils.get_val('production_companies'),
-						production_countries: wpml_queue.utils.get_val('production_countries'),
-						spoken_languages: wpml_queue.utils.get_val('spoken_languages'),
-						runtime: wpml_queue.utils.get_val('runtime'),
-						genres: wpml_queue.utils.get_val('genres'),
-						release_date: wpml_queue.utils.get_val('release_date')
-					},
-					crew: {
-						director: wpml_queue.utils.get_val('director'),
-						producer: wpml_queue.utils.get_val('producer'),
-						photography: wpml_queue.utils.get_val('photography'),
-						composer: wpml_queue.utils.get_val('composer'),
-						author: wpml_queue.utils.get_val('author'),
-						writer: wpml_queue.utils.get_val('writer'),
-						cast: wpml_queue.utils.get_val('cast')
-					}
+					title: wpml_queue.utils.get_val('title'),
+					original_title: wpml_queue.utils.get_val('original_title'),
+					overview: wpml_queue.utils.get_val('overview'),
+					production_companies: wpml_queue.utils.get_val('production_companies'),
+					production_countries: wpml_queue.utils.get_val('production_countries'),
+					spoken_languages: wpml_queue.utils.get_val('spoken_languages'),
+					runtime: wpml_queue.utils.get_val('runtime'),
+					genres: wpml_queue.utils.get_val('genres'),
+					release_date: wpml_queue.utils.get_val('release_date'),
+					director: wpml_queue.utils.get_val('director'),
+					producer: wpml_queue.utils.get_val('producer'),
+					photography: wpml_queue.utils.get_val('photography'),
+					composer: wpml_queue.utils.get_val('composer'),
+					author: wpml_queue.utils.get_val('author'),
+					writer: wpml_queue.utils.get_val('writer'),
+					cast: wpml_queue.utils.get_val('cast')
 				};
 			};
 
@@ -269,7 +265,7 @@ var wpml_queue;
 			 * @since    1.0
 			 */
 			wpml.queue.utils.get_val = function( slug ) {
-				return $('input#p_' + wpml_queue.current_post_id + '_tmdb_data_' + slug, '#tmdb_data_form').val() || '';
+				return $('input#p_' + wpml_queue.current_post_id + '_meta_data_' + slug, '#meta_data_form').val() || '';
 			};
 
 			wpml.queue.utils.toggle_button = function() {

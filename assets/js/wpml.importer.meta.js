@@ -60,7 +60,7 @@ wpml = wpml || {};
 					$( wpml_import_meta.selected + ':checked' ).each( function( i ) {
 
 						var post_id = this.value;
-						if ( ! post_id.length || '0' != $('#p_' + post_id + '_tmdb_data_tmdb_id').val() )
+						if ( ! post_id.length || '0' != $('#p_' + post_id + '_meta_data_tmdb_id').val() )
 							return false;
 
 						var $parent = $( this ).parents( 'tr' );
@@ -104,7 +104,7 @@ wpml = wpml || {};
 				    $parent = $( '#post_' + post_id ).parents( 'tr' ),
 				      title = $parent.find( wpml_import_meta.movie_title ).text();
 
-				if ( ! post_id || '0' != $( '#p_' + post_id + '_tmdb_data_tmdb_id' ).val() )
+				if ( ! post_id || '0' != $( '#p_' + post_id + '_meta_data_tmdb_id' ).val() )
 					return false;
 
 				$parent.prop( 'id', _post_id.replace( '#', '' ) );
@@ -227,13 +227,14 @@ wpml = wpml || {};
 			wpml.importer.meta.set = function( data ) {
 
 				var _post_id = '#p_' + data._id,
-				    fields = $( _post_id + '_tmdb_data input' ),
+				    fields = $( _post_id + '_meta_data input' ),
 				    $parent = $( _post_id );
 
 				data.images = [];
 				fields.each(function(i, field) {
 
-					var f_name = field.id.replace( 'p_' + data._id + '_tmdb_data_', '' ),
+					var $field = $( field ),
+					    f_name = field.id.replace( 'p_' + data._id + '_meta_data_', '' ),
 					       sub = wpml.switch_data( f_name ),
 					     _data = data;
 
@@ -247,24 +248,25 @@ wpml = wpml || {};
 						$.each( _data[ f_name ], function() {
 							_v.push( field.value + this );
 						});
-						field.value = _v.join( ', ' );
+						_v = _v.join( ', ' );
 					}
 					else {
 						var _v = ( _data[ f_name ] != null ? _data[ f_name ] : '' );
-						field.value = _v;
 					}
+
+					$field.val( _v );
 				});
 
-				$( _post_id + '_tmdb_data_tmdb_id' ).val( data._tmdb_id );
-				$( _post_id + '_tmdb_data_post_id' ).val( data._id );
-				$( _post_id + '_tmdb_data_poster' ).val( data.poster_path );
+				$( _post_id + '_meta_data_tmdb_id' ).val( data._tmdb_id );
+				$( _post_id + '_meta_data_post_id' ).val( data._id );
+				$( _post_id + '_meta_data_poster' ).val( data.poster_path );
 
 				$parent.find( '.poster' ).html( '<img src="' + data.poster + '" alt="' + data.meta.title + '" />' );
 				$parent.find( '.movie_title' ).text( data.meta.title );
-				$parent.find( '.movie_director' ).text( $( _post_id + '_tmdb_data_director' ).val() );
+				$parent.find( '.movie_director' ).text( $( _post_id + '_meta_data_director' ).val() );
 				$parent.find( '.movie_tmdb_id' ).html( '<a href="http://www.themoviedb.org/movie/' + data._tmdb_id + '">' + data._tmdb_id + '</a>' );
 
-				$( _post_id + '_tmdb_data' ).appendTo( '#tmdb_data' );
+				$( _post_id + '_meta_data' ).appendTo( '#meta_data' );
 				wpml_import_meta.update_ids( data._id );
 				$parent.find( '.loading' ).removeClass( 'loading' );
 			};

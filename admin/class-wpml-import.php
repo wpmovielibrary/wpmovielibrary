@@ -394,15 +394,15 @@ if ( ! class_exists( 'WPML_Import' ) ) :
 			$_imported = $movies['import-draft'];
 			$_queued = $movies['import-queued'];
 
-			if ( isset( $_POST['wpml_save_imported'] ) && '' != $_POST['wpml_save_imported'] && isset( $_POST['wpml_imported_ids'] ) && '' != $_POST['wpml_imported_ids'] && isset( $_POST['tmdb'] ) && count( $_POST['tmdb'] ) ) {
+			if ( isset( $_POST['wpml_save_imported'] ) && '' != $_POST['wpml_save_imported'] && isset( $_POST['wpml_imported_ids'] ) && '' != $_POST['wpml_imported_ids'] && isset( $_POST['movies'] ) && count( $_POST['movies'] ) ) {
 
 				wpml_check_admin_referer( 'save-imported-movies' );
 
 				$post_ids = explode( ',', $_POST['wpml_imported_ids'] );
 
-				foreach ( $_POST['tmdb'] as $tmdb_data ) {
-					if ( 0 != $tmdb_data['tmdb_id'] && in_array( $tmdb_data['post_id'], $post_ids ) ) {
-						$update = WPML_Edit_Movies::save_movie( $tmdb_data['post_id'], $post = null, $queue = false, $tmdb_data );
+				foreach ( $_POST['movies'] as $movie ) {
+					if ( 0 != $movie['tmdb_id'] && in_array( $movie['post_id'], $post_ids ) ) {
+						$update = WPML_Edit_Movies::save_movie( $movie['post_id'], $post = null, $queue = false, $movie );
 						if ( is_wp_error( $update ) )
 							$errors->add( $update->get_error_code(), $update->get_error_message() );
 						else

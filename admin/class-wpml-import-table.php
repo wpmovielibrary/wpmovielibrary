@@ -296,14 +296,14 @@ class WPML_Import_Table extends WP_List_Table {
 	 */
 	function column_movietitle( $item ) {
 
-		$inline_item  = '<input id="p_'.$item['ID'].'_tmdb_data_post_id" type="hidden" name="tmdb[p_'.$item['ID'].'][post_id]" value="'.$item['ID'].'" />';
-		$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_tmdb_id" type="hidden" name="tmdb[p_'.$item['ID'].'][tmdb_id]" value="0" />';
-		$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_poster" type="hidden" name="tmdb[p_'.$item['ID'].'][poster]" value="" />';
+		$inline_item  = '<input id="p_'.$item['ID'].'_meta_data_post_id" type="hidden" name="movies[p_'.$item['ID'].'][post_id]" value="'.$item['ID'].'" />';
+		$inline_item .= '<input id="p_'.$item['ID'].'_meta_data_tmdb_id" type="hidden" name="movies[p_'.$item['ID'].'][tmdb_id]" value="0" />';
+		$inline_item .= '<input id="p_'.$item['ID'].'_meta_data_poster" type="hidden" name="movies[p_'.$item['ID'].'][poster]" value="" />';
 
 		foreach ( array_keys( $this->metadata ) as $slug )
-				$inline_item .= '<input id="p_'.$item['ID'].'_tmdb_data_'.$slug.'" type="hidden" name="tmdb[p_'.$item['ID'].']['.$id.']['.$slug.']" value="" />';
+				$inline_item .= '<input id="p_'.$item['ID'].'_meta_data_'.$slug.'" type="hidden" name="movies[p_'.$item['ID'].']['.$slug.']" value="" />';
 
-		$inline_item = '<div id="p_'.$item['ID'].'_tmdb_data">'.$inline_item.'</div>';
+		$inline_item = '<div id="p_'.$item['ID'].'_meta_data">'.$inline_item.'</div>';
 
 		return sprintf('<span class="movie_title">%1$s</span> %2$s', $item['movietitle'], $inline_item );
 	}
@@ -338,7 +338,7 @@ class WPML_Import_Table extends WP_List_Table {
 
 		$actions = array(
 			'edit'      => sprintf('<a class="edit_movie" id="edit_%1$s" href="%2$s" title="%3$s"><span class="dashicons dashicons-welcome-write-blog"></span></a>', $item['ID'], get_edit_post_link( $item['ID'] ), __( 'Edit', 'wpmovielibrary' ) ),
-			'tmdb_data' => sprintf('<a class="search_movie" id="search_%1$s" href="%2$s" title="%3$s" onclick="wpml_import_meta.search(%4$s); return false;"><span class="dashicons dashicons-download"></span></a>', $item['ID'], wp_nonce_url( get_edit_post_link( $item['ID'] ) . "&amp;wpml_search_movie=1&amp;search_by=title&amp;search_query={$item['movietitle']}", 'search-movies' ), __( 'Fetch data from TMDb', 'wpmovielibrary' ), $item['ID'] ),
+			'metadata'  => sprintf('<a class="search_movie" id="search_%1$s" href="%2$s" title="%3$s" onclick="wpml_import_meta.search(%4$s); return false;"><span class="dashicons dashicons-download"></span></a>', $item['ID'], wp_nonce_url( get_edit_post_link( $item['ID'] ) . "&amp;wpml_search_movie=1&amp;search_by=title&amp;search_query={$item['movietitle']}", 'search-movies' ), __( 'Fetch data from TMDb', 'wpmovielibrary' ), $item['ID'] ),
 			//'import'    => sprintf('<a class="import_movie" id="import_%1$s" href="#" title="%2$s"><span class="dashicons dashicons-welcome-add-page"></span></a>', $item['ID'], __( 'Import Movie', 'wpmovielibrary' ) ),
 			'enqueue hide-if-no-js'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" href="#" title="%2$s" onclick="wpml_movies_queue.add(%3$s); return false;"><span class="dashicons dashicons-plus"></span></a>', $item['ID'], __( 'Enqueue', 'wpmovielibrary' ), $item['ID'] ),
 			'delete'    => sprintf('<a class="delete_movie" id="delete_%1$s" href="%2$s" title="%3$s" onclick="wpml_import_movies.delete(%4$s); return false;"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], get_delete_post_link( $item['ID'] ), __( 'Delete', 'wpmovielibrary' ), $item['ID'] ),
@@ -427,7 +427,7 @@ class WPML_Import_Table extends WP_List_Table {
 		echo "<option value='-1' selected='selected'>" . __( 'Bulk Actions' ) . "</option>\n";
 
 		foreach ( $this->_actions as $name => $title ) {
-			$class = in_array( $name, array( 'edit', 'tmdb_data' ) ) ? ' class="hide-if-no-js"' : '';
+			$class = in_array( $name, array( 'edit', 'meta_data' ) ) ? ' class="hide-if-no-js"' : '';
 
 			echo "\t<option value='$name'$class>$title</option>\n";
 		}
