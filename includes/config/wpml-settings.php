@@ -569,90 +569,11 @@ $wpml_settings = array(
 
 $_wpml_settings_ = array(
 
-	'wpmoly-api' => array(
-		'icon'    => 'el-icon-cogs',
-		'title'   => __( 'API Settings', 'wpmovielibrary' ),
-		'heading' => __( 'TheMovieDB API settings', 'wpmovielibrary' ),
-		'fields'  => array(
-
-                        'personnal' => array(
-				'id'       => 'wpmoly-api-internal',
-				'type'     => 'switch',
-				'title'    => __( 'Personnal API Key', 'wpmovielibrary' ),
-				'subtitle' => __( 'Optional: use your own TMDb API key', 'wpmovielibrary' ),
-				'desc'     => __( 'A valid TMDb API key is required to fetch informations on the movies you add to WPMovieLibrary. Leave deactivated if you do not have a personnal API key. <a href="http://tmdb.caercam.org/">Learn more</a> about the API key or <a href="https://www.themoviedb.org/">get your own</a>.', 'wpmovielibrary' ),
-				'on'       => __( 'Enabled', 'wpmovielibrary' ),
-				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'hint'     => array( 'content' => __( 'If you do not have an API key or do not want to use yours right now, WPMovieLibrary will use just its own.', 'wpmovielibrary' ) ),
-                        ),
-
-			'api_key' => array(
-				'id'       => 'wpmoly-api-personnal-key',
-				'type'     => 'text',
-				'title'    => __( 'API Key', 'wpmovielibrary' ),
-				'subtitle' => __( 'Set up your own API key', 'wpmovielibrary' ),
-				'desc'     => __( 'Using your own API key is a more privacy-safe choice as it will avoid WPMovieLibrary to filter queries sent to the API through its own relay server at tmdb.caercam.org. You will also be able to access statistics on your API usage in your TMDb user account.', 'wpmovielibrary' ), 
-				'validate_callback' => array( 'WPML_TMDb', 'check_api_key' ),
-				'default'  => null,
-				'required' => array( 'wpmoly-api-internal', "=", 1 ),
-				'indent'   => true
-			),
-
-			'lang' => array(
-				'id'       => 'wpmoly-api-language',
-				'type'     => 'select',
-				'title'    => __( 'API Language', 'wpmovielibrary' ),
-				'desc'     => __( 'Default language to use when fetching informations from TMDb. Default is english. You can always change this manually when add a new movie.', 'wpmovielibrary' ),
-				'options'  => array(
-					"bg" => "български език",
-					"cs" => "Český",
-					"da" => "Dansk",
-					"de" => "Deutsch",
-					"el" => "ελληνικά",
-					"en" => "English",
-					"es" => "Español",
-					"fi" => "Suomi",
-					"fr" => "Français",
-					"he" => "עִבְרִית",
-					"hu" => "Magyar",
-					"it" => "Italiano",
-					"ko" => "한국어/조선말",
-					"nb" => "Bokmål",
-					"nl" => "Nederlands",
-					"no" => "Norsk",
-					"pl" => "Polski",
-					"pt" => "Português",
-					"ru" => "Pусский",
-					"sk" => "Slovenčina",
-					"sv" => "Svenska",
-					"th" => "ภาษาไทย",
-					"tr" => "Türkçe",
-					"uk" => "Український",
-					"zh" => "中国"
-				),
-				'default' => 'en'
-			),
-
-			// API Scheme
-			'scheme' => array(
-				'id'       => 'wpmoly-api-scheme',
-				'type'     => 'select',
-				'title'    => __( 'API Scheme', 'wpmovielibrary' ),
-				'desc'     => __( 'Default scheme used to contact TMDb API. Default is HTTPS.', 'wpmovielibrary' ),
-				'options'  => array(
-					'http'  => __( 'HTTP', 'wpmovielibrary' ),
-					'https' => __( 'HTTPS', 'wpmovielibrary' )
-				),
-				'default' => 'https'
-			),
-		)
-	),
-
 	
 	'wpmoly' => array(
 		'icon'    => 'el-icon-film',
-		'title'   => __( 'Movies', 'wpmovielibrary' ),
-		'heading' => __( 'Basic options', 'wpmovielibrary' ),
+		'title'   => __( 'General', 'wpmovielibrary' ),
+		'heading' => __( 'General options', 'wpmovielibrary' ),
 		'fields'  => array(
 
 			// Add movies to the main loop
@@ -664,28 +585,6 @@ $_wpml_settings_ = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1
-			),
-
-			// Movie URL Rewrite Rule
-			'movie_rewrite' => array(
-				'id'       => 'wpmoly-movie_rewrite',
-				'type'     => 'text',
-				'title'    => __( 'Movies URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>http://yourblog/movies/fight-club</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
-				'default'  => 'movies'
-			),
-
-			// Movie URL Rewrite Rule
-			'details_rewrite' => array(
-				'id'       => 'wpmoly-details_rewrite',
-				'type'     => 'switch',
-				'title'    => __( 'Movie Details URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'Use localized URLs for Movie Details. Enable this to have URLs like <code>http://yourblog/films/disponible</code> for French rather than the default <code>http://yourblog/movies/available</code>. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
-				'on'       => __( 'Enabled', 'wpmovielibrary' ),
-				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0,
-				'required' => array( 'wpmoly-', "=", 1 ),
-				'indent'   => true
 			),
 
 			// Replace excerpt by overview
@@ -921,17 +820,6 @@ $_wpml_settings_ = array(
 				'default'  => 1
 			),
 
-			// Collections URL Rewrite Rule
-			'collection_rewrite' => array(
-				'id'       => 'wpmoly-taxonomies-collection_rewrite',
-				'type'     => 'text',
-				'title'    => __( 'Collections URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>http://yourblog/collection/david-fincher</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
-				'default'  => 'collection',
-				'required' => array( 'wpmoly-taxonomies-enable_collection', "=", 1 ),
-				'indent'   => true
-			),
-
 			// Enable Collections Autocomplete
 			'collection_autocomplete' => array(
 				'id'       => 'wpmoly-taxonomies-collection_autocomplete',
@@ -956,17 +844,6 @@ $_wpml_settings_ = array(
 				'default'  => 1
 			),
 
-			// Genres URL Rewrite Rule
-			'genre_rewrite' => array(
-				'id'       => 'wpmoly-taxonomies-genre_rewrite',
-				'type'     => 'text',
-				'title'    => __( 'Genres URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>http://yourblog/genre/thriller</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
-				'default'  => 'genre',
-				'required' => array( 'wpmoly-taxonomies-enable_genre', "=", 1 ),
-				'indent'   => true
-			),
-
 			// Enable Genres Autocomplete
 			'genre_autocomplete' => array(
 				'id'       => 'wpmoly-taxonomies-genre_autocomplete',
@@ -989,17 +866,6 @@ $_wpml_settings_ = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1
-			),
-
-			// Actors URL Rewrite Rule
-			'actor_rewrite' => array(
-				'id'       => 'wpmoly-taxonomies-actor_rewrite',
-				'type'     => 'text',
-				'title'    => __( 'Actors URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
-				'default'  => 'actor',
-				'required' => array( 'wpmoly-taxonomies-enable_actor', "=", 1 ),
-				'indent'   => true
 			),
 
 			// Enable Actors Autocomplete
@@ -1054,6 +920,56 @@ $_wpml_settings_ = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1
+			),
+
+			// Movie URL Rewrite Rule
+			'movie_rewrite' => array(
+				'id'       => 'wpmoly-translate-movie_rewrite',
+				'type'     => 'text',
+				'title'    => __( 'Movies URL Rewrite', 'wpmovielibrary' ),
+				'desc'     => __( 'URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>http://yourblog/movies/fight-club</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
+				'default'  => 'movies'
+			),
+
+			// Movie URL Rewrite Rule
+			'details_rewrite' => array(
+				'id'       => 'wpmoly-translate-details_rewrite',
+				'type'     => 'switch',
+				'title'    => __( 'Movie Details URL Rewrite', 'wpmovielibrary' ),
+				'desc'     => __( 'Use localized URLs for Movie Details. Enable this to have URLs like <code>http://yourblog/films/disponible</code> for French rather than the default <code>http://yourblog/movies/available</code>. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0
+			),
+
+			// Collections URL Rewrite Rule
+			'collection_rewrite' => array(
+				'id'       => 'wpmoly-translate-collection_rewrite',
+				'type'     => 'text',
+				'title'    => __( 'Collections URL Rewrite', 'wpmovielibrary' ),
+				'desc'     => __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>http://yourblog/collection/david-fincher</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
+				'default'  => 'collection',
+				'required' => array( 'wpmoly-taxonomies-enable_collection', "=", 1 )
+			),
+
+			// Genres URL Rewrite Rule
+			'genre_rewrite' => array(
+				'id'       => 'wpmoly-taxonomies-genre_rewrite',
+				'type'     => 'text',
+				'title'    => __( 'Genres URL Rewrite', 'wpmovielibrary' ),
+				'desc'     => __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>http://yourblog/genre/thriller</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
+				'default'  => 'genre',
+				'required' => array( 'wpmoly-taxonomies-enable_genre', "=", 1 )
+			),
+
+			// Actors URL Rewrite Rule
+			'actor_rewrite' => array(
+				'id'       => 'wpmoly-taxonomies-actor_rewrite',
+				'type'     => 'text',
+				'title'    => __( 'Actors URL Rewrite', 'wpmovielibrary' ),
+				'desc'     => __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
+				'default'  => 'actor',
+				'required' => array( 'wpmoly-taxonomies-enable_actor', "=", 1 )
 			),
 
 		)
@@ -1123,6 +1039,85 @@ $_wpml_settings_ = array(
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0
 			)
+		)
+	),
+
+	'wpmoly-api' => array(
+		'icon'    => 'el-icon-cogs',
+		'title'   => __( 'API', 'wpmovielibrary' ),
+		'heading' => __( 'TheMovieDB API settings', 'wpmovielibrary' ),
+		'fields'  => array(
+
+                        'personnal' => array(
+				'id'       => 'wpmoly-api-internal',
+				'type'     => 'switch',
+				'title'    => __( 'Personnal API Key', 'wpmovielibrary' ),
+				'subtitle' => __( 'Optional: use your own TMDb API key', 'wpmovielibrary' ),
+				'desc'     => __( 'A valid TMDb API key is required to fetch informations on the movies you add to WPMovieLibrary. Leave deactivated if you do not have a personnal API key. <a href="http://tmdb.caercam.org/">Learn more</a> about the API key or <a href="https://www.themoviedb.org/">get your own</a>.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'hint'     => array( 'content' => __( 'If you do not have an API key or do not want to use yours right now, WPMovieLibrary will use just its own.', 'wpmovielibrary' ) ),
+                        ),
+
+			'api_key' => array(
+				'id'       => 'wpmoly-api-personnal-key',
+				'type'     => 'text',
+				'title'    => __( 'API Key', 'wpmovielibrary' ),
+				'subtitle' => __( 'Set up your own API key', 'wpmovielibrary' ),
+				'desc'     => __( 'Using your own API key is a more privacy-safe choice as it will avoid WPMovieLibrary to filter queries sent to the API through its own relay server at tmdb.caercam.org. You will also be able to access statistics on your API usage in your TMDb user account.', 'wpmovielibrary' ), 
+				'validate_callback' => array( 'WPML_TMDb', 'check_api_key' ),
+				'default'  => null,
+				'required' => array( 'wpmoly-api-internal', "=", 1 ),
+				'indent'   => true
+			),
+
+			'lang' => array(
+				'id'       => 'wpmoly-api-language',
+				'type'     => 'select',
+				'title'    => __( 'API Language', 'wpmovielibrary' ),
+				'desc'     => __( 'Default language to use when fetching informations from TMDb. Default is english. You can always change this manually when add a new movie.', 'wpmovielibrary' ),
+				'options'  => array(
+					"bg" => "български език",
+					"cs" => "Český",
+					"da" => "Dansk",
+					"de" => "Deutsch",
+					"el" => "ελληνικά",
+					"en" => "English",
+					"es" => "Español",
+					"fi" => "Suomi",
+					"fr" => "Français",
+					"he" => "עִבְרִית",
+					"hu" => "Magyar",
+					"it" => "Italiano",
+					"ko" => "한국어/조선말",
+					"nb" => "Bokmål",
+					"nl" => "Nederlands",
+					"no" => "Norsk",
+					"pl" => "Polski",
+					"pt" => "Português",
+					"ru" => "Pусский",
+					"sk" => "Slovenčina",
+					"sv" => "Svenska",
+					"th" => "ภาษาไทย",
+					"tr" => "Türkçe",
+					"uk" => "Український",
+					"zh" => "中国"
+				),
+				'default' => 'en'
+			),
+
+			// API Scheme
+			'scheme' => array(
+				'id'       => 'wpmoly-api-scheme',
+				'type'     => 'select',
+				'title'    => __( 'API Scheme', 'wpmovielibrary' ),
+				'desc'     => __( 'Default scheme used to contact TMDb API. Default is HTTPS.', 'wpmovielibrary' ),
+				'options'  => array(
+					'http'  => __( 'HTTP', 'wpmovielibrary' ),
+					'https' => __( 'HTTPS', 'wpmovielibrary' )
+				),
+				'default' => 'https'
+			),
 		)
 	),
 
