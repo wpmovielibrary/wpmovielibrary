@@ -112,7 +112,7 @@ if ( wpml_requirements_met() ) {
 	if ( ! class_exists( 'ReduxFramework' ) )
 		require_once( WPML_PATH . 'includes/framework/redux/ReduxCore/framework.php' );
 	if ( ! isset( $redux_demo ) )
-		require_once( WPML_PATH . 'includes/framework/redux/config.php' );
+		require_once( WPML_PATH . 'includes/config/refux-framework.php' );
 	require_once( WPML_PATH . 'includes/classes/class-wpml-cache.php' );
 	require_once( WPML_PATH . 'includes/classes/class-wpml-utils.php' );
 
