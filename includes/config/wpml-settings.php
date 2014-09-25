@@ -570,10 +570,10 @@ $wpml_settings = array(
 $_wpml_settings_ = array(
 
 	'wpmoly-api' => array(
-		'title'  => __( 'API Settings', 'wpmovielibrary' ),
-		'desc'   => __( '', 'wpmovielibrary' ),
-		'icon'   => 'el-icon-cogs',
-		'fields' => array(
+		'icon'    => 'el-icon-cogs',
+		'title'   => __( 'API Settings', 'wpmovielibrary' ),
+		'heading' => __( 'TheMovieDB API settings', 'wpmovielibrary' ),
+		'fields'  => array(
 
                         'personnal' => array(
 				'id'       => 'wpmoly-api-internal',
@@ -650,9 +650,10 @@ $_wpml_settings_ = array(
 
 	
 	'wpmoly' => array(
-		'title'  => __( 'Movies', 'wpmovielibrary' ),
-		'icon'   => 'el-icon-film',
-		'fields' => array(
+		'icon'    => 'el-icon-film',
+		'title'   => __( 'Movies', 'wpmovielibrary' ),
+		'heading' => __( 'Basic options', 'wpmovielibrary' ),
+		'fields'  => array(
 
 			// Add movies to the main loop
 			'show_in_home' => array(
@@ -829,10 +830,10 @@ $_wpml_settings_ = array(
 	
 	// Taxonomies
 	'wpmoly-images' => array(
-		'title'  => __( 'Images', 'wpmovielibrary' ),
-		'desc'   => __( '', 'wpmovielibrary' ),
-		'icon'   => 'el-icon-picture',
-		'fields' => array(
+		'icon'    => 'el-icon-picture',
+		'title'   => __( 'Images', 'wpmovielibrary' ),
+		'heading' => __( 'Images and Posters options', 'wpmovielibrary' ),
+		'fields'  => array(
 
 			// Use posters as featured images
 			'poster_featured' => array(
@@ -904,10 +905,10 @@ $_wpml_settings_ = array(
 
 	// Taxonomies
 	'wpmoly-taxonomies' => array(
-		'title'  => __( 'Taxonomies', 'wpmovielibrary' ),
-		'desc'   => __( '', 'wpmovielibrary' ),
-		'icon'   => 'el-icon-tags',
-		'fields' => array(
+		'icon'    => 'el-icon-tags',
+		'title'   => __( 'Taxonomies', 'wpmovielibrary' ),
+		'heading' => __( 'Built-in Taxonomies configuration', 'wpmovielibrary' ),
+		'fields'  => array(
 
 			// Enable Collections Taxonomy
 			'enable_collection' => array(
@@ -1028,12 +1029,43 @@ $_wpml_settings_ = array(
 		),
 	),
 
+	// Languages
+	'wpmoly-translate' => array(
+		'icon'    => 'el-icon-flag',
+		'title'   => __( 'Languages', 'wpmovielibrary' ),
+		'heading' => __( 'Languages Support', 'wpmovielibrary' ),
+		'fields'  => array(
+
+			'countries' => array(
+				'id'       => 'wpmoly-translate-countries',
+				'type'     => 'switch',
+				'title'    => __( 'Translate Countries', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, countries names will be translated to the current WordPress language.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 1
+			),
+
+			'languages' => array(
+				'id'       => 'wpmoly-translate-languages',
+				'type'     => 'switch',
+				'title'    => __( 'Translate Languages', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, languages names will be translated to the current WordPress language.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 1
+			),
+
+		)
+
+	),
+
 	// Caching
 	'wpmoly-cache' => array(
-		'title'  => __( 'Cache', 'wpmovielibrary' ),
-		'desc'   => __( '', 'wpmovielibrary' ),
-		'icon'   => 'el-icon-hdd',
-		'fields' => array(
+		'icon'    => 'el-icon-hdd',
+		'title'   => __( 'Cache', 'wpmovielibrary' ),
+		'heading' => __( 'Caching', 'wpmovielibrary' ),
+		'fields'  => array(
 
 			// Results caching
 			'enable' => array(
@@ -1077,8 +1109,7 @@ $_wpml_settings_ = array(
 	'wpmoly-legacy' => array(
 		'icon'    => 'el-icon-leaf',
 		'title'   => __( 'Legacy', 'wpmovielibrary' ),
-		'desc'    => __( 'Compatibility settings for WPMovieLibrary 1.x.', 'wpmovielibrary' ),
-		'heading' => __( 'Compatibility settings for WPMovieLibrary 1.x.', 'wpmovielibrary' ),
+		'heading' => __( 'Compatibility settings for WPMovieLibrary 1.x', 'wpmovielibrary' ),
 		'fields'  => array(
 
 			// Results caching
@@ -1095,13 +1126,16 @@ $_wpml_settings_ = array(
 		)
 	),
 
+	array(
+		'type' => 'divide',
+	),
+
 	// What to do on deactivation
 	'wpmoly-deactivate' => array(
-		'id'     => 'wpmoly-deactivate',
-		'title'  => __( 'Deactivate', 'wpmovielibrary' ),
-		'desc'   => __( '', 'wpmovielibrary' ),
-		'icon'   => 'el-icon-off',
-		'fields' => array(
+		'icon'    => 'el-icon-off',
+		'title'   => __( 'Deactivate', 'wpmovielibrary' ),
+		'heading' => __( 'Deactivation options', 'wpmovielibrary' ),
+		'fields'  => array(
 
 			'movies' => array(
 				'id'       => 'wpmoly-deactivate-movies',
@@ -1172,11 +1206,10 @@ $_wpml_settings_ = array(
 
 	// What to do on uninstallation
 	'wpmoly-uninstall' => array(
-		'id'     => 'wpmoly-uninstall',
-		'title'  => __( 'Uninstall', 'wpmovielibrary' ),
-		'desc'   => __( '', 'wpmovielibrary' ),
-		'icon'   => 'el-icon-remove-sign',
-		'fields' => array(
+		'icon'    => 'el-icon-remove-sign',
+		'title'   => __( 'Uninstall', 'wpmovielibrary' ),
+		'heading' => __( 'Uninstallation options', 'wpmovielibrary' ),
+		'fields'  => array(
 
 			'movies' => array(
 				'id'       => 'wpmoly-uninstall-movies',
@@ -1242,5 +1275,37 @@ $_wpml_settings_ = array(
 				'default'  => 'empty'
 			)
 		)
+	),
+
+	'wpmoly-import-export' => array(
+		'icon'    => 'el-icon-refresh',
+		'title'   => __( 'Import / Export', 'wpmovielibrary' ),
+		'heading' => __( 'Import and Export your settings and movies from file, text or URL.', 'wpmovielibrary' ),
+		'fields'  => array(
+			array(
+				'id'         => 'wpmoly-import-export',
+				'type'       => 'import_export',
+				'title'      => 'Import Export',
+				'subtitle'   => 'Save and restore your settings',
+				'full_width' => false,
+			)
+		),
+	),
+
+	array(
+		'type' => 'divide',
+	),
+
+	'wpmoly-about' => array(
+		'icon'   => 'el-icon-info-sign',
+		'title'  => __( 'Information', 'wpmovielibrary' ),
+		'desc'   => __( '<p class="description">This is the Description. Again HTML is allowed</p>', 'wpmovielibrary' ),
+		'fields' => array(
+			array(
+				'id'      => 'wpmoly-raw-info',
+				'type'    => 'raw',
+				'content' => '',
+			)
+		),
 	)
 );

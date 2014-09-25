@@ -1606,6 +1606,15 @@ body.post-php.post-type-movie #postimagediv {
 	margin-right: 0.25em;
 }
 
+/** ReduxFramework **/
+
+#redux-header {
+	background-image: url('http://wpmovielibrary.com/wp-content/uploads/2014/09/header.jpg') !important;
+	background-position: center 85% !important;
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
+}
+
 /** WordPress 4.0 **/
 
 body.branch-4 .media-frame.movie-images .attachment {

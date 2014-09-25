@@ -10,7 +10,6 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 
 		public $args = array();
 		public $sections = array();
-		public $theme;
 		public $ReduxFramework;
 
 		public function __construct() {
@@ -27,9 +26,6 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 		}
 
 		public function initSettings() {
-
-			// Just for demo purposes. Not needed per say.
-			$this->theme = wp_get_theme();
 
 			// Set the default arguments
 			$this->setArguments();
@@ -57,10 +53,15 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 			//add_filter('redux/options/'.$this->args['opt_name'].'/defaults', array( $this,'change_defaults' ) );
 
 			// Dynamically add a section. Can be also used to modify sections/fields
-			add_filter('redux/options/' . $this->args['opt_name'] . '/sections', array($this, 'dynamic_section'));
+			add_filter( 'redux/options/' . $this->args['opt_name'] . '/sections', array( $this, 'dynamic_section' ) );
+
+			
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ) );
 
 			$this->ReduxFramework = new ReduxFramework( $this->sections, $this->args );
 		}
+
+
 
 		/**
 		 * Custom function for filtering the sections array. Good for child themes to override or add to the sections.
@@ -79,6 +80,12 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 			);
 
 			return $sections;
+		}
+
+		function admin_enqueue_styles( $hook ) {
+
+			if ( false !== stripos( $hook, 'wpmovielibrary-settings' ) )
+				wp_enqueue_style( WPML_SLUG .'-admin-styles', WPML_URL . '/assets/css/admin.css', array(), WPML_VERSION );
 		}
 
 		/**
@@ -120,73 +127,6 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 				$this->sections,
 				$_wpml_settings_
 			);
-
-
-			$theme_info = '<div class="redux-framework-section-desc">';
-			$theme_info .= '<p class="redux-framework-theme-data description theme-uri">' . __( '<strong>Theme URL:</strong> ', 'wpmovielibrary' ) . '<a href="' . $this->theme->get( 'ThemeURI' ) . '" target="_blank">' . $this->theme->get( 'ThemeURI' ) . '</a></p>';
-			$theme_info .= '<p class="redux-framework-theme-data description theme-author">' . __( '<strong>Author:</strong> ', 'wpmovielibrary' ) . $this->theme->get( 'Author' ) . '</p>';
-			$theme_info .= '<p class="redux-framework-theme-data description theme-version">' . __( '<strong>Version:</strong> ', 'wpmovielibrary' ) . $this->theme->get( 'Version' ) . '</p>';
-			$theme_info .= '<p class="redux-framework-theme-data description theme-description">' . $this->theme->get( 'Description' ) . '</p>';
-			$tabs = $this->theme->get( 'Tags' );
-			if ( ! empty( $tabs ) ) {
-				$theme_info .= '<p class="redux-framework-theme-data description theme-tags">' . __( '<strong>Tags:</strong> ', 'wpmovielibrary' ) . implode( ', ', $tabs ) . '</p>';
-			}
-			$theme_info .= '</div>';
-
-			if ( file_exists( dirname( __FILE__ ) . '/../README.md' ) ) {
-				$this->sections['theme_docs'] = array(
-					'icon'   => 'el-icon-list-alt',
-					'title'  => __( 'Documentation', 'wpmovielibrary' ),
-					'fields' => array(
-						array(
-							'id'       => '17',
-							'type'     => 'raw',
-							'markdown' => true,
-							'content'  => file_get_contents( dirname( __FILE__ ) . '/../README.md' )
-						),
-					),
-				);
-			}
-
-			$this->sections[] = array(
-				'title'  => __( 'Import / Export', 'wpmovielibrary' ),
-				'desc'   => __( 'Import and Export your Redux Framework settings from file, text or URL.', 'wpmovielibrary' ),
-				'icon'   => 'el-icon-refresh',
-				'fields' => array(
-					array(
-						'id'         => 'opt-import-export',
-						'type'       => 'import_export',
-						'title'      => 'Import Export',
-						'subtitle'   => 'Save and restore your Redux options',
-						'full_width' => false,
-					),
-				),
-			);
-
-			$this->sections[] = array(
-				'type' => 'divide',
-			);
-
-			$this->sections[] = array(
-				'icon'   => 'el-icon-info-sign',
-				'title'  => __( 'Theme Information', 'wpmovielibrary' ),
-				'desc'   => __( '<p class="description">This is the Description. Again HTML is allowed</p>', 'wpmovielibrary' ),
-				'fields' => array(
-					array(
-						'id'      => 'opt-raw-info',
-						'type'    => 'raw',
-						'content' => $item_info,
-					)
-				),
-			);
-
-			if ( file_exists( trailingslashit( dirname( __FILE__ ) ) . 'README.html' ) ) {
-				$tabs['docs'] = array(
-					'icon'    => 'el-icon-book',
-					'title'   => __( 'Documentation', 'wpmovielibrary' ),
-					'content' => nl2br( file_get_contents( trailingslashit( dirname( __FILE__ ) ) . 'README.html' ) )
-				);
-			}
 		}
 
 		public function setHelpTabs() {
@@ -225,8 +165,8 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 				'menu_title'           => __( 'Settings', 'wpmovielibrary' ),
 				'page_title'           => __( 'Settings', 'wpmovielibrary' ),
 				'admin_bar'            => false,
-				'dev_mode'             => true,
-				'update_notice'        => true,
+				'dev_mode'             => false,
+				'update_notice'        => false,
 				'customizer'           => false,
 				'page_parent'          => 'wpmovielibrary',
 				'page_permissions'     => 'manage_options',
@@ -299,101 +239,13 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 				'title' => 'Find us on WPMovieLibrary.com',
 				'icon'  => 'el-icon-globe-alt'
 			);
-
-			// Panel Intro text -> before the form
-			if ( ! isset( $this->args['global_variable'] ) || $this->args['global_variable'] !== false ) {
-				if ( ! empty( $this->args['global_variable'] ) ) {
-					$v = $this->args['global_variable'];
-				}
-				else {
-					$v = str_replace( '-', '_', $this->args['opt_name'] );
-				}
-				$this->args['intro_text'] = sprintf( __( '<p>Did you know that Redux sets a global variable for you? To access any of your saved options from within your code you can use your global variable: <strong>$%1$s</strong></p>', 'wpmovielibrary' ), $v );
-			}
-			else {
-				$this->args['intro_text'] = __( '<p>This text is displayed above the options panel. It isn\'t required, but more info is always better! The intro_text field accepts all HTML.</p>', 'wpmovielibrary' );
-			}
-
-			// Add content after the form.
-			$this->args['footer_text'] = __( '<p>This text is displayed below the options panel. It isn\'t required, but more info is always better! The footer_text field accepts all HTML.</p>', 'wpmovielibrary' );
 		}
 
-		public function validate_callback_function( $field, $value, $existing_value ) {
+	}
 
-			$error = true;
-			$value = 'just testing';
-
-			/*
-			do your validation
-
-			if(something) {
-			    $value = $value;
-			} elseif(something else) {
-			    $error = true;
-			    $value = $existing_value;
-			    
-			}
-			*/
-
-			$return['value'] = $value;
-			$field['msg']    = 'your custom error message';
-			if ( $error == true )
-				$return['error'] = $field;
-
-			return $return;
-		}
-
-		public function class_field_callback( $field, $value ) {
-			print_r( $field );
-			echo '<br/>CLASS CALLBACK';
-			print_r( $value );
-		}
-
-        }
-
-        global $reduxConfig;
-        $reduxConfig = new WPML_Redux_Framework_config();
+	global $reduxConfig;
+	$reduxConfig = new WPML_Redux_Framework_config();
 }
 else {
 	echo "The class named WPML_Redux_Framework_config has already been called. <strong>Developers, you need to prefix this class with your company name or you'll run into problems!</strong>";
 }
-
-/**
- * Custom function for the callback referenced above
- */
-if ( ! function_exists( 'redux_my_custom_field' ) ):
-	function redux_my_custom_field( $field, $value ) {
-		print_r( $field );
-		echo '<br/>';
-		print_r( $value );
-	}
-endif;
-
-/**
- * Custom function for the callback validation referenced above
- **/
-if ( ! function_exists( 'redux_validate_callback_function' ) ):
-	function redux_validate_callback_function( $field, $value, $existing_value ) {
-
-		$error = true;
-		$value = 'just testing';
-
-		/*
-		do your validation
-
-		if(something) {
-			$value = $value;
-		} elseif(something else) {
-			$error = true;
-			$value = $existing_value;
-		}
-		*/
-
-		$return['value'] = $value;
-		$field['msg']    = 'your custom error message';
-		if ( $error == true )
-			$return['error'] = $field;
-
-		return $return;
-	}
-endif;
