@@ -396,7 +396,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				extract( $subpage, EXTR_PREFIX_ALL, 'subpage' );
 				if ( is_null( $condition ) || ( ! is_null( $condition ) && false !== $condition ) ) {
 
-					$screen_hook = add_submenu_page( $menu_slug, $subpage_page_title, $subpage_menu_title, $subpage_capability, $subpage_menu_slug, $subpage_function );
+					$screen_hook = add_submenu_page( $menu_slug, $subpage_page_title, __( $subpage_menu_title, 'wpmovielibrary' ), $subpage_capability, $subpage_menu_slug, $subpage_function );
 					$this->screen_hooks[ $id ] = $screen_hook;
 
 					if ( true === $subpage_hide )

@@ -85,10 +85,15 @@ function wpml_requirements_error() {
  * @since    1.0.1
  */
 function wpml_l10n() {
-	$locale = apply_filters( 'plugin_locale', get_locale(), 'wpmovielibrary' );
-	load_textdomain( 'wpmovielibrary', trailingslashit( WP_LANG_DIR ) . basename( __DIR__ ) . '/languages/' . 'wpmovielibrary' . '-' . $locale . '.mo' );
-	load_plugin_textdomain( 'wpmovielibrary', FALSE, basename( __DIR__ ) . '/languages/' );
+
+	$domain = 'wpmovielibrary';
+	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+
+	load_textdomain( $domain, WPML_PATH . $domain . '/languages/'. $domain . '-' . $locale . '.mo' );
+	load_plugin_textdomain( $domain, FALSE, basename( __DIR__ ) . '/languages/' );
 }
+
+wpml_l10n();
 
 /*
  * Check requirements and load main class
@@ -177,6 +182,5 @@ if ( wpml_requirements_met() ) {
 	}
 }
 else {
-	add_action( 'init', 'wpml_l10n' );
 	add_action( 'admin_notices', 'wpml_requirements_error' );
 }
