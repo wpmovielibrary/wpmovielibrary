@@ -67,9 +67,6 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			// Load plugin text domain
-			add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
-
 			// Widgets
 			add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 
@@ -192,21 +189,6 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		public function enqueue_scripts() {
 
 			wp_enqueue_script( WPML_SLUG, WPML_URL . '/assets/js/public.js', array( 'jquery' ), WPML_VERSION, true );
-		}
-
-		/**
-		 * Load the plugin text domain for translation.
-		 *
-		 * @since    1.0
-		 */
-		public function load_plugin_textdomain() {
-
-			$domain = 'wpmovielibrary';
-			$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
-
-			load_textdomain( $domain, WPML_PATH . '/' . $domain . '-' . $locale . '.mo' );
-			load_plugin_textdomain( $domain, FALSE, basename( plugin_dir_path( dirname( __FILE__ ) ) ) . '/languages/' );
-
 		}
 
 		/**
