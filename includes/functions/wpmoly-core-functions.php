@@ -16,9 +16,9 @@
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
-require WPML_PATH . 'includes/functions/wpml-movies-functions.php';
-require WPML_PATH . 'includes/functions/wpml-ajax-functions.php';
-require WPML_PATH . 'includes/functions/wpml-legacy-functions.php';
+require WPML_PATH . 'includes/functions/wpmoly-movies-functions.php';
+require WPML_PATH . 'includes/functions/wpmoly-ajax-functions.php';
+require WPML_PATH . 'includes/functions/wpmoly-legacy-functions.php';
 
 /**
  * Filter a string value to determine a suitable boolean value.
