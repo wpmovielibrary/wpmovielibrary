@@ -152,8 +152,8 @@ $wpmoly_config = array(
 			),
 
 			// Release date formatting
-			'date_format' => array(
-				'id'       => 'wpmoly-date_format',
+			'format-date' => array(
+				'id'       => 'wpmoly-format-date',
 				'type'     => 'text',
 				'title'    => __( 'Release date format', 'wpmovielibrary' ),
 				'desc'     => __( 'Apply a custom date format to movies\' release dates. Leave empty to use the default API format. Check the <a href="http://codex.wordpress.org/Formatting_Date_and_Time">documentation on date and time formatting</a>.', 'wpmovielibrary' ),
@@ -161,8 +161,8 @@ $wpmoly_config = array(
 			),
 
 			// Release date formatting
-			'time_format' => array(
-				'id'       => 'wpmoly-time_format',
+			'format-time' => array(
+				'id'       => 'wpmoly-format-time',
 				'type'     => 'text',
 				'title'    => __( 'Runtime format', 'wpmovielibrary' ),
 				'desc'     => __( 'Apply a custom time format to movies\' runtimes. Leave empty to use the default API format.', 'wpmovielibrary' ),
@@ -180,8 +180,8 @@ $wpmoly_config = array(
 		'fields'  => array(
 
 			// Use posters as featured images
-			'poster_featured' => array(
-				'id'       => 'wpmoly-images-poster_featured',
+			'poster-featured' => array(
+				'id'       => 'wpmoly-poster-featured',
 				'type'     => 'switch',
 				'title'    => __( 'Posters as Thumbnails', 'wpmovielibrary' ),
 				'desc'     => __( 'Using posters as movies thumbnails will automatically import new movies&rsquo; poster and set them as post featured image. This setting doesn’t affect movie import by list where posters are automatically saved and set as featured image.', 'wpmovielibrary' ),
@@ -191,8 +191,8 @@ $wpmoly_config = array(
 			),
 
 			// Movie posters size
-			'poster_size' => array(
-				'id'       => 'wpmoly-images-poster_size',
+			'poster-size' => array(
+				'id'       => 'wpmoly-poster-size',
 				'type'     => 'select',
 				'title'    => __( 'Posters Default Size', 'wpmovielibrary' ),
 				'desc'     => __( 'Movie Poster size. Default is TMDb&rsquo;s original size.', 'wpmovielibrary' ),
@@ -209,8 +209,8 @@ $wpmoly_config = array(
 			),
 
 			// Images size
-			'images_size' => array(
-				'id'       => 'wpmoly-images-images_size',
+			'images-size' => array(
+				'id'       => 'wpmoly-images-size',
 				'type'     => 'select',
 				'title'    => __( 'Images Default Size', 'wpmovielibrary' ),
 				'desc'     => __( 'Movie Image size. Default is TMDb&rsquo;s original size.', 'wpmovielibrary' ),
@@ -224,8 +224,8 @@ $wpmoly_config = array(
 			),
 
 			// Maximum number of image to show
-			'delete_images' => array(
-				'id'       => 'wpmoly-images-delete_images',
+			'images-delete' => array(
+				'id'       => 'wpmoly-images-delete',
 				'type'     => 'switch',
 				'title'    => __( 'Delete images with movies', 'wpmovielibrary' ),
 				'desc'     => __( 'Enable this if you want to delete all imported images along with movies. Handy if you have a great number of movies to delete and possibly dozens of images attached.', 'wpmovielibrary' ),
@@ -235,8 +235,8 @@ $wpmoly_config = array(
 			),
 
 			// Maximum number of image to show
-			'delete_posters' => array(
-				'id'       => 'wpmoly-images-delete_posters',
+			'posters-delete' => array(
+				'id'       => 'wpmoly-posters-delete',
 				'type'     => 'switch',
 				'title'    => __( 'Delete posters with movies', 'wpmovielibrary' ),
 				'desc'     => __( 'Enable this if you want to delete posters along with movies.', 'wpmovielibrary' ),
@@ -255,8 +255,8 @@ $wpmoly_config = array(
 		'fields'  => array(
 
 			// Enable Collections Taxonomy
-			'enable_collection' => array(
-				'id'       => 'wpmoly-taxonomies-enable_collection',
+			'collection-enable' => array(
+				'id'       => 'wpmoly-collection-enable',
 				'type'     => 'switch',
 				'title'    => __( 'Enable Collections', 'wpmovielibrary' ),
 				'description' => __( 'Enable Collections Custom Taxonomy. Collections work for movies as Categories work for Posts: a hierarchical taxonomy to group your movies coherently. The default behavior is to use Collections to group movies by director, but you can use them differently at your will.', 'wpmovielibrary' ),
@@ -266,21 +266,21 @@ $wpmoly_config = array(
 			),
 
 			// Enable Collections Autocomplete
-			'collection_autocomplete' => array(
-				'id'       => 'wpmoly-taxonomies-collection_autocomplete',
+			'collection-autocomplete' => array(
+				'id'       => 'wpmoly-collection-autocomplete',
 				'type'     => 'switch',
 				'title'    => __( 'Add Collections automatically', 'wpmovielibrary' ),
 				'desc'     => __( 'Automatically add custom taxonomies when adding/importing movies. If enabled, each added/imported movie will be automatically added to the collection corresponding to its director(s).', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1,
-				'required' => array( 'wpmoly-taxonomies-enable_collection', "=", 1 ),
+				'required' => array( 'wpmoly-collection-enable', "=", 1 ),
 				'indent'   => true
 			),
 
 			// Enable Genres Taxonomy
-			'enable_genre' => array(
-				'id'       => 'wpmoly-taxonomies-enable_genre',
+			'genre-enable' => array(
+				'id'       => 'wpmoly-genre-enable',
 				'type'     => 'switch',
 				'title'    => __( 'Enable Genres', 'wpmovielibrary' ),
 				'desc'     => __( 'Enable Genres Custom Taxonomy. Genres work for movies as Tags work for Posts: a non-hierarchical taxonomy to improve movies management.', 'wpmovielibrary' ),
@@ -290,21 +290,21 @@ $wpmoly_config = array(
 			),
 
 			// Enable Genres Autocomplete
-			'genre_autocomplete' => array(
-				'id'       => 'wpmoly-taxonomies-genre_autocomplete',
+			'genre-autocomplete' => array(
+				'id'       => 'wpmoly-genre-autocomplete',
 				'type'     => 'switch',
 				'title'    => __( 'Add Genres automatically', 'wpmovielibrary' ),
 				'desc'     => __( 'Automatically add Genres when adding/importing movies.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1,
-				'required' => array( 'wpmoly-taxonomies-enable_genre', "=", 1 ),
+				'required' => array( 'wpmoly-genre-enable', "=", 1 ),
 				'indent'   => true
 			),
 
 			// Enable Actors Taxonomy
-			'enable_actor' => array(
-				'id'       => 'wpmoly-taxonomies-enable_actor',
+			'actor-enable' => array(
+				'id'       => 'wpmoly-actor-enable',
 				'type'     => 'switch',
 				'title'    => __( 'Enable Actors', 'wpmovielibrary' ),
 				'desc'     => __( 'Enable Actors Custom Taxonomy. Actors work for movies as Tags work for Posts: a non-hierarchical taxonomy to improve movies management. WPMovieLibrary stores Actors in a custom order, the most important actors appearing in the top of the list, then the supporting roles, and so on.', 'wpmovielibrary' ),
@@ -314,27 +314,27 @@ $wpmoly_config = array(
 			),
 
 			// Enable Actors Autocomplete
-			'actor_autocomplete' => array(
-				'id'       => 'wpmoly-taxonomies-actor_autocomplete',
+			'actor-autocomplete' => array(
+				'id'       => 'wpmoly-actor-autocomplete',
 				'type'     => 'switch',
 				'title'    => __( 'Add Actors automatically', 'wpmovielibrary' ),
 				'desc'     => __( 'Automatically add Actors when adding/importing movies.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1,
-				'required' => array( 'wpmoly-taxonomies-enable_actor', "=", 1 ),
+				'required' => array( 'wpmoly-actor-enable', "=", 1 ),
 				'indent'   => true
 			),
 
 			// Enable Actors Autocomplete
-			'actor_limit' => array(
-				'id'       => 'wpmoly-taxonomies-actor_limit',
+			'actor-limit' => array(
+				'id'       => 'wpmoly-actor-limit',
 				'type'     => 'text',
 				'title'    => __( 'Actors limit', 'wpmovielibrary' ),
 				'desc'     => __( 'Limit the number of actors per movie. This is useful if you\'re dealing with big libraries and don\'t want to have massive lists of actors created. Limiting the Actors will result in keeping only the most famous/important actors as taxonomies, while the complete list of actors will remained stored as a regular metadata. Set to 0 to disable.', 'wpmovielibrary' ),
 				'default'  => 0,
 				'validate' => 'numeric',
-				'required' => array( 'wpmoly-taxonomies-enable_actor', "=", 1 ),
+				'required' => array( 'wpmoly-actor-enable', "=", 1 ),
 				'indent'   => true
 			),
 		),
@@ -373,6 +373,8 @@ $wpmoly_config = array(
 				'type'     => 'text',
 				'title'    => __( 'Movies URL Rewrite', 'wpmovielibrary' ),
 				'desc'     => __( 'URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>http://yourblog/movies/fight-club</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
+				//'validate' => 'no_special_chars',
+				'validate_callback' => 'WPML_Settings::notify_permalinks_change',
 				'default'  => 'movies'
 			),
 
@@ -393,6 +395,7 @@ $wpmoly_config = array(
 				'type'     => 'text',
 				'title'    => __( 'Collections URL Rewrite', 'wpmovielibrary' ),
 				'desc'     => __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>http://yourblog/collection/david-fincher</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
+				'validate' => 'no_special_chars',
 				'default'  => 'collection',
 				'required' => array( 'wpmoly-taxonomies-enable_collection', "=", 1 )
 			),
@@ -403,6 +406,7 @@ $wpmoly_config = array(
 				'type'     => 'text',
 				'title'    => __( 'Genres URL Rewrite', 'wpmovielibrary' ),
 				'desc'     => __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>http://yourblog/genre/thriller</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
+				'validate' => 'no_special_chars',
 				'default'  => 'genre',
 				'required' => array( 'wpmoly-taxonomies-enable_genre', "=", 1 )
 			),
@@ -413,6 +417,7 @@ $wpmoly_config = array(
 				'type'     => 'text',
 				'title'    => __( 'Actors URL Rewrite', 'wpmovielibrary' ),
 				'desc'     => __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
+				'validate' => 'no_special_chars',
 				'default'  => 'actor',
 				'required' => array( 'wpmoly-taxonomies-enable_actor', "=", 1 )
 			),
@@ -505,18 +510,19 @@ $wpmoly_config = array(
                         ),
 
 			'api_key' => array(
-				'id'       => 'wpmoly-api-personnal-key',
+				'id'       => 'wpmoly-api-key',
 				'type'     => 'text',
 				'title'    => __( 'API Key', 'wpmovielibrary' ),
 				'subtitle' => __( 'Set up your own API key', 'wpmovielibrary' ),
 				'desc'     => __( 'Using your own API key is a more privacy-safe choice as it will avoid WPMovieLibrary to filter queries sent to the API through its own relay server at tmdb.caercam.org. You will also be able to access statistics on your API usage in your TMDb user account.', 'wpmovielibrary' ), 
+				'validate' => 'no_special_chars',
 				'validate_callback' => array( 'WPML_TMDb', 'check_api_key' ),
 				'default'  => null,
 				'required' => array( 'wpmoly-api-internal', "=", 1 ),
 				'indent'   => true
 			),
 
-			'lang' => array(
+			'language' => array(
 				'id'       => 'wpmoly-api-language',
 				'type'     => 'select',
 				'title'    => __( 'API Language', 'wpmovielibrary' ),

@@ -117,10 +117,9 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 			}
 
 			// ACTUAL DECLARATION OF SECTIONS
-			global $wpmoly_config;
 			$this->sections = array_merge(
 				$this->sections,
-				$wpmoly_config
+				WPML_Settings::get_default_settings()
 			);
 		}
 
