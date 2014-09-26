@@ -73,10 +73,14 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'edit_movie' => 'edit-movie',
 				'movie'      => 'movie',
 				'plugins'    => 'plugins',
-				'widgets'    => 'widgets.php'
+				'widgets'    => 'widgets.php',
+				'settings'   => sprintf( '%s_page_wpmovielibrary-settings', strtolower( __( 'Movies', 'wpmovielibrary' ) ) )
 			);
 
 			$this->hidden_pages = array();
+
+			/*global $wpmoly_settings;
+			print_r( $wpmoly_settings );*/
 
 			self::$default_settings = WPML_Settings::get_default_settings();
 			$this->settings = WPML_Settings::get_settings();
@@ -96,7 +100,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( wpml_modern_wp() )
 				add_action( 'admin_head', array( $this, 'custom_admin_colors' ) );
 
-			add_filter( 'pre_update_option_wpml_settings', array( $this, 'filter_settings' ), 10, 2 );
+			//add_filter( 'pre_update_option_wpml_settings', array( $this, 'filter_settings' ), 10, 2 );
 
 			// Add the options page and menu item.
 			add_action( 'admin_menu', array( $this, 'admin_menu' ), 9 );
@@ -115,39 +119,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			add_action( 'in_admin_footer', array( $this, 'legal_mentions' ) );
 
 			add_action( 'dashboard_glance_items', array( $this, 'dashboard_glance_items' ), 10, 1 );
-		}
-
-		/**
-		 * Notify the absence of set API key. If no API key is set and
-		 * the internal API isn't enabled, show an admin notice on all
-		 * the plugin's pages.
-		 *
-		 * @since     1.0.0
-		 */
-		public function api_key_notice() {
-
-			$screen = get_current_screen();
-			if ( ! in_array( $screen->id, $this->screen_hooks ) || ( isset( $_GET['hide_wpml_api_key_notice'] ) && '1' == $_GET['hide_wpml_api_key_notice'] ) )
-				return false;
-
-			$hide_notice = get_option( 'wpml_api_key_notice_hide', '0' );
-			$hide_notice = ( '1' == $hide_notice ? true : false );
-
-			if ( false === $hide_notice && '' == WPML_Settings::tmdb__apikey() && false === WPML_Settings::tmdb__internal_api() )
-				echo self::render_admin_template( 'admin-notice.php', array( 'notice' => 'api-key-error' ) );
-
-			return true;
-		}
-
-		/**
-		 * Update API key notice visibility option
-		 *
-		 * @since     1.0.0
-		 */
-		public static function show_api_key_notice() {
-
-			$hide_notice = ( '1' == $_GET['hide_wpml_api_key_notice'] ? 1 : 0 );
-			update_option( 'wpml_api_key_notice_hide', $hide_notice );
 		}
 
 		/**
@@ -264,6 +235,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * Adds a translation object to the plugin's JavaScript object
 		 * containing localized texts.
 		 * 
+		 * TODO: move to dedicated lang class?
+		 * 
 		 * @since    1.0
 		 */
 		private function localize_script() {
@@ -274,6 +247,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					'language' => WPML_Settings::tmdb__lang()
 				),
 				'lang' => array(
+					'available'		=> __( 'Available', 'wpmovielibrary' ),
 					'deleted_movie'		=> __( 'One movie successfully deleted.', 'wpmovielibrary' ),
 					'deleted_movies'	=> __( '%s movies successfully deleted.', 'wpmovielibrary' ),
 					'dequeued_movie'	=> __( 'One movie removed from the queue.', 'wpmovielibrary' ),
@@ -308,6 +282,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					'see_less'		=> __( 'see no more', 'wpmovielibrary' ),
 					'see_more'		=> __( 'see more', 'wpmovielibrary' ),
 					'set_featured'		=> __( 'Setting featured image…', 'wpmovielibrary' ),
+					'used'			=> __( 'Used', 'wpmovielibrary' )
 				)
 			);
 
@@ -357,13 +332,11 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$_eq_hover_color = $colors->icon_colors['focus'];
 ?>
 	<style>
-		.label_off.active, .label_on.active, .wpml-tabs-nav > li:hover h4 span, #progress, #wpml-tabs .default_movie_details .default_movie_detail.selected, #wpml-tabs .default_movie_meta_sortable .default_movie_meta_selected, #queue_progress { background-color: <?php echo $_eq_light_blue ?> !important; }
-		#tmdb_images_preview #tmdb_load_images:hover { border-color: <?php echo $_eq_light_blue ?>; }
-		.wpml-tabs-nav > li > a { color: <?php echo $_eq_text_color ?>; }
-		.wpml-tabs-nav > li:hover a { color: <?php echo $_eq_hover_color ?>; }
-		.label_off, .label_on, .wpml-tabs-nav > li:hover { background-color: <?php echo $_eq_dark_grey ?>; }
-		.wpml-tabs-nav { background-color: <?php echo $_eq_light_grey ?>; }
-		.wpml-tabs-nav > li.active a, .wpml-tabs-nav > li.active:hover a { background-color: <?php echo $_eq_dark_blue ?>; }
+		#progress, #queue_progress, #wpmoly-default_movie_meta_used li, #wpmoly-default_movie_details_used li { background: <?php echo $_eq_light_blue ?> !important; }
+		#tmdb_images_preview #tmdb_load_images:hover { border-color: <?php echo $_eq_light_blue ?> !important; }
+		#wpmoly-default_movie_meta_used li, #wpmoly-default_movie_details_available li { color: <?php echo $_eq_text_color ?> !important; }
+		#wpmoly-default_movie_meta_used li:hover, #wpmoly-default_movie_details_available li:hover { color: <?php echo $_eq_hover_color ?> !important; }
+		#wpmoly-default_movie_meta_available li, #wpmoly-default_movie_details_available li { background: <?php echo $_eq_dark_grey ?> !important; }
 	</style>
 <?php
 		}
@@ -393,7 +366,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			foreach ( $admin_menu['subpages'] as $id => $subpage ) {
 
-				extract( $subpage, EXTR_PREFIX_ALL, 'subpage' );
+				extract( $subpage, EXTR_PREFIX_ALL | EXTR_OVERWRITE, 'subpage' );
 				if ( is_null( $condition ) || ( ! is_null( $condition ) && false !== $condition ) ) {
 
 					$screen_hook = add_submenu_page( $menu_slug, $subpage_page_title, __( $subpage_menu_title, 'wpmovielibrary' ), $subpage_capability, $subpage_menu_slug, $subpage_function );
@@ -512,130 +485,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			);
 
 			echo self::render_admin_template( 'settings/settings.php', $attributes );
-		}
-
-		/**
-		 * Registers settings sections, fields and settings
-		 *
-		 * @since    1.0
-		 */
-		public function register_settings() {
-
-			global $wpml_settings;
-
-			foreach ( $wpml_settings as $section ) {
-
-				if ( isset( $section['section'] ) && isset( $section['settings'] ) ) {
-
-					$section_id = $section['section']['id'];
-					$section_title = $section['section']['title'];
-
-					add_settings_section( "wpml_settings-$section_id", $section_title, __CLASS__ . '::markup_section_headers', 'wpml_settings' );
-
-					foreach ( $section['settings'] as $id => $field ) {
-
-						$callback = isset( $field['callback'] ) ? $field['callback'] : 'markup_fields';
-
-						add_settings_field( $id, __( $field['title'], 'wpmovielibrary' ), array( $this, $callback ), 'wpml_settings', "wpml_settings-$section_id", array( 'id' => $id, 'section' => $section_id ) + $field );
-					}
-				}
-			}
-
-			// The settings container
-			register_setting(
-				'wpml_edit_settings',
-				'wpml_settings'
-			);
-		}
-
-		/**
-		 * Adds the section introduction text to the Settings page
-		 *
-		 * @mvc Controller
-		 *
-		 * @param array $section
-		 */
-		public static function markup_section_headers( $section ) {
-			echo self::render_admin_template( 'settings/section-headers.php', array( 'section' => $section ) );
-		}
-
-		/**
-		 * Delivers the markup for settings fields
-		 *
-		 * @mvc Controller
-		 *
-		 * @param array $field
-		 */
-		public function markup_fields( $field ) {
-
-			$settings = WPML_Settings::get_settings();
-			$attributes = array();
-
-			$attributes['_type']  = esc_attr( $field['type'] );
-			$attributes['_title'] = esc_attr( $field['title'] );
-			$attributes['_id']    = "wpml_settings-{$field['section']}-{$field['id']}";
-			$attributes['_name']  = "wpml_settings[{$field['section']}][{$field['id']}]";
-			$attributes['_value'] = $settings[ $field['section'] ][ $field['id'] ];
-			$attributes['settings'] = $settings;
-			$attributes['field'] = $field;
-
-			echo self::render_admin_template( 'settings/fields.php', $attributes, $require = 'always' );
-		}
-
-		/**
-		 * Delivers the markup for default_movie_meta settings fields
-		 *
-		 * @param array $field
-		 */
-		public function sorted_markup_fields( $field ) {
-
-			$settings = WPML_Settings::get_settings();
-
-			$_type  = 'sorted';
-			$_title = esc_attr( $field['title'] );
-			$_id    = "wpml_settings-{$field['section']}-{$field['id']}";
-			$_name  = "wpml_settings[{$field['section']}][{$field['id']}]";
-
-			if ( 'default_movie_meta' == $field['id'] && isset( $settings['wpml']['default_movie_meta_sorted'] ) )
-				$_value = $settings[ $field['section'] ]['default_movie_meta_sorted'];
-			else
-				$_value = $settings[ $field['section'] ][ $field['id'] ];
-
-			$items      = WPML_Settings::get_supported_movie_meta();
-			$selected   = $_value;
-			$selectable = array_diff( array_keys( $items ), $selected );
-			$selectable = empty( $selectable ) ? array_keys( $items ) : $selectable;
-
-			$draggable = ''; $droppable = ''; $options = '';
-
-			foreach ( $selected as $meta ) :
-				if ( isset( $items[ $meta ] ) )
-					$draggable .= '<li data-movie-meta="' . $meta . '" class="default_movie_meta_selected">' . __( $items[ $meta ]['title'], 'wpmovielibrary' ) . '</li>';
-			endforeach;
-			foreach ( $selectable as $meta ) :
-				$droppable .= '<li data-movie-meta="' . $meta . '" class="default_movie_meta_droppable">' . __( $items[ $meta ]['title'], 'wpmovielibrary' ) . '</li>';
-			endforeach;
-
-			foreach ( $items as $slug => $meta ) :
-				$check = in_array( $slug, $_value );
-				$options .= '<option value="' . $slug . '"' . selected( $check, true, false ) . '>' . __( $meta['title'], 'wpmovielibrary' ) . '</option>';
-			endforeach;
-
-			$attributes = array(
-				'_type' => $_type,
-				'_id' => $_id,
-				'_name' => $_name,
-				'_title' => $_title,
-				'_value' => $_value,
-				'field' => $field,
-				'draggable' => $draggable,
-				'droppable' => $droppable,
-				'selected' => $selected,
-				'options' => $options,
-				'items' => $items
-			);
-
-			echo self::render_admin_template( 'settings/fields.php', $attributes, $require = 'always' );
 		}
 
 		/**

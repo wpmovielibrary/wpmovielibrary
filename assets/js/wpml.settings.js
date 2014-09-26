@@ -25,6 +25,9 @@ wpml.settings = wpml_settings = {}
 		 */
 		wpml.settings.panels.init = function() {
 
+			$( '#wpmoly-default_movie_meta_used h3, #wpmoly-default_movie_details_used h3' ).text( wpml_ajax.lang.used );
+			$( '#wpmoly-default_movie_meta_available h3, #wpmoly-default_movie_details_available h3' ).text( wpml_ajax.lang.available );
+
 			if ( $( wpml_panels.link_active ).length )
 				wpml_panels.active = $( wpml_panels.link ).index( $( wpml_panels.link_active ) );
 

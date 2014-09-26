@@ -98,16 +98,6 @@ $wpml_admin_menu = array(
 				'load-{screen_hook}' => 'WPML_Import::import_movie_list_add_options'
 			),
 		),
-		'settings' => array(
-			'page_title'  => __( 'Settings', 'wpmovielibrary' ),
-			'menu_title'  => __( 'Settings', 'wpmovielibrary' ),
-			'capability'  => 'manage_options',
-			'menu_slug'   => 'wpml_edit_settings',
-			'function'    => 'WPMovieLibrary_Admin::admin_page',
-			'condition'   => null,
-			'hide'        => false,
-			'actions'     => array()
-		),
 		'update-movies' => array(
 			'page_title'  => __( 'Update movies to version 1.3', 'wpmovielibrary' ),
 			'menu_title'  => __( 'Update movies', 'wpmovielibrary' ),

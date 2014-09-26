@@ -56,7 +56,8 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 			add_filter( 'redux/options/' . $this->args['opt_name'] . '/sections', array( $this, 'dynamic_section' ) );
 
 			
-			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ) );
+			//add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ) );
+			//add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
 			$this->ReduxFramework = new ReduxFramework( $this->sections, $this->args );
 		}
@@ -80,12 +81,6 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 			);
 
 			return $sections;
-		}
-
-		function admin_enqueue_styles( $hook ) {
-
-			if ( false !== stripos( $hook, 'wpmovielibrary-settings' ) )
-				wp_enqueue_style( WPML_SLUG .'-admin-styles', WPML_URL . '/assets/css/admin.css', array(), WPML_VERSION );
 		}
 
 		/**
@@ -122,10 +117,10 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 			}
 
 			// ACTUAL DECLARATION OF SECTIONS
-			global $_wpml_settings_;
+			global $wpmoly_config;
 			$this->sections = array_merge(
 				$this->sections,
-				$_wpml_settings_
+				$wpmoly_config
 			);
 		}
 
@@ -157,7 +152,7 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 			$plugin = get_plugin_data( WPML_PATH . 'wpmovielibrary.php' ); // For use with some settings. Not necessary.
 
 			$this->args = array(
-				'opt_name'             => '_wpml_settings',
+				'opt_name'             => 'wpmoly_settings',
 				'display_name'         => $plugin['Name'],
 				'display_version'      => $plugin['Version'],
 				'menu_type'            => 'submenu',
@@ -184,7 +179,7 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 				'output'               => true,
 				'output_tag'           => true,
 				'database'             => '',
-				'system_info'          => false,
+				'system_info'          => true,
 				// REMOVE
 
 				// HINTS
@@ -240,6 +235,7 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 				'icon'  => 'el-icon-globe-alt'
 			);
 		}
+		
 
 	}
 
