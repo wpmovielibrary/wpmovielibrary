@@ -6,8 +6,8 @@ var wpml_images, wpml_posters;
 	wpml.media = wpml_media = {
 
 		_movie_id: $('#post_ID').val(),
-		_movie_title: $('#tmdb_data_title').val(),
-		_movie_tmdb_id: $('#tmdb_data_tmdb_id').val(),
+		_movie_title: $('#meta_data_title').val(),
+		_movie_tmdb_id: $('#meta_data_tmdb_id').val(),
 		
 		init: function() {},
 		images: {},
@@ -122,7 +122,7 @@ var wpml_images, wpml_posters;
 					data: {
 						action: 'wpml_upload_image',
 						nonce: wpml.get_nonce( 'upload-movie-image' ),
-						image: image.attributes.tmdb_data,
+						image: image.attributes.metadata,
 						title: wpml_ajax.lang.image_from + ' ' + wpml.editor._movie_title,
 						post_id: wpml.editor._movie_id,
 						tmdb_id: wpml.editor._movie_tmdb_id
@@ -267,8 +267,8 @@ var wpml_images, wpml_posters;
 			 */
 			wpml.media.posters.set_featured = function( image ) {
 
-				if ( undefined != image.attributes && undefined != image.attributes.tmdb_data ) {
-					var _image = {file_path: image.attributes.tmdb_data.file_path};
+				if ( undefined != image.attributes && undefined != image.attributes.metadata ) {
+					var _image = {file_path: image.attributes.metadata.file_path};
 				}
 				else {
 					if ( 0 <= parseInt( wp.media.featuredImage.get() ) ) {

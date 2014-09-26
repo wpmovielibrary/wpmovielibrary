@@ -136,7 +136,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			// Check for matching files
 			if ( 'poster' == $image_type && ! empty( $check ) ) {
 				foreach ( $check as $c ) {
-					$meta = get_post_meta( $c->ID, '_wpml_' . $image_type . '_related_tmdb_data' );
+					$meta = get_post_meta( $c->ID, '_wpml_' . $image_type . '_related_meta_data' );
 					if ( isset( $meta['file_path'] ) && in_array( $meta['file_path'], array( $image, '/' . $image ) ) )
 						return $c;
 				}
@@ -249,7 +249,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 					'width' 	=> $image['width'],
 					'orientation' 	=> $_orientation,
 					'compat' 	=> array( 'item' => '', 'meta' => '' ),
-					'tmdb_data' 	=> $image
+					'metadata' 	=> $image
 				);
 			}
 
@@ -440,7 +440,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			}
 
 			update_post_meta( $id, '_wpml_' . $image_type . '_related_tmdb_id', $tmdb_id );
-			update_post_meta( $id, '_wpml_' . $image_type . '_related_tmdb_data', $data );
+			update_post_meta( $id, '_wpml_' . $image_type . '_related_meta_data', $data );
 
 			return $id;
 		}

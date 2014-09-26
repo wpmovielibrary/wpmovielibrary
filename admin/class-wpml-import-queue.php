@@ -184,7 +184,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		public static function enqueue_movie( $movie ) {
 
 			$post_id = esc_attr( $movie['post_id'] );
-			$post_title = esc_attr( $movie['meta']['title'] );
+			$post_title = esc_attr( $movie['title'] );
 			$post_title = str_replace( "&#039;", "'", $post_title );
 			$metadata = $movie;
 
@@ -305,7 +305,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			);
 
 			if ( WPML_Settings::images__poster_featured() ) {
-				$id = WPML_Media::set_image_as_featured( $meta['poster'], $post_id, $meta['tmdb_id'], $meta['meta']['title'] );
+				$id = WPML_Media::set_image_as_featured( $meta['poster'], $post_id, $meta['tmdb_id'], $meta['title'] );
 				update_post_meta( $post_id, '_thumbnail_id', $id );
 			}
 

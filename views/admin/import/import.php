@@ -23,9 +23,9 @@
 
 				<?php WPML_Import::display_import_movie_list(); ?>
 
-				<form method="post" id="tmdb_data_form">
+				<form method="post" id="meta_data_form">
 
-					<div id="tmdb_data" style="display:none"></div>
+					<div id="meta_data" style="display:none"></div>
 
 					<p style="text-align:right">
 						<?php wpml_nonce_field( 'save-imported-movies', $referer = false ) ?>

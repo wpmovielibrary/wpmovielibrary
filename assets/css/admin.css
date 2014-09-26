@@ -1193,14 +1193,14 @@ body.post-php.post-type-movie #postimagediv {
 	height: 28px;
 }
 
-#tmdb_data {
+#meta_data {
 	background: #333;
 	display: none;
 	margin: 0.75em -1em;
 	padding: 0.75em 0;
 }
 
-#tmdb_data p {
+#meta_data p {
 	color: #eee;
 	padding: 0 1.5em;
 }
