@@ -38,7 +38,14 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 *
 		 * @var string
 		 */
-		protected $_api_key = '';
+		protected $api_key = '';
+
+		/**
+		 * TMDb API scheme
+		 *
+		 * @var string
+		 */
+		protected $scheme = '';
 
 		/**
 		 * Dummy API?
@@ -62,10 +69,11 @@ if ( ! class_exists( 'TMDb' ) ) :
 			if ( true === $config )
 				self::getConfiguration();
 
-			$this->_api_key = WPML_Settings::tmdb__apikey();
-			$this->internal = WPML_Settings::tmdb__internal_api();
+			$this->api_key  = wpmoly_o( 'api-key' );
+			$this->scheme   = wpmoly_o( 'api-scheme' );
+			$this->internal = wpmoly_o( 'api-internal' );
 
-			if ( '' == $this->_api_key )
+			if ( '' == $this->api_key )
 				$this->internal = true;
 		}
 
@@ -78,7 +86,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 */
 		public function checkApiKey( $key ) {
 
-			$this->_api_key = esc_attr( $key );
+			$this->api_key = esc_attr( $key );
 			$this->internal = false;
 
 			return self::_makeCall( 'configuration' );
@@ -109,7 +117,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 			$params = array(
 				'query'         => $query,
 				'page'          => (int) $page,
-				'language'      => is_null( $lang ) ? WPML_Settings::tmdb__lang() : $lang,
+				'language'      => is_null( $lang ) ? wpmoly_o( 'api-language' ) : $lang,
 				'include_adult' => (bool) $adult,
 				'year'          => $year,
 			);
@@ -127,7 +135,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 */
 		public function getMovie( $id, $lang = null ) {
 
-			$params = array( 'language' => is_null( $lang ) ? WPML_Settings::tmdb__lang() : $lang );
+			$params = array( 'language' => is_null( $lang ) ? wpmoly_o( 'api-language' ) : $lang );
 			return self::_makeCall( 'movie/' . $id, $params );
 		}
 
@@ -153,7 +161,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 */
 		public function getMovieImages( $id, $lang = null ) {
 
-			$params = array( 'language' => is_null( $lang ) ? WPML_Settings::tmdb__lang() : $lang );
+			$params = array( 'language' => is_null( $lang ) ? wpmoly_o( 'api-language' ) : $lang );
 			return self::_makeCall( 'movie/' . $id . '/images', $params );
 		}
 
@@ -271,10 +279,10 @@ if ( ! class_exists( 'TMDb' ) ) :
 		protected function _makeCall( $function, $params = null, $session_id = null, $method = 'get' ) {
 
 			$params = ( ! is_array( $params ) ) ? array() : $params;
-			$url = WPML_Settings::tmdb__scheme() . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( array( 'api_key' => WPML_Settings::tmdb__apikey() ), '', '&' );
+			$url = $this->scheme . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( array( 'api_key' => $this->api_key ), '', '&' );
 			$url .= ( ! is_null( $params ) && ! empty( $params ) ) ? '&' . http_build_query( $params, '', '&' ) : '';
 
-			if ( true === WPML_Settings::tmdb__internal_api() ) {
+			if ( true === $this->internal ) {
 				$url = 'http' . TMDb::API_RELAY_URL . '/' . $function;
 				if ( isset( $params['query'] ) && '' != $params['query'] )
 					$url .= '/' . rawurlencode( $params['query'] );

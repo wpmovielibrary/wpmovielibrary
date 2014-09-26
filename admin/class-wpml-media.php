@@ -63,11 +63,11 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				return false;
 
 			// Do nothing
-			if ( ! WPML_Settings::images__delete_images() && ! WPML_Settings::images__delete_posters() )
+			if ( ! wpmoly_o( 'images-delete' ) && ! wpmoly_o( 'images-delete' ) )
 				return false;
 
 			// Delete posters only
-			if ( ! WPML_Settings::images__delete_images() && WPML_Settings::images__delete_posters() )
+			if ( ! wpmoly_o( 'images-delete' ) && wpmoly_o( 'posters-delete' ) )
 				if ( has_post_thumbnail( $post_id ) )
 					return wp_delete_attachment( get_post_thumbnail_id( $post_id ), $force_delete = true );
 
@@ -77,7 +77,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				'post_type' => 'attachment'
 			);
 
-			if ( ! WPML_Settings::images__delete_posters() )
+			if ( ! wpmoly_o( 'posters-delete' ) )
 				if ( has_post_thumbnail( $post_id ) )
 					$args['exclude'] = get_post_thumbnail_id( $post_id );
 
@@ -314,7 +314,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			$title   = ( isset( $_POST['title'] )   && '' != $_POST['title']   ? $_POST['title']   : null );
 			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : null );
 
-			if ( 1 != WPML_Settings::images__poster_featured() )
+			if ( 1 != wpmoly_o( 'poster-featured' ) )
 				return new WP_Error( 'no_featured', __( 'Movie Posters as featured images option is deactivated. Update your settings to activate this.', 'wpmovielibrary' ) );
 
 			if ( is_null( $image ) || is_null( $post_id ) )
@@ -404,7 +404,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload is empty.', 'wpmovielibrary' ) );
 
 			$image_type = ( 'poster' == $image_type ? 'poster' : 'backdrop' );
-			$size = WPML_Settings::images__images_size();
+			$size = wpmoly_o( 'images-size' );
 
 			if ( is_array( $file ) ) {
 				$data = $file;

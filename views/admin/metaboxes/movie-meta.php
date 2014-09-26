@@ -7,7 +7,7 @@
 				<?php wpml_nonce_field( 'search-movies' ) ?>
 				<select id="tmdb_search_lang" name="wpml[lang]" onchange="wpml_edit_meta.lang=this.value;">
 <?php foreach ( $languages as $code => $lang ) : ?>
-					<option value="<?php echo $code ?>" <?php selected( WPML_Settings::tmdb__lang(), $code ); ?>><?php echo $lang ?></option>
+					<option value="<?php echo $code ?>" <?php selected( wpmoly_o( 'api-language' ), $code ); ?>><?php echo $lang ?></option>
 <?php endforeach; ?>
 				</select>
 				<select id="tmdb_search_type" name="wpml[tmdb_search_type]">
@@ -42,8 +42,8 @@
 <?php endif; ?>
 
 			<input type="hidden" id="meta_data_tmdb_id" name="meta_data[tmdb_id]" class="hide-if-js hide-if-no-js" value="<?php echo $metadata['tmdb_id'] ?>" />
-			<input type="hidden" id="wpml_actor_limit" class="hide-if-js hide-if-no-js" value="<?php echo WPML_Settings::taxonomies__actor_limit() ?>" />
-			<input type="hidden" id="wpml_poster_featured" class="hide-if-js hide-if-no-js" value="<?php echo ( 1 == WPML_Settings::images__poster_featured() ? '1' : '0' ) ?>" />
+			<input type="hidden" id="wpml_actor_limit" class="hide-if-js hide-if-no-js" value="<?php echo wpmoly_o( 'actor-limit' ) ?>" />
+			<input type="hidden" id="wpml_poster_featured" class="hide-if-js hide-if-no-js" value="<?php echo ( 1 == wpmoly_o( 'poster-featured' ) ? '1' : '0' ) ?>" />
 
 			<table class="list-table meta">
 				<thead>

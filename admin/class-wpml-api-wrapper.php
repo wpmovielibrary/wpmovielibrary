@@ -46,7 +46,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			$this->register_hook_callbacks();
 
-			if ( '' == WPML_Settings::tmdb__apikey() ) {
+			if ( '' == wpmoly_o( 'api-internal' ) ) {
 				WPML_Utils::admin_notice( __( '', 'wpmovielibrary' ), 'error' );
 				return false;
 			}
@@ -179,7 +179,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			$type = ( isset( $_GET['type'] ) && '' != $_GET['type'] ? $_GET['type'] : '' );
 			$data = ( isset( $_GET['data'] ) && '' != $_GET['data'] ? $_GET['data'] : '' );
-			$lang = ( isset( $_GET['lang'] ) && '' != $_GET['lang'] ? $_GET['lang'] : WPML_Settings::tmdb__lang() );
+			$lang = ( isset( $_GET['lang'] ) && '' != $_GET['lang'] ? $_GET['lang'] : wpmoly_o( 'api-language' ) );
 			$_id  = ( isset( $_GET['post_id'] ) && '' != $_GET['post_id'] ? $_GET['post_id'] : null );
 
 			if ( '' == $data || '' == $type )
@@ -209,13 +209,13 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 */
 		private static function get_movie_by_title( $title, $lang, $_id = null ) {
 
-			$movies = ( WPML_Settings::tmdb__caching() ? get_transient( "wpml_movie_{$title}_{$lang}" ) : false );
+			$movies = ( wpmoly_o( 'enable-cache' ) ? get_transient( "wpml_movie_{$title}_{$lang}" ) : false );
 
 			if ( false === $movies ) {
 				$movies = self::_get_movie_by_title( $title, $lang, $_id );
 
-				if ( true === WPML_Settings::tmdb__caching() && ! is_wp_error( $movies ) ) {
-					$expire = (int) ( 86400 * WPML_Settings::tmdb__caching_time() );
+				if ( true === wpmoly_o( 'enable-cache' ) && ! is_wp_error( $movies ) ) {
+					$expire = (int) ( 86400 * wpmoly_o( 'cache-expire' ) );
 					set_transient( "wpml_movies_{$title}_{$lang}", $movies, $expire );
 				}
 			}
@@ -310,13 +310,13 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 */
 		public static function get_movie_by_id( $id, $lang, $_id = null ) {
 
-			$movie = ( WPML_Settings::tmdb__caching() ? get_transient( "wpml_movie_{$id}_{$lang}" ) : false );
+			$movie = ( wpmoly_o( 'enable-cache' ) ? get_transient( "wpml_movie_{$id}_{$lang}" ) : false );
 
 			if ( false === $movie ) {
 				$movie = self::_get_movie_by_id( $id, $lang, $_id );
 
-				if ( true === WPML_Settings::tmdb__caching() && ! is_wp_error( $movie ) ) {
-					$expire = (int) ( 86400 * WPML_Settings::tmdb__caching_time() );
+				if ( true === wpmoly_o( 'enable-cache' ) && ! is_wp_error( $movie ) ) {
+					$expire = (int) ( 86400 * wpmoly_o( 'cache-expire' ) );
 					set_transient( "wpml_movie_{$id}_{$lang}", $movie, 3600 * 24 );
 				}
 			}
@@ -370,10 +370,10 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			$_movie['taxonomy'] = array();
 
 			// Prepare Custom Taxonomy
-			if ( 1 == WPML_Settings::taxonomies__actor_autocomplete() ) {
+			if ( 1 == wpmoly_o( 'actor-autocomplete' ) ) {
 
 				$_movie['taxonomy']['actors'] = array();
-				if ( ! empty( $casts['cast'] ) && 1 == WPML_Settings::taxonomies__enable_actor() ) {
+				if ( ! empty( $casts['cast'] ) && 1 == wpmoly_o( 'enable-actor' ) ) {
 					foreach ( $casts['cast'] as $actor ) {
 						$_movie['taxonomy']['actors'][] = $actor['name'];
 					}
@@ -381,10 +381,10 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			}
 
 			// Prepare Custom Taxonomy
-			if ( 1 == WPML_Settings::taxonomies__genre_autocomplete() ) {
+			if ( 1 == wpmoly_o( 'genre-autocomplete' ) ) {
 
 				$_movie['taxonomy']['genres'] = array();
-				if ( ! empty( $movie['genres'] ) && 1 == WPML_Settings::taxonomies__enable_genre() ) {
+				if ( ! empty( $movie['genres'] ) && 1 == wpmoly_o( 'enable-genre' ) ) {
 					foreach ( $movie['genres'] as $genre ) {
 						$_movie['taxonomy']['genres'][] = $genre['name'];
 					}

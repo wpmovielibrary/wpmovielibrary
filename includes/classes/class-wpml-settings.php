@@ -28,44 +28,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @since    1.0
 		 */
-		public function __construct() {
-			$this->register_hook_callbacks();
-		}
-
-		/**
-		 * Public accessor for every WPML settings
-		 * 
-		 * Allow to request WPML Settings using 'Class::setting_name' written
-		 * calls. If the name passed matches a method it will be called and
-		 * returned.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    string    $name Name of the wanted property/method
-		 * @param    array     $arguments Arguments to pass to the mathod
-		 * 
-		 * @return   mixed     Wanted function's return value
-		 */
-		public static function __callStatic( $name, $arguments ) {
-
-			if ( method_exists( __CLASS__, $name ) )
-				return call_user_func_array( __CLASS__ . "::$name", $arguments );
-			
-			$name = str_replace( '__', '-', $name );
-			$settings = self::wpml_o( $name );
-
-			if ( 1 === $settings || '1' === $settings )
-				$settings = true;
-			else if ( 0 === $settings || '0' === $settings )
-				$settings = false;
-			else
-				$settings = $settings;
-
-			if ( is_array( $settings ) && 1 == count( $settings ) )
-				$settings = $settings[0];
-
-			return $settings;
-		}
+		public function __construct() {}
 
 		/**
 		 * Return the plugin settings.
@@ -76,273 +39,109 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 */
 		public static function get_settings() {
 
-			$settings = get_option( WPML_SETTINGS_SLUG, array() );
-			if ( empty( $settings ) || ! isset( $settings[ WPML_SETTINGS_REVISION_NAME ] ) || $settings[ WPML_SETTINGS_REVISION_NAME ] < WPML_SETTINGS_REVISION )
-				self::update_settings();
+			global $wpmoly_settings;
 
-			$settings = shortcode_atts(
-				self::get_default_settings(),
-				$settings
+			if ( is_null( $wpmoly_settings ) )
+				$wpmoly_settings = get_option( 'wpmoly_settings' );
+
+			return $wpmoly_settings;
+		}
+
+		/**
+		 * Load default settings.
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    boolean    $minify Should we return only default values?
+		 *
+		 * @return   array      The Plugin Settings
+		 */
+		public static function get_default_settings( $minify = false ) {
+
+			global $wpmoly_config;
+
+			if ( is_null( $wpmoly_config ) )
+				require WPML_PATH . 'includes/config/wpml-settings.php';
+
+			if ( true !== $minify )
+				return $wpmoly_config;
+
+			$defauts = array();
+			foreach ( $wpmoly_config as $section ) {
+				if ( isset( $section['fields'] ) ) {
+					foreach ( $section['fields'] as $slug => $field ) {
+						if ( 'sorter' == $field['type'] )
+							$defauts[ $slug ] = $field['used'];
+						else
+							$defauts[ $slug ] = $field['default'];
+					}
+				}
+			}
+
+			return $defauts;
+		}
+
+		/**
+		 * General settings accessor
+		 *
+		 * @since    1.0
+		 * 
+		 * @param    string        $setting Requested setting slug
+		 * 
+		 * @return   mixed         Requested setting
+		 */
+		public static function get( $setting = '' ) {
+
+			$wpmoly_settings = self::get_settings();
+
+			$shorter = str_replace( 'wpmoly-', '', $setting );
+			if ( isset( $wpmoly_settings[ $shorter ] ) )
+				return $wpmoly_settings[ $shorter ];
+
+			$longer = "wpmoly-$setting";
+			if ( isset( $wpmoly_settings[ $longer ] ) )
+				return $wpmoly_settings[ $longer ];
+
+			if ( isset( $wpmoly_settings[ $setting ] ) )
+				return $wpmoly_settings[ $setting ];
+
+			return false;
+		}
+
+		/**
+		 * Check for changes on the URL Rewriting of Taxonomies to
+		 * update the Rewrite Rules if needed. We need this to avoid
+		 * users to get 404 when they try to access their content if they
+		 * didn't previously reload the Dashboard Permalink page.
+		 * 
+		 * TODO: find a better way to do this
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    array    $new_settings Array containing the new settings
+		 * @param    array    $old_settings Array containing the old settings
+		 * 
+		 * @return   array    Validated settings
+		 */
+		public static function notify_permalinks_change( $field, $value, $existing_value ) {
+
+			$rewrites = array(
+				'wpmoly-translate-movie_rewrite',
+				'wpmoly-translate-collection_rewrite',
+				'wpmoly-translate-genre_rewrite',
+				'wpmoly-translate-actor_rewrite',
 			);
 
-			return $settings;
-		}
+			if ( ! isset( $field['id'] ) || ! in_array( $field['id'], $rewrites ) )
+				return $value;
 
-		/**
-		 * Load WPML default settings. If no current settings can be found,
-		 * or if existing settings are outdated, update.
-		 * 
-		 * @since    1.0
-		 *
-		 * @return   array    The Plugin Settings
-		 */
-		public static function get_default_settings() {
+			if ( $existing_value == $value )
+				return array( 'error' => false, 'value' => $value );
 
-			global $wpml_settings;
+			$field['msg'] = sprintf( __( 'You update the ???? URL rewrite. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', 'wpmovielibrary' ), admin_url( '/options-permalink.php' ) );
 
-			if ( is_null( $wpml_settings ) )
-				require( WPML_PATH . 'includes/wpml-config.php' );
+			return array( 'error' => $field, 'value' => $value );
 
-			$default_settings = self::wpml_summarize_settings( $wpml_settings );
-
-			return $default_settings;
-		}
-
-		/**
-		 * Update plugin settings.
-		 * 
-		 * Compare the current settings with the default settings array to find
-		 * newly added options and update the exiting settings. If default settings
-		 * differ from the currently stored settings, add the new options to the
-		 * latter.
-		 *
-		 * @since    1.0
-		 *
-		 * @param    boolean    $force Force to restore the default settings
-		 * 
-		 * @return   boolean    Updated status: success or failure
-		 */
-		protected static function update_settings( $force = false ) {
-
-			$default_settings = self::get_default_settings();
-			$settings = get_option( WPML_SETTINGS_SLUG );
-			$status  = false;
-
-			if ( ( false === $settings || ! is_array( $settings ) ) || true == $force ) {
-				delete_option( WPML_SETTINGS_SLUG );
-				$status = add_option( WPML_SETTINGS_SLUG, $default_settings, '', 'no' );
-			}
-			else if ( ! isset( $settings[ WPML_SETTINGS_REVISION_NAME ] ) || WPML_SETTINGS_REVISION > $settings[ WPML_SETTINGS_REVISION_NAME ] ) {
-				$updated_settings = self::merge_settings( $settings, $default_settings );
-				if ( ! empty( $updated_settings ) ) {
-					$updated_settings[ WPML_SETTINGS_REVISION_NAME ] = WPML_SETTINGS_REVISION;
-					delete_option( WPML_SETTINGS_SLUG );
-					$status = add_option( WPML_SETTINGS_SLUG, $updated_settings, '', 'no' );
-				}
-			}
-
-			WPML_Cache::empty_cache();
-
-			return $status;
-		}
-
-		/**
-		 * Filter the submitted settings to detect unsupported data.
-		 * 
-		 * Most fields can be tested easily, but the default movie meta
-		 * and details need a for specific test using array_intersect()
-		 * to avoid storing unsupported values.
-		 * 
-		 * Settings submitted as array when there's no use to are converted
-		 * to simpler types.
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    array    $settings Settings array to filter
-		 * @param    array    $defaults Default Settings to match against submitted settings
-		 * 
-		 * @return   array    Filtered Settings
-		 */
-		protected static function validate_settings( $settings, $defaults = array() ) {
-
-			require_once( WPML_PATH . 'includes/wpml-config.php' );
-
-			$defaults = ( ! empty( $defaults ) ? $defaults : self::get_default_settings() );
-			$_settings = array();
-
-			if ( is_null( $settings ) || ! is_array( $settings ) )
-				return $settings;
-
-			// Loop through settings
-			foreach ( $settings as $slug => $setting ) {
-
-				// Is the setting valid?
-				if ( isset( $defaults[ $slug ] ) ) {
-
-					if ( in_array( $slug, array( 'default_movie_meta', 'default_movie_details' ) ) ) {
-						$allowed = array_keys( call_user_func( __CLASS__ . '::get_supported_' . str_replace( 'default_', '', $slug ) ) );
-						$_settings[ $slug ] = array_intersect( $setting, $allowed );
-					}
-					else {
-						if ( is_array( $setting ) && 1 == count( $setting ) )
-							$setting = $setting[0];
-
-						if ( is_array( $setting ) )
-							$setting = self::validate_settings( $setting, $defaults[ $slug ] );
-						else if ( is_numeric( $setting ) )
-							$setting = filter_var( $setting, FILTER_VALIDATE_INT );
-						else
-							$setting = sanitize_text_field( $setting );
-						$_settings[ $slug ] = $setting;
-					}
-				}
-			}
-
-			return $_settings;
-		}
-
-		/**
-		 * Merge the default Settings with the current one. This is used
-		 * only when updating the Plugin Settings to take into account
-		 * the potentially new settings added by the last Plugin update.
-		 * 
-		 * This method is pretty similar to validate_settings(), the main
-		 * difference being that merge_settings() loops through the default
-		 * settings array, adding new key/value when needing, when the
-		 * validate_settings() loops through the existing settings to
-		 * avoid storing invalid settings.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    array    Current Settings array
-		 * @param    array    Default Settings array
-		 * 
-		 * @return   array    The update Settings array
-		 */
-		private static function merge_settings( $settings, $defaults = array() ) {
-
-			$defaults = ( ! empty( $defaults ) ? $defaults : self::get_default_settings() );
-			$_settings = array();
-
-			if ( is_null( $settings ) || ! is_array( $settings ) )
-				return $settings;
-
-			// Loop through settings
-			foreach ( $defaults as $slug => $setting ) {
-
-				// Is the setting already set?
-				if ( isset( $settings[ $slug ] ) ) {
-					if ( in_array( $slug, array( 'default_movie_meta', 'default_movie_details' ) ) ) {
-						$allowed = array_keys( call_user_func( __CLASS__ . '::get_supported_' . str_replace( 'default_', '', $slug ) ) );
-						if ( ! is_array( $default ) )
-							$default = array( $default );
-						$_settings[ $slug ] = array_intersect( $setting, $allowed );
-					}
-					else {
-						if ( is_array( $setting ) && 1 == count( $setting ) )
-							$setting = $setting[0];
-
-						if ( is_array( $setting ) )
-							$_settings[ $slug ] = self::merge_settings( $setting, $settings[ $slug ] );
-						else
-							$_settings[ $slug ] = $setting;
-					}
-				}
-				else {
-					$_settings[ $slug ] = $setting;
-				}
-			}
-
-			$_settings = array_merge( $settings, $_settings );
-
-			return $_settings;
-		}
-
-		/**
-		 * Filter Plugin Settings to obtain a single dimension array with
-		 * all prefixed settings.
-		 * 
-		 * @since    1.0.0
-		 * 
-		 * @param    array    $array Plugin Settings
-		 * 
-		 * @return   array    Summarized Plugin Settings
-		 */
-		private static function wpml_summarize_settings( $settings ) {
-
-			$_settings = array();
-
-			if ( is_null( $settings ) || ! is_array( $settings ) )
-				return $_settings;
-
-			foreach ( $settings as $id => $section )
-				if ( isset( $section['settings'] ) )
-					foreach ( $section['settings'] as $slug => $setting )
-						$_settings[ $id ][ $slug ] = $setting['default'];
-			
-
-			return $_settings;
-		}
-
-		/**
-		 * Delete stored settings.
-		 * 
-		 * This is irreversible, but shouldn't be used anywhere else than
-		 * when uninstalling the plugin.
-		 * 
-		 * @since    1.0
-		 */
-		public static function clean_settings() {
-
-			delete_option( 'wpml_settings' );
-		}
-
-		/**
-		 * Built-in option finder/modifier
-		 * Default behavior with no empty search and value params results in
-		 * returning the complete WPML options' list.
-		 * 
-		 * If a search query is specified, navigate through the options'
-		 * array and return the asked option if existing, empty string if it
-		 * doesn't exist.
-		 * 
-		 * If a replacement value is specified and the search query is valid,
-		 * update WPML options with new value.
-		 * 
-		 * Return can be string, boolean or array. If search, return array or
-		 * string depending on search result. If value, return boolean true on
-		 * success, false on failure.
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    string        Search query for the option: 'aaa-bb-c'. Default none.
-		 * @param    string        Replacement value for the option. Default none.
-		 * 
-		 * @return   string|boolean|array        option array of string, boolean on update.
-		 */
-		public static function wpml_o( $search = '' ) {
-
-			global $wpml_settings;
-
-			$default_settings = self::wpml_summarize_settings( $wpml_settings );
-			$options = get_option( WPML_SETTINGS_SLUG, $default_settings );
-
-			if ( '' != $search ) {
-				$s = explode( '-', $search );
-				$o = $options;
-				while ( count( $s ) ) {
-					$k = array_shift( $s );
-					if ( isset( $o[ $k ] ) )
-						$o = $o[ $k ];
-					else
-						$o = '';
-				}
-			}
-			else {
-				$o = $options;
-			}
-
-			return $o;
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -594,16 +393,26 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		}
 
 		/**
+		 * Delete stored settings.
+		 * 
+		 * This is irreversible, but shouldn't be used anywhere else than
+		 * when uninstalling the plugin.
+		 * 
+		 * @since    1.0
+		 */
+		public static function clean_settings() {
+
+			delete_option( 'wpml_settings' );
+		}
+
+		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
 		 * @since    1.0
 		 *
 		 * @param    bool    $network_wide
 		 */
-		public function activate( $network_wide ) {
-
-			self::update_settings();
-		}
+		public function activate( $network_wide ) {}
 
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
@@ -639,3 +448,17 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 	}
 
 endif;
+
+/**
+ * General settings accessor
+ *
+ * @since    2.0
+ * 
+ * @param    string        $setting Requested setting slug
+ * 
+ * @return   mixed         Requested setting
+ */
+function wpmoly_o( $search ) {
+
+	return WPML_Settings::get( $search );
+}

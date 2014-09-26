@@ -304,7 +304,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				'post_status' => 'publish'
 			);
 
-			if ( WPML_Settings::images__poster_featured() ) {
+			if ( wpmoly_o( 'poster-featured' ) ) {
 				$id = WPML_Media::set_image_as_featured( $meta['poster'], $post_id, $meta['tmdb_id'], $meta['title'] );
 				update_post_meta( $post_id, '_thumbnail_id', $id );
 			}

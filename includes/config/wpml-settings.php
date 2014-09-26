@@ -255,8 +255,8 @@ $wpmoly_config = array(
 		'fields'  => array(
 
 			// Enable Collections Taxonomy
-			'collection-enable' => array(
-				'id'       => 'wpmoly-collection-enable',
+			'enable-collection' => array(
+				'id'       => 'wpmoly-enable-collection',
 				'type'     => 'switch',
 				'title'    => __( 'Enable Collections', 'wpmovielibrary' ),
 				'description' => __( 'Enable Collections Custom Taxonomy. Collections work for movies as Categories work for Posts: a hierarchical taxonomy to group your movies coherently. The default behavior is to use Collections to group movies by director, but you can use them differently at your will.', 'wpmovielibrary' ),
@@ -274,13 +274,13 @@ $wpmoly_config = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1,
-				'required' => array( 'wpmoly-collection-enable', "=", 1 ),
+				'required' => array( 'wpmoly-enable-collection', "=", 1 ),
 				'indent'   => true
 			),
 
 			// Enable Genres Taxonomy
-			'genre-enable' => array(
-				'id'       => 'wpmoly-genre-enable',
+			'enable-genre' => array(
+				'id'       => 'wpmoly-enable-genre',
 				'type'     => 'switch',
 				'title'    => __( 'Enable Genres', 'wpmovielibrary' ),
 				'desc'     => __( 'Enable Genres Custom Taxonomy. Genres work for movies as Tags work for Posts: a non-hierarchical taxonomy to improve movies management.', 'wpmovielibrary' ),
@@ -298,13 +298,13 @@ $wpmoly_config = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1,
-				'required' => array( 'wpmoly-genre-enable', "=", 1 ),
+				'required' => array( 'wpmoly-enable-genre', "=", 1 ),
 				'indent'   => true
 			),
 
 			// Enable Actors Taxonomy
-			'actor-enable' => array(
-				'id'       => 'wpmoly-actor-enable',
+			'enable-actor' => array(
+				'id'       => 'wpmoly-enable-actor',
 				'type'     => 'switch',
 				'title'    => __( 'Enable Actors', 'wpmovielibrary' ),
 				'desc'     => __( 'Enable Actors Custom Taxonomy. Actors work for movies as Tags work for Posts: a non-hierarchical taxonomy to improve movies management. WPMovieLibrary stores Actors in a custom order, the most important actors appearing in the top of the list, then the supporting roles, and so on.', 'wpmovielibrary' ),
@@ -322,7 +322,7 @@ $wpmoly_config = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1,
-				'required' => array( 'wpmoly-actor-enable', "=", 1 ),
+				'required' => array( 'wpmoly-enable-actor', "=", 1 ),
 				'indent'   => true
 			),
 
@@ -334,7 +334,7 @@ $wpmoly_config = array(
 				'desc'     => __( 'Limit the number of actors per movie. This is useful if you\'re dealing with big libraries and don\'t want to have massive lists of actors created. Limiting the Actors will result in keeping only the most famous/important actors as taxonomies, while the complete list of actors will remained stored as a regular metadata. Set to 0 to disable.', 'wpmovielibrary' ),
 				'default'  => 0,
 				'validate' => 'numeric',
-				'required' => array( 'wpmoly-actor-enable', "=", 1 ),
+				'required' => array( 'wpmoly-enable-actor', "=", 1 ),
 				'indent'   => true
 			),
 		),
@@ -397,7 +397,7 @@ $wpmoly_config = array(
 				'desc'     => __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>http://yourblog/collection/david-fincher</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
 				'validate' => 'no_special_chars',
 				'default'  => 'collection',
-				'required' => array( 'wpmoly-collection-enable', "=", 1 )
+				'required' => array( 'wpmoly-enable-collection', "=", 1 )
 			),
 
 			// Genres URL Rewrite Rule
@@ -408,7 +408,7 @@ $wpmoly_config = array(
 				'desc'     => __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>http://yourblog/genre/thriller</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
 				'validate' => 'no_special_chars',
 				'default'  => 'genre',
-				'required' => array( 'wpmoly-genre-enable', "=", 1 )
+				'required' => array( 'wpmoly-enable-genre', "=", 1 )
 			),
 
 			// Actors URL Rewrite Rule
@@ -419,7 +419,7 @@ $wpmoly_config = array(
 				'desc'     => __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
 				'validate' => 'no_special_chars',
 				'default'  => 'actor',
-				'required' => array( 'wpmoly-actor-enable', "=", 1 )
+				'required' => array( 'wpmoly-enable-actor', "=", 1 )
 			),
 
 		)
@@ -435,7 +435,7 @@ $wpmoly_config = array(
 
 			// Results caching
 			'enable' => array(
-				'id'       => 'wpmoly-cache-enable',
+				'id'       => 'wpmoly-enable-cache',
 				'type'     => 'switch',
 				'title'    => __( 'Enable Caching', 'wpmovielibrary' ),
 				'desc'     => __( 'If enabled, WPML will cache movie related data to prevent too frequent queries to the database. <strong>This feature is experimental!</strong> Enabling this could generate <strong>huge</strong> amounts of entries in your database. It is recommended to use this feature sparingly, ideally not in production. <a href="http://wpmovielibrary.com/documentation/performance">Learn more about caching</a>.', 'wpmovielibrary' ),
@@ -446,14 +446,14 @@ $wpmoly_config = array(
 
 			// Results caching
 			'user' => array(
-				'id'       => 'wpmoly-cache-user',
+				'id'       => 'wpmoly-user-cache',
 				'type'     => 'switch',
 				'title'    => __( 'User Caching', 'wpmovielibrary' ),
 				'desc'     => __( 'If enabled, caching will be activated for logged in users as well as guests.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0,
-				'required' => array( 'wpmoly-cache-enable', "=", 1 ),
+				'required' => array( 'wpmoly-enable-cache', "=", 1 ),
 				'indent'   => true
 			),
 
@@ -465,7 +465,7 @@ $wpmoly_config = array(
 				'desc'     => __( 'Time of validity for cached data, in seconds. Default is 3600 (one hour)', 'wpmovielibrary' ),
 				'validate' => 'numeric',
 				'default'  => 3600,
-				'required' => array( 'wpmoly-cache-enable', "=", 1 ),
+				'required' => array( 'wpmoly-enable-cache', "=", 1 ),
 				'indent'   => true
 			)
 		)
@@ -479,8 +479,8 @@ $wpmoly_config = array(
 		'fields'  => array(
 
 			// Results caching
-			'enable' => array(
-				'id'       => 'wpmoly-legacy-enable',
+			'legacy-mode' => array(
+				'id'       => 'wpmoly-legacy-mode',
 				'type'     => 'switch',
 				'title'    => __( 'Enable Legacy mode', 'wpmovielibrary' ),
 				'subtitle' => __( 'WPMovieLibrary 1.x compatibility mode', 'wpmovielibrary' ),
@@ -740,7 +740,7 @@ $wpmoly_config = array(
 		),
 	),
 
-	array(
+	'divide-1' => array(
 		'type' => 'divide',
 	),
 

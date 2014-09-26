@@ -30,7 +30,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 
 			$this->register_hook_callbacks();
 
-			if ( is_admin() || ( ! WPML_Settings::cache__db_caching() && ! WPML_Settings::cache__html_caching() ) || ! WPML_Settings::cache__caching_time() )
+			if ( is_admin() || ( ! wpmoly_o( 'enable-cache' ) && ! wpmoly_o( 'cache-expire' ) ) )
 				return false;
 		}
 
@@ -104,10 +104,10 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 		public static function output( $name, $function, $echo = false ) {
 
 			// Cache is disabled, or user is logged in but user cache is disabled
-			if ( ! WPML_Settings::cache__caching() || ( is_user_logged_in() && ! WPML_Settings::cache__user_caching() ) )
+			if ( ! wpmoly_o( 'enable-cache' ) || ( is_user_logged_in() && ! wpmoly_o( 'cache-user' ) ) )
 				return self::output_callback( $function, $echo );
 
-			$expire = WPML_Settings::cache__caching_time();
+			$expire = wpmoly_o( 'cache-expire' );
 			if ( ! $expire )
 				return false;
 

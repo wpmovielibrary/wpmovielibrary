@@ -522,7 +522,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				$search_query = ( isset( $_GET['search_query'] ) && '' != $_GET['search_query'] ? $_GET['search_query'] : null );
 
 				if ( ! is_null( $search_by ) && ! is_null( $search_query ) )
-					$metadata = call_user_func_array( array( 'WPML_TMDb', "_get_movie_by_$search_by" ), array( $search_query, WPML_Settings::tmdb__lang() ) );
+					$metadata = call_user_func_array( array( 'WPML_TMDb', "_get_movie_by_$search_by" ), array( $search_query, wpmoly_o( 'api-language' ) ) );
 
 				if ( isset( $metadata['result'] ) ) {
 
@@ -797,7 +797,7 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				self::save_movie_meta( $post_ID, $movie_meta );
 
 				// Set poster as featured image
-				if ( WPML_Settings::images__poster_featured() && ! $queue ) {
+				if ( wpmoly_o( 'poster-featured' ) && ! $queue ) {
 					$upload = WPML_Media::set_image_as_featured( $movie_meta['poster'], $post_ID, $movie_meta['tmdb_id'], $movie_meta['title'] );
 					if ( is_wp_error( $upload ) )
 						$errors->add( $upload->get_error_code(), $upload->get_error_message() );
@@ -822,8 +822,8 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				}
 
 				// Autofilling Actors
-				if ( WPML_Settings::taxonomies__enable_actor() && WPML_Settings::taxonomies__actor_autocomplete() ) {
-					$limit = intval( WPML_Settings::taxonomies__actor_limit() );
+				if ( wpmoly_o( 'enable-actor' ) && wpmoly_o( 'actor-autocomplete' ) ) {
+					$limit = intval( wpmoly_o( 'actor-limit' ) );
 					$actors = explode( ',', $movie_meta['cast'] );
 					if ( $limit )
 						$actors = array_slice( $actors, 0, $limit );
@@ -831,13 +831,13 @@ if ( ! class_exists( 'WPML_Edit_Movies' ) ) :
 				}
 
 				// Autofilling Genres
-				if ( WPML_Settings::taxonomies__enable_genre() && WPML_Settings::taxonomies__genre_autocomplete() ) {
+				if ( wpmoly_o( 'enable-genre' ) && wpmoly_o( 'genre-autocomplete' ) ) {
 					$genres = explode( ',', $movie_meta['genres'] );
 					$genres = wp_set_object_terms( $post_ID, $genres, 'genre', false );
 				}
 
 				// Autofilling Collections
-				if ( WPML_Settings::taxonomies__enable_collection() && WPML_Settings::taxonomies__collection_autocomplete() ) {
+				if ( wpmoly_o( 'enable-collection' ) && wpmoly_o( 'collection-autocomplete' ) ) {
 					$collections = explode( ',', $movie_meta['director'] );
 					$collections = wp_set_object_terms( $post_ID, $collections, 'collection', false );
 				}

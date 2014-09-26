@@ -21,20 +21,6 @@ require WPML_PATH . 'includes/functions/wpml-ajax-functions.php';
 require WPML_PATH . 'includes/functions/wpml-legacy-functions.php';
 
 /**
- * General settings accessor
- *
- * @since    2.0
- * 
- * @param    string        $setting Requested setting slug
- * 
- * @return   mixed         Requested setting
- */
-function wpmoly_o( $search ) {
-
-	return WPML_Settings::get( $search );
-}
-
-/**
  * Filter a string value to determine a suitable boolean value.
  * 
  * This is mostly used for Shortcodes where boolean-like values
@@ -126,7 +112,7 @@ function wpml_is_boolean( $value, $default = false ) {
  * 
  * @return   array    Reduced array
  */
-/*function wpml_filter_undimension_array( $array ) {
+function wpml_filter_undimension_array( $array ) {
 
 	if ( ! is_array( $array ) || empty( $array ) )
 		return $array;
@@ -141,7 +127,7 @@ function wpml_is_boolean( $value, $default = false ) {
 	}
 
 	return $_array;
-}*/
+}
 
 /**
  * Provide a plugin-wide, generic method for generating nonce.

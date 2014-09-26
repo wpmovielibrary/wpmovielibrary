@@ -79,10 +79,11 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function register_permalinks( $rules = null ) {
 
-			$movies     = WPML_Settings::wpml__movie_rewrite();
-			$collection = WPML_Settings::taxonomies__collection_rewrite();
-			$genre      = WPML_Settings::taxonomies__genre_rewrite();
-			$actor      = WPML_Settings::taxonomies__actor_rewrite();
+			$movies     = wpmoly_o( 'rewrite-movies' );
+			$collection = wpmoly_o( 'rewrite-collection' );
+			$genre      = wpmoly_o( 'rewrite-genre' );
+			$actor      = wpmoly_o( 'rewrite-actor' );
+			$details    = wpmoly_o( 'rewrite-details' );
 
 			$movies     = ( '' != $movies ? $movies : 'movies' );
 			$collection = ( '' != $collection ? $collection : 'collection' );
@@ -90,7 +91,6 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$actor      = ( '' != $actor ? $actor : 'actor' );
 
 			$i18n = array();
-			$_i18n = WPML_Settings::wpml__details_rewrite();
 
 			$i18n['unavailable'] = ( $_i18n ? __( 'unavailable', 'wpmovielibrary' ) : 'unavailable' );
 			$i18n['available']   = ( $_i18n ? __( 'available', 'wpmovielibrary' ) : 'available' );
@@ -436,7 +436,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				return $data;
 
 			if ( is_null( $format ) )
-				$format = WPML_Settings::wpml__date_format();
+				$format = wpmoly_o( 'format-date' );
 
 			if ( '' == $format )
 				$format = 'j F Y';
@@ -462,7 +462,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				return $data;
 
 			if ( is_null( $format ) )
-				$format = WPML_Settings::wpml__time_format();
+				$format = wpmoly_o( 'format-time' );
 
 			if ( '' == $format )
 				$format = 'G \h i \m\i\n';
@@ -529,7 +529,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( '' == $data )
 				return $data;
 
-			if ( WPML_Settings::wpml__details_as_icons() && 'html' == $format  ) {
+			if ( wpmoly_o( 'details-icons' ) && 'html' == $format  ) {
 				$data = WPMovieLibrary::render_template( 'shortcodes/detail-icon.php', array( 'detail' => 'media', 'data' => $data ), $require = 'always' );
 			}
 			else if ( 'html' == $format ) {
@@ -558,7 +558,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( '' == $data )
 				return $data;
 
-			if ( WPML_Settings::wpml__details_as_icons() && 'html' == $format  ) {
+			if ( wpmoly_o( 'details-icons' ) && 'html' == $format  ) {
 				$data = WPMovieLibrary::render_template( 'shortcodes/detail-icon.php', array( 'detail' => 'status', 'data' => $data ), $require = 'always' );
 			}
 			else if ( 'html' == $format ) {
@@ -611,7 +611,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		private static function format_movie_terms_list( $data, $taxonomy ) {
 
-			$has_taxonomy = call_user_func( "WPML_Settings::taxonomies__enable_$taxonomy" );
+			$has_taxonomy = wpmoly_o( "enable-{$taxonomy}" );
 			$_data = explode( ',', $data );
 
 			foreach ( $_data as $key => $term ) {
@@ -850,9 +850,9 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				return false;
 
 			// Custom taxonomies only
-			$collection = WPML_Settings::taxonomies__collection_rewrite();
-			$genre = WPML_Settings::taxonomies__genre_rewrite();
-			$actor = WPML_Settings::taxonomies__actor_rewrite();
+			$collection = wpmoly_o( 'rewrite-collection' );
+			$genre      = wpmoly_o( 'rewrite-genre' );
+			$actor      = wpmoly_o( 'rewrite-actor' );
 			$slugs = array(
 				'collection'	=> ( '' != $collection ? $collection : 'collection' ),
 				'genre'		=> ( '' != $genre ? $genre : 'genre' ),

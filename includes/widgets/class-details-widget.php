@@ -116,8 +116,8 @@ class WPML_Details_Widget extends WPML_Widget {
 		$title = apply_filters( 'widget_title', $title );
 
 		$details = call_user_func( "WPML_Settings::get_available_movie_{$detail}" );
-		$rewrite = call_user_func( "WPML_Settings::wpml__details_rewrite" );
-		$movies = WPML_Settings::wpml__movie_rewrite();
+		$rewrite = wpmoly_o( 'rewrite-details' );
+		$movies  = wpmoly_o( 'rewrite-movie' );
 
 		if ( ! empty( $details ) ) {
 

@@ -77,21 +77,21 @@ class WPML_Statistics_Widget extends WP_Widget {
 		$count['genres'] = wp_count_terms( 'genre' );
 		$count['actors'] = wp_count_terms( 'actor' );
 
-		$movie = WPML_Settings::wpml__movie_rewrite();
-		$movie = ( '' != $movie ? $movie : 'collection' );
-		$collection = WPML_Settings::taxonomies__collection_rewrite();
-		$collection = ( '' != $collection ? $collection : 'collection' );
-		$genre = WPML_Settings::taxonomies__genre_rewrite();
-		$genre = ( '' != $genre ? $genre : 'genre' );
-		$actor = WPML_Settings::taxonomies__actor_rewrite();
-		$actor = ( '' != $actor ? $actor : 'actor' );
+		$movie      = wpmoly_o( 'rewrite-movie' );
+		$collection = wpmoly_o( 'rewrite-collection' );
+		$genre      = wpmoly_o( 'rewrite-genre' );
+		$actor      = wpmoly_o( 'rewrite-actor' );
 
-		$links = array(
-			'%total%' 	=> sprintf( '<a href="%s">%s</a>', home_url( $movie . '/' ), sprintf( _n( 'one movie', '%s movies', $count['total'], 'wpmovielibrary' ), '<strong>' . $count['total'] . '</strong>' ) ),
-			'%collections%'	=> sprintf( '<a href="%s">%s</a>', home_url( $collection . '/' ), sprintf( _n( 'one collection', '%s collections', $count['collections'], 'wpmovielibrary' ), '<strong>' . $count['collections'] . '</strong>' ) ),
-			'%genres%'	=> sprintf( '<a href="%s">%s</a>', home_url( $genre . '/' ), sprintf( _n( 'one genre', '%s genres', $count['genres'], 'wpmovielibrary' ), '<strong>' . $count['genres'] . '</strong>' ) ),
-			'%actors%'	=> sprintf( '<a href="%s">%s</a>', home_url( $actor . '/' ), sprintf( _n( 'one actor', '%s actors', $count['actors'], 'wpmovielibrary' ), '<strong>' . $count['actors'] . '</strong>' ) )
-		);
+		$movie      = ( '' != $movie ? $movie : 'movie' );
+		$collection = ( '' != $collection ? $collection : 'collection' );
+		$genre      = ( '' != $genre ? $genre : 'genre' );
+		$actor      = ( '' != $actor ? $actor : 'actor' );
+
+		$links = array();
+		$links['%total%'] 	= sprintf( '<a href="%s">%s</a>', home_url( $movie . '/' ), sprintf( _n( 'one movie', '<strong>%d</strong> movies', $count['total'], 'wpmovielibrary' ), $count['total'] ) );
+		$links['%collections%']	= sprintf( '<a href="%s">%s</a>', home_url( $collection . '/' ), sprintf( _n( 'one collection', '<strong>%d</strong> collections', $count['collections'], 'wpmovielibrary' ), $count['collections'] ) );
+		$links['%genres%']	= sprintf( '<a href="%s">%s</a>', home_url( $genre . '/' ), sprintf( _n( 'one genre', '<strong>%d</strong> genres', $count['genres'], 'wpmovielibrary' ), $count['genres'] ) );
+		$links['%actors%']	= sprintf( '<a href="%s">%s</a>', home_url( $actor . '/' ), sprintf( _n( 'one actor', '<strong>%d</strong> actors', $count['actors'], 'wpmovielibrary' ), $count['actors'] ) );
 
 		$title = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
 		$description = esc_attr( $description );

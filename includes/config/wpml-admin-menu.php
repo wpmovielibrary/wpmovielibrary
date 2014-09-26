@@ -62,7 +62,7 @@ $wpml_admin_menu = array(
 			'capability'  => 'manage_options',
 			'menu_slug'   => 'edit-tags.php?taxonomy=collection&post_type=movie',
 			'function'    => null,
-			'condition'   => 'WPML_Settings::taxonomies__enable_collection',
+			'condition'   => function() { return wpmoly_o( 'enable-collection' ); },
 			'hide'        => false,
 			'actions'     => array()
 		),
@@ -72,7 +72,7 @@ $wpml_admin_menu = array(
 			'capability'  => 'manage_options',
 			'menu_slug'   => 'edit-tags.php?taxonomy=genre&post_type=movie',
 			'function'    => null,
-			'condition'   => 'WPML_Settings::taxonomies__enable_genre',
+			'condition'   => function() { return wpmoly_o( 'enable-genre' ); },
 			'hide'        => false,
 			'actions'     => array()
 		),
@@ -82,7 +82,7 @@ $wpml_admin_menu = array(
 			'capability'  => 'manage_options',
 			'menu_slug'   => 'edit-tags.php?taxonomy=actor&post_type=movie',
 			'function'    => null,
-			'condition'   => 'WPML_Settings::taxonomies__enable_actor',
+			'condition'   => function() { return wpmoly_o( 'enable-actor' ); },
 			'hide'        => false,
 			'actions'     => array()
 		),

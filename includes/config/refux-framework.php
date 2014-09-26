@@ -55,14 +55,8 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 			// Dynamically add a section. Can be also used to modify sections/fields
 			add_filter( 'redux/options/' . $this->args['opt_name'] . '/sections', array( $this, 'dynamic_section' ) );
 
-			
-			//add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ) );
-			//add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-
 			$this->ReduxFramework = new ReduxFramework( $this->sections, $this->args );
 		}
-
-
 
 		/**
 		 * Custom function for filtering the sections array. Good for child themes to override or add to the sections.

@@ -70,7 +70,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 				'menu_name'          => __( 'Movies', 'wpmovielibrary' )
 			);
 
-			$slug = WPML_Settings::wpml__movie_rewrite();
+			$slug = wpmoly_o( 'rewrite-movie' );
 			$slug = ( '' != $slug ? $slug : 'movies' );
 
 			$args = array(
@@ -131,7 +131,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			if ( ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) || ! in_array( $meta, $allowed_meta ) )
 				return false;
 
-			if ( is_admin() && wpml_has_deprecated_meta() && WPML_Settings::legacy__legacy_mode() )
+			if ( is_admin() && wpml_has_deprecated_meta() && wpmoly_o( 'legacy-mode' ) )
 				WPML_Deprecated_Meta::update_movie( $post_id );
 
 			if ( 'data' == $meta ) {
@@ -174,7 +174,7 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			$post_type = array( 'post', 'movie' );
 			$post_status = array( 'publish', 'private' );
 
-			if ( 1 == WPML_Settings::wpml__show_in_home() && is_home() && $query->is_main_query() ) {
+			if ( 1 == wpmoly_o( 'frontpage' ) && is_home() && $query->is_main_query() ) {
 
 				if ( '' != $query->get( 'post_type' ) )
 					$post_type = array_unique( array_merge( $query->get( 'post_type' ), $post_type ) );
@@ -242,15 +242,15 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 			if ( 'movie' != get_post_type() )
 				return $excerpt;
 
-			if ( ! WPML_Settings::wpml__excerpt_overview() )
+			if ( ! wpmoly_o( 'excerpt' ) )
 				return $excerpt;
 
 			$overview = wpml_get_movie_meta( get_the_ID(), 'overview' );
 			if ( '' == $overview )
 				return $excerpt;
 
-			$excerpt_length = WPML_Settings::wpml__excerpt_length();
-			if ( ! WPML_Settings::wpml__excerpt_length() )
+			$excerpt_length = wpmoly_o( 'excerpt-length' );
+			if ( ! $excerpt_length )
 				$excerpt_length = apply_filters( 'excerpt_length', 55 );
 			$excerpt_more   = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
 			$overview       = wp_trim_words( $overview, $excerpt_length, $excerpt_more );
@@ -267,24 +267,21 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 */
 		public static function movie_details() {
 
-			if ( 'nowhere' == WPML_Settings::wpml__details_in_posts() || ( 'posts_only' == WPML_Settings::wpml__details_in_posts() && ! is_singular() ) )
+			if ( 'nowhere' == wpmoly_o( 'show-details' ) || ( 'posts_only' == wpmoly_o( 'show-details' ) && ! is_singular() ) )
 				return null;
 
-			$fields = WPML_Settings::wpml__default_movie_details();
-
-			if ( empty( $fields ) )
+			$fields = wpmoly_o( 'sort-details' );
+			if ( empty( $fields ) || ! isset( $fields['used'] ) )
 				return null;
 
+			$fields = $fields['used'];
 			$post_id = get_the_ID();
-
-			if ( is_string( $fields ) )
-				$fields = array( $fields );
 
 			$items = array();
 
-			foreach ( $fields as $field ) {
-				$detail = call_user_func( "wpml_get_{$field}", $post_id );
-				$items[] = apply_filters( "wpml_format_{$field}", $detail );
+			foreach ( $fields as $slug => $field ) {
+				$detail = call_user_func( "wpml_get_{$slug}", $post_id );
+				$items[] = apply_filters( "wpml_format_{$slug}", $detail );
 			}
 
 			$html = WPMovieLibrary::render_template( 'movies/movie-details.php', array( 'items' => $items ), $require = 'always' );
@@ -301,36 +298,34 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 		 */
 		public static function movie_metadata() {
 
-			if ( 'nowhere' == WPML_Settings::wpml__meta_in_posts() || ( 'posts_only' == WPML_Settings::wpml__meta_in_posts() && ! is_singular() ) )
+			if ( 'nowhere' == wpmoly_o( 'show-meta' ) || ( 'posts_only' == wpmoly_o( 'show-meta' ) && ! is_singular() ) )
 				return null;
 
 			$metadata = wpml_get_movie_meta();
 			$metadata = wpml_filter_undimension_array( $metadata );
 
-			$fields = WPML_Settings::wpml__default_movie_meta();
+			$fields = wpmoly_o( 'sort-meta' );
 			$default_fields = WPML_Settings::get_supported_movie_meta();
 
-			if ( '' == $metadata || empty( $fields ) )
+			if ( '' == $metadata || empty( $fields ) || ! isset( $fields['used'] ) )
 				return null;
 
-			if ( is_string( $fields ) )
-				$fields = array( $fields );
-
+			$fields = $fields['used'];
 			$items = array();
 
-			foreach ( $fields as $key => $field ) {
+			foreach ( $fields as $slug => $field ) {
 
-				$_field = $metadata[ $field ];
+				$_field = $metadata[ $slug ];
 
 				// Custom filter if available
-				if ( has_filter( "wpml_format_movie_{$field}" ) )
-					$_field = apply_filters( "wpml_format_movie_{$field}", $_field );
+				if ( has_filter( "wpml_format_movie_{$slug}" ) )
+					$_field = apply_filters( "wpml_format_movie_{$slug}", $_field );
 
 				// Filter empty field
 				$_field = apply_filters( "wpml_format_movie_field", $_field );
 
-				$fields[ $key ] = $_field;
-				$items[] = array( 'slug' => $field, 'title' => __( $default_fields[ $field ]['title'], 'wpmovielibrary' ), 'value' => $_field );
+				$fields[ $slug ] = $_field;
+				$items[] = array( 'slug' => $slug, 'title' => __( $default_fields[ $slug ]['title'], 'wpmovielibrary' ), 'value' => $_field );
 			}
 
 			$html = WPMovieLibrary::render_template( 'movies/movie-metadata.php', array( 'items' => $items ), $require = 'always' );
@@ -516,10 +511,10 @@ if ( ! class_exists( 'WPML_Movies' ) ) :
 				return false;
 
 			$_action = get_option( 'wpml_settings' );
-			if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['movies'] ) )
+			if ( ! $_action || ! isset( $_action[ "wpmoly-{$action}-movies" ] ) )
 				return false;
 
-			$action = $_action[ $action ]['movies'];
+			$action = $_action[ "wpmoly-{$action}-movies" ];
 			if ( is_array( $action ) )
 				$action = $action[0];
 

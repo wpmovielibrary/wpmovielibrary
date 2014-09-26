@@ -79,12 +79,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			$this->hidden_pages = array();
 
-			/*global $wpmoly_settings;
-			print_r( $wpmoly_settings );*/
-
-			self::$default_settings = WPML_Settings::get_default_settings();
-			$this->settings = WPML_Settings::get_settings();
-
 		}
 
 		/**
@@ -242,7 +236,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$localize = array(
 				'utils' => array(
 					'wpml_check' => wp_create_nonce( 'wpml-callbacks-nonce' ),
-					'language' => WPML_Settings::tmdb__lang()
+					'language' => wpmoly_o( 'api-language' )
 				),
 				'lang' => array(
 					'available'		=> __( 'Available', 'wpmovielibrary' ),
@@ -330,11 +324,11 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$_eq_hover_color = $colors->icon_colors['focus'];
 ?>
 	<style>
-		#progress, #queue_progress, #wpmoly-default_movie_meta_used li, #wpmoly-default_movie_details_used li { background: <?php echo $_eq_light_blue ?> !important; }
+		#progress, #queue_progress, #wpmoly-sort-meta_used li, #wpmoly-sort-details_used li { background: <?php echo $_eq_light_blue ?> !important; }
 		#tmdb_images_preview #tmdb_load_images:hover { border-color: <?php echo $_eq_light_blue ?> !important; }
-		#wpmoly-default_movie_meta_used li, #wpmoly-default_movie_details_available li { color: <?php echo $_eq_text_color ?> !important; }
-		#wpmoly-default_movie_meta_used li:hover, #wpmoly-default_movie_details_available li:hover { color: <?php echo $_eq_hover_color ?> !important; }
-		#wpmoly-default_movie_meta_available li, #wpmoly-default_movie_details_available li { background: <?php echo $_eq_dark_grey ?> !important; }
+		#wpmoly-sort-meta_used li, #wpmoly-sort-details_available li { color: <?php echo $_eq_text_color ?> !important; }
+		#wpmoly-sort-meta_used li:hover, #wpmoly-sort-details_available li:hover { color: <?php echo $_eq_hover_color ?> !important; }
+		#wpmoly-sort-meta_available li, #wpmoly-sort-details_available li { background: <?php echo $_eq_dark_grey ?> !important; }
 	</style>
 <?php
 		}

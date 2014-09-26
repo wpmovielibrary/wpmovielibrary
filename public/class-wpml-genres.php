@@ -50,10 +50,10 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 		 */
 		public static function register_genre_taxonomy() {
 
-			if ( ! WPML_Settings::taxonomies__enable_genre() )
+			if ( ! wpmoly_o( 'enable-genre' ) )
 				return false;
 
-			$slug = WPML_Settings::taxonomies__genre_rewrite();
+			$slug = wpmoly_o( 'rewrite-genre' );
 			$slug = ( '' != $slug ? $slug : 'genre' );
 
 			register_taxonomy(
@@ -96,10 +96,10 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 			$wpdb->hide_errors();
 
 			$_action = get_option( 'wpml_settings' );
-			if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['genres'] ) )
+			if ( ! $_action || ! isset( $_action[ "wpmoly-{$action}-genres" ] ) )
 				return false;
 
-			$action = $_action[ $action ]['genres'];
+			$action = $_action[ "wpmoly-{$action}-genres" ];
 			if ( is_array( $action ) )
 				$action = $action[0];
 

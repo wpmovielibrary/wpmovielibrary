@@ -125,7 +125,7 @@ class WPML_Taxonomies_Widget extends WPML_Widget {
 		extract( $instance );
 
 		$title = apply_filters( 'widget_title', $title );
-		$archive = call_user_func( "WPML_Settings::taxonomies__{$taxonomy}_rewrite" );
+		$archive = wpmoly_o( "rewrite-{$taxonomy}" );
 
 		$args = '';
 		if ( 0 < $limit )

@@ -51,10 +51,10 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		 */
 		public static function register_actor_taxonomy() {
 
-			if ( ! WPML_Settings::taxonomies__enable_actor() )
+			if ( ! wpmoly_o( 'enable-actor' ) )
 				return false;
 
-			$slug = WPML_Settings::taxonomies__actor_rewrite();
+			$slug = wpmoly_o( 'rewrite-actor' );
 			$slug = ( '' != $slug ? $slug : 'actor' );
 
 			register_taxonomy(
@@ -97,10 +97,10 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 			$wpdb->hide_errors();
 
 			$_action = get_option( 'wpml_settings' );
-			if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['actors'] ) )
+			if ( ! $_action || ! isset( $_action[ "wpmoly-{$action}-actors" ] ) )
 				return false;
 
-			$action = $_action[ $action ]['actors'];
+			$action = $_action[ "wpmoly-{$action}-actors" ];
 			if ( is_array( $action ) )
 				$action = $action[0];
 

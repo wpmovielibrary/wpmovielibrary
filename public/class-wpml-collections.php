@@ -51,10 +51,10 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		 */
 		public static function register_collection_taxonomy() {
 
-			if ( ! WPML_Settings::taxonomies__enable_collection() )
+			if ( ! wpmoly_o( 'enable-collection' ) )
 				return false;
 
-			$slug = WPML_Settings::taxonomies__collection_rewrite();
+			$slug = wpmoly_o( 'rewrite-collection' );
 			$slug = ( '' != $slug ? $slug : 'collection' );
 
 			register_taxonomy(
@@ -97,10 +97,10 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 			$wpdb->hide_errors();
 
 			$_action = get_option( 'wpml_settings' );
-			if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['collections'] ) )
+			if ( ! $_action || ! isset( $_action[ "wpmoly-{$action}-collections" ] ) )
 				return false;
 
-			$action = $_action[ $action ]['collections'];
+			$action = $_action[ "wpmoly-{$action}-collections" ];
 			if ( is_array( $action ) )
 				$action = $action[0];
 
