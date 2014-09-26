@@ -22,8 +22,8 @@ $wpmoly_config = array(
 		'fields'  => array(
 
 			// Add movies to the main loop
-			'show_in_home' => array(
-				'id'       => 'wpmoly-show_in_home',
+			'frontpage' => array(
+				'id'       => 'wpmoly-frontpage',
 				'type'     => 'switch',
 				'title'    => __( 'Show Movies in Home Page', 'wpmovielibrary' ),
 				'desc'     => __( 'If enable, movies will appear among other Posts in the Home Page.', 'wpmovielibrary' ),
@@ -33,8 +33,8 @@ $wpmoly_config = array(
 			),
 
 			// Replace excerpt by overview
-			'excerpt_overview' => array(
-				'id'       => 'wpmoly-excerpt_overview',
+			'excerpt' => array(
+				'id'       => 'wpmoly-excerpt',
 				'type'     => 'switch',
 				'title'    => __( 'Replace excerpt by overview', 'wpmovielibrary' ),
 				'desc'     => __( 'Replace movie excerpts by the movie overview if available. <a href="http://codex.wordpress.org/Excerpt">Learn more about Excerpt</a>.', 'wpmovielibrary' ),
@@ -44,19 +44,19 @@ $wpmoly_config = array(
 			),
 
 			// Replace excerpt by overview
-			'excerpt_length' => array(
-				'id'       => 'wpmoly-excerpt_length',
+			'excerpt-length' => array(
+				'id'       => 'wpmoly-excerpt-length',
 				'type'     => 'text',
 				'title'    => __( 'Excerpt overview length', 'wpmovielibrary' ),
 				'desc'     => __( 'Excerpt overview default number of words. This will override WordPress and Themes or Plugins default values for movies only.', 'wpmovielibrary' ),
 				'default'  => '75',
-				'required' => array( 'wpmoly-', "=", 1 ),
+				'required' => array( 'wpmoly-excerpt', "=", 1 ),
 				'indent'   => true
 			),
 
 			// Show movie meta in posts
-			'meta_in_posts' => array(
-				'id'       => 'wpmoly-meta_in_posts',
+			'show-meta' => array(
+				'id'       => 'wpmoly-show-meta',
 				'type'     => 'select',
 				'title'    => __( 'Show basic movie metadata', 'wpmovielibrary' ),
 				'desc'     => __( 'Add metadata to posts&rsquo; content: director, genres, runtime…', 'wpmovielibrary' ),
@@ -69,8 +69,8 @@ $wpmoly_config = array(
 			),
 
 			// Default movie meta to show
-			'default_movie_meta' => array(
-				'id'       => 'wpmoly-default_movie_meta',
+			'sort-meta' => array(
+				'id'       => 'wpmoly-sort-meta',
 				'type'     => 'sorter',
 				'title'    => __( 'Movie metadata', 'wpmovielibrary' ),
 				'desc'     => __( 'Which metadata to display in posts: director, genres, runtime, rating…', 'wpmovielibrary' ),
@@ -98,13 +98,13 @@ $wpmoly_config = array(
 						'cast'                 => __( 'Actors', 'wpmovielibrary' )
 					)
 				),
-				'required' => array( 'wpmoly-meta_in_posts', "!=", 'nowhere' ),
+				'required' => array( 'wpmoly-show-meta', "!=", 'nowhere' ),
 				'indent'   => true
 			),
 
 			// Show movie details in posts
-			'details_in_posts' => array(
-				'id'       => 'wpmoly-details_in_posts',
+			'show-details' => array(
+				'id'       => 'wpmoly-show-details',
 				'type'     => 'select',
 				'title'    => __( 'Show movie details', 'wpmovielibrary' ),
 				'desc'     => __( 'Add details to posts&rsquo; content: movie status, media…', 'wpmovielibrary' ),
@@ -117,21 +117,21 @@ $wpmoly_config = array(
 			),
 
 			// Show movie details as icons
-			'details_as_icons' => array(
-				'id'       => 'wpmoly-details_as_icons',
+			'details-icons' => array(
+				'id'       => 'wpmoly-details-icons',
 				'type'     => 'switch',
 				'title'    => __( 'Show details as icons', 'wpmovielibrary' ),
 				'desc'     => __( 'If enable, movie details will appear in the form of icons rather than default colored labels.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1,
-				'required' => array( 'wpmoly-details_in_posts', "!=", 'nowhere' ),
+				'required' => array( 'wpmoly-show-details', "!=", 'nowhere' ),
 				'indent'   => true
 			),
 
 			// Default movie detail to show
-			'default_movie_details' => array(
-				'id'       => 'wpmoly-default_movie_details',
+			'sort-details' => array(
+				'id'       => 'wpmoly-sort-details',
 				'type'     => 'sorter',
 				'title'    => __( 'Movie details', 'wpmovielibrary' ),
 				'desc'     => __( 'Which detail to display in posts: movie status, media…', 'wpmovielibrary' ),
@@ -147,7 +147,7 @@ $wpmoly_config = array(
 						'movie_subtitle' => __( 'Subtitles', 'wpmovielibrary' )
 					)
 				),
-				'required' => array( 'wpmoly-details_in_posts', "!=", 'nowhere' ),
+				'required' => array( 'wpmoly-show-details', "!=", 'nowhere' ),
 				'indent'   => true
 			),
 
@@ -347,7 +347,7 @@ $wpmoly_config = array(
 		'heading' => __( 'Languages Support', 'wpmovielibrary' ),
 		'fields'  => array(
 
-			'countries' => array(
+			'translate-countries' => array(
 				'id'       => 'wpmoly-translate-countries',
 				'type'     => 'switch',
 				'title'    => __( 'Translate Countries', 'wpmovielibrary' ),
@@ -357,7 +357,7 @@ $wpmoly_config = array(
 				'default'  => 1
 			),
 
-			'languages' => array(
+			'translate-languages' => array(
 				'id'       => 'wpmoly-translate-languages',
 				'type'     => 'switch',
 				'title'    => __( 'Translate Languages', 'wpmovielibrary' ),
@@ -368,8 +368,8 @@ $wpmoly_config = array(
 			),
 
 			// Movie URL Rewrite Rule
-			'movie_rewrite' => array(
-				'id'       => 'wpmoly-translate-movie_rewrite',
+			'rewrite-movie' => array(
+				'id'       => 'wpmoly-rewrite-movie',
 				'type'     => 'text',
 				'title'    => __( 'Movies URL Rewrite', 'wpmovielibrary' ),
 				'desc'     => __( 'URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>http://yourblog/movies/fight-club</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
@@ -379,8 +379,8 @@ $wpmoly_config = array(
 			),
 
 			// Movie URL Rewrite Rule
-			'details_rewrite' => array(
-				'id'       => 'wpmoly-translate-details_rewrite',
+			'rewrite-details' => array(
+				'id'       => 'wpmoly-rewrite-details',
 				'type'     => 'switch',
 				'title'    => __( 'Movie Details URL Rewrite', 'wpmovielibrary' ),
 				'desc'     => __( 'Use localized URLs for Movie Details. Enable this to have URLs like <code>http://yourblog/films/disponible</code> for French rather than the default <code>http://yourblog/movies/available</code>. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
@@ -390,36 +390,36 @@ $wpmoly_config = array(
 			),
 
 			// Collections URL Rewrite Rule
-			'collection_rewrite' => array(
-				'id'       => 'wpmoly-translate-collection_rewrite',
+			'rewrite-collection' => array(
+				'id'       => 'wpmoly-rewrite-collection',
 				'type'     => 'text',
 				'title'    => __( 'Collections URL Rewrite', 'wpmovielibrary' ),
 				'desc'     => __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>http://yourblog/collection/david-fincher</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
 				'validate' => 'no_special_chars',
 				'default'  => 'collection',
-				'required' => array( 'wpmoly-taxonomies-enable_collection', "=", 1 )
+				'required' => array( 'wpmoly-collection-enable', "=", 1 )
 			),
 
 			// Genres URL Rewrite Rule
-			'genre_rewrite' => array(
-				'id'       => 'wpmoly-taxonomies-genre_rewrite',
+			'rewrite-genre' => array(
+				'id'       => 'wpmoly-rewrite-genre',
 				'type'     => 'text',
 				'title'    => __( 'Genres URL Rewrite', 'wpmovielibrary' ),
 				'desc'     => __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>http://yourblog/genre/thriller</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
 				'validate' => 'no_special_chars',
 				'default'  => 'genre',
-				'required' => array( 'wpmoly-taxonomies-enable_genre', "=", 1 )
+				'required' => array( 'wpmoly-genre-enable', "=", 1 )
 			),
 
 			// Actors URL Rewrite Rule
-			'actor_rewrite' => array(
-				'id'       => 'wpmoly-taxonomies-actor_rewrite',
+			'rewrite-actor' => array(
+				'id'       => 'wpmoly-rewrite-actor',
 				'type'     => 'text',
 				'title'    => __( 'Actors URL Rewrite', 'wpmovielibrary' ),
 				'desc'     => __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
 				'validate' => 'no_special_chars',
 				'default'  => 'actor',
-				'required' => array( 'wpmoly-taxonomies-enable_actor', "=", 1 )
+				'required' => array( 'wpmoly-actor-enable', "=", 1 )
 			),
 
 		)
@@ -445,8 +445,8 @@ $wpmoly_config = array(
 			),
 
 			// Results caching
-			'user_caching' => array(
-				'id'       => 'wpmoly-cache-user_caching',
+			'user' => array(
+				'id'       => 'wpmoly-cache-user',
 				'type'     => 'switch',
 				'title'    => __( 'User Caching', 'wpmovielibrary' ),
 				'desc'     => __( 'If enabled, caching will be activated for logged in users as well as guests.', 'wpmovielibrary' ),
@@ -458,8 +458,8 @@ $wpmoly_config = array(
 			),
 
 			// Caching delay
-			'expiration' => array(
-				'id'       => 'wpmoly-cache-expiration',
+			'expire' => array(
+				'id'       => 'wpmoly-cache-expire',
 				'type'     => 'text',
 				'title'    => __( 'Caching Time', 'wpmovielibrary' ),
 				'desc'     => __( 'Time of validity for cached data, in seconds. Default is 3600 (one hour)', 'wpmovielibrary' ),
@@ -728,13 +728,15 @@ $wpmoly_config = array(
 		'title'   => __( 'Import / Export', 'wpmovielibrary' ),
 		'heading' => __( 'Import and Export your settings and movies from file, text or URL.', 'wpmovielibrary' ),
 		'fields'  => array(
-			array(
+
+			'import-export' => array(
 				'id'         => 'wpmoly-import-export',
 				'type'       => 'import_export',
 				'title'      => 'Import Export',
 				'subtitle'   => 'Save and restore your settings',
 				'full_width' => false,
 			)
+
 		),
 	),
 
