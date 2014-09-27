@@ -126,6 +126,7 @@ $wpmoly_movie_meta = array(
 		'group' => 'meta'
 	),
 	'director' => array(
+		'job' => 'Director',
 		'title' => __( 'Director', 'wpmovielibrary' ),
 		'type' => 'text',
 		'filter' => 'esc_html',
@@ -133,6 +134,7 @@ $wpmoly_movie_meta = array(
 		'group' => 'crew'
 	),
 	'producer' => array(
+		'job' => 'Producer',
 		'title' => __( 'Producer', 'wpmovielibrary' ),
 		'type' => 'text',
 		'filter' => 'esc_html',
@@ -140,6 +142,7 @@ $wpmoly_movie_meta = array(
 		'group' => 'crew'
 	),
 	'photography' => array(
+		'job' => 'Director of Photography',
 		'title' => __( 'Director of Photography', 'wpmovielibrary' ),
 		'type' => 'text',
 		'filter' => 'esc_html',
@@ -147,6 +150,7 @@ $wpmoly_movie_meta = array(
 		'group' => 'crew'
 	),
 	'composer' => array(
+		'job' => 'Original Music Composer',
 		'title' => __( 'Original Music Composer', 'wpmovielibrary' ),
 		'type' => 'text',
 		'filter' => 'esc_html',
@@ -154,6 +158,7 @@ $wpmoly_movie_meta = array(
 		'group' => 'crew'
 	),
 	'author' => array(
+		'job' => 'Author',
 		'title' => __( 'Author', 'wpmovielibrary' ),
 		'type' => 'text',
 		'filter' => 'esc_html',
@@ -161,6 +166,7 @@ $wpmoly_movie_meta = array(
 		'group' => 'crew'
 	),
 	'writer' => array(
+		'job' => 'Writer',
 		'title' => __( 'Writer', 'wpmovielibrary' ),
 		'type' => 'text',
 		'filter' => 'esc_html',

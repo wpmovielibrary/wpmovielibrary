@@ -258,6 +258,37 @@ if ( ! class_exists( 'WPMOLY_Deprecated_Meta' ) ) :
 		}
 
 		/**
+		 * Update old 'wpml' slug to new 'wpmoly' in database.
+		 * 
+		 * @since    2.0
+		 */
+		private static function update_slug() {
+
+			global $wpdb;
+
+			$where = array();
+			$slugs = array( 'wpml_backdrop', 'wpml_movie', 'wpml_poster' );
+			foreach ( $slugs as $slug )
+				$where[] = "meta_key LIKE '%{$slug}%'";
+
+			$where = implode( ' OR ', $where );
+			$movies = $wpdb->get_results( "SELECT meta_id FROM {$wpdb->postmeta} WHERE {$where}" );
+
+			if ( ! $wpdb->num_rows )
+				return false;
+
+			foreach( $movies as $i => $movie )
+				$movies[ $i ] = $movie->meta_id;
+
+			$movies = implode( ',', $movies );
+			if ( '' == $movies )
+				return false;
+
+			$update = $wpdb->query( "UPDATE {$wpdb->postmeta} SET meta_key=REPLACE(meta_key,'wpml_','wpmoly_') WHERE meta_id IN ({$movies})" );
+
+		}
+
+		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
 		 * @since    1.3
@@ -275,6 +306,8 @@ if ( ! class_exists( 'WPMOLY_Deprecated_Meta' ) ) :
 				delete_option( 'wpmoly_has_deprecated_meta' );
 				add_option( 'wpmoly_has_deprecated_meta', count( $deprecated ), null, 'no' );
 			}
+
+			self::update_slug();
 		}
 
 		/**

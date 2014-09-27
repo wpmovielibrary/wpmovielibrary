@@ -292,6 +292,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		/**
 		 * Filter a Movie's Crew to extract only supported data.
 		 * 
+		 * TODO find some cleaner way to validate crew
+		 * 
 		 * @since    1.0
 		 * 
 		 * @param    array    $data Movie Crew
@@ -310,13 +312,17 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$data = $data['crew'];
 
 			foreach ( WPMOLY_Settings::get_supported_movie_meta( 'crew' ) as $slug => $f ) {
-				$filter[ $slug ] = $f['title'];
+				$filter[ $slug ] = $f['job'];
 				$_data[ $slug ] = '';
 			}
 
-			foreach ( $data as $i => $d )
-				if ( isset( $d['job'] ) && false !== ( $key = array_search( $d['job'], $filter ) ) && isset( $_data[ $key ] ) )
-					$_data[ $key ][] = $d['name'];
+			foreach ( $data as $i => $d ) {
+				if ( isset( $d['job'] ) ) {
+					$key = array_search( $d['job'], $filter );
+					if ( false !== $key && isset( $_data[ $key ] ) )
+						$_data[ $key ][] = $d['name'];
+				}
+			}
 
 			$_data['cast'] = $cast;
 
