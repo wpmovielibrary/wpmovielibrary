@@ -61,7 +61,7 @@ function wpml_is_boolean( $value, $default = false ) {
  * 
  * @return   string   Separated list
  */
-/*function wpml_stringify_array( $array, $subrow = 'name', $separator = ', ' ) {
+function wpml_stringify_array( $array, $subrow = 'name', $separator = ', ' ) {
 
 	if ( ! is_array( $array ) || empty( $array ) )
 		return $array;
@@ -80,7 +80,7 @@ function wpml_is_boolean( $value, $default = false ) {
 	$array = implode( $separator, $array );
 
 	return $array;
-}*/
+}
 
 /**
  * Filter an array to detect empty associative arrays.
@@ -92,7 +92,7 @@ function wpml_is_boolean( $value, $default = false ) {
  * 
  * @return   array    Original array plus and notification row if empty
  */
-/*function wpml_filter_empty_array( $array ) {
+function wpml_filter_empty_array( $array ) {
 
 	if ( ! is_array( $array ) || empty( $array ) )
 		return array();
@@ -100,7 +100,7 @@ function wpml_is_boolean( $value, $default = false ) {
 	$_array = wpml_stringify_array( $array, false, '' );
 
 	return strlen( $_array ) > 0 ? $array : array_merge( array( '_empty' => true ), $array );
-}*/
+}
 
 /**
  * Filter an array to remove any sub-array, reducing multidimensionnal
