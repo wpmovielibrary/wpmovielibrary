@@ -17,7 +17,7 @@
  * 
  * @since    1.2
  */
-abstract class WPML_Widget extends WP_Widget {
+abstract class WPMOLY_Widget extends WP_Widget {
 
 	protected $widget_css;
 	protected $widget_description;

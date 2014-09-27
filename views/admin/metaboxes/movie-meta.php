@@ -1,27 +1,27 @@
 
-		<div id="wpml-tmdb" class="wpml-tmdb">
+		<div id="wpmoly-tmdb" class="wpmoly-tmdb">
 
 			<p><strong><?php _e( 'Find movie on TMDb:', 'wpmovielibrary' ); ?></strong></p>
 
 			<div>
-				<?php wpml_nonce_field( 'search-movies' ) ?>
-				<select id="tmdb_search_lang" name="wpml[lang]" onchange="wpml_edit_meta.lang=this.value;">
+				<?php wpmoly_nonce_field( 'search-movies' ) ?>
+				<select id="tmdb_search_lang" name="wpmoly[lang]" onchange="wpmoly_edit_meta.lang=this.value;">
 <?php foreach ( $languages as $code => $lang ) : ?>
 					<option value="<?php echo $code ?>" <?php selected( wpmoly_o( 'api-language' ), $code ); ?>><?php echo $lang ?></option>
 <?php endforeach; ?>
 				</select>
-				<select id="tmdb_search_type" name="wpml[tmdb_search_type]">
+				<select id="tmdb_search_type" name="wpmoly[tmdb_search_type]">
 					<option value="title" selected="selected"><?php _e( 'Movie Title', 'wpmovielibrary' ); ?></option>
 					<option value="id"><?php _e( 'TMDb ID', 'wpmovielibrary' ); ?></option>
 				</select>
-				<input id="tmdb_query" type="text" name="wpml[tmdb_query]" value="" size="40" maxlength="32" />
-				<a id="tmdb_search" name="wpml[tmdb_search]" href="<?php echo get_edit_post_link() ?>&amp;wpml_auto_fetch=1" class="button button-secondary"><?php _e( 'Search', 'wpmovielibrary' ); ?></a>
+				<input id="tmdb_query" type="text" name="wpmoly[tmdb_query]" value="" size="40" maxlength="32" />
+				<a id="tmdb_search" name="wpmoly[tmdb_search]" href="<?php echo get_edit_post_link() ?>&amp;wpmoly_auto_fetch=1" class="button button-secondary"><?php _e( 'Search', 'wpmovielibrary' ); ?></a>
 				<span class="spinner"></span>
-				<?php wpml_nonce_field( 'empty-movie-meta' ) ?>
-				<a id="tmdb_empty" name="wpml[tmdb_empty]" type="submit" class="button button-secondary button-empty hide-if-no-js"><?php _e( 'Empty Results', 'wpmovielibrary' ); ?></a>
+				<?php wpmoly_nonce_field( 'empty-movie-meta' ) ?>
+				<a id="tmdb_empty" name="wpmoly[tmdb_empty]" type="submit" class="button button-secondary button-empty hide-if-no-js"><?php _e( 'Empty Results', 'wpmovielibrary' ); ?></a>
 			</div>
 
-			<div id="wpml_status"><?php echo $status; ?></div>
+			<div id="wpmoly_status"><?php echo $status; ?></div>
 			<div style="clear:both"></div>
 
 <?php if ( ! is_null( $select ) ) : ?>
@@ -29,7 +29,7 @@
 <?php foreach ( $select as $movie ) : ?>
 
 				<div class="tmdb_select_movie">
-					<a id="tmdb_<?php echo $movie['id'] ?>" href="<?php echo wp_nonce_url( get_edit_post_link( get_the_ID() ) . "&amp;wpml_search_movie=1&amp;search_by=id&amp;search_query={$movie['id']}", 'search-movies' ) ?>" onclick="wpml_edit_meta.get( <?php echo $movie['id'] ?> ); return false;">
+					<a id="tmdb_<?php echo $movie['id'] ?>" href="<?php echo wp_nonce_url( get_edit_post_link( get_the_ID() ) . "&amp;wpmoly_search_movie=1&amp;search_by=id&amp;search_query={$movie['id']}", 'search-movies' ) ?>" onclick="wpmoly_edit_meta.get( <?php echo $movie['id'] ?> ); return false;">
 						<img src="<?php echo $movie['poster'] ?>" alt="<?php echo $movie['title'] ?>" />
 						<em><?php echo $movie['title'] ?></em>
 					</a>
@@ -42,8 +42,8 @@
 <?php endif; ?>
 
 			<input type="hidden" id="meta_data_tmdb_id" name="meta_data[tmdb_id]" class="hide-if-js hide-if-no-js" value="<?php echo $metadata['tmdb_id'] ?>" />
-			<input type="hidden" id="wpml_actor_limit" class="hide-if-js hide-if-no-js" value="<?php echo wpmoly_o( 'actor-limit' ) ?>" />
-			<input type="hidden" id="wpml_poster_featured" class="hide-if-js hide-if-no-js" value="<?php echo ( 1 == wpmoly_o( 'poster-featured' ) ? '1' : '0' ) ?>" />
+			<input type="hidden" id="wpmoly_actor_limit" class="hide-if-js hide-if-no-js" value="<?php echo wpmoly_o( 'actor-limit' ) ?>" />
+			<input type="hidden" id="wpmoly_poster_featured" class="hide-if-js hide-if-no-js" value="<?php echo ( 1 == wpmoly_o( 'poster-featured' ) ? '1' : '0' ) ?>" />
 
 			<table class="list-table meta">
 				<thead>
@@ -76,7 +76,7 @@ foreach ( $metas as $slug => $meta ) :
 
 	$_value = '';
 	if ( isset( $metadata[ $slug ] ) )
-		$_value = apply_filters( 'wpml_stringify_array', $metadata[ $slug ] );
+		$_value = apply_filters( 'wpmoly_stringify_array', $metadata[ $slug ] );
 ?>
 					<tr>
 						<td class="left"><?php _e( $meta['title'], 'wpmovielibrary' ) ?></td>

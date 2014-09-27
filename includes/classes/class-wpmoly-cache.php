@@ -11,15 +11,15 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Cache' ) ) :
+if ( ! class_exists( 'WPMOLY_Cache' ) ) :
 
 	/**
-	 * WPML Cache class
+	 * WPMOLY Cache class
 	 *
 	 * @package WPMovieLibrary
 	 * @author  Charlie MERLAND <charlie@caercam.org>
 	 */
-	class WPML_Cache extends WPML_Module {
+	class WPMOLY_Cache extends WPMOLY_Module {
 
 		/**
 		 * Constructor
@@ -41,7 +41,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_filter( 'wpml_cache_name', __CLASS__ . '::wpml_cache_name', 10, 2 );
+			add_filter( 'wpmoly_cache_name', __CLASS__ . '::wpmoly_cache_name', 10, 2 );
 		}
 
 		/**
@@ -57,7 +57,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 			if ( empty( $value ) || is_null( $value ) || '' == $value )
 				return false;
 
-			$set = set_transient( 'wpml_cache_' . $transient, $value );
+			$set = set_transient( 'wpmoly_cache_' . $transient, $value );
 
 			return $set;
 		}
@@ -71,7 +71,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 		 */
 		public static function get( $transient ) {
 
-			return get_transient( 'wpml_cache_' . $transient );
+			return get_transient( 'wpmoly_cache_' . $transient );
 		}
 
 		/**
@@ -83,7 +83,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 		 */
 		public static function delete( $transient ) {
 
-			return delete_transient( 'wpml_cache_' . $transient );
+			return delete_transient( 'wpmoly_cache_' . $transient );
 		}
 
 		/**
@@ -111,7 +111,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 			if ( ! $expire )
 				return false;
 
-			$name = 'wpml_cache_' . $name;
+			$name = 'wpmoly_cache_' . $name;
 			$output = get_transient( $name );
 
 			if ( ! empty( $output ) )
@@ -191,7 +191,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 		 * 
 		 * @return   int        $result Number of deleted rows
 		 */
-		public static function clean_transient( $action, $force = false, $search = 'wpml' ) {
+		public static function clean_transient( $action, $force = false, $search = 'wpmoly' ) {
 
 			global $wpdb, $_wp_using_ext_object_cache;
 
@@ -199,7 +199,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 			$result = 0;
 
 			if ( ! $force ) {
-				$_action = get_option( 'wpml_settings' );
+				$_action = get_option( 'wpmoly_settings' );
 				if ( ! $_action || ! isset( $_action[ $action ] ) || ! isset( $_action[ $action ]['cache'] ) )
 					return false;
 
@@ -211,7 +211,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 			if ( $force || ( ! $_wp_using_ext_object_cache && 'empty' == $action ) ) {
 
 				if ( 'clean' == $action )
-					$where = 'wpml_cache_';
+					$where = 'wpmoly_cache_';
 				else
 					$where = $search;
 
@@ -219,8 +219,8 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 				$where = '%_transient_' . ( method_exists( 'wpdb', 'esc_like' ) ? $wpdb->esc_like( $where ) : like_escape( $where ) ) . '_%';
 
 				// Restrict cleaning to Plugin's transients
-				if ( false === stripos( $where, 'wpml' ) )
-					$where = str_replace( '_transient_', '_transient_wpml%', $where );
+				if ( false === stripos( $where, 'wpmoly' ) )
+					$where = str_replace( '_transient_', '_transient_wpmoly%', $where );
 
 				$result = $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '%s'", $where ) );
 				$wpdb->query( "OPTIMIZE TABLE {$wpdb->options}" );
@@ -244,7 +244,7 @@ if ( ! class_exists( 'WPML_Cache' ) ) :
 		 * 
 		 * @return   int        $result Number of deleted rows
 		 */
-		public static function wpml_cache_name( $name, $extra = null ) {
+		public static function wpmoly_cache_name( $name, $extra = null ) {
 
 			if ( is_null( $extra ) )
 				return $name;

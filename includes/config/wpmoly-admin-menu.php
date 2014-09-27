@@ -13,14 +13,14 @@
 if ( ! defined( 'WPINC' ) )
 	wp_die();
 
-$wpml_admin_menu = array(
+$wpmoly_admin_menu = array(
 	'page' => array(
-		'page_title' => WPML_NAME,
+		'page_title' => WPMOLY_NAME,
 		'menu_title' => __( 'Movies', 'wpmovielibrary' ),
 		'capability' => 'manage_options',
 		'menu_slug'  => 'wpmovielibrary',
 		'function'   => null,
-		'icon_url'   => WPML_URL . '/assets/img/logo-18x18.png',
+		'icon_url'   => WPMOLY_URL . '/assets/img/logo-18x18.png',
 		'position'   => 6
 	),
 	'subpages' => array(
@@ -29,11 +29,11 @@ $wpml_admin_menu = array(
 			'menu_title'  => __( 'Your library', 'wpmovielibrary' ),
 			'capability'  => 'manage_options',
 			'menu_slug'   => 'wpmovielibrary',
-			'function'    => 'WPML_Dashboard::dashboard',
+			'function'    => 'WPMOLY_Dashboard::dashboard',
 			'condition'   => null,
 			'hide'        => false,
 			'actions'     => array(
-				'load-{screen_hook}' => 'WPML_Dashboard::add_tabs'
+				'load-{screen_hook}' => 'WPMOLY_Dashboard::add_tabs'
 			)
 		),
 		'all_movies' => array(
@@ -90,21 +90,21 @@ $wpml_admin_menu = array(
 			'page_title'  => __( 'Import Movies', 'wpmovielibrary' ),
 			'menu_title'  => __( 'Import Movies', 'wpmovielibrary' ),
 			'capability'  => 'manage_options',
-			'menu_slug'   => 'wpml_import',
-			'function'    => 'WPML_Import::import_page',
+			'menu_slug'   => 'wpmoly_import',
+			'function'    => 'WPMOLY_Import::import_page',
 			'condition'   => null,
 			'hide'        => false,
 			'actions'     => array(
-				'load-{screen_hook}' => 'WPML_Import::import_movie_list_add_options'
+				'load-{screen_hook}' => 'WPMOLY_Import::import_movie_list_add_options'
 			),
 		),
 		'update-movies' => array(
 			'page_title'  => __( 'Update movies to version 1.3', 'wpmovielibrary' ),
 			'menu_title'  => __( 'Update movies', 'wpmovielibrary' ),
 			'capability'  => 'manage_options',
-			'menu_slug'   => 'wpml-update-movies',
-			'function'    => 'WPML_Deprecated_Meta::update_movies_page',
-			'condition'   => function() { return ( ! empty( $_GET["page"] ) && "wpml-update-movies" == $_GET["page"] ); },
+			'menu_slug'   => 'wpmoly-update-movies',
+			'function'    => 'WPMOLY_Deprecated_Meta::update_movies_page',
+			'condition'   => function() { return ( ! empty( $_GET["page"] ) && "wpmoly-update-movies" == $_GET["page"] ); },
 			'hide'        => true,
 			'actions'     => array()
 		)

@@ -11,5 +11,5 @@
  * @uses    $description Widget's description
  */
 
-require( WPML_PATH . 'views/widgets-common/items-list.php' );
+require( WPMOLY_PATH . 'views/widgets-common/items-list.php' );
 ?>

@@ -3,11 +3,11 @@
 
 	<ul class="ul-disc">
 		<li>
-			<strong>PHP <?php echo WPML_REQUIRED_PHP_VERSION; ?>+</strong>
+			<strong>PHP <?php echo WPMOLY_REQUIRED_PHP_VERSION; ?>+</strong>
 			<em><?php printf( __( '(You\'re running version %s)', 'wpmovielibrary' ), PHP_VERSION ); ?></em>
 		</li>
 		<li>
-			<strong>WordPress <?php echo WPML_REQUIRED_WP_VERSION; ?>+</strong>
+			<strong>WordPress <?php echo WPMOLY_REQUIRED_WP_VERSION; ?>+</strong>
 			<em><?php printf( __( '(You\'re running version %s)', 'wpmovielibrary' ), esc_html( $wp_version ) ); ?></em>
 		</li>
 	</ul>

@@ -1,8 +1,8 @@
 
-							<div id="wpml-latest-movies-widget-config"<?php if ( ! $editing ) echo ' class="main-config"'; ?>>
+							<div id="wpmoly-latest-movies-widget-config"<?php if ( ! $editing ) echo ' class="main-config"'; ?>>
 								<form method="post" action="<?php echo admin_url( "admin.php?page=wpmovielibrary#{$widget_id}" ) ?>">
-									<?php wpml_nonce_field( "save-{$widget_id}" ) ?>
-									<?php wpml_nonce_field( 'load-more-widget-movies' ) ?>
+									<?php wpmoly_nonce_field( "save-{$widget_id}" ) ?>
+									<?php wpmoly_nonce_field( 'load-more-widget-movies' ) ?>
 									<table class="wp-list-table">
 										<tbody>
 											<tr>

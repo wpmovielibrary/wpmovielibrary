@@ -17,7 +17,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 	* @package WPMovieLibrary_Admin
 	* @author  Charlie MERLAND <charlie@caercam.org>
 	*/
-	class WPMovieLibrary_Admin extends WPML_Module {
+	class WPMovieLibrary_Admin extends WPMOLY_Module {
 
 		/**
 		 * Slug of the plugin screen.
@@ -59,14 +59,14 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public function init() {
 
 			$this->modules = array(
-				'WPML_Dashboard'   => WPML_Dashboard::get_instance(),
-				'WPML_Settings'    => WPML_Settings::get_instance(),
-				'WPML_TMDb'        => WPML_TMDb::get_instance(),
-				'WPML_Utils'       => WPML_Utils::get_instance(),
-				'WPML_Edit_Movies' => WPML_Edit_Movies::get_instance(),
-				'WPML_Media'       => WPML_Media::get_instance(),
-				'WPML_Import'      => WPML_Import::get_instance(),
-				'WPML_Queue'       => WPML_Queue::get_instance()
+				'WPMOLY_Dashboard'   => WPMOLY_Dashboard::get_instance(),
+				'WPMOLY_Settings'    => WPMOLY_Settings::get_instance(),
+				'WPMOLY_TMDb'        => WPMOLY_TMDb::get_instance(),
+				'WPMOLY_Utils'       => WPMOLY_Utils::get_instance(),
+				'WPMOLY_Edit_Movies' => WPMOLY_Edit_Movies::get_instance(),
+				'WPMOLY_Media'       => WPMOLY_Media::get_instance(),
+				'WPMOLY_Import'      => WPMOLY_Import::get_instance(),
+				'WPMOLY_Queue'       => WPMOLY_Queue::get_instance()
 			);
 
 			$this->screen_hooks = array(
@@ -90,10 +90,10 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			add_action( 'init', array( $this, 'init' ) );
 
-			if ( wpml_modern_wp() )
+			if ( wpmoly_modern_wp() )
 				add_action( 'admin_head', array( $this, 'custom_admin_colors' ) );
 
-			//add_filter( 'pre_update_option_wpml_settings', array( $this, 'filter_settings' ), 10, 2 );
+			//add_filter( 'pre_update_option_wpmoly_settings', array( $this, 'filter_settings' ), 10, 2 );
 
 			// Add the options page and menu item.
 			add_action( 'admin_menu', array( $this, 'admin_menu' ), 9 );
@@ -123,10 +123,10 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public function missing_archive_page() {
 
 			$screen = get_current_screen();
-			if ( ! in_array( $screen->id, $this->screen_hooks ) || ( isset( $_GET['wpml_set_archive_page'] ) && '1' == $_GET['wpml_set_archive_page'] ) )
+			if ( ! in_array( $screen->id, $this->screen_hooks ) || ( isset( $_GET['wpmoly_set_archive_page'] ) && '1' == $_GET['wpmoly_set_archive_page'] ) )
 				return false;
 
-			$page = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpml_page' );
+			$page = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpmoly_page' );
 
 			if ( ! is_null( $page ) )
 				return false;
@@ -177,14 +177,14 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( ! isset( $this->screen_hooks ) )
 				return;
 
-			wp_enqueue_style( WPML_SLUG .'-admin-common', WPML_URL . '/assets/css/admin-common.css', array(), WPML_VERSION );
+			wp_enqueue_style( WPMOLY_SLUG .'-admin-common', WPMOLY_URL . '/assets/css/admin-common.css', array(), WPMOLY_VERSION );
 
-			if ( ! wpml_modern_wp() )
-				wp_enqueue_style( WPML_SLUG . '-legacy', WPML_URL . '/assets/css/legacy.css', array(), WPML_VERSION );
+			if ( ! wpmoly_modern_wp() )
+				wp_enqueue_style( WPMOLY_SLUG . '-legacy', WPMOLY_URL . '/assets/css/legacy.css', array(), WPMOLY_VERSION );
 
 			$screen = get_current_screen();
 			if ( in_array( $screen->id, $this->screen_hooks ) )
-				wp_enqueue_style( WPML_SLUG .'-admin-styles', WPML_URL . '/assets/css/admin.css', array(), WPML_VERSION );
+				wp_enqueue_style( WPMOLY_SLUG .'-admin-styles', WPMOLY_URL . '/assets/css/admin.css', array(), WPMOLY_VERSION );
 
 		}
 
@@ -202,22 +202,22 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				return;
 
 			// Main admin script, containing basic functions
-			wp_enqueue_script( WPML_SLUG, WPML_URL . '/assets/js/wpml.js', array( 'jquery' ), WPML_VERSION, true );
-			wp_enqueue_script( WPML_SLUG . '-utils', WPML_URL . '/assets/js/wpml.utils.js', array( 'jquery', WPML_SLUG ), WPML_VERSION, true );
+			wp_enqueue_script( WPMOLY_SLUG, WPMOLY_URL . '/assets/js/wpmoly.js', array( 'jquery' ), WPMOLY_VERSION, true );
+			wp_enqueue_script( WPMOLY_SLUG . '-utils', WPMOLY_URL . '/assets/js/wpmoly.utils.js', array( 'jquery', WPMOLY_SLUG ), WPMOLY_VERSION, true );
 			wp_localize_script(
-				WPML_SLUG, 'wpml_ajax',
+				WPMOLY_SLUG, 'wpmoly_ajax',
 				$this->localize_script()
 			);
 
 			// Settings script
 			if ( $hook == $this->screen_hooks['settings'] || $hook == $this->screen_hooks['import'] )
-				wp_enqueue_script( WPML_SLUG . '-settings', WPML_URL . '/assets/js/wpml.settings.js', array( WPML_SLUG, 'jquery', 'jquery-ui-sortable' ), WPML_VERSION, true );
+				wp_enqueue_script( WPMOLY_SLUG . '-settings', WPMOLY_URL . '/assets/js/wpmoly.settings.js', array( WPMOLY_SLUG, 'jquery', 'jquery-ui-sortable' ), WPMOLY_VERSION, true );
 
 			if ( $hook == $this->screen_hooks['dashboard'] )
-				wp_enqueue_script( WPML_SLUG . '-dashboard', WPML_URL . '/assets/js/wpml.dashboard.js', array( WPML_SLUG, 'jquery', 'jquery-ui-sortable' ), WPML_VERSION, true );
+				wp_enqueue_script( WPMOLY_SLUG . '-dashboard', WPMOLY_URL . '/assets/js/wpmoly.dashboard.js', array( WPMOLY_SLUG, 'jquery', 'jquery-ui-sortable' ), WPMOLY_VERSION, true );
 
 			if ( 'widgets.php' == $hook )
-				wp_enqueue_script( WPML_SLUG . '-widget', WPML_URL . '/assets/js/wpml.widget.js', array( WPML_SLUG, 'jquery' ), WPML_VERSION, false );
+				wp_enqueue_script( WPMOLY_SLUG . '-widget', WPMOLY_URL . '/assets/js/wpmoly.widget.js', array( WPMOLY_SLUG, 'jquery' ), WPMOLY_VERSION, false );
 
 		}
 
@@ -235,7 +235,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			$localize = array(
 				'utils' => array(
-					'wpml_check' => wp_create_nonce( 'wpml-callbacks-nonce' ),
+					'wpmoly_check' => wp_create_nonce( 'wpmoly-callbacks-nonce' ),
 					'language' => wpmoly_o( 'api-language' )
 				),
 				'lang' => array(
@@ -278,7 +278,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				)
 			);
 
-			$base_urls = WPML_TMDb::get_image_url();
+			$base_urls = WPMOLY_TMDb::get_image_url();
 			if ( is_wp_error( $base_urls ) ) {
 				$localize['base_urls'] = array(
 					'xxsmall' => null, 'xsmall' => null, 'small' => null, 'medium' => null, 'full' => null, 'original' => null
@@ -350,7 +350,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public function admin_menu() {
 
-			$admin_menu = WPML_Settings::get_admin_menu();
+			$admin_menu = WPMOLY_Settings::get_admin_menu();
 
 			extract( $admin_menu['page'] );
 
@@ -438,14 +438,14 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				wp_die( __( 'Access denied.', 'wpmovielibrary' ) );
 
 			// Restore default settings?
-			if ( isset( $_GET['wpml_restore_default'] ) && 'true' == $_GET['wpml_restore_default'] ) {
+			if ( isset( $_GET['wpmoly_restore_default'] ) && 'true' == $_GET['wpmoly_restore_default'] ) {
 
 				// Check Nonce URL
-				if ( ! isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpml-restore-default-settings' ) ) {
+				if ( ! isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpmoly-restore-default-settings' ) ) {
 					add_settings_error( null, 'restore_default', __( 'You don\'t have the permission do perform this action.', 'wpmovielibrary' ), 'error' );
 				}
 				else {
-					$action = WPML_Settings::update_settings( $force = true );
+					$action = WPMOLY_Settings::update_settings( $force = true );
 					if ( ! $action )
 						add_settings_error( null, 'restore_default', __( 'Unknown error: failed to restore default settings.', 'wpmovielibrary' ), 'error' );
 					else
@@ -454,14 +454,14 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			}
 
 			// Empty Cache?
-			if ( isset( $_GET['wpml_empty_cache'] ) && 'true' == $_GET['wpml_empty_cache'] ) {
+			if ( isset( $_GET['wpmoly_empty_cache'] ) && 'true' == $_GET['wpmoly_empty_cache'] ) {
 
 				// Check Nonce URL
-				if ( ! isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpml-empty-cache' ) ) {
+				if ( ! isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpmoly-empty-cache' ) ) {
 					add_settings_error( null, 'empty_cache', __( 'You don\'t have the permission do perform this action.', 'wpmovielibrary' ), 'error' );
 				}
 				else {
-					$action = WPML_Cache::empty_cache();
+					$action = WPMOLY_Cache::empty_cache();
 					if ( is_wp_error( $action ) )
 						add_settings_error( null, 'empty_cache', $action->get_error_message(), 'error' );
 					else
@@ -469,8 +469,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				}
 			}
 
-			$_allowed = array( 'api', 'wpml', 'images', 'taxonomies', 'deactivate', 'uninstall', 'cache', 'legacy', 'maintenance' );
-			$_section = ( isset( $_GET['wpml_section'] ) && in_array( $_GET['wpml_section'], $_allowed ) ) ? esc_attr( $_GET['wpml_section'] ) : 'api' ;
+			$_allowed = array( 'api', 'wpmoly', 'images', 'taxonomies', 'deactivate', 'uninstall', 'cache', 'legacy', 'maintenance' );
+			$_section = ( isset( $_GET['wpmoly_section'] ) && in_array( $_GET['wpmoly_section'], $_allowed ) ) ? esc_attr( $_GET['wpmoly_section'] ) : 'api' ;
 
 			$attributes = array(
 				'_section' => $_section

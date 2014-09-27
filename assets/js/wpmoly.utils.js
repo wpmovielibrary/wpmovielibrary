@@ -1,10 +1,10 @@
 
 $ = jQuery;
 
-wpml = wpml || {};
+wpmoly = wpmoly || {};
 
 	/**
-	 * WPML filter for AJAX Request
+	 * WPMOLY filter for AJAX Request
 	 * 
 	 * @since    1.0
 	 * 
@@ -13,7 +13,7 @@ wpml = wpml || {};
 	 * @param    function    Function to run on success
 	 * @param    function    Function to run on complete
 	 */
-	wpml.__ajax = function( data ) {
+	wpmoly.__ajax = function( data ) {
 		var data = $.extend({
 				url: ajaxurl
 			},
@@ -23,14 +23,14 @@ wpml = wpml || {};
 	};
 
 	/**
-	 * WPML filter for AJAX GET Request
+	 * WPMOLY filter for AJAX GET Request
 	 * 
 	 * @since    1.0
 	 * 
 	 * @param    object      Data object to pass
 	 */
-	wpml._get = function( data ) {
-		wpml.__ajax({
+	wpmoly._get = function( data ) {
+		wpmoly.__ajax({
 			type: 'GET',
 			data: data.data || {},
 			beforeSend: data.beforeSend || function() {},
@@ -41,14 +41,14 @@ wpml = wpml || {};
 	};
 
 	/**
-	 * WPML filter for AJAX POST Request
+	 * WPMOLY filter for AJAX POST Request
 	 * 
 	 * @since    1.0
 	 * 
 	 * @param    object      Data object to pass
 	 */
-	wpml._post = function( data ) {
-		wpml.__ajax({
+	wpmoly._post = function( data ) {
+		wpmoly.__ajax({
 			type: 'POST',
 			data: data.data || {},
 			beforeSend: data.beforeSend || function() {},
@@ -67,7 +67,7 @@ wpml = wpml || {};
 	 * 
 	 * @return   string    Data package name
 	 */
-	wpml.switch_data = function( f_name ) {
+	wpmoly.switch_data = function( f_name ) {
 
 		switch ( f_name ) {
 			case "poster":
@@ -102,9 +102,9 @@ wpml = wpml || {};
 	/**
 	 * Status indicator
 	 */
-	wpml.state = wpml_state = {
+	wpmoly.state = wpmoly_state = {
 
-		container: '#wpml_status',
+		container: '#wpmoly_status',
 
 		set: function() {},
 		clear: function() {}
@@ -118,7 +118,7 @@ wpml = wpml || {};
 		 * @param    string    Status Message
 		 * @param    string    Status type: error, update, warning
 		 */
-		wpml.state.set = function( message, style ) {
+		wpmoly.state.set = function( message, style ) {
 
 			if ( 'error' == style )
 				var bg = '#ff4e46';
@@ -129,22 +129,22 @@ wpml = wpml || {};
 			else
 				var bg = '#fff';
 
-			$( wpml_state.container ).append( '<p>' + message + '</p>' ).removeClass().addClass( style ).show();
+			$( wpmoly_state.container ).append( '<p>' + message + '</p>' ).removeClass().addClass( style ).show();
 
 			if ( 'error' == style ) {
 				$( '.spinner, .loading' ).removeClass( 'spinner loading' );
-				$( window ).scrollTop( $( wpml_state.container ).offset().top - 42 );
+				$( window ).scrollTop( $( wpmoly_state.container ).offset().top - 42 );
 			}
 
-			$( wpml_state.container ).css( { backgroundColor: bg } );
-			$( wpml_state.container ).animate( { backgroundColor: '#FFF' }, 1500 );
+			$( wpmoly_state.container ).css( { backgroundColor: bg } );
+			$( wpmoly_state.container ).animate( { backgroundColor: '#FFF' }, 1500 );
 		};
 
 		/**
 		 * Clear status
 		 */
-		wpml.state.clear = function() {
-			$( wpml_state.container ).empty().removeClass().hide();
+		wpmoly.state.clear = function() {
+			$( wpmoly_state.container ).empty().removeClass().hide();
 		};
 
 	/**
@@ -157,7 +157,7 @@ wpml = wpml || {};
 	 * 
 	 * @return   string|boolean    Variable value if available, false else
 	 */
-	wpml.http_query_var = function( query, variable ) {
+	wpmoly.http_query_var = function( query, variable ) {
 
 		var vars = query.split("&");
 		for ( var i = 0; i <vars.length; i++ ) {
@@ -179,7 +179,7 @@ wpml = wpml || {};
 	 * 
 	 * @return   boolean
 	 */
-	wpml.reinit_checkboxes_all = function( e, $input ) {
+	wpmoly.reinit_checkboxes_all = function( e, $input ) {
 
 		var c = $input.prop('checked'),
 			kbtoggle = 'undefined' == typeof toggleWithKeyboard ? false : toggleWithKeyboard,
@@ -222,7 +222,7 @@ wpml = wpml || {};
 	 * 
 	 * @return   boolean
 	 */
-	wpml.reinit_checkboxes = function( e, $input ) {
+	wpmoly.reinit_checkboxes = function( e, $input ) {
 
 		if ( 'undefined' == e.shiftKey ) { return true; }
 		if ( e.shiftKey ) {
@@ -261,9 +261,9 @@ wpml = wpml || {};
 	 * 
 	 * @return   boolean|string    Nonce value if available, false else.
 	 */
-	wpml.get_nonce = function( action ) {
+	wpmoly.get_nonce = function( action ) {
 
-		var nonce_name = '#_wpmlnonce_' + action.replace( /\-/g, '_' ),
+		var nonce_name = '#_wpmolynonce_' + action.replace( /\-/g, '_' ),
 		         nonce = null;
 
 		if ( undefined != $( nonce_name ) )
@@ -279,9 +279,9 @@ wpml = wpml || {};
 	 * 
 	 * @param    string    Action name
 	 */
-	wpml.update_nonce = function( action, nonce ) {
+	wpmoly.update_nonce = function( action, nonce ) {
 
-		var nonce_name = '#_wpmlnonce_' + action.replace( /\-/g, '_' );
+		var nonce_name = '#_wpmolynonce_' + action.replace( /\-/g, '_' );
 
 		if ( undefined != $( nonce_name ) && undefined != nonce )
 			$( nonce_name ).val( nonce );

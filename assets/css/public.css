@@ -11,15 +11,15 @@
 /** Public Page
  ***************************************************/
 
-.hentry.wpml_page.type-wpml_page .entry-header {
+.hentry.wpmoly_page.type-wpmoly_page .entry-header {
 	display: none;
 }
 
-.hentry.wpml_page .page-numbers {
+.hentry.wpmoly_page .page-numbers {
 	text-align: center;
 }
 
-.hentry.wpml_page .page-numbers li {
+.hentry.wpmoly_page .page-numbers li {
 	display: inline-block;
 	margin: 0px 0.5em;
 }
@@ -27,88 +27,88 @@
 /** Movie Post TMDb
  ***************************************************/
 
-.wpml_movie .wpml_title_field_value,
-.wpml_movie .wpml_original_title_field_value {
+.wpmoly_movie .wpmoly_title_field_value,
+.wpmoly_movie .wpmoly_original_title_field_value {
 	font-style: italic;
 }
 
-.wpml_movie_detail {
+.wpmoly_movie_detail {
 	float: right;
 	min-width: 10em;
 	width: auto;
 }
 
-.wpml_movie_detail > div {
+.wpmoly_movie_detail > div {
 	display: inline-block;
 	margin: 0 0.5em;
 }
 
-.wpml_movie_detail_item {
+.wpmoly_movie_detail_item {
 	background: #eee;
 	border-radius: 0.25em;
 	padding: 0.25em 1em;
 }
 
-.wpml_movie_media .wpml_movie_detail_item,
-.wpml_movie_status .wpml_movie_detail_item {
+.wpmoly_movie_media .wpmoly_movie_detail_item,
+.wpmoly_movie_status .wpmoly_movie_detail_item {
 	padding: 0.5em 1em 0.6em 1em;
 }
 
-.wpml_movie_media.dvd .wpml_movie_detail_item {
+.wpmoly_movie_media.dvd .wpmoly_movie_detail_item {
 	background: #a7caf8;
 	color: #fff;
 	text-shadow: 0 1px 0 #77a0d6;
 }
 
-.wpml_movie_media.bluray .wpml_movie_detail_item {
+.wpmoly_movie_media.bluray .wpmoly_movie_detail_item {
 	background: #5e62d6;
 	color: #fff;
 	text-shadow: 0 1px 0 #3a3da3;
 }
 
-.wpml_movie_media.vod .wpml_movie_detail_item {
+.wpmoly_movie_media.vod .wpmoly_movie_detail_item {
 	background: #cc5ed6;
 	color: #fff;
 	text-shadow: 0 1px 0 #752d7c;
 }
 
-.wpml_movie_media.cinema .wpml_movie_detail_item {
+.wpmoly_movie_media.cinema .wpmoly_movie_detail_item {
 	background: #47b7cc;
 	color: #fff;
 	text-shadow: 0 1px 0 #237e8f;
 }
 
-.wpml_movie_media.vhs .wpml_movie_detail_item {
+.wpmoly_movie_media.vhs .wpmoly_movie_detail_item {
 }
 
-.wpml_movie_media.other .wpml_movie_detail_item {
+.wpmoly_movie_media.other .wpmoly_movie_detail_item {
 }
 
-.wpml_movie_status.available .wpml_movie_detail_item {
+.wpmoly_movie_status.available .wpmoly_movie_detail_item {
 	background: #888;
 	color: #fff;
 	text-shadow: 0 1px 0 #333;
 }
 
-.wpml_movie_status.available .wpml_movie_detail_item {
+.wpmoly_movie_status.available .wpmoly_movie_detail_item {
 	background: #7dd667;
 	color: #fff;
 	text-shadow: 0 1px 0 #4ea239;
 }
 
-.wpml_movie_status.loaned .wpml_movie_detail_item {
+.wpmoly_movie_status.loaned .wpmoly_movie_detail_item {
 	background: #d67067;
 	color: #fff;
 	text-shadow: 0 1px 0 #a84137;
 }
 
-.wpml_movie_status.scheduled .wpml_movie_detail_item {
+.wpmoly_movie_status.scheduled .wpmoly_movie_detail_item {
 	
 }
 
-.wpml_movie_media.wpml_detail_icon,
-.wpml_movie_status.wpml_detail_icon,
-.wpml_movie_rating.wpml_detail_icon {
+.wpmoly_movie_media.wpmoly_detail_icon,
+.wpmoly_movie_status.wpmoly_detail_icon,
+.wpmoly_movie_rating.wpmoly_detail_icon {
 	background-color: #e1e1e6;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -124,77 +124,77 @@
 	vertical-align: middle;
 }
 
-.wpml_movie_rating.wpml_detail_icon {
+.wpmoly_movie_rating.wpmoly_detail_icon {
 	max-width: 94px;
 }
 
-.wpml_movie_media.wpml_detail_icon.dvd {
+.wpmoly_movie_media.wpmoly_detail_icon.dvd {
 	background-image: url(../img/icon-dvd.png);
 }
 
-.wpml_movie_media.wpml_detail_icon.bluray {
+.wpmoly_movie_media.wpmoly_detail_icon.bluray {
 	background-image: url(../img/icon-bluray.png);
 }
 
-.wpml_movie_media.wpml_detail_icon.vod {
+.wpmoly_movie_media.wpmoly_detail_icon.vod {
 	background-image: url(../img/icon-vod.png);
 }
 
-.wpml_movie_media.wpml_detail_icon.divx {
+.wpmoly_movie_media.wpmoly_detail_icon.divx {
 	background-image: url(../img/icon-divx.png);
 }
 
-.wpml_movie_media.wpml_detail_icon.vhs {
+.wpmoly_movie_media.wpmoly_detail_icon.vhs {
 	background-image: url(../img/icon-vhs.png);
 }
 
-.wpml_movie_media.wpml_detail_icon.cinema {
+.wpmoly_movie_media.wpmoly_detail_icon.cinema {
 	background-image: url(../img/icon-cinema.png);
 }
 
-.wpml_movie_media.wpml_detail_icon.other {
+.wpmoly_movie_media.wpmoly_detail_icon.other {
 	background-image: url(../img/icon-other.png);
 }
 
-.wpml_movie_status.wpml_detail_icon.unavailable {
+.wpmoly_movie_status.wpmoly_detail_icon.unavailable {
 	background-image: url(../img/icon-unavailable.png);
 }
 
-.wpml_movie_status.wpml_detail_icon.available {
+.wpmoly_movie_status.wpmoly_detail_icon.available {
 	background-image: url(../img/icon-available.png);
 }
 
-.wpml_movie_status.wpml_detail_icon.scheduled {
+.wpmoly_movie_status.wpmoly_detail_icon.scheduled {
 	background-image: url(../img/icon-scheduled.png);
 }
 
-.wpml_movie_status.wpml_detail_icon.loaned {
+.wpmoly_movie_status.wpmoly_detail_icon.loaned {
 	background-image: url(../img/icon-loaned.png);
 }
 
-.wpml_movie_rating.wpml_detail_icon .movie_rating_display {
+.wpmoly_movie_rating.wpmoly_detail_icon .movie_rating_display {
 	margin-top: 8px;
 	margin-left: 8px;
 }
 
 /** Shortcodes **/
 
-.wpml_shortcode_span.wpml_shortcode_span_title {
+.wpmoly_shortcode_span.wpmoly_shortcode_span_title {
 	display: block;
 	font-weight: bold;
 }
 
-.wpml_shortcode_span.wpml_shortcode_span_value {
+.wpmoly_shortcode_span.wpmoly_shortcode_span_value {
 	display: block;
 	margin-left: 0.5em;
 }
 
-.wpml_shortcode_ul.wpml_movie_images {
+.wpmoly_shortcode_ul.wpmoly_movie_images {
 	list-style: none;
 	text-align: center;
 }
 
-.wpml_shortcode_ul.wpml_movie_images > .wpml_movie_image {
+.wpmoly_shortcode_ul.wpmoly_movie_images > .wpmoly_movie_image {
 	display: inline-block;
 	margin: 2px 6px;
 }
@@ -247,27 +247,27 @@
 
 /** Wigets **/
 
-.wpml-widget-description {
+.wpmoly-widget-description {
 	margin: 0.5em 0 !important;
 }
 
 /** Movies Widgets **/
 
-.wpml-movies-widget {
+.wpmoly-movies-widget {
 	position: relative;
 }
 
-.wpml-movies-widget .movie-title {
+.wpmoly-movies-widget .movie-title {
 	display: block;
 	font-weight: 600;
 	margin: 0.5em 0;
 }
 
-.wpml-movies-widget a {
+.wpmoly-movies-widget a {
 	text-decoration: none;
 }
 
-.wpml-movies-widget .wpml-movie {
+.wpmoly-movies-widget .wpmoly-movie {
 	display: inline-table;
 	max-width: 150px;
 	min-height: 122px;
@@ -278,36 +278,36 @@
 	width: 49%;
 }
 
-.wpml-movies-widget .wpml-movie img {
+.wpmoly-movies-widget .wpmoly-movie img {
 	height: 100%;
 	width: 100%;
 }
 
-.wpml-movies-widget .wpml-movie .movie_rating_display.starsntext {
+.wpmoly-movies-widget .wpmoly-movie .movie_rating_display.starsntext {
 	margin: 0.25em auto 0.75em auto;
 	text-align: right;
 	width: 94%;
 }
 
-.wpml-movies-widget .wpml-movie .movie_rating_display.starsntext small {
+.wpmoly-movies-widget .wpmoly-movie .movie_rating_display.starsntext small {
 	display: inline-block;
 	margin: 3px 0;
 }
 
-.wpml-rating-widget .movie_rating_display {
+.wpmoly-rating-widget .movie_rating_display {
 	margin: 2px 6px -3px !important;
 	overflow: visible;
 	width: 100%;
 }
 
-.wpml-rating-widget .movie_rating_display .stars_label {
+.wpmoly-rating-widget .movie_rating_display .stars_label {
 	left: 90px;
 	opacity: 1.0;
 	top: -2px;
 	width: auto !important;
 }
 
-.wpml-list.custom select {
+.wpmoly-list.custom select {
 	background: #eee;
 	border: 1px solid #ccc;
 	border-radius: 0.3em;

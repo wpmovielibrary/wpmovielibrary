@@ -15,7 +15,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 
 error_reporting( ~E_NOTICE );
 
-class WPML_Import_Table extends WP_List_Table {
+class WPMOLY_Import_Table extends WP_List_Table {
 
 	/**
 	 * Constructor. Calls WP_List_Table and set up data.
@@ -42,9 +42,9 @@ class WPML_Import_Table extends WP_List_Table {
 
 		$this->posts_per_page = 15;
 
-		$this->metadata = WPML_Settings::get_supported_movie_meta( $type = null, $merge = false );
+		$this->metadata = WPMOLY_Settings::get_supported_movie_meta( $type = null, $merge = false );
 
-		$this->columns = WPML_Import::get_imported_movies();
+		$this->columns = WPMOLY_Import::get_imported_movies();
 
 		$this->column_names = array(
 			'poster'     => __( 'Poster', 'wpmovielibrary' ),
@@ -116,7 +116,7 @@ class WPML_Import_Table extends WP_List_Table {
 			'&laquo;'
 		);
 
-		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s' onclick='wpml_import_view.navigate( this ); return false;'>%s</a>",
+		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s' onclick='wpmoly_import_view.navigate( this ); return false;'>%s</a>",
 			'prev-page' . $disable_first,
 			esc_attr__( 'Go to the previous page' ),
 			esc_url( add_query_arg( 'paged', max( 1, $current-1 ), $current_url ) ),
@@ -126,7 +126,7 @@ class WPML_Import_Table extends WP_List_Table {
 		if ( 'bottom' == $which )
 			$html_current_page = $current;
 		else
-			$html_current_page = sprintf( "<input class='current-page' title='%s' type='text' name='paged' value='%s' size='%d' oninput='wpml_import_view.paginate(); return false;' />",
+			$html_current_page = sprintf( "<input class='current-page' title='%s' type='text' name='paged' value='%s' size='%d' oninput='wpmoly_import_view.paginate(); return false;' />",
 				esc_attr__( 'Current page' ),
 				$current,
 				strlen( $total_pages )
@@ -135,14 +135,14 @@ class WPML_Import_Table extends WP_List_Table {
 		$html_total_pages = sprintf( "<span class='total-pages'>%s</span>", number_format_i18n( $total_pages ) );
 		$page_links[] = '<span class="paging-input">' . sprintf( _x( '%1$s of %2$s', 'paging' ), $html_current_page, $html_total_pages ) . '</span>';
 
-		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s' onclick='wpml_import_view.navigate( this ); return false;'>%s</a>",
+		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s' onclick='wpmoly_import_view.navigate( this ); return false;'>%s</a>",
 			'next-page' . $disable_last,
 			esc_attr__( 'Go to the next page' ),
 			esc_url( add_query_arg( 'paged', min( $total_pages, $current+1 ), $current_url ) ),
 			'&rsaquo;'
 		);
 
-		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s' onclick='wpml_import_view.navigate( this ); return false;'>%s</a>",
+		$page_links[] = sprintf( "<a class='%s' title='%s' href='%s' onclick='wpmoly_import_view.navigate( this ); return false;'>%s</a>",
 			'last-page' . $disable_last,
 			esc_attr__( 'Go to the last page' ),
 			esc_url( add_query_arg( 'paged', $total_pages, $current_url ) ),
@@ -338,10 +338,10 @@ class WPML_Import_Table extends WP_List_Table {
 
 		$actions = array(
 			'edit'      => sprintf('<a class="edit_movie" id="edit_%1$s" href="%2$s" title="%3$s"><span class="dashicons dashicons-welcome-write-blog"></span></a>', $item['ID'], get_edit_post_link( $item['ID'] ), __( 'Edit', 'wpmovielibrary' ) ),
-			'metadata'  => sprintf('<a class="search_movie" id="search_%1$s" href="%2$s" title="%3$s" onclick="wpml_import_meta.search(%4$s); return false;"><span class="dashicons dashicons-download"></span></a>', $item['ID'], wp_nonce_url( get_edit_post_link( $item['ID'] ) . "&amp;wpml_search_movie=1&amp;search_by=title&amp;search_query={$item['movietitle']}", 'search-movies' ), __( 'Fetch data from TMDb', 'wpmovielibrary' ), $item['ID'] ),
+			'metadata'  => sprintf('<a class="search_movie" id="search_%1$s" href="%2$s" title="%3$s" onclick="wpmoly_import_meta.search(%4$s); return false;"><span class="dashicons dashicons-download"></span></a>', $item['ID'], wp_nonce_url( get_edit_post_link( $item['ID'] ) . "&amp;wpmoly_search_movie=1&amp;search_by=title&amp;search_query={$item['movietitle']}", 'search-movies' ), __( 'Fetch data from TMDb', 'wpmovielibrary' ), $item['ID'] ),
 			//'import'    => sprintf('<a class="import_movie" id="import_%1$s" href="#" title="%2$s"><span class="dashicons dashicons-welcome-add-page"></span></a>', $item['ID'], __( 'Import Movie', 'wpmovielibrary' ) ),
-			'enqueue hide-if-no-js'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" href="#" title="%2$s" onclick="wpml_movies_queue.add(%3$s); return false;"><span class="dashicons dashicons-plus"></span></a>', $item['ID'], __( 'Enqueue', 'wpmovielibrary' ), $item['ID'] ),
-			'delete'    => sprintf('<a class="delete_movie" id="delete_%1$s" href="%2$s" title="%3$s" onclick="wpml_import_movies.delete(%4$s); return false;"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], get_delete_post_link( $item['ID'] ), __( 'Delete', 'wpmovielibrary' ), $item['ID'] ),
+			'enqueue hide-if-no-js'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" href="#" title="%2$s" onclick="wpmoly_movies_queue.add(%3$s); return false;"><span class="dashicons dashicons-plus"></span></a>', $item['ID'], __( 'Enqueue', 'wpmovielibrary' ), $item['ID'] ),
+			'delete'    => sprintf('<a class="delete_movie" id="delete_%1$s" href="%2$s" title="%3$s" onclick="wpmoly_import_movies.delete(%4$s); return false;"><span class="dashicons dashicons-post-trash"></span></a>', $item['ID'], get_delete_post_link( $item['ID'] ), __( 'Delete', 'wpmovielibrary' ), $item['ID'] ),
 		);
 
 		return $this->row_actions( $actions, $always_visible = true );
@@ -434,7 +434,7 @@ class WPML_Import_Table extends WP_List_Table {
 
 		echo "</select>\n";
 
-		submit_button( __( 'Apply' ), 'action', false, false, array( 'id' => "doaction$two", 'onclick' => "wpml_import_meta.do( 'action$two' ); return false;" ) );
+		submit_button( __( 'Apply' ), 'action', false, false, array( 'id' => "doaction$two", 'onclick' => "wpmoly_import_meta.do( 'action$two' ); return false;" ) );
 		echo "\n";
 	}
 
@@ -445,10 +445,10 @@ class WPML_Import_Table extends WP_List_Table {
 	 * sorting and pagination.
 	 * 
 	 * @uses WP_List_Table::set_pagination_args()
-	 * @uses WPML_List_Table::get_columns()
-	 * @uses WPML_List_Table::get_sortable_columns()
-	 * @uses WPML_List_Table::get_items_per_page()
-	 * @uses WPML_List_Table::filter_search()
+	 * @uses WPMOLY_List_Table::get_columns()
+	 * @uses WPMOLY_List_Table::get_sortable_columns()
+	 * @uses WPMOLY_List_Table::get_items_per_page()
+	 * @uses WPMOLY_List_Table::filter_search()
 	 *
 	 * @since 1.0
 	 */
@@ -540,7 +540,7 @@ class WPML_Import_Table extends WP_List_Table {
 			$i18n['total_pages_i18n'] = number_format_i18n( $total_pages );
 		}
 
-		wpml_ajax_response( $response, $i18n );
+		wpmoly_ajax_response( $response, $i18n );
 	}
 
 	/**

@@ -11,9 +11,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Dashboard_Stats_Widget' ) ) :
+if ( ! class_exists( 'WPMOLY_Dashboard_Stats_Widget' ) ) :
 
-	class WPML_Dashboard_Stats_Widget extends WPML_Dashboard {
+	class WPMOLY_Dashboard_Stats_Widget extends WPMOLY_Dashboard {
 
 		/**
 		 * Widget ID
@@ -22,7 +22,7 @@ if ( ! class_exists( 'WPML_Dashboard_Stats_Widget' ) ) :
 		 * 
 		 * @var      string
 		 */
-		protected $widget_id = 'wpml_dashboard_stats_widget';
+		protected $widget_id = 'wpmoly_dashboard_stats_widget';
 
 		/**
 		 * Constructor
@@ -73,7 +73,7 @@ if ( ! class_exists( 'WPML_Dashboard_Stats_Widget' ) ) :
 					'single' => __( 'One queued movie', 'wpmovielibrary' ),
 					'plural' => __( '%d queued movies', 'wpmovielibrary' ),
 					'empty'  => __( 'No queued movie.', 'wpmovielibrary' ),
-					'url'    => admin_url( 'admin.php?page=wpml_import&amp;wpml_section=wpml_import_queue' ),
+					'url'    => admin_url( 'admin.php?page=wpmoly_import&amp;wpmoly_section=wpmoly_import_queue' ),
 					'icon'   => 'dashicons dashicons-list-view',
 					'string' => '<a href="%s">%s</a>'
 				),
@@ -81,7 +81,7 @@ if ( ! class_exists( 'WPML_Dashboard_Stats_Widget' ) ) :
 					'single' => __( 'One imported movie', 'wpmovielibrary' ),
 					'plural' => __( '%d imported movies', 'wpmovielibrary' ),
 					'empty'  => __( 'No imported movie.', 'wpmovielibrary' ),
-					'url'    => admin_url( 'admin.php?page=wpml_import&amp;wpml_section=wpml_imported' ),
+					'url'    => admin_url( 'admin.php?page=wpmoly_import&amp;wpmoly_section=wpmoly_imported' ),
 					'icon'   => 'dashicons dashicons-download',
 					'string' => '<a href="%s">%s</a>'
 				)

@@ -1,27 +1,27 @@
-#wpml_details .movie-status-icon {
+#wpmoly_details .movie-status-icon {
 	background: url(../img/legacy/icon-status.png) left 2px no-repeat;
 	margin-left: -0.5em;
 	padding: 0.25em 0 0.25em 1.75em;
 }
 
-#wpml_details .movie-media-icon {
+#wpmoly_details .movie-media-icon {
 	background: url(../img/legacy/icon-media.png) left 2px no-repeat;
 	margin-left: -0.5em;
 	padding: 0.25em 0 0.25em 1.75em;
 }
 
-#wpml_details .movie-rating-icon {
+#wpmoly_details .movie-rating-icon {
 	background: url(../img/legacy/icon-star-half.png) left 2px no-repeat;
 	margin-left: -0.5em;
 	padding: 0.25em 0 0.25em 1.75em;
 }
 
-.wpml-inline-edit-details {
+.wpmoly-inline-edit-details {
 	margin-left: 0 !important;
 }
 
-.alt .wpml-inline-edit-details,
-.alternate .wpml-inline-edit-details {
+.alt .wpmoly-inline-edit-details,
+.alternate .wpmoly-inline-edit-details {
 	background-color: #fcfcfc;
 }
 
@@ -138,16 +138,16 @@
 	vertical-align: bottom;
 }
 
-#wpml_dashboard_quickaction_widget .dashicons { margin-bottom: -10px !important; }
-#wpml_dashboard_quickaction_widget .dashicons.dashicons-welcome-write-blog { background-image: url(../img/legacy/icon-add-2x.png); }
-#wpml_dashboard_quickaction_widget .dashicons.dashicons-list-view { background-image: url(../img/legacy/icon-queue-2x.png); }
-#wpml_dashboard_quickaction_widget .dashicons.dashicons-format-video { background-image: url(../img/legacy/icon-movie-2x.png); }
+#wpmoly_dashboard_quickaction_widget .dashicons { margin-bottom: -10px !important; }
+#wpmoly_dashboard_quickaction_widget .dashicons.dashicons-welcome-write-blog { background-image: url(../img/legacy/icon-add-2x.png); }
+#wpmoly_dashboard_quickaction_widget .dashicons.dashicons-list-view { background-image: url(../img/legacy/icon-queue-2x.png); }
+#wpmoly_dashboard_quickaction_widget .dashicons.dashicons-format-video { background-image: url(../img/legacy/icon-movie-2x.png); }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie .movie-quickedit a,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie .movie-quickedit a {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-quickedit a,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-quickedit a {
 	margin-left: -0.35em;
 }
 
-#wpml-movie-modal .button .dashicons {
+#wpmoly-movie-modal .button .dashicons {
 	display: none;
 }

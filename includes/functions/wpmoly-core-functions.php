@@ -16,9 +16,9 @@
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
-require WPML_PATH . 'includes/functions/wpmoly-movies-functions.php';
-require WPML_PATH . 'includes/functions/wpmoly-ajax-functions.php';
-require WPML_PATH . 'includes/functions/wpmoly-legacy-functions.php';
+require WPMOLY_PATH . 'includes/functions/wpmoly-movies-functions.php';
+require WPMOLY_PATH . 'includes/functions/wpmoly-ajax-functions.php';
+require WPMOLY_PATH . 'includes/functions/wpmoly-legacy-functions.php';
 
 /**
  * Filter a string value to determine a suitable boolean value.
@@ -32,7 +32,7 @@ require WPML_PATH . 'includes/functions/wpmoly-legacy-functions.php';
  * 
  * @return   boolean   Filtered value
  */
-function wpml_is_boolean( $value, $default = false ) {
+function wpmoly_is_boolean( $value, $default = false ) {
 
 	$value = strtolower( $value );
 
@@ -61,7 +61,7 @@ function wpml_is_boolean( $value, $default = false ) {
  * 
  * @return   string   Separated list
  */
-function wpml_stringify_array( $array, $subrow = 'name', $separator = ', ' ) {
+function wpmoly_stringify_array( $array, $subrow = 'name', $separator = ', ' ) {
 
 	if ( ! is_array( $array ) || empty( $array ) )
 		return $array;
@@ -70,7 +70,7 @@ function wpml_stringify_array( $array, $subrow = 'name', $separator = ', ' ) {
 		if ( ! is_array( $row ) )
 			$array[ $i ] = $row;
 		else if ( false === $subrow || ! is_array( $row ) )
-			$array[ $i ] = wpml_stringify_array( $row, $subrow, $separator );
+			$array[ $i ] = wpmoly_stringify_array( $row, $subrow, $separator );
 		else if ( is_array( $row ) && isset( $row[ $subrow ] ) )
 			$array[ $i ] = $row[ $subrow ];
 		else if ( is_array( $row ) )
@@ -84,7 +84,7 @@ function wpml_stringify_array( $array, $subrow = 'name', $separator = ', ' ) {
 
 /**
  * Filter an array to detect empty associative arrays.
- * Uses wpml_stringify_array to stringify the array and check its length.
+ * Uses wpmoly_stringify_array to stringify the array and check its length.
  * 
  * @since    1.0.0
  * 
@@ -92,12 +92,12 @@ function wpml_stringify_array( $array, $subrow = 'name', $separator = ', ' ) {
  * 
  * @return   array    Original array plus and notification row if empty
  */
-function wpml_filter_empty_array( $array ) {
+function wpmoly_filter_empty_array( $array ) {
 
 	if ( ! is_array( $array ) || empty( $array ) )
 		return array();
 
-	$_array = wpml_stringify_array( $array, false, '' );
+	$_array = wpmoly_stringify_array( $array, false, '' );
 
 	return strlen( $_array ) > 0 ? $array : array_merge( array( '_empty' => true ), $array );
 }
@@ -112,7 +112,7 @@ function wpml_filter_empty_array( $array ) {
  * 
  * @return   array    Reduced array
  */
-function wpml_filter_undimension_array( $array ) {
+function wpmoly_filter_undimension_array( $array ) {
 
 	if ( ! is_array( $array ) || empty( $array ) )
 		return $array;
@@ -121,7 +121,7 @@ function wpml_filter_undimension_array( $array ) {
 
 	foreach ( $array as $key => $row ) {
 		if ( is_array( $row ) )
-			$_array = array_merge( $_array, wpml_filter_undimension_array( $row ) );
+			$_array = array_merge( $_array, wpmoly_filter_undimension_array( $row ) );
 		else
 			$_array[ $key ] = $row;
 	}
@@ -136,9 +136,9 @@ function wpml_filter_undimension_array( $array ) {
  * 
  * @param    string    $action Action name for nonce
  */
-function wpml_create_nonce( $action ) {
+function wpmoly_create_nonce( $action ) {
 
-	return wp_create_nonce( 'wpml-' . $action );
+	return wp_create_nonce( 'wpmoly-' . $action );
 }
 
 /**
@@ -148,10 +148,10 @@ function wpml_create_nonce( $action ) {
  * 
  * @param    string    $action Action name for nonce
  */
-function wpml_nonce_field( $action, $referer = true, $echo = true ) {
+function wpmoly_nonce_field( $action, $referer = true, $echo = true ) {
 
-	$nonce_action = 'wpml-' . $action;
-	$nonce_name = '_wpmlnonce_' . str_replace( '-', '_', $action );
+	$nonce_action = 'wpmoly-' . $action;
+	$nonce_name = '_wpmolynonce_' . str_replace( '-', '_', $action );
 
 	return wp_nonce_field( $nonce_action, $nonce_name, $referer, $echo );
 }
@@ -163,13 +163,13 @@ function wpml_nonce_field( $action, $referer = true, $echo = true ) {
  * 
  * @param    string    $action Action name for nonce
  */
-function wpml_check_admin_referer( $action, $query_arg = false ) {
+function wpmoly_check_admin_referer( $action, $query_arg = false ) {
 
 	if ( ! $query_arg )
-		$query_arg = '_wpmlnonce_' . str_replace( '-', '_', $action );
+		$query_arg = '_wpmolynonce_' . str_replace( '-', '_', $action );
 
 	$error = new WP_Error();
-	$check = check_ajax_referer( 'wpml-' . $action, $query_arg );
+	$check = check_ajax_referer( 'wpmoly-' . $action, $query_arg );
 
 	if ( $check )
 		return true;
@@ -186,19 +186,19 @@ function wpml_check_admin_referer( $action, $query_arg = false ) {
  * 
  * @param    string    $action Action name for nonce
  */
-function wpml_check_ajax_referer( $action, $query_arg = false, $die = false ) {
+function wpmoly_check_ajax_referer( $action, $query_arg = false, $die = false ) {
 
 	if ( ! $query_arg )
 		$query_arg = 'nonce';
 
 	$error = new WP_Error();
-	$check = check_ajax_referer( 'wpml-' . $action, $query_arg, $die );
+	$check = check_ajax_referer( 'wpmoly-' . $action, $query_arg, $die );
 
 	if ( $check )
 		return true;
 
 	$error->add( 'invalid_nonce', __( 'Are you sure you want to do this?' ) );
-	wpml_ajax_response( $error, null, wpml_create_nonce( $action ) );
+	wpmoly_ajax_response( $error, null, wpmoly_create_nonce( $action ) );
 }
 
 /**
@@ -209,7 +209,7 @@ function wpml_check_ajax_referer( $action, $query_arg = false, $die = false ) {
  * 
  * @param    boolean    $error Error header or normal?
  */
-function wpml_json_header( $error = false ) {
+function wpmoly_json_header( $error = false ) {
 
 	if ( false !== headers_sent() )
 		return false;

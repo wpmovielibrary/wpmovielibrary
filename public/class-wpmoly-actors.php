@@ -11,9 +11,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Actors' ) ) :
+if ( ! class_exists( 'WPMOLY_Actors' ) ) :
 
-	class WPML_Actors extends WPML_Module {
+	class WPMOLY_Actors extends WPMOLY_Module {
 
 		protected $widgets;
 
@@ -44,8 +44,8 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 		 * are displayed by a custom way in admin columns. This is meant
 		 * to override WordPress default ordering of Taxonomies.
 		 * 
-		 * @see wpml_movies_columns_head()
-		 * @see wpml_movies_columns_content()
+		 * @see wpmoly_movies_columns_head()
+		 * @see wpmoly_movies_columns_content()
 		 *
 		 * @since    1.0
 		 */
@@ -96,7 +96,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 			global $wpdb;
 			$wpdb->hide_errors();
 
-			$_action = get_option( 'wpml_settings' );
+			$_action = get_option( 'wpmoly_settings' );
 			if ( ! $_action || ! isset( $_action[ "wpmoly-{$action}-actors" ] ) )
 				return false;
 
@@ -109,7 +109,7 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 			switch ( $action ) {
 				case 'convert':
 					foreach ( $contents as $term ) {
-						wp_update_term( $term->term_id, 'actor', array( 'slug' => 'wpml_actor-' . $term->slug ) );
+						wp_update_term( $term->term_id, 'actor', array( 'slug' => 'wpmoly_actor-' . $term->slug ) );
 						$wpdb->update(
 							$wpdb->term_taxonomy,
 							array( 'taxonomy' => 'post_tag' ),
@@ -140,18 +140,18 @@ if ( ! class_exists( 'WPML_Actors' ) ) :
 			global $wpdb, $wp_rewrite;
 			$wpdb->hide_errors();
 
-			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_actor%"' );
+			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpmoly_actor%"' );
 			$actors      = array();
 
 			foreach ( $contents as $term )
-				if ( false !== strpos( $term->slug, 'wpml_actor' ) )
+				if ( false !== strpos( $term->slug, 'wpmoly_actor' ) )
 					$actors[] = $term->term_id;
 
 			if ( ! empty( $actors ) )
 				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "actor" WHERE term_id IN (' . implode( ',', $actors ) . ') AND taxonomy = "post_tag"' );
 
 			$wpdb->query(
-				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_actor-", "")'
+				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpmoly_actor-", "")'
 			);
 
 			self::register_actor_taxonomy();

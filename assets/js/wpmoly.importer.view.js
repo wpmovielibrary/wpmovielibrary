@@ -1,19 +1,19 @@
 
 $ = $ || jQuery;
 
-wpml = wpml || {};
+wpmoly = wpmoly || {};
 
-	wpml.importer = {};
+	wpmoly.importer = {};
 	
-		wpml.importer.view = wpml_import_view = {
+		wpmoly.importer.view = wpmoly_import_view = {
 
 			timer: undefined,
 			delay: 500,
 
-			select: '#wpml_imported #the-list input[type=checkbox]',
+			select: '#wpmoly_imported #the-list input[type=checkbox]',
 			select_all: '#cb-select-all-1, #cb-select-all-2',
 
-			queue_select: '#wpml_import_queue #wpml-queued-list input[type=checkbox]'
+			queue_select: '#wpmoly_import_queue #wpmoly-queued-list input[type=checkbox]'
 		};
 
 			/**
@@ -21,14 +21,14 @@ wpml = wpml || {};
 			 * 
 			 * @since    1.0
 			 */
-			wpml.importer.view.init = function() {
+			wpmoly.importer.view.init = function() {
 
-				$( wpml_import_view.select_all ).unbind( 'click' ).on( 'click', function( e ) {
-					wpml.reinit_checkboxes_all( e, $( this ) );
+				$( wpmoly_import_view.select_all ).unbind( 'click' ).on( 'click', function( e ) {
+					wpmoly.reinit_checkboxes_all( e, $( this ) );
 				});
 
-				$( wpml_import_view.select ).unbind( 'click' ).on( 'click', function( e ) {
-					wpml.reinit_checkboxes( e, $( this ) );
+				$( wpmoly_import_view.select ).unbind( 'click' ).on( 'click', function( e ) {
+					wpmoly.reinit_checkboxes( e, $( this ) );
 				});
 			};
 
@@ -38,35 +38,35 @@ wpml = wpml || {};
 			 * 
 			 * @since    1.0
 			 */
-			wpml.importer.view.reload = function( data, list ) {
+			wpmoly.importer.view.reload = function( data, list ) {
 
 				if ( 'queued' == list ) {
-					var _selector = '#wpml_import_queue',
+					var _selector = '#wpmoly_import_queue',
 					    _rows = '.wp-list-table',
 					    _data = {
-						action: 'wpml_queued_movies',
+						action: 'wpmoly_queued_movies',
 						nonce_name: 'queued-movies',
-						nonce: wpml.get_nonce( 'queued-movies' )
+						nonce: wpmoly.get_nonce( 'queued-movies' )
 					};
 				}
 				else {
-					var _selector = '#wpml_imported',
+					var _selector = '#wpmoly_imported',
 					    _rows = '.wp-list-table tbody',
 					    _data = {
-						action: 'wpml_imported_movies',
+						action: 'wpmoly_imported_movies',
 						nonce_name: 'imported-movies',
-						nonce: wpml.get_nonce( 'imported-movies' )
+						nonce: wpmoly.get_nonce( 'imported-movies' )
 					};
 				}
 
 				var data = $.extend( _data, data );
 
-				wpml._get({
+				wpmoly._get({
 					data: data,
 					error: function( response ) {
-						wpml_state.clear();
+						wpmoly_state.clear();
 						$.each( response.responseJSON.errors, function() {
-							wpml_state.set( this, 'error' );
+							wpmoly_state.set( this, 'error' );
 						});
 					},
 					success: function( response ) {
@@ -83,15 +83,15 @@ wpml = wpml || {};
 							$( '.tablenav.bottom .tablenav-pages', _selector ).html( $(response.data.pagination.bottom).html() );
 
 						if ( 'queued' == list )
-							wpml_import_view.update_count( 'import_queue', response.data.total_items, response.i18n.total_items_i18n );
+							wpmoly_import_view.update_count( 'import_queue', response.data.total_items, response.i18n.total_items_i18n );
 						else
-							wpml_import_view.update_count( 'imported', response.data.total_items, response.i18n.total_items_i18n );
+							wpmoly_import_view.update_count( 'imported', response.data.total_items, response.i18n.total_items_i18n );
 
-						wpml_queue_utils.init();
+						wpmoly_queue_utils.init();
 					},
 					complete: function( r ) {
-						wpml.update_nonce( data.nonce_name, r.responseJSON.nonce );
-						wpml_import_view.init();
+						wpmoly.update_nonce( data.nonce_name, r.responseJSON.nonce );
+						wpmoly_import_view.init();
 					}
 				});
 			};
@@ -103,14 +103,14 @@ wpml = wpml || {};
 			 * 
 			 * @param    object    Link HTML Object
 			 */
-			wpml.importer.view.navigate = function( link ) {
+			wpmoly.importer.view.navigate = function( link ) {
 				var query = link.search.substring( 1 );
 				var data = {
-					paged: wpml.http_query_var( query, 'paged' ) || '1',
-					order: wpml.http_query_var( query, 'order' ) || 'asc',
-					orderby: wpml.http_query_var( query, 'orderby' ) || 'title'
+					paged: wpmoly.http_query_var( query, 'paged' ) || '1',
+					order: wpmoly.http_query_var( query, 'order' ) || 'asc',
+					orderby: wpmoly.http_query_var( query, 'orderby' ) || 'title'
 				};
-				wpml_import_view.reload( data );
+				wpmoly_import_view.reload( data );
 			};
 
 			/**
@@ -118,17 +118,17 @@ wpml = wpml || {};
 			 * 
 			 * @since    1.0
 			 */
-			wpml.importer.view.paginate = function() {
+			wpmoly.importer.view.paginate = function() {
 				var data = {
 					paged: parseInt( $( 'input[name=paged]' ).val() ) || '1',
 					order: $( 'input[name=order]' ).val() || 'asc',
 					orderby: $( 'input[name=orderby]' ).val() || 'title'
 				};
 
-				window.clearTimeout( wpml_import_view.timer );
-				wpml_import_view.timer = window.setTimeout( function() {
-					wpml_import_view.reload( data );
-				}, wpml_import_view.delay );
+				window.clearTimeout( wpmoly_import_view.timer );
+				wpmoly_import_view.timer = window.setTimeout( function() {
+					wpmoly_import_view.reload( data );
+				}, wpmoly_import_view.delay );
 			};
 
 			/**
@@ -139,23 +139,23 @@ wpml = wpml || {};
 			 * @param    string    Which menu, queued or imported?
 			 * @param    int       Increment or decrement?
 			 */
-			wpml.importer.view.update_count = function( wot, i, i_i18n ) {
+			wpmoly.importer.view.update_count = function( wot, i, i_i18n ) {
 				
 				var wot = ( 'import_queue' == wot ? wot : 'imported' ),
 				    i = ( i >= 0 ? i : '0' ),
-				    $span = $( '#_wpml_' + wot + ' span' );
+				    $span = $( '#_wpmoly_' + wot + ' span' );
 
 				$span.text( '' + i );
 
 				if ( 'import_queue' == wot ) {
-					$( '.displaying-num', wpml_queue.queued_list ).text( i_i18n );
-					$( wpml_queue.progress_block ).removeClass( 'visible' );
-					$( wpml_queue.progress_left, wpml_queue.queued_list ).text( '0' );
-					$( wpml_queue.progress_queued, wpml_queue.queued_list ).text( '0' );
-					$( wpml_queue.progress_value ).val( 0 );
-					$( wpml_queue.progress ).width( 0 );
-					$( wpml_queue.progress_status ).css( { display: 'inline-block' } );
-					$( wpml_queue.progress_status_message ).hide();
+					$( '.displaying-num', wpmoly_queue.queued_list ).text( i_i18n );
+					$( wpmoly_queue.progress_block ).removeClass( 'visible' );
+					$( wpmoly_queue.progress_left, wpmoly_queue.queued_list ).text( '0' );
+					$( wpmoly_queue.progress_queued, wpmoly_queue.queued_list ).text( '0' );
+					$( wpmoly_queue.progress_value ).val( 0 );
+					$( wpmoly_queue.progress ).width( 0 );
+					$( wpmoly_queue.progress_status ).css( { display: 'inline-block' } );
+					$( wpmoly_queue.progress_status_message ).hide();
 				}
 			};
 
@@ -168,12 +168,12 @@ wpml = wpml || {};
 			 * 
 			 * @since    1.0
 			 */
-			wpml.importer.view.toggle_button = function() {
+			wpmoly.importer.view.toggle_button = function() {
 
-				if ( $( wpml_import_view.select + ':checked' ).length != $( wpml_import_view.select ).length )
-					$( wpml_import_view.select_all ).prop( 'checked', false );
+				if ( $( wpmoly_import_view.select + ':checked' ).length != $( wpmoly_import_view.select ).length )
+					$( wpmoly_import_view.select_all ).prop( 'checked', false );
 				else
-					$( wpml_import_view.select_all ).prop( 'checked', true );
+					$( wpmoly_import_view.select_all ).prop( 'checked', true );
 			};
 
 			/**
@@ -187,10 +187,10 @@ wpml = wpml || {};
 			 * 
 			 * @param    int    Which selector.
 			 */
-			wpml.importer.view.toggle_inputs = function( select ) {
+			wpmoly.importer.view.toggle_inputs = function( select ) {
 
-				if ( ! $( wpml_import_view.select_all ).prop('checked') )
-					$( wpml_import_view.select ).prop( 'checked', false );
+				if ( ! $( wpmoly_import_view.select_all ).prop('checked') )
+					$( wpmoly_import_view.select ).prop( 'checked', false );
 				else
-					$( wpml_import_view.select ).prop( 'checked', true );
+					$( wpmoly_import_view.select ).prop( 'checked', true );
 			};

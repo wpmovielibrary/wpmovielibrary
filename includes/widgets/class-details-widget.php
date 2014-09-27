@@ -16,7 +16,7 @@
  * 
  * @since    1.2
  */
-class WPML_Details_Widget extends WPML_Widget {
+class WPMOLY_Details_Widget extends WPMOLY_Widget {
 
 	/**
 	 * Specifies the classname and description, instantiates the widget. No
@@ -26,7 +26,7 @@ class WPML_Details_Widget extends WPML_Widget {
 
 		$this->widget_name        = __( 'WPMovieLibrary Details', 'wpmovielibrary' );
 		$this->widget_description = __( 'Display a list of the available details: status, media and rating.', 'wpmovielibrary' );
-		$this->widget_css         = 'wpmovielibrary wpml-widget wpml-details-widget';
+		$this->widget_css         = 'wpmovielibrary wpmoly-widget wpmoly-details-widget';
 		$this->widget_id          = 'wpmovielibrary_details_widget';
 		$this->widget_form        = 'details-widget/details-admin.php';
 
@@ -84,10 +84,10 @@ class WPML_Details_Widget extends WPML_Widget {
 	public function widget( $args, $instance ) {
 
 		// Caching
-		$name = apply_filters( 'wpml_cache_name', 'details_widget', $args );
+		$name = apply_filters( 'wpmoly_cache_name', 'details_widget', $args );
 		// Naughty PHP 5.3 fix
 		$widget = &$this;
-		$content = WPML_Cache::output( $name, function() use ( $widget, $args, $instance ) {
+		$content = WPMOLY_Cache::output( $name, function() use ( $widget, $args, $instance ) {
 
 			return $widget->widget_content( $args, $instance );
 		});
@@ -115,16 +115,16 @@ class WPML_Details_Widget extends WPML_Widget {
 
 		$title = apply_filters( 'widget_title', $title );
 
-		$details = call_user_func( "WPML_Settings::get_available_movie_{$detail}" );
+		$details = call_user_func( "WPMOLY_Settings::get_available_movie_{$detail}" );
 		$rewrite = wpmoly_o( 'rewrite-details' );
 		$movies  = wpmoly_o( 'rewrite-movie' );
 
 		if ( ! empty( $details ) ) {
 
-			$this->widget_css .= " wpml-{$detail}-widget";
+			$this->widget_css .= " wpmoly-{$detail}-widget";
 
 			if ( $css )
-				$this->widget_css .= ' wpml-list custom';
+				$this->widget_css .= ' wpmoly-list custom';
 
 			$items = array();
 			foreach ( $details as $slug => $_title ) {

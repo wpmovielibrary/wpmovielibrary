@@ -16,7 +16,7 @@
  * 
  * @since    1.2
  */
-class WPML_Taxonomies_Widget extends WPML_Widget {
+class WPMOLY_Taxonomies_Widget extends WPMOLY_Widget {
 
 	/**
 	 * Specifies the classname and description, instantiates the widget. No
@@ -26,7 +26,7 @@ class WPML_Taxonomies_Widget extends WPML_Widget {
 
 		$this->widget_name        = __( 'WPMovieLibrary Taxonomies', 'wpmovielibrary' );
 		$this->widget_description = __( 'Display a list of terms from a specific taxonomy: collections, genres or actors.', 'wpmovielibrary' );
-		$this->widget_css         = 'wpmovielibrary wpml-widget wpml-taxonomies-widget';
+		$this->widget_css         = 'wpmovielibrary wpmoly-widget wpmoly-taxonomies-widget';
 		$this->widget_id          = 'wpmovielibrary_taxonomies_widget';
 		$this->widget_form        = 'taxonomies-widget/taxonomies-admin.php';
 
@@ -57,7 +57,7 @@ class WPML_Taxonomies_Widget extends WPML_Widget {
 			),
 			'limit' => array(
 				'type' => 'number',
-				'std' => WPML_MAX_TAXONOMY_LIST
+				'std' => WPMOLY_MAX_TAXONOMY_LIST
 			)
 		);
 
@@ -95,10 +95,10 @@ class WPML_Taxonomies_Widget extends WPML_Widget {
 	public function widget( $args, $instance ) {
 
 		// Caching
-		$name = apply_filters( 'wpml_cache_name', 'taxonomies_widget', $args );
+		$name = apply_filters( 'wpmoly_cache_name', 'taxonomies_widget', $args );
 		// Naughty PHP 5.3 fix
 		$widget = &$this;
-		$content = WPML_Cache::output( $name, function() use ( $widget, $args, $instance ) {
+		$content = WPMOLY_Cache::output( $name, function() use ( $widget, $args, $instance ) {
 
 			return $widget->widget_content( $args, $instance );
 		});
@@ -136,10 +136,10 @@ class WPML_Taxonomies_Widget extends WPML_Widget {
 		if ( $taxonomies && ! is_wp_error( $taxonomies ) ) {
 
 			$items = array();
-			$this->widget_css .= " wpml-widget wpml-{$taxonomy}-list";
+			$this->widget_css .= " wpmoly-widget wpmoly-{$taxonomy}-list";
 
 			if ( $css )
-				$this->widget_css .= ' wpml-list custom';
+				$this->widget_css .= ' wpmoly-list custom';
 
 			foreach ( $taxonomies as $term )
 				$items[] = array(
@@ -155,7 +155,7 @@ class WPML_Taxonomies_Widget extends WPML_Widget {
 					'title'       => __( 'View the complete list', 'wpmovielibrary' )
 				);
 
-			$items = apply_filters( 'wpml_widget_collection_list', $items, $list, $css );
+			$items = apply_filters( 'wpmoly_widget_collection_list', $items, $list, $css );
 			$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => $this->taxonomies[ $taxonomy ]['default'], 'style' => $this->widget_css );
 
 			if ( $list )

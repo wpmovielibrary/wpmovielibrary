@@ -3,22 +3,22 @@ body.post-php.post-type-movie #postimagediv {
 	text-align: center;
 }
 
-.button-wpml {
+.button-wpmoly {
 	background: #2d2860 !important;
 	border-color: rgba(28, 24, 59, 1) !important;
 	box-shadow: 0 1px 0 rgba(122, 116, 182, 1) inset, 0 1px 0 rgba(0, 0, 0, 0.15) !important;
 }
 
-.button-wpml-alt {
+.button-wpmoly-alt {
 	background: #e57e22 !important;
 	border-color: #a55d1c !important;
 	box-shadow: 0 1px 0 #F0C39B inset, 0 1px 0 rgba(0, 0, 0, 0.15) !important;
 }
 
-.button-wpml:focus,
-.button-wpml:hover,
-.button-wpml-alt:focus,
-.button-wpml-alt:hover {
+.button-wpmoly:focus,
+.button-wpmoly:hover,
+.button-wpmoly-alt:focus,
+.button-wpmoly-alt:hover {
 	opacity: 0.9;
 }
 
@@ -79,21 +79,21 @@ body.post-php.post-type-movie #postimagediv {
 	opacity: 0.9;
 }
 
-/* WPML Landing Page
+/* WPMOLY Landing Page
  ****************************************************/
 
-#wpml-welcome-panel .welcome-panel-column li .dashicons {
+#wpmoly-welcome-panel .welcome-panel-column li .dashicons {
 	color: #999;
 	margin-right: 0.5em;
 	vertical-align: text-top;
 }
 
-#wpml-welcome-panel .welcome-panel-close .dashicons-dismiss {
+#wpmoly-welcome-panel .welcome-panel-close .dashicons-dismiss {
 	font-size: 1em;
 	color: #aaa;
 }
 
-#wpml-welcome-panel .welcome-panel-close:hover .dashicons-dismiss {
+#wpmoly-welcome-panel .welcome-panel-close:hover .dashicons-dismiss {
 	color: #c00;
 }
 
@@ -101,79 +101,79 @@ body.post-php.post-type-movie #postimagediv {
  * Custom Dashboard
  */
 
-#wpml-home > h2 {
+#wpmoly-home > h2 {
 	color: #444;
 	margin-left: 1em;
 }
 
-#wpml-home > h2 > small {
+#wpmoly-home > h2 > small {
 	color: #888;
 	font-size: 0.85rem;
 	margin-left: 0.5rem;
 }
 
-#wpml-home #dashboard-widgets {
+#wpmoly-home #dashboard-widgets {
 	width: 100% !important;
 }
 
-#wpml-home #dashboard-widgets .hndle {
+#wpmoly-home #dashboard-widgets .hndle {
 	padding-left: 24px;
 }
 
-#wpml-home #dashboard-widgets #postbox-container-1 {
+#wpmoly-home #dashboard-widgets #postbox-container-1 {
 	float: left;
 	width: 72%;
 }
 
-#wpml-home #dashboard-widgets #postbox-container-2 {
+#wpmoly-home #dashboard-widgets #postbox-container-2 {
 	float: right;
 	max-width: 420px;
 	width: 28%;
 }
 
-#wpml-home #dashboard-widgets #postbox-container-1 .main-config {
+#wpmoly-home #dashboard-widgets #postbox-container-1 .main-config {
 	display: none;
 }
 
-#wpml-home #dashboard-widgets .postbox-container .ui-sortable-placeholder,
-#wpml-home #dashboard-widgets .postbox-container .ui-sortable-placeholder {
+#wpmoly-home #dashboard-widgets .postbox-container .ui-sortable-placeholder,
+#wpmoly-home #dashboard-widgets .postbox-container .ui-sortable-placeholder {
 	border: 3px dashed #ccc !important;
 	min-height: 72px;
 }
 
-#wpml_dashboard_stats_widget li,
-#wpml_dashboard_helper_widget li {
+#wpmoly_dashboard_stats_widget li,
+#wpmoly_dashboard_helper_widget li {
 	display: inline-block;
 	vertical-align: top;
 	width: 49%;
 }
 
-#wpml_dashboard_stats_widget li .dashicons,
-#wpml_dashboard_helper_widget li .dashicons {
+#wpmoly_dashboard_stats_widget li .dashicons,
+#wpmoly_dashboard_helper_widget li .dashicons {
 	color: #999;
 	margin-right: 0.25em;
 	vertical-align: text-top;
 }
 
-#wpml_dashboard_latest_movies_widget.no-style,
-#wpml_dashboard_most_rated_movies_widget.no-style {
+#wpmoly_dashboard_latest_movies_widget.no-style,
+#wpmoly_dashboard_most_rated_movies_widget.no-style {
 	background: rgba(0, 0, 0, 0);
 	border-color: rgba(0, 0, 0, 0);
 	box-shadow: 0 0 0;
 }
 
-#wpml_dashboard_latest_movies_widget .hndle,
-#wpml_dashboard_most_rated_movies_widget .hndle {
+#wpmoly_dashboard_latest_movies_widget .hndle,
+#wpmoly_dashboard_most_rated_movies_widget .hndle {
 	padding-left: 24px;
 }
 
-#wpml_dashboard_latest_movies_widget.no-style .inside,
-#wpml_dashboard_most_rated_movies_widget.no-style .inside {
+#wpmoly_dashboard_latest_movies_widget.no-style .inside,
+#wpmoly_dashboard_most_rated_movies_widget.no-style .inside {
 	margin-top: 0;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie {
 	display: inline-block;
 	height: 300px;
 	margin: 0.25%;
@@ -181,49 +181,49 @@ body.post-php.post-type-movie #postimagediv {
 	width: 202px;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie.stylized,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie.stylized {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie.stylized,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie.stylized {
 	background: #fff;
 	border-radius: 0.25em;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget.no-style .wpml-movie.stylized,
-#wpml-home #wpml_dashboard_most_rated_movies_widget.no-style .wpml-movie.stylized {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget.no-style .wpmoly-movie.stylized,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget.no-style .wpmoly-movie.stylized {
 	background: transparent;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie.with-year,
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie.with-rating,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie.with-year,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie.with-rating  {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie.with-year,
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie.with-rating,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie.with-year,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie.with-rating  {
 	margin: 0.75% 0.25%;
 	padding-bottom: 2.5em;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie img,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie img {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie img,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie img {
 	height: 100%;
 	width: 100%;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie.stylized img,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie.stylized img {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie.stylized img,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie.stylized img {
 	border-radius: 0.25em;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie:hover img,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie:hover img {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie:hover img,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie:hover img {
 	opacity: 0.95;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie.stylized:hover img,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie.stylized:hover img {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie.stylized:hover img,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie.stylized:hover img {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.85);
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie .movie-quickedit,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie .movie-quickedit {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-quickedit,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-quickedit {
 	background: transparent;
 	border-radius: 0.25em;
 	left: 0;
@@ -233,65 +233,65 @@ body.post-php.post-type-movie #postimagediv {
 	width: 1.5em;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie .movie-quickedit a,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie .movie-quickedit a {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-quickedit a,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-quickedit a {
 	color: #fff;
 	display: block;
 	margin-bottom: 0.5em;
 	opacity: 0;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie:hover .movie-quickedit,
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie:focus .movie-quickedit,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie:hover .movie-quickedit,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie:focus .movie-quickedit {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie:hover .movie-quickedit,
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie:focus .movie-quickedit,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie:hover .movie-quickedit,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie:focus .movie-quickedit {
 	background: rgba(0, 0, 0, 0.4);
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie:hover .movie-quickedit a,
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie:focus .movie-quickedit a,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie:hover .movie-quickedit a,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie:focus .movie-quickedit a {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie:hover .movie-quickedit a,
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie:focus .movie-quickedit a,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie:hover .movie-quickedit a,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie:focus .movie-quickedit a {
 	opacity: 0.75;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie .movie-quickedit a:hover,
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie .movie-quickedit a:focus,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie .movie-quickedit a:hover,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie .movie-quickedit a:focus {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-quickedit a:hover,
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-quickedit a:focus,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-quickedit a:hover,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-quickedit a:focus {
 	opacity: 1.0;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie .movie-year,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie .movie-year {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-year,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-year {
 	color: #666;
 	display: inline-block;
 	padding: 0.25em 0 0 0.5em;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie .movie-year.hide-if-js.hide-if-no-js,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie .movie-year.hide-if-js.hide-if-no-js {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-year.hide-if-js.hide-if-no-js,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-year.hide-if-js.hide-if-no-js {
 	display: none;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie .movie-rating,
-#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie .movie-rating {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-rating,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-rating {
 	float: right;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget #latest_movies_load_more,
-#wpml-home #wpml_dashboard_most_rated_movies_widget #most_rated_movies_load_more {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget #latest_movies_load_more,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget #most_rated_movies_load_more {
 	margin: 1.5em 0;
 	position: relative;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget #latest_movies_load_more .dashicons,
-#wpml-home #wpml_dashboard_most_rated_movies_widget #most_rated_movies_load_more .dashicons {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget #latest_movies_load_more .dashicons,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget #most_rated_movies_load_more .dashicons {
 	line-height: 1.5;
 }
 
-#wpml-home #wpml_dashboard_latest_movies_widget #latest_movies_load_more .spinner,
-#wpml-home #wpml_dashboard_most_rated_movies_widget #most_rated_movies_load_more .spinner {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget #latest_movies_load_more .spinner,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget #most_rated_movies_load_more .spinner {
 	position: absolute;
 	display: block;
 	float: none;
@@ -300,7 +300,7 @@ body.post-php.post-type-movie #postimagediv {
 	top: 1px;
 }
 
-#wpml_dashboard_quickaction_widget li {
+#wpmoly_dashboard_quickaction_widget li {
 	display: inline-block;
 	height: 96px;
 	vertical-align: middle;
@@ -308,13 +308,13 @@ body.post-php.post-type-movie #postimagediv {
 	width: 33%;
 }
 
-#wpml_dashboard_quickaction_widget li a {
+#wpmoly_dashboard_quickaction_widget li a {
 	display: inline-block;
 	height: 100%;
 	width: 100%;
 }
 
-#wpml_dashboard_quickaction_widget li a .dashicons {
+#wpmoly_dashboard_quickaction_widget li a .dashicons {
 	display: block;
 	font-size: 42px;
 	height: 64px;
@@ -322,59 +322,59 @@ body.post-php.post-type-movie #postimagediv {
 	width: 100%;
 }
 
-#wpml_dashboard_vendor_widget {
+#wpmoly_dashboard_vendor_widget {
 	background: transparent url(../img/bg.jpg) center top no-repeat;
 	background-size: cover;
 	color: #fff;
 	text-align: center;
 }
 
-#wpml_dashboard_vendor_widget .handlediv,
-#wpml_dashboard_vendor_widget .hndle {
+#wpmoly_dashboard_vendor_widget .handlediv,
+#wpmoly_dashboard_vendor_widget .hndle {
 	display: none;
 }
 
-#wpml_dashboard_vendor_widget .title {
+#wpmoly_dashboard_vendor_widget .title {
 	font-family: sans-serif;
 	font-size: 1.5em;
 	font-weight: 200;
 	text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
 }
 
-#wpml_dashboard_vendor_widget .title ,
-#wpml_dashboard_vendor_widget .joinus {
+#wpmoly_dashboard_vendor_widget .title ,
+#wpmoly_dashboard_vendor_widget .joinus {
 	background: rgba(255,255,255,0.15);
 	padding: 0.25em 0;
 }
 
-#wpml_dashboard_vendor_widget .rateme {
+#wpmoly_dashboard_vendor_widget .rateme {
 	margin: -0.75em 0 1.5em 0;
 }
 
-#wpml_dashboard_vendor_widget .rateme a {
+#wpmoly_dashboard_vendor_widget .rateme a {
 	color: rgba(255, 255, 255, 0.65);
 	text-shadow: 0px 0px 0.25em rgba(255, 255, 255, 0.4);
 }
 
-#wpml_dashboard_vendor_widget .rateme a:hover {
+#wpmoly_dashboard_vendor_widget .rateme a:hover {
 	color: #fff;
 	text-shadow: 0px 0px 0.25em rgba(255, 255, 255, 0.6);
 }
 
-#wpml_dashboard_vendor_widget .rateme a .dashicons {
+#wpmoly_dashboard_vendor_widget .rateme a .dashicons {
 	font-size: 2em;
 }
 
-#wpml_dashboard_vendor_widget .social li {
+#wpmoly_dashboard_vendor_widget .social li {
 	display: inline;
 	margin: 0 0.75em;
 }
 
-#wpml_dashboard_vendor_widget .social li a {
+#wpmoly_dashboard_vendor_widget .social li a {
 	color: rgba(255, 255, 255, 0.65);
 }
 
-#wpml_dashboard_vendor_widget .social li a:hover {
+#wpmoly_dashboard_vendor_widget .social li a:hover {
 	color: #fff;
 	text-shadow: 0px 0px 0.25em rgba(255, 255, 255, 0.4);
 }
@@ -384,7 +384,7 @@ body.post-php.post-type-movie #postimagediv {
  * Showcase
  */
 
-#wpml-movie-modal-bg {
+#wpmoly-movie-modal-bg {
 	background: rgba(0, 0, 0, 0.78);
 	bottom: 0;
 	display: none;
@@ -395,7 +395,7 @@ body.post-php.post-type-movie #postimagediv {
 	z-index: 99999;
 }
 
-#wpml-movie-modal {
+#wpmoly-movie-modal {
 	background: #000;
 	box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
 	height: 88%;
@@ -407,7 +407,7 @@ body.post-php.post-type-movie #postimagediv {
 	z-index: 100000;
 }
 
-#wpml-movie-modal-inner {
+#wpmoly-movie-modal-inner {
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -420,7 +420,7 @@ body.post-php.post-type-movie #postimagediv {
 	z-index: -1;
 }
 
-#wpml-movie-modal-close {
+#wpmoly-movie-modal-close {
 	color: #fff;
 	opacity: 0.25;
 	position: absolute;
@@ -429,18 +429,18 @@ body.post-php.post-type-movie #postimagediv {
 	top: 2%;
 }
 
-#wpml-movie-modal-close:hover {
+#wpmoly-movie-modal-close:hover {
 	opacity: 0.85;
 }
 
-#wpml-movie-modal-poster {
+#wpmoly-movie-modal-poster {
 	display: inline-block;
 	height: 78%;
 	margin: 4% 0 0 4%;
 	width: 34%;
 }
 
-#wpml-movie-modal-poster img {
+#wpmoly-movie-modal-poster img {
 	border: 1px solid #000;
 	border-radius: 0.25em;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.75);
@@ -448,7 +448,7 @@ body.post-php.post-type-movie #postimagediv {
 	width: auto;
 }
 
-#wpml-movie-modal-content {
+#wpmoly-movie-modal-content {
 	color: #fff;
 	display: inline-block;
 	margin: 4% 0 0 0;
@@ -457,40 +457,40 @@ body.post-php.post-type-movie #postimagediv {
 	width: 56%;
 }
 
-#wpml-movie-modal-title {
+#wpmoly-movie-modal-title {
 	color: #fff;
 	font-size: 36px;
 	font-weight: 100;
 	margin: 0 0 0.25em 0;
 }
 
-#wpml-movie-modal-meta {
+#wpmoly-movie-modal-meta {
 	color: #ddd;
 	font-size: 16px;
 	font-weight: 100;
 }
 
-#wpml-movie-modal-release_date,
-#wpml-movie-modal-runtime,
-#wpml-movie-modal-genres,
-#wpml-movie-modal-rating {
+#wpmoly-movie-modal-release_date,
+#wpmoly-movie-modal-runtime,
+#wpmoly-movie-modal-genres,
+#wpmoly-movie-modal-rating {
 	font-size: 16px;
 	font-weight: bold;
 }
 
-#wpml-movie-modal-overview,
-#wpml-movie-modal-overview p {
+#wpmoly-movie-modal-overview,
+#wpmoly-movie-modal-overview p {
 	font-size: 15px;
 	line-height: 30px;
 	margin: 30px 0;
 	text-align: justify;
 }
 
-#wpml-movie-modal-links {
+#wpmoly-movie-modal-links {
 	text-align: right;
 }
 
-#wpml-movie-modal .button {
+#wpmoly-movie-modal .button {
 	border: 0;
 	box-shadow: 0 0 0;
 	height: 2.5em;
@@ -498,11 +498,11 @@ body.post-php.post-type-movie #postimagediv {
 	text-shadow: 0 0 0;
 }
 
-#wpml-movie-modal .button .dashicons {
+#wpmoly-movie-modal .button .dashicons {
 	line-height: 1.25em;
 }
 
-/* WPML Movie List
+/* WPMOLY Movie List
  ****************************************************/
 
 .widefat thead tr th.column-poster {
@@ -521,7 +521,7 @@ body.post-php.post-type-movie #postimagediv {
 	font-style: italic;
 }
 
-.wpml-inline-edit-details {
+.wpmoly-inline-edit-details {
 	background-color: #fff;
 	display: none;
 	margin-left: -1em;
@@ -531,47 +531,47 @@ body.post-php.post-type-movie #postimagediv {
 	z-index: 9;
 }
 
-.wpml-inline-edit-details.wpml-inline-edit-rating {
+.wpmoly-inline-edit-details.wpmoly-inline-edit-rating {
 	margin-left: 0;
 }
 
-.alt .wpml-inline-edit-details,
-.alternate .wpml-inline-edit-details {
+.alt .wpmoly-inline-edit-details,
+.alternate .wpmoly-inline-edit-details {
 	background-color: #f9f9f9;
 }
 
-.wpml-inline-edit-details ul {
+.wpmoly-inline-edit-details ul {
 	margin: 0;
 }
 
-.wpml-inline-edit-details .dashicons {
+.wpmoly-inline-edit-details .dashicons {
 	color: #aaa;
 	font-size: 1em;
 	margin: 3px 0 -3px 0;
 }
 
-.wpml-inline-edit-toggle {
+.wpmoly-inline-edit-toggle {
 	outline: none !important;
 	position: relative;
 	z-index: 10;
 }
 
-.wpml-inline-edit-toggle.active {
+.wpmoly-inline-edit-toggle.active {
 	float: right;
 	visibility: visible !important;
 }
 
-.wpml-inline-edit-toggle .dashicons {
+.wpmoly-inline-edit-toggle .dashicons {
 	font-size: 0.75em;
 }
 
-.wpml-inline-edit-toggle .dashicons-no {
+.wpmoly-inline-edit-toggle .dashicons-no {
 	font-size: 1em;
 	margin-right: 1em;
 	margin-top: 0.25em;
 }
 
-.wpml-inline-edit-rating .stars {
+.wpmoly-inline-edit-rating .stars {
 	margin: 2px 0 0 4px;
 }
 
@@ -581,22 +581,22 @@ body.post-php.post-type-movie #postimagediv {
 	position: relative;
 }
 
-.column-movie_status .wpml-inline-edit-toggle,
-.column-movie_media .wpml-inline-edit-toggle,
-.column-movie_rating .wpml-inline-edit-toggle {
+.column-movie_status .wpmoly-inline-edit-toggle,
+.column-movie_media .wpmoly-inline-edit-toggle,
+.column-movie_rating .wpmoly-inline-edit-toggle {
 	visibility: hidden;
 }
 
-.column-movie_status:hover .wpml-inline-edit-toggle,
-.column-movie_media:hover .wpml-inline-edit-toggle,
-.column-movie_rating:hover .wpml-inline-edit-toggle {
+.column-movie_status:hover .wpmoly-inline-edit-toggle,
+.column-movie_media:hover .wpmoly-inline-edit-toggle,
+.column-movie_rating:hover .wpmoly-inline-edit-toggle {
 	visibility: visible;
 }
 
-/* #WPML-Help
+/* #WPMOLY-Help
  ****************************************************/
 
-#wpml-help {
+#wpmoly-help {
 	color: #666;
 	display: inline-table;
 	margin-left: 2%;
@@ -604,7 +604,7 @@ body.post-php.post-type-movie #postimagediv {
 	width: 26%;
 }
 
-#wpml-help .ui-widget-header {
+#wpmoly-help .ui-widget-header {
 	border-radius: 4px;
 	color: #444;
 	margin-top: 3px;
@@ -612,11 +612,11 @@ body.post-php.post-type-movie #postimagediv {
 	text-shadow: 1px 1px 0 #efefef;
 }
 
-#wpml-help p {
+#wpmoly-help p {
 	text-align: justify;
 }
 
-#wpml-help ul {
+#wpmoly-help ul {
 	list-style: circle;
 	margin-left: 24px;
 }
@@ -627,18 +627,18 @@ body.post-php.post-type-movie #postimagediv {
 
 /* Basics */
 
-#wpml-tabs {
+#wpmoly-tabs {
 	border-width: 0 !important;
 	display: inline-table;
 	position: relative;
 	width: 70%;
 }
 
-#wpml-tabs h4 {
+#wpmoly-tabs h4 {
 	margin: 0.25em 0;
 }
 
-#wpml-tabs h4 span {
+#wpmoly-tabs h4 span {
 	background: #333;
 	border-radius: 1em;
 	color: #fff;
@@ -650,56 +650,56 @@ body.post-php.post-type-movie #postimagediv {
 	top: -0.75em;
 }
 
-#wpml-tabs > ul > li > a {
+#wpmoly-tabs > ul > li > a {
 	outline: none;
 }
 
-#wpml-tabs h4 .ui-icon {
+#wpmoly-tabs h4 .ui-icon {
 	display: inline-block;
 	margin: 0.25em 0 -0.25em 0;
 }
 
-#wpml-tabs .update-nag {
+#wpmoly-tabs .update-nag {
 	padding: 1em 1.5em;
 	text-align: left;
 }
 
-#wpml-tabs .update-nag .ui-icon {
+#wpmoly-tabs .update-nag .ui-icon {
 	display: inline-block;
 	margin: 0.25em 0 -0.25em 0;
 }
 
-#wpml-tabs .form-table {
+#wpmoly-tabs .form-table {
 	margin: 0;
 }
 
-#wpml-tabs p.submit {
+#wpmoly-tabs p.submit {
 	text-align: right;
 }
 
 /* Tab menu */
 
-.wpml-tabs-nav {
+.wpmoly-tabs-nav {
 	background: #222;
 	margin-bottom: 0;
 }
 
-.wpml-tabs-nav > li {
+.wpmoly-tabs-nav > li {
 	display: inline-block;
 	margin: 0;
 }
 
-.wpml-tabs-nav > li.active a,
-.wpml-tabs-nav > li.active:hover a {
+.wpmoly-tabs-nav > li.active a,
+.wpmoly-tabs-nav > li.active:hover a {
 	background: #2EA2CC;
 }
 
-.wpml-tabs-nav > li.active a,
-.wpml-tabs-nav > li.active:hover a  {
+.wpmoly-tabs-nav > li.active a,
+.wpmoly-tabs-nav > li.active:hover a  {
 	color: #fff;
 }
 
-.wpml-tabs-nav > li > a {
+.wpmoly-tabs-nav > li > a {
 	color: #ddd;
 	display: block;
 	margin: 0;
@@ -708,99 +708,99 @@ body.post-php.post-type-movie #postimagediv {
 	text-decoration: none;
 }
 
-.wpml-tabs-nav > li > a:hover {
+.wpmoly-tabs-nav > li > a:hover {
 	color: #fff;
 	text-decoration: none;
 }
 
-.wpml-tabs-nav > li:hover {
+.wpmoly-tabs-nav > li:hover {
 	background: #111;
 }
 
-.wpml-tabs-nav > li:hover a {
+.wpmoly-tabs-nav > li:hover a {
 	color : #2EA2CC;
 }
 
-.wpml-tabs-nav > li:hover h4 span {
+.wpmoly-tabs-nav > li:hover h4 span {
 	background: #2EA2CC !important;
 	color: #222 !important;
 }
 
 /* Table */
 
-#wpml-tabs .wpml-tabs-panels {
+#wpmoly-tabs .wpmoly-tabs-panels {
 	background: #fff;
 	padding: 1em;
 }
 
-#wpml-tabs .wpml-tabs-panels .form-table.active {
+#wpmoly-tabs .wpmoly-tabs-panels .form-table.active {
 	display: block !important;
 }
 
-#wpml-tabs .wpml-tabs-panels h3 {
+#wpmoly-tabs .wpmoly-tabs-panels h3 {
 	background: #fff;
 	display: none;
 	margin: 1em -0.75em;
 	padding: 0.5em 0.75em;
 }
 
-#wpml-tabs .wpml-tabs-panels h3:first-child {
+#wpmoly-tabs .wpmoly-tabs-panels h3:first-child {
 	margin-top: 0;
 }
 
-#wpml-tabs .wp-list-table a {
+#wpmoly-tabs .wp-list-table a {
 	color: #21759B;
 }
 
-#wpml-tabs .wp-list-table .delete a {
+#wpmoly-tabs .wp-list-table .delete a {
 	color: #BC0B0B;
 }
 
-#wpml-tabs .wp-list-table a:hover,
-#wpml-tabs .wp-list-table a:focus {
+#wpmoly-tabs .wp-list-table a:hover,
+#wpmoly-tabs .wp-list-table a:focus {
 	color: #D54E21;
 }
 
-#wpml-tabs .wp-list-table .enqueue_movie.loading {
+#wpmoly-tabs .wp-list-table .enqueue_movie.loading {
 	position: relative;
 }
 
-#wpml-tabs .wp-list-table .enqueue_movie.loading .dashicons {
+#wpmoly-tabs .wp-list-table .enqueue_movie.loading .dashicons {
 	opacity: 0;
 }
 
-#wpml-tabs .wp-list-table .enqueue_movie.loading .spinner {
+#wpmoly-tabs .wp-list-table .enqueue_movie.loading .spinner {
 	display: block;
 	left: 8px;
 	position: absolute;
 	top: -7px;
 }
 
-#wpml-tabs .wp-list-table #poster {
+#wpmoly-tabs .wp-list-table #poster {
 	width: 6em;
 }
 
-#wpml-tabs .wp-list-table #director {
+#wpmoly-tabs .wp-list-table #director {
 	max-width: 10em;
 }
 
-#wpml-tabs .wp-list-table .poster.loading {
+#wpmoly-tabs .wp-list-table .poster.loading {
 	background: url(../img/loading.gif) 0 16px no-repeat;
 }
 
-#wpml-queued-list-header {
+#wpmoly-queued-list-header {
 	border: 1px solid #ddd;
 	border-bottom: 0;
 	margin-top: 0.5em;
 }
 
-#wpml-queued-list-header > div {
+#wpmoly-queued-list-header > div {
 	display: inline-block;
 	font-weight: bold;
 	padding: 0.75em 1em;
 }
 
-#wpml-tabs #wpml-queued-list {
+#wpmoly-tabs #wpmoly-queued-list {
 	border: 1px solid #ddd;
 	max-height: 32em;
 	max-height: 16em;
@@ -809,50 +809,50 @@ body.post-php.post-type-movie #postimagediv {
 	padding-bottom: 1em;
 }
 
-#wpml-tabs #wpml-queued-list .row-actions {
+#wpmoly-tabs #wpmoly-queued-list .row-actions {
 	padding: 0 !important;
 }
 
-#wpml-tabs #wpml-queued-list > li:nth-child(odd) {
+#wpmoly-tabs #wpmoly-queued-list > li:nth-child(odd) {
 	background: #f2f2f2;
 }
 
-#wpml-tabs #wpml-queued-list > li > div {
+#wpmoly-tabs #wpmoly-queued-list > li > div {
 	display: inline-block;
 	padding: 1em;
 	width: auto;
 }
 
-#wpml-tabs #wpml-queued-list a {
+#wpmoly-tabs #wpmoly-queued-list a {
 	text-decoration: none;
 }
 
-#wpml-tabs #wpml-queued-list .column-movietitle {
+#wpmoly-tabs #wpmoly-queued-list .column-movietitle {
 	font-style: italic;
 }
 
-#wpml-tabs #wpml-queued-list .column-movietitle,
-#wpml-tabs #wpml-queued-list .column-director,
-#wpml-tabs #wpml-queued-list-header .column-movietitle,
-#wpml-tabs #wpml-queued-list-header .column-director {
+#wpmoly-tabs #wpmoly-queued-list .column-movietitle,
+#wpmoly-tabs #wpmoly-queued-list .column-director,
+#wpmoly-tabs #wpmoly-queued-list-header .column-movietitle,
+#wpmoly-tabs #wpmoly-queued-list-header .column-director {
 	width: 24%;
 }
 
-#wpml-tabs #wpml-queued-list .column-actions,
-#wpml-tabs #wpml-queued-list-header .column-actions {
+#wpmoly-tabs #wpmoly-queued-list .column-actions,
+#wpmoly-tabs #wpmoly-queued-list-header .column-actions {
 	float: right;
 	max-width: 6em !important;
 	text-align: center;
 }
 
-#wpml-tabs #wpml-queued-list .column-status,
-#wpml-tabs #wpml-queued-list-header .column-status {
+#wpmoly-tabs #wpmoly-queued-list .column-status,
+#wpmoly-tabs #wpmoly-queued-list-header .column-status {
 	float: right;
 	max-width: 10em !important;
 	text-align: center;
 }
 
-#wpml-tabs #wpml-queued-list .column-status {
+#wpmoly-tabs #wpmoly-queued-list .column-status {
 	font-size: 0.85em !important;
 	font-style: italic;
 	max-width: none !important;
@@ -860,13 +860,13 @@ body.post-php.post-type-movie #postimagediv {
 	width: 12em !important;
 }
 
-#wpml-tabs #wpml-imported .movietitle .import-error {
+#wpmoly-tabs #wpmoly-imported .movietitle .import-error {
 	background: #dedede;
 	padding: 0.25em 0.5em;
 	width: 100%;
 }
 
-#wpml-tabs #wpml-imported .movietitle .import-error p {
+#wpmoly-tabs #wpmoly-imported .movietitle .import-error p {
 	display: inline;
 	font-size: small;
 	margin-right: 0.25em;
@@ -912,48 +912,48 @@ body.post-php.post-type-movie #postimagediv {
 	width: 0%;
 }
 
-#wpml_import_queued {
+#wpmoly_import_queued {
 	float: right;
 }
 
 /* Sortable/Drag n' Drop */
 
-#wpml-tabs .default_movie_meta_sortable {
+#wpmoly-tabs .default_movie_meta_sortable {
 	width: 100%;
 }
 
-#wpml-tabs .default_movie_meta_sortable ul {
+#wpmoly-tabs .default_movie_meta_sortable ul {
 	display: inline-block;
 	padding: 0.5rem 0;
 	vertical-align: top;
 	width: 49.25%;
 }
 
-#wpml-tabs .default_movie_meta_sortable .default_movie_meta_selected,
-#wpml-tabs .default_movie_meta_sortable .default_movie_meta_droppable {
+#wpmoly-tabs .default_movie_meta_sortable .default_movie_meta_selected,
+#wpmoly-tabs .default_movie_meta_sortable .default_movie_meta_droppable {
 	border-radius: 0.15rem;
 	cursor: move;
 	margin: 0.25rem;
 	padding: 0.5rem;
 }
 
-#wpml-tabs .default_movie_meta_sortable .default_movie_meta_selected {
+#wpmoly-tabs .default_movie_meta_sortable .default_movie_meta_selected {
 	background-color: #2EA2CC;
 	color: #fff;
 	font-weight: bold;
 }
 
-#wpml-tabs .default_movie_meta_sortable .default_movie_meta_droppable {
+#wpmoly-tabs .default_movie_meta_sortable .default_movie_meta_droppable {
 	background-color: #222;
 	color: #ddd;
 }
 
-#wpml-tabs .default_movie_meta_sortable .default_movie_meta_droppable:hover,
-#wpml-tabs .default_movie_meta_sortable .default_movie_meta_selected:hover {
+#wpmoly-tabs .default_movie_meta_sortable .default_movie_meta_droppable:hover,
+#wpmoly-tabs .default_movie_meta_sortable .default_movie_meta_selected:hover {
 	opacity: 0.9;
 }
 
-#wpml-tabs .default_movie_meta_sortable .highlight {
+#wpmoly-tabs .default_movie_meta_sortable .highlight {
 	background-color: #eee;
 	border: 1px solid #ccc;
 	height: 2em;
@@ -962,42 +962,42 @@ body.post-php.post-type-movie #postimagediv {
 
 /* Movie Details sortable-like */
 
-#wpml-tabs .default_movie_details {
+#wpmoly-tabs .default_movie_details {
 	max-width: 23em;
 }
 
-#wpml-tabs .default_movie_details .default_movie_detail.selected,
-#wpml-tabs .default_movie_details .default_movie_detail {
+#wpmoly-tabs .default_movie_details .default_movie_detail.selected,
+#wpmoly-tabs .default_movie_details .default_movie_detail {
 	border-radius: 0.15rem;
 	cursor: pointer;
 	margin: 0.25rem;
 	padding: 0.5rem;
 }
 
-#wpml-tabs .default_movie_details .default_movie_detail {
+#wpmoly-tabs .default_movie_details .default_movie_detail {
 	background-color: #222;
 	color: #ddd;
 }
 
-#wpml-tabs .default_movie_details .default_movie_detail.selected {
+#wpmoly-tabs .default_movie_details .default_movie_detail.selected {
 	background-color: #2EA2CC;
 	color: #fff;
 	font-weight: bold;
 	position: relative;
 }
 
-#wpml-tabs .default_movie_details .default_movie_detail.selected:hover,
-#wpml-tabs .default_movie_details .default_movie_detail:hover {
+#wpmoly-tabs .default_movie_details .default_movie_detail.selected:hover,
+#wpmoly-tabs .default_movie_details .default_movie_detail:hover {
 	opacity: 0.9;
 }
 
-#wpml-tabs .default_movie_detail .dashicons {
+#wpmoly-tabs .default_movie_detail .dashicons {
 	display: none;
 	right: 0.5em;
 	position: absolute;
 }
 
-#wpml-tabs .default_movie_detail.selected .dashicons {
+#wpmoly-tabs .default_movie_detail.selected .dashicons {
 	display: inline-block;
 }
 
@@ -1160,24 +1160,24 @@ body.post-php.post-type-movie #postimagediv {
 /* #TMDb Meta Box
  ****************************************************/
 
-#wpml-tmdb .list-table {
+#wpmoly-tmdb .list-table {
 	display: inline-table;
 	margin-top: 1.5em;
 	width: 49.5%;
 }
 
-#wpml-tmdb .list-table td {
+#wpmoly-tmdb .list-table td {
 	width: 65%;
 }
 
-#wpml-tmdb .list-table td.left {
+#wpmoly-tmdb .list-table td.left {
 	padding-right: 4%;
 	text-align: right;
 	width: 31%;
 }
 
-#wpml-tmdb .list-table td input,
-#wpml-tmdb .list-table td textarea {
+#wpmoly-tmdb .list-table td input,
+#wpmoly-tmdb .list-table td textarea {
 	width: 100%;
 }
 
@@ -1205,7 +1205,7 @@ body.post-php.post-type-movie #postimagediv {
 	padding: 0 1.5em;
 }
 
-#wpml-tmdb .spinner {
+#wpmoly-tmdb .spinner {
 	float: none;
 	margin-top: -4px;
 }
@@ -1261,7 +1261,7 @@ body.post-php.post-type-movie #postimagediv {
 
 /* Status */
 
-#wpml_status {
+#wpmoly_status {
 	background-color: #fff;
 	-webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
 	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
@@ -1271,63 +1271,63 @@ body.post-php.post-type-movie #postimagediv {
 	padding: 5px 12px;
 }
 
-#wpml_status.success {
+#wpmoly_status.success {
 	border-left: 4px solid #7AD03A;
 }
 
-#wpml_status.warning {
+#wpmoly_status.warning {
 	border-left: 4px solid #FFBA00;
 }
 
-#wpml_status.error {
+#wpmoly_status.error {
 	border-left: 4px solid #DD3D36;
 }
 
-#wpml_status p {
+#wpmoly_status p {
 	margin: 0.25em 0;
 }
 
-/* #WPML 
+/* #WPMOLY 
  ****************************************************/
 
-#wpml_import_list {
+#wpmoly_import_list {
 	height: 12em;
 	width: 100%;
 }
 
-.wpml-import-movie-select {
+.wpmoly-import-movie-select {
 	background: #222;
 }
 
-.wpml-import-movie-select .tmdb_select_movies {
+.wpmoly-import-movie-select .tmdb_select_movies {
 	max-height: 8em;
 	overflow-y: scroll;
 }
 
-.wpml-import-movie-select .tmdb_select_movie {
+.wpmoly-import-movie-select .tmdb_select_movie {
 	float: left;
 	font-size: 0.9em;
 	height: 12em;
 	width: 6em;
 }
 
-.wpml-import-movie-select .tmdb_select_movie img {
+.wpmoly-import-movie-select .tmdb_select_movie img {
 	max-height: 8em;
 	max-width: 6em;
 }
 
-#wpml_imported .wp-list-table.movies {
+#wpmoly_imported .wp-list-table.movies {
 	position: relative;
 }
 
-#wpml_import .spinner,
-#wpml_imported .spinner,
-#wpml_import_queue .spinner {
+#wpmoly_import .spinner,
+#wpmoly_imported .spinner,
+#wpmoly_import_queue .spinner {
 	float: none;
 	margin: 6px 0 0 -8px;
 }
 
-#wpml_import_queue .spinner {
+#wpmoly_import_queue .spinner {
 	margin-left: -2px;
 }
 
@@ -1335,11 +1335,11 @@ body.post-php.post-type-movie #postimagediv {
 /* #TMDb Meta Box
  ****************************************************/
 
-#wpml_details {
+#wpmoly_details {
     
 }
 
-#wpml_details #wpml-details-major-publishing-actions {
+#wpmoly_details #wpmoly-details-major-publishing-actions {
 	background: #F5F5F5;
 	border-top: 1px solid #DDD;
 	clear: both;
@@ -1347,42 +1347,42 @@ body.post-php.post-type-movie #postimagediv {
 	padding: 10px;
 }
 
-#wpml_details #wpml-details-major-publishing-action {
+#wpmoly_details #wpmoly-details-major-publishing-action {
 	text-align: right;
 	float: right;
 	line-height: 23px;
 }
 
-#wpml_details #wpml-details-status {
+#wpmoly_details #wpmoly-details-status {
 	color: #888;
 	float: left;
 	font-style: italic;
 }
 
-#wpml_details #wpml-details-status p {
+#wpmoly_details #wpmoly-details-status p {
 	margin: 0.5em;
 }
 
-#wpml_details #wpml-details-major-publishing-action .spinner {
+#wpmoly_details #wpmoly-details-major-publishing-action .spinner {
 	float: left;
 	margin-top: 6px;
 }
 
-#wpml_details .misc-pub-section {
+#wpmoly_details .misc-pub-section {
 	padding-left: 0;
 }
 
-#wpml_details .misc-pub-section .dashicons {
+#wpmoly_details .misc-pub-section .dashicons {
 	color: #888;
 	margin-right: 0.25em;
 }
 
-#wpml_details #movie-status-display,
-#wpml_details #movie-media-display {
+#wpmoly_details #movie-status-display,
+#wpmoly_details #movie-media-display {
 	font-weight: bold;
 }
 
-#wpml_details label {
+#wpmoly_details label {
 	vertical-align: baseline;
 }
 
@@ -1449,19 +1449,19 @@ body.post-php.post-type-movie #postimagediv {
 	margin: 0.5em 0 0.5em 0.5em;
 }
 
-.inline-edit-col-wpml .inline-edit-group {
+.inline-edit-col-wpmoly .inline-edit-group {
 	display: inline-block;
 	width: 30%;
 }
 
-.inline-edit-col-wpml .inline-edit-group .title {
+.inline-edit-col-wpmoly .inline-edit-group .title {
 	display: block;
 	float: none;
 }
 
 /** Update Movies Page **/
 
-#wpml_dashboard_deprecated_movies .main {
+#wpmoly_dashboard_deprecated_movies .main {
 	max-height: 30em;
 	overflow-y: scroll;
 }
@@ -1530,27 +1530,27 @@ body.post-php.post-type-movie #postimagediv {
 	background: #0099d5;
 }
 
-#wpml_dashboard_deprecated_movies_update_status {
+#wpmoly_dashboard_deprecated_movies_update_status {
 	background: url(../img/bg.jpg) center top;
 	background-size: cover;
 }
 
-#wpml_dashboard_deprecated_movies_update_status .handlediv,
-#wpml_dashboard_deprecated_movies_update_status .hndle {
+#wpmoly_dashboard_deprecated_movies_update_status .handlediv,
+#wpmoly_dashboard_deprecated_movies_update_status .hndle {
 	display: none;
 }
 
-#wpml_dashboard_deprecated_movies_update_status .main {
+#wpmoly_dashboard_deprecated_movies_update_status .main {
 	color: #fff;
 	padding-top: 2.5em;
 }
 
-#wpml_dashboard_deprecated_movies_update_status .main a {
+#wpmoly_dashboard_deprecated_movies_update_status .main a {
 	color: #fff;
 	border-bottom: 1px dotted;
 }
 
-#wpml_dashboard_deprecated_movies_update_status .main a:hover {
+#wpmoly_dashboard_deprecated_movies_update_status .main a:hover {
 	color: #fff;
 	border-bottom: 1px solid #eee;
 }
@@ -1649,12 +1649,12 @@ body.branch-4 .media-frame.movie-posters .attachment {
 
 @media (max-width: 1440px) {
 	
-	#wpml-tmdb .tmdb_meta {
+	#wpmoly-tmdb .tmdb_meta {
 		margin-right: 1%;
 		width: 48%;
 	}
 
-	#wpml-tmdb .tmdb_crew {
+	#wpmoly-tmdb .tmdb_crew {
 		margin-left: 1%;
 		width: 48%;
 	}
@@ -1662,26 +1662,26 @@ body.branch-4 .media-frame.movie-posters .attachment {
 
 @media (max-width: 1280px) {
 	
-	#wpml-tabs {
+	#wpmoly-tabs {
 		width: 100% !important;
 	}
 	
-	#wpml-help {
+	#wpmoly-help {
 		margin: 1em 0 0 0;
 		width: 100% !important;
 	}
 	
-	#wpml-tmdb .tmdb_meta,
-	#wpml-tmdb .tmdb_crew {
+	#wpmoly-tmdb .tmdb_meta,
+	#wpmoly-tmdb .tmdb_crew {
 		margin: 0;
 		width: 100% !important;
 	}
 	
-	#wpml-tmdb .tmdb_meta {
+	#wpmoly-tmdb .tmdb_meta {
 		margin-bottom: 2em;
 	}
 	
-	#wpml-tmdb .list-table td.left {
+	#wpmoly-tmdb .list-table td.left {
 		width: 22%;
 	}
 	
@@ -1701,11 +1701,11 @@ body.branch-4 .media-frame.movie-posters .attachment {
 		width: 200px !important;
 	}
 	
-	#wpml-home #dashboard-widgets #postbox-container-1 {
+	#wpmoly-home #dashboard-widgets #postbox-container-1 {
 		width: 68%;
 	}
 	
-	#wpml-home #dashboard-widgets #postbox-container-2 {
+	#wpmoly-home #dashboard-widgets #postbox-container-2 {
 		width: 32%;
 	}
 	
@@ -1715,20 +1715,20 @@ body.branch-4 .media-frame.movie-posters .attachment {
 		padding: 8px 4px !important;
 	}
 	
-	.wpml-inline-edit-details {
+	.wpmoly-inline-edit-details {
 		margin-left: 0 !important;
 	}
 	
-	.wpml-inline-edit-details .dashicons-arrow-right-alt2 {
+	.wpmoly-inline-edit-details .dashicons-arrow-right-alt2 {
 		display: none;
 	}
 	
-	.wpml-inline-edit-toggle .dashicons-no {
+	.wpmoly-inline-edit-toggle .dashicons-no {
 		margin-right: 0 !important;
 	}
 	
-	#wpml-home #wpml_dashboard_latest_movies_widget .wpml-movie,
-	#wpml-home #wpml_dashboard_most_rated_movies_widget .wpml-movie {
+	#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie,
+	#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie {
 		height: 264px;
 		width: 176px;
 	}

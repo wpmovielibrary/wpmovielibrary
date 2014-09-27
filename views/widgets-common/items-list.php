@@ -14,12 +14,12 @@
 	<div class="<?php echo $style ?>">
 
 <?php if ( '' != $description ) : ?>
-		<div class="wpml-widget-description"><?php echo $description ?></div>
+		<div class="wpmoly-widget-description"><?php echo $description ?></div>
 <?php endif; ?>
 
-		<ul class="wpml-widget-list">
+		<ul class="wpmoly-widget-list">
 <?php foreach ( $items as $item ) : ?>
-			<li class="wpml-widget-list-item"><a href="<?php echo $item['link'] ?>" title="<?php echo $item['attr_title'] ?>"><?php echo $item['title'] ?></a></li>
+			<li class="wpmoly-widget-list-item"><a href="<?php echo $item['link'] ?>" title="<?php echo $item['attr_title'] ?>"><?php echo $item['title'] ?></a></li>
 
 <?php endforeach; ?>
 		</ul>

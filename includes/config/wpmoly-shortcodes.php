@@ -13,7 +13,7 @@
 if ( ! defined( 'WPINC' ) )
 	wp_die();
 
-$wpml_shortcodes = array(
+$wpmoly_shortcodes = array(
 
 	'movies' => array(
 		'atts' => array(

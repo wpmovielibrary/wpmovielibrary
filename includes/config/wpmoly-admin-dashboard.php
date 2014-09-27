@@ -13,7 +13,7 @@
 if ( ! defined( 'WPINC' ) )
 	wp_die();
 
-$wpml_dashboard_widgets = array(
+$wpmoly_dashboard_widgets = array(
 	'statistics' => array(
 		'class'    => 'Stats',
 		'title'    => __( 'Statistics', 'wpmovielibrary' ),

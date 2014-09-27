@@ -22,10 +22,10 @@ if ( ! defined( 'ABSPATH' ) )
  * 
  * @param    int    Movie Post ID
  *
- * @return   array|string    WPML Movie TMDb data if stored, empty string else.
+ * @return   array|string    WPMOLY Movie TMDb data if stored, empty string else.
  */
-function wpml_get_movie_meta( $post_id = null, $meta = 'data' ) {
-	return WPML_Movies::get_movie_meta( $post_id, $meta );
+function wpmoly_get_movie_meta( $post_id = null, $meta = 'data' ) {
+	return WPMOLY_Movies::get_movie_meta( $post_id, $meta );
 }
 
 /**
@@ -35,10 +35,10 @@ function wpml_get_movie_meta( $post_id = null, $meta = 'data' ) {
  * 
  * @param    int    Movie Post ID
  *
- * @return   array|string    WPML Movie Status if stored, empty string else.
+ * @return   array|string    WPMOLY Movie Status if stored, empty string else.
  */
-function wpml_get_movie_status( $post_id = null ) {
-	return WPML_Movies::get_movie_meta( $post_id, 'status' );
+function wpmoly_get_movie_status( $post_id = null ) {
+	return WPMOLY_Movies::get_movie_meta( $post_id, 'status' );
 }
 
 /**
@@ -48,10 +48,10 @@ function wpml_get_movie_status( $post_id = null ) {
  * 
  * @param    int    Movie Post ID
  *
- * @return   array|string    WPML Movie Media if stored, empty string else.
+ * @return   array|string    WPMOLY Movie Media if stored, empty string else.
  */
-function wpml_get_movie_media( $post_id = null ) {
-	return WPML_Movies::get_movie_meta( $post_id, 'media' );
+function wpmoly_get_movie_media( $post_id = null ) {
+	return WPMOLY_Movies::get_movie_meta( $post_id, 'media' );
 }
 
 /**
@@ -61,8 +61,8 @@ function wpml_get_movie_media( $post_id = null ) {
  * 
  * @param    int    Movie Post ID
  *
- * @return   array|string    WPML Movie Rating if stored, empty string else.
+ * @return   array|string    WPMOLY Movie Rating if stored, empty string else.
  */
-function wpml_get_movie_rating( $post_id = null ) {
-	return WPML_Movies::get_movie_meta( $post_id, 'rating' );
+function wpmoly_get_movie_rating( $post_id = null ) {
+	return WPMOLY_Movies::get_movie_meta( $post_id, 'rating' );
 }

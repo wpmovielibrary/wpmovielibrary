@@ -10,4 +10,4 @@
  */
 ?>
 
-	<span class="wpml_shortcode_span wpml_movie_actor"><?php echo $actors ?></span>
+	<span class="wpmoly_shortcode_span wpmoly_movie_actor"><?php echo $actors ?></span>

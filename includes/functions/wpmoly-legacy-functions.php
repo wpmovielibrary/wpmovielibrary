@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) )
  *
  * @return   boolean    Older/newer than WordPress 3.8?
  */
-function wpml_modern_wp() {
+function wpmoly_modern_wp() {
 	return version_compare( get_bloginfo( 'version' ), '3.8', '>=' );
 }
 
@@ -39,9 +39,9 @@ function wpml_modern_wp() {
  *
  * @return   boolean    Deprecated meta?
  */
-function wpml_has_deprecated_meta() {
+function wpmoly_has_deprecated_meta() {
 
-	$deprecated = get_option( 'wpml_has_deprecated_meta', true );
+	$deprecated = get_option( 'wpmoly_has_deprecated_meta', true );
 	$deprecated = ( 'false' === $deprecated ? false : true );
 
 	return $deprecated;

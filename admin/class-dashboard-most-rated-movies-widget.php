@@ -11,9 +11,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
+if ( ! class_exists( 'WPMOLY_Dashboard_Most_Rated_Movies_Widget' ) ) :
 
-	class WPML_Dashboard_Most_Rated_Movies_Widget extends WPML_Dashboard {
+	class WPMOLY_Dashboard_Most_Rated_Movies_Widget extends WPMOLY_Dashboard {
 
 		/**
 		 * Widget ID
@@ -22,7 +22,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		 * 
 		 * @var      string
 		 */
-		protected $widget_id = 'wpml_dashboard_most_rated_movies_widget';
+		protected $widget_id = 'wpmoly_dashboard_most_rated_movies_widget';
 
 		/**
 		 * Widget settings.
@@ -115,7 +115,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 		 */
 		private function update_settings() {
 
-			wpml_check_admin_referer( "save-{$this->widget_id}" );
+			wpmoly_check_admin_referer( "save-{$this->widget_id}" );
 
 			$settings = get_user_option( $this->widget_id . '_settings' );
 			$_settings = array();
@@ -131,7 +131,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 			$update = update_user_option( get_current_user_id(), $this->widget_id . '_settings', $settings );
 
 			if ( $update ) {
-				WPML_Utils::admin_notice( __( 'Settings saved.' ), $type = 'update' );
+				WPMOLY_Utils::admin_notice( __( 'Settings saved.' ), $type = 'update' );
 				$this->settings = $settings;
 			}
 		}
@@ -163,7 +163,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 			$movies = $this->widget_content( $limit, $offset );
 			$settings = $this->settings;
 
-			$class = 'wpml-movie';
+			$class = 'wpmoly-movie';
 
 			if ( '1' == $settings['show_year'] )
 				$class .= ' with-year';
@@ -201,7 +201,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 				'post_status'    => 'publish',
 				'order'          => 'DESC',
 				'orderby'        => 'meta_value_num',
-				'meta_key'       => '_wpml_movie_rating'
+				'meta_key'       => '_wpmoly_movie_rating'
 			);
 			$movies = new WP_Query( $args );
 
@@ -211,12 +211,12 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 			foreach ( $movies->posts as $movie ) {
 
 				$movie->meta = array(
-					'title'        => apply_filters( 'the_title', wpml_get_movie_meta( $movie->ID, 'title' ) ),
-					'runtime'      => apply_filters( 'wpml_format_movie_runtime', wpml_get_movie_meta( $movie->ID, 'runtime' ) ),
-					'release_date' => apply_filters( 'wpml_format_movie_release_date', wpml_get_movie_meta( $movie->ID, 'release_date' ), 'Y' ),
-					'overview'     => apply_filters( 'the_content', wpml_get_movie_meta( $movie->ID, 'overview' ) )
+					'title'        => apply_filters( 'the_title', wpmoly_get_movie_meta( $movie->ID, 'title' ) ),
+					'runtime'      => apply_filters( 'wpmoly_format_movie_runtime', wpmoly_get_movie_meta( $movie->ID, 'runtime' ) ),
+					'release_date' => apply_filters( 'wpmoly_format_movie_release_date', wpmoly_get_movie_meta( $movie->ID, 'release_date' ), 'Y' ),
+					'overview'     => apply_filters( 'the_content', wpmoly_get_movie_meta( $movie->ID, 'overview' ) )
 				);
-				$movie->rating = wpml_get_movie_meta( $movie->ID, 'rating' );
+				$movie->rating = wpmoly_get_movie_meta( $movie->ID, 'rating' );
 				$movie->year = $movie->meta['release_date'];
 				$movie->meta = json_encode( $movie->meta );
 
@@ -225,7 +225,7 @@ if ( ! class_exists( 'WPML_Dashboard_Most_Rated_Movies_Widget' ) ) :
 					$movie->poster = $movie->poster[0];
 				}
 				else
-					$movie->poster = WPML_DEFAULT_POSTER_URL;
+					$movie->poster = WPMOLY_DEFAULT_POSTER_URL;
 
 				$attachments = get_children( $args = array( 'post_parent' => $movie->ID, 'post_type' => 'attachment' ) );
 				if ( ! empty( $attachments ) ) {

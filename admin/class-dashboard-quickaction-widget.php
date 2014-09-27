@@ -11,9 +11,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
+if ( ! class_exists( 'WPMOLY_Dashboard_Quickaction_Widget' ) ) :
 
-	class WPML_Dashboard_Quickaction_Widget extends WPML_Dashboard {
+	class WPMOLY_Dashboard_Quickaction_Widget extends WPMOLY_Dashboard {
 
 		/**
 		 * Widget ID
@@ -22,7 +22,7 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 		 * 
 		 * @var      string
 		 */
-		protected $widget_id = 'wpml_dashboard_quickaction_widget';
+		protected $widget_id = 'wpmoly_dashboard_quickaction_widget';
 
 		/**
 		 * Constructor
@@ -46,7 +46,7 @@ if ( ! class_exists( 'WPML_Dashboard_Quickaction_Widget' ) ) :
 					'icon'  => 'dashicons dashicons-welcome-add-page'
 				),
 				'import'    => array(
-					'url'   => admin_url( 'admin.php?page=wpml_import' ),
+					'url'   => admin_url( 'admin.php?page=wpmoly_import' ),
 					'title' => __( 'Import movies', 'wpmovielibrary' ),
 					'icon'  => 'dashicons dashicons-download'
 				),

@@ -11,9 +11,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Dashboard_Helper_Widget' ) ) :
+if ( ! class_exists( 'WPMOLY_Dashboard_Helper_Widget' ) ) :
 
-	class WPML_Dashboard_Helper_Widget extends WPML_Dashboard {
+	class WPMOLY_Dashboard_Helper_Widget extends WPMOLY_Dashboard {
 
 		/**
 		 * Widget ID
@@ -22,7 +22,7 @@ if ( ! class_exists( 'WPML_Dashboard_Helper_Widget' ) ) :
 		 * 
 		 * @var      string
 		 */
-		protected $widget_id = 'wpml_dashboard_helper_widget';
+		protected $widget_id = 'wpmoly_dashboard_helper_widget';
 
 		/**
 		 * Constructor

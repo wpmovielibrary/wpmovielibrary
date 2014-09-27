@@ -2,7 +2,7 @@
 /**
  * WPMovieLibrary Utils Class extension.
  * 
- * This class contains various tools needed by WPML such as array manipulating
+ * This class contains various tools needed by WPMOLY such as array manipulating
  * filters, terms ordering methods or permalinks creation.
  * 
  * @package   WPMovieLibrary
@@ -12,9 +12,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Utils' ) ) :
+if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
-	class WPML_Utils extends WPML_Module {
+	class WPMOLY_Utils extends WPMOLY_Module {
 
 		/**
 		 * Constructor
@@ -34,22 +34,22 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			add_filter( 'rewrite_rules_array', __CLASS__ . '::register_permalinks', 11 );
 
-			add_filter( 'wpml_filter_meta_data', __CLASS__ . '::filter_meta_data', 10, 1 );
-			add_filter( 'wpml_filter_crew_data', __CLASS__ . '::filter_crew_data', 10, 1 );
-			add_filter( 'wpml_filter_cast_data', __CLASS__ . '::filter_cast_data', 10, 1 );
-			add_filter( 'wpml_filter_movie_meta_aliases', __CLASS__ . '::filter_movie_meta_aliases', 10, 1 );
+			add_filter( 'wpmoly_filter_meta_data', __CLASS__ . '::filter_meta_data', 10, 1 );
+			add_filter( 'wpmoly_filter_crew_data', __CLASS__ . '::filter_crew_data', 10, 1 );
+			add_filter( 'wpmoly_filter_cast_data', __CLASS__ . '::filter_cast_data', 10, 1 );
+			add_filter( 'wpmoly_filter_movie_meta_aliases', __CLASS__ . '::filter_movie_meta_aliases', 10, 1 );
 
-			add_filter( 'wpml_format_movie_genres', __CLASS__ . '::format_movie_genres', 10, 2 );
-			add_filter( 'wpml_format_movie_actors', __CLASS__ . '::format_movie_actors', 10, 2 );
-			add_filter( 'wpml_format_movie_cast', __CLASS__ . '::format_movie_cast', 10, 2 );
-			add_filter( 'wpml_format_movie_release_date', __CLASS__ . '::format_movie_release_date', 10, 2 );
-			add_filter( 'wpml_format_movie_runtime', __CLASS__ . '::format_movie_runtime', 10, 2 );
-			add_filter( 'wpml_format_movie_director', __CLASS__ . '::format_movie_director', 10, 2 );
-			add_filter( 'wpml_format_movie_field', __CLASS__ . '::format_movie_field', 10, 2 );
+			add_filter( 'wpmoly_format_movie_genres', __CLASS__ . '::format_movie_genres', 10, 2 );
+			add_filter( 'wpmoly_format_movie_actors', __CLASS__ . '::format_movie_actors', 10, 2 );
+			add_filter( 'wpmoly_format_movie_cast', __CLASS__ . '::format_movie_cast', 10, 2 );
+			add_filter( 'wpmoly_format_movie_release_date', __CLASS__ . '::format_movie_release_date', 10, 2 );
+			add_filter( 'wpmoly_format_movie_runtime', __CLASS__ . '::format_movie_runtime', 10, 2 );
+			add_filter( 'wpmoly_format_movie_director', __CLASS__ . '::format_movie_director', 10, 2 );
+			add_filter( 'wpmoly_format_movie_field', __CLASS__ . '::format_movie_field', 10, 2 );
 
-			add_filter( 'wpml_format_movie_media', __CLASS__ . '::format_movie_media', 10, 2 );
-			add_filter( 'wpml_format_movie_status', __CLASS__ . '::format_movie_status', 10, 2 );
-			add_filter( 'wpml_format_movie_rating', __CLASS__ . '::format_movie_rating', 10, 2 );
+			add_filter( 'wpmoly_format_movie_media', __CLASS__ . '::format_movie_media', 10, 2 );
+			add_filter( 'wpmoly_format_movie_status', __CLASS__ . '::format_movie_status', 10, 2 );
+			add_filter( 'wpmoly_format_movie_rating', __CLASS__ . '::format_movie_rating', 10, 2 );
 
 			add_filter( 'post_thumbnail_html', __CLASS__ . '::filter_default_thumbnail', 10, 5 );
 
@@ -101,12 +101,12 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$i18n['other']       = ( $_i18n ? __( 'other', 'wpmovielibrary' ) : 'other' );
 
 			$new_rules = array(
-				$movies . '/(dvd|vod|divx|' . $i18n['bluray'] . '|vhs|' . $i18n['cinema'] . '|' . $i18n['other'] . ')/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]',
-				$movies . '/(dvd|vod|divx|' . $i18n['bluray'] . '|vhs|' . $i18n['cinema'] . '|' . $i18n['other'] . ')/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_media=$matches[1]&paged=$matches[2]',
-				$movies . '/(' . $i18n['unavailable'] . '|' . $i18n['available'] . '|' . $i18n['loaned'] . '|' . $i18n['scheduled'] . ')/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]',
-				$movies . '/(' . $i18n['unavailable'] . '|' . $i18n['available'] . '|' . $i18n['loaned'] . '|' . $i18n['scheduled'] . ')/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_status=$matches[1]&paged=$matches[2]',
-				$movies . '/(0\.0|0\.5|1\.0|1\.5|2\.0|2\.5|3\.0|3\.5|4\.0|4\.5|5\.0)/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]',
-				$movies . '/(0\.0|0\.5|1\.0|1\.5|2\.0|2\.5|3\.0|3\.5|4\.0|4\.5|5\.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpml_movie_rating=$matches[1]&paged=$matches[2]',
+				$movies . '/(dvd|vod|divx|' . $i18n['bluray'] . '|vhs|' . $i18n['cinema'] . '|' . $i18n['other'] . ')/?$' => 'index.php?post_type=movie&wpmoly_movie_media=$matches[1]',
+				$movies . '/(dvd|vod|divx|' . $i18n['bluray'] . '|vhs|' . $i18n['cinema'] . '|' . $i18n['other'] . ')/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpmoly_movie_media=$matches[1]&paged=$matches[2]',
+				$movies . '/(' . $i18n['unavailable'] . '|' . $i18n['available'] . '|' . $i18n['loaned'] . '|' . $i18n['scheduled'] . ')/?$' => 'index.php?post_type=movie&wpmoly_movie_status=$matches[1]',
+				$movies . '/(' . $i18n['unavailable'] . '|' . $i18n['available'] . '|' . $i18n['loaned'] . '|' . $i18n['scheduled'] . ')/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpmoly_movie_status=$matches[1]&paged=$matches[2]',
+				$movies . '/(0\.0|0\.5|1\.0|1\.5|2\.0|2\.5|3\.0|3\.5|4\.0|4\.5|5\.0)/?$' => 'index.php?post_type=movie&wpmoly_movie_rating=$matches[1]',
+				$movies . '/(0\.0|0\.5|1\.0|1\.5|2\.0|2\.5|3\.0|3\.5|4\.0|4\.5|5\.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpmoly_movie_rating=$matches[1]&paged=$matches[2]',
 				$movies . '/([^/]+)/?$' => 'index.php?movie=$matches[1]',
 				$collection . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?collection=$matches[1]&feed=$matches[2]',
 				$collection . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?collection=$matches[1]&feed=$matches[2]',
@@ -181,7 +181,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function set_archive_page() {
 
-			$page = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpml_page' );
+			$page = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpmoly_page' );
 
 			if ( ! is_null( $page ) )
 				return false;
@@ -189,10 +189,10 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$post = array(
 				'ID'             => null,
 				'post_content'   => '',
-				'post_name'      => 'wpml_wpmovielibrary',
+				'post_name'      => 'wpmoly_wpmovielibrary',
 				'post_title'     => 'WPMovieLibrary Archives',
 				'post_status'    => 'publish',
-				'post_type'      => 'wpml_page',
+				'post_type'      => 'wpmoly_page',
 				'post_author'    => 1,
 				'ping_status'    => 'closed',
 				'post_excerpt'   => '',
@@ -212,7 +212,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function delete_archive_page() {
 
-			$page = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpml_page' );
+			$page = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpmoly_page' );
 
 			if ( is_null( $page ) )
 				return false;
@@ -229,7 +229,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 * @since    1.0
 		 * 
 		 * @param    string    $notice The notice message
-		 * @param    string    $type Notice type: update, error, wpml?
+		 * @param    string    $type Notice type: update, error, wpmoly?
 		 */
 		public static function admin_notice( $notice, $type = 'update' ) {
 
@@ -238,8 +238,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			if ( ! in_array( $type, array( 'error', 'warning', 'update', 'wpmovielibrary' ) ) || 'update' == $type )
 				$class = 'updated';
-			else if ( 'wpml' == $type )
-				$class = 'updated wpml';
+			else if ( 'wpmoly' == $type )
+				$class = 'updated wpmoly';
 			else if ( 'error' == $type )
 				$class = 'error';
 			else if ( 'warning' == $type )
@@ -264,7 +264,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 
 			$filter = array();
 			$_data = array();
-			$_meta = WPML_Settings::get_supported_movie_meta( 'meta' );
+			$_meta = WPMOLY_Settings::get_supported_movie_meta( 'meta' );
 
 			foreach ( $_meta as $slug => $f ) {
 				$filter[] = $slug;
@@ -306,10 +306,10 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$filter = array();
 			$_data = array();
 
-			$cast = apply_filters( 'wpml_filter_cast_data', $data['cast'] );
+			$cast = apply_filters( 'wpmoly_filter_cast_data', $data['cast'] );
 			$data = $data['crew'];
 
-			foreach ( WPML_Settings::get_supported_movie_meta( 'crew' ) as $slug => $f ) {
+			foreach ( WPMOLY_Settings::get_supported_movie_meta( 'crew' ) as $slug => $f ) {
 				$filter[ $slug ] = $f['title'];
 				$_data[ $slug ] = '';
 			}
@@ -354,7 +354,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function filter_movie_meta_aliases( $slug ) {
 
-			$aliases = WPML_Settings::get_supported_movie_meta_aliases();
+			$aliases = WPMOLY_Settings::get_supported_movie_meta_aliases();
 			$_slug = str_replace( 'movie_', '', $slug );
 
 			if ( isset( $aliases[ $_slug ] ) )
@@ -533,7 +533,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$data = WPMovieLibrary::render_template( 'shortcodes/detail-icon.php', array( 'detail' => 'media', 'data' => $data ), $require = 'always' );
 			}
 			else if ( 'html' == $format ) {
-				$default_fields = WPML_Settings::get_available_movie_media();
+				$default_fields = WPMOLY_Settings::get_available_movie_media();
 				$data = WPMovieLibrary::render_template( 'shortcodes/detail.php', array( 'detail' => 'media', 'data' => $data, 'title' => __( $default_fields[ $data ], 'wpmovielibrary' ) ), $require = 'always' );
 			}
 
@@ -562,7 +562,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$data = WPMovieLibrary::render_template( 'shortcodes/detail-icon.php', array( 'detail' => 'status', 'data' => $data ), $require = 'always' );
 			}
 			else if ( 'html' == $format ) {
-				$default_fields = WPML_Settings::get_available_movie_status();
+				$default_fields = WPMOLY_Settings::get_available_movie_status();
 				$data = WPMovieLibrary::render_template( 'shortcodes/detail.php', array( 'detail' => 'status', 'data' => $data, 'title' => __( $default_fields[ $data ], 'wpmovielibrary' ) ), $require = 'always' );
 			}
 
@@ -672,7 +672,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 					break;
 			}
 
-			$url = str_replace( '{size}', $size, WPML_DEFAULT_POSTER_URL );
+			$url = str_replace( '{size}', $size, WPMOLY_DEFAULT_POSTER_URL );
 			$html = '<img class="attachment-post-thumbnail wp-post-image" src="' . $url . '" alt="" />';
 
 			return $html;
@@ -870,7 +870,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			$wp_query->query_vars['post_type'] = 'movie';
 
 			$post = new WP_Post( new StdClass );
-			$post = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpml_page' );
+			$post = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpmoly_page' );
 
 			if ( is_null( $post ) ) {
 				$wp_query = $_query;
@@ -901,15 +901,15 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			// Caching
 			// TODO: this is nasty. Should be a way to make sure the filter
 			// is added before all this to avoid the has_filter() call...
-			if ( has_filter( 'wpml_cache_name' ) )
-				$name = apply_filters( 'wpml_cache_name', $term_slug . '_archive', $wp_query->query_vars );
+			if ( has_filter( 'wpmoly_cache_name' ) )
+				$name = apply_filters( 'wpmoly_cache_name', $term_slug . '_archive', $wp_query->query_vars );
 			else
-				$name = WPML_Cache::wpml_cache_name( $term_slug . '_archive', $wp_query->query_vars );
+				$name = WPMOLY_Cache::wpmoly_cache_name( $term_slug . '_archive', $wp_query->query_vars );
 
-			$content = WPML_Cache::output( $name, function() use ( $wp_query, $slugs, $term_slug, $term_title ) {
+			$content = WPMOLY_Cache::output( $name, function() use ( $wp_query, $slugs, $term_slug, $term_title ) {
 
-				$wp_query->query_vars['wpml_archive_page'] = 1;
-				$wp_query->query_vars['wpml_archive_title'] = __( ucwords( $term_slug . 's' ), 'wpmovielibrary' );
+				$wp_query->query_vars['wpmoly_archive_page'] = 1;
+				$wp_query->query_vars['wpmoly_archive_title'] = __( ucwords( $term_slug . 's' ), 'wpmovielibrary' );
 
 				$args = 'hide_empty=true&number=50';
 				$paged = $wp_query->get( 'paged' );
@@ -942,7 +942,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 				$attributes = array( 'taxonomy' => $term_slug, 'links' => $links );
 				$content = WPMovieLibrary::render_template( 'archives/archives.php', $attributes, $require = 'always' );
 
-				$pagination = WPML_Utils::paginate_links( $args );
+				$pagination = WPMOLY_Utils::paginate_links( $args );
 
 				$content = $content . $pagination;
 
@@ -977,8 +977,8 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 			if ( 'movie' != $post_type )
 				return $name;
 
-			if ( 1 == $wp_query->get( 'wpml_archive_page' ) && '' != $wp_query->get( 'wpml_archive_title' ) )
-				$name = $wp_query->get( 'wpml_archive_title' );
+			if ( 1 == $wp_query->get( 'wpmoly_archive_page' ) && '' != $wp_query->get( 'wpmoly_archive_title' ) )
+				$name = $wp_query->get( 'wpmoly_archive_title' );
 
 			return $name;
 		}
@@ -1081,7 +1081,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public function deactivate() {
 
-			WPML_Cache::clean_transient( 'deactivate' );
+			WPMOLY_Cache::clean_transient( 'deactivate' );
 			delete_option( 'rewrite_rules' );
 		}
 
@@ -1092,7 +1092,7 @@ if ( ! class_exists( 'WPML_Utils' ) ) :
 		 */
 		public static function uninstall() {
 
-			WPML_Cache::clean_transient( 'uninstall' );
+			WPMOLY_Cache::clean_transient( 'uninstall' );
 			delete_option( 'rewrite_rules' );
 
 			self::delete_archive_page();

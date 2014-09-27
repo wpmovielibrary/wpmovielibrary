@@ -29,7 +29,7 @@ exit;
  * @return   array|WP_Error    Array of callback results if no error,
  *                             WP_Error instance if anything went wrong.
  */
-function wpml_ajax_filter( $callback, $args = array(), $loop = false ) {
+function wpmoly_ajax_filter( $callback, $args = array(), $loop = false ) {
 
 	$loop = ( true === $loop ? true : false );
 	$response = array();
@@ -95,16 +95,16 @@ function wpml_ajax_filter( $callback, $args = array(), $loop = false ) {
  * @param    array    $response Array containing Callback results data
  * @param    array    $i18n Array containing Callback optional i18n
  */
-function wpml_ajax_response( $response, $i18n = array(), $nonce = null ) {
+function wpmoly_ajax_response( $response, $i18n = array(), $nonce = null ) {
 
 	if ( is_wp_error( $response ) )
 		$_response = $response;
 	else if ( ! is_object( $response ) && ! is_int( $response ) && ! is_array( $response ) && true !== $response )
 		$_response = new WP_Error( 'callback_error', __( 'An error occured when trying to perform the request.', 'wpmovielibrary' ) );
 	else
-		$_response = new WPML_Ajax( array( 'data' => $response, 'i18n' => $i18n, 'nonce' => $nonce ) );
+		$_response = new WPMOLY_Ajax( array( 'data' => $response, 'i18n' => $i18n, 'nonce' => $nonce ) );
 
-	wpml_json_header( is_wp_error( $_response ) );
+	wpmoly_json_header( is_wp_error( $_response ) );
 
 	wp_die( json_encode( $_response ) );
 }

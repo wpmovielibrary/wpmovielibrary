@@ -15,7 +15,7 @@
  * 
  * @since    1.2
  */
-class WPML_Movies_Widget extends WPML_Widget {
+class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 
 	/**
 	 * Specifies the classname and description, instantiates the widget. No
@@ -25,7 +25,7 @@ class WPML_Movies_Widget extends WPML_Widget {
 
 		$this->widget_name        = __( 'WPMovieLibrary Movies', 'wpmovielibrary' );
 		$this->widget_description = __( 'Display a list of movies from a specific taxonomy, media, status, rating…', 'wpmovielibrary' );
-		$this->widget_css         = 'wpml-widget wpml-movies-widget wpml-movies';
+		$this->widget_css         = 'wpmoly-widget wpmoly-movies-widget wpmoly-movies';
 		$this->widget_id          = 'wpmovielibrary_movies_widget';
 		$this->widget_form        = 'movies-widget/movies-admin.php';
 
@@ -85,9 +85,9 @@ class WPML_Movies_Widget extends WPML_Widget {
 			'random'  => __( 'Random', 'wpmovielibrary' )
 		);
 
-		$this->status = WPML_Settings::get_available_movie_status();
-		$this->media  = WPML_Settings::get_available_movie_media();
-		$this->rating = WPML_Settings::get_available_movie_rating();
+		$this->status = WPMOLY_Settings::get_available_movie_status();
+		$this->media  = WPMOLY_Settings::get_available_movie_media();
+		$this->rating = WPMOLY_Settings::get_available_movie_rating();
 
 		parent::__construct();
 	}
@@ -101,7 +101,7 @@ class WPML_Movies_Widget extends WPML_Widget {
 	public function widget( $args, $instance ) {
 
 		// Caching
-		$name = apply_filters( 'wpml_cache_name', 'movies_widget', $args );
+		$name = apply_filters( 'wpmoly_cache_name', 'movies_widget', $args );
 		// Naughty PHP 5.3 fix
 		$widget = &$this;
 
@@ -109,7 +109,7 @@ class WPML_Movies_Widget extends WPML_Widget {
 		if ( isset( $args['orderby'] ) && 'random' == $args['orderby'] )
 			return $widget->widget_content( $args, $instance );
 
-		$content = WPML_Cache::output( $name, function() use ( $widget, $args, $instance ) {
+		$content = WPMOLY_Cache::output( $name, function() use ( $widget, $args, $instance ) {
 
 			return $widget->widget_content( $args, $instance );
 		});
@@ -131,7 +131,7 @@ class WPML_Movies_Widget extends WPML_Widget {
 		$title = apply_filters( 'widget_title', $title );
 
 		if ( 'no' != $show_poster )
-			$this->widget_css .= ' wpml-movies-with-thumbnail';
+			$this->widget_css .= ' wpmoly-movies-with-thumbnail';
 
 		if ( 'normal' == $show_poster )
 			$thumbnail = 'medium';
@@ -140,17 +140,17 @@ class WPML_Movies_Widget extends WPML_Widget {
 
 		switch ( $select ) {
 			case 'status':
-				$args = array( 'orderby' => 'meta_value', 'meta_key' => '_wpml_movie_status' );
+				$args = array( 'orderby' => 'meta_value', 'meta_key' => '_wpmoly_movie_status' );
 				if ( 'all' != $select_status )
 					$args['meta_value'] = $select_status;
 				break;
 			case 'media':
-				$args = array( 'orderby' => 'meta_value', 'meta_key' => '_wpml_movie_media' );
+				$args = array( 'orderby' => 'meta_value', 'meta_key' => '_wpmoly_movie_media' );
 				if ( 'all' != $select_media )
 					$args['meta_value'] = $select_media;
 				break;
 			case 'rating':
-				$args = array( 'orderby' => 'meta_value_num', 'meta_key' => '_wpml_movie_rating' );
+				$args = array( 'orderby' => 'meta_value_num', 'meta_key' => '_wpmoly_movie_rating' );
 				if ( 'all' != $select_rating )
 					$args['meta_value'] = $select_rating;
 				break;
@@ -190,7 +190,7 @@ class WPML_Movies_Widget extends WPML_Widget {
 				'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary' ), $movie->post_title ),
 				'title'       => $movie->post_title,
 				'link'        => get_permalink( $movie->ID ),
-				'rating'      => wpml_get_movie_meta( $movie->ID, 'rating' ),
+				'rating'      => wpmoly_get_movie_meta( $movie->ID, 'rating' ),
 				'thumbnail'   => get_the_post_thumbnail( $movie->ID, $thumbnail )
 			);
 			$item['rating_str'] = ( '' == $item['rating'] ? "stars_0_0" : 'stars_' . str_replace( '.', '_', $item['rating'] ) );

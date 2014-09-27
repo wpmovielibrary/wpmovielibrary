@@ -1,28 +1,28 @@
 
 $ = $ || jQuery;
 
-wpml = wpml || {};
+wpmoly = wpmoly || {};
 
 	/**
-	* WPML Movie editor
+	* WPMOLY Movie editor
 	*/
-	wpml.editor = {};
+	wpmoly.editor = {};
 
 		/**
-		 * WPML Movie Editor: Movie Details
+		 * WPMOLY Movie Editor: Movie Details
 		 */
-		wpml.editor.details = wpml_edit_details = {
+		wpmoly.editor.details = wpmoly_edit_details = {
 
-			details_status: '#wpml-details-status',
-			save_details: '#wpml_save'
+			details_status: '#wpmoly-details-status',
+			save_details: '#wpmoly_save'
 		};
 
 			/**
 			 * Init Movie Details
 			 */
-			wpml.editor.details.init = function() {
+			wpmoly.editor.details.init = function() {
 
-				wpml.editor.details.rating.init();
+				wpmoly.editor.details.rating.init();
 			};
 
 			/**
@@ -30,34 +30,34 @@ wpml = wpml || {};
 			 * 
 			 * @since    1.0
 			 */
-			wpml.editor.details.save = function() {
+			wpmoly.editor.details.save = function() {
 
-				wpml._post({
+				wpmoly._post({
 					data: {
-						action: 'wpml_save_details',
-						nonce: wpml.get_nonce( 'save-movie-details' ),
+						action: 'wpmoly_save_details',
+						nonce: wpmoly.get_nonce( 'save-movie-details' ),
 						post_id: $( '#post_ID' ).val(),
-						wpml_details: {
+						wpmoly_details: {
 							movie_media: $( '#movie-media' ).val(),
 							movie_status: $( '#movie-status' ).val(),
 							movie_rating: $( '#movie-rating' ).val()
 						}
 					},
 					beforeSend: function() {
-						$( wpml_edit_details.save_details ).prev( '.spinner' ).css( { display: 'inline-block' } );
+						$( wpmoly_edit_details.save_details ).prev( '.spinner' ).css( { display: 'inline-block' } );
 					},
 					error: function( response ) {
-						$( wpml_edit_details.details_status ).show().html( '<p>' + wpml_ajax.lang.oops + '</p>' );
+						$( wpmoly_edit_details.details_status ).show().html( '<p>' + wpmoly_ajax.lang.oops + '</p>' );
 					},
 					success: function( response ) {
-						$( wpml_edit_details.details_status ).show().html( '<p>' + wpml_ajax.lang.done + '</p>' );
+						$( wpmoly_edit_details.details_status ).show().html( '<p>' + wpmoly_ajax.lang.done + '</p>' );
 						timer = window.setTimeout( function() {
-							$( wpml_edit_details.details_status ).fadeOut( 1500, function() { $( this ).empty() } );
+							$( wpmoly_edit_details.details_status ).fadeOut( 1500, function() { $( this ).empty() } );
 						}, 2000 );
 					},
 					complete: function( r ) {
-						$( wpml_edit_details.save_details ).prev( '.spinner' ).hide();
-						wpml.update_nonce( 'save-movie-details', r.responseJSON.nonce );
+						$( wpmoly_edit_details.save_details ).prev( '.spinner' ).hide();
+						wpmoly.update_nonce( 'save-movie-details', r.responseJSON.nonce );
 					}
 				});
 			};
@@ -70,19 +70,19 @@ wpml = wpml || {};
 			 * @param    string    Detail type: status, media, rating
 			 * @param    object    Caller link DOM Element
 			 */
-			wpml.editor.details.inline_editor = function( type, link ) {
+			wpmoly.editor.details.inline_editor = function( type, link ) {
 
 				if ( 'status' != type && 'media' != type && 'rating' != type )
 					return false;
 
-				var $editor = $( '.wpml-inline-edit-' + type ),
+				var $editor = $( '.wpmoly-inline-edit-' + type ),
 				      $link = $( link ),
 				    $parent = $link.parents( 'td' ),
 				    display = ( 'none' == $editor.css( 'display' ) ),
-				     active = ( $parent.find( '.wpml-inline-edit-' + type ).length ),
+				     active = ( $parent.find( '.wpmoly-inline-edit-' + type ).length ),
 				       prev = ( 'rating' == type ? '.movie-rating-display' : '.movie_' + type + '_title' ),
 				      $prev = $link.prev( prev ),
-				      links = '.column-movie_' + type + '.inline_editing .wpml-inline-edit-toggle';
+				      links = '.column-movie_' + type + '.inline_editing .wpmoly-inline-edit-toggle';
 
 				if ( display || ! active ) {
 					if ( ! active ) {
@@ -111,7 +111,7 @@ wpml = wpml || {};
 			 * @param    string    Detail type: status, media, rating
 			 * @param    object    Caller link DOM Element
 			 */
-			wpml.editor.details.inline_edit = function( type, link ) {
+			wpmoly.editor.details.inline_edit = function( type, link ) {
 
 				if ( 'status' != type && 'media' != type && 'rating' != type )
 					return false;
@@ -122,38 +122,38 @@ wpml = wpml || {};
 				      _span = $parent.find( '.movie_' + type + '_title' ),
 				     value = $( link ).attr( 'data-' + type + '' ),
 				     title = $( link ).attr( 'data-' + type + '-title' ),
-				     nonce = wpml.get_nonce( type + '-inline-edit' );
+				     nonce = wpmoly.get_nonce( type + '-inline-edit' );
 
 				if ( 'rating' == type )
 					_span.removeClass().addClass( 'movie-rating-title stars stars-' + value.replace( '.', '-' ) );
 				else
 					_span.text( title );
 
-				wpml_edit_details.inline_editor( type, _link );
+				wpmoly_edit_details.inline_editor( type, _link );
 
-				wpml._post({
+				wpmoly._post({
 					data: {
-						action: 'wpml_set_detail',
+						action: 'wpmoly_set_detail',
 						nonce: nonce,
 						type: type,
 						data: value,
 						post_id: post_id
 					},
 					error: function( response ) {
-						wpml_state.clear();
+						wpmoly_state.clear();
 						$.each( response.responseJSON.errors, function() {
-							wpml_state.set( this, 'error' );
+							wpmoly_state.set( this, 'error' );
 						});
 					},
 					success: function( response ) {
 
-						_span.after( '<div id="wpml_temp_status"><em>' + wpml_ajax.lang.done + '</em></div>' );
+						_span.after( '<div id="wpmoly_temp_status"><em>' + wpmoly_ajax.lang.done + '</em></div>' );
 						timer = window.setTimeout( function() {
-							$( '#wpml_temp_status' ).fadeOut( 1000, function() { $(this ).remove() });
+							$( '#wpmoly_temp_status' ).fadeOut( 1000, function() { $(this ).remove() });
 						}, 1000 );
 					},
 					complete: function( r ) {
-						wpml.update_nonce( type + '-inline-edit', r.responseJSON.nonce );
+						wpmoly.update_nonce( type + '-inline-edit', r.responseJSON.nonce );
 					}
 				});
 			};
@@ -163,7 +163,7 @@ wpml = wpml || {};
 			 * 
 			 * @since    1.0
 			 */
-			wpml.editor.details.status = wpml_status = {
+			wpmoly.editor.details.status = wpmoly_status = {
 
 				select: '#movie-status-select',
 				hidden: '#hidden-movie-status',
@@ -183,10 +183,10 @@ wpml = wpml || {};
 				 * 
 				 * @since    1.0
 				 */
-				wpml.editor.details.status.show = function() {
-					if ( $( wpml_status.select ).is(":hidden") ) {
-						$( wpml_status.select ).slideDown( 'fast' );
-						$( wpml_status.edit ).hide();
+				wpmoly.editor.details.status.show = function() {
+					if ( $( wpmoly_status.select ).is(":hidden") ) {
+						$( wpmoly_status.select ).slideDown( 'fast' );
+						$( wpmoly_status.edit ).hide();
 					}
 				};
 
@@ -195,12 +195,12 @@ wpml = wpml || {};
 				 * 
 				 * @since    1.0
 				 */
-				wpml.editor.details.status.update = function() {
+				wpmoly.editor.details.status.update = function() {
 					var option = '#movie-status > option:selected';
-					$( wpml_status.select ).slideUp( 'fast' );
-					$( wpml_status.edit ).show();
-					$( wpml_status.display ).text( $( option ).text() );
-					$( wpml_status.hidden ).val( $( option ).prop( 'id' ) );
+					$( wpmoly_status.select ).slideUp( 'fast' );
+					$( wpmoly_status.edit ).show();
+					$( wpmoly_status.display ).text( $( option ).text() );
+					$( wpmoly_status.hidden ).val( $( option ).prop( 'id' ) );
 				};
 
 				/**
@@ -208,12 +208,12 @@ wpml = wpml || {};
 				 * 
 				 * @since    1.0
 				 */
-				wpml.editor.details.status.revert = function() {
-					var option = '#movie-status #'+$( wpml_status.hidden ).val();
-					$( wpml_status.select ).slideUp( 'fast' );
+				wpmoly.editor.details.status.revert = function() {
+					var option = '#movie-status #'+$( wpmoly_status.hidden ).val();
+					$( wpmoly_status.select ).slideUp( 'fast' );
 					$( option ).prop( 'selected', true );
-					$( wpml_status.display ).text( $( option ).text() );
-					$( wpml_status.edit ).show();
+					$( wpmoly_status.display ).text( $( option ).text() );
+					$( wpmoly_status.edit ).show();
 				};
 
 			/**
@@ -221,7 +221,7 @@ wpml = wpml || {};
 			 * 
 			 * @since    1.0
 			 */
-			wpml.editor.details.media = wpml_media = {
+			wpmoly.editor.details.media = wpmoly_media = {
 
 				select: '#movie-media-select',
 				hidden: '#hidden-movie-media',
@@ -241,10 +241,10 @@ wpml = wpml || {};
 				 * 
 				 * @since    1.0
 				 */
-				wpml.editor.details.media.show = function() {
-					if ( $( wpml_media.select ).is( ':hidden' ) ) {
-						$( wpml_media.select ).slideDown( 'fast' );
-						$( wpml_media.edit ).hide();
+				wpmoly.editor.details.media.show = function() {
+					if ( $( wpmoly_media.select ).is( ':hidden' ) ) {
+						$( wpmoly_media.select ).slideDown( 'fast' );
+						$( wpmoly_media.edit ).hide();
 					}
 				};
 
@@ -253,23 +253,23 @@ wpml = wpml || {};
 				 * 
 				 * @since    1.0
 				 */
-				wpml.editor.details.media.update = function() {
+				wpmoly.editor.details.media.update = function() {
 					var option = '#movie-media > option:selected';
-					$( wpml_media.select ).slideUp( 'fast' );
-					$( wpml_media.edit ).show();
-					$( wpml_media.display ).text( $( option ).text() );
-					$( wpml_media.hidden ).val( $( option ).prop( 'id' ) );
+					$( wpmoly_media.select ).slideUp( 'fast' );
+					$( wpmoly_media.edit ).show();
+					$( wpmoly_media.display ).text( $( option ).text() );
+					$( wpmoly_media.hidden ).val( $( option ).prop( 'id' ) );
 				};
 
 				/**
 				 * Hide the editor (cancel edit )
 				 */
-				wpml.editor.details.media.revert = function() {
-					var option = '#movie-media #'+$( wpml_media.hidden ).val();
-					$( wpml_media.select ).slideUp( 'fast' );
+				wpmoly.editor.details.media.revert = function() {
+					var option = '#movie-media #'+$( wpmoly_media.hidden ).val();
+					$( wpmoly_media.select ).slideUp( 'fast' );
 					$( option ).prop( 'selected', true );
-					$( wpml_media.display ).text( $( option ).text() );
-					$( wpml_media.edit ).show();
+					$( wpmoly_media.display ).text( $( option ).text() );
+					$( wpmoly_media.edit ).show();
 				};
 
 			/**
@@ -277,7 +277,7 @@ wpml = wpml || {};
 			 * 
 			 * @since    1.0
 			 */
-			wpml.editor.details.rating = wpml_rating = {
+			wpmoly.editor.details.rating = wpmoly_rating = {
 
 				select: '#movie-rating-select',
 				hidden: '#hidden-movie-rating',
@@ -302,19 +302,19 @@ wpml = wpml || {};
 				 * 
 				 * @since    1.0
 				 */
-				wpml.editor.details.rating.init = function() {
+				wpmoly.editor.details.rating.init = function() {
 
-					$( wpml_rating.stars ).on( 'click', function( e ) {
+					$( wpmoly_rating.stars ).on( 'click', function( e ) {
 						e.preventDefault();
-						wpml_rating.rate();
+						wpmoly_rating.rate();
 					});
 
-					$( wpml_rating.stars ).on( 'mousemove', function( e ) {
-						wpml_rating.change_in( e );
+					$( wpmoly_rating.stars ).on( 'mousemove', function( e ) {
+						wpmoly_rating.change_in( e );
 					});
 
-					$( wpml_rating.stars ).on( 'mouseleave', function( e ) {
-						wpml_rating.change_out( e );
+					$( wpmoly_rating.stars ).on( 'mouseleave', function( e ) {
+						wpmoly_rating.change_out( e );
 					});
 
 
@@ -325,11 +325,11 @@ wpml = wpml || {};
 				 * 
 				 * @since    1.0
 				 */
-				wpml.editor.details.rating.show = function() {
-					if ( $( wpml_rating.select ).is( ":hidden" ) ) {
-						$( wpml_rating.display ).hide();
-						$( wpml_rating.select ).slideDown( 'fast' );
-						$( wpml_rating.edit ).hide();
+				wpmoly.editor.details.rating.show = function() {
+					if ( $( wpmoly_rating.select ).is( ":hidden" ) ) {
+						$( wpmoly_rating.display ).hide();
+						$( wpmoly_rating.select ).slideDown( 'fast' );
+						$( wpmoly_rating.edit ).hide();
 					}
 				};
 
@@ -338,11 +338,11 @@ wpml = wpml || {};
 				 * 
 				 * @since    1.0
 				 */
-				wpml.editor.details.rating.update = function() {
+				wpmoly.editor.details.rating.update = function() {
 					var n = $( '#movie-rating' ).val();
-					$( wpml_rating.select ).slideUp( 'fast' );
-					$( wpml_rating.edit ).show();
-					$( wpml_rating.display ).removeClass().addClass( 'stars-' + n.replace( '.', '-' ) ).show();
+					$( wpmoly_rating.select ).slideUp( 'fast' );
+					$( wpmoly_rating.edit ).show();
+					$( wpmoly_rating.display ).removeClass().addClass( 'stars-' + n.replace( '.', '-' ) ).show();
 					$( '#movie-rating, #hidden-movie-rating' ).val( n );
 				};
 
@@ -351,10 +351,10 @@ wpml = wpml || {};
 				 * 
 				 * @since    1.0
 				 */
-				wpml.editor.details.rating.revert = function() {
-					$( wpml_rating.select ).slideUp( 'fast' );
-					$( wpml_rating.edit ).show();
-					$( wpml_rating.display ).show();
+				wpmoly.editor.details.rating.revert = function() {
+					$( wpmoly_rating.select ).slideUp( 'fast' );
+					$( wpmoly_rating.edit ).show();
+					$( wpmoly_rating.display ).show();
 				};
 
 				/**
@@ -362,11 +362,11 @@ wpml = wpml || {};
 				 * 
 				 * @since    1.0
 				 */
-				wpml.editor.details.rating.change_in = function( e ) {
+				wpmoly.editor.details.rating.change_in = function( e ) {
 
 					var classes = 'stars-0 stars-0-0 stars-0-5 stars-1-0 stars-1-5 stars-2-0 stars-2-5 stars-3-0 stars-3-5 stars-4-0 stars-4-5 stars-5-0';
 
-					var parentOffset = $( wpml_rating.stars ).offset(); 
+					var parentOffset = $( wpmoly_rating.stars ).offset(); 
 					var relX = e.pageX - parentOffset.left;
 
 					if ( relX <= 0 ) var _rate = '0';
@@ -384,10 +384,10 @@ wpml = wpml || {};
 					var _class = 'stars-' + _rate.replace( '.', '-' );
 					var _label = _class.replace( 'stars-', 'stars-label-' );
 
-					$( wpml_rating.stars ).removeClass( classes ).addClass( _class );
+					$( wpmoly_rating.stars ).removeClass( classes ).addClass( _class );
 					$( '.stars-label' ).removeClass( 'show' );
 					$( '#' + _label).addClass( 'show' );
-					$( wpml_rating.stars ).attr( 'data-rating', _rate );
+					$( wpmoly_rating.stars ).attr( 'data-rating', _rate );
 				};
 
 				/**
@@ -395,11 +395,11 @@ wpml = wpml || {};
 				 * 
 				 * @since    1.0
 				 */
-				wpml.editor.details.rating.change_out = function( e ) {
+				wpmoly.editor.details.rating.change_out = function( e ) {
 
 					var classes = 'stars-0 stars-0-0 stars-0-5 stars-1-0 stars-1-5 stars-2-0 stars-2-5 stars-3-0 stars-3-5 stars-4-0 stars-4-5 stars-5-0';
 
-					if ( 'true' == $( wpml_rating.stars ).attr( 'data-rated' ) )
+					if ( 'true' == $( wpmoly_rating.stars ).attr( 'data-rated' ) )
 						return false;
 
 					var _class = '';
@@ -409,7 +409,7 @@ wpml = wpml || {};
 						_class = 'stars-' + _class.replace( '.','-' );
 					}
 
-					$( wpml_rating.stars ).removeClass( classes ).addClass( _class );
+					$( wpmoly_rating.stars ).removeClass( classes ).addClass( _class );
 					$( '.stars-label' ).removeClass( 'show' );
 				};
 
@@ -418,9 +418,9 @@ wpml = wpml || {};
 				 * 
 				 * @since    1.0
 				 */
-				wpml.editor.details.rating.rate = function() {
+				wpmoly.editor.details.rating.rate = function() {
 
-					var _rate = $( wpml_rating.stars ).attr( 'data-rating' );
+					var _rate = $( wpmoly_rating.stars ).attr( 'data-rating' );
 
 					if ( function() {} == _rate )
 						return false;
@@ -429,11 +429,11 @@ wpml = wpml || {};
 					_rate = _rate.replace( '-','.' );
 
 					$( '#movie-rating, #bulk-movie-rating' ).val(_rate );
-					$( wpml_rating.stars ).attr( 'data-rating', _rate );
-					$( wpml_rating.stars ).attr( 'data-rated', true );
+					$( wpmoly_rating.stars ).attr( 'data-rating', _rate );
+					$( wpmoly_rating.stars ).attr( 'data-rated', true );
 
-					if ( $( wpml_rating.stars ).parent( 'a.wpml-inline-edit-rating-update' ).length )
-						$( wpml_rating.stars ).parent( 'a.wpml-inline-edit-rating-update' ).attr( 'data-rating', _rate );
+					if ( $( wpmoly_rating.stars ).parent( 'a.wpmoly-inline-edit-rating-update' ).length )
+						$( wpmoly_rating.stars ).parent( 'a.wpmoly-inline-edit-rating-update' ).attr( 'data-rating', _rate );
 				};
 
-	wpml.editor.details.init();
+	wpmoly.editor.details.init();

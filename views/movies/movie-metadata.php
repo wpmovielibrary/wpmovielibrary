@@ -10,11 +10,11 @@
  */
 ?>
 
-	<div class="wpml_movie_metadata">
-		<dl class="wpml_movie">
+	<div class="wpmoly_movie_metadata">
+		<dl class="wpmoly_movie">
 <?php foreach ( $items as $item ) : ?>
-			<dt class="wpml_<?php echo $item['slug'] ?>_field_title"><?php echo $item['title'] ?></dt>
-			<dd class="wpml_<?php echo $item['slug'] ?>_field_value"><?php echo $item['value'] ?></dd>
+			<dt class="wpmoly_<?php echo $item['slug'] ?>_field_title"><?php echo $item['title'] ?></dt>
+			<dd class="wpmoly_<?php echo $item['slug'] ?>_field_value"><?php echo $item['value'] ?></dd>
 
 <?php endforeach; ?>
 		</dl>

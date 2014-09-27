@@ -1,10 +1,10 @@
 <?php
 /**
- * WPML TMDb API class
+ * WPMOLY TMDb API class
  * 
  * Heavily modified class based on Jonas De Smet "Glamorous" TMDb PHP API class.
  * The original class support almost all of the API functions, whereas this one
- * is stripped to the maximum and handles only what WPML needs, meaning the
+ * is stripped to the maximum and handles only what WPMOLY needs, meaning the
  * connection to TheMovieDB and movie images, casts and meta.
  * 
  * @see API Documentation: http://docs.themoviedb.apiary.io/
@@ -172,7 +172,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 */
 		public function getConfiguration() {
 
-			$config = WPML_Cache::get( 'tmdb_api_config' );
+			$config = WPMOLY_Cache::get( 'tmdb_api_config' );
 			if ( ! $config ) {
 
 				$config = $this->_makeCall( 'configuration' );
@@ -181,14 +181,14 @@ if ( ! class_exists( 'TMDb' ) ) :
 					if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
 						return $config;
 
-					WPML_Utils::admin_notice( $config->get_error_message(), 'error' );
+					WPMOLY_Utils::admin_notice( $config->get_error_message(), 'error' );
 					return array();
 				}
 
 				if ( ! empty( $config ) )
 					$this->_config = $config;
 
-				WPML_Cache::set( 'tmdb_api_config', $config );
+				WPMOLY_Cache::set( 'tmdb_api_config', $config );
 			}
 
 			return $config;

@@ -13,7 +13,7 @@
 if ( ! defined( 'WPINC' ) )
 	wp_die();
 
-$wpml_movie_details = array(
+$wpmoly_movie_details = array(
 	'movie_media'   => array(
 		'title' => __( 'Media', 'wpmovielibrary' ),
 		'options' => array(
@@ -61,7 +61,7 @@ $wpml_movie_details = array(
 	)
 );
 
-$wpml_movie_meta = array(
+$wpmoly_movie_meta = array(
 	'title' => array(
 		'title' => __( 'Title', 'wpmovielibrary' ),
 		'type' => 'text',
@@ -176,7 +176,7 @@ $wpml_movie_meta = array(
 	)
 );
 
-$wpml_movie_meta_aliases = array(
+$wpmoly_movie_meta_aliases = array(
 
 	'country'    => 'production_countries',
 	'production' => 'production_companies',
@@ -190,30 +190,30 @@ $wpml_movie_meta_aliases = array(
 	'musician'   => 'composer'
 );
 
-$wpml_metaboxes = array(
+$wpmoly_metaboxes = array(
 
 	array(
-		'id'            => 'wpml_details',
+		'id'            => 'wpmoly_details',
 		'title'         => __( 'WPMovieLibrary − Movie Details', 'wpmovielibrary' ),
-		'callback'      => 'WPML_Edit_Movies::metabox_details',
+		'callback'      => 'WPMOLY_Edit_Movies::metabox_details',
 		'screen'        => 'movie',
 		'context'       => 'side',
 		'priority'      => 'default',
 		'callback_args' => null
 	),
 	array(
-		'id'            => 'wpml_meta',
+		'id'            => 'wpmoly_meta',
 		'title'         => __( 'WPMovieLibrary − Movie Meta', 'wpmovielibrary' ),
-		'callback'      => 'WPML_Edit_Movies::metabox_meta',
+		'callback'      => 'WPMOLY_Edit_Movies::metabox_meta',
 		'screen'        => 'movie',
 		'context'       => 'normal',
 		'priority'      => 'high',
 		'callback_args' => null
 	),
 	array(
-		'id'            => 'wpml_images',
+		'id'            => 'wpmoly_images',
 		'title'         => __( 'WPMovieLibrary − Movie Images', 'wpmovielibrary' ),
-		'callback'      => 'WPML_Edit_Movies::metabox_images',
+		'callback'      => 'WPMOLY_Edit_Movies::metabox_images',
 		'screen'        => 'movie',
 		'context'       => 'normal',
 		'priority'      => 'high',

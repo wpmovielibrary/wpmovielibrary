@@ -11,4 +11,4 @@
  */
 ?>
 
-	<div class="wpml_movie_<?php echo $detail ?> <?php echo $data ?> wpml_detail_icon"></div>
+	<div class="wpmoly_movie_<?php echo $detail ?> <?php echo $data ?> wpmoly_detail_icon"></div>

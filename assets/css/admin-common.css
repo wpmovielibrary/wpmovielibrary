@@ -12,7 +12,7 @@
 	opacity: 0.75;
 }
 
-.widgets-holder-wrap .wpml-widget-title {
+.widgets-holder-wrap .wpmoly-widget-title {
 	margin: 1.33em 0 0.25em 0;
 }
 
@@ -20,10 +20,10 @@
 	content: "\f126";
 }
 
-/* WPML Notice
+/* WPMOLY Notice
  ****************************************************/
 
-.wpml {
+.wpmoly {
 	border-color: #0099d5 !important;
 	margin: 25px 20px 8px 15px !important;
 	padding: 0.75em 1.5em !important;
@@ -37,11 +37,11 @@
 	padding: 0.25em 0.5em;
 }
 
-.wpml.update-nag {
+.wpmoly.update-nag {
 	padding: 0 !important;
 }
 
-.wpml.update-nag .label {
+.wpmoly.update-nag .label {
 	background: #0099D5;
 	display: block;
 	float: left;
@@ -49,7 +49,7 @@
 	width: 4em;
 }
 
-.wpml.update-nag .label .dashicons {
+.wpmoly.update-nag .label .dashicons {
 	color: #fff;
 	font-size: 2.5rem;
 	height: 2.5rem;
@@ -59,22 +59,22 @@
 	width: 2.5rem;
 }
 
-.wpml.update-nag .content {
+.wpmoly.update-nag .content {
 	padding: 0.75rem 1rem;
 	margin-left: 4em;
 	text-align: justify;
 	line-height: 1.5em;
 }
 
-.wpml.update-nag.warning {
+.wpmoly.update-nag.warning {
 	border-color: #e57e22 !important;
 }
 
-.wpml.update-nag.warning .label {
+.wpmoly.update-nag.warning .label {
 	background: #e57e22;
 }
 
-.wpml.update-nag.warning .label .dashicons {
+.wpmoly.update-nag.warning .label .dashicons {
 	text-shadow: 0 1px 0 #a55d1c;
 }
 

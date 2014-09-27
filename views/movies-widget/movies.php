@@ -18,14 +18,14 @@
 	<div class="<?php echo $style ?>">
 
 <?php if ( '' != $description ) : ?>
-		<div class="wpml-widget-description"><?php echo $description ?></div>
+		<div class="wpmoly-widget-description"><?php echo $description ?></div>
 <?php endif; ?>
 
 <?php foreach ( $items as $item ) : ?>
 		<a href="<?php echo $item['link'] ?>" title="<?php echo __( 'Read more about', 'wpmovielibrary' ) . $item['title'] ?>">
-			<figure id="movie-<?php the_ID(); ?>" class="wpml-movies-widget wpml-movie">
+			<figure id="movie-<?php the_ID(); ?>" class="wpmoly-movies-widget wpmoly-movie">
 <?php if ( 'no' == $show_poster || 'before' == $show_title ) : ?>
-				<div id="movie-<?php the_ID(); ?>-title" class="wpml-movies-widget movie-title"><?php echo $item['title'] ?></div>
+				<div id="movie-<?php the_ID(); ?>-title" class="wpmoly-movies-widget movie-title"><?php echo $item['title'] ?></div>
 <?php endif; ?>
 
 <?php if ( 'small' == $show_poster || 'normal' == $show_poster ) : ?>
@@ -37,7 +37,7 @@
 <?php endif; ?>
 
 <?php if ( 'after' == $show_title ) : ?>
-				<div id="movie-<?php the_ID(); ?>-title" class="wpml-movies-widget movie-title"><?php echo $item['title'] ?></div>
+				<div id="movie-<?php the_ID(); ?>-title" class="wpmoly-movies-widget movie-title"><?php echo $item['title'] ?></div>
 <?php endif; ?>
 
 			</figure>

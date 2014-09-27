@@ -11,9 +11,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Collections' ) ) :
+if ( ! class_exists( 'WPMOLY_Collections' ) ) :
 
-	class WPML_Collections extends WPML_Module {
+	class WPMOLY_Collections extends WPMOLY_Module {
 
 		protected $widgets;
 
@@ -44,8 +44,8 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 		 * Collections are Category-like taxonomies: hierarchical, no
 		 * tagcloud, showing in admin columns.
 		 * 
-		 * @see wpml_movies_columns_head()
-		 * @see wpml_movies_columns_content()
+		 * @see wpmoly_movies_columns_head()
+		 * @see wpmoly_movies_columns_content()
 		 *
 		 * @since    1.0
 		 */
@@ -96,7 +96,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 			global $wpdb;
 			$wpdb->hide_errors();
 
-			$_action = get_option( 'wpml_settings' );
+			$_action = get_option( 'wpmoly_settings' );
 			if ( ! $_action || ! isset( $_action[ "wpmoly-{$action}-collections" ] ) )
 				return false;
 
@@ -109,7 +109,7 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 			switch ( $action ) {
 				case 'convert':
 					foreach ( $contents as $term ) {
-						wp_update_term( $term->term_id, 'collection', array( 'slug' => 'wpml_collection-' . $term->slug ) );
+						wp_update_term( $term->term_id, 'collection', array( 'slug' => 'wpmoly_collection-' . $term->slug ) );
 						$wpdb->update(
 							$wpdb->term_taxonomy,
 							array( 'taxonomy' => 'category' ),
@@ -141,18 +141,18 @@ if ( ! class_exists( 'WPML_Collections' ) ) :
 			global $wpdb;
 			$wpdb->hide_errors();
 
-			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_collection%"' );
+			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpmoly_collection%"' );
 			$collections = array();
 
 			foreach ( $contents as $term )
-				if ( false !== strpos( $term->slug, 'wpml_collection' ) )
+				if ( false !== strpos( $term->slug, 'wpmoly_collection' ) )
 					$collections[] = $term->term_id;
 
 			if ( ! empty( $collections ) )
 				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "collection" WHERE term_id IN (' . implode( ',', $collections ) . ') AND taxonomy = "category"' );
 
 			$wpdb->query(
-				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_collection-", "")'
+				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpmoly_collection-", "")'
 			);
 
 			self::register_collection_taxonomy();

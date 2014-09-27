@@ -11,9 +11,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_TMDb' ) ) :
+if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 
-	class WPML_TMDb extends WPML_Module {
+	class WPMOLY_TMDb extends WPMOLY_Module {
 
 		/**
 		 * TMDb API Config
@@ -47,7 +47,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			$this->register_hook_callbacks();
 
 			if ( '' == wpmoly_o( 'api-internal' ) ) {
-				WPML_Utils::admin_notice( __( '', 'wpmovielibrary' ), 'error' );
+				WPMOLY_Utils::admin_notice( __( '', 'wpmovielibrary' ), 'error' );
 				return false;
 			}
 		}
@@ -61,8 +61,8 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			add_action( 'admin_init', array( $this, 'init' ) );
 
-			add_action( 'wp_ajax_wpml_search_movie', __CLASS__ . '::search_movie_callback' );
-			add_action( 'wp_ajax_wpml_check_api_key', __CLASS__ . '::check_api_key_callback' );
+			add_action( 'wp_ajax_wpmoly_search_movie', __CLASS__ . '::search_movie_callback' );
+			add_action( 'wp_ajax_wpmoly_check_api_key', __CLASS__ . '::check_api_key_callback' );
 		}
 
 		/**
@@ -88,11 +88,11 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			$config = $tmdb->getConfig();
 
 			if ( is_null( $config ) ) {
-				WPML_Utils::admin_notice( __( 'Unknown error, connection to TheMovieDB API failed.', 'wpmovielibrary' ), 'error' );
+				WPMOLY_Utils::admin_notice( __( 'Unknown error, connection to TheMovieDB API failed.', 'wpmovielibrary' ), 'error' );
 				return false;
 			}
 			else if ( isset( $config['status_code'] ) && in_array( $config['status_code'], array( 7, 403 ) ) ) {
-				WPML_Utils::admin_notice( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpmovielibrary' ), $config['status_message'], $config['status_code'] ), 'error' );
+				WPMOLY_Utils::admin_notice( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpmovielibrary' ), $config['status_message'], $config['status_code'] ), 'error' );
 				return false;
 			}
 
@@ -144,7 +144,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 * 
 		 * An invalid key will result in an error from the API with the
 		 * status code '7'. If we get that error, use a WP_Error instance
-		 * to handle the error and add it to the WPML_Ajax instance we
+		 * to handle the error and add it to the WPMOLY_Ajax instance we
 		 * use to pass data to the JS part.
 		 * 
 		 * If the key appears to be valid, send a validation message.
@@ -153,7 +153,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 */
 		public static function check_api_key_callback() {
 
-			wpml_check_ajax_referer( 'check-api-key' );
+			wpmoly_check_ajax_referer( 'check-api-key' );
 
 			if ( ! isset( $_GET['key'] ) || '' == $_GET['key'] || 32 !== strlen( $_GET['key'] ) )
 				return new WP_Error( 'invalid', __( 'Invalid API key - the key should be an alphanumerica 32 chars long string.', 'wpmovielibrary' ) );
@@ -165,7 +165,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			else
 				$response = array( 'message' => __( 'Valid API key - Save your settings and have fun!', 'wpmovielibrary' ) );
 
-			wpml_ajax_response( $response );
+			wpmoly_ajax_response( $response );
 		}
 
 		/**
@@ -175,7 +175,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 */
 		public static function search_movie_callback() {
 
-			wpml_check_ajax_referer( 'search-movies' );
+			wpmoly_check_ajax_referer( 'search-movies' );
 
 			$type = ( isset( $_GET['type'] ) && '' != $_GET['type'] ? $_GET['type'] : '' );
 			$data = ( isset( $_GET['data'] ) && '' != $_GET['data'] ? $_GET['data'] : '' );
@@ -190,7 +190,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			else if ( 'id' == $type )
 				$response = self::get_movie_by_id( $data, $lang, $_id );
 
-			wpml_ajax_response( $response );
+			wpmoly_ajax_response( $response );
 		}
 
 
@@ -209,14 +209,14 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 */
 		private static function get_movie_by_title( $title, $lang, $_id = null ) {
 
-			$movies = ( wpmoly_o( 'enable-cache' ) ? get_transient( "wpml_movie_{$title}_{$lang}" ) : false );
+			$movies = ( wpmoly_o( 'enable-cache' ) ? get_transient( "wpmoly_movie_{$title}_{$lang}" ) : false );
 
 			if ( false === $movies ) {
 				$movies = self::_get_movie_by_title( $title, $lang, $_id );
 
 				if ( true === wpmoly_o( 'enable-cache' ) && ! is_wp_error( $movies ) ) {
 					$expire = (int) ( 86400 * wpmoly_o( 'cache-expire' ) );
-					set_transient( "wpml_movies_{$title}_{$lang}", $movies, $expire );
+					set_transient( "wpmoly_movies_{$title}_{$lang}", $movies, $expire );
 				}
 			}
 
@@ -283,7 +283,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 				foreach ( $data['results'] as $movie ) {
 					$_movies[] = array(
 						'id'     => $movie['id'],
-						'poster' => ( ! is_null( $movie['poster_path'] ) ? self::get_image_url( $movie['poster_path'], 'poster', 'small' ) : WPML_DEFAULT_POSTER_URL ),
+						'poster' => ( ! is_null( $movie['poster_path'] ) ? self::get_image_url( $movie['poster_path'], 'poster', 'small' ) : WPMOLY_DEFAULT_POSTER_URL ),
 						'title'  => $movie['title'],
 						'json'   => json_encode( $movie ),
 						'_id'    => $_id
@@ -310,14 +310,14 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 		 */
 		public static function get_movie_by_id( $id, $lang, $_id = null ) {
 
-			$movie = ( wpmoly_o( 'enable-cache' ) ? get_transient( "wpml_movie_{$id}_{$lang}" ) : false );
+			$movie = ( wpmoly_o( 'enable-cache' ) ? get_transient( "wpmoly_movie_{$id}_{$lang}" ) : false );
 
 			if ( false === $movie ) {
 				$movie = self::_get_movie_by_id( $id, $lang, $_id );
 
 				if ( true === wpmoly_o( 'enable-cache' ) && ! is_wp_error( $movie ) ) {
 					$expire = (int) ( 86400 * wpmoly_o( 'cache-expire' ) );
-					set_transient( "wpml_movie_{$id}_{$lang}", $movie, 3600 * 24 );
+					set_transient( "wpmoly_movie_{$id}_{$lang}", $movie, 3600 * 24 );
 				}
 			}
 
@@ -358,11 +358,11 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 			$_movie = array(
 				'_id'     => $_id,
 				'_tmdb_id' => $id,
-				'meta'    => apply_filters( 'wpml_filter_meta_data', $movie ),
-				'crew'    => apply_filters( 'wpml_filter_crew_data', $casts ),
+				'meta'    => apply_filters( 'wpmoly_filter_meta_data', $movie ),
+				'crew'    => apply_filters( 'wpmoly_filter_crew_data', $casts ),
 				'images'  => $images,
-				'poster' => ( ! is_null( $movie['poster_path'] ) ? self::get_image_url( $movie['poster_path'], 'poster', 'small' ) : WPML_DEFAULT_POSTER_URL ),
-				'poster_path'  => ( ! is_null( $movie['poster_path'] ) ? $movie['poster_path'] : WPML_DEFAULT_POSTER_URL ),
+				'poster' => ( ! is_null( $movie['poster_path'] ) ? self::get_image_url( $movie['poster_path'], 'poster', 'small' ) : WPMOLY_DEFAULT_POSTER_URL ),
+				'poster_path'  => ( ! is_null( $movie['poster_path'] ) ? $movie['poster_path'] : WPMOLY_DEFAULT_POSTER_URL ),
 				'_result' => 'movie',
 				'_full'   => $_full,
 			);
@@ -418,7 +418,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			foreach ( $images as $i => $image ) {
 				$file_path = substr( $image['file_path'], 1 );
-				$exists = apply_filters( 'wpml_check_for_existing_images', $tmdb_id, 'image', $file_path );
+				$exists = apply_filters( 'wpmoly_check_for_existing_images', $tmdb_id, 'image', $file_path );
 				if ( false !== $exists )
 					unset( $images[ $i ] );
 			}
@@ -450,7 +450,7 @@ if ( ! class_exists( 'WPML_TMDb' ) ) :
 
 			foreach ( $images as $i => $image ) {
 				$file_path = substr( $image['file_path'], 1 );
-				$exists = apply_filters( 'wpml_check_for_existing_images', $tmdb_id, 'poster', $file_path );
+				$exists = apply_filters( 'wpmoly_check_for_existing_images', $tmdb_id, 'poster', $file_path );
 				if ( false !== $exists )
 					unset( $images[ $i ] );
 			}

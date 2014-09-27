@@ -11,9 +11,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Queue' ) ) :
+if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 
-	class WPML_Queue extends WPML_Module {
+	class WPMOLY_Queue extends WPMOLY_Module {
 
 		/**
 		 * Constructor
@@ -37,14 +37,14 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 
 			add_action( 'admin_init', array( $this, 'init' ) );
 
-			add_action( 'wp_ajax_wpml_enqueue_movies', __CLASS__ . '::enqueue_movies_callback' );
-			add_action( 'wp_ajax_wpml_dequeue_movies', __CLASS__ . '::dequeue_movies_callback' );
-			add_action( 'wp_ajax_wpml_queued_movies', __CLASS__ . '::queued_movies_callback' );
-			add_action( 'wp_ajax_wpml_import_queued_movie', __CLASS__ . '::import_queued_movie_callback' );
+			add_action( 'wp_ajax_wpmoly_enqueue_movies', __CLASS__ . '::enqueue_movies_callback' );
+			add_action( 'wp_ajax_wpmoly_dequeue_movies', __CLASS__ . '::dequeue_movies_callback' );
+			add_action( 'wp_ajax_wpmoly_queued_movies', __CLASS__ . '::queued_movies_callback' );
+			add_action( 'wp_ajax_wpmoly_import_queued_movie', __CLASS__ . '::import_queued_movie_callback' );
 		}
 
 		/**
-		 * Callback for WPML_Queue movie enqueue method.
+		 * Callback for WPMOLY_Queue movie enqueue method.
 		 * 
 		 * Checks the AJAX nonce and calls enqueue_movies() to
 		 * create import queue of all movies passed through the list.
@@ -53,16 +53,16 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function enqueue_movies_callback() {
 
-			wpml_check_ajax_referer( 'enqueue-movies' );
+			wpmoly_check_ajax_referer( 'enqueue-movies' );
 
 			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? $_POST['movies'] : null );
 
 			$response = self::enqueue_movies( $movies );
-			wpml_ajax_response( $response, array(), wpml_create_nonce( 'enqueue-movies' ) );
+			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'enqueue-movies' ) );
 		}
 
 		/**
-		 * Callback for WPML_Queue movie dequeue method.
+		 * Callback for WPMOLY_Queue movie dequeue method.
 		 * 
 		 * Checks the AJAX nonce and calls dequeue_movies() to
 		 * pop movies off the import queue.
@@ -71,12 +71,12 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function dequeue_movies_callback() {
 
-			wpml_check_ajax_referer( 'dequeue-movies' );
+			wpmoly_check_ajax_referer( 'dequeue-movies' );
 
 			$movies = ( isset( $_POST['movies'] ) && '' != $_POST['movies'] ? $_POST['movies'] : null );
 
 			$response = self::dequeue_movies( $movies );
-			wpml_ajax_response( $response, array(), wpml_create_nonce( 'dequeue-movies' ) );
+			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'dequeue-movies' ) );
 		}
 
 		/**
@@ -86,7 +86,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function queued_movies_callback() {
 
-			wpml_check_ajax_referer( 'queued-movies' );
+			wpmoly_check_ajax_referer( 'queued-movies' );
 
 			ob_start();
 			self::display_queued_movie_list();
@@ -104,7 +104,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			$response['column_headers'] = '';
 			$i18n['total_items_i18n'] = ( $total_items ? sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) ) : _( 'No item' ) );
 
-			wpml_ajax_response( $response, $i18n, wpml_create_nonce( 'queued-movies' ) );
+			wpmoly_ajax_response( $response, $i18n, wpmoly_create_nonce( 'queued-movies' ) );
 		}
 
 		/**
@@ -114,12 +114,12 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 		 */
 		public static function import_queued_movie_callback() {
 
-			wpml_check_ajax_referer( 'import-queued-movies' );
+			wpmoly_check_ajax_referer( 'import-queued-movies' );
 
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
 
 			$response = self::import_queued_movie( $post_id );
-			wpml_ajax_response( $response, array(), wpml_create_nonce( 'import-queued-movies' ) );
+			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'import-queued-movies' ) );
 		}
 
 		/**
@@ -160,7 +160,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				return $errors;
 			}
 
-			$response = wpml_ajax_filter( array( __CLASS__, 'enqueue_movie' ), array( $movies ), $loop = true );
+			$response = wpmoly_ajax_filter( array( __CLASS__, 'enqueue_movie' ), array( $movies ), $loop = true );
 			return $response;
 		}
 
@@ -206,7 +206,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				return new WP_Error( 'error', sprintf( __( 'An error occured when adding "%s" to the queue: %s', 'wpmovielibrary' ), $post_title, $update->get_error_message() ) );
 
 			// TODO: Use WP_Error
-			$update = WPML_Edit_Movies::save_movie( $update, $post = null, $queue = true, $metadata );
+			$update = WPMOLY_Edit_Movies::save_movie( $update, $post = null, $queue = true, $metadata );
 			if ( is_wp_error( $update ) )
 				return new WP_Error( 'error', sprintf( __( 'An error occured when adding "%s" to the queue: %s', 'wpmovielibrary' ), $post_title, $update->get_error_message() ) );
 
@@ -237,7 +237,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 				return $errors;
 			}
 
-			$response = wpml_ajax_filter( array( __CLASS__, 'dequeue_movie' ), array( $movies ), $loop = true );
+			$response = wpmoly_ajax_filter( array( __CLASS__, 'dequeue_movie' ), array( $movies ), $loop = true );
 			return $response;
 		}
 
@@ -271,7 +271,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			if ( is_wp_error( $update ) )
 				return new WP_Error( 'error', sprintf( __( 'An error occured when trying to remove "%s" from the queue: %s', 'wpmovielibrary' ), get_the_title( $post_id ), $update->get_error_message() ) );
 
-			$update = delete_post_meta( $post_id, '_wpml_movie_data' );
+			$update = delete_post_meta( $post_id, '_wpmoly_movie_data' );
 			if ( false === $update )
 				return new WP_Error( 'error', sprintf( __( 'An error occured when trying to delete "%s" metadata.', 'wpmovielibrary' ), get_the_title( $post_id ) ) );
 
@@ -295,7 +295,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			if ( is_null( $post_id ) || ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) )
 				return new WP_Error( 'invalid_movie', sprintf( __( 'Error: submitted Post ID doesn\t match any valid movie.', 'wpmovielibrary' ) ) );
 
-			$meta = wpml_get_movie_meta( $post_id );
+			$meta = wpmoly_get_movie_meta( $post_id );
 			if ( '' == $meta || ! is_array( $meta ) || ! isset( $meta['poster'] ) || ! isset( $meta['tmdb_id'] ) )
 				return new WP_Error( 'invalid_meta', sprintf( __( 'Error: cannot find submitted movie\'s metadata, try enqueuing it again.', 'wpmovielibrary' ) ) );
 
@@ -305,7 +305,7 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 			);
 
 			if ( wpmoly_o( 'poster-featured' ) ) {
-				$id = WPML_Media::set_image_as_featured( $meta['poster'], $post_id, $meta['tmdb_id'], $meta['title'] );
+				$id = WPMOLY_Media::set_image_as_featured( $meta['poster'], $post_id, $meta['tmdb_id'], $meta['title'] );
 				update_post_meta( $post_id, '_thumbnail_id', $id );
 			}
 
@@ -344,8 +344,8 @@ if ( ! class_exists( 'WPML_Queue' ) ) :
 						$columns[ get_the_ID() ] = array(
 							'ID'       => get_the_ID(),
 							'title'    => get_the_title(),
-							'director' => wpml_get_movie_meta( get_the_ID(), 'director' ),
-							'tmdb_id'  => wpml_get_movie_meta( get_the_ID(), 'tmdb_id', true )
+							'director' => wpmoly_get_movie_meta( get_the_ID(), 'director' ),
+							'tmdb_id'  => wpmoly_get_movie_meta( get_the_ID(), 'tmdb_id', true )
 						);
 					}
 				}

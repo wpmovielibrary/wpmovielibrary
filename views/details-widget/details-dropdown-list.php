@@ -11,5 +11,5 @@
  * @uses    $default_option Select default option
  */
 
-require( WPML_PATH . 'views/widgets-common/items-dropdown-list.php' );
+require( WPMOLY_PATH . 'views/widgets-common/items-dropdown-list.php' );
 ?>

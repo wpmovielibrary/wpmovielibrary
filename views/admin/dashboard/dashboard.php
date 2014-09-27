@@ -1,8 +1,8 @@
-<?php //do_action( 'wpml_dashboard_setup' ); ?>
+<?php //do_action( 'wpmoly_dashboard_setup' ); ?>
 
-	<div id="wpml-home" class="wrap">
+	<div id="wpmoly-home" class="wrap">
 
-		<h2><?php echo WPML_NAME; ?><small>v<?php echo WPML_VERSION; ?></small></h2>
+		<h2><?php echo WPMOLY_NAME; ?><small>v<?php echo WPMOLY_VERSION; ?></small></h2>
 
 		<?php echo self::render_admin_template( 'dashboard/welcome.php', array( 'hidden' => $hidden ) ); ?>
 

@@ -11,9 +11,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Ajax' ) ) :
+if ( ! class_exists( 'WPMOLY_Ajax' ) ) :
 
-	class WPML_Ajax {
+	class WPMOLY_Ajax {
 
 		/**
 		 * Data result type

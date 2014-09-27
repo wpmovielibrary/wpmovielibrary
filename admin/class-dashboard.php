@@ -11,9 +11,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Dashboard' ) ) :
+if ( ! class_exists( 'WPMOLY_Dashboard' ) ) :
 
-	class WPML_Dashboard extends WPML_Module {
+	class WPMOLY_Dashboard extends WPMOLY_Module {
 
 		/**
 		 * Dashboard Widgets.
@@ -51,12 +51,12 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 */
 		public function init() {
 
-			global $wpml_dashboard_widgets;
+			global $wpmoly_dashboard_widgets;
 
 			$this->widgets = array();
 			$this->allowed_options = array( 'welcome_panel' );
 
-			foreach ( $wpml_dashboard_widgets as $slug => $widget ) {
+			foreach ( $wpmoly_dashboard_widgets as $slug => $widget ) {
 
 				$class = $this->filter_widget_classname( $widget['class'] );
 				$this->widgets[ $class ] = $class::get_instance();
@@ -74,11 +74,11 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 
 			add_filter( 'set-screen-option', array( $this, 'set_option' ), 10, 3 );
 			add_filter( 'screen_settings', array( $this, 'screen_options' ), 10, 2 );
-			add_filter( 'wpml_filter_widget_classname', array( $this, 'filter_widget_classname' ), 10, 1 );
+			add_filter( 'wpmoly_filter_widget_classname', array( $this, 'filter_widget_classname' ), 10, 1 );
 
-			add_action( 'wp_ajax_wpml_save_screen_option', array( $this, 'wpml_save_screen_option_callback' ) );
-			add_action( 'wp_ajax_wpml_save_dashboard_widget_settings', __CLASS__ . '::wpml_save_dashboard_widget_settings_callback' );
-			add_action( 'wp_ajax_wpml_load_more_movies', __CLASS__ . '::wpml_load_more_movies_callback' );
+			add_action( 'wp_ajax_wpmoly_save_screen_option', array( $this, 'wpmoly_save_screen_option_callback' ) );
+			add_action( 'wp_ajax_wpmoly_save_dashboard_widget_settings', __CLASS__ . '::wpmoly_save_dashboard_widget_settings_callback' );
+			add_action( 'wp_ajax_wpmoly_load_more_movies', __CLASS__ . '::wpmoly_load_more_movies_callback' );
 		}
 
 		/**
@@ -88,7 +88,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * 
 		 * @since     1.0
 		 */
-		public function wpml_save_screen_option_callback() {
+		public function wpmoly_save_screen_option_callback() {
 
 			check_ajax_referer( 'screen-options-nonce', 'screenoptionnonce' );
 
@@ -111,7 +111,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * 
 		 * @since     1.0
 		 */
-		public static function wpml_save_dashboard_widget_settings_callback() {
+		public static function wpmoly_save_dashboard_widget_settings_callback() {
 
 			$widget = ( isset( $_POST['widget'] ) && '' != $_POST['widget'] ? $_POST['widget'] : null );
 			$setting = ( isset( $_POST['setting'] ) && '' != $_POST['setting'] ? $_POST['setting'] : null );
@@ -120,12 +120,12 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			if ( is_null( $widget ) || is_null( $setting ) || is_null( $value ) || ! class_exists( $widget ) )
 				wp_die( 0 );
 
-			wpml_check_ajax_referer( 'save-' . strtolower( $widget ) );
+			wpmoly_check_ajax_referer( 'save-' . strtolower( $widget ) );
 
 			$class = $widget::get_instance();
 			$update = self::save_widget_setting( $class->widget_id, $setting, $value );
 
-			WPML_Utils::ajax_response( $update, array(), WPML_Utils::create_nonce( 'save-' . strtolower( $widget ) ) );
+			WPMOLY_Utils::ajax_response( $update, array(), WPMOLY_Utils::create_nonce( 'save-' . strtolower( $widget ) ) );
 		}
 
 		/**
@@ -133,9 +133,9 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 * 
 		 * @since     1.0
 		 */
-		public static function wpml_load_more_movies_callback() {
+		public static function wpmoly_load_more_movies_callback() {
 
-			wpml_check_ajax_referer( 'load-more-widget-movies' );
+			wpmoly_check_ajax_referer( 'load-more-widget-movies' );
 
 			$widget = ( isset( $_GET['widget'] ) && '' != $_GET['widget'] ? $_GET['widget'] : null );
 			$offset = ( isset( $_GET['offset'] ) && '' != $_GET['offset'] ? $_GET['offset'] : 0 );
@@ -225,8 +225,8 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			$return = array( '<h5>' . __( 'Show on screen', 'wpmovielibrary' ) . '</h5>' );
 			$return[] = $this->set_screen_option( 'welcome_panel', __( 'Welcome', 'wpmovielibrary' ), $status );
 
-			global $wpml_dashboard_widgets;
-			foreach ( $wpml_dashboard_widgets as $slug => $widget )
+			global $wpmoly_dashboard_widgets;
+			foreach ( $wpmoly_dashboard_widgets as $slug => $widget )
 				$return[] = $this->set_screen_option( $slug, $widget['title'], $status );
 
 			$return[] = get_submit_button( __( 'Apply', 'wpmovielibrary' ), 'button hide-if-js', 'screen-options-apply', false );
@@ -253,9 +253,9 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 				return $status;
 
 			$hidden = get_user_option( 'metaboxhidden_' . get_current_screen()->id );
-			$visible = ( in_array( 'wpml_dashboard_' . $option . '_widget', $hidden ) ? '0' : '1' );
+			$visible = ( in_array( 'wpmoly_dashboard_' . $option . '_widget', $hidden ) ? '0' : '1' );
 
-			$return = $status . '<label for="show_wpml_' . $option . '"><input id="show_wpml_' . $option . '" type="checkbox"' . checked( $visible, '1', false ) . ' />' . __( $title, 'wpmovielibrary' ) . '</label>';
+			$return = $status . '<label for="show_wpmoly_' . $option . '"><input id="show_wpmoly_' . $option . '" type="checkbox"' . checked( $visible, '1', false ) . ' />' . __( $title, 'wpmovielibrary' ) . '</label>';
 			
 			return $return;
 		}
@@ -295,7 +295,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 			$user_id = get_current_user_id();
 			$hidden = get_user_option( 'metaboxhidden_' . $screen_id );
 			$hidden = ( is_array( $hidden ) ? $hidden : array() );
-			$option = 'wpml_dashboard_' . $option . '_widget';
+			$option = 'wpmoly_dashboard_' . $option . '_widget';
 
 			$_option = array_search( $option, $hidden );
 
@@ -341,7 +341,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		}
 
 		/**
-		 * Render WPML Dashboard Page.
+		 * Render WPMOLY Dashboard Page.
 		 * 
 		 * Create a nice landing page for the plugin, displaying recent
 		 * movies and other stuff like a simple shortcut menu.
@@ -352,14 +352,14 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 
 			$hidden = self::save_screen_options();
 
-			if ( isset( $_GET['hide_wpml_api_key_notice'] ) && ( isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'hide-wpml-api-key-notice' ) ) )
+			if ( isset( $_GET['hide_wpmoly_api_key_notice'] ) && ( isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'hide-wpmoly-api-key-notice' ) ) )
 				WPMovieLibrary_Admin::show_api_key_notice();
 
-			if ( isset( $_GET['wpml_set_archive_page'] ) && ( isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpml-set-archive-page' ) ) )
-				WPML_Utils::set_archive_page();
+			if ( isset( $_GET['wpmoly_set_archive_page'] ) && ( isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpmoly-set-archive-page' ) ) )
+				WPMOLY_Utils::set_archive_page();
 
-			global $wpml_dashboard_widgets;
-			foreach ( $wpml_dashboard_widgets as $widget )
+			global $wpmoly_dashboard_widgets;
+			foreach ( $wpmoly_dashboard_widgets as $widget )
 				self::add_dashboard_widget( $widget );
 
 			echo self::render_admin_template( '/dashboard/dashboard.php', array( 'screen' => get_current_screen(), 'hidden' => $hidden ) );
@@ -379,7 +379,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 
 			extract( $widget );
 
-			$class = apply_filters( 'wpml_filter_widget_classname', $class );
+			$class = apply_filters( 'wpmoly_filter_widget_classname', $class );
 			$widget_id = strtolower( $class );
 			$widget_name = __( $name, 'wpmovielibrary' );
 			$location = ( 'side' == $location ? 'side' : 'normal' );
@@ -423,7 +423,7 @@ if ( ! class_exists( 'WPML_Dashboard' ) ) :
 		 */
 		public function filter_widget_classname( $name ) {
 
-			return "WPML_Dashboard_{$name}_Widget";
+			return "WPMOLY_Dashboard_{$name}_Widget";
 		}
 
 		/**

@@ -11,9 +11,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Media' ) ) :
+if ( ! class_exists( 'WPMOLY_Media' ) ) :
 
-	class WPML_Media extends WPML_Module {
+	class WPMOLY_Media extends WPMOLY_Module {
 
 		/**
 		 * Constructor
@@ -38,10 +38,10 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			add_action( 'before_delete_post', __CLASS__ . '::delete_movies_attachments', 10, 1 );
 			add_action( 'admin_post_thumbnail_html', __CLASS__ . '::load_posters_link', 10, 2 );
 
-			add_filter( 'wpml_check_for_existing_images', __CLASS__ . '::check_for_existing_images', 10, 3 );
-			add_filter( 'wpml_jsonify_movie_images', __CLASS__ . '::fake_jsonify_movie_images', 10, 3 );
-			add_action( 'wp_ajax_wpml_upload_image', __CLASS__ . '::upload_image_callback' );
-			add_action( 'wp_ajax_wpml_set_featured', __CLASS__ . '::set_featured_image_callback' );
+			add_filter( 'wpmoly_check_for_existing_images', __CLASS__ . '::check_for_existing_images', 10, 3 );
+			add_filter( 'wpmoly_jsonify_movie_images', __CLASS__ . '::fake_jsonify_movie_images', 10, 3 );
+			add_action( 'wp_ajax_wpmoly_upload_image', __CLASS__ . '::upload_image_callback' );
+			add_action( 'wp_ajax_wpmoly_set_featured', __CLASS__ . '::set_featured_image_callback' );
 		}
 
 		/**
@@ -87,8 +87,8 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				return false;
 
 			foreach ( $attached as $a )
-				if ( '' != get_post_meta( $a->ID, '_wpml_backdrop_related_tmdb_id', true ) ||
-				     '' != get_post_meta( $a->ID, '_wpml_poster_related_tmdb_id', true ) )
+				if ( '' != get_post_meta( $a->ID, '_wpmoly_backdrop_related_tmdb_id', true ) ||
+				     '' != get_post_meta( $a->ID, '_wpmoly_poster_related_tmdb_id', true ) )
 					wp_delete_attachment( $a->ID, $force_delete = true );
 
 			return $post_id;
@@ -126,7 +126,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 					'post_type' => 'attachment',
 					'meta_query' => array(
 						array(
-							'key'     => '_wpml_' . $image_type . '_related_tmdb_id',
+							'key'     => '_wpmoly_' . $image_type . '_related_tmdb_id',
 							'value'   => $tmdb_id,
 						)
 					)
@@ -136,7 +136,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 			// Check for matching files
 			if ( 'poster' == $image_type && ! empty( $check ) ) {
 				foreach ( $check as $c ) {
-					$meta = get_post_meta( $c->ID, '_wpml_' . $image_type . '_related_meta_data' );
+					$meta = get_post_meta( $c->ID, '_wpmoly_' . $image_type . '_related_meta_data' );
 					if ( isset( $meta['file_path'] ) && in_array( $meta['file_path'], array( $image, '/' . $image ) ) )
 						return $c;
 				}
@@ -159,7 +159,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 * Prepare movie images to Media Modal query creating an array
 		 * matching wp_prepare_attachment_for_js() filtered attachments.
 		 * 
-		 * This is used by WPML_Edit_Movies::load_images_callback() to
+		 * This is used by WPMOLY_Edit_Movies::load_images_callback() to
 		 * show movie images in Media Modal instead of regular images,
 		 * which needs to fed JSONified Attachments to the AJAX callback
 		 * to append to the modal.
@@ -175,7 +175,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 
 			$image_type = ( 'poster' == $image_type ? 'poster' : 'backdrop' );
 
-			$base_url = WPML_TMDb::get_image_url( null, $image_type );
+			$base_url = WPMOLY_TMDb::get_image_url( null, $image_type );
 			$json_images = array();
 			$i = 0;
 
@@ -273,7 +273,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 */
 		public static function upload_image_callback() {
 
-			wpml_check_ajax_referer( 'upload-movie-image' );
+			wpmoly_check_ajax_referer( 'upload-movie-image' );
 
 			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
@@ -284,7 +284,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', 'wpmovielibrary' ) );
 
 			$response = self::image_upload( $image['file_path'], $post_id, $tmdb_id, $title, 'backdrop', $image );
-			wpml_ajax_response( $response );
+			wpmoly_ajax_response( $response );
 		}
 
 		/**
@@ -307,7 +307,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 		 */
 		public static function set_featured_image_callback() {
 
-			wpml_check_ajax_referer( 'set-movie-poster' );
+			wpmoly_check_ajax_referer( 'set-movie-poster' );
 
 			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
@@ -321,7 +321,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', 'wpmovielibrary' ) );
 
 			$response = self::set_image_as_featured( $image, $post_id, $tmdb_id, $title );
-			wpml_ajax_response( $response );
+			wpmoly_ajax_response( $response );
 		}
 
 		/**
@@ -408,12 +408,12 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 
 			if ( is_array( $file ) ) {
 				$data = $file;
-				$file = WPML_TMDb::get_image_url( $file['file_path'], $image_type, $size );
+				$file = WPMOLY_TMDb::get_image_url( $file['file_path'], $image_type, $size );
 				$image = $file;
 			}
 			else {
 				$image = $file;
-				$file = WPML_TMDb::get_image_url( $file, $image_type, $size );
+				$file = WPMOLY_TMDb::get_image_url( $file, $image_type, $size );
 			}
 
 			$image = substr( $image, 1 );
@@ -439,8 +439,8 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				return new WP_Error( $id->get_error_code(), $id->get_error_message() );
 			}
 
-			update_post_meta( $id, '_wpml_' . $image_type . '_related_tmdb_id', $tmdb_id );
-			update_post_meta( $id, '_wpml_' . $image_type . '_related_meta_data', $data );
+			update_post_meta( $id, '_wpmoly_' . $image_type . '_related_tmdb_id', $tmdb_id );
+			update_post_meta( $id, '_wpmoly_' . $image_type . '_related_meta_data', $data );
 
 			return $id;
 		}
@@ -465,7 +465,7 @@ if ( ! class_exists( 'WPML_Media' ) ) :
 				return $content;
 
 			$content .= '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', 'wpmovielibrary' ) . '</a>';
-			$content .= wpml_nonce_field( 'set-movie-poster', false, false );
+			$content .= wpmoly_nonce_field( 'set-movie-poster', false, false );
 
 			return $content;
 		}

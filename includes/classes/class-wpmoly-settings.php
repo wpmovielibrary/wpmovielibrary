@@ -11,17 +11,17 @@
  * @copyright 2014 CaerCam.org
  */
 
-require_once( WPML_PATH . 'includes/wpmoly-config.php' );
+require_once( WPMOLY_PATH . 'includes/wpmoly-config.php' );
 
-if ( ! class_exists( 'WPML_Settings' ) ) :
+if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 
 	/**
-	 * WPML Settings class
+	 * WPMOLY Settings class
 	 *
 	 * @package WPMovieLibrary
 	 * @author  Charlie MERLAND <charlie@caercam.org>
 	 */
-	class WPML_Settings extends WPML_Module {
+	class WPMOLY_Settings extends WPMOLY_Module {
 
 		/**
 		 * Constructor
@@ -61,7 +61,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 			global $wpmoly_config;
 
 			if ( is_null( $wpmoly_config ) )
-				require WPML_PATH . 'includes/config/wpml-settings.php';
+				require WPMOLY_PATH . 'includes/config/wpmoly-settings.php';
 
 			if ( true !== $minify )
 				return $wpmoly_config;
@@ -155,11 +155,11 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @since    1.0
 		 *
-		 * @return   array    WPML Default Movie Media.
+		 * @return   array    WPMOLY Default Movie Media.
 		 */
 		public static function get_default_movie_media() {
-			global $wpml_movie_details;
-			$default = $wpml_movie_details['movie_media']['default'];
+			global $wpmoly_movie_details;
+			$default = $wpmoly_movie_details['movie_media']['default'];
 			return $default;
 		}
 
@@ -168,11 +168,11 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @since    1.0
 		 *
-		 * @return   array    WPML Default Movie Status.
+		 * @return   array    WPMOLY Default Movie Status.
 		 */
 		public static function get_default_movie_status() {
-			global $wpml_movie_details;
-			$default = $wpml_movie_details['movie_status']['default'];
+			global $wpmoly_movie_details;
+			$default = $wpmoly_movie_details['movie_status']['default'];
 			return $default;
 		}
 
@@ -181,14 +181,14 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @since    1.0
 		 *
-		 * @return   array    WPML Default Movie Media.
+		 * @return   array    WPMOLY Default Movie Media.
 		 */
 		public static function get_available_movie_media() {
 
-			global $wpml_movie_details;
+			global $wpmoly_movie_details;
 
 			$media = array();
-			$items = $wpml_movie_details['movie_media']['options'];
+			$items = $wpmoly_movie_details['movie_media']['options'];
 
 			foreach ( $items as $slug => $title )
 				$media[ $slug ] = $title;
@@ -201,14 +201,14 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @since    1.0
 		 *
-		 * @return   array    WPML Available Movie Status.
+		 * @return   array    WPMOLY Available Movie Status.
 		 */
 		public static function get_available_movie_status() {
 
-			global $wpml_movie_details;
+			global $wpmoly_movie_details;
 
 			$statuses = array();
-			$items = $wpml_movie_details['movie_status']['options'];
+			$items = $wpmoly_movie_details['movie_status']['options'];
 
 			foreach ( $items as $slug => $title )
 				$statuses[ $slug ] = $title;
@@ -221,14 +221,14 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @since    1.0
 		 *
-		 * @return   array    WPML Available Movie Rating.
+		 * @return   array    WPMOLY Available Movie Rating.
 		 */
 		public static function get_available_movie_rating() {
 
-			global $wpml_movie_details;
+			global $wpmoly_movie_details;
 
 			$ratings = array();
-			$items = $wpml_movie_details['movie_rating']['options'];
+			$items = $wpmoly_movie_details['movie_rating']['options'];
 
 			foreach ( $items as $slug => $title )
 				$rating[ $slug ] = $title;
@@ -245,9 +245,9 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 */
 		public static function get_available_languages() {
 
-			global $wpml_settings;
+			global $wpmoly_settings;
 
-			return $wpml_settings['tmdb']['settings']['lang']['values'];
+			return $wpmoly_settings['tmdb']['settings']['lang']['values'];
 		}
 
 		/**
@@ -259,7 +259,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 */
 		public static function get_available_shortcodes() {
 
-			global $wpml_shortcodes;
+			global $wpmoly_shortcodes;
 
 			/**
 			 * Filter the Shortcodes list to add/remove shortcodes.
@@ -269,11 +269,11 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 			 *
 			 * @since    1.2
 			 *
-			 * @param    array    $wpml_shortcodes Existing Shortcodes
+			 * @param    array    $wpmoly_shortcodes Existing Shortcodes
 			 */
-			$wpml_shortcodes = apply_filters( 'wpml_filter_shortcodes', $wpml_shortcodes );
+			$wpmoly_shortcodes = apply_filters( 'wpmoly_filter_shortcodes', $wpmoly_shortcodes );
 
-			return $wpml_shortcodes;
+			return $wpmoly_shortcodes;
 		}
 
 		/**
@@ -281,20 +281,20 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @since    1.0
 		 *
-		 * @return   array    WPML Supported Movie Details fields.
+		 * @return   array    WPMOLY Supported Movie Details fields.
 		 */
 		public static function get_supported_movie_details( $type = null ) {
 
-			global $wpml_movie_details;
+			global $wpmoly_movie_details;
 
-			if ( is_null( $wpml_movie_details ) )
-				require( WPML_PATH . 'includes/wpml-config.php' );
+			if ( is_null( $wpmoly_movie_details ) )
+				require( WPMOLY_PATH . 'includes/wpmoly-config.php' );
 
-			if ( ! is_null( $type ) && isset( $wpml_movie_details[ $type ] ) )
-				return $wpml_movie_meta[ $type ];
+			if ( ! is_null( $type ) && isset( $wpmoly_movie_details[ $type ] ) )
+				return $wpmoly_movie_meta[ $type ];
 
 			$items = array();
-			foreach ( $wpml_movie_details as $slug => $details )
+			foreach ( $wpmoly_movie_details as $slug => $details )
 				$items[ $slug ] = $details;
 
 			return $items;
@@ -305,25 +305,25 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @since    1.0
 		 *
-		 * @return   array    WPML Supported Movie Meta fields.
+		 * @return   array    WPMOLY Supported Movie Meta fields.
 		 */
 		public static function get_supported_movie_meta( $type = null ) {
 
-			global $wpml_movie_meta;
+			global $wpmoly_movie_meta;
 
-			if ( is_null( $wpml_movie_meta ) )
-				require( WPML_PATH . 'includes/wpml-config.php' );
+			if ( is_null( $wpmoly_movie_meta ) )
+				require( WPMOLY_PATH . 'includes/wpmoly-config.php' );
 
 			if ( ! is_null( $type ) ) {
 				$meta = array();
-				foreach ( $wpml_movie_meta as $slug => $data )
+				foreach ( $wpmoly_movie_meta as $slug => $data )
 					if ( $data['group'] == $type )
 						$meta[ $slug ] = $data;
 
 				return $meta;
 			}
 
-			return $wpml_movie_meta;
+			return $wpmoly_movie_meta;
 		}
 
 		/**
@@ -331,13 +331,13 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @since    1.1
 		 *
-		 * @return   array    WPML Supported Shortcodes aliases.
+		 * @return   array    WPMOLY Supported Shortcodes aliases.
 		 */
 		public static function get_supported_movie_meta_aliases() {
 
-			global $wpml_movie_meta_aliases;
+			global $wpmoly_movie_meta_aliases;
 
-			return $wpml_movie_meta_aliases;
+			return $wpmoly_movie_meta_aliases;
 		}
 
 		/**
@@ -345,11 +345,11 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @since    1.2
 		 *
-		 * @return   array    WPML Metaboxes
+		 * @return   array    WPMOLY Metaboxes
 		 */
 		public static function get_metaboxes() {
 
-			global $wpml_metaboxes;
+			global $wpmoly_metaboxes;
 
 			/**
 			 * Filter the Metaboxes list to add/remove metaboxes.
@@ -359,11 +359,11 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 			 *
 			 * @since    1.2
 			 *
-			 * @param    array    $wpml_metaboxes Existing Metaboxes
+			 * @param    array    $wpmoly_metaboxes Existing Metaboxes
 			 */
-			$wpml_metaboxes = apply_filters( 'wpml_filter_metaboxes', $wpml_metaboxes );
+			$wpmoly_metaboxes = apply_filters( 'wpmoly_filter_metaboxes', $wpmoly_metaboxes );
 
-			return $wpml_metaboxes;
+			return $wpmoly_metaboxes;
 		}
 
 		/**
@@ -371,11 +371,11 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 *
 		 * @since    1.2
 		 *
-		 * @return   array    WPML Metaboxes
+		 * @return   array    WPMOLY Metaboxes
 		 */
 		public static function get_admin_menu() {
 
-			global $wpml_admin_menu;
+			global $wpmoly_admin_menu;
 
 			/**
 			 * Filter the Admin menu list to edit/add/remove subpages.
@@ -385,11 +385,11 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 			 *
 			 * @since    1.3
 			 *
-			 * @param    array    $wpml_admin_menu Admin menu
+			 * @param    array    $wpmoly_admin_menu Admin menu
 			 */
-			$wpml_admin_menu = apply_filters( 'wpml_filter_admin_menu', $wpml_admin_menu );
+			$wpmoly_admin_menu = apply_filters( 'wpmoly_filter_admin_menu', $wpmoly_admin_menu );
 
-			return $wpml_admin_menu;
+			return $wpmoly_admin_menu;
 		}
 
 		/**
@@ -402,7 +402,7 @@ if ( ! class_exists( 'WPML_Settings' ) ) :
 		 */
 		public static function clean_settings() {
 
-			delete_option( 'wpml_settings' );
+			delete_option( 'wpmoly_settings' );
 		}
 
 		/**
@@ -460,5 +460,5 @@ endif;
  */
 function wpmoly_o( $search ) {
 
-	return WPML_Settings::get( $search );
+	return WPMOLY_Settings::get( $search );
 }

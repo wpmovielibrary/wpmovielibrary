@@ -1,9 +1,9 @@
 
 $ = $ || jQuery;
 
-wpml = wpml || {};
+wpmoly = wpmoly || {};
 
-	wpml.editor = {}
+	wpmoly.editor = {}
 
 		/**
 		 * Handles 'All Movies' Table and Post Editor Movie Meta part
@@ -12,9 +12,9 @@ wpml = wpml || {};
 		 * Movies Table.
 		 * 
 		 * Populate Meta fields, taxonomies and featured images with the
-		 * data fetched by wpml.editor.meta.search_movie().
+		 * data fetched by wpmoly.editor.meta.search_movie().
 		 */
-		wpml.editor.movies = wpml_edit_movies = {
+		wpmoly.editor.movies = wpmoly_edit_movies = {
 
 			actors: 'td.column-taxonomy-actor',
 			visible: '.visible-actors',
@@ -33,13 +33,13 @@ wpml = wpml || {};
 			/**
 			 * Init Events and generate Actors Excerpt list
 			 */
-			wpml.editor.movies.init = function() {
+			wpmoly.editor.movies.init = function() {
 
-				wpml_edit_movies.short_actors();
+				wpmoly_edit_movies.short_actors();
 
-				$( wpml_edit_movies._more.element ).on( wpml_edit_movies._more.event, function( e ) {
+				$( wpmoly_edit_movies._more.element ).on( wpmoly_edit_movies._more.event, function( e ) {
 					e.preventDefault();
-					wpml_edit_movies.toggle_actors( this );
+					wpmoly_edit_movies.toggle_actors( this );
 				});
 
 			};
@@ -52,9 +52,9 @@ wpml = wpml || {};
 			 * 
 			 * @since    1.0
 			 */
-			wpml.editor.movies.short_actors = function() {
+			wpmoly.editor.movies.short_actors = function() {
 
-				$( wpml_edit_movies.actors ).each( function() {
+				$( wpmoly_edit_movies.actors ).each( function() {
 
 					var $links = $( this ).find('a');
 					if ( $links.length ) {
@@ -66,9 +66,9 @@ wpml = wpml || {};
 						_visible.each( function() { visible.push( this.outerHTML ); } );
 						_hidden.each( function() { hidden.push( this.outerHTML ); } );
 
-						$( this ).html( '<span class="visible-actors"></span>, <span class="hidden-actors"></span> <a class="more-actors" href="#">' + wpml_ajax.lang.see_more + '</a>' );
-						$( this ).find( wpml_edit_movies.visible ).html( visible.join( ', ' ) );
-						$( this ).find( wpml_edit_movies.hidden ).html( hidden.join( ', ' ) );
+						$( this ).html( '<span class="visible-actors"></span>, <span class="hidden-actors"></span> <a class="more-actors" href="#">' + wpmoly_ajax.lang.see_more + '</a>' );
+						$( this ).find( wpmoly_edit_movies.visible ).html( visible.join( ', ' ) );
+						$( this ).find( wpmoly_edit_movies.hidden ).html( hidden.join( ', ' ) );
 					}
 				});
 			};
@@ -80,13 +80,13 @@ wpml = wpml || {};
 			 * 
 			 * @param    object    Link DOM object
 			 */
-			wpml.editor.movies.toggle_actors = function( link ) {
+			wpmoly.editor.movies.toggle_actors = function( link ) {
 
-				$( link ).prev( wpml_edit_movies.hidden ).toggle();
-				if ( 'none' != $( link ).prev( wpml_edit_movies.hidden ).css( 'display' ) )
-					$( link ).text( wpml_ajax.lang.see_less );
+				$( link ).prev( wpmoly_edit_movies.hidden ).toggle();
+				if ( 'none' != $( link ).prev( wpmoly_edit_movies.hidden ).css( 'display' ) )
+					$( link ).text( wpmoly_ajax.lang.see_less );
 				else
-					$( link ).text( wpml_ajax.lang.see_more );
+					$( link ).text( wpmoly_ajax.lang.see_more );
 			};
 
 			/**
@@ -99,7 +99,7 @@ wpml = wpml || {};
 			 * @param    object    Movie details: status, media, rating
 			 * @param    string    Security Nonce
 			 */
-			wpml.editor.movies.quick_edit = function( movie_details, nonce ) {
+			wpmoly.editor.movies.quick_edit = function( movie_details, nonce ) {
 
 				var $wp_inline_edit = inlineEditPost.edit;
 
@@ -121,7 +121,7 @@ wpml = wpml || {};
 						    $hidden_movie_rating = $( '#hidden-movie-rating', edit_row ),
 						    $stars = $( '#stars', edit_row );
 
-						wpml.update_nonce( 'set-quickedit-movie-details', nonce );
+						wpmoly.update_nonce( 'set-quickedit-movie-details', nonce );
 
 						$movie_media.children( 'option' ).each( function() {
 							$( this ).prop( 'selected', ( $( this ).val() == movie_details.movie_media ) );
@@ -144,4 +144,4 @@ wpml = wpml || {};
 				};
 			};
 
-		wpml.editor.movies.init();
+		wpmoly.editor.movies.init();

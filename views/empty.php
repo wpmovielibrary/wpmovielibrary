@@ -12,6 +12,6 @@
 if ( ! isset( $message ) )
 	$message = __( 'Nothing to display.', 'wpmovielibrary' );
 ?>
-	<div class="wpml-empty">
+	<div class="wpmoly-empty">
 		<em><?php echo $message ?></em>
 	</div>

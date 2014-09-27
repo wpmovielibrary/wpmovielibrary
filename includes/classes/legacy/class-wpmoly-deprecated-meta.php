@@ -2,7 +2,7 @@
 /**
  * WPMovieLibrary Deprecated Meta Class.
  * 
- * This class handles deprecated WPMovieLibrary Movie Metadata. Prior to WPML
+ * This class handles deprecated WPMovieLibrary Movie Metadata. Prior to WPMOLY
  * version 1.3 movie metadata were stored in a unique post meta value which
  * blocked a lot of features and improvement. Current class handles the migration
  * from obsolete to new data format.
@@ -14,9 +14,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
+if ( ! class_exists( 'WPMOLY_Deprecated_Meta' ) ) :
 
-	class WPML_Deprecated_Meta extends WPML_Module {
+	class WPMOLY_Deprecated_Meta extends WPMOLY_Module {
 
 		/**
 		 * Constructor
@@ -41,7 +41,7 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
-			add_action( 'wp_ajax_wpml_update_movie', array( $this, 'update_movie_callback' ) );
+			add_action( 'wp_ajax_wpmoly_update_movie', array( $this, 'update_movie_callback' ) );
 		}
 
 		/**
@@ -53,8 +53,8 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 		 */
 		public function enqueue_admin_styles( $hook ) {
 
-			if ( 'dashboard_page_wpml-update-movies' == $hook )
-				wp_enqueue_style( 'roboto-font', '//fonts.googleapis.com/css?family=Roboto:100', array(), WPML_VERSION );
+			if ( 'dashboard_page_wpmoly-update-movies' == $hook )
+				wp_enqueue_style( 'roboto-font', '//fonts.googleapis.com/css?family=Roboto:100', array(), WPMOLY_VERSION );
 		}
 
 		/**
@@ -66,12 +66,12 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 		 */
 		public function enqueue_admin_scripts( $hook ) {
 
-			if ( 'dashboard_page_wpml-update-movies' == $hook ) {
-				wp_enqueue_script( WPML_SLUG . '-jquery-ajax-queue', WPML_URL . '/assets/js/jquery.ajaxQueue.js', array( 'jquery' ), WPML_VERSION, true );
-				wp_enqueue_script( WPML_SLUG . '-updates', WPML_URL . '/assets/js/wpml.updates.js', array( WPML_SLUG, 'jquery' ), WPML_VERSION, true );
+			if ( 'dashboard_page_wpmoly-update-movies' == $hook ) {
+				wp_enqueue_script( WPMOLY_SLUG . '-jquery-ajax-queue', WPMOLY_URL . '/assets/js/jquery.ajaxQueue.js', array( 'jquery' ), WPMOLY_VERSION, true );
+				wp_enqueue_script( WPMOLY_SLUG . '-updates', WPMOLY_URL . '/assets/js/wpmoly.updates.js', array( WPMOLY_SLUG, 'jquery' ), WPMOLY_VERSION, true );
 
 				wp_localize_script(
-					WPML_SLUG . '-updates', 'wpml_legacy',
+					WPMOLY_SLUG . '-updates', 'wpmoly_legacy',
 					array(
 						'lang' => array(
 							'updated'        => __( 'updated successfully', 'wpmovielibrary' ),
@@ -104,7 +104,7 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 		 */
 		public function update_movie_callback() {
 
-			wpml_check_ajax_referer( 'update-movie' );
+			wpmoly_check_ajax_referer( 'update-movie' );
 
 			$movie_id = ( isset( $_POST['movie_id'] ) && '' != $_POST['movie_id'] ? intval( $_POST['movie_id'] ) : null );
 
@@ -113,7 +113,7 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 
 			$response = self::update_movie( $movie_id );
 
-			wpml_ajax_response( $response, array(), wpml_create_nonce( 'update-movie' ) );
+			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'update-movie' ) );
 		}
 
 		/**
@@ -132,7 +132,7 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 		/**
 		 * Get a list of deprected Movie IDs.
 		 * 
-		 * Movie having an non-empty '_wpml_movie_data' custom field
+		 * Movie having an non-empty '_wpmoly_movie_data' custom field
 		 * are considered deprecated and needing updating.
 		 * 
 		 * @since    1.3
@@ -143,7 +143,7 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 
 			global $wpdb;
 
-			$movies = $wpdb->get_results( "SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key='_wpml_movie_data' AND meta_value!=''" );
+			$movies = $wpdb->get_results( "SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key='_wpmoly_movie_data' AND meta_value!=''" );
 			$movies = ( ! $wpdb->num_rows ? false : $movies );
 
 			return $movies;
@@ -160,7 +160,7 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 
 			global $wpdb;
 
-			$movies = $wpdb->get_results( "SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key='_wpml_movie_data' AND meta_value!=''" );
+			$movies = $wpdb->get_results( "SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key='_wpmoly_movie_data' AND meta_value!=''" );
 
 			foreach ( $movies as $i => $movie )
 				$movies[ $i ] = $movie->post_id;
@@ -182,7 +182,7 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 		/**
 		 * Get a list of deprected Movie IDs.
 		 * 
-		 * Movie having an non-empty '_wpml_movie_data' custom field
+		 * Movie having an non-empty '_wpmoly_movie_data' custom field
 		 * are considered deprecated and needing updating.
 		 * 
 		 * @since    1.3
@@ -245,14 +245,14 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 		 */
 		private static function update_meta( $movie_id ) {
 
-			$meta = get_post_meta( $movie_id, '_wpml_movie_data', $single = true );
+			$meta = get_post_meta( $movie_id, '_wpmoly_movie_data', $single = true );
 			if ( '' == $meta )
 				return false;
 
-			$update = WPML_Edit_Movies::save_movie_meta( $movie_id, $meta, $clean = false );
+			$update = WPMOLY_Edit_Movies::save_movie_meta( $movie_id, $meta, $clean = false );
 
 			if ( ! is_wp_error( $update ) && $update == $movie_id )
-				delete_post_meta( $movie_id, '_wpml_movie_data', $meta );
+				delete_post_meta( $movie_id, '_wpmoly_movie_data', $meta );
 
 			return $update;
 		}
@@ -266,14 +266,14 @@ if ( ! class_exists( 'WPML_Deprecated_Meta' ) ) :
 		 */
 		public function activate( $network_wide ) {
 
-			if ( ! wpml_has_deprecated_meta() )
+			if ( ! wpmoly_has_deprecated_meta() )
 				return false;
 
 			$deprecated = self::get_deprecated_movies();
 			if ( false !== $deprecated ) {
 
-				delete_option( 'wpml_has_deprecated_meta' );
-				add_option( 'wpml_has_deprecated_meta', count( $deprecated ), null, 'no' );
+				delete_option( 'wpmoly_has_deprecated_meta' );
+				add_option( 'wpmoly_has_deprecated_meta', count( $deprecated ), null, 'no' );
 			}
 		}
 

@@ -1,11 +1,11 @@
 <?php
 
-if ( ! class_exists( 'WPML_Module' ) ) {
+if ( ! class_exists( 'WPMOLY_Module' ) ) {
 
 	/**
 	 * Abstract class to define/implement base methods for all module classes
 	 */
-	abstract class WPML_Module {
+	abstract class WPMOLY_Module {
 
 		private static $instances = array();
 
@@ -30,7 +30,7 @@ if ( ! class_exists( 'WPML_Module' ) ) {
 		/**
 		 * Render an admin template
 		 * 
-		 * Simple alias of WPML_Module::render_template() adding admin
+		 * Simple alias of WPMOLY_Module::render_template() adding admin
 		 * views path and hooks.
 		 *
 		 * @since    1.3
@@ -69,13 +69,13 @@ if ( ! class_exists( 'WPML_Module' ) ) {
 
 			$admin = ( true === $admin ? 'admin_' : '' );
 
-			do_action( "wpml_render_{$admin}template_pre", $default_template_path, $variables );
+			do_action( "wpmoly_render_{$admin}template_pre", $default_template_path, $variables );
 
 			$template_path = locate_template( 'wpmovielibrary/' . $default_template_path, true, false );
 			if ( ! $template_path )
-				$template_path = WPML_PATH . '/views/' . $default_template_path;
+				$template_path = WPMOLY_PATH . '/views/' . $default_template_path;
 
-			$template_path = apply_filters( "wpml_{$admin}template_path", $template_path );
+			$template_path = apply_filters( "wpmoly_{$admin}template_path", $template_path );
 
 			if ( is_file( $template_path ) ) {
 
@@ -87,12 +87,12 @@ if ( ! class_exists( 'WPML_Module' ) ) {
 				else
 					require_once( $template_path );
 
-				$template_content = apply_filters( "wpml_{$admin}template_content", ob_get_clean(), $default_template_path, $template_path, $variables );
+				$template_content = apply_filters( "wpmoly_{$admin}template_content", ob_get_clean(), $default_template_path, $template_path, $variables );
 			}
 			else
 				$template_content = '';
 
-			do_action( "wpml_render_{$admin}template_after", $default_template_path, $variables, $template_path, $template_content );
+			do_action( "wpmoly_render_{$admin}template_after", $default_template_path, $variables, $template_path, $template_content );
 
 			return $template_content;
 		}
@@ -141,5 +141,5 @@ if ( ! class_exists( 'WPML_Module' ) ) {
 		 * @mvc Controller
 		 */
 		abstract public function init();
-	} // end WPML_Module
+	} // end WPMOLY_Module
 }

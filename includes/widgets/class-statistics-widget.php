@@ -15,7 +15,7 @@
  * 
  * @since    1.0
  */
-class WPML_Statistics_Widget extends WP_Widget {
+class WPMOLY_Statistics_Widget extends WP_Widget {
 
 	/**
 	 * Specifies the classname and description, instantiates the widget,
@@ -24,10 +24,10 @@ class WPML_Statistics_Widget extends WP_Widget {
 	public function __construct() {
 
 		parent::__construct(
-			'wpml-statistics-widget',
+			'wpmoly-statistics-widget',
 			__( 'WPMovieLibrary Statistics', 'wpmovielibrary' ),
 			array(
-				'classname'	=>	'wpml-statistics-widget',
+				'classname'	=>	'wpmoly-statistics-widget',
 				'description'	=>	__( 'Display some statistics about your movie library', 'wpmovielibrary' )
 			)
 		);
@@ -42,10 +42,10 @@ class WPML_Statistics_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		// Caching
-		$name = apply_filters( 'wpml_cache_name', 'statistics_widget', $args );
+		$name = apply_filters( 'wpmoly_cache_name', 'statistics_widget', $args );
 		// Naughty PHP 5.3 fix
 		$widget = &$this;
-		$content = WPML_Cache::output( $name, function() use ( $widget, $args, $instance ) {
+		$content = WPMOLY_Cache::output( $name, function() use ( $widget, $args, $instance ) {
 
 			return $widget->widget_content( $args, $instance );
 		});
@@ -98,7 +98,7 @@ class WPML_Statistics_Widget extends WP_Widget {
 		$format = wpautop( wp_kses( $format, array( 'ul', 'ol', 'li', 'p', 'span', 'em', 'i', 'p', 'strong', 'b', 'br' ) ) );
 
 		$content = str_replace( array_keys( $links ), array_values( $links ), $format );
-		$style = 'wpml-widget wpml-statistics';
+		$style = 'wpmoly-widget wpmoly-statistics';
 
 		$attributes = array( 'content' => $content, 'description' => $description, 'style' => $style );
 

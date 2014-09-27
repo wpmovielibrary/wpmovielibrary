@@ -4,9 +4,9 @@
  * For full documentation, please visit: https://docs.reduxframework.com
  **/
 
-if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
+if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 
-	class WPML_Redux_Framework_config {
+	class WPMOLY_Redux_Framework_config {
 
 		public $args = array();
 		public $sections = array();
@@ -113,7 +113,7 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 			// ACTUAL DECLARATION OF SECTIONS
 			$this->sections = array_merge(
 				$this->sections,
-				WPML_Settings::get_default_settings()
+				WPMOLY_Settings::get_default_settings()
 			);
 		}
 
@@ -142,7 +142,7 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 		* */
 		public function setArguments() {
 
-			$plugin = get_plugin_data( WPML_PATH . 'wpmovielibrary.php' ); // For use with some settings. Not necessary.
+			$plugin = get_plugin_data( WPMOLY_PATH . 'wpmovielibrary.php' ); // For use with some settings. Not necessary.
 
 			$this->args = array(
 				'opt_name'             => 'wpmoly_settings',
@@ -233,8 +233,8 @@ if ( ! class_exists( 'WPML_Redux_Framework_config' ) ) {
 	}
 
 	global $reduxConfig;
-	$reduxConfig = new WPML_Redux_Framework_config();
+	$reduxConfig = new WPMOLY_Redux_Framework_config();
 }
 else {
-	echo "The class named WPML_Redux_Framework_config has already been called. <strong>Developers, you need to prefix this class with your company name or you'll run into problems!</strong>";
+	echo "The class named WPMOLY_Redux_Framework_config has already been called. <strong>Developers, you need to prefix this class with your company name or you'll run into problems!</strong>";
 }

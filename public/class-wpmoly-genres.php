@@ -11,9 +11,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPML_Genres' ) ) :
+if ( ! class_exists( 'WPMOLY_Genres' ) ) :
 
-	class WPML_Genres extends WPML_Module {
+	class WPMOLY_Genres extends WPMOLY_Module {
 
 		protected $widgets;
 
@@ -43,8 +43,8 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 		 * Genres are Tag-like taxonomies: not-hierarchical, tagcloud,
 		 * showing in admin columns.
 		 * 
-		 * @see wpml_movies_columns_head()
-		 * @see wpml_movies_columns_content()
+		 * @see wpmoly_movies_columns_head()
+		 * @see wpmoly_movies_columns_content()
 		 *
 		 * @since    1.0
 		 */
@@ -95,7 +95,7 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 			global $wpdb;
 			$wpdb->hide_errors();
 
-			$_action = get_option( 'wpml_settings' );
+			$_action = get_option( 'wpmoly_settings' );
 			if ( ! $_action || ! isset( $_action[ "wpmoly-{$action}-genres" ] ) )
 				return false;
 
@@ -108,7 +108,7 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 			switch ( $action ) {
 				case 'convert':
 					foreach ( $contents as $term ) {
-						wp_update_term( $term->term_id, 'genre', array( 'slug' => 'wpml_genre-' . $term->slug ) );
+						wp_update_term( $term->term_id, 'genre', array( 'slug' => 'wpmoly_genre-' . $term->slug ) );
 						$wpdb->update(
 							$wpdb->term_taxonomy,
 							array( 'taxonomy' => 'post_tag' ),
@@ -140,18 +140,18 @@ if ( ! class_exists( 'WPML_Genres' ) ) :
 			global $wpdb;
 			$wpdb->hide_errors();
 
-			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpml_genre%"' );
+			$contents = $wpdb->get_results( 'SELECT term_id, slug FROM ' . $wpdb->terms . ' WHERE slug LIKE "wpmoly_genre%"' );
 			$genres   = array();
 
 			foreach ( $contents as $term )
-				if ( false !== strpos( $term->slug, 'wpml_genre' ) )
+				if ( false !== strpos( $term->slug, 'wpmoly_genre' ) )
 					$genres[] = $term->term_id;
 
 			if ( ! empty( $genres ) )
 				$wpdb->query( 'UPDATE ' . $wpdb->term_taxonomy . ' SET taxonomy = "genre" WHERE term_id IN (' . implode( ',', $genres ) . ') AND taxonomy = "post_tag"' );
 
 			$wpdb->query(
-				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpml_genre-", "")'
+				'UPDATE ' . $wpdb->terms . ' SET slug = REPLACE(slug, "wpmoly_genre-", "")'
 			);
 
 			self::register_genre_taxonomy();

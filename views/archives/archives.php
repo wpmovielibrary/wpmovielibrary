@@ -10,7 +10,7 @@
 
 ?>
 
-	<ul class="wpml_archives wpml_<?php echo $taxonomy; ?>_archives">
+	<ul class="wpmoly_archives wpmoly_<?php echo $taxonomy; ?>_archives">
 <?php foreach ( $links as $link ) : ?>
 
 		<li><a href="<?php echo $link['url']; ?>" title="<?php echo $link['attr_title']; ?>"><?php echo $link['title']; ?> (<?php echo $link['count']; ?>)</a></li>

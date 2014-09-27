@@ -1,30 +1,30 @@
 
 $ = $ || jQuery;
 
-wpml = wpml || {};
+wpmoly = wpmoly || {};
 
-wpml.widget = wpml_widget = {
+wpmoly.widget = wpmoly_widget = {
 
-	select: '.wpml-movies-widget-select > option',
-	select_status: '.wpml-movies-widget-select-status',
-	select_media: '.wpml-movies-widget-select-media',
-	select_rating: '.wpml-movies-widget-select-rating',
+	select: '.wpmoly-movies-widget-select > option',
+	select_status: '.wpmoly-movies-widget-select-status',
+	select_media: '.wpmoly-movies-widget-select-media',
+	select_rating: '.wpmoly-movies-widget-select-rating',
 };
 
-	/*wpml.widget = function() {
+	/*wpmoly.widget = function() {
 		
 	};*/
 
-	wpml.widget.init = function() {
+	wpmoly.widget.init = function() {
 
-		wpml_widget.hide();
+		wpmoly_widget.hide();
 
-		$( wpml_widget.select ).unbind( 'click' ).on( 'click', function() {
-			wpml_widget.toggle( this.value );
+		$( wpmoly_widget.select ).unbind( 'click' ).on( 'click', function() {
+			wpmoly_widget.toggle( this.value );
 		});
 	};
 
-	wpml.widget.toggle = function( select ) {
+	wpmoly.widget.toggle = function( select ) {
 
 		$( '.selected' ).removeClass( 'selected' );
 
@@ -32,7 +32,7 @@ wpml.widget = wpml_widget = {
 			case 'status':
 			case 'media':
 			case 'rating':
-				var selector = '.wpml-movies-widget-select-' + select;
+				var selector = '.wpmoly-movies-widget-select-' + select;
 				break;
 			default:
 				var selector = undefined;
@@ -42,14 +42,14 @@ wpml.widget = wpml_widget = {
 		if ( undefined != selector )
 			$( selector ).addClass( 'selected' ).show();
 
-		wpml_widget.hide();
+		wpmoly_widget.hide();
 
 	};
 
-	wpml.widget.hide = function() {
-		$( wpml_widget.select_status ).not( '.selected' ).hide();
-		$( wpml_widget.select_media ).not( '.selected' ).hide();
-		$( wpml_widget.select_rating ).not( '.selected' ).hide();
+	wpmoly.widget.hide = function() {
+		$( wpmoly_widget.select_status ).not( '.selected' ).hide();
+		$( wpmoly_widget.select_media ).not( '.selected' ).hide();
+		$( wpmoly_widget.select_rating ).not( '.selected' ).hide();
 	}
 
-wpml_widget.init();
+wpmoly_widget.init();
