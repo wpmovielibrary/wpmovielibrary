@@ -245,9 +245,9 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		 */
 		public static function get_available_languages() {
 
-			global $wpmoly_settings;
+			$settings = self::get_default_settings();
 
-			return $wpmoly_settings['tmdb']['settings']['lang']['values'];
+			return $settings['wpmoly-api']['fields']['language']['options'];
 		}
 
 		/**
