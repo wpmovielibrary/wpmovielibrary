@@ -18,4 +18,5 @@ require_once WPMOLY_PATH . '/includes/config/wpmoly-movies.php';
 require_once WPMOLY_PATH . '/includes/config/wpmoly-shortcodes.php';
 require_once WPMOLY_PATH . '/includes/config/wpmoly-admin-menu.php';
 require_once WPMOLY_PATH . '/includes/config/wpmoly-admin-dashboard.php';
+require_once WPMOLY_PATH . '/includes/config/wpmoly-languages.php';
 

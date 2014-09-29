@@ -44,6 +44,10 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'wpmoly_format_movie_cast', __CLASS__ . '::format_movie_cast', 10, 2 );
 			add_filter( 'wpmoly_format_movie_release_date', __CLASS__ . '::format_movie_release_date', 10, 2 );
 			add_filter( 'wpmoly_format_movie_runtime', __CLASS__ . '::format_movie_runtime', 10, 2 );
+			add_filter( 'wpmoly_format_movie_spoken_languages', __CLASS__ . '::format_movie_languages', 10, 1 );
+			add_filter( 'wpmoly_format_movie_languages', __CLASS__ . '::format_movie_languages', 10, 1 );
+			add_filter( 'wpmoly_format_movie_countries', __CLASS__ . '::format_movie_countries', 10, 1 );
+			add_filter( 'wpmoly_format_movie_production_countries', __CLASS__ . '::format_movie_countries', 10, 1 );
 			add_filter( 'wpmoly_format_movie_director', __CLASS__ . '::format_movie_director', 10, 2 );
 			add_filter( 'wpmoly_format_movie_field', __CLASS__ . '::format_movie_field', 10, 2 );
 
@@ -480,6 +484,43 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$output = self::format_movie_field( $output );
 
 			return $output;
+		}
+
+		/**
+		 * Format a Movie's languages for display
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_languages( $data ) {
+
+			if ( is_null( $data ) || '' == $data )
+				return $data;
+
+			$languages = WPMOLY_Settings::get_supported_languages();
+
+			$data = explode( ',', $data );
+			foreach ( $data as $i => $d ) {
+
+				// Trim whitespaces in unicode names like arabic
+				$d = preg_replace( '/^[\pZ\pC]+|[\pZ\pC]+$/u', '', trim( $d ) );
+				foreach ( $languages as $lang )
+					if ( $d == $lang['native'] )
+						$data[ $i ] = $lang['name'];
+			}
+
+			$data = implode( ', ', $data );
+			$output = self::format_movie_field( $data );
+
+			return $output;
+		}
+
+		public static function format_movie_countries( $data ) {
+
+			return $data;
 		}
 
 		/**

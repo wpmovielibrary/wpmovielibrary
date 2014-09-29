@@ -341,6 +341,34 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		}
 
 		/**
+		 * Return all supported language names for translation
+		 *
+		 * @since    2.0
+		 *
+		 * @return   array    Supported languages
+		 */
+		public static function get_supported_languages() {
+
+			global $wpmoly_languages;
+
+			return $wpmoly_languages;
+		}
+
+		/**
+		 * Return all available country names for translation
+		 *
+		 * @since    2.0
+		 *
+		 * @return   array    Supported languages
+		 */
+		public static function get_supported_countries() {
+
+			global $wpmoly_countries;
+
+			return $wpmoly_countries;
+		}
+
+		/**
 		 * Return Metaboxes data
 		 *
 		 * @since    1.2

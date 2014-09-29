@@ -275,6 +275,8 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				return null;
 
 			$fields = $fields['used'];
+			if ( isset( $fields['placebo'] ) )
+				unset( $fields['placebo'] );
 			$post_id = get_the_ID();
 
 			$items = array();
@@ -311,6 +313,8 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				return null;
 
 			$fields = $fields['used'];
+			if ( isset( $fields['placebo'] ) )
+				unset( $fields['placebo'] );
 			$items = array();
 
 			foreach ( $fields as $slug => $field ) {

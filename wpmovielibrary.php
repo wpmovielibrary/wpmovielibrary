@@ -84,10 +84,14 @@ function wpmoly_requirements_error() {
 function wpmoly_l10n() {
 
 	$domain = 'wpmovielibrary';
+	$domain_iso = 'wpmovielibrary-iso';
 	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+	$locale_iso = apply_filters( 'plugin_locale', get_locale(), $domain_iso );
 
 	load_textdomain( $domain, WPMOLY_PATH . $domain . '/languages/'. $domain . '-' . $locale . '.mo' );
+	load_textdomain( $domain_iso, WPMOLY_PATH . $domain . '/languages/'. $domain_iso . '-' . $locale . '.mo' );
 	load_plugin_textdomain( $domain, FALSE, basename( __DIR__ ) . '/languages/' );
+	load_plugin_textdomain( $domain_iso, FALSE, basename( __DIR__ ) . '/languages/' );
 }
 
 wpmoly_l10n();
