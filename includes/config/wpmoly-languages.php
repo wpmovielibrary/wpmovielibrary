@@ -1106,7 +1106,7 @@ $wpmoly_countries = array(
                 'name'   => __( 'United Kingdom', 'wpmovielibrary-iso' )
         ),
         'US' => array(
-                'native' => 'United States',
+                'native' => 'United States of America',
                 'name'   => __( 'United States', 'wpmovielibrary-iso' )
         ),
         'UM' => array(

@@ -179,6 +179,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		public function enqueue_styles() {
 
 			wp_enqueue_style( WPMOLY_SLUG, WPMOLY_URL . '/assets/css/public.css', array(), WPMOLY_VERSION );
+			wp_enqueue_style( WPMOLY_SLUG . '-flags', WPMOLY_URL . '/assets/css/flags.css', array(), WPMOLY_VERSION );
 		}
 
 		/**

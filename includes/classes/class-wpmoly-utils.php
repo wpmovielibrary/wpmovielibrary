@@ -532,17 +532,18 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				return $data;
 
 			$countries = WPMOLY_Settings::get_supported_countries();
+			$flag = '<span class="flag flag-%s" title="%s"></span>';
 
 			$data = explode( ',', $data );
 			foreach ( $data as $i => $d ) {
 
 				$d = trim( $d );
-				foreach ( $countries as $lang )
+				foreach ( $countries as $code => $lang )
 					if ( $d == $lang['native'] )
-						$data[ $i ] = $lang['name'];
+						$data[ $i ] = sprintf( $flag, strtolower( $code ), $lang['name'] ) . $lang['name'];
 			}
 
-			$data = implode( ', ', $data );
+			$data = implode( ',&nbsp; ', $data );
 			$output = self::format_movie_field( $data );
 
 			return $output;
