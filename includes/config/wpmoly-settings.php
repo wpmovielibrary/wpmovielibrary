@@ -357,6 +357,25 @@ $wpmoly_config = array(
 				'default'  => 1
 			),
 
+			'countries-format' => array(
+				'id'       => 'wpmoly-countries-format',
+				'type'     => 'select',
+				'multi'    => true,
+				'sortable' => true,
+				'title'    => __( 'Countries format', 'wpmovielibrary' ),
+				'desc'     => sprintf( __( 'How countries should be appear in your movies. Default is <code>Flag + Abbreviated translation</code> showing something like <code>%s</code>.', 'wpmovielibrary' ), sprintf( '<span class="flag flag-ir"></span><abbr title="Ireland">%s</abbr>', __( 'Ireland', 'wpmovielibrary-iso' ) ) ),
+				'options'  => array(
+					'flag'        => __( 'Flag', 'wpmovielibrary' ),
+					'original'    => __( 'Original', 'wpmovielibrary' ),
+					'translated'  => __( 'Translation', 'wpmovielibrary' ),
+					'ptranslated' => sprintf( '(%s)', __( 'Translation', 'wpmovielibrary' ) ),
+					'poriginal'   => sprintf( '(%s)', __( 'Original', 'wpmovielibrary' ) ),
+					'atranslated' => __( 'Abbreviated translation', 'wpmovielibrary' ),
+					'aoriginal'   => __( 'Abbreviated original', 'wpmovielibrary' )
+				),
+				'required' => array( 'wpmoly-translate-countries', "=", 1 ),
+			),
+
 			'translate-languages' => array(
 				'id'       => 'wpmoly-translate-languages',
 				'type'     => 'switch',
@@ -367,26 +386,37 @@ $wpmoly_config = array(
 				'default'  => 1
 			),
 
+			'rewrite-start' => array(
+				'id'       => 'rewrite-start',
+				'type'     => 'section',
+				'title'    => __( 'Rewrite rules & Permalinks', 'wpmovielibrary'),
+				'subtitle' => __( 'You can adapt the plugin’s permalinks to your local language.', 'wpmovielibrary'),
+				'indent'   => true
+			),
+
+			// Movie URL Rewrite Rule
+			'rewrite-enable' => array(
+				'id'       => 'wpmoly-rewrite-enable',
+				'type'     => 'switch',
+				'title'    => __( 'Translate permalinks', 'wpmovielibrary' ),
+				'desc'     => __( 'Although it can be very tempting to customize your URLs, <strong>beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will could badly affect your site’s referencing.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 1,
+				'indent'   => true
+			),
+
 			// Movie URL Rewrite Rule
 			'rewrite-movie' => array(
 				'id'       => 'wpmoly-rewrite-movie',
 				'type'     => 'text',
 				'title'    => __( 'Movies URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>http://yourblog/movies/fight-club</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
+				'desc'     => __( 'URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>http://yourblog/movies/fight-club</code>. You can use this field to translate URLs to your language.', 'wpmovielibrary' ),
 				//'validate' => 'no_special_chars',
 				'validate_callback' => 'WPMOLY_Settings::notify_permalinks_change',
-				'default'  => 'movies'
-			),
-
-			// Movie URL Rewrite Rule
-			'rewrite-details' => array(
-				'id'       => 'wpmoly-rewrite-details',
-				'type'     => 'switch',
-				'title'    => __( 'Movie Details URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'Use localized URLs for Movie Details. Enable this to have URLs like <code>http://yourblog/films/disponible</code> for French rather than the default <code>http://yourblog/movies/available</code>. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
-				'on'       => __( 'Enabled', 'wpmovielibrary' ),
-				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
+				'default'  => 'movies',
+				'required' => array( 'wpmoly-rewrite-enable', "=", 1 ),
+				'indent'   => true
 			),
 
 			// Collections URL Rewrite Rule
@@ -394,10 +424,14 @@ $wpmoly_config = array(
 				'id'       => 'wpmoly-rewrite-collection',
 				'type'     => 'text',
 				'title'    => __( 'Collections URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>http://yourblog/collection/david-fincher</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
+				'desc'     => __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>http://yourblog/collection/david-fincher</code>. You can use this field to translate URLs to your language.', 'wpmovielibrary' ),
 				'validate' => 'no_special_chars',
 				'default'  => 'collection',
-				'required' => array( 'wpmoly-enable-collection', "=", 1 )
+				'required' => array(
+					array( 'wpmoly-rewrite-enable', "=", 1 ),
+					array( 'wpmoly-enable-collection', "=", 1 )
+				),
+				'indent'   => true
 			),
 
 			// Genres URL Rewrite Rule
@@ -405,10 +439,14 @@ $wpmoly_config = array(
 				'id'       => 'wpmoly-rewrite-genre',
 				'type'     => 'text',
 				'title'    => __( 'Genres URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>http://yourblog/genre/thriller</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
+				'desc'     => __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>http://yourblog/genre/thriller</code>. You can use this field to translate URLs to your language.', 'wpmovielibrary' ),
 				'validate' => 'no_special_chars',
 				'default'  => 'genre',
-				'required' => array( 'wpmoly-enable-genre', "=", 1 )
+				'required' => array(
+					array( 'wpmoly-rewrite-enable', "=", 1 ),
+					array( 'wpmoly-enable-genre', "=", 1 )
+				),
+				'indent'   => true
 			),
 
 			// Actors URL Rewrite Rule
@@ -416,11 +454,34 @@ $wpmoly_config = array(
 				'id'       => 'wpmoly-rewrite-actor',
 				'type'     => 'text',
 				'title'    => __( 'Actors URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can use this field to translate URLs to your language. <strong>Beware</strong>: you probably shouldn\'t modify this more than once if your site relies on search engines; changing URLs too often will most likely affect with your site\'s visibility.', 'wpmovielibrary' ),
+				'desc'     => __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can use this field to translate URLs to your language.', 'wpmovielibrary' ),
 				'validate' => 'no_special_chars',
 				'default'  => 'actor',
-				'required' => array( 'wpmoly-enable-actor', "=", 1 )
+				'required' => array(
+					array( 'wpmoly-rewrite-enable', "=", 1 ),
+					array( 'wpmoly-enable-actor', "=", 1 )
+				),
+				'indent'   => true
 			),
+
+			// Movie URL Rewrite Rule
+			'rewrite-details' => array(
+				'id'       => 'wpmoly-rewrite-details',
+				'type'     => 'switch',
+				'title'    => __( 'Movie Details URL Rewrite', 'wpmovielibrary' ),
+				'desc'     => __( 'Use localized URLs for Movie Details. Enable this to have URLs like <code>http://yourblog/films/disponible</code> for French rather than the default <code>http://yourblog/movies/available</code>.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0,
+				'required' => array( 'wpmoly-rewrite-enable', "=", 1 ),
+				'indent'   => true
+			),
+
+			'rewrite-end' => array(
+				'id'     => 'rewrite-end',
+				'type'   => 'section',
+				'indent' => false,
+			)
 
 		)
 

@@ -178,6 +178,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				return;
 
 			wp_enqueue_style( WPMOLY_SLUG .'-admin-common', WPMOLY_URL . '/assets/css/admin-common.css', array(), WPMOLY_VERSION );
+			wp_enqueue_style( WPMOLY_SLUG .'-flags', WPMOLY_URL . '/assets/css/flags.css', array(), WPMOLY_VERSION );
 
 			if ( ! wpmoly_modern_wp() )
 				wp_enqueue_style( WPMOLY_SLUG . '-legacy', WPMOLY_URL . '/assets/css/legacy.css', array(), WPMOLY_VERSION );
