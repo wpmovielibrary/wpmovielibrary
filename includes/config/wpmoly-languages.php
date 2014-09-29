@@ -46,7 +46,7 @@ $wpmoly_languages = array();
 	),
 	'el' => array(
 		'native' => 'ελληνικά',
-		'name'   => __( '', 'wpmovielibrary' )
+		'name'   => __( 'Greek', 'wpmovielibrary' )
 	),
 	'en' => array(
 		'native' => 'English',
@@ -78,7 +78,7 @@ $wpmoly_languages = array();
 	),
 	'hu' => array(
 		'native' => 'Magyar',
-		'name'   => __( '', 'wpmovielibrary' )
+		'name'   => __( 'Hungarian', 'wpmovielibrary' )
 	),
 	'it' => array(
 		'native' => 'Italiano',
