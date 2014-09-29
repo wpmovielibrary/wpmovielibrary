@@ -505,8 +505,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$data = explode( ',', $data );
 			foreach ( $data as $i => $d ) {
 
-				// Trim whitespaces in unicode names like arabic
-				$d = preg_replace( '/^[\pZ\pC]+|[\pZ\pC]+$/u', '', trim( $d ) );
+				$d = trim( $d );
 				foreach ( $languages as $lang )
 					if ( $d == $lang['native'] )
 						$data[ $i ] = $lang['name'];
@@ -518,9 +517,35 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			return $output;
 		}
 
+		/**
+		 * Format a Movie's countries for display
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
 		public static function format_movie_countries( $data ) {
 
-			return $data;
+			if ( is_null( $data ) || '' == $data )
+				return $data;
+
+			$countries = WPMOLY_Settings::get_supported_countries();
+
+			$data = explode( ',', $data );
+			foreach ( $data as $i => $d ) {
+
+				$d = trim( $d );
+				foreach ( $countries as $lang )
+					if ( $d == $lang['native'] )
+						$data[ $i ] = $lang['name'];
+			}
+
+			$data = implode( ', ', $data );
+			$output = self::format_movie_field( $data );
+
+			return $output;
 		}
 
 		/**
