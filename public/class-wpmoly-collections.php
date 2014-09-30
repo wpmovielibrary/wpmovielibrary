@@ -24,6 +24,9 @@ if ( ! class_exists( 'WPMOLY_Collections' ) ) :
 		 */
 		public function __construct() {
 
+			if ( ! wpmoly_o( 'enable-collection' ) )
+				return false;
+
 			$this->register_hook_callbacks();
 		}
 
@@ -34,7 +37,7 @@ if ( ! class_exists( 'WPMOLY_Collections' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'init', __CLASS__ . '::register_collection_taxonomy' );
+			add_action( 'init', array( $this, 'register_collection_taxonomy' ) );
 			
 		}
 
@@ -49,10 +52,7 @@ if ( ! class_exists( 'WPMOLY_Collections' ) ) :
 		 *
 		 * @since    1.0
 		 */
-		public static function register_collection_taxonomy() {
-
-			if ( ! wpmoly_o( 'enable-collection' ) )
-				return false;
+		public function register_collection_taxonomy() {
 
 			$slug = wpmoly_o( 'rewrite-collection' );
 			$slug = ( '' != $slug ? $slug : 'collection' );

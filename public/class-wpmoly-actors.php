@@ -24,6 +24,9 @@ if ( ! class_exists( 'WPMOLY_Actors' ) ) :
 		 */
 		public function __construct() {
 
+			if ( ! wpmoly_o( 'enable-actor' ) )
+				return false;
+
 			$this->register_hook_callbacks();
 		}
 
@@ -34,7 +37,7 @@ if ( ! class_exists( 'WPMOLY_Actors' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'init', __CLASS__ . '::register_actor_taxonomy' );
+			add_action( 'init', array( $this, 'register_actor_taxonomy' ) );
 		}
 
 		/**
@@ -49,10 +52,7 @@ if ( ! class_exists( 'WPMOLY_Actors' ) ) :
 		 *
 		 * @since    1.0
 		 */
-		public static function register_actor_taxonomy() {
-
-			if ( ! wpmoly_o( 'enable-actor' ) )
-				return false;
+		public function register_actor_taxonomy() {
 
 			$slug = wpmoly_o( 'rewrite-actor' );
 			$slug = ( '' != $slug ? $slug : 'actor' );

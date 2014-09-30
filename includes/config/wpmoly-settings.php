@@ -214,7 +214,7 @@ $wpmoly_config = array(
 	),
 
 	
-	// Taxonomies
+	// Images
 	'wpmoly-images' => array(
 		'icon'    => 'el-icon-picture',
 		'title'   => __( 'Images', 'wpmovielibrary' ),

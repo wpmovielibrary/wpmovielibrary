@@ -24,6 +24,9 @@ if ( ! class_exists( 'WPMOLY_Genres' ) ) :
 		 */
 		public function __construct() {
 
+			if ( ! wpmoly_o( 'enable-genre' ) )
+				return false;
+
 			$this->register_hook_callbacks();
 		}
 
@@ -34,7 +37,7 @@ if ( ! class_exists( 'WPMOLY_Genres' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'init', __CLASS__ . '::register_genre_taxonomy' );
+			add_action( 'init', array( $this, 'register_genre_taxonomy' ) );
 		}
 
 		/**
@@ -48,10 +51,7 @@ if ( ! class_exists( 'WPMOLY_Genres' ) ) :
 		 *
 		 * @since    1.0
 		 */
-		public static function register_genre_taxonomy() {
-
-			if ( ! wpmoly_o( 'enable-genre' ) )
-				return false;
+		public function register_genre_taxonomy() {
 
 			$slug = wpmoly_o( 'rewrite-genre' );
 			$slug = ( '' != $slug ? $slug : 'genre' );
