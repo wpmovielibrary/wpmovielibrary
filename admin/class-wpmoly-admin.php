@@ -360,7 +360,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			foreach ( $admin_menu['subpages'] as $id => $subpage ) {
 
 				extract( $subpage, EXTR_PREFIX_ALL | EXTR_OVERWRITE, 'subpage' );
-				if ( is_null( $condition ) || ( ! is_null( $condition ) && false !== $condition ) ) {
+				if ( is_null( $subpage_condition ) || ( ! is_null( $subpage_condition ) && false != call_user_func( $subpage_condition ) ) ) {
 
 					$screen_hook = add_submenu_page( $menu_slug, $subpage_page_title, __( $subpage_menu_title, 'wpmovielibrary' ), $subpage_capability, $subpage_menu_slug, $subpage_function );
 					$this->screen_hooks[ $id ] = $screen_hook;
