@@ -16,7 +16,11 @@ if ( ! defined( 'WPINC' ) )
 require_once WPMOLY_PATH . '/includes/config/wpmoly-settings.php';
 require_once WPMOLY_PATH . '/includes/config/wpmoly-movies.php';
 require_once WPMOLY_PATH . '/includes/config/wpmoly-shortcodes.php';
-require_once WPMOLY_PATH . '/includes/config/wpmoly-admin-menu.php';
-require_once WPMOLY_PATH . '/includes/config/wpmoly-admin-dashboard.php';
 require_once WPMOLY_PATH . '/includes/l10n/wpmoly-languages.php';
+require_once WPMOLY_PATH . '/includes/config/wpmoly-admin-bar-menu.php';
+
+if ( is_admin() ) {
+	require_once WPMOLY_PATH . '/includes/config/wpmoly-admin-menu.php';
+	require_once WPMOLY_PATH . '/includes/config/wpmoly-admin-dashboard.php';
+}
 

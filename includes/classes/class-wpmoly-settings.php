@@ -395,11 +395,11 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		}
 
 		/**
-		 * Return Metaboxes data
+		 * Return Admin Menu config array data
 		 *
-		 * @since    1.2
+		 * @since    2.0
 		 *
-		 * @return   array    WPMOLY Metaboxes
+		 * @return   array    WPMOLY Admin Menu array
 		 */
 		public static function get_admin_menu() {
 
@@ -411,13 +411,39 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			 * This should be used through Plugins to create additionnal
 			 * subpages.
 			 *
-			 * @since    1.3
+			 * @since    2.0
 			 *
 			 * @param    array    $wpmoly_admin_menu Admin menu
 			 */
 			$wpmoly_admin_menu = apply_filters( 'wpmoly_filter_admin_menu', $wpmoly_admin_menu );
 
 			return $wpmoly_admin_menu;
+		}
+
+		/**
+		 * Return Admin Bar Menu config array data
+		 *
+		 * @since    2.0
+		 *
+		 * @return   array    WPMOLY Admin Bar Menu array
+		 */
+		public static function get_admin_bar_menu() {
+
+			global $wpmoly_admin_bar_menu;
+
+			/**
+			 * Filter the Admin menu list to edit/add/remove subpages.
+			 *
+			 * This should be used through Plugins to create additionnal
+			 * subpages.
+			 *
+			 * @since    1.3
+			 *
+			 * @param    array    $wpmoly_admin_menu Admin menu
+			 */
+			$wpmoly_admin_bar_menu = apply_filters( 'wpmoly_filter_admin_bar_menu', $wpmoly_admin_bar_menu );
+
+			return $wpmoly_admin_bar_menu;
 		}
 
 		/**

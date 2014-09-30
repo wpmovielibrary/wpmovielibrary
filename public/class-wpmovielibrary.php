@@ -222,6 +222,18 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				return false;
 
 			global $wp_admin_bar;
+			$admin_bar_menu = WPMOLY_Settings::get_admin_bar_menu();
+
+			$wp_admin_bar->add_menu( $admin_bar_menu['menu'] );
+
+			foreach( $admin_bar_menu['submenu'] as $menu )
+				if ( ! isset( $menu['condition'] ) || ( isset( $menu['condition'] ) && false != $menu['condition'] ) )
+					$wp_admin_bar->add_menu( $menu );
+
+			foreach( $admin_bar_menu['group'] as $group )
+				$wp_admin_bar->add_group( $group );
+
+			/*global $wp_admin_bar;
 
 			$args = array(
 				'id'    => 'wpmovielibrary',
@@ -292,7 +304,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				'meta'   => array(
 					'class' => 'ab-sub-third',
 				),
-			) );
+			) );*/
 		}
 
 		/**
