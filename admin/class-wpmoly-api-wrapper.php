@@ -46,10 +46,10 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 
 			$this->register_hook_callbacks();
 
-			if ( '' == wpmoly_o( 'api-internal' ) ) {
+			/*if ( '' == wpmoly_o( 'api-internal' ) ) {
 				WPMOLY_Utils::admin_notice( __( '', 'wpmovielibrary' ), 'error' );
 				return false;
-			}
+			}*/
 		}
 
 		/**
