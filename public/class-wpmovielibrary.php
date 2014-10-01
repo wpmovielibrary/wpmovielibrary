@@ -178,8 +178,8 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 */
 		public function enqueue_styles() {
 
-			wp_enqueue_style( WPMOLY_SLUG, WPMOLY_URL . '/assets/css/public.css', array(), WPMOLY_VERSION );
-			wp_enqueue_style( WPMOLY_SLUG . '-flags', WPMOLY_URL . '/assets/css/flags.css', array(), WPMOLY_VERSION );
+			wp_enqueue_style( WPMOLY_SLUG, WPMOLY_URL . '/assets/css/public/wpmoly.css', array(), WPMOLY_VERSION );
+			wp_enqueue_style( WPMOLY_SLUG . '-flags', WPMOLY_URL . '/assets/css/public/wpmoly-flags.css', array(), WPMOLY_VERSION );
 		}
 
 		/**
@@ -189,7 +189,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 */
 		public function enqueue_scripts() {
 
-			wp_enqueue_script( WPMOLY_SLUG, WPMOLY_URL . '/assets/js/public.js', array( 'jquery' ), WPMOLY_VERSION, true );
+			wp_enqueue_script( WPMOLY_SLUG, WPMOLY_URL . '/assets/js/public/wpmoly.js', array( 'jquery' ), WPMOLY_VERSION, true );
 		}
 
 		/**

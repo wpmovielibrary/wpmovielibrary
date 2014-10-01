@@ -142,12 +142,10 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 		* */
 		public function setArguments() {
 
-			$plugin = get_plugin_data( WPMOLY_PATH . 'wpmovielibrary.php' ); // For use with some settings. Not necessary.
-
 			$this->args = array(
 				'opt_name'             => 'wpmoly_settings',
-				'display_name'         => $plugin['Name'],
-				'display_version'      => $plugin['Version'],
+				'display_name'         => WPMOLY_NAME,
+				'display_version'      => WPMOLY_VERSION,
 				'menu_type'            => 'submenu',
 				'allow_sub_menu'       => true,
 				'menu_title'           => __( 'Settings', 'wpmovielibrary' ),
