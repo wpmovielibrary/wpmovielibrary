@@ -37,35 +37,11 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 
 			add_action( 'admin_init', array( $this, 'init' ) );
 
-			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-
 			add_filter( 'set-screen-option', __CLASS__ . '::import_movie_list_set_option', 10, 3 );
 
 			add_action( 'wp_ajax_wpmoly_delete_movies', __CLASS__ . '::delete_movies_callback' );
 			add_action( 'wp_ajax_wpmoly_import_movies', __CLASS__ . '::import_movies_callback' );
 			add_action( 'wp_ajax_wpmoly_imported_movies', __CLASS__ . '::imported_movies_callback' );
-		}
-
-		/**
-		 * Register and enqueue admin-specific JavaScript.
-		 * 
-		 * wpmoly.importer extends wpmoly with specific import functions.
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    string    $hook Current screen hook
-		 */
-		public function admin_enqueue_scripts( $hook ) {
-
-			global $admin_page_hooks;
-			if ( $admin_page_hooks['wpmovielibrary'] . '_page_wpmoly_import' != $hook )
-				return;
-
-			wp_enqueue_script( WPMOLY_SLUG . '-jquery-ajax-queue', WPMOLY_URL . '/assets/js/jquery.ajaxQueue.js', array( 'jquery' ), WPMOLY_VERSION, true );
-			wp_enqueue_script( WPMOLY_SLUG . '-importer-meta' , WPMOLY_URL . '/assets/js/wpmoly.importer.meta.js' , array( WPMOLY_SLUG, 'jquery' ), WPMOLY_VERSION, true );
-			wp_enqueue_script( WPMOLY_SLUG . '-importer-movies', WPMOLY_URL . '/assets/js/wpmoly.importer.movies.js', array( WPMOLY_SLUG, 'jquery' ), WPMOLY_VERSION, true );
-			wp_enqueue_script( WPMOLY_SLUG . '-importer-view', WPMOLY_URL . '/assets/js/wpmoly.importer.view.js', array( WPMOLY_SLUG, 'jquery' ), WPMOLY_VERSION, true );
-			wp_enqueue_script( WPMOLY_SLUG . '-queue', WPMOLY_URL . '/assets/js/wpmoly.queue.js', array( WPMOLY_SLUG, 'jquery' ), WPMOLY_VERSION, true );
 		}
 
 		/**

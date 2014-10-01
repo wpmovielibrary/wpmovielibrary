@@ -132,7 +132,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				return false;
 
 			if ( is_admin() && wpmoly_has_deprecated_meta() && wpmoly_o( 'legacy-mode' ) )
-				WPMOLY_Deprecated_Meta::update_movie( $post_id );
+				WPMOLY_Legacy::update_movie( $post_id );
 
 			if ( 'data' == $meta ) {
 				$_meta = WPMOLY_Settings::get_supported_movie_meta();

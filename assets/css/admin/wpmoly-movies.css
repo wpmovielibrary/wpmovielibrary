@@ -1,0 +1,105 @@
+/* WPMOLY Movie List
+ ****************************************************/
+
+.widefat thead tr th.column-poster {
+	width: 4em;
+}
+
+.visible-actors {
+	display: inline;
+}
+
+.hidden-actors {
+	display: none;
+}
+
+.more-actors {
+	font-style: italic;
+}
+
+.wpmoly-inline-edit-details {
+	background-color: #fff;
+	display: none;
+	margin-left: -1em;
+	margin-top: -2em;
+	padding: 0.5em 0;
+	position: relative;
+	z-index: 9;
+}
+
+.wpmoly-inline-edit-details.wpmoly-inline-edit-rating {
+	margin-left: 0;
+}
+
+.alt .wpmoly-inline-edit-details,
+.alternate .wpmoly-inline-edit-details {
+	background-color: #f9f9f9;
+}
+
+.wpmoly-inline-edit-details ul {
+	margin: 0;
+}
+
+.wpmoly-inline-edit-details .dashicons {
+	color: #aaa;
+	font-size: 1em;
+	margin: 3px 0 -3px 0;
+}
+
+.wpmoly-inline-edit-toggle {
+	outline: none !important;
+	position: relative;
+	z-index: 10;
+}
+
+.wpmoly-inline-edit-toggle.active {
+	float: right;
+	visibility: visible !important;
+}
+
+.wpmoly-inline-edit-toggle .dashicons {
+	font-size: 0.75em;
+}
+
+.wpmoly-inline-edit-toggle .dashicons-no {
+	font-size: 1em;
+	margin-right: 1em;
+	margin-top: 0.25em;
+}
+
+.wpmoly-inline-edit-rating .stars {
+	margin: 2px 0 0 4px;
+}
+
+.column-movie_status,
+.column-movie_media,
+.column-movie_rating {
+	position: relative;
+}
+
+.column-movie_status .wpmoly-inline-edit-toggle,
+.column-movie_media .wpmoly-inline-edit-toggle,
+.column-movie_rating .wpmoly-inline-edit-toggle {
+	visibility: hidden;
+}
+
+.column-movie_status:hover .wpmoly-inline-edit-toggle,
+.column-movie_media:hover .wpmoly-inline-edit-toggle,
+.column-movie_rating:hover .wpmoly-inline-edit-toggle {
+	visibility: visible;
+}
+
+.inline-edit-group #movie-rating-display,
+.inline-edit-group .stars {
+	margin: 0.5em 0 0.5em 0.5em;
+}
+
+.inline-edit-col-wpmoly .inline-edit-group {
+	display: inline-block;
+	width: 30%;
+}
+
+.inline-edit-col-wpmoly .inline-edit-group .title {
+	display: block;
+	float: none;
+}

@@ -119,6 +119,7 @@ if ( wpmoly_requirements_met() ) {
 		require_once( WPMOLY_PATH . 'includes/framework/redux/ReduxCore/framework.php' );
 	if ( ! isset( $wpmoly_settings ) )
 		require_once( WPMOLY_PATH . 'includes/classes/class-wpmoly-redux.php' );
+		//require_once( WPMOLY_PATH . 'includes/framework/redux/sample/sample-config.php' );
 	require_once( WPMOLY_PATH . 'includes/classes/class-wpmoly-cache.php' );
 	require_once( WPMOLY_PATH . 'includes/classes/class-wpmoly-utils.php' );
 
@@ -139,7 +140,7 @@ if ( wpmoly_requirements_met() ) {
 	require_once( WPMOLY_PATH . 'includes/widgets/class-movies-widget.php' );
 
 	if ( wpmoly_has_deprecated_meta() )
-		require_once( WPMOLY_PATH . 'includes/classes/legacy/class-wpmoly-deprecated-meta.php' );
+		require_once( WPMOLY_PATH . 'includes/classes/legacy/class-wpmoly-legacy.php' );
 
 	/*
 	 * Register hooks that are fired when the plugin is activated or deactivated.

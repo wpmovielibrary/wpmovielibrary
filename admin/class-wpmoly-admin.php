@@ -70,11 +70,11 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			);
 
 			$this->screen_hooks = array(
-				'edit_movie' => 'edit-movie',
-				'movie'      => 'movie',
-				'plugins'    => 'plugins',
-				'widgets'    => 'widgets.php',
-				'settings'   => sprintf( '%s_page_wpmovielibrary-settings', strtolower( __( 'Movies', 'wpmovielibrary' ) ) )
+				'edit'     => 'post.php',
+				'new'      => 'post-new.php',
+				'movies'   => 'edit.php',
+				'widgets'  => 'widgets.php',
+				'settings' => sprintf( '%s_page_wpmovielibrary-settings', strtolower( __( 'Movies', 'wpmovielibrary' ) ) )
 			);
 
 			$this->hidden_pages = array();
@@ -106,32 +106,9 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
-			add_action( 'admin_notices', array( $this, 'missing_archive_page' ) );
-
 			add_action( 'in_admin_footer', array( $this, 'legal_mentions' ) );
 
 			add_action( 'dashboard_glance_items', array( $this, 'dashboard_glance_items' ), 10, 1 );
-		}
-
-		/**
-		 * Notify the absence of set API key. If no API key is set and
-		 * the internal API isn't enabled, show an admin notice on all
-		 * the plugin's pages.
-		 *
-		 * @since     1.0.0
-		 */
-		public function missing_archive_page() {
-
-			$screen = get_current_screen();
-			if ( ! in_array( $screen->id, $this->screen_hooks ) || ( isset( $_GET['wpmoly_set_archive_page'] ) && '1' == $_GET['wpmoly_set_archive_page'] ) )
-				return false;
-
-			$page = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpmoly_page' );
-
-			if ( ! is_null( $page ) )
-				return false;
-
-			echo self::render_admin_template( 'admin-notice.php', array( 'notice' => 'missing-archive' ) );
 		}
 
 		/**
@@ -172,20 +149,15 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 *
 		 * @return    null    Return early if no settings page is registered.
 		 */
-		public function enqueue_admin_styles() {
-
-			if ( ! isset( $this->screen_hooks ) )
-				return;
-
-			wp_enqueue_style( WPMOLY_SLUG .'-admin-common', WPMOLY_URL . '/assets/css/admin-common.css', array(), WPMOLY_VERSION );
-			wp_enqueue_style( WPMOLY_SLUG .'-flags', WPMOLY_URL . '/assets/css/flags.css', array(), WPMOLY_VERSION );
-
-			if ( ! wpmoly_modern_wp() )
-				wp_enqueue_style( WPMOLY_SLUG . '-legacy', WPMOLY_URL . '/assets/css/legacy.css', array(), WPMOLY_VERSION );
+		public function enqueue_admin_styles( $hook ) {
 
 			$screen = get_current_screen();
-			if ( in_array( $screen->id, $this->screen_hooks ) )
-				wp_enqueue_style( WPMOLY_SLUG .'-admin-styles', WPMOLY_URL . '/assets/css/admin.css', array(), WPMOLY_VERSION );
+			if ( ! in_array( $hook, $this->screen_hooks ) && ! in_array( $screen->id, $this->screen_hooks ) )
+				return;
+
+			$styles = $this->admin_styles( $hook );
+			foreach ( $styles as $slug => $style )
+				wp_enqueue_style( WPMOLY_SLUG . '-' . $slug, WPMOLY_URL . $style, array(), WPMOLY_VERSION );
 
 		}
 
@@ -202,24 +174,94 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( ! in_array( $hook, $this->screen_hooks ) && ! in_array( $screen->id, $this->screen_hooks ) )
 				return;
 
-			// Main admin script, containing basic functions
-			wp_enqueue_script( WPMOLY_SLUG, WPMOLY_URL . '/assets/js/wpmoly.js', array( 'jquery' ), WPMOLY_VERSION, true );
-			wp_enqueue_script( WPMOLY_SLUG . '-utils', WPMOLY_URL . '/assets/js/wpmoly.utils.js', array( 'jquery', WPMOLY_SLUG ), WPMOLY_VERSION, true );
+			$scripts = $this->admin_scripts( $hook );
+			foreach ( $scripts as $slug => $script )
+				wp_enqueue_script( WPMOLY_SLUG . '-' . $slug, WPMOLY_URL . $script[ 0 ], $script[ 1 ], WPMOLY_VERSION, $script[ 2 ] );
+
 			wp_localize_script(
-				WPMOLY_SLUG, 'wpmoly_ajax',
+				WPMOLY_SLUG . '-admin', 'wpmoly_ajax',
 				$this->localize_script()
 			);
 
-			// Settings script
-			if ( $hook == $this->screen_hooks['settings'] || $hook == $this->screen_hooks['import'] )
-				wp_enqueue_script( WPMOLY_SLUG . '-settings', WPMOLY_URL . '/assets/js/wpmoly.settings.js', array( WPMOLY_SLUG, 'jquery', 'jquery-ui-sortable' ), WPMOLY_VERSION, true );
+		}
 
-			if ( $hook == $this->screen_hooks['dashboard'] )
-				wp_enqueue_script( WPMOLY_SLUG . '-dashboard', WPMOLY_URL . '/assets/js/wpmoly.dashboard.js', array( WPMOLY_SLUG, 'jquery', 'jquery-ui-sortable' ), WPMOLY_VERSION, true );
+		private function admin_scripts( $hook_suffix ) {
 
-			if ( 'widgets.php' == $hook )
-				wp_enqueue_script( WPMOLY_SLUG . '-widget', WPMOLY_URL . '/assets/js/wpmoly.widget.js', array( WPMOLY_SLUG, 'jquery' ), WPMOLY_VERSION, false );
+			extract( $this->screen_hooks );
 
+			$wpmoly_slug = WPMOLY_SLUG . '-admin';
+
+			$scripts = array();
+			$scripts['admin'] = array( '/assets/js/admin/wpmoly.js', array( 'jquery' ), true );
+			$scripts['utils'] = array( '/assets/js/admin/wpmoly-utils.js', array( 'jquery',  ), true );
+
+			if ( $hook_suffix == $settings )
+				$scripts['settings'] = array( '/assets/js/admin/wpmoly-settings.js', array( $wpmoly_slug, 'jquery', 'jquery-ui-sortable' ), true );
+
+			if ( $hook_suffix == $importer ) {
+				$scripts['jquery-ajax-queue'] = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( 'jquery' ), true );
+				$scripts['importer']          = array( '/assets/js/admin/wpmoly-importer-meta.js', array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['importer-movies']   = array( '/assets/js/admin/wpmoly-importer-movies.js', array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['importer-view']     = array( '/assets/js/admin/wpmoly-importer-view.js', array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['queue']             = array( '/assets/js/admin/wpmoly-queue.js', array( $wpmoly_slug, 'jquery' ), true );
+			}
+
+			if ( $hook_suffix == $dashboard )
+				$scripts['dashboard'] = array( '/assets/js/admin/wpmoly-dashboard.js', array( $wpmoly_slug, 'jquery', 'jquery-ui-sortable' ), true );
+
+			if ( $hook_suffix == $widgets )
+				$scripts['widget']    = array( '/assets/js/admin/wpmoly-widget.js', array( $wpmoly_slug, 'jquery' ), false );
+
+			if ( $hook_suffix == $edit || $hook_suffix == $new ) {
+				$scripts['jquery-ajax-queue'] = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( 'jquery' ), true );
+				$scripts['media']             = array( '/assets/js/admin/wpmoly-media.js' , array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['editor-details']    = array( '/assets/js/admin/wpmoly-editor-details.js' , array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['editor-meta']       = array( '/assets/js/admin/wpmoly-editor-meta.js' , array( $wpmoly_slug, 'jquery' ), true );
+			}
+
+			if ( $hook_suffix == $movies ) {
+				$scripts['movies']            = array( '/assets/js/admin/wpmoly-movies.js' , array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['editor-details']    = array( '/assets/js/admin/wpmoly-editor-details.js' , array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['editor-meta']       = array( '/assets/js/admin/wpmoly-editor-meta.js' , array( $wpmoly_slug, 'jquery' ), true );
+			}
+
+			//$scripts[''] = array( '', array(), true );
+
+			return $scripts;
+		}
+
+		private function admin_styles( $hook_suffix ) {
+
+			extract( $this->screen_hooks );
+
+			$styles = array();
+			$styles['common'] = '/assets/css/admin/wpmoly-common.css';
+			$styles['admin']  = '/assets/css/admin/wpmoly.css';
+
+			if ( $hook_suffix == $settings ) {
+				$styles['flags']    = '/assets/css/public/flags.css';
+				$styles['settings'] = '/assets/css/admin/wpmoly-settings.css';
+			}
+
+			if ( $hook_suffix == $importer )
+				$styles['importer'] = '/assets/css/admin/wpmoly-importer.css';
+
+			if ( $hook_suffix == $dashboard )
+				$styles['dashboard'] = '/assets/css/admin/wpmoly-dashboard.css';
+
+			if ( $hook_suffix == $edit || $hook_suffix == $new ) {
+				$styles['movies'] = '/assets/css/admin/wpmoly-edit-movies.css';
+				$styles['media']  = '/assets/css/admin/wpmoly-media.css';
+			}
+
+			if ( $hook_suffix == $movies ) {
+				$styles['movies'] = '/assets/css/admin/wpmoly-movies.css';
+			}
+
+			if ( ! wpmoly_modern_wp() )
+				$styles['legacy'] = '/assets/css/admin/wpmoly-legacy.css';
+
+			return $styles;
 		}
 
 		/**

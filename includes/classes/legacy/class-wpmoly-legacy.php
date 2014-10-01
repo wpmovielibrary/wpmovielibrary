@@ -14,9 +14,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPMOLY_Deprecated_Meta' ) ) :
+if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 
-	class WPMOLY_Deprecated_Meta extends WPMOLY_Module {
+	class WPMOLY_Legacy extends WPMOLY_Module {
 
 		/**
 		 * Constructor
@@ -37,10 +37,6 @@ if ( ! class_exists( 'WPMOLY_Deprecated_Meta' ) ) :
 
 			add_action( 'admin_notices', array( $this, 'deprecated_meta_notice' ) );
 
-			// Load admin style sheet and JavaScript.
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
-
 			add_action( 'wp_ajax_wpmoly_update_movie', array( $this, 'update_movie_callback' ) );
 		}
 
@@ -51,10 +47,10 @@ if ( ! class_exists( 'WPMOLY_Deprecated_Meta' ) ) :
 		 *
 		 * @return   null    Return early if no settings page is registered.
 		 */
-		public function enqueue_admin_styles( $hook ) {
+		public static function enqueue_admin_styles( $hook ) {
 
-			if ( 'dashboard_page_wpmoly-update-movies' == $hook )
-				wp_enqueue_style( 'roboto-font', '//fonts.googleapis.com/css?family=Roboto:100', array(), WPMOLY_VERSION );
+			wp_enqueue_style( WPMOLY_SLUG . '-roboto-font', '//fonts.googleapis.com/css?family=Roboto:100', array(), WPMOLY_VERSION );
+			wp_enqueue_style( WPMOLY_SLUG . '-updates', WPMOLY_URL . '/assets/css/wpmoly-admin-legacy.css', array(), WPMOLY_VERSION );
 		}
 
 		/**
@@ -64,27 +60,10 @@ if ( ! class_exists( 'WPMOLY_Deprecated_Meta' ) ) :
 		 * 
 		 * @return   null    Return early if no settings page is registered.
 		 */
-		public function enqueue_admin_scripts( $hook ) {
+		public static function enqueue_admin_scripts( $hook ) {
 
-			if ( 'dashboard_page_wpmoly-update-movies' == $hook ) {
-				wp_enqueue_script( WPMOLY_SLUG . '-jquery-ajax-queue', WPMOLY_URL . '/assets/js/jquery.ajaxQueue.js', array( 'jquery' ), WPMOLY_VERSION, true );
-				wp_enqueue_script( WPMOLY_SLUG . '-updates', WPMOLY_URL . '/assets/js/wpmoly.updates.js', array( WPMOLY_SLUG, 'jquery' ), WPMOLY_VERSION, true );
-
-				wp_localize_script(
-					WPMOLY_SLUG . '-updates', 'wpmoly_legacy',
-					array(
-						'lang' => array(
-							'updated'        => __( 'updated successfully', 'wpmovielibrary' ),
-							'not_updated'    => __( 'not updated', 'wpmovielibrary' ),
-							'updating'       => __( 'updating movies...', 'wpmovielibrary' ),
-							'selected'       => _n( 'selected', 'selected', 0, 'wpmovielibrary' ),
-							'x_selected'     => _n( 'selected', 'selected', 2, 'wpmovielibrary' ),
-							'movie_updated'  => _n( 'movie updated', 'movies updated', 0, 'wpmovielibrary' ),
-							'movies_updated' => _n( 'movie updated', 'movies updated', 2, 'wpmovielibrary' ),
-						)
-					)
-				);
-			}
+			wp_enqueue_script( WPMOLY_SLUG . '-jquery-ajax-queue', WPMOLY_URL . '/assets/js/jquery.ajaxQueue.js', array( 'jquery' ), WPMOLY_VERSION, true );
+			wp_enqueue_script( WPMOLY_SLUG . '-updates', WPMOLY_URL . '/assets/js/wpmoly.updates.js', array( WPMOLY_SLUG, 'jquery' ), WPMOLY_VERSION, true );
 		}
 
 		/**
@@ -277,7 +256,7 @@ if ( ! class_exists( 'WPMOLY_Deprecated_Meta' ) ) :
 			if ( ! $wpdb->num_rows )
 				return false;
 
-			foreach( $movies as $i => $movie )
+			foreach ( $movies as $i => $movie )
 				$movies[ $i ] = $movie->meta_id;
 
 			$movies = implode( ',', $movies );

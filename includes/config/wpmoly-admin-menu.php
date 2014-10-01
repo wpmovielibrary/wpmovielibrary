@@ -14,6 +14,7 @@ if ( ! defined( 'WPINC' ) )
 	wp_die();
 
 $wpmoly_admin_menu = array(
+
 	'page' => array(
 		'page_title' => WPMOLY_NAME,
 		'menu_title' => __( 'Movies', 'wpmovielibrary' ),
@@ -23,7 +24,9 @@ $wpmoly_admin_menu = array(
 		'icon_url'   => WPMOLY_URL . '/assets/img/logo-18x18.png',
 		'position'   => 6
 	),
+
 	'subpages' => array(
+
 		'dashboard' => array(
 			'page_title'  => __( 'Your library', 'wpmovielibrary' ),
 			'menu_title'  => __( 'Your library', 'wpmovielibrary' ),
@@ -34,9 +37,24 @@ $wpmoly_admin_menu = array(
 			'hide'        => false,
 			'actions'     => array(
 				'load-{screen_hook}' => 'WPMOLY_Dashboard::add_tabs'
+			),
+			'scripts'     => array(
+				'dashboard' =>array(
+					'file'    => sprintf( '%s/assets/js/admin/wpmoly-dashboard.js', WPMOLY_URL ),
+					'require' => array( WPMOLY_SLUG . '-admin', 'jquery', 'jquery-ui-sortable' ),
+					'footer'  => true
+				)
+			),
+			'styles'      => array(
+				'dashboard' => array(
+					'file'    => sprintf( '%s/assets/css/admin/wpmoly-dashboard.css', WPMOLY_URL ),
+					'require' => array(),
+					'global'  => false
+				)
 			)
 		),
-		'all_movies' => array(
+
+		'all-movies' => array(
 			'page_title'  => __( 'All Movies', 'wpmovielibrary' ),
 			'menu_title'  => __( 'All Movies', 'wpmovielibrary' ),
 			'capability'  => 'manage_options',
@@ -44,9 +62,12 @@ $wpmoly_admin_menu = array(
 			'function'    => null,
 			'condition'   => null,
 			'hide'        => false,
-			'actions'     => array()
+			'actions'     => array(),
+			'scripts'     => array(),
+			'styles'      => array()
 		),
-		'new_movie' => array(
+
+		'new-movie' => array(
 			'page_title'  => __( 'Add New', 'wpmovielibrary' ),
 			'menu_title'  => __( 'Add New', 'wpmovielibrary' ),
 			'capability'  => 'manage_options',
@@ -54,8 +75,11 @@ $wpmoly_admin_menu = array(
 			'function'    => null,
 			'condition'   => null,
 			'hide'        => false,
-			'actions'     => array()
+			'actions'     => array(),
+			'scripts'     => array(),
+			'styles'      => array()
 		),
+
 		'collections' => array(
 			'page_title'  => __( 'Collections', 'wpmovielibrary' ),
 			'menu_title'  => __( 'Collections', 'wpmovielibrary' ),
@@ -64,8 +88,11 @@ $wpmoly_admin_menu = array(
 			'function'    => null,
 			'condition'   => create_function('', 'return wpmoly_o( "enable-collection" );'),
 			'hide'        => false,
-			'actions'     => array()
+			'actions'     => array(),
+			'scripts'     => array(),
+			'styles'      => array()
 		),
+
 		'genres' => array(
 			'page_title'  => __( 'Genres', 'wpmovielibrary' ),
 			'menu_title'  => __( 'Genres', 'wpmovielibrary' ),
@@ -74,8 +101,11 @@ $wpmoly_admin_menu = array(
 			'function'    => null,
 			'condition'   => create_function('', 'return wpmoly_o( "enable-genre" );'),
 			'hide'        => false,
-			'actions'     => array()
+			'actions'     => array(),
+			'scripts'     => array(),
+			'styles'      => array()
 		),
+
 		'actors' => array(
 			'page_title'  => __( 'Actors', 'wpmovielibrary' ),
 			'menu_title'  => __( 'Actors', 'wpmovielibrary' ),
@@ -84,9 +114,12 @@ $wpmoly_admin_menu = array(
 			'function'    => null,
 			'condition'   => create_function('', 'return wpmoly_o( "enable-actor" );'),
 			'hide'        => false,
-			'actions'     => array()
+			'actions'     => array(),
+			'scripts'     => array(),
+			'styles'      => array()
 		),
-		'import' => array(
+
+		'importer' => array(
 			'page_title'  => __( 'Import Movies', 'wpmovielibrary' ),
 			'menu_title'  => __( 'Import Movies', 'wpmovielibrary' ),
 			'capability'  => 'manage_options',
@@ -97,18 +130,52 @@ $wpmoly_admin_menu = array(
 			'actions'     => array(
 				'load-{screen_hook}' => 'WPMOLY_Import::import_movie_list_add_options'
 			),
+			'scripts'     => array(
+				
+			),
+			'styles'      => array(
+				'importer' => array(
+					'file'    => sprintf( '%s/assets/css/admin/wpmoly-importer.css', WPMOLY_URL ),
+					'require' => array()
+				)
+			)
 		),
+
 		'update-movies' => array(
 			'page_title'  => __( 'Update movies to version 1.3', 'wpmovielibrary' ),
 			'menu_title'  => __( 'Update movies', 'wpmovielibrary' ),
 			'capability'  => 'manage_options',
 			'menu_slug'   => 'wpmovielibrary-update-movies',
-			'function'    => 'WPMOLY_Deprecated_Meta::update_movies_page',
+			'function'    => 'WPMOLY_Legacy::update_movies_page',
 			'condition'   => null,
 			'hide'        => true,
-			'actions'     => array()
+			'actions'     => array(),
+			'scripts'     => array(
+				'jquery-ajax-queue' => array(
+					'file'    => sprintf( '%s/assets/js/vendor/jquery.ajaxQueue.js', WPMOLY_URL ),
+					'require' => array( 'jquery' ),
+					'footer'  => true
+				),
+				'updates' => array(
+					'file'    => sprintf( '%s/assets/js/admin/wpmoly-updates.js', WPMOLY_URL ),
+					'require' => array( WPMOLY_SLUG . '-admin', 'jquery' ),
+					'footer'  => true
+				)
+			),
+			'styles'      => array(
+				'roboto-font' => array(
+					'file'    => '//fonts.googleapis.com/css?family=Roboto:100',
+					'require' => array()
+				),
+				'legacy' => array(
+					'file'    => sprintf( '%s/assets/css/admin/wpmoly-legacy.css', WPMOLY_URL ),
+					'require' => array()
+				)
+			)
 		)
+
 	)
+
 );
 
 		

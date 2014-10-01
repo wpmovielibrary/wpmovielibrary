@@ -16,6 +16,69 @@ wpmoly = wpmoly || {};
 			queue_select: '#wpmoly_import_queue #wpmoly-queued-list input[type=checkbox]'
 		};
 
+			wpmoly.importer.view.panels = wpmoly_import_panels = {
+
+				links: '#wpmoly-tabs .wpmoly-tabs-nav a',
+				link: '#wpmoly-tabs .wpmoly-tabs-nav li',
+				link_active: '#wpmoly-tabs .wpmoly-tabs-nav li.active',
+				panels: '#wpmoly-tabs .wpmoly-tabs-panels > .form-table',
+				active: 0,
+			};
+
+				/**
+				* Init Events
+				* 
+				* @since    1.0
+				*/
+				wpmoly.importer.view.panels.init = function() {
+
+					if ( $( wpmoly_import_panels.link_active ).length )
+						wpmoly_import_panels.active = $( wpmoly_import_panels.link ).index( $( wpmoly_import_panels.link_active ) );
+
+					var panel = $( wpmoly_import_panels.panels )[ wpmoly_import_panels.active ];
+
+					$( wpmoly_import_panels.panels ).hide();
+					$( panel ).addClass( 'active' );
+
+					$( wpmoly_import_panels.links ).on( 'click', function( e ) {
+						e.preventDefault();
+						wpmoly_import_panels.switch_panel( this );
+					});
+
+				};
+
+				/**
+				* Switch between panels
+				* 
+				* @since    1.0
+				* 
+				* @param    object   Caller link DOM Element
+				*/
+				wpmoly.importer.view.panels.switch_panel = function( link ) {
+
+					__link = link;
+					var index = $(wpmoly_import_panels.links).index( link );
+
+					if ( wpmoly_import_panels.panels.length >= index )
+						var panel = $( wpmoly_import_panels.panels )[ index ];
+
+					var tab = $( link ).attr( 'data-section' );
+					var url = link.href.replace( link.hash, '' );
+					if ( link.hash.length || '#' == url.substring( url.length, url.length - 1 ) )
+						url = url.substring( 0, ( url.length - 1 ) );
+
+					    var section = link.href.indexOf( '&wpmoly_section' );
+					if ( section > 0 )
+						url = url.substring( 0, section );
+
+					$( '.wpmoly-tabs-panels .form-table, .wpmoly-tabs-nav' ).removeClass( 'active' );
+					$( panel ).addClass( 'active' );
+					$( link ).parent( 'li' ).addClass( 'active' );
+
+					window.history.replaceState( {}, '' + url + '&' + tab, '' + url + '&' + tab );
+					$( 'input[name="_wp_http_referer"]' ).val( document.location.pathname + document.location.search + '&' + tab );
+				};
+
 			/**
 			 * Init Events
 			 * 
@@ -194,3 +257,5 @@ wpmoly = wpmoly || {};
 				else
 					$( wpmoly_import_view.select ).prop( 'checked', true );
 			};
+
+		wpmoly_import_panels.init();

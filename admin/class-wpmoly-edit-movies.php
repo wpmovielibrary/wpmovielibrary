@@ -36,8 +36,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-
 			add_action( 'admin_footer', array( $this, 'edit_details_inline' ) );
 
 			add_filter( 'manage_movie_posts_columns', __CLASS__ . '::movies_columns_head' );
@@ -55,25 +53,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			add_action( 'wp_ajax_wpmoly_set_detail', __CLASS__ . '::set_detail_callback' );
 			add_action( 'wp_ajax_wpmoly_save_details', __CLASS__ . '::save_details_callback' );
 			add_action( 'wp_ajax_wpmoly_empty_meta', __CLASS__ . '::empty_meta_callback' );
-		}
-
-		/**
-		 * Register and enqueue admin-specific JavaScript.
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    string    $hook Current screen hook
-		 */
-		public function admin_enqueue_scripts( $hook ) {
-
-			if ( ! in_array( $hook, array( 'edit.php', 'post.php', 'post-new.php' ) ) || 'movie' != get_post_type() )
-				return;
-
-			wp_enqueue_script( WPMOLY_SLUG . '-jquery-ajax-queue', WPMOLY_URL . '/assets/js/jquery.ajaxQueue.js', array( 'jquery' ), WPMOLY_VERSION, true );
-			wp_enqueue_script( WPMOLY_SLUG . '-media' , WPMOLY_URL . '/assets/js/wpmoly.media.js' , array( WPMOLY_SLUG, 'jquery' ), WPMOLY_VERSION, true );
-			wp_enqueue_script( WPMOLY_SLUG . '-movies' , WPMOLY_URL . '/assets/js/wpmoly.movies.js' , array( WPMOLY_SLUG, 'jquery' ), WPMOLY_VERSION, true );
-			wp_enqueue_script( WPMOLY_SLUG . '-editor-details' , WPMOLY_URL . '/assets/js/wpmoly.editor.details.js' , array( WPMOLY_SLUG, 'jquery' ), WPMOLY_VERSION, true );
-			wp_enqueue_script( WPMOLY_SLUG . '-editor-meta' , WPMOLY_URL . '/assets/js/wpmoly.editor.meta.js' , array( WPMOLY_SLUG, 'jquery' ), WPMOLY_VERSION, true );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

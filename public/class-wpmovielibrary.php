@@ -49,7 +49,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 			);
 
 			if ( wpmoly_has_deprecated_meta() )
-				$this->modules['WPMOLY_Deprecated_Meta'] = WPMOLY_Deprecated_Meta::get_instance();
+				$this->modules['WPMOLY_Legacy'] = WPMOLY_Legacy::get_instance();
 
 			$this->widgets = array(
 				'WPMOLY_Statistics_Widget',
@@ -226,85 +226,12 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 
 			$wp_admin_bar->add_menu( $admin_bar_menu['menu'] );
 
-			foreach( $admin_bar_menu['submenu'] as $menu )
+			foreach ( $admin_bar_menu['submenu'] as $menu )
 				if ( ! isset( $menu['condition'] ) || ( isset( $menu['condition'] ) && false != $menu['condition'] ) )
 					$wp_admin_bar->add_menu( $menu );
 
-			foreach( $admin_bar_menu['group'] as $group )
+			foreach ( $admin_bar_menu['group'] as $group )
 				$wp_admin_bar->add_group( $group );
-
-			/*global $wp_admin_bar;
-
-			$args = array(
-				'id'    => 'wpmovielibrary',
-				'title' => '<img src="' . WPMOLY_URL . '/assets/img/logo-18x18.png" alt="" />' . __( 'Movie Library', 'wpmovielibrary' ),
-				'href'  => admin_url( 'admin.php?page=wpmovielibrary' )
-			);
-
-			$wp_admin_bar->add_menu( $args );
-
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpmovielibrary',
-				'id'     => 'wpmoly-library',
-				'title'  => __( 'Your movie library', 'wpmovielibrary' ),
-				'href'   => admin_url( 'admin.php?page=wpmovielibrary' ),
-			));
-
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpmoly-movies',
-				'id'     => 'wpmoly-all-movies',
-				'title'  => __( 'View all movies', 'wpmovielibrary' ),
-				'href'   => admin_url( 'edit.php?post_type=movie' ),
-			));
-
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpmoly-movies',
-				'id'     => 'wpmoly-new-movie',
-				'title'  => __( 'Add new movie', 'wpmovielibrary' ),
-				'href'   => admin_url( 'post-new.php?post_type=movie' ),
-			));
-
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpmoly-movies',
-				'id'     => 'wpmoly-import-movies',
-				'title'  => __( 'Import movies', 'wpmovielibrary' ),
-				'href'   => admin_url( 'admin.php?page=wpmoly_import' ),
-			));
-
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'wpmoly-utils',
-				'id'     => 'wpmoly-settings',
-				'title'  => __( 'Library Settings', 'wpmovielibrary' ),
-				'href'   => admin_url( 'admin.php?page=wpmoly_edit_settings' ),
-			));
-
-			if ( wpmoly_has_deprecated_meta() ) :
-				$wp_admin_bar->add_menu( array(
-					'parent' => 'wpmoly-utils',
-					'id'     => 'wpmoly-movie-update',
-					'title'  => __( 'Update movies', 'wpmovielibrary' ),
-					'href'   => admin_url( 'admin.php?page=wpmoly-update-movies' ),
-					'meta'   => array(
-						'class' => 'active',
-					)
-				));
-			endif;
-
-			$wp_admin_bar->add_group( array(
-				'parent' => 'wpmovielibrary',
-				'id'     => 'wpmoly-movies',
-				'meta'   => array(
-					'class' => 'ab-sub-secondary',
-				),
-			) );
-
-			$wp_admin_bar->add_group( array(
-				'parent' => 'wpmovielibrary',
-				'id'     => 'wpmoly-utils',
-				'meta'   => array(
-					'class' => 'ab-sub-third',
-				),
-			) );*/
 		}
 
 		/**

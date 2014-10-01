@@ -1,0 +1,30 @@
+/** ReduxFramework **/
+
+#redux-header {
+	background-image: url('http://wpmovielibrary.com/wp-content/uploads/2014/09/header.jpg') !important;
+	background-position: center 85% !important;
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
+}
+
+#wpmoly-sort-meta.redux-sorter-container h3,
+#wpmoly-sort-details.redux-sorter-container h3 {
+	border: 0;
+	margin: 0 0 0.5rem 0;
+	text-align: center;
+}
+
+#wpmoly-sort-meta.redux-sorter-container ul,
+#wpmoly-sort-details.redux-sorter-container ul {
+	background: transparent;
+	border: 0;
+	padding: 0;
+	width: 40%;
+}
+
+#wpmoly-sort-meta.redux-sorter-container li,
+#wpmoly-sort-details.redux-sorter-container li {
+	border: 0;
+	color: #eee !important;
+	margin-bottom: 2px !important;
+}
