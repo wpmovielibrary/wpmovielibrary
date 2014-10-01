@@ -147,6 +147,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public function enqueue_admin_styles( $hook ) {
 
+			wp_enqueue_style( WPMOLY_SLUG . '-common', WPMOLY_URL . '/assets/css/admin/wpmoly-common.css', array(), WPMOLY_VERSION );
+
 			$screen = get_current_screen();
 			if ( ! in_array( $hook, $this->screen_hooks ) && ! in_array( $screen->id, $this->screen_hooks ) )
 				return;
@@ -430,7 +432,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			extract( $this->screen_hooks );
 
 			$styles = array();
-			$styles['common'] = '/assets/css/admin/wpmoly-common.css';
 			$styles['admin']  = '/assets/css/admin/wpmoly.css';
 
 			if ( $hook_suffix == $settings ) {
