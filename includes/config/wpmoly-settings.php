@@ -550,7 +550,7 @@ $wpmoly_config = array(
 				'title'    => __( 'Movies URL Rewrite', 'wpmovielibrary' ),
 				'desc'     => __( 'URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>http://yourblog/movies/fight-club</code>. You can use this field to translate URLs to your language.', 'wpmovielibrary' ),
 				//'validate' => 'no_special_chars',
-				'validate_callback' => 'WPMOLY_Settings::notify_permalinks_change',
+				'validate_callback' => 'WPMOLY_Settings::permalinks_changed',
 				'default'  => 'movies',
 				'required' => array( 'wpmoly-rewrite-enable', "=", 1 ),
 				'indent'   => true

@@ -28,7 +28,21 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		 *
 		 * @since    1.0
 		 */
-		public function __construct() {}
+		public function __construct() {
+
+			$this->register_hook_callbacks();
+		}
+
+		/**
+		 * Register callbacks for actions and filters
+		 * 
+		 * @since    1.0
+		 */
+		public function register_hook_callbacks() {
+
+			if ( $this->has_permalinks_changed() )
+				add_action( 'admin_notices', array( $this, 'permalinks_changed_notice' ), 15 );
+		}
 
 		/**
 		 * Return the plugin settings.
@@ -108,13 +122,20 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			return false;
 		}
 
+		private function has_permalinks_changed() {
+
+			$changed = get_transient( 'wpmoly-permalinks-changed' );
+			if ( false === $changed )
+				return false;
+
+			return $changed;
+		}
+
 		/**
 		 * Check for changes on the URL Rewriting of Taxonomies to
 		 * update the Rewrite Rules if needed. We need this to avoid
 		 * users to get 404 when they try to access their content if they
 		 * didn't previously reload the Dashboard Permalink page.
-		 * 
-		 * TODO: find a better way to do this
 		 * 
 		 * @since    2.0
 		 * 
@@ -123,13 +144,13 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		 * 
 		 * @return   array    Validated settings
 		 */
-		public static function notify_permalinks_change( $field, $value, $existing_value ) {
+		public static function permalinks_changed( $field, $value, $existing_value ) {
 
 			$rewrites = array(
-				'wpmoly-translate-movie_rewrite',
-				'wpmoly-translate-collection_rewrite',
-				'wpmoly-translate-genre_rewrite',
-				'wpmoly-translate-actor_rewrite',
+				'wpmoly-rewrite-movie',
+				'wpmoly-rewrite-collection',
+				'wpmoly-rewrite-genre',
+				'wpmoly-rewrite-actor',
 			);
 
 			if ( ! isset( $field['id'] ) || ! in_array( $field['id'], $rewrites ) )
@@ -138,10 +159,20 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			if ( $existing_value == $value )
 				return array( 'error' => false, 'value' => $value );
 
-			$field['msg'] = sprintf( __( 'You update the ???? URL rewrite. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', 'wpmovielibrary' ), admin_url( '/options-permalink.php' ) );
+			$changed = set_transient( 'wpmoly-permalinks-changed', $field['id'] );
 
-			return array( 'error' => $field, 'value' => $value );
+			return array( 'value' => $value );
 
+		}
+
+		public static function permalinks_changed_notice() {
+?>
+
+	<div class="update-nag wpmoly">
+		<div class="label"><span class="dashicons dashicons-info"></span></div>
+		<div class="content"><?php printf( __( 'You update the ???? URL rewrite. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', 'wpmovielibrary' ), admin_url( '/options-permalink.php' ) ) ?></div>
+	</div>
+<?php
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -484,13 +515,6 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 
 			self::clean_settings();
 		}
-
-		/**
-		 * Register callbacks for actions and filters
-		 * 
-		 * @since    1.0.0
-		 */
-		public function register_hook_callbacks() {}
 
 		/**
 		 * Initializes variables
