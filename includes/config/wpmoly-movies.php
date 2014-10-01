@@ -204,7 +204,7 @@ $wpmoly_metaboxes = array(
 		'callback'      => 'WPMOLY_Edit_Movies::metabox_details',
 		'screen'        => 'movie',
 		'context'       => 'side',
-		'priority'      => 'default',
+		'priority'      => 'core',
 		'callback_args' => null
 	),
 	array(

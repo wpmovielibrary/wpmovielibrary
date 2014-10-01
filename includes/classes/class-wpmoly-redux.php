@@ -149,7 +149,7 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 				'display_name'         => $plugin['Name'],
 				'display_version'      => $plugin['Version'],
 				'menu_type'            => 'submenu',
-				'allow_sub_menu'       => false,
+				'allow_sub_menu'       => true,
 				'menu_title'           => __( 'Settings', 'wpmovielibrary' ),
 				'page_title'           => __( 'Settings', 'wpmovielibrary' ),
 				'admin_bar'            => false,

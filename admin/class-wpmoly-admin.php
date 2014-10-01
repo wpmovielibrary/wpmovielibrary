@@ -93,8 +93,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( wpmoly_modern_wp() )
 				add_action( 'admin_head', array( $this, 'custom_admin_colors' ) );
 
-			//add_filter( 'pre_update_option_wpmoly_settings', array( $this, 'filter_settings' ), 10, 2 );
-
 			// Add the options page and menu item.
 			add_action( 'admin_menu', array( $this, 'admin_menu' ), 9 );
 			add_action( 'admin_head', array( $this, 'admin_head' ) );
@@ -145,9 +143,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		/**
 		 * Register and enqueue admin-specific style sheet.
 		 *
-		 * @since     1.0.0
-		 *
-		 * @return    null    Return early if no settings page is registered.
+		 * @since    1.0
 		 */
 		public function enqueue_admin_styles( $hook ) {
 
@@ -164,9 +160,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		/**
 		 * Register and enqueue admin-specific JavaScript.
 		 * 
-		 * @since     1.0.0
-		 * 
-		 * @return    null    Return early if no settings page is registered.
+		 * @since    1.0
 		 */
 		public function enqueue_admin_scripts( $hook ) {
 
@@ -183,162 +177,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$this->localize_script()
 			);
 
-		}
-
-		private function admin_scripts( $hook_suffix ) {
-
-			extract( $this->screen_hooks );
-
-			$wpmoly_slug = WPMOLY_SLUG . '-admin';
-
-			$scripts = array();
-			$scripts['admin'] = array( '/assets/js/admin/wpmoly.js', array( 'jquery' ), true );
-			$scripts['utils'] = array( '/assets/js/admin/wpmoly-utils.js', array( 'jquery',  ), true );
-
-			if ( $hook_suffix == $settings )
-				$scripts['settings'] = array( '/assets/js/admin/wpmoly-settings.js', array( $wpmoly_slug, 'jquery', 'jquery-ui-sortable' ), true );
-
-			if ( $hook_suffix == $importer ) {
-				$scripts['jquery-ajax-queue'] = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( 'jquery' ), true );
-				$scripts['importer']          = array( '/assets/js/admin/wpmoly-importer-meta.js', array( $wpmoly_slug, 'jquery' ), true );
-				$scripts['importer-movies']   = array( '/assets/js/admin/wpmoly-importer-movies.js', array( $wpmoly_slug, 'jquery' ), true );
-				$scripts['importer-view']     = array( '/assets/js/admin/wpmoly-importer-view.js', array( $wpmoly_slug, 'jquery' ), true );
-				$scripts['queue']             = array( '/assets/js/admin/wpmoly-queue.js', array( $wpmoly_slug, 'jquery' ), true );
-			}
-
-			if ( $hook_suffix == $dashboard )
-				$scripts['dashboard'] = array( '/assets/js/admin/wpmoly-dashboard.js', array( $wpmoly_slug, 'jquery', 'jquery-ui-sortable' ), true );
-
-			if ( $hook_suffix == $widgets )
-				$scripts['widget']    = array( '/assets/js/admin/wpmoly-widget.js', array( $wpmoly_slug, 'jquery' ), false );
-
-			if ( $hook_suffix == $edit || $hook_suffix == $new ) {
-				$scripts['jquery-ajax-queue'] = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( 'jquery' ), true );
-				$scripts['media']             = array( '/assets/js/admin/wpmoly-media.js' , array( $wpmoly_slug, 'jquery' ), true );
-				$scripts['editor-details']    = array( '/assets/js/admin/wpmoly-editor-details.js' , array( $wpmoly_slug, 'jquery' ), true );
-				$scripts['editor-meta']       = array( '/assets/js/admin/wpmoly-editor-meta.js' , array( $wpmoly_slug, 'jquery' ), true );
-			}
-
-			if ( $hook_suffix == $movies ) {
-				$scripts['movies']            = array( '/assets/js/admin/wpmoly-movies.js' , array( $wpmoly_slug, 'jquery' ), true );
-				$scripts['editor-details']    = array( '/assets/js/admin/wpmoly-editor-details.js' , array( $wpmoly_slug, 'jquery' ), true );
-				$scripts['editor-meta']       = array( '/assets/js/admin/wpmoly-editor-meta.js' , array( $wpmoly_slug, 'jquery' ), true );
-			}
-
-			//$scripts[''] = array( '', array(), true );
-
-			return $scripts;
-		}
-
-		private function admin_styles( $hook_suffix ) {
-
-			extract( $this->screen_hooks );
-
-			$styles = array();
-			$styles['common'] = '/assets/css/admin/wpmoly-common.css';
-			$styles['admin']  = '/assets/css/admin/wpmoly.css';
-
-			if ( $hook_suffix == $settings ) {
-				$styles['flags']    = '/assets/css/public/flags.css';
-				$styles['settings'] = '/assets/css/admin/wpmoly-settings.css';
-			}
-
-			if ( $hook_suffix == $importer )
-				$styles['importer'] = '/assets/css/admin/wpmoly-importer.css';
-
-			if ( $hook_suffix == $dashboard )
-				$styles['dashboard'] = '/assets/css/admin/wpmoly-dashboard.css';
-
-			if ( $hook_suffix == $edit || $hook_suffix == $new ) {
-				$styles['movies'] = '/assets/css/admin/wpmoly-edit-movies.css';
-				$styles['media']  = '/assets/css/admin/wpmoly-media.css';
-			}
-
-			if ( $hook_suffix == $movies ) {
-				$styles['movies'] = '/assets/css/admin/wpmoly-movies.css';
-			}
-
-			if ( ! wpmoly_modern_wp() )
-				$styles['legacy'] = '/assets/css/admin/wpmoly-legacy.css';
-
-			return $styles;
-		}
-
-		/**
-		 * i18n method for script
-		 * 
-		 * Adds a translation object to the plugin's JavaScript object
-		 * containing localized texts.
-		 * 
-		 * TODO: move to dedicated lang class?
-		 * 
-		 * @since    1.0
-		 */
-		private function localize_script() {
-
-			$localize = array(
-				'utils' => array(
-					'wpmoly_check' => wp_create_nonce( 'wpmoly-callbacks-nonce' ),
-					'language' => wpmoly_o( 'api-language' )
-				),
-				'lang' => array(
-					'available'		=> __( 'Available', 'wpmovielibrary' ),
-					'deleted_movie'		=> __( 'One movie successfully deleted.', 'wpmovielibrary' ),
-					'deleted_movies'	=> __( '%s movies successfully deleted.', 'wpmovielibrary' ),
-					'dequeued_movie'	=> __( 'One movie removed from the queue.', 'wpmovielibrary' ),
-					'dequeued_movies'	=> __( '%s movies removed from the queue.', 'wpmovielibrary' ),
-					'done'			=> __( 'Done!', 'wpmovielibrary' ),
-					'empty_key'		=> __( 'I can\'t test an empty key, you know.', 'wpmovielibrary' ),
-					'enqueued_movie'	=> __( 'One movie added to the queue.', 'wpmovielibrary' ),
-					'enqueued_movies'	=> __( '%s movies added to the queue.', 'wpmovielibrary' ),
-					'images_added'		=> __( 'Images added!', 'wpmovielibrary' ),
-					'image_from'		=> __( 'Image from', 'wpmovielibrary' ),
-					'images_uploaded'	=> __( 'Images uploaded!', 'wpmovielibrary' ),
-					'import_images'		=> __( 'Import Images', 'wpmovielibrary' ),
-					'import_images_title'	=> __( 'Import Images for "%s"', 'wpmovielibrary' ),
-					'import_images_wait'	=> __( 'Please wait while the images are uploaded...', 'wpmovielibrary' ),
-					'import_poster'		=> __( 'Import Poster', 'wpmovielibrary' ),
-					'import_poster_title'	=> __( 'Select a poster for "%s"', 'wpmovielibrary' ),
-					'import_poster_wait'	=> __( 'Please wait while the poster is uploaded...', 'wpmovielibrary' ),
-					'imported'		=> __( 'Imported', 'wpmovielibrary' ),
-					'imported_movie'	=> __( 'One movie successfully imported!', 'wpmovielibrary' ),
-					'imported_movies'	=> __( '%s movies successfully imported!', 'wpmovielibrary' ),
-					'in_progress'		=> __( 'Progressing', 'wpmovielibrary' ),
-					'length_key'		=> __( 'Invalid key: it should be 32 characters long.', 'wpmovielibrary' ),
-					'load_images'		=> __( 'Load Images', 'wpmovielibrary' ),
-					'load_more'		=> __( 'Load More', 'wpmovielibrary' ),
-					'loading_images'	=> __( 'Loading Images…', 'wpmovielibrary' ),
-					'media_no_movie'	=> __( 'No movie could be found. You need to select a movie before importing images or posters.', 'wpmovielibrary' ),
-					'oops'			=> __( 'Oops… Did something went wrong?', 'wpmovielibrary' ),
-					'poster'		=> __( 'Poster', 'wpmovielibrary' ),
-					'save_image'		=> __( 'Saving Images…', 'wpmovielibrary' ),
-					'search_movie_title'	=> __( 'Searching movie', 'wpmovielibrary' ),
-					'search_movie'		=> __( 'Fetching movie data', 'wpmovielibrary' ),
-					'see_less'		=> __( 'see no more', 'wpmovielibrary' ),
-					'see_more'		=> __( 'see more', 'wpmovielibrary' ),
-					'set_featured'		=> __( 'Setting featured image…', 'wpmovielibrary' ),
-					'used'			=> __( 'Used', 'wpmovielibrary' )
-				)
-			);
-
-			$base_urls = WPMOLY_TMDb::get_image_url();
-			if ( is_wp_error( $base_urls ) ) {
-				$localize['base_urls'] = array(
-					'xxsmall' => null, 'xsmall' => null, 'small' => null, 'medium' => null, 'full' => null, 'original' => null
-				);
-			}
-			else {
-				$localize['base_urls'] = array(
-					'xxsmall'	=> $base_urls['poster']['xx-small'],
-					'xsmall'	=> $base_urls['poster']['x-small'],
-					'small'		=> $base_urls['backdrop']['small'],
-					'medium'	=> $base_urls['backdrop']['medium'],
-					'full'		=> $base_urls['backdrop']['full'],
-					'original'	=> $base_urls['backdrop']['original'],
-				);
-			}
-
-			return $localize;
 		}
 
 		/**
@@ -520,6 +358,181 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			);
 
 			echo self::render_admin_template( 'settings/settings.php', $attributes );*/
+		}
+
+		/**
+		 * Define all admin scripts but use only those needed by the
+		 * current page.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $hook_suffix Current page hook name
+		 * 
+		 * @return   array     Current page's scripts
+		 */
+		private function admin_scripts( $hook_suffix ) {
+
+			extract( $this->screen_hooks );
+
+			$wpmoly_slug = WPMOLY_SLUG . '-admin';
+
+			$scripts = array();
+			$scripts['admin'] = array( '/assets/js/admin/wpmoly.js', array( 'jquery' ), true );
+			$scripts['utils'] = array( '/assets/js/admin/wpmoly-utils.js', array( 'jquery',  ), true );
+
+			if ( $hook_suffix == $settings )
+				$scripts['settings'] = array( '/assets/js/admin/wpmoly-settings.js', array( $wpmoly_slug, 'jquery', 'jquery-ui-sortable' ), true );
+
+			if ( $hook_suffix == $importer ) {
+				$scripts['jquery-ajax-queue'] = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( 'jquery' ), true );
+				$scripts['importer']          = array( '/assets/js/admin/wpmoly-importer-meta.js', array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['importer-movies']   = array( '/assets/js/admin/wpmoly-importer-movies.js', array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['importer-view']     = array( '/assets/js/admin/wpmoly-importer-view.js', array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['queue']             = array( '/assets/js/admin/wpmoly-queue.js', array( $wpmoly_slug, 'jquery' ), true );
+			}
+
+			if ( $hook_suffix == $dashboard )
+				$scripts['dashboard'] = array( '/assets/js/admin/wpmoly-dashboard.js', array( $wpmoly_slug, 'jquery', 'jquery-ui-sortable' ), true );
+
+			if ( $hook_suffix == $widgets )
+				$scripts['widget']    = array( '/assets/js/admin/wpmoly-widget.js', array( $wpmoly_slug, 'jquery' ), false );
+
+			if ( $hook_suffix == $edit || $hook_suffix == $new ) {
+				$scripts['jquery-ajax-queue'] = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( 'jquery' ), true );
+				$scripts['media']             = array( '/assets/js/admin/wpmoly-media.js' , array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['editor-details']    = array( '/assets/js/admin/wpmoly-editor-details.js' , array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['editor-meta']       = array( '/assets/js/admin/wpmoly-editor-meta.js' , array( $wpmoly_slug, 'jquery' ), true );
+			}
+
+			if ( $hook_suffix == $movies ) {
+				$scripts['movies']            = array( '/assets/js/admin/wpmoly-movies.js' , array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['editor-details']    = array( '/assets/js/admin/wpmoly-editor-details.js' , array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['editor-meta']       = array( '/assets/js/admin/wpmoly-editor-meta.js' , array( $wpmoly_slug, 'jquery' ), true );
+			}
+
+			//$scripts[''] = array( '', array(), true );
+
+			return $scripts;
+		}
+
+		/**
+		 * Define all admin styles but use only those needed by the
+		 * current page.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $hook_suffix Current page hook name
+		 * 
+		 * @return   array     Current page's styles
+		 */
+		private function admin_styles( $hook_suffix ) {
+
+			extract( $this->screen_hooks );
+
+			$styles = array();
+			$styles['common'] = '/assets/css/admin/wpmoly-common.css';
+			$styles['admin']  = '/assets/css/admin/wpmoly.css';
+
+			if ( $hook_suffix == $settings ) {
+				$styles['flags']    = '/assets/css/public/flags.css';
+				$styles['settings'] = '/assets/css/admin/wpmoly-settings.css';
+			}
+
+			if ( $hook_suffix == $importer )
+				$styles['importer'] = '/assets/css/admin/wpmoly-importer.css';
+
+			if ( $hook_suffix == $dashboard )
+				$styles['dashboard'] = '/assets/css/admin/wpmoly-dashboard.css';
+
+			if ( $hook_suffix == $edit || $hook_suffix == $new ) {
+				$styles['movies'] = '/assets/css/admin/wpmoly-edit-movies.css';
+				$styles['media']  = '/assets/css/admin/wpmoly-media.css';
+			}
+
+			if ( $hook_suffix == $movies )
+				$styles['movies'] = '/assets/css/admin/wpmoly-movies.css';
+
+			if ( ! wpmoly_modern_wp() )
+				$styles['legacy'] = '/assets/css/admin/wpmoly-legacy.css';
+
+			return $styles;
+		}
+
+		/**
+		 * i18n method for script
+		 * 
+		 * Adds a translation object to the plugin's JavaScript object
+		 * containing localized texts.
+		 * 
+		 * TODO: move to dedicated lang class?
+		 * 
+		 * @since    1.0
+		 */
+		private function localize_script() {
+
+			$localize = array(
+				'utils' => array(
+					'wpmoly_check' => wp_create_nonce( 'wpmoly-callbacks-nonce' ),
+					'language' => wpmoly_o( 'api-language' )
+				),
+				'lang' => array(
+					'available'		=> __( 'Available', 'wpmovielibrary' ),
+					'deleted_movie'		=> __( 'One movie successfully deleted.', 'wpmovielibrary' ),
+					'deleted_movies'	=> __( '%s movies successfully deleted.', 'wpmovielibrary' ),
+					'dequeued_movie'	=> __( 'One movie removed from the queue.', 'wpmovielibrary' ),
+					'dequeued_movies'	=> __( '%s movies removed from the queue.', 'wpmovielibrary' ),
+					'done'			=> __( 'Done!', 'wpmovielibrary' ),
+					'empty_key'		=> __( 'I can\'t test an empty key, you know.', 'wpmovielibrary' ),
+					'enqueued_movie'	=> __( 'One movie added to the queue.', 'wpmovielibrary' ),
+					'enqueued_movies'	=> __( '%s movies added to the queue.', 'wpmovielibrary' ),
+					'images_added'		=> __( 'Images added!', 'wpmovielibrary' ),
+					'image_from'		=> __( 'Image from', 'wpmovielibrary' ),
+					'images_uploaded'	=> __( 'Images uploaded!', 'wpmovielibrary' ),
+					'import_images'		=> __( 'Import Images', 'wpmovielibrary' ),
+					'import_images_title'	=> __( 'Import Images for "%s"', 'wpmovielibrary' ),
+					'import_images_wait'	=> __( 'Please wait while the images are uploaded...', 'wpmovielibrary' ),
+					'import_poster'		=> __( 'Import Poster', 'wpmovielibrary' ),
+					'import_poster_title'	=> __( 'Select a poster for "%s"', 'wpmovielibrary' ),
+					'import_poster_wait'	=> __( 'Please wait while the poster is uploaded...', 'wpmovielibrary' ),
+					'imported'		=> __( 'Imported', 'wpmovielibrary' ),
+					'imported_movie'	=> __( 'One movie successfully imported!', 'wpmovielibrary' ),
+					'imported_movies'	=> __( '%s movies successfully imported!', 'wpmovielibrary' ),
+					'in_progress'		=> __( 'Progressing', 'wpmovielibrary' ),
+					'length_key'		=> __( 'Invalid key: it should be 32 characters long.', 'wpmovielibrary' ),
+					'load_images'		=> __( 'Load Images', 'wpmovielibrary' ),
+					'load_more'		=> __( 'Load More', 'wpmovielibrary' ),
+					'loading_images'	=> __( 'Loading Images…', 'wpmovielibrary' ),
+					'media_no_movie'	=> __( 'No movie could be found. You need to select a movie before importing images or posters.', 'wpmovielibrary' ),
+					'oops'			=> __( 'Oops… Did something went wrong?', 'wpmovielibrary' ),
+					'poster'		=> __( 'Poster', 'wpmovielibrary' ),
+					'save_image'		=> __( 'Saving Images…', 'wpmovielibrary' ),
+					'search_movie_title'	=> __( 'Searching movie', 'wpmovielibrary' ),
+					'search_movie'		=> __( 'Fetching movie data', 'wpmovielibrary' ),
+					'see_less'		=> __( 'see no more', 'wpmovielibrary' ),
+					'see_more'		=> __( 'see more', 'wpmovielibrary' ),
+					'set_featured'		=> __( 'Setting featured image…', 'wpmovielibrary' ),
+					'used'			=> __( 'Used', 'wpmovielibrary' )
+				)
+			);
+
+			$base_urls = WPMOLY_TMDb::get_image_url();
+			if ( is_wp_error( $base_urls ) ) {
+				$localize['base_urls'] = array(
+					'xxsmall' => null, 'xsmall' => null, 'small' => null, 'medium' => null, 'full' => null, 'original' => null
+				);
+			}
+			else {
+				$localize['base_urls'] = array(
+					'xxsmall'	=> $base_urls['poster']['xx-small'],
+					'xsmall'	=> $base_urls['poster']['x-small'],
+					'small'		=> $base_urls['backdrop']['small'],
+					'medium'	=> $base_urls['backdrop']['medium'],
+					'full'		=> $base_urls['backdrop']['full'],
+					'original'	=> $base_urls['backdrop']['original'],
+				);
+			}
+
+			return $localize;
 		}
 
 		/**
