@@ -155,7 +155,7 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 				'opt_name'             => 'wpmoly_settings',
 				'display_name'         => WPMOLY_NAME,
 				'display_version'      => WPMOLY_VERSION,
-				'menu_type'            => 'menu',
+				'menu_type'            => 'submenu',
 				'allow_sub_menu'       => true,
 				'menu_title'           => __( 'Settings', 'wpmovielibrary' ),
 				'page_title'           => __( 'Settings', 'wpmovielibrary' ),
