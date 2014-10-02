@@ -13,17 +13,43 @@
 if ( ! defined( 'WPINC' ) )
 	wp_die();
 
+// Builtin restricted list for API support
+$wpmoly_available_languages = array(
+
+	'bg' => __( 'Bulgarian', 'wpmovielibrary-iso' ),
+	'cs' => __( 'Czech', 'wpmovielibrary-iso' ),
+	'da' => __( 'Danish', 'wpmovielibrary-iso' ),
+	'de' => __( 'German', 'wpmovielibrary-iso' ),
+	'el' => __( 'Greek', 'wpmovielibrary-iso' ),
+	'en' => __( 'English', 'wpmovielibrary-iso' ),
+	'es' => __( 'Spanish', 'wpmovielibrary-iso' ),
+	'fa' => __( 'Farsi', 'wpmovielibrary-iso' ),
+	'fi' => __( 'Finnish', 'wpmovielibrary-iso' ),
+	'fr' => __( 'French', 'wpmovielibrary-iso' ),
+	'he' => __( 'Hebrew', 'wpmovielibrary-iso' ),
+	'hi' => __( 'Hindi', 'wpmovielibrary-iso' ),
+	'hu' => __( 'Hungarian', 'wpmovielibrary-iso' ),
+	'it' => __( 'Italian', 'wpmovielibrary-iso' ),
+	'ja' => __( 'Japanese', 'wpmovielibrary-iso' ),
+	'ko' => __( 'Korean', 'wpmovielibrary-iso' ),
+	'nl' => __( 'Dutch', 'wpmovielibrary-iso' ),
+	'no' => __( 'Norwegian', 'wpmovielibrary-iso' ),
+	'pl' => __( 'Polish', 'wpmovielibrary-iso' ),
+	'pt' => __( 'Portuguese', 'wpmovielibrary-iso' ),
+	'ru' => __( 'Russian', 'wpmovielibrary-iso' ),
+	'sv' => __( 'Swedish', 'wpmovielibrary-iso' ),
+	'tr' => __( 'Turkish', 'wpmovielibrary-iso' ),
+	'uk' => __( 'Ukrainian', 'wpmovielibrary-iso' ),
+	'zh' => __( 'Chinese', 'wpmovielibrary-iso' )
+);
+
 // Builtin, non-exhaustive iso_639_1 matching array for translation
 $wpmoly_languages = array(
 
-// 	'' => array(
-// 		'native' => '',
-// 		'name'   => __( '', 'wpmovielibrary-iso' )
-// 	),
-
 	'af' => array(
 		'native' => 'Afrikaans',
-		'name'   => __( 'Afrikaans', 'wpmovielibrary-iso' )
+		'name'   => __( 'Afrikaans', 'wpmovielibrary-iso' ),
+		'supported' => false,
 	),
 	'ar' => array(
 		'native' => 'العربية',

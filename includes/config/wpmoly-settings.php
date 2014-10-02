@@ -15,10 +15,21 @@ if ( ! defined( 'WPINC' ) )
 
 $wpmoly_config = array(
 
-	'wpmoly' => array(
-		'icon'    => 'el-icon-film',
+	// 'wpmoly' General settings section
+	array(
+		'icon'    => 'fa fa-tachometer',
 		'title'   => __( 'General', 'wpmovielibrary' ),
 		'heading' => __( 'General options', 'wpmovielibrary' ),
+		'fields'  => array(
+		)
+	),
+
+	// 'wpmoly-movies' Movies settings subsection
+	array(
+		'icon'    => 'fa fa-film',
+		'title'   => __( 'Movies', 'wpmovielibrary' ),
+		'heading' => __( 'Movies settings', 'wpmovielibrary' ),
+		'subsection' => true,
 		'fields'  => array(
 
 			'movies-start' => array(
@@ -66,7 +77,17 @@ $wpmoly_config = array(
 				'id'     => 'movies-end',
 				'type'   => 'section',
 				'indent' => false,
-			),
+			)
+		)
+	),
+
+	// 'wpmoly-meta' Meta settings subsection
+	array(
+		'icon'    => 'fa fa-puzzle-piece',
+		'title'   => __( 'Metadata', 'wpmovielibrary' ),
+		'heading' => __( 'Metadata settings', 'wpmovielibrary' ),
+		'subsection' => true,
+		'fields'  => array(
 
 			'meta-start' => array(
 				'id'       => 'meta-start',
@@ -128,7 +149,17 @@ $wpmoly_config = array(
 				'id'     => 'meta-end',
 				'type'   => 'section',
 				'indent' => false,
-			),
+			)
+		)
+	),
+
+	// 'wpmoly-details' Details settings subsection
+	array(
+		'icon'    => 'fa fa-filter',
+		'title'   => __( 'Details', 'wpmovielibrary' ),
+		'heading' => __( 'Details settings', 'wpmovielibrary' ),
+		'subsection' => true,
+		'fields'  => array(
 
 			'details-start' => array(
 				'id'       => 'details-start',
@@ -192,6 +223,16 @@ $wpmoly_config = array(
 				'type'   => 'section',
 				'indent' => false,
 			),
+		)
+	),
+
+	// 'wpmoly-format' Formatting settings subsection
+	array(
+		'icon'    => 'fa fa-magic',
+		'title'   => __( 'Formatting', 'wpmovielibrary' ),
+		'heading' => __( 'Formatting settings', 'wpmovielibrary' ),
+		'subsection' => true,
+		'fields'  => array(
 
 			// Release date formatting
 			'format-date' => array(
@@ -213,21 +254,22 @@ $wpmoly_config = array(
 		),
 	),
 
-	
-	// Images
-	'wpmoly-images' => array(
-		'icon'    => 'el-icon-picture',
+	// 'wpmoly-images' Images and Posters section
+	array(
+		'icon'    => 'fa fa-image',
 		'title'   => __( 'Images', 'wpmovielibrary' ),
 		'heading' => __( 'Images and Posters options', 'wpmovielibrary' ),
 		'fields'  => array(
+		)
+	),
 
-			'posters-start' => array(
-				'id'       => 'posters-start',
-				'type'     => 'section',
-				'title'    => __( 'Posters', 'wpmovielibrary'),
-				//'subtitle' => __( '', 'wpmovielibrary'),
-				'indent'   => true
-			),
+	// 'wpmoly-posters' Posters settings subsection
+	array(
+		'icon'    => 'fa fa-file-image-o',
+		'title'   => __( 'Posters', 'wpmovielibrary' ),
+		'heading' => __( 'Posters settings', 'wpmovielibrary' ),
+		'subsection' => true,
+		'fields'  => array(
 
 			// Use posters as featured images
 			'poster-featured' => array(
@@ -268,20 +310,16 @@ $wpmoly_config = array(
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default' => 0
 			),
+		)
+	),
 
-			'posters-end' => array(
-				'id'     => 'posters-end',
-				'type'   => 'section',
-				'indent' => false,
-			),
-
-			'images-start' => array(
-				'id'       => 'images-start',
-				'type'     => 'section',
-				'title'    => __( 'Images', 'wpmovielibrary'),
-				//'subtitle' => __( '', 'wpmovielibrary'),
-				'indent'   => true
-			),
+	// 'wpmoly-images' Images settings subsection
+	array(
+		'icon'    => 'fa fa-camera',
+		'title'   => __( 'Images', 'wpmovielibrary' ),
+		'heading' => __( 'Images settings', 'wpmovielibrary' ),
+		'subsection' => true,
+		'fields'  => array(
 
 			// Images size
 			'images-size' => array(
@@ -308,29 +346,25 @@ $wpmoly_config = array(
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default' => 0
 			),
-
-			'images-end' => array(
-				'id'     => 'images-end',
-				'type'   => 'section',
-				'indent' => false,
-			),
 		),
 	),
 
-	// Taxonomies
-	'wpmoly-taxonomies' => array(
-		'icon'    => 'el-icon-tags',
+	// 'wpmoly-taxonomies' Taxonomies section
+	array(
+		'icon'    => 'fa fa-tags',
 		'title'   => __( 'Taxonomies', 'wpmovielibrary' ),
 		'heading' => __( 'Built-in Taxonomies configuration', 'wpmovielibrary' ),
 		'fields'  => array(
+		)
+	),
 
-			'collection-start' => array(
-				'id'       => 'collection-start',
-				'type'     => 'section',
-				'title'    => __( 'Collections', 'wpmovielibrary'),
-				//'subtitle' => __( '', 'wpmovielibrary'),
-				'indent'   => true
-			),
+	// 'wpmoly-collections' collections settings subsection
+	array(
+		'icon'    => 'fa fa-folder-open',
+		'title'   => __( 'Collections', 'wpmovielibrary' ),
+		'heading' => __( 'Collections settings', 'wpmovielibrary' ),
+		'subsection' => true,
+		'fields'  => array(
 
 			// Enable Collections Taxonomy
 			'enable-collection' => array(
@@ -355,20 +389,16 @@ $wpmoly_config = array(
 				'required' => array( 'wpmoly-enable-collection', "=", 1 ),
 				'indent'   => true
 			),
+		)
+	),
 
-			'collection-end' => array(
-				'id'     => 'collection-end',
-				'type'   => 'section',
-				'indent' => false,
-			),
-
-			'genre-start' => array(
-				'id'       => 'genre-start',
-				'type'     => 'section',
-				'title'    => __( 'Genres', 'wpmovielibrary'),
-				//'subtitle' => __( '', 'wpmovielibrary'),
-				'indent'   => true
-			),
+	// 'wpmoly-genres' Genres settings subsection
+	array(
+		'icon'    => 'fa fa-tag',
+		'title'   => __( 'Genres', 'wpmovielibrary' ),
+		'heading' => __( 'Genres settings', 'wpmovielibrary' ),
+		'subsection' => true,
+		'fields'  => array(
 
 			// Enable Genres Taxonomy
 			'enable-genre' => array(
@@ -393,20 +423,16 @@ $wpmoly_config = array(
 				'required' => array( 'wpmoly-enable-genre', "=", 1 ),
 				'indent'   => true
 			),
+		)
+	),
 
-			'genre-end' => array(
-				'id'     => 'genre-end',
-				'type'   => 'section',
-				'indent' => false,
-			),
-
-			'actor-start' => array(
-				'id'       => 'actor-start',
-				'type'     => 'section',
-				'title'    => __( 'Actors', 'wpmovielibrary'),
-				//'subtitle' => __( '', 'wpmovielibrary'),
-				'indent'   => true
-			),
+	// 'wpmoly-actors' Actors settings subsection
+	array(
+		'icon'    => 'fa fa-users',
+		'title'   => __( 'Actors', 'wpmovielibrary' ),
+		'heading' => __( 'Actors settings', 'wpmovielibrary' ),
+		'subsection' => true,
+		'fields'  => array(
 
 			// Enable Actors Taxonomy
 			'enable-actor' => array(
@@ -443,20 +469,24 @@ $wpmoly_config = array(
 				'required' => array( 'wpmoly-enable-actor', "=", 1 ),
 				'indent'   => true
 			),
-
-			'actor-end' => array(
-				'id'     => 'actor-end',
-				'type'   => 'section',
-				'indent' => false,
-			),
 		),
 	),
 
-	// Languages
-	'wpmoly-translate' => array(
-		'icon'    => 'el-icon-flag',
+	// 'wpmoly-translate' Languages
+	array(
+		'icon'    => 'fa fa-language',
 		'title'   => __( 'Languages', 'wpmovielibrary' ),
 		'heading' => __( 'Languages Support', 'wpmovielibrary' ),
+		'fields'  => array(
+		)
+	),
+
+	// 'wpmoly-translate' Translation settings subsection
+	array(
+		'icon'    => 'fa fa-flag',
+		'title'   => __( 'Translation', 'wpmovielibrary' ),
+		'heading' => __( 'Translation settings', 'wpmovielibrary' ),
+		'subsection' => true,
 		'fields'  => array(
 
 			'translate-countries' => array(
@@ -522,14 +552,17 @@ $wpmoly_config = array(
 				),
 				'required' => array( 'wpmoly-translate-languages', "=", 1 ),
 			),
+		)
+	),
 
-			'rewrite-start' => array(
-				'id'       => 'rewrite-start',
-				'type'     => 'section',
-				'title'    => __( 'Rewrite rules & Permalinks', 'wpmovielibrary'),
-				'subtitle' => __( 'You can adapt the plugin’s permalinks to your local language.', 'wpmovielibrary'),
-				'indent'   => true
-			),
+	// 'wpmoly-rewrite' Permalinks settings subsection
+	array(
+		'icon'    => 'fa fa-link',
+		'title'   => __( 'Permalinks', 'wpmovielibrary' ),
+		'heading' => __( 'Rewrite rules & Permalinks', 'wpmovielibrary' ),
+		'desc' => __( 'You can adapt the plugin’s permalinks to your local language.', 'wpmovielibrary'),
+		'subsection' => true,
+		'fields'  => array(
 
 			// Movie URL Rewrite Rule
 			'rewrite-enable' => array(
@@ -614,19 +647,13 @@ $wpmoly_config = array(
 				'indent'   => true
 			),
 
-			'rewrite-end' => array(
-				'id'     => 'rewrite-end',
-				'type'   => 'section',
-				'indent' => false,
-			)
-
 		)
 
 	),
 
-	// Caching
-	'wpmoly-cache' => array(
-		'icon'    => 'el-icon-hdd',
+	// 'wpmoly-cache' Caching
+	array(
+		'icon'    => 'fa fa-rocket',
 		'title'   => __( 'Cache', 'wpmovielibrary' ),
 		'heading' => __( 'Caching', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -669,9 +696,9 @@ $wpmoly_config = array(
 		)
 	),
 
-	// Legacy
-	'wpmoly-legacy' => array(
-		'icon'    => 'el-icon-leaf',
+	// 'wpmoly-legacy' Legacy
+	array(
+		'icon'    => 'fa fa-leaf',
 		'title'   => __( 'Legacy', 'wpmovielibrary' ),
 		'heading' => __( 'Compatibility settings for WPMovieLibrary 1.x', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -690,8 +717,9 @@ $wpmoly_config = array(
 		)
 	),
 
-	'wpmoly-api' => array(
-		'icon'    => 'el-icon-cogs',
+	// 'wpmoly-api' API Settings
+	array(
+		'icon'    => 'fa fa-cogs',
 		'title'   => __( 'API', 'wpmovielibrary' ),
 		'heading' => __( 'TheMovieDB API settings', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -725,33 +753,7 @@ $wpmoly_config = array(
 				'type'     => 'select',
 				'title'    => __( 'API Language', 'wpmovielibrary' ),
 				'desc'     => __( 'Default language to use when fetching informations from TMDb. Default is english. You can always change this manually when add a new movie.', 'wpmovielibrary' ),
-				'options'  => array(
-					"bg" => "български език",
-					"cs" => "Český",
-					"da" => "Dansk",
-					"de" => "Deutsch",
-					"el" => "ελληνικά",
-					"en" => "English",
-					"es" => "Español",
-					"fi" => "Suomi",
-					"fr" => "Français",
-					"he" => "עִבְרִית",
-					"hu" => "Magyar",
-					"it" => "Italiano",
-					"ko" => "한국어/조선말",
-					"nb" => "Bokmål",
-					"nl" => "Nederlands",
-					"no" => "Norsk",
-					"pl" => "Polski",
-					"pt" => "Português",
-					"ru" => "Pусский",
-					"sk" => "Slovenčina",
-					"sv" => "Svenska",
-					"th" => "ภาษาไทย",
-					"tr" => "Türkçe",
-					"uk" => "Український",
-					"zh" => "中国"
-				),
+				'options'  => $wpmoly_available_languages,
 				'default' => 'en'
 			),
 
@@ -770,13 +772,14 @@ $wpmoly_config = array(
 		)
 	),
 
+	// Divider
 	array(
 		'type' => 'divide',
 	),
 
-	// What to do on deactivation
-	'wpmoly-deactivate' => array(
-		'icon'    => 'el-icon-off',
+	// 'wpmoly-deactivate' What to do on deactivation
+	array(
+		'icon'    => 'fa fa-power-off',
 		'title'   => __( 'Deactivate', 'wpmovielibrary' ),
 		'heading' => __( 'Deactivation options', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -848,9 +851,9 @@ $wpmoly_config = array(
 		)
 	),
 
-	// What to do on uninstallation
-	'wpmoly-uninstall' => array(
-		'icon'    => 'el-icon-remove-sign',
+	// 'wpmoly-uninstall' What to do on uninstallation
+	array(
+		'icon'    => 'fa fa-times',
 		'title'   => __( 'Uninstall', 'wpmovielibrary' ),
 		'heading' => __( 'Uninstallation options', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -921,8 +924,9 @@ $wpmoly_config = array(
 		)
 	),
 
-	'wpmoly-import-export' => array(
-		'icon'    => 'el-icon-refresh',
+	// 'wpmoly-import-export' Import/Export
+	array(
+		'icon'    => 'fa fa-refresh',
 		'title'   => __( 'Import / Export', 'wpmovielibrary' ),
 		'heading' => __( 'Import and Export your settings and movies from file, text or URL.', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -938,12 +942,14 @@ $wpmoly_config = array(
 		),
 	),
 
-	'divide-1' => array(
+	// Divider
+	array(
 		'type' => 'divide',
 	),
 
-	'wpmoly-about' => array(
-		'icon'   => 'el-icon-info-sign',
+	// 'wpmoly-about' About Plugin
+	array(
+		'icon'   => 'fa fa-info-circle',
 		'title'  => __( 'Information', 'wpmovielibrary' ),
 		'desc'   => __( '<p class="description">This is the Description. Again HTML is allowed</p>', 'wpmovielibrary' ),
 		'fields' => array(

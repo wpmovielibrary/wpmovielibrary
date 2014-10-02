@@ -55,7 +55,16 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 			// Dynamically add a section. Can be also used to modify sections/fields
 			add_filter( 'redux/options/' . $this->args['opt_name'] . '/sections', array( $this, 'dynamic_section' ) );
 
+			// Replace Framework Font with FontAwesome
+			add_filter( 'redux/page/' . $this->args['opt_name'] . '/enqueue', array( $this, 'font_awesome_font' ) );
+
 			$this->ReduxFramework = new ReduxFramework( $this->sections, $this->args );
+		}
+
+		function font_awesome_font() {
+
+			wp_register_style( 'redux-font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css', array(), '4.2.0', 'all' );
+			wp_enqueue_style( 'redux-font-awesome' );
 		}
 
 		/**
@@ -146,14 +155,14 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 				'opt_name'             => 'wpmoly_settings',
 				'display_name'         => WPMOLY_NAME,
 				'display_version'      => WPMOLY_VERSION,
-				'menu_type'            => 'submenu',
+				'menu_type'            => 'menu',
 				'allow_sub_menu'       => true,
 				'menu_title'           => __( 'Settings', 'wpmovielibrary' ),
 				'page_title'           => __( 'Settings', 'wpmovielibrary' ),
 				'admin_bar'            => false,
 				'dev_mode'             => false,
 				'update_notice'        => false,
-				'customizer'           => false,
+				'customizer'           => true,
 				'page_parent'          => 'wpmovielibrary',
 				'page_permissions'     => 'manage_options',
 				'menu_icon'            => '',
@@ -171,6 +180,7 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 				'output_tag'           => true,
 				'database'             => '',
 				'system_info'          => true,
+				'system_info_icon_class' => 'fa fa-wrench',
 				// REMOVE
 
 				// HINTS

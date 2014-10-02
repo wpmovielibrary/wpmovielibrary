@@ -293,9 +293,21 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		 */
 		public static function get_available_languages() {
 
-			$settings = self::get_default_settings();
+			global $wpmoly_available_languages;
 
-			return $settings['wpmoly-api']['fields']['language']['options'];
+			/**
+			 * Filter the available languages list to add/remove languages.
+			 *
+			 * This should be used through Plugins to add additionnal
+			 * languages.
+			 *
+			 * @since    2.0
+			 *
+			 * @param    array    $wpmoly_available_languages Existing languages
+			 */
+			$wpmoly_available_languages = apply_filters( 'wpmoly_filter_available_languages', $wpmoly_available_languages );
+
+			return $wpmoly_available_languages;
 		}
 
 		/**
