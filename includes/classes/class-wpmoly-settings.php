@@ -122,6 +122,14 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			return false;
 		}
 
+		/**
+		 * Check for a transient indicating permalinks were changed and
+		 * structure not updated.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @return   bool|string    False is no change was made or structure updated, changed permalinks option slug else
+		 */
 		private function has_permalinks_changed() {
 
 			$changed = get_transient( 'wpmoly-permalinks-changed' );
@@ -139,10 +147,11 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		 * 
 		 * @since    2.0
 		 * 
-		 * @param    array    $new_settings Array containing the new settings
-		 * @param    array    $old_settings Array containing the old settings
+		 * @param    array    $field Settings field array
+		 * @param    array    $value New setting value
+		 * @param    array    $existing_value previous setting value
 		 * 
-		 * @return   array    Validated settings
+		 * @return   array    Validated setting
 		 */
 		public static function permalinks_changed( $field, $value, $existing_value ) {
 
@@ -165,14 +174,22 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 
 		}
 
+		/**
+		 * Show a simple notice for admins to update their permalinks.
+		 * 
+		 * Hide the notice on Permalinks page, though, to avoid confusion
+		 * as it could be interpreted as a failure to update permalinks,
+		 * which it is not.
+		 * 
+		 * @since    2.0
+		 */
 		public static function permalinks_changed_notice() {
-?>
 
-	<div class="update-nag wpmoly">
-		<div class="label"><span class="dashicons dashicons-info"></span></div>
-		<div class="content"><?php printf( __( 'You update the ???? URL rewrite. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', 'wpmovielibrary' ), admin_url( '/options-permalink.php' ) ) ?></div>
-	</div>
-<?php
+			global $hook_suffix;
+			if ( 'options-permalink.php' == $hook_suffix )
+				return false;
+
+			echo self::render_template( 'admin/admin-notice.php', array( 'notice' => 'permalinks-changed' ), $require = 'always' );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

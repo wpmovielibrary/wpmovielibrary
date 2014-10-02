@@ -83,6 +83,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 */
 		public static function register_permalinks( $rules = null ) {
 
+			$changed = delete_transient( 'wpmoly-permalinks-changed' );
+
 			$movies     = wpmoly_o( 'rewrite-movies' );
 			$collection = wpmoly_o( 'rewrite-collection' );
 			$genre      = wpmoly_o( 'rewrite-genre' );
