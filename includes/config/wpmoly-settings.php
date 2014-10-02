@@ -28,27 +28,30 @@ $wpmoly_config = array(
 	array(
 		'icon'    => 'fa fa-film',
 		'title'   => __( 'Movies', 'wpmovielibrary' ),
-		'heading' => __( 'Movies settings', 'wpmovielibrary' ),
+				'desc' => __( 'WPMovieLibrary handles movies as regular WordPress posts, but you can define some specific behaviours movies only should have.', 'wpmovielibrary'),
 		'subsection' => true,
 		'fields'  => array(
-
-			'movies-start' => array(
-				'id'       => 'movies-start',
-				'type'     => 'section',
-				'title'    => __( 'Movies', 'wpmovielibrary'),
-				'subtitle' => __( 'WPMovieLibrary handles movies as regular WordPress posts, but you can define some specific behaviours movies only should have.', 'wpmovielibrary'),
-				'indent'   => true
-			),
 
 			// Add movies to the main loop
 			'frontpage' => array(
 				'id'       => 'wpmoly-frontpage',
 				'type'     => 'switch',
 				'title'    => __( 'Show Movies in Home Page', 'wpmovielibrary' ),
-				'desc'     => __( 'If enable, movies will appear among other Posts in the Home Page.', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, movies will appear among other Posts in the Home Page.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1
+			),
+
+			// Add movies to the main loop
+			'search' => array(
+				'id'       => 'wpmoly-search',
+				'type'     => 'switch',
+				'title'    => __( 'Movies in search results', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, the standard WordPress Search will return every movie matching the search in addition to regular posts. Search will include all available meta fields. Examples: a search with keywork <code>Sean Penn</code> will add the movies <em>Into The Wild</em> and <em>The Secret Life of Walter Mitty</em> to the search results; a search with keywork <code>Taiwan</code> will add the movie <em>Life of Pi</em>.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0
 			),
 
 			// Replace excerpt by overview
@@ -71,12 +74,6 @@ $wpmoly_config = array(
 				'default'  => '75',
 				'required' => array( 'wpmoly-excerpt', "=", 1 ),
 				'indent'   => true
-			),
-
-			'movies-end' => array(
-				'id'     => 'movies-end',
-				'type'   => 'section',
-				'indent' => false,
 			)
 		)
 	),
@@ -188,7 +185,7 @@ $wpmoly_config = array(
 				'id'       => 'wpmoly-details-icons',
 				'type'     => 'switch',
 				'title'    => __( 'Details as icons', 'wpmovielibrary' ),
-				'desc'     => __( 'If enable, movie details will appear in the form of icons rather than default colored labels.', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, movie details will appear in the form of icons rather than default colored labels.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1,

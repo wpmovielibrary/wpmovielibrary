@@ -34,7 +34,8 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			add_action( 'init', __CLASS__ . '::register_post_type', 10 );
 
 			// Load Movies as well as Posts in the Loop
-			add_action( 'pre_get_posts', __CLASS__ . '::show_movies_in_home_page' );
+			add_action( 'pre_get_posts', __CLASS__ . '::show_movies_in_home_page', 10, 1 );
+			add_filter( 'pre_get_posts', __CLASS__ . '::filter_search_query', 11, 1 );
 
 			// Movie content
 			add_filter( 'the_content', __CLASS__ . '::movie_content' );
@@ -403,6 +404,57 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$q_var[] = 'wpmoly_movie_status';
 			$q_var[] = 'wpmoly_movie_rating';
 			return $q_var;
+		}
+
+		/**
+		 * Filter search query to add support for movies
+		 * 
+		 * If query is a search, find the IDs of all posts having meta
+		 * containing the search as well as posts having it in content
+		 * or title. 
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    object    WP_Query object
+		 * 
+		 * @return   object    WP_Query object
+		 */
+		public static function filter_search_query( $wp_query ) {
+
+			if ( is_admin() || ! is_search() || ! isset( $wp_query->query['s'] ) )
+				return $wp_query;
+
+			global $wpdb;
+
+			$like = $wp_query->query['s'];
+			$like = ( method_exists( 'wpdb', 'esc_like' ) ? $wpdb->esc_like( $like ) : like_escape( $like ) );
+			$like = '%' . str_replace( ' ', '%', $like ) . '%';
+			$query = $wpdb->prepare(
+				"SELECT DISTINCT post_id FROM {$wpdb->postmeta}
+				  WHERE meta_key LIKE '%s'
+				    AND meta_value LIKE '%s'
+				 UNION
+				 SELECT DISTINCT ID FROM {$wpdb->posts}
+				  WHERE ( post_title LIKE '%s' OR post_content LIKE '%s' )
+				    AND post_status='publish'
+				    AND post_type IN ('post', 'page', 'movie')",
+				'%_wpmoly_%', $like, $like, $like
+			);
+
+			$results = $wpdb->get_results( $query );
+			if ( ! $wpdb->num_rows )
+				return $wp_query;
+
+			$ids = array();
+			foreach ( $results as $result )
+				$ids[] = $result->post_id;
+
+			unset( $wp_query->query );
+			$wp_query->set( 's', null );
+			$wp_query->set( 'post_type', array( 'post', 'movie' ) );
+			$wp_query->set( 'post__in', $ids );
+
+			return $wp_query;
 		}
 
 		/**

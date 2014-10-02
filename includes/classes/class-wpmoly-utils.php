@@ -60,8 +60,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'get_the_terms', __CLASS__ . '::get_the_terms', 10, 3 );
 			add_filter( 'wp_get_object_terms', __CLASS__ . '::get_ordered_object_terms', 10, 4 );
 
-			add_filter( 'pre_get_posts', __CLASS__ . '::filter_search_query', 10, 1 );
-
 			add_action( 'template_redirect', __CLASS__ . '::filter_404', 10 );
 			add_filter( 'post_type_archive_title', __CLASS__ . '::filter_post_type_archive_title', 10, 2 );
 		}
@@ -882,26 +880,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$terms = array();
 
 			return $terms;
-		}
-
-		/**
-		 * Filter search query to add support for movies
-		 * 
-		 * @since    1.3
-		 * 
-		 * @return   object    WP_Query object
-		 */
-		public static function filter_search_query( $wp_query ) {
-
-			if ( is_admin() )
-				return $wp_query;
-
-			if ( ! is_search() )
-				return $wp_query;
-
-			$wp_query->set( 'post_type', array( 'post', 'movie' ) );
-
-			return $wp_query;
 		}
 
 		/**
