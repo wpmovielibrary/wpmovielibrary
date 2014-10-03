@@ -4,9 +4,12 @@
 	<?php echo $nonce; ?>
 
 	<div id="tmdb_images_preview" class="hide-if-no-js">
-		<ul>
+		<ul id="__attachments-view" class="attachments ui-sortable ui-sortable-disabled" tabindex="-1">
+
 			<?php echo $images ?>
+
 			<li class="tmdb_movie_images tmdb_movie_imported_image"><a href="#" id="tmdb_load_images"><?php _e( 'Load Images', 'wpmovielibrary' ); ?></a></li>
+
 		</ul>
 	</div>
 	<div style="clear:both"></div>

@@ -38,6 +38,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			add_action( 'admin_footer', array( $this, 'edit_details_inline' ) );
 
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 15 );
+
 			add_filter( 'manage_movie_posts_columns', __CLASS__ . '::movies_columns_head' );
 			add_action( 'manage_movie_posts_custom_column', __CLASS__ . '::movies_columns_content', 10, 2 );
 			add_action( 'quick_edit_custom_box', __CLASS__ . '::quick_edit_movies', 10, 2 );
@@ -53,6 +55,23 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			add_action( 'wp_ajax_wpmoly_set_detail', __CLASS__ . '::set_detail_callback' );
 			add_action( 'wp_ajax_wpmoly_save_details', __CLASS__ . '::save_details_callback' );
 			add_action( 'wp_ajax_wpmoly_empty_meta', __CLASS__ . '::empty_meta_callback' );
+		}
+
+		public function admin_enqueue_styles() {
+
+			wp_enqueue_media();
+			wp_enqueue_script( 'media-grid' );
+			wp_enqueue_script( 'media' );
+		}
+
+		public function admin_enqueue_scripts() {
+
+			$this->admin_enqueue_styles();
+			wp_enqueue_script( 'media-grid' );
+			wp_enqueue_script( 'media' );
+			wp_localize_script( 'media-grid', '_wpMediaGridSettings', array(
+				'adminUrl' => parse_url( self_admin_url(), PHP_URL_PATH ),
+			) );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

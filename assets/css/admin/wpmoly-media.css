@@ -9,6 +9,12 @@ body.branch-4 .media-frame.movie-posters .attachment {
 	width: 170px !important;
 }
 
+/* Movie Grid hide */
+
+.media-frame.mode-grid {
+	display: none !important;
+}
+
 /* Modal */
 
 .media-frame.movie-images .media-frame-content,

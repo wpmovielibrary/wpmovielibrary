@@ -34,6 +34,25 @@ var wpmoly_images, wpmoly_posters;
 			};
 
 			/**
+			 * Open editor modal when clicking on imported movies
+			 */
+			wpmoly.media.images.editor = function( attachment_id ) {
+
+				// Current url backup
+				this._url = document.location.href;
+				// Avoid loading upload.php in background
+				Backbone.history.stop();
+
+				if ( undefined == this._editor )
+					this._editor = wp.media.frame;
+				this._editor.open();
+
+				var item = this._editor.state().get('library').model.get( attachment_id );
+				this._editor.openEditAttachmentModal( item );
+
+			};
+
+			/**
 			 * Media Images Modal. Extends WP Media Modal to show
 			 * movie images from external API instead of regular WP
 			 * Attachments.
@@ -353,6 +372,19 @@ var wpmoly_images, wpmoly_posters;
 				if ( undefined != wpmoly_posters._frame.content.get('library').collection )
 					wpmoly_posters._frame.content.get('library').collection.props.set({ignore: (+ new Date())});
 			});
+
+			$( '.tmdb_movie_images a.open-editor' ).each( function() {
+				var href = $( this ).prop( 'href' );
+				$( this ).attr( 'data-href', href );
+				$( this ).prop( 'href', '' );
+			} );
+
+			$( '.tmdb_movie_images a.open-editor' ).on( 'click', function( e ) {
+				e.preventDefault();
+
+				var id = $( this ).attr( 'data-id' );
+				wpmoly_images.editor( id );
+			} );
 		};
 
 	wpmoly.media.init();
