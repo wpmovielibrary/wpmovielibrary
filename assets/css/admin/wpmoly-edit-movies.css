@@ -64,6 +64,31 @@
 	display: block;
 }
 
+#wpmoly-meta.small {
+	padding-left: 4em;
+}
+
+#wpmoly-meta.small .dashicons-admin-collapse {
+	    transform: rotate(180deg) ;
+    -webkit-transform: rotate(180deg) ;
+       -moz-transform: rotate(180deg) ;
+         -o-transform: rotate(180deg) ;
+        -ms-transform: rotate(180deg) ;
+}
+
+#wpmoly-meta.small #wpmoly-meta-menu {
+	margin: 0 0 0 -4em;
+	width: 4em;
+}
+
+#wpmoly-meta.small #wpmoly-meta-menu-bg {
+	width: 4em;
+}
+
+#wpmoly-meta.small #wpmoly-meta-menu .tab a .text {
+	display: none;
+}
+
 /* Movie Preview */
 
 #wpmoly-movie-preview {

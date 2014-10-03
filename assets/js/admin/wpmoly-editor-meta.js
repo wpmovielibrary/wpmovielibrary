@@ -319,27 +319,39 @@ wpmoly = wpmoly || {};
 				wpmoly_state.clear();
 			};
 
-			/**
-			 * Navigate between Metabox Panels
-			 * 
-			 * @since    2.0
-			 * 
-			 * @param    string    panel slug
-			 */
-			wpmoly.editor.meta.panel = function( panel ) {
+			wpmoly.editor.meta.panel = wpmoly_meta_panel = {};
 
-				var $panels = $( '.panel' ),
-				     $panel = $( '#wpmoly-meta-' + panel + '-panel' ),
-				      $tabs = $( '.tab' ),
-				       $tab = $( '#wpmoly-meta-' + panel );
+				/**
+				 * Navigate between Metabox Panels
+				 * 
+				 * @since    2.0
+				 * 
+				 * @param    string    panel slug
+				 */
+				wpmoly.editor.meta.panel.navigate = function( panel ) {
 
-				if ( undefined == $panel || undefined == $tab )
-					return false;
+					var $panels = $( '.panel' ),
+					    $panel = $( '#wpmoly-meta-' + panel + '-panel' ),
+					    $tabs = $( '.tab' ),
+					    $tab = $( '#wpmoly-meta-' + panel );
 
-				$panels.removeClass( 'active' );
-				$tabs.removeClass( 'active' );
-				$panel.addClass( 'active' );
-				$tab.addClass( 'active' );
-			};
+					if ( undefined == $panel || undefined == $tab )
+						return false;
+
+					$panels.removeClass( 'active' );
+					$tabs.removeClass( 'active' );
+					$panel.addClass( 'active' );
+					$tab.addClass( 'active' );
+				};
+
+				/**
+				 * Resize Metabox Panel
+				 * 
+				 * @since    2.0
+				 */
+				wpmoly.editor.meta.panel.resize = function() {
+
+					$( '#wpmoly-meta' ).toggleClass( 'small' );
+				};
 
 		wpmoly_edit_meta.init();
