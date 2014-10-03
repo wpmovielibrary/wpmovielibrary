@@ -38,17 +38,18 @@ var wpmoly_images, wpmoly_posters;
 			 */
 			wpmoly.media.images.editor = function( attachment_id ) {
 
-				// Current url backup
-				this._url = document.location.href;
 				// Avoid loading upload.php in background
 				Backbone.history.stop();
 
-				if ( undefined == this._editor )
-					this._editor = wp.media.frame;
-				this._editor.open();
+				var library = wp.media.frame.library || wp.media.frame.state().get('library'),
+				       item = library.model.get( attachment_id );
 
-				var item = this._editor.state().get('library').model.get( attachment_id );
-				this._editor.openEditAttachmentModal( item );
+				this._editor = wp.media( {
+					frame: 'edit-attachments',
+					controller: new wp.media.view.MediaFrame.Manage(),
+					library: wp.media.frame.library || wp.media.frame.state().get( 'library' ),
+					model: item
+				} );
 
 			};
 

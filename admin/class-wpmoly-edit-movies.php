@@ -555,6 +555,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		public static function metabox_images( $post, $metabox ) {
 
+			global $wp_version;
 			$attributes = array(
 				'nonce' => wpmoly_nonce_field( 'upload-movie-image', $referer = false ),
 				'images' => WPMOLY_Media::get_movie_imported_images(),
