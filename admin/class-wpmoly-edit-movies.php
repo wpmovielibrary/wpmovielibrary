@@ -558,6 +558,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$attributes = array(
 				'nonce' => wpmoly_nonce_field( 'upload-movie-image', $referer = false ),
 				'images' => WPMOLY_Media::get_movie_imported_images(),
+				'version' => ( version_compare( $wp_version, '4.0', '>=' ) ? 4 : 0 )
 			);
 
 			echo self::render_admin_template( 'metaboxes/movie-images.php', $attributes );

@@ -373,18 +373,22 @@ var wpmoly_images, wpmoly_posters;
 					wpmoly_posters._frame.content.get('library').collection.props.set({ignore: (+ new Date())});
 			});
 
-			$( '.tmdb_movie_images a.open-editor' ).each( function() {
-				var href = $( this ).prop( 'href' );
-				$( this ).attr( 'data-href', href );
-				$( this ).prop( 'href', '' );
-			} );
+			// Don't try to open editor modal on old WP versions
+			if ( 4 == $( '#wp-version' ).val() ) {
 
-			$( '.tmdb_movie_images a.open-editor' ).on( 'click', function( e ) {
-				e.preventDefault();
+				$( '.tmdb_movie_images a.open-editor' ).each( function() {
+					var href = $( this ).prop( 'href' );
+					$( this ).attr( 'data-href', href );
+					$( this ).prop( 'href', '' );
+				} );
 
-				var id = $( this ).attr( 'data-id' );
-				wpmoly_images.editor( id );
-			} );
+				$( '.tmdb_movie_images a.open-editor' ).on( 'click', function( e ) {
+					e.preventDefault();
+
+					var id = $( this ).attr( 'data-id' );
+					wpmoly_images.editor( id );
+				} );
+			}
 		};
 
 	wpmoly.media.init();
