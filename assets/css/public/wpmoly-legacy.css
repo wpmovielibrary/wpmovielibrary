@@ -1,17 +1,17 @@
 #wpmoly_details .movie-status-icon {
-	background: url(../img/legacy/icon-status.png) left 2px no-repeat;
+	background: url(../../img/legacy/icon-status.png) left 2px no-repeat;
 	margin-left: -0.5em;
 	padding: 0.25em 0 0.25em 1.75em;
 }
 
 #wpmoly_details .movie-media-icon {
-	background: url(../img/legacy/icon-media.png) left 2px no-repeat;
+	background: url(../../img/legacy/icon-media.png) left 2px no-repeat;
 	margin-left: -0.5em;
 	padding: 0.25em 0 0.25em 1.75em;
 }
 
 #wpmoly_details .movie-rating-icon {
-	background: url(../img/legacy/icon-star-half.png) left 2px no-repeat;
+	background: url(../../img/legacy/icon-star-half.png) left 2px no-repeat;
 	margin-left: -0.5em;
 	padding: 0.25em 0 0.25em 1.75em;
 }
@@ -56,81 +56,81 @@
 
 .dashicons.dashicons-no,
 .dashicons.dashicons-no-alt {
-	background-image: url(../img/legacy/icon-close.png);
+	background-image: url(../../img/legacy/icon-close.png);
 }
 
 .dashicons.dashicons-download {
-	background-image: url(../img/legacy/icon-download.png);
+	background-image: url(../../img/legacy/icon-download.png);
 }
 
 .dashicons.dashicons-welcome-add-page {
-	background-image: url(../img/legacy/icon-edit.png);
+	background-image: url(../../img/legacy/icon-edit.png);
 }
 
 .dashicons.dashicons-post-trash,
 .dashicons.dashicons-trash {
-	background-image: url(../img/legacy/icon-delete.png);
+	background-image: url(../../img/legacy/icon-delete.png);
 }
 
 .dashicons.dashicons-plus {
-	background-image: url(../img/legacy/icon-add.png);
+	background-image: url(../../img/legacy/icon-add.png);
 }
 
 .dashicons.dashicons-admin-generic {
-	background-image: url(../img/legacy/icon-gear.png);
+	background-image: url(../../img/legacy/icon-gear.png);
 }
 
 .dashicons.dashicons-arrow-right-alt2 {
-	background-image: url(../img/legacy/icon-right.png);
+	background-image: url(../../img/legacy/icon-right.png);
 }
 
 .dashicons.dashicons-list-view {
-	background-image: url(../img/legacy/icon-queue.png);
+	background-image: url(../../img/legacy/icon-queue.png);
 }
 
 .dashicons.dashicons-format-video {
-	background-image: url(../img/legacy/icon-movie.png);
+	background-image: url(../../img/legacy/icon-movie.png);
 }
 
 .dashicons.dashicons-edit {
-	background-image: url(../img/legacy/icon-draft.png);
+	background-image: url(../../img/legacy/icon-draft.png);
 }
 
 .dashicons.dashicons-category {
-	background-image: url(../img/legacy/icon-category.png);
+	background-image: url(../../img/legacy/icon-category.png);
 }
 
 .dashicons.dashicons-tag {
-	background-image: url(../img/legacy/icon-tag.png);
+	background-image: url(../../img/legacy/icon-tag.png);
 }
 
 .dequeue_movie .dashicons.dashicons-no {
-	background-image: url(../img/legacy/icon-dequeue.png);
+	background-image: url(../../img/legacy/icon-dequeue.png);
 }
 
 .enqueue_movie .dashicons.dashicons-plus {
-	background-image: url(../img/legacy/icon-enqueue.png);
+	background-image: url(../../img/legacy/icon-enqueue.png);
 }
 
 .button .dashicons.dashicons-plus {
-	background-image: url(../img/legacy/icon-add-alt.png);
+	background-image: url(../../img/legacy/icon-add-alt.png);
 }
 
 .dashicons.dashicons-star-filled {
-	background-image: url(../img/legacy/icon-star-full.png);
+	background-image: url(../../img/legacy/icon-star-full.png);
 }
 
 .dashicons.dashicons-facebook,
 .dashicons.dashicons-facebook-alt {
-	background-image: url(../img/legacy/icon-facebook.png);
+	background-image: url(../../img/legacy/icon-facebook.png);
 }
 
 .dashicons.dashicons-twitter {
-	background-image: url(../img/legacy/icon-twitter.png);
+	background-image: url(../../img/legacy/icon-twitter.png);
 }
 
 .dashicons.dashicons-googleplus {
-	background-image: url(../img/legacy/icon-googleplus.png);
+	background-image: url(../../img/legacy/icon-googleplus.png);
 }
 
 .row-actions .dashicons {
@@ -139,9 +139,9 @@
 }
 
 #wpmoly_dashboard_quickaction_widget .dashicons { margin-bottom: -10px !important; }
-#wpmoly_dashboard_quickaction_widget .dashicons.dashicons-welcome-write-blog { background-image: url(../img/legacy/icon-add-2x.png); }
-#wpmoly_dashboard_quickaction_widget .dashicons.dashicons-list-view { background-image: url(../img/legacy/icon-queue-2x.png); }
-#wpmoly_dashboard_quickaction_widget .dashicons.dashicons-format-video { background-image: url(../img/legacy/icon-movie-2x.png); }
+#wpmoly_dashboard_quickaction_widget .dashicons.dashicons-welcome-write-blog { background-image: url(../../img/legacy/icon-add-2x.png); }
+#wpmoly_dashboard_quickaction_widget .dashicons.dashicons-list-view { background-image: url(../../img/legacy/icon-queue-2x.png); }
+#wpmoly_dashboard_quickaction_widget .dashicons.dashicons-format-video { background-image: url(../../img/legacy/icon-movie-2x.png); }
 
 #wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-quickedit a,
 #wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-quickedit a {

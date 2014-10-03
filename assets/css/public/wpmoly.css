@@ -129,47 +129,47 @@
 }
 
 .wpmoly_movie_media.wpmoly_detail_icon.dvd {
-	background-image: url(../img/icon-dvd.png);
+	background-image: url(../../img/icon-dvd.png);
 }
 
 .wpmoly_movie_media.wpmoly_detail_icon.bluray {
-	background-image: url(../img/icon-bluray.png);
+	background-image: url(../../img/icon-bluray.png);
 }
 
 .wpmoly_movie_media.wpmoly_detail_icon.vod {
-	background-image: url(../img/icon-vod.png);
+	background-image: url(../../img/icon-vod.png);
 }
 
 .wpmoly_movie_media.wpmoly_detail_icon.divx {
-	background-image: url(../img/icon-divx.png);
+	background-image: url(../../img/icon-divx.png);
 }
 
 .wpmoly_movie_media.wpmoly_detail_icon.vhs {
-	background-image: url(../img/icon-vhs.png);
+	background-image: url(../../img/icon-vhs.png);
 }
 
 .wpmoly_movie_media.wpmoly_detail_icon.cinema {
-	background-image: url(../img/icon-cinema.png);
+	background-image: url(../../img/icon-cinema.png);
 }
 
 .wpmoly_movie_media.wpmoly_detail_icon.other {
-	background-image: url(../img/icon-other.png);
+	background-image: url(../../img/icon-other.png);
 }
 
 .wpmoly_movie_status.wpmoly_detail_icon.unavailable {
-	background-image: url(../img/icon-unavailable.png);
+	background-image: url(../../img/icon-unavailable.png);
 }
 
 .wpmoly_movie_status.wpmoly_detail_icon.available {
-	background-image: url(../img/icon-available.png);
+	background-image: url(../../img/icon-available.png);
 }
 
 .wpmoly_movie_status.wpmoly_detail_icon.scheduled {
-	background-image: url(../img/icon-scheduled.png);
+	background-image: url(../../img/icon-scheduled.png);
 }
 
 .wpmoly_movie_status.wpmoly_detail_icon.loaned {
-	background-image: url(../img/icon-loaned.png);
+	background-image: url(../../img/icon-loaned.png);
 }
 
 .wpmoly_movie_rating.wpmoly_detail_icon .movie_rating_display {
@@ -202,7 +202,7 @@
 /** Movie Rating **/
 
 .movie_rating_display {
-	background-image: url(../img/rating.png);
+	background-image: url(../../img/rating.png);
 	background-position: 0 0;
 	background-repeat: no-repeat;
 	display: inline-block;
