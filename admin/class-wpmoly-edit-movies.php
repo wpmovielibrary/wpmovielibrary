@@ -717,6 +717,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				return $data;
 
 			$data = wpmoly_filter_empty_array( $data );
+			$data = wpmoly_filter_undimension_array( $data );
 
 			$supported = WPMOLY_Settings::get_supported_movie_meta();
 			$keys = array_keys( $supported );

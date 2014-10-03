@@ -710,6 +710,19 @@ $wpmoly_config = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0
+			),
+
+			// Delete deprecated safety
+			'legacy-safety' => array(
+				'id'       => 'wpmoly-legacy-safety',
+				'type'     => 'switch',
+				'title'    => __( 'Enable Legacy Safety mode', 'wpmovielibrary' ),
+				'subtitle' => __( 'WPMovieLibrary 1.x compatibility safety mode', 'wpmovielibrary' ),
+				'description' => __( 'If enabled, WPMovieLibrary will update deprecated metadata to the new format but will <em>not</em> delete the deprecated metadata for safety.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 1,
+				'required' => array( 'wpmoly-legacy-mode', '=', 1 )
 			)
 		)
 	),

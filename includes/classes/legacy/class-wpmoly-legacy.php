@@ -230,7 +230,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 
 			$update = WPMOLY_Edit_Movies::save_movie_meta( $movie_id, $meta, $clean = false );
 
-			if ( ! is_wp_error( $update ) && $update == $movie_id )
+			if ( ! wpmoly_o( 'legacy-safety' ) && ! is_wp_error( $update ) && $update == $movie_id )
 				delete_post_meta( $movie_id, '_wpmoly_movie_data', $meta );
 
 			return $update;

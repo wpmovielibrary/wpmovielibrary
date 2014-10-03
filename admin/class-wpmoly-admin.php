@@ -72,6 +72,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$this->screen_hooks = array(
 				'edit'     => 'post.php',
 				'new'      => 'post-new.php',
+				'movie'    => 'movie',
 				'movies'   => 'edit.php',
 				'widgets'  => 'widgets.php',
 				'settings' => sprintf( '%s_page_wpmovielibrary-settings', strtolower( __( 'Movies', 'wpmovielibrary' ) ) )
