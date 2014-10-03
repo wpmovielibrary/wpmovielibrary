@@ -41,9 +41,11 @@ var wpmoly_images, wpmoly_posters;
 				// Avoid loading upload.php in background
 				Backbone.history.stop();
 
+				// current library and requested attachment
 				var library = wp.media.frame.library || wp.media.frame.state().get('library'),
 				       item = library.model.get( attachment_id );
 
+				// open a new editor modal
 				this._editor = wp.media( {
 					frame: 'edit-attachments',
 					controller: new wp.media.view.MediaFrame.Manage(),

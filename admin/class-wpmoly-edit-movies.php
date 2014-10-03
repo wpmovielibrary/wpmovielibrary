@@ -57,16 +57,19 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			add_action( 'wp_ajax_wpmoly_empty_meta', __CLASS__ . '::empty_meta_callback' );
 		}
 
-		public function admin_enqueue_styles() {
+		/**
+		 * Enqueue required media scripts and styles
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $hook_suffix The current admin page.
+		 */
+		public function admin_enqueue_scripts( $hook ) {
+
+			if ( 'post.php' != $hook || 'movie' != get_post_type() )
+				return false;
 
 			wp_enqueue_media();
-			wp_enqueue_script( 'media-grid' );
-			wp_enqueue_script( 'media' );
-		}
-
-		public function admin_enqueue_scripts() {
-
-			$this->admin_enqueue_styles();
 			wp_enqueue_script( 'media-grid' );
 			wp_enqueue_script( 'media' );
 			wp_localize_script( 'media-grid', '_wpMediaGridSettings', array(
