@@ -481,6 +481,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				add_meta_box( $id, $title, $callback, $screen, $context, $priority,  $callback_args );
 			}
 
+			add_meta_box( 'redux', 'Redux', __CLASS__ . '::redux_meta', 'movie', 'normal', 'high', null );
+
 			global $wp_meta_boxes;
 
 			$details = $wp_meta_boxes['movie']['side']['core']['wpmoly_details'];
@@ -495,6 +497,51 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				$core
 			);
 
+		}
+
+		public static function redux_meta( $post, $metabox ) {
+
+			$metadata = wpmoly_get_movie_meta( $post->ID );
+			$metadata = wpmoly_filter_empty_array( $metadata );
+			$_meta = WPMOLY_Settings::get_supported_movie_meta();
+			$select = null;
+			$status = '';
+			$rating = wpmoly_get_movie_rating( $post->ID );
+
+			// TODO: cleanup
+			if ( isset( $_GET['wpmoly_search_movie'] ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'search-movies' ) && ( empty( $metadata ) || isset( $metadata['_empty'] ) ) ) {
+
+				$search_by = ( isset( $_GET['search_by'] ) && in_array( $_GET['search_by'], array( 'title', 'id' ) ) ? $_GET['search_by'] : null );
+				$search_query = ( isset( $_GET['search_query'] ) && '' != $_GET['search_query'] ? $_GET['search_query'] : null );
+
+				if ( ! is_null( $search_by ) && ! is_null( $search_query ) )
+					$metadata = call_user_func_array( array( 'WPMOLY_TMDb', "_get_movie_by_$search_by" ), array( $search_query, wpmoly_o( 'api-language' ) ) );
+
+				if ( isset( $metadata['result'] ) ) {
+
+					if ( 'movie' == $metadata['result'] )
+						$metadata = $metadata['movies'][ 0 ];
+					else if ( 'movies' == $metadata['result'] )
+						$select = $metadata['movies'];
+				}
+			}
+
+			$attributes = array(
+				'languages' => WPMOLY_Settings::get_available_languages(),
+				'metas' => $_meta,
+				'metadata' => $metadata,
+				'status' => $status,
+				'rating' => $rating,
+				'select' => $select,
+				'thumbnail' => get_the_post_thumbnail( $post->ID, 'medium' )
+			);
+
+			$attributes['preview'] = self::render_admin_template( 'metaboxes/movie-meta-preview.php', $attributes );
+			$attributes['meta']    = self::render_admin_template( 'metaboxes/movie-meta-meta.php', $attributes );
+			$attributes['details'] = self::render_admin_template( 'metaboxes/movie-meta-details.php', array() );
+			$attributes['images']  = self::render_admin_template( 'metaboxes/movie-meta-images.php', array() );
+
+			echo self::render_admin_template( 'metaboxes/movie-meta2.php', $attributes );
 		}
 
 		/**

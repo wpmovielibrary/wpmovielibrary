@@ -236,7 +236,6 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 				'icon'  => 'el-icon-globe-alt'
 			);
 		}
-		
 
 	}
 

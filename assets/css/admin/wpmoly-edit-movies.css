@@ -1,4 +1,125 @@
 
+#redux.postbox .inside {
+	margin: 0;
+	padding: 0;
+}
+
+#wpmoly-meta {
+	padding-left: 14em;
+	position: relative;
+}
+
+#wpmoly-meta-menu-bg {
+	background: #f5f5f5;
+	border-right: 1px solid #dfdfdf;
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 14em;
+}
+
+#wpmoly-meta-menu {
+	background: #f5f5f5;
+	float: left;
+	height: 100%;
+	margin: 0 0 0 -14em;
+	padding: 0;
+	position: relative;
+	width: 14em;
+}
+
+#wpmoly-meta-menu .tab {
+	margin: 0;
+}
+
+#wpmoly-meta-menu .tab a {
+	border-bottom: 1px solid #f5f5f5;
+	border-top: 1px solid #eaeaea;
+	display: block;
+	line-height: 1.4em;
+	padding: 0.75em 1em;
+	text-decoration: none;
+}
+
+#wpmoly-meta-menu .tab.active a {
+	background-color: #fff;
+	border-color: #dfdfdf;
+	color: #555;
+	margin: 0 -1px 0 0;
+	position: relative;
+}
+
+#wpmoly-meta-menu .tab:first-child a {
+	border-top: 0;
+}
+
+#wpmoly-meta-panels {}
+
+#wpmoly-meta-panels .panel {
+	padding: 1em 1.5em;
+}
+
+#wpmoly-meta-panels .panel.active {
+	display: block;
+}
+
+/* Movie Preview */
+
+#wpmoly-movie-preview {
+	padding-left: 16em;
+}
+
+#wpmoly-movie-preview a {
+	text-decoration: none;
+}
+
+#wpmoly-movie-preview .wpmoly-movie-preview-poster {
+	float: left;
+	margin: 0.5em 1.5em 0 -16em;
+	width: 14em;
+}
+
+#wpmoly-movie-preview .wpmoly-movie-preview-poster img {
+	border-radius: 3px;
+	box-shadow: 0px 1px 2px #999;
+	height: auto;
+	width: 100%;
+}
+
+#wpmoly-movie-preview .wpmoly-movie-preview-meta {
+	float: left;
+}
+
+#wpmoly-movie-preview #wpmoly-movie-preview-title {
+	font-style: italic;
+	padding-left: 0;
+}
+
+#wpmoly-movie-preview #wpmoly-movie-preview-title > div {
+	margin-top: -2px;
+}
+
+#wpmoly-movie-preview #wpmoly-movie-preview-original_title {
+	color: #888;
+	font-style: italic;
+	margin: -0.5em 0 0 0;
+}
+
+#wpmoly-movie-preview #wpmoly-movie-preview-rating {
+	float: right;
+	position: relative;
+	top: -4px;
+}
+
+#wpmoly-movie-preview #wpmoly-movie-preview-overview {
+	border-bottom: 1px solid #dfdfdf;
+	border-top: 1px solid #dfdfdf;
+	line-height: 1.75em;
+	padding: 0.5em 0;
+	text-align: justify;
+}
+
 /* Details */
 
 #wpmoly_details {}

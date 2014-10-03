@@ -280,11 +280,11 @@ wpmoly = wpmoly || {};
 			};
 
 			/**
-			* Empty all Movie search result fields, reset all taxonomies 
-			* and remove the featured image.
+			 * Empty all Movie search result fields, reset all taxonomies 
+			 * and remove the featured image.
 			 * 
 			 * @since    1.0
-			*/
+			 */
 			wpmoly.editor.meta.empty_results = function() {
 
 				$( '.meta_data_field' ).val( '' );
@@ -317,6 +317,29 @@ wpmoly = wpmoly || {};
 				});
 
 				wpmoly_state.clear();
+			};
+
+			/**
+			 * Navigate between Metabox Panels
+			 * 
+			 * @since    2.0
+			 * 
+			 * @param    string    panel slug
+			 */
+			wpmoly.editor.meta.panel = function( panel ) {
+
+				var $panels = $( '.panel' ),
+				     $panel = $( '#wpmoly-meta-' + panel + '-panel' ),
+				      $tabs = $( '.tab' ),
+				       $tab = $( '#wpmoly-meta-' + panel );
+
+				if ( undefined == $panel || undefined == $tab )
+					return false;
+
+				$panels.removeClass( 'active' );
+				$tabs.removeClass( 'active' );
+				$panel.addClass( 'active' );
+				$tab.addClass( 'active' );
 			};
 
 		wpmoly_edit_meta.init();
