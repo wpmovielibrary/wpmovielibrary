@@ -22,6 +22,15 @@ body.post-php.post-type-movie #postimagediv {
 	opacity: 0.9;
 }
 
+.button-icon {
+	padding: 0 4px !important;
+}
+
+.button-icon .dashicons {
+	margin-top: -2px;
+	vertical-align: middle;
+}
+
 .wrap div.updated ul {
 	margin: 0;
 }

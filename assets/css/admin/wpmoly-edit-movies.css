@@ -198,25 +198,52 @@
 
 /* Meta */
 
-#wpmoly-tmdb .list-table {
-	display: inline-table;
-	margin-top: 1.5em;
-	width: 49.5%;
+#wpmoly-tmdb #wpmoly-movie-meta-search {
+	border-bottom: 1px solid #ddd;
+	margin-top: -1em;
+	padding-bottom: 1em;
 }
 
-#wpmoly-tmdb .list-table td {
-	width: 65%;
-}
-
-#wpmoly-tmdb .list-table td.left {
-	padding-right: 4%;
-	text-align: right;
-	width: 31%;
-}
-
-#wpmoly-tmdb .list-table td input,
-#wpmoly-tmdb .list-table td textarea {
+#wpmoly-tmdb .wpmoly-movie-meta {
+	margin-top: 1em;
 	width: 100%;
+}
+
+#wpmoly-tmdb .wpmoly-movie-meta-edit {
+	display: inline-block;
+	margin: 0.25em 0;
+}
+
+#wpmoly-tmdb .wpmoly-movie-meta-edit.half {
+	width: 49.75%;
+}
+
+#wpmoly-tmdb .wpmoly-movie-meta-edit.full {
+	width: 99.8%;
+}
+
+#wpmoly-tmdb .wpmoly-movie-meta-edit .wpmoly-movie-meta-label {
+	float: left;
+	width: 8.5em;
+}
+
+#wpmoly-tmdb .wpmoly-movie-meta-edit .wpmoly-movie-meta-label label {
+	display: block;
+	margin: 2px 0;
+	padding: 3px 5px 3px 12px;
+}
+
+#wpmoly-tmdb .wpmoly-movie-meta-edit .wpmoly-movie-meta-value {
+	display: block;
+	margin-left: 9em;
+}
+
+#wpmoly-tmdb .wpmoly-movie-meta-edit .wpmoly-movie-meta-value .meta-data-field {
+	width: 100%;
+}
+
+#wpmoly-tmdb .wpmoly-movie-meta-edit .wpmoly-movie-meta-value textarea.meta-data-field {
+	margin-left: 1px;
 }
 
 #tmdb_search_type {

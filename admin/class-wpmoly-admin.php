@@ -402,15 +402,15 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			if ( $hook_suffix == $edit || $hook_suffix == $new ) {
 				$scripts['jquery-ajax-queue'] = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( 'jquery' ), true );
-				$scripts['media']             = array( '/assets/js/admin/wpmoly-media.js' , array( $wpmoly_slug, 'jquery' ), true );
-				$scripts['editor-details']    = array( '/assets/js/admin/wpmoly-editor-details.js' , array( $wpmoly_slug, 'jquery' ), true );
-				$scripts['editor-meta']       = array( '/assets/js/admin/wpmoly-editor-meta.js' , array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['media']             = array( '/assets/js/admin/wpmoly-media.js', array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['editor-details']    = array( '/assets/js/admin/wpmoly-editor-details.js', array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['editor-meta']       = array( '/assets/js/admin/wpmoly-editor-meta.js', array( $wpmoly_slug, 'jquery' ), true );
 			}
 
 			if ( $hook_suffix == $movies ) {
-				$scripts['movies']            = array( '/assets/js/admin/wpmoly-movies.js' , array( $wpmoly_slug, 'jquery' ), true );
-				$scripts['editor-details']    = array( '/assets/js/admin/wpmoly-editor-details.js' , array( $wpmoly_slug, 'jquery' ), true );
-				$scripts['editor-meta']       = array( '/assets/js/admin/wpmoly-editor-meta.js' , array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['movies']            = array( '/assets/js/admin/wpmoly-movies.js', array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['editor-details']    = array( '/assets/js/admin/wpmoly-editor-details.js', array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['editor-meta']       = array( '/assets/js/admin/wpmoly-editor-meta.js', array( $wpmoly_slug, 'jquery' ), true );
 			}
 
 			//$scripts[''] = array( '', array(), true );
@@ -447,8 +447,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$styles['dashboard'] = '/assets/css/admin/wpmoly-dashboard.css';
 
 			if ( $hook_suffix == $edit || $hook_suffix == $new ) {
-				$styles['movies'] = '/assets/css/admin/wpmoly-edit-movies.css';
-				$styles['media']  = '/assets/css/admin/wpmoly-media.css';
+				$styles['movies']  = '/assets/css/admin/wpmoly-edit-movies.css';
+				$styles['media']   = '/assets/css/admin/wpmoly-media.css';
 			}
 
 			if ( $hook_suffix == $movies )
