@@ -116,10 +116,10 @@ if ( wpmoly_requirements_met() ) {
 	/* Basics */
 	require_once( WPMOLY_PATH . 'includes/classes/class-wpmoly-settings.php' );
 	if ( ! class_exists( 'ReduxFramework' ) )
-		require_once( WPMOLY_PATH . 'includes/framework/redux-framework/ReduxCore/framework.php' );
+		require_once( WPMOLY_PATH . 'includes/framework/redux/ReduxCore/framework.php' );
 	if ( ! isset( $wpmoly_settings ) )
 		require_once( WPMOLY_PATH . 'includes/classes/class-wpmoly-redux.php' );
-	//require_once( WPMOLY_PATH . 'includes/framework/redux-framework/sample/sample-config.php' );
+	//require_once( WPMOLY_PATH . 'includes/framework/redux/sample/sample-config.php' );
 	require_once( WPMOLY_PATH . 'includes/classes/class-wpmoly-cache.php' );
 	require_once( WPMOLY_PATH . 'includes/classes/class-wpmoly-utils.php' );
 
