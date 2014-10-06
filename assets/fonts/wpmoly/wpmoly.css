@@ -1,0 +1,96 @@
+@font-face {
+  font-family: 'wpmoly';
+  src: url('wpmoly.eot?66345108');
+  src: url('wpmoly.eot?66345108#iefix') format('embedded-opentype'),
+       url('wpmoly.woff?66345108') format('woff'),
+       url('wpmoly.ttf?66345108') format('truetype'),
+       url('wpmoly.svg?66345108#wpmoly') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'wpmoly';
+    src: url('wpmoly.svg?66345108#wpmoly') format('svg');
+  }
+}
+*/
+ 
+ [class^="wpmoly-icon-"]:before, [class*=" wpmoly-icon-"]:before {
+  font-family: "wpmoly";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+     
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.wpmoly-icon-api:before { content: '\e800'; } /* '' */
+.wpmoly-icon-wrench:before { content: '\e801'; } /* '' */
+.wpmoly-icon-cancel:before { content: '\e802'; } /* '' */
+.wpmoly-icon-actors:before { content: '\e803'; } /* '' */
+.wpmoly-icon-images:before { content: '\e804'; } /* '' */
+.wpmoly-icon-legacy:before { content: '\e805'; } /* '' */
+.wpmoly-icon-cache:before { content: '\e806'; } /* '' */
+.wpmoly-icon-info-o:before { content: '\e807'; } /* '' */
+.wpmoly-icon-help-o:before { content: '\e808'; } /* '' */
+.wpmoly-icon-taxonomies:before { content: '\e809'; } /* '' */
+.wpmoly-icon-genre:before { content: '\e80a'; } /* '' */
+.wpmoly-icon-poster:before { content: '\e80b'; } /* '' */
+.wpmoly-icon-video:before { content: '\e80c'; } /* '' */
+.wpmoly-icon-deactivate:before { content: '\e80d'; } /* '' */
+.wpmoly-icon-formatting:before { content: '\e80e'; } /* '' */
+.wpmoly-icon-details:before { content: '\e80f'; } /* '' */
+.wpmoly-icon-ok:before { content: '\e810'; } /* '' */
+.wpmoly-icon-dashboard:before { content: '\e811'; } /* '' */
+.wpmoly-icon-language:before { content: '\e812'; } /* '' */
+.wpmoly-icon-metadata:before { content: '\e813'; } /* '' */
+.wpmoly-icon-search:before { content: '\e814'; } /* '' */
+.wpmoly-icon-permalink:before { content: '\e815'; } /* '' */
+.wpmoly-icon-author:before { content: '\e816'; } /* '' */
+.wpmoly-icon-composer:before { content: '\e817'; } /* '' */
+.wpmoly-icon-flag:before { content: '\e818'; } /* '' */
+.wpmoly-icon-na:before { content: '\e819'; } /* '' */
+.wpmoly-icon-photography:before { content: '\e81a'; } /* '' */
+.wpmoly-icon-3d:before { content: '\e81b'; } /* '' */
+.wpmoly-icon-cinema:before { content: '\e81c'; } /* '' */
+.wpmoly-icon-divx:before { content: '\e81d'; } /* '' */
+.wpmoly-icon-streaming:before { content: '\e81e'; } /* '' */
+.wpmoly-icon-vhs:before { content: '\e81f'; } /* '' */
+.wpmoly-icon-vod:before { content: '\e820'; } /* '' */
+.wpmoly-icon-scheduled:before { content: '\e821'; } /* '' */
+.wpmoly-icon-shared:before { content: '\e822'; } /* '' */
+.wpmoly-icon-hd-o:before { content: '\e823'; } /* '' */
+.wpmoly-icon-dvd:before { content: '\e824'; } /* '' */
+.wpmoly-icon-sd-o:before { content: '\e825'; } /* '' */
+.wpmoly-icon-sd:before { content: '\e826'; } /* '' */
+.wpmoly-icon-bluray:before { content: '\e827'; } /* '' */
+.wpmoly-icon-hd:before { content: '\e828'; } /* '' */
+.wpmoly-icon-mkv:before { content: '\e829'; } /* '' */
+.wpmoly-icon-unavailable:before { content: '\e82a'; } /* '' */
+.wpmoly-icon-wpmoly:before { content: '\e82b'; } /* '' */
