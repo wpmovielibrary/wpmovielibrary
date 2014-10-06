@@ -2,9 +2,9 @@
 Contributors: askelon
 Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
-Requires at least: 3.8
+Requires at least: 3.6
 Tested up to: 4.0
-Stable tag: 2.0-alpha.1
+Stable tag: 2.0-beta.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -68,7 +68,6 @@ Developers and Translators can contribute to the source code on the [GitHub Repo
 * WordPress 3.6 or greater
 * PHP version 5.4 or greater
 * MySQL version 5.0 or greater
-* Some payment gateways require fsockopen support (for IPN access)
 
 = Automatic installation =
 
@@ -115,6 +114,16 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 7. Import queue
 
 == Changelog ==
+
+= 2.0 =
+* Dev - Updated metadata format
+* Feature - Complete reboot of Settings
+* Feature - Include movies in search results
+* Feature - Coutry names and languages translation
+* Feature - Production countries flags
+* Tweak - Better Admin Bar menu
+* Tweak - Attachment Editor Modal Window accessible for imported images in movie editor
+* Tweak - Random sorting added to Movies Widget
 
 = 1.2.2 =
 * Tweak - Media Modals CSS fixes for WordPress 4.0

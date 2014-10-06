@@ -17,7 +17,7 @@
  * Plugin Name: WPMovieLibrary
  * Plugin URI:  http://wpmovielibrary.com
  * Description: A WordPress Plugin to manage a personnal library of movies.
- * Version:     1.3-beta.1
+ * Version:     2.0-beta.1
  * Author:      Charlie MERLAND
  * Author URI:  http://www.caercam.org/
  * Text Domain: wpmovielibrary
@@ -33,7 +33,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 define( 'WPMOLY_NAME',                   'WPMovieLibrary' );
-define( 'WPMOLY_VERSION',                '2.0-alpha.1' );
+define( 'WPMOLY_VERSION',                '2.0-beta.1' );
 define( 'WPMOLY_SLUG',                   'wpmoly' );
 define( 'WPMOLY_URL',                    plugins_url( basename( __DIR__ ) ) );
 define( 'WPMOLY_PATH',                   plugin_dir_path( __FILE__ ) );
