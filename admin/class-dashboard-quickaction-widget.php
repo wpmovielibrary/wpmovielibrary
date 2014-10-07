@@ -43,17 +43,17 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Quickaction_Widget' ) ) :
 				'new_movie' => array(
 					'url'   => admin_url( 'post-new.php?post_type=movie' ),
 					'title' => __( 'New movie', 'wpmovielibrary' ),
-					'icon'  => 'wpmoly-icon wpmoly-icon-add-file'
+					'icon'  => 'wpmolicon icon-add-page'
 				),
 				'import'    => array(
 					'url'   => admin_url( 'admin.php?page=wpmoly_import' ),
 					'title' => __( 'Import movies', 'wpmovielibrary' ),
-					'icon'  => 'wpmoly-icon wpmoly-icon-import'
+					'icon'  => 'wpmolicon icon-import'
 				),
 				'settings'  => array(
 					'url'   => admin_url( 'edit.php?post_type=movie' ),
 					'title' => __( 'Manage movies', 'wpmovielibrary' ),
-					'icon'  => 'wpmoly-icon wpmoly-icon-movie'
+					'icon'  => 'wpmolicon icon-movie'
 				)
 			);
 

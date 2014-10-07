@@ -1,19 +1,19 @@
 /* WPMOLY Landing Page
  ****************************************************/
 
-#wpmoly-welcome-panel .welcome-panel-column li .wpmoly-icon {
+#wpmoly-welcome-panel .welcome-panel-column li .wpmolicon {
 	color: #999;
 	font-size: 1.25rem;
 	margin-right: 0.5em;
 	vertical-align: text-top;
 }
 
-#wpmoly-welcome-panel .welcome-panel-close .wpmoly-icon-cancel {
+#wpmoly-welcome-panel .welcome-panel-close .wpmolicon.icon-cancel {
 	font-size: 1em;
 	color: #aaa;
 }
 
-#wpmoly-welcome-panel .welcome-panel-close:hover .wpmoly-icon-cancel {
+#wpmoly-welcome-panel .welcome-panel-close:hover .wpmolicon.icon-cancel {
 	color: #c00;
 }
 
@@ -68,8 +68,8 @@
 	width: 49%;
 }
 
-#wpmoly_dashboard_stats_widget li .wpmoly-icon,
-#wpmoly_dashboard_helper_widget li .wpmoly-icon {
+#wpmoly_dashboard_stats_widget li .wpmolicon,
+#wpmoly_dashboard_helper_widget li .wpmolicon {
 	color: #999;
 	font-size: 1.25rem;
 	margin-right: 0.25em;
@@ -206,8 +206,8 @@
 	position: relative;
 }
 
-#wpmoly-home #wpmoly_dashboard_latest_movies_widget #latest_movies_load_more .wpmoly-icon,
-#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget #most_rated_movies_load_more .wpmoly-icon {
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget #latest_movies_load_more .wpmolicon,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget #most_rated_movies_load_more .wpmolicon {
 	line-height: 1.5;
 }
 
@@ -235,7 +235,7 @@
 	width: 100%;
 }
 
-#wpmoly_dashboard_quickaction_widget li a .wpmoly-icon {
+#wpmoly_dashboard_quickaction_widget li a .wpmolicon {
 	display: block;
 	font-size: 42px;
 	height: 64px;
@@ -282,7 +282,7 @@
 	text-shadow: 0px 0px 0.25em rgba(255, 255, 255, 0.6);
 }
 
-#wpmoly_dashboard_vendor_widget .rateme a .wpmoly-icon {
+#wpmoly_dashboard_vendor_widget .rateme a .wpmolicon {
 	font-size: 2em;
 }
 
@@ -300,7 +300,7 @@
 	text-shadow: 0px 0px 0.25em rgba(255, 255, 255, 0.4);
 }
 
-#wpmoly_dashboard_vendor_widget .social li a .wpmoly-icon {
+#wpmoly_dashboard_vendor_widget .social li a .wpmolicon {
 	font-size: 1rem;
 }
 
@@ -423,6 +423,6 @@
 	text-shadow: 0 0 0;
 }
 
-#wpmoly-movie-modal .button .wpmoly-icon {
+#wpmoly-movie-modal .button .wpmolicon {
 	line-height: 1.25em;
 }

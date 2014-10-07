@@ -58,7 +58,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Stats_Widget' ) ) :
 					'plural' => __( '%d movies', 'wpmovielibrary' ),
 					'empty'  => __( 'No movie added yet.', 'wpmovielibrary' ),
 					'url'    => admin_url( 'edit.php?post_type=movie' ),
-					'icon'   => 'wpmoly-icon wpmoly-icon-movie',
+					'icon'   => 'wpmolicon icon-movie',
 					'string' => '<a href="%s">%s</a>'
 				),
 				'draft' => array(
@@ -66,7 +66,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Stats_Widget' ) ) :
 					'plural' => __( '%d movies drafts', 'wpmovielibrary' ),
 					'empty'  => __( 'No draft', 'wpmovielibrary' ),
 					'url'    => admin_url( 'edit.php?post_status=draft&post_type=movie' ),
-					'icon'   => 'wpmoly-icon wpmoly-icon-edit-writer',
+					'icon'   => 'wpmolicon icon-edit',
 					'string' => '<a href="%s">%s</a>'
 				),
 				'queued' => array(
@@ -74,7 +74,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Stats_Widget' ) ) :
 					'plural' => __( '%d queued movies', 'wpmovielibrary' ),
 					'empty'  => __( 'No queued movie.', 'wpmovielibrary' ),
 					'url'    => admin_url( 'admin.php?page=wpmoly_import&amp;wpmoly_section=wpmoly_import_queue' ),
-					'icon'   => 'wpmoly-icon wpmoly-icon-queued',
+					'icon'   => 'wpmolicon icon-queued',
 					'string' => '<a href="%s">%s</a>'
 				),
 				'imported' => array(
@@ -82,7 +82,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Stats_Widget' ) ) :
 					'plural' => __( '%d imported movies', 'wpmovielibrary' ),
 					'empty'  => __( 'No imported movie.', 'wpmovielibrary' ),
 					'url'    => admin_url( 'admin.php?page=wpmoly_import&amp;wpmoly_section=wpmoly_imported' ),
-					'icon'   => 'wpmoly-icon wpmoly-icon-import',
+					'icon'   => 'wpmolicon icon-import',
 					'string' => '<a href="%s">%s</a>'
 				)
 			);

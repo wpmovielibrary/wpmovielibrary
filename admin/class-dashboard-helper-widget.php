@@ -43,32 +43,32 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Helper_Widget' ) ) :
 				'support' => array(
 					'url'   => 'http://wordpress.org/support/plugin/wpmovielibrary',
 					'title' => __( 'Support', 'wpmovielibrary' ),
-					'icon'  => 'wpmoly-icon wpmoly-icon-help'
+					'icon'  => 'wpmolicon icon-help'
 				),
 				'report' => array(
 					'url'   => 'https://github.com/wpmovielibrary/wpmovielibrary/issues/new',
 					'title' => __( 'Report a bug', 'wpmovielibrary' ),
-					'icon'  => 'wpmoly-icon wpmoly-icon-flag-alt'
+					'icon'  => 'wpmolicon icon-bug'
 				),
 				'contribute' => array(
 					'url'   => 'https://github.com/wpmovielibrary/wpmovielibrary',
 					'title' => __( 'Contribute', 'wpmovielibrary' ),
-					'icon'  => 'wpmoly-icon wpmoly-icon-wrench'
+					'icon'  => 'wpmolicon icon-code'
 				),
 				'donate' => array(
 					'url'   => 'http://wpmovielibrary.com/contribute/#donate',
 					'title' => __( 'Donate', 'wpmovielibrary' ),
-					'icon'  => 'wpmoly-icon wpmoly-icon-heart'
+					'icon'  => 'wpmolicon icon-heart'
 				),
 				'documentation' => array(
 					'url'   => 'http://wpmovielibrary.com/documentation/',
 					'title' => __( 'Documentation', 'wpmovielibrary' ),
-					'icon'  => 'wpmoly-icon wpmoly-icon-doc'
+					'icon'  => 'wpmolicon icon-doc'
 				),
 				'homepage' => array(
 					'url'   => 'http://wpmovielibrary.com/',
 					'title' => __( 'Official website', 'wpmovielibrary' ),
-					'icon'  => 'wpmoly-icon wpmoly-icon-home'
+					'icon'  => 'wpmolicon icon-home'
 				)
 			);
 

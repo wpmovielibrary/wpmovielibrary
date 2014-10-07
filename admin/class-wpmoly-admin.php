@@ -149,7 +149,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public function enqueue_admin_styles( $hook ) {
 
 			wp_enqueue_style( WPMOLY_SLUG . '-common', WPMOLY_URL . '/assets/css/admin/wpmoly-common.css', array(), WPMOLY_VERSION );
-			wp_enqueue_style( WPMOLY_SLUG . '-font', WPMOLY_URL . '/assets/fonts/wpmovielibrary/css/wpmovielibrary.css', array(), WPMOLY_VERSION );
+			wp_enqueue_style( WPMOLY_SLUG . '-font', WPMOLY_URL . '/assets/fonts/wpmovielibrary/style.css', array(), WPMOLY_VERSION );
 
 			$screen = get_current_screen();
 			if ( ! in_array( $hook, $this->screen_hooks ) && ! in_array( $screen->id, $this->screen_hooks ) )
