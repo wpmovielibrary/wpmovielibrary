@@ -10,7 +10,7 @@
 							<div class="director column-director"><span class="movie_director"><?php echo $movie['director'] ?></span></div>
 							<div class="actions column-actions">
 								<div class="row-actions visible">
-									<span class="dequeue"><a class="dequeue_movie" id="dequeue_<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Dequeue', 'wpmovielibrary' ) ?>" onclick="wpmoly_movies_queue.remove([<?php echo $movie['ID'] ?>]); return false;"><span class="wpmolicon icon-cancel"></span></a> | </span>
+									<span class="dequeue"><a class="dequeue_movie" id="dequeue_<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Dequeue', 'wpmovielibrary' ) ?>" onclick="wpmoly_movies_queue.remove([<?php echo $movie['ID'] ?>]); return false;"><span class="wpmolicon icon-no"></span></a> | </span>
 									<span class="delete"><a class="delete_movie" id="delete_<?php echo $movie['ID'] ?>" href="#" title="<?php _e( 'Delete', 'wpmovielibrary' ) ?>" onclick="wpmoly_import_movies.delete([<?php echo $movie['ID'] ?>]); return false;"><span class="wpmolicon icon-trash"></span></a></span>
 								</div>
 							</div>

@@ -8,12 +8,12 @@
 	vertical-align: text-top;
 }
 
-#wpmoly-welcome-panel .welcome-panel-close .wpmolicon.icon-cancel {
+#wpmoly-welcome-panel .welcome-panel-close .wpmolicon.icon-no-alt {
 	font-size: 1em;
 	color: #aaa;
 }
 
-#wpmoly-welcome-panel .welcome-panel-close:hover .wpmolicon.icon-cancel {
+#wpmoly-welcome-panel .welcome-panel-close:hover .wpmolicon.icon-no-alt {
 	color: #c00;
 }
 

@@ -231,11 +231,11 @@ body.post-php.post-type-movie #postimagediv {
 		margin-left: 0 !important;
 	}
 	
-	.wpmoly-inline-edit-details .wpmolicon.wpmolicon-angle-right {
+	.wpmoly-inline-edit-details .wpmolicon.icon-arrow-right {
 		display: none;
 	}
 	
-	.wpmoly-inline-edit-toggle .wpmolicon.wpmolicon-cancel {
+	.wpmoly-inline-edit-toggle .wpmolicon.icon-no-alt {
 		margin-right: 0 !important;
 	}
 	

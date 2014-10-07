@@ -2,7 +2,7 @@
 	<div id="wpmoly-movie-modal-bg">
 		<div id="wpmoly-movie-modal">
 			<div id="wpmoly-movie-modal-inner"></div>
-			<a href="#" id="wpmoly-movie-modal-close"><span class="wpmolicon icon-cancel"></span></a>
+			<a href="#" id="wpmoly-movie-modal-close"><span class="wpmolicon icon-no-alt"></span></a>
 			<div id="wpmoly-movie-modal-poster">
 				<img src="" alt="" />
 			</div>
@@ -17,8 +17,8 @@
 				</div>
 				<div id="wpmoly-movie-modal-overview"></div>
 				<div id="wpmoly-movie-modal-links">
-					<a class="button button-primary" id="wpmoly-movie-modal-edit" href=""><span class="wpmolicon icon-writer"></span>&nbsp; <?php _e( 'Edit' ) ?></a>
-					<a class="button button-primary" id="wpmoly-movie-modal-view" href=""><span class="wpmolicon icon-eye"></span>&nbsp; <?php _e( 'View' ) ?></a>
+					<a class="button button-primary" id="wpmoly-movie-modal-edit" href=""><span class="wpmolicon icon-edit-page"></span>&nbsp; <?php _e( 'Edit' ) ?></a>
+					<a class="button button-primary" id="wpmoly-movie-modal-view" href=""><span class="wpmolicon icon-preview"></span>&nbsp; <?php _e( 'View' ) ?></a>
 				</div>
 			</div>
 		</div>

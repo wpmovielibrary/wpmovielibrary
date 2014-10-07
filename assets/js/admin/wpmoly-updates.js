@@ -22,7 +22,7 @@ wpmoly = wpmoly || {};
 				    $tr = $( 'tr#movie-' + id );
 
 				$link.attr( 'onclick', 'wpmoly.updates.movies.dequeue( ' + id + ' ); return false;' );
-				$link.find( '.wpmolicon' ).removeClass( 'wpmolicon-yes' ).addClass( 'wpmolicon-cancel' );
+				$link.find( '.wpmolicon' ).removeClass( 'icon-yes' ).addClass( 'icon-no' );
 				$tr.toggleClass( 'active' );
 
 				wpmoly_update_progress.update_total( $( '#deprecated-movies tr.active' ).length );
@@ -36,7 +36,7 @@ wpmoly = wpmoly || {};
 				    $tr = $( 'tr#movie-' + id );
 
 				$link.attr( 'onclick', 'wpmoly.updates.movies.enqueue( ' + id + ' ); return false;' );
-				$link.find( '.wpmolicon' ).removeClass( 'wpmolicon-cancel' ).addClass( 'wpmolicon-yes' );
+				$link.find( '.wpmolicon' ).removeClass( 'icon-no' ).addClass( 'icon-yes' );
 				$tr.toggleClass( 'active' );
 
 				wpmoly_update_progress.update_total( $( '#deprecated-movies tr.active' ).length );
@@ -55,12 +55,12 @@ wpmoly = wpmoly || {};
 						$.each( response.responseJSON.errors, function() {
 							wpmoly_state.set( this, 'error' );
 						});
-						$( '#update-movies-log' ).append( '<span class="wpmolicon icon-cancel"></span> Movie #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » not updated' );
+						$( '#update-movies-log' ).append( '<span class="wpmolicon icon-no"></span> Movie #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » not updated' );
 					},
 					success: function( response ) {
 						var $tr = $( 'tr#movie-' + id );
 
-						$tr.find( '.wpmolicon-angle-right' ).removeClass( 'wpmolicon-angle-right' ).addClass( 'wpmolicon-yes' );
+						$tr.find( '.wpmolicon.icon-arrow-right' ).removeClass( 'icon-arrow-right' ).addClass( 'icon-yes' );
 						$tr.find( '.update-movie, .queue-movie' ).remove();
 						$( '#updated-movies' ).append( $tr );
 						$( '#update-movies-log' ).append( '<span class="update-movies-log-entry"><span class="wpmolicon icon-yes"></span> Movie #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » updated succesfully</span>' );
@@ -93,12 +93,12 @@ wpmoly = wpmoly || {};
 							$.each( response.responseJSON.errors, function() {
 								wpmoly_state.set( this, 'error' );
 							});
-							$( '#update-movies-log' ).append( '<span class="wpmolicon icon-cancel"></span> ' + wpmoly_legacy.lang.movie.charAt( 0 ).toUpperCase() + wpmoly_legacy.lang.movie.slice( 1 ) + ' #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » ' + wpmoly_legacy.lang.not_updated );
+							$( '#update-movies-log' ).append( '<span class="wpmolicon icon-no"></span> ' + wpmoly_legacy.lang.movie.charAt( 0 ).toUpperCase() + wpmoly_legacy.lang.movie.slice( 1 ) + ' #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » ' + wpmoly_legacy.lang.not_updated );
 						},
 						success: function( response ) {
 							var $tr = $( 'tr#movie-' + id );
 
-							$tr.find( '.wpmolicon-angle-right' ).removeClass( 'wpmolicon-angle-right' ).addClass( 'wpmolicon-yes' );
+							$tr.find( '.wpmolicon.icon-arrow-right' ).removeClass( 'icon-arrow-right' ).addClass( 'icon-yes' );
 							$tr.find( '.update-movie, .queue-movie' ).remove();
 							$( '#updated-movies' ).append( $tr );
 							$( '#update-movies-log' ).append( '<span class="update-movies-log-entry"><span class="wpmolicon icon-yes"></span> ' + wpmoly_legacy.lang.movie.charAt( 0 ).toUpperCase() + wpmoly_legacy.lang.movie.slice( 1 ) + ' #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » ' + wpmoly_legacy.lang.updated + '</span>' );

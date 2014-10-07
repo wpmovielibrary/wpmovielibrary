@@ -92,7 +92,7 @@ wpmoly = wpmoly || {};
 					$editor.show();
 					$parent.addClass( 'inline_editing' );
 					$link.addClass( 'active' );
-					$link.find( '.wpmolicon' ).removeClass().addClass( 'wpmolicon icon-cancel' );
+					$link.find( '.wpmolicon' ).removeClass().addClass( 'wpmolicon icon-no-alt' );
 					$editor.appendTo( $parent ).show();
 				}
 				else {

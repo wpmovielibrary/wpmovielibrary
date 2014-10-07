@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'wpmovielibrary';
-	src:url('fonts/wpmovielibrary.eot?-xc5c8w');
-	src:url('fonts/wpmovielibrary.eot?#iefix-xc5c8w') format('embedded-opentype'),
-		url('fonts/wpmovielibrary.woff?-xc5c8w') format('woff'),
-		url('fonts/wpmovielibrary.ttf?-xc5c8w') format('truetype'),
-		url('fonts/wpmovielibrary.svg?-xc5c8w#wpmovielibrary') format('svg');
+	src:url('fonts/wpmovielibrary.eot?-mm5t0n');
+	src:url('fonts/wpmovielibrary.eot?#iefix-mm5t0n') format('embedded-opentype'),
+		url('fonts/wpmovielibrary.woff?-mm5t0n') format('woff'),
+		url('fonts/wpmovielibrary.ttf?-mm5t0n') format('truetype'),
+		url('fonts/wpmovielibrary.svg?-mm5t0n#wpmovielibrary') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,6 +23,15 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-api:before {
+	content: "\e64d";
+}
+.icon-cog:before {
+	content: "\e64e";
+}
+.icon-yes:before {
+	content: "\e64f";
+}
 .icon-date:before {
 	content: "\e642";
 }
@@ -158,11 +167,20 @@
 .icon-wpmoly:before {
 	content: "\e62c";
 }
+.icon-deactivate:before {
+	content: "\f011";
+}
 .icon-flag:before {
 	content: "\f024";
 }
 .icon-tags:before {
 	content: "\f02c";
+}
+.icon-image:before {
+	content: "\f03e";
+}
+.icon-cogs:before {
+	content: "\f085";
 }
 .icon-details:before {
 	content: "\f0b0";
@@ -172,6 +190,12 @@
 }
 .icon-format:before {
 	content: "\f0d0";
+}
+.icon-wordpress:before {
+	content: "\f19a";
+}
+.icon-language:before {
+	content: "\f1ab";
 }
 .icon-cache:before {
 	content: "\e62d";
@@ -215,6 +239,9 @@
 .icon-lang:before {
 	content: "\e63a";
 }
+.icon-style:before {
+	content: "\e651";
+}
 .icon-country:before {
 	content: "\e63b";
 }
@@ -227,7 +254,25 @@
 .icon-erase:before {
 	content: "\e63d";
 }
-.icon-pictures:before {
+.icon-info:before {
+	content: "\e652";
+}
+.icon-info-o:before {
+	content: "\e653";
+}
+.icon-question:before {
+	content: "\e654";
+}
+.icon-question-alt:before {
+	content: "\e655";
+}
+.icon-warning:before {
+	content: "\e656";
+}
+.icon-legacy:before {
+	content: "\e650";
+}
+.icon-images:before {
 	content: "\e63e";
 }
 .icon-movie:before {

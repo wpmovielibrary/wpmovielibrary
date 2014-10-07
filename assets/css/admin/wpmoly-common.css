@@ -1,5 +1,6 @@
 
 #wp-admin-bar-wpmovielibrary .wpmolicon {
+	font-family: 'wpmovielibrary';
 	font-size: 1rem;
 	position: relative;
 	top: -3px;
@@ -74,8 +75,8 @@
 	color: #fff;
 	font-size: 2.5rem;
 	height: 2.5rem;
-	line-height: 3.25rem;
-	margin: 0;
+	line-height: 3.5rem;
+	margin: 0 0.5rem;
 	text-shadow: 0 1px 0 #0053A4;
 	width: 2.5rem;
 }

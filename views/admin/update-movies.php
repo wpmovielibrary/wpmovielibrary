@@ -46,9 +46,9 @@
 		setup_postdata( $post );
 ?>
 													<tr id="movie-<?php the_ID(); ?>">
-														<td class="label"><span class="wpmolicon icon-angle-right"></span></td>
+														<td class="label"><span class="wpmolicon icon-arrow-right"></span></td>
 														<td class="movie-title"><span><?php the_title(); ?></span></td>
-														<td class="queue-movie"><a id="queue-movie-<?php the_ID(); ?>" href="#" onclick="wpmoly.updates.movies.enqueue( <?php the_ID(); ?> ); return false;"><span class="wpmolicon icon-ok"></span></a></td>
+														<td class="queue-movie"><a id="queue-movie-<?php the_ID(); ?>" href="#" onclick="wpmoly.updates.movies.enqueue( <?php the_ID(); ?> ); return false;"><span class="wpmolicon icon-yes"></span></a></td>
 														<td class="update-movie"><a id="update-movie-<?php the_ID(); ?>" href="#" onclick="wpmoly.updates.movies.update( <?php the_ID(); ?> ); return false;"><span class="wpmolicon icon-update"></span></a></td>
 													</tr>
 

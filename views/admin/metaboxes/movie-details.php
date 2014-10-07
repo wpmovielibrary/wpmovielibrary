@@ -7,7 +7,7 @@
 
 					<div class="misc-pub-section">
 
-						<span class="<?php echo ( wpmoly_modern_wp() ? 'dashicons dashicons-share-alt' : 'movie-status-icon' ) ?>"></span>
+						<span class="wpmolicon icon-status"></span>
 						<label for="movie-status"><?php _e( 'Status:', 'wpmovielibrary' ); ?></label>
 						<span id="movie-status-display"><?php $_status = WPMOLY_Settings::get_available_movie_status(); $_status = ( '' != $movie_status ? $_status[ $movie_status ] : 'None' ); _e( $_status, 'wpmovielibrary' ) ?></span>
 						<a href="#movie-status" id="edit-movie-status" class="edit-movie-status hide-if-no-js" onclick="wpmoly_status.show(); return false;"><?php _e( 'Edit', 'wpmovielibrary' ); ?></a>
@@ -27,7 +27,7 @@
 					</div><!-- .misc-pub-section -->
 
 					<div class="misc-pub-section">
-						<span class="<?php echo ( wpmoly_modern_wp() ? 'dashicons dashicons-editor-video' : 'movie-media-icon' ) ?>"></span>
+						<span class="wpmolicon icon-video"></span>
 						<label for="movie-media"><?php _e( 'Media:', 'wpmovielibrary' ); ?></label>
 						<span id="movie-media-display"><?php $_media = WPMOLY_Settings::get_available_movie_media(); $_media = ( '' != $movie_media ? $_media[ $movie_media ] : 'None' ); _e( $_media, 'wpmovielibrary' ) ?></span>
 						<a href="#movie-media" id="edit-movie-media" class="edit-movie-media hide-if-no-js" onclick="wpmoly_media.show(); return false;"><?php _e( 'Edit', 'wpmovielibrary' ); ?></a>
@@ -47,7 +47,7 @@
 					</div><!-- .misc-pub-section -->
 
 					<div class="misc-pub-section">
-						<span class="<?php echo ( wpmoly_modern_wp() ? 'dashicons dashicons-star-half' : 'movie-rating-icon' ) ?>"></span>
+						<span class="wpmolicon icon-star-half"></span>
 						<label for="movie-rating"><?php _e( 'Rating:', 'wpmovielibrary' ); ?></label>
 						<div id="movie-rating-display" class="hide-if-no-js stars-<?php echo $movie_rating_str; ?>"></div>
 						<a href="#movie-rating" id="edit-movie-rating" class="edit-movie-rating hide-if-no-js" onclick="wpmoly_rating.show(); return false;"><?php _e( 'Edit', 'wpmovielibrary' ); ?></a>

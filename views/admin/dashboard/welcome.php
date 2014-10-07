@@ -1,7 +1,7 @@
 
 		<div id="wpmoly_dashboard_welcome_panel_widget" class="<?php if ( in_array( 'wpmoly_dashboard_welcome_panel_widget', $hidden ) ) echo ' hidden hide-if-js'; ?>">
 			<div id="wpmoly-welcome-panel" class="welcome-panel">
-				<a id="wpmoly-welcome-panel-close" href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=wpmovielibrary&amp;show_wpmoly_welcome_panel=1' ), 'show-wpmoly-welcome-panel', 'show_wpmoly_welcome_panel_nonce' ) ?>" class="welcome-panel-close" onclick="wpmoly_dashboard.update_screen_option( 'welcome_panel', false ); return false;"><span class="wpmolicon icon-cancel"></span><?php _e( 'Dismiss', 'wpmovielibrary' ); ?></a>
+				<a id="wpmoly-welcome-panel-close" href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=wpmovielibrary&amp;show_wpmoly_welcome_panel=1' ), 'show-wpmoly-welcome-panel', 'show_wpmoly_welcome_panel_nonce' ) ?>" class="welcome-panel-close" onclick="wpmoly_dashboard.update_screen_option( 'welcome_panel', false ); return false;"><span class="wpmolicon icon-no-alt"></span><?php _e( 'Dismiss', 'wpmovielibrary' ); ?></a>
 				<div class="welcome-panel-content">
 					<h3><?php _e( 'Welcome to WordPress Movie Library!', 'wpmovielibrary' ); ?></h3>
 					<p class="about-description">

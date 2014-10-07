@@ -17,7 +17,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly' General settings section
 	array(
-		'icon'    => 'fa fa-tachometer',
+		'icon'    => 'wpmolicon icon-cogs',
 		'title'   => __( 'General', 'wpmovielibrary' ),
 		'heading' => __( 'General options', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -26,7 +26,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-movies' Movies settings subsection
 	array(
-		'icon'    => 'fa fa-film',
+		'icon'    => 'wpmolicon icon-movie',
 		'title'   => __( 'Movies', 'wpmovielibrary' ),
 				'desc' => __( 'WPMovieLibrary handles movies as regular WordPress posts, but you can define some specific behaviours movies only should have.', 'wpmovielibrary'),
 		'subsection' => true,
@@ -80,7 +80,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-meta' Meta settings subsection
 	array(
-		'icon'    => 'fa fa-puzzle-piece',
+		'icon'    => 'wpmolicon icon-meta',
 		'title'   => __( 'Metadata', 'wpmovielibrary' ),
 		'heading' => __( 'Metadata settings', 'wpmovielibrary' ),
 		'subsection' => true,
@@ -152,7 +152,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-details' Details settings subsection
 	array(
-		'icon'    => 'fa fa-filter',
+		'icon'    => 'wpmolicon icon-details',
 		'title'   => __( 'Details', 'wpmovielibrary' ),
 		'heading' => __( 'Details settings', 'wpmovielibrary' ),
 		'subsection' => true,
@@ -225,7 +225,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-format' Formatting settings subsection
 	array(
-		'icon'    => 'fa fa-magic',
+		'icon'    => 'wpmolicon icon-format',
 		'title'   => __( 'Formatting', 'wpmovielibrary' ),
 		'heading' => __( 'Formatting settings', 'wpmovielibrary' ),
 		'subsection' => true,
@@ -253,7 +253,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-images' Images and Posters section
 	array(
-		'icon'    => 'fa fa-image',
+		'icon'    => 'wpmolicon icon-image',
 		'title'   => __( 'Images', 'wpmovielibrary' ),
 		'heading' => __( 'Images and Posters options', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -262,7 +262,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-posters' Posters settings subsection
 	array(
-		'icon'    => 'fa fa-file-image-o',
+		'icon'    => 'wpmolicon icon-poster',
 		'title'   => __( 'Posters', 'wpmovielibrary' ),
 		'heading' => __( 'Posters settings', 'wpmovielibrary' ),
 		'subsection' => true,
@@ -312,7 +312,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-images' Images settings subsection
 	array(
-		'icon'    => 'fa fa-camera',
+		'icon'    => 'wpmolicon icon-images',
 		'title'   => __( 'Images', 'wpmovielibrary' ),
 		'heading' => __( 'Images settings', 'wpmovielibrary' ),
 		'subsection' => true,
@@ -348,7 +348,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-taxonomies' Taxonomies section
 	array(
-		'icon'    => 'fa fa-tags',
+		'icon'    => 'wpmolicon icon-tags',
 		'title'   => __( 'Taxonomies', 'wpmovielibrary' ),
 		'heading' => __( 'Built-in Taxonomies configuration', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -357,7 +357,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-collections' collections settings subsection
 	array(
-		'icon'    => 'fa fa-folder-open',
+		'icon'    => 'wpmolicon icon-collection',
 		'title'   => __( 'Collections', 'wpmovielibrary' ),
 		'heading' => __( 'Collections settings', 'wpmovielibrary' ),
 		'subsection' => true,
@@ -391,7 +391,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-genres' Genres settings subsection
 	array(
-		'icon'    => 'fa fa-tag',
+		'icon'    => 'wpmolicon icon-tag',
 		'title'   => __( 'Genres', 'wpmovielibrary' ),
 		'heading' => __( 'Genres settings', 'wpmovielibrary' ),
 		'subsection' => true,
@@ -425,7 +425,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-actors' Actors settings subsection
 	array(
-		'icon'    => 'fa fa-users',
+		'icon'    => 'wpmolicon icon-actor',
 		'title'   => __( 'Actors', 'wpmovielibrary' ),
 		'heading' => __( 'Actors settings', 'wpmovielibrary' ),
 		'subsection' => true,
@@ -471,7 +471,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-translate' Languages
 	array(
-		'icon'    => 'fa fa-language',
+		'icon'    => 'wpmolicon icon-language',
 		'title'   => __( 'Languages', 'wpmovielibrary' ),
 		'heading' => __( 'Languages Support', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -480,7 +480,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-translate' Translation settings subsection
 	array(
-		'icon'    => 'fa fa-flag',
+		'icon'    => 'wpmolicon icon-flag',
 		'title'   => __( 'Translation', 'wpmovielibrary' ),
 		'heading' => __( 'Translation settings', 'wpmovielibrary' ),
 		'subsection' => true,
@@ -554,7 +554,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-rewrite' Permalinks settings subsection
 	array(
-		'icon'    => 'fa fa-link',
+		'icon'    => 'wpmolicon icon-link',
 		'title'   => __( 'Permalinks', 'wpmovielibrary' ),
 		'heading' => __( 'Rewrite rules & Permalinks', 'wpmovielibrary' ),
 		'desc' => __( 'You can adapt the plugin’s permalinks to your local language.', 'wpmovielibrary'),
@@ -650,7 +650,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-cache' Caching
 	array(
-		'icon'    => 'fa fa-rocket',
+		'icon'    => 'wpmolicon icon-cache',
 		'title'   => __( 'Cache', 'wpmovielibrary' ),
 		'heading' => __( 'Caching', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -695,7 +695,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-legacy' Legacy
 	array(
-		'icon'    => 'fa fa-leaf',
+		'icon'    => 'wpmolicon icon-legacy',
 		'title'   => __( 'Legacy', 'wpmovielibrary' ),
 		'heading' => __( 'Compatibility settings for WPMovieLibrary 1.x', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -729,7 +729,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-api' API Settings
 	array(
-		'icon'    => 'fa fa-cogs',
+		'icon'    => 'wpmolicon icon-api',
 		'title'   => __( 'API', 'wpmovielibrary' ),
 		'heading' => __( 'TheMovieDB API settings', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -789,7 +789,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-deactivate' What to do on deactivation
 	array(
-		'icon'    => 'fa fa-power-off',
+		'icon'    => 'wpmolicon icon-deactivate',
 		'title'   => __( 'Deactivate', 'wpmovielibrary' ),
 		'heading' => __( 'Deactivation options', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -863,7 +863,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-uninstall' What to do on uninstallation
 	array(
-		'icon'    => 'fa fa-times',
+		'icon'    => 'wpmolicon icon-no',
 		'title'   => __( 'Uninstall', 'wpmovielibrary' ),
 		'heading' => __( 'Uninstallation options', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -936,7 +936,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-import-export' Import/Export
 	array(
-		'icon'    => 'fa fa-refresh',
+		'icon'    => 'wpmolicon icon-update',
 		'title'   => __( 'Import / Export', 'wpmovielibrary' ),
 		'heading' => __( 'Import and Export your settings and movies from file, text or URL.', 'wpmovielibrary' ),
 		'fields'  => array(
@@ -959,7 +959,7 @@ $wpmoly_config = array(
 
 	// 'wpmoly-about' About Plugin
 	array(
-		'icon'   => 'fa fa-info-circle',
+		'icon'   => 'wpmolicon icon-info',
 		'title'  => __( 'Information', 'wpmovielibrary' ),
 		'desc'   => __( '<p class="description">This is the Description. Again HTML is allowed</p>', 'wpmovielibrary' ),
 		'fields' => array(

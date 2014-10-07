@@ -68,7 +68,7 @@
 	padding-left: 4em;
 }
 
-#wpmoly-meta.small .dashicons-admin-collapse {
+#wpmoly-meta.small .wpmolicon.icon-collapse {
 	    transform: rotate(180deg) ;
     -webkit-transform: rotate(180deg) ;
        -moz-transform: rotate(180deg) ;
@@ -182,7 +182,7 @@
 	padding-left: 0;
 }
 
-#wpmoly_details .misc-pub-section .wpmolicon- {
+#wpmoly_details .misc-pub-section .wpmolicon {
 	color: #888;
 	margin-right: 0.25em;
 }
