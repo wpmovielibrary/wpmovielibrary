@@ -42,8 +42,8 @@
 	width: 30px;
 }
 
-.deprecated-movies td.label .wpmoly-icon,
-.updated-movies td.label .wpmoly-icon {
+.deprecated-movies td.label .wpmolicon,
+.updated-movies td.label .wpmolicon {
 	color: #fff;
 	height: 24px;
 	line-height: 25px;
@@ -52,11 +52,11 @@
 	width: 24px;
 }
 
-.deprecated-movies td.label .wpmoly-icon {
+.deprecated-movies td.label .wpmolicon {
 	background: #ffba00;
 }
 
-.updated-movies td.label .wpmoly-icon {
+.updated-movies td.label .wpmolicon {
 	background: #7ad03a;
 }
 
@@ -70,7 +70,7 @@
 	background: #eff7ff;
 }
 
-.deprecated-movies tbody tr.active td.label .wpmoly-icon {
+.deprecated-movies tbody tr.active td.label .wpmolicon {
 	background: #0099d5;
 }
 
@@ -145,7 +145,7 @@
 	display: block;
 }
 
-#launch-update .wpmoly-icon {
+#launch-update .wpmolicon {
 	line-height: 2.15em;
 	margin-right: 0.25em;
 } 

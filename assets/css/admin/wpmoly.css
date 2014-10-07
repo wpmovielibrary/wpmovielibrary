@@ -3,7 +3,7 @@ body.post-php.post-type-movie #postimagediv {
 	text-align: center;
 }
 
-.wpmoly-icon {
+.wpmolicon {
 	font-size: 20px;
 }
 
@@ -30,7 +30,7 @@ body.post-php.post-type-movie #postimagediv {
 	padding: 0 4px !important;
 }
 
-.button-icon .wpmoly-icon {
+.button-icon .wpmolicon {
 	position: relative;
 	top: -2px;
 	vertical-align: middle;
@@ -231,11 +231,11 @@ body.post-php.post-type-movie #postimagediv {
 		margin-left: 0 !important;
 	}
 	
-	.wpmoly-inline-edit-details .wpmoly-icon.wpmoly-icon-angle-right {
+	.wpmoly-inline-edit-details .wpmolicon.wpmolicon-angle-right {
 		display: none;
 	}
 	
-	.wpmoly-inline-edit-toggle .wpmoly-icon.wpmoly-icon-cancel {
+	.wpmoly-inline-edit-toggle .wpmolicon.wpmolicon-cancel {
 		margin-right: 0 !important;
 	}
 	

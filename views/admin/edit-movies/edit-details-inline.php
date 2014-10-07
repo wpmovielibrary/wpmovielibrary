@@ -4,7 +4,7 @@
 
 			<ul>
 <?php foreach ( $default_movie_status as $slug => $title ) : ?>
-				<li><span class="wpmoly-icon wpmoly-icon-angle-right"></span> <a href="#" onclick="wpmoly_edit_details.inline_edit( 'status', this ); return false;" data-status="<?php echo $slug ?>" data-status-title="<?php _e( $title, 'wpmovielibrary' ) ?>"><?php _e( $title, 'wpmovielibrary' ) ?></a></li>
+				<li><span class="wpmolicon icon-angle-right"></span> <a href="#" onclick="wpmoly_edit_details.inline_edit( 'status', this ); return false;" data-status="<?php echo $slug ?>" data-status-title="<?php _e( $title, 'wpmovielibrary' ) ?>"><?php _e( $title, 'wpmovielibrary' ) ?></a></li>
 <?php endforeach; ?>
 			</ul>
 		</div>
@@ -14,7 +14,7 @@
 
 			<ul>
 <?php foreach ( $default_movie_media as $slug => $title ) : ?>
-				<li><span class="wpmoly-icon wpmoly-icon-angle-right"></span> <a href="#" onclick="wpmoly_edit_details.inline_edit( 'media', this ); return false;" data-media="<?php echo $slug ?>" data-media-title="<?php _e( $title, 'wpmovielibrary' ) ?>"><?php _e( $title, 'wpmovielibrary' ) ?></a></li>
+				<li><span class="wpmolicon icon-angle-right"></span> <a href="#" onclick="wpmoly_edit_details.inline_edit( 'media', this ); return false;" data-media="<?php echo $slug ?>" data-media-title="<?php _e( $title, 'wpmovielibrary' ) ?>"><?php _e( $title, 'wpmovielibrary' ) ?></a></li>
 <?php endforeach; ?>
 			</ul>
 		</div>

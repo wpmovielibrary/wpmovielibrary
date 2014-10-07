@@ -1,5 +1,5 @@
 
-#wp-admin-bar-wpmovielibrary .wpmoly-icon {
+#wp-admin-bar-wpmovielibrary .wpmolicon {
 	font-size: 1rem;
 	position: relative;
 	top: -3px;
@@ -70,7 +70,7 @@
 	width: 4em;
 }
 
-.wpmoly.update-nag .label .wpmoly-icon {
+.wpmoly.update-nag .label .wpmolicon {
 	color: #fff;
 	font-size: 2.5rem;
 	height: 2.5rem;
@@ -95,7 +95,7 @@
 	background: #e57e22;
 }
 
-.wpmoly.update-nag.warning .label .wpmoly-icon {
+.wpmoly.update-nag.warning .label .wpmolicon {
 	text-shadow: 0 1px 0 #a55d1c;
 }
 

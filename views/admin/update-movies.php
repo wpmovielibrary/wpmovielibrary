@@ -46,10 +46,10 @@
 		setup_postdata( $post );
 ?>
 													<tr id="movie-<?php the_ID(); ?>">
-														<td class="label"><span class="wpmoly-icon wpmoly-icon-angle-right"></span></td>
+														<td class="label"><span class="wpmolicon icon-angle-right"></span></td>
 														<td class="movie-title"><span><?php the_title(); ?></span></td>
-														<td class="queue-movie"><a id="queue-movie-<?php the_ID(); ?>" href="#" onclick="wpmoly.updates.movies.enqueue( <?php the_ID(); ?> ); return false;"><span class="wpmoly-icon wpmoly-icon-ok"></span></a></td>
-														<td class="update-movie"><a id="update-movie-<?php the_ID(); ?>" href="#" onclick="wpmoly.updates.movies.update( <?php the_ID(); ?> ); return false;"><span class="wpmoly-icon wpmoly-icon-update"></span></a></td>
+														<td class="queue-movie"><a id="queue-movie-<?php the_ID(); ?>" href="#" onclick="wpmoly.updates.movies.enqueue( <?php the_ID(); ?> ); return false;"><span class="wpmolicon icon-ok"></span></a></td>
+														<td class="update-movie"><a id="update-movie-<?php the_ID(); ?>" href="#" onclick="wpmoly.updates.movies.update( <?php the_ID(); ?> ); return false;"><span class="wpmolicon icon-update"></span></a></td>
 													</tr>
 
 <?php
@@ -82,7 +82,7 @@ foreach ( $updated as $post ) :
 	setup_postdata( $post );
 ?>
 													<tr id="movie-<?php the_ID(); ?>">
-														<td class="label"><span class="wpmoly-icon wpmoly-icon-ok"></span></td>
+														<td class="label"><span class="wpmolicon icon-ok"></span></td>
 														<td class="movie-title"><span><?php the_title(); ?></span></td>
 													</tr>
 
@@ -107,8 +107,8 @@ wp_reset_postdata();
 								<div class="inside">
 									<div class="main">
 										<p><?php printf( __( 'You have a total of <strong>%s</strong> using a deprecated metadata format; you can use the present page to update your library to new format and access new features.', 'wpmovielibrary' ), sprintf( _n( 'one movie', '%d movies', count( $deprecated ), 'wpmovielibrary' ), count( $deprecated ) ) ); ?></p>
-										<p><?php _e( 'You can update all your movies at once, select a few movies manually (<span class="wpmoly-icon wpmoly-icon-ok"></span> link) or update directly a specific movies (<span class="wpmoly-icon wpmoly-icon-update"></span> link).', 'wpmovielibrary' ) ?></p>
-										<p style="text-align:center"><a href="#" class="button button-hero button-primary button-wpmoly" id="launch-update" onclick="wpmoly.updates.movies.update_all(); return false;"><span class="wpmoly-icon wpmoly-icon-update"></span> <?php _e( 'Update movies', 'wpmovielibrary' ) ?></a></p>
+										<p><?php _e( 'You can update all your movies at once, select a few movies manually (<span class="wpmolicon icon-ok"></span> link) or update directly a specific movies (<span class="wpmolicon icon-update"></span> link).', 'wpmovielibrary' ) ?></p>
+										<p style="text-align:center"><a href="#" class="button button-hero button-primary button-wpmoly" id="launch-update" onclick="wpmoly.updates.movies.update_all(); return false;"><span class="wpmolicon icon-update"></span> <?php _e( 'Update movies', 'wpmovielibrary' ) ?></a></p>
 									</div>
 								</div>
 							</div>

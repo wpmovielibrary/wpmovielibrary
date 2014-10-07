@@ -87,18 +87,18 @@ wpmoly = wpmoly || {};
 				if ( display || ! active ) {
 					if ( ! active ) {
 						$( links + '.active' ).removeClass( 'active' );
-						$(links).find( '.wpmoly-icon' ).removeClass().addClass( 'wpmoly-icon wpmoly-icon-cog' );
+						$(links).find( '.wpmolicon' ).removeClass().addClass( 'wpmolicon icon-cog' );
 					}
 					$editor.show();
 					$parent.addClass( 'inline_editing' );
 					$link.addClass( 'active' );
-					$link.find( '.wpmoly-icon' ).removeClass().addClass( 'wpmoly-icon wpmoly-icon-cancel' );
+					$link.find( '.wpmolicon' ).removeClass().addClass( 'wpmolicon icon-cancel' );
 					$editor.appendTo( $parent ).show();
 				}
 				else {
 					$link.removeClass( 'active' );
 					$parent.removeClass( 'inline_editing' );
-					$link.find( '.wpmoly-icon' ).removeClass().addClass( 'wpmoly-icon wpmoly-icon-cog' );
+					$link.find( '.wpmolicon' ).removeClass().addClass( 'wpmolicon icon-cog' );
 					$editor.hide();
 				}
 			};

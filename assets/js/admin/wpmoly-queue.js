@@ -76,7 +76,7 @@ var wpmoly_queue;
 					if ( post_id && wpmoly_queue_utils.get_val( 'tmdb_id' ) )
 						queue.push( wpmoly_queue_utils.prepare_queue() );
 
-					$( '#enqueue_' + post_id + ' .wpmoly-icon' ).after( '<span class="spinner"></span>' );
+					$( '#enqueue_' + post_id + ' .wpmolicon' ).after( '<span class="spinner"></span>' );
 					$( '#enqueue_' + post_id).addClass( 'loading' );
 					
 				}

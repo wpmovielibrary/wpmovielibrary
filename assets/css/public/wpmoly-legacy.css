@@ -27,7 +27,7 @@
 
 
 
-.row-actions .wpmoly-icon {
+.row-actions .wpmolicon {
 	margin: 0;
 	vertical-align: bottom;
 }
@@ -37,6 +37,6 @@
 	margin-left: -0.35em;
 }
 
-#wpmoly-movie-modal .button .wpmoly-icon {
+#wpmoly-movie-modal .button .wpmolicon {
 	display: none;
 }
