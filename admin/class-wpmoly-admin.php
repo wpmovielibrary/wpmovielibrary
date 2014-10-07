@@ -416,7 +416,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			if ( $hook_suffix == $update_movies ) {
 				$scripts['jquery-ajax-queue'] = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( 'jquery' ), true );
-				$scripts['updates']    = array( '/assets/js/admin/wpmoly-updates.js', array( $wpmoly_slug, 'jquery', 'jquery-ajax-queue' ), false );
+				$scripts['updates'] = array( '/assets/js/admin/wpmoly-updates.js', array( $wpmoly_slug, 'jquery' ), false );
 			}
 
 			//$scripts[''] = array( '', array(), true );
@@ -511,6 +511,10 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					'load_more'		=> __( 'Load More', 'wpmovielibrary' ),
 					'loading_images'	=> __( 'Loading Images…', 'wpmovielibrary' ),
 					'media_no_movie'	=> __( 'No movie could be found. You need to select a movie before importing images or posters.', 'wpmovielibrary' ),
+					'movie'			=> __( 'Movie', 'wpmovielibrary' ),
+					'movie_updated'		=> _n( 'movie updated', 'movies updated', 0, 'wpmovielibrary' ),
+					'movies_updated'	=> _n( 'movie updated', 'movies updated', 2, 'wpmovielibrary' ),
+					'not_updated'		=> __( 'not updated', 'wpmovielibrary' ),
 					'oops'			=> __( 'Oops… Did something went wrong?', 'wpmovielibrary' ),
 					'poster'		=> __( 'Poster', 'wpmovielibrary' ),
 					'save_image'		=> __( 'Saving Images…', 'wpmovielibrary' ),
@@ -518,8 +522,13 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 					'search_movie'		=> __( 'Fetching movie data', 'wpmovielibrary' ),
 					'see_less'		=> __( 'see no more', 'wpmovielibrary' ),
 					'see_more'		=> __( 'see more', 'wpmovielibrary' ),
+					'selected'		=> _n( 'selected', 'selected', 0, 'wpmovielibrary' ),
 					'set_featured'		=> __( 'Setting featured image…', 'wpmovielibrary' ),
-					'used'			=> __( 'Used', 'wpmovielibrary' )
+					'updated'		=> __( 'updated successfully', 'wpmovielibrary' ),
+					'used'			=> __( 'Used', 'wpmovielibrary' ),
+					'updating'		=> __( 'updating movies...', 'wpmovielibrary' ),
+					'x_selected'		=> _n( 'selected', 'selected', 2, 'wpmovielibrary' ),
+
 				)
 			);
 

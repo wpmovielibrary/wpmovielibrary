@@ -3,7 +3,7 @@
  * WPMovieLibrary Deprecated Meta Class.
  * 
  * This class handles deprecated WPMovieLibrary Movie Metadata. Prior to WPMOLY
- * version 1.3 movie metadata were stored in a unique post meta value which
+ * version 2.0 movie metadata were stored in a unique post meta value which
  * blocked a lot of features and improvement. Current class handles the migration
  * from obsolete to new data format.
  * 
@@ -21,7 +21,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		/**
 		 * Constructor
 		 *
-		 * @since    1.3
+		 * @since    2.0
 		 */
 		public function __construct() {
 
@@ -31,7 +31,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		/**
 		 * Register callbacks for actions and filters
 		 * 
-		 * @since    1.3
+		 * @since    2.0
 		 */
 		public function register_hook_callbacks() {
 
@@ -41,35 +41,9 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		}
 
 		/**
-		 * Register and enqueue admin-specific style sheet.
-		 *
-		 * @since    1.3
-		 *
-		 * @return   null    Return early if no settings page is registered.
-		 */
-		public static function enqueue_admin_styles( $hook ) {
-
-			wp_enqueue_style( WPMOLY_SLUG . '-roboto-font', '//fonts.googleapis.com/css?family=Roboto:100', array(), WPMOLY_VERSION );
-			wp_enqueue_style( WPMOLY_SLUG . '-updates', WPMOLY_URL . '/assets/css/wpmoly-admin-legacy.css', array(), WPMOLY_VERSION );
-		}
-
-		/**
-		 * Register and enqueue admin-specific JavaScript.
-		 * 
-		 * @since    1.3
-		 * 
-		 * @return   null    Return early if no settings page is registered.
-		 */
-		public static function enqueue_admin_scripts( $hook ) {
-
-			wp_enqueue_script( WPMOLY_SLUG . '-jquery-ajax-queue', WPMOLY_URL . '/assets/js/jquery.ajaxQueue.js', array( 'jquery' ), WPMOLY_VERSION, true );
-			wp_enqueue_script( WPMOLY_SLUG . '-updates', WPMOLY_URL . '/assets/js/wpmoly.updates.js', array( WPMOLY_SLUG, 'jquery' ), WPMOLY_VERSION, true );
-		}
-
-		/**
 		 * Display an admin notice
 		 *
-		 * @since    1.3
+		 * @since    2.0
 		 */
 		public function deprecated_meta_notice() {
 
@@ -79,7 +53,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		/**
 		 * AJAX callback for movie update.
 		 *
-		 * @since    1.3
+		 * @since    2.0
 		 */
 		public function update_movie_callback() {
 
@@ -98,7 +72,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		/**
 		 * Dashboard movies update page
 		 *
-		 * @since    1.3
+		 * @since    2.0
 		 */
 		public static function update_movies_page() {
 
@@ -114,7 +88,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		 * Movie having an non-empty '_wpmoly_movie_data' custom field
 		 * are considered deprecated and needing updating.
 		 * 
-		 * @since    1.3
+		 * @since    2.0
 		 * 
 		 * @return   int|bool    False is no deprecated could be find, number of deprecated movie else.
 		 */
@@ -122,7 +96,19 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 
 			global $wpdb;
 
-			$movies = $wpdb->get_results( "SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key='_wpmoly_movie_data' AND meta_value!=''" );
+			$movies = $wpdb->get_results(
+				"SELECT DISTINCT post_id
+				   FROM wp_postmeta
+				  WHERE meta_key='_wpmoly_movie_data'
+				    AND meta_value!=''
+				    AND post_id NOT IN (
+					SELECT DISTINCT post_id
+					  FROM wp_postmeta
+					 WHERE meta_key='_wpmoly_movie_tmdb_id'
+					   AND meta_value!=''
+					   AND meta_key='_wpmoly_movie_title'
+					   AND meta_value!='' )"
+			);
 			$movies = ( ! $wpdb->num_rows ? false : $movies );
 
 			return $movies;
@@ -131,7 +117,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		/**
 		 * Get a list of updated Movie IDs.
 		 * 
-		 * @since    1.3
+		 * @since    2.0
 		 * 
 		 * @return   array    
 		 */
@@ -139,7 +125,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 
 			global $wpdb;
 
-			$movies = $wpdb->get_results( "SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key='_wpmoly_movie_data' AND meta_value!=''" );
+			$movies = self::get_deprecated_movies();
 
 			foreach ( $movies as $i => $movie )
 				$movies[ $i ] = $movie->post_id;
@@ -164,7 +150,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		 * Movie having an non-empty '_wpmoly_movie_data' custom field
 		 * are considered deprecated and needing updating.
 		 * 
-		 * @since    1.3
+		 * @since    2.0
 		 * 
 		 * @return   int|bool    False is no deprecated could be find, number of deprecated movie else.
 		 */
@@ -194,7 +180,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		/**
 		 * Update Movie metas.
 		 * 
-		 * @since    1.3
+		 * @since    2.0
 		 *
 		 * @param    int    $movie_id
 		 * 
@@ -216,7 +202,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		/**
 		 * Update metas.
 		 * 
-		 * @since    1.3
+		 * @since    2.0
 		 *
 		 * @param    int    $movie_id
 		 * 
@@ -270,7 +256,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
-		 * @since    1.3
+		 * @since    2.0
 		 *
 		 * @param    bool    $network_wide
 		 */
@@ -292,21 +278,21 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
-		 * @since    1.3
+		 * @since    2.0
 		 */
 		public function deactivate() {}
 
 		/**
 		 * Set the uninstallation instructions
 		 *
-		 * @since    1.3
+		 * @since    2.0
 		 */
 		public static function uninstall() {}
 
 		/**
 		 * Initializes variables
 		 *
-		 * @since    1.3
+		 * @since    2.0
 		 */
 		public function init() {}
 

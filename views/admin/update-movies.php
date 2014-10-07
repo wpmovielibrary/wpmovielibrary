@@ -82,7 +82,7 @@ foreach ( $updated as $post ) :
 	setup_postdata( $post );
 ?>
 													<tr id="movie-<?php the_ID(); ?>">
-														<td class="label"><span class="wpmolicon icon-ok"></span></td>
+														<td class="label"><span class="wpmolicon icon-yes"></span></td>
 														<td class="movie-title"><span><?php the_title(); ?></span></td>
 													</tr>
 
