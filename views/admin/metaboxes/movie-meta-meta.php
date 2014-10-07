@@ -18,11 +18,11 @@
 									<option value="id"><?php _e( 'TMDb ID', 'wpmovielibrary' ); ?></option>
 								</select>
 								<input id="tmdb_query" type="text" name="wpmoly[tmdb_query]" value="" size="30" maxlength="32" placeholder="<?php _e( 'ex: The Secret Life of Walter Mitty', 'wpmovielibrary' ); ?>" />
-								<a id="tmdb_search" name="wpmoly[tmdb_search]" title="<?php _e( 'Search', 'wpmovielibrary' ); ?>" href="<?php echo get_edit_post_link() ?>&amp;wpmoly_auto_fetch=1" class="button button-secondary button-icon"><span class="dashicons dashicons-search"></span></a>
-								<a id="tmdb_update" name="wpmoly[tmdb_update]" title="<?php _e( 'Update', 'wpmovielibrary' ); ?>" href="<?php echo get_edit_post_link() ?>&amp;wpmoly_auto_fetch=1" class="button button-secondary button-icon"><span class="dashicons dashicons-update"></span></a>
+								<a id="tmdb_search" name="wpmoly[tmdb_search]" title="<?php _e( 'Search', 'wpmovielibrary' ); ?>" href="<?php echo get_edit_post_link() ?>&amp;wpmoly_auto_fetch=1" class="button button-secondary button-icon"><span class="wpmoly-icon wpmoly-icon-search"></span></a>
+								<a id="tmdb_update" name="wpmoly[tmdb_update]" title="<?php _e( 'Update', 'wpmovielibrary' ); ?>" href="<?php echo get_edit_post_link() ?>&amp;wpmoly_auto_fetch=1" class="button button-secondary button-icon"><span class="wpmoly-icon wpmoly-icon-update"></span></a>
 								<span class="spinner"></span>
 								<?php wpmoly_nonce_field( 'empty-movie-meta' ) ?>
-								<a id="tmdb_empty" name="wpmoly[tmdb_empty]" title="<?php _e( 'Empty Results', 'wpmovielibrary' ); ?>" class="button button-secondary button-empty button-icon hide-if-no-js"><span class="dashicons dashicons-no"></span></a>
+								<a id="tmdb_empty" name="wpmoly[tmdb_empty]" title="<?php _e( 'Empty Results', 'wpmovielibrary' ); ?>" class="button button-secondary button-empty button-icon hide-if-no-js"><span class="wpmoly-icon wpmoly-icon-cancel"></span></a>
 							</div>
 
 							<div id="wpmoly_status"><?php echo $status; ?></div>

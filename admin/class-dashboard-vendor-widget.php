@@ -43,17 +43,17 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Vendor_Widget' ) ) :
 				'facebook' => array(
 					'url'   => 'http://facebook.com/wpmovielibrary',
 					'title' => 'Facebook',
-					'icon'  => 'dashicons dashicons-facebook-alt'
+					'icon'  => 'wpmoly-icon wpmoly-icon-facebook'
 				),
 				'twitter' => array(
 					'url'   => 'https://twitter.com/WPMovieLibrary',
 					'title' => 'Twitter',
-					'icon'  => 'dashicons dashicons-twitter'
+					'icon'  => 'wpmoly-icon wpmoly-icon-twitter'
 				),
 				'google' => array(
 					'url'   => 'https://www.google.com/+Wpmovielibraryplugin',
 					'title' => 'Google+',
-					'icon'  => 'dashicons dashicons-googleplus'
+					'icon'  => 'wpmoly-icon wpmoly-icon-gplus'
 				)
 			);
 

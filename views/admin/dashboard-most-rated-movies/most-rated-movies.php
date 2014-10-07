@@ -14,9 +14,9 @@ if ( ! empty( $movies ) ) :
 									<span class="movie-year<?php if ( '0' == $settings['show_year'] ) echo ' hide-if-js hide-if-no-js'; ?>"><?php echo $movie->year ?></span>
 									<span class="movie-rating<?php if ( '0' == $settings['show_rating'] ) echo ' hide-if-js hide-if-no-js'; ?>"><div id="movie-rating-display" class="movie_rating_title stars stars-<?php echo str_replace( '.', '-', $movie->rating ) ?>"></div></span>
 									<div  class="movie-quickedit<?php if ( '0' == $settings['show_quickedit'] ) echo ' hide-if-js hide-if-no-js'; ?>">
-										<a href="<?php echo get_edit_post_link( $movie->ID ) ?>" title="<?php _e( 'Edit' ) ?>"><span class="dashicons dashicons-welcome-write-blog"></span></a>
-										<a href="<?php echo get_delete_post_link( $movie->ID ) ?>" title="<?php _e( 'Delete' ) ?>"><span class="dashicons dashicons-trash"></span></a>
-										<a href="<?php echo get_permalink( $movie->ID ) ?>" title="<?php _e( 'View' ) ?>"><span class="dashicons dashicons-format-video"></span></a>
+										<a href="<?php echo get_edit_post_link( $movie->ID ) ?>" title="<?php _e( 'Edit' ) ?>"><span class="wpmoly-icon wpmoly-icon-edit-file"></span></a>
+										<a href="<?php echo get_delete_post_link( $movie->ID ) ?>" title="<?php _e( 'Delete' ) ?>"><span class="wpmoly-icon wpmoly-icon-trash"></span></a>
+										<a href="<?php echo get_permalink( $movie->ID ) ?>" title="<?php _e( 'View' ) ?>"><span class="wpmoly-icon wpmoly-icon-movie"></span></a>
 									</div>
 								</div>
 <?php
@@ -24,7 +24,7 @@ if ( ! empty( $movies ) ) :
 elseif ( ! defined( 'DOING_AJAX' ) || true !== DOING_AJAX ) :
 ?>
 								<em><?php _e( 'No movies found', 'wpmovielibrary' ); ?></em>
-								<p style="text-align:center"><a href="<?php echo admin_url( 'post-new.php?post_status=publish&post_type=movie' ) ?>"><span class="dashicons dashicons-plus"></span> <?php _e( 'Add a movie!', 'wpmovielibrary' ) ?></a></p>
+								<p style="text-align:center"><a href="<?php echo admin_url( 'post-new.php?post_status=publish&post_type=movie' ) ?>"><span class="wpmoly-icon wpmoly-icon-plus"></span> <?php _e( 'Add a movie!', 'wpmovielibrary' ) ?></a></p>
 <?php
 endif;
 
@@ -36,7 +36,7 @@ endif;
 if ( ! defined( 'DOING_AJAX' ) || true !== DOING_AJAX ) : ?>
 							<div style="text-align:center">
 								<a href="#" id="most_rated_movies_load_more" class="button button-default hide-if-no-js<?php if ( '0' == $settings['show_more'] ) echo ' hide-if-js'; ?>">
-									<span class="dashicons dashicons-plus"></span> <span><?php _e( 'Load more', 'wpmovielibrary' ) ?></span>
+									<span class="wpmoly-icon wpmoly-icon-plus"></span> <span><?php _e( 'Load more', 'wpmovielibrary' ) ?></span>
 								</a>
 							</div>
 <?php

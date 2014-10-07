@@ -17,7 +17,7 @@ $wpmoly_admin_bar_menu = array(
 
 	'menu' => array(
 		'id'    => 'wpmovielibrary',
-		'title' => '<span class="wpmoly-icon-wpmoly"></span>&nbsp;' . __( 'Movie Library', 'wpmovielibrary' ),
+		'title' => '<span class="wpmoly-icon wpmoly-icon-wpmoly"></span>&nbsp;' . __( 'Movie Library', 'wpmovielibrary' ),
 		'href'  => admin_url( 'admin.php?page=wpmovielibrary' )
 	),
 

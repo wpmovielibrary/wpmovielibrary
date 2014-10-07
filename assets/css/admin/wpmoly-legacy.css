@@ -1,5 +1,13 @@
 /** Update Movies Page **/
 
+#postbox-container-1 {
+	width: 70% !important;
+}
+
+#postbox-container-2 {
+	width: 30% !important;
+}
+
 #wpmoly_dashboard_deprecated_movies .main {
 	max-height: 30em;
 	overflow-y: scroll;
@@ -31,28 +39,25 @@
 .deprecated-movies td.label,
 .updated-movies td.label {
 	vertical-align: top;
-	width: 24px;
+	width: 30px;
 }
 
-.deprecated-movies td.label .dashicons,
-.updated-movies td.label .dashicons {
+.deprecated-movies td.label .wpmoly-icon,
+.updated-movies td.label .wpmoly-icon {
 	color: #fff;
 	height: 24px;
 	line-height: 25px;
 	margin-right: 6px;
-	padding-left: 2px;
+	padding: 4px;
 	width: 24px;
 }
 
-.deprecated-movies td.label .dashicons {
+.deprecated-movies td.label .wpmoly-icon {
 	background: #ffba00;
-	font-size: 16px;
 }
 
-.updated-movies td.label .dashicons {
+.updated-movies td.label .wpmoly-icon {
 	background: #7ad03a;
-	font-size: 22px;
-	padding-right: 2px;
 }
 
 .deprecated-movies .movie-title,
@@ -65,12 +70,12 @@
 	background: #eff7ff;
 }
 
-.deprecated-movies tbody tr.active td.label .dashicons {
+.deprecated-movies tbody tr.active td.label .wpmoly-icon {
 	background: #0099d5;
 }
 
 #wpmoly_dashboard_deprecated_movies_update_status {
-	background: url(../img/bg.jpg) center top;
+	background: url(../../img/bg.jpg) center top;
 	background-size: cover;
 }
 
@@ -140,7 +145,7 @@
 	display: block;
 }
 
-#launch-update .dashicons {
+#launch-update .wpmoly-icon {
 	line-height: 2.15em;
 	margin-right: 0.25em;
 } 

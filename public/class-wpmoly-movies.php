@@ -88,9 +88,6 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				'menu_position'      => 5
 			);
 
-			// Dashicons or PNG
-			$args['menu_icon'] = ( wpmoly_modern_wp() ? 'dashicons-format-video' : WPMOLY_URL . '/assets/img/icon-movie.png' );
-
 			register_post_type( 'movie', $args );
 
 			register_post_status( 'import-draft', array(

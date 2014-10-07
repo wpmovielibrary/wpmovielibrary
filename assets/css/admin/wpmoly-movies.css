@@ -40,7 +40,7 @@
 	margin: 0;
 }
 
-.wpmoly-inline-edit-details .dashicons {
+.wpmoly-inline-edit-details .wpmoly-icon {
 	color: #aaa;
 	font-size: 1em;
 	margin: 3px 0 -3px 0;
@@ -57,11 +57,11 @@
 	visibility: visible !important;
 }
 
-.wpmoly-inline-edit-toggle .dashicons {
+.wpmoly-inline-edit-toggle .wpmoly-icon {
 	font-size: 0.75em;
 }
 
-.wpmoly-inline-edit-toggle .dashicons-no {
+.wpmoly-inline-edit-toggle .wpmoly-icon .wpmoly-icon-cancel {
 	font-size: 1em;
 	margin-right: 1em;
 	margin-top: 0.25em;

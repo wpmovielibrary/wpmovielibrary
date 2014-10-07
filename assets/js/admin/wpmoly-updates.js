@@ -22,7 +22,7 @@ wpmoly = wpmoly || {};
 				    $tr = $( 'tr#movie-' + id );
 
 				$link.attr( 'onclick', 'wpmoly.updates.movies.dequeue( ' + id + ' ); return false;' );
-				$link.find( '.dashicons' ).removeClass( 'dashicons-yes' ).addClass( 'dashicons-no-alt' );
+				$link.find( '.wpmoly-icon' ).removeClass( 'wpmoly-icon-yes' ).addClass( 'wpmoly-icon-cancel' );
 				$tr.toggleClass( 'active' );
 
 				wpmoly_update_progress.update_total( $( '#deprecated-movies tr.active' ).length );
@@ -36,7 +36,7 @@ wpmoly = wpmoly || {};
 				    $tr = $( 'tr#movie-' + id );
 
 				$link.attr( 'onclick', 'wpmoly.updates.movies.enqueue( ' + id + ' ); return false;' );
-				$link.find( '.dashicons' ).removeClass( 'dashicons-no-alt' ).addClass( 'dashicons-yes' );
+				$link.find( '.wpmoly-icon' ).removeClass( 'wpmoly-icon-cancel' ).addClass( 'wpmoly-icon-yes' );
 				$tr.toggleClass( 'active' );
 
 				wpmoly_update_progress.update_total( $( '#deprecated-movies tr.active' ).length );
@@ -55,15 +55,15 @@ wpmoly = wpmoly || {};
 						$.each( response.responseJSON.errors, function() {
 							wpmoly_state.set( this, 'error' );
 						});
-						$( '#update-movies-log' ).append( '<span class="dashicons dashicons-no-alt"></span> Movie #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » not updated' );
+						$( '#update-movies-log' ).append( '<span class="wpmoly-icon wpmoly-icon-cancel"></span> Movie #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » not updated' );
 					},
 					success: function( response ) {
 						var $tr = $( 'tr#movie-' + id );
 
-						$tr.find( '.dashicons-arrow-right-alt2' ).removeClass( 'dashicons-arrow-right-alt2' ).addClass( 'dashicons-yes' );
+						$tr.find( '.wpmoly-icon-angle-right' ).removeClass( 'wpmoly-icon-angle-right' ).addClass( 'wpmoly-icon-yes' );
 						$tr.find( '.update-movie, .queue-movie' ).remove();
 						$( '#updated-movies' ).append( $tr );
-						$( '#update-movies-log' ).append( '<span class="update-movies-log-entry"><span class="dashicons dashicons-yes"></span> Movie #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » updated succesfully</span>' );
+						$( '#update-movies-log' ).append( '<span class="update-movies-log-entry"><span class="wpmoly-icon wpmoly-icon-yes"></span> Movie #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » updated succesfully</span>' );
 						$( '#update-movies-log' ).scrollTop( Math.round( $( '.update-movies-log-entry' ).last().position().top + $( '.update-movies-log-entry' ).last().height() ) );
 					},
 					complete: function( r ) {
@@ -93,15 +93,15 @@ wpmoly = wpmoly || {};
 							$.each( response.responseJSON.errors, function() {
 								wpmoly_state.set( this, 'error' );
 							});
-							$( '#update-movies-log' ).append( '<span class="dashicons dashicons-no-alt"></span> ' + wpmoly_legacy.lang.movie.charAt( 0 ).toUpperCase() + wpmoly_legacy.lang.movie.slice( 1 ) + ' #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » ' + wpmoly_legacy.lang.not_updated );
+							$( '#update-movies-log' ).append( '<span class="wpmoly-icon wpmoly-icon-cancel"></span> ' + wpmoly_legacy.lang.movie.charAt( 0 ).toUpperCase() + wpmoly_legacy.lang.movie.slice( 1 ) + ' #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » ' + wpmoly_legacy.lang.not_updated );
 						},
 						success: function( response ) {
 							var $tr = $( 'tr#movie-' + id );
 
-							$tr.find( '.dashicons-arrow-right-alt2' ).removeClass( 'dashicons-arrow-right-alt2' ).addClass( 'dashicons-yes' );
+							$tr.find( '.wpmoly-icon-angle-right' ).removeClass( 'wpmoly-icon-angle-right' ).addClass( 'wpmoly-icon-yes' );
 							$tr.find( '.update-movie, .queue-movie' ).remove();
 							$( '#updated-movies' ).append( $tr );
-							$( '#update-movies-log' ).append( '<span class="update-movies-log-entry"><span class="dashicons dashicons-yes"></span> ' + wpmoly_legacy.lang.movie.charAt( 0 ).toUpperCase() + wpmoly_legacy.lang.movie.slice( 1 ) + ' #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » ' + wpmoly_legacy.lang.updated + '</span>' );
+							$( '#update-movies-log' ).append( '<span class="update-movies-log-entry"><span class="wpmoly-icon wpmoly-icon-yes"></span> ' + wpmoly_legacy.lang.movie.charAt( 0 ).toUpperCase() + wpmoly_legacy.lang.movie.slice( 1 ) + ' #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » ' + wpmoly_legacy.lang.updated + '</span>' );
 							$( '#update-movies-log' ).scrollTop( Math.round( $( '.update-movies-log-entry' ).last().position().top + $( '.update-movies-log-entry' ).last().height() ) );
 						},
 						complete: function() {

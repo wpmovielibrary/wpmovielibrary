@@ -18,13 +18,13 @@
 <?php elseif ( 'deprecated-meta' == $notice ) : ?>
 
 	<div class="update-nag warning wpmoly">
-		<div class="label"><span class="dashicons dashicons-no"></span></div>
+		<div class="label"><span class="wpmoly-icon wpmoly-icon-cancel"></span></div>
 		<div class="content"><?php printf( __( '<strong>WPMovieLibrary found deprecated movie metadata</strong>; since version 1.3 movies metadata are stored and managed differently to provide extended search and filtering features. Therefore, you will need to update your movies to the new standard format. <strong>Not doing so will produce bugs and random behaviours when using the plugin</strong>. Please proceed to <a href="%s">update your movies</a> using the dedicated tool. <a href="http://wpmovielibrary/development/release-notes/#version-1.3">Learn more about this change</a>.', 'wpmovielibrary' ), admin_url( '/admin.php?page=wpmovielibrary-update-movies' ) ) ?></div>
 	</div>
 <?php elseif ( 'permalinks-changed' == $notice ) : ?>
 
 	<div class="update-nag wpmoly">
-		<div class="label"><span class="dashicons dashicons-info"></span></div>
+		<div class="label"><span class="wpmoly-icon wpmoly-icon-info"></span></div>
 		<div class="content"><?php printf( __( 'You update the ???? URL rewrite. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', 'wpmovielibrary' ), admin_url( '/options-permalink.php' ) ) ?></div>
 	</div>
 <?php endif; ?>

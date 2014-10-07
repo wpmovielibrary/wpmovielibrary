@@ -159,7 +159,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					}
 					else
 						$html = '<span class="' . $column_name . '_title"><em>' . __( 'None', 'wpmovielibrary' ) . '</em></span>';
-					$html .= '<a href="#" class="wpmoly-inline-edit-toggle hide-if-no-js" onclick="wpmoly_edit_details.inline_editor( \'' . str_replace( 'movie_', '', $column_name ) . '\', this ); return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
+					$html .= '<a href="#" class="wpmoly-inline-edit-toggle hide-if-no-js" onclick="wpmoly_edit_details.inline_editor( \'' . str_replace( 'movie_', '', $column_name ) . '\', this ); return false;"><span class="wpmoly-icon wpmoly-icon-cog"></span></a>';
 					break;
 				case 'movie_rating':
 					$meta = wpmoly_get_movie_rating( $post_id );
@@ -167,7 +167,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 						$html = '<div id="movie-rating-display" class="movie_rating_title stars stars-' . str_replace( '.', '-', $meta ) . '"></div>';
 					else
 						$html = '<div id="movie-rating-display" class="movie_rating_title stars stars-0-0"></div>';
-					$html .= '<a href="#" class="wpmoly-inline-edit-toggle hide-if-no-js" onclick="wpmoly_edit_details.inline_editor( \'rating\', this ); return false;"><span class="dashicons dashicons-admin-generic"></span></a>';
+					$html .= '<a href="#" class="wpmoly-inline-edit-toggle hide-if-no-js" onclick="wpmoly_edit_details.inline_editor( \'rating\', this ); return false;"><span class="wpmoly-icon wpmoly-icon-cog"></span></a>';
 					break;
 				default:
 					$html = '';

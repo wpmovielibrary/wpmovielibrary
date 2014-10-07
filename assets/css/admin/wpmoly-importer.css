@@ -139,7 +139,7 @@
 	position: relative;
 }
 
-#wpmoly-tabs .wp-list-table .enqueue_movie.loading .dashicons {
+#wpmoly-tabs .wp-list-table .enqueue_movie.loading .wpmoly-icon {
 	opacity: 0;
 }
 

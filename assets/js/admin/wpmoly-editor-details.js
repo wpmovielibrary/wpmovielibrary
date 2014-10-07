@@ -87,18 +87,18 @@ wpmoly = wpmoly || {};
 				if ( display || ! active ) {
 					if ( ! active ) {
 						$( links + '.active' ).removeClass( 'active' );
-						$(links).find( '.dashicons' ).removeClass().addClass( 'dashicons dashicons-admin-generic' );
+						$(links).find( '.wpmoly-icon' ).removeClass().addClass( 'wpmoly-icon wpmoly-icon-cog' );
 					}
 					$editor.show();
 					$parent.addClass( 'inline_editing' );
 					$link.addClass( 'active' );
-					$link.find( '.dashicons' ).removeClass().addClass( 'dashicons dashicons-no' );
+					$link.find( '.wpmoly-icon' ).removeClass().addClass( 'wpmoly-icon wpmoly-icon-cancel' );
 					$editor.appendTo( $parent ).show();
 				}
 				else {
 					$link.removeClass( 'active' );
 					$parent.removeClass( 'inline_editing' );
-					$link.find( '.dashicons' ).removeClass().addClass( 'dashicons dashicons-admin-generic' );
+					$link.find( '.wpmoly-icon' ).removeClass().addClass( 'wpmoly-icon wpmoly-icon-cog' );
 					$editor.hide();
 				}
 			};

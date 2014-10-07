@@ -149,7 +149,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public function enqueue_admin_styles( $hook ) {
 
 			wp_enqueue_style( WPMOLY_SLUG . '-common', WPMOLY_URL . '/assets/css/admin/wpmoly-common.css', array(), WPMOLY_VERSION );
-			wp_enqueue_style( WPMOLY_SLUG . '-font', WPMOLY_URL . '/assets/fonts/wpmoly/wpmoly.css', array(), WPMOLY_VERSION );
+			wp_enqueue_style( WPMOLY_SLUG . '-font', WPMOLY_URL . '/assets/fonts/wpmovielibrary/css/wpmovielibrary.css', array(), WPMOLY_VERSION );
 
 			$screen = get_current_screen();
 			if ( ! in_array( $hook, $this->screen_hooks ) && ! in_array( $screen->id, $this->screen_hooks ) )
@@ -414,6 +414,11 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$scripts['editor-meta']       = array( '/assets/js/admin/wpmoly-editor-meta.js', array( $wpmoly_slug, 'jquery' ), true );
 			}
 
+			if ( $hook_suffix == $update_movies ) {
+				$scripts['jquery-ajax-queue'] = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( 'jquery' ), true );
+				$scripts['updates']    = array( '/assets/js/admin/wpmoly-updates.js', array( $wpmoly_slug, 'jquery', 'jquery-ajax-queue' ), false );
+			}
+
 			//$scripts[''] = array( '', array(), true );
 
 			return $scripts;
@@ -455,7 +460,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( $hook_suffix == $movies )
 				$styles['movies'] = '/assets/css/admin/wpmoly-movies.css';
 
-			if ( ! wpmoly_modern_wp() )
+			if ( $hook_suffix == $update_movies )
 				$styles['legacy'] = '/assets/css/admin/wpmoly-legacy.css';
 
 			return $styles;
