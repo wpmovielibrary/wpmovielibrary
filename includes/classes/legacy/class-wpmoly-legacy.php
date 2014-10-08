@@ -104,9 +104,8 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 				    AND post_id NOT IN (
 					SELECT DISTINCT post_id
 					  FROM wp_postmeta
-					 WHERE meta_key='_wpmoly_movie_tmdb_id'
-					   AND meta_value!=''
-					   AND meta_key='_wpmoly_movie_title'
+					 WHERE ( meta_key='_wpmoly_movie_tmdb_id'
+					      OR meta_key='_wpmoly_movie_title' )
 					   AND meta_value!='' )"
 			);
 			$movies = ( ! $wpdb->num_rows ? false : $movies );
