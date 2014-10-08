@@ -39,7 +39,10 @@ function wpmoly_modern_wp() {
  *
  * @return   boolean    Deprecated meta?
  */
-function wpmoly_has_deprecated_meta() {
+function wpmoly_has_deprecated_meta( $post_id = null ) {
+
+	if ( ! is_null( $post_id ) )
+		return WPMOLY_Legacy::has_deprecated_meta( $post_id );
 
 	$deprecated = get_option( 'wpmoly_has_deprecated_meta', true );
 	$deprecated = ( 'false' === $deprecated ? false : true );

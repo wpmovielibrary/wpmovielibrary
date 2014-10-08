@@ -82,6 +82,27 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 			echo self::render_admin_template( 'update-movies.php', array( 'deprecated' => $deprecated, 'updated' => $updated ) );
 		}
 
+		public static function has_deprecated_meta( $post_id ) {
+
+			global $wpdb;
+
+			$query = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT *, COUNT( meta_id ) AS m
+					   FROM {$wpdb->postmeta}
+					  WHERE post_id = %d
+					    AND meta_key IN ( '_wpmoly_movie_data', '_wpmoly_movie_tmdb_id', '_wpmoly_movie_title' )
+					    AND meta_value != ''",
+					$post_id
+				)
+			);
+
+			if ( ! is_null( $wpdb->num_rows ) && 3 > $wpdb->num_rows )
+				return true;
+
+			return false;
+		}
+
 		/**
 		 * Get a list of deprected Movie IDs.
 		 * 
