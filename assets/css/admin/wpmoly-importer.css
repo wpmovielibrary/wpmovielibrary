@@ -5,7 +5,7 @@
 	border-width: 0 !important;
 	display: inline-table;
 	position: relative;
-	width: 70%;
+	width: 100%;
 }
 
 #wpmoly-tabs h4 {
@@ -159,7 +159,7 @@
 }
 
 #wpmoly-tabs .wp-list-table .poster.loading {
-	background: url(../img/loading.gif) 0 16px no-repeat;
+	background: url(../../img/loading.gif) 0 16px no-repeat;
 }
 
 #wpmoly-queued-list-header {

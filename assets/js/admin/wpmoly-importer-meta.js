@@ -236,12 +236,7 @@ wpmoly = wpmoly || {};
 					var $field = $( field ),
 					    f_name = field.id.replace( 'p_' + data._id + '_meta_data_', '' ),
 					       sub = wpmoly.switch_data( f_name ),
-					     _data = data;
-
-					if ( 'meta' == sub )
-						var _data = data.meta;
-					else if ( 'crew' == sub )
-						var _data = data.crew;
+					     _data = data.meta;
 
 					if ( Array.isArray( _data[ f_name ] ) && _data[ f_name ].length ) {
 						var _v = [];
