@@ -267,7 +267,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		/**
 		 * Remove Admin menu hidden page links.
 		 *
-		 * @since    1.3
+		 * @since    2.0
 		 */
 		public function admin_head() {
 

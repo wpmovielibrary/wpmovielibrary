@@ -35,7 +35,7 @@ function wpmoly_modern_wp() {
  * metadata are stored in a unique meta field and must be converted to be used
  * in latest versions.
  *
- * @since    1.3
+ * @since    2.0
  *
  * @return   boolean    Deprecated meta?
  */

@@ -33,7 +33,7 @@ if ( ! class_exists( 'WPMOLY_Module' ) ) {
 		 * Simple alias of WPMOLY_Module::render_template() adding admin
 		 * views path and hooks.
 		 *
-		 * @since    1.3
+		 * @since    2.0
 		 * 
 		 * @param    string    $default_template_path The path to the template, relative to the plugin's `views` folder
 		 * @param    array     $variables An array of variables to pass into the template's scope, indexed with the variable name so that it can be extract()-ed

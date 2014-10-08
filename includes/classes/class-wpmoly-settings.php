@@ -497,7 +497,7 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			 * This should be used through Plugins to create additionnal
 			 * subpages.
 			 *
-			 * @since    1.3
+			 * @since    2.0
 			 *
 			 * @param    array    $wpmoly_admin_menu Admin menu
 			 */
