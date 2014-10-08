@@ -145,6 +145,16 @@
 	text-align: justify;
 }
 
+#wpmoly-movie-preview.empty {
+	opacity: 0.25;
+}
+
+#wpmoly-movie-preview.empty .lipsum {
+	color: transparent;
+	background: none repeat scroll 0% 0% #888;
+	opacity: 0.35;
+}
+
 /* Details */
 
 #wpmoly_details {}

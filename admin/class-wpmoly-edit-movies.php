@@ -503,6 +503,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			$metadata = wpmoly_get_movie_meta( $post->ID );
 			$metadata = wpmoly_filter_empty_array( $metadata );
+			$empty    = (bool) ( isset( $metadata['_empty'] ) && 1 == $metadata['_empty'] );
+
 			$_meta = WPMOLY_Settings::get_supported_movie_meta();
 			$select = null;
 			$status = '';
@@ -526,6 +528,22 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				}
 			}
 
+			if ( $empty )
+				$metadata = array(
+					'title'          => '<span class="lipsum">Lorem ipsum dolor</span>',
+					'original_title' => '<span class="lipsum">Lorem ipsum dolor sit amet</span>',
+					'genres'         => '<span class="lipsum">Lorem, ipsum, dolor, sit, amet</span>',
+					'release_date'   => '<span class="lipsum">2014</span>',
+					'rating'         => '<span class="lipsum">0-0</span>',
+					'overview'       => '<span class="lipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut mattis fermentum eros, et rhoncus enim cursus vitae. Nullam interdum mi feugiat, tempor turpis ac, viverra lorem. Nunc placerat sapien ut vehicula iaculis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia augue pharetra orci porta, nec posuere lectus accumsan. Mauris porttitor posuere lacus, sit amet auctor nibh congue eu.</span>',
+					'director'       => '<span class="lipsum">Lorem ipsum</span>',
+					'cast'           => '<span class="lipsum">Lorem, ipsum, dolor, sit, amet, consectetur, adipiscing, elit, mattis, fermentum, eros, rhoncus, cursus, vitae</span>',
+					
+				);
+			else
+				foreach ( $metadata as $slug => $meta )
+					$metadata[ $slug ] = call_user_func( 'apply_filters', "wpmoly_format_movie_{$slug}", $meta );
+
 			$attributes = array(
 				'languages' => WPMOLY_Settings::get_available_languages(),
 				'metas' => $_meta,
@@ -533,7 +551,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				'status' => $status,
 				'rating' => $rating,
 				'select' => $select,
-				'thumbnail' => get_the_post_thumbnail( $post->ID, 'medium' )
+				'thumbnail' => get_the_post_thumbnail( $post->ID, 'medium' ),
+				'empty' => $empty
 			);
 
 			$attributes['preview'] = self::render_admin_template( 'metaboxes/movie-meta-preview.php', $attributes );
