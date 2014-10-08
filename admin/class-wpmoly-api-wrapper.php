@@ -353,16 +353,20 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 
 			extract( $data, EXTR_SKIP );
 
+			$poster_path = $movie['poster_path'];
+			$movie = apply_filters( 'wpmoly_filter_meta_data', $movie );
+			$casts = apply_filters( 'wpmoly_filter_crew_data', $casts );
+			$meta  = array_merge( $movie, $casts );
+
 			$_images = array( 'images' => $images['backdrops'] );
 			$_full = array_merge( $movie, $casts, $images );
 			$_movie = array(
 				'_id'     => $_id,
 				'_tmdb_id' => $id,
-				'meta'    => apply_filters( 'wpmoly_filter_meta_data', $movie ),
-				'crew'    => apply_filters( 'wpmoly_filter_crew_data', $casts ),
+				'meta'    => $meta,
 				'images'  => $images,
-				'poster' => ( ! is_null( $movie['poster_path'] ) ? self::get_image_url( $movie['poster_path'], 'poster', 'small' ) : WPMOLY_DEFAULT_POSTER_URL ),
-				'poster_path'  => ( ! is_null( $movie['poster_path'] ) ? $movie['poster_path'] : WPMOLY_DEFAULT_POSTER_URL ),
+				'poster' => ( ! is_null( $poster_path ) ? self::get_image_url( $poster_path, 'poster', 'small' ) : WPMOLY_DEFAULT_POSTER_URL ),
+				'poster_path'  => ( ! is_null( $poster_path ) ? $poster_path : WPMOLY_DEFAULT_POSTER_URL ),
 				'_result' => 'movie',
 				'_full'   => $_full,
 			);
@@ -375,7 +379,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				$_movie['taxonomy']['actors'] = array();
 				if ( ! empty( $casts['cast'] ) && 1 == wpmoly_o( 'enable-actor' ) ) {
 					foreach ( $casts['cast'] as $actor ) {
-						$_movie['taxonomy']['actors'][] = $actor['name'];
+						$_movie['taxonomy']['actors'][] = $actor;
 					}
 				}
 			}
@@ -386,7 +390,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				$_movie['taxonomy']['genres'] = array();
 				if ( ! empty( $movie['genres'] ) && 1 == wpmoly_o( 'enable-genre' ) ) {
 					foreach ( $movie['genres'] as $genre ) {
-						$_movie['taxonomy']['genres'][] = $genre['name'];
+						$_movie['taxonomy']['genres'][] = $genre;
 					}
 				}
 			}

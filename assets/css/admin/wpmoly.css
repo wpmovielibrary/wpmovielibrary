@@ -32,7 +32,7 @@ body.post-php.post-type-movie #postimagediv {
 
 .button-icon .wpmolicon {
 	position: relative;
-	top: -2px;
+	top: -1px;
 	vertical-align: middle;
 }
 
@@ -78,7 +78,6 @@ body.post-php.post-type-movie #postimagediv {
 	background-color: #fff;
 	-webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
 	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
-	clear: both;
 	display: none;
 	margin: 8px 2px;
 	padding: 5px 12px;

@@ -203,33 +203,28 @@ wpmoly = wpmoly || {};
 				wpmoly.editor._movie_title   = data.meta.title;
 
 				$( '#meta_data_tmdb_id' ).val( data._tmdb_id );
-				$( '.meta_data_field' ).each( function() {
+				$( '.meta-data-field' ).each( function() {
 
-					var field = this, value = '', type = field.type,
-					    slug = this.id.replace( 'meta_data_', '' ),
-					     sub = wpmoly.switch_data( slug ),
-					   _data = data;
+					var field = this,
+					    value = '',
+					     type = field.type,
+					     slug = this.id.replace( 'meta_data_', '' ),
+					    _data = data.meta;
 					field.value = '';
-
-					if ( 'meta' == sub )
-						_data = data.meta;
-					else if ( 'crew' == sub )
-						_data = data.crew;
 
 					if ( 'object' == typeof _data[ slug ] ) {
 						if ( Array.isArray( _data[ slug ] ) ) {
 							_v = [];
-							$.each(_data[ slug ], function() {
+							$.each( _data[ slug ], function() {
 								_v.push( field.value + this );
 							});
 							value = _v.join( ', ' );
 						}
 					}
 					else
-						_v = ( _data[ slug ] != null ? _data[ slug ] : '' );
-						value = _v;
+						value = ( _data[ slug ] != null ? _data[ slug ] : '' );
 
-					$( field ).val( _v );
+					$( field ).val( value );
 				});
 
 				if ( data.taxonomy.actors.length ) {
@@ -249,9 +244,9 @@ wpmoly = wpmoly || {};
 					});
 				}
 
-				if ( data.crew.director.length ) {
+				if ( data.meta.director.length ) {
 					
-					$.each( data.crew.director, function( i, val ) {
+					$.each( data.meta.director, function( i, val ) {
 						$( '#newcollection' ).delay( 1000 ).queue( function( next ) {
 							$( this ).prop( 'value', val );
 							$( '#collection-add-submit' ).click();
@@ -287,7 +282,7 @@ wpmoly = wpmoly || {};
 			 */
 			wpmoly.editor.meta.empty_results = function() {
 
-				$( '.meta_data_field' ).val( '' );
+				$( '.meta-data-field' ).val( '' );
 				$( '#meta_data' ).empty().hide();
 				$( '#remove-post-thumbnail' ).trigger( 'click' );
 
