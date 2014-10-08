@@ -23,6 +23,10 @@ wpmoly = wpmoly || {};
 				if ( ! $.isArray( movies ) )
 					var movies = [ movies ];
 
+				$.each( movies, function() {
+					$( 'tr#p_' + this ).next( '.wpmoly-import-movie-select' ).remove();
+				} );
+
 				wpmoly._get({
 					data: {
 						action: 'wpmoly_delete_movies',
