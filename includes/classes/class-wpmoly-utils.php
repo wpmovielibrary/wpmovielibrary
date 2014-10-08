@@ -766,6 +766,11 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 */
 		public static function get_the_terms( $terms, $id, $taxonomy ) {
 
+			// Term ordering is killing quick/bulk edit, avoid it
+			if ( is_admin() && 'edit-movie' == get_current_screen()->id )
+				return $terms;
+
+			// Only apply to "our" taxonomies
 			if ( ! in_array( $taxonomy, array( 'collection',  'genre',  'actor' ) ) )
 				return $terms;
 
@@ -797,6 +802,10 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 *                           don't exist.
 		 */
 		public static function get_ordered_object_terms( $terms, $object_ids, $taxonomies, $args ) {
+
+			// Term ordering is killing quick/bulk edit, avoid it
+			if ( is_admin() && 'edit-movie' == get_current_screen()->id )
+				return $terms;
 
 			global $wpdb;
 
