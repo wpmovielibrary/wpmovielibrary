@@ -54,7 +54,7 @@
 <?php 
 foreach ( $metas as $slug => $meta ) :
 	$value = '';
-	if ( isset( $metadata[ $slug ] ) )
+	if ( ! $empty && isset( $metadata[ $slug ] ) )
 		$value = apply_filters( 'wpmoly_stringify_array', $metadata[ $slug ] );
 ?>
 							<div class="wpmoly-movie-meta-edit wpmoly-movie-meta-edit-<?php echo $slug; ?> <?php echo $meta['size'] ?>">

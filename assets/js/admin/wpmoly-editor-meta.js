@@ -270,6 +270,8 @@ wpmoly = wpmoly || {};
 					});
 				}
 
+				wpmoly_meta_preview.set( data );
+
 				$( '#tmdb_query' ).focus();
 				wpmoly_state.clear();
 				wpmoly_state.set( wpmoly_ajax.lang.done, 'success' );
@@ -363,5 +365,34 @@ wpmoly = wpmoly || {};
 
 					$( '#wpmoly-meta' ).toggleClass( 'small' );
 				};
+
+			wpmoly.editor.meta.preview = wpmoly_meta_preview = {};
+
+				wpmoly.editor.meta.preview.set = function( data ) {
+
+					var fields = [
+						'title',
+						'original_title',
+						'genres',
+						'release_date',
+						'overview',
+						'director',
+						'cast'
+					];
+
+					_.each( fields, function( name ) {
+						var value = data.meta[ name ]
+						if ( Array.isArray( value ) )
+							value = value.join( ', ' );
+						$( '#wpmoly-movie-preview-' + name ).html( value );
+					}, fields );
+
+					$( '#wpmoly-movie-preview-poster > img' ).attr({
+						alt: data.meta.title,
+						src: data.poster
+					});
+
+					$( '#wpmoly-movie-preview' ).removeClass( 'empty' );
+				}
 
 		wpmoly_edit_meta.init();
