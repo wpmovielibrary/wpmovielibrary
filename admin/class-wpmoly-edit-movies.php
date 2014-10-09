@@ -38,7 +38,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			add_action( 'admin_footer', array( $this, 'edit_details_inline' ) );
 
-			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 15 );
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 9 );
 
 			add_filter( 'manage_movie_posts_columns', __CLASS__ . '::movies_columns_head' );
 			add_action( 'manage_movie_posts_custom_column', __CLASS__ . '::movies_columns_content', 10, 2 );
@@ -66,7 +66,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		public function admin_enqueue_scripts( $hook ) {
 
-			if ( 'post.php' != $hook || 'movie' != get_post_type() )
+			if ( ( 'post.php' != $hook && 'post-new.php' != $hook ) || 'movie' != get_post_type() )
 				return false;
 
 			wp_enqueue_media();
@@ -75,6 +75,12 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			wp_localize_script( 'media-grid', '_wpMediaGridSettings', array(
 				'adminUrl' => parse_url( self_admin_url(), PHP_URL_PATH ),
 			) );
+
+			wp_register_script( 'select2-sortable-js', ReduxFramework::$_url . 'assets/js/vendor/select2.sortable.min.js', array( 'jquery' ), WPMOLY_VERSION, true );
+			wp_register_script( 'select2-js', ReduxFramework::$_url . 'assets/js/vendor/select2/select2.min.js', array( 'jquery', 'select2-sortable-js' ), WPMOLY_VERSION, true );
+			wp_enqueue_script( 'field-select-js', ReduxFramework::$_url . 'inc/fields/select/field_select.min.js', array( 'jquery', 'select2-js' ), WPMOLY_VERSION, true );
+			wp_enqueue_style( 'select2-css', ReduxFramework::$_url . 'assets/js/vendor/select2/select2.css', array(), WPMOLY_VERSION, 'all' );
+			wp_enqueue_style( 'redux-field-select-css', ReduxFramework::$_url . 'inc/fields/select/field_select.css', WPMOLY_VERSION, true );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -481,7 +487,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				add_meta_box( $id, $title, $callback, $screen, $context, $priority,  $callback_args );
 			}
 
-			add_meta_box( 'redux', 'Redux', __CLASS__ . '::redux_meta', 'movie', 'normal', 'high', null );
+			add_meta_box( 'redux', 'WordPress Movie Library', __CLASS__ . '::redux_meta', 'movie', 'normal', 'high', null );
 
 			global $wp_meta_boxes;
 
@@ -559,58 +565,40 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			$attributes['preview'] = self::render_admin_template( 'metaboxes/movie-meta-preview.php', $attributes );
 			$attributes['meta']    = self::render_admin_template( 'metaboxes/movie-meta-meta.php', $attributes );
-			$attributes['details'] = self::render_admin_template( 'metaboxes/movie-meta-details.php', array() );
+			$attributes['details'] = self::render_admin_template( 'metaboxes/movie-meta-details.php', array( 'details' => self::render_details_metabox() ) );
 			$attributes['images']  = self::render_admin_template( 'metaboxes/movie-meta-images.php', array() );
 
 			echo self::render_admin_template( 'metaboxes/movie-meta2.php', $attributes );
 		}
 
-		/**
-		 * Main Metabox: TMDb API results.
-		 * 
-		 * Display a large Metabox below post editor to fetch and edit movie
-		 * informations using the TMDb API.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    object    Current Post object
-		 * @param    null      $metabox null
-		 */
-		public static function metabox_meta( $post, $metabox ) {
+		private static function render_details_metabox() {
 
-			$metadata = wpmoly_get_movie_meta( $post->ID );
-			$metadata = wpmoly_filter_empty_array( $metadata );
-			$_meta = WPMOLY_Settings::get_supported_movie_meta();
-			$select = null;
-			$status = '';
+			global $wpmoly_movie_details;
 
-			// TODO: cleanup
-			if ( isset( $_GET['wpmoly_search_movie'] ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'search-movies' ) && ( empty( $metadata ) || isset( $metadata['_empty'] ) ) ) {
+			$class  = new ReduxFramework();
 
-				$search_by = ( isset( $_GET['search_by'] ) && in_array( $_GET['search_by'], array( 'title', 'id' ) ) ? $_GET['search_by'] : null );
-				$search_query = ( isset( $_GET['search_query'] ) && '' != $_GET['search_query'] ? $_GET['search_query'] : null );
+			foreach ( $wpmoly_movie_details as $slug => $detail ) {
 
-				if ( ! is_null( $search_by ) && ! is_null( $search_query ) )
-					$metadata = call_user_func_array( array( 'WPMOLY_TMDb', "_get_movie_by_$search_by" ), array( $search_query, wpmoly_o( 'api-language' ) ) );
+				$field_name = $detail['type'];
+				$class_name = "ReduxFramework_{$field_name}";
+				$value      = '';
+				if ( function_exists( "wpmoly_get_{$slug}" ) )
+					$value = call_user_func( "wpmoly_get_{$slug}" );
 
-				if ( isset( $metadata['result'] ) ) {
+				if ( ! class_exists( $class_name ) )
+					require_once WPMOLY_PATH . "includes/framework/redux/ReduxCore/inc/fields/{$field_name}/field_{$field_name}.php";
 
-					if ( 'movie' == $metadata['result'] )
-						$metadata = $metadata['movies'][ 0 ];
-					else if ( 'movies' == $metadata['result'] )
-						$select = $metadata['movies'];
-				}
+				$field = new $class_name( $detail, $value, $class );
+
+				ob_start();
+				$field->render();
+				$html = ob_get_contents();
+				ob_end_clean();
+
+				$wpmoly_movie_details[ $slug ]['html'] = $html;
 			}
 
-			$attributes = array(
-				'languages' => WPMOLY_Settings::get_available_languages(),
-				'metas' => $_meta,
-				'metadata' => $metadata,
-				'status' => $status,
-				'select' => $select
-			);
-
-			echo self::render_admin_template( 'metaboxes/movie-meta.php', $attributes );
+			return $wpmoly_movie_details;
 		}
 
 		/**
@@ -637,32 +625,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		}
 
 		/**
-		 * Left side Metabox: Movie details. Used to handle Movie
-		 * related details.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    object    Current Post object
-		 * @param    null      $metabox null
-		 */
-		public static function metabox_details( $post, $metabox ) {
-
-			$attributes = array();
-
-			$v = get_post_meta( $post->ID, '_wpmoly_movie_status', true );
-			$attributes['movie_status'] = ( isset( $v ) && '' != $v ? $v : '' );
-
-			$v = get_post_meta( $post->ID, '_wpmoly_movie_media', true );
-			$attributes['movie_media']  = ( isset( $v ) && '' != $v ? $v : '' );
-
-			$v = get_post_meta( $post->ID, '_wpmoly_movie_rating', true );
-			$attributes['movie_rating'] = ( isset( $v ) && '' != $v ? number_format( $v, 1 ) : 0.0 );
-			$attributes['movie_rating_str'] = str_replace( '.', '-', $attributes['movie_rating'] );
-
-			echo self::render_admin_template( 'metaboxes/movie-details.php', $attributes );
-		}
-
-		/**
 		 * Set specific movie detail.
 		 * 
 		 * @since     1.0.0
@@ -680,7 +642,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			if ( ! $post || 'movie' != get_post_type( $post ) )
 				return new WP_Error( 'invalid_post', sprintf( __( 'Error: invalid post, post #%s is not a movie.', 'wpmovielibrary' ), $post_id ) );
 
-			if ( 'status' == $detail || 'media' == $detail ) {
+			if ( in_array( $detail, array( 'status', 'media', 'language', 'subtitles', 'format' ) ) ) {
 
 				$allowed = call_user_func( "WPMOLY_Settings::get_available_movie_{$detail}" );
 				if ( ! in_array( $value, array_keys( $allowed ) ) )
@@ -710,6 +672,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/**
 		 * Save movie details.
 		 * 
+		 * TODO: Use some iteration
+		 * 
 		 * @since     1.0.0
 		 * 
 		 * @param    int      $post_id ID of the current Post
@@ -724,12 +688,17 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			if ( ! $post || 'movie' != get_post_type( $post ) )
 				return new WP_Error( 'invalid_post', __( 'Error: submitted post is not a movie.', 'wpmovielibrary' ) );
 
-			if ( ! is_array( $details ) || ! isset( $details['movie_media'] ) || ! isset( $details['movie_status'] ) || ! isset( $details['movie_rating'] ) )
+			if ( ! is_array( $details )
+			  || ! isset( $details['movie_media'] ) || ! isset( $details['movie_status'] ) || ! isset( $details['movie_rating'] )
+			  || ! isset( $details['movie_language'] ) || ! isset( $details['movie_subtitles'] ) || ! isset( $details['movie_format'] ) )
 				return new WP_Error( 'invalid_details', __( 'Error: the submitted movie details are invalid.', 'wpmovielibrary' ) );
 
 			update_post_meta( $post_id, '_wpmoly_movie_media', $details['movie_media'] );
 			update_post_meta( $post_id, '_wpmoly_movie_status', $details['movie_status'] );
 			update_post_meta( $post_id, '_wpmoly_movie_rating', number_format( $details['movie_rating'], 1 ) );
+			update_post_meta( $post_id, '_wpmoly_movie_language', $details['movie_language'] );
+			update_post_meta( $post_id, '_wpmoly_movie_subtitles', $details['movie_subtitles'] );
+			update_post_meta( $post_id, '_wpmoly_movie_format', $details['movie_format'] );
 
 			WPMOLY_Cache::clean_transient( 'clean', $force = true );
 

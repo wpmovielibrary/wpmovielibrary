@@ -14,9 +14,29 @@ if ( ! defined( 'WPINC' ) )
 	wp_die();
 
 $wpmoly_movie_details = array(
-	'movie_media'   => array(
-		'title' => __( 'Media', 'wpmovielibrary' ),
-		'options' => array(
+	'movie_status' => array(
+		'id'       => 'wpmoly-movie-status',
+		'name'     => 'wpmoly_details[movie_status]',
+		'type'     => 'select',
+		'title'    => __( 'Movie Status', 'wpmovielibrary' ),
+		'desc'     => __( 'Select a status for this movie', 'wpmovielibrary' ),
+		'icon'     => 'wpmolicon icon-status',
+		'options'  => array(
+			'available'   => __( 'Available', 'wpmovielibrary' ),
+			'loaned'      => __( 'Loaned', 'wpmovielibrary' ),
+			'scheduled'   => __( 'Scheduled', 'wpmovielibrary' ),
+			'unavailable' => __( 'Unvailable', 'wpmovielibrary' ),
+		),
+		'default'  => ''
+	),
+	'movie_media' => array(
+		'id'       => 'wpmoly-movie-media',
+		'name'     => 'wpmoly_details[movie_media]',
+		'type'     => 'select',
+		'title'    => __( 'Movie Media', 'wpmovielibrary' ),
+		'desc'     => __( 'Select a media for this movie', 'wpmovielibrary' ),
+		'icon'     => 'wpmolicon icon-video',
+		'options'  => array(
 			'dvd'     => __( 'DVD', 'wpmovielibrary' ),
 			'bluray'  => __( 'Blu-ray', 'wpmovielibrary' ),
 			'vod'     => __( 'VoD', 'wpmovielibrary' ),
@@ -24,6 +44,73 @@ $wpmoly_movie_details = array(
 			'vhs'     => __( 'VHS', 'wpmovielibrary' ),
 			'cinema'  => __( 'Cinema', 'wpmovielibrary' ),
 			'other'   => __( 'Other', 'wpmovielibrary' ),
+		),
+		'default'  => 'dvd',
+		//'multi'    => true
+	),
+	'movie_rating' => array(
+		'id'       => 'wpmoly-movie-rating',
+		'name'     => 'wpmoly_details[movie_rating]',
+		'type'     => 'select',
+		'title'    => __( 'Movie Rating', 'wpmovielibrary' ),
+		'desc'     => __( 'Select a rating for this movie', 'wpmovielibrary' ),
+		'icon'     => 'wpmolicon icon-star-half',
+		'options'  => array(
+			'0.0' => __( 'Not rated', 'wpmovielibrary' ),
+			'0.5' => __( 'Junk', 'wpmovielibrary' ),
+			'1.0' => __( 'Very bad', 'wpmovielibrary' ),
+			'1.5' => __( 'Bad', 'wpmovielibrary' ),
+			'2.0' => __( 'Not that bad', 'wpmovielibrary' ),
+			'2.5' => __( 'Average', 'wpmovielibrary' ),
+			'3.0' => __( 'Not bad', 'wpmovielibrary' ),
+			'3.5' => __( 'Good', 'wpmovielibrary' ),
+			'4.0' => __( 'Very good', 'wpmovielibrary' ),
+			'4.5' => __( 'Excellent', 'wpmovielibrary' ),
+			'5.0' => __( 'Masterpiece', 'wpmovielibrary' )
+		),
+		'default'  => '0.0'
+	),
+	'movie_language' => array(
+		'id'       => 'wpmoly-movie-language',
+		'name'     => 'wpmoly_details[movie_language]',
+		'type'     => 'select',
+		'title'    => __( 'Movie Language', 'wpmovielibrary' ),
+		'desc'     => __( 'Select a language for this movie', 'wpmovielibrary' ),
+		'icon'     => 'wpmolicon icon-lang',
+		'options'  => $wpmoly_available_languages,
+		'default'  => ''
+	),
+	'movie_subtitles' => array(
+		'id'       => 'wpmoly-movie-subtitles',
+		'name'     => 'wpmoly_details[movie_subtitles]',
+		'type'     => 'select',
+		'title'    => __( 'Movie Subtitles', 'wpmovielibrary' ),
+		'desc'     => __( 'Select a subtitle for this movie', 'wpmovielibrary' ),
+		'icon'     => 'wpmolicon icon-subtitles',
+		'options'  => $wpmoly_available_languages,
+		'default'  => ''
+	),
+	'movie_format' => array(
+		'id'       => 'wpmoly-movie-format',
+		'name'     => 'wpmoly_details[movie_format]',
+		'type'     => 'select',
+		'title'    => __( 'Movie Format', 'wpmovielibrary' ),
+		'desc'     => __( 'Select a format for this movie', 'wpmovielibrary' ),
+		'icon'     => 'wpmolicon icon-format',
+		'options'  => array(
+			'3d' => __( '3D', 'wpmovielibrary' ),
+			'sd' => __( 'SD', 'wpmovielibrary' ),
+			'hd' => __( 'HD', 'wpmovielibrary' ),
+		),
+		'default'  => ''
+	)
+);
+
+/*$wpmoly_movie_details = array(
+	'movie_media'   => array(
+		'title' => __( 'Media', 'wpmovielibrary' ),
+		'options' => array(
+			
 		),
 		'default' => array(
 			'dvd'   => __( 'DVD', 'wpmovielibrary' ),
@@ -59,7 +146,7 @@ $wpmoly_movie_details = array(
 			'0.0' => '',
 		)
 	)
-);
+);*/
 
 $wpmoly_movie_meta = array(
 	'title' => array(

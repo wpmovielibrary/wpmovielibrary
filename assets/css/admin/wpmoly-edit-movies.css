@@ -157,7 +157,23 @@
 
 /* Details */
 
-#wpmoly_details {}
+#wpmoly-details .wpmoly-details-item {
+	display: inline-table;
+	width: 33%;
+}
+
+#wpmoly-details .wpmoly-details-item-title {
+	margin-bottom: 0.25rem;
+	margin-left: 0.1rem;
+}
+
+#wpmoly-details .wpmoly-details-item-title .wpmolicon {
+	color: #888;
+}
+
+#wpmoly-details .wpmoly-details-item .select2-container {
+	width: 90% !important;
+}
 
 #wpmoly_details #wpmoly-details-major-publishing-actions {
 	background: #F5F5F5;

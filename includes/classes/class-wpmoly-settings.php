@@ -285,6 +285,66 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		}
 
 		/**
+		 * Return available Movie Language
+		 *
+		 * @since    2.0
+		 *
+		 * @return   array    WPMOLY Available Movie Language.
+		 */
+		public static function get_available_movie_language() {
+
+			global $wpmoly_movie_details;
+
+			$ratings = array();
+			$items = $wpmoly_movie_details['movie_language']['options'];
+
+			foreach ( $items as $slug => $title )
+				$language[ $slug ] = $title;
+
+			return $language;
+		}
+
+		/**
+		 * Return available Movie Subtitles
+		 *
+		 * @since    2.0
+		 *
+		 * @return   array    WPMOLY Available Movie Subtitles.
+		 */
+		public static function get_available_movie_subtitles() {
+
+			global $wpmoly_movie_details;
+
+			$ratings = array();
+			$items = $wpmoly_movie_details['movie_subtitles']['options'];
+
+			foreach ( $items as $slug => $title )
+				$subtitles[ $slug ] = $title;
+
+			return $subtitles;
+		}
+
+		/**
+		 * Return available Movie Format
+		 *
+		 * @since    2.0
+		 *
+		 * @return   array    WPMOLY Available Movie Format.
+		 */
+		public static function get_available_movie_format() {
+
+			global $wpmoly_movie_details;
+
+			$ratings = array();
+			$items = $wpmoly_movie_details['movie_format']['options'];
+
+			foreach ( $items as $slug => $title )
+				$format[ $slug ] = $title;
+
+			return $format;
+		}
+
+		/**
 		 * Return all available languages for TMDb API
 		 *
 		 * @since    1.0.1

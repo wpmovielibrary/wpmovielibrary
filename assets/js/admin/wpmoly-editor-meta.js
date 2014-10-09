@@ -1,6 +1,9 @@
 
 $ = $ || jQuery;
 
+redux = redux || {};
+redux.field_objects = redux.field_objects || {};
+
 wpmoly = wpmoly || {};
 
 	wpmoly.editor = {
@@ -52,6 +55,8 @@ wpmoly = wpmoly || {};
 			 * Init Events
 			 */
 			wpmoly.editor.meta.init = function() {
+
+				redux.field_objects.select.init();
 
 				/*$( wpmoly_edit_meta._search.element ).on( wpmoly_edit_meta._search.event, function( e ) {
 					e.preventDefault();
@@ -396,3 +401,5 @@ wpmoly = wpmoly || {};
 				}
 
 		wpmoly_edit_meta.init();
+
+function redux_change( useless ) {}
