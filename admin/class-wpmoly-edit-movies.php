@@ -503,6 +503,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			$metadata = wpmoly_get_movie_meta( $post->ID );
 			$metadata = wpmoly_filter_empty_array( $metadata );
+			$preview  = array();
 			$empty    = (bool) ( isset( $metadata['_empty'] ) && 1 == $metadata['_empty'] );
 
 			$_meta = WPMOLY_Settings::get_supported_movie_meta();
@@ -542,12 +543,13 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				);
 			else
 				foreach ( $metadata as $slug => $meta )
-					$metadata[ $slug ] = call_user_func( 'apply_filters', "wpmoly_format_movie_{$slug}", $meta );
+					$preview[ $slug ] = call_user_func( 'apply_filters', "wpmoly_format_movie_{$slug}", $meta );
 
 			$attributes = array(
 				'languages' => WPMOLY_Settings::get_available_languages(),
 				'metas' => $_meta,
 				'metadata' => $metadata,
+				'preview' => $preview,
 				'status' => $status,
 				'rating' => $rating,
 				'select' => $select,
