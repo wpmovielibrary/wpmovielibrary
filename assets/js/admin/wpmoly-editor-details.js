@@ -20,10 +20,7 @@ wpmoly = wpmoly || {};
 			/**
 			 * Init Movie Details
 			 */
-			wpmoly.editor.details.init = function() {
-
-				wpmoly.editor.details.rating.init();
-			};
+			wpmoly.editor.details.init = function() {};
 
 			/**
 			 * Save Movie Details
@@ -279,7 +276,7 @@ wpmoly = wpmoly || {};
 			 */
 			wpmoly.editor.details.rating = wpmoly_rating = {
 
-				select: '#movie-rating-select',
+				/*select: '#movie-rating-select',
 				hidden: '#hidden-movie-rating',
 				display: '#movie-rating-display',
 
@@ -293,7 +290,7 @@ wpmoly = wpmoly || {};
 				update: function() {},
 				change_in: function() {},
 				change_out: function() {},
-				revert: function() {}
+				revert: function() {}*/
 			};
 			
 
@@ -304,7 +301,9 @@ wpmoly = wpmoly || {};
 				 */
 				wpmoly.editor.details.rating.init = function() {
 
-					$( wpmoly_rating.stars ).on( 'click', function( e ) {
+					console.log( '!' );
+
+					/*$( wpmoly_rating.stars ).on( 'click', function( e ) {
 						e.preventDefault();
 						wpmoly_rating.rate();
 					});
@@ -315,46 +314,30 @@ wpmoly = wpmoly || {};
 
 					$( wpmoly_rating.stars ).on( 'mouseleave', function( e ) {
 						wpmoly_rating.change_out( e );
-					});
+					});*/
 
 
-				};
-
-				/**
-				 * Show the editor
-				 * 
-				 * @since    1.0
-				 */
-				wpmoly.editor.details.rating.show = function() {
-					if ( $( wpmoly_rating.select ).is( ":hidden" ) ) {
-						$( wpmoly_rating.display ).hide();
-						$( wpmoly_rating.select ).slideDown( 'fast' );
-						$( wpmoly_rating.edit ).hide();
-					}
 				};
 
 				/**
 				 * Update the rating
 				 * 
-				 * @since    1.0
+				 * @since    2.0
 				 */
-				wpmoly.editor.details.rating.update = function() {
-					var n = $( '#movie-rating' ).val();
-					$( wpmoly_rating.select ).slideUp( 'fast' );
-					$( wpmoly_rating.edit ).show();
-					$( wpmoly_rating.display ).removeClass().addClass( 'stars-' + n.replace( '.', '-' ) ).show();
-					$( '#movie-rating, #hidden-movie-rating' ).val( n );
-				};
+				wpmoly.editor.details.rating.update = function( $container, rating ) {
 
-				/**
-				 * Hide the editor (cancel edit )
-				 * 
-				 * @since    1.0
-				 */
-				wpmoly.editor.details.rating.revert = function() {
-					$( wpmoly_rating.select ).slideUp( 'fast' );
-					$( wpmoly_rating.edit ).show();
-					$( wpmoly_rating.display ).show();
+					var $stars = $container.find( '.wpmolicon' ),
+					   is_half = ( Math.floor( rating ) < rating && rating < Math.ceil( rating ) ),
+					    filled = Math.floor( rating ),
+					      half = is_half ? filled + 1 : -1;
+
+					$stars.removeClass().addClass( 'wpmolicon icon-star-empty' );
+					$.each( $stars, function( i ) {
+						if ( i < filled )
+							$( this ).removeClass( 'icon-star-empty' ).addClass( 'icon-star-filled' );
+						else if ( 0 <= half && i < half )
+							$( this ).removeClass( 'icon-star-empty' ).addClass( 'icon-star-half' );
+					} );
 				};
 
 				/**
@@ -362,32 +345,26 @@ wpmoly = wpmoly || {};
 				 * 
 				 * @since    1.0
 				 */
-				wpmoly.editor.details.rating.change_in = function( e ) {
+				wpmoly.editor.details.rating.change_in = function( e, post_id ) {
 
-					var classes = 'stars-0 stars-0-0 stars-0-5 stars-1-0 stars-1-5 stars-2-0 stars-2-5 stars-3-0 stars-3-5 stars-4-0 stars-4-5 stars-5-0';
+					var $container = $( '#wpmoly-movie-rating-' + post_id ),
+					 current_class = 'wpmolicon icon-star-filled',
+					        median = e.target.offsetLeft + ( e.target.offsetWidth / 2 ),
+					      $current = $( e.target ),
+					         $prev = $current.prevAll(),
+					         $next = $current.nextAll();
 
-					var parentOffset = $( wpmoly_rating.stars ).offset(); 
-					var relX = e.pageX - parentOffset.left;
+					if ( ! e.layerX )
+						current_class = 'wpmolicon icon-star-empty';
+					else if ( e.layerX <= median )
+						current_class = 'wpmolicon icon-star-half';
 
-					if ( relX <= 0 ) var _rate = '0';
-					if ( relX > 0 && relX < 8 ) var _rate = '0.5';
-					if ( relX >= 8 && relX < 16 ) var _rate = '1.0';
-					if ( relX >= 16 && relX < 24 ) var _rate = '1.5';
-					if ( relX >= 24 && relX < 32 ) var _rate = '2.0';
-					if ( relX >= 32 && relX < 40 ) var _rate = '2.5';
-					if ( relX >= 40 && relX < 48 ) var _rate = '3.0';
-					if ( relX >= 48 && relX < 56 ) var _rate = '3.5';
-					if ( relX >= 56 && relX < 64 ) var _rate = '4.0';
-					if ( relX >= 64 && relX < 80 ) var _rate = '4.5';
-					if ( relX >= 80 ) var _rate = '5.0';
+					$current.removeClass().addClass( current_class );
+					   $prev.removeClass().addClass( 'wpmolicon icon-star-filled' );
+					   $next.removeClass().addClass( 'wpmolicon icon-star-empty' );
 
-					var _class = 'stars-' + _rate.replace( '.', '-' );
-					var _label = _class.replace( 'stars-', 'stars-label-' );
-
-					$( wpmoly_rating.stars ).removeClass( classes ).addClass( _class );
-					$( '.stars-label' ).removeClass( 'show' );
-					$( '#' + _label).addClass( 'show' );
-					$( wpmoly_rating.stars ).attr( 'data-rating', _rate );
+					var rating = $( '.icon-star-filled', $container ).length + ( $( '.icon-star-half', $container ).length / 2 );
+					$container.attr( 'data-rated', rating );
 				};
 
 				/**
@@ -395,22 +372,12 @@ wpmoly = wpmoly || {};
 				 * 
 				 * @since    1.0
 				 */
-				wpmoly.editor.details.rating.change_out = function( e ) {
+				wpmoly.editor.details.rating.change_out = function( post_id ) {
 
-					var classes = 'stars-0 stars-0-0 stars-0-5 stars-1-0 stars-1-5 stars-2-0 stars-2-5 stars-3-0 stars-3-5 stars-4-0 stars-4-5 stars-5-0';
+					var $container = $( '#wpmoly-movie-rating-' + post_id ),
+					        rating = $container.attr( 'data-rating' );
 
-					if ( 'true' == $( wpmoly_rating.stars ).attr( 'data-rated' ) )
-						return false;
-
-					var _class = '';
-
-					if ( $( '#hidden-movie-rating, #bulk-hidden-movie-rating' ).length ) {
-						_class = $( '#hidden-movie-rating, #bulk-hidden-movie-rating' ).val();
-						_class = 'stars-' + _class.replace( '.','-' );
-					}
-
-					$( wpmoly_rating.stars ).removeClass( classes ).addClass( _class );
-					$( '.stars-label' ).removeClass( 'show' );
+					wpmoly_rating.update( $container, rating );
 				};
 
 				/**
@@ -418,9 +385,14 @@ wpmoly = wpmoly || {};
 				 * 
 				 * @since    1.0
 				 */
-				wpmoly.editor.details.rating.rate = function() {
+				wpmoly.editor.details.rating.rate = function( post_id ) {
 
-					var _rate = $( wpmoly_rating.stars ).attr( 'data-rating' );
+					var $container = $( '#wpmoly-movie-rating-' + post_id ),
+					        rating = $container.attr( 'data-rated' );
+
+					wpmoly_rating.update( $container, rating );
+
+					/*var _rate = $( wpmoly_rating.stars ).attr( 'data-rating' );
 
 					if ( function() {} == _rate )
 						return false;
@@ -433,7 +405,9 @@ wpmoly = wpmoly || {};
 					$( wpmoly_rating.stars ).attr( 'data-rated', true );
 
 					if ( $( wpmoly_rating.stars ).parent( 'a.wpmoly-inline-edit-rating-update' ).length )
-						$( wpmoly_rating.stars ).parent( 'a.wpmoly-inline-edit-rating-update' ).attr( 'data-rating', _rate );
+						$( wpmoly_rating.stars ).parent( 'a.wpmoly-inline-edit-rating-update' ).attr( 'data-rating', _rate );*/
 				};
 
 	wpmoly.editor.details.init();
+	wpmoly.editor.details.rating.init();
+	

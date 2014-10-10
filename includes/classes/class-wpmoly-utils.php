@@ -54,7 +54,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'wpmoly_format_movie_media', __CLASS__ . '::format_movie_media', 10, 2 );
 			add_filter( 'wpmoly_format_movie_status', __CLASS__ . '::format_movie_status', 10, 2 );
 			add_filter( 'wpmoly_format_movie_rating', __CLASS__ . '::format_movie_rating', 10, 2 );
-			add_filter( 'wpmoly_movie_rating_stars', __CLASS__ . '::get_movie_rating_stars', 10, 2 );
+			add_filter( 'wpmoly_movie_rating_stars', __CLASS__ . '::get_movie_rating_stars', 10, 3 );
 			add_filter( 'wpmoly_editable_rating_stars', __CLASS__ . '::get_editable_rating_stars', 10, 2 );
 
 			add_filter( 'post_thumbnail_html', __CLASS__ . '::filter_default_thumbnail', 10, 5 );
@@ -668,7 +668,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			return $data;
 		}
 
-		public static function get_movie_rating_stars( $rating, $post_id = null ) {
+		public static function get_movie_rating_stars( $rating, $post_id = null, $editable = false ) {
 
 			if ( is_null( $post_id ) || ! intval( $post_id ) )
 				$post_id = '';
@@ -679,6 +679,17 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$rating = 5.0;
 
 			$_rating = preg_replace( '/([0-5])(\.|_)(0|5)/i', '$1-$3', $rating );
+
+			$class = "wpmoly-movie-rating wpmoly-movie-rating-{$_rating}";
+			$prop  = array();
+			if ( true === $editable ) {
+				$class .= ' wpmoly-movie-editable-rating';
+				$prop[] = 'onclick="wpmoly_rating.rate( ' . $post_id . ' );"';
+				$prop[] = 'onmousemove="wpmoly_rating.change_in( event, ' . $post_id . ' );"';
+				$prop[] = 'onmouseleave="wpmoly_rating.change_out( ' . $post_id . ' );"';
+				$prop[] = 'data-rating="' . $rating . '"';
+				$prop[] = 'data-rated=""';
+			}
 
 			$filled  = '<span class="wpmolicon icon-star-filled"></span>';
 			$half    = '<span class="wpmolicon icon-star-half"></span>';
@@ -691,7 +702,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$stars = '';
 			$stars = apply_filters( 'wpmoly_movie_rating_stars_before', $stars, $rating );
 
-			$stars .= '<div id="wpmoly-movie-rating' . $post_id . '" class="wpmoly-movie-rating wpmoly-movie-rating' . $_rating . '">';
+			$stars .= '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '"' . implode( ' ', $prop ) . '>';
 			$stars .= str_repeat( $filled, $_filled );
 			$stars .= str_repeat( $half, $_half );
 			$stars .= str_repeat( $empty, $_empty );
@@ -704,7 +715,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 		public static function get_editable_rating_stars( $rating, $post_id = null ) {
 
-			return $rating;
+			return apply_filters( 'wpmoly_movie_rating_stars', $rating, $post_id, $editable = true );
 		}
 
 		/**

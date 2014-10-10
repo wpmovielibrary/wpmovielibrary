@@ -411,7 +411,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( $hook_suffix == $movies ) {
 				$scripts['movies']            = array( '/assets/js/admin/wpmoly-movies.js', array( $wpmoly_slug, 'jquery' ), true );
 				$scripts['editor-details']    = array( '/assets/js/admin/wpmoly-editor-details.js', array( $wpmoly_slug, 'jquery' ), true );
-				$scripts['editor-meta']       = array( '/assets/js/admin/wpmoly-editor-meta.js', array( $wpmoly_slug, 'jquery' ), true );
+				//$scripts['editor-meta']       = array( '/assets/js/admin/wpmoly-editor-meta.js', array( $wpmoly_slug, 'jquery' ), true );
 			}
 
 			if ( $hook_suffix == $update_movies ) {

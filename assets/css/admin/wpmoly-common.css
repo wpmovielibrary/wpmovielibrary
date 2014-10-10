@@ -42,6 +42,14 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+/* Rating
+ ****************************************************/
+
+.wpmoly-movie-editable-rating {
+	display: inline-block;
+	position: relative;
+}
+
 /* WPMOLY Notice
  ****************************************************/
 
