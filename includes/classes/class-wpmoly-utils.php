@@ -54,6 +54,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'wpmoly_format_movie_media', __CLASS__ . '::format_movie_media', 10, 2 );
 			add_filter( 'wpmoly_format_movie_status', __CLASS__ . '::format_movie_status', 10, 2 );
 			add_filter( 'wpmoly_format_movie_rating', __CLASS__ . '::format_movie_rating', 10, 2 );
+			add_filter( 'wpmoly_movie_rating_stars', __CLASS__ . '::get_movie_rating_stars', 10, 2 );
+			add_filter( 'wpmoly_editable_rating_stars', __CLASS__ . '::get_editable_rating_stars', 10, 2 );
 
 			add_filter( 'post_thumbnail_html', __CLASS__ . '::filter_default_thumbnail', 10, 5 );
 
@@ -664,6 +666,45 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$data = WPMovieLibrary::render_template( 'shortcodes/rating.php', array( 'style' => ( '' == $data ? '0_0' : str_replace( '.', '_', $data ) ) ), $require = 'always' );
 
 			return $data;
+		}
+
+		public static function get_movie_rating_stars( $rating, $post_id = null ) {
+
+			if ( is_null( $post_id ) || ! intval( $post_id ) )
+				$post_id = '';
+
+			if ( 0 > $rating )
+				$rating = 0.0;
+			if ( 5.0 < $rating )
+				$rating = 5.0;
+
+			$_rating = preg_replace( '/([0-5])(\.|_)(0|5)/i', '$1-$3', $rating );
+
+			$filled  = '<span class="wpmolicon icon-star-filled"></span>';
+			$half    = '<span class="wpmolicon icon-star-half"></span>';
+			$empty   = '<span class="wpmolicon icon-star-empty"></span>';
+
+			$_filled = floor( $rating );
+			$_half   = ceil( $rating - floor( $rating ) );
+			$_empty  = ceil( 5.0 - ( $_filled + $_half ) );
+
+			$stars = '';
+			$stars = apply_filters( 'wpmoly_movie_rating_stars_before', $stars, $rating );
+
+			$stars .= '<div id="wpmoly-movie-rating' . $post_id . '" class="wpmoly-movie-rating wpmoly-movie-rating' . $_rating . '">';
+			$stars .= str_repeat( $filled, $_filled );
+			$stars .= str_repeat( $half, $_half );
+			$stars .= str_repeat( $empty, $_empty );
+			$stars .= '</div>';
+
+			$stars = apply_filters( 'wpmoly_movie_rating_stars_after', $stars, $rating );
+
+			return $stars;
+		}
+
+		public static function get_editable_rating_stars( $rating, $post_id = null ) {
+
+			return $rating;
 		}
 
 		/**

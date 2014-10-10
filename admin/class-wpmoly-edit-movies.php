@@ -169,6 +169,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					break;
 				case 'movie_rating':
 					$meta = wpmoly_get_movie_rating( $post_id );
+					var_dump( apply_filters( 'wpmoly_movie_rating_stars', $meta, $post_id ) );
 					if ( '' != $meta )
 						$html = '<div id="movie-rating-display" class="movie_rating_title stars stars-' . str_replace( '.', '-', $meta ) . '"></div>';
 					else
