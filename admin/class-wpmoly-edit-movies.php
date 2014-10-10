@@ -170,11 +170,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				case 'movie_rating':
 					$meta = wpmoly_get_movie_rating( $post_id );
 					$html = apply_filters( 'wpmoly_editable_rating_stars', $meta, $post_id );
-					/*if ( '' != $meta )
-						$html = '<div id="movie-rating-display" class="movie_rating_title stars stars-' . str_replace( '.', '-', $meta ) . '"></div>';
-					else
-						$html = '<div id="movie-rating-display" class="movie_rating_title stars stars-0-0"></div>';*/
-					$html .= '<a href="#" class="wpmoly-inline-edit-toggle hide-if-no-js" onclick="wpmoly_edit_details.inline_editor( \'rating\', ' . $post_id . ' ); return false;"><span class="wpmolicon icon-cog"></span></a>';
+					$html .= '<a href="#" class="wpmoly-inline-edit-toggle hide-if-no-js" onclick="$(this).prev(\'.wpmoly-movie-rating\').toggleClass(\'wpmoly-movie-editable-rating\'); return false;"><span class="wpmolicon icon-cog"></span></a>';
 					break;
 				default:
 					$html = '';
