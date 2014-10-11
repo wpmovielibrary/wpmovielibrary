@@ -30,18 +30,30 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		 */
 		public function __construct() {
 
-			$this->register_hook_callbacks();
+			$this->init();
 		}
 
 		/**
-		 * Register callbacks for actions and filters
+		 * Magic!
 		 * 
-		 * @since    1.0
+		 * @since    2.0
+		 * 
+		 * @param    string    $name Called method name
+		 * @param    array     $arguments Called method arguments
+		 * 
+		 * @return   mixed    Callback function return value
 		 */
-		public function register_hook_callbacks() {
+		public static function __callStatic( $name, $arguments ) {
 
-			if ( $this->has_permalinks_changed() )
-				add_action( 'admin_notices', array( $this, 'permalinks_changed_notice' ), 15 );
+			if ( false !== strpos( $name, 'get_available_movie_' ) ) {
+				$name = str_replace( 'get_available_movie_', '', $name );
+				return call_user_func( __CLASS__ . '::get_movie_details', $name );
+			}
+
+			if ( false !== strpos( $name, 'get_default_movie_' ) ) {
+				$name = str_replace( 'get_default_movie_', '', $name );
+				return call_user_func( __CLASS__ . '::get_movie_details_default', $name );
+			}
 		}
 
 		/**
@@ -61,313 +73,73 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			return $wpmoly_settings;
 		}
 
-		/**
-		 * Load default settings.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    boolean    $minify Should we return only default values?
-		 *
-		 * @return   array      The Plugin Settings
-		 */
-		public static function get_default_settings( $minify = false ) {
-
-			global $wpmoly_config;
-
-			if ( is_null( $wpmoly_config ) )
-				require WPMOLY_PATH . 'includes/config/wpmoly-settings.php';
-
-			if ( true !== $minify )
-				return $wpmoly_config;
-
-			$defauts = array();
-			foreach ( $wpmoly_config as $section ) {
-				if ( isset( $section['fields'] ) ) {
-					foreach ( $section['fields'] as $slug => $field ) {
-						if ( 'sorter' == $field['type'] )
-							$defauts[ $slug ] = $field['used'];
-						else
-							$defauts[ $slug ] = $field['default'];
-					}
-				}
-			}
-
-			return $defauts;
-		}
-
-		/**
-		 * General settings accessor
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    string        $setting Requested setting slug
-		 * 
-		 * @return   mixed         Requested setting
-		 */
-		public static function get( $setting = '' ) {
-
-			$wpmoly_settings = self::get_settings();
-
-			$shorter = str_replace( 'wpmoly-', '', $setting );
-			if ( isset( $wpmoly_settings[ $shorter ] ) )
-				return $wpmoly_settings[ $shorter ];
-
-			$longer = "wpmoly-$setting";
-			if ( isset( $wpmoly_settings[ $longer ] ) )
-				return $wpmoly_settings[ $longer ];
-
-			if ( isset( $wpmoly_settings[ $setting ] ) )
-				return $wpmoly_settings[ $setting ];
-
-			return false;
-		}
-
-		/**
-		 * Check for a transient indicating permalinks were changed and
-		 * structure not updated.
-		 * 
-		 * @since    2.0
-		 * 
-		 * @return   bool|string    False is no change was made or structure updated, changed permalinks option slug else
-		 */
-		private function has_permalinks_changed() {
-
-			$changed = get_transient( 'wpmoly-permalinks-changed' );
-			if ( false === $changed )
-				return false;
-
-			return $changed;
-		}
-
-		/**
-		 * Check for changes on the URL Rewriting of Taxonomies to
-		 * update the Rewrite Rules if needed. We need this to avoid
-		 * users to get 404 when they try to access their content if they
-		 * didn't previously reload the Dashboard Permalink page.
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    array    $field Settings field array
-		 * @param    array    $value New setting value
-		 * @param    array    $existing_value previous setting value
-		 * 
-		 * @return   array    Validated setting
-		 */
-		public static function permalinks_changed( $field, $value, $existing_value ) {
-
-			$rewrites = array(
-				'wpmoly-rewrite-movie',
-				'wpmoly-rewrite-collection',
-				'wpmoly-rewrite-genre',
-				'wpmoly-rewrite-actor',
-			);
-
-			if ( ! isset( $field['id'] ) || ! in_array( $field['id'], $rewrites ) )
-				return $value;
-
-			if ( $existing_value == $value )
-				return array( 'error' => false, 'value' => $value );
-
-			$changed = set_transient( 'wpmoly-permalinks-changed', $field['id'] );
-
-			return array( 'value' => $value );
-
-		}
-
-		/**
-		 * Show a simple notice for admins to update their permalinks.
-		 * 
-		 * Hide the notice on Permalinks page, though, to avoid confusion
-		 * as it could be interpreted as a failure to update permalinks,
-		 * which it is not.
-		 * 
-		 * @since    2.0
-		 */
-		public static function permalinks_changed_notice() {
-
-			global $hook_suffix;
-			if ( 'options-permalink.php' == $hook_suffix )
-				return false;
-
-			echo self::render_template( 'admin/admin-notice.php', array( 'notice' => 'permalinks-changed' ), $require = 'always' );
-		}
-
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
-		 *                         Accessors
+		 *                         Hooks setup
 		 *
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		/**
-		 * Return the default Movie Media
-		 *
-		 * @since    1.0
-		 *
-		 * @return   array    WPMOLY Default Movie Media.
-		 */
-		public static function get_default_movie_media() {
-			global $wpmoly_movie_details;
-			$default = $wpmoly_movie_details['movie_media']['default'];
-			return $default;
+		private static function get_config() {
+
+			global $wpmoly_config;
+
+			$wpmoly_config = apply_filters( 'wpmoly_filter_config', $wpmoly_config );
+
+			return $wpmoly_config;
 		}
 
-		/**
-		 * Return the default Movie Status
-		 *
-		 * @since    1.0
-		 *
-		 * @return   array    WPMOLY Default Movie Status.
-		 */
-		public static function get_default_movie_status() {
-			global $wpmoly_movie_details;
-			$default = $wpmoly_movie_details['movie_status']['default'];
-			return $default;
-		}
-
-		/**
-		 * Return available Movie Media
-		 *
-		 * @since    1.0
-		 *
-		 * @return   array    WPMOLY Default Movie Media.
-		 */
-		public static function get_available_movie_media() {
+		private static function get_movie_details( $detail = null ) {
 
 			global $wpmoly_movie_details;
-
-			$media = array();
-			$items = $wpmoly_movie_details['movie_media']['options'];
-
-			foreach ( $items as $slug => $title )
-				$media[ $slug ] = $title;
-
-			return $media;
-		}
-
-		/**
-		 * Return available Movie Status
-		 *
-		 * @since    1.0
-		 *
-		 * @return   array    WPMOLY Available Movie Status.
-		 */
-		public static function get_available_movie_status() {
-
-			global $wpmoly_movie_details;
-
-			$statuses = array();
-			$items = $wpmoly_movie_details['movie_status']['options'];
-
-			foreach ( $items as $slug => $title )
-				$statuses[ $slug ] = $title;
-
-			return $statuses;
-		}
-
-		/**
-		 * Return available Movie Rating
-		 *
-		 * @since    1.0
-		 *
-		 * @return   array    WPMOLY Available Movie Rating.
-		 */
-		public static function get_available_movie_rating() {
-
-			global $wpmoly_movie_details;
-
-			$ratings = array();
-			$items = $wpmoly_movie_details['movie_rating']['options'];
-
-			foreach ( $items as $slug => $title )
-				$rating[ $slug ] = $title;
-
-			return $rating;
-		}
-
-		/**
-		 * Return available Movie Language
-		 *
-		 * @since    2.0
-		 *
-		 * @return   array    WPMOLY Available Movie Language.
-		 */
-		public static function get_available_movie_language() {
-
-			global $wpmoly_movie_details;
-
-			$ratings = array();
-			$items = $wpmoly_movie_details['movie_language']['options'];
-
-			foreach ( $items as $slug => $title )
-				$language[ $slug ] = $title;
-
-			return $language;
-		}
-
-		/**
-		 * Return available Movie Subtitles
-		 *
-		 * @since    2.0
-		 *
-		 * @return   array    WPMOLY Available Movie Subtitles.
-		 */
-		public static function get_available_movie_subtitles() {
-
-			global $wpmoly_movie_details;
-
-			$ratings = array();
-			$items = $wpmoly_movie_details['movie_subtitles']['options'];
-
-			foreach ( $items as $slug => $title )
-				$subtitles[ $slug ] = $title;
-
-			return $subtitles;
-		}
-
-		/**
-		 * Return available Movie Format
-		 *
-		 * @since    2.0
-		 *
-		 * @return   array    WPMOLY Available Movie Format.
-		 */
-		public static function get_available_movie_format() {
-
-			global $wpmoly_movie_details;
-
-			$ratings = array();
-			$items = $wpmoly_movie_details['movie_format']['options'];
-
-			foreach ( $items as $slug => $title )
-				$format[ $slug ] = $title;
-
-			return $format;
-		}
-
-		/**
-		 * Return all available languages for TMDb API
-		 *
-		 * @since    1.0.1
-		 *
-		 * @return   array    Supported languages
-		 */
-		public static function get_available_languages() {
-
-			global $wpmoly_available_languages;
 
 			/**
-			 * Filter the available languages list to add/remove languages.
+			 * Filter the Details list to add/remove details.
 			 *
-			 * This should be used through Plugins to add additionnal
-			 * languages.
+			 * This should be used through Plugins to create additionnal
+			 * details or edit existing.
 			 *
 			 * @since    2.0
 			 *
-			 * @param    array    $wpmoly_available_languages Existing languages
+			 * @param    array    $wpmoly_movie_details Existing details
 			 */
-			$wpmoly_available_languages = apply_filters( 'wpmoly_filter_available_languages', $wpmoly_available_languages );
+			$details = apply_filters( 'wpmoly_pre_filter_details', $wpmoly_movie_details );
 
-			return $wpmoly_available_languages;
+			if ( ! is_null( $detail ) && isset( $details[ "movie_{$detail}" ] ) )
+				$details = apply_filters( "wpmoly_filter_detail_{$detail}", $details[ "movie_{$detail}" ]['options'] );
+			else
+				foreach ( $details as $detail => $data )
+					$details[ $detail ]['options'] = apply_filters( 'wpmoly_filter_detail_' . str_replace( 'movie_', '', $detail ), $details[ $detail ]['options'] );
+
+			/**
+			 * Filter the Details list to add/remove details.
+			 *
+			 * This should be used through Plugins to create additionnal
+			 * details or edit existing.
+			 *
+			 * @since    2.0
+			 *
+			 * @param    array    $wpmoly_movie_details Existing details
+			 */
+			$details = apply_filters( 'wpmoly_filter_details', $details );
+
+			return $details;
+		}
+
+		/**
+		 * Return the default value for a specitif Movie Detail
+		 *
+		 * @since    2.0
+		 * 
+		 * @param    string    $detail
+		 *
+		 * @return   array    WPMOLY Movie details default value.
+		 */
+		private static function get_movie_details_default( $detail ) {
+
+			$_detail = self::get_movie_details( "movie_{$detail}" );
+			$default = $_detail['default'];
+
+			return $default;
 		}
 
 		/**
@@ -397,71 +169,33 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		}
 
 		/**
-		 * Return all supported Movie Details fields
-		 *
-		 * @since    1.0
-		 *
-		 * @return   array    WPMOLY Supported Movie Details fields.
-		 */
-		public static function get_supported_movie_details( $type = null ) {
-
-			global $wpmoly_movie_details;
-
-			if ( is_null( $wpmoly_movie_details ) )
-				require( WPMOLY_PATH . 'includes/wpmoly-config.php' );
-
-			if ( ! is_null( $type ) && isset( $wpmoly_movie_details[ $type ] ) )
-				return $wpmoly_movie_meta[ $type ];
-
-			$items = array();
-			foreach ( $wpmoly_movie_details as $slug => $details )
-				$items[ $slug ] = $details;
-
-			return $items;
-		}
-
-		/**
-		 * Return all supported Movie Meta fields
-		 *
-		 * @since    1.0
-		 *
-		 * @return   array    WPMOLY Supported Movie Meta fields.
-		 */
-		public static function get_supported_movie_meta( $type = null ) {
-
-			global $wpmoly_movie_meta;
-
-			if ( is_null( $wpmoly_movie_meta ) )
-				require( WPMOLY_PATH . 'includes/wpmoly-config.php' );
-
-			if ( ! is_null( $type ) ) {
-				$meta = array();
-				foreach ( $wpmoly_movie_meta as $slug => $data )
-					if ( $data['group'] == $type )
-						$meta[ $slug ] = $data;
-
-				return $meta;
-			}
-
-			return $wpmoly_movie_meta;
-		}
-
-		/**
-		 * Return all supported Shortcodes aliases
-		 *
-		 * @since    1.1
-		 *
-		 * @return   array    WPMOLY Supported Shortcodes aliases.
-		 */
-		public static function get_supported_movie_meta_aliases() {
-
-			global $wpmoly_movie_meta_aliases;
-
-			return $wpmoly_movie_meta_aliases;
-		}
-
-		/**
 		 * Return all supported language names for translation
+		 *
+		 * @since    2.0
+		 *
+		 * @return   array    Available languages
+		 */
+		public static function get_available_languages() {
+
+			global $wpmoly_languages;
+
+			/**
+			 * Filter the Languages list to add/remove shortcodes.
+			 *
+			 * This should be used through Plugins to create additionnal
+			 * Languages.
+			 *
+			 * @since    1.2
+			 *
+			 * @param    array    $wpmoly_languages Existing languages
+			 */
+			$wpmoly_languages = apply_filters( 'wpmoly_filter_languages', $wpmoly_languages );
+
+			return $wpmoly_languages;
+		}
+
+		/**
+		 * Return a limited number of language names supported by TMDb API
 		 *
 		 * @since    2.0
 		 *
@@ -469,9 +203,21 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		 */
 		public static function get_supported_languages() {
 
-			global $wpmoly_languages;
+			global $wpmoly_supported_languages;
 
-			return $wpmoly_languages;
+			/**
+			 * Filter the supported languages list to add/remove languages.
+			 *
+			 * This should be used through Plugins to add additionnal
+			 * languages.
+			 *
+			 * @since    2.0
+			 *
+			 * @param    array    $wpmoly_supported_languages Existing languages
+			 */
+			$wpmoly_supported_languages = apply_filters( 'wpmoly_filter_supported_languages', $wpmoly_supported_languages );
+
+			return $wpmoly_supported_languages;
 		}
 
 		/**
@@ -479,11 +225,23 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		 *
 		 * @since    2.0
 		 *
-		 * @return   array    Supported languages
+		 * @return   array    Supported 
 		 */
 		public static function get_supported_countries() {
 
 			global $wpmoly_countries;
+
+			/**
+			 * Filter the supported country names list to add/remove countries.
+			 *
+			 * This should be used through Plugins to add additionnal
+			 * countries.
+			 *
+			 * @since    2.0
+			 *
+			 * @param    array    $wpmoly_countries Existing countries
+			 */
+			$wpmoly_countries = apply_filters( 'wpmoly_filter_countries', $wpmoly_countries );
 
 			return $wpmoly_countries;
 		}
@@ -566,6 +324,156 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			return $wpmoly_admin_bar_menu;
 		}
 
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                         Accessors
+		 *
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * Load default settings.
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    boolean    $minify Should we return only default values?
+		 *
+		 * @return   array      The Plugin Settings
+		 */
+		public static function get_default_settings( $minify = false ) {
+
+			$wpmoly_config = self::get_config();
+
+			if ( true !== $minify )
+				return $wpmoly_config;
+
+			$defauts = array();
+			foreach ( $wpmoly_config as $section ) {
+				if ( isset( $section['fields'] ) ) {
+					foreach ( $section['fields'] as $slug => $field ) {
+						if ( 'sorter' == $field['type'] )
+							$defauts[ $slug ] = $field['used'];
+						else
+							$defauts[ $slug ] = $field['default'];
+					}
+				}
+			}
+
+			return $defauts;
+		}
+
+		/**
+		 * General settings accessor
+		 *
+		 * @since    1.0
+		 * 
+		 * @param    string        $setting Requested setting slug
+		 * 
+		 * @return   mixed         Requested setting
+		 */
+		public static function get( $setting = '' ) {
+
+			$wpmoly_settings = self::get_settings();
+
+			$shorter = str_replace( 'wpmoly-', '', $setting );
+			if ( isset( $wpmoly_settings[ $shorter ] ) )
+				return $wpmoly_settings[ $shorter ];
+
+			$longer = "wpmoly-$setting";
+			if ( isset( $wpmoly_settings[ $longer ] ) )
+				return $wpmoly_settings[ $longer ];
+
+			if ( isset( $wpmoly_settings[ $setting ] ) )
+				return $wpmoly_settings[ $setting ];
+
+			return false;
+		}
+
+		/**
+		 * Return the default Movie Media
+		 *
+		 * @since    1.0
+		 *
+		 * @return   array    WPMOLY Default Movie Media.
+		 */
+		/*public static function get_default_movie_media() {
+
+			$wpmoly_movie_details = self::get_details();
+
+			$default = $wpmoly_movie_details['movie_media']['default'];
+
+			return $default;
+		}*/
+
+		/**
+		 * Return the default Movie Status
+		 *
+		 * @since    1.0
+		 *
+		 * @return   array    WPMOLY Default Movie Status.
+		 */
+		/*public static function get_default_movie_status() {
+
+			$wpmoly_movie_details = self::get_details();
+
+			$default = $wpmoly_movie_details['movie_status']['default'];
+
+			return $default;
+		}*/
+
+		/**
+		 * Return all supported Movie Details fields
+		 *
+		 * @since    1.0
+		 *
+		 * @return   array    WPMOLY Supported Movie Details fields.
+		 */
+		public static function get_supported_movie_details() {
+
+			$wpmoly_movie_details = self::get_movie_details();
+
+			return $wpmoly_movie_details;
+		}
+
+		/**
+		 * Return all supported Movie Meta fields
+		 *
+		 * @since    1.0
+		 *
+		 * @return   array    WPMOLY Supported Movie Meta fields.
+		 */
+		public static function get_supported_movie_meta( $type = null ) {
+
+			global $wpmoly_movie_meta;
+
+			if ( is_null( $wpmoly_movie_meta ) )
+				require( WPMOLY_PATH . 'includes/wpmoly-config.php' );
+
+			if ( ! is_null( $type ) ) {
+				$meta = array();
+				foreach ( $wpmoly_movie_meta as $slug => $data )
+					if ( $data['group'] == $type )
+						$meta[ $slug ] = $data;
+
+				return $meta;
+			}
+
+			return $wpmoly_movie_meta;
+		}
+
+		/**
+		 * Return all supported Shortcodes aliases
+		 *
+		 * @since    1.1
+		 *
+		 * @return   array    WPMOLY Supported Shortcodes aliases.
+		 */
+		public static function get_supported_movie_meta_aliases() {
+
+			global $wpmoly_movie_meta_aliases;
+
+			return $wpmoly_movie_meta_aliases;
+		}
+
 		/**
 		 * Delete stored settings.
 		 * 
@@ -611,6 +519,13 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		 * @since    1.0
 		 */
 		public function init() {}
+
+		/**
+		 * Register callbacks for actions and filters
+		 * 
+		 * @since    1.0
+		 */
+		public function register_hook_callbacks() {}
 
 	}
 

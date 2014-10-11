@@ -42,7 +42,7 @@ class WPMOLY_Import_Table extends WP_List_Table {
 
 		$this->posts_per_page = 15;
 
-		$this->metadata = WPMOLY_Settings::get_supported_movie_meta( $type = null, $merge = false );
+		$this->metadata = WPMOLY_Settings::get_supported_movie_meta();
 
 		$this->columns = WPMOLY_Import::get_imported_movies();
 

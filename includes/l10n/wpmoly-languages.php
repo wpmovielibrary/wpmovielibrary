@@ -14,7 +14,7 @@ if ( ! defined( 'WPINC' ) )
 	wp_die();
 
 // Builtin restricted list for API support
-$wpmoly_available_languages = array(
+$wpmoly_supported_languages = array(
 
 	'bg' => __( 'Bulgarian', 'wpmovielibrary-iso' ),
 	'cs' => __( 'Czech', 'wpmovielibrary-iso' ),

@@ -32,6 +32,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
+			if ( $this->has_permalinks_changed() )
+				add_action( 'admin_notices', array( $this, 'permalinks_changed_notice' ), 15 );
+
 			add_filter( 'rewrite_rules_array', __CLASS__ . '::register_permalinks', 11 );
 
 			add_filter( 'wpmoly_filter_meta_data', __CLASS__ . '::filter_meta_data', 10, 1 );
@@ -67,6 +70,77 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			add_action( 'template_redirect', __CLASS__ . '::filter_404', 10 );
 			add_filter( 'post_type_archive_title', __CLASS__ . '::filter_post_type_archive_title', 10, 2 );
+		}
+
+		/**
+		 * Check for a transient indicating permalinks were changed and
+		 * structure not updated.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @return   bool|string    False is no change was made or structure updated, changed permalinks option slug else
+		 */
+		private function has_permalinks_changed() {
+
+			$changed = get_transient( 'wpmoly-permalinks-changed' );
+			if ( false === $changed )
+				return false;
+
+			return $changed;
+		}
+
+		/**
+		 * Check for changes on the URL Rewriting of Taxonomies to
+		 * update the Rewrite Rules if needed. We need this to avoid
+		 * users to get 404 when they try to access their content if they
+		 * didn't previously reload the Dashboard Permalink page.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    array    $field Settings field array
+		 * @param    array    $value New setting value
+		 * @param    array    $existing_value previous setting value
+		 * 
+		 * @return   array    Validated setting
+		 */
+		public static function permalinks_changed( $field, $value, $existing_value ) {
+
+			$rewrites = array(
+				'wpmoly-rewrite-movie',
+				'wpmoly-rewrite-collection',
+				'wpmoly-rewrite-genre',
+				'wpmoly-rewrite-actor',
+			);
+
+			if ( ! isset( $field['id'] ) || ! in_array( $field['id'], $rewrites ) )
+				return $value;
+
+			if ( $existing_value == $value )
+				return array( 'error' => false, 'value' => $value );
+
+			$changed = set_transient( 'wpmoly-permalinks-changed', $field['id'] );
+
+			return array( 'value' => $value );
+
+		}
+
+		/**
+		 * Show a simple notice for admins to update their permalinks.
+		 * 
+		 * Hide the notice on Permalinks page, though, to avoid confusion
+		 * as it could be interpreted as a failure to update permalinks,
+		 * which it is not.
+		 * 
+		 * @since    2.0
+		 */
+		public static function permalinks_changed_notice() {
+
+			global $hook_suffix;
+
+			if ( 'options-permalink.php' == $hook_suffix )
+				return false;
+
+			echo self::render_template( 'admin/admin-notice.php', array( 'notice' => 'permalinks-changed' ), $require = 'always' );
 		}
 
 		/**
@@ -505,7 +579,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( is_null( $data ) || '' == $data )
 				return $data;
 
-			$languages = WPMOLY_Settings::get_supported_languages();
+			$languages = WPMOLY_Settings::get_available_languages();
 
 			$data = explode( ',', $data );
 			foreach ( $data as $i => $d ) {

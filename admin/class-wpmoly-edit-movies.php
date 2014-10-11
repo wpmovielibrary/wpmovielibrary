@@ -572,7 +572,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		private static function render_meta_panel( $post_id ) {
 
 			$metas     = WPMOLY_Settings::get_supported_movie_meta();
-			$languages = WPMOLY_Settings::get_available_languages();
+			$languages = WPMOLY_Settings::get_supported_languages();
 			$metadata  = wpmoly_get_movie_meta( $post_id );
 			$metadata  = wpmoly_filter_empty_array( $metadata );
 
@@ -600,11 +600,10 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		private static function render_details_panel( $post_id ) {
 
-			global $wpmoly_movie_details;
+			$details = WPMOLY_Settings::get_supported_movie_details();
+			$class   = new ReduxFramework();
 
-			$class  = new ReduxFramework();
-
-			foreach ( $wpmoly_movie_details as $slug => $detail ) {
+			foreach ( $details as $slug => $detail ) {
 
 				$field_name = $detail['type'];
 				$class_name = "ReduxFramework_{$field_name}";
@@ -622,10 +621,10 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				$html = ob_get_contents();
 				ob_end_clean();
 
-				$wpmoly_movie_details[ $slug ]['html'] = $html;
+				$details[ $slug ]['html'] = $html;
 			}
 
-			$attributes = array( 'details' => $wpmoly_movie_details );
+			$attributes = array( 'details' => $details );
 
 			$panel = self::render_admin_template( 'metabox/panels/panel-details.php', $attributes );
 
