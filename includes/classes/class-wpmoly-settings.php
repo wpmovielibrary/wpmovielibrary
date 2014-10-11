@@ -489,29 +489,29 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		}
 
 		/**
-		 * Return Metaboxes data
+		 * Return Panels data
 		 *
-		 * @since    1.2
+		 * @since    2.0
 		 *
-		 * @return   array    WPMOLY Metaboxes
+		 * @return   array    WPMOLY Panels
 		 */
-		public static function get_metaboxes() {
+		public static function get_metabox_panels() {
 
-			global $wpmoly_metaboxes;
+			global $wpmoly_metabox_panels;
 
 			/**
-			 * Filter the Metaboxes list to add/remove metaboxes.
+			 * Filter the Metabox Panels to add/remove tabs.
 			 *
 			 * This should be used through Plugins to create additionnal
-			 * Metaboxes.
+			 * Metabox panels.
 			 *
-			 * @since    1.2
+			 * @since    2.0
 			 *
-			 * @param    array    $wpmoly_metaboxes Existing Metaboxes
+			 * @param    array    $wpmoly_metabox_panels Existing Panels
 			 */
-			$wpmoly_metaboxes = apply_filters( 'wpmoly_filter_metaboxes', $wpmoly_metaboxes );
+			$wpmoly_metabox_panels = apply_filters( 'wpmoly_filter_metabox_panels', $wpmoly_metabox_panels );
 
-			return $wpmoly_metaboxes;
+			return $wpmoly_metabox_panels;
 		}
 
 		/**

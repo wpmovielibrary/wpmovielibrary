@@ -114,7 +114,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 * Return various Movie's Post Meta. Possible meta: status, media, rating
 		 * and data.
 		 *
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    string    Meta type to return: data, status, media or rating
 		 * @param    int       Movie Post ID

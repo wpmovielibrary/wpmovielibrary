@@ -106,49 +106,15 @@ $wpmoly_movie_details = array(
 	)
 );
 
-/*$wpmoly_movie_details = array(
-	'movie_media'   => array(
-		'title' => __( 'Media', 'wpmovielibrary' ),
-		'options' => array(
-			
-		),
-		'default' => array(
-			'dvd'   => __( 'DVD', 'wpmovielibrary' ),
-		),
-	),
-	'movie_status'  => array(
-		'title' => __( 'Status', 'wpmovielibrary' ),
-		'options' => array(
-			'available'   => __( 'Available', 'wpmovielibrary' ),
-			'loaned'      => __( 'Loaned', 'wpmovielibrary' ),
-			'scheduled'   => __( 'Scheduled', 'wpmovielibrary' ),
-			'unavailable' => __( 'Unvailable', 'wpmovielibrary' ),
-		),
-		'default' => array(
-			'available' => __( 'Available', 'wpmovielibrary' ),
-		)
-	),
-	'movie_rating'  => array(
-		'title' => __( 'Rating', 'wpmovielibrary' ),
-		'options' => array(
-			'0.5' => __( 'Junk', 'wpmovielibrary' ),
-			'1.0' => __( 'Very bad', 'wpmovielibrary' ),
-			'1.5' => __( 'Bad', 'wpmovielibrary' ),
-			'2.0' => __( 'Not that bad', 'wpmovielibrary' ),
-			'2.5' => __( 'Average', 'wpmovielibrary' ),
-			'3.0' => __( 'Not bad', 'wpmovielibrary' ),
-			'3.5' => __( 'Good', 'wpmovielibrary' ),
-			'4.0' => __( 'Very good', 'wpmovielibrary' ),
-			'4.5' => __( 'Excellent', 'wpmovielibrary' ),
-			'5.0' => __( 'Masterpiece', 'wpmovielibrary' )
-		),
-		'default' => array(
-			'0.0' => '',
-		)
-	)
-);*/
-
 $wpmoly_movie_meta = array(
+	'tmdb_id' => array(
+		'title' => __( 'TMDb ID', 'wpmovielibrary' ),
+		'type' => 'hidden',
+		'filter' => 'intval',
+		'filter_args' => null,
+		'size' => 'hidden',
+		'group' => 'meta'
+	),
 	'title' => array(
 		'title' => __( 'Title', 'wpmovielibrary' ),
 		'type' => 'text',
@@ -299,33 +265,30 @@ $wpmoly_movie_meta_aliases = array(
 	'musician'   => 'composer'
 );
 
-$wpmoly_metaboxes = array(
+$wpmoly_metabox_panels = array(
 
-	/*array(
-		'id'            => 'wpmoly_details',
-		'title'         => __( 'WPMovieLibrary − Movie Details', 'wpmovielibrary' ),
-		'callback'      => 'WPMOLY_Edit_Movies::metabox_details',
-		'screen'        => 'movie',
-		'context'       => 'side',
-		'priority'      => 'core',
-		'callback_args' => null
+	'preview' => array(
+		'title'    => __( 'Preview', 'wpmovielibrary' ),
+		'icon'     => 'wpmolicon icon-video',
+		'callback' => 'WPMOLY_Edit_Movies::render_preview_panel'
 	),
-	array(
-		'id'            => 'wpmoly_meta',
-		'title'         => __( 'WPMovieLibrary − Movie Meta', 'wpmovielibrary' ),
-		'callback'      => 'WPMOLY_Edit_Movies::metabox_meta',
-		'screen'        => 'movie',
-		'context'       => 'normal',
-		'priority'      => 'high',
-		'callback_args' => null
+
+	'meta' => array(
+		'title'    => __( 'Metadata', 'wpmovielibrary' ),
+		'icon'     => 'wpmolicon icon-meta',
+		'callback' => 'WPMOLY_Edit_Movies::render_meta_panel'
 	),
-	array(
-		'id'            => 'wpmoly_images',
-		'title'         => __( 'WPMovieLibrary − Movie Images', 'wpmovielibrary' ),
-		'callback'      => 'WPMOLY_Edit_Movies::metabox_images',
-		'screen'        => 'movie',
-		'context'       => 'normal',
-		'priority'      => 'high',
-		'callback_args' => null
-	),*/
+
+	'details' => array(
+		'title'    => __( 'Details', 'wpmovielibrary' ),
+		'icon'     => 'wpmolicon icon-details',
+		'callback' => 'WPMOLY_Edit_Movies::render_details_panel'
+	),
+
+	'images' => array(
+		'title'    => __( 'Images', 'wpmovielibrary' ),
+		'icon'     => 'wpmolicon icon-images-alt',
+		'callback' => 'WPMOLY_Edit_Movies::render_images_panel'
+	)
+
 );

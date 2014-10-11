@@ -1,9 +1,4 @@
 
-$ = $ || jQuery;
-
-redux = redux || {};
-redux.field_objects = redux.field_objects || {};
-
 wpmoly = wpmoly || {};
 
 	wpmoly.editor = {

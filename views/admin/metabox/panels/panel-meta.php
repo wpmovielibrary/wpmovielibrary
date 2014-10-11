@@ -25,26 +25,10 @@
 								<a id="tmdb_empty" name="wpmoly[tmdb_empty]" title="<?php _e( 'Empty Results', 'wpmovielibrary' ); ?>" href="<?php echo get_edit_post_link() ?>&amp;wpmovielibrary-empty-meta=1" onclick="wpmoly.editor.meta.empty_results(); return false;" class="button button-secondary button-empty button-icon hide-if-no-js"><span class="wpmolicon icon-erase"></span></a>
 							</div>
 
-							<div id="wpmoly_status"><?php echo $status; ?></div>
+							<div id="wpmoly_status"></div>
 
-<?php if ( ! is_null( $select ) ) : ?>
-							<div id="meta_data" style="display:block">
-<?php foreach ( $select as $movie ) : ?>
-
-								<div class="tmdb_select_movie">
-									<a id="tmdb_<?php echo $movie['id'] ?>" href="<?php echo wp_nonce_url( get_edit_post_link( get_the_ID() ) . "&amp;wpmoly_search_movie=1&amp;search_by=id&amp;search_query={$movie['id']}", 'search-movies' ) ?>" onclick="wpmoly_edit_meta.get( <?php echo $movie['id'] ?> ); return false;">
-										<img src="<?php echo $movie['poster'] ?>" alt="<?php echo $movie['title'] ?>" />
-										<em><?php echo $movie['title'] ?></em>
-									</a>
-									<input type="hidden" value='<?php echo $movie['json'] ?>' />
-								</div>
-<?php endforeach; ?>
-							</div>
-<?php else: ?>
 							<div id="meta_data"></div>
-<?php endif; ?>
 
-							<input type="hidden" id="meta_data_tmdb_id" name="meta_data[tmdb_id]" class="hide-if-js hide-if-no-js" value="<?php echo $metadata['tmdb_id'] ?>" />
 							<input type="hidden" id="wpmoly_actor_limit" class="hide-if-js hide-if-no-js" value="<?php echo wpmoly_o( 'actor-limit' ) ?>" />
 							<input type="hidden" id="wpmoly_poster_featured" class="hide-if-js hide-if-no-js" value="<?php echo ( 1 == wpmoly_o( 'poster-featured' ) ? '1' : '0' ) ?>" />
 

@@ -340,7 +340,6 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			if ( 'movie' != get_post_type() )
 				return false;
 
-			$html = '';
 
 			$args = array(
 				'post_type'   => 'attachment',
@@ -352,29 +351,22 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			);
 
 			$attachments = get_posts( $args );
+			$images = array();
 
-			if ( $attachments ) {
+			if ( $attachments )
+				foreach ( $attachments as $attachment )
+					$images[] = array(
+						'id'     => $attachment->ID,
+						//'meta'   => wp_get_attachment_metadata( $attachment->ID ),
+						'type'   => ( isset( $meta['sizes']['medium']['mime-type'] ) ? str_replace( 'image/', ' subtype-', $meta['sizes']['medium']['mime-type'] ) : '' ),
+						'height' => ( isset( $meta['sizes']['medium']['height'] ) ? $meta['sizes']['medium']['height'] : 0 ),
+						'width'  => ( isset( $meta['sizes']['medium']['width'] ) ? $meta['sizes']['medium']['width'] : 0 ),
+						'format' => ( $width && $height ? ( $height > $width ? ' portrait' : ' landscape' ) : '' ),
+						'image'  => wp_get_attachment_image_src( $attachment->ID, 'medium' ),
+						'link'   => get_edit_post_link( $attachment->ID )
+					);
 
-				foreach ( $attachments as $attachment ) {
-
-					$meta = wp_get_attachment_metadata( $attachment->ID );
-					$type = ( isset( $meta['sizes']['medium']['mime-type'] ) ? str_replace( 'image/', ' subtype-', $meta['sizes']['medium']['mime-type'] ) : '' );
-					$height = ( isset( $meta['sizes']['medium']['height'] ) ? $meta['sizes']['medium']['height'] : 0 );
-					$width  = ( isset( $meta['sizes']['medium']['width'] ) ? $meta['sizes']['medium']['width'] : 0 );
-					$format = ( $width && $height ? ( $height > $width ? ' portrait' : ' landscape' ) : '' );
-					$image  = wp_get_attachment_image_src( $attachment->ID, 'medium' );
-
-					$html .= '<li class="tmdb_movie_images tmdb_movie_imported_image">';
-					$html .= '<a class="open-editor" href="' . get_edit_post_link( $attachment->ID ) . '" data-id="' . $attachment->ID . '">';
-					$html .= '<div class="js--select-attachment type-image ' . $type . $format . '"><div class="thumbnail"><div class="centered">';
-					$html .= '<img src="' . $image[ 0 ] . '" draggable="false" alt="">';
-					$html .= '</div></div></div>';
-					$html .= '</a>';
-					$html .= '</li>';
-				}
-			}
-
-			return $html;
+			return $images;
 		}
 
 		/**

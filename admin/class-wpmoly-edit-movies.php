@@ -49,7 +49,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			add_action( 'the_posts', __CLASS__ . '::the_posts_hijack', 10, 2 );
 			add_action( 'ajax_query_attachments_args', __CLASS__ . '::load_images_dummy_query_args', 10, 1 );
 
-			add_action( 'add_meta_boxes_movie', __CLASS__ . '::add_meta_boxes', 10 );
+			add_action( 'add_meta_boxes_movie', __CLASS__ . '::add_meta_box', 10 );
 			add_action( 'save_post_movie', __CLASS__ . '::save_movie', 10, 4 );
 
 			add_action( 'wp_ajax_wpmoly_set_detail', __CLASS__ . '::set_detail_callback' );
@@ -108,7 +108,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * Insert a simple 'Poster' column to Movies list table to display
 		 * movies' poster set as featured image if available.
 		 * 
-		 * @since     1.0.0
+		 * @since     1.0
 		 * 
 		 * @param     array    $defaults Default WP_List_Table header columns
 		 * 
@@ -140,7 +140,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * TODO: use wpmoly_get_movie_meta()
 		 * 
-		 * @since     1.0.0
+		 * @since     1.0
 		 * 
 		 * @param     string   $column_name The column name
 		 * @param     int      $post_id current movie's post ID
@@ -458,79 +458,77 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
-		 *                             Meta Boxes
+		 *                             Metabox
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
-		 * Register WPMOLY Metaboxes
+		 * Register WPMOLY Metabox
 		 * 
-		 * Alter $wp_meta_boxes to display the Details Metabox right below
-		 * WordPress standard Submit Metabox.
-		 * 
-		 * @since    1.0
+		 * @since    2.0
 		 */
-		public static function add_meta_boxes() {
+		public static function add_meta_box() {
 
-			$metaboxes = WPMOLY_Settings::get_metaboxes();
-
-			foreach ( $metaboxes as $i => $metabox ) {
-
-				extract( $metabox, EXTR_OVERWRITE );
-
-				if ( 'side' != $context )
-					$id = "{$i}_{$id}";
-
-				add_meta_box( $id, $title, $callback, $screen, $context, $priority,  $callback_args );
-			}
-
-			add_meta_box( 'redux', 'WordPress Movie Library', __CLASS__ . '::redux_meta', 'movie', 'normal', 'high', null );
-
-			global $wp_meta_boxes;
-
-			$details = $wp_meta_boxes['movie']['side']['core']['wpmoly_details'];
-			$core = $wp_meta_boxes['movie']['side']['core'];
-			$submit = $wp_meta_boxes['movie']['side']['core']['submitdiv'];
-
-			unset( $core['wpmoly_details'], $core['submitdiv'] );
-
-			$wp_meta_boxes['movie']['side']['core'] = array_merge(
-				array( 'submitdiv' => $submit ),
-				array( 'wpmoly_details' => $details ),
-				$core
-			);
-
+			add_meta_box( 'wpmoly-metabox', __( 'WordPress Movie Library', 'wpmovielibrary' ), __CLASS__ . '::metabox', 'movie', 'normal', 'high', null );
 		}
 
-		public static function redux_meta( $post, $metabox ) {
+		/**
+		 * Movie Metabox content callback.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    object    Current Post object
+		 */
+		public static function metabox( $post ) {
 
-			$metadata = wpmoly_get_movie_meta( $post->ID );
+			$default_panels = WPMOLY_Settings::get_metabox_panels();
+			$tabs   = array();
+			$panels = array();
+
+			foreach ( $default_panels as $id => $panel ) {
+
+				if ( ! is_callable( $panel['callback'] ) )
+					continue;
+
+				$is_active = ( ( 'preview' == $id && ! $empty ) || ( 'meta' == $id && $empty ) );
+				$tabs[ $id ] = array(
+					'title'  => $panel['title'],
+					'icon'   => $panel['icon'],
+					'active' => $is_active ? ' active' : ''
+				);
+				$panels[ $id ] = array( 
+					'active'  => $is_active ? ' active' : '',
+					'content' => call_user_func_array( $panel['callback'], array( $post->ID ) )
+				);
+			}
+
+			$attributes = array(
+				'tabs'   => $tabs,
+				'panels' => $panels
+			);
+
+			echo self::render_admin_template( 'metabox/metabox.php', $attributes );
+		}
+
+		/**
+		 * Movie Metabox Preview Panel.
+		 * 
+		 * Display a Metabox panel to preview metadata.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    int    Current Post ID
+		 * 
+		 * @return   string    Panel HTML Markup
+		 */
+		private static function render_preview_panel( $post_id ) {
+
+			$rating   = wpmoly_get_movie_rating( $post_id );
+			$metadata = wpmoly_get_movie_meta( $post_id );
 			$metadata = wpmoly_filter_empty_array( $metadata );
+
 			$preview  = array();
 			$empty    = (bool) ( isset( $metadata['_empty'] ) && 1 == $metadata['_empty'] );
-
-			$_meta = WPMOLY_Settings::get_supported_movie_meta();
-			$select = null;
-			$status = '';
-			$rating = wpmoly_get_movie_rating( $post->ID );
-
-			// TODO: cleanup
-			if ( isset( $_GET['wpmoly_search_movie'] ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'search-movies' ) && ( empty( $metadata ) || isset( $metadata['_empty'] ) ) ) {
-
-				$search_by = ( isset( $_GET['search_by'] ) && in_array( $_GET['search_by'], array( 'title', 'id' ) ) ? $_GET['search_by'] : null );
-				$search_query = ( isset( $_GET['search_query'] ) && '' != $_GET['search_query'] ? $_GET['search_query'] : null );
-
-				if ( ! is_null( $search_by ) && ! is_null( $search_query ) )
-					$metadata = call_user_func_array( array( 'WPMOLY_TMDb', "_get_movie_by_$search_by" ), array( $search_query, wpmoly_o( 'api-language' ) ) );
-
-				if ( isset( $metadata['result'] ) ) {
-
-					if ( 'movie' == $metadata['result'] )
-						$metadata = $metadata['movies'][ 0 ];
-					else if ( 'movies' == $metadata['result'] )
-						$select = $metadata['movies'];
-				}
-			}
 
 			if ( $empty )
 				$metadata = array(
@@ -549,26 +547,58 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					$preview[ $slug ] = call_user_func( 'apply_filters', "wpmoly_format_movie_{$slug}", $meta );
 
 			$attributes = array(
-				'languages' => WPMOLY_Settings::get_available_languages(),
-				'metas' => $_meta,
-				'metadata' => $metadata,
-				'preview' => $preview,
-				'status' => $status,
-				'rating' => $rating,
-				'select' => $select,
+				'empty'     => $empty,
 				'thumbnail' => get_the_post_thumbnail( $post->ID, 'medium' ),
-				'empty' => $empty
+				'rating'    => apply_filters( 'wpmoly_movie_rating_stars', $rating, $post->ID ),
+				'preview'   => $preview
 			);
 
-			$attributes['preview'] = self::render_admin_template( 'metaboxes/movie-meta-preview.php', $attributes );
-			$attributes['meta']    = self::render_admin_template( 'metaboxes/movie-meta-meta.php', $attributes );
-			$attributes['details'] = self::render_admin_template( 'metaboxes/movie-meta-details.php', array( 'details' => self::render_details_metabox() ) );
-			$attributes['images']  = self::render_admin_template( 'metaboxes/movie-meta-images.php', array() );
+			$panel = self::render_admin_template( 'metabox/panels/panel-preview.php', $attributes );
 
-			echo self::render_admin_template( 'metaboxes/movie-meta2.php', $attributes );
+			return $panel;
 		}
 
-		private static function render_details_metabox() {
+		/**
+		 * Movie Metabox Meta Panel.
+		 * 
+		 * Display a Metabox panel to download movie metadata.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    int    Current Post ID
+		 * 
+		 * @return   string    Panel HTML Markup
+		 */
+		private static function render_meta_panel( $post_id ) {
+
+			$metas     = WPMOLY_Settings::get_supported_movie_meta();
+			$languages = WPMOLY_Settings::get_available_languages();
+			$metadata  = wpmoly_get_movie_meta( $post_id );
+			$metadata  = wpmoly_filter_empty_array( $metadata );
+
+			$attributes = array(
+				'languages' => $languages,
+				'metas'     => $metas,
+				'metadata'  => $metadata
+			);
+
+			$panel = self::render_admin_template( 'metabox/panels/panel-meta.php', $attributes );
+
+			return $panel;
+		}
+
+		/**
+		 * Movie Metabox Details Panel.
+		 * 
+		 * Display a Metabox panel to edit movie details.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    int    Current Post ID
+		 * 
+		 * @return   string    Panel HTML Markup
+		 */
+		private static function render_details_panel( $post_id ) {
 
 			global $wpmoly_movie_details;
 
@@ -595,36 +625,52 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				$wpmoly_movie_details[ $slug ]['html'] = $html;
 			}
 
-			return $wpmoly_movie_details;
+			$attributes = array( 'details' => $wpmoly_movie_details );
+
+			$panel = self::render_admin_template( 'metabox/panels/panel-details.php', $attributes );
+
+			return $panel;
 		}
 
 		/**
-		 * Movie Images Metabox.
+		 * Movie Images Metabox Panel.
 		 * 
-		 * Display a large Metabox below post editor to fetch and edit movie
-		 * informations using the TMDb API.
+		 * Display a Metabox panel to download movie images.
 		 * 
-		 * @since    1.0
+		 * @since    2.0
 		 * 
-		 * @param    object    Current Post object
-		 * @param    null      $metabox null
+		 * @param    int    Current Post ID
+		 * 
+		 * @return   string    Panel HTML Markup
 		 */
-		public static function metabox_images( $post, $metabox ) {
+		private static function render_images_panel( $post_id ) {
 
 			global $wp_version;
+
 			$attributes = array(
-				'nonce' => wpmoly_nonce_field( 'upload-movie-image', $referer = false ),
-				'images' => WPMOLY_Media::get_movie_imported_images(),
+				'nonce'   => wpmoly_nonce_field( 'upload-movie-image', $referer = false ),
+				'images'  => WPMOLY_Media::get_movie_imported_images(),
 				'version' => ( version_compare( $wp_version, '4.0', '>=' ) ? 4 : 0 )
 			);
 
-			echo self::render_admin_template( 'metaboxes/movie-images.php', $attributes );
+			$panel = self::render_admin_template( 'metabox/panels/panel-images.php', $attributes  );
+
+			return $panel;
 		}
+
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                             Save data
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Set specific movie detail.
 		 * 
-		 * @since     1.0.0
+		 * TODO: Use some iteration
+		 * 
+		 * @since     1.0
 		 * 
 		 * @param    int       $post_id ID of the current Post
 		 * @param    string    $detail Movie detail: media, status or rating
@@ -669,9 +715,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/**
 		 * Save movie details.
 		 * 
-		 * TODO: Use some iteration
-		 * 
-		 * @since     1.0.0
+		 * @since     1.0
 		 * 
 		 * @param    int      $post_id ID of the current Post
 		 * @param    array    $details Movie details: media, status, rating
@@ -685,17 +729,15 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			if ( ! $post || 'movie' != get_post_type( $post ) )
 				return new WP_Error( 'invalid_post', __( 'Error: submitted post is not a movie.', 'wpmovielibrary' ) );
 
-			if ( ! is_array( $details )
-			  || ! isset( $details['movie_media'] ) || ! isset( $details['movie_status'] ) || ! isset( $details['movie_rating'] )
-			  || ! isset( $details['movie_language'] ) || ! isset( $details['movie_subtitles'] ) || ! isset( $details['movie_format'] ) )
+			$supported  = WPMOLY_Settings::get_supported_movie_details();
+			$_supported = array_keys( $supported );
+
+			if ( ! is_array( $details ) )
 				return new WP_Error( 'invalid_details', __( 'Error: the submitted movie details are invalid.', 'wpmovielibrary' ) );
 
-			update_post_meta( $post_id, '_wpmoly_movie_media', $details['movie_media'] );
-			update_post_meta( $post_id, '_wpmoly_movie_status', $details['movie_status'] );
-			update_post_meta( $post_id, '_wpmoly_movie_rating', number_format( $details['movie_rating'], 1 ) );
-			update_post_meta( $post_id, '_wpmoly_movie_language', $details['movie_language'] );
-			update_post_meta( $post_id, '_wpmoly_movie_subtitles', $details['movie_subtitles'] );
-			update_post_meta( $post_id, '_wpmoly_movie_format', $details['movie_format'] );
+			foreach ( $details as $slug => $detail )
+				if ( in_array( $slug, $_supported ) && in_array( $detail, array_keys( $supported[ $slug ]['options'] ) ) )
+					update_post_meta( $post_id, "_wpmoly_{$slug}", $detail );
 
 			WPMOLY_Cache::clean_transient( 'clean', $force = true );
 
@@ -739,7 +781,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * and crew data, so we filter them separately. If the data slug
 		 * is valid, the value is escaped and added to the return array.
 		 * 
-		 * @since    1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array    $data The Movie Metadata to filter
 		 * 
@@ -807,7 +849,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * Saves the movie details as well.
 		 *
-		 * @since     1.0.0
+		 * @since     1.0
 		 * 
 		 * @param    int        $post_ID ID of the current Post
 		 * @param    object     $post Post Object of the current Post

@@ -1,5 +1,5 @@
 
-#redux.postbox .inside {
+#wpmoly-metabox.postbox .inside {
 	margin: 0;
 	padding: 0;
 }
@@ -99,6 +99,21 @@
 	text-decoration: none;
 }
 
+#wpmoly-movie-preview .wpmolicon {
+	color: #888;
+	font-size: 1rem;
+	position: relative;
+	top: 3px;
+}
+
+#wpmoly-movie-preview .wpmoly-movie-rating {
+	margin-top: 1em;
+}
+
+#wpmoly-movie-preview .wpmoly-movie-rating .wpmolicon {
+	font-size: 1.25rem;
+}
+
 #wpmoly-movie-preview .wpmoly-movie-preview-poster {
 	float: left;
 	margin: 0.5em 1.5em 0 -16em;
@@ -138,8 +153,8 @@
 }
 
 #wpmoly-movie-preview #wpmoly-movie-preview-overview {
-	border-bottom: 1px solid #dfdfdf;
-	border-top: 1px solid #dfdfdf;
+	border-bottom: 1px solid #e6e6e6;
+	border-top: 1px solid #e6e6e6;
 	line-height: 1.75em;
 	padding: 0.5em 0;
 	text-align: justify;
@@ -238,6 +253,10 @@
 #wpmoly-tmdb .wpmoly-movie-meta-edit {
 	display: inline-block;
 	margin: 0.25em 0;
+}
+
+#wpmoly-tmdb .wpmoly-movie-meta-edit.hidden {
+	display: none;
 }
 
 #wpmoly-tmdb .wpmoly-movie-meta-edit.half {

@@ -102,6 +102,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			add_action( 'parent_file', array( $this, 'admin_menu_highlight' ) );
 
 			// Load admin style sheet and JavaScript.
+			add_action( 'admin_enqueue_scripts', array( $this, 'pre_enqueue_admin_scripts' ), 8 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
@@ -159,6 +160,16 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			foreach ( $styles as $slug => $style )
 				wp_enqueue_style( WPMOLY_SLUG . '-' . $slug, WPMOLY_URL . $style, array(), WPMOLY_VERSION );
 
+		}
+
+		/**
+		 * Register and enqueue global admin JavaScript.
+		 * 
+		 * @since    2.0
+		 */
+		public function pre_enqueue_admin_scripts() {
+
+			wp_enqueue_script( WPMOLY_SLUG . '-admin' , WPMOLY_URL . '/assets/js/admin/wpmoly.js', array( 'jquery' ), WPMOLY_VERSION, true );
 		}
 
 		/**
@@ -381,7 +392,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$wpmoly_slug = WPMOLY_SLUG . '-admin';
 
 			$scripts = array();
-			$scripts['admin'] = array( '/assets/js/admin/wpmoly.js', array( 'jquery' ), true );
 			$scripts['utils'] = array( '/assets/js/admin/wpmoly-utils.js', array( 'jquery',  ), true );
 
 			if ( $hook_suffix == $settings )

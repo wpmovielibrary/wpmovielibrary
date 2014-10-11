@@ -53,7 +53,7 @@ function wpmoly_is_boolean( $value, $default = false ) {
 /**
  * Convert an Array shaped list to a separated string.
  * 
- * @since    1.0.0
+ * @since    1.0
  * 
  * @param    array    $array Array shaped list
  * @param    string   $subrow optional subrow to select in subitems
@@ -86,7 +86,7 @@ function wpmoly_stringify_array( $array, $subrow = 'name', $separator = ', ' ) {
  * Filter an array to detect empty associative arrays.
  * Uses wpmoly_stringify_array to stringify the array and check its length.
  * 
- * @since    1.0.0
+ * @since    1.0
  * 
  * @param    array    $array Array to check
  * 
@@ -106,7 +106,7 @@ function wpmoly_filter_empty_array( $array ) {
  * Filter an array to remove any sub-array, reducing multidimensionnal
  * arrays.
  * 
- * @since    1.0.0
+ * @since    1.0
  * 
  * @param    array    $array Array to check
  * 
@@ -132,7 +132,7 @@ function wpmoly_filter_undimension_array( $array ) {
 /**
  * Provide a plugin-wide, generic method for generating nonce.
  *
- * @since    1.0.0
+ * @since    1.0
  * 
  * @param    string    $action Action name for nonce
  */
@@ -144,7 +144,7 @@ function wpmoly_create_nonce( $action ) {
 /**
  * Provide a plugin-wide, generic method for generating nonce fields.
  *
- * @since    1.0.0
+ * @since    1.0
  * 
  * @param    string    $action Action name for nonce
  */
@@ -159,7 +159,7 @@ function wpmoly_nonce_field( $action, $referer = true, $echo = true ) {
 /**
  * Provide a plugin-wide, generic method for checking admin nonces.
  *
- * @since    1.0.0
+ * @since    1.0
  * 
  * @param    string    $action Action name for nonce
  */
@@ -182,7 +182,7 @@ function wpmoly_check_admin_referer( $action, $query_arg = false ) {
 /**
  * Provide a plugin-wide, generic method for checking AJAX nonces.
  *
- * @since    1.0.0
+ * @since    1.0
  * 
  * @param    string    $action Action name for nonce
  */
@@ -205,7 +205,7 @@ function wpmoly_check_ajax_referer( $action, $query_arg = false, $die = false ) 
  * Application/JSON headers content-type.
  * If no header was sent previously, send new header.
  *
- * @since    1.0.0
+ * @since    1.0
  * 
  * @param    boolean    $error Error header or normal?
  */
