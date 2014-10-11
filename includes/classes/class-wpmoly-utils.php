@@ -54,6 +54,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'wpmoly_format_movie_media', __CLASS__ . '::format_movie_media', 10, 2 );
 			add_filter( 'wpmoly_format_movie_status', __CLASS__ . '::format_movie_status', 10, 2 );
 			add_filter( 'wpmoly_format_movie_rating', __CLASS__ . '::format_movie_rating', 10, 2 );
+			add_filter( 'wpmoly_format_movie_language', __CLASS__ . '::format_movie_language', 10, 2 );
+			add_filter( 'wpmoly_format_movie_subtitle', __CLASS__ . '::format_movie_subtitle', 10, 2 );
+			add_filter( 'wpmoly_format_movie_format', __CLASS__ . '::format_movie_format', 10, 2 );
 			add_filter( 'wpmoly_movie_rating_stars', __CLASS__ . '::get_movie_rating_stars', 10, 3 );
 			add_filter( 'wpmoly_editable_rating_stars', __CLASS__ . '::get_editable_rating_stars', 10, 2 );
 
@@ -593,26 +596,14 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * 
 		 * @since    1.1
 		 * 
-		 * @param    string    $data rating value
+		 * @param    string    $data detail value
+		 * @param    string    $format data format, raw or HTML
 		 * 
 		 * @return   string    Formatted output
 		 */
 		public static function format_movie_media( $data, $format = 'html' ) {
 
-			$format = ( 'raw' == $format ? 'raw' : 'html' );
-
-			if ( '' == $data )
-				return $data;
-
-			if ( wpmoly_o( 'details-icons' ) && 'html' == $format  ) {
-				$data = WPMovieLibrary::render_template( 'shortcodes/detail-icon.php', array( 'detail' => 'media', 'data' => $data ), $require = 'always' );
-			}
-			else if ( 'html' == $format ) {
-				$default_fields = WPMOLY_Settings::get_available_movie_media();
-				$data = WPMovieLibrary::render_template( 'shortcodes/detail.php', array( 'detail' => 'media', 'data' => $data, 'title' => __( $default_fields[ $data ], 'wpmovielibrary' ) ), $require = 'always' );
-			}
-
-			return $data;
+			return self::format_movie_detail( 'media', $data, $format );
 		}
 
 		/**
@@ -622,26 +613,14 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * 
 		 * @since    1.1
 		 * 
-		 * @param    string    $data rating value
+		 * @param    string    $data detail value
+		 * @param    string    $format data format, raw or HTML
 		 * 
 		 * @return   string    Formatted output
 		 */
 		public static function format_movie_status( $data, $format = 'html' ) {
 
-			$format = ( 'raw' == $format ? 'raw' : 'html' );
-
-			if ( '' == $data )
-				return $data;
-
-			if ( wpmoly_o( 'details-icons' ) && 'html' == $format  ) {
-				$data = WPMovieLibrary::render_template( 'shortcodes/detail-icon.php', array( 'detail' => 'status', 'data' => $data ), $require = 'always' );
-			}
-			else if ( 'html' == $format ) {
-				$default_fields = WPMOLY_Settings::get_available_movie_status();
-				$data = WPMovieLibrary::render_template( 'shortcodes/detail.php', array( 'detail' => 'status', 'data' => $data, 'title' => __( $default_fields[ $data ], 'wpmovielibrary' ) ), $require = 'always' );
-			}
-
-			return $data;
+			return self::format_movie_detail( 'status', $data, $format );
 		}
 
 		/**
@@ -652,6 +631,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * @since    1.1
 		 * 
 		 * @param    string    $data rating value
+		 * @param    string    $format data format, raw or HTML
 		 * 
 		 * @return   string    Formatted output
 		 */
@@ -662,8 +642,133 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( '' == $data )
 				return $data;
 
-			if ( 'html' == $format )
-				$data = WPMovieLibrary::render_template( 'shortcodes/rating.php', array( 'style' => ( '' == $data ? '0_0' : str_replace( '.', '_', $data ) ) ), $require = 'always' );
+			if ( 'html' == $format ) {
+				$data = apply_filters( 'wpmoly_movie_rating_stars', $data );
+				$data = WPMovieLibrary::render_template( 'shortcodes/rating.php', array( 'data' => $data ), $require = 'always' );
+			}
+
+			return $data;
+		}
+
+		/**
+		 * Format a Movie's language. If format is HTML, will return a
+		 * HTML formatted string; will return the value without change
+		 * if raw is asked.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $data detail value
+		 * @param    string    $format data format, raw or HTML
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_language( $data, $format = 'html' ) {
+
+			$format = ( 'raw' == $format ? 'raw' : 'html' );
+
+			if ( '' == $data )
+				return $data;
+
+			if ( wpmoly_o( 'details-icons' ) && 'html' == $format  ) {
+				$view = 'shortcodes/detail-icon-title.php';
+			} else if ( 'html' == $format ) {
+				$view = 'shortcodes/detail.php';
+			}
+
+			$title = $data;
+			$lang  = WPMOLY_Settings::get_available_movie_language();
+			if ( isset( $lang[ $data ] ) )
+				$title = $lang[ $data ];
+			$data = 'lang';
+			$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'subtitle', 'data' => $data, 'title' => $title ), $require = 'always' );
+
+			return $data;
+		}
+
+		/**
+		 * Format a Movie's . If format is HTML, will return a
+		 * HTML formatted string; will return the value without change
+		 * if raw is asked.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $data detail value
+		 * @param    string    $format data format, raw or HTML
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_subtitle( $data, $format = 'html' ) {
+
+			$format = ( 'raw' == $format ? 'raw' : 'html' );
+
+			if ( '' == $data )
+				return $data;
+
+			if ( wpmoly_o( 'details-icons' ) && 'html' == $format  ) {
+				$view = 'shortcodes/detail-icon-title.php';
+			} else if ( 'html' == $format ) {
+				$view = 'shortcodes/detail.php';
+			}
+
+			$title = $data;
+			$lang  = WPMOLY_Settings::get_available_movie_language();
+			if ( isset( $lang[ $data ] ) )
+				$title = $lang[ $data ];
+			$data = 'subtitle';
+			$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'subtitle', 'data' => $data, 'title' => $title ), $require = 'always' );
+
+			return $data;
+		}
+
+		/**
+		 * Format a Movie's . If format is HTML, will return a
+		 * HTML formatted string; will return the value without change
+		 * if raw is asked.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $data detail value
+		 * @param    string    $format data format, raw or HTML
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_format( $data, $format = 'html' ) {
+
+			return self::format_movie_detail( 'status', $data, $format );
+		}
+
+		/**
+		 * Format a Movie detail. If format is HTML, will return a
+		 * HTML formatted string; will return the value without change
+		 * if raw is asked.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $detail details slug
+		 * @param    string    $data detail value
+		 * @param    string    $format data format, raw or HTML
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_detail( $detail, $data, $format = 'html' ) {
+
+			$format = ( 'raw' == $format ? 'raw' : 'html' );
+
+			if ( '' == $data )
+				return $data;
+
+			if ( wpmoly_o( 'details-icons' ) && 'html' == $format  ) {
+				$view = 'shortcodes/detail-icon.php';
+			} else if ( 'html' == $format ) {
+				$view = 'shortcodes/detail.php';
+			}
+
+			$title = '';
+			$default_fields = call_user_func( "WPMOLY_Settings::get_available_movie_{$detail}" );
+			if ( isset( $default_fields[ $data ] ) )
+				$title = $default_fields[ $data ];
+
+			$data = WPMovieLibrary::render_template( $view, array( 'detail' => $detail, 'data' => $data, 'title' => __( $title, 'wpmovielibrary' ) ), $require = 'always' );
 
 			return $data;
 		}

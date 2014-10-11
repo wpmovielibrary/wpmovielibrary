@@ -10,7 +10,7 @@
  */
 ?>
 
-	<div class="wpmoly_movie_detail">
+	<div class="wpmoly-movie-details">
 <?php foreach ( $items as $item ) : ?>
 		<?php echo $item ?>
 

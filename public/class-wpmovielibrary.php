@@ -180,7 +180,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 
 			wp_enqueue_style( WPMOLY_SLUG, WPMOLY_URL . '/assets/css/public/wpmoly.css', array(), WPMOLY_VERSION );
 			wp_enqueue_style( WPMOLY_SLUG . '-flags', WPMOLY_URL . '/assets/css/public/wpmoly-flags.css', array(), WPMOLY_VERSION );
-			wp_enqueue_style( WPMOLY_SLUG . '-font', WPMOLY_URL . '/assets/fonts/wpmovielibrary/css/wpmovielibrary.css', array(), WPMOLY_VERSION );
+			wp_enqueue_style( WPMOLY_SLUG . '-font', WPMOLY_URL . '/assets/fonts/wpmovielibrary/style.css', array(), WPMOLY_VERSION );
 		}
 
 		/**

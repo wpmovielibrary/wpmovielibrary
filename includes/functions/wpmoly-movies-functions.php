@@ -89,7 +89,7 @@ function wpmoly_get_movie_language( $post_id = null ) {
  *
  * @return   array|string    WPMOLY Movie Subtitles if stored, empty string else.
  */
-function wpmoly_get_movie_subtitles( $post_id = null ) {
+function wpmoly_get_movie_subtitle( $post_id = null ) {
 	return WPMOLY_Movies::get_movie_meta( $post_id, 'subtitles' );
 }
 

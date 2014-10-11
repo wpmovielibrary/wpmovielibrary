@@ -208,7 +208,8 @@ $wpmoly_config = array(
 					),
 					'available'  => array(
 						'movie_language' => __( 'Language', 'wpmovielibrary' ),
-						'movie_subtitle' => __( 'Subtitles', 'wpmovielibrary' )
+						'movie_subtitle' => __( 'Subtitles', 'wpmovielibrary' ),
+						'movie_format'   => __( 'Format', 'wpmovielibrary' )
 					)
 				),
 				'required' => array( 'wpmoly-show-details', "!=", 'nowhere' ),
