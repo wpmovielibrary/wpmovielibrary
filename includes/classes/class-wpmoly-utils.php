@@ -840,9 +840,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$title = '';
 			$default_fields = call_user_func( "WPMOLY_Settings::get_available_movie_{$detail}" );
 			if ( isset( $default_fields[ $data ] ) )
-				$title = $default_fields[ $data ];
+				$title = __( $default_fields[ $data ], 'wpmovielibrary' );
 
-			$data = WPMovieLibrary::render_template( $view, array( 'detail' => $detail, 'data' => $data, 'title' => __( $title, 'wpmovielibrary' ) ), $require = 'always' );
+			$data = WPMovieLibrary::render_template( $view, array( 'detail' => $detail, 'data' => $data, 'title' => $title ), $require = 'always' );
 
 			return $data;
 		}

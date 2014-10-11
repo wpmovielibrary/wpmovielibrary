@@ -120,7 +120,7 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			 *
 			 * @param    array    $wpmoly_movie_details Existing details
 			 */
-			$details = apply_filters( 'wpmoly_filter_details', $details );
+			$_details = apply_filters( 'wpmoly_filter_details', $details );
 
 			return $details;
 		}
