@@ -1064,6 +1064,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 */
 		public static function get_ordered_object_terms( $terms, $object_ids, $taxonomies, $args ) {
 
+			if ( ! function_exists( 'get_current_screen' ) )
+				return $terms;
+
 			// Term ordering is killing quick/bulk edit, avoid it
 			if ( is_admin() && 'edit-movie' == get_current_screen()->id )
 				return $terms;

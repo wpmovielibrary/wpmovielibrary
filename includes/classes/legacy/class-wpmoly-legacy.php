@@ -146,6 +146,8 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 			global $wpdb;
 
 			$movies = self::get_deprecated_movies();
+			if ( ! $movies )
+				return array();
 
 			foreach ( $movies as $i => $movie )
 				$movies[ $i ] = $movie->post_id;
