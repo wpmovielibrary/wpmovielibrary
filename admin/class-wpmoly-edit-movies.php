@@ -100,7 +100,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				'default_movie_rating' => WPMOLY_Settings::get_available_movie_rating()
 			);
 
-			echo self::render_admin_template( 'edit-movies/edit-details-inline.php', $attributes );
+			echo self::render_admin_template( 'edit-movies/edit-details-inline.php', $attributes, $require = 'always' );
 		}
 
 		/**
@@ -190,7 +190,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		public static function quick_edit_movies( $column_name, $post_type ) {
 
-			if ( 'movie' != $post_type || 'poster' != $column_name || 1 !== did_action( 'quick_edit_custom_box' ) )
+			if ( 'movie' != $post_type || 'wpmoly-poster' != $column_name || 1 !== did_action( 'quick_edit_custom_box' ) )
 				return false;
 
 			self::quickbulk_edit( 'quick' );
@@ -206,7 +206,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		public static function bulk_edit_movies( $column_name, $post_type ) {
 
-			if ( 'movie' != $post_type || 'poster' != $column_name || 1 !== did_action( 'bulk_edit_custom_box' ) )
+			if ( 'movie' != $post_type || 'wpmoly-poster' != $column_name || 1 !== did_action( 'bulk_edit_custom_box' ) )
 				return false;
 
 			self::quickbulk_edit( 'bulk' );
@@ -230,7 +230,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				'check' => 'is_' . $type . 'edit'
 			);
 
-			echo self::render_admin_template( 'edit-movies/quick-edit.php', $attributes );
+			echo self::render_admin_template( 'edit-movies/quick-edit.php', $attributes, $require = 'always' );
 		}
 
 		/**
