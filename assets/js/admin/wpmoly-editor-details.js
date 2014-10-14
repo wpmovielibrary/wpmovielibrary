@@ -33,7 +33,7 @@ wpmoly = wpmoly || {};
 				     active = ( $parent.find( '.wpmoly-inline-edit-' + type ).length ),
 				       prev = ( 'rating' == type ? '.movie-rating-display' : '.movie_' + type + '_title' ),
 				      $prev = $link.prev( prev ),
-				      links = '.column-movie_' + type + '.inline_editing .wpmoly-inline-edit-toggle';
+				      links = '.column-wpmoly-' + type + '.inline_editing .wpmoly-inline-edit-toggle';
 
 				if ( display || ! active ) {
 					if ( ! active ) {
@@ -69,7 +69,7 @@ wpmoly = wpmoly || {};
 
 				var $parent = $( link ).parents( 'tr' ),
 				    post_id = $parent.prop( 'id' ).replace( 'post-','' ),
-				      _link = $parent.find( '.column-movie_' + type + ' > a' ),
+				      _link = $parent.find( '.column-wpmoly-' + type + ' > a' ),
 				      _span = $parent.find( '.movie_' + type + '_title' ),
 				     value = $( link ).attr( 'data-' + type + '' ),
 				     title = $( link ).attr( 'data-' + type + '-title' ),

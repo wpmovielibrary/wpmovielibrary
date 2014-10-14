@@ -1,8 +1,14 @@
 /* WPMOLY Movie List
  ****************************************************/
 
-.widefat thead tr th.column-poster {
+.column-wpmoly-poster {
 	width: 4em;
+}
+
+.wp-list-table .wpmoly-poster img {
+	border-radius: 2px;
+	height: 4em;
+	max-width: 4em;
 }
 
 .visible-actors {
@@ -71,21 +77,21 @@
 	margin: 2px 0 0 4px;
 }
 
-.column-movie_status,
-.column-movie_media,
-.column-movie_rating {
+.column-wpmoly-status,
+.column-wpmoly-media,
+.column-wpmoly-rating {
 	position: relative;
 }
 
-.column-movie_status .wpmoly-inline-edit-toggle,
-.column-movie_media .wpmoly-inline-edit-toggle,
-.column-movie_rating .wpmoly-inline-edit-toggle {
+.column-wpmoly-status .wpmoly-inline-edit-toggle,
+.column-wpmoly-media .wpmoly-inline-edit-toggle,
+.column-wpmoly-rating .wpmoly-inline-edit-toggle {
 	visibility: hidden;
 }
 
-.column-movie_status:hover .wpmoly-inline-edit-toggle,
-.column-movie_media:hover .wpmoly-inline-edit-toggle,
-.column-movie_rating:hover .wpmoly-inline-edit-toggle {
+.column-wpmoly-status:hover .wpmoly-inline-edit-toggle,
+.column-wpmoly-media:hover .wpmoly-inline-edit-toggle,
+.column-wpmoly-rating:hover .wpmoly-inline-edit-toggle {
 	visibility: visible;
 }
 

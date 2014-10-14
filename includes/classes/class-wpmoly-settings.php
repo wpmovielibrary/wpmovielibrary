@@ -107,8 +107,8 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			if ( ! is_null( $detail ) && isset( $details[ "movie_{$detail}" ] ) )
 				$details = apply_filters( "wpmoly_filter_detail_{$detail}", $details[ "movie_{$detail}" ]['options'] );
 			else
-				foreach ( $details as $detail => $data )
-					$details[ $detail ]['options'] = apply_filters( 'wpmoly_filter_detail_' . str_replace( 'movie_', '', $detail ), $details[ $detail ]['options'] );
+				foreach ( $details as $_detail => $data )
+					$details[ $_detail ]['options'] = apply_filters( "wpmoly_filter_detail_{$_detail}", $details[ $_detail ]['options'] );
 
 			/**
 			 * Filter the Details list to add/remove details.
@@ -121,6 +121,9 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			 * @param    array    $wpmoly_movie_details Existing details
 			 */
 			$_details = apply_filters( 'wpmoly_filter_details', $details );
+
+			if ( ! is_null( $detail ) )
+				return $details[ $detail ]['options'];
 
 			return $details;
 		}
@@ -136,7 +139,7 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		 */
 		private static function get_movie_details_default( $detail ) {
 
-			$_detail = self::get_movie_details( "movie_{$detail}" );
+			$_detail = self::get_movie_details( $detail );
 			$default = $_detail['default'];
 
 			return $default;

@@ -14,9 +14,9 @@ if ( ! defined( 'WPINC' ) )
 	wp_die();
 
 $wpmoly_movie_details = array(
-	'movie_status' => array(
+	'status' => array(
 		'id'       => 'wpmoly-movie-status',
-		'name'     => 'wpmoly_details[movie_status]',
+		'name'     => 'wpmoly_details[status]',
 		'type'     => 'select',
 		'title'    => __( 'Movie Status', 'wpmovielibrary' ),
 		'desc'     => __( 'Select a status for this movie', 'wpmovielibrary' ),
@@ -29,9 +29,9 @@ $wpmoly_movie_details = array(
 		),
 		'default'  => ''
 	),
-	'movie_media' => array(
+	'media' => array(
 		'id'       => 'wpmoly-movie-media',
-		'name'     => 'wpmoly_details[movie_media]',
+		'name'     => 'wpmoly_details[media]',
 		'type'     => 'select',
 		'title'    => __( 'Movie Media', 'wpmovielibrary' ),
 		'desc'     => __( 'Select a media for this movie', 'wpmovielibrary' ),
@@ -48,9 +48,9 @@ $wpmoly_movie_details = array(
 		'default'  => 'dvd',
 		//'multi'    => true
 	),
-	'movie_rating' => array(
+	'rating' => array(
 		'id'       => 'wpmoly-movie-rating',
-		'name'     => 'wpmoly_details[movie_rating]',
+		'name'     => 'wpmoly_details[rating]',
 		'type'     => 'select',
 		'title'    => __( 'Movie Rating', 'wpmovielibrary' ),
 		'desc'     => __( 'Select a rating for this movie', 'wpmovielibrary' ),
@@ -70,9 +70,9 @@ $wpmoly_movie_details = array(
 		),
 		'default'  => '0.0'
 	),
-	'movie_language' => array(
+	'language' => array(
 		'id'       => 'wpmoly-movie-language',
-		'name'     => 'wpmoly_details[movie_language]',
+		'name'     => 'wpmoly_details[language]',
 		'type'     => 'select',
 		'title'    => __( 'Movie Language', 'wpmovielibrary' ),
 		'desc'     => __( 'Select a language for this movie', 'wpmovielibrary' ),
@@ -80,9 +80,9 @@ $wpmoly_movie_details = array(
 		'options'  => $wpmoly_supported_languages,
 		'default'  => ''
 	),
-	'movie_subtitles' => array(
+	'subtitles' => array(
 		'id'       => 'wpmoly-movie-subtitles',
-		'name'     => 'wpmoly_details[movie_subtitles]',
+		'name'     => 'wpmoly_details[subtitles]',
 		'type'     => 'select',
 		'title'    => __( 'Movie Subtitles', 'wpmovielibrary' ),
 		'desc'     => __( 'Select a subtitle for this movie', 'wpmovielibrary' ),
@@ -90,9 +90,9 @@ $wpmoly_movie_details = array(
 		'options'  => $wpmoly_supported_languages,
 		'default'  => ''
 	),
-	'movie_format' => array(
+	'format' => array(
 		'id'       => 'wpmoly-movie-format',
-		'name'     => 'wpmoly_details[movie_format]',
+		'name'     => 'wpmoly_details[format]',
 		'type'     => 'select',
 		'title'    => __( 'Movie Format', 'wpmovielibrary' ),
 		'desc'     => __( 'Select a format for this movie', 'wpmovielibrary' ),

@@ -3,7 +3,8 @@
 			<?php wpmoly_nonce_field( 'status-inline-edit', $referer = false ) ?>
 
 			<ul>
-<?php foreach ( $default_movie_status as $slug => $title ) : ?>
+<?php 
+foreach ( $default_movie_status['options'] as $slug => $title ) : ?>
 				<li><span class="wpmolicon icon-arrow-right"></span> <a href="#" onclick="wpmoly_edit_details.inline_edit( 'status', this ); return false;" data-status="<?php echo $slug ?>" data-status-title="<?php _e( $title, 'wpmovielibrary' ) ?>"><?php _e( $title, 'wpmovielibrary' ) ?></a></li>
 <?php endforeach; ?>
 			</ul>
@@ -13,7 +14,7 @@
 			<?php wpmoly_nonce_field( 'media-inline-edit', $referer = false ) ?>
 
 			<ul>
-<?php foreach ( $default_movie_media as $slug => $title ) : ?>
+<?php foreach ( $default_movie_media['options'] as $slug => $title ) : ?>
 				<li><span class="wpmolicon icon-arrow-right"></span> <a href="#" onclick="wpmoly_edit_details.inline_edit( 'media', this ); return false;" data-media="<?php echo $slug ?>" data-media-title="<?php _e( $title, 'wpmovielibrary' ) ?>"><?php _e( $title, 'wpmovielibrary' ) ?></a></li>
 <?php endforeach; ?>
 			</ul>

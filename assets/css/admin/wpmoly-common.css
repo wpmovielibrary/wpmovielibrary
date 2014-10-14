@@ -45,12 +45,12 @@
 /* Rating
  ****************************************************/
 
-.column-movie_rating {
+.column-wpmoly-rating {
 	width: 10em;
 }
 
-.column-movie_rating .wpmoly-inline-edit-toggle,
-.column-movie_rating .wpmoly-movie-rating {
+.column-wpmoly-rating .wpmoly-inline-edit-toggle,
+.column-wpmoly-rating .wpmoly-movie-rating {
 	display: inline-block;
 }
 

@@ -126,7 +126,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			if ( is_null( $post_id ) )
 				$post_id =  get_the_ID();
 
-			if ( ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) || ! in_array( $meta, $allowed_meta ) )
+			if ( ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) )
 				return false;
 
 			if ( is_admin() && 'data' == $meta && wpmoly_has_deprecated_meta( $post_id ) && wpmoly_o( 'legacy-mode' ) )

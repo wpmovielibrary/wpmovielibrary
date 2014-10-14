@@ -207,9 +207,9 @@ $wpmoly_config = array(
 						'movie_rating' => __( 'Rating', 'wpmovielibrary' )
 					),
 					'available'  => array(
-						'movie_language' => __( 'Language', 'wpmovielibrary' ),
-						'movie_subtitle' => __( 'Subtitles', 'wpmovielibrary' ),
-						'movie_format'   => __( 'Format', 'wpmovielibrary' )
+						'movie_language'  => __( 'Language', 'wpmovielibrary' ),
+						'movie_subtitles' => __( 'Subtitles', 'wpmovielibrary' ),
+						'movie_format'    => __( 'Format', 'wpmovielibrary' )
 					)
 				),
 				'required' => array( 'wpmoly-show-details', "!=", 'nowhere' ),

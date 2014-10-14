@@ -45,12 +45,6 @@ body.post-php.post-type-movie #postimagediv {
 	margin-left: 2em;
 }
 
-.wp-list-table .poster img {
-	border-radius: 2px;
-	height: 4em;
-	max-width: 4em;
-}
-
 /* Select Movies */
 
 .tmdb_select_movie {
@@ -220,9 +214,9 @@ body.post-php.post-type-movie #postimagediv {
 		width: 32%;
 	}
 	
-	.column-movie_status,
-	.column-movie_media,
-	.column-movie_rating {
+	.column-wpmoly-status,
+	.column-wpmoly-media,
+	.column-wpmoly-rating {
 		padding: 8px 4px !important;
 	}
 	

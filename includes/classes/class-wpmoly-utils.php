@@ -58,7 +58,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'wpmoly_format_movie_status', __CLASS__ . '::format_movie_status', 10, 2 );
 			add_filter( 'wpmoly_format_movie_rating', __CLASS__ . '::format_movie_rating', 10, 2 );
 			add_filter( 'wpmoly_format_movie_language', __CLASS__ . '::format_movie_language', 10, 2 );
-			add_filter( 'wpmoly_format_movie_subtitle', __CLASS__ . '::format_movie_subtitle', 10, 2 );
+			add_filter( 'wpmoly_format_movie_subtitles', __CLASS__ . '::format_movie_subtitles', 10, 2 );
 			add_filter( 'wpmoly_format_movie_format', __CLASS__ . '::format_movie_format', 10, 2 );
 			add_filter( 'wpmoly_movie_rating_stars', __CLASS__ . '::get_movie_rating_stars', 10, 3 );
 			add_filter( 'wpmoly_editable_rating_stars', __CLASS__ . '::get_editable_rating_stars', 10, 2 );
@@ -754,7 +754,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( isset( $lang[ $data ] ) )
 				$title = $lang[ $data ];
 			$data = 'lang';
-			$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'subtitle', 'data' => $data, 'title' => $title ), $require = 'always' );
+			$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'lang', 'data' => $data, 'title' => $title ), $require = 'always' );
 
 			return $data;
 		}
@@ -771,7 +771,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_subtitle( $data, $format = 'html' ) {
+		public static function format_movie_subtitles( $data, $format = 'html' ) {
 
 			$format = ( 'raw' == $format ? 'raw' : 'html' );
 
@@ -875,6 +875,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$_rating = preg_replace( '/([0-5])(\.|_)(0|5)/i', '$1-$3', $rating );
 
 			$editable = ( is_admin() && true === $editable ? true : false );
+
+			$class = "wpmoly-movie-rating wpmoly-movie-rating-{$_rating}";
+			$prop  = array();
 			if ( true === $editable ) {
 				$class .= ' wpmoly-movie-editable-rating';
 				$prop[] = 'onclick="wpmoly_rating.rate( ' . $post_id . ' );"';
@@ -883,8 +886,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$prop[] = 'data-rating="' . $rating . '"';
 				$prop[] = 'data-rated=""';
 			}
-			$class = "wpmoly-movie-rating wpmoly-movie-rating-{$_rating}";
-			$prop  = array();
 
 			$filled  = '<span class="wpmolicon icon-star-filled"></span>';
 			$half    = '<span class="wpmolicon icon-star-half"></span>';

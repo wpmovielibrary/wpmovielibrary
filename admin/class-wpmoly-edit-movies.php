@@ -121,12 +121,12 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			$defaults = array_merge(
 				array_slice( $defaults, 0, $title, true ),
-				array( 'poster' => __( 'Poster', 'wpmovielibrary' ) ),
+				array( 'wpmoly-poster' => __( 'Poster', 'wpmovielibrary' ) ),
 				array_slice( $defaults, $title, $comments, true ),
-				array( 'movie_release_date' => __( 'Year', 'wpmovielibrary' ) ),
-				array( 'movie_status' => __( 'Status', 'wpmovielibrary' ) ),
-				array( 'movie_media' => __( 'Media', 'wpmovielibrary' ) ),
-				array( 'movie_rating' => __( 'Rating', 'wpmovielibrary' ) ),
+				array( 'wpmoly-release_date' => __( 'Year', 'wpmovielibrary' ) ),
+				array( 'wpmoly-status' => __( 'Status', 'wpmovielibrary' ) ),
+				array( 'wpmoly-media' => __( 'Media', 'wpmovielibrary' ) ),
+				array( 'wpmoly-rating' => __( 'Rating', 'wpmovielibrary' ) ),
 				array_slice( $defaults, $comments, count( $defaults ), true )
 			);
 
@@ -138,8 +138,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * Add a custom column to Movies WP_List_Table list.
 		 * Insert movies' poster set as featured image if available.
 		 * 
-		 * TODO: use wpmoly_get_movie_meta()
-		 * 
 		 * @since     1.0
 		 * 
 		 * @param     string   $column_name The column name
@@ -147,27 +145,28 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		public static function movies_columns_content( $column_name, $post_id ) {
 
+			$_column_name = str_replace( 'wpmoly-', '', $column_name );
 			switch ( $column_name ) {
-				case 'poster':
+				case 'wpmoly-poster':
 					$html = get_the_post_thumbnail( $post_id, 'thumbnail' );
 					break;
-				case 'movie_release_date':
+				case 'wpmoly-release_date':
 					$meta = wpmoly_get_movie_meta( $post_id, 'release_date' );
 					$html = apply_filters( 'wpmoly_format_movie_release_date', $meta, 'Y' );
 					break;
-				case 'movie_status':
-				case 'movie_media':
-					$meta = call_user_func( "wpmoly_get_{$column_name}", $post_id );
+				case 'wpmoly-status':
+				case 'wpmoly-media':
+					$meta = call_user_func_array( 'wpmoly_get_movie_meta', array( 'psot_id' => $post_id, 'meta' => $_column_name ) );
 					$_details = WPMOLY_Settings::get_supported_movie_details();
-					if ( isset( $_details[ $column_name ]['options'][ $meta ] ) ) {
-						$html = $_details[ $column_name ]['options'][ $meta ];
-						$html = '<span class="' . $column_name . '_title">' . __( $html, 'wpmovielibrary' ) . '</span>';
+					if ( isset( $_details[ $_column_name ]['options'][ $meta ] ) ) {
+						$html = $_details[ $_column_name ]['options'][ $meta ];
+						$html = '<span class="' . $_column_name . '_title">' . __( $html, 'wpmovielibrary' ) . '</span>';
 					}
 					else
-						$html = '<span class="' . $column_name . '_title"><em>' . __( 'None', 'wpmovielibrary' ) . '</em></span>';
-					$html .= '<a href="#" class="wpmoly-inline-edit-toggle hide-if-no-js" onclick="wpmoly_edit_details.inline_editor( \'' . str_replace( 'movie_', '', $column_name ) . '\', this ); return false;"><span class="wpmolicon icon-cog"></span></a>';
+						$html = '<span class="' . $_column_name . '_title"><em>' . __( 'None', 'wpmovielibrary' ) . '</em></span>';
+					$html .= '<a href="#" class="wpmoly-inline-edit-toggle hide-if-no-js" onclick="wpmoly_edit_details.inline_editor( \'' . $_column_name . '\', this ); return false;"><span class="wpmolicon icon-cog"></span></a>';
 					break;
-				case 'movie_rating':
+				case 'wpmoly-rating':
 					$meta = wpmoly_get_movie_rating( $post_id );
 					$html = apply_filters( 'wpmoly_editable_rating_stars', $meta, $post_id );
 					$html .= '<a href="#" class="wpmoly-inline-edit-toggle hide-if-no-js" onclick="$(this).prev(\'.wpmoly-movie-rating\').toggleClass(\'wpmoly-movie-editable-rating\'); return false;"><span class="wpmolicon icon-cog"></span></a>';
@@ -531,7 +530,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$empty    = (bool) ( isset( $metadata['_empty'] ) && 1 == $metadata['_empty'] );
 
 			if ( $empty )
-				$metadata = array(
+				$preview = array(
 					'title'          => '<span class="lipsum">Lorem ipsum dolor</span>',
 					'original_title' => '<span class="lipsum">Lorem ipsum dolor sit amet</span>',
 					'genres'         => '<span class="lipsum">Lorem, ipsum, dolor, sit, amet</span>',
@@ -607,9 +606,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 				$field_name = $detail['type'];
 				$class_name = "ReduxFramework_{$field_name}";
-				$value      = '';
-				if ( function_exists( "wpmoly_get_{$slug}" ) )
-					$value = call_user_func( "wpmoly_get_{$slug}" );
+				$value      = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post_id, 'meta' => $slug ) );
 
 				if ( ! class_exists( $class_name ) )
 					require_once WPMOLY_PATH . "includes/framework/redux/ReduxCore/inc/fields/{$field_name}/field_{$field_name}.php";
@@ -736,7 +733,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			foreach ( $details as $slug => $detail )
 				if ( in_array( $slug, $_supported ) && in_array( $detail, array_keys( $supported[ $slug ]['options'] ) ) )
-					update_post_meta( $post_id, "_wpmoly_{$slug}", $detail );
+					update_post_meta( $post_id, "_wpmoly_movie_{$slug}", $detail );
 
 			WPMOLY_Cache::clean_transient( 'clean', $force = true );
 
