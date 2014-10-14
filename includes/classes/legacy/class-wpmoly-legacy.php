@@ -35,7 +35,8 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'admin_notices', array( $this, 'deprecated_meta_notice' ) );
+			if ( wpmoly_has_deprecated_meta() )
+				add_action( 'admin_notices', array( $this, 'deprecated_meta_notice' ) );
 
 			add_action( 'wp_ajax_wpmoly_update_movie', array( $this, 'update_movie_callback' ) );
 		}

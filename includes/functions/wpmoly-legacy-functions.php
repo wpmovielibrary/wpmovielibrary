@@ -45,7 +45,7 @@ function wpmoly_has_deprecated_meta( $post_id = null ) {
 		return WPMOLY_Legacy::has_deprecated_meta( $post_id );
 
 	$deprecated = get_option( 'wpmoly_has_deprecated_meta', true );
-	$deprecated = ( 'false' === $deprecated ? false : true );
+	$deprecated = ( 'false' === $deprecated || '0' === $deprecated ? false : true );
 
 	return $deprecated;
 }
