@@ -202,14 +202,14 @@ $wpmoly_config = array(
 				'compiler' => 'true',
 				'options'  => array(
 					'used' => array(
-						'movie_media'  => __( 'Media', 'wpmovielibrary' ),
-						'movie_status' => __( 'Status', 'wpmovielibrary' ),
-						'movie_rating' => __( 'Rating', 'wpmovielibrary' )
+						'media'  => __( 'Media', 'wpmovielibrary' ),
+						'status' => __( 'Status', 'wpmovielibrary' ),
+						'rating' => __( 'Rating', 'wpmovielibrary' )
 					),
 					'available'  => array(
-						'movie_language'  => __( 'Language', 'wpmovielibrary' ),
-						'movie_subtitles' => __( 'Subtitles', 'wpmovielibrary' ),
-						'movie_format'    => __( 'Format', 'wpmovielibrary' )
+						'language'  => __( 'Language', 'wpmovielibrary' ),
+						'subtitles' => __( 'Subtitles', 'wpmovielibrary' ),
+						'format'    => __( 'Format', 'wpmovielibrary' )
 					)
 				),
 				'required' => array( 'wpmoly-show-details', "!=", 'nowhere' ),

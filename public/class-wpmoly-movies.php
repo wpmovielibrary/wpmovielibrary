@@ -280,8 +280,8 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$items = array();
 
 			foreach ( $fields as $slug => $field ) {
-				$detail = call_user_func( "wpmoly_get_{$slug}", $post_id );
-				$items[] = apply_filters( "wpmoly_format_{$slug}", $detail );
+				$detail = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post_id, 'meta' => $slug ) );
+				$items[] = apply_filters( "wpmoly_format_movie_{$slug}", $detail );
 			}
 
 			$html = WPMovieLibrary::render_template( 'movies/movie-details.php', array( 'items' => $items ), $require = 'always' );

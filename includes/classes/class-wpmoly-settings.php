@@ -122,6 +122,7 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			 */
 			$_details = apply_filters( 'wpmoly_filter_details', $details );
 
+			
 			if ( ! is_null( $detail ) )
 				return $details[ $detail ]['options'];
 
