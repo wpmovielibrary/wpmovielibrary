@@ -53,20 +53,14 @@ class WPMOLY_Details_Widget extends WPMOLY_Widget {
 			)
 		);
 
-		$this->details = array(
-			'status' => array(
-				'default'  => __( 'Select a status', 'wpmovielibrary' ),
-				'empty'    => __( 'No status to display.', 'wpmovielibrary' )
-			),
-			'media' => array(
-				'default'  => __( 'Select a media', 'wpmovielibrary' ),
-				'empty'    => __( 'No media to display.', 'wpmovielibrary' )
-			),
-			'rating' => array(
-				'default'  => __( 'Select a rating', 'wpmovielibrary' ),
-				'empty'    => __( 'No rating to display.', 'wpmovielibrary' )
-			),
-		);
+		$this->details = array();
+
+		$supported = WPMOLY_Settings::get_supported_movie_details();
+		foreach ( $supported as $slug => $detail )
+			$this->details[ $slug ] = array(
+				'default'  => sprintf( __( 'Select a %s', 'wpmovielibrary' ), $slug ),
+				'empty'    => sprintf( __( 'No %s to display.', 'wpmovielibrary' ), $slug )
+			);
 
 		parent::__construct();
 	}
@@ -106,9 +100,6 @@ class WPMOLY_Details_Widget extends WPMOLY_Widget {
 	 * @return   string   The Widget Content
 	 */
 	public function widget_content( $args, $instance ) {
-
-		if ( ! in_array( $instance['detail'], array( 'status', 'media', 'rating' ) ) )
-			return false;
 
 		extract( $args, EXTR_SKIP );
 		extract( $instance );

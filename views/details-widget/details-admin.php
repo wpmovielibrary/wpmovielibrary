@@ -12,10 +12,13 @@ extract( $instance );
 	<p>
 		<label for="<?php echo $widget->get_field_id( 'detail' ); ?>"><strong class="wpmoly-widget-title"><?php _e( 'Detail', 'wpmovielibrary' ); ?></strong></label><br />
 		<select id="<?php echo $widget->get_field_id( 'detail' ); ?>" name="<?php echo $widget->get_field_name( 'detail' ); ?>">
-			<option value="status" <?php selected( 'status', $detail ); ?>><?php _e( 'Status', 'wpmovielibrary' ); ?></option>
-			<option value="media" <?php selected( 'media', $detail ); ?>><?php _e( 'Media', 'wpmovielibrary' ); ?></option>
-			<option value="rating" <?php selected( 'rating', $detail ); ?>><?php _e( 'Rating', 'wpmovielibrary' ); ?></option>
+<?php
+$supported = WPMOLY_Settings::get_supported_movie_details();
+foreach ( $supported as $slug => $s ) :
+?>
+			<option value="<?php echo $slug ?>" <?php selected( $slug, $detail ); ?>><?php _e( $s['title'], 'wpmovielibrary' ); ?></option>
 
+<?php endforeach; ?>
 		</select>
 	</p>
 	<p>
