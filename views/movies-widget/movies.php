@@ -33,7 +33,7 @@
 <?php endif; ?>
 
 <?php if ( 'no' != $show_rating ) : ?>
-				<div class="movie_rating_display <?php echo $item['rating_str'] . ' ' . $show_rating ?>"><?php if ( 'starsntext' == $show_rating ) echo '<small>' . $item['rating'] . '/5</small>' ?></div>
+				<div class="movie-rating-display"><?php echo $item['_rating'] ?><?php if ( 'starsntext' == $show_rating ) echo '<span class="rating-label">' . $item['rating'] . '/5</span>' ?></div>
 <?php endif; ?>
 
 <?php if ( 'after' == $show_title ) : ?>

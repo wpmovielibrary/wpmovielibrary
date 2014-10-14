@@ -216,7 +216,8 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Most_Rated_Movies_Widget' ) ) :
 					'release_date' => apply_filters( 'wpmoly_format_movie_release_date', wpmoly_get_movie_meta( $movie->ID, 'release_date' ), 'Y' ),
 					'overview'     => apply_filters( 'the_content', wpmoly_get_movie_meta( $movie->ID, 'overview' ) )
 				);
-				$movie->rating = wpmoly_get_movie_meta( $movie->ID, 'rating' );
+				$movie->rating  = wpmoly_get_movie_meta( $movie->ID, 'rating' );
+				$movie->_rating = apply_filters( 'wpmoly_movie_rating_stars', $movie->rating );
 				$movie->year = $movie->meta['release_date'];
 				$movie->meta = json_encode( $movie->meta );
 

@@ -141,7 +141,7 @@ class WPMOLY_Details_Widget extends WPMOLY_Widget {
 				else if ( 'rating' == $detail && $list )
 					$item['title'] = esc_attr__( $_title, 'wpmovielibrary' ) . ' (' . $slug . '&#9733;)';
 				else
-					$item['title'] = '<div class="movie_rating_display stars_' . str_replace( '.', '_', $slug ) . '"><div class="stars_labels"><span class="stars_label stars_label_' . str_replace( '.', '_', $slug ) . '">' . esc_attr__( $_title, 'wpmovielibrary' ) . '</span></div></div>';
+					$item['title'] = '<div class="movie-rating-display">' . apply_filters( 'wpmoly_movie_rating_stars', $slug ) . '<span class="rating-label">' . esc_attr__( $_title, 'wpmovielibrary' ) . '</span></div>';
 
 				$items[] = $item;
 			}

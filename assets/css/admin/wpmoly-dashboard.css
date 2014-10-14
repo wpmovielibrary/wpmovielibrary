@@ -399,6 +399,7 @@
 #wpmoly-movie-modal-runtime,
 #wpmoly-movie-modal-genres,
 #wpmoly-movie-modal-rating {
+	display: inline-block;
 	font-size: 16px;
 	font-weight: bold;
 }

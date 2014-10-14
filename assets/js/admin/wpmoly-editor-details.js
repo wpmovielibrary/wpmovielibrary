@@ -123,7 +123,7 @@ wpmoly = wpmoly || {};
 				 */
 				wpmoly.editor.details.rating.update = function( $container, rating ) {
 
-					if ( ! $container.hasClass( 'wpmoly-movie-editable-rating' ) )
+					if ( ! $container.hasClass( 'wpmoly-movie-editable-rating' ) && ! $container.hasClass( 'wpmoly-movie-modal-rating' ) )
 						return false;
 
 					var $stars = $container.find( '.wpmolicon' ),

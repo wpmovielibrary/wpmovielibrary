@@ -13,7 +13,7 @@
 					<span>&ndash;</span>
 					<span id="wpmoly-movie-modal-runtime"></span>
 					<span>&ndash;</span>
-					<span id="wpmoly-movie-modal-rating"></span>
+					<span id="wpmoly-movie-modal-rating"><div id="wpmoly-movie-rating-" class="wpmoly-movie-rating wpmoly-movie-modal-rating wpmoly-movie-rating-0-0"><span class="wpmolicon icon-star-empty"></span><span class="wpmolicon icon-star-empty"></span><span class="wpmolicon icon-star-empty"></span><span class="wpmolicon icon-star-empty"></span><span class="wpmolicon icon-star-empty"></span></div></span>
 				</div>
 				<div id="wpmoly-movie-modal-overview"></div>
 				<div id="wpmoly-movie-modal-links">

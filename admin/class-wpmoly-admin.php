@@ -405,8 +405,10 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$scripts['queue']             = array( '/assets/js/admin/wpmoly-queue.js', array( $wpmoly_slug, 'jquery' ), true );
 			}
 
-			if ( $hook_suffix == $dashboard )
+			if ( $hook_suffix == $dashboard ) {
 				$scripts['dashboard'] = array( '/assets/js/admin/wpmoly-dashboard.js', array( $wpmoly_slug, 'jquery', 'jquery-ui-sortable' ), true );
+				$scripts['editor-details'] = array( '/assets/js/admin/wpmoly-editor-details.js', array( $wpmoly_slug, 'jquery' ), true );
+			}
 
 			if ( $hook_suffix == $widgets )
 				$scripts['widget']    = array( '/assets/js/admin/wpmoly-widget.js', array( $wpmoly_slug, 'jquery' ), false );

@@ -67,6 +67,7 @@ wpmoly.dashboard = wpmoly_dashboard = {
 		wpmoly.dashboard.modal._update = function( link ) {
 			var $link = $( link ),
 			     data = $.parseJSON( $link.attr( 'data-movie-meta' ) ),
+			       id = $link.parent( 'div' ).prop( 'id' ).replace( 'movie-', '' ),
 			   poster = $link.attr( 'data-movie-poster' ),
 			 backdrop = $link.attr( 'data-movie-backdrop' ),
 			   rating = $link.attr( 'data-movie-rating' ),
@@ -81,9 +82,12 @@ wpmoly.dashboard = wpmoly_dashboard = {
 			$( '#wpmoly-movie-modal-overview' ).html( data.overview );
 			$( '#wpmoly-movie-modal-inner' ).css( { backgroundImage: 'url( ' + backdrop + ' )' } );
 			$( '#wpmoly-movie-modal-poster img' ).attr( 'src', poster ).attr( 'alt', data.title );
-			$( '#wpmoly-movie-modal-rating' ).empty().append( '<div id="movie-rating-display" class="movie_rating_title stars stars-' + rating.replace( '.', '-' ) + '"></div>' );
 			$( '#wpmoly-movie-modal-edit' ).attr( 'href', link.href );
 			$( '#wpmoly-movie-modal-view' ).attr( 'href', permalink );
+
+			$( '#wpmoly-movie-modal-rating .wpmoly-movie-rating' ).prop( 'id', 'wpmoly-movie-modal-rating-' + id );
+			$( '#wpmoly-movie-modal-' + id ).removeClass().addClass( 'wpmoly-movie-rating wpmoly-movie-rating-' + rating.replace( '.', '-' ) );
+			wpmoly_rating.update( $( '#wpmoly-movie-modal-rating-' + id ), rating );
 		};
 
 		/**

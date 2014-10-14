@@ -193,7 +193,7 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 				'rating'      => wpmoly_get_movie_meta( $movie->ID, 'rating' ),
 				'thumbnail'   => get_the_post_thumbnail( $movie->ID, $thumbnail )
 			);
-			$item['rating_str'] = ( '' == $item['rating'] ? "stars_0_0" : 'stars_' . str_replace( '.', '_', $item['rating'] ) );
+			$item['_rating'] = apply_filters( 'wpmoly_movie_rating_stars', $item['rating'] );
 			$items[] = $item;
 		}
 
