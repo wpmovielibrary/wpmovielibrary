@@ -46,7 +46,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Quickaction_Widget' ) ) :
 					'icon'  => 'wpmolicon icon-add-page'
 				),
 				'import'    => array(
-					'url'   => admin_url( 'admin.php?page=wpmoly_import' ),
+					'url'   => admin_url( 'admin.php?page=wpmovielibrary-import' ),
 					'title' => __( 'Import movies', 'wpmovielibrary' ),
 					'icon'  => 'wpmolicon icon-import'
 				),

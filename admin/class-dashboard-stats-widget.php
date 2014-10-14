@@ -73,7 +73,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Stats_Widget' ) ) :
 					'single' => __( 'One queued movie', 'wpmovielibrary' ),
 					'plural' => __( '%d queued movies', 'wpmovielibrary' ),
 					'empty'  => __( 'No queued movie.', 'wpmovielibrary' ),
-					'url'    => admin_url( 'admin.php?page=wpmoly_import&amp;wpmoly_section=wpmoly_import_queue' ),
+					'url'    => admin_url( 'admin.php?page=wpmovielibrary-import&amp;wpmoly_section=wpmoly_import_queue' ),
 					'icon'   => 'wpmolicon icon-queued',
 					'string' => '<a href="%s">%s</a>'
 				),
@@ -81,7 +81,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Stats_Widget' ) ) :
 					'single' => __( 'One imported movie', 'wpmovielibrary' ),
 					'plural' => __( '%d imported movies', 'wpmovielibrary' ),
 					'empty'  => __( 'No imported movie.', 'wpmovielibrary' ),
-					'url'    => admin_url( 'admin.php?page=wpmoly_import&amp;wpmoly_section=wpmoly_imported' ),
+					'url'    => admin_url( 'admin.php?page=wpmovielibrary-import&amp;wpmoly_section=wpmoly_imported' ),
 					'icon'   => 'wpmolicon icon-import',
 					'string' => '<a href="%s">%s</a>'
 				)
