@@ -52,52 +52,21 @@
 	margin: 3px 0 -3px 0;
 }
 
-.wpmoly-inline-edit-toggle {
-	outline: none !important;
-	position: relative;
-	z-index: 10;
-}
-
-.wpmoly-inline-edit-toggle.active {
-	float: right;
-	visibility: visible !important;
-}
-
-.wpmoly-inline-edit-toggle .wpmolicon {
-	font-size: 0.75em;
-}
-
-.wpmoly-inline-edit-toggle .wpmolicon.icon-no-alt {
-	font-size: 1em;
-	margin-right: 1em;
-	margin-top: 0.25em;
-}
-
-.wpmoly-inline-edit-rating .stars {
-	margin: 2px 0 0 4px;
-}
-
+.column-wpmoly-release_date,
 .column-wpmoly-status,
-.column-wpmoly-media,
-.column-wpmoly-rating {
+.column-wpmoly-media {
 	position: relative;
+	text-align: center !important;
+	width: 2em;
 }
 
-.column-wpmoly-status .wpmoly-inline-edit-toggle,
-.column-wpmoly-media .wpmoly-inline-edit-toggle,
-.column-wpmoly-rating .wpmoly-inline-edit-toggle {
-	visibility: hidden;
+.column-wpmoly-rating {
+	text-align: center;
+	width: 8em;
 }
 
-.column-wpmoly-status:hover .wpmoly-inline-edit-toggle,
-.column-wpmoly-media:hover .wpmoly-inline-edit-toggle,
-.column-wpmoly-rating:hover .wpmoly-inline-edit-toggle {
-	visibility: visible;
-}
-
-.inline-edit-group #movie-rating-display,
-.inline-edit-group .stars {
-	margin: 0.5em 0 0.5em 0.5em;
+td.column-wpmoly-status .wpmolicon,
+td.column-wpmoly-media .wpmolicon {
 }
 
 .inline-edit-col-wpmoly .inline-edit-group {

@@ -123,10 +123,10 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				array_slice( $defaults, 0, $title, true ),
 				array( 'wpmoly-poster' => __( 'Poster', 'wpmovielibrary' ) ),
 				array_slice( $defaults, $title, $comments, true ),
-				array( 'wpmoly-release_date' => __( 'Year', 'wpmovielibrary' ) ),
-				array( 'wpmoly-status' => __( 'Status', 'wpmovielibrary' ) ),
-				array( 'wpmoly-media' => __( 'Media', 'wpmovielibrary' ) ),
-				array( 'wpmoly-rating' => __( 'Rating', 'wpmovielibrary' ) ),
+				array( 'wpmoly-release_date' => sprintf( '<span class="wpmolicon icon-date" title="%s"></span>', __( 'Year', 'wpmovielibrary' ) ) ),
+				array( 'wpmoly-status'       => sprintf( '<span class="wpmolicon icon-status" title="%s"></span>', __( 'Status', 'wpmovielibrary' ) ) ),
+				array( 'wpmoly-media'        => sprintf( '<span class="wpmolicon icon-video" title="%s"></span>', __( 'Media', 'wpmovielibrary' ) ) ),
+				array( 'wpmoly-rating'       => __( 'Rating', 'wpmovielibrary' ) ),
 				array_slice( $defaults, $comments, count( $defaults ), true )
 			);
 
@@ -156,20 +156,21 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					break;
 				case 'wpmoly-status':
 				case 'wpmoly-media':
-					$meta = call_user_func_array( 'wpmoly_get_movie_meta', array( 'psot_id' => $post_id, 'meta' => $_column_name ) );
+					$meta = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post_id, 'meta' => $_column_name ) );
 					$_details = WPMOLY_Settings::get_supported_movie_details();
 					if ( isset( $_details[ $_column_name ]['options'][ $meta ] ) ) {
-						$html = $_details[ $_column_name ]['options'][ $meta ];
-						$html = '<span class="' . $_column_name . '_title">' . __( $html, 'wpmovielibrary' ) . '</span>';
+						$title = $_details[ $_column_name ]['options'][ $meta ];
+						$icon  = $meta;
 					}
-					else
-						$html = '<span class="' . $_column_name . '_title"><em>' . __( 'None', 'wpmovielibrary' ) . '</em></span>';
-					$html .= '<a href="#" class="wpmoly-inline-edit-toggle hide-if-no-js" onclick="wpmoly_edit_details.inline_editor( \'' . $_column_name . '\', this ); return false;"><span class="wpmolicon icon-cog"></span></a>';
+					else {
+						$title = __( 'None', 'wpmovielibrary' );
+						$icon  = 'unavailable';
+					}
+					$html = sprintf( '<span class="%s-title wpmolicon icon-%s" title="%s"></span>', $_column_name, $icon, $title );
 					break;
 				case 'wpmoly-rating':
 					$meta = wpmoly_get_movie_rating( $post_id );
 					$html = apply_filters( 'wpmoly_editable_rating_stars', $meta, $post_id );
-					$html .= '<a href="#" class="wpmoly-inline-edit-toggle hide-if-no-js" onclick="$(this).prev(\'.wpmoly-movie-rating\').toggleClass(\'wpmoly-movie-editable-rating\'); return false;"><span class="wpmolicon icon-cog"></span></a>';
 					break;
 				default:
 					$html = '';
@@ -387,53 +388,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 *                             Callbacks
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		/**
-		 * "All Movies" WP List Table inline edit shortcut for details.
-		 *
-		 * @since    1.0
-		 */
-		public static function set_detail_callback() {
-
-			$detail = ( isset( $_POST['type'] ) && in_array( $_POST['type'], array( 'status', 'media', 'rating' ) ) ? esc_attr( $_POST['type'] ) : null );
-			if ( is_null( $detail ) )
-				return new WP_Error( 'invalid', __( 'Invalid detail: should be status, media or rating.', 'wpmovielibrary' ) );
-
-			wpmoly_check_ajax_referer( $detail . '-inline-edit' );
-
-			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
-			$value = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? esc_attr( $_POST['data'] ) : null );
-
-			if ( is_null( $post_id ) || is_null( $detail ) || is_null( $value ) )
-				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', 'wpmovielibrary' ) );
-
-			$response = self::set_movie_detail( $post_id, $detail, $value );
-
-			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( $detail . '-inline-edit' ) );
-		}
-
-		/**
-		 * Save movie details: media, status, rating.
-		 * 
-		 * Although values are submitted as array each value is stored in a
-		 * dedicated post meta.
-		 *
-		 * @since    1.0
-		 */
-		public static function save_details_callback() {
-
-			$post_id = ( isset( $_POST['post_id'] )      && '' != $_POST['post_id']      ? intval( $_POST['post_id'] ) : null );
-			$details = ( isset( $_POST['wpmoly_details'] ) && '' != $_POST['wpmoly_details'] ? $_POST['wpmoly_details'] : null );
-
-			if ( is_null( $post_id ) || is_null( $details ) )
-				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', 'wpmovielibrary' ) );
-
-			wpmoly_check_ajax_referer( 'save-movie-details' );
-
-			$response = self::save_movie_details( $post_id, $details );
-
-			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'save-movie-details' ) );
-		}
 
 		/**
 		 * Remove all currently edited post' metadata and taxonomies.
@@ -660,53 +614,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 *                             Save data
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		/**
-		 * Set specific movie detail.
-		 * 
-		 * TODO: Use some iteration
-		 * 
-		 * @since     1.0
-		 * 
-		 * @param    int       $post_id ID of the current Post
-		 * @param    string    $detail Movie detail: media, status or rating
-		 * @param    string    $value Detail value
-		 * 
-		 * @return   int|object    WP_Error object is anything went
-		 *                                  wrong, true else
-		 */
-		public static function set_movie_detail( $post_id, $detail, $value ) {
-
-			$post = get_post( $post_id );
-			if ( ! $post || 'movie' != get_post_type( $post ) )
-				return new WP_Error( 'invalid_post', sprintf( __( 'Error: invalid post, post #%s is not a movie.', 'wpmovielibrary' ), $post_id ) );
-
-			if ( in_array( $detail, array( 'status', 'media', 'language', 'subtitles', 'format' ) ) ) {
-
-				$allowed = call_user_func( "WPMOLY_Settings::get_available_movie_{$detail}" );
-				if ( ! in_array( $value, array_keys( $allowed ) ) )
-					return new WP_Error( 'invalid_value', sprintf( __( 'Error: invalid value, allowed values for \'%s\' are %s.', 'wpmovielibrary' ), $detail, implode( ', ', array_keys( $allowed ) ) ) );
-
-				update_post_meta( $post_id, '_wpmoly_movie_' . $detail, $value );
-				$updated = get_post_meta( $post_id, '_wpmoly_movie_' . $detail, true );
-				if ( '' == $updated || $value != $updated )
-					return new WP_Error( 'update_error', __( 'Error: couldn\'t update movie detail.', 'wpmovielibrary' ) );
-			}
-			else if ( 'rating' == $detail ) {
-				$value = number_format( $value, 1 );
-				if ( 0 > floor( $value ) || 5 < ceil( $value ) )
-					return new WP_Error( 'invalid_value', sprintf( __( 'Error: invalid value, allowed values for \'rating\' are floats between 0.0 and 5.0.', 'wpmovielibrary' ) ) );
-
-				update_post_meta( $post_id, '_wpmoly_movie_' . $detail, $value );
-				$updated = get_post_meta( $post_id, '_wpmoly_movie_' . $detail, true );
-				if ( '' == $updated || 0 != abs( $value - number_format( $updated, 1 ) ) )
-					return new WP_Error( 'update_error', __( 'Error: couldn\'t update movie detail.', 'wpmovielibrary' ) );
-			}
-
-			WPMOLY_Cache::clean_transient( 'clean', $force = true );
-
-			return $post_id;
-		}
 
 		/**
 		 * Save movie details.
