@@ -788,7 +788,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$lang  = WPMOLY_Settings::get_available_movie_language();
 			if ( isset( $lang[ $data ] ) )
 				$title = $lang[ $data ];
-			$data = 'subtitle';
+			$data = 'subtitles';
 			$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'subtitle', 'data' => $data, 'title' => $title ), $require = 'always' );
 
 			return $data;

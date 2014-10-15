@@ -88,10 +88,13 @@ class WPMOLY_Import_Table extends WP_List_Table {
 	 * @since    1.0
 	 */
 	function pagination( $which ) {
+
 		if ( empty( $this->_pagination_args ) )
 			return;
 
-		extract( $this->_pagination_args, EXTR_SKIP );
+		// Fix 'indirect modification of overloaded property has no effect' notice
+		$pagination_args = $this->_pagination_args;
+		extract( $pagination_args, EXTR_SKIP );
 
 		$output = '<span class="displaying-num">' . sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) ) . '</span>';
 
@@ -620,7 +623,9 @@ class WPMOLY_Import_Table extends WP_List_Table {
 	 */
 	function display() {
 
-		extract( $this->_args );
+		// Fix 'indirect modification of overloaded property has no effect' notice
+		$args = $this->_args;
+		extract( $args );
 
 		$this->display_tablenav( 'top' );
 

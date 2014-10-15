@@ -1,6 +1,5 @@
 
 							<div id="wpmoly-most-rated-movies-widget-config"<?php if ( ! $editing ) echo ' class="main-config"'; ?>>
-<<<<<<< HEAD
 								<form method="post" action="<?php echo admin_url( "admin.php?page=wpmovielibrary#{$widget_id}" ) ?>">
 									<?php wpmoly_nonce_field( "save-{widget_id}" ) ?>
 									<?php wpmoly_nonce_field( 'load-more-widget-movies' ) ?>

@@ -205,7 +205,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			global $current_screen, $_wp_admin_css_colors;
 
-			$pages = array( $this->screen_hooks['settings'], $this->screen_hooks['import'] );
+			$pages = array( $this->screen_hooks['settings'], $this->screen_hooks['importer'] );
 			$color = get_user_meta( get_current_user_id(), 'admin_color', true );
 
 			if ( ! in_array( $current_screen->id, $pages ) || '' == $color || ! isset( $_wp_admin_css_colors[ $color ] ) || empty( $_wp_admin_css_colors[ $color ] ) )

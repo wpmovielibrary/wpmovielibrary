@@ -182,7 +182,9 @@
 	margin-left: 0.1rem;
 }
 
-#wpmoly-details .wpmoly-details-item-title .wpmolicon {
+#wpmoly-details .wpmoly-details-item-title .wpmolicon,
+#wpmoly-details .wpmoly-details-item-title .dashicons,
+#wpmoly-details .wpmoly-details-item-title .fa {
 	color: #888;
 }
 
