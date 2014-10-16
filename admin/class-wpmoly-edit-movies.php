@@ -42,6 +42,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			add_filter( 'manage_movie_posts_columns', __CLASS__ . '::movies_columns_head' );
 			add_action( 'manage_movie_posts_custom_column', __CLASS__ . '::movies_columns_content', 10, 2 );
+			add_filter( 'manage_edit-movie_sortable_columns', __CLASS__ . '::movies_sortable_columns', 10, 1 );
+			add_action( 'pre_get_posts', __CLASS__ . '::movies_sortable_columns_order', 10, 1 );
+
 			add_action( 'quick_edit_custom_box', __CLASS__ . '::quick_edit_movies', 10, 2 );
 			add_action( 'bulk_edit_custom_box', __CLASS__ . '::bulk_edit_movies', 10, 2 );
 			add_filter( 'post_row_actions', __CLASS__ . '::expand_quick_edit_link', 10, 2 );
@@ -178,6 +181,30 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			}
 
 			echo $html;
+		}
+
+		public static function movies_sortable_columns( $columns ) {
+
+			$columns['wpmoly-release_date'] = 'wpmoly-release_date';
+			$columns['wpmoly-status']       = 'wpmoly-status';
+			$columns['wpmoly-media']        = 'wpmoly-media';
+			$columns['wpmoly-rating']       = 'wpmoly-rating';
+
+			return $columns;
+		}
+
+		public static function movies_sortable_columns_order( $wp_query ) {
+
+			if ( ! is_admin() )
+			    return false;
+
+			$orderby = $wp_query->get( 'orderby' );
+			$allowed = array( 'wpmoly-release_date', 'wpmoly-release_date', 'wpmoly-status', 'wpmoly-media', 'wpmoly-rating' );
+			if ( in_array( $orderby, $allowed ) ) {
+				$key = str_replace( 'wpmoly-', '_wpmoly_movie_', $orderby );
+				$wp_query->set( 'meta_key', $key );
+				$wp_query->set( 'orderby', 'meta_value_num' );
+			}
 		}
 
 		/**

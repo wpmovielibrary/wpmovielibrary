@@ -56,13 +56,12 @@
 .column-wpmoly-status,
 .column-wpmoly-media {
 	position: relative;
-	text-align: center !important;
-	width: 2em;
+	width: 4em;
 }
 
 .column-wpmoly-rating {
 	text-align: center;
-	width: 8em;
+	width: 9em;
 }
 
 td.column-wpmoly-status .wpmolicon,
