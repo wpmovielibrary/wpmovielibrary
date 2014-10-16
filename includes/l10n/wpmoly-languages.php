@@ -1199,7 +1199,7 @@ $wpmoly_l10n_rewrite = array(
 	'runtime'		=> __( 'runtime', 'wpmovielibrary' ),
 	'production_companies'	=> __( 'production', 'wpmovielibrary' ),
 	'production_countries'	=> __( 'country', 'wpmovielibrary' ),
-	'spoken_languages'	=> __( 'languages', 'wpmovielibrary' ),
+	'spoken_languages'	=> __( 'language', 'wpmovielibrary' ),
 	'genres'		=> __( 'genre', 'wpmovielibrary' ),
 	'director'		=> __( 'director', 'wpmovielibrary' ),
 	'producer'		=> __( 'producer', 'wpmovielibrary' ),
@@ -1211,7 +1211,7 @@ $wpmoly_l10n_rewrite = array(
 	'status'		=> __( 'status', 'wpmovielibrary' ),
 	'media'			=> __( 'media', 'wpmovielibrary' ),
 	'rating'		=> __( 'rating', 'wpmovielibrary' ),
-	'language'		=> __( 'language', 'wpmovielibrary' ),
+	'language'		=> __( 'lang', 'wpmovielibrary' ),
 	'subtitles'		=> __( 'subtitles', 'wpmovielibrary' ),
 	'format'		=> __( 'format', 'wpmovielibrary' )
 );

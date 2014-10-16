@@ -171,7 +171,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 * Add action on pre_get_posts hook to add movie to the list of
 		 * queryable post_types.
 		 *
-		 * @since     1.0.0
+		 * @since     1.0
 		 * 
 		 * @param     int       $query the WP_Query Object object to alter
 		 *
@@ -206,7 +206,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 * Add a filter on the_content hook to display infos selected in options
 		 * about the movie: note, director, overview, actors…
 		 *
-		 * @since     1.0.0
+		 * @since     1.0
 		 * 
 		 * @param     string      $content The original post content
 		 *
@@ -272,7 +272,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		/**
 		 * Generate current movie's details list.
 		 *
-		 * @since     1.0.0
+		 * @since     1.0
 		 *
 		 * @return    null|string    The current movie's metadata list
 		 */
@@ -305,7 +305,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		/**
 		 * Generate current movie's metadata list.
 		 *
-		 * @since     1.0.0
+		 * @since     1.0
 		 *
 		 * @return    null|string    The current movie's metadata list
 		 */
@@ -354,7 +354,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 * If current WP_Query has a WPMOLY meta var set, edit the query to
 		 * return the movies matching the wanted detail.
 		 *
-		 * @since     1.0.0
+		 * @since     1.0
 		 * 
 		 * @param     object      $wp_query Current WP_Query instance
 		 */
@@ -364,26 +364,47 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				return false;
 
 			if ( isset( $wp_query->query_vars['metadata'] ) )
-				$meta_key = $wp_query->query_vars['metadata'];
+				$meta = $wp_query->query_vars['metadata'];
 			else if ( isset( $wp_query->query_vars['detail'] ) )
-				$meta_key = $wp_query->query_vars['detail'];
+				$meta = $wp_query->query_vars['detail'];
 			else
 				return false;
 
-			$l10n_rewrite = WPMOLY_Settings::get_supported_l10n_rewrite();
+			$meta_value = $wp_query->query_vars['value'];
+			$meta_key   = $meta;
 
-			$meta_value  = $wp_query->query_vars['value'];
-			$meta_key    = array_search( $meta_key, $l10n_rewrite );
+			// If rewrite translation isn't active, dont bother
+			if ( wpmoly_o( 'rewrite-enable' ) ) {
 
-			// If meta_key does not exist, trigger a 404 error
-			if ( ! $meta_key ) {
-				$wp_query->set( 'post__in', array( -1 ) );
-				return false;
+				$l10n_rewrite = WPMOLY_Settings::get_supported_l10n_rewrite();
+				$meta_key     = array_search( $meta, $l10n_rewrite );
+
+				// If meta_key does not exist, trigger a 404 error
+				if ( ! $meta_key ) {
+					$wp_query->set( 'post__in', array( -1 ) );
+					return false;
+				}
+
+				$lang = null;
+				if ( 'spoken_languages' == $meta_key ) {
+					$lang = WPMOLY_Settings::get_available_languages();
+				}
+				else if ( 'production_countries' == $meta_key ) {
+					$lang = WPMOLY_Settings::get_supported_countries();
+				}
+
+				if ( ! is_null( $lang ) ) {
+					$_lang = array();
+					foreach ( $lang as $l )
+						$_lang[ $l['native'] ] = strtolower( $l['name'] );
+
+					$value = array_search( strtolower( $meta_value ), $_lang );
+					if ( false != $value )
+						$meta_value = $value;
+				}
 			}
 
-			$_meta_key   = '';
-			$_meta_value = '';
-
+			// Year is just a part of release date but can be useful
 			if ( 'year' == $meta_key ) {
 				$wp_query->set( 'meta_query', array(
 					array(
