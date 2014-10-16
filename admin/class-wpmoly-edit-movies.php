@@ -92,30 +92,16 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		public function edit_details_inline() {
-
-			if ( 'edit-movie' != get_current_screen()->id )
-				return false;
-
-			$attributes = array(
-				'default_movie_media' => WPMOLY_Settings::get_available_movie_media(),
-				'default_movie_status' => WPMOLY_Settings::get_available_movie_status(),
-				'default_movie_rating' => WPMOLY_Settings::get_available_movie_rating()
-			);
-
-			echo self::render_admin_template( 'edit-movies/edit-details-inline.php', $attributes, $require = 'always' );
-		}
-
 		/**
 		 * Add a custom column to Movies WP_List_Table list.
 		 * Insert a simple 'Poster' column to Movies list table to display
 		 * movies' poster set as featured image if available.
 		 * 
-		 * @since     1.0
+		 * @since    1.0
 		 * 
-		 * @param     array    $defaults Default WP_List_Table header columns
+		 * @param    array    $defaults Default WP_List_Table header columns
 		 * 
-		 * @return    array    Default columns with new poster column
+		 * @return   array    Default columns with new poster column
 		 */
 		public static function movies_columns_head( $defaults ) {
 
@@ -141,10 +127,10 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * Add a custom column to Movies WP_List_Table list.
 		 * Insert movies' poster set as featured image if available.
 		 * 
-		 * @since     1.0
+		 * @since    1.0
 		 * 
-		 * @param     string   $column_name The column name
-		 * @param     int      $post_id current movie's post ID
+		 * @param    string   $column_name The column name
+		 * @param    int      $post_id current movie's post ID
 		 */
 		public static function movies_columns_content( $column_name, $post_id ) {
 
@@ -183,6 +169,14 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			echo $html;
 		}
 
+		/**
+		 * Add a custom column to Movies WP_List_Table list.
+		 * Insert movies' poster set as featured image if available.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    array    $column_name The column name
+		 */
 		public static function movies_sortable_columns( $columns ) {
 
 			$columns['wpmoly-release_date'] = 'wpmoly-release_date';
@@ -252,11 +246,21 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			if ( ! in_array( $type, array( 'quick', 'bulk' ) ) )
 				return false;
 
+			$fields = array();
 			$attributes = array(
-				'default_movie_media' => WPMOLY_Settings::get_available_movie_media(),
-				'default_movie_status' => WPMOLY_Settings::get_available_movie_status(),
 				'check' => 'is_' . $type . 'edit'
 			);
+
+			$details = WPMOLY_Settings::get_supported_movie_details();
+			foreach ( $details as $slug => $detail ) {
+				$fields[ $slug ] = array(
+					'title'   => $detail['title'],
+					'icon'    => $detail['icon'],
+					'options' => $detail['options']
+				);
+			}
+
+			$attributes['fields'] = $fields;
 
 			echo self::render_admin_template( 'edit-movies/quick-edit.php', $attributes, $require = 'always' );
 		}
@@ -281,14 +285,13 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			if ( isset( $current_screen ) && ( ( $current_screen->id != 'edit-movie' ) || ( $current_screen->post_type != 'movie' ) ) )
 				return $actions;
 
-			$nonce = wpmoly_create_nonce( 'set-quickedit-movie-details' );
+			$nonce    = wpmoly_create_nonce( 'set-quickedit-movie-details' );
+			$details  = array_keys( WPMOLY_Settings::get_supported_movie_details() );
 
-			$details = '{';
-			$details .= 'movie_id: ' . $post->ID . ',';
-			$details .= 'movie_media: \'' . get_post_meta( $post->ID, '_wpmoly_movie_media', TRUE ) . '\',';
-			$details .= 'movie_status: \'' . get_post_meta( $post->ID, '_wpmoly_movie_status', TRUE ) . '\',';
-			$details .= 'movie_rating: \'' . get_post_meta( $post->ID, '_wpmoly_movie_rating', TRUE ) . '\'';
-			$details .= '}';
+			foreach ( $details as $i => $detail )
+				$details[ $i ] = sprintf( "movie_{$detail}: '%s'" , call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post->ID, 'meta' => $detail ) ) );
+
+			$details = '{' . implode( ', ', $details ) . '}';
 
 			$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="';
 			$actions['inline hide-if-no-js'] .= esc_attr( __( 'Edit this item inline' ) ) . '" ';

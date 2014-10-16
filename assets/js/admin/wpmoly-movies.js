@@ -114,6 +114,8 @@ wpmoly = wpmoly || {};
 
 					if ( post_id > 0 ) {
 
+						console.log( movie_details );
+
 						var edit_row = '#edit-' + post_id,
 						    $movie_media = $( '#movie-media', edit_row ),
 						    $movie_status = $( '#movie-status', edit_row ),

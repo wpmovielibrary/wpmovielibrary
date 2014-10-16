@@ -66,14 +66,21 @@
 
 td.column-wpmoly-status .wpmolicon,
 td.column-wpmoly-media .wpmolicon {
+	font-size: 1.5rem;
 }
 
 .inline-edit-col-wpmoly .inline-edit-group {
 	display: inline-block;
-	width: 30%;
+	width: 20%;
 }
 
 .inline-edit-col-wpmoly .inline-edit-group .title {
 	display: block;
 	float: none;
+	width: 95%;
+}
+
+.inline-edit-col-wpmoly .inline-edit-group select,
+.inline-edit-col-wpmoly .inline-edit-group input {
+	width: 95%;
 }
