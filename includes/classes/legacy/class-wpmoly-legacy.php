@@ -25,7 +25,29 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		 */
 		public function __construct() {
 
+			$this->init();
 			$this->register_hook_callbacks();
+		}
+
+		/**
+		 * Initializes variables
+		 * 
+		 * Set the deprecated movie transient if none were previously set.
+		 * 
+		 * @since    2.0
+		 */
+		public function init() {
+
+			$deprected = wpmoly_has_deprecated_meta();
+			$total     = self::get_deprecated_movies();
+			if ( false === $total ) {
+				set_transient( 'wpmoly_has_deprecated_meta', '0' );
+				return false;
+
+			} else {
+				$total = count( $total );
+				set_transient( 'wpmoly_has_deprecated_meta', $total, HOUR_IN_SECONDS );
+			}
 		}
 
 		/**
@@ -311,13 +333,6 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		 * @since    2.0
 		 */
 		public static function uninstall() {}
-
-		/**
-		 * Initializes variables
-		 *
-		 * @since    2.0
-		 */
-		public function init() {}
 
 	}
 
