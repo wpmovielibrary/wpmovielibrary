@@ -48,6 +48,17 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			// TODO: is that useful anyway?
 			add_filter( 'wpmoly_get_movies_from_media', __CLASS__ . '::get_movies_from_media', 10, 1 );
 			add_filter( 'wpmoly_get_movies_from_status', __CLASS__ . '::get_movies_from_status', 10, 1 );
+			//add_filter( 'posts_request', __CLASS__ . '::posts_request', 10, 2 );
+		}
+
+		/**
+		 * Debug
+		 *
+		 * @since    2.0
+		 */
+		public static function posts_request( $request, $wp_query ) {
+			var_dump( $request );
+			return $request;
 		}
 
 		/**
@@ -391,34 +402,6 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 					)
 				) );
 			}
-
-				/*case 'tmdb_id':
-				case 'title'
-				case 'original_title'
-				case 'overview'
-				case 'release_date'
-				case 'runtime'
-				case 'production_compagnies'
-				case 'production_country'
-				case 'spoken_languages'
-				case 'genres'
-				case 'director'
-				case 'producer'
-				case 'cast'
-				case 'photography'
-				case 'composer'
-				case 'author'
-				case 'writer'
-				case 'status'
-				case 'media'
-				case 'rating'
-				case 'language'
-				case 'subtitles'
-				case 'format':
-					
-					break;
-				default:
-					break;*/
 
 		}
 
