@@ -99,7 +99,7 @@ wpmoly = wpmoly || {};
 			 * @param    object    Movie details: status, media, rating
 			 * @param    string    Security Nonce
 			 */
-			wpmoly.editor.movies.quick_edit = function( movie_details, nonce ) {
+			wpmoly.editor.movies.quick_edit = function( details, nonce ) {
 
 				var $wp_inline_edit = inlineEditPost.edit;
 
@@ -112,37 +112,17 @@ wpmoly = wpmoly || {};
 					if ( typeof( id ) == 'object' )
 						post_id = parseInt( this.getId( id ) );
 
-					if ( post_id > 0 ) {
+					if ( ! post_id )
+						return false;
 
-						console.log( movie_details );
+					wpmoly.update_nonce( 'set-quickedit-movie-details', nonce );
 
-						var edit_row = '#edit-' + post_id,
-						    $movie_media = $( '#movie-media', edit_row ),
-						    $movie_status = $( '#movie-status', edit_row ),
-						    $movie_rating = $( '#movie-rating', edit_row ),
-						    $hidden_movie_rating = $( '#hidden-movie-rating', edit_row ),
-						    $stars = $( '#stars', edit_row );
-
-						wpmoly.update_nonce( 'set-quickedit-movie-details', nonce );
-
-						$movie_media.children( 'option' ).each( function() {
-							$( this ).prop( 'selected', ( $( this ).val() == movie_details.movie_media ) );
+					$( '.inline-edit-movie-detail', '#edit-' + post_id ).each(function() {
+						var detail = this.id.replace( 'movie-', '' );
+						$( this ).children( 'option' ).each( function() {
+							$( this ).prop( 'selected', ( details[ detail ] == $( this ).val() ) );
 						});
-
-						$movie_status.children( 'option' ).each( function() {
-							$( this ).prop( 'selected', ( $( this ).val() == movie_details.movie_status ) );
-						});
-
-						if ( '' != movie_details.movie_rating && ' ' != movie_details.movie_rating ) {
-							$movie_rating.val( movie_details.movie_rating );
-							$hidden_movie_rating.val( movie_details.movie_rating );
-							$stars.removeClass( 'stars-', 'stars-0-0', 'stars-0-5', 'stars-1-0', 'stars-1-5', 'stars-2-0', 'stars-2-5', 'stars-3-0', 'stars-3-5', 'stars-4-0', 'stars-4-5', 'stars-5-0' );
-							$stars.addClass( 'stars-' + movie_details.movie_rating.replace( '.', '-' ) );
-							$stars.attr( 'data-rated', true );
-							$stars.attr( 'data-default-rating', movie_details.movie_rating );
-							$stars.attr( 'data-rating', movie_details.movie_rating );
-						}
-					}
+					});
 				};
 			};
 

@@ -159,7 +159,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					break;
 				case 'wpmoly-rating':
 					$meta = wpmoly_get_movie_rating( $post_id );
-					$html = apply_filters( 'wpmoly_editable_rating_stars', $meta, $post_id );
+					$html = apply_filters( 'wpmoly_movie_rating_stars', $meta, $post_id );
 					break;
 				default:
 					$html = '';
@@ -289,7 +289,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$details  = array_keys( WPMOLY_Settings::get_supported_movie_details() );
 
 			foreach ( $details as $i => $detail )
-				$details[ $i ] = sprintf( "movie_{$detail}: '%s'" , call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post->ID, 'meta' => $detail ) ) );
+				$details[ $i ] = sprintf( "{$detail}: '%s'" , call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post->ID, 'meta' => $detail ) ) );
 
 			$details = '{' . implode( ', ', $details ) . '}';
 

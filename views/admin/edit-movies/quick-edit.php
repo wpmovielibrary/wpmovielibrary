@@ -6,7 +6,7 @@
 				<div class="inline-edit-group">
 					<label>
 						<span class="title"><span class="<?php echo $field['icon'] ?>"></span><?php echo $field['title']; ?></span>
-						<select class="movie-<?php echo $id ?>" id="movie-<?php echo $id ?>" name="wpmoly_details[<?php echo $id ?>]">
+						<select id="movie-<?php echo $id ?>" class="inline-edit-movie-detail movie-<?php echo $id ?>" name="wpmoly_details[<?php echo $id ?>]">
 							<option value=""><?php _e( 'None', 'wpmovielibrary' ) ?></option>
 <?php foreach ( $field['options'] as $slug => $title ) : ?>
 							<option value="<?php echo $slug ?>"><?php echo $title; ?></option>
