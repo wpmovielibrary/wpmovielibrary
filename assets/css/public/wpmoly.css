@@ -17,12 +17,10 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-#wp-admin-bar-wpmovielibrary img {
-	margin: -2px 6px 0 0;
-}
-
-#wp-toolbar #wp-admin-bar-wpmovielibrary > .ab-item > img,
-#wp-toolbar #wp-admin-bar-wpmovielibrary > .ab-item > img {
+#wp-admin-bar-wpmovielibrary .wpmolicon {
+	font-family: 'wpmovielibrary';
+	font-size: 1.25em;
+	margin-right: 0.25em;
 	opacity: 0.75;
 }
 
