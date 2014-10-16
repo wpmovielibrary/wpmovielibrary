@@ -36,8 +36,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'admin_footer', array( $this, 'edit_details_inline' ) );
-
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 9 );
 
 			add_filter( 'manage_movie_posts_columns', __CLASS__ . '::movies_columns_head' );

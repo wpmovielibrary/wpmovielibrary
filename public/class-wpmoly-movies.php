@@ -41,9 +41,11 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			add_filter( 'the_content', __CLASS__ . '::movie_content' );
 			add_filter( 'get_the_excerpt', __CLASS__ . '::movie_excerpt' );
 
+			// Pass meta through URLs
 			add_action( 'pre_get_posts', __CLASS__ . '::movies_query_meta', 10, 1 );
 			add_filter( 'query_vars', __CLASS__ . '::movies_query_vars', 10, 1 );
 
+			// TODO: is that useful anyway?
 			add_filter( 'wpmoly_get_movies_from_media', __CLASS__ . '::get_movies_from_media', 10, 1 );
 			add_filter( 'wpmoly_get_movies_from_status', __CLASS__ . '::get_movies_from_status', 10, 1 );
 		}
@@ -344,47 +346,80 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 * @since     1.0.0
 		 * 
 		 * @param     object      $wp_query Current WP_Query instance
-		 *
-		 * @return    string      The WP_Query instance, updated or not.
 		 */
 		public static function movies_query_meta( $wp_query ) {
 
-			$key_vars = array_keys( $wp_query->query_vars );
+			if ( is_admin() )
+				return false;
 
-			if ( in_array( 'wpmoly_movie_media', $key_vars ) ) {
-				$value = $wp_query->get( 'wpmoly_movie_media' );
-				if ( $value == __( 'bluray', 'wpmovielibrary' ) )
-					$value = 'bluray';
-				else if ( $value == __( 'cinema', 'wpmovielibrary' ) )
-					$value = 'cinema';
-				else if ( $value == __( 'other', 'wpmovielibrary' ) )
-					$value = 'other';
+			if ( isset( $wp_query->query_vars['metadata'] ) )
+				$meta_key = $wp_query->query_vars['metadata'];
+			else if ( isset( $wp_query->query_vars['detail'] ) )
+				$meta_key = $wp_query->query_vars['detail'];
+			else
+				return false;
 
-				$wp_query->set( 'meta_key', '_wpmoly_movie_media' );
-				$wp_query->set( 'meta_value', $value );
+			$l10n_rewrite = WPMOLY_Settings::get_supported_l10n_rewrite();
+
+			$meta_value  = $wp_query->query_vars['value'];
+			$meta_key    = array_search( $meta_key, $l10n_rewrite );
+
+			// If meta_key does not exist, trigger a 404 error
+			if ( ! $meta_key ) {
+				$wp_query->set( 'post__in', array( -1 ) );
+				return false;
 			}
 
-			if ( in_array( 'wpmoly_movie_status', $key_vars ) ) {
-				$value = $wp_query->get( 'wpmoly_movie_status' );
-				if ( $value == __( 'unavailable', 'wpmovielibrary' ) )
-					$value = 'unavailable';
-				else if ( $value == __( 'available', 'wpmovielibrary' ) )
-					$value = 'available';
-				else if ( $value == __( 'loaned', 'wpmovielibrary' ) )
-					$value = 'loaned';
-				else if ( $value == __( 'scheduled', 'wpmovielibrary' ) )
-					$value = 'scheduled';
+			$_meta_key   = '';
+			$_meta_value = '';
 
-				$wp_query->set( 'meta_key', '_wpmoly_movie_status' );
-				$wp_query->set( 'meta_value', $value );
+			if ( 'year' == $meta_key ) {
+				$wp_query->set( 'meta_query', array(
+					array(
+						'key'     => '_wpmoly_movie_release_date',
+						'value'   => $meta_value,
+						'compare' => 'LIKE'
+					)
+				) );
+			}
+			else {
+				$wp_query->set( 'meta_query', array(
+					array(
+						'key'     => "_wpmoly_movie_{$meta_key}",
+						'value'   => $meta_value,
+						'compare' => 'LIKE'
+					)
+				) );
 			}
 
-			if ( in_array( 'wpmoly_movie_rating', $key_vars ) ) {
-				$wp_query->set( 'meta_key', '_wpmoly_movie_rating' );
-				$wp_query->set( 'meta_value', $wp_query->get( 'wpmoly_movie_rating' ) );
-			}
+				/*case 'tmdb_id':
+				case 'title'
+				case 'original_title'
+				case 'overview'
+				case 'release_date'
+				case 'runtime'
+				case 'production_compagnies'
+				case 'production_country'
+				case 'spoken_languages'
+				case 'genres'
+				case 'director'
+				case 'producer'
+				case 'cast'
+				case 'photography'
+				case 'composer'
+				case 'author'
+				case 'writer'
+				case 'status'
+				case 'media'
+				case 'rating'
+				case 'language'
+				case 'subtitles'
+				case 'format':
+					
+					break;
+				default:
+					break;*/
 
-			return $wp_query;
 		}
 
 		/**
@@ -397,9 +432,9 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 * @return   array     Updated WP_Query instance
 		 */
 		public static function movies_query_vars( $q_var ) {
-			$q_var[] = 'wpmoly_movie_media';
-			$q_var[] = 'wpmoly_movie_status';
-			$q_var[] = 'wpmoly_movie_rating';
+			$q_var[] = 'detail';
+			$q_var[] = 'metadata';
+			$q_var[] = 'value';
 			return $q_var;
 		}
 

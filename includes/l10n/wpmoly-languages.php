@@ -1188,3 +1188,30 @@ $wpmoly_countries = array(
                 'name'   => __( 'Zimbabwe', 'wpmovielibrary-iso' )
         ),
 );
+
+$wpmoly_l10n_rewrite = array(
+	'tmdb_id'		=> __( 'tmdbid', 'wpmovielibrary' ),
+	'title'			=> __( 'title', 'wpmovielibrary' ),
+	'original_title'	=> __( 'originaltitle', 'wpmovielibrary' ),
+	'overview'		=> __( 'overview', 'wpmovielibrary' ),
+	'release_date'		=> __( 'date', 'wpmovielibrary' ),
+	'year'			=> __( 'year', 'wpmovielibrary' ),
+	'runtime'		=> __( 'runtime', 'wpmovielibrary' ),
+	'production_compagnies'	=> __( 'production', 'wpmovielibrary' ),
+	//'production_country'	=> __( 'country', 'wpmovielibrary' ),
+	//'spoken_languages'	=> __( 'languages', 'wpmovielibrary' ),
+	'genres'		=> __( 'genre', 'wpmovielibrary' ),
+	'director'		=> __( 'director', 'wpmovielibrary' ),
+	'producer'		=> __( 'producer', 'wpmovielibrary' ),
+	'cast'			=> __( 'actor', 'wpmovielibrary' ),
+	'photography'		=> __( 'photography', 'wpmovielibrary' ),
+	'composer'		=> __( 'composer', 'wpmovielibrary' ),
+	'author'		=> __( 'author', 'wpmovielibrary' ),
+	'writer'		=> __( 'writer', 'wpmovielibrary' ),
+	'status'		=> __( 'status', 'wpmovielibrary' ),
+	'media'			=> __( 'media', 'wpmovielibrary' ),
+	'rating'		=> __( 'rating', 'wpmovielibrary' ),
+	'language'		=> __( 'language', 'wpmovielibrary' ),
+	'subtitles'		=> __( 'subtitles', 'wpmovielibrary' ),
+	'format'		=> __( 'format', 'wpmovielibrary' )
+);
