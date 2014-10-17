@@ -79,7 +79,7 @@ wpmoly = wpmoly || {};
 
 					var id = $( this ).prop( 'id' ).replace( 'movie-', '' );
 
-					$( wpmoly_updates._status ).text( wpmoly_ajax.lang.updating );
+					$( wpmoly_updates._status ).text( wpmoly_lang.updating );
 
 					$.ajaxQueue({
 						data: {
@@ -93,7 +93,7 @@ wpmoly = wpmoly || {};
 							$.each( response.responseJSON.errors, function() {
 								wpmoly_state.set( this, 'error' );
 							});
-							$( '#update-movies-log' ).append( '<span class="wpmolicon icon-no"></span> ' + wpmoly_ajax.lang.movie.charAt( 0 ).toUpperCase() + wpmoly_ajax.lang.movie.slice( 1 ) + ' #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » ' + wpmoly_ajax.lang.not_updated );
+							$( '#update-movies-log' ).append( '<span class="wpmolicon icon-no"></span> ' + wpmoly_lang.movie.charAt( 0 ).toUpperCase() + wpmoly_lang.movie.slice( 1 ) + ' #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » ' + wpmoly_lang.not_updated );
 						},
 						success: function( response ) {
 							var $tr = $( 'tr#movie-' + id );
@@ -101,13 +101,13 @@ wpmoly = wpmoly || {};
 							$tr.find( '.wpmolicon.icon-arrow-right' ).removeClass( 'icon-arrow-right' ).addClass( 'icon-yes' );
 							$tr.find( '.update-movie, .queue-movie' ).remove();
 							$( '#updated-movies' ).append( $tr );
-							$( '#update-movies-log' ).append( '<span class="update-movies-log-entry"><span class="wpmolicon icon-yes"></span> ' + wpmoly_ajax.lang.movie.charAt( 0 ).toUpperCase() + wpmoly_ajax.lang.movie.slice( 1 ) + ' #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » ' + wpmoly_ajax.lang.updated + '</span>' );
+							$( '#update-movies-log' ).append( '<span class="update-movies-log-entry"><span class="wpmolicon icon-yes"></span> ' + wpmoly_lang.movie.charAt( 0 ).toUpperCase() + wpmoly_lang.movie.slice( 1 ) + ' #' + id + ' « <em>' + $tr.find( '.movie-title' ).text() + '</em> » ' + wpmoly_lang.updated + '</span>' );
 							$( '#update-movies-log' ).scrollTop( Math.round( $( '.update-movies-log-entry' ).last().position().top + $( '.update-movies-log-entry' ).last().height() ) );
 						},
 						complete: function() {
 							wpmoly_update_progress.update_counter( $( '#updated-movies tr.active' ).length );
 							if ( ! $( '#deprecated-movies .active' ).length )
-								$( wpmoly_updates._status ).text( wpmoly_ajax.lang.done );
+								$( wpmoly_updates._status ).text( wpmoly_lang.done );
 						}
 					});
 				} );
@@ -120,7 +120,7 @@ wpmoly = wpmoly || {};
 				var total = $( wpmoly_updates._total ).text(),
 				 progress = Math.round( ( number * 100 ) / total ) + '%';
 				$( wpmoly_updates._number ).text( number );
-				$( wpmoly_updates.__number ).text( ( 1 < number ? wpmoly_ajax.lang.movies_updated : wpmoly_ajax.lang.movie_updated ) );
+				$( wpmoly_updates.__number ).text( ( 1 < number ? wpmoly_lang.movies_updated : wpmoly_lang.movie_updated ) );
 				$( wpmoly_updates._percent ).text( progress );
 				$( wpmoly_updates._progress ).animate( { width: progress }, 25 );
 			};
@@ -128,5 +128,5 @@ wpmoly = wpmoly || {};
 			wpmoly.updates.progress.update_total = function( total ) {
 
 				$( wpmoly_updates._total ).text( total );
-				$( wpmoly_updates.__total ).text( ( 1 < total ? wpmoly_ajax.lang.x_selected : wpmoly_ajax.lang.selected ) );
+				$( wpmoly_updates.__total ).text( ( 1 < total ? wpmoly_lang.x_selected : wpmoly_lang.selected ) );
 			};

@@ -66,7 +66,7 @@ wpmoly = wpmoly || {};
 						_visible.each( function() { visible.push( this.outerHTML ); } );
 						_hidden.each( function() { hidden.push( this.outerHTML ); } );
 
-						$( this ).html( '<span class="visible-actors"></span>, <span class="hidden-actors"></span> <a class="more-actors" href="#">' + wpmoly_ajax.lang.see_more + '</a>' );
+						$( this ).html( '<span class="visible-actors"></span>, <span class="hidden-actors"></span> <a class="more-actors" href="#">' + wpmoly_lang.see_more + '</a>' );
 						$( this ).find( wpmoly_edit_movies.visible ).html( visible.join( ', ' ) );
 						$( this ).find( wpmoly_edit_movies.hidden ).html( hidden.join( ', ' ) );
 					}
@@ -84,9 +84,9 @@ wpmoly = wpmoly || {};
 
 				$( link ).prev( wpmoly_edit_movies.hidden ).toggle();
 				if ( 'none' != $( link ).prev( wpmoly_edit_movies.hidden ).css( 'display' ) )
-					$( link ).text( wpmoly_ajax.lang.see_less );
+					$( link ).text( wpmoly_lang.see_less );
 				else
-					$( link ).text( wpmoly_ajax.lang.see_more );
+					$( link ).text( wpmoly_lang.see_more );
 			};
 
 			/**

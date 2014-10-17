@@ -241,6 +241,73 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		}
 
 		/**
+		 * Localization for scripts
+		 * 
+		 * Adds a translation object to the plugin's JavaScript object
+		 * containing localized texts.
+		 * 
+		 * @since    1.0
+		 * 
+		 * @return   array    Localization array
+		 */
+		public static function localize_script() {
+
+			$localize = array();
+			$localize['language'] = wpmoly_o( 'api-language' );
+
+			$lang = array(
+				'available'		=> __( 'Available', 'wpmovielibrary' ),
+				'deleted_movie'		=> __( 'One movie successfully deleted.', 'wpmovielibrary' ),
+				'deleted_movies'	=> __( '%s movies successfully deleted.', 'wpmovielibrary' ),
+				'dequeued_movie'	=> __( 'One movie removed from the queue.', 'wpmovielibrary' ),
+				'dequeued_movies'	=> __( '%s movies removed from the queue.', 'wpmovielibrary' ),
+				'done'			=> __( 'Done!', 'wpmovielibrary' ),
+				'empty_key'		=> __( 'I can\'t test an empty key, you know.', 'wpmovielibrary' ),
+				'enqueued_movie'	=> __( 'One movie added to the queue.', 'wpmovielibrary' ),
+				'enqueued_movies'	=> __( '%s movies added to the queue.', 'wpmovielibrary' ),
+				'images_added'		=> __( 'Images added!', 'wpmovielibrary' ),
+				'image_from'		=> __( 'Image from', 'wpmovielibrary' ),
+				'images_uploaded'	=> __( 'Images uploaded!', 'wpmovielibrary' ),
+				'import_images'		=> __( 'Import Images', 'wpmovielibrary' ),
+				'import_images_title'	=> __( 'Import Images for "%s"', 'wpmovielibrary' ),
+				'import_images_wait'	=> __( 'Please wait while the images are uploaded...', 'wpmovielibrary' ),
+				'import_poster'		=> __( 'Import Poster', 'wpmovielibrary' ),
+				'import_poster_title'	=> __( 'Select a poster for "%s"', 'wpmovielibrary' ),
+				'import_poster_wait'	=> __( 'Please wait while the poster is uploaded...', 'wpmovielibrary' ),
+				'imported'		=> __( 'Imported', 'wpmovielibrary' ),
+				'imported_movie'	=> __( 'One movie successfully imported!', 'wpmovielibrary' ),
+				'imported_movies'	=> __( '%s movies successfully imported!', 'wpmovielibrary' ),
+				'in_progress'		=> __( 'Progressing', 'wpmovielibrary' ),
+				'length_key'		=> __( 'Invalid key: it should be 32 characters long.', 'wpmovielibrary' ),
+				'load_images'		=> __( 'Load Images', 'wpmovielibrary' ),
+				'load_more'		=> __( 'Load More', 'wpmovielibrary' ),
+				'loading_images'	=> __( 'Loading Images…', 'wpmovielibrary' ),
+				'media_no_movie'	=> __( 'No movie could be found. You need to select a movie before importing images or posters.', 'wpmovielibrary' ),
+				'movie'			=> __( 'Movie', 'wpmovielibrary' ),
+				'movie_updated'		=> _n( 'movie updated', 'movies updated', 0, 'wpmovielibrary' ),
+				'movies_updated'	=> _n( 'movie updated', 'movies updated', 2, 'wpmovielibrary' ),
+				'not_updated'		=> __( 'not updated', 'wpmovielibrary' ),
+				'oops'			=> __( 'Oops… Did something went wrong?', 'wpmovielibrary' ),
+				'poster'		=> __( 'Poster', 'wpmovielibrary' ),
+				'save_image'		=> __( 'Saving Images…', 'wpmovielibrary' ),
+				'search_movie_title'	=> __( 'Searching movie', 'wpmovielibrary' ),
+				'search_movie'		=> __( 'Fetching movie data', 'wpmovielibrary' ),
+				'see_less'		=> __( 'see no more', 'wpmovielibrary' ),
+				'see_more'		=> __( 'see more', 'wpmovielibrary' ),
+				'selected'		=> _n( 'selected', 'selected', 0, 'wpmovielibrary' ),
+				'set_featured'		=> __( 'Setting featured image…', 'wpmovielibrary' ),
+				'updated'		=> __( 'updated successfully', 'wpmovielibrary' ),
+				'used'			=> __( 'Used', 'wpmovielibrary' ),
+				'updating'		=> __( 'updating movies...', 'wpmovielibrary' ),
+				'x_selected'		=> _n( 'selected', 'selected', 2, 'wpmovielibrary' )
+			);
+
+			$localize = array_merge( $localize, $lang );
+
+			return $localize;
+		}
+
+		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
 		 * @since    2.0

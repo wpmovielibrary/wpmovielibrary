@@ -66,7 +66,7 @@ var wpmoly_images, wpmoly_posters;
 					return this._frame;
 
 				this._frame = wp.media({
-					title: wpmoly_ajax.lang.import_images_title.replace( '%s', wpmoly.editor._movie_title ),
+					title: wpmoly_lang.import_images_title.replace( '%s', wpmoly.editor._movie_title ),
 					frame: 'select',
 					searchable: false,
 					library: {
@@ -78,7 +78,7 @@ var wpmoly_images, wpmoly_posters;
 					},
 					multiple: true,
 					button: {
-						text: wpmoly_ajax.lang.import_images
+						text: wpmoly_lang.import_images
 					}
 				});
 
@@ -112,7 +112,7 @@ var wpmoly_images, wpmoly_posters;
 				var $content = $( wpmoly_images._frame.content.selector );
 
 				if ( ! $('#progressbar_bg').length )
-					$content.append('<div id="progressbar_bg"><div id="progressbar"><div id="progress" style="width:5%"></div></div><div id="progress_status">' + wpmoly_ajax.lang.import_images_wait + '</div>');
+					$content.append('<div id="progressbar_bg"><div id="progressbar"><div id="progress" style="width:5%"></div></div><div id="progress_status">' + wpmoly_lang.import_images_wait + '</div>');
 
 				$('#progressbar_bg, #progressbar').show();
 
@@ -145,7 +145,7 @@ var wpmoly_images, wpmoly_posters;
 						action: 'wpmoly_upload_image',
 						nonce: wpmoly.get_nonce( 'upload-movie-image' ),
 						image: image.attributes.metadata,
-						title: wpmoly_ajax.lang.image_from + ' ' + wpmoly.editor._movie_title,
+						title: wpmoly_lang.image_from + ' ' + wpmoly.editor._movie_title,
 						post_id: wpmoly.editor._movie_id,
 						tmdb_id: wpmoly.editor._movie_tmdb_id
 					},
@@ -164,7 +164,7 @@ var wpmoly_images, wpmoly_posters;
 					complete: function() {
 						$('#progressbar #progress').animate( { width: '' + progress + '%' }, 250 );
 						if ( index == wpmoly_images.total ) {
-							$('#progress_status').text( wpmoly_ajax.lang.done );
+							$('#progress_status').text( wpmoly_lang.done );
 							window.setTimeout( wpmoly_images.close(), 2000 );
 						}
 						else {
@@ -214,7 +214,7 @@ var wpmoly_images, wpmoly_posters;
 					return this._frame;
 
 				this._frame = wp.media({
-					title: wpmoly_ajax.lang.import_poster_title.replace( '%s', wpmoly.editor._movie_title ),
+					title: wpmoly_lang.import_poster_title.replace( '%s', wpmoly.editor._movie_title ),
 					frame: 'select',
 					searchable: false,
 					library: {
@@ -226,7 +226,7 @@ var wpmoly_images, wpmoly_posters;
 					},
 					multiple: false,
 					button: {
-						text: wpmoly_ajax.lang.import_poster
+						text: wpmoly_lang.import_poster
 					}
 				});
 
@@ -263,7 +263,7 @@ var wpmoly_images, wpmoly_posters;
 				var $content = $(wpmoly_posters._frame.content.selector);
 
 				if ( ! $('#progressbar_bg').length )
-					$content.append('<div id="progressbar_bg"><div id="progressbar"><div id="progress"></div></div><div id="progress_status">' + wpmoly_ajax.lang.import_poster_wait + '</div>');
+					$content.append('<div id="progressbar_bg"><div id="progressbar"><div id="progress"></div></div><div id="progress_status">' + wpmoly_lang.import_poster_wait + '</div>');
 
 				$('#progressbar_bg, #progressbar').show();
 				$('#progressbar #progress').width('40%');
@@ -295,7 +295,7 @@ var wpmoly_images, wpmoly_posters;
 				else {
 					if ( 0 <= parseInt( wp.media.featuredImage.get() ) ) {
 						$('#progressbar #progress').width('100%');
-						$('#progress_status').text( wpmoly_ajax.lang.done );
+						$('#progress_status').text( wpmoly_lang.done );
 						window.setTimeout( wpmoly_posters.close(), 2000 );
 						return false;
 					}
@@ -324,7 +324,7 @@ var wpmoly_images, wpmoly_posters;
 						}
 					},
 					complete: function() {
-						$('#progress_status').text( wpmoly_ajax.lang.done );
+						$('#progress_status').text( wpmoly_lang.done );
 						window.setTimeout( wpmoly_posters.close(), 2000 );
 					}
 				});
@@ -343,7 +343,7 @@ var wpmoly_images, wpmoly_posters;
 		wpmoly.media.no_movie = function() {
 
 			wpmoly_state.clear();
-			wpmoly_state.set( wpmoly_ajax.lang.media_no_movie, 'error' );
+			wpmoly_state.set( wpmoly_lang.media_no_movie, 'error' );
 		};
 
 		wpmoly.media.init = function() {

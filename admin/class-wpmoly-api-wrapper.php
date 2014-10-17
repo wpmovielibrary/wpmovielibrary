@@ -60,85 +60,6 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			add_action( 'wp_ajax_wpmoly_check_api_key', __CLASS__ . '::check_api_key_callback' );
 		}
 
-		/**
-		 * Initializes variables
-		 *
-		 * @since    1.0
-		 */
-		public function init() {
-		}
-
-		/**
-		 * Set up TMDb config.
-		 * Sends a request to the API to fetch images and posters default sizes
-		 * and generate various size-based urls for posters and backdrops.
-		 *
-		 * @since    1.0
-		 *
-		 * @return   array    TMDb config
-		 */
-		private static function tmdb_config() {
-
-			$tmdb = new TMDb();
-			$config = $tmdb->getConfig();
-
-			if ( is_null( $config ) ) {
-				WPMOLY_Utils::admin_notice( __( 'Unknown error, connection to TheMovieDB API failed.', 'wpmovielibrary' ), 'error' );
-				return false;
-			}
-			else if ( isset( $config['status_code'] ) && in_array( $config['status_code'], array( 7, 403 ) ) ) {
-				WPMOLY_Utils::admin_notice( sprintf( __( 'Connection to TheMovieDB API failed with message "%s" (code %s)', 'wpmovielibrary' ), $config['status_message'], $config['status_code'] ), 'error' );
-				return false;
-			}
-
-			return $config;
-		}
-
-		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-		 *
-		 *                             Methods
-		 * 
-		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		/**
-		 * Test the submitted API key using a dummy TMDb instance to fetch
-		 * API's configuration. Return the request result array.
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    string    $key API Key
-		 *
-		 * @return   array     API configuration request result
-		 */
-		private static function check_api_key( $key ) {
-
-			$tmdb = new TMDb( $config = true, $dummy = false );
-			$check = $tmdb->checkApiKey( $key );
-
-			return $check;
-		}
-
-		/**
-		 * Generate base url for requested image type and size.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    string    $filepath Filepath to image
-		 * @param    const     $imagetype Image type
-		 * @param    string    $size Valid size for the image
-		 * 
-		 * @return   string    base url
-		 */
-		public static function get_image_url( $filepath = null, $imagetype = null, $size = null ) {
-
-			$tmdb = new TMDb();
-
-			$url = $tmdb->getImageUrl( $filepath, $imagetype, $size );
-
-			return $url;
-		}
-
-
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
 		 *                             Callbacks
@@ -197,6 +118,50 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				$response = self::get_movie_by_id( $data, $lang, $_id );
 
 			wpmoly_ajax_response( $response );
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                             Methods
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * Test the submitted API key using a dummy TMDb instance to fetch
+		 * API's configuration. Return the request result array.
+		 *
+		 * @since    1.0
+		 * 
+		 * @param    string    $key API Key
+		 *
+		 * @return   array     API configuration request result
+		 */
+		private static function check_api_key( $key ) {
+
+			$tmdb = new TMDb( $config = true, $dummy = false );
+			$check = $tmdb->checkApiKey( $key );
+
+			return $check;
+		}
+
+		/**
+		 * Generate base url for requested image type and size.
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $filepath Filepath to image
+		 * @param    const     $imagetype Image type
+		 * @param    string    $size Valid size for the image
+		 * 
+		 * @return   string    base url
+		 */
+		public static function get_image_url( $filepath = null, $imagetype = null, $size = null ) {
+
+			$tmdb = new TMDb();
+
+			$url = $tmdb->getImageUrl( $filepath, $imagetype, $size );
+
+			return $url;
 		}
 
 
@@ -499,6 +464,13 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * @since    1.0
 		 */
 		public function deactivate() {}
+
+		/**
+		 * Initializes variables
+		 *
+		 * @since    1.0
+		 */
+		public function init() {}
 
 	}
 
