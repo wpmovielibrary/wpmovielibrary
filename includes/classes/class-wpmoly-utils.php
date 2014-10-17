@@ -146,17 +146,12 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		/**
 		 * Create a new set of permalinks for Movie Details
 		 * 
-		 * We want to list movies by media, status and rating. This method
-		 * is called whenever permalinks are edited using the filter
-		 * hook 'rewrite_rules_array'.
-		 * 
-		 * This also add permalink structures for custom taxonomies as
-		 * they seem not to be declared correctly when usin the regular
-		 * register_taxonomy 'rewrite' param.
+		 * This method is called whenever permalinks are edited using
+		 * the filter hook 'rewrite_rules_array'.
 		 *
 		 * @since    1.0
 		 *
-		 * @param    object     $wp_rewrite Instance of WordPress WP_Rewrite Class
+		 * @param    array     $rules Existing rewrite rules
 		 */
 		public static function register_permalinks( $rules = null ) {
 
@@ -166,83 +161,42 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			if ( ! is_null( $rules ) )
 				return $new_rules + $rules;
-
-			foreach ( $new_rules as $regex => $rule )
-				add_rewrite_rule( $regex, $rule, 'top' );
-
-			add_permastruct(
-				'collection',
-				'/' . $collection . '/%collection%',
-				array(
-					'with_front'  => 1,
-					'ep_mask'     => 0,
-					'paged'       => 1,
-					'feed'        => 1,
-					'forcomments' => null,
-					'walk_dirs'   => 1,
-					'endpoints'   => 1
-				)
-			);
-
-			add_permastruct(
-				'genre',
-				'/' . $genre . '/%genre%',
-				array(
-					'with_front'  => 1,
-					'ep_mask'     => 0,
-					'paged'       => 1,
-					'feed'        => 1,
-					'forcomments' => null,
-					'walk_dirs'   => 1,
-					'endpoints'   => 1
-				)
-			);
-
-			add_permastruct(
-				'actor',
-				'/' . $actor . '/%actor%',
-				array(
-					'with_front'  => 1,
-					'ep_mask'     => 0,
-					'paged'       => 1,
-					'feed'        => 1,
-					'forcomments' => null,
-					'walk_dirs'   => 1,
-					'endpoints'   => 1
-				)
-			);
-
 		}
 
+		/**
+		 * Create a new set of permalinks for movies to access movies by
+		 * details and meta. 
+		 * 
+		 * This also add permalink structures for custom taxonomies and
+		 * implement translation support for all custom permalinks.
+		 *
+		 * @since    2.0
+		 *
+		 * @return   array    $new_rules List of new to rules to add to the current rewrite rules.
+		 */
 		private static function generate_custom_permalinks() {
 
 			$new_rules  = array();
 			$l10n_rules = WPMOLY_L10n::set_l10n_rewrite_rules();
 
 			foreach ( $l10n_rules['taxonomies'] as $slug => $tax ) {
-				$new_rules[ $tax . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' ]	= 'index.php?' . $slug . '=$matches[1]&feed=$matches[2]';
-				$new_rules[ $tax . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' ]		= 'index.php?' . $slug . '=$matches[1]&feed=$matches[2]';
-				$new_rules[ $tax . '/([^/]+)/page/?([0-9]{1,})/?$' ]			= 'index.php?' . $slug . '=$matches[1]&paged=$matches[2]';
-				$new_rules[ $tax . '/([^/]+)/?$' ]					= 'index.php?' . $slug . '=$matches[1]';
+				$new_rules[ $tax . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' ] = 'index.php?' . $slug . '=$matches[1]&feed=$matches[2]';
+				$new_rules[ $tax . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' ] = 'index.php?' . $slug . '=$matches[1]&feed=$matches[2]';
+				$new_rules[ $tax . '/([^/]+)/page/?([0-9]{1,})/?$' ] = 'index.php?' . $slug . '=$matches[1]&paged=$matches[2]';
+				$new_rules[ $tax . '/([^/]+)/?$' ] = 'index.php?' . $slug . '=$matches[1]';
 			}
 
 			foreach ( $l10n_rules['detail'] as $slug => $detail ) {
 
-				$_detail = $detail;
-				if ( wpmoly_o( 'rewrite-enable' ) )
-					$_detail .= '|' . remove_accents( $detail );
-
-				$new_rules[ $l10n_rules['movies'] . '/(' . $_detail . ')/([^/]+)/?$' ]			 = 'index.php?detail=$matches[1]&value=$matches[2]';
+				$_detail = apply_filters( 'wpmoly_filter_rewrites', $detail );
+				$new_rules[ $l10n_rules['movies'] . '/(' . $_detail . ')/([^/]+)/?$' ] = 'index.php?detail=$matches[1]&value=$matches[2]';
 				$new_rules[ $l10n_rules['movies'] . '/(' . $_detail . ')/([^/]+)/page/?([0-9]{1,})/?$' ] = 'index.php?detail=$matches[1]&value=$matches[2]&paged=$matches[3]';
 			}
 
 			foreach ( $l10n_rules['meta'] as $slug => $meta ) {
 
-				$_meta = $meta;
-				if ( wpmoly_o( 'rewrite-enable' ) )
-					$_meta .= '|' . remove_accents( $meta );
-
-				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/?$' ]			 = 'index.php?meta=$matches[1]&value=$matches[2]';
+				$_meta = apply_filters( 'wpmoly_filter_rewrites', $meta );
+				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/?$' ] = 'index.php?meta=$matches[1]&value=$matches[2]';
 				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/page/?([0-9]{1,})/?$' ] = 'index.php?meta=$matches[1]&value=$matches[2]&paged=$matches[3]';
 			}
 

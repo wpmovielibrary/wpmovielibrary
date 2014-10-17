@@ -376,11 +376,8 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			$l10n_rewrite = WPMOLY_L10n::get_l10n_rewrite();
 			$meta_value   = strtolower( $wp_query->query_vars['value'] );
-			$meta_key     = strtolower( $meta_key );
+			$meta_key     = apply_filters( 'wpmoly_filter_rewrites',$meta_key );
 			$meta_key     = array_search( $meta_key, $l10n_rewrite[ $meta ] );
-
-			if ( ! $meta_key )
-				$meta_key = array_search( remove_accents( $meta_key ), $l10n_rewrite[ $meta ] );
 
 			// If meta_key does not exist, trigger a 404 error
 			if ( ! $meta_key ) {
@@ -395,6 +392,9 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				$meta = 'countries';
 
 			$value = array_search( $meta_value, $l10n_rewrite[ $meta ] );
+			if ( ! $value )
+				$value = array_search( remove_accents( rawurldecode( $meta_value ) ), $l10n_rewrite[ $meta ] );
+
 			if ( false != $value )
 				$meta_value = $value;
 

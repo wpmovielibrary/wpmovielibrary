@@ -33,6 +33,8 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		public function register_hook_callbacks() {
 
 			add_action( 'wp_head', __CLASS__ . '::dev4press_debug_page_request' );
+
+			add_filter( 'wpmoly_filter_rewrites', __CLASS__ . '::filter_rewrites', 10, 1 );
 		}
 
 		/**
@@ -112,7 +114,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			}
 
 			foreach ( $l10n_rewrite as $id => $rewrite )
-				$l10n_rewrite[ $id ] = array_map( 'strtolower', $rewrite );
+				$l10n_rewrite[ $id ] = array_map( __CLASS__ . '::filter_rewrites', $rewrite );
 
 			/**
 			 * Filter the rewrites list
@@ -228,6 +230,14 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			$delete = delete_option( 'wpmoly_rewrite_rules' );
 
 			return $delete;
+		}
+
+		public static function filter_rewrites( $rewrite ) {
+
+			$rewrite = remove_accents( $rewrite );
+			$rewrite = sanitize_title_with_dashes( $rewrite );
+
+			return $rewrite;
 		}
 
 		/**
