@@ -363,21 +363,24 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			if ( is_admin() )
 				return false;
 
-			if ( isset( $wp_query->query_vars['metadata'] ) )
-				$meta = $wp_query->query_vars['metadata'];
-			else if ( isset( $wp_query->query_vars['detail'] ) )
-				$meta = $wp_query->query_vars['detail'];
+			if ( isset( $wp_query->query_vars['metadata'] ) ) {
+				$meta = 'meta';
+				$meta_key = $wp_query->query_vars['metadata'];
+			}
+			else if ( isset( $wp_query->query_vars['detail'] ) ) {
+				$meta = 'detail';
+				$meta_key = $wp_query->query_vars['detail'];
+			}
 			else
 				return false;
 
 			$meta_value = $wp_query->query_vars['value'];
-			$meta_key   = $meta;
 
 			// If rewrite translation isn't active, dont bother
 			if ( wpmoly_o( 'rewrite-enable' ) ) {
 
-				$l10n_rewrite = self::get_l10n_rewrite();
-				$meta_key     = array_search( $meta, $l10n_rewrite );
+				$l10n_rewrite = WPMOLY_L10n::get_l10n_rewrite();
+				$meta_key     = array_search( $meta_key, $l10n_rewrite[ $meta ] );
 
 				// If meta_key does not exist, trigger a 404 error
 				if ( ! $meta_key ) {
@@ -385,7 +388,13 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 					return false;
 				}
 
-				$value = array_search( strtolower( $meta_value ), $l10n_rewrite );
+				// Languages and countries meta are special
+				if ( 'spoken_languages' == $meta_key && 'meta' == $meta )
+					$meta = 'languages';
+				else if ( 'production_countries' == $meta_key && 'meta' == $meta )
+					$meta = 'countries';
+
+				$value = array_search( sanitize_title_for_query( $meta_value ), $l10n_rewrite[ $meta ] );
 				if ( false != $value )
 					$meta_value = $value;
 			}
@@ -418,36 +427,6 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 					)
 				) );
 			}
-		}
-
-		/**
-		 * Generate and return a list of possible translated rewrites
-		 * 
-		 * TODO: move to a dedicated language class?
-		 * 
-		 * @since    2.0
-		 * 
-		 * @return   array     Translated rewrites
-		 */
-		private static function get_l10n_rewrite() {
-
-			$l10n_rewrite = get_transient( 'wpmoly_l10n_rewrite' );
-			if ( false === $l10n_rewrite ) {
-
-				$l10n_rewrite = WPMOLY_Settings::get_supported_l10n_rewrite();
-
-				$lang = array_merge(
-					WPMOLY_Settings::get_available_languages(),
-					WPMOLY_Settings::get_supported_countries()
-				);
-
-				foreach ( $lang as $l )
-					$l10n_rewrite[ $l['native'] ] = strtolower( $l['name'] );
-
-				set_transient( 'wpmoly_l10n_rewrite', $l10n_rewrite );
-			}
-
-			return $l10n_rewrite;
 		}
 
 		/**

@@ -251,32 +251,6 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		}
 
 		/**
-		 * Return l10n for rewrite rules
-		 *
-		 * @since    2.0
-		 *
-		 * @return   array    Available l10n
-		 */
-		public static function get_supported_l10n_rewrite() {
-
-			global $wpmoly_l10n_rewrite;
-
-			/**
-			 * Filter the Languages list to add/remove shortcodes.
-			 *
-			 * This should be used through Plugins to create additionnal
-			 * Languages.
-			 *
-			 * @since    1.2
-			 *
-			 * @param    array    $wpmoly_l10n_rewrite Existing languages
-			 */
-			$wpmoly_l10n_rewrite = apply_filters( 'wpmoly_filter_l10n_rewrite', $wpmoly_l10n_rewrite );
-
-			return $wpmoly_l10n_rewrite;
-		}
-
-		/**
 		 * Return Panels data
 		 *
 		 * @since    2.0

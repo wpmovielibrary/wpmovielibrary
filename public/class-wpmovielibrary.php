@@ -40,6 +40,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 			$this->modules = array(
 				'WPMOLY_Settings'    => WPMOLY_Settings::get_instance(),
 				'WPMOLY_Cache'       => WPMOLY_Cache::get_instance(),
+				'WPMOLY_L10n'        => WPMOLY_L10n::get_instance(),
 				'WPMOLY_Utils'       => WPMOLY_Utils::get_instance(),
 				'WPMOLY_Movies'      => WPMOLY_Movies::get_instance(),
 				'WPMOLY_Collections' => WPMOLY_Collections::get_instance(),
