@@ -49,7 +49,7 @@ if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 		 * Checks the AJAX nonce and calls enqueue_movies() to
 		 * create import queue of all movies passed through the list.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 */
 		public static function enqueue_movies_callback() {
 
@@ -67,7 +67,7 @@ if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 		 * Checks the AJAX nonce and calls dequeue_movies() to
 		 * pop movies off the import queue.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 */
 		public static function dequeue_movies_callback() {
 
@@ -82,7 +82,7 @@ if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 		/**
 		 * Callback for Queued Movies list AJAX navigation.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 */
 		public static function queued_movies_callback() {
 
@@ -110,7 +110,7 @@ if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 		/**
 		 * Callback for Queued Movies Import.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 */
 		public static function import_queued_movie_callback() {
 
@@ -125,7 +125,7 @@ if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 		/**
 		 * Display a custom WP_List_Table of queued movies
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 */
 		public static function display_queued_movie_list() {
 
@@ -143,12 +143,11 @@ if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 		/**
 		 * Process the submitted queued movie list
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 * 
-		 * @param     array    $movies Array of movies metadata
+		 * @param    array    $movies Array of movies metadata
 		 * 
-		 * @return    array|WP_Error    Array of update movies Post IDs
-		 *                              if no error occured, or WP_Error
+		 * @return   array|WP_Error    Array of update movies Post IDs if no error occured, or WP_Error
 		 */
 		private static function enqueue_movies( $movies ) {
 
@@ -178,8 +177,7 @@ if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 		 * 
 		 * @param    array    $metadata Movie metadata.
 		 * 
-		 * @return   int|WP_Error    Movie Post ID if successfully enqueued,
-		 *                           WP_Error if failed.
+		 * @return   int|WP_Error    Movie Post ID if successfully enqueued, WP_Error if failed.
 		 */
 		public static function enqueue_movie( $movie ) {
 
@@ -205,7 +203,6 @@ if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 			if ( is_wp_error( $update ) )
 				return new WP_Error( 'error', sprintf( __( 'An error occured when adding "%s" to the queue: %s', 'wpmovielibrary' ), $post_title, $update->get_error_message() ) );
 
-			// TODO: Use WP_Error
 			$update = WPMOLY_Edit_Movies::save_movie( $update, $post = null, $queue = true, $metadata );
 			if ( is_wp_error( $update ) )
 				return new WP_Error( 'error', sprintf( __( 'An error occured when adding "%s" to the queue: %s', 'wpmovielibrary' ), $post_title, $update->get_error_message() ) );
@@ -220,12 +217,11 @@ if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 		 * an array of Post IDs if no error occured, a WP_Error instance
 		 * containing all errors if any.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 * 
-		 * @param     array    $movies Array of movies Post IDs to dequeue
+		 * @param    array    $movies Array of movies Post IDs to dequeue
 		 * 
-		 * @return    array|WP_Error    Array of update movies Post IDs
-		 *                              if no error occured, or WP_Error
+		 * @return   array|WP_Error    Array of update movies Post IDs if no error occured, or WP_Error
 		 */
 		private static function dequeue_movies( $movies ) {
 
@@ -247,12 +243,11 @@ if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 		 * Simply change the movie's post_status to 'import-draft',
 		 * update the dates and delete the movie metadata.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 * 
-		 * @param     string     $post_id Movie Post ID.
+		 * @param    string     $post_id Movie Post ID.
 		 * 
-		 * @return    int|WP_Error    Post ID if everything worked, WP_Error
-		 *                            instance if update of meta delete failed
+		 * @return   int|WP_Error    Post ID if everything worked, WP_Error instance if update of meta delete failed
 		 */
 		public static function dequeue_movie( $post_id ) {
 
@@ -284,11 +279,11 @@ if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 		 * Simply change the movie's post_status from 'import-queued' to
 		 * 'publish' and 
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    int    $post_id Movie Post ID
 		 * 
-		 * @return    int|boolean        ID of the updated movie if everything worked, false else.
+		 * @return   int|boolean        ID of the updated movie if everything worked, false else.
 		 */
 		private static function import_queued_movie( $post_id ) {
 
@@ -321,9 +316,9 @@ if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 		 * 
 		 * Fetch all posts with 'import-queued' status and 'movie' post type
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 * 
-		 * @return    array    Default movie values
+		 * @return   array    Default movie values
 		 */
 		public static function get_queued_movies() {
 

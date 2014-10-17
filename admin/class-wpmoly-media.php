@@ -44,6 +44,75 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			add_action( 'wp_ajax_wpmoly_set_featured', __CLASS__ . '::set_featured_image_callback' );
 		}
 
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                             Callbacks
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * Upload a movie image.
+		 * 
+		 * Extract params from $_POST values. Image URL and post ID are
+		 * required, title is optional. If no title is submitted file's
+		 * basename will be used as image name.
+		 *
+		 * @since    1.0
+		 */
+		public static function upload_image_callback() {
+
+			wpmoly_check_ajax_referer( 'upload-movie-image' );
+
+			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
+			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
+			$title   = ( isset( $_POST['title'] )   && '' != $_POST['title']   ? $_POST['title']   : null );
+			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : null );
+
+			if ( ! is_array( $image ) || is_null( $post_id ) )
+				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', 'wpmovielibrary' ) );
+
+			$response = self::image_upload( $image['file_path'], $post_id, $tmdb_id, $title, 'backdrop', $image );
+			wpmoly_ajax_response( $response );
+		}
+
+		/**
+		 * Upload an image and set it as featured image of the submitted
+		 * post.
+		 * 
+		 * Extract params from $_POST values. Image URL and post ID are
+		 * required, title is optional. If no title is submitted file's
+		 * basename will be used as image name.
+		 * 
+		 * Return the uploaded image ID to updated featured image preview
+		 * in editor.
+		 *
+		 * @since    1.0
+		 */
+		public static function set_featured_image_callback() {
+
+			wpmoly_check_ajax_referer( 'set-movie-poster' );
+
+			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
+			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
+			$title   = ( isset( $_POST['title'] )   && '' != $_POST['title']   ? $_POST['title']   : null );
+			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : null );
+
+			if ( 1 != wpmoly_o( 'poster-featured' ) )
+				return new WP_Error( 'no_featured', __( 'Movie Posters as featured images option is deactivated. Update your settings to activate this.', 'wpmovielibrary' ) );
+
+			if ( is_null( $image ) || is_null( $post_id ) )
+				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', 'wpmovielibrary' ) );
+
+			$response = self::set_image_as_featured( $image, $post_id, $tmdb_id, $title );
+			wpmoly_ajax_response( $response );
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                       Images & Posters
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		/**
 		 * Perform delete actions on movies' images and posters.
 		 * 
@@ -54,7 +123,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @param    int    Post ID
 		 * 
-		 * @return   boolean|object    Attachment deletion status
+		 * @return   mixed    Attachment deletion status
 		 */
 		public static function delete_movies_attachments( $post_id ) {
 
@@ -95,6 +164,165 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		}
 
 		/**
+		 * Get all the imported images related to current movie and format them
+		 * to be showed in the Movie Edit page. Featured image (most likely the
+		 * movie poster) is excluded from the list.
+		 * 
+		 * @since    1.0
+		 * 
+		 * @return   array    Movie list
+		 */
+		public static function get_movie_imported_images() {
+
+			global $post;
+
+			if ( 'movie' != get_post_type() )
+				return false;
+
+
+			$args = array(
+				'post_type'   => 'attachment',
+				'orderby'     => 'title',
+				'numberposts' => -1,
+				'post_status' => null,
+				'post_parent' => get_the_ID(),
+				'exclude'     => get_post_thumbnail_id()
+			);
+
+			$attachments = get_posts( $args );
+			$images = array();
+
+			if ( $attachments )
+				foreach ( $attachments as $attachment )
+					$images[] = array(
+						'id'     => $attachment->ID,
+						//'meta'   => wp_get_attachment_metadata( $attachment->ID ),
+						'type'   => ( isset( $meta['sizes']['medium']['mime-type'] ) ? str_replace( 'image/', ' subtype-', $meta['sizes']['medium']['mime-type'] ) : '' ),
+						'height' => ( isset( $meta['sizes']['medium']['height'] ) ? $meta['sizes']['medium']['height'] : 0 ),
+						'width'  => ( isset( $meta['sizes']['medium']['width'] ) ? $meta['sizes']['medium']['width'] : 0 ),
+						'format' => ( $width && $height ? ( $height > $width ? ' portrait' : ' landscape' ) : '' ),
+						'image'  => wp_get_attachment_image_src( $attachment->ID, 'medium' ),
+						'link'   => get_edit_post_link( $attachment->ID )
+					);
+
+			return $images;
+		}
+
+		/**
+		 * Set the image as featured image.
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $file The image file name to set as featured
+		 * @param    int       $post_id The post ID the image is to be associated with
+		 * @param    int       $tmdb_id The TMDb Movie ID the image is associated with
+		 * @param    string    $title The related Movie title
+		 * 
+		 * @return   int|WP_Error Uploaded image ID if successfull, WP_Error if an error occured.
+		 */
+		public static function set_image_as_featured( $file, $post_id, $tmdb_id, $title ) {
+
+			$image = self::image_upload( $file, $post_id, $tmdb_id, $title, 'poster' );
+			return $image;
+		}
+
+		/**
+		 * Media Sideload Image revisited
+		 * This is basically an override function for WP media_sideload_image
+		 * modified to return the uploaded attachment ID instead of HTML img
+		 * tag.
+		 * 
+		 * @see http://codex.wordpress.org/Function_Reference/media_sideload_image
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $file The filename of the image to download
+		 * @param    int       $post_id The post ID the media is to be associated with
+		 * @param    int       $tmdb_id The TMDb Movie ID the image is associated with
+		 * @param    string    $title The related Movie title
+		 * @param    string    $image_type Optional. Image type, 'backdrop' or 'poster'
+		 * @param    array     $data Optional. Image metadata
+		 * 
+		 * @return   string|WP_Error Populated HTML img tag on success
+		 */
+		private static function image_upload( $file, $post_id, $tmdb_id, $title, $image_type = 'backdrop', $data = null ) {
+
+			if ( empty( $file ) )
+				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload is empty.', 'wpmovielibrary' ) );
+
+			$image_type = ( 'poster' == $image_type ? 'poster' : 'backdrop' );
+			$size = wpmoly_o( 'images-size' );
+
+			if ( is_array( $file ) ) {
+				$data = $file;
+				$file = WPMOLY_TMDb::get_image_url( $file['file_path'], $image_type, $size );
+				$image = $file;
+			}
+			else {
+				$image = $file;
+				$file = WPMOLY_TMDb::get_image_url( $file, $image_type, $size );
+			}
+
+			$image = substr( $image, 1 );
+
+			$existing = self::check_for_existing_images( $tmdb_id, $image_type, $image );
+			if ( false !== $existing )
+				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload already exists.', 'wpmovielibrary' ) );
+
+			$tmp = download_url( $file );
+
+			preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches );
+			$file_array['name'] = basename( $matches[0] );
+			$file_array['tmp_name'] = $tmp;
+
+			if ( is_wp_error( $tmp ) ) {
+				@unlink( $file_array['tmp_name'] );
+				$file_array['tmp_name'] = '';
+			}
+
+			$id = media_handle_sideload( $file_array, $post_id, $title );
+			if ( is_wp_error( $id ) ) {
+				@unlink( $file_array['tmp_name'] );
+				return new WP_Error( $id->get_error_code(), $id->get_error_message() );
+			}
+
+			update_post_meta( $id, '_wpmoly_' . $image_type . '_related_tmdb_id', $tmdb_id );
+			update_post_meta( $id, '_wpmoly_' . $image_type . '_related_meta_data', $data );
+
+			return $id;
+		}
+
+		/**
+		 * Add a link to the current Post's Featured Image Metabox to trigger
+		 * a Modal window. This will be used by the future Movie Posters
+		 * selection Modal, yet to be implemented.
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $content Current Post's Featured Image Metabox content, ready to be edited.
+		 * @param    string    $post_id Current Post's ID (unused at that point)
+		 * 
+		 * @return   string    Updated $content
+		 */
+		public static function load_posters_link( $content, $post_id ) {
+
+			$post = get_post( $post_id );
+			if ( ! $post || 'movie' != get_post_type( $post ) )
+				return $content;
+
+			$content .= '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', 'wpmovielibrary' ) . '</a>';
+			$content .= wpmoly_nonce_field( 'set-movie-poster', false, false );
+
+			return $content;
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                            Utils
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
 		 * Check for previously imported images to avoid duplicates.
 		 * 
 		 * If any attachment has one or more postmeta matching the current
@@ -107,12 +335,10 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * @since    1.0
 		 * 
 		 * @param    string    $tmdb_id    The Movie's TMDb ID.
-		 * @param    string    $image_type Optional. Which type of image we're
-		 *                                 dealing with, simple image or poster.
+		 * @param    string    $image_type Optional. Which type of image we're dealing with, simple image or poster.
+		 * @param    string    $image Image name to compare
 		 * 
-		 * @return   mixed|boolean         Return the last found image's ID if
-		 *                                 any, false if no matching image was
-		 *                                 found.
+		 * @return   mixed     Return the last found image's ID if any, false if no matching image was found.
 		 */
 		public static function check_for_existing_images( $tmdb_id, $image_type = 'backdrop', $image = null ) {
 
@@ -166,8 +392,9 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @since    1.0
 		 * 
-		 * @param    array    $images The images to prepare
-		 * @param    object   $post Related Movie Posts
+		 * @param    array     $images The images to prepare
+		 * @param    object    $post Related Movie Posts
+		 * @param    string    $image_type Which type of image we're dealing with, simple image or poster.
 		 * 
 		 * @return   array    The prepared images
 		 */
@@ -257,234 +484,11 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		}
 
 		/**
-		 * Upload a movie image.
-		 * 
-		 * Extract params from $_POST values. Image URL and post ID are
-		 * required, title is optional. If no title is submitted file's
-		 * basename will be used as image name.
-		 *
-		 * @since     1.0.0
-		 * 
-		 * @param string $image Image url
-		 * @param int $post_id ID of the post the image will be attached to
-		 * @param string $title Post title to use as image title to avoir crappy TMDb images names.
-		 *
-		 * @return    string    Uploaded image ID
-		 */
-		public static function upload_image_callback() {
-
-			wpmoly_check_ajax_referer( 'upload-movie-image' );
-
-			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
-			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
-			$title   = ( isset( $_POST['title'] )   && '' != $_POST['title']   ? $_POST['title']   : null );
-			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : null );
-
-			if ( ! is_array( $image ) || is_null( $post_id ) )
-				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', 'wpmovielibrary' ) );
-
-			$response = self::image_upload( $image['file_path'], $post_id, $tmdb_id, $title, 'backdrop', $image );
-			wpmoly_ajax_response( $response );
-		}
-
-		/**
-		 * Upload an image and set it as featured image of the submitted post.
-		 * 
-		 * Extract params from $_POST values. Image URL and post ID are
-		 * required, title is optional. If no title is submitted file's
-		 * basename will be used as image name.
-		 * 
-		 * Return the uploaded image ID to updated featured image preview in
-		 * editor.
-		 *
-		 * @since     1.0.0
-		 * 
-		 * @param string $image Image url
-		 * @param int $post_id ID of the post the image will be attached to
-		 * @param string $title Post title to use as image title to avoir crappy TMDb images names.
-		 *
-		 * @return    string    Uploaded image ID
-		 */
-		public static function set_featured_image_callback() {
-
-			wpmoly_check_ajax_referer( 'set-movie-poster' );
-
-			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
-			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
-			$title   = ( isset( $_POST['title'] )   && '' != $_POST['title']   ? $_POST['title']   : null );
-			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : null );
-
-			if ( 1 != wpmoly_o( 'poster-featured' ) )
-				return new WP_Error( 'no_featured', __( 'Movie Posters as featured images option is deactivated. Update your settings to activate this.', 'wpmovielibrary' ) );
-
-			if ( is_null( $image ) || is_null( $post_id ) )
-				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', 'wpmovielibrary' ) );
-
-			$response = self::set_image_as_featured( $image, $post_id, $tmdb_id, $title );
-			wpmoly_ajax_response( $response );
-		}
-
-		/**
-		 * Get all the imported images related to current movie and format them
-		 * to be showed in the Movie Edit page. Featured image (most likely the
-		 * movie poster) is excluded from the list.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @return   array    Movie list
-		 */
-		public static function get_movie_imported_images() {
-
-			global $post;
-
-			if ( 'movie' != get_post_type() )
-				return false;
-
-
-			$args = array(
-				'post_type'   => 'attachment',
-				'orderby'     => 'title',
-				'numberposts' => -1,
-				'post_status' => null,
-				'post_parent' => get_the_ID(),
-				'exclude'     => get_post_thumbnail_id()
-			);
-
-			$attachments = get_posts( $args );
-			$images = array();
-
-			if ( $attachments )
-				foreach ( $attachments as $attachment )
-					$images[] = array(
-						'id'     => $attachment->ID,
-						//'meta'   => wp_get_attachment_metadata( $attachment->ID ),
-						'type'   => ( isset( $meta['sizes']['medium']['mime-type'] ) ? str_replace( 'image/', ' subtype-', $meta['sizes']['medium']['mime-type'] ) : '' ),
-						'height' => ( isset( $meta['sizes']['medium']['height'] ) ? $meta['sizes']['medium']['height'] : 0 ),
-						'width'  => ( isset( $meta['sizes']['medium']['width'] ) ? $meta['sizes']['medium']['width'] : 0 ),
-						'format' => ( $width && $height ? ( $height > $width ? ' portrait' : ' landscape' ) : '' ),
-						'image'  => wp_get_attachment_image_src( $attachment->ID, 'medium' ),
-						'link'   => get_edit_post_link( $attachment->ID )
-					);
-
-			return $images;
-		}
-
-		/**
-		 * Set the image as featured image.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    string    $file The image file name to set as featured
-		 * @param    int       $post_id The post ID the image is to be associated with
-		 * @param    int       $tmdb_id The TMDb Movie ID the image is associated with
-		 * @param    string    $title The related Movie title
-		 * 
-		 * @return   int|WP_Error    Uploaded image ID if successfull,
-		 *                           WP_Error if an error occured.
-		 */
-		public static function set_image_as_featured( $file, $post_id, $tmdb_id, $title ) {
-
-			$image = self::image_upload( $file, $post_id, $tmdb_id, $title, 'poster' );
-			return $image;
-		}
-
-		/**
-		 * Media Sideload Image revisited
-		 * This is basically an override function for WP media_sideload_image
-		 * modified to return the uploaded attachment ID instead of HTML img
-		 * tag.
-		 * 
-		 * @see http://codex.wordpress.org/Function_Reference/media_sideload_image
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    string    $file The filename of the image to download
-		 * @param    int       $post_id The post ID the media is to be associated with
-		 * @param    int       $tmdb_id The TMDb Movie ID the image is associated with
-		 * @param    string    $title The related Movie title
-		 * @param    string    $image_type Optional. Image type, 'backdrop' or 'poster'
-		 * @param    array     $data Optional. Image metadata
-		 * 
-		 * @return   string|WP_Error Populated HTML img tag on success
-		 */
-		private static function image_upload( $file, $post_id, $tmdb_id, $title, $image_type = 'backdrop', $data = null ) {
-
-			if ( empty( $file ) )
-				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload is empty.', 'wpmovielibrary' ) );
-
-			$image_type = ( 'poster' == $image_type ? 'poster' : 'backdrop' );
-			$size = wpmoly_o( 'images-size' );
-
-			if ( is_array( $file ) ) {
-				$data = $file;
-				$file = WPMOLY_TMDb::get_image_url( $file['file_path'], $image_type, $size );
-				$image = $file;
-			}
-			else {
-				$image = $file;
-				$file = WPMOLY_TMDb::get_image_url( $file, $image_type, $size );
-			}
-
-			$image = substr( $image, 1 );
-
-			$existing = self::check_for_existing_images( $tmdb_id, $image_type, $image );
-			if ( false !== $existing )
-				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload already exists.', 'wpmovielibrary' ) );
-
-			$tmp = download_url( $file );
-
-			preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches );
-			$file_array['name'] = basename( $matches[0] );
-			$file_array['tmp_name'] = $tmp;
-
-			if ( is_wp_error( $tmp ) ) {
-				@unlink( $file_array['tmp_name'] );
-				$file_array['tmp_name'] = '';
-			}
-
-			$id = media_handle_sideload( $file_array, $post_id, $title );
-			if ( is_wp_error( $id ) ) {
-				@unlink( $file_array['tmp_name'] );
-				return new WP_Error( $id->get_error_code(), $id->get_error_message() );
-			}
-
-			update_post_meta( $id, '_wpmoly_' . $image_type . '_related_tmdb_id', $tmdb_id );
-			update_post_meta( $id, '_wpmoly_' . $image_type . '_related_meta_data', $data );
-
-			return $id;
-		}
-
-		/**
-		 * Add a link to the current Post's Featured Image Metabox to trigger
-		 * a Modal window. This will be used by the future Movie Posters
-		 * selection Modal, yet to be implemented.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    string    $content Current Post's Featured Image Metabox
-		 *                              content, ready to be edited.
-		 * @param    string    $post_id Current Post's ID (unused at that point)
-		 * 
-		 * @return   string    Updated $content
-		 */
-		public static function load_posters_link( $content, $post_id ) {
-
-			$post = get_post( $post_id );
-			if ( ! $post || 'movie' != get_post_type( $post ) )
-				return $content;
-
-			$content .= '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', 'wpmovielibrary' ) . '</a>';
-			$content .= wpmoly_nonce_field( 'set-movie-poster', false, false );
-
-			return $content;
-		}
-
-		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
 		 * @since    1.0
 		 *
-		 * @param bool $network_wide
+		 * @param    bool    $network_wide
 		 */
 		public function activate( $network_wide ) {}
 

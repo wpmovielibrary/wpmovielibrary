@@ -114,7 +114,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		/**
 		 * Add TMDb legal mention to the plugin pages' admin footer
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 */
 		public function legal_mentions() {
 
@@ -146,17 +146,19 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * Register and enqueue admin-specific style sheet.
 		 *
 		 * @since    1.0
+		 * 
+		 * @param    string    $hook_suffix The current admin page.
 		 */
-		public function enqueue_admin_styles( $hook ) {
+		public function enqueue_admin_styles( $hook_suffix ) {
 
 			wp_enqueue_style( WPMOLY_SLUG . '-common', WPMOLY_URL . '/assets/css/admin/wpmoly-common.css', array(), WPMOLY_VERSION );
 			wp_enqueue_style( WPMOLY_SLUG . '-font', WPMOLY_URL . '/assets/fonts/wpmovielibrary/style.css', array(), WPMOLY_VERSION );
 
 			$screen = get_current_screen();
-			if ( ! in_array( $hook, $this->screen_hooks ) && ! in_array( $screen->id, $this->screen_hooks ) )
+			if ( ! in_array( $hook_suffix, $this->screen_hooks ) && ! in_array( $screen->id, $this->screen_hooks ) )
 				return;
 
-			$styles = $this->admin_styles( $hook );
+			$styles = $this->admin_styles( $hook_suffix );
 			foreach ( $styles as $slug => $style )
 				wp_enqueue_style( WPMOLY_SLUG . '-' . $slug, WPMOLY_URL . $style, array(), WPMOLY_VERSION );
 
@@ -177,13 +179,13 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * 
 		 * @since    1.0
 		 */
-		public function enqueue_admin_scripts( $hook ) {
+		public function enqueue_admin_scripts( $hook_suffix ) {
 
 			$screen = get_current_screen();
-			if ( ! in_array( $hook, $this->screen_hooks ) && ! in_array( $screen->id, $this->screen_hooks ) )
+			if ( ! in_array( $hook_suffix, $this->screen_hooks ) && ! in_array( $screen->id, $this->screen_hooks ) )
 				return;
 
-			$scripts = $this->admin_scripts( $hook );
+			$scripts = $this->admin_scripts( $hook_suffix );
 			foreach ( $scripts as $slug => $script )
 				wp_enqueue_script( WPMOLY_SLUG . '-' . $slug, WPMOLY_URL . $script[ 0 ], $script[ 1 ], WPMOLY_VERSION, $script[ 2 ] );
 
@@ -292,7 +294,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		/**
 		 * Highlight Admin submenu for related admin pages
 		 * 
-		 * @link    http://wordpress.org/support/topic/moving-taxonomy-ui-to-another-main-menu#post-2432769
+		 * @link     http://wordpress.org/support/topic/moving-taxonomy-ui-to-another-main-menu#post-2432769
 		 * 
 		 * @since    1.0
 		 * 
@@ -423,15 +425,12 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( $hook_suffix == $movies ) {
 				$scripts['movies']            = array( '/assets/js/admin/wpmoly-movies.js', array( $wpmoly_slug, 'jquery' ), true );
 				$scripts['editor-details']    = array( '/assets/js/admin/wpmoly-editor-details.js', array( $wpmoly_slug, 'jquery' ), true );
-				//$scripts['editor-meta']       = array( '/assets/js/admin/wpmoly-editor-meta.js', array( $wpmoly_slug, 'jquery' ), true );
 			}
 
 			if ( $hook_suffix == $update_movies ) {
 				$scripts['jquery-ajax-queue'] = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( 'jquery' ), true );
 				$scripts['updates'] = array( '/assets/js/admin/wpmoly-updates.js', array( $wpmoly_slug, 'jquery' ), false );
 			}
-
-			//$scripts[''] = array( '', array(), true );
 
 			return $scripts;
 		}
@@ -569,7 +568,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 *
 		 * @since    1.0
 		 *
-		 * @param bool $network_wide
+		 * @param    bool    $network_wide
 		 */
 		public function activate( $network_wide ) {}
 

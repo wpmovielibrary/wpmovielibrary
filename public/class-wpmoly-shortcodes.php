@@ -819,7 +819,7 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 		 *
 		 * @since    1.1
 		 *
-		 * @param bool $network_wide
+		 * @param    bool    $network_wide
 		 */
 		public function activate( $network_wide ) {}
 

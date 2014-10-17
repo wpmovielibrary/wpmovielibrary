@@ -44,14 +44,18 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 			add_action( 'wp_ajax_wpmoly_imported_movies', __CLASS__ . '::imported_movies_callback' );
 		}
 
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                          Callbacks
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		/**
 		 * Delete movie
 		 * 
 		 * Remove imported movies draft and attachment from database
 		 *
-		 * @since     1.0.0
-		 * 
-		 * @return     boolean     deletion status
+		 * @since    1.0
 		 */
 		public static function delete_movies_callback() {
 
@@ -69,7 +73,7 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		 * Checks the AJAX nonce, create a new instance of WPMOLY_Import_Table
 		 * and calls the AJAX handling method to echo the requested rows.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 */
 		public static function imported_movies_callback() {
 
@@ -85,7 +89,7 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		 * Checks the AJAX nonce and calls import_movies() to
 		 * create import drafts of all movies passed through the list.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 */
 		public static function import_movies_callback() {
 
@@ -97,10 +101,16 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'import-movies-list' ) );
 		}
 
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                     List Table display
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		/**
 		 * Display a custom WP_List_Table of imported movies
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 */
 		public static function display_import_movie_list() {
 
@@ -122,14 +132,11 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		/**
 		 * Delete movies
 		 * 
+		 * @since    1.0
 		 * 
-		 *
-		 * @since     1.0.0
+		 * @param    array    $movies Array of movies Post IDs to delete
 		 * 
-		 * @param     array    $movies Array of movies Post IDs to delete
-		 * 
-		 * @return    array|WP_Error    Array of delete movie IDs if successfull,
-		 *                              WP_Error instance if anything failed
+		 * @return   array|WP_Error    Array of delete movie IDs if successfull, WP_Error instance if anything failed
 		 */
 		public static function delete_movies( $movies ) {
 
@@ -155,12 +162,11 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		 * import. Automatically delete attached images such as featured
 		 * image if any is found.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 * 
-		 * @param     int    $post_id    Movie's post ID.
+		 * @param    int    $post_id Movie's post ID.
 		 * 
-		 * @return    int|WP_Error    Movie Post ID if deleted, WP_Error
-		 *                            if Post or Attachment delete failed
+		 * @return   int|WP_Error    Movie Post ID if deleted, WP_Error if Post or Attachment delete failed
 		 */
 		public static function delete_movie( $post_id ) {
 
@@ -187,9 +193,11 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		 * If no AJAX, ir returns false on failure, and a status message
 		 * on success.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 * 
-		 * @return    void|boolean|string
+		 * @param    array    $movies Array of movie titles to import
+		 * 
+		 * @return   mixed
 		 */
 		private static function import_movies( $movies ) {
 
@@ -218,11 +226,11 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		 * alteration is made by user. Posts will be kept as 'import-draft'
 		 * for 24 hours and then destroyed on the next plugin init.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 * 
-		 * @param     string     $title Movie title.
+		 * @param    string    $title Movie title.
 		 * 
-		 * @return    int        Newly created post ID if everything worked, 0 if no post created.
+		 * @return   int       Newly created post ID if everything worked, 0 if no post created.
 		 */
 		public static function import_movie( $movie ) {
 
@@ -270,21 +278,25 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		/**
 		 * Set the default values for imported movies list
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 * 
-		 * @param     string    $title    Movie title
+		 * @param    string    $title    Movie title
 		 * 
-		 * @return    array    Default movie values
+		 * @return   array     Default movie values
 		 */
 		private static function prepare_movie_import( $title ) {
+
 			$title = str_replace( "\&#039;", "'", $title );
-			return array(
+
+			$movie = array(
 				'ID'         => 0,
 				'poster'     => '--',
 				'movietitle' => trim( $title ),
 				'director'   => '--',
 				'tmdb_id'    => '--'
 			);
+
+			return $movie;
 		}
 
 		/**
@@ -292,9 +304,9 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		 * 
 		 * Fetch all posts with 'import-draft' status and 'movie' post type
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 * 
-		 * @return    array    Default movie values
+		 * @return   array    Default movie values
 		 */
 		public static function get_imported_movies() {
 
@@ -329,7 +341,7 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		/**
 		 * Add a Screen Option panel on Movie Import Page.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 */
 		public static function import_movie_list_add_options() {
 
@@ -346,7 +358,7 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		/**
 		 * Save newly set Movie Drafts number in Movie Import Page.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 */
 		public static function import_movie_list_set_option( $status, $option, $value ) {
 			return $value;
@@ -354,8 +366,6 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 
 		/**
 		 * Render movie import page
-		 * 
-		 * TODO: use WP_Error
 		 *
 		 * @since    1.0
 		 */
@@ -426,7 +436,7 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		 *
 		 * @since    1.0
 		 *
-		 * @param bool $network_wide
+		 * @param    bool    $network_wide
 		 */
 		public function activate( $network_wide ) {}
 

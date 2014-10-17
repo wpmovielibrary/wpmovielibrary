@@ -18,7 +18,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		/**
 		 * TMDb API Config
 		 *
-		 * @since   1.0.0
+		 * @since   1.0
 		 * @var     array
 		 */
 		protected $config = null;
@@ -26,7 +26,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		/**
 		 * TMDb API
 		 *
-		 * @since   1.0.0
+		 * @since   1.0
 		 * @var     string
 		 */
 		protected $tmdb = '';
@@ -34,7 +34,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		/**
 		 * TMDb Error notify
 		 *
-		 * @since   1.0.0
+		 * @since   1.0
 		 * @var     string
 		 */
 		protected $error = '';
@@ -45,11 +45,6 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				return false;
 
 			$this->register_hook_callbacks();
-
-			/*if ( '' == wpmoly_o( 'api-internal' ) ) {
-				WPMOLY_Utils::admin_notice( __( '', 'wpmovielibrary' ), 'error' );
-				return false;
-			}*/
 		}
 
 		/**
@@ -78,9 +73,9 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * Sends a request to the API to fetch images and posters default sizes
 		 * and generate various size-based urls for posters and backdrops.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 *
-		 * @return    array    TMDb config
+		 * @return   array    TMDb config
 		 */
 		private static function tmdb_config() {
 
@@ -109,27 +104,38 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * Test the submitted API key using a dummy TMDb instance to fetch
 		 * API's configuration. Return the request result array.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
+		 * 
+		 * @param    string    $key API Key
 		 *
-		 * @return    array    API configuration request result
+		 * @return   array     API configuration request result
 		 */
 		private static function check_api_key( $key ) {
+
 			$tmdb = new TMDb( $config = true, $dummy = false );
 			$check = $tmdb->checkApiKey( $key );
+
 			return $check;
 		}
 
 		/**
 		 * Generate base url for requested image type and size.
-		 *
-		 * @since     1.0.0
-		 *
-		 * @return    string    base url
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $filepath Filepath to image
+		 * @param    const     $imagetype Image type
+		 * @param    string    $size Valid size for the image
+		 * 
+		 * @return   string    base url
 		 */
 		public static function get_image_url( $filepath = null, $imagetype = null, $size = null ) {
 
 			$tmdb = new TMDb();
-			return $tmdb->getImageUrl( $filepath, $imagetype, $size );
+
+			$url = $tmdb->getImageUrl( $filepath, $imagetype, $size );
+
+			return $url;
 		}
 
 
@@ -149,7 +155,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * 
 		 * If the key appears to be valid, send a validation message.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 */
 		public static function check_api_key_callback() {
 
@@ -171,7 +177,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		/**
 		 * Search callback
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 */
 		public static function search_movie_callback() {
 
@@ -205,14 +211,18 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * 
 		 * @see _get_movie_by_title()
 		 * 
-		 * @since     1.0.0
+		 * @since    1.0
+		 * 
+		 * @param    string    $title Query to search after in the TMDb database
+		 * @param    string    $lang Lang to use in the query
+		 * @param    int       $post_id Related Post ID
 		 */
-		private static function get_movie_by_title( $title, $lang, $_id = null ) {
+		private static function get_movie_by_title( $title, $lang, $post_id = null ) {
 
 			$movies = ( wpmoly_o( 'enable-cache' ) ? get_transient( "wpmoly_movie_{$title}_{$lang}" ) : false );
 
 			if ( false === $movies ) {
-				$movies = self::_get_movie_by_title( $title, $lang, $_id );
+				$movies = self::_get_movie_by_title( $title, $lang, $post_id );
 
 				if ( true === wpmoly_o( 'enable-cache' ) && ! is_wp_error( $movies ) ) {
 					$expire = (int) ( 86400 * wpmoly_o( 'cache-expire' ) );
@@ -236,9 +246,13 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * If more than one result, all movies listed will link to a new AJAX
 		 * call to load the movie by ID.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
+		 * 
+		 * @param    string    $title Query to search after in the TMDb database
+		 * @param    string    $lang Lang to use in the query
+		 * @param    int       $post_id Related Post ID
 		 */
-		public static function _get_movie_by_title( $title, $lang, $_id = null ) {
+		public static function _get_movie_by_title( $title, $lang, $post_id = null ) {
 
 			$tmdb = new TMDb;
 			$config = $tmdb->getConfig();
@@ -252,16 +266,16 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			$_result  = 'empty';
 			$_message = __( 'Sorry, your search returned no result. Try a more specific query?', 'wpmovielibrary' );
 			$_movies  = array();
-			$_post_id = $_id;
+			$_post_id = $post_id;
 
 			if ( isset( $data['status_code'] ) ) {
-				return new WP_Error( esc_attr( $data['status_code'] ), esc_attr( $data['status_message'] ), array( '_id' => $_id ) );
+				return new WP_Error( esc_attr( $data['status_code'] ), esc_attr( $data['status_message'] ), array( '_id' => $post_id ) );
 			}
 			else if ( ! isset( $data['total_results'] ) ) {
 
 				$_result  = 'empty';
 				$_message = __( 'Sorry, your search returned no result. Try a more specific query?', 'wpmovielibrary' );
-				$_post_id = $_id;
+				$_post_id = $post_id;
 			}
 			else if ( 1 == $data['total_results'] ) {
 
@@ -271,14 +285,14 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				if ( is_wp_error( $_movie ) )
 					return $_movie;
 				$_movies[] = $_movie;
-				$_post_id  = $_id;
+				$_post_id  = $post_id;
 			}
 			else if ( $data['total_results'] > 1 ) {
 
 				$_result  = 'movies';
 				$_message = __( 'Your request showed multiple results. Select your movie in the list or try another search:', 'wpmovielibrary' );
 				$_movies  = array();
-				$_post_id = $_id;
+				$_post_id = $post_id;
 
 				foreach ( $data['results'] as $movie ) {
 					$_movies[] = array(
@@ -286,7 +300,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 						'poster' => ( ! is_null( $movie['poster_path'] ) ? self::get_image_url( $movie['poster_path'], 'poster', 'small' ) : WPMOLY_DEFAULT_POSTER_URL ),
 						'title'  => $movie['title'],
 						'json'   => json_encode( $movie ),
-						'_id'    => $_id
+						'_id'    => $post_id
 					);
 				}
 			}
@@ -306,14 +320,18 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * 
 		 * @see _get_movie_by_id()
 		 * 
-		 * @since     1.0.0
+		 * @since    1.0
+		 * 
+		 * @param    string    $id Id to search in the TMDb database
+		 * @param    string    $lang Lang to use in the query
+		 * @param    int       $post_id Related Post ID
 		 */
-		public static function get_movie_by_id( $id, $lang, $_id = null ) {
+		public static function get_movie_by_id( $id, $lang, $post_id = null ) {
 
 			$movie = ( wpmoly_o( 'enable-cache' ) ? get_transient( "wpmoly_movie_{$id}_{$lang}" ) : false );
 
 			if ( false === $movie ) {
-				$movie = self::_get_movie_by_id( $id, $lang, $_id );
+				$movie = self::_get_movie_by_id( $id, $lang, $post_id );
 
 				if ( true === wpmoly_o( 'enable-cache' ) && ! is_wp_error( $movie ) ) {
 					$expire = (int) ( 86400 * wpmoly_o( 'cache-expire' ) );
@@ -322,7 +340,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			}
 
 			if ( ! is_wp_error( $movie ) )
-				$movie['_id'] = $_id;
+				$movie['_id'] = $post_id;
 
 			return $movie;
 		}
@@ -333,11 +351,15 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * Return a JSON string containing fetched data. Apply some filtering
 		 * to extract specific crew jobs like director or producer.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
+		 * 
+		 * @param    string    $id Id to search in the TMDb database
+		 * @param    string    $lang Lang to use in the query
+		 * @param    int       $post_id Related Post ID
 		 *
-		 * @return    string    JSON formatted results.
+		 * @return   string    JSON formatted results.
 		 */
-		public static function _get_movie_by_id( $id, $lang, $_id = null ) {
+		public static function _get_movie_by_id( $id, $lang, $post_id = null ) {
 
 			$tmdb = new TMDb;
 
@@ -361,14 +383,14 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			$_images = array( 'images' => $images['backdrops'] );
 			$_full = array_merge( $movie, $casts, $images );
 			$_movie = array(
-				'_id'     => $_id,
-				'_tmdb_id' => $id,
-				'meta'    => $meta,
-				'images'  => $images,
-				'poster' => ( ! is_null( $poster_path ) ? self::get_image_url( $poster_path, 'poster', 'small' ) : WPMOLY_DEFAULT_POSTER_URL ),
-				'poster_path'  => ( ! is_null( $poster_path ) ? $poster_path : WPMOLY_DEFAULT_POSTER_URL ),
-				'_result' => 'movie',
-				'_full'   => $_full,
+				'_id'		=> $post_id,
+				'_tmdb_id'	=> $id,
+				'meta'		=> $meta,
+				'images'	=> $images,
+				'poster'	=> ( ! is_null( $poster_path ) ? self::get_image_url( $poster_path, 'poster', 'small' ) : WPMOLY_DEFAULT_POSTER_URL ),
+				'poster_path'	=> ( ! is_null( $poster_path ) ? $poster_path : WPMOLY_DEFAULT_POSTER_URL ),
+				'_result'	=> 'movie',
+				'_full'		=> $_full,
 			);
 
 			$_movie['taxonomy'] = array();
@@ -404,7 +426,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * Filter the images returned by the API to exclude the ones we
 		 * have already imported.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 *
 		 * @param    int    Movie TMDb ID
 		 * 
@@ -436,7 +458,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * Filter the posters returned by the API to exclude the ones we
 		 * have already imported.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 *
 		 * @param    int    Movie TMDb ID
 		 * 

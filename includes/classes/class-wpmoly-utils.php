@@ -921,7 +921,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * Filter the post thumbnail HTML to return the plugin's default
 		 * poster.
 		 *
-		 * @since 1.1.0
+		 * @since    1.1.0
 		 *
 		 * @param    string    $html The post thumbnail HTML.
 		 * @param    string    $post_id The post ID.
@@ -1000,7 +1000,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * This is a copy of WordPress' wp_get_object_terms function with a bunch
 		 * of edits to use term_order as a default sorting param.
 		 * 
-		 * @since 1.0.0
+		 * @since    1.0
 		 * 
 		 * @param    array           $terms The post's terms
 		 * @param    int|array       $object_ids The ID(s) of the object(s) to retrieve.
@@ -1342,7 +1342,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 *
 		 * @since    1.0
 		 *
-		 * @param bool $network_wide
+		 * @param    bool    $network_wide
 		 */
 		public function activate( $network_wide ) {
 

@@ -128,8 +128,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 		/**
 		 * Retrieve all basic information for a particular movie
 		 *
-		 * @param    mixed    $id TMDb-id or IMDB-id
-		 * @param    mixed    $lang Filter the result with a language
+		 * @param    int       $id TMDb-id or IMDB-id
+		 * @param    string    $lang Filter the result with a language
 		 * 
 		 * @return   array    TMDb result 
 		 */
@@ -142,7 +142,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		/**
 		 * Retrieve all of the movie cast information for a particular movie
 		 *
-		 * @param    mixed    $id TMDb-id or IMDB-id
+		 * @param    int    $id TMDb-id or IMDB-id
 		 * 
 		 * @return   array    TMDb result
 		 */
@@ -154,8 +154,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 		/**
 		 * Retrieve all images for a particular movie
 		 *
-		 * @param    mixed    $id TMDb-id or IMDB-id
-		 * @param    mixed    $lang Filter the result with a language
+		 * @param    int       $id TMDb-id or IMDB-id
+		 * @param    string    $lang Filter the result with a language
 		 * 
 		 * @return   array    TMDb result
 		 */
@@ -255,7 +255,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 *
 		 * @param    string    $imagetype Image type
 		 * 
-		 * @return   array|string     Available image sizes or error message
+		 * @return   mixed     Available image sizes or error message
 		 */
 		public function getAvailableImageSizes( $imagetype ) {
 
@@ -274,7 +274,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 * @param    array     $params Unencoded parameters for in the URL
 		 * @param    string    $session_id Session_id for authentication to the API for specific API methods
 		 * 
-		 * @return   array|string     TMDb result or error message
+		 * @return   mixed     TMDb result or error message
 		 */
 		protected function _makeCall( $function, $params = null, $session_id = null, $method = 'get' ) {
 

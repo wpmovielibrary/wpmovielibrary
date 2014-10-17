@@ -36,7 +36,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard' ) ) :
 		/**
 		 * Constructor
 		 *
-		 * @since   1.0
+		 * @since    1.0
 		 */
 		public function __construct() {
 
@@ -86,7 +86,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard' ) ) :
 		 * 
 		 * 
 		 * 
-		 * @since     1.0
+		 * @since    1.0
 		 */
 		public function wpmoly_save_screen_option_callback() {
 
@@ -109,7 +109,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard' ) ) :
 		 * 
 		 * 
 		 * 
-		 * @since     1.0
+		 * @since    1.0
 		 */
 		public static function wpmoly_save_dashboard_widget_settings_callback() {
 
@@ -131,7 +131,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard' ) ) :
 		/**
 		 * AJAX Callback to load more movies to the Widget.
 		 * 
-		 * @since     1.0
+		 * @since    1.0
 		 */
 		public static function wpmoly_load_more_movies_callback() {
 

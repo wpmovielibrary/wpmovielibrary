@@ -133,7 +133,7 @@ if ( ! class_exists( 'WPMOLY_Actors' ) ) :
 		 *
 		 * @since    1.0
 		 *
-		 * @param bool $network_wide
+		 * @param    bool    $network_wide
 		 */
 		public function activate( $network_wide ) {
 

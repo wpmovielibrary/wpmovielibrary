@@ -19,10 +19,6 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 	*/
 	class WPMovieLibrary extends WPMOLY_Module {
 
-		protected static $readable_properties  = array();
-
-		protected static $writeable_properties = array();
-
 		protected $modules;
 
 		protected $widgets;
@@ -31,7 +27,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 * Initialize the plugin by setting localization and loading public scripts
 		 * and styles.
 		 *
-		 * @since     1.0.0
+		 * @since    1.0
 		 */
 		protected function __construct() {
 
@@ -141,7 +137,6 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 
 			foreach ( $this->modules as $module )
 				$module->deactivate();
-
 		}
 
 		/**
@@ -259,7 +254,6 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 			else {
 				self::_uninstall();
 			}
-
 		}
 
 		/**
@@ -282,8 +276,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 *
 		 * @since    1.0
 		 */
-		public function init() {
-		}
+		public function init() {}
 
 	}
 endif;

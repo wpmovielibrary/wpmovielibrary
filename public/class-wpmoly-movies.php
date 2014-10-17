@@ -171,11 +171,11 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 * Add action on pre_get_posts hook to add movie to the list of
 		 * queryable post_types.
 		 *
-		 * @since     1.0
+		 * @since    1.0
 		 * 
-		 * @param     int       $query the WP_Query Object object to alter
+		 * @param    int       $query the WP_Query Object object to alter
 		 *
-		 * @return    WP_Query    Query Object
+		 * @return   WP_Query    Query Object
 		 */
 		public static function show_movies_in_home_page( $query ) {
 
@@ -206,13 +206,11 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 * Add a filter on the_content hook to display infos selected in options
 		 * about the movie: note, director, overview, actors…
 		 *
-		 * @since     1.0
+		 * @since    1.0
 		 * 
-		 * @param     string      $content The original post content
+		 * @param    string      $content The original post content
 		 *
-		 * @return    string      The filtered content containing original
-		 *                        content plus movie infos if available, the
-		 *                        untouched original content else.
+		 * @return   string      The filtered content containing original content plus movie infos if available, the untouched original content else.
 		 */
 		public static function movie_content( $content ) {
 
@@ -242,11 +240,11 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		/**
 		 * Replace movies mxcerpt by movies overview if available.
 		 *
-		 * @since     1.3
+		 * @since    2.0
 		 * 
-		 * @param     string      $excerpt The original post excerpt
+		 * @param    string      $excerpt The original post excerpt
 		 *
-		 * @return    string      The filtered excerpt containing the movie's overview if any, original excerpt else.
+		 * @return   string      The filtered excerpt containing the movie's overview if any, original excerpt else.
 		 */
 		public static function movie_excerpt( $excerpt ) {
 
@@ -272,9 +270,9 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		/**
 		 * Generate current movie's details list.
 		 *
-		 * @since     1.0
+		 * @since    1.0
 		 *
-		 * @return    null|string    The current movie's metadata list
+		 * @return   null|string    The current movie's metadata list
 		 */
 		public static function movie_details() {
 
@@ -305,9 +303,9 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		/**
 		 * Generate current movie's metadata list.
 		 *
-		 * @since     1.0
+		 * @since    1.0
 		 *
-		 * @return    null|string    The current movie's metadata list
+		 * @return   null|string    The current movie's metadata list
 		 */
 		public static function movie_metadata() {
 
@@ -354,9 +352,9 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 * If current WP_Query has a WPMOLY meta var set, edit the query to
 		 * return the movies matching the wanted detail.
 		 *
-		 * @since     1.0
+		 * @since    1.0
 		 * 
-		 * @param     object      $wp_query Current WP_Query instance
+		 * @param    object      $wp_query Current WP_Query instance
 		 */
 		public static function movies_query_meta( $wp_query ) {
 
@@ -426,11 +424,6 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 					)
 				) );
 			}
-
-			unset( $wp_query->query_vars['meta'], $wp_query->query_vars['detail'], $wp_query->query_vars['value'] );
-			unset( $wp_query->query['meta'], $wp_query->query['detail'], $wp_query->query['value'] );
-
-			//print_r( $wp_query );
 		}
 
 		/**
@@ -655,7 +648,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 *
 		 * @since    1.0
 		 *
-		 * @param bool $network_wide
+		 * @param    bool    $network_wide
 		 */
 		public function activate( $network_wide ) {
 

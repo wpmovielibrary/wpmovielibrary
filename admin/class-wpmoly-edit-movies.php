@@ -58,6 +58,12 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			add_action( 'wp_ajax_wpmoly_empty_meta', __CLASS__ . '::empty_meta_callback' );
 		}
 
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                        Scripts & Styles
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		/**
 		 * Enqueue required media scripts and styles
 		 * 
@@ -65,9 +71,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * @param    string    $hook_suffix The current admin page.
 		 */
-		public function admin_enqueue_scripts( $hook ) {
+		public function admin_enqueue_scripts( $hook_suffix ) {
 
-			if ( ( 'post.php' != $hook && 'post-new.php' != $hook ) || 'movie' != get_post_type() )
+			if ( ( 'post.php' != $hook_suffix && 'post-new.php' != $hook_suffix ) || 'movie' != get_post_type() )
 				return false;
 
 			wp_enqueue_media();
@@ -86,7 +92,32 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
-		 *                      "All Movies" WP List Table
+		 *                             Callbacks
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * Remove all currently edited post' metadata and taxonomies.
+		 *
+		 * @since    1.2
+		 */
+		public static function empty_meta_callback() {
+
+			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
+
+			if ( is_null( $post_id ) )
+				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', 'wpmovielibrary' ) );
+
+			wpmoly_check_ajax_referer( 'empty-movie-meta' );
+
+			$response = self::empty_movie_meta( $post_id );
+
+			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'empty-movie-meta' ) );
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                     "All Movies" WP List Table
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -174,6 +205,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * @since    2.0
 		 * 
 		 * @param    array    $column_name The column name
+		 * 
+		 * @return   array    $columns Updated the column name
 		 */
 		public static function movies_sortable_columns( $columns ) {
 
@@ -185,6 +218,13 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			return $columns;
 		}
 
+		/**
+		 * 
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    object    $wp_query Current WP_Query instance
+		 */
 		public static function movies_sortable_columns_order( $wp_query ) {
 
 			if ( ! is_admin() )
@@ -266,8 +306,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/**
 		 * Alter the Quick Edit link in Movies Lists to update the Movie Details
 		 * current values.
-		 * 
-		 * TODO: group Details in a single, cached query.
 		 * 
 		 * @since    1.0
 		 * 
@@ -353,18 +391,18 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * @since    1.0
 		 * 
 		 * @param    array    $posts Posts concerned by the hijack, should be only one
-		 * @param    array    $_query concerned WP_Query instance
+		 * @param    array    $wp_query concerned WP_Query instance
 		 * 
 		 * @return   array    Posts return by the query if we're not looking for movie images
 		 */
-		public static function the_posts_hijack( $posts, $_query ) {
+		public static function the_posts_hijack( $posts, $wp_query ) {
 
-			if ( ! is_null( $_query ) && isset( $_query->query['tmdb_id'] ) && isset( $_query->query['tmdb_type'] ) ) {
+			if ( ! is_null( $wp_query ) && isset( $wp_query->query['tmdb_id'] ) && isset( $wp_query->query['tmdb_type'] ) ) {
 
-				$tmdb_id = esc_attr( $_query->query['tmdb_id'] );
-				$tmdb_type = esc_attr( $_query->query['tmdb_type'] );
-				$paged = intval( $_query->query['paged'] );
-				$per_page = intval( $_query->query['posts_per_page'] );
+				$tmdb_id   = esc_attr( $wp_query->query['tmdb_id'] );
+				$tmdb_type = esc_attr( $wp_query->query['tmdb_type'] );
+				$paged     = intval( $wp_query->query['paged'] );
+				$per_page  = intval( $wp_query->query['posts_per_page'] );
 
 				if ( 'image' == $tmdb_type )
 					$images = self::load_movie_images( $tmdb_id, $posts[0] );
@@ -386,6 +424,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * @param    int      $tmdb_id Movie TMDb ID to fetch images
 		 * @param    array    $post Related Movie Post
+		 * 
+		 * @return   array    Movie images
 		 */
 		public static function load_movie_images( $tmdb_id, $post ) {
 
@@ -402,6 +442,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * @param    int      $tmdb_id Movie TMDb ID to fetch images
 		 * @param    array    $post Related Movie Post
+		 * 
+		 * @return   array    Movie posters
 		 */
 		public static function load_movie_posters( $tmdb_id, $post ) {
 
@@ -409,31 +451,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$posters = apply_filters( 'wpmoly_jsonify_movie_images', $posters, $post, 'poster' );
 
 			return $posters;
-		}
-
-		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-		 *
-		 *                             Callbacks
-		 * 
-		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		/**
-		 * Remove all currently edited post' metadata and taxonomies.
-		 *
-		 * @since    1.2
-		 */
-		public static function empty_meta_callback() {
-
-			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
-
-			if ( is_null( $post_id ) )
-				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', 'wpmovielibrary' ) );
-
-			wpmoly_check_ajax_referer( 'empty-movie-meta' );
-
-			$response = self::empty_movie_meta( $post_id );
-
-			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'empty-movie-meta' ) );
 		}
 
 
@@ -646,7 +663,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/**
 		 * Save movie details.
 		 * 
-		 * @since     1.0
+		 * @since    1.0
 		 * 
 		 * @param    int      $post_id ID of the current Post
 		 * @param    array    $details Movie details: media, status, rating
@@ -678,13 +695,12 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/**
 		 * Save movie metadata.
 		 * 
-		 * @since     1.3
+		 * @since    1.3
 		 * 
 		 * @param    int      $post_id ID of the current Post
 		 * @param    array    $details Movie details: media, status, rating
 		 * 
-		 * @return   int|object    WP_Error object is anything went
-		 *                                  wrong, true else
+		 * @return   int|object    WP_Error object is anything went wrong, true else
 		 */
 		public static function save_movie_meta( $post_id, $movie_meta, $clean = true ) {
 
@@ -756,7 +772,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/**
 		 * Remove movie meta and taxonomies.
 		 * 
-		 * @since     1.2
+		 * @since    1.2
 		 * 
 		 * @param    int      $post_id ID of the current Post
 		 * 
@@ -780,7 +796,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * Saves the movie details as well.
 		 *
-		 * @since     1.0
+		 * @since    1.0
 		 * 
 		 * @param    int        $post_ID ID of the current Post
 		 * @param    object     $post Post Object of the current Post

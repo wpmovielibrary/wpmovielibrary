@@ -12,9 +12,7 @@ if ( ! class_exists( 'WPMOLY_Module' ) ) {
 		/**
 		 * Provides access to a single instance of a module using the singleton pattern
 		 *
-		 * @mvc Controller
-		 *
-		 * @return object
+		 * @return   object
 		 */
 		public static function get_instance() {
 
@@ -99,46 +97,33 @@ if ( ! class_exists( 'WPMOLY_Module' ) ) {
 
 		/**
 		 * Set the uninstallation instructions
-		 *
-		 * @mvc Controller
 		 */
-		public static function uninstall() {
-		}
+		public static function uninstall() {}
 
 		/**
 		 * Constructor
-		 *
-		 * @mvc Controller
 		 */
 		abstract protected function __construct();
 
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
-		 * @mvc Controller
-		 *
-		 * @param bool $network_wide
+		 * @param    bool    $network_wide
 		 */
 		abstract public function activate( $network_wide );
 
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
-		 *
-		 * @mvc Controller
 		 */
 		abstract public function deactivate();
 
 		/**
 		 * Register callbacks for actions and filters
-		 *
-		 * @mvc Controller
 		 */
 		abstract public function register_hook_callbacks();
 
 		/**
 		 * Initializes variables
-		 *
-		 * @mvc Controller
 		 */
 		abstract public function init();
 	} // end WPMOLY_Module

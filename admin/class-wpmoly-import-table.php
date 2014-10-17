@@ -21,10 +21,6 @@ class WPMOLY_Import_Table extends WP_List_Table {
 	 * Constructor. Calls WP_List_Table and set up data.
 	 * 
 	 * @since    1.0
-	 * 
-	 * @param    array    $columns  Associative array containing all the Movies
-	 *                              imported from list
-	 * @param    array    $metadata Associative array containing Movies metadata
 	 */
 	function __construct() {
 
@@ -60,17 +56,17 @@ class WPMOLY_Import_Table extends WP_List_Table {
 	 * @since    1.0
 	 */
 	function _js_vars() {
-	    $current_screen = get_current_screen();
+		$current_screen = get_current_screen();
 
-	    $args = array(
-		'class'  => get_class( $this ),
-		'screen' => array(
-		    'id'   => $current_screen->id,
-		    'base' => $current_screen->base,
-		)
-	    );
+		$args = array(
+			'class'  => get_class( $this ),
+			'screen' => array(
+				'id'   => $current_screen->id,
+				'base' => $current_screen->base,
+			)
+		);
 
-	    printf( "<script type='text/javascript'>list_args = %s;</script>\n", json_encode( $args ) );
+		printf( "<script type='text/javascript'>list_args = %s;</script>\n", json_encode( $args ) );
 	}
 	
 	/**
@@ -86,6 +82,8 @@ class WPMOLY_Import_Table extends WP_List_Table {
 	 * Display the pagination.
 	 *
 	 * @since    1.0
+	 * 
+	 * @param    string    $which The location of the paginate links: 'top' or 'bottom'.
 	 */
 	function pagination( $which ) {
 
@@ -173,8 +171,7 @@ class WPMOLY_Import_Table extends WP_List_Table {
 	 * @param    string    $item Associative array containing the item data.
 	 * @param    string    $column_name Name of the column.
 	 * 
-	 * @return   string|null    The item row corresponding to the column if
-	 *                          available, null else
+	 * @return   string|null    The item row corresponding to the column if available, null else
 	 */
 	function column_default( $item, $column_name ) {
 
@@ -224,7 +221,7 @@ class WPMOLY_Import_Table extends WP_List_Table {
 			$columns[$slug] = $title;
 
 		return $columns;
-	    }
+	}
 	
 	/**
 	 * Change the items order.
@@ -342,7 +339,6 @@ class WPMOLY_Import_Table extends WP_List_Table {
 		$actions = array(
 			'edit'      => sprintf('<a class="edit_movie" id="edit_%1$s" href="%2$s" title="%3$s"><span class="wpmolicon icon-edit-page"></span></a>', $item['ID'], get_edit_post_link( $item['ID'] ), __( 'Edit', 'wpmovielibrary' ) ),
 			'metadata'  => sprintf('<a class="search_movie" id="search_%1$s" href="%2$s" title="%3$s" onclick="wpmoly_import_meta.search(%4$s); return false;"><span class="wpmolicon icon-import"></span></a>', $item['ID'], wp_nonce_url( get_edit_post_link( $item['ID'] ) . "&amp;wpmoly_search_movie=1&amp;search_by=title&amp;search_query={$item['movietitle']}", 'search-movies' ), __( 'Fetch data from TMDb', 'wpmovielibrary' ), $item['ID'] ),
-			//'import'    => sprintf('<a class="import_movie" id="import_%1$s" href="#" title="%2$s"><span class="wpmolicon icon-add-page"></span></a>', $item['ID'], __( 'Import Movie', 'wpmovielibrary' ) ),
 			'enqueue hide-if-no-js'   => sprintf('<a class="enqueue_movie" id="enqueue_%1$s" href="#" title="%2$s" onclick="wpmoly_movies_queue.add(%3$s); return false;"><span class="wpmolicon icon-plus"></span></a>', $item['ID'], __( 'Enqueue', 'wpmovielibrary' ), $item['ID'] ),
 			'delete'    => sprintf('<a class="delete_movie" id="delete_%1$s" href="%2$s" title="%3$s" onclick="wpmoly_import_movies.delete(%4$s); return false;"><span class="wpmolicon icon-trash"></span></a>', $item['ID'], get_delete_post_link( $item['ID'] ), __( 'Delete', 'wpmovielibrary' ), $item['ID'] ),
 		);
@@ -398,8 +394,7 @@ class WPMOLY_Import_Table extends WP_List_Table {
 	 *
 	 * @since    1.0
 	 * 
-	 * @param string $which The location of the bulk actions: 'top' or 'bottom'.
-	 *                      This is designated as optional for backwards-compatibility.
+	 * @param    string    $which The location of the bulk actions: 'top' or 'bottom'. This is designated as optional for backwards-compatibility.
 	 */
 	function bulk_actions( $which = '' ) {
 		if ( is_null( $this->_actions ) ) {
@@ -549,7 +544,7 @@ class WPMOLY_Import_Table extends WP_List_Table {
 	/**
 	 * Print column headers, accounting for hidden and sortable columns.
 	 *
-	 * @since 1.0.0
+	 * @since    1.0
 	 *
 	 * @param    boolean    $with_id Whether to set the id attribute or not
 	 */
@@ -658,7 +653,7 @@ class WPMOLY_Import_Table extends WP_List_Table {
 	/**
 	 * Generate the table navigation above or below the table
 	 *
-	 * @since 1.0.0
+	 * @since 1.0
 	 */
 	function display_tablenav( $which ) {
 
