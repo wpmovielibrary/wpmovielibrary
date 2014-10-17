@@ -50,6 +50,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Stats_Widget' ) ) :
 			$count['collections'] = wp_count_terms( 'collection' );
 			$count['genres'] = wp_count_terms( 'genre' );
 			$count['actors'] = wp_count_terms( 'actor' );
+			$count = array_map( 'intval', $count );
 
 			$links = array();
 			$list = array(
@@ -103,8 +104,23 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Stats_Widget' ) ) :
 			}
 
 			$links = implode( '', $links );
+			extract( $count );
 
-			echo self::render_admin_template( '/dashboard-statistics/statistics.php', array( 'links' => $links, 'count' => $count ) );
+			$movies = sprintf( _n( '<strong>1</strong> movie', '<strong>%s</strong> movies', $movie, 'wpmovielibrary' ), $movie );
+			$movies = sprintf( '<a href="%s">%s</a>', admin_url( 'edit.php?post_type=movie' ), $movies );
+
+			$collections = sprintf( _n( '<strong>1</strong> collection', '<strong>%s</strong> collections', $collections, 'wpmovielibrary' ), $collections );
+			$collections = sprintf( '<a href="%s">%s</a>', admin_url( 'edit-tags.php?taxonomy=collection&post_type=movie' ), $collections );
+
+			$genres = sprintf( _n( '<strong>1</strong> genre', '<strong>%s</strong> genres', $genres, 'wpmovielibrary' ), $genres );
+			$genres = sprintf( '<a href="%s">%s</a>', admin_url( 'edit-tags.php?taxonomy=genre&post_type=movie' ), $genres );
+
+			$actors = sprintf( _n( '<strong>1</strong> actor', '<strong>%s</strong> actors', $actors, 'wpmovielibrary' ), $actors );
+			$actors = sprintf( '<a href="%s">%s</a>', admin_url( 'edit-tags.php?taxonomy=actor&post_type=movie' ), $actors );
+
+			$text = sprintf( __( 'All combined you have a total of %s in your library, regrouped in %s, %s and %s.', 'wpmovielibrary' ), $movies, $collections, $genres, $actors );
+
+			echo self::render_admin_template( '/dashboard-statistics/statistics.php', array( 'links' => $links, 'text' => $text ) );
 		}
 
 		/**
