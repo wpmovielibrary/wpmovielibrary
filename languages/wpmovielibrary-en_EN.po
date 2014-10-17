@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary 2.0-alpha.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/wpmovielibrary\n"
-"POT-Creation-Date: 2014-10-15 01:31+0100\n"
-"PO-Revision-Date: 2014-10-15 01:33+0100\n"
+"POT-Creation-Date: 2014-10-17 11:24+0100\n"
+"PO-Revision-Date: 2014-10-17 11:25+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: WPMovieLibrary <support@wpmovielibrary.com>\n"
 "Language: English\n"
@@ -53,7 +53,7 @@ msgid "Movie \"%s\" already imported."
 msgstr "Movie \"%s\" already imported."
 
 #: ../admin/class-wpmoly-import.php:243
-#: ../admin/class-wpmoly-import-table.php:340
+#: ../admin/class-wpmoly-import-table.php:343
 #: ../views/admin/dashboard-latest-movies/latest-movies.php:17
 #: ../views/admin/dashboard-most-rated-movies/most-rated-movies.php:17
 #: ../views/admin/dashboard/movie-modal.php:20
@@ -77,8 +77,11 @@ msgid "The following errors occured: <ul>%s</ul>"
 msgstr "The following errors occured: <ul>%s</ul>"
 
 #: ../admin/class-wpmoly-import.php:405
+#, php-format
 msgid "One movie imported successfully!"
-msgstr "One movie imported successfully!"
+msgid_plural "%d movies imported successfully!"
+msgstr[0] "One movie imported successfully!"
+msgstr[1] "%d movies imported successfully!"
 
 #: ../admin/class-wpmoly-media.php:284 ../admin/class-wpmoly-media.php:321
 msgid "An error occured when trying to import image: invalid data or Post ID."
@@ -104,154 +107,160 @@ msgstr "The image you're trying to upload already exists."
 msgid "See available Movie Posters"
 msgstr "See available Movie Posters"
 
-#: ../admin/class-dashboard-stats-widget.php:57
+#: ../admin/class-dashboard-stats-widget.php:58
 msgid "One movie"
 msgstr "One movie"
 
-#: ../admin/class-dashboard-stats-widget.php:58
+#: ../admin/class-dashboard-stats-widget.php:59
 #, php-format
 msgid "%d movies"
 msgstr "%d movies"
 
-#: ../admin/class-dashboard-stats-widget.php:59
+#: ../admin/class-dashboard-stats-widget.php:60
 msgid "No movie added yet."
 msgstr "No movie added yet."
 
-#: ../admin/class-dashboard-stats-widget.php:65
+#: ../admin/class-dashboard-stats-widget.php:66
 msgid "One movie draft"
 msgstr "One movie draft"
 
-#: ../admin/class-dashboard-stats-widget.php:66
+#: ../admin/class-dashboard-stats-widget.php:67
 #, php-format
 msgid "%d movies drafts"
 msgstr "%d movies drafts"
 
-#: ../admin/class-dashboard-stats-widget.php:67
+#: ../admin/class-dashboard-stats-widget.php:68
 msgid "No draft"
 msgstr "No draft"
 
-#: ../admin/class-dashboard-stats-widget.php:73
+#: ../admin/class-dashboard-stats-widget.php:74
 msgid "One queued movie"
 msgstr "One queued movie"
 
-#: ../admin/class-dashboard-stats-widget.php:74
+#: ../admin/class-dashboard-stats-widget.php:75
 #, php-format
 msgid "%d queued movies"
 msgstr "%d queued movies"
 
-#: ../admin/class-dashboard-stats-widget.php:75
+#: ../admin/class-dashboard-stats-widget.php:76
 msgid "No queued movie."
 msgstr "No queued movie."
 
-#: ../admin/class-dashboard-stats-widget.php:81
+#: ../admin/class-dashboard-stats-widget.php:82
 msgid "One imported movie"
 msgstr "One imported movie"
 
-#: ../admin/class-dashboard-stats-widget.php:82
+#: ../admin/class-dashboard-stats-widget.php:83
 #, php-format
 msgid "%d imported movies"
 msgstr "%d imported movies"
 
-#: ../admin/class-dashboard-stats-widget.php:83
+#: ../admin/class-dashboard-stats-widget.php:84
 msgid "No imported movie."
 msgstr "No imported movie."
 
-#: ../admin/class-wpmoly-edit-movies.php:124
+#: ../admin/class-dashboard-stats-widget.php:109
+#, php-format
+msgid "<strong>1</strong> movie"
+msgid_plural "<strong>%s</strong> movies"
+msgstr[0] "<strong>1</strong> movie"
+msgstr[1] "<strong>%s</strong> movies"
+
+#: ../admin/class-dashboard-stats-widget.php:112
+#, php-format
+msgid "<strong>1</strong> collection"
+msgid_plural "<strong>%s</strong> collections"
+msgstr[0] "<strong>1</strong> collection"
+msgstr[1] "<strong>%s</strong> collections"
+
+#: ../admin/class-dashboard-stats-widget.php:115
+#, php-format
+msgid "<strong>1</strong> genre"
+msgid_plural "<strong>%s</strong> genres"
+msgstr[0] "<strong>1</strong> genre"
+msgstr[1] "<strong>%s</strong> genres"
+
+#: ../admin/class-dashboard-stats-widget.php:118
+#, php-format
+msgid "<strong>1</strong> actor"
+msgid_plural "<strong>%s</strong> actors"
+msgstr[0] "<strong>1</strong> actor"
+msgstr[1] "<strong>%s</strong> actors"
+
+#: ../admin/class-dashboard-stats-widget.php:121
+#, php-format
+msgid ""
+"All combined you have a total of %s in your library, regrouped in %s, %s and "
+"%s."
+msgstr ""
+"All combined you have a total of %s in your library, regrouped in %s, %s and "
+"%s."
+
+#: ../admin/class-wpmoly-edit-movies.php:111
 #: ../admin/class-wpmoly-admin.php:531
 #: ../admin/class-wpmoly-import-table.php:50
 msgid "Poster"
 msgstr "Poster"
 
-#: ../admin/class-wpmoly-edit-movies.php:126
+#: ../admin/class-wpmoly-edit-movies.php:113
 msgid "Year"
 msgstr "Year"
 
-#: ../admin/class-wpmoly-edit-movies.php:127
+#: ../admin/class-wpmoly-edit-movies.php:114
 #: ../includes/config/wpmoly-settings.php:206
 #: ../includes/widgets/class-movies-widget.php:80
-#: ../views/admin/edit-movies/quick-edit.php:19
 #: ../views/admin/import/import.php:62
 msgid "Status"
 msgstr "Status"
 
-#: ../admin/class-wpmoly-edit-movies.php:128
+#: ../admin/class-wpmoly-edit-movies.php:115
 #: ../includes/config/wpmoly-settings.php:205
 #: ../includes/widgets/class-movies-widget.php:81
-#: ../views/admin/edit-movies/quick-edit.php:7
 msgid "Media"
 msgstr "Media"
 
-#: ../admin/class-wpmoly-edit-movies.php:129
+#: ../admin/class-wpmoly-edit-movies.php:116
 #: ../includes/config/wpmoly-settings.php:207
 #: ../includes/widgets/class-movies-widget.php:82
-#: ../views/admin/edit-movies/quick-edit.php:29
 msgid "Rating"
 msgstr "Rating"
 
-#: ../admin/class-wpmoly-edit-movies.php:166
+#: ../admin/class-wpmoly-edit-movies.php:153
+#: ../views/admin/edit-movies/quick-edit.php:10
 msgid "None"
 msgstr "None"
 
-#: ../admin/class-wpmoly-edit-movies.php:266
+#: ../admin/class-wpmoly-edit-movies.php:295
 msgid "Edit this item inline"
 msgstr "Edit this item inline"
 
-#: ../admin/class-wpmoly-edit-movies.php:268
+#: ../admin/class-wpmoly-edit-movies.php:297
 msgid "Quick&nbsp;Edit"
 msgstr "Quick&nbsp;Edit"
 
-#: ../admin/class-wpmoly-edit-movies.php:400
-msgid "Invalid detail: should be status, media or rating."
-msgstr "Invalid detail: should be status, media or rating."
-
-#: ../admin/class-wpmoly-edit-movies.php:408
-#: ../admin/class-wpmoly-edit-movies.php:429
-#: ../admin/class-wpmoly-edit-movies.php:448
+#: ../admin/class-wpmoly-edit-movies.php:430
 msgid "Empty or invalid Post ID or Movie Details"
 msgstr "Empty or invalid Post ID or Movie Details"
 
-#: ../admin/class-wpmoly-edit-movies.php:471
+#: ../admin/class-wpmoly-edit-movies.php:453
 msgid "WordPress Movie Library"
 msgstr "WordPress Movie Library"
 
-#: ../admin/class-wpmoly-edit-movies.php:682
-#, php-format
-msgid "Error: invalid post, post #%s is not a movie."
-msgstr "Error: invalid post, post #%s is not a movie."
-
-#: ../admin/class-wpmoly-edit-movies.php:688
-#, php-format
-msgid "Error: invalid value, allowed values for '%s' are %s."
-msgstr "Error: invalid value, allowed values for '%s' are %s."
-
+#: ../admin/class-wpmoly-edit-movies.php:661
 #: ../admin/class-wpmoly-edit-movies.php:693
-#: ../admin/class-wpmoly-edit-movies.php:703
-msgid "Error: couldn't update movie detail."
-msgstr "Error: couldn't update movie detail."
-
-#: ../admin/class-wpmoly-edit-movies.php:698
-msgid ""
-"Error: invalid value, allowed values for 'rating' are floats between 0.0 and "
-"5.0."
-msgstr ""
-"Error: invalid value, allowed values for 'rating' are floats between 0.0 and "
-"5.0."
-
-#: ../admin/class-wpmoly-edit-movies.php:726
-#: ../admin/class-wpmoly-edit-movies.php:758
-#: ../includes/classes/legacy/class-wpmoly-legacy.php:218
+#: ../includes/classes/legacy/class-wpmoly-legacy.php:240
 msgid "Error: submitted post is not a movie."
 msgstr "Error: submitted post is not a movie."
 
-#: ../admin/class-wpmoly-edit-movies.php:732
+#: ../admin/class-wpmoly-edit-movies.php:667
 msgid "Error: the submitted movie details are invalid."
 msgstr "Error: the submitted movie details are invalid."
 
-#: ../admin/class-wpmoly-edit-movies.php:860
+#: ../admin/class-wpmoly-edit-movies.php:795
 msgid "You are not allowed to edit posts."
 msgstr "You are not allowed to edit posts."
 
-#: ../admin/class-wpmoly-edit-movies.php:863
+#: ../admin/class-wpmoly-edit-movies.php:798
 #, php-format
 msgid "Posts with #%s is invalid or is not a movie."
 msgstr "Posts with #%s is invalid or is not a movie."
@@ -300,11 +309,14 @@ msgid "API Error: unknown server error, unable to perform request."
 msgstr "API Error: unknown server error, unable to perform request."
 
 #: ../admin/class-wpmoly-import-queue.php:105
-#: ../admin/class-wpmoly-import-table.php:96
-#: ../admin/class-wpmoly-import-table.php:535
+#: ../admin/class-wpmoly-import-table.php:99
+#: ../admin/class-wpmoly-import-table.php:538
 #: ../views/admin/import/import.php:55
+#, php-format
 msgid "1 item"
-msgstr "1 item"
+msgid_plural "%s items"
+msgstr[0] "1 item"
+msgstr[1] "%s items"
 
 #: ../admin/class-wpmoly-import-queue.php:105
 #: ../views/admin/import/import.php:55
@@ -344,16 +356,18 @@ msgstr "An error occured when trying to imported queued movie \"%s\": %s"
 #: ../includes/config/wpmoly-settings.php:30
 #: ../includes/config/wpmoly-admin-menu.php:20
 #: ../includes/widgets/class-movies-widget.php:35
-#: ../public/class-wpmoly-movies.php:59 ../public/class-wpmoly-movies.php:71
+#: ../public/class-wpmoly-movies.php:72 ../public/class-wpmoly-movies.php:84
 #: ../views/admin/settings/settings.php:13
 msgid "Movies"
 msgstr "Movies"
 
 #: ../admin/class-wpmoly-admin.php:140
-#: ../includes/classes/class-wpmoly-utils.php:1259
+#: ../includes/classes/class-wpmoly-utils.php:1274
 #, php-format
 msgid "%d movie"
-msgstr "%d movie"
+msgid_plural "%d movies"
+msgstr[0] "%d movie"
+msgstr[1] "%d movies"
 
 #: ../admin/class-wpmoly-admin.php:499 ../includes/config/wpmoly-movies.php:25
 msgid "Available"
@@ -474,14 +488,16 @@ msgstr ""
 "No movie could be found. You need to select a movie before importing images "
 "or posters."
 
-#: ../admin/class-wpmoly-admin.php:526 ../public/class-wpmoly-movies.php:60
+#: ../admin/class-wpmoly-admin.php:526 ../public/class-wpmoly-movies.php:73
 msgid "Movie"
 msgstr "Movie"
 
 #: ../admin/class-wpmoly-admin.php:527 ../admin/class-wpmoly-admin.php:528
 #: ../views/admin/update-movies.php:124
 msgid "movie updated"
-msgstr "movie updated"
+msgid_plural "movies updated"
+msgstr[0] "movie updated"
+msgstr[1] "movies updated"
 
 #: ../admin/class-wpmoly-admin.php:529
 msgid "not updated"
@@ -514,7 +530,9 @@ msgstr "see more"
 #: ../admin/class-wpmoly-admin.php:537 ../admin/class-wpmoly-admin.php:542
 #: ../views/admin/update-movies.php:124
 msgid "selected"
-msgstr "selected"
+msgid_plural "selected"
+msgstr[0] "selected"
+msgstr[1] "selected"
 
 #: ../admin/class-wpmoly-admin.php:538
 msgid "Setting featured image…"
@@ -534,7 +552,7 @@ msgstr "updating movies..."
 
 #: ../admin/class-wpmoly-import-table.php:51
 #: ../includes/config/wpmoly-settings.php:128
-#: ../includes/config/wpmoly-movies.php:119
+#: ../includes/config/wpmoly-movies.php:126
 #: ../includes/widgets/class-movies-widget.php:83
 #: ../views/taxonomies-widget/taxonomies-admin.php:5
 #: ../views/statistics-widget/statistics-admin.php:5
@@ -546,7 +564,7 @@ msgstr "Title"
 
 #: ../admin/class-wpmoly-import-table.php:52
 #: ../includes/config/wpmoly-settings.php:121
-#: ../includes/config/wpmoly-movies.php:192
+#: ../includes/config/wpmoly-movies.php:208
 #: ../views/admin/import/import.php:60
 msgid "Director"
 msgstr "Director"
@@ -560,45 +578,71 @@ msgstr "Actions"
 msgid "No movies found, dude."
 msgstr "No movies found, dude."
 
-#: ../admin/class-wpmoly-import-table.php:341
+#: ../admin/class-wpmoly-import-table.php:117
+msgid "Go to the first page"
+msgstr "Go to the first page"
+
+#: ../admin/class-wpmoly-import-table.php:124
+msgid "Go to the previous page"
+msgstr "Go to the previous page"
+
+#: ../admin/class-wpmoly-import-table.php:133
+msgid "Current page"
+msgstr "Current page"
+
+#: ../admin/class-wpmoly-import-table.php:139
+#, php-format
+msgctxt "paging"
+msgid "%1$s of %2$s"
+msgstr "%1$s of %2$s"
+
+#: ../admin/class-wpmoly-import-table.php:143
+msgid "Go to the next page"
+msgstr "Go to the next page"
+
+#: ../admin/class-wpmoly-import-table.php:150
+msgid "Go to the last page"
+msgstr "Go to the last page"
+
+#: ../admin/class-wpmoly-import-table.php:344
 msgid "Fetch data from TMDb"
 msgstr "Fetch data from TMDb"
 
-#: ../admin/class-wpmoly-import-table.php:343
+#: ../admin/class-wpmoly-import-table.php:346
 msgid "Enqueue"
 msgstr "Enqueue"
 
-#: ../admin/class-wpmoly-import-table.php:344
+#: ../admin/class-wpmoly-import-table.php:347
 #: ../views/admin/dashboard-latest-movies/latest-movies.php:18
 #: ../views/admin/dashboard-most-rated-movies/most-rated-movies.php:18
 #: ../views/admin/import/queued-movies.php:14
 msgid "Delete"
 msgstr "Delete"
 
-#: ../admin/class-wpmoly-import-table.php:385
+#: ../admin/class-wpmoly-import-table.php:388
 msgid "Find Metadata"
 msgstr "Find Metadata"
 
-#: ../admin/class-wpmoly-import-table.php:386
+#: ../admin/class-wpmoly-import-table.php:389
 msgid "Enqueue Movie"
 msgstr "Enqueue Movie"
 
-#: ../admin/class-wpmoly-import-table.php:387
+#: ../admin/class-wpmoly-import-table.php:390
 #: ../views/admin/import/import.php:49
 msgid "Delete Movie"
 msgstr "Delete Movie"
 
-#: ../admin/class-wpmoly-import-table.php:427
+#: ../admin/class-wpmoly-import-table.php:430
 #: ../views/admin/import/import.php:48
 msgid "Bulk Actions"
 msgstr "Bulk Actions"
 
-#: ../admin/class-wpmoly-import-table.php:437 ../admin/class-dashboard.php:232
+#: ../admin/class-wpmoly-import-table.php:440 ../admin/class-dashboard.php:232
 #: ../views/admin/import/import.php:52
 msgid "Apply"
 msgstr "Apply"
 
-#: ../admin/class-wpmoly-import-table.php:571
+#: ../admin/class-wpmoly-import-table.php:574
 msgid "Select All"
 msgstr "Select All"
 
@@ -732,76 +776,72 @@ msgid "No transient found."
 msgstr "No transient found."
 
 #: ../includes/classes/class-wpmoly-cache.php:176
+#, php-format
 msgid "1 transient deleted"
-msgstr "1 transient deleted"
+msgid_plural "%s transients deleted."
+msgstr[0] "1 transient deleted"
+msgstr[1] "%s transients deleted."
 
-#: ../includes/classes/class-wpmoly-utils.php:178
-#: ../public/class-wpmoly-movies.php:369
+#: ../includes/classes/class-wpmoly-utils.php:233
 msgid "unavailable"
 msgstr "unavailable"
 
-#: ../includes/classes/class-wpmoly-utils.php:179
-#: ../public/class-wpmoly-movies.php:371
+#: ../includes/classes/class-wpmoly-utils.php:234
 msgid "available"
 msgstr "available"
 
-#: ../includes/classes/class-wpmoly-utils.php:180
-#: ../public/class-wpmoly-movies.php:373
+#: ../includes/classes/class-wpmoly-utils.php:235
 msgid "loaned"
 msgstr "loaned"
 
-#: ../includes/classes/class-wpmoly-utils.php:181
-#: ../public/class-wpmoly-movies.php:375
+#: ../includes/classes/class-wpmoly-utils.php:236
 msgid "scheduled"
 msgstr "scheduled"
 
-#: ../includes/classes/class-wpmoly-utils.php:182
-#: ../public/class-wpmoly-movies.php:356
+#: ../includes/classes/class-wpmoly-utils.php:238
 msgid "bluray"
 msgstr "bluray"
 
-#: ../includes/classes/class-wpmoly-utils.php:183
-#: ../public/class-wpmoly-movies.php:358
+#: ../includes/classes/class-wpmoly-utils.php:239
 msgid "cinema"
 msgstr "cinema"
 
-#: ../includes/classes/class-wpmoly-utils.php:184
-#: ../public/class-wpmoly-movies.php:360
+#: ../includes/classes/class-wpmoly-utils.php:240
 msgid "other"
 msgstr "other"
 
-#: ../includes/classes/class-wpmoly-utils.php:1084
+#: ../includes/classes/class-wpmoly-utils.php:1099
 msgid "Invalid taxonomy"
 msgstr "Invalid taxonomy"
 
-#: ../includes/classes/class-wpmoly-utils.php:1213
+#: ../includes/classes/class-wpmoly-utils.php:1228
 #, php-format
 msgid "View all movies from collection &laquo; %s &raquo;"
 msgstr "View all movies from collection &laquo; %s &raquo;"
 
-#: ../includes/classes/class-wpmoly-utils.php:1217
+#: ../includes/classes/class-wpmoly-utils.php:1232
 #, php-format
 msgid "View all &laquo; %s &raquo; movies"
 msgstr "View all &laquo; %s &raquo; movies"
 
-#: ../includes/classes/class-wpmoly-utils.php:1221
+#: ../includes/classes/class-wpmoly-utils.php:1236
 #, php-format
 msgid "View all movies staring &laquo; %s &raquo;"
 msgstr "View all movies staring &laquo; %s &raquo;"
 
-#: ../includes/classes/class-wpmoly-utils.php:1332
+#: ../includes/classes/class-wpmoly-utils.php:1347
 msgid "&laquo; Previous"
 msgstr "&laquo; Previous"
 
-#: ../includes/classes/class-wpmoly-utils.php:1333
+#: ../includes/classes/class-wpmoly-utils.php:1348
 msgid "Next &raquo;"
 msgstr "Next &raquo;"
 
-#: ../includes/classes/class-wpmoly-utils.php:1373
+#: ../includes/classes/class-wpmoly-utils.php:1388
 msgid "&hellip;"
 msgstr "&hellip;"
 
-#: ../includes/classes/legacy/class-wpmoly-legacy.php:215
+#: ../includes/classes/legacy/class-wpmoly-legacy.php:237
 msgid "Error: you are not allowed to edit this movie."
 msgstr "Error: you are not allowed to edit this movie."
 
@@ -966,7 +1006,7 @@ msgstr ""
 "Themes or Plugins default values for movies only."
 
 #: ../includes/config/wpmoly-settings.php:84
-#: ../includes/config/wpmoly-movies.php:277
+#: ../includes/config/wpmoly-movies.php:299
 msgid "Metadata"
 msgstr "Metadata"
 
@@ -1019,7 +1059,7 @@ msgid "Which metadata to display in posts: director, genres, runtime, rating…"
 msgstr "Which metadata to display in posts: director, genres, runtime, rating…"
 
 #: ../includes/config/wpmoly-settings.php:122
-#: ../includes/config/wpmoly-movies.php:151
+#: ../includes/config/wpmoly-movies.php:162
 #: ../public/class-wpmoly-shortcodes.php:338
 msgid "Runtime"
 msgstr "Runtime"
@@ -1032,7 +1072,7 @@ msgstr "Release date"
 #: ../includes/config/wpmoly-settings.php:396
 #: ../includes/config/wpmoly-admin-menu.php:97
 #: ../includes/config/wpmoly-admin-menu.php:98
-#: ../includes/config/wpmoly-movies.php:183
+#: ../includes/config/wpmoly-movies.php:198
 #: ../public/class-wpmoly-shortcodes.php:445
 #: ../public/class-wpmoly-genres.php:64
 #: ../views/taxonomies-widget/taxonomies-admin.php:16
@@ -1040,53 +1080,53 @@ msgid "Genres"
 msgstr "Genres"
 
 #: ../includes/config/wpmoly-settings.php:125
-#: ../includes/config/wpmoly-movies.php:135
+#: ../includes/config/wpmoly-movies.php:144
 msgid "Overview"
 msgstr "Overview"
 
 #: ../includes/config/wpmoly-settings.php:129
-#: ../includes/config/wpmoly-movies.php:127
+#: ../includes/config/wpmoly-movies.php:135
 msgid "Original Title"
 msgstr "Original Title"
 
 #: ../includes/config/wpmoly-settings.php:130
-#: ../includes/config/wpmoly-movies.php:159
+#: ../includes/config/wpmoly-movies.php:171
 msgid "Production"
 msgstr "Production"
 
 #: ../includes/config/wpmoly-settings.php:131
-#: ../includes/config/wpmoly-movies.php:167
+#: ../includes/config/wpmoly-movies.php:180
 msgid "Country"
 msgstr "Country"
 
 #: ../includes/config/wpmoly-settings.php:132
 #: ../includes/config/wpmoly-settings.php:476
-#: ../includes/config/wpmoly-movies.php:175
+#: ../includes/config/wpmoly-movies.php:189
 msgid "Languages"
 msgstr "Languages"
 
 #: ../includes/config/wpmoly-settings.php:133
-#: ../includes/config/wpmoly-movies.php:201
+#: ../includes/config/wpmoly-movies.php:218
 msgid "Producer"
 msgstr "Producer"
 
 #: ../includes/config/wpmoly-settings.php:134
-#: ../includes/config/wpmoly-movies.php:218
+#: ../includes/config/wpmoly-movies.php:237
 msgid "Director of Photography"
 msgstr "Director of Photography"
 
 #: ../includes/config/wpmoly-settings.php:135
-#: ../includes/config/wpmoly-movies.php:227
+#: ../includes/config/wpmoly-movies.php:247
 msgid "Original Music Composer"
 msgstr "Original Music Composer"
 
 #: ../includes/config/wpmoly-settings.php:136
-#: ../includes/config/wpmoly-movies.php:236
+#: ../includes/config/wpmoly-movies.php:257
 msgid "Author"
 msgstr "Author"
 
 #: ../includes/config/wpmoly-settings.php:137
-#: ../includes/config/wpmoly-movies.php:245
+#: ../includes/config/wpmoly-movies.php:267
 msgid "Writer"
 msgstr "Writer"
 
@@ -1094,7 +1134,7 @@ msgstr "Writer"
 #: ../includes/config/wpmoly-settings.php:430
 #: ../includes/config/wpmoly-admin-menu.php:110
 #: ../includes/config/wpmoly-admin-menu.php:111
-#: ../includes/config/wpmoly-movies.php:209
+#: ../includes/config/wpmoly-movies.php:227
 #: ../public/class-wpmoly-actors.php:65
 #: ../public/class-wpmoly-shortcodes.php:394
 #: ../views/taxonomies-widget/taxonomies-admin.php:17
@@ -1102,7 +1142,7 @@ msgid "Actors"
 msgstr "Actors"
 
 #: ../includes/config/wpmoly-settings.php:156
-#: ../includes/config/wpmoly-movies.php:283
+#: ../includes/config/wpmoly-movies.php:305
 msgid "Details"
 msgstr "Details"
 
@@ -1196,7 +1236,7 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:258
 #: ../includes/config/wpmoly-settings.php:317
-#: ../includes/config/wpmoly-movies.php:289
+#: ../includes/config/wpmoly-movies.php:311
 #: ../views/admin/settings/settings.php:14
 msgid "Images"
 msgstr "Images"
@@ -1683,15 +1723,15 @@ msgid ""
 "metadata format introduced by version 1.3. Each time a metadata is access, "
 "the plugin will look for obsolete metadata and will update it if needed. "
 "Once all movies are updated the plugin will stop looking, but you should "
-"deactivate this anyway. <a href=\"http://wpmovielibrary/development/release-"
-"notes/#version-1.3\">Learn more about this change</a>."
+"deactivate this anyway. <a href=\"http://wpmovielibrary.com/development/"
+"release-notes/#version-1.3\">Learn more about this change</a>."
 msgstr ""
 "If enabled, WPMovieLibrary will automatically update all movies to the new "
 "metadata format introduced by version 1.3. Each time a metadata is access, "
 "the plugin will look for obsolete metadata and will update it if needed. "
 "Once all movies are updated the plugin will stop looking, but you should "
-"deactivate this anyway. <a href=\"http://wpmovielibrary/development/release-"
-"notes/#version-1.3\">Learn more about this change</a>."
+"deactivate this anyway. <a href=\"http://wpmovielibrary.com/development/"
+"release-notes/#version-1.3\">Learn more about this change</a>."
 
 #: ../includes/config/wpmoly-settings.php:720
 msgid "Enable Legacy Safety mode"
@@ -1954,13 +1994,13 @@ msgstr ""
 
 #: ../includes/config/wpmoly-admin-menu.php:58
 #: ../includes/config/wpmoly-admin-menu.php:59
-#: ../public/class-wpmoly-movies.php:65
+#: ../public/class-wpmoly-movies.php:78
 msgid "All Movies"
 msgstr "All Movies"
 
 #: ../includes/config/wpmoly-admin-menu.php:71
 #: ../includes/config/wpmoly-admin-menu.php:72
-#: ../public/class-wpmoly-movies.php:61
+#: ../public/class-wpmoly-movies.php:74
 msgid "Add New"
 msgstr "Add New"
 
@@ -2020,151 +2060,233 @@ msgstr "Scheduled"
 msgid "Unvailable"
 msgstr "Unvailable"
 
-#: ../includes/config/wpmoly-movies.php:36
+#: ../includes/config/wpmoly-movies.php:31
+msgid "status"
+msgstr "status"
+
+#: ../includes/config/wpmoly-movies.php:37
 msgid "Movie Media"
 msgstr "Movie Media"
 
-#: ../includes/config/wpmoly-movies.php:37
+#: ../includes/config/wpmoly-movies.php:38
 msgid "Select a media for this movie"
 msgstr "Select a media for this movie"
 
-#: ../includes/config/wpmoly-movies.php:40
+#: ../includes/config/wpmoly-movies.php:41
 msgid "DVD"
 msgstr "DVD"
 
-#: ../includes/config/wpmoly-movies.php:41
+#: ../includes/config/wpmoly-movies.php:42
 msgid "Blu-ray"
 msgstr "Blu-ray"
 
-#: ../includes/config/wpmoly-movies.php:42
+#: ../includes/config/wpmoly-movies.php:43
 msgid "VoD"
 msgstr "Video on Demand"
 
-#: ../includes/config/wpmoly-movies.php:43
+#: ../includes/config/wpmoly-movies.php:44
 msgid "DivX"
 msgstr "DivX"
 
-#: ../includes/config/wpmoly-movies.php:44
+#: ../includes/config/wpmoly-movies.php:45
 msgid "VHS"
 msgstr "VHS"
 
-#: ../includes/config/wpmoly-movies.php:45
+#: ../includes/config/wpmoly-movies.php:46
 msgid "Cinema"
 msgstr "Cinema"
 
-#: ../includes/config/wpmoly-movies.php:46
+#: ../includes/config/wpmoly-movies.php:47
 msgid "Other"
 msgstr "Other"
 
-#: ../includes/config/wpmoly-movies.php:55
+#: ../includes/config/wpmoly-movies.php:51
+msgid "media"
+msgstr "media"
+
+#: ../includes/config/wpmoly-movies.php:57
 msgid "Movie Rating"
 msgstr "Movie Rating"
 
-#: ../includes/config/wpmoly-movies.php:56
+#: ../includes/config/wpmoly-movies.php:58
 msgid "Select a rating for this movie"
 msgstr "Select a rating for this movie"
 
-#: ../includes/config/wpmoly-movies.php:59
+#: ../includes/config/wpmoly-movies.php:61
 msgid "Not rated"
 msgstr "Not rated"
 
-#: ../includes/config/wpmoly-movies.php:60
-#: ../views/admin/edit-movies/quick-edit.php:34
+#: ../includes/config/wpmoly-movies.php:62
 msgid "Junk"
 msgstr "Junk"
 
-#: ../includes/config/wpmoly-movies.php:61
-#: ../views/admin/edit-movies/quick-edit.php:35
+#: ../includes/config/wpmoly-movies.php:63
 msgid "Very bad"
 msgstr "Very bad"
 
-#: ../includes/config/wpmoly-movies.php:62
-#: ../views/admin/edit-movies/quick-edit.php:36
+#: ../includes/config/wpmoly-movies.php:64
 msgid "Bad"
 msgstr "Bad"
 
-#: ../includes/config/wpmoly-movies.php:63
-#: ../views/admin/edit-movies/quick-edit.php:37
+#: ../includes/config/wpmoly-movies.php:65
 msgid "Not that bad"
 msgstr "Not that bad"
 
-#: ../includes/config/wpmoly-movies.php:64
-#: ../views/admin/edit-movies/quick-edit.php:38
+#: ../includes/config/wpmoly-movies.php:66
 msgid "Average"
 msgstr "Average"
 
-#: ../includes/config/wpmoly-movies.php:65
-#: ../views/admin/edit-movies/quick-edit.php:39
+#: ../includes/config/wpmoly-movies.php:67
 msgid "Not bad"
 msgstr "Not bad"
 
-#: ../includes/config/wpmoly-movies.php:66
-#: ../views/admin/edit-movies/quick-edit.php:40
+#: ../includes/config/wpmoly-movies.php:68
 msgid "Good"
 msgstr "Good"
 
-#: ../includes/config/wpmoly-movies.php:67
-#: ../views/admin/edit-movies/quick-edit.php:41
+#: ../includes/config/wpmoly-movies.php:69
 msgid "Very good"
 msgstr "Very good"
 
-#: ../includes/config/wpmoly-movies.php:68
-#: ../views/admin/edit-movies/quick-edit.php:42
+#: ../includes/config/wpmoly-movies.php:70
 msgid "Excellent"
 msgstr "Excellent"
 
-#: ../includes/config/wpmoly-movies.php:69
-#: ../views/admin/edit-movies/quick-edit.php:43
+#: ../includes/config/wpmoly-movies.php:71
 msgid "Masterpiece"
 msgstr "Masterpiece"
 
-#: ../includes/config/wpmoly-movies.php:77
+#: ../includes/config/wpmoly-movies.php:74
+msgid "rating"
+msgstr "rating"
+
+#: ../includes/config/wpmoly-movies.php:80
 msgid "Movie Language"
 msgstr "Movie Language"
 
-#: ../includes/config/wpmoly-movies.php:78
+#: ../includes/config/wpmoly-movies.php:81
 msgid "Select a language for this movie"
 msgstr "Select a language for this movie"
 
-#: ../includes/config/wpmoly-movies.php:87
+#: ../includes/config/wpmoly-movies.php:85
+msgid "lang"
+msgstr "lang"
+
+#: ../includes/config/wpmoly-movies.php:91
 msgid "Movie Subtitles"
 msgstr "Movie Subtitles"
 
-#: ../includes/config/wpmoly-movies.php:88
+#: ../includes/config/wpmoly-movies.php:92
 msgid "Select a subtitle for this movie"
 msgstr "Select a subtitle for this movie"
 
-#: ../includes/config/wpmoly-movies.php:97
+#: ../includes/config/wpmoly-movies.php:96
+msgid "subtitles"
+msgstr "subtitles"
+
+#: ../includes/config/wpmoly-movies.php:102
 msgid "Movie Format"
 msgstr "Movie Format"
 
-#: ../includes/config/wpmoly-movies.php:98
+#: ../includes/config/wpmoly-movies.php:103
 msgid "Select a format for this movie"
 msgstr "Select a format for this movie"
 
-#: ../includes/config/wpmoly-movies.php:101
+#: ../includes/config/wpmoly-movies.php:106
 msgid "3D"
 msgstr "3D"
 
-#: ../includes/config/wpmoly-movies.php:102
+#: ../includes/config/wpmoly-movies.php:107
 msgid "SD"
 msgstr "SD"
 
-#: ../includes/config/wpmoly-movies.php:103
+#: ../includes/config/wpmoly-movies.php:108
 msgid "HD"
 msgstr "HD"
 
 #: ../includes/config/wpmoly-movies.php:111
+msgid "format"
+msgstr "format"
+
+#: ../includes/config/wpmoly-movies.php:117
 #: ../views/admin/metabox/panels/panel-meta.php:18
 msgid "TMDb ID"
 msgstr "TMDb ID"
 
-#: ../includes/config/wpmoly-movies.php:143
+#: ../includes/config/wpmoly-movies.php:123
+msgid "tmdbid"
+msgstr "tmdbid"
+
+#: ../includes/config/wpmoly-movies.php:132
+msgid "title"
+msgstr "title"
+
+#: ../includes/config/wpmoly-movies.php:141
+msgid "originaltitle"
+msgstr "originaltitle"
+
+#: ../includes/config/wpmoly-movies.php:150
+msgid "overview"
+msgstr "overview"
+
+#: ../includes/config/wpmoly-movies.php:153
 #: ../public/class-wpmoly-shortcodes.php:293
 msgid "Release Date"
 msgstr "Release Date"
 
-#: ../includes/config/wpmoly-movies.php:271
+#: ../includes/config/wpmoly-movies.php:159
+msgid "date"
+msgstr "date"
+
+#: ../includes/config/wpmoly-movies.php:168
+msgid "runtime"
+msgstr "runtime"
+
+#: ../includes/config/wpmoly-movies.php:177
+msgid "production"
+msgstr "production"
+
+#: ../includes/config/wpmoly-movies.php:186
+msgid "country"
+msgstr "country"
+
+#: ../includes/config/wpmoly-movies.php:195
+msgid "language"
+msgstr "language"
+
+#: ../includes/config/wpmoly-movies.php:204
+msgid "genre"
+msgstr "genre"
+
+#: ../includes/config/wpmoly-movies.php:214
+msgid "director"
+msgstr "director"
+
+#: ../includes/config/wpmoly-movies.php:224
+msgid "producer"
+msgstr "producer"
+
+#: ../includes/config/wpmoly-movies.php:233
+msgid "actor"
+msgstr "actor"
+
+#: ../includes/config/wpmoly-movies.php:243
+msgid "photography"
+msgstr "photography"
+
+#: ../includes/config/wpmoly-movies.php:253
+msgid "composer"
+msgstr "composer"
+
+#: ../includes/config/wpmoly-movies.php:263
+msgid "author"
+msgstr "author"
+
+#: ../includes/config/wpmoly-movies.php:273
+msgid "writer"
+msgstr "writer"
+
+#: ../includes/config/wpmoly-movies.php:293
 msgid "Preview"
 msgstr "Preview"
 
@@ -2224,24 +2346,32 @@ msgstr "Display some statistics about your movie library"
 
 #: ../includes/widgets/class-statistics-widget.php:91
 #: ../views/admin/update-movies.php:109
-#: ../views/admin/dashboard-statistics/statistics.php:10
+#, php-format
 msgid "one movie"
-msgstr "one movie"
+msgid_plural "<strong>%d</strong> movies"
+msgstr[0] "one movie"
+msgstr[1] "<strong>%d</strong> movies"
 
 #: ../includes/widgets/class-statistics-widget.php:92
-#: ../views/admin/dashboard-statistics/statistics.php:11
+#, php-format
 msgid "one collection"
-msgstr "one collection"
+msgid_plural "<strong>%d</strong> collections"
+msgstr[0] "one collection"
+msgstr[1] "<strong>%d</strong> collections"
 
 #: ../includes/widgets/class-statistics-widget.php:93
-#: ../views/admin/dashboard-statistics/statistics.php:12
+#, php-format
 msgid "one genre"
-msgstr "one genre"
+msgid_plural "<strong>%d</strong> genres"
+msgstr[0] "one genre"
+msgstr[1] "<strong>%d</strong> genres"
 
 #: ../includes/widgets/class-statistics-widget.php:94
-#: ../views/admin/dashboard-statistics/statistics.php:13
+#, php-format
 msgid "one actor"
-msgstr "one actor"
+msgid_plural "<strong>%d</strong> actors"
+msgstr[0] "one actor"
+msgstr[1] "<strong>%d</strong> actors"
 
 #: ../includes/widgets/class-statistics-widget.php:140
 msgid ""
@@ -2337,35 +2467,59 @@ msgstr "View the complete list"
 msgid "New Actor"
 msgstr "New Actor"
 
-#: ../public/class-wpmoly-movies.php:62
+#: ../public/class-wpmoly-movies.php:75
 msgid "Add New Movie"
 msgstr "Add New Movie"
 
-#: ../public/class-wpmoly-movies.php:63
+#: ../public/class-wpmoly-movies.php:76
 msgid "Edit Movie"
 msgstr "Edit Movie"
 
-#: ../public/class-wpmoly-movies.php:64
+#: ../public/class-wpmoly-movies.php:77
 msgid "New Movie"
 msgstr "New Movie"
 
-#: ../public/class-wpmoly-movies.php:66
+#: ../public/class-wpmoly-movies.php:79
 msgid "View Movie"
 msgstr "View Movie"
 
-#: ../public/class-wpmoly-movies.php:67
+#: ../public/class-wpmoly-movies.php:80
 msgid "Search Movies"
 msgstr "Search Movies"
 
-#: ../public/class-wpmoly-movies.php:68
+#: ../public/class-wpmoly-movies.php:81
 #: ../views/admin/dashboard-latest-movies/latest-movies.php:26
 #: ../views/admin/dashboard-most-rated-movies/most-rated-movies.php:26
 msgid "No movies found"
 msgstr "No movies found"
 
-#: ../public/class-wpmoly-movies.php:69
+#: ../public/class-wpmoly-movies.php:82
 msgid "No movies found in Trash"
 msgstr "No movies found in Trash"
+
+#: ../public/class-wpmoly-movies.php:107
+msgctxt "wpmovielibrary"
+msgid "Imported Draft"
+msgstr "Import Drafts"
+
+#: ../public/class-wpmoly-movies.php:112
+#, php-format
+msgid "Imported Draft <span class=\"count\">(%s)</span>"
+msgid_plural "Imported Draft <span class=\"count\">(%s)</span>"
+msgstr[0] "Imported Draft <span class=\"count\">(%s)</span>"
+msgstr[1] "Imported Draft <span class=\"count\">(%s)</span>"
+
+#: ../public/class-wpmoly-movies.php:116
+msgctxt "wpmovielibrary"
+msgid "Queued Movie"
+msgstr "Enqueue Movie"
+
+#: ../public/class-wpmoly-movies.php:121
+#, php-format
+msgid "Queued Movie <span class=\"count\">(%s)</span>"
+msgid_plural "Queued Movies <span class=\"count\">(%s)</span>"
+msgstr[0] "Queued Movie <span class=\"count\">(%s)</span>"
+msgstr[1] "Queued Movies <span class=\"count\">(%s)</span>"
 
 #: ../public/class-wpmoly-collections.php:66
 msgid "New Movie Collection"
@@ -2539,7 +2693,9 @@ msgstr ""
 
 #: ../views/admin/update-movies.php:32
 msgid "The following movie needs an update:"
-msgstr "The following movie needs an update:"
+msgid_plural "The following movies needs an update:"
+msgstr[0] "The following movie needs an update:"
+msgstr[1] "The following movies needs an update:"
 
 #: ../views/admin/update-movies.php:41
 msgid "Select all"
@@ -2551,7 +2707,9 @@ msgstr "No obsolete movie!"
 
 #: ../views/admin/update-movies.php:72
 msgid "The following movie is up to date:"
-msgstr "The following movie is up to date:"
+msgid_plural "The following movies are up to date:"
+msgstr[0] "The following movie is up to date:"
+msgstr[1] "The following movies are up to date:"
 
 #: ../views/admin/update-movies.php:109
 #, php-format
@@ -2629,8 +2787,8 @@ msgid ""
 "your movies to the new standard format. <strong>Not doing so will produce "
 "bugs and random behaviours when using the plugin</strong>. Please proceed to "
 "<a href=\"%s\">update your movies</a> using the dedicated tool. <a href="
-"\"http://wpmovielibrary/development/release-notes/#version-1.3\">Learn more "
-"about this change</a>."
+"\"http://wpmovielibrary.com/development/release-notes/#version-1.3\">Learn "
+"more about this change</a>."
 msgstr ""
 "<strong>WPMovieLibrary found deprecated movie metadata</strong>; since "
 "version 1.3 movies metadata are stored and managed differently to provide "
@@ -2638,8 +2796,8 @@ msgstr ""
 "your movies to the new standard format. <strong>Not doing so will produce "
 "bugs and random behaviours when using the plugin</strong>. Please proceed to "
 "<a href=\"%s\">update your movies</a> using the dedicated tool. <a href="
-"\"http://wpmovielibrary/development/release-notes/#version-1.3\">Learn more "
-"about this change</a>."
+"\"http://wpmovielibrary.com/development/release-notes/#version-1.3\">Learn "
+"more about this change</a>."
 
 #: ../views/admin/admin-notice.php:28
 #, php-format
@@ -2674,15 +2832,6 @@ msgstr "Movie Dtails"
 msgid "Here's some statistics about your movie library:"
 msgstr "Here's some statistics about your movie library:"
 
-#: ../views/admin/dashboard-statistics/statistics.php:9
-#, php-format
-msgid ""
-"All combined you have a total of %s in your library, regrouped in %s, %s and "
-"%s."
-msgstr ""
-"All combined you have a total of %s in your library, regrouped in %s, %s and "
-"%s."
-
 #: ../views/admin/dashboard-latest-movies/latest-movies.php:27
 #: ../views/admin/dashboard-most-rated-movies/most-rated-movies.php:27
 msgid "Add a movie!"
@@ -2694,101 +2843,101 @@ msgid "Load more"
 msgstr "Load more"
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:10
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:11
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:10
 msgid "Use the following options to customize this Widget."
 msgstr "Use the following options to customize this Widget."
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:15
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:16
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:15
 msgid "Number of movies:"
 msgstr "Number of movies:"
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:16
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:17
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:16
 msgid "movies"
 msgstr "movies"
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:19
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:20
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:19
 msgid "Show year"
 msgstr "Show year"
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:20
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:21
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:20
 msgid "Show movies release years below the poster."
 msgstr "Show release year below the poster."
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:21
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:22
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:21
 msgid "Show rating"
 msgstr "Show rating"
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:22
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:23
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:22
 msgid "Show movies ratings below the poster."
 msgstr "Show rating below the poster."
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:23
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:24
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:23
 msgid "Show \"Load more\" button"
 msgstr "Show \"Load more\" button"
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:24
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:25
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:24
 msgid "Show a button to load more movies to the Widget."
 msgstr "Show a button to load more movies to the Widget."
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:24
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:26
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:30
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:25
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:27
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:31
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:24
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:26
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:30
 msgid "JavaScript required"
 msgstr "JavaScript required"
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:25
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:26
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:25
 msgid "Show a previewing modal window when clicking posters."
 msgstr "Show a previewing modal window when clicking posters."
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:26
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:27
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:26
 msgid "Open modal window on click"
 msgstr "Open modal window on click"
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:29
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:30
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:29
 msgid "Quick-Edit menu"
 msgstr "Quick-Edit menu"
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:30
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:31
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:30
 msgid "Show a quick edit menu to perform basic actions on movies."
 msgstr "Show a quick edit menu to perform basic actions on movies."
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:31
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:32
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:31
 msgid "Stylized posters"
 msgstr "Stylized posters"
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:32
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:33
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:32
 msgid "Show more stylish poster without rounded borders and shadows."
 msgstr "Show more stylish poster without rounded borders and shadows."
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:33
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:34
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:33
 msgid "Stylized Metabox"
 msgstr "Stylized Metabox"
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:34
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:35
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:34
 msgid "Use transparent Metabox instead of regular WordPress Metabox"
 msgstr "Use transparent Metabox instead of regular WordPress Metabox"
 
 #: ../views/admin/dashboard-latest-movies/latest-movies-admin.php:40
-#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:41
+#: ../views/admin/dashboard-most-rated-movies/most-rated-movies-admin.php:40
 msgid "Save"
 msgstr "Save"
 
@@ -2854,6 +3003,10 @@ msgstr ""
 #: ../views/admin/settings/settings.php:49
 msgid "Empty cache"
 msgstr "Empty cache"
+
+#: ../views/admin/settings/settings.php:60
+msgid "Save Changes"
+msgstr "Save Changes"
 
 #: ../views/admin/dashboard-vendor/vendor.php:4
 msgid "Use it, love it, rate it!"
@@ -3144,6 +3297,25 @@ msgstr "Read more about"
 msgid "Detail"
 msgstr "Detail"
 
+#~ msgid "Invalid detail: should be status, media or rating."
+#~ msgstr "Invalid detail: should be status, media or rating."
+
+#~ msgid "Error: invalid post, post #%s is not a movie."
+#~ msgstr "Error: invalid post, post #%s is not a movie."
+
+#~ msgid "Error: invalid value, allowed values for '%s' are %s."
+#~ msgstr "Error: invalid value, allowed values for '%s' are %s."
+
+#~ msgid "Error: couldn't update movie detail."
+#~ msgstr "Error: couldn't update movie detail."
+
+#~ msgid ""
+#~ "Error: invalid value, allowed values for 'rating' are floats between 0.0 "
+#~ "and 5.0."
+#~ msgstr ""
+#~ "Error: invalid value, allowed values for 'rating' are floats between 0.0 "
+#~ "and 5.0."
+
 #~ msgid "WPMovieLibrary − Movie Details"
 #~ msgstr "WPMovieLibrary − Movie Details"
 
@@ -3186,25 +3358,6 @@ msgstr "Detail"
 #~ msgid "Show basic movie metadata"
 #~ msgstr "Show basic movie metadata"
 
-#~ msgid "Go to the first page"
-#~ msgstr "Go to the first page"
-
-#~ msgid "Go to the previous page"
-#~ msgstr "Go to the previous page"
-
-#~ msgid "Current page"
-#~ msgstr "Current page"
-
-#~ msgctxt "paging"
-#~ msgid "%1$s of %2$s"
-#~ msgstr "%1$s of %2$s"
-
-#~ msgid "Go to the next page"
-#~ msgstr "Go to the next page"
-
-#~ msgid "Go to the last page"
-#~ msgstr "Go to the last page"
-
 #~ msgid "Access denied."
 #~ msgstr "Access denied."
 
@@ -3241,29 +3394,8 @@ msgstr "Detail"
 #~ "themoviedb.org/\">TheMovieDB</a>. <a href=\"http://tmdb.caercam.org/"
 #~ "\">Learn more about the internal API key</a>."
 
-#~ msgctxt "wpmovielibrary"
-#~ msgid "Imported Draft"
-#~ msgstr "Import Drafts"
-
-#~ msgid "Imported Draft <span class=\"count\">(%s)</span>"
-#~ msgid_plural "Imported Draft <span class=\"count\">(%s)</span>"
-#~ msgstr[0] "Imported Draft <span class=\"count\">(%s)</span>"
-#~ msgstr[1] "Imported Draft <span class=\"count\">(%s)</span>"
-
-#~ msgctxt "wpmovielibrary"
-#~ msgid "Queued Movie"
-#~ msgstr "Enqueue Movie"
-
-#~ msgid "Queued Movie <span class=\"count\">(%s)</span>"
-#~ msgid_plural "Queued Movies <span class=\"count\">(%s)</span>"
-#~ msgstr[0] "Queued Movie <span class=\"count\">(%s)</span>"
-#~ msgstr[1] "Queued Movies <span class=\"count\">(%s)</span>"
-
 #~ msgid "TMDb API"
 #~ msgstr "TMDb API"
-
-#~ msgid "Save Changes"
-#~ msgstr "Save Changes"
 
 #~ msgid "http://wpmovielibrary.com"
 #~ msgstr "http://wpmovielibrary.com"
@@ -3434,12 +3566,6 @@ msgstr "Detail"
 
 #~ msgid "collection"
 #~ msgstr "collection"
-
-#~ msgid "genre"
-#~ msgstr "genre"
-
-#~ msgid "actor"
-#~ msgstr "actor"
 
 #~ msgid ""
 #~ "When enabled, wpmoly will store for a variable time the data fetched from "
