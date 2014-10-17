@@ -41,7 +41,7 @@ function wpmoly_modern_wp() {
  */
 function wpmoly_has_deprecated_meta( $post_id = null ) {
 
-	if ( ! is_null( $post_id ) )
+	if ( ! is_null( $post_id ) && class_exists( 'WPMOLY_Legacy' ) )
 		return WPMOLY_Legacy::has_deprecated_meta( $post_id );
 
 	// Transient not set, simultate deprecated to update counter

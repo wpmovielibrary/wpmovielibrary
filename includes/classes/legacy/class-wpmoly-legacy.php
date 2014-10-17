@@ -105,6 +105,15 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 			echo self::render_admin_template( 'update-movies.php', array( 'deprecated' => $deprecated, 'updated' => $updated ) );
 		}
 
+		/**
+		 * Check a specific movie for deprecated meta
+		 *
+		 * @since    2.0
+		 * 
+		 * @param    int    Movie Post ID
+		 * 
+		 * @return   bool    I iz deprecated?
+		 */
 		public static function has_deprecated_meta( $post_id ) {
 
 			global $wpdb;
