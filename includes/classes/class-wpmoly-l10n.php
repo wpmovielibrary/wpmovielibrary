@@ -26,6 +26,16 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		}
 
 		/**
+		 * Register callbacks for actions and filters
+		 * 
+		 * @since    2.0
+		 */
+		public function register_hook_callbacks() {
+
+			add_action( 'wp_head', __CLASS__ . '::dev4press_debug_page_request' );
+		}
+
+		/**
 		 * Get rewrites list
 		 * 
 		 * @since    2.0
@@ -34,12 +44,21 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		public static function get_l10n_rewrite() {
 
-			/*$l10n_rewrite = get_transient( 'wpmoly_l10n_rewrite' );
+			/*$l10n_rewrite = get_option( 'wpmoly_l10n_rewrite' );
 			if ( false === $l10n_rewrite )*/
 				$l10n_rewrite = self::set_l10n_rewrite();
 
 			return $l10n_rewrite;
 		}
+
+		public static function dev4press_debug_page_request() {
+
+		    global $wp;
+		    
+		    echo '<!-- Request: ' . $wp->request . ' -->'."\n";
+		    echo '<!-- Matched Rewrite Rule: ' . $wp->matched_rule . ' -->'."\n";
+		    echo '<!-- Matched Rewrite Query: ' . $wp->matched_query . ' -->'."\n";
+		    }
 
 		/**
 		 * Generate a list of possible translated rewrites
@@ -58,7 +77,12 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			$countries = WPMOLY_Settings::get_supported_countries();
 
 			foreach ( $details as $slug => $detail ) {
-				$l10n_rewrite['detail'][ $slug ] = $detail['rewrite'];
+
+				if ( wpmoly_o( 'rewrite-enable' ) )
+					$l10n_rewrite['detail'][ $slug ] = array_pop( $detail['rewrite'] );
+				else
+					$l10n_rewrite['detail'][ $slug ] = key( $detail['rewrite'] );
+
 				foreach ( $detail['options'] as $_slug => $option )
 					if ( 'rating' == $slug )
 						$l10n_rewrite['detail'][ $_slug ] = $_slug;
@@ -67,17 +91,28 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			}
 
 			foreach ( $meta as $slug => $m ) {
-				$l10n_rewrite['meta'][ $slug ] = $m['rewrite'];
+				if ( wpmoly_o( 'rewrite-enable' ) )
+					$l10n_rewrite['meta'][ $slug ] = array_pop( $m['rewrite'] );
+				else
+					$l10n_rewrite['meta'][ $slug ] = key( $m['rewrite'] );
 			}
 
-			foreach ( $languages as $language )
-				$l10n_rewrite['languages'][ $language['native'] ] = $language['name'];
+			foreach ( $languages as $language ) {
+				if ( wpmoly_o( 'rewrite-enable' ) )
+					$l10n_rewrite['languages'][ $language['native'] ] = $language['name'];
+				else
+					$l10n_rewrite['languages'][ $language['native'] ] = $language['standard'];
+			}
 
-			foreach ( $countries as $country )
-				$l10n_rewrite['countries'][ $country['native'] ] = $country['name'];
+			foreach ( $countries as $country ) {
+				if ( wpmoly_o( 'rewrite-enable' ) )
+					$l10n_rewrite['countries'][ $country['native'] ] = $country['name'];
+				else
+					$l10n_rewrite['countries'][ $country['native'] ] = $country['native'];
+			}
 
 			foreach ( $l10n_rewrite as $id => $rewrite )
-				$l10n_rewrite[ $id ] = array_map( 'sanitize_title_for_query', $rewrite );
+				$l10n_rewrite[ $id ] = array_map( 'strtolower', $rewrite );
 
 			/**
 			 * Filter the rewrites list
@@ -88,7 +123,8 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			 */
 			$l10n_rewrite = apply_filters( 'wpmoly_filter_l10n_rewrite', $l10n_rewrite );
 
-			//set_transient( 'wpmoly_l10n_rewrite', $l10n_rewrite );
+			self::delete_l10n_rewrite();
+			//add_option( 'wpmoly_l10n_rewrite', $l10n_rewrite );
 
 			return $l10n_rewrite;
 		}
@@ -102,17 +138,97 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		public static function delete_l10n_rewrite() {
 
-			$delete = delete_transient( 'wpmoly_l10n_rewrite' );
+			$delete = delete_option( 'wpmoly_l10n_rewrite' );
 
 			return $delete;
 		}
 
 		/**
-		 * Register callbacks for actions and filters
+		 * Get rewrite rules list
 		 * 
 		 * @since    2.0
+		 * 
+		 * @return   array     Translated rewrite rules
 		 */
-		public function register_hook_callbacks() {}
+		public static function get_l10n_rewrite_rules() {
+
+			/*$l10n_rewrite_rules = get_option( 'wpmoly_l10n_rewrite_rules' );
+			if ( false === $l10n_rewrite_rules )*/
+				$l10n_rewrite_rules = self::set_l10n_rewrite_rules();
+
+			return $l10n_rewrite_rules;
+		}
+
+		/**
+		 * Generate a list of possible translated rewrite rules
+		 * 
+		 * Rewrite rules are more limited than rewrites as we only need
+		 * to adapt structures.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @return   array     Translated rewrite rules
+		 */
+		public static function set_l10n_rewrite_rules() {
+
+			$l10n_rules = array();
+
+			$translate  = wpmoly_o( 'rewrite-enable' );
+			$movies     = wpmoly_o( 'rewrite-movie' );
+			$collection = wpmoly_o( 'rewrite-collection' );
+			$genre      = wpmoly_o( 'rewrite-genre' );
+			$actor      = wpmoly_o( 'rewrite-actor' );
+
+			$l10n_rules['movies']                   = ( $translate && '' != $movies ? $movies : 'movies' );
+			$l10n_rules['taxonomies']['collection'] = ( $translate && '' != $collection ? $collection : 'collection' );
+			$l10n_rules['taxonomies']['genre']      = ( $translate && '' != $genre ? $genre : 'genre' );
+			$l10n_rules['taxonomies']['actor']      = ( $translate && '' != $actor ? $actor : 'actor' );
+
+			$details    = WPMOLY_Settings::get_supported_movie_details();
+			$meta       = WPMOLY_Settings::get_supported_movie_meta();
+
+			foreach ( $details as $slug => $detail ) {
+				if ( $translate )
+					$l10n_rules['detail'][ $slug ] = array_pop( $detail['rewrite'] );
+				else
+					$l10n_rules['detail'][ $slug ] = key( $detail['rewrite'] );
+			}
+
+			foreach ( $meta as $slug => $m ) {
+				if ( $translate )
+					$l10n_rules['meta'][ $slug ] = array_pop( $m['rewrite'] );
+				else
+					$l10n_rules['meta'][ $slug ] = key( $m['rewrite'] );
+			}
+
+			/**
+			 * Filter the rewrite rules list
+			 *
+			 * @since    2.0
+			 *
+			 * @param    array    $l10n_rules Existing rewrite rules
+			 */
+			$l10n_rules = apply_filters( 'wpmoly_filter_l10n_rewrite_rules', $l10n_rules );
+
+			self::delete_l10n_rewrite_rules();
+			//add_option( 'wpmoly_l10n_rewrite_rules', $l10n_rules );
+
+			return $l10n_rules;
+		}
+
+		/**
+		 * Delete cached rewrite rules list
+		 * 
+		 * @since    2.0
+		 * 
+		 * @return   boolean    Deletion status
+		 */
+		public static function delete_l10n_rewrite_rules() {
+
+			$delete = delete_option( 'wpmoly_rewrite_rules' );
+
+			return $delete;
+		}
 
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
@@ -123,7 +239,8 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		public function activate( $network_wide ) {
 
-			
+			self::delete_l10n_rewrite();
+			self::delete_l10n_rewrite_rules();
 		}
 
 		/**
@@ -133,7 +250,8 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		public function deactivate() {
 
-			
+			self::delete_l10n_rewrite();
+			self::delete_l10n_rewrite_rules();
 		}
 
 		/**
@@ -143,7 +261,8 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		public static function uninstall() {
 
-			
+			self::delete_l10n_rewrite();
+			self::delete_l10n_rewrite_rules();
 		}
 
 		/**

@@ -632,7 +632,7 @@ $wpmoly_config = array(
 			),
 
 			// Movie URL Rewrite Rule
-			'rewrite-details' => array(
+			/*'rewrite-details' => array(
 				'id'       => 'wpmoly-rewrite-details',
 				'type'     => 'switch',
 				'title'    => __( 'Movie Details URL Rewrite', 'wpmovielibrary' ),
@@ -643,7 +643,7 @@ $wpmoly_config = array(
 				'default'  => 0,
 				'required' => array( 'wpmoly-rewrite-enable', "=", 1 ),
 				'indent'   => true
-			),
+			),*/
 
 		)
 

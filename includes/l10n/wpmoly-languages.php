@@ -47,145 +47,179 @@ $wpmoly_supported_languages = array(
 $wpmoly_languages = array(
 
 	'af' => array(
-		'native' => 'Afrikaans',
-		'name'   => __( 'Afrikaans', 'wpmovielibrary-iso' ),
-		'supported' => false,
+		'native'   => 'Afrikaans',
+		'name'     => __( 'Afrikaans', 'wpmovielibrary-iso' ),
+		'standard' => 'Afrikaans'
 	),
 	'ar' => array(
-		'native' => 'العربية',
-		'name'   => __( 'Arabic', 'wpmovielibrary-iso' )
+		'native'   => 'العربية',
+		'name'     => __( 'Arabic', 'wpmovielibrary-iso' ),
+		'standard' => 'Arabic'
 	),
 	'bg' => array(
-		'native' => 'български език',
-		'name'   => __( 'Bulgarian', 'wpmovielibrary-iso' )
+		'native'   => 'български език',
+		'name'     => __( 'Bulgarian', 'wpmovielibrary-iso' ),
+		'standard' => 'Bulgarian'
 	),
 	'cs' => array(
-		'native' => 'Český',
-		'name'   => __( 'Czech', 'wpmovielibrary-iso' )
+		'native'   => 'Český',
+		'name'     => __( 'Czech', 'wpmovielibrary-iso' ),
+		'standard' => 'Czech'
 	),
 	'da' => array(
-		'native' => 'Dansk',
-		'name'   => __( 'Danish', 'wpmovielibrary-iso' )
+		'native'   => 'Dansk',
+		'name'     => __( 'Danish', 'wpmovielibrary-iso' ),
+		'standard' => 'Danish'
 	),
 	'de' => array(
-		'native' => 'Deutsch',
-		'name'   => __( 'German', 'wpmovielibrary-iso' )
+		'native'   => 'Deutsch',
+		'name'     => __( 'German', 'wpmovielibrary-iso' ),
+		'standard' => 'German'
 	),
 	'el' => array(
-		'native' => 'ελληνικά',
-		'name'   => __( 'Greek', 'wpmovielibrary-iso' )
+		'native'   => 'ελληνικά',
+		'name'     => __( 'Greek', 'wpmovielibrary-iso' ),
+		'standard' => 'Greek'
 	),
 	'en' => array(
-		'native' => 'English',
-		'name'   => __( 'English', 'wpmovielibrary-iso' )
+		'native'   => 'English',
+		'name'     => __( 'English', 'wpmovielibrary-iso' ),
+		'standard' => 'English'
 	),
 	'es' => array(
-		'native' => 'Español',
-		'name'   => __( 'Spanish', 'wpmovielibrary-iso' )
+		'native'   => 'Español',
+		'name'     => __( 'Spanish', 'wpmovielibrary-iso' ),
+		'standard' => 'Spanish'
 	),
 	'fa' => array(
-		'native' => 'فارسی',
-		'name'   => __( 'Farsi', 'wpmovielibrary-iso' )
+		'native'   => 'فارسی',
+		'name'     => __( 'Farsi', 'wpmovielibrary-iso' ),
+		'standard' => 'Farsi'
 	),
 	'fi' => array(
-		'native' => 'Suomi',
-		'name'   => __( 'Finnish', 'wpmovielibrary-iso' )
+		'native'   => 'Suomi',
+		'name'     => __( 'Finnish', 'wpmovielibrary-iso' ),
+		'standard' => 'Finnish'
 	),
 	'fr' => array(
-		'native' => 'Français',
-		'name'   => __( 'French', 'wpmovielibrary-iso' )
+		'native'   => 'Français',
+		'name'     => __( 'French', 'wpmovielibrary-iso' ),
+		'standard' => 'French'
 	),
 	'he' => array(
-		'native' => 'עִבְרִית',
-		'name'   => __( 'Hebrew', 'wpmovielibrary-iso' )
+		'native'   => 'עִבְרִית',
+		'name'     => __( 'Hebrew', 'wpmovielibrary-iso' ),
+		'standard' => 'Hebrew'
 	),
 	'hi' => array(
-		'native' => 'हिन्दी',
-		'name'   => __( 'Hindi', 'wpmovielibrary-iso' )
+		'native'   => 'हिन्दी',
+		'name'     => __( 'Hindi', 'wpmovielibrary-iso' ),
+		'standard' => 'Hindi'
 	),
 	'hu' => array(
-		'native' => 'Magyar',
-		'name'   => __( 'Hungarian', 'wpmovielibrary-iso' )
+		'native'   => 'Magyar',
+		'name'     => __( 'Hungarian', 'wpmovielibrary-iso' ),
+		'standard' => 'Hungarian'
 	),
 	'it' => array(
-		'native' => 'Italiano',
-		'name'   => __( 'Italian', 'wpmovielibrary-iso' )
+		'native'   => 'Italiano',
+		'name'     => __( 'Italian', 'wpmovielibrary-iso' ),
+		'standard' => 'Italian'
 	),
 	'ja' => array(
-		'native' => '日本語',
-		'name'   => __( 'Japanese', 'wpmovielibrary-iso' )
+		'native'   => '日本語',
+		'name'     => __( 'Japanese', 'wpmovielibrary-iso' ),
+		'standard' => 'Japanese'
 	),
 	'ko' => array(
-		'native' => '한국어/조선어',
-		'name'   => __( 'Korean', 'wpmovielibrary-iso' )
+		'native'   => '한국어/조선어',
+		'name'     => __( 'Korean', 'wpmovielibrary-iso' ),
+		'standard' => 'Korean'
 	),
 	'nb' => array(
-		'native' => 'Bokmål',
-		'name'   => __( 'Norwegian Bokmål', 'wpmovielibrary-iso' )
+		'native'   => 'Bokmål',
+		'name'     => __( 'Norwegian Bokmål', 'wpmovielibrary-iso' ),
+		'standard' => 'Norwegian Bokmål'
 	),
 	'nl' => array(
-		'native' => 'Nederlands',
-		'name'   => __( 'Dutch', 'wpmovielibrary-iso' )
+		'native'   => 'Nederlands',
+		'name'     => __( 'Dutch', 'wpmovielibrary-iso' ),
+		'standard' => 'Dutch'
 	),
 	'no' => array(
-		'native' => 'Norsk',
-		'name'   => __( 'Norwegian', 'wpmovielibrary-iso' )
+		'native'   => 'Norsk',
+		'name'     => __( 'Norwegian', 'wpmovielibrary-iso' ),
+		'standard' => 'Norwegian'
 	),
 	'ny' => array(
-		'native' => 'chiCheŵa, chinyanja',
-		'name'   => __( 'Chichewa', 'wpmovielibrary-iso' )
+		'native'   => 'chiCheŵa, chinyanja',
+		'name'     => __( 'Chichewa', 'wpmovielibrary-iso' ),
+		'standard' => 'Chichewa'
 	),
 	'pl' => array(
-		'native' => 'Polski',
-		'name'   => __( 'Polish', 'wpmovielibrary-iso' )
+		'native'   => 'Polski',
+		'name'     => __( 'Polish', 'wpmovielibrary-iso' ),
+		'standard' => 'Polish'
 	),
 	'pt' => array(
-		'native' => 'Português',
-		'name'   => __( 'Portuguese', 'wpmovielibrary-iso' )
+		'native'   => 'Português',
+		'name'     => __( 'Portuguese', 'wpmovielibrary-iso' ),
+		'standard' => 'Portuguese'
 	),
 	'ru' => array(
-		'native' => 'Pусский',
-		'name'   => __( 'Russian', 'wpmovielibrary-iso' )
+		'native'   => 'Pусский',
+		'name'     => __( 'Russian', 'wpmovielibrary-iso' ),
+		'standard' => 'Russian'
 	),
 	'sk' => array(
-		'native' => 'Slovenčina',
-		'name'   => __( 'Slovak', 'wpmovielibrary-iso' )
+		'native'   => 'Slovenčina',
+		'name'     => __( 'Slovak', 'wpmovielibrary-iso' ),
+		'standard' => 'Slovak'
 	),
 	'st' => array(
-		'native' => 'Sesotho',
-		'name'   => __( 'Southern Sotho', 'wpmovielibrary-iso' )
+		'native'   => 'Sesotho',
+		'name'     => __( 'Southern Sotho', 'wpmovielibrary-iso' ),
+		'standard' => 'Southern Sotho'
 	),
 	'sv' => array(
-		'native' => 'Svenska',
-		'name'   => __( 'Swedish', 'wpmovielibrary-iso' )
+		'native'   => 'Svenska',
+		'name'     => __( 'Swedish', 'wpmovielibrary-iso' ),
+		'standard' => 'Swedish'
 	),
 	'ta' => array(
-		'native' => 'தமிழ்',
-		'name'   => __( 'Tamil', 'wpmovielibrary-iso' )
+		'native'   => 'தமிழ்',
+		'name'     => __( 'Tamil', 'wpmovielibrary-iso' ),
+		'standard' => 'Tamil'
 	),
 	'th' => array(
-		'native' => 'ภาษาไทย',
-		'name'   => __( 'Thai', 'wpmovielibrary-iso' )
+		'native'   => 'ภาษาไทย',
+		'name'     => __( 'Thai', 'wpmovielibrary-iso' ),
+		'standard' => 'Thai'
 	),
 	'tr' => array(
-		'native' => 'Türkçe',
-		'name'   => __( 'Turkish', 'wpmovielibrary-iso' )
+		'native'   => 'Türkçe',
+		'name'     => __( 'Turkish', 'wpmovielibrary-iso' ),
+		'standard' => 'Turkish'
 	),
 	'uk' => array(
-		'native' => 'Український',
-		'name'   => __( 'Ukrainian', 'wpmovielibrary-iso' )
+		'native'   => 'Український',
+		'name'     => __( 'Ukrainian', 'wpmovielibrary-iso' ),
+		'standard' => 'Ukrainian'
 	),
 	'zh' => array(
-		'native' => '中国',
-		'name'   => __( 'Chinese', 'wpmovielibrary-iso' )
+		'native'   => '中国',
+		'name'     => __( 'Chinese', 'wpmovielibrary-iso' ),
+		'standard' => 'Chinese'
 	),
 	'xh' => array(
-		'native' => 'isiXhosa',
-		'name'   => __( 'Xhosa', 'wpmovielibrary-iso' )
+		'native'   => 'isiXhosa',
+		'name'     => __( 'Xhosa', 'wpmovielibrary-iso' ),
+		'standard' => 'Xhosa'
 	),
 	'zu' => array(
-		'native' => 'isiZulu',
-		'name'   => __( 'Zulu', 'wpmovielibrary-iso' )
+		'native'   => 'isiZulu',
+		'name'     => __( 'Zulu', 'wpmovielibrary-iso' ),
+		'standard' => 'Zulu'
 	)
 );
 

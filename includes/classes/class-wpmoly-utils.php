@@ -216,58 +216,37 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 		private static function generate_custom_permalinks() {
 
-			$_i18n      = wpmoly_o( 'rewrite-enable' );
-			$movies     = wpmoly_o( 'rewrite-movie' );
-			$collection = wpmoly_o( 'rewrite-collection' );
-			$genre      = wpmoly_o( 'rewrite-genre' );
-			$actor      = wpmoly_o( 'rewrite-actor' );
-			$details    = wpmoly_o( 'rewrite-details' );
+			$new_rules  = array();
+			$l10n_rules = WPMOLY_L10n::set_l10n_rewrite_rules();
 
-			$movies     = ( $_i18n && '' != $movies ? $movies : 'movies' );
-			$collection = ( $_i18n && '' != $collection ? $collection : 'collection' );
-			$genre      = ( $_i18n && '' != $genre ? $genre : 'genre' );
-			$actor      = ( $_i18n && '' != $actor ? $actor : 'actor' );
+			foreach ( $l10n_rules['taxonomies'] as $slug => $tax ) {
+				$new_rules[ $tax . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' ]	= 'index.php?' . $slug . '=$matches[1]&feed=$matches[2]';
+				$new_rules[ $tax . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' ]		= 'index.php?' . $slug . '=$matches[1]&feed=$matches[2]';
+				$new_rules[ $tax . '/([^/]+)/page/?([0-9]{1,})/?$' ]			= 'index.php?' . $slug . '=$matches[1]&paged=$matches[2]';
+				$new_rules[ $tax . '/([^/]+)/?$' ]					= 'index.php?' . $slug . '=$matches[1]';
+			}
 
-			$i18n = array();
+			foreach ( $l10n_rules['detail'] as $slug => $detail ) {
 
-			$i18n['unavailable'] = ( $_i18n ? __( 'unavailable', 'wpmovielibrary' ) : 'unavailable' );
-			$i18n['available']   = ( $_i18n ? __( 'available', 'wpmovielibrary' ) : 'available' );
-			$i18n['loaned']      = ( $_i18n ? __( 'loaned', 'wpmovielibrary' ) : 'loaned' );
-			$i18n['scheduled']   = ( $_i18n ? __( 'scheduled', 'wpmovielibrary' ) : 'scheduled' );
+				$_detail = $detail;
+				if ( wpmoly_o( 'rewrite-enable' ) )
+					$_detail .= '|' . remove_accents( $detail );
 
-			$i18n['bluray']      = ( $_i18n ? __( 'bluray', 'wpmovielibrary' ) : 'bluray' );
-			$i18n['cinema']      = ( $_i18n ? __( 'cinema', 'wpmovielibrary' ) : 'cinema' );
-			$i18n['other']       = ( $_i18n ? __( 'other', 'wpmovielibrary' ) : 'other' );
+				$new_rules[ $l10n_rules['movies'] . '/(' . $_detail . ')/([^/]+)/?$' ]			 = 'index.php?detail=$matches[1]&value=$matches[2]';
+				$new_rules[ $l10n_rules['movies'] . '/(' . $_detail . ')/([^/]+)/page/?([0-9]{1,})/?$' ] = 'index.php?detail=$matches[1]&value=$matches[2]&paged=$matches[3]';
+			}
 
-			/*$i18n['date']   = ( $_i18n ? __( 'date', 'wpmovielibrary' ) : 'date' );
-			$i18n['year']   = ( $_i18n ? __( 'year', 'wpmovielibrary' ) : 'year' );
-			$i18n['']   = ( $_i18n ? __( '', 'wpmovielibrary' ) : '' );
-			$i18n['']   = ( $_i18n ? __( '', 'wpmovielibrary' ) : '' );
-			$i18n['']   = ( $_i18n ? __( '', 'wpmovielibrary' ) : '' );
-			$i18n['']   = ( $_i18n ? __( '', 'wpmovielibrary' ) : '' );*/
+			foreach ( $l10n_rules['meta'] as $slug => $meta ) {
 
-			$new_rules = array(
-				$movies . '/(dvd|vod|divx|' . $i18n['bluray'] . '|vhs|' . $i18n['cinema'] . '|' . $i18n['other'] . ')/?$' => 'index.php?post_type=movie&wpmoly_movie_media=$matches[1]',
-				$movies . '/(dvd|vod|divx|' . $i18n['bluray'] . '|vhs|' . $i18n['cinema'] . '|' . $i18n['other'] . ')/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpmoly_movie_media=$matches[1]&paged=$matches[2]',
-				$movies . '/(' . $i18n['unavailable'] . '|' . $i18n['available'] . '|' . $i18n['loaned'] . '|' . $i18n['scheduled'] . ')/?$' => 'index.php?post_type=movie&wpmoly_movie_status=$matches[1]',
-				$movies . '/(' . $i18n['unavailable'] . '|' . $i18n['available'] . '|' . $i18n['loaned'] . '|' . $i18n['scheduled'] . ')/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpmoly_movie_status=$matches[1]&paged=$matches[2]',
-				$movies . '/(0\.0|0\.5|1\.0|1\.5|2\.0|2\.5|3\.0|3\.5|4\.0|4\.5|5\.0)/?$' => 'index.php?post_type=movie&wpmoly_movie_rating=$matches[1]',
-				$movies . '/(0\.0|0\.5|1\.0|1\.5|2\.0|2\.5|3\.0|3\.5|4\.0|4\.5|5\.0)/page/([0-9]{1,})/?$' => 'index.php?post_type=movie&wpmoly_movie_rating=$matches[1]&paged=$matches[2]',
-				//$movies
-				$movies . '/([^/]+)/?$' => 'index.php?movie=$matches[1]',
-				$collection . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?collection=$matches[1]&feed=$matches[2]',
-				$collection . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?collection=$matches[1]&feed=$matches[2]',
-				$collection . '/([^/]+)/page/?([0-9]{1,})/?$' => 'index.php?collection=$matches[1]&paged=$matches[2]',
-				$collection . '/([^/]+)/?$' => 'index.php?collection=$matches[1]',
-				$genre . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?genre=$matches[1]&feed=$matches[2]',
-				$genre . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?genre=$matches[1]&feed=$matches[2]',
-				$genre . '/([^/]+)/page/?([0-9]{1,})/?$' => 'index.php?genre=$matches[1]&paged=$matches[2]',
-				$genre . '/([^/]+)/?$' => 'index.php?genre=$matches[1]',
-				$actor . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?actor=$matches[1]&feed=$matches[2]',
-				$actor . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?actor=$matches[1]&feed=$matches[2]',
-				$actor . '/([^/]+)/page/?([0-9]{1,})/?$' => 'index.php?actor=$matches[1]&paged=$matches[2]',
-				$actor . '/([^/]+)/?$' => 'index.php?actor=$matches[1]',
-			);
+				$_meta = $meta;
+				if ( wpmoly_o( 'rewrite-enable' ) )
+					$_meta .= '|' . remove_accents( $meta );
+
+				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/?$' ]			 = 'index.php?meta=$matches[1]&value=$matches[2]';
+				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/page/?([0-9]{1,})/?$' ] = 'index.php?meta=$matches[1]&value=$matches[2]&paged=$matches[3]';
+			}
+
+			return $new_rules;
 		}
 
 		/**

@@ -363,9 +363,9 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			if ( is_admin() )
 				return false;
 
-			if ( isset( $wp_query->query_vars['metadata'] ) ) {
+			if ( isset( $wp_query->query_vars['meta'] ) ) {
 				$meta = 'meta';
-				$meta_key = $wp_query->query_vars['metadata'];
+				$meta_key = $wp_query->query_vars['meta'];
 			}
 			else if ( isset( $wp_query->query_vars['detail'] ) ) {
 				$meta = 'detail';
@@ -374,30 +374,29 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			else
 				return false;
 
-			$meta_value = $wp_query->query_vars['value'];
+			$l10n_rewrite = WPMOLY_L10n::get_l10n_rewrite();
+			$meta_value   = strtolower( $wp_query->query_vars['value'] );
+			$meta_key     = strtolower( $meta_key );
+			$meta_key     = array_search( $meta_key, $l10n_rewrite[ $meta ] );
 
-			// If rewrite translation isn't active, dont bother
-			if ( wpmoly_o( 'rewrite-enable' ) ) {
+			if ( ! $meta_key )
+				$meta_key = array_search( remove_accents( $meta_key ), $l10n_rewrite[ $meta ] );
 
-				$l10n_rewrite = WPMOLY_L10n::get_l10n_rewrite();
-				$meta_key     = array_search( $meta_key, $l10n_rewrite[ $meta ] );
-
-				// If meta_key does not exist, trigger a 404 error
-				if ( ! $meta_key ) {
-					$wp_query->set( 'post__in', array( -1 ) );
-					return false;
-				}
-
-				// Languages and countries meta are special
-				if ( 'spoken_languages' == $meta_key && 'meta' == $meta )
-					$meta = 'languages';
-				else if ( 'production_countries' == $meta_key && 'meta' == $meta )
-					$meta = 'countries';
-
-				$value = array_search( sanitize_title_for_query( $meta_value ), $l10n_rewrite[ $meta ] );
-				if ( false != $value )
-					$meta_value = $value;
+			// If meta_key does not exist, trigger a 404 error
+			if ( ! $meta_key ) {
+				$wp_query->set( 'post__in', array( -1 ) );
+				return false;
 			}
+
+			// Languages and countries meta are special
+			if ( 'spoken_languages' == $meta_key && 'meta' == $meta )
+				$meta = 'languages';
+			else if ( 'production_countries' == $meta_key && 'meta' == $meta )
+				$meta = 'countries';
+
+			$value = array_search( $meta_value, $l10n_rewrite[ $meta ] );
+			if ( false != $value )
+				$meta_value = $value;
 
 			// Year is just a part of release date but can be useful
 			if ( 'year' == $meta_key ) {
@@ -427,6 +426,11 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 					)
 				) );
 			}
+
+			unset( $wp_query->query_vars['meta'], $wp_query->query_vars['detail'], $wp_query->query_vars['value'] );
+			unset( $wp_query->query['meta'], $wp_query->query['detail'], $wp_query->query['value'] );
+
+			//print_r( $wp_query );
 		}
 
 		/**
@@ -440,7 +444,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 */
 		public static function movies_query_vars( $q_var ) {
 			$q_var[] = 'detail';
-			$q_var[] = 'metadata';
+			$q_var[] = 'meta';
 			$q_var[] = 'value';
 			return $q_var;
 		}
