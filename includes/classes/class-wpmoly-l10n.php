@@ -32,7 +32,8 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'wp_head', __CLASS__ . '::dev4press_debug_page_request' );
+			// Debug
+			//add_action( 'wp_head', __CLASS__ . '::dev4press_debug_page_request' );
 
 			add_filter( 'wpmoly_filter_rewrites', __CLASS__ . '::filter_rewrites', 10, 1 );
 		}
@@ -46,21 +47,26 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		public static function get_l10n_rewrite() {
 
-			/*$l10n_rewrite = get_option( 'wpmoly_l10n_rewrite' );
-			if ( false === $l10n_rewrite )*/
+			$l10n_rewrite = get_option( 'wpmoly_l10n_rewrite' );
+			if ( false === $l10n_rewrite )
 				$l10n_rewrite = self::set_l10n_rewrite();
 
 			return $l10n_rewrite;
 		}
 
-		public static function dev4press_debug_page_request() {
+		/**
+		 * Debug
+		 * 
+		 * @since    2.0
+		 */
+		public static function debug_page_request() {
 
-		    global $wp;
-		    
-		    echo '<!-- Request: ' . $wp->request . ' -->'."\n";
-		    echo '<!-- Matched Rewrite Rule: ' . $wp->matched_rule . ' -->'."\n";
-		    echo '<!-- Matched Rewrite Query: ' . $wp->matched_query . ' -->'."\n";
-		    }
+			global $wp;
+
+			echo "<!-- Request: {$wp->request} -->\n";
+			echo "<!-- Matched Rewrite Rule: {$wp->matched_rule} -->\n";
+			echo "<!-- Matched Rewrite Query: {$wp->matched_query} -->\n";
+		}
 
 		/**
 		 * Generate a list of possible translated rewrites
@@ -126,7 +132,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			$l10n_rewrite = apply_filters( 'wpmoly_filter_l10n_rewrite', $l10n_rewrite );
 
 			self::delete_l10n_rewrite();
-			//add_option( 'wpmoly_l10n_rewrite', $l10n_rewrite );
+			add_option( 'wpmoly_l10n_rewrite', $l10n_rewrite );
 
 			return $l10n_rewrite;
 		}
@@ -154,8 +160,8 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		public static function get_l10n_rewrite_rules() {
 
-			/*$l10n_rewrite_rules = get_option( 'wpmoly_l10n_rewrite_rules' );
-			if ( false === $l10n_rewrite_rules )*/
+			$l10n_rewrite_rules = get_option( 'wpmoly_l10n_rewrite_rules' );
+			if ( false === $l10n_rewrite_rules )
 				$l10n_rewrite_rules = self::set_l10n_rewrite_rules();
 
 			return $l10n_rewrite_rules;
@@ -213,7 +219,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			$l10n_rules = apply_filters( 'wpmoly_filter_l10n_rewrite_rules', $l10n_rules );
 
 			self::delete_l10n_rewrite_rules();
-			//add_option( 'wpmoly_l10n_rewrite_rules', $l10n_rules );
+			add_option( 'wpmoly_l10n_rewrite_rules', $l10n_rules );
 
 			return $l10n_rules;
 		}
@@ -232,6 +238,14 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			return $delete;
 		}
 
+		/**
+		 * Simple filter for rewrites to get rid of %xx%xx-like accented
+		 * letters in URLs.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @return   boolean    Deletion status
+		 */
 		public static function filter_rewrites( $rewrite ) {
 
 			$rewrite = remove_accents( $rewrite );
@@ -239,6 +253,8 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 
 			return $rewrite;
 		}
+
+		
 
 		/**
 		 * Localization for scripts
@@ -262,7 +278,6 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				'dequeued_movie'	=> __( 'One movie removed from the queue.', 'wpmovielibrary' ),
 				'dequeued_movies'	=> __( '%s movies removed from the queue.', 'wpmovielibrary' ),
 				'done'			=> __( 'Done!', 'wpmovielibrary' ),
-				'empty_key'		=> __( 'I can\'t test an empty key, you know.', 'wpmovielibrary' ),
 				'enqueued_movie'	=> __( 'One movie added to the queue.', 'wpmovielibrary' ),
 				'enqueued_movies'	=> __( '%s movies added to the queue.', 'wpmovielibrary' ),
 				'images_added'		=> __( 'Images added!', 'wpmovielibrary' ),

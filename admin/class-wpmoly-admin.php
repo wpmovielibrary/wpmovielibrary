@@ -178,6 +178,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 * Register and enqueue admin-specific JavaScript.
 		 * 
 		 * @since    1.0
+		 * 
+		 * @param    string    $hook_suffix The current admin page.
 		 */
 		public function enqueue_admin_scripts( $hook_suffix ) {
 
