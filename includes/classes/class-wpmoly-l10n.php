@@ -32,7 +32,8 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'wp_head', __CLASS__ . '::dev4press_debug_page_request' );
+			// Debug
+			//add_action( 'wp_head', __CLASS__ . '::debug_page_request' );
 
 			add_filter( 'wpmoly_filter_rewrites', __CLASS__ . '::filter_rewrites', 10, 1 );
 		}
@@ -46,21 +47,26 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		public static function get_l10n_rewrite() {
 
-			/*$l10n_rewrite = get_option( 'wpmoly_l10n_rewrite' );
-			if ( false === $l10n_rewrite )*/
+			$l10n_rewrite = get_option( 'wpmoly_l10n_rewrite' );
+			if ( false === $l10n_rewrite )
 				$l10n_rewrite = self::set_l10n_rewrite();
 
 			return $l10n_rewrite;
 		}
 
-		public static function dev4press_debug_page_request() {
+		/**
+		 * Debug
+		 * 
+		 * @since    2.0
+		 */
+		public static function debug_page_request() {
 
-		    global $wp;
-		    
-		    echo '<!-- Request: ' . $wp->request . ' -->'."\n";
-		    echo '<!-- Matched Rewrite Rule: ' . $wp->matched_rule . ' -->'."\n";
-		    echo '<!-- Matched Rewrite Query: ' . $wp->matched_query . ' -->'."\n";
-		    }
+			global $wp;
+
+			echo '<!-- Request: ' . $wp->request . ' -->'."\n";
+			echo '<!-- Matched Rewrite Rule: ' . $wp->matched_rule . ' -->'."\n";
+			echo '<!-- Matched Rewrite Query: ' . $wp->matched_query . ' -->'."\n";
+		}
 
 		/**
 		 * Generate a list of possible translated rewrites
@@ -126,7 +132,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			$l10n_rewrite = apply_filters( 'wpmoly_filter_l10n_rewrite', $l10n_rewrite );
 
 			self::delete_l10n_rewrite();
-			//add_option( 'wpmoly_l10n_rewrite', $l10n_rewrite );
+			add_option( 'wpmoly_l10n_rewrite', $l10n_rewrite );
 
 			return $l10n_rewrite;
 		}
@@ -154,8 +160,8 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		public static function get_l10n_rewrite_rules() {
 
-			/*$l10n_rewrite_rules = get_option( 'wpmoly_l10n_rewrite_rules' );
-			if ( false === $l10n_rewrite_rules )*/
+			$l10n_rewrite_rules = get_option( 'wpmoly_l10n_rewrite_rules' );
+			if ( false === $l10n_rewrite_rules )
 				$l10n_rewrite_rules = self::set_l10n_rewrite_rules();
 
 			return $l10n_rewrite_rules;
@@ -213,7 +219,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			$l10n_rules = apply_filters( 'wpmoly_filter_l10n_rewrite_rules', $l10n_rules );
 
 			self::delete_l10n_rewrite_rules();
-			//add_option( 'wpmoly_l10n_rewrite_rules', $l10n_rules );
+			add_option( 'wpmoly_l10n_rewrite_rules', $l10n_rules );
 
 			return $l10n_rules;
 		}
@@ -232,12 +238,171 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			return $delete;
 		}
 
+		/**
+		 * Simple filter for rewrites to get rid of %xx%xx-like accented
+		 * letters in URLs.
+		 *
+		 * @since    2.0
+		 * 
+		 * @param    string    $rewrite
+		 *
+		 * @return   string    Filtered $rewrite
+		*/
 		public static function filter_rewrites( $rewrite ) {
+
+			if ( 1 == strpos( $rewrite, '.' ) )
+				return $rewrite;
 
 			$rewrite = remove_accents( $rewrite );
 			$rewrite = sanitize_title_with_dashes( $rewrite );
 
 			return $rewrite;
+		}
+
+		/**
+		 * Generate Custom Movie Meta permalinks
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $key Meta key
+		 * @param    string    $value Text for the link
+		 * @param    string    $type Meta type, 'detail' or 'meta'
+		 * @param    string    $format Result format, 'raw' or 'html'
+		 * 
+		 * @return   string    HTML href of raw URL
+		 */
+		public static function get_meta_permalink( $key, $value, $type = 'meta', $format = 'html' ) {
+
+			if ( ! in_array( $type, array( 'meta', 'detail' ) ) )
+				return null;
+
+			if ( 'raw' !== $format )
+				$format = 'html';
+
+			$l10n_rewrite = self::get_l10n_rewrite();
+			$movies = wpmoly_o( 'rewrite-movie' );
+			if ( ! $movies )
+				$movies = 'movies';
+
+			if ( ! $l10n_rewrite[ $type ][ $key ] )
+				return $value;
+
+			$meta_key = $l10n_rewrite[ $type ][ $key ];
+			if ( 'rating' == $key )
+				$meta_value = number_format( $value, 1, '.', '' );
+			else
+				$meta_value = self::filter_rewrites( $value );
+
+			global $wp_rewrite;
+			$url = '';
+			if ( '' != $wp_rewrite->permalink_structure )
+				$url = home_url( "/{$movies}/{$meta_key}/{$meta_value}/" );
+			else
+				$url = home_url( "/index.php?post_type=movie&amp;${type}={$meta_key}&amp;value={$meta_value}" );
+
+			if ( 'raw' == $format )
+				return $url;
+
+			$permalink = sprintf( '<a href="%1$s" title="%2$s">%2$s</a>', $url, $value );
+
+			return $permalink;
+		}
+
+		/**
+		 * Generate Custom Taxonomies permalinks
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $taxonomy Taxonomy name
+		 * @param    string    $value Text for the link
+		 * 
+		 * @return   string    HTML href of raw URL
+		 */
+		public static function get_taxonomy_permalink( $taxonomy, $value ) {
+
+			$l10n_rewrite = self::get_l10n_rewrite();
+			$tax = wpmoly_o( "rewrite-{$taxonomy}" );
+			if ( ! $tax )
+				$tax = $taxonomy;
+
+			global $wp_rewrite;
+			if ( '' != $wp_rewrite->permalink_structure )
+				$url = home_url( "/{$tax}/" );
+			else
+				$url = home_url( "/index.php?movie={$tax}" );
+
+			if ( false === $value )
+				return $url;
+
+			$permalink = sprintf( '<a href="%1$s" title="%2$s">%2$s</a>', $url, $value );
+
+			return $permalink;
+		}
+
+		/**
+		 * Localization for scripts
+		 * 
+		 * Adds a translation object to the plugin's JavaScript object
+		 * containing localized texts.
+		 * 
+		 * @since    1.0
+		 * 
+		 * @return   array    Localization array
+		 */
+		public static function localize_script() {
+
+			$localize = array();
+			$localize['language'] = wpmoly_o( 'api-language' );
+
+			$lang = array(
+				'available'		=> __( 'Available', 'wpmovielibrary' ),
+				'deleted_movie'		=> __( 'One movie successfully deleted.', 'wpmovielibrary' ),
+				'deleted_movies'	=> __( '%s movies successfully deleted.', 'wpmovielibrary' ),
+				'dequeued_movie'	=> __( 'One movie removed from the queue.', 'wpmovielibrary' ),
+				'dequeued_movies'	=> __( '%s movies removed from the queue.', 'wpmovielibrary' ),
+				'done'			=> __( 'Done!', 'wpmovielibrary' ),
+				'enqueued_movie'	=> __( 'One movie added to the queue.', 'wpmovielibrary' ),
+				'enqueued_movies'	=> __( '%s movies added to the queue.', 'wpmovielibrary' ),
+				'images_added'		=> __( 'Images added!', 'wpmovielibrary' ),
+				'image_from'		=> __( 'Image from', 'wpmovielibrary' ),
+				'images_uploaded'	=> __( 'Images uploaded!', 'wpmovielibrary' ),
+				'import_images'		=> __( 'Import Images', 'wpmovielibrary' ),
+				'import_images_title'	=> __( 'Import Images for "%s"', 'wpmovielibrary' ),
+				'import_images_wait'	=> __( 'Please wait while the images are uploaded...', 'wpmovielibrary' ),
+				'import_poster'		=> __( 'Import Poster', 'wpmovielibrary' ),
+				'import_poster_title'	=> __( 'Select a poster for "%s"', 'wpmovielibrary' ),
+				'import_poster_wait'	=> __( 'Please wait while the poster is uploaded...', 'wpmovielibrary' ),
+				'imported'		=> __( 'Imported', 'wpmovielibrary' ),
+				'imported_movie'	=> __( 'One movie successfully imported!', 'wpmovielibrary' ),
+				'imported_movies'	=> __( '%s movies successfully imported!', 'wpmovielibrary' ),
+				'in_progress'		=> __( 'Progressing', 'wpmovielibrary' ),
+				'length_key'		=> __( 'Invalid key: it should be 32 characters long.', 'wpmovielibrary' ),
+				'load_images'		=> __( 'Load Images', 'wpmovielibrary' ),
+				'load_more'		=> __( 'Load More', 'wpmovielibrary' ),
+				'loading_images'	=> __( 'Loading Images…', 'wpmovielibrary' ),
+				'media_no_movie'	=> __( 'No movie could be found. You need to select a movie before importing images or posters.', 'wpmovielibrary' ),
+				'movie'			=> __( 'Movie', 'wpmovielibrary' ),
+				'movie_updated'		=> _n( 'movie updated', 'movies updated', 0, 'wpmovielibrary' ),
+				'movies_updated'	=> _n( 'movie updated', 'movies updated', 2, 'wpmovielibrary' ),
+				'not_updated'		=> __( 'not updated', 'wpmovielibrary' ),
+				'oops'			=> __( 'Oops… Did something went wrong?', 'wpmovielibrary' ),
+				'poster'		=> __( 'Poster', 'wpmovielibrary' ),
+				'save_image'		=> __( 'Saving Images…', 'wpmovielibrary' ),
+				'search_movie_title'	=> __( 'Searching movie', 'wpmovielibrary' ),
+				'search_movie'		=> __( 'Fetching movie data', 'wpmovielibrary' ),
+				'see_less'		=> __( 'see no more', 'wpmovielibrary' ),
+				'see_more'		=> __( 'see more', 'wpmovielibrary' ),
+				'selected'		=> _n( 'selected', 'selected', 0, 'wpmovielibrary' ),
+				'set_featured'		=> __( 'Setting featured image…', 'wpmovielibrary' ),
+				'updated'		=> __( 'updated successfully', 'wpmovielibrary' ),
+				'used'			=> __( 'Used', 'wpmovielibrary' ),
+				'updating'		=> __( 'updating movies...', 'wpmovielibrary' ),
+				'x_selected'		=> _n( 'selected', 'selected', 2, 'wpmovielibrary' )
+			);
+
+			$localize = array_merge( $localize, $lang );
+
+			return $localize;
 		}
 
 		/**

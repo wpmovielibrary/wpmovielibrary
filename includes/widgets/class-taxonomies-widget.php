@@ -151,7 +151,7 @@ class WPMOLY_Taxonomies_Widget extends WPMOLY_Widget {
 			if ( $limit )
 				$items[] = array(
 					'attr_title'  => $this->taxonomies[ $taxonomy ]['view_all'],
-					'link'        => home_url( '/' . $archive ),
+					'link'        => WPMOLY_L10n::get_taxonomy_permalink( $archive, $value = false ),
 					'title'       => __( 'View the complete list', 'wpmovielibrary' )
 				);
 

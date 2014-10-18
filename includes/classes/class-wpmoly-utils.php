@@ -50,7 +50,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'wpmoly_format_movie_spoken_languages', __CLASS__ . '::format_movie_languages', 10, 1 );
 			add_filter( 'wpmoly_format_movie_languages', __CLASS__ . '::format_movie_languages', 10, 1 );
 			add_filter( 'wpmoly_format_movie_countries', __CLASS__ . '::format_movie_countries', 10, 1 );
-			add_filter( 'wpmoly_format_movie_production_countries', __CLASS__ . '::format_movie_countries', 10, 1 );
+			add_filter( 'wpmoly_format_movie_production_countries', __CLASS__ . '::format_movie_production_countries', 10, 1 );
 			add_filter( 'wpmoly_format_movie_director', __CLASS__ . '::format_movie_director', 10, 2 );
 			add_filter( 'wpmoly_format_movie_field', __CLASS__ . '::format_movie_field', 10, 2 );
 
@@ -154,6 +154,10 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * @param    array     $rules Existing rewrite rules
 		 */
 		public static function register_permalinks( $rules = null ) {
+
+			global $wp_rewrite;
+			if ( '' == $wp_rewrite->permalink_structure )
+				return $rules;
 
 			$changed = delete_transient( 'wpmoly-permalinks-changed' );
 
@@ -553,7 +557,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_countries( $data ) {
+		public static function format_movie_production_countries( $data ) {
 
 			if ( is_null( $data ) || '' == $data )
 				return $data;
@@ -565,9 +569,14 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			foreach ( $data as $i => $d ) {
 
 				$d = trim( $d );
-				foreach ( $countries as $code => $lang )
-					if ( $d == $lang['native'] )
-						$data[ $i ] = sprintf( $flag, strtolower( $code ), $lang['name'] ) . $lang['name'];
+				foreach ( $countries as $code => $lang ) {
+					if ( $d == $lang['native'] ) {
+						$key = str_replace( __CLASS__ . '::format_movie_', '', __METHOD__ );
+						$url = WPMOLY_L10n::get_meta_permalink( $key, $lang['name'] );
+						$flg = sprintf( $flag, strtolower( $code ), $lang['name'] );
+						$data[ $i ] = $flg . $url;
+					}
+				}
 			}
 
 			$data = implode( ',&nbsp; ', $data );

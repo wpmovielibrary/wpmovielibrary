@@ -124,7 +124,7 @@ class WPMOLY_Details_Widget extends WPMOLY_Widget {
 
 				$item = array(
 					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary' ), __( $_title, 'wpmovielibrary' ) ),
-					'link'        => home_url( "/{$movies}/{$_slug}/" )
+					'link'        => WPMOLY_L10n::get_meta_permalink( $detail, $_slug, $type = 'detail', $format = 'raw' )
 				);
 
 				if ( 'rating' != $detail )
