@@ -321,13 +321,18 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		public static function get_taxonomy_permalink( $taxonomy, $value ) {
 
 			$l10n_rewrite = self::get_l10n_rewrite();
+
+			$movies = wpmoly_o( 'rewrite-movie' );
+			if ( ! $movies )
+				$movies = 'movies';
+
 			$tax = wpmoly_o( "rewrite-{$taxonomy}" );
 			if ( ! $tax )
 				$tax = $taxonomy;
 
 			global $wp_rewrite;
 			if ( '' != $wp_rewrite->permalink_structure )
-				$url = home_url( "/{$tax}/" );
+				$url = home_url( "/{$movies}/{$tax}/" );
 			else
 				$url = home_url( "/index.php?movie={$tax}" );
 
