@@ -116,7 +116,7 @@ wpmoly = wpmoly || {};
 						nonce: wpmoly.get_nonce( 'search-movies' ),
 						type: 'title',
 						data: title,
-						lang: wpmoly_ajax.utils.language,
+						lang: wpmoly_lang.language,
 						post_id: post_id
 					},
 					error: function( response ) {

@@ -181,6 +181,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		private static function generate_custom_permalinks() {
 
 			$new_rules  = array();
+
+			WPMOLY_L10n::delete_l10n_rewrite();
+			WPMOLY_L10n::delete_l10n_rewrite_rules();
 			$l10n_rules = WPMOLY_L10n::set_l10n_rewrite_rules();
 
 			foreach ( $l10n_rules['taxonomies'] as $slug => $tax ) {

@@ -92,9 +92,9 @@ wpmoly = wpmoly || {};
 
 				wpmoly_state.clear();
 				if ( wpmoly_edit_meta.type == 'title' )
-					wpmoly_state.set( wpmoly_ajax.lang.search_movie_title + ' "' + wpmoly_edit_meta.title + '"', 'warning' );
+					wpmoly_state.set( wpmoly_lang.search_movie_title + ' "' + wpmoly_edit_meta.title + '"', 'warning' );
 				else if ( wpmoly_edit_meta.type == 'id' )
-					wpmoly_state.set( wpmoly_ajax.lang.search_movie + ' #' + wpmoly_edit_meta.tmdb_id, 'success' );
+					wpmoly_state.set( wpmoly_lang.search_movie + ' #' + wpmoly_edit_meta.tmdb_id, 'success' );
 
 				wpmoly._get({
 					data: {
@@ -138,7 +138,7 @@ wpmoly = wpmoly || {};
 			wpmoly.editor.meta.update = function() {
 
 				if ( undefined == wpmoly.editor._movie_tmdb_id )
-					wpmoly_state.set( wpmoly_ajax.lang.media_no_movie, 'error' );
+					wpmoly_state.set( wpmoly_lang.media_no_movie, 'error' );
 
 				wpmoly_edit_meta.empty_results();
 				wpmoly_edit_meta.get( wpmoly.editor._movie_tmdb_id );
@@ -274,7 +274,7 @@ wpmoly = wpmoly || {};
 
 				$( '#tmdb_query' ).focus();
 				wpmoly_state.clear();
-				wpmoly_state.set( wpmoly_ajax.lang.done, 'success' );
+				wpmoly_state.set( wpmoly_lang.done, 'success' );
 			};
 
 			/**

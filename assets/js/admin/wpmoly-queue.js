@@ -94,7 +94,7 @@ var wpmoly_queue;
 						});
 					},
 					success: function( response ) {
-						var message = ( response.data.length > 1 ? wpmoly_ajax.lang.enqueued_movies : wpmoly_ajax.lang.enqueued_movie );
+						var message = ( response.data.length > 1 ? wpmoly_lang.enqueued_movies : wpmoly_lang.enqueued_movie );
 						wpmoly_state.clear();
 						wpmoly_state.set( message.replace( '%s', response.data.length ), 'updated' );
 						wpmoly_import_view.reload( {} );
@@ -146,7 +146,7 @@ var wpmoly_queue;
 							$( '#post_' + this ).parents( 'tr, li' ).fadeToggle().remove();
 						});
 
-						var message = ( response.data.length > 1 ? wpmoly_ajax.lang.dequeued_movies : wpmoly_ajax.lang.dequeued_movie );
+						var message = ( response.data.length > 1 ? wpmoly_lang.dequeued_movies : wpmoly_lang.dequeued_movie );
 						wpmoly_state.clear();
 						wpmoly_state.set( message.replace( '%s', response.data.length ), 'updated' );
 						wpmoly_import_view.reload( {} );
@@ -185,14 +185,14 @@ var wpmoly_queue;
 							post_id: post_id
 						},
 						beforeSend: function() {
-							$status.text( wpmoly_ajax.lang.in_progress );
+							$status.text( wpmoly_lang.in_progress );
 							window.clearTimeout( timer );
 							timer = window.setTimeout(function() {
 								var t = $status.text();
 								if ( '...' != t.substring( t.length, t.length - 3 ) )
 									$status.text( t + '.' );
 								else
-									$status.text( wpmoly_ajax.lang.in_progress );
+									$status.text( wpmoly_lang.in_progress );
 							}, 1000 );
 						},
 						error: function( response ) {
@@ -208,12 +208,12 @@ var wpmoly_queue;
 							$( wpmoly_queue.progress_queued ).text( index );
 							$( wpmoly_queue.progress ).animate( { width:progress  + '%' }, 250 );
 							if ( 100 == progress ) {
-								$( wpmoly_queue.progress_status_message ).css( { display: 'inline-block' } ).text( wpmoly_ajax.lang.done );
+								$( wpmoly_queue.progress_status_message ).css( { display: 'inline-block' } ).text( wpmoly_lang.done );
 								$( wpmoly_queue.progress_status ).hide();
 							}
 						},
 						complete: function() {
-							$status.text( wpmoly_ajax.lang.imported );
+							$status.text( wpmoly_lang.imported );
 							wpmoly.update_nonce( 'import-queued-movies', r.responseJSON.nonce );
 						},
 					}).done( function() {

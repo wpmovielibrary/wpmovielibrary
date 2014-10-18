@@ -52,6 +52,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				'WPMOLY_Statistics_Widget',
 				'WPMOLY_Taxonomies_Widget',
 				'WPMOLY_Details_Widget',
+				'WPMOLY_Meta_Widget',
 				'WPMOLY_Movies_Widget'
 			);
 
