@@ -50,7 +50,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'wpmoly_format_movie_spoken_languages', __CLASS__ . '::format_movie_languages', 10, 1 );
 			add_filter( 'wpmoly_format_movie_languages', __CLASS__ . '::format_movie_languages', 10, 1 );
 			add_filter( 'wpmoly_format_movie_countries', __CLASS__ . '::format_movie_countries', 10, 1 );
-			add_filter( 'wpmoly_format_movie_production_countries', __CLASS__ . '::format_movie_production_countries', 10, 1 );
+			add_filter( 'wpmoly_format_movie_production_countries', __CLASS__ . '::format_movie_countries', 10, 1 );
 			add_filter( 'wpmoly_format_movie_director', __CLASS__ . '::format_movie_director', 10, 2 );
 			add_filter( 'wpmoly_format_movie_field', __CLASS__ . '::format_movie_field', 10, 2 );
 
@@ -60,6 +60,10 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'wpmoly_format_movie_language', __CLASS__ . '::format_movie_language', 10, 2 );
 			add_filter( 'wpmoly_format_movie_subtitles', __CLASS__ . '::format_movie_subtitles', 10, 2 );
 			add_filter( 'wpmoly_format_movie_format', __CLASS__ . '::format_movie_format', 10, 2 );
+
+			add_filter( 'wpmoly_movie_meta_link', __CLASS__ . '::add_meta_link', 10, 3 );
+			add_filter( 'wpmoly_format_movie_country_flag', __CLASS__ . '::add_country_flag', 10, 2 );
+
 			add_filter( 'wpmoly_movie_rating_stars', __CLASS__ . '::get_movie_rating_stars', 10, 3 );
 			add_filter( 'wpmoly_editable_rating_stars', __CLASS__ . '::get_editable_rating_stars', 10, 2 );
 
@@ -540,9 +544,12 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			foreach ( $data as $i => $d ) {
 
 				$d = trim( $d );
-				foreach ( $languages as $lang )
-					if ( $d == $lang['native'] )
-						$data[ $i ] = $lang['name'];
+				foreach ( $languages as $lang ) {
+					if ( $d == $lang['native'] ) {
+						$url = apply_filters( 'wpmoly_movie_meta_link', 'spoken_languages', $lang['name'], 'meta' );
+						$data[ $i ] = $url;
+					}
+				}
 			}
 
 			$data = implode( ', ', $data );
@@ -560,24 +567,22 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_production_countries( $data ) {
+		public static function format_movie_countries( $data ) {
 
 			if ( is_null( $data ) || '' == $data )
 				return $data;
 
 			$countries = WPMOLY_Settings::get_supported_countries();
-			$flag = '<span class="flag flag-%s" title="%s"></span>';
 
 			$data = explode( ',', $data );
 			foreach ( $data as $i => $d ) {
 
 				$d = trim( $d );
-				foreach ( $countries as $code => $lang ) {
-					if ( $d == $lang['native'] ) {
-						$key = str_replace( __CLASS__ . '::format_movie_', '', __METHOD__ );
-						$url = WPMOLY_L10n::get_meta_permalink( $key, $lang['name'] );
-						$flg = sprintf( $flag, strtolower( $code ), $lang['name'] );
-						$data[ $i ] = $flg . $url;
+				foreach ( $countries as $code => $country ) {
+					if ( $d == $country['native'] ) {
+						$url  = apply_filters( 'wpmoly_movie_meta_link', 'production_countries', $country['name'], 'meta' );
+						$flag = apply_filters( 'wpmoly_format_movie_country_flag', $code, $country['name'] );
+						$data[ $i ] = $flag . $url;
 					}
 				}
 			}
@@ -805,6 +810,48 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$data = WPMovieLibrary::render_template( $view, array( 'detail' => $detail, 'data' => $data, 'title' => $title ), $require = 'always' );
 
 			return $data;
+		}
+
+		public static function add_meta_link( $key, $value, $type ) {
+
+			if ( is_null( $key ) || is_null( $value ) )
+				return $value;
+
+			$link = WPMOLY_L10n::get_meta_permalink( $key, $value, $type );
+
+			return $link;
+		}
+
+		/**
+		 * Add tiny flags before country names.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $code Country ISO code
+		 * @param    string    $name Country nam
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function add_country_flag( $code, $name ) {
+
+			if ( ! in_array( 'flag', wpmoly_o( 'countries-format' ) ) )
+				return $name;
+
+			$flag = '<span class="flag flag-%s" title="%s"></span>';
+			$flag = sprintf( $flag, strtolower( $code ), $name );
+
+			/**
+			 * Apply filter to the rendered country flag
+			 * 
+			 * @since    2.0
+			 * 
+			 * @param    string    $flag HTML markup
+			 * @param    string    $code Country ISO code
+			 * @param    string    $name Country name
+			 */
+			$flag = apply_filters( 'wpmoly_filter_country_flag_html', $flag, $code, $name );
+
+			return $flag;
 		}
 
 		/**
