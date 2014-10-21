@@ -138,7 +138,6 @@ if ( wpmoly_requirements_met() ) {
 	require_once( WPMOLY_PATH . 'includes/widgets/class-statistics-widget.php' );
 	require_once( WPMOLY_PATH . 'includes/widgets/class-taxonomies-widget.php' );
 	require_once( WPMOLY_PATH . 'includes/widgets/class-details-widget.php' );
-	require_once( WPMOLY_PATH . 'includes/widgets/class-meta-widget.php' );
 	require_once( WPMOLY_PATH . 'includes/widgets/class-movies-widget.php' );
 
 	if ( wpmoly_has_deprecated_meta() )
