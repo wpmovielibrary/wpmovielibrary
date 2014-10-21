@@ -120,7 +120,16 @@ wpmoly = wpmoly || {};
 					$( '.inline-edit-movie-detail', '#edit-' + post_id ).each(function() {
 						var detail = this.id.replace( 'movie-', '' );
 						$( this ).children( 'option' ).each( function() {
-							$( this ).prop( 'selected', ( details[ detail ] == $( this ).val() ) );
+							$option = $( this );
+							if ( $.isArray( details[ detail ] ) ) {
+								$.each( details[ detail ], function( i, _d ) {
+									if ( _d == $option.val() )
+										$option.prop( 'selected', true );
+								});
+							}
+							else {
+								$option.prop( 'selected', ( details[ detail ] == $option.val() ) );
+							}
 						});
 					});
 				};

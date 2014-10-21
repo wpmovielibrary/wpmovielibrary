@@ -317,16 +317,23 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				return $actions;
 
 			$nonce    = wpmoly_create_nonce( 'set-quickedit-movie-details' );
-			$details  = array_keys( WPMOLY_Settings::get_supported_movie_details() );
+			$details  = WPMOLY_Settings::get_supported_movie_details();
+			$_details = array_keys( $details );
 
-			foreach ( $details as $i => $detail )
-				$details[ $i ] = sprintf( "{$detail}: '%s'" , call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post->ID, 'meta' => $detail ) ) );
+			foreach ( $_details as $i => $detail ) {
+				$data = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post->ID, 'meta' => $detail ) );
+				if ( is_array( $data ) && isset( $details[ $detail ]['multi'] ) && true == $details[ $detail ]['multi'] )
+					$data = '[' . implode( ',', array_map( create_function( '$d', 'return "\'" . $d . "\'";' ), $data ) ) . ']';
+				else
+					$data = "'{$data}'";
+				$_details[ $i ] = sprintf( "{$detail}: %s" , $data );
+			}
 
-			$details = '{' . implode( ', ', $details ) . '}';
+			$_details = '{' . implode( ', ', $_details ) . '}';
 
 			$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="';
 			$actions['inline hide-if-no-js'] .= esc_attr( __( 'Edit this item inline' ) ) . '" ';
-			$actions['inline hide-if-no-js'] .= " onclick=\"wpmoly_edit_movies.quick_edit({$details}, '{$nonce}')\">"; 
+			$actions['inline hide-if-no-js'] .= " onclick=\"wpmoly_edit_movies.quick_edit({$_details}, '{$nonce}')\">"; 
 			$actions['inline hide-if-no-js'] .= __( 'Quick&nbsp;Edit' );
 			$actions['inline hide-if-no-js'] .= '</a>';
 

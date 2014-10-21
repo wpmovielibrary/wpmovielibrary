@@ -71,6 +71,8 @@ td.column-wpmoly-media .wpmolicon {
 
 .inline-edit-col-wpmoly .inline-edit-group {
 	display: inline-block;
+	margin-bottom: 1.5em;
+	vertical-align: top;
 	width: 20%;
 }
 
@@ -84,4 +86,8 @@ td.column-wpmoly-media .wpmolicon {
 .inline-edit-col-wpmoly .inline-edit-group input {
 	height: 2em;
 	width: 95%;
+}
+
+.inline-edit-col-wpmoly .inline-edit-group select[multiple="true"] {
+	height: 4em;
 }
