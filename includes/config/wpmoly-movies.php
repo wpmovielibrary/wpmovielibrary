@@ -28,6 +28,7 @@ $wpmoly_movie_details = array(
 			'unavailable' => __( 'Unvailable', 'wpmovielibrary' ),
 		),
 		'default'  => '',
+		'multi'    => false,
 		'rewrite'  => array( 'status' => __( 'status', 'wpmovielibrary' ) )
 	),
 	'media' => array(
@@ -47,7 +48,7 @@ $wpmoly_movie_details = array(
 			'other'   => __( 'Other', 'wpmovielibrary' ),
 		),
 		'default'  => 'dvd',
-		//'multi'    => true,
+		'multi'    => true,
 		'rewrite'  => array( 'media' => __( 'media', 'wpmovielibrary' ) )
 	),
 	'rating' => array(
@@ -71,6 +72,7 @@ $wpmoly_movie_details = array(
 			'5.0' => __( 'Masterpiece', 'wpmovielibrary' )
 		),
 		'default'  => '0.0',
+		'multi'    => false,
 		'rewrite'  => array( 'rating' => __( 'rating', 'wpmovielibrary' ) )
 	),
 	'language' => array(
@@ -82,6 +84,7 @@ $wpmoly_movie_details = array(
 		'icon'     => 'wpmolicon icon-lang',
 		'options'  => $wpmoly_supported_languages,
 		'default'  => '',
+		'multi'    => true,
 		'rewrite'  => array( 'lang' => __( 'lang', 'wpmovielibrary' ) )
 	),
 	'subtitles' => array(
@@ -93,6 +96,7 @@ $wpmoly_movie_details = array(
 		'icon'     => 'wpmolicon icon-subtitles',
 		'options'  => $wpmoly_supported_languages,
 		'default'  => '',
+		'multi'    => true,
 		'rewrite'  => array( 'subtitles' => __( 'subtitles', 'wpmovielibrary' ) )
 	),
 	'format' => array(
@@ -108,6 +112,7 @@ $wpmoly_movie_details = array(
 			'hd' => __( 'HD', 'wpmovielibrary' ),
 		),
 		'default'  => '',
+		'multi'    => false,
 		'rewrite'  => array( 'format' => __( 'format', 'wpmovielibrary' ) )
 	)
 );

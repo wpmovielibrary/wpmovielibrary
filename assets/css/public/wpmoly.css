@@ -17,6 +17,15 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.wpmolicon.icon-cinema:before,
+.wpmolicon.icon-unavailable:before,
+.wpmolicon.icon-sd:before,
+.wpmolicon.icon-hd:before {
+	font-size: 2rem;
+	left: -2px;
+	position: relative;
+}
+
 #wp-admin-bar-wpmovielibrary .wpmolicon {
 	font-family: 'wpmovielibrary';
 	font-size: 1.25em;

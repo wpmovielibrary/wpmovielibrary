@@ -835,12 +835,17 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$view = 'shortcodes/detail.php';
 			}
 
-			$title = $data;
+			$title = array();
 			$lang  = WPMOLY_Settings::get_available_movie_language();
-			if ( isset( $lang[ $data ] ) )
-				$title = $lang[ $data ];
-			$data = 'lang';
-			$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'lang', 'data' => $data, 'title' => $title ), $require = 'always' );
+
+			if ( ! is_array( $data ) )
+				$data = array( $data );
+
+			foreach ( $data as $d )
+				if ( isset( $lang[ $d ] ) )
+					$title[] = __( $lang[ $d ], 'wpmovielibrary' );
+
+			$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'lang', 'data' => 'lang', 'title' => implode( ', ', $title ) ), $require = 'always' );
 
 			return $data;
 		}
@@ -870,12 +875,17 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$view = 'shortcodes/detail.php';
 			}
 
-			$title = $data;
+			$title = array();
 			$lang  = WPMOLY_Settings::get_available_movie_language();
-			if ( isset( $lang[ $data ] ) )
-				$title = $lang[ $data ];
-			$data = 'subtitles';
-			$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'subtitle', 'data' => $data, 'title' => $title ), $require = 'always' );
+
+			if ( ! is_array( $data ) )
+				$data = array( $data );
+
+			foreach ( $data as $d )
+				if ( isset( $lang[ $d ] ) )
+					$title[] = __( $lang[ $d ], 'wpmovielibrary' );
+
+			$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'subtitle', 'data' => 'subtitles', 'title' => implode( ', ', $title ) ), $require = 'always' );
 
 			return $data;
 		}
@@ -925,12 +935,19 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			$title = '';
 			$default_fields = call_user_func( "WPMOLY_Settings::get_available_movie_{$detail}" );
-			if ( isset( $default_fields[ $data ] ) )
-				$title = __( $default_fields[ $data ], 'wpmovielibrary' );
 
-			$data = WPMovieLibrary::render_template( $view, array( 'detail' => $detail, 'data' => $data, 'title' => $title ), $require = 'always' );
+			if ( ! is_array( $data ) )
+				$data = array( $data );
 
-			return $data;
+			$_data = '';
+			foreach ( $data as $d ) {
+				if ( isset( $default_fields[ $d ] ) ) {
+					$title .= __( $default_fields[ $d ], 'wpmovielibrary' );
+					$_data .= WPMovieLibrary::render_template( $view, array( 'detail' => $detail, 'data' => $d, 'title' => $title ), $require = 'always' );
+				}
+			}
+
+			return $_data;
 		}
 
 		/**

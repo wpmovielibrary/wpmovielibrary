@@ -683,9 +683,27 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			if ( ! is_array( $details ) )
 				return new WP_Error( 'invalid_details', __( 'Error: the submitted movie details are invalid.', 'wpmovielibrary' ) );
 
-			foreach ( $details as $slug => $detail )
-				if ( in_array( $slug, $_supported ) && in_array( $detail, array_keys( $supported[ $slug ]['options'] ) ) )
-					update_post_meta( $post_id, "_wpmoly_movie_{$slug}", $detail );
+			foreach ( $details as $slug => $detail ) {
+
+				if ( in_array( $slug, $_supported ) ) {
+
+					$options = array_keys( $supported[ $slug ]['options'] );
+
+					if ( is_array( $detail ) && 1 == $supported[ $slug ]['multi'] ) {
+
+						$_d = array();
+						foreach ( $detail as $d )
+							if ( in_array( $d, $options ) )
+								$_d[] = $d;
+
+						if ( ! empty( $_d ) )
+							update_post_meta( $post_id, "_wpmoly_movie_{$slug}", $_d );
+					}
+					else if ( in_array( $detail, $options ) ) {
+						update_post_meta( $post_id, "_wpmoly_movie_{$slug}", $detail );
+					}
+				}
+			}
 
 			WPMOLY_Cache::clean_transient( 'clean', $force = true );
 
