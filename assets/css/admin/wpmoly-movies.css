@@ -82,5 +82,6 @@ td.column-wpmoly-media .wpmolicon {
 
 .inline-edit-col-wpmoly .inline-edit-group select,
 .inline-edit-col-wpmoly .inline-edit-group input {
+	height: 2em;
 	width: 95%;
 }

@@ -6,7 +6,7 @@
 				<div class="inline-edit-group">
 					<label>
 						<span class="title"><span class="<?php echo $field['icon'] ?>"></span><?php echo $field['title']; ?></span>
-						<select id="movie-<?php echo $id ?>" class="inline-edit-movie-detail movie-<?php echo $id ?>" name="wpmoly_details[<?php echo $id ?>]">
+						<select class="inline-edit-movie-detail movie-<?php echo $id ?>" <?php if ( true == $field['multi'] ) echo ' multiple="true"'; ?> id="movie-<?php echo $id ?>" name="wpmoly_details[<?php echo $id ?>]<?php if ( true == $field['multi'] ) echo '[]'; ?>" >
 							<option value=""><?php _e( 'None', 'wpmovielibrary' ) ?></option>
 <?php foreach ( $field['options'] as $slug => $title ) : ?>
 							<option value="<?php echo $slug ?>"><?php echo $title; ?></option>
