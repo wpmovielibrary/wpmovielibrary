@@ -573,16 +573,47 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				return $data;
 
 			$countries = WPMOLY_Settings::get_supported_countries();
+			$format    = wpmoly_o( 'countries-format' );
+			//$format    = array_map( create_function( '$item', 'return "[{$item}]";'), $format );
 
 			$data = explode( ',', $data );
 			foreach ( $data as $i => $d ) {
 
 				$d = trim( $d );
 				foreach ( $countries as $code => $country ) {
+
 					if ( $d == $country['native'] ) {
-						$url  = apply_filters( 'wpmoly_movie_meta_link', 'production_countries', $country['name'], 'meta' );
-						$flag = apply_filters( 'wpmoly_format_movie_country_flag', $code, $country['name'] );
-						$data[ $i ] = $flag . $url;
+
+						$_format = $format;
+						foreach ( $_format as $_i => $_f ) {
+							switch ( $_f ) {
+								case 'flag':
+									$_format[ $_i ] = apply_filters( 'wpmoly_format_movie_country_flag', $code, $country['name'] );
+									break;
+								case 'original':
+									$_format[ $_i ] = $country['native'];
+									break;
+								case 'translated':
+									$_format[ $_i ] = $country['name'];
+									break;
+								case 'ptranslated':
+									$_format[ $_i ] = sprintf( '(%s)', $country['native'] );
+									break;
+								case 'poriginal':
+									$_format[ $_i ] = sprintf( '(%s)', $country['name'] );
+									break;
+								default:
+									$_format[ $_i ] = '';
+									break;
+							}
+
+							if ( 'flag' != $_f && '' != $_format[ $_i ] )
+								$_format[ $_i ] = apply_filters( 'wpmoly_movie_meta_link', 'production_countries', $_format[ $_i ], 'meta' );
+						}
+
+						$_format = implode( '&nbsp;', $_format );
+
+						$data[ $i ] = $_format;
 					}
 				}
 			}

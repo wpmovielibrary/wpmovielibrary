@@ -509,9 +509,7 @@ $wpmoly_config = array(
 					'original'    => __( 'Original', 'wpmovielibrary' ),
 					'translated'  => __( 'Translation', 'wpmovielibrary' ),
 					'ptranslated' => sprintf( '(%s)', __( 'Translation', 'wpmovielibrary' ) ),
-					'poriginal'   => sprintf( '(%s)', __( 'Original', 'wpmovielibrary' ) ),
-					'atranslated' => __( 'Abbreviated translation', 'wpmovielibrary' ),
-					'aoriginal'   => __( 'Abbreviated original', 'wpmovielibrary' )
+					'poriginal'   => sprintf( '(%s)', __( 'Original', 'wpmovielibrary' ) )
 				),
 				'default'  => array(
 					'flag',
