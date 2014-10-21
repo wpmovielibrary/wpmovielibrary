@@ -173,9 +173,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					$html = apply_filters( 'wpmoly_format_movie_release_date', $meta, 'Y' );
 					break;
 				case 'wpmoly-status':
-				case 'wpmoly-media':
 					$meta = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post_id, 'meta' => $_column_name ) );
-					$_details = WPMOLY_Settings::get_supported_movie_details();
+					$html = apply_filters( 'wpmoly_format_movie_status', $meta, $format = 'html', $icon = true );
+					/*$_details = WPMOLY_Settings::get_supported_movie_details();
 					if ( isset( $_details[ $_column_name ]['options'][ $meta ] ) ) {
 						$title = $_details[ $_column_name ]['options'][ $meta ];
 						$icon  = $meta;
@@ -184,7 +184,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 						$title = __( 'None', 'wpmovielibrary' );
 						$icon  = 'unavailable';
 					}
-					$html = sprintf( '<span class="%s-title wpmolicon icon-%s" title="%s"></span>', $_column_name, $icon, $title );
+					$html = sprintf( '<span class="%s-title wpmolicon icon-%s" title="%s"></span>', $_column_name, $icon, $title );*/
+					break;
+				case 'wpmoly-media':
+					$meta = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post_id, 'meta' => $_column_name ) );
+					$html = apply_filters( 'wpmoly_format_movie_media', $meta, $format = 'html', $icon = true );
 					break;
 				case 'wpmoly-rating':
 					$meta = wpmoly_get_movie_rating( $post_id );

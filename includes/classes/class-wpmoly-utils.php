@@ -60,8 +60,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'wpmoly_format_movie_photography', __CLASS__ . '::format_movie_photography', 10, 1);
 			add_filter( 'wpmoly_format_movie_field', __CLASS__ . '::format_movie_field', 10, 2 );
 
-			add_filter( 'wpmoly_format_movie_media', __CLASS__ . '::format_movie_media', 10, 2 );
-			add_filter( 'wpmoly_format_movie_status', __CLASS__ . '::format_movie_status', 10, 2 );
+			add_filter( 'wpmoly_format_movie_media', __CLASS__ . '::format_movie_media', 10, 3 );
+			add_filter( 'wpmoly_format_movie_status', __CLASS__ . '::format_movie_status', 10, 3 );
 			add_filter( 'wpmoly_format_movie_rating', __CLASS__ . '::format_movie_rating', 10, 2 );
 			add_filter( 'wpmoly_format_movie_language', __CLASS__ . '::format_movie_language', 10, 2 );
 			add_filter( 'wpmoly_format_movie_subtitles', __CLASS__ . '::format_movie_subtitles', 10, 2 );
@@ -761,9 +761,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_media( $data, $format = 'html' ) {
+		public static function format_movie_media( $data, $format = 'html', $icon = false ) {
 
-			return self::format_movie_detail( 'media', $data, $format );
+			return self::format_movie_detail( 'media', $data, $format, $icon );
 		}
 
 		/**
@@ -778,9 +778,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_status( $data, $format = 'html' ) {
+		public static function format_movie_status( $data, $format = 'html', $icon = false ) {
 
-			return self::format_movie_detail( 'status', $data, $format );
+			return self::format_movie_detail( 'status', $data, $format, $icon );
 		}
 
 		/**
@@ -902,9 +902,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_format( $data, $format = 'html' ) {
+		public static function format_movie_format( $data, $format = 'html', $icon = false ) {
 
-			return self::format_movie_detail( 'status', $data, $format );
+			return self::format_movie_detail( 'status', $data, $format, $icon );
 		}
 
 		/**
@@ -920,14 +920,14 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_detail( $detail, $data, $format = 'html' ) {
+		public static function format_movie_detail( $detail, $data, $format = 'html', $icon = false ) {
 
 			$format = ( 'raw' == $format ? 'raw' : 'html' );
 
 			if ( '' == $data )
 				return $data;
 
-			if ( wpmoly_o( 'details-icons' ) && 'html' == $format  ) {
+			if ( true === $icon || ( wpmoly_o( 'details-icons' ) && 'html' == $format ) ) {
 				$view = 'shortcodes/detail-icon.php';
 			} else if ( 'html' == $format ) {
 				$view = 'shortcodes/detail.php';
@@ -942,7 +942,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$_data = '';
 			foreach ( $data as $d ) {
 				if ( isset( $default_fields[ $d ] ) ) {
-					$title .= __( $default_fields[ $d ], 'wpmovielibrary' );
+					$title = __( $default_fields[ $d ], 'wpmovielibrary' );
 					$_data .= WPMovieLibrary::render_template( $view, array( 'detail' => $detail, 'data' => $d, 'title' => $title ), $require = 'always' );
 				}
 			}
