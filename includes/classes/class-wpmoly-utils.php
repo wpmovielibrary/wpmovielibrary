@@ -42,16 +42,21 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'wpmoly_filter_cast_data', __CLASS__ . '::filter_cast_data', 10, 1 );
 			add_filter( 'wpmoly_filter_movie_meta_aliases', __CLASS__ . '::filter_movie_meta_aliases', 10, 1 );
 
-			add_filter( 'wpmoly_format_movie_genres', __CLASS__ . '::format_movie_genres', 10, 2 );
-			add_filter( 'wpmoly_format_movie_actors', __CLASS__ . '::format_movie_actors', 10, 2 );
-			add_filter( 'wpmoly_format_movie_cast', __CLASS__ . '::format_movie_cast', 10, 2 );
+			add_filter( 'wpmoly_format_movie_genres', __CLASS__ . '::format_movie_genres', 10, 1 );
+			add_filter( 'wpmoly_format_movie_actors', __CLASS__ . '::format_movie_actors', 10, 1 );
+			add_filter( 'wpmoly_format_movie_cast', __CLASS__ . '::format_movie_cast', 10, 1 );
 			add_filter( 'wpmoly_format_movie_release_date', __CLASS__ . '::format_movie_release_date', 10, 2 );
 			add_filter( 'wpmoly_format_movie_runtime', __CLASS__ . '::format_movie_runtime', 10, 2 );
 			add_filter( 'wpmoly_format_movie_spoken_languages', __CLASS__ . '::format_movie_languages', 10, 1 );
 			add_filter( 'wpmoly_format_movie_languages', __CLASS__ . '::format_movie_languages', 10, 1 );
 			add_filter( 'wpmoly_format_movie_countries', __CLASS__ . '::format_movie_countries', 10, 1 );
 			add_filter( 'wpmoly_format_movie_production_countries', __CLASS__ . '::format_movie_countries', 10, 1 );
-			add_filter( 'wpmoly_format_movie_director', __CLASS__ . '::format_movie_director', 10, 2 );
+			add_filter( 'wpmoly_format_movie_director', __CLASS__ . '::format_movie_director', 10, 1 );
+			add_filter( 'wpmoly_format_movie_producer', __CLASS__ . '::format_movie_producer', 10, 1 );
+			add_filter( 'wpmoly_format_movie_composer', __CLASS__ . '::format_movie_composer', 10, 1);
+			add_filter( 'wpmoly_format_movie_editor', __CLASS__ . '::format_movie_editor', 10, 1);
+			add_filter( 'wpmoly_format_movie_author', __CLASS__ . '::format_movie_author', 10, 1);
+			add_filter( 'wpmoly_format_movie_photography', __CLASS__ . '::format_movie_photography', 10, 1);
 			add_filter( 'wpmoly_format_movie_field', __CLASS__ . '::format_movie_field', 10, 2 );
 
 			add_filter( 'wpmoly_format_movie_media', __CLASS__ . '::format_movie_media', 10, 2 );
@@ -630,13 +635,97 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * @since    1.1
 		 * 
 		 * @param    string    $data field value
-		 * @param    int       $post_id Movie's post ID if needed (required for shortcodes)
 		 * 
 		 * @return   string    Formatted output
 		 */
 		public static function format_movie_director( $data ) {
 
 			$output = self::format_movie_terms_list( $data, 'collection' );
+			$output = self::format_movie_field( $output );
+
+			return $output;
+		}
+
+		/**
+		 * Format a Movie's producer for display
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_producer( $data ) {
+
+			$output = apply_filters( 'wpmoly_movie_meta_link', 'producer', $data, 'meta' );
+			$output = self::format_movie_field( $output );
+
+			return $output;
+		}
+
+		/**
+		 * Format a Movie's composer for display
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_composer( $data ) {
+
+			$output = apply_filters( 'wpmoly_movie_meta_link', 'composer', $data, 'meta' );
+			$output = self::format_movie_field( $output );
+
+			return $output;
+		}
+
+		/**
+		 * Format a Movie's editor for display
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_editor( $data ) {
+
+			$output = apply_filters( 'wpmoly_movie_meta_link', 'editor', $data, 'meta' );
+			$output = self::format_movie_field( $output );
+
+			return $output;
+		}
+
+		/**
+		 * Format a Movie's author for display
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_author( $data ) {
+
+			$output = apply_filters( 'wpmoly_movie_meta_link', 'author', $data, 'meta' );
+			$output = self::format_movie_field( $output );
+
+			return $output;
+		}
+
+		/**
+		 * Format a Movie's  for display
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_photography( $data ) {
+
+			$output = apply_filters( 'wpmoly_movie_meta_link', 'photography', $data, 'meta' );
 			$output = self::format_movie_field( $output );
 
 			return $output;
@@ -843,12 +932,32 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			return $data;
 		}
 
+		/**
+		 * Add a meta link to the movie meta value
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $key Meta key
+		 * @param    string    $value Meta value
+		 * @param    string    $type Meta type, 'detail' or 'meta'
+		 * 
+		 * @return   string    Formatted output
+		 */
 		public static function add_meta_link( $key, $value, $type ) {
 
-			if ( is_null( $key ) || is_null( $value ) )
+			if ( ! wpmoly_o( 'meta-links' ) || 'nowhere' == wpmoly_o( 'meta-links' ) || ( 'posts_only' == wpmoly_o( 'meta-links' ) && ! is_single() ) )
 				return $value;
 
-			$link = WPMOLY_L10n::get_meta_permalink( $key, $value, $type );
+			if ( is_null( $key ) || is_null( $value ) || '' == $value )
+				return $value;
+
+			$link = explode( ',', $value );
+			foreach ( $link as $i => $l ) {
+				$l = trim( $l );
+				$link[ $i ] = WPMOLY_L10n::get_meta_permalink( $key, $l, $type );
+			}
+
+			$link = implode( ', ', $link );
 
 			return $link;
 		}

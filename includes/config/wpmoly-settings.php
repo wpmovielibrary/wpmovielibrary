@@ -108,6 +108,20 @@ $wpmoly_config = array(
 				'default'  => 'posts_only'
 			),
 
+			'meta-links' => array(
+				'id'       => 'wpmoly-meta-links',
+				'type'     => 'select',
+				'title'    => __( 'Add links to meta', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, metadata will appear as links to meta pages.', 'wpmovielibrary' ),
+				'options'  => array(
+					'everywhere' => __( 'Everywhere', 'wpmovielibrary' ),
+					'posts_only' => __( 'Only In Post Read', 'wpmovielibrary' ),
+					'nowhere'    => __( 'Don&rsquo;t Show', 'wpmovielibrary' ),
+				),
+				'default'  => 'posts_only',
+				'required' => array( 'wpmoly-show-meta', "!=", 'nowhere' ),
+			),
+
 			// Default movie meta to show
 			'sort-meta' => array(
 				'id'       => 'wpmoly-sort-meta',
