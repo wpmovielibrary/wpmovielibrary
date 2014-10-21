@@ -51,6 +51,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'wpmoly_format_movie_languages', __CLASS__ . '::format_movie_languages', 10, 1 );
 			add_filter( 'wpmoly_format_movie_countries', __CLASS__ . '::format_movie_countries', 10, 1 );
 			add_filter( 'wpmoly_format_movie_production_countries', __CLASS__ . '::format_movie_countries', 10, 1 );
+			add_filter( 'wpmoly_format_movie_production_companies', __CLASS__ . '::format_movie_producer', 10, 1 );
 			add_filter( 'wpmoly_format_movie_director', __CLASS__ . '::format_movie_director', 10, 1 );
 			add_filter( 'wpmoly_format_movie_producer', __CLASS__ . '::format_movie_producer', 10, 1 );
 			add_filter( 'wpmoly_format_movie_composer', __CLASS__ . '::format_movie_composer', 10, 1);
