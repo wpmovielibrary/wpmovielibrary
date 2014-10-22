@@ -10,7 +10,7 @@
  */
 ?>
 
-	<div class="wpmoly_shortcode_spans">
-		<span class="wpmoly_shortcode_span wpmoly_shortcode_span_title wpmoly_movie_actor_title"><?php echo $title ?></span>
-		<span class="wpmoly_shortcode_span wpmoly_shortcode_span_value wpmoly_movie_actor_value"><?php echo $actors ?></span>
+	<div class="wpmoly shortcode block">
+		<span class="wpmoly shortcode item actor title"><?php echo $title ?></span>
+		<span class="wpmoly shortcode item actor value"><?php echo $actors ?></span>
 	</div>

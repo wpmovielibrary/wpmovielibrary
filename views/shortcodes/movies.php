@@ -10,29 +10,29 @@
  */
 ?>
 
-	<div class="wpmoly_shortcodes wpmoly_movies">
+	<div class="wpmoly shortcode block movies">
 <?php foreach ( $movies as $movie ) : ?>
-		<div class="wpmoly_movie">
-			<div class="wpmoly_movie_poster">
+		<div class="wpmoly shortcode inline-block movie">
+			<div class="wpmoly shortcode poster">
 				<a href="<?php echo $movie['url']; ?>"><?php echo $movie['poster']; ?></a>
 			</div>
 
-			<a href="<?php echo $movie['url']; ?>"><h4><?php echo $movie['title']; ?></h4></a>
+			<a class="wpmoly shortcode link" href="<?php echo $movie['url']; ?>"><h4><?php echo $movie['title']; ?></h4></a>
 
-			<div class="wpmoly_movie_meta">
+			<div class="wpmoly shortcode meta">
 <?php
 	if ( ! is_null( $movie['meta'] ) ) :
 		foreach ( $movie['meta'] as $slug => $meta ) :
 ?>
-				<dt class="wpmoly_<?php echo $slug ?>_field_title"><?php echo $meta['title'] ?></dt>
-				<dd class="wpmoly_<?php echo $slug ?>_field_value"><?php echo $meta['value'] ?></dd>
+				<dt class="wpmoly shortcode meta <?php echo $slug ?> title"><?php echo $meta['title'] ?></dt>
+				<dd class="wpmoly shortcode meta <?php echo $slug ?> value"><?php echo $meta['value'] ?></dd>
 <?php
 		endforeach;
 	endif;
 ?>
 			</div>
 
-			<div class="wpmoly_movie_details">
+			<div class="wpmoly shortcode details">
 <?php
 	if ( ! is_null( $movie['details'] ) )
 			echo $movie['details'];

@@ -25,8 +25,8 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 
 		$this->widget_name        = __( 'WPMovieLibrary Movies', 'wpmovielibrary' );
 		$this->widget_description = __( 'Display a list of movies from a specific taxonomy, media, status, rating…', 'wpmovielibrary' );
-		$this->widget_css         = 'wpmoly-widget wpmoly-movies-widget wpmoly-movies';
-		$this->widget_id          = 'wpmovielibrary_movies_widget';
+		$this->widget_css         = 'wpmoly widget movies';
+		$this->widget_id          = 'wpmovielibrary-movies-widget';
 		$this->widget_form        = 'movies-widget/movies-admin.php';
 
 		$this->widget_params      = array(

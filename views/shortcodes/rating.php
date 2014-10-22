@@ -10,4 +10,4 @@
  */
 ?>
 
-	<div class="wpmoly-movie-detail wpmoly-movie-rating"><?php echo $data ?></div>
+	<div class="wpmoly detail rating"><?php echo $data ?></div>

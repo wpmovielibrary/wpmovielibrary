@@ -12,7 +12,7 @@
 	<div class="<?php echo $style ?>">
 
 <?php if ( '' != $description ) : ?>
-		<div class="wpmoly-widget-description"><?php echo $description ?></div>
+		<div class="<?php echo $style ?> description"><?php echo $description ?></div>
 <?php endif; ?>
 
 		<?php echo $content ?>

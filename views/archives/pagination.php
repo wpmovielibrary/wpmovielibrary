@@ -9,7 +9,7 @@
 
 ?>
 
-	<ul class="page-numbers">
+	<ul class="wpmoly page-numbers">
 <?php
 foreach ( $links as $link ) : 
 	if ( is_null( $link['url'] ) ) :

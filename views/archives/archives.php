@@ -10,10 +10,10 @@
 
 ?>
 
-	<ul class="wpmoly_archives wpmoly_<?php echo $taxonomy; ?>_archives">
+	<ul class="wpmoly archives taxonomy list <?php echo $taxonomy; ?>">
 <?php foreach ( $links as $link ) : ?>
 
-		<li><a href="<?php echo $link['url']; ?>" title="<?php echo $link['attr_title']; ?>"><?php echo $link['title']; ?> (<?php echo $link['count']; ?>)</a></li>
+		<li class="wpmoly archives taxonomy list item"><a class="wpmoly archives taxonomy list item link" href="<?php echo $link['url']; ?>" title="<?php echo $link['attr_title']; ?>"><span class="wpmoly archives taxonomy list item link title"><?php echo $link['title']; ?></span> <span class="wpmoly archives taxonomy list item link count">(<?php echo $link['count']; ?>)</span></a></li>
 <?php endforeach; ?>
 
 	</ul>

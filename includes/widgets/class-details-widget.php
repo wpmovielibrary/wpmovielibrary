@@ -26,8 +26,8 @@ class WPMOLY_Details_Widget extends WPMOLY_Widget {
 
 		$this->widget_name        = __( 'WPMovieLibrary Details', 'wpmovielibrary' );
 		$this->widget_description = __( 'Display a list of the available details: status, media and rating.', 'wpmovielibrary' );
-		$this->widget_css         = 'wpmovielibrary wpmoly-widget wpmoly-details-widget';
-		$this->widget_id          = 'wpmovielibrary_details_widget';
+		$this->widget_css         = 'wpmoly widget details';
+		$this->widget_id          = 'wpmovielibrary-details-widget';
 		$this->widget_form        = 'details-widget/details-admin.php';
 
 		$this->widget_params      = array(

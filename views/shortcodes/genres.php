@@ -10,4 +10,4 @@
  */
 ?>
 
-	<span class="wpmoly_shortcode_span wpmoly_movie_genre"><?php echo $genres ?></span>
+	<span class="wpmoly shortcode item genre value"><?php echo $genres ?></span>

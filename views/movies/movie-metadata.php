@@ -10,11 +10,11 @@
  */
 ?>
 
-	<div class="wpmoly_movie_metadata">
-		<dl class="wpmoly_movie">
+	<div class="wpmoly block meta">
+		<dl class="wpmoly movie">
 <?php foreach ( $items as $item ) : ?>
-			<dt class="wpmoly_<?php echo $item['slug'] ?>_field_title"><?php echo $item['title'] ?></dt>
-			<dd class="wpmoly_<?php echo $item['slug'] ?>_field_value"><?php echo $item['value'] ?></dd>
+			<dt class="wpmoly movie meta <?php echo $item['slug'] ?> title"><?php echo $item['title'] ?></dt>
+			<dd class="wpmoly movie meta <?php echo $item['slug'] ?> value"><?php echo $item['value'] ?></dd>
 
 <?php endforeach; ?>
 		</dl>

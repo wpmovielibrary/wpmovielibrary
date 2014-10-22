@@ -12,4 +12,4 @@
  */
 ?>
 
-	<div class="wpmoly_movie_<?php echo $detail ?> <?php echo $data ?> wpmoly_detail_label"><span class="wpmoly_movie_detail_item"><?php echo $title ?></span></div>
+	<div class="wpmoly shortcode block <?php echo $detail ?> <?php echo $data ?> label"><span class="wpmoly shortcode item detail title"><?php echo $title ?></span></div>

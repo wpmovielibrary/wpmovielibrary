@@ -26,8 +26,8 @@ class WPMOLY_Taxonomies_Widget extends WPMOLY_Widget {
 
 		$this->widget_name        = __( 'WPMovieLibrary Taxonomies', 'wpmovielibrary' );
 		$this->widget_description = __( 'Display a list of terms from a specific taxonomy: collections, genres or actors.', 'wpmovielibrary' );
-		$this->widget_css         = 'wpmovielibrary wpmoly-widget wpmoly-taxonomies-widget';
-		$this->widget_id          = 'wpmovielibrary_taxonomies_widget';
+		$this->widget_css         = 'wpmoly widget taxonomies';
+		$this->widget_id          = 'wpmovielibrary-taxonomies-widget';
 		$this->widget_form        = 'taxonomies-widget/taxonomies-admin.php';
 
 		$this->widget_params      = array(
