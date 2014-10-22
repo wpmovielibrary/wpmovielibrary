@@ -26,6 +26,16 @@
 	position: relative;
 }
 
+.wpmolicon.icon-available:before {
+	content: "\e64f";
+}
+.wpmolicon.icon-loaned:before {
+	content: "\e61f";
+}
+.icon-bluray:before {
+	content: "\e60f";
+}
+
 #wp-admin-bar-wpmovielibrary .wpmolicon {
 	font-family: 'wpmovielibrary';
 	font-size: 1.25em;
@@ -48,6 +58,117 @@
 	display: inline-block;
 	margin: 0px 0.5em;
 }
+
+/** Movie Grid
+ ***************************************************/
+
+
+#wpmoly-movie-grid-menu {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 1em;
+	margin: 1em 0.5em;
+	padding: 0.5em 1em;
+	text-align: center;
+}
+
+#wpmoly-movie-grid-menu .wpmoly.grid.menu.item {
+	display: inline-block;
+	border-left: 1px solid #ddd;
+	padding: 0.15rem 0.5rem;
+}
+
+#wpmoly-movie-grid-menu .wpmoly.grid.menu.item:first-child {
+	border-left: 0;
+}
+
+#wpmoly-movie-grid-menu .wpmoly.grid.menu.item.active {
+	background: #ddd;
+	font-weight: bold;
+}
+
+#wpmoly-movie-grid {
+	margin: 1em 0.5em;
+	text-align: center;
+}
+
+#wpmoly-movie-grid > .movie {
+	display: inline-block;
+	margin: 0.25%;
+	overflow: hidden;
+	vertical-align: top;
+}
+
+#wpmoly-movie-grid.grid-col-6 > .movie {
+	width: 15.7%;
+}
+
+#wpmoly-movie-grid.grid-col-5 > .movie {
+	width: 19%;
+}
+
+#wpmoly-movie-grid.grid-col-4 > .movie {
+	width: 24%;
+}
+
+#wpmoly-movie-grid.grid-col-3 > .movie {
+	width: 32.25%;
+}
+
+#wpmoly-movie-grid.grid-col-2 > .movie {
+	width: 49%;
+}
+
+#wpmoly-movie-grid .wpmoly.movie.link {
+	text-align: left;
+	text-decoration: none;
+}
+
+#wpmoly-movie-grid .wpmoly.movie.poster {
+	
+}
+
+#wpmoly-movie-grid .wpmoly.movie.title {
+	font-size: 1em;
+	margin: 0.5em 0 0 0;
+	text-align: left;
+}
+
+#wpmoly-movie-grid .wpmoly.movie.genres {
+	display: block;
+	font-size: 75%;
+	opacity: 0.75;
+}
+
+#wpmoly-movie-grid > .movie .wp-post-image {
+	border-radius: 3px;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+	height: 100% !important;
+	width: 100% !important;
+}
+
+#wpmoly-movies-pagination {
+	margin: 1em auto;
+	text-align: center;
+}
+
+#wpmoly-movies-pagination ul.page-numbers {
+	background: none repeat scroll 0% 0% #FFF;
+	border: 1px solid #DDD;
+	border-radius: 4px;
+	font-size: 1em;
+	margin: 1em 0.5em;
+	padding: 0.5em 1em;
+	text-align: center;
+}
+
+#wpmoly-movies-pagination ul.page-numbers li {
+	display: inline-block;
+	margin: 0;
+	padding: 0.25em 0.5em;
+}
+
 
 /** Movie Meta & Details block
  ***************************************************/

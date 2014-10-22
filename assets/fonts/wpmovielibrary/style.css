@@ -35,7 +35,7 @@
 .icon-cog:before {
 	content: "\e64e";
 }
-.icon-yess {
+.icon-yes:before {
 	content: "\e64f";
 }
 .icon-date:before {
