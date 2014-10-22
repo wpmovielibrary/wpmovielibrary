@@ -18,11 +18,11 @@
 	<div class="<?php echo $style ?>">
 
 <?php if ( '' != $description ) : ?>
-		<div class="wpmoly widget description"><?php echo $description ?></div>
+		<div class="wpmoly widget movie description"><?php echo $description ?></div>
 <?php endif; ?>
 
 <?php foreach ( $items as $item ) : ?>
-		<a href="<?php echo $item['link'] ?>" title="<?php echo __( 'Read more about', 'wpmovielibrary' ) . $item['title'] ?>">
+		<a class="wpmoly widget movie link" href="<?php echo $item['link'] ?>" title="<?php echo __( 'Read more about', 'wpmovielibrary' ) . $item['title'] ?>">
 			<figure id="movie-<?php the_ID(); ?>" class="wpmoly widget movie">
 <?php if ( 'no' == $show_poster || 'before' == $show_title ) : ?>
 				<div id="movie-<?php the_ID(); ?>-title" class="wpmoly widget movie title"><?php echo $item['title'] ?></div>

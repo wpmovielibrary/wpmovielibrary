@@ -49,51 +49,51 @@
 	margin: 0px 0.5em;
 }
 
-/** Movie Post TMDb
+/** Movie Meta & Details block
  ***************************************************/
 
-.wpmoly_movie .wpmoly_title_field_value,
-.wpmoly_movie .wpmoly_original_title_field_value {
+.wpmoly.block.meta .wpmoly.meta.title.value,
+.wpmoly.block.meta .wpmoly.meta.original_title.value {
 	font-style: italic;
 }
 
-.wpmoly-movie-details {
+.wpmoly.block.details {
 	float: right;
 	min-width: 10em;
 	width: auto;
 }
 
-.wpmoly-movie-details .wpmoly-movie-detail > .wpmolicon {
+.wpmoly.block.details .wpmoly.detail > .wpmolicon {
 	font-size: 1.5rem;
 	height: 1.75rem;
 	line-height: 2rem;
 	width: 1.5rem;
 }
 
-.wpmoly-movie-details .wpmoly-movie-rating > .wpmoly-movie-rating {
+.wpmoly.block.details .wpmoly.detail.rating > .wpmoly-movie-rating {
 	top: 2px;
 	position: relative;
 }
 
-.wpmoly-movie-details .wpmoly-movie-rating .wpmolicon {
+.wpmoly.block.details .wpmoly.detail.rating .wpmolicon {
 	font-size: 1.25em !important;
 	line-height: 1.75rem;
 }
 
-.wpmoly-movie-details > div {
+.wpmoly.block.details > div {
 	display: inline-block;
 	margin: 0 0.25em;
 }
 
-.wpmoly-movie-detail {
+.wpmoly.detail {
 	background: #eee;
 	border-radius: 0.25em;
 	line-height: 2rem;
 	padding: 0.25em 0.5em;
 }
 
-.wpmoly-movie-detail.wpmoly-movie-media,
-.wpmoly-movie-detail.wpmoly-movie-status {
+.wpmoly.detail.wpmoly-movie-media,
+.wpmoly.detail.wpmoly-movie-status {
 	width: 1.75rem;
 }
 
@@ -177,63 +177,67 @@
 	margin-left: 8px;
 }
 
-/** Shortcodes **/
+/** Shortcodes
+ ***************************************************/
 
-.wpmoly-shortcode-span.wpmoly-shortcode-span-title {
+.wpmoly.shortcode.block .wpmoly.shortcode.item.title {
 	display: block;
 	font-weight: bold;
 }
 
-.wpmoly-shortcode-span.wpmoly-shortcode-span-value {
+.wpmoly.shortcode.block .wpmoly.shortcode.item.value {
 	display: block;
 	margin-left: 0.5em;
 }
 
-.wpmoly-shortcode-ul.wpmoly-movie-images {
+.wpmoly.shortcode.images.list {
 	list-style: none;
 	text-align: center;
 }
 
-.wpmoly-shortcode-ul.wpmoly-movie-images > .wpmoly-movie-image {
+.wpmoly.shortcode.images.list > .wpmoly.image {
 	display: inline-block;
 	margin: 2px 6px;
 }
 
-/** Movie Rating **/
+/** Movie Rating
+ ***************************************************/
 
-.movie-rating-display > * {
+.wpmoly.detail.rating > * {
 	display: inline-block;
 }
 
-.movie-rating-display > .rating-label {
+.wpmoly.detail.rating > .rating.label {
 	margin-left: 6px;
 	position: relative;
 	top: 2px;
 }
 
-/** Wigets **/
+/** Wigets
+ ***************************************************/
 
 .wpmoly-widget-description {
 	margin: 0.5em 0 !important;
 }
 
-/** Movies Widgets **/
+/** Movies Widgets
+ ***************************************************/
 
-.wpmoly-movies-widget {
+.wpmoly.widget.movies {
 	position: relative;
 }
 
-.wpmoly-movies-widget .movie-title {
+.wpmoly.widget.movies .movie.title {
 	display: block;
 	font-weight: 600;
 	margin: 0.5em 0;
 }
 
-.wpmoly-movies-widget a {
+.wpmoly.widget.movies .wpmoly.link {
 	text-decoration: none;
 }
 
-.wpmoly-movies-widget .wpmoly-movie {
+.wpmoly.widget.movies > .wpmoly.movie > .wpmoly.movie {
 	display: inline-table;
 	margin-bottom: 6px;
 	max-width: 150px;
@@ -245,7 +249,7 @@
 	width: 49%;
 }
 
-.wpmoly-movies-widget .wpmoly-movie img {
+.wpmoly.widget.movies .wpmoly.movie img {
 	height: 100%;
 	margin-bottom: 4px;
 	width: 100%;
