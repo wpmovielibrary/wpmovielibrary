@@ -88,6 +88,41 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 		}
 
 		/**
+		 * Movie grid shortcode.
+		 *
+		 * @since    2.0
+		 * 
+		 * @param    array     Shortcode attributes
+		 * @param    string    Shortcode content
+		 * 
+		 * @return   string    Shortcode display
+		 */
+		public static function movie_grid_shortcode( $atts = array(), $content = null ) {
+
+			$atts = self::filter_shortcode_atts( 'movie_grid', $atts );
+
+			// Caching
+			$name = apply_filters( 'wpmoly_cache_name', 'movie_grid_shortcode', $atts );
+			$content = WPMOLY_Cache::output( $name, function() use ( $atts, $content ) {
+
+				extract( $atts );
+
+				$grid_menu = '';
+				if ( $menu )
+					$grid_menu = WPMOLY_Movies::get_grid_menu();
+
+				$content = WPMOLY_Movies::get_the_grid( $atts );
+
+				$content = $grid_menu . $content;
+
+				return $content;
+
+			}, $echo = false );
+
+			return $content;
+		}
+
+		/**
 		 * Movies shortcode. Display a list of movies with various sorting
 		 * and display options.
 		 *

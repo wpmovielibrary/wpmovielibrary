@@ -439,6 +439,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$q_var[] = 'detail';
 			$q_var[] = 'meta';
 			$q_var[] = 'value';
+			$q_var[] = 'letter';
 			return $q_var;
 		}
 
@@ -585,6 +586,141 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			return $movies;
 		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                              Movie Grid
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * Generate alphanumerical breadcrumb menu for Grid view
+		 * 
+		 * @since    2.0
+		 * 
+		 * @return   string    HTML content
+		 */
+		public static function get_grid_menu() {
+
+			global $wpdb;
+
+			$default = str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
+			$letters = array();
+			$current = get_query_var( 'letter' );
+			
+			$result = $wpdb->get_results( "SELECT DISTINCT LEFT(post_title, 1) as letter FROM {$wpdb->posts} WHERE post_type='movie' AND post_status='publish' ORDER BY letter" );
+			foreach ( $result as $r )
+				$letters[] = $r->letter;
+
+			$attributes = array(
+				'letters' => $letters,
+				'default' => $default,
+				'url'     => sprintf( '%s/?letter=', get_permalink() ),
+				'current' => $current
+			);
+
+			$content = self::render_template( 'movies/grid/menu.php', $attributes );
+
+			return $content;
+		}
+
+		/**
+		 * Generate Movie Grid
+		 * 
+		 * If a current letter is passed to the query use it to narrow
+		 * the list of movies.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    array     Shortcode arguments to use as parameters
+		 * 
+		 * @return   string    HTML content
+		 */
+		public static function get_the_grid( $args = array() ) {
+
+			$defaults = array(
+				'menu'    => true,
+				'number'  => -1,
+				'columns' => 4,
+				'title'   => false,
+				'genre'   => false,
+				'rating'  => false
+			);
+			$args = wp_parse_args( $args, $defaults );
+			extract( $args, EXTR_SKIP );
+
+			global $wpdb;
+
+			$letter = get_query_var( 'letter' );
+			$paged  = get_query_var( 'paged' );
+			$total  = 0;
+
+			$movies = array();
+			$posts_per_page = $number;
+
+			if ( '' != $letter ) {
+
+				// like_escape deprecated since WordPress 4.0
+				$where  = ( method_exists( 'wpdb', 'esc_like' ) ? $wpdb->esc_like( $letter ) : like_escape( $letter ) ) . '%';
+				$result = $wpdb->get_results(
+					$wpdb->prepare(
+						"SELECT ID FROM {$wpdb->posts} WHERE post_type='movie' AND post_status='publish' AND post_title LIKE '%s' ORDER BY post_title ASC",
+						$where
+					)
+				);
+				$total = count( $result );
+
+				if ( ! empty( $result ) )
+					foreach ( $result as $r )
+						$movies[] = $r->ID;
+			}
+
+			$args = array(
+				'posts_per_page' => $posts_per_page,
+				'offset'         => max( 0, ( $paged - 1 ) * $posts_per_page ),
+				'orderby'        => 'post_title',
+				'order'          => 'ASC',
+				'post_type'      => 'movie',
+				'post_status'    => 'publish'
+			);
+
+			if ( ! empty( $movies ) )
+				$args['post__in'] = $movies;
+
+			$movies = get_posts( $args );
+			$total  = wp_count_posts( 'movie' );
+			$total  = $total->publish;
+
+			$slug = wpmoly_o( 'rewrite-movie' );
+			$args = array(
+				'type'    => 'list',
+				'total'   => ceil( ( $total ) / $posts_per_page ),
+				'current' => max( 1, $paged ),
+				'format'  => sprintf( '%s/?letter=%s&amp;paged=%s', get_permalink(), $letter, '%#%' ),
+			);
+
+			$paginate = WPMOLY_Utils::paginate_links( $args );
+			$paginate = '<div id="wpmoly-movies-pagination">' . $paginate . '</div>';
+
+			$attributes = array(
+				'movies'  => $movies,
+				'columns' => $columns,
+				'title'   => $title,
+				'genre'   => $genre,
+				'rating'  => $rating
+			);
+
+			$content  = self::render_template( 'movies/grid/loop.php', $attributes );
+			$content  = $content . $paginate;
+
+			return $content;
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                                 Utils
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Handle Deactivation/Uninstallation actions.

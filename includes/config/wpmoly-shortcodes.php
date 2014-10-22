@@ -15,6 +15,44 @@ if ( ! defined( 'WPINC' ) )
 
 $wpmoly_shortcodes = array(
 
+	'movie_grid' => array(
+		'atts' => array(
+			'menu' => array(
+				'default' => true,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			),
+			'number' => array(
+				'default' => -1,
+				'values'  => null,
+				'filter'  => 'intval'
+			),
+			'columns' => array(
+				'default' => 4,
+				'values'  => null,
+				'filter'  => 'intval'
+			),
+			'title' => array(
+				'default' => false,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			),
+			'genre' => array(
+				'default' => false,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			),
+			'rating' => array(
+				'default' => false,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			)
+		),
+		'content'  => null,
+		'callback' => 'movie_grid',
+		'aliases'  => null
+	),
+
 	'movies' => array(
 		'atts' => array(
 			'collection' => array(
