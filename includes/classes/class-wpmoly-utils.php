@@ -45,6 +45,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'wpmoly_format_movie_genres', __CLASS__ . '::format_movie_genres', 10, 1 );
 			add_filter( 'wpmoly_format_movie_actors', __CLASS__ . '::format_movie_actors', 10, 1 );
 			add_filter( 'wpmoly_format_movie_cast', __CLASS__ . '::format_movie_cast', 10, 1 );
+			add_filter( 'wpmoly_format_movie_date', __CLASS__ . '::format_movie_release_date', 10, 2 );
 			add_filter( 'wpmoly_format_movie_release_date', __CLASS__ . '::format_movie_release_date', 10, 2 );
 			add_filter( 'wpmoly_format_movie_runtime', __CLASS__ . '::format_movie_runtime', 10, 2 );
 			add_filter( 'wpmoly_format_movie_spoken_languages', __CLASS__ . '::format_movie_languages', 10, 1 );

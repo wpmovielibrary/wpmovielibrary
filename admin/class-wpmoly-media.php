@@ -286,10 +286,55 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				return new WP_Error( $id->get_error_code(), $id->get_error_message() );
 			}
 
-			update_post_meta( $id, '_wpmoly_' . $image_type . '_related_tmdb_id', $tmdb_id );
-			update_post_meta( $id, '_wpmoly_' . $image_type . '_related_meta_data', $data );
+			self::update_attachment_meta( $id, $post_id, $image_type, $data );
 
 			return $id;
+		}
+
+		/**
+		 * Update movie images/posters title, description, caption...
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    int       $attachment_id Current image Post ID
+		 * @param    int       $post_id Related Post ID
+		 * @param    string    $image_type Image type, 'backdrop' or 'poster'
+		 * @param    array     $data Image data
+		 */
+		private static function update_attachment_meta( $attachment_id, $post_id, $image_type, $data ) {
+
+			if ( ! get_post( $attachment_id ) || ! get_post( $post_id ) )
+				return false;
+
+			if ( 'poster' != $image_type )
+				$image_type = 'image';
+
+			$tmdb_id    = WPMOLY_Movies::get_movie_meta( $post_id, 'tmdb_id' );
+			$title      = WPMOLY_Movies::get_movie_meta( $post_id, 'title' );
+			$production = WPMOLY_Movies::get_movie_meta( $post_id, 'production_companies' );
+			$production = explode( ',', $production );
+			$production = trim( array_shift( $production ) );
+			$year       = WPMOLY_Movies::get_movie_meta( $post_id, 'release_date' );
+			$year       = apply_filters( 'wpmoly_format_movie_date',  $year, 'Y' );
+
+			$find = array( '{title}', '{year}', '{production}' );
+			$replace = array( $title, $year, $production );
+
+			$_description = str_replace( $find, $replace, wpmoly_o( "{$image_type}-description" ) );
+			$_title       = str_replace( $find, $replace, wpmoly_o( "{$image_type}-title" ) );
+
+			$attachment = array(
+				'ID'           => $attachment_id,
+				'post_title'   => $_title,
+				'post_content' => $_description,
+				'post_excerpt' => $_description
+			);
+
+			update_post_meta( $attachment_id, '_wpmoly_' . $image_type . '_related_tmdb_id', $tmdb_id );
+			update_post_meta( $attachment_id, '_wpmoly_' . $image_type . '_related_meta_data', $data );
+			update_post_meta( $attachment_id, '_wp_attachment_image_alt', $_title );
+
+			$update = wp_update_post( $attachment );
 		}
 
 		/**

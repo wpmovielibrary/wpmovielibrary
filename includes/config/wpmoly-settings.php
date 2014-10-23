@@ -309,10 +309,10 @@ $wpmoly_config = array(
 					'full'     => __( 'Full (~800px) ', 'wpmovielibrary' ),
 					'original' => __( 'Original', 'wpmovielibrary' )
 				),
-				'default' => 'original'
+				'default'  => 'original'
 			),
 
-			// Maximum number of image to show
+			// Delete posters when deleting movies
 			'posters-delete' => array(
 				'id'       => 'wpmoly-posters-delete',
 				'type'     => 'switch',
@@ -320,8 +320,28 @@ $wpmoly_config = array(
 				'desc'     => __( 'Enable this if you want to delete posters along with movies.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default' => 0
+				'default'  => 0
 			),
+
+			// Poster attachment title
+			'poster-title' => array(
+				'id'       => 'wpmoly-poster-title',
+				'type'     => 'text',
+				'title'    => __( 'Posters image title', 'wpmovielibrary' ),
+				'desc'     => __( 'Title for the imported posters images.', 'wpmovielibrary' ),
+				'validate' => 'no_html',
+				'default'  => sprintf( '%s "{title}"', __( 'Poster for the movie', 'wpmovielibrary' ) )
+			),
+
+			// Poster attachment description
+			'poster-description' => array(
+				'id'       => 'wpmoly-poster-description',
+				'type'     => 'text',
+				'title'    => __( 'Posters image description', 'wpmovielibrary' ),
+				'desc'     => __( 'Description text for the imported posters images.', 'wpmovielibrary' ),
+				'validate' => 'no_html',
+				'default'  => sprintf( '© {year} {production} − %s', __( 'All right reserved.', 'wpmovielibrary' ) )
+			)
 		)
 	),
 
@@ -345,7 +365,7 @@ $wpmoly_config = array(
 					'full'     => __( 'Full (~800px) ', 'wpmovielibrary' ),
 					'original' => __( 'Original', 'wpmovielibrary' )
 				),
-				'default' =>'original'
+				'default'  =>'original'
 			),
 
 			// Maximum number of image to show
@@ -356,8 +376,28 @@ $wpmoly_config = array(
 				'desc'     => __( 'Enable this if you want to delete all imported images along with movies. Handy if you have a great number of movies to delete and possibly dozens of images attached.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default' => 0
+				'default'  => 0
 			),
+
+			// Poster attachment title
+			'image-title' => array(
+				'id'       => 'wpmoly-image-title',
+				'type'     => 'text',
+				'title'    => __( 'Images title', 'wpmovielibrary' ),
+				'desc'     => __( 'Title for the imported movie images.', 'wpmovielibrary' ),
+				'validate' => 'no_html',
+				'default'  => sprintf( '%s "{title}"', __( 'Image from the movie', 'wpmovielibrary' ) )
+			),
+
+			// Poster attachment description
+			'image-description' => array(
+				'id'       => 'wpmoly-image-description',
+				'type'     => 'text',
+				'title'    => __( 'Images description', 'wpmovielibrary' ),
+				'desc'     => __( 'Description text for the imported movie images.', 'wpmovielibrary' ),
+				'validate' => 'no_html',
+				'default'  => sprintf( '© {year} {production} − %s', __( 'All right reserved.', 'wpmovielibrary' ) )
+			)
 		),
 	),
 
