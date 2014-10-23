@@ -379,7 +379,7 @@ $wpmoly_config = array(
 				'default'  => 0
 			),
 
-			// Poster attachment title
+			// Image attachment title
 			'image-title' => array(
 				'id'       => 'wpmoly-image-title',
 				'type'     => 'text',
@@ -389,7 +389,7 @@ $wpmoly_config = array(
 				'default'  => sprintf( '%s "{title}"', __( 'Image from the movie', 'wpmovielibrary' ) )
 			),
 
-			// Poster attachment description
+			// Image attachment description
 			'image-description' => array(
 				'id'       => 'wpmoly-image-description',
 				'type'     => 'text',

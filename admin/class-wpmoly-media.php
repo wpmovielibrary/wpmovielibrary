@@ -390,7 +390,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			if ( ! isset( $tmdb_id ) || '' == $tmdb_id )
 				return false;
 
-			$image_type = ( 'poster' == $image_type ? 'poster' : 'backdrop' );
+			$image_type = ( 'poster' == $image_type ? 'poster' : 'image' );
 
 			$check = get_posts(
 				array(
