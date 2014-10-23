@@ -321,6 +321,7 @@ var wpmoly_images, wpmoly_posters;
 					success: function( response ) {
 						if ( response ) {
 							wp.media.featuredImage.set( response.data );
+							$( '#wpmoly-movie-preview-poster > img' ).prop( 'src', image.attributes.url );
 						}
 					},
 					complete: function() {
