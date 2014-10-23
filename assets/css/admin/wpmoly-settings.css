@@ -28,3 +28,18 @@
 	color: #eee !important;
 	margin-bottom: 2px !important;
 }
+
+.redux-notice-field {
+	padding: 12px !important;
+}
+
+.redux-notice-field .redux-info-desc {
+	display: inline !important;
+}
+
+.redux-notice-field .redux-info-icon {
+	display: inline !important;
+	float: left !important;
+	margin-bottom: 15px !important;
+	margin-right: 20px !important;
+}

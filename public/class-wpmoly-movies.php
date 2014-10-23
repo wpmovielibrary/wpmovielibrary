@@ -101,6 +101,12 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				'menu_position'      => 5
 			);
 
+			$args['taxonomies'] = array();
+			if ( wpmoly_o( 'enable-categories' ) )
+				$args['taxonomies'][] = 'category';
+			if ( wpmoly_o( 'enable-tags' ) )
+				$args['taxonomies'][] = 'post_tag';
+
 			register_post_type( 'movie', $args );
 
 			register_post_status( 'import-draft', array(

@@ -370,6 +370,50 @@ $wpmoly_config = array(
 		)
 	),
 
+	// 'wpmoly-taxonomies' general settings subsection
+	array(
+		'icon'    => 'wpmolicon icon-folder',
+		'title'   => __( 'General', 'wpmovielibrary' ),
+		'heading' => __( 'General settings', 'wpmovielibrary' ),
+		'description' => 'Bleh',
+		'subsection' => true,
+		'fields'  => array(
+
+			// Notice
+			array(
+                            'id'     => 'wpmoly-taxonomies-notice',
+                            'type'   => 'info',
+                            'notice' => true,
+                            'style'  => 'critical',
+                            'icon'   => 'wpmolicon icon-warning',
+                            'title'  => __( 'Experimental', 'wpmovielibrary' ),
+                            'desc'   => __( 'Enabling Categories and Post tags for movies will result in your movies appearing in Categories and Post Tags archive pages, among regular WordPress Posts. This could also interfer with other plugins/themes dealing with Categories/Post Tags. Use it carefully.', 'wpmovielibrary' )
+                        ),
+
+			// Enable Categories
+			'enable-categories' => array(
+				'id'       => 'wpmoly-enable-categories',
+				'type'     => 'switch',
+				'title'    => __( 'Enable Categories', 'wpmovielibrary' ),
+				'description' => __( 'Allow movies to use regular WordPress Categories.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0
+			),
+
+			// Enable Post Tags
+			'enable-tags' => array(
+				'id'       => 'wpmoly-enable-tags',
+				'type'     => 'switch',
+				'title'    => __( 'Enable Post Tags', 'wpmovielibrary' ),
+				'description' => __( 'Allow movies to use regular WordPress Post Tags.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0
+			)
+		)
+	),
+
 	// 'wpmoly-collections' collections settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-collection',
@@ -401,6 +445,19 @@ $wpmoly_config = array(
 				'required' => array( 'wpmoly-enable-collection', "=", 1 ),
 				'indent'   => true
 			),
+
+			// Enable Collections for regular WordPress Posts
+			'collection-posts' => array(
+				'id'       => 'wpmoly-collection-posts',
+				'type'     => 'switch',
+				'title'    => __( 'Posts Collections support', 'wpmovielibrary' ),
+				'desc'     => __( '<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to use collection taxonomy.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0,
+				'required' => array( 'wpmoly-enable-collection', "=", 1 ),
+				'indent'   => true
+			)
 		)
 	),
 
@@ -435,6 +492,19 @@ $wpmoly_config = array(
 				'required' => array( 'wpmoly-enable-genre', "=", 1 ),
 				'indent'   => true
 			),
+
+			// Enable Collections for regular WordPress Posts
+			'genre-posts' => array(
+				'id'       => 'wpmoly-genre-posts',
+				'type'     => 'switch',
+				'title'    => __( 'Posts Genres support', 'wpmovielibrary' ),
+				'desc'     => __( '<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to use genre taxonomy.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0,
+				'required' => array( 'wpmoly-enable-genre', "=", 1 ),
+				'indent'   => true
+			)
 		)
 	),
 
@@ -481,6 +551,19 @@ $wpmoly_config = array(
 				'required' => array( 'wpmoly-enable-actor', "=", 1 ),
 				'indent'   => true
 			),
+
+			// Enable Collections for regular WordPress Posts
+			'actor-posts' => array(
+				'id'       => 'wpmoly-actor-posts',
+				'type'     => 'switch',
+				'title'    => __( 'Posts Actors support', 'wpmovielibrary' ),
+				'desc'     => __( '<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to use actor taxonomy.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0,
+				'required' => array( 'wpmoly-enable-actor', "=", 1 ),
+				'indent'   => true
+			)
 		),
 	),
 

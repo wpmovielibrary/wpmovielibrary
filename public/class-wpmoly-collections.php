@@ -54,26 +54,30 @@ if ( ! class_exists( 'WPMOLY_Collections' ) ) :
 		 */
 		public function register_collection_taxonomy() {
 
+			$taxonomy    = 'collection';
+			$object_type = array( 'movie' );
+
 			$slug = wpmoly_o( 'rewrite-collection' );
 			$slug = ( '' != $slug ? $slug : 'collection' );
 
-			register_taxonomy(
-				'collection',
-				'movie',
-				array(
-					'labels'   => array(
-						'name'          => __( 'Collections', 'wpmovielibrary' ),
-						'add_new_item'  => __( 'New Movie Collection', 'wpmovielibrary' )
-					),
-					'show_ui'           => true,
-					'show_tagcloud'     => false,
-					'show_admin_column' => true,
-					'hierarchical'      => true,
-					'query_var'         => true,
-					'sort'              => true,
-					'rewrite'           => array( 'slug' => $slug )
-				)
+			if ( wpmoly_o( 'collection-posts' ) )
+				$object_type[] = 'post';
+
+			$args = array(
+				'labels'   => array(
+					'name'          => __( 'Collections', 'wpmovielibrary' ),
+					'add_new_item'  => __( 'New Movie Collection', 'wpmovielibrary' )
+				),
+				'show_ui'           => true,
+				'show_tagcloud'     => false,
+				'show_admin_column' => true,
+				'hierarchical'      => true,
+				'query_var'         => true,
+				'sort'              => true,
+				'rewrite'           => array( 'slug' => $slug )
 			);
+
+			register_taxonomy( $taxonomy, $object_type, $args );
 
 		}
 

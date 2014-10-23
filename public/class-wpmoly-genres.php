@@ -53,26 +53,30 @@ if ( ! class_exists( 'WPMOLY_Genres' ) ) :
 		 */
 		public function register_genre_taxonomy() {
 
+			$taxonomy    = 'genre';
+			$object_type = array( 'movie' );
+
 			$slug = wpmoly_o( 'rewrite-genre' );
 			$slug = ( '' != $slug ? $slug : 'genre' );
 
-			register_taxonomy(
-				'genre',
-				'movie',
-				array(
-					'labels'   => array(
-						'name'          => __( 'Genres', 'wpmovielibrary' ),
-						'add_new_item'  => __( 'New Genre', 'wpmovielibrary' )
-					),
-					'show_ui'           => true,
-					'show_tagcloud'     => true,
-					'show_admin_column' => true,
-					'hierarchical'      => false,
-					'query_var'         => true,
-					'sort'              => true,
-					'rewrite'           => array( 'slug' => $slug )
-				)
+			if ( wpmoly_o( 'genre-posts' ) )
+				$object_type[] = 'post';
+
+			$args = array(
+				'labels'   => array(
+					'name'          => __( 'Genres', 'wpmovielibrary' ),
+					'add_new_item'  => __( 'New Genre', 'wpmovielibrary' )
+				),
+				'show_ui'           => true,
+				'show_tagcloud'     => true,
+				'show_admin_column' => true,
+				'hierarchical'      => false,
+				'query_var'         => true,
+				'sort'              => true,
+				'rewrite'           => array( 'slug' => $slug )
 			);
+
+			register_taxonomy( $taxonomy, $object_type, $args );
 
 		}
 

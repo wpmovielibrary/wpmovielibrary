@@ -54,26 +54,30 @@ if ( ! class_exists( 'WPMOLY_Actors' ) ) :
 		 */
 		public function register_actor_taxonomy() {
 
+			$taxonomy    = 'actor';
+			$object_type = array( 'movie' );
+
 			$slug = wpmoly_o( 'rewrite-actor' );
 			$slug = ( '' != $slug ? $slug : 'actor' );
 
-			register_taxonomy(
-				'actor',
-				'movie',
-				array(
-					'labels'   => array(
-						'name'          => __( 'Actors', 'wpmovielibrary' ),
-						'add_new_item'  => __( 'New Actor', 'wpmovielibrary' )
-					),
-					'show_ui'           => true,
-					'show_tagcloud'     => true,
-					'show_admin_column' => true,
-					'hierarchical'      => false,
-					'query_var'         => true,
-					'sort'              => true,
-					'rewrite'           => array( 'slug' => $slug )
-				)
+			if ( wpmoly_o( 'actor-posts' ) )
+				$object_type[] = 'post';
+
+			$args = array(
+				'labels'   => array(
+					'name'          => __( 'Actors', 'wpmovielibrary' ),
+					'add_new_item'  => __( 'New Actor', 'wpmovielibrary' )
+				),
+				'show_ui'           => true,
+				'show_tagcloud'     => true,
+				'show_admin_column' => true,
+				'hierarchical'      => false,
+				'query_var'         => true,
+				'sort'              => true,
+				'rewrite'           => array( 'slug' => $slug )
 			);
+
+			register_taxonomy( $taxonomy, $object_type, $args );
 
 		}
 
