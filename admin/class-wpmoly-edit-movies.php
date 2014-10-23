@@ -52,6 +52,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			add_action( 'add_meta_boxes_movie', __CLASS__ . '::add_meta_box', 10 );
 			add_action( 'save_post_movie', __CLASS__ . '::save_movie', 10, 4 );
+			add_action( 'wp_insert_post_empty_content', __CLASS__ . '::filter_empty_content', 10, 2 );
+			add_action( 'wp_insert_post_data', __CLASS__ . '::filter_empty_title', 10, 2 );
 
 			add_action( 'wp_ajax_wpmoly_set_detail', __CLASS__ . '::set_detail_callback' );
 			add_action( 'wp_ajax_wpmoly_save_details', __CLASS__ . '::save_details_callback' );
@@ -906,6 +908,59 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			WPMOLY_Cache::clean_transient( 'clean', $force = true );
 
 			return ( ! empty( $errors->errors ) ? $errors : $post_ID );
+		}
+
+		/**
+		 * If a movie's post is considered "empty" and post_title is
+		 * empty, bypass WordPress empty content safety to avoid losing
+		 * imported metadata. 'wp_insert_post_data' filter will later
+		 * update the post_title to the correct movie title.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    bool     $maybe_empty Whether the post should be considered "empty".
+		 * @param    array    $postarr     Array of post data.
+		 * 
+		 * @return   boolean
+		 */
+		public static function filter_empty_content( $maybe_empty, $postarr ) {
+
+			if ( ! isset( $postarr['post_type'] ) || 'movie' != $postarr['post_type'] )
+				return $maybe_empty;
+
+			if ( '' == trim( $postarr['post_title'] ) )
+				return false;
+		}
+
+		/**
+		 * Filter slashed post data just before it is inserted into the
+		 * database. If an empty movie title is detected, and metadata
+		 * contains a title, use it for post_title; if no movie title
+		 * can be found, just use (no title) for post_title.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    array    $data    An array of slashed post data.
+		 * @param    array    $postarr An array of sanitized, but otherwise unmodified post data.
+		 * 
+		 * @return   array    Updated $data
+		 */
+		public static function filter_empty_title( $data, $postarr ) {
+
+			if ( ! isset( $data['post_type'] ) || 'movie' != $data['post_type'] )
+				return $data;
+
+			$no_title   = __( '(no title)' );
+			$post_title = $no_title;
+			if ( isset( $postarr['meta']['title'] ) && trim( $postarr['meta']['title'] ) )
+				$post_title = $postarr['meta']['title'];
+
+			if ( $post_title != $no_title && ! in_array( $data['post_status'], array( 'draft', 'pending', 'auto-draft' ) ) )
+				$data['post_name'] = sanitize_title( $post_title );
+
+			$data['post_title'] = $post_title;
+
+			return $data;
 		}
 
 		/**
