@@ -149,7 +149,14 @@ $wpmoly_config = array(
 						'composer'             => __( 'Original Music Composer', 'wpmovielibrary' ),
 						'author'               => __( 'Author', 'wpmovielibrary' ),
 						'writer'               => __( 'Writer', 'wpmovielibrary' ),
-						'cast'                 => __( 'Actors', 'wpmovielibrary' )
+						'cast'                 => __( 'Actors', 'wpmovielibrary' ),
+						'certification'        => __( 'Certification', 'wpmovielibrary' ),
+						'budget'               => __( 'Budget', 'wpmovielibrary' ),
+						'revenue'              => __( 'Revenue', 'wpmovielibrary' ),
+						'tagline'              => __( 'Tagline', 'wpmovielibrary' ),
+						'imdb_id'              => __( 'IMDb Id', 'wpmovielibrary' ),
+						'adult'                => __( 'Adult', 'wpmovielibrary' ),
+						'homepage'             => __( 'Homepage', 'wpmovielibrary' )
 					)
 				),
 				'required' => array( 'wpmoly-show-meta', "!=", 'nowhere' ),
