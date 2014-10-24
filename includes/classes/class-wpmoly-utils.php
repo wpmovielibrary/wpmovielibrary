@@ -59,6 +59,10 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'wpmoly_format_movie_editor', __CLASS__ . '::format_movie_editor', 10, 1);
 			add_filter( 'wpmoly_format_movie_author', __CLASS__ . '::format_movie_author', 10, 1);
 			add_filter( 'wpmoly_format_movie_photography', __CLASS__ . '::format_movie_photography', 10, 1);
+			add_filter( 'wpmoly_format_movie_certification', __CLASS__ . '::format_movie_certification', 10, 1);
+			add_filter( 'wpmoly_format_movie_budget', __CLASS__ . '::format_movie_budget', 10, 2);
+			add_filter( 'wpmoly_format_movie_revenue', __CLASS__ . '::format_movie_revenue', 10, 2);
+			add_filter( 'wpmoly_format_movie_adult', __CLASS__ . '::format_movie_adult', 10, 1);
 			add_filter( 'wpmoly_format_movie_field', __CLASS__ . '::format_movie_field', 10, 2 );
 
 			add_filter( 'wpmoly_format_movie_media', __CLASS__ . '::format_movie_media', 10, 3 );
@@ -717,7 +721,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		}
 
 		/**
-		 * Format a Movie's  for display
+		 * Format a Movie's director of photography for display
 		 * 
 		 * @since    2.0
 		 * 
@@ -728,6 +732,84 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		public static function format_movie_photography( $data ) {
 
 			$output = apply_filters( 'wpmoly_movie_meta_link', 'photography', $data, 'meta' );
+			$output = self::format_movie_field( $output );
+
+			return $output;
+		}
+
+		/**
+		 * Format a Movie's certification for display
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_certification( $data ) {
+
+			$output = apply_filters( 'wpmoly_movie_meta_link', 'certification', $data, 'meta' );
+			$output = self::format_movie_field( $output );
+
+			return $output;
+		}
+
+		/**
+		 * Format a Movie's budget for display
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_budget( $data, $format = 'html' ) {
+
+			if ( 'html' != $format )
+				$format = 'raw';
+
+			if ( 'html' == $format )
+				$output = '$' . number_format_i18n( $data );
+
+			$output = self::format_movie_field( $output );
+
+			return $output;
+		}
+
+		/**
+		 * Format a Movie's revenue for display
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_revenue( $data, $format = 'html' ) {
+
+			if ( 'html' != $format )
+				$format = 'raw';
+
+			if ( 'html' == $format )
+				$output = '$' . number_format_i18n( $data );
+
+			$output = self::format_movie_field( $output );
+
+			return $output;
+		}
+
+		/**
+		 * Format a Movie's adult status for display
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_adult( $data ) {
+
+			$output = apply_filters( 'wpmoly_movie_meta_link', 'adult', $data, 'meta' );
 			$output = self::format_movie_field( $output );
 
 			return $output;

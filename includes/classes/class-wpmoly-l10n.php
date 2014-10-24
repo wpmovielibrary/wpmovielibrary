@@ -99,10 +99,12 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			}
 
 			foreach ( $meta as $slug => $m ) {
-				if ( wpmoly_o( 'rewrite-enable' ) )
-					$l10n_rewrite['meta'][ $slug ] = array_pop( $m['rewrite'] );
-				else
-					$l10n_rewrite['meta'][ $slug ] = key( $m['rewrite'] );
+				if ( ! is_null( $m['rewrite'] ) ) {
+					if ( wpmoly_o( 'rewrite-enable' ) )
+						$l10n_rewrite['meta'][ $slug ] = array_pop( $m['rewrite'] );
+					else
+						$l10n_rewrite['meta'][ $slug ] = key( $m['rewrite'] );
+				}
 			}
 
 			foreach ( $languages as $language ) {
@@ -203,10 +205,12 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			}
 
 			foreach ( $meta as $slug => $m ) {
-				if ( $translate )
-					$l10n_rules['meta'][ $slug ] = array_pop( $m['rewrite'] );
-				else
-					$l10n_rules['meta'][ $slug ] = key( $m['rewrite'] );
+				if ( ! is_null( $m['rewrite'] ) ) {
+					if ( $translate )
+						$l10n_rules['meta'][ $slug ] = array_pop( $m['rewrite'] );
+					else
+						$l10n_rules['meta'][ $slug ] = key( $m['rewrite'] );
+				}
 			}
 
 			/**
