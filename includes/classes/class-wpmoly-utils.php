@@ -1135,6 +1135,229 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			return $_data;
 		}
 
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                             Used meta
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * Generate a list of all movies years available
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    boolean    $count Shall we add count?
+		 * 
+		 * @return   array   
+		 */
+		public static function get_used_years( $count = false ) {
+
+			$used_years = array();
+
+			if ( true !== $count )
+				$count = false;
+
+			$years = self::get_used_meta( 'release_date' );
+			foreach ( $years as $i => $year ) {
+
+				$year = date_i18n( 'Y', strtotime( $year['name'] ) );
+
+				if ( ! isset( $used_years[ $year ] ) )
+					$used_years[ $year ] = array( 'name' => '', 'count' => '' );
+
+				$used_years[ $year ]['name'] = $year;
+				if ( $count )
+					$used_years[ $year ]['count']++;
+			}
+
+			if ( $count ) {
+				usort( $used_years, __CLASS__ . '::order_by_count' );
+				$used_years = array_reverse( $used_years );
+			}
+
+			foreach ( $used_years as $i => $year ) {
+				unset( $used_years[ $i ] );
+				if ( ! $count )
+					$used_years[ $year['name'] ] = $year['name'];
+				else
+					$used_years[ $year['name'] ] = sprintf( '%s (%s)', $year['name'], sprintf( _n( '%d movie', '%d movies', $year['count'], 'wpmovielibrary' ), $year['count'] ) );
+			}
+
+			return $used_years;
+		}
+
+		/**
+		 * Generate a list of all languages used in movies
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    boolean    $count Shall we add count?
+		 * 
+		 * @return   array   
+		 */
+		public static function get_used_languages( $count = false ) {
+
+			$used_languages = array();
+
+			if ( true !== $count )
+				$count = false;
+
+			$supported = WPMOLY_Settings::get_available_languages();
+			foreach ( $supported as $i => $s ) {
+				unset( $supported[ $i ] );
+				$supported[ $s['native'] ] = $s['name'];
+			}
+
+			$languages = self::get_used_meta( 'spoken_languages', $count );
+			foreach ( $languages as $i => $language ) {
+				if ( isset( $supported[ $language['name'] ] ) ) {
+					if ( ! $count )
+						$used_languages[ $language['name'] ] = $supported[ $language['name'] ];
+					else
+						$used_languages[ $language['name'] ] = sprintf( '%s (%s)', $supported[ $language['name'] ], sprintf( _n( '%d movie', '%d movies', $language['count'], 'wpmovielibrary' ), $language['count'] ) );
+				}
+			}
+
+			$used_languages = array_unique( $used_languages );
+
+			return $used_languages;
+		}
+
+		/**
+		 * Generate a list of all countries used in movies
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    boolean    $count Shall we add count?
+		 * 
+		 * @return   array   
+		 */
+		public static function get_used_countries( $count = false ) {
+
+			$used_countries = array();
+
+			if ( true !== $count )
+				$count = false;
+
+			$supported = WPMOLY_Settings::get_supported_countries();
+			foreach ( $supported as $i => $s ) {
+				unset( $supported[ $i ] );
+				$supported[ $s['native'] ] = $s['name'];
+			}
+
+			$countries = self::get_used_meta( 'production_countries', $count );
+			foreach ( $countries as $i => $country ) {
+				if ( isset( $supported[ $country['name'] ] ) ) {
+					if ( ! $count )
+						$used_countries[ $country['name'] ] = $supported[ $country['name'] ];
+					else
+						$used_countries[ $country['name'] ] = sprintf( '%s (%s)', $supported[ $country['name'] ], sprintf( _n( '%d movie', '%d movies', $country['count'], 'wpmovielibrary' ), $country['count'] ) );
+				}
+			}
+
+			return $used_countries;
+		}
+
+		/**
+		 * Generate a list of all production companies used in movies
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    boolean    $count Shall we add count?
+		 * 
+		 * @return   array   
+		 */
+		public static function get_used_companies( $count = false ) {
+
+			$used_companies = array();
+
+			if ( true !== $count )
+				$count = false;
+
+			$companies = self::get_used_meta( 'production_companies', $count );
+			foreach ( $companies as $i => $company ) {
+				if ( ! $count )
+					$used_companies[ $company['name'] ] = $company['name'];
+				else
+					$used_companies[ $company['name'] ] = sprintf( '%s (%s)', $company['name'], sprintf( _n( '%d movie', '%d movies', $company['count'], 'wpmovielibrary' ), $company['count'] ) );
+			}
+
+			return $used_companies;
+		}
+
+		/**
+		 * Generate a list of all meta used in movies
+		 * 
+		 * This method returns a list of all distinct values for a specific
+		 * meta.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string     $meta meta_key to collect
+		 * @param    boolean    $count Shall we add count?
+		 * 
+		 * @return   array   
+		 */
+		public static function get_used_meta( $meta, $count = false ) {
+
+			$supported = array_keys( WPMOLY_Settings::get_supported_movie_meta() );
+			if ( ! in_array( $meta, $supported ) )
+				return array();
+
+			$used = array();
+			if ( true !== $count )
+				$count = false;
+
+			global $wpdb;
+			$values = $wpdb->get_results(
+				"SELECT DISTINCT meta_value
+				 FROM {$wpdb->postmeta}
+				 WHERE meta_key LIKE '_wpmoly_movie_{$meta}'
+				 ORDER BY meta_value"
+			);
+
+			foreach ( $values as $i => $value ) {
+				$value = explode( ',', $value->meta_value );
+				foreach ( $value as $v ) {
+					$v = trim( $v );
+					if ( $v ) {
+						if ( ! isset( $used[ $v ] ) )
+							$used[ $v ] = array( 'name' => '', 'count' => '' );
+						$used[ $v ]['name'] = $v;
+						if ( $count )
+							$used[ $v ]['count']++;
+					}
+				}
+			}
+
+			if ( $count ) {
+				usort( $used, __CLASS__ . '::order_by_count' );
+				$used = array_reverse( $used );
+			}
+
+			return $used;
+		}
+
+		/**
+		 * Order an array by a counter value set in subarrays
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    int    First count
+		 * @param    int    Second count
+		 * 
+		 * @return   int
+		 */
+		public static function order_by_count( $a, $b ) {
+			return $a['count'] - $b['count'];
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                      Overrides and bypassings
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		/**
 		 * Filter the post thumbnail HTML to return the plugin's default
 		 * poster.

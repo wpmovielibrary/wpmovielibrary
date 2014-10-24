@@ -11,33 +11,81 @@ extract( $instance );
 	</p>
 	<p>
 		<label for="<?php echo $widget->get_field_id( 'select' ); ?>"><strong class="wpmoly-widget-title"><?php _e( 'Show movies by...', 'wpmovielibrary' ); ?></strong></label><br />
-		<select class="wpmoly-movies-widget-select" id="<?php echo $widget->get_field_id( 'select' ); ?>" name="<?php echo $widget->get_field_name( 'select' ); ?>">
+		<select class="wpmoly-movies-widget-select wpmoly-movies-widget-select-select" id="<?php echo $widget->get_field_id( 'select' ); ?>" name="<?php echo $widget->get_field_name( 'select' ); ?>">
 <?php foreach ( $widget->movies_by as $slug => $title ) : ?>
 			<option value="<?php echo $slug; ?>" <?php selected( $select, $slug ); ?>><?php echo $title; ?></option>
 <?php endforeach; ?>
 
 		</select>
-		<select class="wpmoly-movies-widget-select-status<?php if ( 'status' == $select ) echo ' selected'; ?>" id="<?php echo $widget->get_field_id( 'select_status' ); ?>" name="<?php echo $widget->get_field_name( 'select_status' ); ?>" >
+
+		<select class="wpmoly-movies-widget-select wpmoly-movies-widget-select-status<?php if ( 'status' == $select ) echo ' selected'; ?>" id="<?php echo $widget->get_field_id( 'select_status' ); ?>" name="<?php echo $widget->get_field_name( 'select_status' ); ?>" >
 			<option value="all" <?php selected( $select_status, 'all' ); ?>><?php _e( 'All', 'wpmovielibrary' ); ?></option>
 <?php foreach ( $widget->status as $slug => $title ) : ?>
 			<option value="<?php echo $slug; ?>" <?php selected( $select_status, $slug ); ?>><?php _e( $title, 'wpmovielibrary' ); ?></option>
 <?php endforeach; ?>
 
 		</select>
-		<select class="wpmoly-movies-widget-select-media<?php if ( 'media' == $select ) echo ' selected'; ?>" id="<?php echo $widget->get_field_id( 'select_media' ); ?>" name="<?php echo $widget->get_field_name( 'select_media' ); ?>">
+
+		<select class="wpmoly-movies-widget-select wpmoly-movies-widget-select-media<?php if ( 'media' == $select ) echo ' selected'; ?>" id="<?php echo $widget->get_field_id( 'select_media' ); ?>" name="<?php echo $widget->get_field_name( 'select_media' ); ?>">
 			<option value="all" <?php selected( $select_media, 'all' ); ?>><?php _e( 'All', 'wpmovielibrary' ); ?></option>
 <?php foreach ( $widget->media as $slug => $title ) : ?>
 			<option value="<?php echo $slug; ?>" <?php selected( $select_media, $slug ); ?>><?php _e( $title, 'wpmovielibrary' ); ?></option>
 <?php endforeach; ?>
 
 		</select>
-		<select class="wpmoly-movies-widget-select-rating<?php if ( 'rating' == $select ) echo ' selected'; ?>" id="<?php echo $widget->get_field_id( 'select_rating' ); ?>" name="<?php echo $widget->get_field_name( 'select_rating' ); ?>">
+
+		<select class="wpmoly-movies-widget-select wpmoly-movies-widget-select-rating<?php if ( 'rating' == $select ) echo ' selected'; ?>" id="<?php echo $widget->get_field_id( 'select_rating' ); ?>" name="<?php echo $widget->get_field_name( 'select_rating' ); ?>">
 			<option value="all" <?php selected( $select_rating, 'all' ); ?>><?php _e( 'All', 'wpmovielibrary' ); ?></option>
 <?php foreach ( $widget->rating as $slug => $title ) : ?>
 			<option value="<?php echo $slug; ?>" <?php selected( $select_rating, $slug ); ?>><?php _e( $title, 'wpmovielibrary' ); ?></option>
 <?php endforeach; ?>
 
 		</select>
+
+		<div class="wpmoly-movies-widget-select wpmoly-movies-widget-select-meta<?php if ( 'meta' == $select ) echo ' selected'; ?>">
+			<select id="<?php echo $widget->get_field_id( 'select_meta' ); ?>" name="<?php echo $widget->get_field_name( 'select_meta' ); ?>">
+<?php foreach ( $widget->meta as $slug => $title ) : ?>
+				<option value="<?php echo $slug; ?>" <?php selected( $select_meta, $slug ); ?>><?php _e( $title, 'wpmovielibrary' ); ?></option>
+<?php endforeach; ?>
+
+			</select>
+
+			<div class="wpmoly-movies-widget-select-release_date<?php if ( 'release_date' == $select_meta ) echo ' selected'; ?> redux-field-init redux-field-container redux-field redux-container-select">
+				<select class="wpmoly-movies-widget-meta-select" name="<?php echo $widget->get_field_name( 'release_date' ); ?>">
+<?php foreach ( $widget->years as $slug => $title ) : ?>
+					<option value="<?php echo $slug; ?>" <?php selected( $release_date, $slug ); ?>><?php echo $title; ?></option>
+<?php endforeach; ?>
+
+				</select>
+			</div>
+
+			<div class="wpmoly-movies-widget-select-spoken_languages<?php if ( 'spoken_languages' == $select_meta ) echo ' selected'; ?> redux-field-init redux-field-container redux-field redux-container-select">
+				<select class="wpmoly-movies-widget-meta-select" name="<?php echo $widget->get_field_name( 'spoken_languages' ); ?>">
+<?php foreach ( $widget->languages as $slug => $title ) : ?>
+					<option value="<?php echo $slug; ?>" <?php selected( $spoken_languages, $slug ); ?>><?php _e( $title, 'wpmovielibrary' ); ?></option>
+<?php endforeach; ?>
+
+				</select>
+			</div>
+
+			<div class="wpmoly-movies-widget-select-production_countries<?php if ( 'production_countries' == $select_meta ) echo ' selected'; ?> redux-field-init redux-field-container redux-field redux-container-select">
+				<select class="wpmoly-movies-widget-meta-select" name="<?php echo $widget->get_field_name( 'production_countries' ); ?>">
+<?php foreach ( $widget->countries as $slug => $title ) : ?>
+					<option value="<?php echo $slug; ?>" <?php selected( $production_countries, $slug ); ?>><?php _e( $title, 'wpmovielibrary' ); ?></option>
+<?php endforeach; ?>
+
+				</select>
+			</div>
+
+			<div class="wpmoly-movies-widget-select-production_companies<?php if ( 'production_companies' == $select_meta ) echo ' selected'; ?> redux-field-init redux-field-container redux-field redux-container-select">
+				<select class="wpmoly-movies-widget-meta-select" name="<?php echo $widget->get_field_name( 'production_companies' ); ?>">
+<?php foreach ( $widget->companies as $slug => $title ) : ?>
+					<option value="<?php echo $slug; ?>" <?php selected( $production_companies, $slug ); ?>><?php _e( $title, 'wpmovielibrary' ); ?></option>
+<?php endforeach; ?>
+
+				</select>
+			</div>
+		</div>
 	</p>
 	<p>
 		<label for="<?php echo $widget->get_field_id( 'sort' ); ?>"><strong class="wpmoly-widget-title"><?php _e( 'Sort movies ...', 'wpmovielibrary' ); ?></strong></label>
@@ -74,4 +122,7 @@ extract( $instance );
 			<option value="after" <?php selected( $show_title, 'after' ); ?>> <?php _e( 'After poster', 'wpmovielibrary' ); ?></option>
 		</select>
 	</p>
-	<script> if ( undefined !== wpmoly_widget ) wpmoly_widget.init(); </script>
+	<script>
+	if ( undefined !== wpmoly_widget ) wpmoly_widget.init();
+	if ( 'function' == typeof $.fn.select2 ) $( '.redux-container-select > select' ).select2();
+	</script>

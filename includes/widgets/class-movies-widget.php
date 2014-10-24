@@ -54,6 +54,26 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 				'type' => 'select',
 				'std'  => 'all'
 			),
+			'select_meta' =>  array(
+				'type' => 'select',
+				'std'  => 'all'
+			),
+			'release_date' =>  array(
+				'type' => 'text',
+				'std'  => ''
+			),
+			'spoken_languages' =>  array(
+				'type' => 'text',
+				'std'  => ''
+			),
+			'production_companies' =>  array(
+				'type' => 'text',
+				'std'  => ''
+			),
+			'production_countries' =>  array(
+				'type' => 'text',
+				'std'  => ''
+			),
 			'sort' =>  array(
 				'type' => 'select',
 				'std'  => 'DESC'
@@ -82,12 +102,25 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 			'rating'  => __( 'Rating', 'wpmovielibrary' ),
 			'title'   => __( 'Title', 'wpmovielibrary' ),
 			'date'    => __( 'Date', 'wpmovielibrary' ),
+			'meta'    => __( 'Metadata', 'wpmovielibrary' ),
 			'random'  => __( 'Random', 'wpmovielibrary' )
 		);
 
 		$this->status = WPMOLY_Settings::get_available_movie_status();
 		$this->media  = WPMOLY_Settings::get_available_movie_media();
 		$this->rating = WPMOLY_Settings::get_available_movie_rating();
+
+		$this->meta   = array(
+			'release_date'         => __( 'Release Date', 'wpmovielibrary' ),
+			'production_companies' => __( 'Production', 'wpmovielibrary' ),
+			'production_countries' => __( 'Country', 'wpmovielibrary' ),
+			'spoken_languages'     => __( 'Languages', 'wpmovielibrary' )
+		);
+
+		$this->years     = WPMOLY_Utils::get_used_years( $count = true );
+		$this->languages = WPMOLY_Utils::get_used_languages( $count = true );
+		$this->companies = WPMOLY_Utils::get_used_companies( $count = true );
+		$this->countries = WPMOLY_Utils::get_used_countries( $count = true );
 
 		parent::__construct();
 	}
@@ -128,6 +161,8 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 		extract( $args, EXTR_SKIP );
 		extract( $instance );
 
+		//print_r( $instance );
+
 		$title = apply_filters( 'widget_title', $title );
 
 		if ( 'no' != $show_poster )
@@ -159,6 +194,26 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 				break;
 			case 'random':
 				$args = array( 'orderby' => 'rand' );
+				break;
+			case 'meta':
+				switch ( $select_meta ) {
+					case 'release_date':
+					case 'production_companies':
+					case 'production_countries':
+					case 'spoken_languages':
+						$args = array(
+							'meta_query' => array(
+								array(
+									'key'     => "_wpmoly_movie_{$select_meta}",
+									'value'   => $instance[ $select_meta ],
+									'compare' => 'LIKE'
+								)
+							),
+						);
+						break;
+					default:
+						break;
+				}
 				break;
 			case 'date':
 			default:
@@ -202,5 +257,4 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 
 		return $before_widget . $before_title . $title . $after_title . $html . $after_widget;
 	}
-
 }

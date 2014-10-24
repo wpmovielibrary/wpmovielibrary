@@ -51,6 +51,25 @@ body.post-php.post-type-movie #postimagediv {
 	max-width: 4em;
 }
 
+/* Widgets */
+
+.widget .redux-container-select select.select2-offscreen {
+	display: block !important;
+	margin-bottom: 4px !important;
+	width: 100% !important;
+}
+
+.wpmoly-movies-widget-select-meta {
+	background: none repeat scroll 0% 0% #e5e5e5;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.15) inset;
+	margin: 0px -15px;
+	padding: 8px 15px;
+}
+
+.wpmoly-movies-widget-select-meta .redux-container-select {
+	display: inline-block;
+}
+
 /* Select Movies */
 
 .tmdb_select_movie {

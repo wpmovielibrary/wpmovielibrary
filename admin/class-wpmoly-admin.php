@@ -413,8 +413,12 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$scripts['editor-details'] = array( '/assets/js/admin/wpmoly-editor-details.js', array( $wpmoly_slug, 'jquery' ), true );
 			}
 
-			if ( $hook_suffix == $widgets )
-				$scripts['widget']    = array( '/assets/js/admin/wpmoly-widget.js', array( $wpmoly_slug, 'jquery' ), false );
+			if ( $hook_suffix == $widgets ) {
+				$scripts['select2-sortable-js'] = array( '/includes/framework/redux/ReduxCore/assets/js/vendor/select2.sortable.min.js', array( 'jquery' ), false );
+				$scripts['select2-js']          = array( '/includes/framework/redux/ReduxCore/assets/js/vendor/select2/select2.min.js', array( 'jquery', ), false );
+				$scripts['field-select-js']     = array( '/includes/framework/redux/ReduxCore/inc/fields/select/field_select.min.js', array( 'jquery' ), false );
+				$scripts['widget']              = array( '/assets/js/admin/wpmoly-widget.js', array( $wpmoly_slug, 'jquery' ), false );
+			}
 
 			if ( $hook_suffix == $edit || $hook_suffix == $new ) {
 				$scripts['jquery-ajax-queue'] = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( 'jquery' ), true );
@@ -463,6 +467,11 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			if ( $hook_suffix == $dashboard )
 				$styles['dashboard'] = '/assets/css/admin/wpmoly-dashboard.css';
+
+			if ( $hook_suffix == $widgets ) {
+				$styles['select2-css'] = '/includes/framework/redux/ReduxCore/assets/js/vendor/select2/select2.css';
+				$styles['redux-field-select-css'] = '/includes/framework/redux/ReduxCore/inc/fields/select/field_select.css';
+			}
 
 			if ( $hook_suffix == $edit || $hook_suffix == $new ) {
 				$styles['movies']  = '/assets/css/admin/wpmoly-edit-movies.css';
