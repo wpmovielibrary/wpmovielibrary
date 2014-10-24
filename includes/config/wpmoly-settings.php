@@ -263,6 +263,19 @@ $wpmoly_config = array(
 				'desc'     => __( 'Apply a custom time format to movies\' runtimes. Leave empty to use the default API format.', 'wpmovielibrary' ),
 				'default'  => 'G \h i \m\i\n'
 			),
+
+			// Release date formatting
+			'format-rating' => array(
+				'id'       => 'wpmoly-format-rating',
+				'type'     => 'select',
+				'title'    => __( 'Rating format', 'wpmovielibrary' ),
+				'desc'     => __( 'Should ratings be displayed using 5 or 10 stars.', 'wpmovielibrary' ),
+				'options'  => array(
+					'5'  => __( '5 stars', 'wpmovielibrary' ),
+					'10' => __( '10 stars', 'wpmovielibrary' )
+				),
+				'default'  => '5'
+			),
 		),
 	),
 

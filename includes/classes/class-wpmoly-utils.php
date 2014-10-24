@@ -1024,14 +1024,20 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * 
 		 * @param    float      $rating movie to turn into stars
 		 * @param    int        $post_id movie's post ID
+		 * @param    int        $base 5-stars or 10-stars?
 		 * @param    boolean    $editable Should the stars be editable
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function get_movie_rating_stars( $rating, $post_id = null, $editable = false ) {
+		public static function get_movie_rating_stars( $rating, $post_id = null, $base = null, $editable = false ) {
 
 			if ( is_null( $post_id ) || ! intval( $post_id ) )
 				$post_id = '';
+
+			if ( is_null( $base ) )
+				$base = wpmoly_o( 'format-rating' );
+			if ( 10 != $base )
+				$base = 5;
 
 			if ( 0 > $rating )
 				$rating = 0.0;
@@ -1061,11 +1067,22 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$_half   = ceil( $rating - floor( $rating ) );
 			$_empty  = ceil( 5.0 - ( $_filled + $_half ) );
 
-			$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '"' . implode( ' ', $prop ) . '>';
-			$stars .= str_repeat( $filled, $_filled );
-			$stars .= str_repeat( $half, $_half );
-			$stars .= str_repeat( $empty, $_empty );
-			$stars .= '</div>';
+			if ( 10 == $base ) {
+				$_filled = $rating * 2;
+				$_empty  = 10 - $_filled;
+
+				$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '"' . implode( ' ', $prop ) . '>';
+				$stars .= str_repeat( $filled, $_filled );
+				$stars .= str_repeat( $empty, $_empty );
+				$stars .= '</div>';
+			}
+			else {
+				$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '"' . implode( ' ', $prop ) . '>';
+				$stars .= str_repeat( $filled, $_filled );
+				$stars .= str_repeat( $half, $_half );
+				$stars .= str_repeat( $empty, $_empty );
+				$stars .= '</div>';
+			}
 
 			/**
 			 * Filter generated HTML markup.

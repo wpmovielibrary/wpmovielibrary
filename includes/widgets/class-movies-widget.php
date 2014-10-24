@@ -248,7 +248,7 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 				'rating'      => wpmoly_get_movie_meta( $movie->ID, 'rating' ),
 				'thumbnail'   => get_the_post_thumbnail( $movie->ID, $thumbnail )
 			);
-			$item['_rating'] = apply_filters( 'wpmoly_movie_rating_stars', $item['rating'] );
+			$item['_rating'] = apply_filters( 'wpmoly_movie_rating_stars', $item['rating'], $movie->ID, $base = 5 );
 			$items[] = $item;
 		}
 
