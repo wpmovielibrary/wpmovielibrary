@@ -930,7 +930,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			if ( true === $icon || ( wpmoly_o( 'details-icons' ) && 'html' == $format ) ) {
 				$view = 'shortcodes/detail-icon.php';
-			} else if ( 'html' == $format ) {
+			} else {
 				$view = 'shortcodes/detail.php';
 			}
 

@@ -254,6 +254,8 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 			}
 
 			$atts = self::filter_shortcode_atts( 'movie_meta', $atts );
+			if ( '' == $atts['key'] )
+				return $content;
 
 			$movie_id = WPMOLY_Shortcodes::find_movie_id( $atts['id'], $atts['title'] );
 			if ( is_null( $movie_id ) )
@@ -267,6 +269,11 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 
 				extract( $atts );
 
+				$_meta = WPMOLY_Settings::get_supported_movie_meta();
+				$alias = WPMOLY_Settings::get_supported_movie_meta_aliases();
+				if ( ! isset( $_meta[ $key ] ) && isset( $alias[ $key ] ) )
+					$key = $alias[ $key ];
+
 				$meta = wpmoly_get_movie_meta( $movie_id, $key );
 				$meta = apply_filters( "wpmoly_format_movie_$key", $meta );
 				$meta = apply_filters( "wpmoly_format_movie_field", $meta );
@@ -274,7 +281,6 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 				$view = 'shortcodes/metadata.php';
 				$attributes = array( 'key' => $key, 'meta' => $meta );
 				if ( $label ) {
-					$_meta = WPMOLY_Settings::get_supported_movie_meta();
 					$attributes['title'] = __( $_meta[ $key ]['title'], 'wpmovielibrary' );
 					$view = 'shortcodes/metadata-label.php';
 				}
