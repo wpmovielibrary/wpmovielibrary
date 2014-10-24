@@ -56,6 +56,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 		/**
 		 * Default constructor
+		 * 
+		 * @since    1.0
 		 *
 		 * @param    string    $apikey API-key recieved from TMDb
 		 * @param    string    $default Lang Default language (ISO 3166-1)
@@ -80,6 +82,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 		/**
 		 * Check the submitted API Key is valid.
 		 * 
+		 * @since    1.0
+		 * 
 		 * @param    string    $key API Key
 		 * 
 		 * @return   array|string     API Config if the key is valid, error message else
@@ -94,6 +98,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 		/**
 		 * Getter for the TMDB-config
+		 * 
+		 * @since    1.0
 		 *
 		 * @return   array    TMDb result
 		 */
@@ -103,6 +109,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 		/**
 		 * Search a movie by querystring
+		 * 
+		 * @since    1.0
 		 *
 		 * @param    string    $query Query to search after in the TMDb database
 		 * @param    int       $page Number of the page with results (default first page)
@@ -127,6 +135,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 		/**
 		 * Retrieve all basic information for a particular movie
+		 * 
+		 * @since    1.0
 		 *
 		 * @param    int       $id TMDb-id or IMDB-id
 		 * @param    string    $lang Filter the result with a language
@@ -141,6 +151,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 		/**
 		 * Retrieve all of the movie cast information for a particular movie
+		 * 
+		 * @since    1.0
 		 *
 		 * @param    int    $id TMDb-id or IMDB-id
 		 * 
@@ -153,7 +165,9 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 		/**
 		 * Retrieve all images for a particular movie
-		 *
+		 * 
+		 * @since    1.0
+		 * 
 		 * @param    int       $id TMDb-id or IMDB-id
 		 * @param    string    $lang Filter the result with a language
 		 * 
@@ -166,7 +180,23 @@ if ( ! class_exists( 'TMDb' ) ) :
 		}
 
 		/**
+		 * Retrieve all release information for a particular movie
+		 * 
+		 * @since    2.0
+		 *
+		 * @param    int       $id TMDb-id or IMDB-id
+		 * 
+		 * @return   array    TMDb result
+		 */
+		public function getMovieRelease( $id ) {
+
+			return self::_makeCall( 'movie/' . $id . '/releases' );
+		}
+
+		/**
 		 * Get configuration from TMDb
+		 * 
+		 * @since    1.0
 		 *
 		 * @return   array    TMDb result
 		 */
@@ -196,6 +226,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 		/**
 		 * Get Image URL
+		 * 
+		 * @since    1.0
 		 *
 		 * @param    string    $filepath Filepath to image
 		 * @param    const     $imagetype Image type
@@ -252,6 +284,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 		/**
 		 * Get available image sizes for a particular image type
+		 * 
+		 * @since    1.0
 		 *
 		 * @param    string    $imagetype Image type
 		 * 
@@ -269,6 +303,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 
 		/**
 		 * Makes the call to the API
+		 * 
+		 * @since    1.0
 		 *
 		 * @param    string    $function API specific function name for in the URL
 		 * @param    array     $params Unencoded parameters for in the URL

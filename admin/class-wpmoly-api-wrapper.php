@@ -329,9 +329,10 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			$tmdb = new TMDb;
 
 			$data = array(
-				'movie'  => $tmdb->getMovie( $id, $lang ),
-				'casts'  => $tmdb->getMovieCast( $id ),
-				'images' => $tmdb->getMovieImages( $id, '' )
+				'movie'   => $tmdb->getMovie( $id, $lang ),
+				'casts'   => $tmdb->getMovieCast( $id ),
+				'images'  => $tmdb->getMovieImages( $id, '' ),
+				'release' => $tmdb->getMovieRelease( $id )
 			);
 
 			foreach ( $data as $d )
@@ -344,6 +345,18 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			$movie = apply_filters( 'wpmoly_filter_meta_data', $movie );
 			$casts = apply_filters( 'wpmoly_filter_crew_data', $casts );
 			$meta  = array_merge( $movie, $casts );
+
+			$certification_alt = '';
+			foreach ( $release['countries'] as $country ) {
+				if ( $country['iso_3166_1'] == wpmoly_o( 'api-country' ) )
+					$meta['certification'] = $country['certification'];
+				else if ( $country['iso_3166_1'] == wpmoly_o( 'api-country-alt' ) )
+					$certification_alt = $country['certification'];
+				else
+					$meta['certification'] = '';
+			}
+			if ( '' == $meta['certification'] )
+				$meta['certification'] = $certification_alt;
 
 			$_images = array( 'images' => $images['backdrops'] );
 			$_full = array_merge( $movie, $casts, $images );

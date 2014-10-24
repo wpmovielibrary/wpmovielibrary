@@ -184,7 +184,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					break;
 				case 'wpmoly-rating':
 					$meta = wpmoly_get_movie_rating( $post_id );
-					$html = apply_filters( 'wpmoly_movie_rating_stars', $meta, $post_id );
+					$html = apply_filters( 'wpmoly_movie_rating_stars', $meta, $post_id, $base = 5 );
 					break;
 				default:
 					$html = '';
@@ -551,7 +551,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$attributes = array(
 				'empty'     => $empty,
 				'thumbnail' => get_the_post_thumbnail( $post->ID, 'medium' ),
-				'rating'    => apply_filters( 'wpmoly_movie_rating_stars', $rating, $post->ID ),
+				'rating'    => apply_filters( 'wpmoly_movie_rating_stars', $rating, $post->ID, $base = 5 ),
 				'preview'   => $preview
 			);
 

@@ -883,6 +883,7 @@ $wpmoly_config = array(
 		'heading' => __( 'TheMovieDB API settings', 'wpmovielibrary' ),
 		'fields'  => array(
 
+			// API internal mode
                         'personnal' => array(
 				'id'       => 'wpmoly-api-internal',
 				'type'     => 'switch',
@@ -894,6 +895,7 @@ $wpmoly_config = array(
 				'hint'     => array( 'content' => __( 'If you do not have an API key or do not want to use yours right now, WPMovieLibrary will use just its own.', 'wpmovielibrary' ) ),
                         ),
 
+			// API Key
 			'api_key' => array(
 				'id'       => 'wpmoly-api-key',
 				'type'     => 'text',
@@ -907,15 +909,6 @@ $wpmoly_config = array(
 				'indent'   => true
 			),
 
-			'language' => array(
-				'id'       => 'wpmoly-api-language',
-				'type'     => 'select',
-				'title'    => __( 'API Language', 'wpmovielibrary' ),
-				'desc'     => __( 'Default language to use when fetching informations from TMDb. Default is english. You can always change this manually when add a new movie.', 'wpmovielibrary' ),
-				'options'  => $wpmoly_supported_languages,
-				'default' => 'en'
-			),
-
 			// API Scheme
 			'scheme' => array(
 				'id'       => 'wpmoly-api-scheme',
@@ -927,6 +920,36 @@ $wpmoly_config = array(
 					'https' => __( 'HTTPS', 'wpmovielibrary' )
 				),
 				'default' => 'https'
+			),
+
+			// API Language
+			'language' => array(
+				'id'       => 'wpmoly-api-language',
+				'type'     => 'select',
+				'title'    => __( 'API Language', 'wpmovielibrary' ),
+				'desc'     => __( 'Default language to use when fetching informations from TMDb. Default is english. You can always change this manually when add a new movie.', 'wpmovielibrary' ),
+				'options'  => $wpmoly_supported_languages,
+				'default' => 'en'
+			),
+
+			// API Country
+			'country' => array(
+				'id'       => 'wpmoly-api-country',
+				'type'     => 'select',
+				'title'    => __( 'API Country', 'wpmovielibrary' ),
+				'desc'     => __( 'Default country to use when fetching release informations from TMDb. Default is United States. This is mostly used to get movie certifications corresponding to your country.', 'wpmovielibrary' ),
+				'options'  => $wpmoly_supported_countries,
+				'default' => 'US'
+			),
+
+			// API Alternative Country
+			'country-alt' => array(
+				'id'       => 'wpmoly-api-country-alt',
+				'type'     => 'select',
+				'title'    => __( 'API Alternative Country', 'wpmovielibrary' ),
+				'desc'     => __( 'You can select an alternative country to use when fetching release informations from TMDb. If primary country leaves empty results, the alternative country will be used to fill the blank.', 'wpmovielibrary' ),
+				'options'  => $wpmoly_supported_countries,
+				'default' => 'US'
 			),
 		)
 	),
