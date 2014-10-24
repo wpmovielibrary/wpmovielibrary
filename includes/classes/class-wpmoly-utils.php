@@ -765,11 +765,13 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 */
 		public static function format_movie_budget( $data, $format = 'html' ) {
 
+			$output = intval( $data );
+
 			if ( 'html' != $format )
 				$format = 'raw';
 
 			if ( 'html' == $format )
-				$output = '$' . number_format_i18n( $data );
+				$output = '$' . number_format_i18n( $output );
 
 			$output = self::format_movie_field( $output );
 
@@ -787,11 +789,13 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 */
 		public static function format_movie_revenue( $data, $format = 'html' ) {
 
+			$output = intval( $data );
+
 			if ( 'html' != $format )
 				$format = 'raw';
 
 			if ( 'html' == $format )
-				$output = '$' . number_format_i18n( $data );
+				$output = '$' . number_format_i18n( $output );
 
 			$output = self::format_movie_field( $output );
 
