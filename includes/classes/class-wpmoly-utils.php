@@ -12,9 +12,22 @@
  * @copyright 2014 CaerCam.org
  */
 
+if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) )
+	require_once WPMOLY_PATH . '/includes/classes/class-wpmoly-formatting-meta.php';
+if ( ! class_exists( 'WPMOLY_Formatting_Details' ) )
+	require_once WPMOLY_PATH . '/includes/classes/class-wpmoly-formatting-details.php';
+
 if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 	class WPMOLY_Utils extends WPMOLY_Module {
+
+		/**
+		 * Formatting and filtering hooks
+		 *
+		 * @since    2.0
+		 * @var      array
+		 */
+		private $filters = array();
 
 		/**
 		 * Constructor
@@ -22,7 +35,45 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * @since    1.0
 		 */
 		public function __construct() {
+
+			$this->init();
 			$this->register_hook_callbacks();
+		}
+
+		/**
+		 * Initializes variables
+		 *
+		 * @since    1.0
+		 */
+		public function init() {
+
+			$methods = array(
+				'WPMOLY_Formatting_Meta'    => get_class_methods( 'WPMOLY_Formatting_Meta' ),
+				'WPMOLY_Formatting_Details' => get_class_methods( 'WPMOLY_Formatting_Details' )
+			);
+
+			if ( empty( $methods ) )
+				return false;
+
+			foreach ( $methods as $class => $methods ) {
+				if ( ! empty( $methods ) ) {
+					foreach ( $methods as $method ) {
+						if ( class_exists( 'ReflectionMethod' ) ) {
+							$reflection = new ReflectionMethod( $class, $method );
+							$args = count( $reflection->getParameters() );
+						}
+						else {
+							$args = 4;
+						}
+
+						$tag      = "wpmoly_$method";
+						$function = "$class::$method";
+						$priority = $class::$priority;
+
+						$this->filters[] = compact( 'tag', 'function', 'priority', 'args' );
+					}
+				}
+			}
 		}
 
 		/**
@@ -42,41 +93,12 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'wpmoly_filter_cast_data', __CLASS__ . '::filter_cast_data', 10, 1 );
 			add_filter( 'wpmoly_filter_movie_meta_aliases', __CLASS__ . '::filter_movie_meta_aliases', 10, 1 );
 
-			add_filter( 'wpmoly_format_movie_genres', __CLASS__ . '::format_movie_genres', 10, 1 );
-			add_filter( 'wpmoly_format_movie_actors', __CLASS__ . '::format_movie_actors', 10, 1 );
-			add_filter( 'wpmoly_format_movie_cast', __CLASS__ . '::format_movie_cast', 10, 1 );
-			add_filter( 'wpmoly_format_movie_date', __CLASS__ . '::format_movie_release_date', 10, 2 );
-			add_filter( 'wpmoly_format_movie_release_date', __CLASS__ . '::format_movie_release_date', 10, 2 );
-			add_filter( 'wpmoly_format_movie_runtime', __CLASS__ . '::format_movie_runtime', 10, 2 );
-			add_filter( 'wpmoly_format_movie_spoken_languages', __CLASS__ . '::format_movie_languages', 10, 1 );
-			add_filter( 'wpmoly_format_movie_languages', __CLASS__ . '::format_movie_languages', 10, 1 );
-			add_filter( 'wpmoly_format_movie_countries', __CLASS__ . '::format_movie_countries', 10, 1 );
-			add_filter( 'wpmoly_format_movie_production_countries', __CLASS__ . '::format_movie_countries', 10, 1 );
-			add_filter( 'wpmoly_format_movie_production_companies', __CLASS__ . '::format_movie_producer', 10, 1 );
-			add_filter( 'wpmoly_format_movie_director', __CLASS__ . '::format_movie_director', 10, 1 );
-			add_filter( 'wpmoly_format_movie_producer', __CLASS__ . '::format_movie_producer', 10, 1 );
-			add_filter( 'wpmoly_format_movie_composer', __CLASS__ . '::format_movie_composer', 10, 1);
-			add_filter( 'wpmoly_format_movie_editor', __CLASS__ . '::format_movie_editor', 10, 1);
-			add_filter( 'wpmoly_format_movie_author', __CLASS__ . '::format_movie_author', 10, 1);
-			add_filter( 'wpmoly_format_movie_photography', __CLASS__ . '::format_movie_photography', 10, 1);
-			add_filter( 'wpmoly_format_movie_certification', __CLASS__ . '::format_movie_certification', 10, 1);
-			add_filter( 'wpmoly_format_movie_budget', __CLASS__ . '::format_movie_budget', 10, 2);
-			add_filter( 'wpmoly_format_movie_revenue', __CLASS__ . '::format_movie_revenue', 10, 2);
-			add_filter( 'wpmoly_format_movie_adult', __CLASS__ . '::format_movie_adult', 10, 1);
-			add_filter( 'wpmoly_format_movie_field', __CLASS__ . '::format_movie_field', 10, 2 );
-
-			add_filter( 'wpmoly_format_movie_media', __CLASS__ . '::format_movie_media', 10, 3 );
-			add_filter( 'wpmoly_format_movie_status', __CLASS__ . '::format_movie_status', 10, 3 );
-			add_filter( 'wpmoly_format_movie_rating', __CLASS__ . '::format_movie_rating', 10, 2 );
-			add_filter( 'wpmoly_format_movie_language', __CLASS__ . '::format_movie_language', 10, 2 );
-			add_filter( 'wpmoly_format_movie_subtitles', __CLASS__ . '::format_movie_subtitles', 10, 2 );
-			add_filter( 'wpmoly_format_movie_format', __CLASS__ . '::format_movie_format', 10, 2 );
+			foreach ( $this->filters as $filter )
+				add_filter( $filter['tag'], $filter['function'], $filter['priority'], $filter['args'] );
 
 			add_filter( 'wpmoly_movie_meta_link', __CLASS__ . '::add_meta_link', 10, 3 );
-			add_filter( 'wpmoly_format_movie_country_flag', __CLASS__ . '::add_country_flag', 10, 2 );
 
 			add_filter( 'wpmoly_movie_rating_stars', __CLASS__ . '::get_movie_rating_stars', 10, 3 );
-			add_filter( 'wpmoly_editable_rating_stars', __CLASS__ . '::get_editable_rating_stars', 10, 2 );
 
 			add_filter( 'post_thumbnail_html', __CLASS__ . '::filter_default_thumbnail', 10, 5 );
 
@@ -86,6 +108,12 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_action( 'template_redirect', __CLASS__ . '::filter_404', 10 );
 			add_filter( 'post_type_archive_title', __CLASS__ . '::filter_post_type_archive_title', 10, 2 );
 		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                            Permalinks
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Check for a transient indicating permalinks were changed and
@@ -225,6 +253,12 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			return $new_rules;
 		}
 
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                            Miscellaneous
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		/**
 		 * Setup an internal, dummy Archive page that will be used to
 		 * render archive pages for taxonomies. This should only be called
@@ -300,6 +334,12 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			echo '<div class="' . $class . '"><p>' . $notice . '</p></div>';
 		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                             Filtering
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Filter a Movie's Metadata to extract only supported data.
@@ -422,620 +462,11 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			return $slug;
 		}
 
-		/**
-		 * Format a Movie's genres for display
-		 * 
-		 * Match each genre against the genre taxonomy to detect missing
-		 * terms. If term genre exists, provide a link, raw text value
-		 * if no matching term could be found.
-		 * 
-		 * @since    1.1
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_genres( $data ) {
-
-			$output = self::format_movie_terms_list( $data, 'genre' );
-			$output = self::format_movie_field( $output );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's casting for display
-		 * This is an alias for self::format_movie_cast()
-		 * 
-		 * @since    1.1
-		 * 
-		 * @param    string    $data field value
-		 * @param    int       $post_id Movie's post ID if needed (required for shortcodes)
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_actors( $data ) {
-
-			return self::format_movie_cast( $data );
-		}
-
-		/**
-		 * Format a Movie's casting for display
-		 * 
-		 * Match each actor against the actor taxonomy to detect missing
-		 * terms. If term actor exists, provide a link, raw text value
-		 * if no matching term could be found.
-		 * 
-		 * @since    1.1
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_cast( $data ) {
-
-			$output = self::format_movie_terms_list( $data,  'actor' );
-			$output = self::format_movie_field( $output );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's release date for display
-		 * 
-		 * @since    1.1
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_release_date( $data, $format = null ) {
-
-			if ( is_null( $data ) || '' == $data )
-				return $data;
-
-			if ( is_null( $format ) )
-				$format = wpmoly_o( 'format-date' );
-
-			if ( '' == $format )
-				$format = 'j F Y';
-
-			$output = date_i18n( $format, strtotime( $data ) );
-			$output = self::format_movie_field( $output );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's runtime for display
-		 * 
-		 * @since    1.1
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_runtime( $data, $format = null ) {
-
-			if ( is_null( $data ) || '' == $data )
-				return $data;
-
-			if ( is_null( $format ) )
-				$format = wpmoly_o( 'format-time' );
-
-			if ( '' == $format )
-				$format = 'G \h i \m\i\n';
-
-			$output = date_i18n( $format, mktime( 0, $data ) );
-			if ( false !== stripos( $output, 'am' ) || false !== stripos( $output, 'pm' ) )
-				$output = date_i18n( 'G:i', mktime( 0, $data ) );
-
-			$output = self::format_movie_field( $output );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's languages for display
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_languages( $data ) {
-
-			if ( is_null( $data ) || '' == $data )
-				return $data;
-
-			$languages = WPMOLY_Settings::get_available_languages();
-
-			$data = explode( ',', $data );
-			foreach ( $data as $i => $d ) {
-
-				$d = trim( $d );
-				foreach ( $languages as $lang ) {
-					if ( $d == $lang['native'] ) {
-						$url = apply_filters( 'wpmoly_movie_meta_link', 'spoken_languages', $lang['name'], 'meta' );
-						$data[ $i ] = $url;
-					}
-				}
-			}
-
-			$data = implode( ', ', $data );
-			$output = self::format_movie_field( $data );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's countries for display
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_countries( $data ) {
-
-			if ( is_null( $data ) || '' == $data )
-				return $data;
-
-			$countries = WPMOLY_Settings::get_supported_countries();
-			$format    = wpmoly_o( 'countries-format' );
-			//$format    = array_map( create_function( '$item', 'return "[{$item}]";'), $format );
-
-			$data = explode( ',', $data );
-			foreach ( $data as $i => $d ) {
-
-				$d = trim( $d );
-				foreach ( $countries as $code => $country ) {
-
-					if ( $d == $country['native'] ) {
-
-						$_format = $format;
-						foreach ( $_format as $_i => $_f ) {
-							switch ( $_f ) {
-								case 'flag':
-									$_format[ $_i ] = apply_filters( 'wpmoly_format_movie_country_flag', $code, $country['name'] );
-									break;
-								case 'original':
-									$_format[ $_i ] = $country['native'];
-									break;
-								case 'translated':
-									$_format[ $_i ] = $country['name'];
-									break;
-								case 'ptranslated':
-									$_format[ $_i ] = sprintf( '(%s)', $country['native'] );
-									break;
-								case 'poriginal':
-									$_format[ $_i ] = sprintf( '(%s)', $country['name'] );
-									break;
-								default:
-									$_format[ $_i ] = '';
-									break;
-							}
-
-							if ( 'flag' != $_f && '' != $_format[ $_i ] )
-								$_format[ $_i ] = apply_filters( 'wpmoly_movie_meta_link', 'production_countries', $_format[ $_i ], 'meta' );
-						}
-
-						$_format = implode( '&nbsp;', $_format );
-
-						$data[ $i ] = $_format;
-					}
-				}
-			}
-
-			$data = implode( ',&nbsp; ', $data );
-			$output = self::format_movie_field( $data );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's director for display
-		 * 
-		 * @since    1.1
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_director( $data ) {
-
-			$output = self::format_movie_terms_list( $data, 'collection' );
-			$output = self::format_movie_field( $output );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's producer for display
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_producer( $data ) {
-
-			$output = apply_filters( 'wpmoly_movie_meta_link', 'producer', $data, 'meta' );
-			$output = self::format_movie_field( $output );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's composer for display
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_composer( $data ) {
-
-			$output = apply_filters( 'wpmoly_movie_meta_link', 'composer', $data, 'meta' );
-			$output = self::format_movie_field( $output );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's editor for display
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_editor( $data ) {
-
-			$output = apply_filters( 'wpmoly_movie_meta_link', 'editor', $data, 'meta' );
-			$output = self::format_movie_field( $output );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's author for display
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_author( $data ) {
-
-			$output = apply_filters( 'wpmoly_movie_meta_link', 'author', $data, 'meta' );
-			$output = self::format_movie_field( $output );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's director of photography for display
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_photography( $data ) {
-
-			$output = apply_filters( 'wpmoly_movie_meta_link', 'photography', $data, 'meta' );
-			$output = self::format_movie_field( $output );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's certification for display
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_certification( $data ) {
-
-			$output = apply_filters( 'wpmoly_movie_meta_link', 'certification', $data, 'meta' );
-			$output = self::format_movie_field( $output );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's budget for display
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_budget( $data, $format = 'html' ) {
-
-			$output = intval( $data );
-
-			if ( 'html' != $format )
-				$format = 'raw';
-
-			if ( 'html' == $format )
-				$output = '$' . number_format_i18n( $output );
-
-			$output = self::format_movie_field( $output );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's revenue for display
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_revenue( $data, $format = 'html' ) {
-
-			$output = intval( $data );
-
-			if ( 'html' != $format )
-				$format = 'raw';
-
-			if ( 'html' == $format )
-				$output = '$' . number_format_i18n( $output );
-
-			$output = self::format_movie_field( $output );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's adult status for display
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_adult( $data ) {
-
-			$output = apply_filters( 'wpmoly_movie_meta_link', 'adult', $data, 'meta' );
-			$output = self::format_movie_field( $output );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's misc field for display
-		 * 
-		 * @since    1.1
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_field( $data ) {
-
-			if ( '' == $data )
-				$data = '&mdash;';
-
-			return $data;
-		}
-
-		/**
-		 * Format a Movie's media. If format is HTML, will return a
-		 * HTML formatted string; will return the value without change
-		 * if raw is asked.
-		 * 
-		 * @since    1.1
-		 * 
-		 * @param    string    $data detail value
-		 * @param    string    $format data format, raw or HTML
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_media( $data, $format = 'html', $icon = false ) {
-
-			return self::format_movie_detail( 'media', $data, $format, $icon );
-		}
-
-		/**
-		 * Format a Movie's status. If format is HTML, will return a
-		 * HTML formatted string; will return the value without change
-		 * if raw is asked.
-		 * 
-		 * @since    1.1
-		 * 
-		 * @param    string    $data detail value
-		 * @param    string    $format data format, raw or HTML
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_status( $data, $format = 'html', $icon = false ) {
-
-			return self::format_movie_detail( 'status', $data, $format, $icon );
-		}
-
-		/**
-		 * Format a Movie's rating. If format is HTML, will return a
-		 * HTML formatted string; will return the value without change
-		 * if raw is asked.
-		 * 
-		 * @since    1.1
-		 * 
-		 * @param    string    $data rating value
-		 * @param    string    $format data format, raw or HTML
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_rating( $data, $format = 'html' ) {
-
-			$format = ( 'raw' == $format ? 'raw' : 'html' );
-
-			if ( '' == $data )
-				return $data;
-
-			if ( 'html' == $format ) {
-				$data = apply_filters( 'wpmoly_movie_rating_stars', $data );
-				$data = WPMovieLibrary::render_template( 'shortcodes/rating.php', array( 'data' => $data ), $require = 'always' );
-			}
-
-			return $data;
-		}
-
-		/**
-		 * Format a Movie's language. If format is HTML, will return a
-		 * HTML formatted string; will return the value without change
-		 * if raw is asked.
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $data detail value
-		 * @param    string    $format data format, raw or HTML
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_language( $data, $format = 'html' ) {
-
-			$format = ( 'raw' == $format ? 'raw' : 'html' );
-
-			if ( '' == $data )
-				return $data;
-
-			if ( wpmoly_o( 'details-icons' ) && 'html' == $format  ) {
-				$view = 'shortcodes/detail-icon-title.php';
-			} else if ( 'html' == $format ) {
-				$view = 'shortcodes/detail.php';
-			}
-
-			$title = array();
-			$lang  = WPMOLY_Settings::get_available_movie_language();
-
-			if ( ! is_array( $data ) )
-				$data = array( $data );
-
-			foreach ( $data as $d )
-				if ( isset( $lang[ $d ] ) )
-					$title[] = __( $lang[ $d ], 'wpmovielibrary' );
-
-			$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'lang', 'data' => 'lang', 'title' => implode( ', ', $title ) ), $require = 'always' );
-
-			return $data;
-		}
-
-		/**
-		 * Format a Movie's . If format is HTML, will return a
-		 * HTML formatted string; will return the value without change
-		 * if raw is asked.
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $data detail value
-		 * @param    string    $format data format, raw or HTML
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_subtitles( $data, $format = 'html' ) {
-
-			$format = ( 'raw' == $format ? 'raw' : 'html' );
-
-			if ( '' == $data )
-				return $data;
-
-			if ( wpmoly_o( 'details-icons' ) && 'html' == $format  ) {
-				$view = 'shortcodes/detail-icon-title.php';
-			} else if ( 'html' == $format ) {
-				$view = 'shortcodes/detail.php';
-			}
-
-			$title = array();
-			$lang  = WPMOLY_Settings::get_available_movie_language();
-
-			if ( ! is_array( $data ) )
-				$data = array( $data );
-
-			foreach ( $data as $d )
-				if ( isset( $lang[ $d ] ) )
-					$title[] = __( $lang[ $d ], 'wpmovielibrary' );
-
-			$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'subtitle', 'data' => 'subtitles', 'title' => implode( ', ', $title ) ), $require = 'always' );
-
-			return $data;
-		}
-
-		/**
-		 * Format a Movie's . If format is HTML, will return a
-		 * HTML formatted string; will return the value without change
-		 * if raw is asked.
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $data detail value
-		 * @param    string    $format data format, raw or HTML
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_format( $data, $format = 'html', $icon = false ) {
-
-			return self::format_movie_detail( 'status', $data, $format, $icon );
-		}
-
-		/**
-		 * Format a Movie detail. If format is HTML, will return a
-		 * HTML formatted string; will return the value without change
-		 * if raw is asked.
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $detail details slug
-		 * @param    string    $data detail value
-		 * @param    string    $format data format, raw or HTML
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_detail( $detail, $data, $format = 'html', $icon = false ) {
-
-			$format = ( 'raw' == $format ? 'raw' : 'html' );
-
-			if ( '' == $data )
-				return $data;
-
-			if ( true === $icon || ( wpmoly_o( 'details-icons' ) && 'html' == $format ) ) {
-				$view = 'shortcodes/detail-icon.php';
-			} else {
-				$view = 'shortcodes/detail.php';
-			}
-
-			$title = '';
-			$default_fields = call_user_func( "WPMOLY_Settings::get_available_movie_{$detail}" );
-
-			if ( ! is_array( $data ) )
-				$data = array( $data );
-
-			$_data = '';
-			foreach ( $data as $d ) {
-				if ( isset( $default_fields[ $d ] ) ) {
-					$title = __( $default_fields[ $d ], 'wpmovielibrary' );
-					$_data .= WPMovieLibrary::render_template( $view, array( 'detail' => $detail, 'data' => $d, 'title' => $title ), $require = 'always' );
-				}
-			}
-
-			return $_data;
-		}
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                              Utils
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Add a meta link to the movie meta value
@@ -1068,54 +499,17 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		}
 
 		/**
-		 * Add tiny flags before country names.
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $code Country ISO code
-		 * @param    string    $name Country nam
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function add_country_flag( $code, $name ) {
-
-			if ( ! in_array( 'flag', wpmoly_o( 'countries-format' ) ) )
-				return $name;
-
-			$flag = '<span class="flag flag-%s" title="%s"></span>';
-			$flag = sprintf( $flag, strtolower( $code ), $name );
-
-			/**
-			 * Apply filter to the rendered country flag
-			 * 
-			 * @since    2.0
-			 * 
-			 * @param    string    $flag HTML markup
-			 * @param    string    $code Country ISO code
-			 * @param    string    $name Country name
-			 */
-			$flag = apply_filters( 'wpmoly_filter_country_flag_html', $flag, $code, $name );
-
-			return $flag;
-		}
-
-		/**
 		 * Generate rating stars block.
-		 * 
-		 * If $editable is set to true and we're in admin, stars can be
-		 * edited. $post_id isn't required but can be usefull as it is
-		 * used to generated DOM element IDs.
 		 * 
 		 * @since    2.0
 		 * 
 		 * @param    float      $rating movie to turn into stars
 		 * @param    int        $post_id movie's post ID
 		 * @param    int        $base 5-stars or 10-stars?
-		 * @param    boolean    $editable Should the stars be editable
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function get_movie_rating_stars( $rating, $post_id = null, $base = null, $editable = false ) {
+		public static function get_movie_rating_stars( $rating, $post_id = null, $base = null ) {
 
 			if ( is_null( $post_id ) || ! intval( $post_id ) )
 				$post_id = '';
@@ -1132,18 +526,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			$_rating = preg_replace( '/([0-5])(\.|_)(0|5)/i', '$1-$3', $rating );
 
-			$editable = ( is_admin() && true === $editable ? true : false );
-
-			$class = "wpmoly-movie-rating wpmoly-movie-rating-{$_rating}";
-			$prop  = array();
-			if ( true === $editable ) {
-				$class .= ' wpmoly-movie-editable-rating';
-				$prop[] = 'onclick="wpmoly_rating.rate( ' . $post_id . ' );"';
-				$prop[] = 'onmousemove="wpmoly_rating.change_in( event, ' . $post_id . ' );"';
-				$prop[] = 'onmouseleave="wpmoly_rating.change_out( ' . $post_id . ' );"';
-				$prop[] = 'data-rating="' . $rating . '"';
-				$prop[] = 'data-rated=""';
-			}
+			$class   = "wpmoly-movie-rating wpmoly-movie-rating-{$_rating}";
 
 			$filled  = '<span class="wpmolicon icon-star-filled"></span>';
 			$half    = '<span class="wpmolicon icon-star-half"></span>';
@@ -1157,13 +540,13 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$_filled = $rating * 2;
 				$_empty  = 10 - $_filled;
 
-				$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '"' . implode( ' ', $prop ) . '>';
+				$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '">';
 				$stars .= str_repeat( $filled, $_filled );
 				$stars .= str_repeat( $empty, $_empty );
 				$stars .= '</div>';
 			}
 			else {
-				$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '"' . implode( ' ', $prop ) . '>';
+				$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '">';
 				$stars .= str_repeat( $filled, $_filled );
 				$stars .= str_repeat( $half, $_half );
 				$stars .= str_repeat( $empty, $_empty );
@@ -1183,20 +566,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			return $stars;
 		}
 
-		public static function get_editable_rating_stars( $rating, $post_id = null ) {
-
-			/**
-			 * Convert movie rating in HTML stars block.
-			 * 
-			 * @since    2.0
-			 * 
-			 * @param    float      $rating movie to turn into stars
-			 * @param    int        $post_id movie's post ID
-			 * @param    boolean    $editable Should the stars be editable
-			 */
-			return apply_filters( 'wpmoly_movie_rating_stars', $rating, $post_id, $editable = true );
-		}
-
 		/**
 		 * Format a Movie's misc actors/genres list depending on
 		 * existing terms.
@@ -1213,7 +582,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		private static function format_movie_terms_list( $data, $taxonomy ) {
+		public static function format_movie_terms_list( $data, $taxonomy ) {
 
 			$has_taxonomy = wpmoly_o( "enable-{$taxonomy}" );
 			$_data = explode( ',', $data );
@@ -1916,13 +1285,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			self::delete_archive_page();
 		}
-
-		/**
-		 * Initializes variables
-		 *
-		 * @since    1.0
-		 */
-		public function init() {}
 
 	}
 
