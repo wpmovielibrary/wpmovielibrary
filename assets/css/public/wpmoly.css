@@ -26,6 +26,14 @@
 	position: relative;
 }
 
+.wpmolicon.icon-actor:before {
+	font-size: 28px;
+	height: 28px;
+	line-height: 28px;
+	position: relative;
+	top: -4px;
+}
+
 .wpmolicon.icon-available:before {
 	content: "\e64f";
 }
@@ -176,7 +184,7 @@
 
 .wpmoly.headbox {
 	background-color: #333;
-	background-position: center center;
+	background-position: center -142px;
 	background-repeat: no-repeat;
 	background-size: 100% auto;
 	position: relative;
@@ -189,8 +197,8 @@
 	padding: 8px 14px;
 }
 
-.wpmoly.headbox.movie.poster > *{
-	background-color: transparent;
+.wpmoly.headbox.movie.poster > * {
+	background: transparent;
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
 }
 
@@ -255,6 +263,8 @@
 	margin-top: 6px;
 }
 
+
+
 .wpmoly.headbox.movie.menu a {
 	margin: 0 2px;
 }
@@ -265,19 +275,29 @@
 	text-decoration: none !important;
 }
 
-.wpmoly.headbox.movie.meta {
+.wpmoly.headbox.movie.content {
 	border: 4px solid rgba(0, 0, 0, 0);
 	border-top: 0;
 	background: #fff;
-	/*margin: 2px;*/
+	/*min-height: 96px;*/
 	padding: 14px;
 }
 
-.wpmoly.headbox.movie.meta.overview {
+.wpmoly.headbox.movie.content > * {
+	background: transparent !important;
+}
+
+.wpmoly.headbox.movie.content.tab.title {
+	color: #333;
+	display: inline-block;
+}
+
+.wpmoly.headbox.movie.content.overview p {
+	margin: 0px !important;
 	text-align: justify;
 }
 
-.wpmoly.headbox.movie.meta.overview .wpmolicon.icon-overview {
+.wpmoly.headbox.movie.content.overview .wpmolicon.icon-overview {
 	color: #ccc;
 	font-size: 32px;
 	height: 32px;

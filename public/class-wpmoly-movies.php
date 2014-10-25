@@ -223,8 +223,176 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			if ( 'movie' != get_post_type() )
 				return $content;
 
+			if ( wpmoly_o( 'vintage-content' ) )
+				$content = self::movie_vintage_content( $content );
+			else
+				$content = self::movie_headbox_content( $content );
+
+			return $content;
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                          Movie Headbox
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * Show WPMOLY 2.0 modern metadata/details headbox content.
+		 *
+		 * @since    2.0
+		 * 
+		 * @param    string      $content The original post content
+		 *
+		 * @return   string      The filtered content containing original content plus movie infos if available, the untouched original content else.
+		 */
+		public static function movie_headbox_content( $content ) {
+
+			$menu = 
+
+			$attributes = array(
+				'menu' => self::movie_headbox_menu(),
+				'tabs' => self::movie_headbox_tabs()
+			);
+			$content = WPMovieLibrary::render_template( 'movies/movie-headbox.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		public static function movie_headbox_menu() {
+
+			$links = array(
+				'overview' => array(
+					'title' => __( 'Overview', 'wpmovielibrary' ),
+					'icon'  => 'overview'
+				),
+				'meta' => array(
+					'title' => __( 'Metadata', 'wpmovielibrary' ),
+					'icon'  => 'meta'
+				),
+				'details' => array(
+					'title' => __( 'Details', 'wpmovielibrary' ),
+					'icon'  => 'details'
+				),
+				'actors' => array(
+					'title' => __( 'Details', 'wpmovielibrary' ),
+					'icon'  => 'actor'
+				)
+// 				'trailer' => array(
+// 					'title' => __( 'Trailer', 'wpmovielibrary' ),
+// 					'icon'  => 'movie'
+// 				)
+			);
+
+			$attributes = array(
+				'id'    => get_the_ID(),
+				'links' => $links
+			);
+			$content = WPMovieLibrary::render_template( 'movies/headbox/menu.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		public static function movie_headbox_tabs() {
+
+			$tabs = array(
+				'overview' => array(
+					'title'   => __( 'Overview', 'wpmovielibrary' ),
+					'icon'    => 'overview',
+					'content' => self::movie_headbox_overview_tab()
+				),
+				'meta' => array(
+					'title'   => __( 'Metadata', 'wpmovielibrary' ),
+					'icon'    => 'meta',
+					'content' => self::movie_headbox_meta_tab()
+				),
+				'details' => array(
+					'title'   => __( 'Details', 'wpmovielibrary' ),
+					'icon'    => 'details',
+					'content' => self::movie_headbox_details_tab()
+				),
+				'actors' => array(
+					'title'   => __( 'Actors', 'wpmovielibrary' ),
+					'icon'    => 'actor',
+					'content' => self::movie_headbox_actors_tab()
+				)
+			);
+
+			$attributes = array(
+				'id'   => get_the_ID(),
+				'tabs' => $tabs
+			);
+			$content = WPMovieLibrary::render_template( 'movies/headbox/tabs.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		public static function movie_headbox_overview_tab() {
+
+			$attributes = array(
+				'overview' => wpmoly_get_movie_meta( get_the_ID(), 'overview' )
+			);
+
+			$content = WPMovieLibrary::render_template( 'movies/headbox/tabs/overview.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		public static function movie_headbox_meta_tab() {
+
+			$attributes = array(
+				
+			);
+
+			$content = WPMovieLibrary::render_template( 'movies/headbox/tabs/meta.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		public static function movie_headbox_details_tab() {
+
+			$attributes = array(
+				
+			);
+
+			$content = WPMovieLibrary::render_template( 'movies/headbox/tabs/details.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		public static function movie_headbox_actors_tab() {
+
+			$attributes = array(
+				'actors' => wpmoly_get_movie_meta( get_the_ID(), 'cast' )
+			);
+
+			$content = WPMovieLibrary::render_template( 'movies/headbox/tabs/actors.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                       Vintage Movie Content
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * Show some info about movies in post view.
+		 * 
+		 * Add a filter on the_content hook to display infos selected in options
+		 * about the movie: note, director, overview, actors…
+		 *
+		 * @since    1.0
+		 * 
+		 * @param    string      $content The original post content
+		 *
+		 * @return   string      The filtered content containing original content plus movie infos if available, the untouched original content else.
+		 */
+		public static function movie_vintage_content( $content ) {
+
 			// Caching
-			/*$name = apply_filters( 'wpmoly_cache_name', 'movie_content_' . get_the_ID() );
+			$name = apply_filters( 'wpmoly_cache_name', 'movie_content_' . get_the_ID() );
 			$html = WPMOLY_Cache::output( $name, function() use ( $content ) {
 
 				// Naughty PHP 5.3 fix
@@ -235,11 +403,10 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 				return $html;
 
-			}, $echo = false );*/
+			}, $echo = false );
 
 			// Original content should not be cached
-			//$content = $html . $content;
-			$content = $html = WPMovieLibrary::render_template( 'movies/movie-headbox.php', array( /*'items' => $items*/ ), $require = 'always' );
+			$content = $html . $content;
 
 			return $content;
 		}
@@ -352,6 +519,12 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			return $html;
 		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                              Queries
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Add support for Movie Details to the current WP_Query.
