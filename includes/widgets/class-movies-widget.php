@@ -74,6 +74,10 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 				'type' => 'text',
 				'std'  => ''
 			),
+			'certification' =>  array(
+				'type' => 'text',
+				'std'  => ''
+			),
 			'sort' =>  array(
 				'type' => 'select',
 				'std'  => 'DESC'
@@ -114,13 +118,15 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 			'release_date'         => __( 'Release Date', 'wpmovielibrary' ),
 			'production_companies' => __( 'Production', 'wpmovielibrary' ),
 			'production_countries' => __( 'Country', 'wpmovielibrary' ),
-			'spoken_languages'     => __( 'Languages', 'wpmovielibrary' )
+			'spoken_languages'     => __( 'Languages', 'wpmovielibrary' ),
+			'certification'        => __( 'Certification', 'wpmovielibrary' )
 		);
 
-		$this->years     = WPMOLY_Utils::get_used_years( $count = true );
-		$this->languages = WPMOLY_Utils::get_used_languages( $count = true );
-		$this->companies = WPMOLY_Utils::get_used_companies( $count = true );
-		$this->countries = WPMOLY_Utils::get_used_countries( $count = true );
+		$this->years          = WPMOLY_Utils::get_used_years( $count = true );
+		$this->languages      = WPMOLY_Utils::get_used_languages( $count = true );
+		$this->companies      = WPMOLY_Utils::get_used_companies( $count = true );
+		$this->countries      = WPMOLY_Utils::get_used_countries( $count = true );
+		$this->certifications = WPMOLY_Utils::get_used_certifications( $count = true );
 
 		parent::__construct();
 	}
@@ -201,6 +207,7 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 					case 'production_companies':
 					case 'production_countries':
 					case 'spoken_languages':
+					case 'certification':
 						$args = array(
 							'meta_query' => array(
 								array(

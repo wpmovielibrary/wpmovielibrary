@@ -6,7 +6,7 @@ wpmoly = wpmoly || {};
 wpmoly.widget = wpmoly_widget = {
 
 	select: '.wpmoly-movies-widget-select-select > option',
-	select_meta_select: 'select.wpmoly-movies-widget-meta-select',
+	select_meta_select: '.wpmoly-movies-widget-meta-select',
 
 	select_status: '.wpmoly-movies-widget-select-status',
 	select_media: '.wpmoly-movies-widget-select-media',
@@ -34,7 +34,7 @@ wpmoly.widget = wpmoly_widget = {
 			wpmoly_widget.toggle_meta( e, this.value );
 		});
 
-		$( wpmoly_widget.select_meta_select ).on( 'change', function( e ) {
+		$( wpmoly_widget.select_meta_select + ' select' ).on( 'change', function( e ) {
 			$( wpmoly_widget.select_meta_select + ' option' ).prop( 'selected', false );
 			if ( e.added.element.length )
 				$( e.added.element[0] ).prop( 'selected', true );
@@ -74,11 +74,7 @@ wpmoly.widget = wpmoly_widget = {
 		$( wpmoly_widget.select_status ).not( '.selected' ).hide();
 		$( wpmoly_widget.select_media ).not( '.selected' ).hide();
 		$( wpmoly_widget.select_rating ).not( '.selected' ).hide();
-		$( wpmoly_widget.select_meta ).not( '.selected' ).hide();
-		$( wpmoly_widget.select_year ).not( '.selected' ).hide();
-		$( wpmoly_widget.select_language ).not( '.selected' ).hide();
-		$( wpmoly_widget.select_production_companies ).not( '.selected' ).hide();
-		$( wpmoly_widget.select_production_countries ).not( '.selected' ).hide();
+		$( wpmoly_widget.select_meta_select ).not( '.selected' ).hide();
 	}
 
 wpmoly_widget.init();

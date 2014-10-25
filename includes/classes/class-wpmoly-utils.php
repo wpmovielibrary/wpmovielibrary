@@ -758,6 +758,33 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		}
 
 		/**
+		 * Generate a list of all certifications used in movies
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    boolean    $count Shall we add count?
+		 * 
+		 * @return   array   
+		 */
+		public static function get_used_certifications( $count = false ) {
+
+			$used_certification = array();
+
+			if ( true !== $count )
+				$count = false;
+
+			$certifications = self::get_used_meta( 'certification', $count );
+			foreach ( $certifications as $i => $certification ) {
+				if ( ! $count )
+					$used_certification[ $certification['name'] ] = $certification['name'];
+				else
+					$used_certification[ $certification['name'] ] = sprintf( '%s (%s)', $certification['name'], sprintf( _n( '%d movie', '%d movies', $certification['count'], 'wpmovielibrary' ), $certification['count'] ) );
+			}
+
+			return $used_certification;
+		}
+
+		/**
 		 * Generate a list of all meta used in movies
 		 * 
 		 * This method returns a list of all distinct values for a specific
@@ -780,9 +807,10 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( true !== $count )
 				$count = false;
 
+			$distinct = ( ! $count ? 'DISTINCT' : '' );
 			global $wpdb;
 			$values = $wpdb->get_results(
-				"SELECT DISTINCT meta_value
+				"SELECT {$distinct} meta_value
 				 FROM {$wpdb->postmeta}
 				 WHERE meta_key LIKE '_wpmoly_movie_{$meta}'
 				 ORDER BY meta_value"

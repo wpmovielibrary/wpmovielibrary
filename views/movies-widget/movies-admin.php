@@ -50,8 +50,8 @@ extract( $instance );
 
 			</select>
 
-			<div class="wpmoly-movies-widget-select-release_date<?php if ( 'release_date' == $select_meta ) echo ' selected'; ?> redux-field-init redux-field-container redux-field redux-container-select">
-				<select class="wpmoly-movies-widget-meta-select" name="<?php echo $widget->get_field_name( 'release_date' ); ?>">
+			<div class="wpmoly-movies-widget-meta-select wpmoly-movies-widget-select-release_date<?php if ( 'release_date' == $select_meta ) echo ' selected'; ?> redux-field-init redux-field-container redux-field redux-container-select">
+				<select name="<?php echo $widget->get_field_name( 'release_date' ); ?>">
 <?php foreach ( $widget->years as $slug => $title ) : ?>
 					<option value="<?php echo $slug; ?>" <?php selected( $release_date, $slug ); ?>><?php echo $title; ?></option>
 <?php endforeach; ?>
@@ -59,8 +59,8 @@ extract( $instance );
 				</select>
 			</div>
 
-			<div class="wpmoly-movies-widget-select-spoken_languages<?php if ( 'spoken_languages' == $select_meta ) echo ' selected'; ?> redux-field-init redux-field-container redux-field redux-container-select">
-				<select class="wpmoly-movies-widget-meta-select" name="<?php echo $widget->get_field_name( 'spoken_languages' ); ?>">
+			<div class="wpmoly-movies-widget-meta-select wpmoly-movies-widget-select-spoken_languages<?php if ( 'spoken_languages' == $select_meta ) echo ' selected'; ?> redux-field-init redux-field-container redux-field redux-container-select">
+				<select name="<?php echo $widget->get_field_name( 'spoken_languages' ); ?>">
 <?php foreach ( $widget->languages as $slug => $title ) : ?>
 					<option value="<?php echo $slug; ?>" <?php selected( $spoken_languages, $slug ); ?>><?php _e( $title, 'wpmovielibrary' ); ?></option>
 <?php endforeach; ?>
@@ -68,8 +68,8 @@ extract( $instance );
 				</select>
 			</div>
 
-			<div class="wpmoly-movies-widget-select-production_countries<?php if ( 'production_countries' == $select_meta ) echo ' selected'; ?> redux-field-init redux-field-container redux-field redux-container-select">
-				<select class="wpmoly-movies-widget-meta-select" name="<?php echo $widget->get_field_name( 'production_countries' ); ?>">
+			<div class="wpmoly-movies-widget-meta-select wpmoly-movies-widget-select-production_countries<?php if ( 'production_countries' == $select_meta ) echo ' selected'; ?> redux-field-init redux-field-container redux-field redux-container-select">
+				<select name="<?php echo $widget->get_field_name( 'production_countries' ); ?>">
 <?php foreach ( $widget->countries as $slug => $title ) : ?>
 					<option value="<?php echo $slug; ?>" <?php selected( $production_countries, $slug ); ?>><?php _e( $title, 'wpmovielibrary' ); ?></option>
 <?php endforeach; ?>
@@ -77,10 +77,19 @@ extract( $instance );
 				</select>
 			</div>
 
-			<div class="wpmoly-movies-widget-select-production_companies<?php if ( 'production_companies' == $select_meta ) echo ' selected'; ?> redux-field-init redux-field-container redux-field redux-container-select">
-				<select class="wpmoly-movies-widget-meta-select" name="<?php echo $widget->get_field_name( 'production_companies' ); ?>">
+			<div class="wpmoly-movies-widget-meta-select wpmoly-movies-widget-select-production_companies<?php if ( 'production_companies' == $select_meta ) echo ' selected'; ?> redux-field-init redux-field-container redux-field redux-container-select">
+				<select name="<?php echo $widget->get_field_name( 'production_companies' ); ?>">
 <?php foreach ( $widget->companies as $slug => $title ) : ?>
 					<option value="<?php echo $slug; ?>" <?php selected( $production_companies, $slug ); ?>><?php _e( $title, 'wpmovielibrary' ); ?></option>
+<?php endforeach; ?>
+
+				</select>
+			</div>
+
+			<div class="wpmoly-movies-widget-meta-select wpmoly-movies-widget-select-certification<?php if ( 'certification' == $select_meta ) echo ' selected'; ?> redux-field-init redux-field-container redux-field redux-container-select">
+				<select name="<?php echo $widget->get_field_name( 'certification' ); ?>">
+<?php foreach ( $widget->certifications as $slug => $title ) : ?>
+					<option value="<?php echo $slug; ?>" <?php selected( $certification, $slug ); ?>><?php _e( $title, 'wpmovielibrary' ); ?></option>
 <?php endforeach; ?>
 
 				</select>
