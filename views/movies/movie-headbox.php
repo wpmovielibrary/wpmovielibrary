@@ -10,7 +10,7 @@
  */
 ?>
 
-	<div id="movie-headbox-" class="wpmoly block headbox contained" style="background-image:url('//wp40/wp-content/uploads/2014/10/dX2RmqOi3xzMkLfra7WVfzOXexj.jpg');">
+	<div id="movie-headbox-<?php echo $id ?>" class="wpmoly block headbox contained <?php echo $theme ?>" style="background-image:url('//wp40/wp-content/uploads/2014/10/dX2RmqOi3xzMkLfra7WVfzOXexj.jpg');">
 		<div class="wpmoly headbox movie poster">
 			<span class="wpmoly headbox movie rating"><?php echo apply_filters( 'wpmoly_movie_rating_stars', 3.5 ) ?></span>
 			<h3 class="wpmoly headbox movie title">The Secret Life of Walter Mitty</h3>

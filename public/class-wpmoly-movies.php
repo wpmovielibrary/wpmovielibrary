@@ -248,11 +248,17 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 */
 		public static function movie_headbox_content( $content ) {
 
-			$menu = 
+			$theme = wp_get_theme();
+			if ( ! is_null( $theme->stylesheet ) )
+				$theme = 'theme-' . $theme->stylesheet;
+			else
+				$theme = '';
 
 			$attributes = array(
-				'menu' => self::movie_headbox_menu(),
-				'tabs' => self::movie_headbox_tabs()
+				'id'    => get_the_ID(),
+				'menu'  => self::movie_headbox_menu(),
+				'tabs'  => self::movie_headbox_tabs(),
+				'theme' => $theme,
 			);
 			$content = WPMovieLibrary::render_template( 'movies/movie-headbox.php', $attributes, $require = 'always' );
 
