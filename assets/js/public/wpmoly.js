@@ -10,7 +10,8 @@ window.wpmoly = window.wpmoly || {};
 				location.href = this.options[ this.selectedIndex ].value;
 		});
 
-		$( '.wpmoly.headbox.movie.content > .content.hide-if-js' ).hide();
+		$( '.hide-if-js' ).hide();
+		$( '.hide-if-no-js' ).removeClass( 'hide-if-no-js' );
 	};
 
 	wpmoly.headbox = wpmoly_headbox = {};

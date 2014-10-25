@@ -6,8 +6,8 @@
  * 
  * @since    2.0
  * 
- * @uses    
+ * @uses    $actors
  */
 ?>
 
-				Acteurs !
+				<?php echo __( 'Starring:', 'wpmovielibrary' ) . ' ' . $actors ?>

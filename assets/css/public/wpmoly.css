@@ -1,4 +1,8 @@
 
+.hide-if-no-js {
+	display: none !important;
+}
+
 .wpmolicon {
 	display: inline-block;
 	width: 20px;
@@ -29,6 +33,7 @@
 .wpmolicon.icon-actor:before {
 	font-size: 28px;
 	height: 28px;
+	left: -4px;
 	line-height: 28px;
 	position: relative;
 	top: -4px;
@@ -180,8 +185,6 @@
 /** Movie Headbox
  ***************************************************/
 
-
-
 .wpmoly.headbox {
 	background-color: #333;
 	background-position: center -142px;
@@ -263,8 +266,6 @@
 	margin-top: 6px;
 }
 
-
-
 .wpmoly.headbox.movie.menu a {
 	margin: 0 2px;
 }
@@ -279,7 +280,6 @@
 	border: 4px solid rgba(0, 0, 0, 0);
 	border-top: 0;
 	background: #fff;
-	/*min-height: 96px;*/
 	padding: 14px;
 }
 
@@ -287,9 +287,28 @@
 	background: transparent !important;
 }
 
+.wpmoly.headbox.movie.content.tab {
+	padding-left: 0;
+	padding-right: 0;
+}
+
 .wpmoly.headbox.movie.content.tab.title {
 	color: #333;
 	display: inline-block;
+	font-size: 16px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.wpmoly.headbox.movie.content.tab.title > .title {
+	
+}
+
+.wpmoly.headbox.movie.content.tab.title > .wpmolicon {
+	border-right: 2px solid #ddd;
+	color: #888;
+	margin-right: 10px;
+	padding-right: 14px;
 }
 
 .wpmoly.headbox.movie.content.overview p {
@@ -297,7 +316,7 @@
 	text-align: justify;
 }
 
-.wpmoly.headbox.movie.content.overview .wpmolicon.icon-overview {
+.wpmoly.headbox.movie.content.overview p .wpmolicon.icon-overview {
 	color: #ccc;
 	font-size: 32px;
 	height: 32px;

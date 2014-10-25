@@ -362,8 +362,11 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 		public static function movie_headbox_actors_tab() {
 
+			$actors = wpmoly_get_movie_meta( get_the_ID(), 'cast' );
+			$actors = apply_filters( 'wpmoly_format_movie_actors', $actors );
+
 			$attributes = array(
-				'actors' => wpmoly_get_movie_meta( get_the_ID(), 'cast' )
+				'actors' => $actors
 			);
 
 			$content = WPMovieLibrary::render_template( 'movies/headbox/tabs/actors.php', $attributes, $require = 'always' );

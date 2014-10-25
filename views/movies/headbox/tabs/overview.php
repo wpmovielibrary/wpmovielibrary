@@ -10,4 +10,4 @@
  */
 ?>
 
-				<p><span class="hide-is-js wpmolicon icon-overview"></span> <?php echo $overview ?></p>
+				<p><span class="hide-if-no-js wpmolicon icon-overview"></span> <?php echo $overview ?></p>
