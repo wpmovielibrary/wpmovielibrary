@@ -232,6 +232,23 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 		}
 
 		/**
+		 * Format a Movie's production companies for display
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_production_companies( $data ) {
+
+			$output = apply_filters( 'wpmoly_movie_meta_link', 'production_companies', $data, 'meta' );
+			$output = self::format_movie_field( $output );
+
+			return $output;
+		}
+
+		/**
 		 * Format a Movie's producer for display
 		 * 
 		 * @since    2.0
@@ -467,6 +484,10 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 
 		public static function format_movie_countries( $data ) {
 			return self::format_movie_production_countries( $data );
+		}
+
+		public static function format_movie_production( $data ) {
+			return self::format_movie_production_companies( $data );
 		}
 
 	}
