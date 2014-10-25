@@ -13,7 +13,26 @@
 
 if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 
-	class WPMOLY_Formatting_Meta extends WPMOLY_Utils {
+	class WPMOLY_Formatting_Meta {
+
+		public static $priority = 10;
+
+		/**
+		 * Format a Movie's director for display
+		 * 
+		 * @since    1.1
+		 * 
+		 * @param    string    $data field value
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function format_movie_director( $data ) {
+
+			$output = WPMOLY_Utils::format_movie_terms_list( $data, 'collection' );
+			$output = self::format_movie_field( $output );
+
+			return $output;
+		}
 
 		/**
 		 * Format a Movie's genres for display
@@ -30,26 +49,10 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 		 */
 		public static function format_movie_genres( $data ) {
 
-			$output = self::format_movie_terms_list( $data, 'genre' );
+			$output = WPMOLY_Utils::format_movie_terms_list( $data, 'genre' );
 			$output = self::format_movie_field( $output );
 
 			return $output;
-		}
-
-		/**
-		 * Format a Movie's casting for display
-		 * This is an alias for self::format_movie_cast()
-		 * 
-		 * @since    1.1
-		 * 
-		 * @param    string    $data field value
-		 * @param    int       $post_id Movie's post ID if needed (required for shortcodes)
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_actors( $data ) {
-
-			return self::format_movie_cast( $data );
 		}
 
 		/**
@@ -67,7 +70,7 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 		 */
 		public static function format_movie_cast( $data ) {
 
-			$output = self::format_movie_terms_list( $data,  'actor' );
+			$output = WPMOLY_Utils::format_movie_terms_list( $data,  'actor' );
 			$output = self::format_movie_field( $output );
 
 			return $output;
@@ -137,7 +140,7 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_languages( $data ) {
+		public static function format_movie_spoken_languages( $data ) {
 
 			if ( is_null( $data ) || '' == $data )
 				return $data;
@@ -171,7 +174,7 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function format_movie_countries( $data ) {
+		public static function format_movie_production_countries( $data ) {
 
 			if ( is_null( $data ) || '' == $data )
 				return $data;
@@ -192,7 +195,7 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 						foreach ( $_format as $_i => $_f ) {
 							switch ( $_f ) {
 								case 'flag':
-									$_format[ $_i ] = apply_filters( 'wpmoly_format_movie_country_flag', $code, $country['name'] );
+									$_format[ $_i ] = self::movie_country_flag( $code, $country['name'] );
 									break;
 								case 'original':
 									$_format[ $_i ] = $country['native'];
@@ -224,23 +227,6 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 
 			$data = implode( ',&nbsp; ', $data );
 			$output = self::format_movie_field( $data );
-
-			return $output;
-		}
-
-		/**
-		 * Format a Movie's director for display
-		 * 
-		 * @since    1.1
-		 * 
-		 * @param    string    $data field value
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function format_movie_director( $data ) {
-
-			$output = self::format_movie_terms_list( $data, 'collection' );
-			$output = self::format_movie_field( $output );
 
 			return $output;
 		}
@@ -427,6 +413,60 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 				$data = '&mdash;';
 
 			return $data;
+		}
+
+		/**
+		 * Add tiny flags before country names.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $code Country ISO code
+		 * @param    string    $name Country nam
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function movie_country_flag( $code, $name ) {
+
+			if ( ! in_array( 'flag', wpmoly_o( 'countries-format' ) ) )
+				return $name;
+
+			$flag = '<span class="flag flag-%s" title="%s"></span>';
+			$flag = sprintf( $flag, strtolower( $code ), $name );
+
+			/**
+			 * Apply filter to the rendered country flag
+			 * 
+			 * @since    2.0
+			 * 
+			 * @param    string    $flag HTML markup
+			 * @param    string    $code Country ISO code
+			 * @param    string    $name Country name
+			 */
+			$flag = apply_filters( 'wpmoly_filter_country_flag_html', $flag, $code, $name );
+
+			return $flag;
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                             Aliases
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		public static function format_movie_actors( $data ) {
+			return self::format_movie_cast( $data );
+		}
+
+		public static function format_movie_date( $data, $format = null ) {
+			return self::format_movie_release_date( $data, $format );
+		}
+
+		public static function format_movie_languages( $data ) {
+			return self::format_movie_spoken_languages( $data );
+		}
+
+		public static function format_movie_countries( $data ) {
+			return self::format_movie_production_countries( $data );
 		}
 
 	}
