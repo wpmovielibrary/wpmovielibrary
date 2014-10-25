@@ -404,32 +404,32 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			// Year is just a part of release date but can be useful
 			if ( 'year' == $meta_key ) {
-				$wp_query->set( 'meta_query', array(
-					array(
-						'key'     => '_wpmoly_movie_release_date',
-						'value'   => $meta_value,
-						'compare' => 'LIKE'
-					)
-				) );
+				$key   = '_wpmoly_movie_release_date';
+				$value = $meta_value;
 			}
 			else if ( 'rating' == $meta_key ) {
-				$wp_query->set( 'meta_query', array(
-					array(
-						'key'     => '_wpmoly_movie_rating',
-						'value'   => number_format( $meta_value, 1, '.', ''),
-						'compare' => 'LIKE'
-					)
-				) );
+				$key   = '_wpmoly_movie_rating';
+				$value = number_format( $meta_value, 1, '.', '');
 			}
 			else {
-				$wp_query->set( 'meta_query', array(
+				$key   = "_wpmoly_movie_{$meta_key}";
+				$value = $meta_value;
+			}
+
+			$wp_query->set( 'meta_query', array(
+					'relation' => 'OR',
 					array(
-						'key'     => "_wpmoly_movie_{$meta_key}",
-						'value'   => $meta_value,
+						'key'     => $key,
+						'value'   => $value,
+						'compare' => 'LIKE'
+					),
+					array(
+						'key'     => $key,
+						'value'   => str_replace( '-', ' ', $value ),
 						'compare' => 'LIKE'
 					)
-				) );
-			}
+				)
+			);
 		}
 
 		/**
