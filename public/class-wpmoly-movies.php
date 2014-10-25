@@ -224,7 +224,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				return $content;
 
 			// Caching
-			$name = apply_filters( 'wpmoly_cache_name', 'movie_content_' . get_the_ID() );
+			/*$name = apply_filters( 'wpmoly_cache_name', 'movie_content_' . get_the_ID() );
 			$html = WPMOLY_Cache::output( $name, function() use ( $content ) {
 
 				// Naughty PHP 5.3 fix
@@ -235,10 +235,11 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 				return $html;
 
-			}, $echo = false );
+			}, $echo = false );*/
 
 			// Original content should not be cached
-			$content = $html . $content;
+			//$content = $html . $content;
+			$content = $html = WPMovieLibrary::render_template( 'movies/movie-headbox.php', array( /*'items' => $items*/ ), $require = 'always' );
 
 			return $content;
 		}

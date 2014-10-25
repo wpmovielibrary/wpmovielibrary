@@ -169,6 +169,123 @@
 	padding: 0.25em 0.5em;
 }
 
+/** Movie Headbox
+ ***************************************************/
+
+
+
+.wpmoly.headbox {
+	background-color: #333;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100% auto;
+	position: relative;
+}
+
+.wpmoly.headbox.movie.poster {
+	background-color: rgba(0, 0, 0, 0.5);
+	color: #ddd;
+	border: 4px solid rgba(0, 0, 0, 0);
+	padding: 8px 14px;
+}
+
+.wpmoly.headbox.movie.poster > *{
+	background-color: transparent;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.wpmoly.headbox.movie.poster a {
+	color: #ddd;
+	text-decoration: none;
+}
+
+.wpmoly.headbox.movie.poster a:hover,
+.wpmoly.headbox.movie.poster a:focus {
+	color: #fff;
+	text-decoration: underline;
+}
+
+.wpmoly.headbox.movie.poster.content {
+	background: transparent;
+	padding: 4px 16px;
+}
+
+.wpmoly.headbox.movie.title {
+	color: #fff;
+	font-size: 22px;
+	margin: 10px 0 0 0;
+}
+
+.wpmoly.headbox.movie.tagline {
+	font-size: 16px;
+	margin: 0;
+}
+
+.wpmoly.headbox.movie.genres {
+	display: block;
+	font-size: 12px;
+	margin: 0 0 20px 0;
+}
+
+.wpmoly.headbox.movie.year {
+	font-size: 12px;
+}
+
+.wpmoly.headbox.movie.runtime {
+	font-size: 12px;
+}
+
+.wpmoly.headbox.movie.rating {
+	position: absolute;
+	right: 14px;
+	top: 22px;
+}
+
+.wpmoly.headbox.movie.rating .wpmolicon.icon-star-filled,
+.wpmoly.headbox.movie.rating .wpmolicon.icon-star-half {
+	color: #ffc335;
+}
+
+.wpmoly.headbox.movie.rating .wpmolicon.icon-star-empty {
+	color: #a18f70;
+}
+
+.wpmoly.headbox.movie.menu {
+	float: right;
+	margin-top: 6px;
+}
+
+.wpmoly.headbox.movie.menu a {
+	margin: 0 2px;
+}
+
+.wpmoly.headbox.movie.menu a,
+.wpmoly.headbox.movie.menu a:hover,
+.wpmoly.headbox.movie.menu a:focus {
+	text-decoration: none !important;
+}
+
+.wpmoly.headbox.movie.meta {
+	border: 4px solid rgba(0, 0, 0, 0);
+	border-top: 0;
+	background: #fff;
+	/*margin: 2px;*/
+	padding: 14px;
+}
+
+.wpmoly.headbox.movie.meta.overview {
+	text-align: justify;
+}
+
+.wpmoly.headbox.movie.meta.overview .wpmolicon.icon-overview {
+	color: #ccc;
+	font-size: 32px;
+	height: 32px;
+	line-height: 32px;
+	margin: -4px -2px -6px 4px;
+	width: 32px;
+}
+
 
 /** Movie Meta & Details block
  ***************************************************/
