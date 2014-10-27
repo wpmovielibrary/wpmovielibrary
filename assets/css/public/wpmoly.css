@@ -55,6 +55,30 @@
 .icon-bluray:before {
 	content: "\e60f";
 }
+.icon-production_companies:before {
+	content: "\e639";
+}
+.icon-production_countries:before {
+	content: "\e63b";
+}
+.icon-spoken_languages:before {
+	content: "\e63a";
+}
+.icon-budget:before {
+	content: "\f155";
+}
+.icon-revenue:before {
+	content: "\f0d6";
+}
+.icon-year:before {
+	content: "\e642";
+}
+.icon-rating:before {
+	content: "\e622";
+}
+.icon-media:before {
+	content: "\e606";
+}
 
 #wp-admin-bar-wpmovielibrary .wpmolicon {
 	font-family: 'wpmovielibrary';
@@ -198,6 +222,10 @@
 	background-repeat: no-repeat;
 	background-size: 100% auto;
 	position: relative;
+}
+
+.wpmoly.headbox > * {
+	background-color: transparent;
 }
 
 .wpmoly.headbox.movie.poster {
@@ -376,7 +404,7 @@
 }
 
 .wpmoly.headbox.movie.content.overview p {
-	margin: 0px !important;
+	margin: 0 18px !important;
 	text-align: justify;
 }
 
@@ -385,8 +413,54 @@
 	font-size: 32px;
 	height: 32px;
 	line-height: 32px;
-	margin: -4px -2px -6px 4px;
+	margin: -4px 4px -6px 4px;
 	width: 32px;
+}
+
+.wpmoly.headbox.movie.meta.field.title,
+.wpmoly.headbox.movie.meta.field.value,
+.wpmoly.headbox.movie.details.field.title,
+.wpmoly.headbox.movie.details.field.value {
+	display: inline-block;
+	margin: 4px 0;
+}
+
+.wpmoly.headbox.movie.meta.field.title,
+.wpmoly.headbox.movie.details.field.title {
+	color: #666;
+	font-size: 14px;
+	padding-top: 2px;
+	text-align: right;
+	vertical-align: top;
+	width: 24%;
+}
+
+.wpmoly.headbox.movie.meta.field.title .wpmolicon,
+.wpmoly.headbox.movie.details.field.title .wpmolicon {
+	color: #aaa;
+	font-size: 14px;
+	position: relative;
+	top: 4px;
+}
+
+.wpmoly.headbox.movie.meta.field.value,
+.wpmoly.headbox.movie.details.field.value {
+	margin-left: 4%;
+	width: 70%;
+}
+
+.wpmoly.headbox.movie.details.field {
+	display: inline-block;
+	width: 49%;
+}
+
+.wpmoly.headbox.movie.details.field.title {
+	width: 48%;
+}
+
+.wpmoly.headbox.movie.details.field.value {
+	margin-left: 2%;
+	width: 48%;
 }
 
 /** Movie Headbox

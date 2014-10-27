@@ -362,8 +362,43 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 		public static function movie_headbox_meta_tab() {
 
+			// TODO: better filtering/formatting
+			if ( 'nowhere' == wpmoly_o( 'show-meta' ) || ( 'posts_only' == wpmoly_o( 'show-meta' ) && ! is_singular() ) )
+				return null;
+
+			$metadata = wpmoly_get_movie_meta();
+			$metadata = wpmoly_filter_undimension_array( $metadata );
+
+			$fields = wpmoly_o( 'sort-meta' );
+			$default_fields = WPMOLY_Settings::get_supported_movie_meta();
+
+			if ( '' == $metadata || empty( $fields ) || ! isset( $fields['used'] ) )
+				return null;
+
+			$fields = $fields['used'];
+			if ( isset( $fields['placebo'] ) )
+				unset( $fields['placebo'] );
+			unset( $fields['cast'], $fields['overview'], $fields['genres'] );
+
+			$items = array();
+
+			foreach ( $fields as $slug => $field ) {
+
+				$_field = $metadata[ $slug ];
+
+				// Custom filter if available
+				if ( has_filter( "wpmoly_format_movie_{$slug}" ) )
+					$_field = apply_filters( "wpmoly_format_movie_{$slug}", $_field );
+
+				// Filter empty field
+				$_field = apply_filters( "wpmoly_format_movie_field", $_field );
+
+				$fields[ $slug ] = $_field;
+				$items[] = array( 'slug' => $slug, 'title' => __( $default_fields[ $slug ]['title'], 'wpmovielibrary' ), 'value' => $_field );
+			}
+
 			$attributes = array(
-				
+				'meta' => $items
 			);
 
 			$content = WPMovieLibrary::render_template( 'movies/headbox/tabs/meta.php', $attributes, $require = 'always' );
@@ -373,8 +408,40 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 		public static function movie_headbox_details_tab() {
 
+			// TODO: better filtering/formatting
+			if ( 'nowhere' == wpmoly_o( 'show-details' ) || ( 'posts_only' == wpmoly_o( 'show-details' ) && ! is_singular() ) )
+				return null;
+
+			$fields = wpmoly_o( 'sort-details' );
+			$default_fields = WPMOLY_Settings::get_supported_movie_details();
+
+			if ( empty( $fields ) || ! isset( $fields['used'] ) )
+				return null;
+
+			$fields = $fields['used'];
+			if ( isset( $fields['placebo'] ) )
+				unset( $fields['placebo'] );
+			$post_id = get_the_ID();
+
+			$items = array();
+
+			foreach ( $fields as $slug => $field ) {
+
+				$detail = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post_id, 'meta' => $slug ) );
+				if ( ! is_array( $detail ) )
+					$detail = array( $detail );
+
+				foreach ( $detail as $i => $d ) {
+					if ( '' != $d )
+						$d = $default_fields[ $slug ]['options'][ $d ];
+					$detail[ $i ] = apply_filters( "wpmoly_format_movie_field", $d );
+				}
+
+				$items[] = array( 'slug' => $slug, 'title' => __( $default_fields[ $slug ]['title'], 'wpmovielibrary' ), 'value' => $detail );
+			}
+
 			$attributes = array(
-				
+				'details' => $items
 			);
 
 			$content = WPMovieLibrary::render_template( 'movies/headbox/tabs/details.php', $attributes, $require = 'always' );
