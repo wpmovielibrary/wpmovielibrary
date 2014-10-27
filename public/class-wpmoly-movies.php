@@ -254,8 +254,24 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			else
 				$theme = '';
 
+			$id     = get_the_ID();
+			$poster = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'full' );
+			$poster = $poster[0];
+			$movie  = array(
+				'poster' => $poster,
+				'rating' => apply_filters( 'wpmoly_movie_rating_stars', self::get_movie_meta( $id, 'rating' ) ),
+				'media'  => self::get_movie_meta( $id, 'media' ),
+				'status' => self::get_movie_meta( $id, 'status' ),
+				'year'   => apply_filters( 'wpmoly_format_movie_year', self::get_movie_meta( $id, 'release_date' ) )
+			);
+
+			$meta  = array( 'title', 'tagline', 'overview', 'genres', 'runtime' );
+			foreach ( $meta as $i => $m )
+				$movie[ $m ] = apply_filters( "wpmoly_format_movie_{$m}", self::get_movie_meta( $id, $m ) );
+
 			$attributes = array(
 				'id'    => get_the_ID(),
+				'movie' => $movie,
 				'menu'  => self::movie_headbox_menu(),
 				'tabs'  => self::movie_headbox_tabs(),
 				'theme' => $theme,
@@ -281,7 +297,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 					'icon'  => 'details'
 				),
 				'actors' => array(
-					'title' => __( 'Details', 'wpmovielibrary' ),
+					'title' => __( 'Actors', 'wpmovielibrary' ),
 					'icon'  => 'actor'
 				)
 // 				'trailer' => array(

@@ -15,4 +15,5 @@
 				<a href="#movie-headbox-<?php echo $slug ?>-<?php echo $id ?>" onclick="wpmoly_headbox.toggle( 'movie-headbox-<?php echo $slug ?>-<?php echo $id ?>' ); return false;"><span class="wpmolicon icon-<?php echo $link['icon'] ?>" title="<?php echo $link['title'] ?>"></span></a>
 
 <?php endforeach; ?>
+				<a href="#" onclick="wpmoly_headbox.resize( <?php echo $id ?> ); return false;"><span class="wpmolicon icon-resize-enlarge" title="<?php _e( 'Expend', 'wpmovielibrary' ) ?>"></span></a>
 			</div>

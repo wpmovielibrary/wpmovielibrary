@@ -478,6 +478,10 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 			return self::format_movie_release_date( $data, $format );
 		}
 
+		public static function format_movie_year( $data ) {
+			return self::format_movie_release_date( $data, $format = 'Y' );
+		}
+
 		public static function format_movie_languages( $data ) {
 			return self::format_movie_spoken_languages( $data );
 		}
