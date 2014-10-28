@@ -17,8 +17,11 @@
 			<h4 class="wpmoly headbox movie tagline"><?php echo $movie['tagline'] ?></h4>
 			<div class="wpmoly headbox movie genres"><?php echo $movie['genres'] ?></div>
 			<div class="wpmoly headbox movie details">
-				<span class="wpmolicon icon-circle-o <?php echo $movie['status'] ?>" title="<?php echo $movie['status'] ?>"></span>
-				<!--<span class="wpmolicon icon-<?php echo $movie['media'] ?>" title="<?php echo $movie['media'] ?>"></span>-->
+				<span class="wpmolicon status icon-circle-o <?php echo $movie['status'] ?>" title="<?php echo $movie['status'] ?>"></span>
+<?php foreach ( $movie['media'] as $media ) : ?>
+				<span class="wpmolicon media icon-<?php echo $media ?>" title="<?php echo $media ?>"></span>
+
+<?php endforeach; ?>
 			</div>
 			<div class="wpmoly headbox movie meta">
 				<span class="wpmoly headbox movie year"><?php echo $movie['year'] ?></span> / <span class="wpmoly headbox movie runtime"><?php echo $movie['runtime'] ?></span>

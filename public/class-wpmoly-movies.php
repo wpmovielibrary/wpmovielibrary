@@ -265,6 +265,11 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				'year'   => apply_filters( 'wpmoly_format_movie_year', self::get_movie_meta( $id, 'release_date' ) )
 			);
 
+			if ( '' == $movie['media'] )
+				$movie['media'] = array();
+			if ( ! is_array( $movie['media'] ) )
+				$movie['media'] = array( $movie['media'] );
+
 			$meta  = array( 'title', 'tagline', 'overview', 'genres', 'runtime' );
 			foreach ( $meta as $i => $m )
 				$movie[ $m ] = apply_filters( "wpmoly_format_movie_{$m}", self::get_movie_meta( $id, $m ) );
@@ -289,21 +294,21 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 					'icon'  => 'overview'
 				),
 				'meta' => array(
-					'title' => __( 'Metadata', 'wpmovielibrary' ),
-					'icon'  => 'meta'
-				),
+						'title' => __( 'Metadata', 'wpmovielibrary' ),
+						'icon'  => 'meta'
+					),
 				'details' => array(
-					'title' => __( 'Details', 'wpmovielibrary' ),
-					'icon'  => 'details'
-				),
+						'title' => __( 'Details', 'wpmovielibrary' ),
+						'icon'  => 'details'
+					),
 				'actors' => array(
 					'title' => __( 'Actors', 'wpmovielibrary' ),
 					'icon'  => 'actor'
+				),
+				'images' => array(
+					'title' => __( 'Images', 'wpmovielibrary' ),
+					'icon'  => 'images'
 				)
-// 				'trailer' => array(
-// 					'title' => __( 'Trailer', 'wpmovielibrary' ),
-// 					'icon'  => 'movie'
-// 				)
 			);
 
 			$attributes = array(
@@ -337,6 +342,11 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 					'title'   => __( 'Actors', 'wpmovielibrary' ),
 					'icon'    => 'actor',
 					'content' => self::movie_headbox_actors_tab()
+				),
+				'images' => array(
+					'title'   => __( 'Images', 'wpmovielibrary' ),
+					'icon'    => 'images',
+					'content' => self::movie_headbox_images_tab()
 				)
 			);
 
@@ -363,9 +373,6 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		public static function movie_headbox_meta_tab() {
 
 			// TODO: better filtering/formatting
-			if ( 'nowhere' == wpmoly_o( 'show-meta' ) || ( 'posts_only' == wpmoly_o( 'show-meta' ) && ! is_singular() ) )
-				return null;
-
 			$metadata = wpmoly_get_movie_meta();
 			$metadata = wpmoly_filter_undimension_array( $metadata );
 
@@ -409,9 +416,6 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		public static function movie_headbox_details_tab() {
 
 			// TODO: better filtering/formatting
-			if ( 'nowhere' == wpmoly_o( 'show-details' ) || ( 'posts_only' == wpmoly_o( 'show-details' ) && ! is_singular() ) )
-				return null;
-
 			$fields = wpmoly_o( 'sort-details' );
 			$default_fields = WPMOLY_Settings::get_supported_movie_details();
 
@@ -459,6 +463,39 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			);
 
 			$content = WPMovieLibrary::render_template( 'movies/headbox/tabs/actors.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		public static function movie_headbox_images_tab() {
+
+			$attachments = get_posts( array(
+				'post_type'   => 'attachment',
+				'orderby'     => 'title',
+				'numberposts' => -1,
+				'post_status' => null,
+				'post_parent' => get_the_ID(),
+				'exclude'     => get_post_thumbnail_id( get_the_ID() )
+			) );
+			$images = array();
+			$content = __( 'No images were imported for this movie.', 'wpmovielibrary' );
+			
+			if ( $attachments ) {
+
+				foreach ( $attachments as $attachment )
+					$images[] = array(
+						'thumbnail' => wp_get_attachment_image_src( $attachment->ID, 'thumbnail' ),
+						'full'      => wp_get_attachment_image_src( $attachment->ID, 'full' )
+					);
+
+				$content = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => 'thumbnail', 'movie_id' => get_the_ID(), 'images' => $images ), $require = 'always' );
+			}
+
+			$attributes = array(
+				'images' => $content
+			);
+
+			$content = WPMovieLibrary::render_template( 'movies/headbox/tabs/images.php', $attributes, $require = 'always' );
 
 			return $content;
 		}

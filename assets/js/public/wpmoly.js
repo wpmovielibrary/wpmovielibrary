@@ -16,12 +16,11 @@ window.wpmoly = window.wpmoly || {};
 
 	wpmoly.headbox = wpmoly_headbox = {};
 
-		wpmoly.headbox.toggle = function( tab ) {
+		wpmoly.headbox.toggle = function( item, post_id ) {
 
-			var $tab = $( '#' + tab ),
-			   $tabs = $( '.wpmoly.headbox.movie.content > .content' );
-
-			console.log( $tab, $tabs );
+			var $tab = $( '#movie-headbox-' + item + '-' + post_id ),
+			 $parent = $( '#movie-headbox-' + post_id ),
+			   $tabs = $parent.find( '.wpmoly.headbox.movie.content > .content' );
 
 			if ( undefined != $tab ) {
 				$tabs.hide();

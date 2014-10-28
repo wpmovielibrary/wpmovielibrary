@@ -276,6 +276,11 @@
 }
 
 .wpmoly.headbox.movie.details .wpmolicon {
+	position: relative;
+	top: 1px;
+}
+
+.wpmoly.headbox.movie.details .wpmolicon.circle-o {
 	color: rgba(255, 255, 255, 0.25);
 }
 
@@ -461,6 +466,11 @@
 .wpmoly.headbox.movie.details.field.value {
 	margin-left: 2%;
 	width: 48%;
+}
+
+.wpmoly.headbox.movie.images .image {
+	margin: 0.75% 0.25% !important;
+	width: 32%;
 }
 
 /** Movie Headbox
