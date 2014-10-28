@@ -149,41 +149,6 @@ if ( ! class_exists( 'WPMOLY_Dashboard' ) ) :
 			wp_die();
 		}
 
-		public static function add_tabs() {
-
-			$tabs = array(
-				// The assoc key represents the ID
-				// It is NOT allowed to contain spaces
-				'EXAMPLE' => array(
-					'title'   => 'TEST ME!'
-					,'content' => 'FOO'
-				)
-			);
-
-			foreach ( $tabs as $id => $data )
-			{
-				get_current_screen()->add_help_tab( array(
-					'id'       => $id
-					,'title'    => __( $data['title'], 'wpmovielibrary' )
-					// Use the content only if you want to add something
-					// static on every help tab. Example: Another title inside the tab
-					,'content'  => '<p>Some stuff that stays above every help text</p>'
-					,'callback' => __CLASS__ . '::prepare'
-				) );
-			}
-		}
-
-		public static function prepare( $screen, $tab )
-		    {
-			printf( 
-				'<p>%s</p>'
-				,__( 
-					$tab['callback'][0]->tabs[ $tab['id'] ]['content']
-					,'wpmovielibrary' 
-				)
-			);
-		}
-
 		/**
 		 * Save plugin Welcome Panel screen option.
 		 *

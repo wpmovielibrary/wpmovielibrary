@@ -323,62 +323,6 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		}
 
 		/**
-		 * Render the Settings Page.
-		 * 
-		 * Is either one of the maintenance tools is at use, handle it
-		 * before doing anything. As of now maintenance tools are 
-		 * restricted to default settings restoration and cache cleaning.
-		 *
-		 * @since    1.0
-		 */
-		public static function admin_page() {
-
-			/*if ( ! current_user_can( 'manage_options' ) )
-				wp_die( __( 'Access denied.', 'wpmovielibrary' ) );
-
-			// Restore default settings?
-			if ( isset( $_GET['wpmoly_restore_default'] ) && 'true' == $_GET['wpmoly_restore_default'] ) {
-
-				// Check Nonce URL
-				if ( ! isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpmoly-restore-default-settings' ) ) {
-					add_settings_error( null, 'restore_default', __( 'You don\'t have the permission do perform this action.', 'wpmovielibrary' ), 'error' );
-				}
-				else {
-					$action = WPMOLY_Settings::update_settings( $force = true );
-					if ( ! $action )
-						add_settings_error( null, 'restore_default', __( 'Unknown error: failed to restore default settings.', 'wpmovielibrary' ), 'error' );
-					else
-						add_settings_error( null, 'restore_default', __( 'Default settings restored!', 'wpmovielibrary' ), 'updated' );
-				}
-			}
-
-			// Empty Cache?
-			if ( isset( $_GET['wpmoly_empty_cache'] ) && 'true' == $_GET['wpmoly_empty_cache'] ) {
-
-				// Check Nonce URL
-				if ( ! isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpmoly-empty-cache' ) ) {
-					add_settings_error( null, 'empty_cache', __( 'You don\'t have the permission do perform this action.', 'wpmovielibrary' ), 'error' );
-				}
-				else {
-					$action = WPMOLY_Cache::empty_cache();
-					if ( is_wp_error( $action ) )
-						add_settings_error( null, 'empty_cache', $action->get_error_message(), 'error' );
-					else
-						add_settings_error( null, 'empty_cache', $action, 'updated' );
-				}
-			}
-
-			$_allowed = array( 'api', 'wpmoly', 'images', 'taxonomies', 'deactivate', 'uninstall', 'cache', 'legacy', 'maintenance' );
-			$_section = ( isset( $_GET['wpmoly_section'] ) && in_array( $_GET['wpmoly_section'], $_allowed ) ) ? esc_attr( $_GET['wpmoly_section'] ) : 'api' ;
-
-			$attributes = array(
-				'_section' => $_section
-			);
-
-			echo self::render_admin_template( 'settings/settings.php', $attributes );*/
-		}
-
-		/**
 		 * Define all admin scripts but use only those needed by the
 		 * current page.
 		 * 
