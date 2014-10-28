@@ -297,7 +297,6 @@ class WPMOLY_Import_Table extends WP_List_Table {
 	function column_movietitle( $item ) {
 
 		$inline_item  = '<input id="p_'.$item['ID'].'_meta_data_post_id" type="hidden" name="movies[p_'.$item['ID'].'][post_id]" value="'.$item['ID'].'" />';
-		$inline_item .= '<input id="p_'.$item['ID'].'_meta_data_tmdb_id" type="hidden" name="movies[p_'.$item['ID'].'][tmdb_id]" value="0" />';
 		$inline_item .= '<input id="p_'.$item['ID'].'_meta_data_poster" type="hidden" name="movies[p_'.$item['ID'].'][poster]" value="" />';
 
 		foreach ( array_keys( $this->metadata ) as $slug )

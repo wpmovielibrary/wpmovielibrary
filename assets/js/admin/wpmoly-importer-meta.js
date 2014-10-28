@@ -104,7 +104,7 @@ wpmoly = wpmoly || {};
 				    $parent = $( '#post_' + post_id ).parents( 'tr' ),
 				      title = $parent.find( wpmoly_import_meta.movie_title ).text();
 
-				if ( ! post_id || '0' != $( '#p_' + post_id + '_meta_data_tmdb_id' ).val() )
+				if ( ! post_id || '' != $( '#p_' + post_id + '_meta_data_tmdb_id' ).val() )
 					return false;
 
 				$parent.prop( 'id', _post_id.replace( '#', '' ) );
