@@ -97,6 +97,7 @@ body.post-php.post-type-movie #postimagediv {
 	background-color: #fff;
 	-webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
 	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+	cursor: pointer;
 	display: none;
 	margin: 8px 2px;
 	padding: 5px 12px;

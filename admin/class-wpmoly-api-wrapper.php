@@ -246,7 +246,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 
 				$_result   = 'movie';
 				$_message  = null;
-				$_movie    = self::get_movie_by_id( $data['results'][0]['id'], $lang, $_id );
+				$_movie    = self::get_movie_by_id( $data['results'][0]['id'], $lang, $post_id );
 				if ( is_wp_error( $_movie ) )
 					return $_movie;
 				$_movies[] = $_movie;

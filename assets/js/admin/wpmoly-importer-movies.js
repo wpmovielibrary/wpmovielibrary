@@ -75,6 +75,7 @@ wpmoly = wpmoly || {};
 					return false;
 
 				wpmoly._post({
+					dataType: 'json',
 					data: {
 						action: 'wpmoly_import_movies',
 						nonce: wpmoly.get_nonce( 'import-movies-list' ),
@@ -85,16 +86,21 @@ wpmoly = wpmoly || {};
 					},
 					error: function( response ) {
 						wpmoly_state.clear();
-						$.each( response.responseJSON.errors, function() {
-							if ( $.isArray( this ) ) {
-								$.each( this, function() {
+						if ( undefined != response.responseJSON.errors ) {
+							$.each( response.responseJSON.errors, function() {
+								if ( $.isArray( this ) ) {
+									$.each( this, function() {
+										wpmoly_state.set( this, 'error' );
+									});
+								}
+								else {
 									wpmoly_state.set( this, 'error' );
-								});
-							}
-							else {
-								wpmoly_state.set( this, 'error' );
-							}
-						});
+								}
+							});
+						}
+						else
+							wpmoly_state.set( wpmoly_lang.oops, 'error' );
+
 						$( wpmoly_import_movies.list ).val( '' );
 						wpmoly_import_view.reload({});
 					},
