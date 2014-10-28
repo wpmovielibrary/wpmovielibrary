@@ -106,6 +106,7 @@ wpmoly = wpmoly || {};
 
 		container: '#wpmoly_status',
 
+		init: function() {},
 		set: function() {},
 		clear: function() {}
 	};
@@ -144,6 +145,16 @@ wpmoly = wpmoly || {};
 		 * Clear status
 		 */
 		wpmoly.state.clear = function() {
+			$( wpmoly_state.container ).on( 'click', function() {
+				$( this ).empty().removeClass().hide();
+			});
+		};
+
+		/**
+		 * Init status
+		 */
+		wpmoly.state.init = function() {
+
 			$( wpmoly_state.container ).empty().removeClass().hide();
 		};
 

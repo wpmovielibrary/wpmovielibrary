@@ -947,7 +947,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		public static function filter_empty_title( $data, $postarr ) {
 
-			if ( ! isset( $data['post_type'] ) || 'movie' != $data['post_type'] )
+			if ( ! isset( $data['post_type'] ) || 'movie' != $data['post_type'] || in_array( $data['post_status'], array( 'import-queued', 'import-draft' ) ) )
 				return $data;
 
 			$no_title   = __( '(no title)' );
