@@ -74,6 +74,17 @@ $wpmoly_config = array(
 				'default'  => '75',
 				'required' => array( 'wpmoly-excerpt', "=", 1 ),
 				'indent'   => true
+			),
+
+			// Replace excerpt by overview
+			'vintage-content' => array(
+				'id'       => 'wpmoly-vintage-content',
+				'type'     => 'switch',
+				'title'    => __( 'Use old metadata view', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, movies will use the old metadata display from WPMovieLibrary 1.x instead of the WPMovieLibrary 2.0 movie header.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0
 			)
 		)
 	),

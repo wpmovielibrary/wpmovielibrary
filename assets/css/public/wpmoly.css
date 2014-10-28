@@ -456,6 +456,7 @@
 
 .wpmoly.headbox.movie.details.field {
 	display: inline-block;
+	vertical-align: top;
 	width: 49%;
 }
 
@@ -523,15 +524,13 @@
 }
 
 .wpmoly.detail {
-	background: #eee;
-	border-radius: 0.25em;
-	line-height: 2rem;
-	padding: 0.25em 0.5em;
+	display: inline-block;
 }
 
-.wpmoly.detail.wpmoly-movie-media,
-.wpmoly.detail.wpmoly-movie-status {
-	width: 1.75rem;
+.wpmoly.detail.media,
+.wpmoly.detail.status {
+	/*width: 28px;
+	line-height: 28px;*/
 }
 
 .wpmoly-movie-media .wpmoly-movie-details-item,
@@ -618,7 +617,7 @@
  ***************************************************/
 
 .wpmoly.shortcode.block .wpmoly.shortcode.item.title {
-	display: block;
+	display: inline-block;
 	font-weight: bold;
 }
 

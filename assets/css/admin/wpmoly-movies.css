@@ -11,6 +11,11 @@
 	max-width: 4em;
 }
 
+.wp-list-table .wpmoly.shortcode.item.detail {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
 .visible-actors {
 	display: inline;
 }

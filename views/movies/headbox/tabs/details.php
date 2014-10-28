@@ -16,7 +16,7 @@
 						<span class="wpmoly headbox movie details field title"><span class="wpmolicon icon-<?php echo $detail['slug'] ?>"></span> <?php echo $detail['title'] ?></span>
 						<span class="wpmoly headbox movie details field value">
 <?php foreach ( $detail['value'] as $value ) : ?>
-							<span><?php echo $value ?></span>
+							<span><?php echo $value ?></span><br />
 
 <?php endforeach; ?>
 						</span>
