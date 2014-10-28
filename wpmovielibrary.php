@@ -32,6 +32,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+define( 'WPMOLY_PLUGIN',                 plugin_basename( __FILE__ ) );
 define( 'WPMOLY_NAME',                   'WPMovieLibrary' );
 define( 'WPMOLY_VERSION',                '2.0-beta.1' );
 define( 'WPMOLY_SLUG',                   'wpmoly' );

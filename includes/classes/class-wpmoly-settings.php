@@ -92,6 +92,9 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 
 			global $wpmoly_movie_details;
 
+			if ( is_null( $wpmoly_movie_details ) )
+				require WPMOLY_PATH . 'includes/config/wpmoly-movies.php';
+
 			/**
 			 * Filter the Details list to add/remove details.
 			 *
@@ -450,7 +453,7 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			global $wpmoly_movie_meta;
 
 			if ( is_null( $wpmoly_movie_meta ) )
-				require( WPMOLY_PATH . 'includes/wpmoly-config.php' );
+				require WPMOLY_PATH . 'includes/config/wpmoly-movies.php';
 
 			if ( ! is_null( $type ) ) {
 				$meta = array();

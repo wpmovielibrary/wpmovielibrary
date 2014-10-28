@@ -1279,6 +1279,32 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		}
 
 		/**
+		 * Deactivate all child plugins when deactivating WPMovieLibrary
+		 * to avoid errors.
+		 *
+		 * @since    2.0
+		 *
+		 * @param    bool    $network_wide
+		 */
+		public static function wpmoly_required() {
+
+			$chidren = array();
+			$wpmoly  = WPMOLY_PLUGIN;
+			$parent  = plugin_basename( WPMOLY_PATH );
+			$plugins = get_plugins();
+
+			foreach ( $plugins as $slug => $plugin ) {
+				if ( false !== stripos( $slug, $parent ) && $slug != $wpmoly && is_plugin_active( $slug ) ) {
+					$chidren[] = "<strong>{$plugin['Name']}</strong>";
+					deactivate_plugins( $slug );
+				}
+			}
+		
+			if ( ! empty( $chidren ) )
+				wp_die( sprintf( __( '<strong>%s</strong> is required by the following plugins: %s. These plugins have been deactivated to prevent errors.<br /><br />Back to the WordPress <a href="%s">Plugins page</a>.', 'wpmovielibrary' ), WPMOLY_NAME, implode( ', ', $chidren ), admin_url( 'plugins.php' ) ) );
+		}
+
+		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
 		 * @since    1.0
@@ -1299,6 +1325,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			WPMOLY_Cache::clean_transient( 'deactivate' );
 			delete_option( 'rewrite_rules' );
+
+			self::wpmoly_required();
 		}
 
 		/**
