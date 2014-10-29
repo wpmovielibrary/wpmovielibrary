@@ -2,9 +2,9 @@
 Contributors: askelon
 Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
-Requires at least: 3.6
+Requires at least: 3.9
 Tested up to: 4.0
-Stable tag: 2.0-beta.1
+Stable tag: 2.0-beta.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -65,7 +65,7 @@ Developers and Translators can contribute to the source code on the [GitHub Repo
 
 = Minimum Requirements =
 
-* WordPress 3.6 or greater
+* WordPress 3.9 or greater
 * PHP version 5.4 or greater
 * MySQL version 5.0 or greater
 
