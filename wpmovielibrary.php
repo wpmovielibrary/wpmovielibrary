@@ -39,7 +39,7 @@ define( 'WPMOLY_SLUG',                   'wpmoly' );
 define( 'WPMOLY_URL',                    plugins_url( basename( __DIR__ ) ) );
 define( 'WPMOLY_PATH',                   plugin_dir_path( __FILE__ ) );
 define( 'WPMOLY_REQUIRED_PHP_VERSION',   '5.4' );
-define( 'WPMOLY_REQUIRED_WP_VERSION',    '3.8' );
+define( 'WPMOLY_REQUIRED_WP_VERSION',    '3.6' );
 define( 'WPMOLY_DEFAULT_POSTER_URL',     plugins_url( basename( __DIR__ ) ) . '/assets/img/no_poster{size}.jpg' );
 define( 'WPMOLY_DEFAULT_POSTER_PATH',    WPMOLY_PATH . '/assets/img/no_poster{size}.jpg' );
 define( 'WPMOLY_MAX_TAXONOMY_LIST',      50 );
@@ -74,7 +74,7 @@ function wpmoly_requirements_met() {
 function wpmoly_requirements_error() {
 	global $wp_version;
 
-	require_once WPMOLY_PATH . 'views/requirements-error.php';
+	require_once WPMOLY_PATH . 'views/admin/requirements-error.php';
 }
 
 /**

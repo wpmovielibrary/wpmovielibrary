@@ -1,4 +1,13 @@
 
+/** WordPress 3.6 **/
+
+#toplevel_page_wpmovielibrary .wp-menu-image img {
+	width: 16px;
+	height: 16px;
+}
+
+/** General **/
+
 #wp-admin-bar-wpmovielibrary .wpmolicon {
 	font-family: 'wpmovielibrary';
 	font-size: 1rem;
