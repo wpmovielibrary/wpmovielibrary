@@ -172,6 +172,23 @@ $wpmoly_admin_menu = array(
 					'require' => array()
 				)
 			)
+		),
+
+		'about' => array(
+			'page_title'  => __( 'About', 'wpmovielibrary' ),
+			'menu_title'  => __( 'About', 'wpmovielibrary' ),
+			'capability'  => 'manage_options',
+			'menu_slug'   => 'wpmovielibrary-about',
+			'function'    => 'WPMovieLibrary_Admin::about_page',
+			'condition'   => null,
+			'hide'        => true,
+			'actions'     => array(),
+			'scripts'     => array(
+				
+			),
+			'styles'      => array(
+				
+			)
 		)
 
 	)

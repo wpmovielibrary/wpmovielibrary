@@ -494,7 +494,11 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 					$detail[ $i ] = apply_filters( "wpmoly_format_movie_field", $d );
 				}
 
-				$items[] = array( 'slug' => $slug, 'title' => __( $default_fields[ $slug ]['title'], 'wpmovielibrary' ), 'value' => $detail );
+				$title = '';
+				if ( isset( $default_fields[ $slug ] ) )
+					$title = __( $default_fields[ $slug ]['title'], 'wpmovielibrary' );
+
+				$items[] = array( 'slug' => $slug, 'title' => $title, 'value' => $detail );
 			}
 
 			$attributes = array(

@@ -486,6 +486,14 @@
 	border: 1px solid #e5e5e5;
 }
 
+.wpmoly.headbox.theme-twentytwelve > .wpmoly.headbox.movie.poster {
+	min-height: 164px;
+}
+
+.wpmoly.headbox.theme-twentytwelve .wpmoly.headbox.movie.title {
+	margin: 4px 0 0;
+}
+
 
 /** Movie Meta & Details block
  ***************************************************/

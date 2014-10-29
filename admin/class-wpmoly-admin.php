@@ -323,6 +323,19 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		}
 
 		/**
+		 * Simple "About" page based on WordPress about.php page.
+		 * 
+		 * Used to show some information about latest versions and features
+		 * after installation/update.
+		 * 
+		 * @since    2.0
+		 */
+		public static function about_page() {
+
+			echo self::render_admin_template( 'about.php' );
+		}
+
+		/**
 		 * Define all admin scripts but use only those needed by the
 		 * current page.
 		 * 
