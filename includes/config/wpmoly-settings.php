@@ -1161,3 +1161,59 @@ $wpmoly_config = array(
 		),
 	)
 );
+
+$legacy_config = array(
+	'tmdb' => array(
+		'apikey'       => 'wpmoly-api-key',
+		'internal_api' => 'wpmoly-api-internal',
+		'lang'         => 'wpmoly-api-language',
+		'scheme'       => 'wpmoly-api-scheme'
+	),
+	'wpml' => array(
+		'show_in_home'          => 'wpmoly-frontpage',
+		'movie_rewrite'         => 'wpmoly-rewrite-movie',
+		'meta_in_posts'         => 'wpmoly-show-meta',
+		'details_in_posts'      => 'wpmoly-show-details',
+		'details_as_icons'      => 'wpmoly-details-icons',
+		'date_format'           => 'wpmoly-format-date',
+		'time_format'           => 'wpmoly-format-time'
+	),
+	'images' => array(
+		'poster_featured' => 'wpmoly-poster-featured',
+		'poster_size'     => 'wpmoly-poster-size',
+		'images_size'     => 'wpmoly-images-size',
+		'delete_images'   => 'wpmoly-images-delete',
+		'delete_posters'  => 'wpmoly-posters-delete'
+	),
+	'taxonomies' => array(
+		'enable_collection'       => 'wpmoly-enable-collection',
+		'collection_rewrite'      => 'wpmoly-rewrite-collection',
+		'collection_autocomplete' => 'wpmoly-collection-autocomplete',
+		'enable_genre'            => 'wpmoly-enable-genre',
+		'genre_rewrite'           => 'wpmoly-rewrite-genre',
+		'genre_autocomplete'      => 'wpmoly-genre-autocomplete',
+		'enable_actor'            => 'wpmoly-enable-actor',
+		'actor_rewrite'           => 'wpmoly-rewrite-actor',
+		'actor_autocomplete'      => 'wpmoly-actor-autocomplete',
+		'actor_limit'             => 'wpmoly-actor-limit'
+	),
+	'deactivate' => array(
+		'movies'      => 'wpmoly-deactivate-movies',
+		'collections' => 'wpmoly-deactivate-collections',
+		'genres'      => 'wpmoly-deactivate-genres',
+		'actors'      => 'wpmoly-deactivate-actors',
+		'cache'       => 'wpmoly-deactivate-cache'
+	),
+	'uninstall' => array(
+		'movies'      => 'wpmoly-uninstall-movies',
+		'collections' => 'wpmoly-uninstall-collections',
+		'genres'      => 'wpmoly-uninstall-genres',
+		'actors'      => 'wpmoly-uninstall-actors',
+		'cache'       => 'wpmoly-uninstall-cache'
+	),
+	'cache' => array(
+		'caching'      => 'wpmoly-enable-cache',
+		'user_caching' => 'wpmoly-user-cache',
+		'caching_time' => 'wpmoly-cache-expire'
+	)
+);

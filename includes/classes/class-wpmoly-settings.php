@@ -377,7 +377,7 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		 * 
 		 * @return   mixed         Requested setting
 		 */
-		public static function get( $setting = '' ) {
+		public static function get( $setting = '', $default = false ) {
 
 			$wpmoly_settings = self::get_settings();
 
@@ -392,7 +392,7 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			if ( isset( $wpmoly_settings[ $setting ] ) )
 				return $wpmoly_settings[ $setting ];
 
-			return false;
+			return $default;
 		}
 
 		/**
@@ -495,13 +495,48 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		}
 
 		/**
+		 * Update WPMOLY 1.x Settings to ReduxFramework.
+		 * 
+		 * @since    2.0
+		 */
+		public static function update_1x_settings() {
+
+			global $legacy_config;
+
+			if ( is_null( $legacy_config ) )
+				require WPMOLY_PATH . 'includes/config/wpmoly-settings.php';
+
+			if ( is_null( $legacy_config ) )
+				return false;
+
+			$new_settings = array();
+			$old_settings = get_option( 'wpml_settings' );
+			$cur_settings = get_option( 'wpmoly_settings', array() );
+			if ( ! $old_settings )
+				return false;
+
+			foreach ( $legacy_config as $slug => $section )
+				foreach ( $section as $setting => $match )
+					if ( isset( $old_settings[ $slug ][ $setting ] ) )
+						$new_settings[ $match ] = $old_settings[ $slug ][ $setting ];
+
+			$cur_settings = wp_parse_args( $cur_settings, $new_settings );
+			$cur_settings = update_option( 'wpmoly_settings', $cur_settings );
+
+			delete_option( 'wpml_settings' );
+		}
+
+		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
 		 * @since    1.0
 		 *
 		 * @param    bool    $network_wide
 		 */
-		public function activate( $network_wide ) {}
+		public function activate( $network_wide ) {
+
+			self::update_1x_settings();
+		}
 
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
@@ -547,7 +582,7 @@ endif;
  * 
  * @return   mixed         Requested setting
  */
-function wpmoly_o( $search ) {
+function wpmoly_o( $search, $default = false ) {
 
-	return WPMOLY_Settings::get( $search );
+	return WPMOLY_Settings::get( $search, $default );
 }
