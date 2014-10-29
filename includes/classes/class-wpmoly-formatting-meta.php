@@ -180,7 +180,7 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 				return $data;
 
 			$countries = WPMOLY_Settings::get_supported_countries();
-			$format    = wpmoly_o( 'countries-format' );
+			$format    = wpmoly_o( 'countries-format', array() );
 			//$format    = array_map( create_function( '$item', 'return "[{$item}]";'), $format );
 
 			$data = explode( ',', $data );
