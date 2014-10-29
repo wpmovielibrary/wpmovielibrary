@@ -345,6 +345,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			$movie = apply_filters( 'wpmoly_filter_meta_data', $movie );
 			$casts = apply_filters( 'wpmoly_filter_crew_data', $casts );
 			$meta  = array_merge( $movie, $casts );
+			$meta['tmdb_id'] = $id;
 			$meta['certification'] = '';
 
 			if ( isset( $release['countries'] ) ) {
