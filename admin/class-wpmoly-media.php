@@ -163,6 +163,16 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			return $post_id;
 		}
 
+		public static function get_movie_imported_images() {
+
+			return self::get_movie_imported_attachments( $type = 'image' );
+		}
+
+		public static function get_movie_imported_posters() {
+
+			return self::get_movie_imported_attachments( $type = 'poster' );
+		}
+
 		/**
 		 * Get all the imported images related to current movie and format them
 		 * to be showed in the Movie Edit page. Featured image (most likely the
@@ -172,28 +182,30 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @return   array    Movie list
 		 */
-		public static function get_movie_imported_images() {
+		public static function get_movie_imported_attachments( $type = 'image' ) {
 
 			global $post;
 
 			if ( 'movie' != get_post_type() )
 				return false;
 
+			if ( 'poster' != $type )
+				$type = 'image';
 
 			$args = array(
-				'post_type'   => 'attachment',
-				'orderby'     => 'title',
-				'numberposts' => -1,
-				'post_status' => null,
-				'post_parent' => get_the_ID(),
-				'exclude'     => get_post_thumbnail_id()
+				'post_type'      => 'attachment',
+				'post_status'    => 'inherit',
+				'meta_key'       => "_wpmoly_{$type}_related_tmdb_id",
+				'posts_per_page' => -1,
+				'post_parent'    => get_the_ID(),
+				'exclude'        => get_post_thumbnail_id()
 			);
 
-			$attachments = get_posts( $args );
+			$attachments = new WP_Query( $args );
 			$images = array();
 
-			if ( $attachments )
-				foreach ( $attachments as $attachment )
+			if ( $attachments->posts ) {
+				foreach ( $attachments->posts as $attachment ) {
 					$images[] = array(
 						'id'     => $attachment->ID,
 						//'meta'   => wp_get_attachment_metadata( $attachment->ID ),
@@ -204,6 +216,8 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 						'image'  => wp_get_attachment_image_src( $attachment->ID, 'medium' ),
 						'link'   => get_edit_post_link( $attachment->ID )
 					);
+				}
+			}
 
 			return $images;
 		}

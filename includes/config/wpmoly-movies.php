@@ -381,6 +381,12 @@ $wpmoly_metabox_panels = array(
 		'title'    => __( 'Images', 'wpmovielibrary' ),
 		'icon'     => 'wpmolicon icon-images-alt',
 		'callback' => 'WPMOLY_Edit_Movies::render_images_panel'
+	),
+
+	'posters' => array(
+		'title'    => __( 'Posters', 'wpmovielibrary' ),
+		'icon'     => 'wpmolicon icon-poster',
+		'callback' => 'WPMOLY_Edit_Movies::render_posters_panel'
 	)
 
 );

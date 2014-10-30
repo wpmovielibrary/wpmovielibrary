@@ -9,8 +9,7 @@
 			<div id="tmdb_images_preview" class="hide-if-no-js">
 				<ul id="__attachments-view" class="attachments ui-sortable ui-sortable-disabled" tabindex="-1">
 
-<?php 
-foreach ( $images as $slug => $image ) : ?>
+<?php foreach ( $images as $image ) : ?>
 					<li class="tmdb_movie_images tmdb_movie_imported_image">
 						<a class="open-editor" href="<?php echo $image['link'] ?>" data-id="<?php echo $image['id'] ?>">
 							<div class="js--select-attachment type-image <?php echo $image['type'] . $image['format'] ?>">

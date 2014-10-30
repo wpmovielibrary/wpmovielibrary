@@ -657,6 +657,31 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			return $panel;
 		}
 
+		/**
+		 * Movie Posters Metabox Panel.
+		 * 
+		 * Display a Metabox panel to download movie posters.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    int    Current Post ID
+		 * 
+		 * @return   string    Panel HTML Markup
+		 */
+		private static function render_posters_panel( $post_id ) {
+
+			global $wp_version;
+
+			$attributes = array(
+				'posters' => WPMOLY_Media::get_movie_imported_posters(),
+				'version' => ( version_compare( $wp_version, '4.0', '>=' ) ? 4 : 0 )
+			);
+
+			$panel = self::render_admin_template( 'metabox/panels/panel-posters.php', $attributes  );
+
+			return $panel;
+		}
+
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *

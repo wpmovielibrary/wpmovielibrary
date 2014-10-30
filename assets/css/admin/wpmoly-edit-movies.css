@@ -337,7 +337,17 @@
 	width: 250px;
 }
 
-#tmdb_images_preview .tmdb_movie_images img {
+#tmdb_posters_preview .tmdb_movie_images {
+	border-radius: 4px;
+	float: left;
+	height: 240px;
+	margin: 4px;
+	overflow: hidden;
+	width: 160px;
+}
+
+#tmdb_images_preview .tmdb_movie_images img,
+#tmdb_posters_preview .tmdb_movie_images img {
 	height: auto;
 	width: 100%;
 }
