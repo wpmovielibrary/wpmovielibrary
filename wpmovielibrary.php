@@ -109,40 +109,40 @@ if ( wpmoly_requirements_met() ) {
 	 * Public-Facing Functionality
 	 *----------------------------------------------------------------------------*/
 
-	/* Core */
+	// Core
 	require_once( WPMOLY_PATH . 'includes/functions/wpmoly-core-functions.php' );
 	require_once( WPMOLY_PATH . 'includes/classes/class-module.php' );
 	require_once( WPMOLY_PATH . 'public/class-wpmovielibrary.php' );
 
-	/* Basics */
+	// Basics
 	require_once( WPMOLY_PATH . 'includes/classes/class-wpmoly-settings.php' );
 	if ( ! class_exists( 'ReduxFramework' ) )
 		require_once( WPMOLY_PATH . 'includes/framework/redux/ReduxCore/framework.php' );
 	if ( ! isset( $wpmoly_settings ) )
 		require_once( WPMOLY_PATH . 'includes/classes/class-wpmoly-redux.php' );
-	//require_once( WPMOLY_PATH . 'includes/framework/redux/sample/sample-config.php' );
+	// require_once( WPMOLY_PATH . 'includes/framework/redux/sample/sample-config.php' );
 	require_once( WPMOLY_PATH . 'includes/classes/class-wpmoly-cache.php' );
 	require_once( WPMOLY_PATH . 'includes/classes/class-wpmoly-l10n.php' );
 	require_once( WPMOLY_PATH . 'includes/classes/class-wpmoly-utils.php' );
 
-	/* CPT and Taxo */
+	// CPT and Taxo
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-movies.php' );
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-collections.php' );
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-genres.php' );
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-actors.php' );
 
-	/* Self-speaking */
+	// Self-speaking
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-shortcodes.php' );
 
-	/* Widgets */
+	// Widgets
 	require_once( WPMOLY_PATH . 'includes/classes/class-wpmoly-widget.php' );
 	require_once( WPMOLY_PATH . 'includes/widgets/class-statistics-widget.php' );
 	require_once( WPMOLY_PATH . 'includes/widgets/class-taxonomies-widget.php' );
 	require_once( WPMOLY_PATH . 'includes/widgets/class-details-widget.php' );
 	require_once( WPMOLY_PATH . 'includes/widgets/class-movies-widget.php' );
 
-	if ( wpmoly_has_deprecated_meta() )
-		require_once( WPMOLY_PATH . 'includes/classes/legacy/class-wpmoly-legacy.php' );
+	// Legacy
+	require_once( WPMOLY_PATH . 'includes/classes/legacy/class-wpmoly-legacy.php' );
 
 	/*
 	 * Register hooks that are fired when the plugin is activated or deactivated.

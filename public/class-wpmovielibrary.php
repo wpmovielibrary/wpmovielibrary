@@ -43,10 +43,8 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				'WPMOLY_Genres'      => WPMOLY_Genres::get_instance(),
 				'WPMOLY_Actors'      => WPMOLY_Actors::get_instance(),
 				'WPMOLY_Shortcodes'  => WPMOLY_Shortcodes::get_instance(),
+				'WPMOLY_Legacy'      => WPMOLY_Legacy::get_instance()
 			);
-
-			if ( wpmoly_has_deprecated_meta() )
-				$this->modules['WPMOLY_Legacy'] = WPMOLY_Legacy::get_instance();
 
 			$this->widgets = array(
 				'WPMOLY_Statistics_Widget',

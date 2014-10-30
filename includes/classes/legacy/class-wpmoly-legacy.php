@@ -151,12 +151,12 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 
 			$movies = $wpdb->get_results(
 				"SELECT DISTINCT post_id
-				   FROM wp_postmeta
+				   FROM {$wpdb->postmeta}
 				  WHERE meta_key='_wpmoly_movie_data'
 				    AND meta_value!=''
 				    AND post_id NOT IN (
 					SELECT DISTINCT post_id
-					  FROM wp_postmeta
+					  FROM {$wpdb->postmeta}
 					 WHERE ( meta_key='_wpmoly_movie_tmdb_id'
 					      OR meta_key='_wpmoly_movie_title' )
 					   AND meta_value!='' )"
