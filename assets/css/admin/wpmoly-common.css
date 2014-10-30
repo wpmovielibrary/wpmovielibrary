@@ -6,6 +6,23 @@
 	height: 16px;
 }
 
+/** About page **/
+
+.wp-badge.wpmoly-badge {
+	background: url('../../img/header.jpg') no-repeat;
+	background-position: -184px -246px;
+	background-size: auto;
+	color: #fff;
+	height: 104px;
+	padding-top: 72px;
+}
+
+.wp-badge.wpmoly-badge .wpmolicon {
+	font-size: 64px;
+	height: 72px;
+	width: 128px;
+}
+
 /** General **/
 
 #wp-admin-bar-wpmovielibrary .wpmolicon {

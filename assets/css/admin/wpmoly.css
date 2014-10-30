@@ -7,21 +7,6 @@ body.post-php.post-type-movie #postimagediv {
 	font-size: 20px;
 }
 
-.wp-badge.wpmoly-badge {
-	background: url('//wpmovielibrary.com/wp-content/uploads/2014/09/header.jpg') no-repeat;
-	background-position: -184px -246px;
-	background-size: auto;
-	color: #fff;
-	height: 104px;
-	padding-top: 72px;
-}
-
-.wp-badge.wpmoly-badge .wpmolicon {
-	font-size: 64px;
-	height: 72px;
-	width: 128px;
-}
-
 .button-wpmoly {
 	background: #2d2860 !important;
 	border-color: rgba(28, 24, 59, 1) !important;

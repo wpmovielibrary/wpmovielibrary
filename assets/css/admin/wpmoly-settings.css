@@ -1,7 +1,7 @@
 /** ReduxFramework **/
 
 #redux-header {
-	background-image: url('http://wpmovielibrary.com/wp-content/uploads/2014/09/header.jpg') !important;
+	background-image: url('../../img/header.jpg') !important;
 	background-position: center 85% !important;
 	background-repeat: no-repeat !important;
 	background-size: cover !important;

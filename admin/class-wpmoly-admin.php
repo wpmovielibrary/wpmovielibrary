@@ -90,6 +90,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public function register_hook_callbacks() {
 
 			add_action( 'init', array( $this, 'init' ) );
+			add_action( 'admin_init', array( $this, 'about_redirect' ) );
 
 			if ( wpmoly_modern_wp() )
 				add_action( 'admin_head', array( $this, 'custom_admin_colors' ) );
@@ -109,6 +110,20 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			add_action( 'in_admin_footer', array( $this, 'legal_mentions' ) );
 
 			add_action( 'dashboard_glance_items', array( $this, 'dashboard_glance_items' ), 10, 1 );
+		}
+
+		/**
+		 * Redirect to About page after install/update
+		 *
+		 * @since    1.0
+		 */
+		public function about_redirect() {
+
+			if ( 'no' == get_option( '_wpmoly_fresh_install', 'yes' ) )
+				return false;
+
+			update_option( '_wpmoly_fresh_install', 'no' );
+			wp_redirect( admin_url( 'index.php?page=wpmovielibrary-about' ) );
 		}
 
 		/**
@@ -250,6 +265,15 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		public function admin_menu() {
 
 			$admin_menu = WPMOLY_Settings::get_admin_menu();
+
+			add_dashboard_page(
+				$page_title = __( 'About', 'wpmovielibrary' ),
+				$menu_title = __( 'About', 'wpmovielibrary' ),
+				$capability = 'manage_options',
+				$menu_slug  = 'wpmovielibrary-about',
+				$function   = 'WPMovieLibrary_Admin::about_page'
+			);
+			remove_submenu_page( 'index.php', 'wpmovielibrary-about' );
 
 			extract( $admin_menu['page'] );
 

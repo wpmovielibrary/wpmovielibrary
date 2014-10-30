@@ -1314,6 +1314,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		public function activate( $network_wide ) {
 
 			self::set_archive_page();
+
+			// About page
+			update_option( '_wpmoly_fresh_install', 'yes' );
 		}
 
 		/**
