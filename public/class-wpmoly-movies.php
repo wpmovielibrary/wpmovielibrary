@@ -260,15 +260,10 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$movie  = array(
 				'poster' => $poster,
 				'rating' => apply_filters( 'wpmoly_movie_rating_stars', self::get_movie_meta( $id, 'rating' ) ),
-				'media'  => self::get_movie_meta( $id, 'media' ),
-				'status' => self::get_movie_meta( $id, 'status' ),
+				'media'  => apply_filters( 'wpmoly_format_movie_media', self::get_movie_meta( $id, 'media' ), $format = 'html', $icon = true ),
+				'status' => apply_filters( 'wpmoly_format_movie_status', self::get_movie_meta( $id, 'status' ), $format = 'html', $icon = true ),
 				'year'   => apply_filters( 'wpmoly_format_movie_year', self::get_movie_meta( $id, 'release_date' ) )
 			);
-
-			if ( '' == $movie['media'] )
-				$movie['media'] = array();
-			if ( ! is_array( $movie['media'] ) )
-				$movie['media'] = array( $movie['media'] );
 
 			$meta  = array( 'title', 'tagline', 'overview', 'genres', 'runtime' );
 			foreach ( $meta as $i => $m )
@@ -995,7 +990,6 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$attributes = array(
 				'letters' => $letters,
 				'default' => $default,
-				'url'     => sprintf( '%s/?letter=', get_permalink() ),
 				'current' => $current
 			);
 
@@ -1032,11 +1026,13 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			global $wpdb;
 
 			$letter = get_query_var( 'letter' );
-			$paged  = get_query_var( 'paged' );
+			$paged  = get_query_var( 'page' );
 			$total  = 0;
 
 			$movies = array();
 			$posts_per_page = $number;
+			$total  = wp_count_posts( 'movie' );
+			$total  = $total->publish;
 
 			if ( '' != $letter ) {
 
@@ -1068,15 +1064,17 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				$args['post__in'] = $movies;
 
 			$movies = get_posts( $args );
-			$total  = wp_count_posts( 'movie' );
-			$total  = $total->publish;
 
-			$slug = wpmoly_o( 'rewrite-movie' );
+			$format = array();
+			if ( '' != $letter )
+				$format[] = "letter={$letter}";
+			$format[] = 'page=%#%';
+
 			$args = array(
 				'type'    => 'list',
 				'total'   => ceil( ( $total ) / $posts_per_page ),
 				'current' => max( 1, $paged ),
-				'format'  => sprintf( '%s/?letter=%s&amp;paged=%s', get_permalink(), $letter, '%#%' ),
+				'format'  => sprintf( '%s?%s', get_permalink(), implode( '&amp;', $format ) ),
 			);
 
 			$paginate = WPMOLY_Utils::paginate_links( $args );

@@ -24,10 +24,12 @@
 .wpmolicon.icon-cinema:before,
 .wpmolicon.icon-unavailable:before,
 .wpmolicon.icon-sd:before,
-.wpmolicon.icon-hd:before {
+.wpmolicon.icon-hd:before,
+.wpmolicon.icon-3d:before {
 	font-size: 2rem;
-	left: -2px;
+	left: -6px;
 	position: relative;
+	top: -6px;
 }
 
 .wpmolicon.icon-actor:before {
@@ -70,7 +72,7 @@
 .icon-revenue:before {
 	content: "\f0d6";
 }
-.icon-year:before {
+.icon-release_date:before {
 	content: "\e642";
 }
 .icon-rating:before {
@@ -276,6 +278,7 @@
 }
 
 .wpmoly.headbox.movie.details .wpmolicon {
+	margin-right: 4px;
 	position: relative;
 	top: 1px;
 }
