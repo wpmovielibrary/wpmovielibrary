@@ -2,7 +2,7 @@
 Contributors: askelon
 Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
-Requires at least: 3.9
+Requires at least: 3.8
 Tested up to: 4.0
 Stable tag: 2.0-beta.2
 License: GPLv3

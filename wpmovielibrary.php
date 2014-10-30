@@ -39,7 +39,7 @@ define( 'WPMOLY_SLUG',                   'wpmoly' );
 define( 'WPMOLY_URL',                    plugins_url( basename( __DIR__ ) ) );
 define( 'WPMOLY_PATH',                   plugin_dir_path( __FILE__ ) );
 define( 'WPMOLY_REQUIRED_PHP_VERSION',   '5.4' );
-define( 'WPMOLY_REQUIRED_WP_VERSION',    '3.9' );
+define( 'WPMOLY_REQUIRED_WP_VERSION',    '3.8' );
 define( 'WPMOLY_DEFAULT_POSTER_URL',     plugins_url( basename( __DIR__ ) ) . '/assets/img/no_poster{size}.jpg' );
 define( 'WPMOLY_DEFAULT_POSTER_PATH',    WPMOLY_PATH . '/assets/img/no_poster{size}.jpg' );
 define( 'WPMOLY_MAX_TAXONOMY_LIST',      50 );
