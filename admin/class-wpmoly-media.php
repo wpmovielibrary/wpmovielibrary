@@ -163,24 +163,41 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			return $post_id;
 		}
 
+		/**
+		 * Get related images for the current movie. Shortcut for the
+		 * get_movie_imported_attachments() method.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @return   array    Images list
+		 */
 		public static function get_movie_imported_images() {
 
 			return self::get_movie_imported_attachments( $type = 'image' );
 		}
 
+		/**
+		 * Get related posters for the current movie. Shortcut for the
+		 * get_movie_imported_attachments() method.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @return   array    Posters list
+		 */
 		public static function get_movie_imported_posters() {
 
 			return self::get_movie_imported_attachments( $type = 'poster' );
 		}
 
 		/**
-		 * Get all the imported images related to current movie and format them
-		 * to be showed in the Movie Edit page. Featured image (most likely the
-		 * movie poster) is excluded from the list.
+		 * Get all the imported images/posters related to current movie
+		 * and format them to be showed in the Movie Edit page.
 		 * 
 		 * @since    1.0
 		 * 
-		 * @return   array    Movie list
+		 * @param    string    $type Attachment type, 'image' or 'poster'
+		 * 
+		 * @return   array    Attachment list
 		 */
 		public static function get_movie_imported_attachments( $type = 'image' ) {
 
@@ -197,8 +214,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				'post_status'    => 'inherit',
 				'meta_key'       => "_wpmoly_{$type}_related_tmdb_id",
 				'posts_per_page' => -1,
-				'post_parent'    => get_the_ID(),
-				'exclude'        => get_post_thumbnail_id()
+				'post_parent'    => get_the_ID()
 			);
 
 			$attachments = new WP_Query( $args );
