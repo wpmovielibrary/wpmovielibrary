@@ -9,11 +9,11 @@
 
 		<h2 class="nav-tab-wrapper">
 			<a href="#features" class="nav-tab nav-tab-active">
-				<?php _e( 'Features' ); ?>
+				<?php _e( 'Features', 'wpmovielibrary' ); ?>
 			</a><a href="#recommended" class="nav-tab">
-				<?php _e( 'Recommendations' ); ?>
+				<?php _e( 'Recommendations', 'wpmovielibrary' ); ?>
 			</a><a href="#credits" class="nav-tab">
-				<?php _e( 'Credits' ); ?>
+				<?php _e( 'Credits', 'wpmovielibrary' ); ?>
 			</a>
 		</h2>
 
@@ -67,7 +67,7 @@
 				</div>
 				<div class="col-2 last-feature">
 					<h3><?php _e( 'You own the place', 'wpmovielibrary' ); ?></h3>
-					<p><?php _e( 'And therefore you should be able to tune your library as you please. That is now possible with the new Settings panel powered by the powerful <a href="http://reduxframework.com/">ReduxFramework</a>.', 'wpmovielibrary' ); ?></p>
+					<p><?php printf( __( 'And therefore you should be able to tune your library as you please. That is now possible with the new Settings panel powered by the powerful <a href="%s">ReduxFramework</a>.', 'wpmovielibrary' ), 'http://reduxframework.com/' ); ?></p>
 				</div>
 			</div>
 
@@ -109,7 +109,7 @@
 		<hr />
 
 		<div class="changelog under-the-hood">
-			<h3 id="recommended"><?php _e( 'Recommendations' ); ?></h3>
+			<h3 id="recommended"><?php _e( 'Recommendations', 'wpmovielibrary' ); ?></h3>
 
 			<div class="feature-section col two-col">
 				<div class="col-1">
@@ -118,19 +118,19 @@
 				<div class="col-2 last-feature">
 					<h3><?php _e( 'WordPress Movie Library 1.x movies update', 'wpmovielibrary' ); ?></h3>
 					<p><?php _e( 'The movie metadata changes in WordPress Movie Library 2.0 require that you update all your movies to the new metadata format in order to access new features. You can use the builtin updater tool to update your movies in a few seconds.', 'wpmovielibrary' ); ?></p>
-					<p><?php _e( '<strong>Make backups of your data before updating your movies</strong>. You should always do this before updating a plugin to the next major release, but in this particular it is most recommended that you backup your site before anything. <a href="#">Learn why</a>.', 'wpmovielibrary' ); ?></p>
+					<p><?php printf( __( '<strong>Make backups of your data before updating your movies</strong>. You should always do this before updating a plugin to the next major release, but in this particular it is most recommended that you backup your site before anything. <a href="%s">Learn why</a>.', 'wpmovielibrary' ), 'http://wpmovielibrary.com/development/release-notes/#version-1.3' ); ?></p>
 				</div>
 			</div>
 
 			<hr />
 
-			<h3 id="credits"><?php _e( 'Credits' ); ?></h3>
+			<h3 id="credits"><?php _e( 'Credits', 'wpmovielibrary' ); ?></h3>
 
 			<div class="feature-section">
 				<div>
-					<strong>Lead developer</strong>: <a href="http://www.caercam.org/">Charlie MERLAND</a><br />
-					<strong>Testing and brainstorming</strong>: lesurfeur, Ravavamouna, xdarkevil, zack06007, stargatehome<br />
-					<strong>German translation</strong>: Mario Winkler<br />
+					<strong><?php _e( 'Lead developer', 'wpmovielibrary' ); ?></strong>: <a href="http://www.caercam.org/">Charlie MERLAND</a><br />
+					<strong><?php _e( 'Testing and brainstorming', 'wpmovielibrary' ); ?></strong>: lesurfeur, Ravavamouna, xdarkevil, zack06007, stargatehome<br />
+					<strong><?php _e( 'German translation', 'wpmovielibrary' ); ?></strong>: Mario Winkler<br />
 				</div>
 			</div>
 
