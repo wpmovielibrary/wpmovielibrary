@@ -73,14 +73,20 @@ var wpmoly_queue;
 					var post_id = movies[ i ];
 					wpmoly_queue.current_post_id = post_id;
 
-					if ( post_id && wpmoly_queue_utils.get_val( 'tmdb_id' ) )
+					if ( post_id && '' != wpmoly_queue_utils.get_val( 'tmdb_id' ) ) {
 						queue.push( wpmoly_queue_utils.prepare_queue() );
 
-					$( '#enqueue_' + post_id + ' .wpmolicon' ).after( '<span class="spinner"></span>' );
-					$( '#enqueue_' + post_id).addClass( 'loading' );
-					
+						$( '#enqueue_' + post_id + ' .wpmolicon' ).after( '<span class="spinner"></span>' );
+						$( '#enqueue_' + post_id).addClass( 'loading' );
+					}
 				}
-				
+
+				if ( ! queue.length ) {
+					wpmoly_state.clear();
+					wpmoly_state.set( wpmoly_lang.missing_meta, 'warning' );
+					return false;
+				}
+
 				wpmoly._post({
 					data: {
 						action: 'wpmoly_enqueue_movies',
