@@ -20,11 +20,14 @@ window.wpmoly = window.wpmoly || {};
 
 			var $tab = $( '#movie-headbox-' + item + '-' + post_id ),
 			 $parent = $( '#movie-headbox-' + post_id ),
-			   $tabs = $parent.find( '.wpmoly.headbox.movie.content > .content' );
+			   $tabs = $parent.find( '.wpmoly.headbox.movie.content > .content' ),
+			   $link = $( '#movie-headbox-' + item + '-link-' + post_id );
 
 			if ( undefined != $tab ) {
 				$tabs.hide();
 				$tab.show();
+				$parent.find( 'a.active' ).removeClass( 'active' );
+				$link.addClass( 'active' );
 			}
 		};
 

@@ -18,14 +18,14 @@
 	<div class="<?php echo $style ?>">
 
 <?php if ( '' != $description ) : ?>
-		<div class="wpmoly widget movie description"><?php echo $description ?></div>
+		<div class="wpmoly movie description"><?php echo $description ?></div>
 <?php endif; ?>
 
 <?php foreach ( $items as $item ) : ?>
-		<a class="wpmoly widget movie link" href="<?php echo $item['link'] ?>" title="<?php echo __( 'Read more about', 'wpmovielibrary' ) . $item['title'] ?>">
-			<figure id="movie-<?php the_ID(); ?>" class="wpmoly widget movie">
+		<a class="wpmoly movie link" href="<?php echo $item['link'] ?>" title="<?php echo __( 'Read more about', 'wpmovielibrary' ) . $item['title'] ?>">
+			<figure id="movie-<?php the_ID(); ?>" class="wpmoly movie">
 <?php if ( 'no' == $show_poster || 'before' == $show_title ) : ?>
-				<div id="movie-<?php the_ID(); ?>-title" class="wpmoly widget movie title"><?php echo $item['title'] ?></div>
+				<div id="movie-<?php the_ID(); ?>-title" class="wpmoly movie title"><?php echo $item['title'] ?></div>
 <?php endif; ?>
 
 <?php if ( 'small' == $show_poster || 'normal' == $show_poster ) : ?>
@@ -33,11 +33,11 @@
 <?php endif; ?>
 
 <?php if ( 'no' != $show_rating ) : ?>
-				<div class="wpmoly widget movie rating"><?php echo $item['_rating'] ?><?php if ( 'starsntext' == $show_rating ) echo '<span class="wpmoly widget movie rating label">' . $item['rating'] . '/5</span>' ?></div>
+				<div class="wpmoly movie rating"><?php echo $item['_rating'] ?><?php if ( 'starsntext' == $show_rating ) echo '<span class="wpmoly movie rating label">' . $item['rating'] . '/5</span>' ?></div>
 <?php endif; ?>
 
 <?php if ( 'after' == $show_title ) : ?>
-				<div id="movie-<?php the_ID(); ?>-title" class="wpmoly widget movie title"><?php echo $item['title'] ?></div>
+				<div id="movie-<?php the_ID(); ?>-title" class="wpmoly movie title"><?php echo $item['title'] ?></div>
 <?php endif; ?>
 
 			</figure>
