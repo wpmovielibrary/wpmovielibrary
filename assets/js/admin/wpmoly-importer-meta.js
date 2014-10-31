@@ -60,7 +60,7 @@ wpmoly = wpmoly || {};
 					$( wpmoly_import_meta.selected + ':checked' ).each( function( i ) {
 
 						var post_id = this.value;
-						if ( ! post_id.length || '0' != $('#p_' + post_id + '_meta_data_tmdb_id').val() )
+						if ( ! post_id.length || '' != $('#p_' + post_id + '_meta_data_tmdb_id').val() )
 							return false;
 
 						var $parent = $( this ).parents( 'tr' );
