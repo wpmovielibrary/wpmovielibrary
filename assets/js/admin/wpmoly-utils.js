@@ -130,7 +130,7 @@ wpmoly = wpmoly || {};
 			else
 				var bg = '#fff';
 
-			$( wpmoly_state.container ).append( '<p>' + message + '</p>' ).removeClass().addClass( style ).show();
+			$( wpmoly_state.container ).empty().append( '<p>' + message + '</p>' ).removeClass().addClass( style ).show();
 
 			if ( 'error' == style ) {
 				$( '.spinner, .loading' ).removeClass( 'spinner loading' );

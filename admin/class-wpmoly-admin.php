@@ -376,7 +376,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$wpmoly_slug = WPMOLY_SLUG . '-admin';
 
 			$scripts = array();
-			$scripts['utils'] = array( '/assets/js/admin/wpmoly-utils.js', array( 'jquery',  ), true );
+			$scripts['utils'] = array( '/assets/js/admin/wpmoly-utils.js', array( 'jquery', 'jquery-color' ), true );
 
 			if ( $hook_suffix == $settings )
 				$scripts['settings'] = array( '/assets/js/admin/wpmoly-settings.js', array( $wpmoly_slug, 'jquery', 'jquery-ui-sortable' ), true );
