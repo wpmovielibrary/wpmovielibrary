@@ -267,8 +267,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$admin_menu = WPMOLY_Settings::get_admin_menu();
 
 			add_dashboard_page(
-				$page_title = __( 'About', 'wpmovielibrary' ),
-				$menu_title = __( 'About', 'wpmovielibrary' ),
+				$page_title = __( 'About WPMovieLibrary', 'wpmovielibrary' ),
+				$menu_title = __( 'About WPMovieLibrary', 'wpmovielibrary' ),
 				$capability = 'manage_options',
 				$menu_slug  = 'wpmovielibrary-about',
 				$function   = 'WPMovieLibrary_Admin::about_page'

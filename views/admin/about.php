@@ -31,7 +31,7 @@
 					<p><?php _e( 'Furthermore, metadata have been completely reviewed to make you able to list all movies by a composer, a specific year or langague…', 'wpmovielibrary' ); ?></p>
 				</div>
 				<div class="col-2 last-feature">
-					<img src="/screen4.png" />
+					<img src="http://wpmovielibrary.com/media/2.0/newheadbox.jpg" />
 				</div>
 			</div>
 
@@ -39,7 +39,7 @@
 
 			<div class="feature-section col two-col">
 				<div class="col-1">
-					<img src="/screen3.png" />
+					<img src="http://wpmovielibrary.com/media/2.0/newmetabox.jpg" />
 				</div>
 				<div class="col-2 last-feature">
 					<h3><?php _e( 'Smooth metadata editing', 'wpmovielibrary' ); ?></h3>
@@ -55,7 +55,7 @@
 					<p><?php _e( 'WordPress Movie Library 2.0 introduces a highly requested feature that will be enhanced add extended in forthcoming versions: the Grid. Show all your movies in an alphabetically sorted grid view and browse through you library.', 'wpmovielibrary' ); ?></p>
 				</div>
 				<div class="col-2 last-feature">
-					<img src="/screen5.png" />
+					<img src="http://wpmovielibrary.com/media/2.0/thegrid.jpg" />
 				</div>
 			</div>
 
@@ -63,7 +63,7 @@
 
 			<div class="feature-section col two-col">
 				<div class="col-1">
-					<img src="/screenx.png" />
+					<img src="http://wpmovielibrary.com/media/2.0/settingspanel.jpg" />
 				</div>
 				<div class="col-2 last-feature">
 					<h3><?php _e( 'You own the place', 'wpmovielibrary' ); ?></h3>
@@ -113,7 +113,7 @@
 
 			<div class="feature-section col two-col">
 				<div class="col-1">
-					<img src="/screen6.png" />
+					<img src="http://wpmovielibrary.com/media/2.0/updatemovies.jpg" />
 				</div>
 				<div class="col-2 last-feature">
 					<h3><?php _e( 'WordPress Movie Library 1.x movies update', 'wpmovielibrary' ); ?></h3>
