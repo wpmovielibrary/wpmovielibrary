@@ -112,7 +112,7 @@ $wpmoly_movie_details = array(
 			'hd' => __( 'HD', 'wpmovielibrary' ),
 		),
 		'default'  => '',
-		'multi'    => false,
+		'multi'    => true,
 		'rewrite'  => array( 'format' => __( 'format', 'wpmovielibrary' ) )
 	)
 );
