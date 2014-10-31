@@ -224,11 +224,11 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				return $content;
 
 			if ( wpmoly_o( 'vintage-content' ) )
-				$content = self::movie_vintage_content( $content );
+				$headbox = self::movie_vintage_content( $content );
 			else
-				$content = self::movie_headbox_content( $content );
+				$headbox = self::movie_headbox_content( $content );
 
-			return $content;
+			return $headbox . $content;
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -375,7 +375,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			 * 
 			 * @param    array    $tabs default headbox tabs
 			 */
-			$tabs = apply_filters( 'wpmoly_filter_headbox_menu_link', $tabs );
+			$tabs = apply_filters( 'wpmoly_filter_headbox_menu_tabs', $tabs );
 
 			$attributes = array(
 				'id'   => get_the_ID(),

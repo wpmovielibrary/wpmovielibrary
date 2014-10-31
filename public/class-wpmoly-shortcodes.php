@@ -781,16 +781,19 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 		 * 
 		 * @param    string    $shortcode Shortcode's ID
 		 * @param    array     $atts Attributes to filter
+		 * @param    array     $defaults Default attributes if needed
 		 * 
 		 * @return   array    Filtered Attributes
 		 */
-		private static function filter_shortcode_atts( $shortcode, $atts = array() ) {
+		public static function filter_shortcode_atts( $shortcode, $atts = array(), $defaults = array() ) {
 
 			if ( ! is_array( $atts ) )
 				$atts = array( $atts );
 
-			$defaults = WPMOLY_Settings::get_available_shortcodes();
-			$defaults = $defaults[ $shortcode ][ 'atts' ];
+			if ( empty( $defaults ) ) {
+				$defaults = WPMOLY_Settings::get_available_shortcodes();
+				$defaults = $defaults[ $shortcode ][ 'atts' ];
+			}
 
 			$attributes = array();
 
