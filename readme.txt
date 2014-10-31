@@ -4,7 +4,7 @@ Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 3.8
 Tested up to: 4.0
-Stable tag: 2.0-beta.2
+Stable tag: 2.0-RC1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -116,14 +116,22 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 == Changelog ==
 
 = 2.0 =
-* Dev - Updated metadata format
 * Feature - Complete reboot of Settings
 * Feature - Include movies in search results
 * Feature - Coutry names and languages translation
 * Feature - Production countries flags
-* Tweak - Better Admin Bar menu
-* Tweak - Attachment Editor Modal Window accessible for imported images in movie editor
+* Feature - Find movies by metadata
+* Feature - Grid Shortcode
+* Tweak - Dedicated icon font
+* Tweak - Updated Admin Bar menu
+* Tweak - Updated Metabox in editor
+* Tweak - Attachment Editor Modal Window accessible for imported images in movie editor (WP4+)
 * Tweak - Random sorting added to Movies Widget
+* Tweak - Movies by Meta in Movies Widget
+* Tweak - Added Language, Subtitles and Video Format details
+* Tweak - Added Certification, Adult, Budget, Revenue, Tagline and Homepage metadata
+* Dev - Work in progress: lots of hooks and tweaks to make the plugin more extendable
+* Dev - Updated metadata format
 
 = 1.2.2 =
 * Tweak - Media Modals CSS fixes for WordPress 4.0
