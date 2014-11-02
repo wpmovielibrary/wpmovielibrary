@@ -11,14 +11,14 @@
 						<div class="welcome-panel-column">
 							<h4><?php _e( 'Get Started', 'wpmovielibrary' ); ?></h4>
 							<a class="button button-primary button-hero button-wpmoly" href="http://wpmovielibrary.com/documentation/"><?php _e( 'View the Documentation', 'wpmovielibrary' ); ?></a>
-							<p><?php printf( __( 'and you may want to look at the <a href="%s">plugin settings</a>.', 'wpmovielibrary' ), admin_url( 'admin.php?page=wpmoly_edit_settings' ) ) ?></p>
+							<p><?php printf( __( 'and you may want to look at the <a href="%s">plugin settings</a>.', 'wpmovielibrary' ), admin_url( 'admin.php?page=wpmovielibrary-settings' ) ) ?></p>
 						</div>
 
 						<div class="welcome-panel-column">
 							<h4><?php _e( 'Start building your library', 'wpmovielibrary' ); ?></h4>
 							<ul>
 								<li><span class="wpmolicon icon-add-page"></span><a href="<?php echo admin_url( 'post-new.php?post_type=movie' ) ?>"><?php _e( 'Create your first movie', 'wpmovielibrary' ); ?></a></li>
-								<li><span class="wpmolicon icon-import"></span><a href="<?php echo admin_url( 'admin.php?page=wpmoly_import' ) ?>"><?php _e( 'Import lists of movies', 'wpmovielibrary' ); ?></a></li>
+								<li><span class="wpmolicon icon-import"></span><a href="<?php echo admin_url( 'admin.php?page=wpmovielibrary-import' ) ?>"><?php _e( 'Import lists of movies', 'wpmovielibrary' ); ?></a></li>
 								<li><span class="wpmolicon icon-movie"></span><a href="<?php echo admin_url( 'edit.php?post_type=movie' ) ?>"><?php _e( 'Manage your movies', 'wpmovielibrary' ); ?></a></li>
 							</ul>
 						</div>
