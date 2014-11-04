@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary 2.0-alpha.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/wpmovielibrary\n"
-"POT-Creation-Date: 2014-10-30 10:19+0100\n"
-"PO-Revision-Date: 2014-10-30 11:46+0100\n"
+"POT-Creation-Date: 2014-11-04 15:45+0100\n"
+"PO-Revision-Date: 2014-11-04 15:54+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: WPMovieLibrary <support@wpmovielibrary.com>\n"
 "Language: Français\n"
@@ -97,15 +97,15 @@ msgstr ""
 "L'option « Utiliser les affiches comme images à la une » est désactivée, "
 "modifiez vos préférences pour effectuer ceci."
 
-#: ../admin/class-wpmoly-media.php:251
+#: ../admin/class-wpmoly-media.php:281
 msgid "The image you're trying to upload is empty."
 msgstr "L'image que vous essayez de télécharger est vide."
 
-#: ../admin/class-wpmoly-media.php:270
+#: ../admin/class-wpmoly-media.php:300
 msgid "The image you're trying to upload already exists."
 msgstr "L'image que vous essayez de télécharger existe déjà."
 
-#: ../admin/class-wpmoly-media.php:358
+#: ../admin/class-wpmoly-media.php:388
 msgid "See available Movie Posters"
 msgstr "Afficher les affiches disponibles"
 
@@ -208,7 +208,7 @@ msgstr "Post ID ou détails vide(s) ou invalide(s) "
 
 #: ../admin/class-wpmoly-edit-movies.php:144
 #: ../admin/class-wpmoly-import-table.php:46
-#: ../includes/classes/class-wpmoly-l10n.php:398
+#: ../includes/classes/class-wpmoly-l10n.php:399
 msgid "Poster"
 msgstr "Affiche"
 
@@ -247,26 +247,26 @@ msgstr "Modification rapide"
 msgid "WordPress Movie Library"
 msgstr "WordPress Movie Library"
 
-#: ../admin/class-wpmoly-edit-movies.php:682
-#: ../admin/class-wpmoly-edit-movies.php:731
+#: ../admin/class-wpmoly-edit-movies.php:707
+#: ../admin/class-wpmoly-edit-movies.php:756
 #: ../includes/classes/legacy/class-wpmoly-legacy.php:249
 msgid "Error: submitted post is not a movie."
 msgstr "Erreur : l'article n'est pas un film."
 
-#: ../admin/class-wpmoly-edit-movies.php:688
+#: ../admin/class-wpmoly-edit-movies.php:713
 msgid "Error: the submitted movie details are invalid."
 msgstr "Erreur : détails invalides."
 
-#: ../admin/class-wpmoly-edit-movies.php:833
+#: ../admin/class-wpmoly-edit-movies.php:858
 msgid "You are not allowed to edit posts."
 msgstr "Vous n'êtes pas autorisé à éditer les articles."
 
-#: ../admin/class-wpmoly-edit-movies.php:836
+#: ../admin/class-wpmoly-edit-movies.php:861
 #, php-format
 msgid "Posts with #%s is invalid or is not a movie."
 msgstr "L'article #%s est invalide ou n'est pas un film."
 
-#: ../admin/class-wpmoly-edit-movies.php:953
+#: ../admin/class-wpmoly-edit-movies.php:978
 msgid "(no title)"
 msgstr "(pas de titre)"
 
@@ -379,12 +379,12 @@ msgid "Movies"
 msgstr "Films"
 
 #: ../admin/class-wpmoly-admin.php:155
-#: ../includes/classes/class-wpmoly-utils.php:655
-#: ../includes/classes/class-wpmoly-utils.php:689
-#: ../includes/classes/class-wpmoly-utils.php:726
-#: ../includes/classes/class-wpmoly-utils.php:754
-#: ../includes/classes/class-wpmoly-utils.php:781
-#: ../includes/classes/class-wpmoly-utils.php:1148
+#: ../includes/classes/class-wpmoly-utils.php:663
+#: ../includes/classes/class-wpmoly-utils.php:697
+#: ../includes/classes/class-wpmoly-utils.php:734
+#: ../includes/classes/class-wpmoly-utils.php:762
+#: ../includes/classes/class-wpmoly-utils.php:789
+#: ../includes/classes/class-wpmoly-utils.php:1156
 #, php-format
 msgid "%d movie"
 msgid_plural "%d movies"
@@ -392,9 +392,9 @@ msgstr[0] "1 film"
 msgstr[1] "%d films"
 
 #: ../admin/class-wpmoly-admin.php:270 ../admin/class-wpmoly-admin.php:271
-#: ../views/admin/help.php:6
-msgid "About"
-msgstr "À propos"
+#: ../views/admin/help.php:4
+msgid "About WPMovieLibrary"
+msgstr "À propos de WPMovieLibrary"
 
 #: ../admin/class-wpmoly-import-table.php:47
 #: ../includes/config/wpmoly-settings.php:153
@@ -700,7 +700,7 @@ msgid "Invalid key: it should be 32 characters long."
 msgstr "Clé invalide : votre clé doit comporter 32 caractères alphanumériques."
 
 #: ../includes/classes/class-wpmoly-l10n.php:389
-#: ../views/admin/metabox/panels/panel-images.php:26
+#: ../views/admin/metabox/panels/panel-images.php:25
 msgid "Load Images"
 msgstr "Télécharger les images"
 
@@ -721,67 +721,73 @@ msgstr ""
 "images ou des affiches."
 
 #: ../includes/classes/class-wpmoly-l10n.php:393
+msgid "No metadata could be found, please import metadata before queuing."
+msgstr ""
+"Aucune métadonnée trouvée, veuillez importer ces données avant d'ajouter en "
+"file d'attente."
+
+#: ../includes/classes/class-wpmoly-l10n.php:394
 #: ../public/class-wpmoly-movies.php:73
 msgid "Movie"
 msgstr "Film"
 
-#: ../includes/classes/class-wpmoly-l10n.php:394
 #: ../includes/classes/class-wpmoly-l10n.php:395
+#: ../includes/classes/class-wpmoly-l10n.php:396
 #: ../views/admin/update-movies.php:124
 msgid "movie updated"
 msgid_plural "movies updated"
 msgstr[0] "film mis à jour"
 msgstr[1] "films mis à jour"
 
-#: ../includes/classes/class-wpmoly-l10n.php:396
+#: ../includes/classes/class-wpmoly-l10n.php:397
 msgid "not updated"
 msgstr "non mis à jour"
 
-#: ../includes/classes/class-wpmoly-l10n.php:397
+#: ../includes/classes/class-wpmoly-l10n.php:398
 msgid "Oops… Did something went wrong?"
 msgstr "Oups… Quelque chose a échoué ?"
 
-#: ../includes/classes/class-wpmoly-l10n.php:399
+#: ../includes/classes/class-wpmoly-l10n.php:400
 msgid "Saving Images…"
 msgstr "Enregistrement des images…"
 
-#: ../includes/classes/class-wpmoly-l10n.php:400
+#: ../includes/classes/class-wpmoly-l10n.php:401
 msgid "Searching movie"
 msgstr "Recherche du film"
 
-#: ../includes/classes/class-wpmoly-l10n.php:401
+#: ../includes/classes/class-wpmoly-l10n.php:402
 msgid "Fetching movie data"
 msgstr "Téléchargement des données"
 
-#: ../includes/classes/class-wpmoly-l10n.php:402
+#: ../includes/classes/class-wpmoly-l10n.php:403
 msgid "see no more"
 msgstr "masquer"
 
-#: ../includes/classes/class-wpmoly-l10n.php:403
+#: ../includes/classes/class-wpmoly-l10n.php:404
 msgid "see more"
 msgstr "afficher la suite"
 
-#: ../includes/classes/class-wpmoly-l10n.php:404
-#: ../includes/classes/class-wpmoly-l10n.php:409
+#: ../includes/classes/class-wpmoly-l10n.php:405
+#: ../includes/classes/class-wpmoly-l10n.php:410
 #: ../views/admin/update-movies.php:124
 msgid "selected"
 msgid_plural "selected"
 msgstr[0] "sélectionné"
 msgstr[1] "sélectionnés"
 
-#: ../includes/classes/class-wpmoly-l10n.php:405
+#: ../includes/classes/class-wpmoly-l10n.php:406
 msgid "Setting featured image…"
 msgstr "Ajout de l’aperçu…"
 
-#: ../includes/classes/class-wpmoly-l10n.php:406
+#: ../includes/classes/class-wpmoly-l10n.php:407
 msgid "updated successfully"
 msgstr "mis a jour !"
 
-#: ../includes/classes/class-wpmoly-l10n.php:407
+#: ../includes/classes/class-wpmoly-l10n.php:408
 msgid "Used"
 msgstr "Utilisé(s)"
 
-#: ../includes/classes/class-wpmoly-l10n.php:408
+#: ../includes/classes/class-wpmoly-l10n.php:409
 msgid "updating movies..."
 msgstr "mise à jour des films…"
 
@@ -801,38 +807,38 @@ msgid_plural "%s transients deleted."
 msgstr[0] "Un transient supprimé."
 msgstr[1] "%s transient supprimés."
 
-#: ../includes/classes/class-wpmoly-utils.php:973
+#: ../includes/classes/class-wpmoly-utils.php:981
 msgid "Invalid taxonomy"
 msgstr "Taxonomie invalide"
 
-#: ../includes/classes/class-wpmoly-utils.php:1102
+#: ../includes/classes/class-wpmoly-utils.php:1110
 #, php-format
 msgid "View all movies from collection &laquo; %s &raquo;"
 msgstr "Voir tous les films de la collection &laquo; %s &raquo;"
 
-#: ../includes/classes/class-wpmoly-utils.php:1106
+#: ../includes/classes/class-wpmoly-utils.php:1114
 #, php-format
 msgid "View all &laquo; %s &raquo; movies"
 msgstr "Voir tous les films &laquo; %s &raquo;"
 
-#: ../includes/classes/class-wpmoly-utils.php:1110
+#: ../includes/classes/class-wpmoly-utils.php:1118
 #, php-format
 msgid "View all movies staring &laquo; %s &raquo;"
 msgstr "Voir tous les films avec &laquo; %s &raquo;"
 
-#: ../includes/classes/class-wpmoly-utils.php:1221
+#: ../includes/classes/class-wpmoly-utils.php:1229
 msgid "&laquo; Previous"
 msgstr "&laquo; Précédent"
 
-#: ../includes/classes/class-wpmoly-utils.php:1222
+#: ../includes/classes/class-wpmoly-utils.php:1230
 msgid "Next &raquo;"
 msgstr "Suivant &raquo;"
 
-#: ../includes/classes/class-wpmoly-utils.php:1262
+#: ../includes/classes/class-wpmoly-utils.php:1270
 msgid "&hellip;"
 msgstr "&hellip;"
 
-#: ../includes/classes/class-wpmoly-utils.php:1304
+#: ../includes/classes/class-wpmoly-utils.php:1312
 #, php-format
 msgid ""
 "<strong>%s</strong> is required by the following plugins: %s. These plugins "
@@ -1354,6 +1360,7 @@ msgid "Images and Posters options"
 msgstr "Réglages et des images et affiches"
 
 #: ../includes/config/wpmoly-settings.php:312
+#: ../includes/config/wpmoly-movies.php:387
 msgid "Posters"
 msgstr "Affiches"
 
@@ -1736,11 +1743,10 @@ msgstr "Format de pays"
 #, php-format
 msgid ""
 "How production countries should be appear in your movies. Default is "
-"<code>Flag + Abbreviated translation</code> showing something like <code>%s</"
-"code>."
+"<code>Flag + translation</code> showing something like <code>%s</code>."
 msgstr ""
 "Comment sont affichés les pays. La valeur par défaut est <code>Drapeau + "
-"Traduction abbréviée</code> qui donnera un résultat comme <code>%s</code>."
+"Traduction</code> qui donnera un résultat comme <code>%s</code>."
 
 #: ../includes/config/wpmoly-settings.php:674
 msgid "Ireland"
@@ -2239,16 +2245,6 @@ msgstr ""
 "Importer et exporter vos réglages et films depuis un fichier, un texte ou "
 "une URL."
 
-#: ../includes/config/wpmoly-settings.php:1153
-msgid "Information"
-msgstr "Information"
-
-#: ../includes/config/wpmoly-settings.php:1154
-msgid ""
-"<p class=\"description\">This is the Description. Again HTML is allowed</p>"
-msgstr ""
-"<p class=\"description\">This is the Description. Again HTML is allowed</p>"
-
 #: ../includes/config/wpmoly-admin-menu.php:58
 #: ../includes/config/wpmoly-admin-menu.php:59
 #: ../public/class-wpmoly-movies.php:78
@@ -2575,7 +2571,7 @@ msgstr "Rien à afficher"
 
 #: ../includes/widgets/class-movies-widget.php:252
 #: ../includes/widgets/class-details-widget.php:126
-#: ../includes/widgets/class-taxonomies-widget.php:146
+#: ../includes/widgets/class-taxonomies-widget.php:160
 #, php-format
 msgid "Permalink for &laquo; %s &raquo;"
 msgstr "Permalien pour &laquo; %s &raquo;"
@@ -2636,43 +2632,43 @@ msgstr "Afficher les éléments d'une taxonomie : collections, genres, acteurs�
 msgid "Movie Taxonomies"
 msgstr "Taxonomies"
 
-#: ../includes/widgets/class-taxonomies-widget.php:66
+#: ../includes/widgets/class-taxonomies-widget.php:74
 msgid "Select a collection"
 msgstr "Sélectionner une collection"
 
-#: ../includes/widgets/class-taxonomies-widget.php:67
+#: ../includes/widgets/class-taxonomies-widget.php:75
 msgid "View all collections"
 msgstr "Voir toutes les collections"
 
-#: ../includes/widgets/class-taxonomies-widget.php:68
+#: ../includes/widgets/class-taxonomies-widget.php:76
 msgid "Nothing to display for \"Collection\" taxonomy."
 msgstr "Aucune collection à afficher."
 
-#: ../includes/widgets/class-taxonomies-widget.php:71
+#: ../includes/widgets/class-taxonomies-widget.php:79
 msgid "Select a genre"
 msgstr "Sélectionner un genre"
 
-#: ../includes/widgets/class-taxonomies-widget.php:72
+#: ../includes/widgets/class-taxonomies-widget.php:80
 msgid "View all genres"
 msgstr "Voir tous les genres"
 
-#: ../includes/widgets/class-taxonomies-widget.php:73
+#: ../includes/widgets/class-taxonomies-widget.php:81
 msgid "Nothing to display for \"Genre\" taxonomy."
 msgstr "Aucun genre à afficher."
 
-#: ../includes/widgets/class-taxonomies-widget.php:76
+#: ../includes/widgets/class-taxonomies-widget.php:84
 msgid "Select an actor"
 msgstr "Sélectionner un acteur"
 
-#: ../includes/widgets/class-taxonomies-widget.php:77
+#: ../includes/widgets/class-taxonomies-widget.php:85
 msgid "View all actors"
 msgstr "Voir tous les acteurs"
 
-#: ../includes/widgets/class-taxonomies-widget.php:78
+#: ../includes/widgets/class-taxonomies-widget.php:86
 msgid "Nothing to display for \"Actor\" taxonomy."
 msgstr "Aucun acteur à afficher."
 
-#: ../includes/widgets/class-taxonomies-widget.php:155
+#: ../includes/widgets/class-taxonomies-widget.php:169
 msgid "View the complete list"
 msgstr "Voir la liste complète"
 
@@ -2757,25 +2753,51 @@ msgstr "Description"
 msgid "Taxonomy"
 msgstr "Taxonomie"
 
+#: ../views/taxonomies-widget/taxonomies-admin.php:19
+msgid "Order taxonomies by ..."
+msgstr "Ordonner les taxonomies…"
+
+#: ../views/taxonomies-widget/taxonomies-admin.php:21
+msgid "Movie count"
+msgstr "Nombre de films"
+
 #: ../views/taxonomies-widget/taxonomies-admin.php:22
+msgid "Taxonomy name"
+msgstr "Nom des taxonomies"
+
+#: ../views/taxonomies-widget/taxonomies-admin.php:24
+msgid "Sort taxonomies ..."
+msgstr "Classer les taxonomies par…"
+
+#: ../views/taxonomies-widget/taxonomies-admin.php:26
+#: ../views/movies-widget/movies-admin.php:102
+msgid "Ascending"
+msgstr "Croissant"
+
+#: ../views/taxonomies-widget/taxonomies-admin.php:27
+#: ../views/movies-widget/movies-admin.php:103
+msgid "Descending"
+msgstr "Décroissant"
+
+#: ../views/taxonomies-widget/taxonomies-admin.php:32
 #: ../views/details-widget/details-admin.php:26
 msgid "Show as dropdown"
 msgstr "Afficher comme liste déroulante"
 
-#: ../views/taxonomies-widget/taxonomies-admin.php:24
+#: ../views/taxonomies-widget/taxonomies-admin.php:34
 msgid "Show movies count"
 msgstr "Afficher le nombre de films"
 
-#: ../views/taxonomies-widget/taxonomies-admin.php:26
+#: ../views/taxonomies-widget/taxonomies-admin.php:36
 #: ../views/details-widget/details-admin.php:28
 msgid "Custom Style (only for dropdown)"
 msgstr "Style spécial (seulement pour les listes déroulantes)"
 
-#: ../views/taxonomies-widget/taxonomies-admin.php:27
+#: ../views/taxonomies-widget/taxonomies-admin.php:37
 msgid "Number of collections to show"
 msgstr "Nombre de collections à afficher"
 
-#: ../views/taxonomies-widget/taxonomies-admin.php:28
+#: ../views/taxonomies-widget/taxonomies-admin.php:38
 msgid "Set to 0 to disable limit. Not recommended."
 msgstr "Laisser à 0 pour ne pas limiter la liste. Déconseillé."
 
@@ -3062,9 +3084,9 @@ msgstr "Tests et idées géniales"
 msgid "German translation"
 msgstr "Traduction allemande"
 
-#: ../views/admin/help.php:4
-msgid "About WPMovieLibrary"
-msgstr "À propos de WPMovieLibrary"
+#: ../views/admin/help.php:6
+msgid "About"
+msgstr "À propos"
 
 #: ../views/admin/help.php:8
 msgid ""
@@ -3181,11 +3203,11 @@ msgstr[1] "%d films"
 #: ../views/admin/update-movies.php:110
 msgid ""
 "You can update all your movies at once, select a few movies manually (<span "
-"class=\"wpmolicon icon-ok\"></span> link) or update directly a specific "
+"class=\"wpmolicon icon-yes\"></span> link) or update directly a specific "
 "movies (<span class=\"wpmolicon icon-update\"></span> link)."
 msgstr ""
 "Vous pouvez mettre à jour tous vos films d'une traite, sélectionner quelques "
-"films manuellement (<span class=\"wpmolicon icon-ok\"></span>) ou mettre à "
+"films manuellement (<span class=\"wpmolicon icon-yes\"></span>) ou mettre à "
 "jour directement un film précis (<span class=\"wpmolicon icon-update\"></"
 "span>)."
 
@@ -3508,6 +3530,7 @@ msgid "Directed by:"
 msgstr "Réalisé par :"
 
 #: ../views/admin/metabox/panels/panel-images.php:4
+#: ../views/admin/metabox/panels/panel-posters.php:4
 #: ../views/admin/import/import.php:4
 msgid ""
 "It seems you have JavaScript deactivated; the import feature will not work "
@@ -3698,14 +3721,6 @@ msgstr "Afficher les films par…"
 msgid "Sort movies ..."
 msgstr "Classer les films par…"
 
-#: ../views/movies-widget/movies-admin.php:102
-msgid "Ascending"
-msgstr "Croissant"
-
-#: ../views/movies-widget/movies-admin.php:103
-msgid "Descending"
-msgstr "Décroissant"
-
 #: ../views/movies-widget/movies-admin.php:107
 msgid "Number of movies to show"
 msgstr "Nombre de films à afficher"
@@ -3759,6 +3774,16 @@ msgstr "Lire la suite"
 #: ../views/details-widget/details-admin.php:13
 msgid "Detail"
 msgstr "Détail"
+
+#~ msgid "Information"
+#~ msgstr "Information"
+
+#~ msgid ""
+#~ "<p class=\"description\">This is the Description. Again HTML is allowed</"
+#~ "p>"
+#~ msgstr ""
+#~ "<p class=\"description\">This is the Description. Again HTML is allowed</"
+#~ "p>"
 
 #~ msgid "tmdbid"
 #~ msgstr "tmdbid"
