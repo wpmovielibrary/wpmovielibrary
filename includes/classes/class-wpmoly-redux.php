@@ -31,7 +31,7 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 			$this->setArguments();
 
 			// Set a few help tabs so you can see how it's done
-			$this->setHelpTabs();
+			//$this->setHelpTabs();
 
 			// Create the sections and fields
 			$this->setSections();
@@ -53,7 +53,7 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 			//add_filter('redux/options/'.$this->args['opt_name'].'/defaults', array( $this,'change_defaults' ) );
 
 			// Dynamically add a section. Can be also used to modify sections/fields
-			add_filter( 'redux/options/' . $this->args['opt_name'] . '/sections', array( $this, 'dynamic_section' ) );
+			//add_filter( 'redux/options/' . $this->args['opt_name'] . '/sections', array( $this, 'dynamic_section' ) );
 
 			// Replace Framework Font with FontAwesome
 			add_filter( 'redux/page/' . $this->args['opt_name'] . '/enqueue', array( $this, 'font_awesome_font' ) );

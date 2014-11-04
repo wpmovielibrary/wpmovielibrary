@@ -1143,12 +1143,12 @@ $wpmoly_config = array(
 	),
 
 	// Divider
-	array(
+	/*array(
 		'type' => 'divide',
-	),
+	),*/
 
 	// 'wpmoly-about' About Plugin
-	array(
+	/*array(
 		'icon'   => 'wpmolicon icon-info',
 		'title'  => __( 'Information', 'wpmovielibrary' ),
 		'desc'   => __( '<p class="description">This is the Description. Again HTML is allowed</p>', 'wpmovielibrary' ),
@@ -1159,7 +1159,7 @@ $wpmoly_config = array(
 				'content' => '',
 			)
 		),
-	)
+	)*/
 );
 
 $legacy_config = array(
