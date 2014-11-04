@@ -600,10 +600,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			}, $echo = false );
 
-			// Original content should not be cached
-			$content = $html . $content;
-
-			return $content;
+			return $html;
 		}
 
 		/**
