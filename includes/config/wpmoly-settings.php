@@ -297,6 +297,60 @@ $wpmoly_config = array(
 		),
 	),
 
+	// 'wpmoly-archive' Builtin Pages settings subsection
+	/*array(
+		'icon'    => 'wpmolicon icon-edit-page',
+		'title'   => __( 'Archive Pages', 'wpmovielibrary' ),
+		'heading' => __( 'Builtin Archive Pages settings', 'wpmovielibrary' ),
+		'desc'    => __( 'This section allow you to define custom pages to display taxonomies and movies archives.', 'wpmovielibrary' ),
+		'subsection' => true,
+		'fields'  => array(
+
+			// Movies Archive Page
+			'movies-archive-page' => array(
+				'id'       => 'wpmoly-movies-archive-page',
+				'type'     => 'select',
+				'data'     => 'pages',
+				'title'    => __( 'Movies Archive Page', 'wpmovielibrary' ),
+				'desc'     => __( 'Choose a page to use to display movies archives.', 'wpmovielibrary' ),
+				'default'  => ''
+			),
+
+			// Collections Archive Page
+			'collections-archive-page' => array(
+				'id'       => 'wpmoly-collections-archive-page',
+				'type'     => 'select',
+				'data'     => 'pages',
+				'title'    => __( 'Collections Archive Page', 'wpmovielibrary' ),
+				'desc'     => __( 'Choose a page to use to display collections archives.', 'wpmovielibrary' ),
+				'default'  => '',
+				'required' => array( 'wpmoly-enable-collection', "=", 1 ),
+			),
+
+			// Actors Archive Page
+			'actors-archive-page' => array(
+				'id'       => 'wpmoly-actors-archive-page',
+				'type'     => 'select',
+				'data'     => 'pages',
+				'title'    => __( 'Actors Archive Page', 'wpmovielibrary' ),
+				'desc'     => __( 'Choose a page to use to display actors archives.', 'wpmovielibrary' ),
+				'default'  => '',
+				'required' => array( 'wpmoly-enable-actor', "=", 1 ),
+			),
+
+			// Collections Archive Page
+			'genres-archive-page' => array(
+				'id'       => 'wpmoly-genres-archive-page',
+				'type'     => 'select',
+				'data'     => 'pages',
+				'title'    => __( 'Collections Archive Page', 'wpmovielibrary' ),
+				'desc'     => __( 'Choose a page to use to display genres archives.', 'wpmovielibrary' ),
+				'default'  => '',
+				'required' => array( 'wpmoly-enable-genre', "=", 1 ),
+			)
+		),
+	),*/
+
 	// 'wpmoly-images' Images and Posters section
 	array(
 		'icon'    => 'wpmolicon icon-image',
@@ -446,7 +500,6 @@ $wpmoly_config = array(
 		'icon'    => 'wpmolicon icon-folder',
 		'title'   => __( 'General', 'wpmovielibrary' ),
 		'heading' => __( 'General settings', 'wpmovielibrary' ),
-		'description' => 'Bleh',
 		'subsection' => true,
 		'fields'  => array(
 

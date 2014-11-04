@@ -105,7 +105,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'get_the_terms', __CLASS__ . '::get_the_terms', 10, 3 );
 			add_filter( 'wp_get_object_terms', __CLASS__ . '::get_ordered_object_terms', 10, 4 );
 
-			add_action( 'template_redirect', __CLASS__ . '::filter_404', 10 );
+			//add_action( 'template_redirect', __CLASS__ . '::filter_404', 10 );
 			add_filter( 'post_type_archive_title', __CLASS__ . '::filter_post_type_archive_title', 10, 2 );
 		}
 
@@ -228,13 +228,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			WPMOLY_L10n::delete_l10n_rewrite();
 			WPMOLY_L10n::delete_l10n_rewrite_rules();
 			$l10n_rules = WPMOLY_L10n::set_l10n_rewrite_rules();
-
-			foreach ( $l10n_rules['taxonomies'] as $slug => $tax ) {
-				$new_rules[ $tax . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' ] = 'index.php?' . $slug . '=$matches[1]&feed=$matches[2]';
-				$new_rules[ $tax . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' ] = 'index.php?' . $slug . '=$matches[1]&feed=$matches[2]';
-				$new_rules[ $tax . '/([^/]+)/page/?([0-9]{1,})/?$' ] = 'index.php?' . $slug . '=$matches[1]&paged=$matches[2]';
-				$new_rules[ $tax . '/([^/]+)/?$' ] = 'index.php?' . $slug . '=$matches[1]';
-			}
 
 			foreach ( $l10n_rules['detail'] as $slug => $detail ) {
 

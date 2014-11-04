@@ -189,13 +189,9 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			$genre      = wpmoly_o( 'rewrite-genre' );
 			$actor      = wpmoly_o( 'rewrite-actor' );
 
-			$l10n_rules['movies']                   = ( $translate && '' != $movies ? $movies : 'movies' );
-			$l10n_rules['taxonomies']['collection'] = ( $translate && '' != $collection ? $collection : 'collection' );
-			$l10n_rules['taxonomies']['genre']      = ( $translate && '' != $genre ? $genre : 'genre' );
-			$l10n_rules['taxonomies']['actor']      = ( $translate && '' != $actor ? $actor : 'actor' );
-
-			$details    = WPMOLY_Settings::get_supported_movie_details();
-			$meta       = WPMOLY_Settings::get_supported_movie_meta();
+			$l10n_rules['movies'] = ( $translate && '' != $movies ? $movies : 'movies' );
+			$details = WPMOLY_Settings::get_supported_movie_details();
+			$meta    = WPMOLY_Settings::get_supported_movie_meta();
 
 			foreach ( $details as $slug => $detail ) {
 				if ( $translate )
@@ -315,6 +311,8 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		/**
 		 * Generate Custom Taxonomies permalinks
 		 * 
+		 * TODO: use pages to display archives.
+		 * 
 		 * @since    1.0
 		 * 
 		 * @param    string    $taxonomy Taxonomy name
@@ -324,7 +322,9 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		public static function get_taxonomy_permalink( $taxonomy, $value ) {
 
-			$l10n_rewrite = self::get_l10n_rewrite();
+			return $value;
+
+			/*$l10n_rewrite = self::get_l10n_rewrite();
 
 			$movies = wpmoly_o( 'rewrite-movie' );
 			if ( ! $movies )
@@ -345,7 +345,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 
 			$permalink = sprintf( '<a href="%1$s" title="%2$s">%2$s</a>', $url, $value );
 
-			return $permalink;
+			return $permalink;*/
 		}
 
 		/**
