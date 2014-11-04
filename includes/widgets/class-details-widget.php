@@ -26,7 +26,7 @@ class WPMOLY_Details_Widget extends WPMOLY_Widget {
 
 		$this->widget_name        = __( 'WPMovieLibrary Details', 'wpmovielibrary' );
 		$this->widget_description = __( 'Display a list of the available details: status, media and rating.', 'wpmovielibrary' );
-		$this->widget_css         = 'wpmoly widget details';
+		$this->widget_css         = 'wpmoly details';
 		$this->widget_id          = 'wpmovielibrary-details-widget';
 		$this->widget_form        = 'details-widget/details-admin.php';
 
@@ -112,10 +112,10 @@ class WPMOLY_Details_Widget extends WPMOLY_Widget {
 
 		if ( ! empty( $details ) ) {
 
-			$this->widget_css .= " wpmoly-{$detail}-widget";
+			$this->widget_css .= " wpmoly {$detail}";
 
 			if ( $css )
-				$this->widget_css .= ' wpmoly-list custom';
+				$this->widget_css .= ' list custom';
 
 			$items = array();
 			foreach ( $details as $slug => $_title ) {
