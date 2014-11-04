@@ -671,7 +671,7 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'title'    => __( 'Country names format', 'wpmovielibrary' ),
-				'desc'     => sprintf( __( 'How production countries should be appear in your movies. Default is <code>Flag + Abbreviated translation</code> showing something like <code>%s</code>.', 'wpmovielibrary' ), sprintf( '<span class="flag flag-ir"></span><abbr title="Ireland">%s</abbr>', __( 'Ireland', 'wpmovielibrary-iso' ) ) ),
+				'desc'     => sprintf( __( 'How production countries should be appear in your movies. Default is <code>Flag + translation</code> showing something like <code>%s</code>.', 'wpmovielibrary' ), sprintf( '<span class="flag flag-ir"></span> %s', __( 'Ireland', 'wpmovielibrary-iso' ) ) ),
 				'options'  => array(
 					'flag'        => __( 'Flag', 'wpmovielibrary' ),
 					'original'    => __( 'Original', 'wpmovielibrary' ),
@@ -681,7 +681,7 @@ $wpmoly_config = array(
 				),
 				'default'  => array(
 					'flag',
-					'atranslated'
+					'translated'
 				),
 				'required' => array( 'wpmoly-translate-countries', "=", 1 ),
 			),

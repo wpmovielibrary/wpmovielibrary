@@ -439,7 +439,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$styles['admin']  = '/assets/css/admin/wpmoly.css';
 
 			if ( $hook_suffix == $settings ) {
-				$styles['flags']    = '/assets/css/public/flags.css';
+				$styles['flags']    = '/assets/css/public/wpmoly-flags.css';
 				$styles['settings'] = '/assets/css/admin/wpmoly-settings.css';
 			}
 
