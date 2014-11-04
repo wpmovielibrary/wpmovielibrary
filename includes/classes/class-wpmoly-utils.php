@@ -511,6 +511,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 */
 		public static function get_movie_rating_stars( $rating, $post_id = null, $base = null ) {
 
+			$defaults = WPMOLY_Settings::get_supported_movie_details();
+
 			if ( is_null( $post_id ) || ! intval( $post_id ) )
 				$post_id = '';
 
@@ -523,6 +525,10 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$rating = 0.0;
 			if ( 5.0 < $rating )
 				$rating = 5.0;
+
+			$title = '';
+			if ( isset( $defaults['rating']['options'][ $rating ] ) )
+				$title = $defaults['rating']['options'][ $rating ];
 
 			$_rating = preg_replace( '/([0-5])(\.|_)(0|5)/i', '$1-$3', $rating );
 
@@ -539,14 +545,16 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( 10 == $base ) {
 				$_filled = $rating * 2;
 				$_empty  = 10 - $_filled;
+				$title   = "{$rating}/10 − {$title}";
 
-				$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '">';
+				$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '" title="' . $title . '">';
 				$stars .= str_repeat( $filled, $_filled );
 				$stars .= str_repeat( $empty, $_empty );
 				$stars .= '</div>';
 			}
 			else {
-				$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '">';
+				$title   = "{$rating}/5 − {$title}";
+				$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '" title="' . $title . '">';
 				$stars .= str_repeat( $filled, $_filled );
 				$stars .= str_repeat( $half, $_half );
 				$stars .= str_repeat( $empty, $_empty );
