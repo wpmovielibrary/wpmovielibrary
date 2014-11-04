@@ -16,6 +16,16 @@ extract( $instance );
 			<option value="genre" <?php selected( $taxonomy, 'genre' ); ?>><?php _e( 'Genres', 'wpmovielibrary' ); ?></option>
 			<option value="actor" <?php selected( $taxonomy, 'actor' ); ?>><?php _e( 'Actors', 'wpmovielibrary' ); ?></option>
 		</select>
+		<label for="<?php echo $widget->get_field_id( 'orderby' ); ?>"><h4 class="wpmoly-widget-title"><?php _e( 'Order taxonomies by ...', 'wpmovielibrary' ); ?></h4></label> 
+		<select class="widefat" id="<?php echo $widget->get_field_id( 'orderby' ); ?>" name="<?php echo $widget->get_field_name( 'orderby' ); ?>">
+			<option value="count" <?php selected( $orderby, 'count' ); ?>><?php _e( 'Movie count', 'wpmovielibrary' ); ?></option>
+			<option value="name" <?php selected( $orderby, 'name' ); ?>><?php _e( 'Taxonomy name', 'wpmovielibrary' ); ?></option>
+		</select>
+		<label for="<?php echo $widget->get_field_id( 'order' ); ?>"><h4 class="wpmoly-widget-title"><?php _e( 'Sort taxonomies ...', 'wpmovielibrary' ); ?></h4></label>
+		<select class="widefat" id="<?php echo $widget->get_field_id( 'order' ); ?>" name="<?php echo $widget->get_field_name( 'order' ); ?>">
+			<option value="ASC" <?php selected( $order, 'ASC' ); ?>><?php _e( 'Ascending' ); ?></option>
+			<option value="DESC" <?php selected( $order, 'DESC' ); ?>><?php _e( 'Descending' ); ?></option>
+		</select>
 	</p>
 	<p>
 		<input id="<?php echo $widget->get_field_id( 'list' ); ?>" name="<?php echo $widget->get_field_name( 'list' ); ?>" type="checkbox" value="1" <?php checked( $list, 1 ); ?> /> 

@@ -26,7 +26,7 @@ class WPMOLY_Taxonomies_Widget extends WPMOLY_Widget {
 
 		$this->widget_name        = __( 'WPMovieLibrary Taxonomies', 'wpmovielibrary' );
 		$this->widget_description = __( 'Display a list of terms from a specific taxonomy: collections, genres or actors.', 'wpmovielibrary' );
-		$this->widget_css         = 'wpmoly widget taxonomies';
+		$this->widget_css         = 'wpmoly taxonomies';
 		$this->widget_id          = 'wpmovielibrary-taxonomies-widget';
 		$this->widget_form        = 'taxonomies-widget/taxonomies-admin.php';
 
@@ -50,6 +50,14 @@ class WPMOLY_Taxonomies_Widget extends WPMOLY_Widget {
 			'count' => array(
 				'type' => 'checkbox',
 				'std' => 0
+			),
+			'orderby' =>  array(
+				'type' => 'select',
+				'std'  => 'count'
+			),
+			'order' =>  array(
+				'type' => 'select',
+				'std'  => 'DESC'
 			),
 			'css' => array(
 				'type' => 'checkbox',
@@ -127,19 +135,25 @@ class WPMOLY_Taxonomies_Widget extends WPMOLY_Widget {
 		$title = apply_filters( 'widget_title', $title );
 		$archive = wpmoly_o( "rewrite-{$taxonomy}" );
 
-		$args = '';
-		if ( 0 < $limit )
-			$args = 'order=DESC&orderby=count&number=' . $limit;
+		if ( 'ASC' != $order )
+			$order = 'DESC';
+		if ( 'name' != $orderby )
+			$orderby = 'count';
 
+		$args = array( "order={$order}", "orderby={$orderby}" );
+		if ( 0 < $limit )
+			$args[] = "number={$limit}";
+
+		$args = implode( '&', $args );
 		$taxonomies = get_terms( array( $taxonomy ), $args );
 
 		if ( $taxonomies && ! is_wp_error( $taxonomies ) ) {
 
 			$items = array();
-			$this->widget_css .= " wpmoly-widget wpmoly-{$taxonomy}-list";
+			$this->widget_css .= " $taxonomy list";
 
 			if ( $css )
-				$this->widget_css .= ' wpmoly-list custom';
+				$this->widget_css .= ' custom';
 
 			foreach ( $taxonomies as $term )
 				$items[] = array(
