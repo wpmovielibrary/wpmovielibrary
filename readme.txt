@@ -4,7 +4,7 @@ Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 3.8
 Tested up to: 4.0
-Stable tag: 2.0.2
+Stable tag: 2.0.2.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -114,6 +114,9 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 7. Import queue
 
 == Changelog ==
+
+= 2.0.2.1 =
+* Fix - Movie certification not correctly fetched on some occasions
 
 = 2.0.2 =
 * Fix - Remove deprecated assets images
