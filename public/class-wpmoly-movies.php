@@ -1165,18 +1165,17 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			global $wpdb;
 
-			$contents = new WP_Query(
-				array(
-					'post_type'      => 'post',
-					'posts_per_page' => -1,
-					'meta_key'       => '_wpmoly_content_type',
-					'meta_value'     => 'movie'
-				)
+			$contents = $wpdb->get_results(
+				"SELECT DISTINCT post_id
+				   FROM {$wpdb->postmeta}
+				  WHERE meta_key IN ('_wpml_content_type', '_wpmoly_content_type')
+				    AND meta_value='movie'"
 			);
 
-			foreach ( $contents->posts as $post ) {
-				set_post_type( $post->ID, 'movie' );
-				delete_post_meta( $post->ID, '_wpmoly_content_type', 'movie' );
+			foreach ( $contents as $p ) {
+				set_post_type( $p->post_id, 'movie' );
+				delete_post_meta( $p->post_id, '_wpmoly_content_type', 'movie' );
+				delete_post_meta( $p->post_id, '_wpml_content_type', 'movie' );
 			}
 
 			self::register_post_type();

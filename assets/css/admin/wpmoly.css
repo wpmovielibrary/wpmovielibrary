@@ -180,88 +180,60 @@ body.post-php.post-type-movie #postimagediv {
 
 @media (max-width: 1440px) {
 	
-	#wpmoly-tmdb .tmdb_meta {
-		margin-right: 1%;
-		width: 48%;
+	#wpmoly-tmdb .wpmoly-movie-meta-edit.half {
+		width: 49.5% !important;
 	}
-
-	#wpmoly-tmdb .tmdb_crew {
-		margin-left: 1%;
-		width: 48%;
+	
+	#wpmoly-meta-menu,
+	#wpmoly-meta-menu-bg {
+		width: 12em !important;
+	}
+	
+	#wpmoly-meta-menu {
+		margin-left: -12em !important;
+	}
+	
+	#wpmoly-meta {
+		padding-left: 12em !important;
+	}
+	
+	#wpmoly-tmdb .wpmoly-movie-meta-edit .wpmoly-movie-meta-label {
+		width: 8em !important;
+	}
+	
+	#wpmoly-tmdb .wpmoly-movie-meta-edit .wpmoly-movie-meta-value {
+		margin-left: 8.5em !important;
+	}
+	
+	#wpmoly-details .wpmoly-details-item {
+		width: 49% !important;
+	}
+	
+	#wpmoly-home #dashboard-widgets #postbox-container-1 {
+		width: 68% !important;
+	}
+	
+	#wpmoly-home #dashboard-widgets #postbox-container-2 {
+		width: 32% !important;
 	}
 }
 
 @media (max-width: 1280px) {
 	
-	#wpmoly-tabs {
+	#wpmoly-tmdb .wpmoly-movie-meta-edit.half {
 		width: 100% !important;
 	}
 	
-	#wpmoly-help {
-		margin: 1em 0 0 0;
-		width: 100% !important;
+	#wpmoly-movie-preview {
+		padding-left: 0 !important;
 	}
 	
-	#wpmoly-tmdb .tmdb_meta,
-	#wpmoly-tmdb .tmdb_crew {
-		margin: 0;
-		width: 100% !important;
-	}
-	
-	#wpmoly-tmdb .tmdb_meta {
-		margin-bottom: 2em;
-	}
-	
-	#wpmoly-tmdb .list-table td.left {
-		width: 22%;
-	}
-	
-	#tmdb_images_preview .tmdb_movie_images,
-	.media-frame.movie-images .attachment-preview,
-	.media-frame.movie-images .attachment-preview .thumbnail,
-	.media-frame.movie-images .landscape .thumbnail img {
-		height: 114px !important;
-		width: 200px !important;
-	}
-	
-	#tmdb_images_preview #tmdb_load_images {
-		line-height: 109px;
-	}
-	
-	.media-frame.movie-images .attachment {
-		width: 200px !important;
-	}
-	
-	#wpmoly-home #dashboard-widgets #postbox-container-1 {
-		width: 68%;
-	}
-	
-	#wpmoly-home #dashboard-widgets #postbox-container-2 {
-		width: 32%;
-	}
-	
-	.column-wpmoly-status,
-	.column-wpmoly-media,
-	.column-wpmoly-rating {
-		padding: 8px 4px !important;
-	}
-	
-	.wpmoly-inline-edit-details {
+	#wpmoly-movie-preview .wpmoly-movie-preview-poster {
 		margin-left: 0 !important;
+		width: 10em !important;
 	}
 	
-	.wpmoly-inline-edit-details .wpmolicon.icon-arrow-right {
-		display: none;
-	}
-	
-	.wpmoly-inline-edit-toggle .wpmolicon.icon-no-alt {
-		margin-right: 0 !important;
-	}
-	
-	#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie,
-	#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie {
-		height: 264px;
-		width: 176px;
+	#tmdb_search_lang {
+		display: block !important;
 	}
 }
-

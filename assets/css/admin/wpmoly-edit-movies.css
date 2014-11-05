@@ -65,7 +65,7 @@
 }
 
 #wpmoly-meta.small {
-	padding-left: 4em;
+	padding-left: 4em !important;
 }
 
 #wpmoly-meta.small .wpmolicon.icon-collapse {
@@ -77,16 +77,16 @@
 }
 
 #wpmoly-meta.small #wpmoly-meta-menu {
-	margin: 0 0 0 -4em;
-	width: 4em;
+	margin: 0 0 0 -4em !important;
+	width: 4em !important;
 }
 
 #wpmoly-meta.small #wpmoly-meta-menu-bg {
-	width: 4em;
+	width: 4em !important;
 }
 
 #wpmoly-meta.small #wpmoly-meta-menu .tab a .text {
-	display: none;
+	display: none !important;
 }
 
 /* Movie Preview */

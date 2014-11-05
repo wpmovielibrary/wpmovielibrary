@@ -55,6 +55,10 @@ wpmoly = wpmoly || {};
 
 				redux.field_objects.select.init();
 
+				console.log( window.innerWidth );
+				if ( window.innerWidth < 1180 )
+					wpmoly_meta_panel.resize();
+
 				/*$( wpmoly_edit_meta._search.element ).on( wpmoly_edit_meta._search.event, function( e ) {
 					e.preventDefault();
 					wpmoly_edit_meta.search();

@@ -145,6 +145,15 @@ $wpmoly_movie_meta = array(
 		'group' => 'meta',
 		'rewrite'  => null
 	),
+	'tagline' => array(
+		'title' => __( 'Tagline', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'esc_html',
+		'filter_args' => null,
+		'size' => 'full',
+		'group' => 'meta',
+		'rewrite'  => null
+	),
 	'overview' => array(
 		'title' => __( 'Overview', 'wpmovielibrary' ),
 		'type' => 'textarea',
@@ -299,15 +308,6 @@ $wpmoly_movie_meta = array(
 	),
 	'revenue' => array(
 		'title' => __( 'Revenue', 'wpmovielibrary' ),
-		'type' => 'text',
-		'filter' => 'esc_html',
-		'filter_args' => null,
-		'size' => 'half',
-		'group' => 'meta',
-		'rewrite'  => null
-	),
-	'tagline' => array(
-		'title' => __( 'Tagline', 'wpmovielibrary' ),
 		'type' => 'text',
 		'filter' => 'esc_html',
 		'filter_args' => null,

@@ -316,6 +316,8 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		 */
 		public function activate( $network_wide ) {
 
+			self::update_slug();
+
 			if ( ! wpmoly_has_deprecated_meta() )
 				return false;
 
@@ -325,8 +327,6 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 				delete_option( 'wpmoly_has_deprecated_meta' );
 				add_option( 'wpmoly_has_deprecated_meta', count( $deprecated ), null, 'no' );
 			}
-
-			self::update_slug();
 		}
 
 		/**

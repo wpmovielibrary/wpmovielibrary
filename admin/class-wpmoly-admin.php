@@ -124,6 +124,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			update_option( '_wpmoly_fresh_install', 'no' );
 			wp_redirect( admin_url( 'index.php?page=wpmovielibrary-about' ) );
+			exit;
 		}
 
 		/**
