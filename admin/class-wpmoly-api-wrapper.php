@@ -351,15 +351,15 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			if ( isset( $release['countries'] ) ) {
 				$certification_alt = '';
 				foreach ( $release['countries'] as $country ) {
-					if ( $country['iso_3166_1'] == wpmoly_o( 'api-country' ) )
+					if ( $country['iso_3166_1'] == wpmoly_o( 'api-country' ) ) {
 						$meta['certification'] = $country['certification'];
-					else if ( $country['iso_3166_1'] == wpmoly_o( 'api-country-alt' ) )
+					}
+					else if ( $country['iso_3166_1'] == wpmoly_o( 'api-country-alt' ) ) {
 						$certification_alt = $country['certification'];
-					else
-						$meta['certification'] = '';
+					}
 				}
 				if ( '' == $meta['certification'] )
-				    $meta['certification'] = $certification_alt;
+					$meta['certification'] = $certification_alt;
 			}
 
 			$_images = array( 'images' => $images['backdrops'] );
