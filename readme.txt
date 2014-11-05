@@ -115,6 +115,10 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 
 == Changelog ==
 
+= 2.0.2 =
+* Fix - Remove deprecated assets images
+* Fix - Remove depretated files from SVN repo
+
 = 2.0.1 =
 * Tweak - Add some responsive to editor metabox
 * Fix - Few activation/deactivation missing tweaks
