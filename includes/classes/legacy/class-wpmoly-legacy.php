@@ -122,6 +122,8 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 				$wpdb->prepare(
 					"SELECT *, COUNT( meta_id ) AS m
 					   FROM {$wpdb->postmeta}
+					   INNER JOIN {$wpdb->posts}
+				   	   ON {$wpdb->postmeta}.post_id = {$wpdb->posts}.id
 					  WHERE post_id = %d
 					    AND meta_key IN ( '_wpmoly_movie_data', '_wpmoly_movie_tmdb_id', '_wpmoly_movie_title' )
 					    AND meta_value != ''",
@@ -152,6 +154,8 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 			$movies = $wpdb->get_results(
 				"SELECT DISTINCT post_id
 				   FROM {$wpdb->postmeta}
+				   INNER JOIN {$wpdb->posts}
+				   ON {$wpdb->postmeta}.post_id = {$wpdb->posts}.id
 				  WHERE meta_key='_wpmoly_movie_data'
 				    AND meta_value!=''
 				    AND post_id NOT IN (
@@ -159,7 +163,8 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 					  FROM {$wpdb->postmeta}
 					 WHERE ( meta_key='_wpmoly_movie_tmdb_id'
 					      OR meta_key='_wpmoly_movie_title' )
-					   AND meta_value!='' )"
+					   AND meta_value!='' )
+				    AND post_status = 'publish'"
 			);
 			$movies = ( ! $wpdb->num_rows ? false : $movies );
 
