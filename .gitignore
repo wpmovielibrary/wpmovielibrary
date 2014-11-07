@@ -1,0 +1,5 @@
+.project
+.gitignore
+.gitmodules
+includes/framework/redux/sample-config.php
+phpcompatinfo.json

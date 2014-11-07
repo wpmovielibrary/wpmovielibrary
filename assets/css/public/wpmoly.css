@@ -278,6 +278,7 @@
 }
 
 .wpmoly.headbox.movie.tagline {
+	color: #ddd;
 	font-size: 14px;
 	margin: 0;
 }
@@ -375,6 +376,14 @@
 	bottom: 2px;
 	position: absolute;
 	right: 16px;
+}
+
+.wpmoly.headbox.movie.menu.hint {
+	color: rgba(255, 255, 255, 0.5);
+	font-size: 0.75rem;
+	position: absolute;
+	right: 0;
+	top: -2.75em;
 }
 
 .wpmoly.headbox.movie.menu a {
