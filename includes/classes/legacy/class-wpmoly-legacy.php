@@ -163,7 +163,8 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 					  FROM {$wpdb->postmeta}
 					 WHERE ( meta_key='_wpmoly_movie_tmdb_id'
 					      OR meta_key='_wpmoly_movie_title' )
-					   AND meta_value!='' )"
+					   AND meta_value!='' )
+				    AND post_status = 'publish'"
 			);
 			$movies = ( ! $wpdb->num_rows ? false : $movies );
 
