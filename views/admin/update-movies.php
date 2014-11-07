@@ -1,8 +1,9 @@
 
 
-										<div class="error hide-if-js">
-											<p><?php _e( 'It seems you have JavaScript deactivated; the update tool will not work correctly without it, please check your browser\'s settings.', 'wpmovielibrary' ); ?></p>
-										</div>
+		<div class="error hide-if-js">
+			<p><?php _e( 'It seems you have JavaScript deactivated; the update tool will not work correctly without it, please check your browser\'s settings.', 'wpmovielibrary' ); ?></p>
+		</div>
+
 		<div id="wpmoly-home" class="wrap">
 
 			<h2><?php printf( '%s <small>v%s</small>', __( 'Welcome to WPMovieLibrary ', 'wpmovielibrary' ), WPMOLY_VERSION ); ?></h2>
