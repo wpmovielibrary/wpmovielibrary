@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'wpmovielibrary';
-	src:url('fonts/wpmovielibrary.eot?fl6qjd');
-	src:url('fonts/wpmovielibrary.eot?#iefixfl6qjd') format('embedded-opentype'),
-		url('fonts/wpmovielibrary.woff?fl6qjd') format('woff'),
-		url('fonts/wpmovielibrary.ttf?fl6qjd') format('truetype'),
-		url('fonts/wpmovielibrary.svg?fl6qjd#wpmovielibrary') format('svg');
+	src:url('fonts/wpmovielibrary.eot?-lyagb9');
+	src:url('fonts/wpmovielibrary.eot?#iefix-lyagb9') format('embedded-opentype'),
+		url('fonts/wpmovielibrary.woff?-lyagb9') format('woff'),
+		url('fonts/wpmovielibrary.ttf?-lyagb9') format('truetype'),
+		url('fonts/wpmovielibrary.svg?-lyagb9#wpmovielibrary') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,20 +23,53 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-actor:before {
+	content: "\e60c";
+}
+.icon-divx:before {
+	content: "\e607";
+}
+.icon-dvd:before {
+	content: "\e608";
+}
+.icon-poster:before {
+	content: "\e60a";
+}
+.icon-api:before {
+	content: "\e610";
+}
+.icon-3d:before {
+	content: "\e61b";
+}
+.icon-hd:before {
+	content: "\e625";
+}
+.icon-sd:before {
+	content: "\e64d";
+}
+.icon-blu-ray:before {
+	content: "\e64f";
+}
+.icon-cinema:before {
+	content: "\e660";
+}
+.icon-mkv:before {
+	content: "\e661";
+}
+.icon-unavailable:before {
+	content: "\e662";
+}
+.icon-yes:before {
+	content: "\e663";
+}
 .icon-subtitles:before {
 	content: "\e657";
 }
 .icon-video-format:before {
 	content: "\e658";
 }
-.icon-api:before {
-	content: "\e64d";
-}
 .icon-cog:before {
 	content: "\e64e";
-}
-.icon-yes:before {
-	content: "\e64f";
 }
 .icon-date:before {
 	content: "\e642";
@@ -62,23 +95,11 @@
 .icon-video:before {
 	content: "\e606";
 }
-.icon-3d:before {
-	content: "\e607";
-}
-.icon-hd:before {
-	content: "\e608";
-}
 .icon-hd-o:before {
 	content: "\e609";
 }
-.icon-sd:before {
-	content: "\e60a";
-}
 .icon-sd-o:before {
 	content: "\e60b";
-}
-.icon-actor:before {
-	content: "\e60c";
 }
 .icon-images-alt:before {
 	content: "\e60d";
@@ -86,19 +107,16 @@
 .icon-queue-alt:before {
 	content: "\e60e";
 }
-.icon-blu-ray:before {
+.icon-blu-ray-alt:before {
 	content: "\e60f";
 }
-.icon-cinema:before {
-	content: "\e610";
-}
-.icon-divx:before {
+.icon-divx-alt:before {
 	content: "\e611";
 }
-.icon-dvd:before {
+.icon-dvd-alt:before {
 	content: "\e612";
 }
-.icon-mkv:before {
+.icon-mkv-alt:before {
 	content: "\e613";
 }
 .icon-streaming:before {
@@ -118,9 +136,6 @@
 }
 .icon-plus:before {
 	content: "\e61a";
-}
-.icon-poster:before {
-	content: "\e61b";
 }
 .icon-queued:before {
 	content: "\e61c";
@@ -148,9 +163,6 @@
 }
 .icon-scheduled:before {
 	content: "\e624";
-}
-.icon-unavailable:before {
-	content: "\e625";
 }
 .icon-tag:before {
 	content: "\e626";

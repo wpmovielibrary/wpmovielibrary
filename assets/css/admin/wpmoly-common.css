@@ -69,13 +69,13 @@
 }
 
 .wpmolicon.icon-available:before {
-	content: "\e64f";
+	content: "\e663";
 }
 .wpmolicon.icon-loaned:before {
 	content: "\e61f";
 }
 .icon-bluray:before {
-	content: "\e60f";
+	content: "\e64f";
 }
 
 /* Rating

@@ -28,7 +28,7 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.wpmolicon.icon-cinema:before,
+/*.wpmolicon.icon-cinema:before,
 .wpmolicon.icon-unavailable:before,
 .wpmolicon.icon-sd:before,
 .wpmolicon.icon-hd:before,
@@ -46,23 +46,23 @@
 	line-height: 28px;
 	position: relative;
 	top: -4px;
-}
+}*/
 
-.wpmolicon.icon-resize-enlarge:before,
+/*.wpmolicon.icon-resize-enlarge:before,
 .wpmolicon.icon-resize-shrink:before {
 	font-size: 18px;
 	position: relative;
 	top: 1px;
-}
+}*/
 
 .wpmolicon.icon-available:before {
-	content: "\e64f";
+	content: "\e663";
 }
 .wpmolicon.icon-loaned:before {
 	content: "\e61f";
 }
 .icon-bluray:before {
-	content: "\e60f";
+	content: "\e64f";
 }
 .icon-production_companies:before {
 	content: "\e639";
@@ -278,6 +278,7 @@
 }
 
 .wpmoly.headbox.movie.tagline {
+	color: #ddd;
 	font-size: 14px;
 	margin: 0;
 }
@@ -377,6 +378,15 @@
 	right: 16px;
 }
 
+.wpmoly.headbox.movie.menu.hint {
+	color: rgba(255, 255, 255, 0.5);
+	font-size: 0.75rem;
+	height: 1.75em;
+	position: absolute;
+	right: 0;
+	top: -2.75em;
+}
+
 .wpmoly.headbox.movie.menu a {
 	margin: 0 2px;
 	position: relative;
@@ -408,7 +418,9 @@
 	border: 4px solid rgba(0, 0, 0, 0);
 	border-top: 0;
 	background: #fff;
+	float: none;
 	padding: 14px;
+	width: auto;
 }
 
 .wpmoly.headbox.movie.content > * {

@@ -1,10 +1,10 @@
 /** Update Movies Page **/
 
-#postbox-container-1 {
+#dashboard-widgets #postbox-container-1 {
 	width: 70% !important;
 }
 
-#postbox-container-2 {
+#dashboard-widgets #postbox-container-2 {
 	width: 30% !important;
 }
 

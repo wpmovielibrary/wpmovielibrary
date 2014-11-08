@@ -25,6 +25,9 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		 */
 		public function __construct() {
 
+			if ( ! wpmoly_has_deprecated_meta() )
+				return false;
+
 			$this->init();
 			$this->register_hook_callbacks();
 		}
@@ -32,21 +35,20 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		/**
 		 * Initializes variables
 		 * 
-		 * Set the deprecated movie transient if none were previously set.
+		 * Set the deprecated movie option if none were previously set.
 		 * 
 		 * @since    2.0
 		 */
 		public function init() {
 
-			$deprected = wpmoly_has_deprecated_meta();
-			$total     = self::get_deprecated_movies();
+			$total = self::get_deprecated_movies();
 			if ( false === $total ) {
-				set_transient( 'wpmoly_has_deprecated_meta', '0' );
+				update_option( 'wpmoly_has_deprecated_meta', '0' );
 				return false;
 
 			} else {
 				$total = count( $total );
-				set_transient( 'wpmoly_has_deprecated_meta', $total, HOUR_IN_SECONDS );
+				update_option( 'wpmoly_has_deprecated_meta', $total );
 			}
 		}
 
@@ -123,7 +125,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 					"SELECT *, COUNT( meta_id ) AS m
 					   FROM {$wpdb->postmeta}
 					   INNER JOIN {$wpdb->posts}
-				   	   ON {$wpdb->postmeta}.post_id = {$wpdb->posts}.id
+				   	   ON post_id = id
 					  WHERE post_id = %d
 					    AND meta_key IN ( '_wpmoly_movie_data', '_wpmoly_movie_tmdb_id', '_wpmoly_movie_title' )
 					    AND meta_value != ''",
@@ -155,7 +157,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 				"SELECT DISTINCT post_id
 				   FROM {$wpdb->postmeta}
 				   INNER JOIN {$wpdb->posts}
-				   ON {$wpdb->postmeta}.post_id = {$wpdb->posts}.id
+				   ON post_id = id
 				  WHERE meta_key='_wpmoly_movie_data'
 				    AND meta_value!=''
 				    AND post_id NOT IN (
@@ -322,6 +324,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		public function activate( $network_wide ) {
 
 			self::update_slug();
+			
 
 			if ( ! wpmoly_has_deprecated_meta() )
 				return false;
