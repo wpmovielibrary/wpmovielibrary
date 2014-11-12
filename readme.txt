@@ -4,7 +4,7 @@ Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 3.8
 Tested up to: 4.0
-Stable tag: 2.0.2.1
+Stable tag: 2.0.2.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -66,7 +66,7 @@ Developers and Translators can contribute to the source code on the [GitHub Repo
 = Minimum Requirements =
 
 * WordPress 3.9 or greater
-* PHP version 5.4 or greater
+* PHP version 5.3 or greater
 * MySQL version 5.0 or greater
 
 = Automatic installation =
@@ -114,6 +114,12 @@ Your theme/plugin/widget most likely doesn't support Custom Post Types; open a t
 7. Import queue
 
 == Changelog ==
+
+= 2.0.2.2 =
+* Tweak - Icon Font updated
+* Fix bugs in legacy mode
+* Fix Movie Headbox missing menu arrow
+* Fix 'Add New' link blocked by JS in movie editor
 
 = 2.0.2.1 =
 * Fix - Movie certification not correctly fetched on some occasions
