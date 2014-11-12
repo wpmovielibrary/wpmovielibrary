@@ -55,7 +55,10 @@ wpmoly = wpmoly || {};
 
 				redux.field_objects.select.init();
 
-				console.log( window.innerWidth );
+				$( '.add-new-h2' ).on( 'click', function() {
+					document.location.href = this.href;
+				});
+
 				if ( window.innerWidth < 1180 )
 					wpmoly_meta_panel.resize();
 
