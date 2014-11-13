@@ -182,36 +182,6 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 				'system_info'          => true,
 				'system_info_icon_class' => 'fa fa-wrench',
 				// REMOVE
-
-				// HINTS
-				'hints' => array(
-					'icon'          => 'icon-question-sign',
-					'icon_position' => 'right',
-					'icon_color'    => 'lightgray',
-					'icon_size'     => 'normal',
-					'tip_style'     => array(
-						'color'   => 'dark',
-						'shadow'  => false,
-						'rounded' => false,
-						'style'   => '',
-					),
-					'tip_position'  => array(
-						'my' => 'top center',
-						'at' => 'bottom center',
-					),
-					'tip_effect'    => array(
-						'show' => array(
-							'effect'   => '',
-							'duration' => '0',
-							'event'    => 'mouseover',
-						),
-						'hide' => array(
-							'effect'   => '',
-							'duration' => '0',
-							'event'    => 'click mouseleave',
-						),
-					),
-				)
 			);
 
 			// SOCIAL ICONS -> Setup custom links in the footer for quick links in your panel footer icons.
