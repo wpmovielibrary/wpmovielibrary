@@ -55,8 +55,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			add_action( 'wp_insert_post_empty_content', __CLASS__ . '::filter_empty_content', 10, 2 );
 			add_action( 'wp_insert_post_data', __CLASS__ . '::filter_empty_title', 10, 2 );
 
-			add_action( 'wp_ajax_wpmoly_set_detail', __CLASS__ . '::set_detail_callback' );
-			add_action( 'wp_ajax_wpmoly_save_details', __CLASS__ . '::save_details_callback' );
+			add_action( 'wp_ajax_wpmoly_save_meta', __CLASS__ . '::save_meta_callback' );
 			add_action( 'wp_ajax_wpmoly_empty_meta', __CLASS__ . '::empty_meta_callback' );
 		}
 
@@ -115,6 +114,26 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$response = self::empty_movie_meta( $post_id );
 
 			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'empty-movie-meta' ) );
+		}
+
+		/**
+		 * Save metadata once they're collected.
+		 *
+		 * @since    2.0.3
+		 */
+		public static function save_meta_callback() {
+
+			$post_id  = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
+			$data     = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? $_POST['data'] : null );
+
+			if ( is_null( $post_id ) )
+				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', 'wpmovielibrary' ) );
+
+			wpmoly_check_ajax_referer( 'save-movie-meta' );
+
+			$response = self::save_movie_meta( $post_id, $data );
+
+			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'save-movie-meta' ) );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

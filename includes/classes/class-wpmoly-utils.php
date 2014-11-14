@@ -535,7 +535,10 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$_half   = ceil( $rating - floor( $rating ) );
 			$_empty  = ceil( 5.0 - ( $_filled + $_half ) );
 
-			if ( 10 == $base ) {
+			if ( 0.0 == $rating ) {
+				$stars = sprintf( '<small><em>%s</em></small>', __( 'Not rated yet!', 'wpmovielibrary' ) );
+			}
+			else if ( 10 == $base ) {
 				$_filled = $rating * 2;
 				$_empty  = 10 - $_filled;
 				$title   = "{$rating}/10 − {$title}";

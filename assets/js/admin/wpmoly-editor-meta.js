@@ -55,7 +55,10 @@ wpmoly = wpmoly || {};
 
 				redux.field_objects.select.init();
 
-				console.log( window.innerWidth );
+				$( '.add-new-h2' ).on( 'click', function() {
+					document.location.href = this.href;
+				});
+
 				if ( window.innerWidth < 1180 )
 					wpmoly_meta_panel.resize();
 
@@ -202,6 +205,7 @@ wpmoly = wpmoly || {};
 						$( wpmoly_edit_meta.fields ).empty().hide();
 						wpmoly_edit_meta.tmdb_id = response.data._tmdb_id;
 						wpmoly_edit_meta.set( response.data );
+						wpmoly_edit_meta.save();
 						if ( ! wpmoly_edit_meta.updating && wpmoly_edit_meta.poster_featured )
 							wpmoly_posters.set_featured( response.data.poster_path );
 					},
@@ -288,6 +292,49 @@ wpmoly = wpmoly || {};
 				wpmoly_state.clear();
 				wpmoly_state.set( wpmoly_lang.done, 'success' );
 			};
+
+			/**
+			 * Save metadata to the database..
+			 * 
+			 * @since    2.0.3
+			 */
+			wpmoly.editor.meta.save = function() {
+
+				var $fields = $( '#wpmoly-movie-meta .meta-data-field' ),
+				       data = {};
+
+				_.each( $fields, function( field ) {
+					var id = field.id.replace( 'meta_data_', '' ),
+					 value = $( field ).val();
+					data[ id ] = value;
+				});
+
+				wpmoly._post({
+					data: {
+						action: 'wpmoly_save_meta',
+						nonce: wpmoly.get_nonce( 'save-movie-meta' ),
+						post_id: wpmoly_edit_meta.post_id,
+						data: data,
+					},
+					beforeSend: function() {
+						wpmoly.editor.$spinner.css( { display: 'inline-block' } );
+					},
+					error: function( response ) {
+						wpmoly_state.clear();
+						$.each( response.responseJSON.errors, function() {
+							wpmoly_state.set( this, 'error' );
+						});
+					},
+					success: function( response ) {
+						wpmoly_state.clear();
+						wpmoly_state.set( wpmoly_lang.metadata_saved, 'success' );
+					},
+					complete: function( r ) {
+						wpmoly.editor.$spinner.hide();
+						wpmoly.update_nonce( 'save-movie-meta', r.responseJSON.nonce );
+					}
+				});
+			}
 
 			/**
 			 * Prefill the Movie Meta Metabox search input with the

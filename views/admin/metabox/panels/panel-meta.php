@@ -22,6 +22,7 @@
 								<a id="tmdb_update" name="wpmoly[tmdb_update]" title="<?php _e( 'Update', 'wpmovielibrary' ); ?>" href="<?php echo get_edit_post_link() ?>&amp;wpmoly_auto_fetch=1" onclick="wpmoly.editor.meta.update(); return false;" class="button button-secondary button-icon"><span class="wpmolicon icon-update"></span></a>
 								<span class="spinner"></span>
 								<?php wpmoly_nonce_field( 'empty-movie-meta' ) ?>
+								<?php wpmoly_nonce_field( 'save-movie-meta' ) ?>
 								<a id="tmdb_empty" name="wpmoly[tmdb_empty]" title="<?php _e( 'Empty Results', 'wpmovielibrary' ); ?>" href="<?php echo get_edit_post_link() ?>&amp;wpmovielibrary-empty-meta=1" onclick="wpmoly.editor.meta.empty_results(); return false;" class="button button-secondary button-empty button-icon hide-if-no-js"><span class="wpmolicon icon-erase"></span></a>
 							</div>
 

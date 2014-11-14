@@ -69,7 +69,7 @@ if ( ! class_exists( 'WPMOLY_Module' ) ) {
 
 			do_action( "wpmoly_render_{$admin}template_pre", $default_template_path, $variables );
 
-			$template_path = locate_template( 'wpmovielibrary/' . $default_template_path, true, false );
+			$template_path = locate_template( 'wpmovielibrary/' . $default_template_path, false, false );
 			if ( ! $template_path )
 				$template_path = WPMOLY_PATH . '/views/' . $default_template_path;
 

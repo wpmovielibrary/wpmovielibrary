@@ -390,6 +390,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				'load_more'		=> __( 'Load More', 'wpmovielibrary' ),
 				'loading_images'	=> __( 'Loading Images…', 'wpmovielibrary' ),
 				'media_no_movie'	=> __( 'No movie could be found. You need to select a movie before importing images or posters.', 'wpmovielibrary' ),
+				'metadata_saved'	=> __( 'Metadata saved!', 'wpmovielibrary' ),
 				'missing_meta'		=> __( 'No metadata could be found, please import metadata before queuing.', 'wpmovielibrary' ),
 				'movie'			=> __( 'Movie', 'wpmovielibrary' ),
 				'movie_updated'		=> _n( 'movie updated', 'movies updated', 0, 'wpmovielibrary' ),
