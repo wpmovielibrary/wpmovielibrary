@@ -205,6 +205,7 @@ wpmoly = wpmoly || {};
 						$( wpmoly_edit_meta.fields ).empty().hide();
 						wpmoly_edit_meta.tmdb_id = response.data._tmdb_id;
 						wpmoly_edit_meta.set( response.data );
+						wpmoly_edit_meta.save();
 						if ( ! wpmoly_edit_meta.updating && wpmoly_edit_meta.poster_featured )
 							wpmoly_posters.set_featured( response.data.poster_path );
 					},
@@ -286,13 +287,17 @@ wpmoly = wpmoly || {};
 				}
 
 				wpmoly_meta_preview.set( data );
-				wpmoly_edit_meta.save();
 
 				$( '#tmdb_query' ).focus();
 				wpmoly_state.clear();
 				wpmoly_state.set( wpmoly_lang.done, 'success' );
 			};
 
+			/**
+			 * Save metadata to the database..
+			 * 
+			 * @since    2.0.3
+			 */
 			wpmoly.editor.meta.save = function() {
 
 				var $fields = $( '#wpmoly-movie-meta .meta-data-field' ),
@@ -303,9 +308,6 @@ wpmoly = wpmoly || {};
 					 value = $( field ).val();
 					data[ id ] = value;
 				});
-
-				if ( ! data.length )
-					return false;
 
 				wpmoly._post({
 					data: {
