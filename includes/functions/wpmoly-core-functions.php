@@ -99,7 +99,7 @@ function wpmoly_filter_empty_array( $array ) {
 
 	$_array = wpmoly_stringify_array( $array, false, '' );
 
-	return strlen( $_array ) > 0 ? $array : array_merge( array( '_empty' => true ), $array );
+	return strlen( $_array ) > 1 ? $array : array_merge( array( '_empty' => true ), $array );
 }
 
 /**

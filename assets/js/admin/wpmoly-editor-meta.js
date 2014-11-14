@@ -286,11 +286,53 @@ wpmoly = wpmoly || {};
 				}
 
 				wpmoly_meta_preview.set( data );
+				wpmoly_edit_meta.save();
 
 				$( '#tmdb_query' ).focus();
 				wpmoly_state.clear();
 				wpmoly_state.set( wpmoly_lang.done, 'success' );
 			};
+
+			wpmoly.editor.meta.save = function() {
+
+				var $fields = $( '#wpmoly-movie-meta .meta-data-field' ),
+				       data = {};
+
+				_.each( $fields, function( field ) {
+					var id = field.id.replace( 'meta_data_', '' ),
+					 value = $( field ).val();
+					data[ id ] = value;
+				});
+
+				if ( ! data.length )
+					return false;
+
+				wpmoly._post({
+					data: {
+						action: 'wpmoly_save_meta',
+						nonce: wpmoly.get_nonce( 'save-movie-meta' ),
+						post_id: wpmoly_edit_meta.post_id,
+						data: data,
+					},
+					beforeSend: function() {
+						wpmoly.editor.$spinner.css( { display: 'inline-block' } );
+					},
+					error: function( response ) {
+						wpmoly_state.clear();
+						$.each( response.responseJSON.errors, function() {
+							wpmoly_state.set( this, 'error' );
+						});
+					},
+					success: function( response ) {
+						wpmoly_state.clear();
+						wpmoly_state.set( wpmoly_lang.metadata_saved, 'success' );
+					},
+					complete: function( r ) {
+						wpmoly.editor.$spinner.hide();
+						wpmoly.update_nonce( 'save-movie-meta', r.responseJSON.nonce );
+					}
+				});
+			}
 
 			/**
 			 * Prefill the Movie Meta Metabox search input with the

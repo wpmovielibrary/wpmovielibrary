@@ -65,13 +65,12 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 
 			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
-			$title   = ( isset( $_POST['title'] )   && '' != $_POST['title']   ? $_POST['title']   : null );
 			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : null );
 
 			if ( ! is_array( $image ) || is_null( $post_id ) )
 				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', 'wpmovielibrary' ) );
 
-			$response = self::image_upload( $image['file_path'], $post_id, $tmdb_id, $title, 'backdrop', $image );
+			$response = self::image_upload( $image['file_path'], $post_id, $tmdb_id, 'backdrop', $image );
 			wpmoly_ajax_response( $response );
 		}
 
@@ -250,9 +249,9 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @return   int|WP_Error Uploaded image ID if successfull, WP_Error if an error occured.
 		 */
-		public static function set_image_as_featured( $file, $post_id, $tmdb_id, $title ) {
+		public static function set_image_as_featured( $file, $post_id, $tmdb_id ) {
 
-			$image = self::image_upload( $file, $post_id, $tmdb_id, $title, 'poster' );
+			$image = self::image_upload( $file, $post_id, $tmdb_id, 'poster' );
 			return $image;
 		}
 
@@ -269,13 +268,12 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * @param    string    $file The filename of the image to download
 		 * @param    int       $post_id The post ID the media is to be associated with
 		 * @param    int       $tmdb_id The TMDb Movie ID the image is associated with
-		 * @param    string    $title The related Movie title
 		 * @param    string    $image_type Optional. Image type, 'backdrop' or 'poster'
 		 * @param    array     $data Optional. Image metadata
 		 * 
 		 * @return   string|WP_Error Populated HTML img tag on success
 		 */
-		private static function image_upload( $file, $post_id, $tmdb_id, $title, $image_type = 'backdrop', $data = null ) {
+		private static function image_upload( $file, $post_id, $tmdb_id, $image_type = 'backdrop', $data = null ) {
 
 			if ( empty( $file ) )
 				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload is empty.', 'wpmovielibrary' ) );
@@ -310,7 +308,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				$file_array['tmp_name'] = '';
 			}
 
-			$id = media_handle_sideload( $file_array, $post_id, $title );
+			$id = media_handle_sideload( $file_array, $post_id );
 			if ( is_wp_error( $id ) ) {
 				@unlink( $file_array['tmp_name'] );
 				return new WP_Error( $id->get_error_code(), $id->get_error_message() );
