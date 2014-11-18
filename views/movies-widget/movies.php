@@ -22,7 +22,7 @@
 <?php endif; ?>
 
 <?php foreach ( $items as $item ) : ?>
-		<a class="wpmoly movie link" href="<?php echo $item['link'] ?>" title="<?php echo __( 'Read more about', 'wpmovielibrary' ) . $item['title'] ?>">
+		<a class="wpmoly movie link" href="<?php echo $item['link'] ?>" title="<?php echo __( 'Read more about', 'wpmovielibrary' ) . ' ' . $item['title'] ?>">
 			<figure id="movie-<?php the_ID(); ?>" class="wpmoly movie">
 <?php if ( 'no' == $show_poster || 'before' == $show_title ) : ?>
 				<div id="movie-<?php the_ID(); ?>-title" class="wpmoly movie title"><?php echo $item['title'] ?></div>
