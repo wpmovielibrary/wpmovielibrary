@@ -172,6 +172,15 @@ $wpmoly_movie_meta = array(
 		'group' => 'meta',
 		'rewrite'  => array( 'date' => __( 'date', 'wpmovielibrary' ) )
 	),
+	'local_release_date' => array(
+		'title' => __( 'Local Release Date', 'wpmovielibrary' ),
+		'type' => 'text',
+		'filter' => 'esc_html',
+		'filter_args' => null,
+		'size' => 'half',
+		'group' => 'meta',
+		'rewrite'  => array( 'local_date' => __( 'localdate', 'wpmovielibrary' ) )
+	),
 	'runtime' => array(
 		'title' => __( 'Runtime', 'wpmovielibrary' ),
 		'type' => 'text',

@@ -353,13 +353,18 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				foreach ( $release['countries'] as $country ) {
 					if ( $country['iso_3166_1'] == wpmoly_o( 'api-country' ) ) {
 						$meta['certification'] = $country['certification'];
+						$meta['local_release_date'] = $country['release_date'];
 					}
 					else if ( $country['iso_3166_1'] == wpmoly_o( 'api-country-alt' ) ) {
 						$certification_alt = $country['certification'];
 					}
 				}
+
 				if ( '' == $meta['certification'] )
 					$meta['certification'] = $certification_alt;
+
+				if ( '' == $meta['local_release_date'] )
+					$meta['local_release_date'] = '';
 			}
 
 			$_images = array( 'images' => $images['backdrops'] );
