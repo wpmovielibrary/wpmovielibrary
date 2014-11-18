@@ -156,6 +156,7 @@ $wpmoly_config = array(
 						'production_countries' => __( 'Country', 'wpmovielibrary' ),
 						'spoken_languages'     => __( 'Languages', 'wpmovielibrary' ),
 						'producer'             => __( 'Producer', 'wpmovielibrary' ),
+						'release_date'         => __( 'Local release date', 'wpmovielibrary' ),
 						'photography'          => __( 'Director of Photography', 'wpmovielibrary' ),
 						'composer'             => __( 'Original Music Composer', 'wpmovielibrary' ),
 						'author'               => __( 'Author', 'wpmovielibrary' ),
