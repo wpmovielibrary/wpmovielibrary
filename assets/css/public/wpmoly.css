@@ -153,7 +153,6 @@
 #wpmoly-movie-grid > .movie {
 	display: inline-block;
 	margin: 0.25%;
-	overflow: hidden;
 	vertical-align: top;
 }
 
@@ -178,6 +177,7 @@
 }
 
 #wpmoly-movie-grid .wpmoly.movie.link {
+	display: inline;
 	text-align: left;
 	text-decoration: none;
 }
