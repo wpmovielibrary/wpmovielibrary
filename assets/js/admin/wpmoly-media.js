@@ -386,12 +386,12 @@ var wpmoly_images, wpmoly_posters;
 					$( this ).prop( 'href', '' );
 				} );
 
-				$( '.tmdb_movie_images a.open-editor' ).on( 'click', function( e ) {
+				/*$( '.tmdb_movie_images a.open-editor' ).on( 'click', function( e ) {
 					e.preventDefault();
 
 					var id = $( this ).attr( 'data-id' );
 					wpmoly_images.editor( id );
-				} );
+				} );*/
 			}
 		};
 

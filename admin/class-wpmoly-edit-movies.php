@@ -78,11 +78,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				return false;
 
 			wp_enqueue_media();
-			wp_enqueue_script( 'media-grid' );
+			//wp_enqueue_script( 'media-grid' );
 			wp_enqueue_script( 'media' );
-			wp_localize_script( 'media-grid', '_wpMediaGridSettings', array(
+			/*wp_localize_script( 'media-grid', '_wpMediaGridSettings', array(
 				'adminUrl' => parse_url( self_admin_url(), PHP_URL_PATH ),
-			) );
+			) );*/
 
 			wp_register_script( 'select2-sortable-js', ReduxFramework::$_url . 'assets/js/vendor/select2.sortable.min.js', array( 'jquery' ), WPMOLY_VERSION, true );
 			wp_register_script( 'select2-js', ReduxFramework::$_url . 'assets/js/vendor/select2/select2.min.js', array( 'jquery', 'select2-sortable-js' ), WPMOLY_VERSION, true );
