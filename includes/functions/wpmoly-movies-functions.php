@@ -15,6 +15,88 @@
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
+/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ *                                Movies
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/**
+ * Return a specific Movie.
+ *
+ * @since    2.1
+ * 
+ * @param    int|WP_Post    $post Optional. Post ID or post object. Defaults to global $post.
+ * @param    string         $output Optional, default is Object. Accepts OBJECT, ARRAY_A, or ARRAY_N. Default OBJECT.
+ * @param    string         $filter Optional. Type of filter to apply. Accepts 'raw', 'edit', 'db', or 'display'. Default 'raw'.
+ *
+ * @return   WP_Post|null WP_Post on success or null on failure
+ */
+function wpmoly_get_movie( $post_id = null, $output = OBJECT, $filter = 'raw' ) {
+	return WPMOLY_Movies::get_movie( $post_id, $output, $filter );
+}
+
+/**
+ * Return a specific Movie.
+ *
+ * @since    2.1
+ * 
+ * @param    string       $movie_title Page title
+ * @param    string       $output Optional. Output type. OBJECT, ARRAY_N, or ARRAY_A. Default OBJECT.
+ * 
+ * @return   WP_Post|null WP_Post on success or null on failure
+ */
+function wpmoly_get_movie_by_title( $movie_title, $output = OBJECT ) {
+	return WPMOLY_Movies::get_movie_by_title( $movie_title, $output );
+}
+
+/**
+ * Retrieve a list of Movies based on media
+ * 
+ * @since    2.1
+ * 
+ * @param    array    $args Arguments to retrieve movies
+ * 
+ * @return   array    Array of Post objects
+ */
+function wpmoly_get_movies( $args = null ) {
+	return WPMOLY_Movies::get_movies( $args );
+}
+
+/**
+ * Retrieve a list of Movies based on detail
+ * 
+ * @since    2.1
+ * 
+ * @param    string    $detail Detail to search upon
+ * @param    string    $value Detail value 
+ * 
+ * @return   array     Array of Post objects
+ */
+function wpmoly_get_movies_by_detail( $detail, $value ) {
+	return WPMOLY_Movies::get_movies_by_meta( $meta, $value );
+}
+
+/**
+ * Retrieve a list of Movies based on meta
+ * 
+ * @since    2.1
+ * 
+ * @param    string    $meta Meta to search upon
+ * @param    string    $value Meta value 
+ * 
+ * @return   array     Array of Post objects
+ */
+function wpmoly_get_movies_by_meta( $meta, $value ) {
+	return WPMOLY_Movies::get_movies_by_meta( $meta, $value );
+}
+
+/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ *                        Movies Meta & Details
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 /**
  * Return Movie's stored TMDb data.
  *
@@ -105,3 +187,52 @@ function wpmoly_get_movie_subtitles( $post_id = null ) {
 function wpmoly_get_movie_format( $post_id = null ) {
 	return WPMOLY_Movies::get_movie_meta( $post_id, 'format' );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

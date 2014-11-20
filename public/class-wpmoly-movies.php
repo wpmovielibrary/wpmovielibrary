@@ -25,6 +25,25 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		}
 
 		/**
+		 * Magic!
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $name Called method name
+		 * @param    array     $arguments Called method arguments
+		 * 
+		 * @return   mixed    Callback function return value
+		 */
+		public static function __callStatic( $name, $arguments ) {
+
+			if ( false !== strpos( $name, 'get_movies_by_' ) ) {
+				$name = str_replace( 'get_movies_by_', '', $name );
+				array_unshift( $arguments, $name );
+				return call_user_func_array( __CLASS__ . '::get_movies_by_meta', $arguments );
+			}
+		}
+
+		/**
 		 * Register callbacks for actions and filters
 		 * 
 		 * @since    1.0
@@ -866,97 +885,145 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			return $wp_query;
 		}
 
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                            General Methods
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		/**
-		 * Filter Hook
+		 * Retrieve a specific Movie. Alias for get_post().
 		 * 
-		 * Used to get a list of Movies depending on their Media
+		 * @since    2.1
 		 * 
-		 * @since    1.0
+		 * @param    int|WP_Post    $post Optional. Post ID or post object. Defaults to global $post.
+		 * @param    string         $output Optional, default is Object. Accepts OBJECT, ARRAY_A, or ARRAY_N. Default OBJECT.
+		 * @param    string         $filter Optional. Type of filter to apply. Accepts 'raw', 'edit', 'db', or 'display'. Default 'raw'.
 		 * 
-		 * @param    string    Media slug
-		 * 
-		 * @return   array     Array of Post objects
+		 * @return   WP_Post|null    WP_Post on success or null on failure.
 		 */
-		public static function get_movies_from_media( $media = null ) {
+		public static function get_movie( $post = null, $output = OBJECT, $filter = 'raw' ) {
 
-			$media = esc_attr( $media );
+			return get_post( $post = null, $output = OBJECT, $filter = 'raw' );
+		}
 
-			// Caching
-			$name = apply_filters( 'wpmoly_cache_name', 'movie_from_media', $media );
-			$movies = WPMOLY_Cache::output( $name, function() use ( $media ) {
-				$allowed = WPMOLY_Settings::get_available_movie_media();
-				$allowed = array_keys( $allowed );
+		/**
+		 * Retrieve a list of specific Movie
+		 * 
+		 * @since    2.1
+		 * 
+		 * @param    string       $movie_title Page title
+		 * @param    string       $output Optional. Output type. OBJECT, ARRAY_N, or ARRAY_A. Default OBJECT.
+		 * 
+		 * @return   WP_Post|null WP_Post on success or null on failure
+		 */
+		public static function get_movie_by_title( $movie_title, $output = OBJECT ) {
 
-				if ( is_null( $media ) || ! in_array( $media, $allowed ) )
-					$media = WPMOLY_Settings::get_default_movie_media();
+			return get_page_by_title( $movie_title, $output = OBJECT, $post_type = 'movie' );
+		}
 
-				$args = array(
-					'post_type' => 'movie',
-					'post_status' => 'publish',
-					'posts_per_page' => -1,
-					'meta_query' => array(
-						array(
-							'key'   => '_wpmoly_movie_media',
-							'value' => $media
-						)
-					)
-				);
-				
-				$query = new WP_Query( $args );
-				$movies = $query->posts;
+		/**
+		 * Retrieve a list of Movies based on media
+		 * 
+		 * @since    2.1
+		 * 
+		 * @param    array    $args Arguments to retrieve movies
+		 * 
+		 * @return   array    Array of Post objects
+		 */
+		public static function get_movies( $args = null ) {
 
-				return $movies;
+			$defaults = array(
+				'number'      => 5,
+				'offset'      => 0,
+				'collection'  => '',
+				'genre'       => null,
+				'actor'       => null,
+				'orderby'     => 'date',
+				'order'       => 'DESC',
+				'include'     => array(),
+				'exclude'     => array(),
+				'media'       => null,
+				'status'      => null,
+				'rating'      => null,
+				'language'    => null,
+				'subtitles'   => null,
+				'format'      => null,
+				'meta'        => null,
+				'meta_value'  => null,
+				'post_status' => 'publish'
+			);
 
-			}, $echo = false );
+			$r = wp_parse_args( $args, $defaults );
+			$meta_query = array();
+
+			if ( ! empty( $r['numberposts'] ) && empty( $r['posts_per_page'] ) )
+				$r['posts_per_page'] = $r['numberposts'];
+			if ( ! empty($r['include']) )
+				$r['post__in'] = wp_parse_id_list( $r['include'] );
+			if ( ! empty( $r['exclude'] ) )
+				$r['post__not_in'] = wp_parse_id_list( $r['exclude'] );
+
+			if ( ! is_null( $r['meta_value'] ) ) {
+
+				$meta    = array_keys( WPMOLY_Settings::get_supported_movie_meta() );
+				$details = array_keys( WPMOLY_Settings::get_supported_movie_details() );
+
+				foreach ( $details as $detail )
+					if ( ! is_null( $r[ $detail ] ) )
+						$meta_query[] = array( 'key' => "_wpmoly_movie_$detail", 'value' => $r['meta_value'], 'compare' => 'LIKE' );
+
+				if ( ! is_null( $r['meta'] ) && in_array( $r['meta'], $meta ) )
+					$meta_query[] = array( 'key' => "_wpmoly_movie_{$r['meta']}", 'value' => $r['meta_value'], 'compare' => 'LIKE' );
+			}
+
+			$r['posts_per_page'] = $r['number'];
+			$r['post_type']      = 'movie';
+			$r['meta_query']     = $meta_query;
+
+			unset( $r['media'], $r['status'], $r['rating'], $r['language'], $r['subtitle'], $r['format'], $r['meta'], $r['meta_value'], $r['number'] );
+
+			$_query = new WP_Query;
+			$movies  = $_query->query( $r );
 
 			return $movies;
 		}
 
 		/**
-		 * Filter Hook
+		 * Retrieve a list of Movies based on detail
 		 * 
-		 * Used to get a list of Movies depending on their Status
+		 * This is an alias for self::get_movies_by_meta()
 		 * 
-		 * @since    1.0
+		 * @since    2.1
 		 * 
-		 * @param    string    Status slug
+		 * @param    string    $detail Detail to search upon
+		 * @param    string    $value Detail value 
 		 * 
 		 * @return   array     Array of Post objects
 		 */
-		public static function get_movies_from_status( $status = null ) {
+		public static function get_movies_by_detail( $detail, $value ) {
 
-			$status = esc_attr( $status );
+			return self::get_movies_by_meta( $detail, $value );
+		}
 
-			// Caching
-			$name = apply_filters( 'wpmoly_cache_name', 'movie_from_status', $status );
-			$movies = WPMOLY_Cache::output( $name, function() use ( $status ) {
+		/**
+		 * Retrieve a list of Movies based on meta
+		 * 
+		 * @since    2.1
+		 * 
+		 * @param    string    $meta Meta to search upon
+		 * @param    string    $value Meta value 
+		 * 
+		 * @return   array     Array of Post objects
+		 */
+		public static function get_movies_by_meta( $meta, $value ) {
 
-				$allowed = WPMOLY_Settings::get_available_movie_status();
-				$allowed = array_keys( $allowed );
+			$args = array(
+				'meta'       => $meta,
+				'meta_value' => $value
+			);
 
-				if ( is_null( $status ) || ! in_array( $status, $allowed ) )
-					$status = WPMOLY_Settings::get_default_movie_status();
-
-				$args = array(
-					'post_type' => 'movie',
-					'post_status' => 'publish',
-					'posts_per_page' => -1,
-					'meta_query' => array(
-						array(
-							'key'   => '_wpmoly_movie_status',
-							'value' => $status
-						)
-					)
-				);
-				
-				$query = new WP_Query( $args );
-				$movies = $query->posts;
-
-				return $movies;
-
-			}, $echo = false );
-
-			return $movies;
+			return self::get_movies( $args );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
