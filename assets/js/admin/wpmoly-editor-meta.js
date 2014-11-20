@@ -170,7 +170,7 @@ wpmoly = wpmoly || {};
 					$( wpmoly_edit_meta.fields ).addClass('update success' ).append('<p>' + message + '</p>' ).show();
 
 				$.each( movies, function() {
-					var $movie = $( '<div class="tmdb_select_movie"><a id="tmdb_' + this.id + '" href="#" onclick="wpmoly_edit_meta.get( ' + this.id + ' ); return false;"><img src="' + this.poster + '" alt="' + this.title + '" /><em>' + this.title + '</em></a><input type=\'hidden\' value=\'' + this.json + '\' /></div>' );
+					var $movie = $( '<div class="tmdb_select_movie"><a id="tmdb_' + this.id + '" href="#" onclick="wpmoly_edit_meta.get( ' + this.id + ' ); return false;"><img src="' + this.poster + '" alt="' + this.title + '" /><em>' + this.title + '</em> (' + this.year + ')</a><input type=\'hidden\' value=\'' + this.json + '\' /></div>' );
 					$( wpmoly_edit_meta.fields ).append( $movie );
 				});
 

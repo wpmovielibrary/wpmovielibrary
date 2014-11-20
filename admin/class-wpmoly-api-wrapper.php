@@ -260,10 +260,17 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				$_post_id = $post_id;
 
 				foreach ( $data['results'] as $movie ) {
+
+					if ( ! is_null( $movie['poster_path'] ) )
+						$movie['poster_path'] = self::get_image_url( $movie['poster_path'], 'poster', 'small' );
+					else
+						$movie['poster_path'] = str_replace( '{size}', '-medium', WPMOLY_DEFAULT_POSTER_URL );
+
 					$_movies[] = array(
 						'id'     => $movie['id'],
-						'poster' => ( ! is_null( $movie['poster_path'] ) ? self::get_image_url( $movie['poster_path'], 'poster', 'small' ) : WPMOLY_DEFAULT_POSTER_URL ),
+						'poster' => $movie['poster_path'],
 						'title'  => $movie['title'],
+						'year'   => apply_filters( 'wpmoly_format_movie_date', $movie['release_date'], 'Y' ),
 						'json'   => json_encode( $movie ),
 						'_id'    => $post_id
 					);
@@ -367,6 +374,14 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 					$meta['local_release_date'] = '';
 			}
 
+			if ( is_null( $poster_path ) )
+				$poster_path = str_replace( '{size}', '-medium', WPMOLY_DEFAULT_POSTER_URL );
+
+			if ( is_null( $poster_path ) )
+				$poster = $poster_path;
+			else
+				$poster = self::get_image_url( $poster_path, 'poster', 'small' );
+
 			$_images = array( 'images' => $images['backdrops'] );
 			$_full = array_merge( $movie, $casts, $images );
 			$_movie = array(
@@ -374,10 +389,10 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				'_tmdb_id'	=> $id,
 				'meta'		=> $meta,
 				'images'	=> $images,
-				'poster'	=> ( ! is_null( $poster_path ) ? self::get_image_url( $poster_path, 'poster', 'small' ) : WPMOLY_DEFAULT_POSTER_URL ),
-				'poster_path'	=> ( ! is_null( $poster_path ) ? $poster_path : WPMOLY_DEFAULT_POSTER_URL ),
+				'poster'	=> $poster,
+				'poster_path'	=> $poster_path,
 				'_result'	=> 'movie',
-				'_full'		=> $_full,
+				'_full'		=> $_full
 			);
 
 			$_movie['taxonomy'] = array();

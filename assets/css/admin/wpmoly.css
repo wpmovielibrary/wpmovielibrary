@@ -77,7 +77,13 @@ body.post-php.post-type-movie #postimagediv {
 	height: 18em;
 	padding: 0.25em;
 	text-align: center;
+	vertical-align: top;
 	width: 12.5em;
+}
+
+.tmdb_select_movie a {
+	color: #eee;
+	text-decoration: none;
 }
 
 .tmdb_select_movie img {
