@@ -60,6 +60,13 @@ $wpmoly_admin_bar_menu = array(
 
 		array(
 			'parent' => 'wpmoly-utils',
+			'id'     => 'wpmoly-about',
+			'title'  => __( 'About  WPMovieLibrary', 'wpmovielibrary' ),
+			'href'   => admin_url( 'index.php?page=wpmovielibrary-about' ),
+		),
+
+		array(
+			'parent' => 'wpmoly-utils',
 			'id'     => 'wpmoly-movie-update',
 			'title'  => __( 'Update movies', 'wpmovielibrary' ),
 			'href'   => admin_url( 'admin.php?page=wpmovielibrary-update-movies' ),

@@ -129,7 +129,7 @@
 			<div class="feature-section">
 				<div>
 					<strong><?php _e( 'Lead developer', 'wpmovielibrary' ); ?></strong>: <a href="http://www.caercam.org/">Charlie MERLAND</a><br />
-					<strong><?php _e( 'Testing and brainstorming', 'wpmovielibrary' ); ?></strong>: lesurfeur, Ravavamouna, xdarkevil, zack06007, stargatehome<br />
+					<strong><?php _e( 'Faithful Contributors', 'wpmovielibrary' ); ?></strong>: lesurfeur, Ravavamouna, xdarkevil, zack06007, stargatehome, Fjellz, raicabogdan, mstashev, andyshears<br />
 					<strong><?php _e( 'German translation', 'wpmovielibrary' ); ?></strong>: Mario Winkler<br />
 				</div>
 			</div>

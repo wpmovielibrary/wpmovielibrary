@@ -32,6 +32,17 @@
 	margin-left: 0.5rem;
 }
 
+#wpmoly-home > h2 > a {
+	color: #666;
+	position: relative;
+	text-decoration: none;
+	top: 0.25em;
+}
+
+#wpmoly-home > h2 > a:hover {
+	color: #888;
+}
+
 #wpmoly-home #dashboard-widgets {
 	width: 100% !important;
 }
