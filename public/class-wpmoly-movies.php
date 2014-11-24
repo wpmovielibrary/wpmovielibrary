@@ -55,6 +55,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			// Load Movies as well as Posts in the Loop
 			add_action( 'pre_get_posts', __CLASS__ . '::show_movies_in_home_page', 10, 1 );
 			add_filter( 'pre_get_posts', __CLASS__ . '::filter_search_query', 11, 1 );
+			add_filter( 'get_search_query', __CLASS__ . '::get_search_query', 11, 1 );
 
 			// Movie content
 			add_filter( 'the_content', __CLASS__ . '::movie_content' );
@@ -878,11 +879,35 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				$ids[] = $result->post_id;
 
 			unset( $wp_query->query );
+			$wp_query->set( 'wpmoly_search', $wp_query->get( 's' ) );
 			$wp_query->set( 's', null );
 			$wp_query->set( 'post_type', array( 'post', 'movie' ) );
 			$wp_query->set( 'post__in', $ids );
 
 			return $wp_query;
+		}
+
+		/**
+		 * Replace empty search query by the plugin filtered search query.
+		 * 
+		 * @since    2.1
+		 * 
+		 * @param    string    $s Search query
+		 * 
+		 * @return   string    $s WPMOLY Search query
+		 */
+		public static function get_search_query( $s ) {
+
+			if ( is_admin() || ! is_search() || '' != $s )
+				return $s;
+
+			global $wp_query;
+
+			$search = $wp_query->get( 'wpmoly_search' );
+			if( '' != $search );
+				$s = $search;
+
+			return $s;
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
