@@ -181,7 +181,7 @@ if ( ! class_exists( 'WPMOLY_Formatting_Details' ) ) :
 		 */
 		public static function format_movie_format( $data, $format = 'html', $icon = false ) {
 
-			return self::format_movie_detail( 'status', $data, $format, $icon );
+			return self::format_movie_detail( 'format', $data, $format, $icon );
 		}
 
 		/**
