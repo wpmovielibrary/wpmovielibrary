@@ -881,7 +881,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			unset( $wp_query->query );
 			$wp_query->set( 'wpmoly_search', $wp_query->get( 's' ) );
 			$wp_query->set( 's', null );
-			$wp_query->set( 'post_type', array( 'post', 'movie' ) );
+			$wp_query->set( 'post_type', array( 'post', 'page', 'movie' ) );
 			$wp_query->set( 'post__in', $ids );
 
 			return $wp_query;
