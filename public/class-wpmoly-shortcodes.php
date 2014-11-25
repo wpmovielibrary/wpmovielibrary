@@ -173,6 +173,9 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 				$query = implode( '&', $query );
 				$query = new WP_Query( $query );
 	
+				if ( 'none' == $atts['poster'] )
+					$atts['poster'] = null;
+
 				$movies = WPMOLY_Shortcodes::prepare_movies( $query, $atts );
 				$attributes = array( 'movies' => $movies );
 	
