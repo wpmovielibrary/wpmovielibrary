@@ -105,7 +105,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'get_the_terms', __CLASS__ . '::get_the_terms', 10, 3 );
 			add_filter( 'wp_get_object_terms', __CLASS__ . '::get_ordered_object_terms', 10, 4 );
 
-			//add_action( 'template_redirect', __CLASS__ . '::filter_404', 10 );
+			add_filter( 'the_content', __CLASS__ . '::custom_pages', 10, 1 );
+
 			add_filter( 'post_type_archive_title', __CLASS__ . '::filter_post_type_archive_title', 10, 2 );
 		}
 
@@ -206,6 +207,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			$new_rules = self::generate_custom_permalinks();
 
+			print_r( $new_rules + $rules );
+
 			if ( ! is_null( $rules ) )
 				return $new_rules + $rules;
 		}
@@ -242,6 +245,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/?$' ] = 'index.php?meta=$matches[1]&value=$matches[2]';
 				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/page/?([0-9]{1,})/?$' ] = 'index.php?meta=$matches[1]&value=$matches[2]&paged=$matches[3]';
 			}
+
+			$new_rules[ $l10n_rules['movies'] . '/?$' ] = 'index.php?p=' . wpmoly_o( 'movie-archives' );
 
 			return $new_rules;
 		}
@@ -1050,95 +1055,93 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		}
 
 		/**
-		 * Filter 404 error pages to intercept taxonomies listing pages.
+		 * Filter post content to render Movies and Taxonomies Custom
+		 * Archives pages.
 		 * 
-		 * Query should be 404 with no posts found and matching either one
-		 * of the taxonomies slug.
+		 * @since    2.1
 		 * 
-		 * @since    1.0
+		 * @param    string    $content Current page content
 		 * 
-		 * @return   boolean    Filter result: true if template filtered,
-		 *                      false else.
+		 * @return   string    HTML markup
 		 */
-		public static function filter_404() {
+		public static function custom_pages( $content ) {
 
-			global $wp_query;
-			$_query = $wp_query;
+			$movie_archive = wpmoly_o( 'movie-archives' );
+			if ( ! is_page( $movie_archive ) &&
+			     ! is_page( wpmoly_o( 'collection-archives' ) ) &&
+			     ! is_page( wpmoly_o( 'genre-archives' ) ) &&
+			     ! is_page( wpmoly_o( 'actor-archives' ) ) )
+				return $content;
 
-			// 404 only
-			if ( true !== $wp_query->is_404 || 0 !== $wp_query->post_count )
-				return false;
+			$archive = '';
+			if ( is_page( $movie_archive ) )
+				$archive = self::movie_archive_page();
+			elseif ( is_page( wpmoly_o( 'collection-archives' ) ) )
+				$archive = self::taxonomy_archive_page( 'collection' );
+			elseif ( is_page( wpmoly_o( 'genre-archives' ) ) )
+				$archive = self::taxonomy_archive_page( 'genre' );
+			elseif ( is_page( wpmoly_o( 'actor-archives' ) ) )
+				$archive = self::taxonomy_archive_page( 'actor' );
 
-			// Custom taxonomies only
-			$collection = wpmoly_o( 'rewrite-collection' );
-			$genre      = wpmoly_o( 'rewrite-genre' );
-			$actor      = wpmoly_o( 'rewrite-actor' );
-			$slugs = array(
-				'collection'	=> ( '' != $collection ? $collection : 'collection' ),
-				'genre'		=> ( '' != $genre ? $genre : 'genre' ),
-				'actor'		=> ( '' != $actor ? $actor : 'actor' )
+			return $archive . $content;
+		}
+
+		/**
+		 * Render Custom Movie Archives pages.
+		 * 
+		 * @since    2.1
+		 * 
+		 * @return   string    HTML markup
+		 */
+		public static function movie_archive_page() {
+
+			$args = array(
+				'menu'    => true,
+				'number'  => -1,
+				'columns' => 4
 			);
+			$grid_menu = WPMOLY_Movies::get_grid_menu();
+			$grid      = WPMOLY_Movies::get_the_grid( $args );
+			$content   = $grid_menu . $grid;
 
-			if ( ! in_array( $wp_query->query_vars['name'], $slugs ) && ! in_array( $wp_query->query_vars['category_name'], $slugs ) )
-				return false;
+			return $content;
+		}
 
-			// Change type of query
-			$wp_query->is_404 = false;
-			$wp_query->is_archive = true;
-			$wp_query->has_archive = true;
-			$wp_query->is_post_type_archive = true;
-			$wp_query->query_vars['post_type'] = 'movie';
+		/**
+		 * Render Custom Taxonomies Archives pages.
+		 * 
+		 * @since    2.1
+		 * 
+		 * @param    string    $taxonomy Taxonomy slug
+		 * 
+		 * @return   string    HTML markup
+		 */
+		public static function taxonomy_archive_page( $taxonomy ) {
 
-			$post = new WP_Post( new StdClass );
-			$post = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpmoly_page' );
-
-			if ( is_null( $post ) ) {
-				$wp_query = $_query;
-				return false;
-			}
-
-			// WP_Query trick: use an internal dummy page
-			$posts_per_page = $wp_query->query_vars['posts_per_page'];
-
-			// Term selection
-			if ( in_array( $slugs['collection'], array( $wp_query->query_vars['name'], $wp_query->query_vars['category_name'] ) ) ) {
-				$term_slug = 'collection';
+			$term_title = '';
+			if ( 'collection' == $taxonomy )
 				$term_title = __( 'View all movies from collection &laquo; %s &raquo;', 'wpmovielibrary' );
-			}
-			else if (in_array( $slugs['genre'], array( $wp_query->query_vars['name'], $wp_query->query_vars['category_name'] ) ) ) {
-				$term_slug = 'genre';
+			else if ( 'genre' == $taxonomy )
 				$term_title = __( 'View all &laquo; %s &raquo; movies', 'wpmovielibrary' );
-			}
-			else if ( in_array( $slugs['actor'], array( $wp_query->query_vars['name'], $wp_query->query_vars['category_name'] ) ) ) {
-				$term_slug = 'actor';
+			else if ( 'actor' == $taxonomy )
 				$term_title = __( 'View all movies staring &laquo; %s &raquo;', 'wpmovielibrary' );
-			}
-			else {
-				$wp_query = $_query;
-				return false;
-			}
 
-			// Caching
-			// TODO: this is nasty. Should be a way to make sure the filter
-			// is added before all this to avoid the has_filter() call...
-			if ( has_filter( 'wpmoly_cache_name' ) )
-				$name = apply_filters( 'wpmoly_cache_name', $term_slug . '_archive', $wp_query->query_vars );
-			else
-				$name = WPMOLY_Cache::wpmoly_cache_name( $term_slug . '_archive', $wp_query->query_vars );
+			$name = WPMOLY_Cache::wpmoly_cache_name( "{$taxonomy}_archive" );
+			$content = WPMOLY_Cache::output( $name, function() use ( $taxonomy, $term_title ) {
 
-			$content = WPMOLY_Cache::output( $name, function() use ( $wp_query, $slugs, $term_slug, $term_title ) {
+				$content = '_';
 
-				$wp_query->query_vars['wpmoly_archive_page'] = 1;
-				$wp_query->query_vars['wpmoly_archive_title'] = __( ucwords( $term_slug . 's' ), 'wpmovielibrary' );
+				$args = array(
+					'hide_empty' => true,
+					'number' => 50
+				);
 
-				$args = 'hide_empty=true&number=50';
-				$paged = $wp_query->get( 'paged' );
-
+				$paged = get_query_var( 'page' );
 				if ( $paged )
-					$args .= '&offset=' . ( 50 * ( $paged - 1 ) );
+					$args['offset'] = ( 50 * ( $paged - 1 ) );
 
-				$terms = get_terms( $term_slug, $args );
-				$total = wp_count_terms( $term_slug, 'hide_empty=true' );
+				$terms = get_terms( $taxonomy, $args );
+				$total = wp_count_terms( $taxonomy, 'hide_empty=true' );
 				$links = array();
 
 				if ( is_wp_error( $terms ) )
@@ -1156,27 +1159,21 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 					'type'    => 'list',
 					'total'   => ceil( ( $total - 1 ) / 50 ),
 					'current' => max( 1, $paged ),
-					'format'  => home_url( $slugs[ $term_slug ] . '/page/%#%/' ),
+					'format'  => get_permalink() . '?page=%#%',
 				);
 
-				$attributes = array( 'taxonomy' => $term_slug, 'links' => $links );
+				$attributes = array( 'taxonomy' => $taxonomy, 'links' => $links );
 				$content = WPMovieLibrary::render_template( 'archives/archives.php', $attributes, $require = 'always' );
 
 				$pagination = WPMOLY_Utils::paginate_links( $args );
+				$pagination = '<div id="wpmoly-movies-pagination">' . $pagination . '</div>';
 
 				$content = $content . $pagination;
 
 				return $content;
 			});
 
-			$post->post_content = $content;
-
-			$wp_query->posts[] = $post;
-			$wp_query->post_count = 1;
-			$wp_query->found_posts = 1;
-
-			// Make sure HTTP status is good
-			status_header( '200' );
+			return $content;
 		}
 
 		/**

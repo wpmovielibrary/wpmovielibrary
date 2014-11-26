@@ -89,6 +89,52 @@ $wpmoly_config = array(
 		)
 	),
 
+	// 'wpmoly-pages' Pages settings subsection
+	array(
+		'icon'    => 'wpmolicon icon-clipboard',
+		'title'   => __( 'Pages', 'wpmovielibrary' ),
+				'desc' => __( 'You can select existing pages to display WPMovieLibrary movies and taxonomies archives pages.', 'wpmovielibrary'),
+		'subsection' => true,
+		'fields'  => array(
+
+			// Movie archives page
+			'movie-archives' => array(
+				'id'       => 'wpmoly-movie-archives',
+				'type'     => 'select',
+				'title'    => __( 'Movie Archives Page', 'wpmovielibrary' ),
+				'data'     => 'pages',
+				'default'  => ''
+			),
+
+			// Collection archives page
+			'collection-archives' => array(
+				'id'       => 'wpmoly-collection-archives',
+				'type'     => 'select',
+				'title'    => __( 'Collection Archives Page', 'wpmovielibrary' ),
+				'data'     => 'pages',
+				'default'  => ''
+			),
+
+			// Genre archives page
+			'genre-archives' => array(
+				'id'       => 'wpmoly-genre-archives',
+				'type'     => 'select',
+				'title'    => __( 'Genre Archives Page', 'wpmovielibrary' ),
+				'data'     => 'pages',
+				'default'  => ''
+			),
+
+			// Actor archives page
+			'actor-archives' => array(
+				'id'       => 'wpmoly-actor-archives',
+				'type'     => 'select',
+				'title'    => __( 'Actor Archives Page', 'wpmovielibrary' ),
+				'data'     => 'pages',
+				'default'  => ''
+			)
+		)
+	),
+
 	// 'wpmoly-meta' Meta settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-meta',
