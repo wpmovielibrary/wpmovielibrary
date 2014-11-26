@@ -833,6 +833,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$q_var[] = 'meta';
 			$q_var[] = 'value';
 			$q_var[] = 'letter';
+			$q_var[] = '_page';
 			return $q_var;
 		}
 

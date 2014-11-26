@@ -99,6 +99,11 @@ $wpmoly_shortcodes = array(
 				'default' => null,
 				'values'  => array( 'media', 'status', 'rating' ),
 				'filter'  => null
+			),
+			'paginate' => array(
+				'default' => false,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
 			)
 		),
 		'content'  => null,

@@ -150,6 +150,14 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 					'posts_per_page=' . $count
 				);
 	
+				$_page = intval( get_query_var( '_page' ) );
+				if ( $paginate && $_page ) {
+					$query[] = 'paged=' . $_page;
+				}
+				else {
+					$query[] = 'paged=0';
+				}
+
 				if ( ! is_null( $order ) )
 					$query[] = 'order=' . $order;
 	
@@ -178,8 +186,20 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 
 				$movies = WPMOLY_Shortcodes::prepare_movies( $query, $atts );
 				$attributes = array( 'movies' => $movies );
+
+				$format[] = '_page=%#%';
+				$args = array(
+					'type'    => 'list',
+					'total'   => ceil( ( $query->found_posts ) / $count ),
+					'current' => max( 1, $_page ),
+					'format'  => sprintf( '%s?%s', get_permalink(), implode( '&amp;', $format ) ),
+				);
+
+				$paginate = WPMOLY_Utils::paginate_links( $args );
+				$paginate = '<div id="wpmoly-movies-pagination">' . $paginate . '</div>';
 	
 				$content = WPMovieLibrary::render_template( 'shortcodes/movies.php', $attributes, $require = 'always' );
+				$content  = $content . $paginate;
 
 				return $content;
 
