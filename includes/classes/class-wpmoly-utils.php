@@ -154,6 +154,10 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				'wpmoly-rewrite-collection',
 				'wpmoly-rewrite-genre',
 				'wpmoly-rewrite-actor',
+				'wpmoly-movie-archives',
+				'wpmoly-collection-archives',
+				'wpmoly-genre-archives',
+				'wpmoly-actor-archives'
 			);
 
 			if ( ! isset( $field['id'] ) || ! in_array( $field['id'], $rewrites ) )
