@@ -129,6 +129,19 @@ class WPMOLY_Taxonomies_Widget extends WPMOLY_Widget {
 		if ( ! in_array( $instance['taxonomy'], array( 'collection', 'genre', 'actor' ) ) )
 			return false;
 
+		$defaults = array(
+			'title'       => __( 'Movie Taxonomies', 'wpmovielibrary' ),
+			'description' => '',
+			'taxonomy'    => '',
+			'list'        => 0,
+			'count'       => 0,
+			'orderby'     => 'count',
+			'order'       => 'DESC',
+			'css'         => 0,
+			'limit'       => WPMOLY_MAX_TAXONOMY_LIST
+		);
+		$args = wp_parse_args( $args, $defaults );
+
 		extract( $args, EXTR_SKIP );
 		extract( $instance );
 

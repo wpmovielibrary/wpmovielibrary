@@ -131,6 +131,13 @@ extract( $instance );
 			<option value="after" <?php selected( $show_title, 'after' ); ?>> <?php _e( 'After poster', 'wpmovielibrary' ); ?></option>
 		</select>
 	</p>
+	<p>
+		<label for="<?php echo $widget->get_field_id( 'exclude_current' ); ?>"><strong class="wpmoly-widget-title"><?php _e( 'Exclude current movie from results in single view', 'wpmovielibrary' ); ?></strong></label>
+		<select class="widefat" id="<?php echo $widget->get_field_id( 'exclude_current' ); ?>" name="<?php echo $widget->get_field_name( 'exclude_current' ); ?>">
+			<option value="yes" <?php selected( $exclude_current, 'yes' ); ?>> <?php _e( 'Yes', 'wpmovielibrary' ); ?></option> 
+			<option value="no" <?php selected( $exclude_current, 'no' ); ?>> <?php _e( 'No', 'wpmovielibrary' ); ?></option>
+		</select>
+	</p>
 	<script>
 	if ( undefined !== wpmoly_widget ) wpmoly_widget.init();
 	if ( 'function' == typeof $.fn.select2 ) $( '.redux-container-select > select' ).select2();

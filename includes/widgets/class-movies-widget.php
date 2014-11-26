@@ -30,7 +30,7 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 		$this->widget_form        = 'movies-widget/movies-admin.php';
 
 		$this->widget_params      = array(
-			'title'  => array(
+			'title' => array(
 				'type' => 'text',
 				'std'  => __( 'Movies', 'wpmovielibrary' )
 			),
@@ -38,65 +38,69 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 				'type' => 'text',
 				'std'  => ''
 			),
-			'select' =>  array(
+			'select' => array(
 				'type' => 'select',
 				'std'  => 'date'
 			),
-			'select_status' =>  array(
+			'select_status' => array(
 				'type' => 'select',
 				'std'  => 'all'
 			),
-			'select_media' =>  array(
+			'select_media' => array(
 				'type' => 'select',
 				'std'  => 'all'
 			),
-			'select_rating' =>  array(
+			'select_rating' => array(
 				'type' => 'select',
 				'std'  => 'all'
 			),
-			'select_meta' =>  array(
+			'select_meta' => array(
 				'type' => 'select',
 				'std'  => 'all'
 			),
-			'release_date' =>  array(
+			'release_date' => array(
 				'type' => 'text',
 				'std'  => ''
 			),
-			'spoken_languages' =>  array(
+			'spoken_languages' => array(
 				'type' => 'text',
 				'std'  => ''
 			),
-			'production_companies' =>  array(
+			'production_companies' => array(
 				'type' => 'text',
 				'std'  => ''
 			),
-			'production_countries' =>  array(
+			'production_countries' => array(
 				'type' => 'text',
 				'std'  => ''
 			),
-			'certification' =>  array(
+			'certification' => array(
 				'type' => 'text',
 				'std'  => ''
 			),
-			'sort' =>  array(
+			'sort' => array(
 				'type' => 'select',
 				'std'  => 'DESC'
 			),
-			'limit' =>  array(
+			'limit' => array(
 				'type' => 'number',
 				'std'  => 4
 			),
-			'show_poster' =>  array(
+			'show_poster' => array(
 				'type' => 'select',
 				'std'  => 'normal'
 			),
-			'show_title' =>  array(
+			'show_title' => array(
 				'type' => 'select',
 				'std'  => 'no'
 			),
-			'show_rating' =>  array(
+			'show_rating' => array(
 				'type' => 'select',
 				'std'  => 'starsntext'
+			),
+			'exclude_current' => array(
+				'type' => 'select',
+				'std'  => 'no'
 			)
 		);
 
@@ -164,6 +168,28 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 	 */
 	public function widget_content( $args, $instance ) {
 
+		$defaults = array(
+			'title'                => __( 'Movies', 'wpmovielibrary' ),
+			'description'          => '',
+			'select'               => 'date',
+			'select_status'        => 'all',
+			'select_media'         => 'all',
+			'select_rating'        => 'all',
+			'select_meta'          => 'all',
+			'release_date'         => '',
+			'spoken_languages'     => '',
+			'production_companies' => '',
+			'production_countries' => '',
+			'certification'        => '',
+			'sort'                 => 'DESC',
+			'limit'                => 4,
+			'show_poster'          => 'normal',
+			'show_title'           => 'no',
+			'show_rating'          => 'starsntext',
+			'exclude_current'      => 'no'
+		);
+		$args = wp_parse_args( $args, $defaults );
+
 		extract( $args, EXTR_SKIP );
 		extract( $instance );
 
@@ -200,6 +226,10 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 				break;
 			case 'random':
 				$args = array( 'orderby' => 'rand' );
+				if ( is_single() && $exclude_current ) {
+					global $post;
+					$args['post__not_in'] = array( $post->ID );
+				}
 				break;
 			case 'meta':
 				switch ( $select_meta ) {

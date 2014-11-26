@@ -101,6 +101,15 @@ class WPMOLY_Details_Widget extends WPMOLY_Widget {
 	 */
 	public function widget_content( $args, $instance ) {
 
+		$defaults = array(
+			'title'       => __( 'Movie Details', 'wpmovielibrary' ),
+			'description' => '',
+			'detail'      => '',
+			'list'        => 0,
+			'css'         => 0
+		);
+		$args = wp_parse_args( $args, $defaults );
+
 		extract( $args, EXTR_SKIP );
 		extract( $instance );
 
