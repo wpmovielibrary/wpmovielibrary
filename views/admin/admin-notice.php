@@ -25,6 +25,6 @@
 
 	<div class="update-nag wpmoly">
 		<div class="label"><span class="wpmolicon icon-info"></span></div>
-		<div class="content"><?php printf( __( 'You update the ???? URL rewrite. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', 'wpmovielibrary' ), admin_url( '/options-permalink.php' ) ) ?></div>
+		<div class="content"><?php printf( __( 'Changes were made that affects the Permalinks. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', 'wpmovielibrary' ), admin_url( '/options-permalink.php' ) ) ?></div>
 	</div>
 <?php endif; ?>

@@ -207,8 +207,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			$new_rules = self::generate_custom_permalinks();
 
-			print_r( $new_rules + $rules );
-
 			if ( ! is_null( $rules ) )
 				return $new_rules + $rules;
 		}
@@ -246,7 +244,22 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/page/?([0-9]{1,})/?$' ] = 'index.php?meta=$matches[1]&value=$matches[2]&paged=$matches[3]';
 			}
 
-			$new_rules[ $l10n_rules['movies'] . '/?$' ] = 'index.php?p=' . wpmoly_o( 'movie-archives' );
+			$archives = array(
+				'movie'      => intval( wpmoly_o( 'movie-archives' ) ),
+				'collection' => intval( wpmoly_o( 'collection-archives' ) ),
+				'genre'      => intval( wpmoly_o( 'genre-archives' ) ),
+				'actor'      => intval( wpmoly_o( 'actor-archives' ) )
+			);
+			extract( $archives );
+
+			if ( $movie )
+				$new_rules[ $l10n_rules['movies'] . '/?$' ] = 'index.php?p=' . $movie;
+			if ( $collection )
+				$new_rules[ $l10n_rules['collection'] . '/?$' ] = 'index.php?p=' . $collection;
+			if ( $genre )
+				$new_rules[ $l10n_rules['genre'] . '/?$' ] = 'index.php?p=' . $genre;
+			if ( $actor )
+				$new_rules[ $l10n_rules['actor'] . '/?$' ] = 'index.php?p=' . $actor;
 
 			return $new_rules;
 		}
@@ -256,54 +269,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 *                            Miscellaneous
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		/**
-		 * Setup an internal, dummy Archive page that will be used to
-		 * render archive pages for taxonomies. This should only be called
-		 * only while activating.
-		 * 
-		 * @since    1.0
-		 */
-		public static function set_archive_page() {
-
-			$page = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpmoly_page' );
-
-			if ( ! is_null( $page ) )
-				return false;
-
-			$post = array(
-				'ID'             => null,
-				'post_content'   => '',
-				'post_name'      => 'wpmoly_wpmovielibrary',
-				'post_title'     => 'WPMovieLibrary Archives',
-				'post_status'    => 'publish',
-				'post_type'      => 'wpmoly_page',
-				'post_author'    => 1,
-				'ping_status'    => 'closed',
-				'post_excerpt'   => '',
-				'post_date'      => '0000-00-00 00:00:00',
-				'post_date_gmt'  => '0000-00-00 00:00:00',
-				'comment_status' => 'closed'
-			);
-
-			wp_insert_post( $post );
-		}
-
-		/**
-		 * Delete the Archive page. This should only be called only while
-		 * uninstalling.
-		 * 
-		 * @since    1.0
-		 */
-		public static function delete_archive_page() {
-
-			$page = get_page_by_title( 'WPMovieLibrary Archives', OBJECT, 'wpmoly_page' );
-
-			if ( is_null( $page ) )
-				return false;
-
-			wp_delete_post( $page->ID, $force_delete = true );
-		}
 
 		/**
 		 * Render a notice box.
@@ -1066,21 +1031,32 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 */
 		public static function custom_pages( $content ) {
 
-			$movie_archive = wpmoly_o( 'movie-archives' );
-			if ( ! is_page( $movie_archive ) &&
-			     ! is_page( wpmoly_o( 'collection-archives' ) ) &&
-			     ! is_page( wpmoly_o( 'genre-archives' ) ) &&
-			     ! is_page( wpmoly_o( 'actor-archives' ) ) )
+			global $wp_query;
+
+			if ( ! isset( $wp_query->queried_object_id ) )
 				return $content;
 
+			$id = $wp_query->queried_object_id;
+
+			$archives = array(
+				'movie'      => intval( wpmoly_o( 'movie-archives' ) ),
+				'collection' => intval( wpmoly_o( 'collection-archives' ) ),
+				'genre'      => intval( wpmoly_o( 'genre-archives' ) ),
+				'actor'      => intval( wpmoly_o( 'actor-archives' ) )
+			);
+
+			if ( ! in_array( $id, $archives ) )
+				return $content;
+
+			extract( $archives );
 			$archive = '';
-			if ( is_page( $movie_archive ) )
+			if ( $movie && $movie == $id )
 				$archive = self::movie_archive_page();
-			elseif ( is_page( wpmoly_o( 'collection-archives' ) ) )
+			elseif ( $collection && $collection == $id )
 				$archive = self::taxonomy_archive_page( 'collection' );
-			elseif ( is_page( wpmoly_o( 'genre-archives' ) ) )
+			elseif ( $genre && $genre == $id )
 				$archive = self::taxonomy_archive_page( 'genre' );
-			elseif ( is_page( wpmoly_o( 'actor-archives' ) ) )
+			elseif ( $actor && $actor == $id )
 				$archive = self::taxonomy_archive_page( 'actor' );
 
 			return $archive . $content;
@@ -1314,8 +1290,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 */
 		public function activate( $network_wide ) {
 
-			self::set_archive_page();
-
 			// About page
 			update_option( '_wpmoly_fresh_install', 'yes' );
 		}
@@ -1342,8 +1316,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			WPMOLY_Cache::clean_transient( 'uninstall' );
 			delete_option( 'rewrite_rules' );
-
-			self::delete_archive_page();
 		}
 
 	}

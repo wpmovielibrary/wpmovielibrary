@@ -93,16 +93,30 @@ $wpmoly_config = array(
 	array(
 		'icon'    => 'wpmolicon icon-clipboard',
 		'title'   => __( 'Pages', 'wpmovielibrary' ),
-				'desc' => __( 'You can select existing pages to display WPMovieLibrary movies and taxonomies archives pages.', 'wpmovielibrary'),
+		'heading' => __( 'Builtin Archive Pages settings', 'wpmovielibrary' ),
+		'desc'    => __( 'This section allow you to define custom pages to display taxonomies and movies archives.', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
+
+			// Notice
+			array(
+                            'id'     => 'wpmoly-archives-notice',
+                            'type'   => 'info',
+                            'notice' => true,
+                            'style'  => 'info',
+                            'icon'   => 'wpmolicon icon-info',
+                            'title'  => __( 'Permalinks Required', 'wpmovielibrary' ),
+                            'desc'   => __( 'Custom Archives Pages require Permalinks to be activated; using the default permalink structure will prevent archives to work properly. Ignore this notice if you are already using custom permalinks.', 'wpmovielibrary' )
+                        ),
 
 			// Movie archives page
 			'movie-archives' => array(
 				'id'       => 'wpmoly-movie-archives',
 				'type'     => 'select',
 				'title'    => __( 'Movie Archives Page', 'wpmovielibrary' ),
+				'desc'     => __( 'Choose a page to use to display movie archives.', 'wpmovielibrary' ),
 				'data'     => 'pages',
+				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
 				'default'  => ''
 			),
 
@@ -111,8 +125,11 @@ $wpmoly_config = array(
 				'id'       => 'wpmoly-collection-archives',
 				'type'     => 'select',
 				'title'    => __( 'Collection Archives Page', 'wpmovielibrary' ),
+				'desc'     => __( 'Choose a page to use to display collection archives.', 'wpmovielibrary' ),
 				'data'     => 'pages',
-				'default'  => ''
+				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
+				'default'  => '',
+				'required' => array( 'wpmoly-enable-collection', "=", 1 )
 			),
 
 			// Genre archives page
@@ -120,8 +137,11 @@ $wpmoly_config = array(
 				'id'       => 'wpmoly-genre-archives',
 				'type'     => 'select',
 				'title'    => __( 'Genre Archives Page', 'wpmovielibrary' ),
+				'desc'     => __( 'Choose a page to use to display genre archives.', 'wpmovielibrary' ),
 				'data'     => 'pages',
-				'default'  => ''
+				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
+				'default'  => '',
+				'required' => array( 'wpmoly-enable-genre', "=", 1 )
 			),
 
 			// Actor archives page
@@ -129,8 +149,11 @@ $wpmoly_config = array(
 				'id'       => 'wpmoly-actor-archives',
 				'type'     => 'select',
 				'title'    => __( 'Actor Archives Page', 'wpmovielibrary' ),
+				'desc'     => __( 'Choose a page to use to display actor archives.', 'wpmovielibrary' ),
 				'data'     => 'pages',
-				'default'  => ''
+				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
+				'default'  => '',
+				'required' => array( 'wpmoly-enable-actor', "=", 1 )
 			)
 		)
 	),
@@ -343,60 +366,6 @@ $wpmoly_config = array(
 			),
 		),
 	),
-
-	// 'wpmoly-archive' Builtin Pages settings subsection
-	/*array(
-		'icon'    => 'wpmolicon icon-edit-page',
-		'title'   => __( 'Archive Pages', 'wpmovielibrary' ),
-		'heading' => __( 'Builtin Archive Pages settings', 'wpmovielibrary' ),
-		'desc'    => __( 'This section allow you to define custom pages to display taxonomies and movies archives.', 'wpmovielibrary' ),
-		'subsection' => true,
-		'fields'  => array(
-
-			// Movies Archive Page
-			'movies-archive-page' => array(
-				'id'       => 'wpmoly-movies-archive-page',
-				'type'     => 'select',
-				'data'     => 'pages',
-				'title'    => __( 'Movies Archive Page', 'wpmovielibrary' ),
-				'desc'     => __( 'Choose a page to use to display movies archives.', 'wpmovielibrary' ),
-				'default'  => ''
-			),
-
-			// Collections Archive Page
-			'collections-archive-page' => array(
-				'id'       => 'wpmoly-collections-archive-page',
-				'type'     => 'select',
-				'data'     => 'pages',
-				'title'    => __( 'Collections Archive Page', 'wpmovielibrary' ),
-				'desc'     => __( 'Choose a page to use to display collections archives.', 'wpmovielibrary' ),
-				'default'  => '',
-				'required' => array( 'wpmoly-enable-collection', "=", 1 ),
-			),
-
-			// Actors Archive Page
-			'actors-archive-page' => array(
-				'id'       => 'wpmoly-actors-archive-page',
-				'type'     => 'select',
-				'data'     => 'pages',
-				'title'    => __( 'Actors Archive Page', 'wpmovielibrary' ),
-				'desc'     => __( 'Choose a page to use to display actors archives.', 'wpmovielibrary' ),
-				'default'  => '',
-				'required' => array( 'wpmoly-enable-actor', "=", 1 ),
-			),
-
-			// Collections Archive Page
-			'genres-archive-page' => array(
-				'id'       => 'wpmoly-genres-archive-page',
-				'type'     => 'select',
-				'data'     => 'pages',
-				'title'    => __( 'Collections Archive Page', 'wpmovielibrary' ),
-				'desc'     => __( 'Choose a page to use to display genres archives.', 'wpmovielibrary' ),
-				'default'  => '',
-				'required' => array( 'wpmoly-enable-genre', "=", 1 ),
-			)
-		),
-	),*/
 
 	// 'wpmoly-images' Images and Posters section
 	array(

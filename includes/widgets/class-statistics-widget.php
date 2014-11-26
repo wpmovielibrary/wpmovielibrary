@@ -78,23 +78,13 @@ class WPMOLY_Statistics_Widget extends WP_Widget {
 		$count['actors'] = wp_count_terms( 'actor' );
 		$count = array_map( 'intval', $count );
 
-		$movie      = wpmoly_o( 'rewrite-movie' );
-		$collection = wpmoly_o( 'rewrite-collection' );
-		$genre      = wpmoly_o( 'rewrite-genre' );
-		$actor      = wpmoly_o( 'rewrite-actor' );
-
-		$movie      = ( '' != $movie ? $movie : 'movie' );
-		$collection = ( '' != $collection ? $collection : 'collection' );
-		$genre      = ( '' != $genre ? $genre : 'genre' );
-		$actor      = ( '' != $actor ? $actor : 'actor' );
-
 		extract( $count );
 
 		$links = array();
 		$links['%total%'] 	= sprintf( '<a href="%s">%s</a>', get_post_type_archive_link( 'movie' ), sprintf( _n( '<strong>1</strong> movie', '<strong>%d</strong> movies', $movies, 'wpmovielibrary' ), $movies ) );
-		$links['%collections%']	= WPMOLY_L10n::get_taxonomy_permalink( $collection, sprintf( _n( '<strong>1</strong> collection', '<strong>%d</strong> collections', $collections, 'wpmovielibrary' ), $collections ) );
-		$links['%genres%']	= WPMOLY_L10n::get_taxonomy_permalink( $genre, sprintf( _n( '<strong>1</strong> genre', '<strong>%d</strong> genres', $genres, 'wpmovielibrary' ), $genres ) );
-		$links['%actors%']	= WPMOLY_L10n::get_taxonomy_permalink( $actor, sprintf( _n( '<strong>1</strong> actor', '<strong>%d</strong> actors', $actors, 'wpmovielibrary' ), $actors ) );
+		$links['%collections%']	= WPMOLY_L10n::get_taxonomy_permalink( 'collection', sprintf( _n( '<strong>1</strong> collection', '<strong>%d</strong> collections', $collections, 'wpmovielibrary' ), $collections ) );
+		$links['%genres%']	= WPMOLY_L10n::get_taxonomy_permalink( 'genre', sprintf( _n( '<strong>1</strong> genre', '<strong>%d</strong> genres', $genres, 'wpmovielibrary' ), $genres ) );
+		$links['%actors%']	= WPMOLY_L10n::get_taxonomy_permalink( 'actor', sprintf( _n( '<strong>1</strong> actor', '<strong>%d</strong> actors', $actors, 'wpmovielibrary' ), $actors ) );
 
 		$title = $before_title . apply_filters( 'widget_title', $title ) . $after_title;
 		$description = esc_attr( $description );
