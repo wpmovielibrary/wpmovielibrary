@@ -324,17 +324,18 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		public function activate( $network_wide ) {
 
 			self::update_slug();
-			
+			delete_option( 'wpmoly_has_deprecated_meta' );
 
 			if ( ! wpmoly_has_deprecated_meta() )
 				return false;
 
 			$deprecated = self::get_deprecated_movies();
-			if ( false !== $deprecated ) {
+			if ( false !== $deprecated )
+				$deprecated = count( $deprecated );
+			else 
+				$deprecated = '0';
 
-				delete_option( 'wpmoly_has_deprecated_meta' );
-				add_option( 'wpmoly_has_deprecated_meta', count( $deprecated ), null, 'no' );
-			}
+			add_option( 'wpmoly_has_deprecated_meta', $deprecated, null, 'no' );
 		}
 
 		/**
