@@ -884,6 +884,116 @@ $wpmoly_config = array(
 
 	),
 
+	// 'wpmoly-translate' Languages
+	array(
+		'icon'    => 'wpmolicon icon-style',
+		'title'   => __( 'Appearance', 'wpmovielibrary' ),
+		'heading' => __( 'Styling and customization', 'wpmovielibrary' ),
+		'fields'  => array(
+		)
+	),
+
+	// 'wpmoly-translate' Translation settings subsection
+	array(
+		'icon'    => 'wpmolicon icon-video-format',
+		'title'   => __( 'Headbox', 'wpmovielibrary' ),
+		'heading' => __( 'Styling the movie headbox', 'wpmovielibrary' ),
+		'subsection' => true,
+		'fields'  => array(
+
+			// Headbox Position
+			'headbox-position' => array(
+				'id'       => 'wpmoly-headbox-position',
+				'type'     => 'select',
+				'title'    => __( 'Headbox Position', 'wpmovielibrary' ),
+				'desc'     => __( 'Where to display the Headbox on posts.', 'wpmovielibrary' ),
+				'options'  => array(
+					'top'    => __( 'Top', 'wpmovielibrary' ),
+					'bottom' => __( 'Bottom', 'wpmovielibrary' )
+				),
+				'default'  => 'top'
+			),
+
+			// Headbox Tabs
+			'headbox-tabs' => array(
+				'id'       => 'wpmoly-headbox-tabs',
+				'type'     => 'select',
+				'title'    => __( 'Headbox Tabs', 'wpmovielibrary' ),
+				'desc'     => __( 'Which tabs should appear in the headbox and in which order.', 'wpmovielibrary' ) . '<br /><br /><img class="wpmoly-helper" src="' . WPMOLY_URL . '/assets/img/headbox_tabs.jpg" alt="" />',
+				'multi'    => true,
+				'sortable' => true,
+				'options'  => array(
+					'overview' => __( 'Overview', 'wpmovielibrary' ),
+					'meta'     => __( 'Metadata', 'wpmovielibrary' ),
+					'details'  => __( 'Details', 'wpmovielibrary' ),
+					'images'   => __( 'Images', 'wpmovielibrary' ),
+					'posters'  => __( 'Posters', 'wpmovielibrary' )
+				),
+				'default' => array( 'overview', 'meta', 'details', 'images', 'posters' )
+			),
+
+			// Title Content
+			'headbox-title' => array(
+				'id'       => 'wpmoly-headbox-title',
+				'type'     => 'select',
+				'title'    => __( 'Headbox Title', 'wpmovielibrary' ),
+				'desc'     => __( 'Content of the Headbox Title line.', 'wpmovielibrary' ) . '<br /><br /><img class="wpmoly-helper" src="' . WPMOLY_URL . '/assets/img/headbox_title.jpg" alt="" />',
+				'multi'    => true,
+				'sortable' => true,
+				'options'  => array(),
+				'default'  => array( '{title}' )
+			),
+
+			// Subtitle Content
+			'headbox-subtitle' => array(
+				'id'       => 'wpmoly-headbox-subtitle',
+				'type'     => 'select',
+				'title'    => __( 'Headbox Subtitle', 'wpmovielibrary' ),
+				'desc'     => __( 'Content of the Headbox Subtitle line.', 'wpmovielibrary' ) . '<br /><br /><img class="wpmoly-helper" src="' . WPMOLY_URL . '/assets/img/headbox_subtitle.jpg" alt="" />',
+				'multi'    => true,
+				'sortable' => true,
+				'options'  => array(),
+				'default'  => array( '{tagline}' )
+			),
+
+			//  Content
+			'headbox-details-1' => array(
+				'id'       => 'wpmoly-headbox-details-1',
+				'type'     => 'select',
+				'title'    => __( 'Headbox Details 1', 'wpmovielibrary' ),
+				'desc'     => __( 'Content of the Headbox first details line.', 'wpmovielibrary' ) . '<br /><br /><img class="wpmoly-helper" src="' . WPMOLY_URL . '/assets/img/headbox_details_1.jpg" alt="" />',
+				'multi'    => true,
+				'sortable' => true,
+				'options'  => array(),
+				'default'  => array( '{status}', '{media}' )
+			),
+
+			//  Content
+			'headbox-details-2' => array(
+				'id'       => 'wpmoly-headbox-details-2',
+				'type'     => 'select',
+				'title'    => __( 'Headbox Details 2', 'wpmovielibrary' ),
+				'desc'     => __( 'Content of the Headbox second details line.', 'wpmovielibrary' ) . '<br /><br /><img class="wpmoly-helper" src="' . WPMOLY_URL . '/assets/img/headbox_details_2.jpg" alt="" />',
+				'multi'    => true,
+				'sortable' => true,
+				'options'  => array(),
+				'default'  => array( '{release_date}', '{runtime}' )
+			),
+
+			//  Content
+			'headbox-details-3' => array(
+				'id'       => 'wpmoly-headbox-details-3',
+				'type'     => 'select',
+				'title'    => __( 'Headbox Details 3', 'wpmovielibrary' ),
+				'desc'     => __( 'Content of the Headbox third details line.', 'wpmovielibrary' ) . '<br /><br /><img class="wpmoly-helper" src="' . WPMOLY_URL . '/assets/img/headbox_details_3.jpg" alt="" />',
+				'multi'    => true,
+				'sortable' => true,
+				'options'  => array(),
+				'default'  => array( '{rating}' )
+			)
+		)
+	),
+
 	// 'wpmoly-cache' Caching
 	array(
 		'icon'    => 'wpmolicon icon-cache',

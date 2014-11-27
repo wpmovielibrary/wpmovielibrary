@@ -399,3 +399,36 @@ $wpmoly_metabox_panels = array(
 	)
 
 );
+
+$wpmoly_tags = array(
+	'media'              => __( 'Media', 'wpmovielibrary' ),
+	'status'             => __( 'Status', 'wpmovielibrary' ),
+	'rating'             => __( 'Rating', 'wpmovielibrary' ),
+	'language'           => __( 'Language (detail)', 'wpmovielibrary' ),
+	'subtitles'          => __( 'Subtitles', 'wpmovielibrary' ),
+	'format'             => __( 'Video Format', 'wpmovielibrary' ),
+	'director'           => __( 'Director', 'wpmovielibrary' ),
+	'runtime'            => __( 'Runtime', 'wpmovielibrary' ),
+	'release_date'       => __( 'Release date', 'wpmovielibrary' ),
+	'genres'             => __( 'Genres', 'wpmovielibrary' ),
+	'overview'           => __( 'Overview', 'wpmovielibrary' ),
+	'title'              => __( 'Title', 'wpmovielibrary' ),
+	'original_title'     => __( 'Original Title', 'wpmovielibrary' ),
+	'production'         => __( 'Production', 'wpmovielibrary' ),
+	'countries'          => __( 'Country', 'wpmovielibrary' ),
+	'languages'          => __( 'Languages', 'wpmovielibrary' ),
+	'producer'           => __( 'Producer', 'wpmovielibrary' ),
+	'local_release_date' => __( 'Local release date', 'wpmovielibrary' ),
+	'photography'        => __( 'Director of Photography', 'wpmovielibrary' ),
+	'composer'           => __( 'Original Music Composer', 'wpmovielibrary' ),
+	'author'             => __( 'Author', 'wpmovielibrary' ),
+	'writer'             => __( 'Writer', 'wpmovielibrary' ),
+	'cast'               => __( 'Actors', 'wpmovielibrary' ),
+	'certification'      => __( 'Certification', 'wpmovielibrary' ),
+	'budget'             => __( 'Budget', 'wpmovielibrary' ),
+	'revenue'            => __( 'Revenue', 'wpmovielibrary' ),
+	'tagline'            => __( 'Tagline', 'wpmovielibrary' ),
+	'imdb_id'            => __( 'IMDb Id', 'wpmovielibrary' ),
+	'adult'              => __( 'Adult', 'wpmovielibrary' ),
+	'homepage'           => __( 'Homepage', 'wpmovielibrary' )
+);

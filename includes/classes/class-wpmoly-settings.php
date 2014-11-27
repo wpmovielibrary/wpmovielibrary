@@ -280,6 +280,29 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		}
 
 		/**
+		 * Return Available Movie tags
+		 *
+		 * @since    2.1
+		 *
+		 * @return   array    WPMOLY Panels
+		 */
+		public static function get_available_movie_tags() {
+
+			global $wpmoly_tags;
+
+			/**
+			 * Filter the available movie tags
+			 *
+			 * @since    2.1
+			 *
+			 * @param    array    $wpmoly_tags Existing Panels
+			 */
+			$wpmoly_tags = apply_filters( 'wpmoly_filter_movie_tags', $wpmoly_tags );
+
+			return $wpmoly_tags;
+		}
+
+		/**
 		 * Return Admin Menu config array data
 		 *
 		 * @since    2.0
@@ -394,38 +417,6 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 
 			return $default;
 		}
-
-		/**
-		 * Return the default Movie Media
-		 *
-		 * @since    1.0
-		 *
-		 * @return   array    WPMOLY Default Movie Media.
-		 */
-		/*public static function get_default_movie_media() {
-
-			$wpmoly_movie_details = self::get_details();
-
-			$default = $wpmoly_movie_details['movie_media']['default'];
-
-			return $default;
-		}*/
-
-		/**
-		 * Return the default Movie Status
-		 *
-		 * @since    1.0
-		 *
-		 * @return   array    WPMOLY Default Movie Status.
-		 */
-		/*public static function get_default_movie_status() {
-
-			$wpmoly_movie_details = self::get_details();
-
-			$default = $wpmoly_movie_details['movie_status']['default'];
-
-			return $default;
-		}*/
 
 		/**
 		 * Return all supported Movie Details fields

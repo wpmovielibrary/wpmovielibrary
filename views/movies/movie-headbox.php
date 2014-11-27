@@ -10,19 +10,13 @@
  */
 ?>
 
-	<div id="movie-headbox-<?php echo $id ?>" class="wpmoly block headbox contained <?php echo $theme ?>" style="background-image:url(<?php echo $movie['poster'] ?>);">
+	<div id="movie-headbox-<?php echo $id ?>" class="wpmoly block headbox contained <?php echo $theme ?>" style="background-image:url(<?php echo $headbox['poster'] ?>);">
 		<div class="wpmoly headbox movie poster">
-			<div class="wpmoly headbox movie rating starlined"><?php echo $movie['rating'] ?></div>
-			<h3 class="wpmoly headbox movie title"><?php echo $movie['title'] ?></h3>
-			<h4 class="wpmoly headbox movie tagline"><?php echo $movie['tagline'] ?></h4>
-			<div class="wpmoly headbox movie genres"><?php echo $movie['genres'] ?></div>
-			<div class="wpmoly headbox movie details">
-				<?php echo $movie['status'] ?>
-				<?php echo $movie['media'] ?>
-			</div>
-			<div class="wpmoly headbox movie meta">
-				<span class="wpmoly headbox movie year"><?php echo $movie['year'] ?></span> / <span class="wpmoly headbox movie runtime"><?php echo $movie['runtime'] ?></span>
-			</div>
+			<div class="wpmoly headbox movie details-3"><?php echo $headbox['details_3'] ?></div>
+			<h3 class="wpmoly headbox movie title"><?php echo $headbox['title'] ?></h3>
+			<h4 class="wpmoly headbox movie subtitle"><?php echo $headbox['subtitle'] ?></h4>
+			<div class="wpmoly headbox movie details-1"><?php echo $headbox['details_1'] ?></div>
+			<div class="wpmoly headbox movie details-2"><?php echo $headbox['details_2'] ?></div>
 <?php echo $menu ?>
 		</div>
 <?php echo $tabs ?>

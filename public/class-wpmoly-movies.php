@@ -275,27 +275,55 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			else
 				$theme = '';
 
-			$id     = get_the_ID();
-			$poster = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'full' );
-			$poster = $poster[0];
-			$movie  = array(
-				'poster' => $poster,
-				'rating' => apply_filters( 'wpmoly_movie_rating_stars', self::get_movie_meta( $id, 'rating' ) ),
-				'media'  => apply_filters( 'wpmoly_format_movie_media', self::get_movie_meta( $id, 'media' ), $format = 'html', $icon = true ),
-				'status' => apply_filters( 'wpmoly_format_movie_status', self::get_movie_meta( $id, 'status' ), $format = 'html', $icon = true ),
-				'year'   => apply_filters( 'wpmoly_format_movie_year', self::get_movie_meta( $id, 'release_date' ) )
+			$id      = get_the_ID();
+			$poster  = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'full' );
+			$poster  = $poster[0];
+
+			$headbox = array(
+				'title'     => wpmoly_o( 'headbox-title', $default = true ),
+				'subtitle'  => wpmoly_o( 'headbox-subtitle', $default = true ),
+				'details_1' => wpmoly_o( 'headbox-details-1', $default = true ),
+				'details_2' => wpmoly_o( 'headbox-details-2', $default = true ),
+				'details_3' => wpmoly_o( 'headbox-details-3', $default = true )
 			);
 
-			$meta  = array( 'title', 'tagline', 'overview', 'genres', 'runtime' );
-			foreach ( $meta as $i => $m )
-				$movie[ $m ] = apply_filters( "wpmoly_format_movie_{$m}", self::get_movie_meta( $id, $m ) );
+			foreach ( $headbox as $slug => $content ) {
+
+				$_c = '';
+				foreach ( $content as $c ) {
+					$__c = '';
+					switch ( $c ) {
+						case 'rating':
+							$__c = apply_filters( 'wpmoly_movie_rating_stars', self::get_movie_meta( $id, 'rating' ) );
+							$__c = '<span class="wpmoly headbox movie rating starlined">' . $__c . '</span>';
+							break;
+						case 'media':
+						case 'status':
+							$__c = apply_filters( "wpmoly_format_movie_$c", self::get_movie_meta( $id, $c ), $format = 'html', $icon = true );
+							$__c = '<span class="wpmoly headbox movie ' . $c . '">' . $__c . '</span>';
+							break;
+						case 'release_date':
+							$__c = apply_filters( 'wpmoly_format_movie_year', self::get_movie_meta( $id, 'release_date' ), 'Y' );
+							$__c = '<span class="wpmoly headbox movie ' . $c . '">' . $__c . '</span>';
+							break;
+						default:
+							$__c = apply_filters( "wpmoly_format_movie_$c", self::get_movie_meta( $id, $c ) );
+							$__c = '<span class="wpmoly headbox movie ' . $c . '">' . $__c . '</span>';
+							break;
+					}
+					$_c .=  $__c;
+				}
+				$headbox[ $slug ] = $_c;
+			}
+
+			$headbox['poster'] = $poster;
 
 			$attributes = array(
-				'id'    => get_the_ID(),
-				'movie' => $movie,
-				'menu'  => self::movie_headbox_menu(),
-				'tabs'  => self::movie_headbox_tabs(),
-				'theme' => $theme,
+				'id'      => get_the_ID(),
+				'headbox' => $headbox,
+				'menu'    => self::movie_headbox_menu(),
+				'tabs'    => self::movie_headbox_tabs(),
+				'theme'   => $theme,
 			);
 			$content = WPMovieLibrary::render_template( 'movies/movie-headbox.php', $attributes, $require = 'always' );
 
@@ -335,17 +363,33 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			);
 
 			/**
+			 * Filter the Headbox menu links before applying settings.
+			 * 
+			 * @since    2.1
+			 * 
+			 * @param    array    $links default menu links
+			 */
+			$links = apply_filters( 'wpmoly_pre_filter_headbox_menu_link', $links );
+
+			$_links = array();
+			$select  = wpmoly_o( 'headbox-tabs' );
+			if ( is_array( $select ) )
+				foreach ( $select as $s )
+					if ( isset( $links[ $s ] ) )
+						$_links[ $s ] = $links[ $s ];
+
+			/**
 			 * Filter the Headbox menu links.
 			 * 
 			 * @since    2.0
 			 * 
 			 * @param    array    $links default menu links
 			 */
-			$links = apply_filters( 'wpmoly_filter_headbox_menu_link', $links );
+			$_links = apply_filters( 'wpmoly_filter_headbox_menu_link', $_links );
 
 			$attributes = array(
 				'id'    => get_the_ID(),
-				'links' => $links
+				'links' => $_links
 			);
 			$content = WPMovieLibrary::render_template( 'movies/headbox/menu.php', $attributes, $require = 'always' );
 

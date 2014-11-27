@@ -43,3 +43,15 @@
 	margin-bottom: 15px !important;
 	margin-right: 20px !important;
 }
+
+.redux-field-container {
+	overflow: hidden;
+	position: relative;
+}
+
+.redux-field-container img.wpmoly-helper {
+	max-width: 270px;
+	position: absolute;
+	right: 0;
+	top: 4px;
+}

@@ -39,6 +39,12 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 			if ( ! isset( $this->args['opt_name'] ) )
 				return;
 
+			add_filter( 'redux/options/' . $this->args['opt_name'] . '/field/wpmoly-headbox-title/register', array( $this, 'available_movie_tags' ), 10, 1 );
+			add_filter( 'redux/options/' . $this->args['opt_name'] . '/field/wpmoly-headbox-subtitle/register', array( $this, 'available_movie_tags' ), 10, 1 );
+			add_filter( 'redux/options/' . $this->args['opt_name'] . '/field/wpmoly-headbox-details-1/register', array( $this, 'available_movie_tags' ), 10, 1 );
+			add_filter( 'redux/options/' . $this->args['opt_name'] . '/field/wpmoly-headbox-details-2/register', array( $this, 'available_movie_tags' ), 10, 1 );
+			add_filter( 'redux/options/' . $this->args['opt_name'] . '/field/wpmoly-headbox-details-3/register', array( $this, 'available_movie_tags' ), 10, 1 );
+
 			// If Redux is running as a plugin, this will remove the demo notice and links
 			//add_action( 'redux/loaded', array( $this, 'remove_demo' ) );
 
@@ -143,6 +149,12 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 
 			// Set the help sidebar
 			$this->args['help_sidebar'] = __( '<p>This is the sidebar content, HTML is allowed.</p>', 'wpmovielibrary' );
+		}
+
+		public function available_movie_tags( $field ) {
+
+			$field['options'] = WPMOLY_Settings::get_available_movie_tags();
+			return $field;
 		}
 
 		/**
