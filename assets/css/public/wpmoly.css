@@ -369,6 +369,10 @@
 	content: "\e620";
 }
 
+.wpmoly.headbox.movie.empty {
+	display: none;
+}
+
 .wpmoly.headbox.movie.menu {
 	bottom: 2px;
 	position: absolute;
@@ -517,7 +521,8 @@
 .wpmoly.headbox.movie.title > span + span,
 .wpmoly.headbox.movie.subtitle > span + span,
 .wpmoly.headbox.movie.details-1 > span + span,
-.wpmoly.headbox.movie.details-2 > span + span {
+.wpmoly.headbox.movie.details-2 > span + span,
+.wpmoly.headbox.movie.details-3 > span + span {
 	border-left: 1px solid #888;
 	margin-left: 6px;
 	padding-left: 6px;

@@ -50,6 +50,11 @@
 	content: "\f126";
 }
 
+[class^="wpmolicon icon-"],
+[class*=" wpmolicon icon-"] {
+	font-family: "wpmovielibrary" !important;
+}
+
 .wpmolicon {
 	display: inline-block;
 	width: 20px;

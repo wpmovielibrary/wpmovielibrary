@@ -39,6 +39,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 				'WPMOLY_L10n'        => WPMOLY_L10n::get_instance(),
 				'WPMOLY_Utils'       => WPMOLY_Utils::get_instance(),
 				'WPMOLY_Movies'      => WPMOLY_Movies::get_instance(),
+				'WPMOLY_Headbox'     => WPMOLY_Headbox::get_instance(),
 				'WPMOLY_Collections' => WPMOLY_Collections::get_instance(),
 				'WPMOLY_Genres'      => WPMOLY_Genres::get_instance(),
 				'WPMOLY_Actors'      => WPMOLY_Actors::get_instance(),
