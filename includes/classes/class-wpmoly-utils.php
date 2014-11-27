@@ -106,8 +106,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			add_filter( 'wp_get_object_terms', __CLASS__ . '::get_ordered_object_terms', 10, 4 );
 
 			add_filter( 'the_content', __CLASS__ . '::custom_pages', 10, 1 );
-
-			add_filter( 'post_type_archive_title', __CLASS__ . '::filter_post_type_archive_title', 10, 2 );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1055,7 +1053,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			extract( $archives );
 			$archive = '';
 			if ( $movie && $movie == $id )
-				$archive = self::movie_archive_page();
+				$archive = WPMOLY_Movies::archives_page();
 			elseif ( $collection && $collection == $id )
 				$archive = self::taxonomy_archive_page( 'collection' );
 			elseif ( $genre && $genre == $id )
@@ -1064,27 +1062,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$archive = self::taxonomy_archive_page( 'actor' );
 
 			return $archive . $content;
-		}
-
-		/**
-		 * Render Custom Movie Archives pages.
-		 * 
-		 * @since    2.1
-		 * 
-		 * @return   string    HTML markup
-		 */
-		public static function movie_archive_page() {
-
-			$args = array(
-				'menu'    => true,
-				'number'  => -1,
-				'columns' => 4
-			);
-			$grid_menu = WPMOLY_Movies::get_grid_menu();
-			$grid      = WPMOLY_Movies::get_the_grid( $args );
-			$content   = $grid_menu . $grid;
-
-			return $content;
 		}
 
 		/**
@@ -1098,6 +1075,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 */
 		public static function taxonomy_archive_page( $taxonomy ) {
 
+			global $wpdb;
+
 			$term_title = '';
 			if ( 'collection' == $taxonomy )
 				$term_title = __( 'View all movies from collection &laquo; %s &raquo;', 'wpmovielibrary' );
@@ -1107,21 +1086,46 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$term_title = __( 'View all movies staring &laquo; %s &raquo;', 'wpmovielibrary' );
 
 			$name = WPMOLY_Cache::wpmoly_cache_name( "{$taxonomy}_archive" );
-			$content = WPMOLY_Cache::output( $name, function() use ( $taxonomy, $term_title ) {
+			$content = WPMOLY_Cache::output( $name, function() use ( $wpdb, $taxonomy, $term_title ) {
 
 				$content = '_';
 
-				$args = array(
-					'hide_empty' => true,
-					'number' => 50
-				);
+				$letter = get_query_var( 'letter' );
+				$paged  = get_query_var( 'page' );
 
-				$paged = get_query_var( 'page' );
+				$number = 50;
+				$offset = 0;
+
 				if ( $paged )
-					$args['offset'] = ( 50 * ( $paged - 1 ) );
+					$offset = ( 50 * ( $paged - 1 ) );
 
-				$terms = get_terms( $taxonomy, $args );
-				$total = wp_count_terms( $taxonomy, 'hide_empty=true' );
+				if ( '' != $letter ) {
+					$like  = ( method_exists( 'wpdb', 'esc_like' ) ? $wpdb->esc_like( $letter ) : like_escape( $letter ) ) . '%';
+					$query = "SELECT SQL_CALC_FOUND_ROWS t.*, tt.*
+						    FROM {$wpdb->terms} AS t
+						   INNER JOIN {$wpdb->term_taxonomy} AS tt
+						      ON t.term_id = tt.term_id
+						   WHERE tt.count > 0
+						     AND tt.taxonomy = %s
+						     AND t.name LIKE %s
+						   ORDER BY t.name ASC
+						   LIMIT %d,%d";
+					$terms = $wpdb->get_results( $wpdb->prepare( $query, $taxonomy, $like, $offset, $number ) );
+				}
+				else {
+					$query = "SELECT SQL_CALC_FOUND_ROWS t.*, tt.*
+						    FROM {$wpdb->terms} AS t
+						   INNER JOIN {$wpdb->term_taxonomy} AS tt
+						      ON t.term_id = tt.term_id
+						   WHERE tt.count > 0
+						     AND tt.taxonomy = %s
+						   ORDER BY t.name ASC
+						   LIMIT %d,%d";
+					$terms = $wpdb->get_results( $wpdb->prepare( $query, $taxonomy, $offset, $number ) );
+				}
+
+				$total = $wpdb->get_var( 'SELECT FOUND_ROWS() AS total' );
+				$terms = apply_filters( 'get_terms', $terms, (array) $taxonomy, array() );
 				$links = array();
 
 				if ( is_wp_error( $terms ) )
@@ -1135,20 +1139,23 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 							'count'      => sprintf( _n( '%d movie', '%d movies', $term->count, 'wpmovielibrary' ), $term->count )
 						);
 
+				$menu = self::taxonomy_archive_menu( $taxonomy );
+
+				$url = add_query_arg( 'letter', $letter, get_permalink() );
+
 				$args = array(
 					'type'    => 'list',
 					'total'   => ceil( ( $total - 1 ) / 50 ),
 					'current' => max( 1, $paged ),
-					'format'  => get_permalink() . '?page=%#%',
+					'format'  => $url . '&page=%#%',
 				);
+				$pagination = self::paginate_links( $args );
+				$pagination = '<div id="wpmoly-movies-pagination">' . $pagination . '</div>';
 
 				$attributes = array( 'taxonomy' => $taxonomy, 'links' => $links );
 				$content = WPMovieLibrary::render_template( 'archives/archives.php', $attributes, $require = 'always' );
 
-				$pagination = WPMOLY_Utils::paginate_links( $args );
-				$pagination = '<div id="wpmoly-movies-pagination">' . $pagination . '</div>';
-
-				$content = $content . $pagination;
+				$content = $menu . $content . $pagination;
 
 				return $content;
 			});
@@ -1156,28 +1163,27 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			return $content;
 		}
 
-		/**
-		 * Filter page titles to replace custom archive pages titles
-		 * with the correct term title.
-		 * 
-		 * @since    1.1
-		 * 
-		 * @param    string    $name Current page title
-		 * @param    string    $args Current page post_type
-		 * 
-		 * @return   string    Updated page title.
-		*/
-		public static function filter_post_type_archive_title( $name, $post_type ) {
+		public static function taxonomy_archive_menu( $taxonomy ) {
 
-			global $wp_query;
+			global $wpdb;
 
-			if ( 'movie' != $post_type )
-				return $name;
+			$default = str_split( 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
+			$letters = array();
+			$current = get_query_var( 'letter' );
+			
+			$result = $wpdb->get_results( "SELECT DISTINCT LEFT(t.name, 1) as letter FROM {$wpdb->terms} AS t INNER JOIN {$wpdb->term_taxonomy} AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ('collection') ORDER BY t.name ASC" );
+			foreach ( $result as $r )
+				$letters[] = $r->letter;
 
-			if ( 1 == $wp_query->get( 'wpmoly_archive_page' ) && '' != $wp_query->get( 'wpmoly_archive_title' ) )
-				$name = $wp_query->get( 'wpmoly_archive_title' );
+			$attributes = array(
+				'letters' => $letters,
+				'default' => $default,
+				'current' => $current
+			);
 
-			return $name;
+			$content = self::render_template( 'movies/grid/menu.php', $attributes );
+
+			return $content;
 		}
 
 		/**

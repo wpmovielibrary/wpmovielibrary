@@ -398,6 +398,27 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			return $html;
 		}
 
+		/**
+		 * Render Custom Movie Archives pages.
+		 * 
+		 * @since    2.1
+		 * 
+		 * @return   string    HTML markup
+		 */
+		public static function archives_page() {
+
+			$args = array(
+				'menu'    => true,
+				'number'  => -1,
+				'columns' => 4
+			);
+			$grid_menu = self::get_grid_menu();
+			$grid      = self::get_the_grid( $args );
+			$content   = $grid_menu . $grid;
+
+			return $content;
+		}
+
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
 		 *                              Queries
