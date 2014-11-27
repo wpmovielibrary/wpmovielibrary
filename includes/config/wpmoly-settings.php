@@ -941,7 +941,7 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'options'  => array(),
-				'default'  => array( '{title}' )
+				'default'  => array( 'title' )
 			),
 
 			// Subtitle Content
@@ -953,7 +953,7 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'options'  => array(),
-				'default'  => array( '{tagline}' )
+				'default'  => array( 'tagline' )
 			),
 
 			//  Content
@@ -965,7 +965,7 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'options'  => array(),
-				'default'  => array( '{status}', '{media}' )
+				'default'  => array( 'status', 'media' )
 			),
 
 			//  Content
@@ -977,7 +977,7 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'options'  => array(),
-				'default'  => array( '{release_date}', '{runtime}' )
+				'default'  => array( 'release_date', 'runtime' )
 			),
 
 			//  Content
@@ -989,7 +989,7 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'options'  => array(),
-				'default'  => array( '{rating}' )
+				'default'  => array( 'rating' )
 			)
 		)
 	),
