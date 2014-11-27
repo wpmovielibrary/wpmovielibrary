@@ -227,7 +227,7 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 			if ( is_null( $movie_id ) )
 				return $content;
 
-			$atts['movie_id'] = $movie_id;
+			$atts['id'] = $movie_id;
 
 			// Caching
 			$name = apply_filters( 'wpmoly_cache_name', 'movie_shortcode', $atts );
