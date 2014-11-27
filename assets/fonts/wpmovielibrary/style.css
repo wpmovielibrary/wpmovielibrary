@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'wpmovielibrary';
-	src:url('fonts/wpmovielibrary.eot?-ntjku1');
-	src:url('fonts/wpmovielibrary.eot?#iefix-ntjku1') format('embedded-opentype'),
-		url('fonts/wpmovielibrary.woff?-ntjku1') format('woff'),
-		url('fonts/wpmovielibrary.ttf?-ntjku1') format('truetype'),
-		url('fonts/wpmovielibrary.svg?-ntjku1#wpmovielibrary') format('svg');
+	src:url('fonts/wpmovielibrary.eot');
+	src:url('fonts/wpmovielibrary.eot#iefix') format('embedded-opentype'),
+		url('fonts/wpmovielibrary.woff') format('woff'),
+		url('fonts/wpmovielibrary.ttf') format('truetype'),
+		url('fonts/wpmovielibrary.svg#wpmovielibrary') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
