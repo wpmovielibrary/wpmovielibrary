@@ -130,7 +130,7 @@ $wpmoly_shortcodes = array(
 			),
 			'meta' => array(
 				'default' => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview' ),
-				'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview', 'title', 'original_title', 'production', 'country', 'language', 'producer', 'photography', 'composer', 'author', 'writer' ),
+				'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview', 'title', 'original_title', 'production', 'country', 'language', 'producer', 'photography', 'composer', 'author', 'writer', 'cast' ),
 				'filter'  => null
 			),
 			'details' => array(
@@ -158,7 +158,7 @@ $wpmoly_shortcodes = array(
 			),
 			'key' => array(
 				'default' => null,
-				'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview', 'title', 'original_title', 'production', 'country', 'language', 'producer', 'photography', 'composer', 'author', 'writer' ),
+				'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'cast', 'overview', 'title', 'original_title', 'production', 'country', 'language', 'producer', 'photography', 'composer', 'author', 'writer' ),
 				'filter'  => 'esc_attr'
 			),
 			'label' => array(
