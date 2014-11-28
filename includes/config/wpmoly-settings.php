@@ -89,75 +89,6 @@ $wpmoly_config = array(
 		)
 	),
 
-	// 'wpmoly-pages' Pages settings subsection
-	array(
-		'icon'    => 'wpmolicon icon-clipboard',
-		'title'   => __( 'Pages', 'wpmovielibrary' ),
-		'heading' => __( 'Builtin Archive Pages settings', 'wpmovielibrary' ),
-		'desc'    => __( 'This section allow you to define custom pages to display taxonomies and movies archives.', 'wpmovielibrary' ),
-		'subsection' => true,
-		'fields'  => array(
-
-			// Notice
-			array(
-                            'id'     => 'wpmoly-archives-notice',
-                            'type'   => 'info',
-                            'notice' => true,
-                            'style'  => 'info',
-                            'icon'   => 'wpmolicon icon-info',
-                            'title'  => __( 'Permalinks Required', 'wpmovielibrary' ),
-                            'desc'   => __( 'Custom Archives Pages require Permalinks to be activated; using the default permalink structure will prevent archives to work properly. Ignore this notice if you are already using custom permalinks.', 'wpmovielibrary' )
-                        ),
-
-			// Movie archives page
-			'movie-archives' => array(
-				'id'       => 'wpmoly-movie-archives',
-				'type'     => 'select',
-				'title'    => __( 'Movie Archives Page', 'wpmovielibrary' ),
-				'desc'     => __( 'Choose a page to use to display movie archives.', 'wpmovielibrary' ),
-				'data'     => 'pages',
-				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
-				'default'  => ''
-			),
-
-			// Collection archives page
-			'collection-archives' => array(
-				'id'       => 'wpmoly-collection-archives',
-				'type'     => 'select',
-				'title'    => __( 'Collection Archives Page', 'wpmovielibrary' ),
-				'desc'     => __( 'Choose a page to use to display collection archives.', 'wpmovielibrary' ),
-				'data'     => 'pages',
-				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
-				'default'  => '',
-				'required' => array( 'wpmoly-enable-collection', "=", 1 )
-			),
-
-			// Genre archives page
-			'genre-archives' => array(
-				'id'       => 'wpmoly-genre-archives',
-				'type'     => 'select',
-				'title'    => __( 'Genre Archives Page', 'wpmovielibrary' ),
-				'desc'     => __( 'Choose a page to use to display genre archives.', 'wpmovielibrary' ),
-				'data'     => 'pages',
-				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
-				'default'  => '',
-				'required' => array( 'wpmoly-enable-genre', "=", 1 )
-			),
-
-			// Actor archives page
-			'actor-archives' => array(
-				'id'       => 'wpmoly-actor-archives',
-				'type'     => 'select',
-				'title'    => __( 'Actor Archives Page', 'wpmovielibrary' ),
-				'desc'     => __( 'Choose a page to use to display actor archives.', 'wpmovielibrary' ),
-				'data'     => 'pages',
-				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
-				'default'  => '',
-				'required' => array( 'wpmoly-enable-actor', "=", 1 )
-			)
-		)
-	),
-
 	// 'wpmoly-meta' Meta settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-meta',
@@ -705,6 +636,229 @@ $wpmoly_config = array(
 				'indent'   => true
 			)
 		),
+	),
+
+	// 'wpmoly-archives' Archives Pages section
+	array(
+		'icon'    => 'wpmolicon icon-archive',
+		'title'   => __( 'Archives', 'wpmovielibrary' ),
+		'heading' => __( 'Archives Pages Settings', 'wpmovielibrary' ),
+		'fields'  => array(
+		)
+	),
+
+	// 'wpmoly-movie-archives' Movie Archives settings subsection
+	array(
+		'icon'    => 'wpmolicon icon-movie',
+		'title'   => __( 'Movie Archives', 'wpmovielibrary' ),
+		'heading' => __( 'Movie Archives page settings', 'wpmovielibrary' ),
+		'desc'    => __( 'This section allow you to define a custom page to use for movie archives.', 'wpmovielibrary' ),
+		'subsection' => true,
+		'fields'  => array(
+
+			// Notice
+			/*array(
+                            'id'     => 'wpmoly-archives-notice',
+                            'type'   => 'info',
+                            'notice' => true,
+                            'style'  => 'info',
+                            'icon'   => 'wpmolicon icon-info',
+                            'title'  => __( 'Permalinks Required', 'wpmovielibrary' ),
+                            'desc'   => __( 'Custom Archives Pages require Permalinks to be activated; using the default permalink structure will prevent archives to work properly. Ignore this notice if you are already using custom permalinks.', 'wpmovielibrary' )
+                        ),*/
+
+			// Movie archives page
+			'movie-archives' => array(
+				'id'       => 'wpmoly-movie-archives',
+				'type'     => 'select',
+				'title'    => __( 'Movie Archives Page', 'wpmovielibrary' ),
+				'desc'     => __( 'Choose a page to use to display movie archives.', 'wpmovielibrary' ),
+				'data'     => 'pages',
+				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
+				'default'  => ''
+			),
+
+			'menu' => array(
+				'id'       => 'wpmoly-movie-archives-menu',
+				'type'     => 'switch',
+				'title'    => __( 'Archives Menu', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, add an alphabetical menu and sorting options before the movies list.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 1
+			),
+
+			'grid-columns' => array(
+				'id'       => 'wpmoly-movie-archives-grid-columns',
+				'type'     => 'slider',
+				'title'    => __( 'Grid Columns', 'wpmovielibrary' ),
+				'desc'     => __( 'How many columns should the movie grid have.', 'wpmovielibrary' ),
+				'min'      => 1,
+				'step'     => 1,
+				'max'      => 6,
+				'display_value' => 'text',
+				'default'  => 4
+			),
+
+			'movies-order' => array(
+				'id'       => 'wpmoly-movie-archives-movies-order',
+				'type'     => 'button_set',
+				'title'    => __( 'Movies order', 'wpmovielibrary' ),
+				'desc'     => __( 'How movies should be ordered by default.', 'wpmovielibrary' ),
+				'options'  => array(
+					'ASC'  => __( 'Ascending' ),
+					'DESC' => __( 'Descending' ),
+				),
+				'default'  => 'ASC'
+			),
+
+			'movies-per-page' => array(
+				'id'       => 'wpmoly-movie-archives-movies-per-page',
+				'type'     => 'text',
+				'title'    => __( 'Movies per page', 'wpmovielibrary' ),
+				'desc'     => __( 'How many movies should be listed per archive page.', 'wpmovielibrary' ),
+				'validate' => 'numeric',
+				'default'  => 50
+			),
+
+			'movies-limit' => array(
+				'id'       => 'wpmoly-movie-archives-movies-limit',
+				'type'     => 'text',
+				'title'    => __( 'Movies per page limit', 'wpmovielibrary' ),
+				'desc'     => __( 'Limit the number of movies per page to be listed. Can be useful if your dealing with massive numbers of movies.', 'wpmovielibrary' ),
+				'validate' => 'numeric',
+				'default'  => 99
+			),
+
+			'frontend-edit' => array(
+				'id'       => 'wpmoly-movie-archives-frontend-edit',
+				'type'     => 'switch',
+				'title'    => __( 'Editable movies-per-page value', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, allows movies-per-page value to be modified on frontend. The sorting menu will show an input where visitors can change the movies-per-page value to display more or less movies. It is recommended to set a limit above if this feature is to be activated.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0
+			),
+		)
+	),
+
+	// 'wpmoly-movie-archives' Movie Archives settings subsection
+	array(
+		'icon'    => 'wpmolicon icon-tags',
+		'title'   => __( 'Taxonomy Archives', 'wpmovielibrary' ),
+		'heading' => __( 'Taxonomy Archives page settings', 'wpmovielibrary' ),
+		'desc'    => __( 'This section allow you to define a custom page to use for taxonomy archives.', 'wpmovielibrary' ),
+		'subsection' => true,
+		'fields'  => array(
+
+			// Collection archives page
+			'collection-archives' => array(
+				'id'       => 'wpmoly-collection-archives',
+				'type'     => 'select',
+				'title'    => __( 'Collection Archives Page', 'wpmovielibrary' ),
+				'desc'     => __( 'Choose a page to use to display collection archives.', 'wpmovielibrary' ),
+				'data'     => 'pages',
+				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
+				'default'  => '',
+				'required' => array( 'wpmoly-enable-collection', "=", 1 )
+			),
+
+			// Genre archives page
+			'genre-archives' => array(
+				'id'       => 'wpmoly-genre-archives',
+				'type'     => 'select',
+				'title'    => __( 'Genre Archives Page', 'wpmovielibrary' ),
+				'desc'     => __( 'Choose a page to use to display genre archives.', 'wpmovielibrary' ),
+				'data'     => 'pages',
+				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
+				'default'  => '',
+				'required' => array( 'wpmoly-enable-genre', "=", 1 )
+			),
+
+			// Actor archives page
+			'actor-archives' => array(
+				'id'       => 'wpmoly-actor-archives',
+				'type'     => 'select',
+				'title'    => __( 'Actor Archives Page', 'wpmovielibrary' ),
+				'desc'     => __( 'Choose a page to use to display actor archives.', 'wpmovielibrary' ),
+				'data'     => 'pages',
+				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
+				'default'  => '',
+				'required' => array( 'wpmoly-enable-actor', "=", 1 )
+			),
+
+			'archives-menu' => array(
+				'id'       => 'wpmoly-tax-archives-menu',
+				'type'     => 'switch',
+				'title'    => __( 'Archives Menu', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, add an alphabetical menu and sorting options before the terms list.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 1
+			),
+
+			'hide-empty' => array(
+				'id'       => 'wpmoly-tax-archives-hide-empty',
+				'type'     => 'switch',
+				'title'    => __( 'Hide empty terms', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, terms related to no movie will be excluded from the list.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 1
+			),
+
+			'terms-orderby' => array(
+				'id'       => 'wpmoly-tax-archives-terms-orderby',
+				'type'     => 'button_set',
+				'title'    => __( 'Terms sort', 'wpmovielibrary' ),
+				'desc'     => __( 'How terms should be sorted by default.', 'wpmovielibrary' ),
+				'options'  => array(
+					'count' => __( 'Movie count', 'wpmovielibrary' ),
+					'title' => __( 'Title', 'wpmovielibrary' ),
+				),
+				'default'  => 'title'
+			),
+
+			'terms-order' => array(
+				'id'       => 'wpmoly-tax-archives-terms-order',
+				'type'     => 'button_set',
+				'title'    => __( 'Terms order', 'wpmovielibrary' ),
+				'desc'     => __( 'How terms should be ordered by default.', 'wpmovielibrary' ),
+				'options'  => array(
+					'ASC'  => __( 'Ascending' ),
+					'DESC' => __( 'Descending' ),
+				),
+				'default'  => 'ASC'
+			),
+
+			'terms-per-page' => array(
+				'id'       => 'wpmoly-tax-archives-terms-per-page',
+				'type'     => 'text',
+				'title'    => __( 'Terms per page', 'wpmovielibrary' ),
+				'desc'     => __( 'How many terms should be listed per archive page.', 'wpmovielibrary' ),
+				'validate' => 'numeric',
+				'default'  => 50
+			),
+
+			'terms-limit' => array(
+				'id'       => 'wpmoly-tax-archives-terms-limit',
+				'type'     => 'text',
+				'title'    => __( 'Terms per page limit', 'wpmovielibrary' ),
+				'desc'     => __( 'Limit the number of terms per page to be listed. Can be useful if your dealing with massive numbers of terms.', 'wpmovielibrary' ),
+				'validate' => 'numeric',
+				'default'  => 999
+			),
+
+			'frontend-edit' => array(
+				'id'       => 'wpmoly-tax-archives-frontend-edit',
+				'type'     => 'switch',
+				'title'    => __( 'Editable terms-per-page value', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, allows terms-per-page value to be modified on frontend. The sorting menu will show an input where visitors can change the terms-per-page value to display more or less terms. It is recommended to set a limit above if this feature is to be activated.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0
+			),
+		)
 	),
 
 	// 'wpmoly-translate' Languages

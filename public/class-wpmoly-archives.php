@@ -96,6 +96,9 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 */
 		public static function movie_archives() {
 
+			$has_menu = wpmoly_o( 'movie-archives-menu', $default = true );
+			$editable = wpmoly_o( 'movie-archives-frontend-edit', $default = true );
+
 			$letter  = get_query_var( 'letter' );
 			$paged   = (int) get_query_var( '_page' );
 			$number  = (int) get_query_var( 'number' );
@@ -103,19 +106,22 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$order   = get_query_var( 'order' );
 
 			if ( ! isset( $_GET['order'] ) || '' == $_GET['order'] )
-				$order = 'ASC';
+				$order = wpmoly_o( 'movie-archives-movies-order', $default = true );
 
 			if ( 'DESC' != $order )
 				$order = 'ASC';
 
 			if ( ! $number )
-				$number = -1;
+				$number = wpmoly_o( 'movie-archives-movies-per-page', $default = true );
 
 			if ( ! $columns )
-				$columns = 4;
+				$columns = wpmoly_o( 'movie-archives-grid-columns', $default = true );
 
-			$args = compact( 'columns', 'number', 'order' );
-			$grid_menu = WPMOLY_Movies::get_grid_menu( $args );
+			$grid_menu = '';
+			if ( $has_menu ) {
+				$args = compact( 'columns', 'number', 'order', 'editable' );
+				$grid_menu = WPMOLY_Movies::get_grid_menu( $args );
+			}
 
 			$args    = compact( 'number', 'paged', 'order', 'columns', 'letter' );
 			$grid    = WPMOLY_Movies::get_the_grid( $args );
@@ -161,6 +167,8 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$name = WPMOLY_Cache::wpmoly_cache_name( "{$taxonomy}_archive" );
 			$content = WPMOLY_Cache::output( $name, function() use ( $wpdb, $taxonomy, $term_title ) {
 
+				$has_menu = wpmoly_o( 'tax-archives-menu', $default = true );
+
 				$letter  = get_query_var( 'letter' );
 				$order   = get_query_var( 'order' );
 				$orderby = get_query_var( 'orderby' );
@@ -168,18 +176,18 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				$number  = (int) get_query_var( 'number' );
 
 				if ( ! isset( $_GET['order'] ) )
-					$order = 'ASC';
+					$order = wpmoly_o( 'tax-archives-terms-order', $default = true );
 				if ( '' == $orderby )
-					$orderby = 'title';
+					$orderby = wpmoly_o( 'tax-archives-terms-orderby', $default = true );
 
 				$_orderby = 't.name';
 				if ( 'count' == $orderby )
 					$_orderby = 'tt.count';
 
 				// Limit the maximum number of terms to get
-				$number = min( $number, 999 );
+				$number = min( $number, wpmoly_o( 'tax-archives-terms-limit', $default = true ) );
 				if ( ! $number )
-					$number = 50;
+					$number = wpmoly_o( 'tax-archives-terms-per-page', $default = true );
 
 				// Calculate offset
 				$offset = 0;
@@ -238,12 +246,11 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 						);
 
 				// ... the main menu...
-				$args = array(
-					'order'   => $order,
-					'orderby' => $orderby,
-					'number'  => $number
-				);
-				$menu = self::taxonomy_archive_menu( $taxonomy, $args );
+				$menu = '';
+				if ( $has_menu ) {
+					$args = compact( 'order', 'orderby', 'number' );
+					$menu = self::taxonomy_archive_menu( $taxonomy, $args );
+				}
 
 				$args['letter'] = $letter;
 				$url = add_query_arg( $args, get_permalink() );
@@ -289,9 +296,10 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			global $wpdb;
 
 			$defaults = array(
-				'order'   => 'ASC',
-				'orderby' => 'title',
-				'number'  => 50
+				'order'    => wpmoly_o( 'tax-archives-terms-order', $default = true ),
+				'orderby'  => wpmoly_o( 'tax-archives-terms-sort', $default = true ),
+				'number'   => wpmoly_o( 'tax-archives-terms-per-page', $default = true ),
+				'editable' => wpmoly_o( 'tax-archives-frontend-edit', $default = true )
 			);
 			$args = wp_parse_args( $args, $defaults );
 			extract( $args );
@@ -307,7 +315,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$letter_url  = add_query_arg( compact( 'order', 'orderby', 'number' ), get_permalink() );
 			$default_url = add_query_arg( compact( 'order', 'orderby', 'number', 'letter' ), get_permalink() );
 
-			$attributes = compact( 'letters', 'default', 'letter', 'order', 'orderby', 'number', 'letter_url', 'default_url' );
+			$attributes = compact( 'letters', 'default', 'letter', 'order', 'orderby', 'number', 'letter_url', 'default_url', 'editable' );
 
 			$content = self::render_template( 'archives/menu.php', $attributes );
 

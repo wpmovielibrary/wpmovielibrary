@@ -769,9 +769,10 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			global $wpdb;
 
 			$defaults = array(
-				'order'   => 'ASC',
-				'columns' => 4,
-				'number'  => 50
+				'order'    => wpmoly_o( 'movie-archives-movies-order', $default = true ),
+				'columns'  => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
+				'number'   => wpmoly_o( 'movie-archives-movies-per-page', $default = true ),
+				'editable' => wpmoly_o( 'movie-archives-frontend-edit', $default = true )
 			);
 			$args = wp_parse_args( $args, $defaults );
 
@@ -797,7 +798,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$letter_url  = add_query_arg( compact( 'order', 'columns', 'number' ), get_permalink() );
 			$default_url = add_query_arg( compact( 'order', 'columns', 'number', 'letter' ), get_permalink() );
 
-			$attributes = compact( 'letters', 'default', 'letter', 'order', 'number', 'columns', 'letter_url', 'default_url' );
+			$attributes = compact( 'letters', 'default', 'letter', 'order', 'number', 'columns', 'letter_url', 'default_url', 'editable' );
 
 			$content = self::render_template( 'movies/grid/menu.php', $attributes );
 
@@ -821,13 +822,13 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			global $wpdb;
 
 			$defaults = array(
-				'number'  => -1,
-				'columns' => 4,
-				'title'   => false,
-				'genre'   => false,
-				'rating'  => false,
-				'letter'  => '',
-				'order'   => 'ASC'
+				'number'   => wpmoly_o( 'movie-archives-movies-per-page', $default = true ),
+				'columns'  => wpmoly_o( 'movie-archives-grid-column', $default = true ),
+				'title'    => false,
+				'genre'    => false,
+				'rating'   => false,
+				'letter'   => '',
+				'order'    => wpmoly_o( 'movie-archives-movies-order', $default = true )
 			);
 			$args = wp_parse_args( $args, $defaults );
 
@@ -850,9 +851,9 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$total  = $total->publish;
 
 			// Limit the maximum number of terms to get
-			$number = min( $number, 99 );
+			$number = min( $number, wpmoly_o( 'movie-archives-movies-limit', $default = true ) );
 			if ( ! $number )
-				$number = 50;
+				$number = wpmoly_o( 'movie-archives-movies-per-page', $default = true );
 
 			// Calculate offset
 			$paged = get_query_var( '_page' );
