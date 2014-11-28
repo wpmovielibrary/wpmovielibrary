@@ -403,6 +403,9 @@ wpmoly = wpmoly || {};
 				 */
 				wpmoly.editor.meta.panel.navigate = function( panel ) {
 
+					// nasty Arthemia theme fix
+					if ( undefined == $ ) $ = jQuery;
+
 					var $panels = $( '.panel' ),
 					    $panel = $( '#wpmoly-meta-' + panel + '-panel' ),
 					    $tabs = $( '.tab' ),

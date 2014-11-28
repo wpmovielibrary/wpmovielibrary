@@ -1090,14 +1090,29 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 				$content = '_';
 
-				$letter = get_query_var( 'letter' );
-				$paged  = get_query_var( 'page' );
+				$letter  = get_query_var( 'letter' );
+				$paged   = (int) get_query_var( 'page' );
+				$number  = (int) get_query_var( 'number' );
+				$order   = get_query_var( 'order' );
+				$orderby = get_query_var( 'orderby' );
 
-				$number = 50;
+				if ( ! isset( $_GET['order'] ) )
+					$order = 'ASC';
+				if ( '' == $orderby )
+					$orderby = 'title';
+
+				$_orderby = 't.name';
+				if ( 'count' == $orderby )
+					$_orderby = 'tt.count';
+
+				$number = min( $number, 999 );
+				$number = max( 1, $number );
+				if ( 1 == $number )
+					$number = 50;
+
 				$offset = 0;
-
 				if ( $paged )
-					$offset = ( 50 * ( $paged - 1 ) );
+					$offset = ( $number * ( $paged - 1 ) );
 
 				if ( '' != $letter ) {
 					$like  = ( method_exists( 'wpdb', 'esc_like' ) ? $wpdb->esc_like( $letter ) : like_escape( $letter ) ) . '%';
@@ -1108,9 +1123,10 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 						   WHERE tt.count > 0
 						     AND tt.taxonomy = %s
 						     AND t.name LIKE %s
-						   ORDER BY t.name ASC
+						   ORDER BY {$_orderby} {$order}
 						   LIMIT %d,%d";
-					$terms = $wpdb->get_results( $wpdb->prepare( $query, $taxonomy, $like, $offset, $number ) );
+					$query = $wpdb->prepare( $query, $taxonomy, $like, $offset, $number );
+					$terms = $wpdb->get_results( $query );
 				}
 				else {
 					$query = "SELECT SQL_CALC_FOUND_ROWS t.*, tt.*
@@ -1119,9 +1135,10 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 						      ON t.term_id = tt.term_id
 						   WHERE tt.count > 0
 						     AND tt.taxonomy = %s
-						   ORDER BY t.name ASC
+						   ORDER BY {$_orderby} {$order}
 						   LIMIT %d,%d";
-					$terms = $wpdb->get_results( $wpdb->prepare( $query, $taxonomy, $offset, $number ) );
+					$query = $wpdb->prepare( $query, $taxonomy, $offset, $number );
+					$terms = $wpdb->get_results( $query );
 				}
 
 				$total = $wpdb->get_var( 'SELECT FOUND_ROWS() AS total' );
@@ -1139,7 +1156,12 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 							'count'      => sprintf( _n( '%d movie', '%d movies', $term->count, 'wpmovielibrary' ), $term->count )
 						);
 
-				$menu = self::taxonomy_archive_menu( $taxonomy );
+				$args = array(
+					'order'   => $order,
+					'orderby' => $orderby,
+					'count'   => $number
+				);
+				$menu = self::taxonomy_archive_menu( $taxonomy, $args );
 
 				$url = add_query_arg( 'letter', $letter, get_permalink() );
 
@@ -1163,9 +1185,17 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			return $content;
 		}
 
-		public static function taxonomy_archive_menu( $taxonomy ) {
+		public static function taxonomy_archive_menu( $taxonomy, $args ) {
 
 			global $wpdb;
+
+			$defaults = array(
+				'order'   => 'ASC',
+				'orderby' => 'title',
+				'count'   => 50
+			);
+			$args = wp_parse_args( $args, $defaults );
+			extract( $args );
 
 			$default = str_split( 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
 			$letters = array();
@@ -1178,7 +1208,10 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$attributes = array(
 				'letters' => $letters,
 				'default' => $default,
-				'current' => $current
+				'current' => $current,
+				'order'   => $order,
+				'orderby' => $orderby,
+				'count'   => $count
 			);
 
 			$content = self::render_template( 'movies/grid/menu.php', $attributes );

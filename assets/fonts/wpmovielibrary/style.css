@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'wpmovielibrary';
-	src:url('fonts/wpmovielibrary.eot');
-	src:url('fonts/wpmovielibrary.eot#iefix') format('embedded-opentype'),
-		url('fonts/wpmovielibrary.woff') format('woff'),
-		url('fonts/wpmovielibrary.ttf') format('truetype'),
-		url('fonts/wpmovielibrary.svg#wpmovielibrary') format('svg');
+	src:url('fonts/wpmovielibrary.eot?sr6orc');
+	src:url('fonts/wpmovielibrary.eot?#iefixsr6orc') format('embedded-opentype'),
+		url('fonts/wpmovielibrary.woff?sr6orc') format('woff'),
+		url('fonts/wpmovielibrary.ttf?sr6orc') format('truetype'),
+		url('fonts/wpmovielibrary.svg?sr6orc#wpmovielibrary') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -236,6 +236,24 @@
 .icon-dollar:before {
 	content: "\f155";
 }
+.icon-sort-alpha-asc:before {
+	content: "\f15d";
+}
+.icon-sort-alpha-desc:before {
+	content: "\f15e";
+}
+.icon-sort-amount-asc:before {
+	content: "\f160";
+}
+.icon-sort-amount-desc:before {
+	content: "\f161";
+}
+.icon-sort-numeric-asc:before {
+	content: "\f162";
+}
+.icon-sort-numeric-desc:before {
+	content: "\f163";
+}
 .icon-wordpress:before {
 	content: "\f19a";
 }
@@ -299,6 +317,9 @@
 .icon-country:before {
 	content: "\e63b";
 }
+.icon-browser:before {
+	content: "\e665";
+}
 .icon-code:before {
 	content: "\e643";
 }
@@ -307,6 +328,9 @@
 }
 .icon-cinema-alt:before {
 	content: "\e63c";
+}
+.icon-graph:before {
+	content: "\e666";
 }
 .icon-erase:before {
 	content: "\e63d";

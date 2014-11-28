@@ -120,7 +120,8 @@
 	float: none;
 }
 
-#wpmoly-movie-grid-menu {
+#wpmoly-movie-grid-menu,
+#wpmoly-movie-grid-menu-2 {
 	background: #fff;
 	border: 1px solid #ddd;
 	border-radius: 4px;
@@ -130,17 +131,20 @@
 	text-align: center;
 }
 
-#wpmoly-movie-grid-menu .wpmoly.grid.menu.item {
+#wpmoly-movie-grid-menu .wpmoly.grid.menu.item,
+#wpmoly-movie-grid-menu-2 .wpmoly.grid.menu.item {
 	display: inline-block;
 	border-left: 1px solid #ddd;
 	padding: 0.15rem 0.5rem;
 }
 
-#wpmoly-movie-grid-menu .wpmoly.grid.menu.item:first-child {
+#wpmoly-movie-grid-menu .wpmoly.grid.menu.item:first-child,
+#wpmoly-movie-grid-menu-2 .wpmoly.grid.menu.item:first-child {
 	border-left: 0;
 }
 
-#wpmoly-movie-grid-menu .wpmoly.grid.menu.item.active {
+#wpmoly-movie-grid-menu .wpmoly.grid.menu.item.active,
+#wpmoly-movie-grid-menu-2 .wpmoly.grid.menu.item.active {
 	background: #ddd;
 	font-weight: bold;
 }
@@ -224,6 +228,22 @@
 	display: inline-block;
 	margin: 0;
 	padding: 0.25em 0.5em;
+}
+
+/** Taxonomy Archives menu
+ ***************************************************/
+
+#wpmoly-movie-grid-menu-2 {
+	text-align: left;
+}
+
+#wpmoly-movie-grid-menu-item-count {
+	float: right;
+}
+
+#wpmoly-movie-grid-menu-item-count input {
+	max-height: 24px;
+	padding: 0px;
 }
 
 /** Movie Headbox
