@@ -109,7 +109,7 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 
 				$grid_menu = '';
 				if ( $menu )
-					$grid_menu = WPMOLY_Movies::get_grid_menu();
+					$grid_menu = WPMOLY_Movies::get_grid_menu( $atts );
 
 				$content = WPMOLY_Movies::get_the_grid( $atts );
 

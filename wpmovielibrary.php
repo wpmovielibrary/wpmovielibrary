@@ -131,6 +131,7 @@ if ( wpmoly_requirements_met() ) {
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-collections.php' );
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-genres.php' );
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-actors.php' );
+	require_once( WPMOLY_PATH . 'public/class-wpmoly-archives.php' );
 
 	// Self-speaking
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-shortcodes.php' );

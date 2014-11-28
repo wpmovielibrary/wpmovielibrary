@@ -237,10 +237,12 @@
 	text-align: left;
 }
 
+#wpmoly-movie-grid-menu-item-columns,
 #wpmoly-movie-grid-menu-item-count {
 	float: right;
 }
 
+#wpmoly-movie-grid-menu-item-columns input,
 #wpmoly-movie-grid-menu-item-count input {
 	max-height: 24px;
 	padding: 0px;

@@ -51,6 +51,29 @@ function wpmoly_is_boolean( $value, $default = false ) {
 }
 
 /**
+ * Escape a string to use in SQL LIKE.
+ * like_escape() is deprecated since WordPress 4.0 which introduces a $wpdb
+ * method. This is for compatibility easiness with WP<4.x
+ * 
+ * @since    2.1
+ * 
+ * @param    string    $string Data to escape
+ * 
+ * @return   string    Escape string
+ */
+function wpmoly_esc_like( $string ) {
+
+	global $wpdb;
+
+	if ( method_exists( 'wpdb', 'esc_like' ) )
+		$string = $wpdb->esc_like( $string );
+	else
+		$string = like_escape( $letter );
+
+	return $string;
+}
+
+/**
  * Convert an Array shaped list to a separated string.
  * 
  * @since    1.0

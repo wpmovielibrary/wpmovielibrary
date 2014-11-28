@@ -398,27 +398,6 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			return $html;
 		}
 
-		/**
-		 * Render Custom Movie Archives pages.
-		 * 
-		 * @since    2.1
-		 * 
-		 * @return   string    HTML markup
-		 */
-		public static function archives_page() {
-
-			$args = array(
-				'menu'    => true,
-				'number'  => -1,
-				'columns' => 4
-			);
-			$grid_menu = self::get_grid_menu();
-			$grid      = self::get_the_grid( $args );
-			$content   = $grid_menu . $grid;
-
-			return $content;
-		}
-
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
 		 *                              Queries
@@ -520,6 +499,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$q_var[] = 'value';
 			$q_var[] = 'letter';
 			$q_var[] = 'number';
+			$q_var[] = 'columns';
 			$q_var[] = '_page';
 			return $q_var;
 		}
@@ -545,7 +525,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			global $wpdb;
 
 			$like = $wp_query->query['s'];
-			$like = ( method_exists( 'wpdb', 'esc_like' ) ? $wpdb->esc_like( $like ) : like_escape( $like ) );
+			$like = wpmoly_esc_like( $like );
 			$like = '%' . str_replace( ' ', '%', $like ) . '%';
 			$query = $wpdb->prepare(
 				"SELECT DISTINCT post_id FROM {$wpdb->postmeta}
@@ -784,23 +764,40 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 * 
 		 * @return   string    HTML content
 		 */
-		public static function get_grid_menu() {
+		public static function get_grid_menu( $args ) {
 
 			global $wpdb;
 
+			$defaults = array(
+				'order'   => 'ASC',
+				'columns' => 4,
+				'number'  => 50
+			);
+			$args = wp_parse_args( $args, $defaults );
+
+			// Allow URL params to override Shortcode settings
+			if ( ! empty( $_GET ) ) {
+				$vars = array(
+					'number'  => get_query_var( 'number' ),
+					'columns' => get_query_var( 'columns' ),
+					'order'   => get_query_var( 'order' )
+				);
+				$args = wp_parse_args( $vars, $args );
+			}
+			extract( $args );
+
 			$default = str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
 			$letters = array();
-			$current = get_query_var( 'letter' );
+			$letter = get_query_var( 'letter' );
 			
 			$result = $wpdb->get_results( "SELECT DISTINCT LEFT(post_title, 1) as letter FROM {$wpdb->posts} WHERE post_type='movie' AND post_status='publish' ORDER BY letter" );
 			foreach ( $result as $r )
 				$letters[] = $r->letter;
 
-			$attributes = array(
-				'letters' => $letters,
-				'default' => $default,
-				'current' => $current
-			);
+			$letter_url  = add_query_arg( compact( 'order', 'columns', 'number' ), get_permalink() );
+			$default_url = add_query_arg( compact( 'order', 'columns', 'number', 'letter' ), get_permalink() );
+
+			$attributes = compact( 'letters', 'default', 'letter', 'order', 'number', 'columns', 'letter_url', 'default_url' );
 
 			$content = self::render_template( 'movies/grid/menu.php', $attributes );
 
@@ -821,21 +818,31 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 */
 		public static function get_the_grid( $args = array() ) {
 
+			global $wpdb;
+
 			$defaults = array(
-				'menu'    => true,
 				'number'  => -1,
 				'columns' => 4,
 				'title'   => false,
 				'genre'   => false,
-				'rating'  => false
+				'rating'  => false,
+				'letter'  => '',
+				'order'   => 'ASC'
 			);
 			$args = wp_parse_args( $args, $defaults );
+
+			// Allow URL params to override Shortcode settings
+			if ( ! empty( $_GET ) ) {
+				$vars = array(
+					'number'  => get_query_var( 'number' ),
+					'columns' => get_query_var( 'columns' ),
+					'letter'  => get_query_var( 'letter' ),
+					'order'   => get_query_var( 'order' )
+				);
+				$args = wp_parse_args( $vars, $args );
+			}
+
 			extract( $args, EXTR_SKIP );
-
-			global $wpdb;
-
-			$letter = get_query_var( 'letter' );
-			$paged  = get_query_var( 'page' );
 			$total  = 0;
 
 			$movies = array();
@@ -843,14 +850,25 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$total  = wp_count_posts( 'movie' );
 			$total  = $total->publish;
 
+			$paged = get_query_var( '_page' );
+			$offset = 0;
+			if ( $paged )
+				$offset = max( 0, $number * ( $paged - 1 ) );
+
 			if ( '' != $letter ) {
 
-				// like_escape deprecated since WordPress 4.0
-				$where  = ( method_exists( 'wpdb', 'esc_like' ) ? $wpdb->esc_like( $letter ) : like_escape( $letter ) ) . '%';
 				$result = $wpdb->get_results(
 					$wpdb->prepare(
-						"SELECT ID FROM {$wpdb->posts} WHERE post_type='movie' AND post_status='publish' AND post_title LIKE '%s' ORDER BY post_title ASC",
-						$where
+						"SELECT ID
+						   FROM {$wpdb->posts}
+						  WHERE post_type='movie'
+						    AND post_status='publish'
+						    AND post_title LIKE '%s'
+						  ORDER BY post_title {$order}
+						  LIMIT %d,%d ",
+						wpmoly_esc_like( $letter ) . '%',
+						$offset,
+						$number
 					)
 				);
 				$total = count( $result );
@@ -862,9 +880,9 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			$args = array(
 				'posts_per_page' => $posts_per_page,
-				'offset'         => max( 0, ( $paged - 1 ) * $posts_per_page ),
+				'offset'         => $offset,
 				'orderby'        => 'post_title',
-				'order'          => 'ASC',
+				'order'          => $order,
 				'post_type'      => 'movie',
 				'post_status'    => 'publish'
 			);
@@ -874,16 +892,19 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			$movies = get_posts( $args );
 
-			$format = array();
-			if ( '' != $letter )
-				$format[] = "letter={$letter}";
-			$format[] = 'page=%#%';
+			$args = array(
+				'order'   => $order,
+				'columns' => $columns,
+				'number'  => $number,
+				'letter'  => $letter
+			);
+			$url = add_query_arg( $args, get_permalink() );
 
 			$args = array(
 				'type'    => 'list',
 				'total'   => ceil( ( $total ) / $posts_per_page ),
 				'current' => max( 1, $paged ),
-				'format'  => sprintf( '%s?%s', get_permalink(), implode( '&amp;', $format ) ),
+				'format'  => $url . '&_page=%#%',
 			);
 
 			$paginate = WPMOLY_Utils::paginate_links( $args );

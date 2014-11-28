@@ -22,6 +22,11 @@ $wpmoly_shortcodes = array(
 				'values'  => 'boolean',
 				'filter'  => 'esc_attr'
 			),
+			'order' => array(
+				'default' => 'ASC',
+				'values'  => array( 'ASC', 'DESC' ),
+				'filter'  => 'esc_attr'
+			),
 			'number' => array(
 				'default' => -1,
 				'values'  => null,

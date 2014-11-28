@@ -215,9 +215,7 @@ if ( ! class_exists( 'WPMOLY_Cache' ) ) :
 				else
 					$where = $search;
 
-				// like_escape deprecated since WordPress 4.0
-				$where = '%_transient_' . ( method_exists( 'wpdb', 'esc_like' ) ? $wpdb->esc_like( $where ) : like_escape( $where ) ) . '_%';
-
+				$where = '%_transient_' . wpmoly_esc_like( $where ) . '_%';
 				// Restrict cleaning to Plugin's transients
 				if ( false === stripos( $where, 'wpmoly' ) )
 					$where = str_replace( '_transient_', '_transient_wpmoly%', $where );
