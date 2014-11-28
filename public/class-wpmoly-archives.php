@@ -178,13 +178,18 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 
 				// Limit the maximum number of terms to get
 				$number = min( $number, 999 );
-				$number = max( 1, $number );
-				if ( 1 == $number )
+				if ( ! $number )
 					$number = 50;
 
+				// Calculate offset
 				$offset = 0;
 				if ( $paged )
 					$offset = ( $number * ( $paged - 1 ) );
+
+				// Don't use LIMIT with weird values
+				$limit = '';
+				if ( $offset < $number )
+					$limit = sprintf( 'LIMIT %d,%d', $offset, $number );
 
 				// This is actually a hard rewriting of get_terms()
 				// to get exactly what we want without getting into
@@ -199,8 +204,8 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 						     AND tt.taxonomy = %s
 						     AND t.name LIKE %s
 						   ORDER BY {$_orderby} {$order}
-						   LIMIT %d,%d";
-					$query = $wpdb->prepare( $query, $taxonomy, $like, $offset, $number );
+						   {$limit}";
+					$query = $wpdb->prepare( $query, $taxonomy, $like );
 					$terms = $wpdb->get_results( $query );
 				}
 				else {
@@ -211,8 +216,8 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 						   WHERE tt.count > 0
 						     AND tt.taxonomy = %s
 						   ORDER BY {$_orderby} {$order}
-						   LIMIT %d,%d";
-					$query = $wpdb->prepare( $query, $taxonomy, $offset, $number );
+						   {$limit}";
+					$query = $wpdb->prepare( $query, $taxonomy );
 					$terms = $wpdb->get_results( $query );
 				}
 

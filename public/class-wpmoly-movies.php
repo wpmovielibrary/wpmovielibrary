@@ -846,14 +846,24 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$total  = 0;
 
 			$movies = array();
-			$posts_per_page = $number;
 			$total  = wp_count_posts( 'movie' );
 			$total  = $total->publish;
 
+			// Limit the maximum number of terms to get
+			$number = min( $number, 99 );
+			if ( ! $number )
+				$number = 50;
+
+			// Calculate offset
 			$paged = get_query_var( '_page' );
 			$offset = 0;
 			if ( $paged )
 				$offset = max( 0, $number * ( $paged - 1 ) );
+
+			// Don't use LIMIT with weird values
+			$limit = '';
+			if ( $offset < $number )
+				$limit = sprintf( 'LIMIT %d,%d', $offset, $number );
 
 			if ( '' != $letter ) {
 
@@ -865,10 +875,8 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 						    AND post_status='publish'
 						    AND post_title LIKE '%s'
 						  ORDER BY post_title {$order}
-						  LIMIT %d,%d ",
-						wpmoly_esc_like( $letter ) . '%',
-						$offset,
-						$number
+						  {$limit}",
+						wpmoly_esc_like( $letter ) . '%'
 					)
 				);
 				$total = count( $result );
@@ -879,7 +887,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			}
 
 			$args = array(
-				'posts_per_page' => $posts_per_page,
+				'posts_per_page' => $number,
 				'offset'         => $offset,
 				'orderby'        => 'post_title',
 				'order'          => $order,
@@ -902,7 +910,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			$args = array(
 				'type'    => 'list',
-				'total'   => ceil( ( $total ) / $posts_per_page ),
+				'total'   => ceil( ( $total ) / $number ),
 				'current' => max( 1, $paged ),
 				'format'  => $url . '&_page=%#%',
 			);

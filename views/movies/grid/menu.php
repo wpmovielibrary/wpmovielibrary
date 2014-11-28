@@ -9,7 +9,7 @@ foreach ( $default as $_letter ) :
 					<li id="wpmoly-movie-grid-menu-item-<?php echo $_letter ?>" class="wpmoly movies grid menu list item<?php if ( strtolower( $_letter ) == strtolower( $current ) ) echo ' active'; ?>"><?php if ( in_array( $_letter, $letters ) ) { ?><a href="<?php echo $_url; ?>"><?php echo $_letter; ?></a><?php } else { echo $_letter; } ?></li>
 
 <?php endforeach; ?>
-					<li id="wpmoly-movie-grid-menu-item-all" class="wpmoly movies grid menu list item<?php if ( 'all' == $current ) echo ' active'; ?>"><a href="<?php the_permalink() ?>"><?php _e( 'All', 'wpmovielibrary' ) ?></a></li>
+					<li id="wpmoly-movie-grid-menu-item-all" class="wpmoly movies grid menu list item<?php if ( 'all' == $current ) echo ' active'; ?>"><a href="<?php echo add_query_arg( array( 'letter' => '', 'number' => -1 ), $default_url ) ?>"><?php _e( 'All', 'wpmovielibrary' ) ?></a></li>
 				</ul>
 
 				<form action="">
