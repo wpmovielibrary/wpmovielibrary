@@ -168,6 +168,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$content = WPMOLY_Cache::output( $name, function() use ( $wpdb, $taxonomy, $term_title ) {
 
 				$has_menu = wpmoly_o( 'tax-archives-menu', $default = true );
+				$hide_empty = wpmoly_o( 'tax-archives-hide-empty', $default = true );
 
 				$letter  = get_query_var( 'letter' );
 				$order   = get_query_var( 'order' );
@@ -199,6 +200,10 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				if ( $offset < $number )
 					$limit = sprintf( 'LIMIT %d,%d', $offset, $number );
 
+				$where = '';
+				if ( '0' != $hide_empty )
+					$where = 'tt.count > 0 AND';
+
 				// This is actually a hard rewriting of get_terms()
 				// to get exactly what we want without getting into
 				// trouble with multiple filters and stuff.
@@ -208,8 +213,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 						    FROM {$wpdb->terms} AS t
 						   INNER JOIN {$wpdb->term_taxonomy} AS tt
 						      ON t.term_id = tt.term_id
-						   WHERE tt.count > 0
-						     AND tt.taxonomy = %s
+						   WHERE {$where} tt.taxonomy = %s
 						     AND t.name LIKE %s
 						   ORDER BY {$_orderby} {$order}
 						   {$limit}";
@@ -221,8 +225,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 						    FROM {$wpdb->terms} AS t
 						   INNER JOIN {$wpdb->term_taxonomy} AS tt
 						      ON t.term_id = tt.term_id
-						   WHERE tt.count > 0
-						     AND tt.taxonomy = %s
+						   WHERE {$where} tt.taxonomy = %s
 						   ORDER BY {$_orderby} {$order}
 						   {$limit}";
 					$query = $wpdb->prepare( $query, $taxonomy );
