@@ -32,7 +32,124 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_filter( 'the_content', __CLASS__ . '::set_pages', 10, 1 );
+			add_action( 'admin_notices', array( $this, 'custom_pages_notice' ) );
+
+			add_filter( 'the_content', __CLASS__ . '::get_pages', 10, 1 );
+		}
+
+		/**
+		 * Display an admin notice
+		 *
+		 * @since    2.1
+		 */
+		public static function custom_pages_notice() {
+
+			echo self::render_admin_template( 'admin-notice.php', array( 'notice' => 'custom-pages' ) );
+		}
+
+		public static function create_pages() {
+
+			if ( isset( $_GET['create_pages'] ) )
+				self::add_custom_pages();
+
+			$existing = array();
+			$missing  = array();
+			$pages    = array(
+				'movie'      => intval( wpmoly_o( 'movie-archives' ) ),
+				'collection' => intval( wpmoly_o( 'collection-archives' ) ),
+				'genre'      => intval( wpmoly_o( 'genre-archives' ) ),
+				'actor'      => intval( wpmoly_o( 'actor-archives' ) )
+			);
+
+			foreach ( $pages as $slug => $page ) {
+
+				if ( ! $page ) {
+					$missing[ $slug ] = __( ucwords( $slug ) . 's', 'wpmovielibrary' );
+				}
+				else {
+					$existing[ $slug ] = get_post( $page );
+				}
+			}
+
+			$attributes = compact( 'existing', 'missing' );
+			echo self::render_admin_template( 'add-custom-pages.php', $attributes );
+		}
+
+		public static function add_custom_pages() {
+
+			global $wpmoly_redux_config;
+
+			$nonce = '_wpmolynonce_create_custom_pages';
+			if ( ! isset( $_GET[ $nonce ] ) || ! wpmoly_verify_nonce( $_GET[ $nonce ], 'create-custom-pages' ) ) {
+				wp_nonce_ays( 'create-custom-pages' );
+				return false;
+			}
+
+			$allowed = array( 'all', 'movie', 'collection', 'genre', 'actor' );
+			$create  = sanitize_text_field( $_GET['create_pages'] );
+
+			if ( ! in_array( $create, $allowed ) )
+				return false;
+
+			switch ( $create ) {
+				case 'all':
+					$pages = array(
+						'movie'      => __( 'Movies', 'wpmovielibrary' ),
+						'collection' => __( 'Collections', 'wpmovielibrary' ),
+						'genre'      => __( 'Genres', 'wpmovielibrary' ),
+						'actor'      => __( 'Actors', 'wpmovielibrary' ),
+					);
+					break;
+				case 'movie':
+					$pages = array( 'movie' => __( 'Movies', 'wpmovielibrary' ) );
+					break;
+				case 'collection':
+					$pages = array( 'collection' => __( 'Collections', 'wpmovielibrary' ) );
+					break;
+				case 'genre':
+					$pages = array( 'genre' => __( 'Genres', 'wpmovielibrary' ) );
+					break;
+				case 'actor':
+					$pages = array( 'actor' => __( 'Actors', 'wpmovielibrary' ) );
+					break;
+				default:
+					$pages = array();
+					break;
+			}
+
+			if ( empty( $pages ) )
+				return false;
+
+			$post = array(
+				'ID'             => null,
+				'post_content'   => '',
+				'post_name'      => '',
+				'post_title'     => '',
+				'post_status'    => 'publish',
+				'post_type'      => 'page',
+				'post_author'    => 1,
+				'ping_status'    => '',
+				'post_excerpt'   => '',
+				'post_date'      => '',
+				'post_date_gmt'  => '',
+				'comment_status' => ''
+			);
+			$_pages = array();
+
+			foreach ( $pages as $slug => $page ) {
+
+				$exists = intval( wpmoly_o( "$slug-archives" ) );
+				if ( ! $exists ) {
+					$post['post_title'] = $page;
+					$page = wp_insert_post( $post );
+					$_pages[ $slug ] = $page;
+
+					if ( $page )
+						$wpmoly_redux_config->ReduxFramework->set( "wpmoly-$slug-archives", $page );
+				}
+			}
+
+			return $_pages;
 		}
 
 		/**
@@ -45,7 +162,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 * 
 		 * @return   string    HTML markup
 		 */
-		public static function set_pages( $content ) {
+		public static function get_pages( $content ) {
 
 			global $wp_query;
 
@@ -325,6 +442,26 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			return $content;
 		}
 
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                                Utils
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		public static function has_custom_page() {
+
+			$archives = array(
+				'movie'      => intval( wpmoly_o( 'movie-archives' ) ),
+				'collection' => intval( wpmoly_o( 'collection-archives' ) ),
+				'genre'      => intval( wpmoly_o( 'genre-archives' ) ),
+				'actor'      => intval( wpmoly_o( 'actor-archives' ) )
+			);
+
+			$has_pages = ! in_array( 0, $archives );
+
+			return $has_pages;
+		}
+
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
 		 *
@@ -332,21 +469,32 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 *
 		 * @param    bool    $network_wide
 		 */
-		public function activate( $network_wide ) {}
+		public function activate( $network_wide ) {
+
+			delete_option( 'wpmoly_has_custom_pages' );
+			if ( ! self::has_custom_page() )
+				add_option( 'wpmoly_has_custom_pages', 'no', null, 'no' );
+		}
 
 		/**
 		 * Rolls back activation procedures when de-activating the plugin
 		 *
 		 * @since    1.0
 		 */
-		public function deactivate() {}
+		public function deactivate() {
+
+			delete_option( 'wpmoly_has_custom_pages' );
+		}
 
 		/**
 		 * Set the uninstallation instructions
 		 *
 		 * @since    1.0
 		 */
-		public static function uninstall() {}
+		public static function uninstall() {
+
+			delete_option( 'wpmoly_has_custom_pages' );
+		}
 
 		/**
 		 * Initializes variables

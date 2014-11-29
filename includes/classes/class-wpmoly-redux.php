@@ -226,8 +226,8 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 
 	}
 
-	global $reduxConfig;
-	$reduxConfig = new WPMOLY_Redux_Framework_config();
+	global $wpmoly_redux_config;
+	$wpmoly_redux_config = new WPMOLY_Redux_Framework_config();
 }
 else {
 	echo "The class named WPMOLY_Redux_Framework_config has already been called. <strong>Developers, you need to prefix this class with your company name or you'll run into problems!</strong>";

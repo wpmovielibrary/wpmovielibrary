@@ -18,8 +18,7 @@
 					<div id="postbox-container-1" class="postbox-container">
 						<div id="normal-sortables" class="meta-box-sortables ui-sortable">
 							<div id="wpmoly_dashboard_deprecated_movies" class="postbox">
-								<div class="handlediv" title="Click to toggle"><br></div>
-								<h3 class="hndle"><span>Update deprecated movie meta</span></h3>
+								<h3 class="hndle"><span><?php _e( 'Update deprecated movie meta', 'wpmovielibrary' ); ?></span></h3>
 								<div class="inside">
 
 									<div class="main">
@@ -103,8 +102,7 @@ wp_reset_postdata();
 					<div id="postbox-container-2" class="postbox-container">
 						<div id="normal-sortables" class="meta-box-sortables ui-sortable">
 							<div id="wpmoly_dashboard_deprecated_movies_update" class="postbox">
-								<div class="handlediv" title="Click to toggle"><br></div>
-								<h3 class="hndle"><span>Update movies</span></h3>
+								<h3 class="hndle"><span><?php _e( 'Update movies', 'wpmovielibrary' ); ?></span></h3>
 								<div class="inside">
 									<div class="main">
 										<p><?php printf( __( 'You have a total of <strong>%s</strong> using a deprecated metadata format; you can use the present page to update your library to new format and access new features.', 'wpmovielibrary' ), sprintf( _n( 'one movie', '%d movies', count( $deprecated ), 'wpmovielibrary' ), count( $deprecated ) ) ); ?></p>
@@ -115,7 +113,6 @@ wp_reset_postdata();
 							</div>
 
 							<div id="wpmoly_dashboard_deprecated_movies_update_status" class="postbox">
-								<div class="handlediv" title="Click to toggle"><br></div>
 								<h3 class="hndle"><span><?php _e( 'Update status', 'wpmovielibrary' ) ?></span></h3>
 								<div class="inside">
 

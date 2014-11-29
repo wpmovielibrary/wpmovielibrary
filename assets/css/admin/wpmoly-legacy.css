@@ -148,4 +148,15 @@
 #launch-update .wpmolicon {
 	line-height: 2.15em;
 	margin-right: 0.25em;
-} 
+}
+
+#missing-pages td,
+#existing-pages td {
+	border-top: 1px solid #aaa;
+	padding: 0.5em;
+}
+
+#missing-pages th,
+#existing-pages th {
+	padding: 0.5em;
+}

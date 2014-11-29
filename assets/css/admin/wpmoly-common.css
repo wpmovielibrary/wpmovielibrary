@@ -83,6 +83,11 @@
 	content: "\e64f";
 }
 
+.toplevel_page_wpmovielibrary .wp-menu-image.dashicons-before:before {
+	content: "\e62c";
+	font-family: 'wpmovielibrary' !important;
+}
+
 /* Rating
  ****************************************************/
 

@@ -27,4 +27,10 @@
 		<div class="label"><span class="wpmolicon icon-info"></span></div>
 		<div class="content"><?php printf( __( 'Changes were made that affects the Permalinks. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', 'wpmovielibrary' ), admin_url( '/options-permalink.php' ) ) ?></div>
 	</div>
+<?php elseif ( 'custom-pages' == $notice ) : ?>
+
+	<div class="update-nag wpmoly">
+		<div class="label"><span class="wpmolicon icon-info"></span></div>
+		<div class="content"><?php printf( __( '<strong>New</strong>: you can now use custom pages to display movies and taxonomies archives pages. Go to the new "Archives" tab in your <a href="%s">Settings panel</a> to set up your own pages, or let WPMovieLibrary <a href="%s">create them</a> automatically.', 'wpmovielibrary' ), admin_url( '/admin.php?page=wpmovielibrary-settings' ), admin_url( '/admin.php?page=wpmovielibrary-add-custom-pages' ) ) ?></div>
+	</div>
 <?php endif; ?>

@@ -466,6 +466,9 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			if ( $hook_suffix == $update_movies )
 				$styles['legacy'] = '/assets/css/admin/wpmoly-legacy.css';
 
+			if ( $hook_suffix == $add_custom_pages )
+				$styles['legacy'] = '/assets/css/admin/wpmoly-legacy.css';
+
 			return $styles;
 		}
 

@@ -158,10 +158,30 @@ function wpmoly_filter_undimension_array( $array ) {
  * @since    1.0
  * 
  * @param    string    $action Action name for nonce
+ * 
+ * @return   string    Nonce
  */
 function wpmoly_create_nonce( $action ) {
 
 	return wp_create_nonce( 'wpmoly-' . $action );
+}
+
+/**
+ * Provide a plugin-wide, generic method for generating nonce URLs.
+ *
+ * @since    2.1
+ * 
+ * @param    string    $actionurl Action URL for nonce
+ * @param    string    $action Action name for nonce
+ * 
+ * @return   string    Nonce URL
+ */
+function wpmoly_nonce_url( $actionurl, $action ) {
+
+	$nonce_action = 'wpmoly-' . $action;
+	$nonce_name = '_wpmolynonce_' . str_replace( '-', '_', $action );
+
+	return wp_nonce_url( $actionurl, $nonce_action, $nonce_name );
 }
 
 /**
@@ -170,6 +190,8 @@ function wpmoly_create_nonce( $action ) {
  * @since    1.0
  * 
  * @param    string    $action Action name for nonce
+ * 
+ * @return   string    Nonce field
  */
 function wpmoly_nonce_field( $action, $referer = true, $echo = true ) {
 
@@ -180,11 +202,30 @@ function wpmoly_nonce_field( $action, $referer = true, $echo = true ) {
 }
 
 /**
+ * Provide a plugin-wide, generic method for nonce verification.
+ *
+ * @since    2.1
+ * 
+ * @param    string    $nonce Nonce to verify
+ * @param    string    $action Action name for nonce
+ * 
+ * @return   boolean    Nonce verification result
+ */
+function wpmoly_verify_nonce( $nonce, $action ) {
+
+	$nonce_action = 'wpmoly-' . $action;
+
+	return wp_verify_nonce( $nonce, $nonce_action );
+}
+
+/**
  * Provide a plugin-wide, generic method for checking admin nonces.
  *
  * @since    1.0
  * 
  * @param    string    $action Action name for nonce
+ * 
+ * @return   boolean    Nonce check result
  */
 function wpmoly_check_admin_referer( $action, $query_arg = false ) {
 
