@@ -87,7 +87,8 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			foreach ( $pages as $slug => $page ) {
 
 				if ( ! $page ) {
-					$missing[ $slug ] = __( ucwords( $slug ) . 's', 'wpmovielibrary' );
+					$title = ucwords( $slug ) . 's';
+					$missing[ $slug ] = __( $title, 'wpmovielibrary' );
 				}
 				else {
 					$existing[ $slug ] = get_post( $page );

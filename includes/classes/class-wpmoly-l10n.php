@@ -295,7 +295,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			if ( 'rating' == $key )
 				$meta_value = number_format( $value, 1, '.', '' );
 			else
-				$meta_value = self::filter_rewrites( __( $value, 'wpmovielibrary' ) );
+				$meta_value = self::filter_rewrites( __( ucwords( $value ), 'wpmovielibrary' ) );
 
 			global $wp_rewrite;
 			$url = '';

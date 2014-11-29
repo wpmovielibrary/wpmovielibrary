@@ -468,17 +468,21 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				$value = $meta_value;
 			}
 
+			$compare = 'LIKE';
+			if ( 'status' == $meta_key )
+				$compare = '=';
+
 			$wp_query->set( 'meta_query', array(
 					'relation' => 'OR',
 					array(
 						'key'     => $key,
 						'value'   => $value,
-						'compare' => 'LIKE'
+						'compare' => $compare
 					),
 					array(
 						'key'     => $key,
 						'value'   => str_replace( '-', ' ', $value ),
-						'compare' => 'LIKE'
+						'compare' => $compare
 					)
 				)
 			);

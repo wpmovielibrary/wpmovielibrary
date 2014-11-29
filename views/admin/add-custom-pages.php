@@ -23,9 +23,12 @@
 
 											<table id="missing-pages" style="width:100%">
 												<tbody>
-<?php foreach ( $missing as $slug => $page ) : ?>
+<?php
+foreach ( $missing as $slug => $page ) :
+	$title = ucwords( $slug ) . 's';
+?>
 													<tr>
-														<td><?php _e( ucwords( $slug ) . 's', 'wpmovielibrary' ); ?></td>
+														<td><?php _e( $title, 'wpmovielibrary' ); ?></td>
 														<td><a href="<?php echo wpmoly_nonce_url( admin_url( '/admin.php?page=wpmovielibrary-add-custom-pages&create_pages=' . $slug ), 'create-custom-pages' ); ?>" class="button button-default"><?php _e( 'Create page', 'wpmovielibrary' ); ?></a></td>
 													</tr>
 
@@ -61,11 +64,14 @@
 													</tr>
 												</thead>
 												<tbody>
-<?php foreach ( $existing as $slug => $page ) : ?>
+<?php
+foreach ( $existing as $slug => $page ) :
+	$title = ucwords( $slug ) . 's';
+?>
 													<tr>
 														<td>#<?php echo $page->ID; ?></td>
 														<td><a href="<?php echo get_permalink( $page->ID ); ?>"><?php echo get_the_title( $page->ID ); ?></a></td>
-														<td><?php _e( ucwords( $slug ) . 's', 'wpmovielibrary' ); ?></td>
+														<td><?php _e( $title, 'wpmovielibrary' ); ?></td>
 													</tr>
 
 <?php endforeach; ?>
