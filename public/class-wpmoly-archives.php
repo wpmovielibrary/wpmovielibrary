@@ -44,7 +44,8 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 */
 		public static function custom_pages_notice() {
 
-			echo self::render_admin_template( 'admin-notice.php', array( 'notice' => 'custom-pages' ) );
+			if ( 'yes' != get_option( 'wpmoly_has_custom_pages', 'no' ) )
+				echo self::render_admin_template( 'admin-notice.php', array( 'notice' => 'custom-pages' ) );
 		}
 
 		public static function create_pages() {
@@ -148,6 +149,9 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 						$wpmoly_redux_config->ReduxFramework->set( "wpmoly-$slug-archives", $page );
 				}
 			}
+
+			if ( self::has_custom_page() )
+				update_option( 'wpmoly_has_custom_pages', 'yes' );
 
 			return $_pages;
 		}
