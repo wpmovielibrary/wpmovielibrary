@@ -33,6 +33,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		public function register_hook_callbacks() {
 
 			add_action( 'admin_notices', array( $this, 'custom_pages_notice' ) );
+			add_action( 'template_redirect', array( $this, 'template_redirect' ) );
 
 			add_filter( 'the_content', __CLASS__ . '::get_pages', 10, 1 );
 		}
@@ -42,12 +43,33 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 *
 		 * @since    2.1
 		 */
-		public static function custom_pages_notice() {
+		public function custom_pages_notice() {
 
 			if ( 'yes' != get_option( 'wpmoly_has_custom_pages', 'no' ) )
 				echo self::render_admin_template( 'admin-notice.php', array( 'notice' => 'custom-pages' ) );
 		}
 
+		/**
+		 * Replace WordPress' default movie archives page with custom
+		 * archives page, if any, using redirection.
+		 * 
+		 * @since    2.1
+		 */
+		public function template_redirect() {
+
+			if ( ! is_post_type_archive( 'movie' ) )
+				return false;
+
+			$page = wpmoly_o( 'movie-archives' );
+			if ( get_post( $page ) )
+				wp_redirect( get_permalink( $page ) );
+		}
+
+		/**
+		 * 'Add Custom Pages' page callback.
+		 * 
+		 * @since    2.1
+		 */
 		public static function create_pages() {
 
 			if ( isset( $_GET['create_pages'] ) )
@@ -76,6 +98,13 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			echo self::render_admin_template( 'add-custom-pages.php', $attributes );
 		}
 
+		/**
+		 * Create Custom Archives pages when needed.
+		 * 
+		 * @since    2.1
+		 * 
+		 * @return   array    IDs a newly created pages.
+		 */
 		public static function add_custom_pages() {
 
 			global $wpmoly_redux_config;

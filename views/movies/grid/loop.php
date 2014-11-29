@@ -5,10 +5,14 @@
 global $post;
 foreach ( $movies as $post ) :
 	setup_postdata( $post );
+
+	$size = 'medium';
+	if ( 1 == $columns )
+		$size = 'large';
 ?>
 					<div id="wpmoly-movie-<?php the_ID(); ?>" <?php post_class( 'wpmoly movie' ) ?>>
 						<a class="wpmoly grid movie link" href="<?php the_permalink(); ?>">
-							<?php if ( has_post_thumbnail() ) the_post_thumbnail( 'medium', array( 'class' => 'wpmoly grid movie poster' ) ); ?>
+							<?php if ( has_post_thumbnail() ) the_post_thumbnail( $size, array( 'class' => 'wpmoly grid movie poster' ) ); ?>
 <?php if ( $title ) : ?>
 							<h4 class="wpmoly grid movie title"><?php the_title(); ?></h4>
 <?php endif; if ( $genre ) : ?>

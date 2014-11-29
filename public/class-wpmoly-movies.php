@@ -851,7 +851,11 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$total  = $total->publish;
 
 			// Limit the maximum number of terms to get
-			$number = min( $number, wpmoly_o( 'movie-archives-movies-limit', $default = true ) );
+			$limit = wpmoly_o( 'movie-archives-movies-limit', $default = true );
+			if ( -1 == $number )
+				$number = $limit;
+
+			$number = min( $number, $limit );
 			if ( ! $number )
 				$number = wpmoly_o( 'movie-archives-movies-per-page', $default = true );
 
