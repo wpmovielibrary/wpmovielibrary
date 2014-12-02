@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: WPMovieLibrary 2.0-alpha.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/wpmovielibrary\n"
 "POT-Creation-Date: 2014-12-02 18:03+0100\n"
-"PO-Revision-Date: 2014-12-02 18:04+0100\n"
+"PO-Revision-Date: 2014-12-02 18:47+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: WPMovieLibrary <support@wpmovielibrary.com>\n"
 "Language: Français\n"
@@ -731,9 +731,8 @@ msgstr ""
 "images ou des affiches."
 
 #: ../includes/classes/class-wpmoly-l10n.php:385
-#, fuzzy
 msgid "Metadata saved!"
-msgstr "Métadonnées"
+msgstr "Métadonnées enregistrées !"
 
 #: ../includes/classes/class-wpmoly-l10n.php:386
 msgid "No metadata could be found, please import metadata before queuing."
@@ -824,12 +823,12 @@ msgstr[1] "%s transient supprimés."
 
 #: ../includes/classes/class-wpmoly-formatting-meta.php:120
 msgid "Duration unknown"
-msgstr ""
+msgstr "Durée inconnue"
 
 #: ../includes/classes/class-wpmoly-formatting-meta.php:420
 #: ../views/movies-widget/movies-admin.php:137
 msgid "Yes"
-msgstr ""
+msgstr "Oui"
 
 #: ../includes/classes/class-wpmoly-formatting-meta.php:420
 #: ../views/movies-widget/movies-admin.php:113
@@ -840,12 +839,10 @@ msgid "No"
 msgstr "Non"
 
 #: ../includes/classes/class-wpmoly-formatting-meta.php:441
-#, fuzzy
 msgid "Official Website"
 msgstr "Site officiel"
 
 #: ../includes/classes/class-wpmoly-utils.php:509
-#, fuzzy
 msgid "Not rated yet!"
 msgstr "Aucune note"
 
@@ -1221,9 +1218,8 @@ msgstr "Producteur"
 
 #: ../includes/config/wpmoly-settings.php:159
 #: ../includes/config/wpmoly-movies.php:421
-#, fuzzy
 msgid "Local release date"
-msgstr "Date de sortie"
+msgstr "Date de sortie locale"
 
 #: ../includes/config/wpmoly-settings.php:160
 #: ../includes/config/wpmoly-movies.php:261
@@ -1789,64 +1785,63 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:644
 msgid "Archives"
-msgstr ""
+msgstr "Archives"
 
 #: ../includes/config/wpmoly-settings.php:645
-#, fuzzy
 msgid "Archives Pages Settings"
-msgstr "Préférences de cache"
+msgstr "Réglages des pages d'archives"
 
 #: ../includes/config/wpmoly-settings.php:653
-#, fuzzy
 msgid "Movie Archives"
-msgstr "Acteurs"
+msgstr "Archives des films"
 
 #: ../includes/config/wpmoly-settings.php:654
-#, fuzzy
 msgid "Movie Archives page settings"
-msgstr "Réglages de l'API TheMovieDB"
+msgstr "Réglages des archives de films"
 
 #: ../includes/config/wpmoly-settings.php:655
 msgid ""
 "This section allow you to define a custom page to use for movie archives."
 msgstr ""
+"Cette section vous permet de définir une page personnalisée pour les "
+"archives de films."
 
 #: ../includes/config/wpmoly-settings.php:674
-#, fuzzy
 msgid "Movie Archives Page"
-msgstr "Afficher les films en page d’accueil"
+msgstr "Page d'archives des films"
 
 #: ../includes/config/wpmoly-settings.php:675
 msgid "Choose a page to use to display movie archives."
-msgstr ""
+msgstr "Choisissez une page à utiliser comme archive de films."
 
 #: ../includes/config/wpmoly-settings.php:684
 #: ../includes/config/wpmoly-settings.php:793
 msgid "Archives Menu"
-msgstr ""
+msgstr "Menu des archives"
 
 #: ../includes/config/wpmoly-settings.php:685
 msgid ""
 "If enabled, add an alphabetical menu and sorting options before the movies "
 "list."
 msgstr ""
+"Si activé, ajoute un menu alphabétique et des options de classement avant la "
+"liste des films."
 
 #: ../includes/config/wpmoly-settings.php:694
 msgid "Grid Columns"
-msgstr ""
+msgstr "Colonnes"
 
 #: ../includes/config/wpmoly-settings.php:695
 msgid "How many columns should the movie grid have."
-msgstr ""
+msgstr "Combien de colonnes doit comporter la grille de films."
 
 #: ../includes/config/wpmoly-settings.php:706
-#, fuzzy
 msgid "Movies order"
-msgstr "Importer des films"
+msgstr "Ordre des films"
 
 #: ../includes/config/wpmoly-settings.php:707
 msgid "How movies should be ordered by default."
-msgstr ""
+msgstr "Comment doivent être classés les films par défaut."
 
 #: ../includes/config/wpmoly-settings.php:709
 #: ../includes/config/wpmoly-settings.php:828
@@ -1863,27 +1858,28 @@ msgid "Descending"
 msgstr "Décroissant"
 
 #: ../includes/config/wpmoly-settings.php:718
-#, fuzzy
 msgid "Movies per page"
-msgstr "Genres"
+msgstr "Films par page"
 
 #: ../includes/config/wpmoly-settings.php:719
 msgid "How many movies should be listed per archive page."
-msgstr ""
+msgstr "Combient de films afficher par page."
 
 #: ../includes/config/wpmoly-settings.php:727
 msgid "Movies per page limit"
-msgstr ""
+msgstr "Limite de films par page"
 
 #: ../includes/config/wpmoly-settings.php:728
 msgid ""
 "Limit the number of movies per page to be listed. Can be useful if your "
 "dealing with massive numbers of movies."
 msgstr ""
+"Limite le nombre de films par page. Ceci peut être utile dès lors que vous "
+"manipulez de grandes quantités de films."
 
 #: ../includes/config/wpmoly-settings.php:736
 msgid "Editable movies-per-page value"
-msgstr ""
+msgstr "Nombre de films éditable"
 
 #: ../includes/config/wpmoly-settings.php:737
 msgid ""
@@ -1892,68 +1888,75 @@ msgid ""
 "page value to display more or less movies. It is recommended to set a limit "
 "above if this feature is to be activated."
 msgstr ""
+"Si activé, le nombre de films à afficher par page pourra être modifié depuis "
+"l'affichage public. Le menu de classement comportera un champ de formulaire "
+"où les visiteurs pourront changer le nombre de films à afficher. Il est "
+"recommandé de fixer une limite ci-dessus si cette option est activée."
 
 #: ../includes/config/wpmoly-settings.php:748
-#, fuzzy
 msgid "Taxonomy Archives"
-msgstr "Taxonomies"
+msgstr "Archives des taxonomies"
 
 #: ../includes/config/wpmoly-settings.php:749
 msgid "Taxonomy Archives page settings"
-msgstr ""
+msgstr "Réglages des archives de taxonomies."
 
 #: ../includes/config/wpmoly-settings.php:750
 msgid ""
 "This section allow you to define a custom page to use for taxonomy archives."
 msgstr ""
+"Cette section vous permet de définir une page personnalisée pour les "
+"archives de taxonomies."
 
 #: ../includes/config/wpmoly-settings.php:758
-#, fuzzy
 msgid "Collection Archives Page"
-msgstr "Créer une page d'archive"
+msgstr "Page d'archive des collections"
 
 #: ../includes/config/wpmoly-settings.php:759
 msgid "Choose a page to use to display collection archives."
-msgstr ""
+msgstr "Choisissez une page pour les archives de collections."
 
 #: ../includes/config/wpmoly-settings.php:770
-#, fuzzy
 msgid "Genre Archives Page"
-msgstr "Créer une page d'archive"
+msgstr "Page d'archive des genres"
 
 #: ../includes/config/wpmoly-settings.php:771
 msgid "Choose a page to use to display genre archives."
-msgstr ""
+msgstr "Choisissez une page pour les archives de genres."
 
 #: ../includes/config/wpmoly-settings.php:782
 msgid "Actor Archives Page"
-msgstr ""
+msgstr "Page d'archive des acteurs"
 
 #: ../includes/config/wpmoly-settings.php:783
 msgid "Choose a page to use to display actor archives."
-msgstr ""
+msgstr "Choisissez une page pour les archives d'acteurs."
 
 #: ../includes/config/wpmoly-settings.php:794
 msgid ""
 "If enabled, add an alphabetical menu and sorting options before the terms "
 "list."
 msgstr ""
+"Si activé, ajoute un menu alphabétique et des options de classement au-"
+"dessus de la liste des termes."
 
 #: ../includes/config/wpmoly-settings.php:803
 msgid "Hide empty terms"
-msgstr ""
+msgstr "Masquer les termes vides"
 
 #: ../includes/config/wpmoly-settings.php:804
 msgid "If enabled, terms related to no movie will be excluded from the list."
 msgstr ""
+"Si activé, les termes qui ne sont reliés à aucun films seront exclus de la "
+"liste."
 
 #: ../includes/config/wpmoly-settings.php:813
 msgid "Terms sort"
-msgstr ""
+msgstr "Classement des termes"
 
 #: ../includes/config/wpmoly-settings.php:814
 msgid "How terms should be sorted by default."
-msgstr ""
+msgstr "Comment classer les termes par défaut."
 
 #: ../includes/config/wpmoly-settings.php:816
 #: ../views/taxonomies-widget/taxonomies-admin.php:21
@@ -1962,33 +1965,35 @@ msgstr "Nombre de films"
 
 #: ../includes/config/wpmoly-settings.php:825
 msgid "Terms order"
-msgstr ""
+msgstr "Ordre des termes"
 
 #: ../includes/config/wpmoly-settings.php:826
 msgid "How terms should be ordered by default."
-msgstr ""
+msgstr "Comment ordonner les termes par défaut."
 
 #: ../includes/config/wpmoly-settings.php:837
 msgid "Terms per page"
-msgstr ""
+msgstr "Termes par page"
 
 #: ../includes/config/wpmoly-settings.php:838
 msgid "How many terms should be listed per archive page."
-msgstr ""
+msgstr "Combien de termes afficher par page d'archive."
 
 #: ../includes/config/wpmoly-settings.php:846
 msgid "Terms per page limit"
-msgstr ""
+msgstr "Termes par page"
 
 #: ../includes/config/wpmoly-settings.php:847
 msgid ""
 "Limit the number of terms per page to be listed. Can be useful if your "
 "dealing with massive numbers of terms."
 msgstr ""
+"Limiter le nombre de termes par page. Ceci peut être utile si vous manipulez "
+"de grands nombres de termes."
 
 #: ../includes/config/wpmoly-settings.php:855
 msgid "Editable terms-per-page value"
-msgstr ""
+msgstr "Termes par page éditable"
 
 #: ../includes/config/wpmoly-settings.php:856
 msgid ""
@@ -1997,6 +2002,10 @@ msgid ""
 "value to display more or less terms. It is recommended to set a limit above "
 "if this feature is to be activated."
 msgstr ""
+"Si activé, le nombre de termes à afficher par page pourra être modifié "
+"depuis l'affichage public. Le menu de classement comportera un champ de "
+"formulaire où les visiteurs pourront changer le nombre de termes à afficher. "
+"Il est recommandé de fixer une limite ci-dessus si cette option est activée."
 
 #: ../includes/config/wpmoly-settings.php:868
 msgid "Languages Support"
@@ -2164,88 +2173,83 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1044
 msgid "Appearance"
-msgstr ""
+msgstr "Apparence"
 
 #: ../includes/config/wpmoly-settings.php:1045
-#, fuzzy
 msgid "Styling and customization"
-msgstr "Tests et idées géniales"
+msgstr "Style et personnalisation"
 
 #: ../includes/config/wpmoly-settings.php:1053
 msgid "Headbox"
-msgstr ""
+msgstr "En-tête"
 
 #: ../includes/config/wpmoly-settings.php:1054
 msgid "Styling the movie headbox"
-msgstr ""
+msgstr "Personnaliser la boite d'en-tête"
 
 #: ../includes/config/wpmoly-settings.php:1062
 msgid "Headbox Position"
-msgstr ""
+msgstr "Position de l'en-tête"
 
 #: ../includes/config/wpmoly-settings.php:1063
 msgid "Where to display the Headbox on posts."
-msgstr ""
+msgstr "Où afficher l'en-tête dans les fiches."
 
 #: ../includes/config/wpmoly-settings.php:1065
 msgid "Top"
-msgstr ""
+msgstr "Au début"
 
 #: ../includes/config/wpmoly-settings.php:1066
 msgid "Bottom"
-msgstr ""
+msgstr "À la fin"
 
 #: ../includes/config/wpmoly-settings.php:1075
 msgid "Headbox Tabs"
-msgstr ""
+msgstr "Panneaux d'en-tête"
 
 #: ../includes/config/wpmoly-settings.php:1076
 msgid "Which tabs should appear in the headbox and in which order."
-msgstr ""
+msgstr "Quels panneaux doivent apparaître dans l'en-tête, et dans quel ordre."
 
 #: ../includes/config/wpmoly-settings.php:1093
 msgid "Headbox Title"
-msgstr ""
+msgstr "Titre d'en-tête"
 
 #: ../includes/config/wpmoly-settings.php:1094
 msgid "Content of the Headbox Title line."
-msgstr ""
+msgstr "Contenu du titre d'en-tête"
 
 #: ../includes/config/wpmoly-settings.php:1105
-#, fuzzy
 msgid "Headbox Subtitle"
-msgstr "Sous-titres"
+msgstr "Sous-titres d'en-tête"
 
 #: ../includes/config/wpmoly-settings.php:1106
 msgid "Content of the Headbox Subtitle line."
-msgstr ""
+msgstr "Contenu du sous-titre d'en-tête"
 
 #: ../includes/config/wpmoly-settings.php:1117
-#, fuzzy
 msgid "Headbox Details 1"
-msgstr "Détails"
+msgstr "Détails d'en-tête (1)"
 
 #: ../includes/config/wpmoly-settings.php:1118
 msgid "Content of the Headbox first details line."
-msgstr ""
+msgstr "Contenu de la première ligne de détails d'en-tête"
 
 #: ../includes/config/wpmoly-settings.php:1129
-#, fuzzy
 msgid "Headbox Details 2"
-msgstr "Détails"
+msgstr "Détails d'en-tête (2)"
 
 #: ../includes/config/wpmoly-settings.php:1130
 msgid "Content of the Headbox second details line."
-msgstr ""
+msgstr "Contenu de la seconde ligne de détails d'en-tête"
 
 #: ../includes/config/wpmoly-settings.php:1141
-#, fuzzy
 msgid "Headbox Details 3"
-msgstr "Détails"
+msgstr "Détails d'en-tête (3)"
 
 #: ../includes/config/wpmoly-settings.php:1142
 msgid "Content of the Headbox third details line."
-msgstr ""
+msgstr "Contenu de la troisième ligne de détails d'en-tête"
 
 #: ../includes/config/wpmoly-settings.php:1154
 #: ../includes/config/wpmoly-settings.php:1375
@@ -2652,7 +2656,7 @@ msgstr "Mettre à jour les films"
 #: ../includes/config/wpmoly-admin-menu.php:178
 #: ../includes/config/wpmoly-admin-menu.php:179
 msgid "Add custom pages"
-msgstr ""
+msgstr "Ajouter des pages"
 
 #: ../includes/config/wpmoly-admin-bar-menu.php:20
 msgid "Movie Library"
@@ -2675,7 +2679,6 @@ msgid "Library Settings"
 msgstr "Réglages de la médiathèque"
 
 #: ../includes/config/wpmoly-admin-bar-menu.php:64
-#, fuzzy
 msgid "About  WPMovieLibrary"
 msgstr "À propos de WPMovieLibrary"
 
@@ -2863,14 +2866,12 @@ msgid "date"
 msgstr "date"
 
 #: ../includes/config/wpmoly-movies.php:176
-#, fuzzy
 msgid "Local Release Date"
-msgstr "Date de sortie"
+msgstr "Date de sortie locale"
 
 #: ../includes/config/wpmoly-movies.php:182
-#, fuzzy
 msgid "localdate"
-msgstr "date"
+msgstr "datelocale"
 
 #: ../includes/config/wpmoly-movies.php:191
 msgid "runtime"
@@ -2929,14 +2930,12 @@ msgid "Preview"
 msgstr "Aperçu"
 
 #: ../includes/config/wpmoly-movies.php:407
-#, fuzzy
 msgid "Language (detail)"
-msgstr "Langue"
+msgstr "Langue (détail)"
 
 #: ../includes/config/wpmoly-movies.php:409
-#, fuzzy
 msgid "Video Format"
-msgstr "Format"
+msgstr "Format vidéo"
 
 #: ../includes/functions/wpmoly-ajax-functions.php:81
 msgid ""
@@ -3219,23 +3218,23 @@ msgstr "Tout"
 
 #: ../views/archives/menu.php:21
 msgid "List alphabetically, ascendingly"
-msgstr ""
+msgstr "Lister alphabétiquement, croissant"
 
 #: ../views/archives/menu.php:22
 msgid "List alphabetically, descendingly"
-msgstr ""
+msgstr "Lister alphabétiquement, décroissant"
 
 #: ../views/archives/menu.php:23
 msgid "List by movies count, ascendingly"
-msgstr ""
+msgstr "Lister par total de films, croissant"
 
 #: ../views/archives/menu.php:24
 msgid "List by movies count, descendingly"
-msgstr ""
+msgstr "Lister par total de films, décroissant"
 
 #: ../views/archives/menu.php:26 ../views/movies/grid/menu.php:23
 msgid "Items per page:"
-msgstr ""
+msgstr "Éléments par page :"
 
 #: ../views/statistics-widget/statistics-admin.php:14
 msgid ""
@@ -3263,18 +3262,16 @@ msgid "Number of Actors."
 msgstr "Nombre d'acteurs"
 
 #: ../views/movies/grid/menu.php:20
-#, fuzzy
 msgid "List ascendingly"
-msgstr "Croissant"
+msgstr "Lister par ordre croissant"
 
 #: ../views/movies/grid/menu.php:21
-#, fuzzy
 msgid "List descendingly"
-msgstr "Décroissant"
+msgstr "Lister par ordre décroissant"
 
 #: ../views/movies/grid/menu.php:24
 msgid "Columns:"
-msgstr ""
+msgstr "Colonnes :"
 
 #: ../views/movies/headbox/menu.php:22
 msgid "Expend"
@@ -3282,7 +3279,7 @@ msgstr "Agrandir"
 
 #: ../views/movies/headbox/menu.php:23
 msgid "Click an icon to see more"
-msgstr ""
+msgstr "Cliquer pour voir plus"
 
 #: ../views/movies/headbox/tabs/actors.php:13
 #: ../views/admin/metabox/panels/panel-preview.php:25
@@ -3526,7 +3523,7 @@ msgstr "Développeur principal"
 
 #: ../views/admin/about.php:132
 msgid "Faithful Contributors"
-msgstr ""
+msgstr "Fidèles contributeurs"
 
 #: ../views/admin/about.php:133
 msgid "German translation"
@@ -3611,9 +3608,8 @@ msgstr ""
 "format de métadonnées introduit par WPMovieLibrary 2.0"
 
 #: ../views/admin/update-movies.php:21
-#, fuzzy
 msgid "Update deprecated movie meta"
-msgstr "Aucun brouillon."
+msgstr "Mettre à jour les films obsolètes"
 
 #: ../views/admin/update-movies.php:32
 msgid "The following movie needs an update:"
@@ -3733,7 +3729,7 @@ msgstr ""
 "savoir plus sur ce changement</a>."
 
 #: ../views/admin/admin-notice.php:28
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "Changes were made that affects the Permalinks. You should visit <a href=\"%s"
 "\">WordPress Permalink</a> page to update the Rewrite rules; you may "
@@ -3756,6 +3752,11 @@ msgid ""
 "\"%s\">Settings panel</a> to set up your own pages, or let WPMovieLibrary <a "
 "href=\"%s\">create them</a> automatically."
 msgstr ""
+"<strong>Nouveau</strong> : vous pouvez désormais utiliser des pages "
+"personnalisées pour afficher les archives de vos films et taxonomies. Rendez-"
+"vous dans la nouvelle section « Archives » de votre <a href=\"%s\">panneau "
+"de réglages</a> pour configurer vos propres pages, ou laissez WPMovieLibrary "
+"<a href=\"%s\">les créer pour vous</a> automatiquement."
 
 #: ../views/admin/admin-footer.php:2
 msgid ""
@@ -3768,81 +3769,77 @@ msgstr ""
 "themoviedb.org/\">TMDb</a>."
 
 #: ../views/admin/add-custom-pages.php:4
-#, fuzzy
 msgid "WPMovieLibrary Custom Page creation tool"
-msgstr "WPMovieLibrary Statistiques"
+msgstr "Outils de création de pages"
 
 #: ../views/admin/add-custom-pages.php:6
 msgid ""
 "This page will allow you create custom pages to display your library’s "
 "taxonomies and movies archives."
 msgstr ""
+"Cette page vous permet de créer vos propres pages d'archives personnalisées "
+"pour afficher les archives de vos films et taxonomies."
 
 #: ../views/admin/add-custom-pages.php:15
 msgid "Missing pages"
-msgstr ""
+msgstr "Pages manquantes"
 
 #: ../views/admin/add-custom-pages.php:22
-#, fuzzy
 msgid "The following archive page has no page set:"
 msgid_plural "The following archives pages have no pages set:"
-msgstr[0] "Le film suivant nécessite une mise à jour :"
-msgstr[1] "Les films suivants nécessitent une mise à jour :"
+msgstr[0] "L'archive suivante n'a pas de page définie :"
+msgstr[1] "Les archives suivantes n'ont pas de pages définies :"
 
 #: ../views/admin/add-custom-pages.php:32
-#, fuzzy
 msgid "Create page"
-msgstr "Page courante"
+msgstr "Créer la page"
 
 #: ../views/admin/add-custom-pages.php:40
 msgid "No missing page!"
-msgstr ""
+msgstr "Aucune page manquante !"
 
 #: ../views/admin/add-custom-pages.php:49
 msgid "Existing pages"
-msgstr ""
+msgstr "Page existantes"
 
 #: ../views/admin/add-custom-pages.php:56
-#, fuzzy
 msgid "The following page as been set as archive page:"
 msgid_plural "The following pages as been set as archive pages:"
-msgstr[0] "Le film suivant nécessite une mise à jour :"
-msgstr[1] "Les films suivants nécessitent une mise à jour :"
+msgstr[0] "La page suivante est définie comme archive :"
+msgstr[1] "Les pages suivantes sont définies comme archives :"
 
 #: ../views/admin/add-custom-pages.php:61
 msgid "Page ID"
-msgstr ""
+msgstr "ID de la page"
 
 #: ../views/admin/add-custom-pages.php:62
-#, fuzzy
 msgid "Page Title"
-msgstr "Titre des images"
+msgstr "Titre de la page"
 
 #: ../views/admin/add-custom-pages.php:63
 msgid "Archive Type"
-msgstr ""
+msgstr "Type d'archive"
 
 #: ../views/admin/add-custom-pages.php:82
-#, fuzzy
 msgid "No page set yet!"
-msgstr "Aucune note"
+msgstr "Aucune page pour l'instant !"
 
 #: ../views/admin/add-custom-pages.php:92
 #: ../views/admin/add-custom-pages.php:96
-#, fuzzy
 msgid "Create Archives Pages"
-msgstr "Créer une page d'archive"
+msgstr "Créer les pages d'archives"
 
 #: ../views/admin/add-custom-pages.php:97
 msgid ""
 "This will add four new pages to your site and set them as archives pages: "
 "\"Movies\", \"Collections\", \"Genres\" and \"Actors\"."
 msgstr ""
+"Ceci ajoutera quatre nouvelles pages à votre site et les enregistrera comme "
+"pages d'archives : « Films », « Collections », « Genres » et « Acteurs »."
 
 #: ../views/admin/add-custom-pages.php:109
-#, fuzzy
 msgid "Custom Archives Pages"
-msgstr "Créer une page d'archive"
+msgstr "Pages d'archives personnalisées"
 
 #: ../views/admin/add-custom-pages.php:112
 msgid ""
@@ -3851,6 +3848,11 @@ msgid ""
 "appear in a poster grid. Both movie and taxonomy archives can be manipulated "
 "with an alphabetical menu and sorting options."
 msgstr ""
+"Les pages d'archives personnalisées sont utilisées pour remplacer les pages "
+"d'archives standard de WordPress par des vues plus personnalisées. Les "
+"taxonomies apparaitront sous forme de liste, et les films apparaitront sous "
+"forme d'une grille d'affiches. Les deux types de listes peuvent être "
+"manipulées grâce à un menu alphabétiquement et des options de classement."
 
 #: ../views/admin/add-custom-pages.php:113
 #, php-format
@@ -3859,6 +3861,10 @@ msgid ""
 "but you can add your own pages and set them manually as archive pages in the "
 "\"Archives\" section of your <a href=\"%s\">Settings panel</a>."
 msgstr ""
+"WPMovieLibrary peut créer automatiquement les pages nécessaires et les "
+"enregistrer comme pages d'archives, mais vous pouvez créer vos pages vous-"
+"mêmes et les enregistrer manuellement comme archives dans la section « "
+"Archives » de votre <a href=\"%s\">panneau de réglages</a>."
 
 #: ../views/admin/edit-movies/quick-edit.php:3
 msgid "Movie Dtails"
@@ -4318,7 +4324,7 @@ msgstr "Après l’affiche"
 
 #: ../views/movies-widget/movies-admin.php:135
 msgid "Exclude current movie from results in single view"
-msgstr ""
+msgstr "Exclure le film courant des résultats en vue unique"
 
 #: ../views/movies-widget/movies.php:25
 msgid "Read more about"
