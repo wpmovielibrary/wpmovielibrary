@@ -54,8 +54,12 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			// Load Movies as well as Posts in the Loop
 			add_action( 'pre_get_posts', __CLASS__ . '::show_movies_in_home_page', 10, 1 );
-			add_filter( 'pre_get_posts', __CLASS__ . '::filter_search_query', 11, 1 );
-			add_filter( 'get_search_query', __CLASS__ . '::get_search_query', 11, 1 );
+
+			if ( '1' == wpmoly_o( 'search' ) ) {
+				add_filter( 'pre_get_posts', __CLASS__ . '::filter_search_query', 11, 1 );
+				add_filter( 'get_search_query', __CLASS__ . '::get_search_query', 11, 1 );
+			}
+
 			add_filter( 'pre_get_posts', __CLASS__ . '::filter_archives_query', 11, 1 );
 
 			// Movie content
