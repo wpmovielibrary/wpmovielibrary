@@ -116,6 +116,9 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 			if ( is_null( $data ) || '' == $data )
 				return $data;
 
+			if ( '0' == $data )
+				return self::format_movie_field( __( 'Duration unknown', 'wpmovielibrary' ) );
+
 			if ( is_null( $format ) )
 				$format = wpmoly_o( 'format-time' );
 
