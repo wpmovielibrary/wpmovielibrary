@@ -128,6 +128,7 @@ if ( wpmoly_requirements_met() ) {
 	// CPT and Taxo
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-movies.php' );
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-headbox.php' );
+	require_once( WPMOLY_PATH . 'public/class-wpmoly-search.php' );
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-collections.php' );
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-genres.php' );
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-actors.php' );

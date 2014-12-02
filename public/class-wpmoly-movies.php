@@ -458,25 +458,22 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			if ( false != $value )
 				$meta_value = $value;
 
-			// Year is just a part of release date but can be useful
-			if ( 'year' == $meta_key ) {
-				$key   = '_wpmoly_movie_release_date';
-				$value = $meta_value;
-			}
-			else if ( 'rating' == $meta_key ) {
-				$key   = '_wpmoly_movie_rating';
-				$value = number_format( $meta_value, 1, '.', '');
-			}
-			else {
-				$key   = "_wpmoly_movie_{$meta_key}";
-				$value = $meta_value;
+			switch ( $meta_key ) {
+
+				case 'year':
+				case 'rating':
+				case 'runtime':
+				case 'production_countries':
+					$meta_query = call_user_func( "WPMOLY_Search::by_{$meta_key}", $meta_value );
+					break;
+				default:
+					$meta_query = call_user_func( "WPMOLY_Search::by_{$meta_key}", $meta_value );
+					break;
 			}
 
-			$compare = 'LIKE';
-			if ( in_array( $meta_key, array( 'status', 'runtime' ) ) )
-				$compare = '=';
+			$wp_query->set( 'meta_query', $meta_query );
 
-			$wp_query->set( 'meta_query', array(
+			/*$wp_query->set( 'meta_query', array(
 					'relation' => 'OR',
 					array(
 						'key'     => $key,
@@ -489,7 +486,8 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 						'compare' => $compare
 					)
 				)
-			);
+			);*/
+			//print_r( $wp_query );
 		}
 
 		/**
