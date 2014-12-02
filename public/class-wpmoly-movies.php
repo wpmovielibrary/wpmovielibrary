@@ -473,7 +473,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			}
 
 			$compare = 'LIKE';
-			if ( 'status' == $meta_key )
+			if ( in_array( $meta_key, array( 'status', 'runtime' ) ) )
 				$compare = '=';
 
 			$wp_query->set( 'meta_query', array(
