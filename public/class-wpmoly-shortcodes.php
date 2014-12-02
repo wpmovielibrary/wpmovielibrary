@@ -9,6 +9,8 @@
  * @copyright 2014 Charlie MERLAND
  */
 
+require_once WPMOLY_PATH . '/includes/config/wpmoly-shortcodes.php';
+
 if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 
 	class WPMOLY_Shortcodes extends WPMOLY_Module {

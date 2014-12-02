@@ -23,17 +23,17 @@ $wpmoly_shortcodes = array(
 				'filter'  => 'esc_attr'
 			),
 			'order' => array(
-				'default' => 'ASC',
+				'default' => wpmoly_o( 'movie-archives-movies-order' ),
 				'values'  => array( 'ASC', 'DESC' ),
 				'filter'  => 'esc_attr'
 			),
 			'number' => array(
-				'default' => -1,
+				'default' => wpmoly_o( 'movie-archives-movies-per-page' ),
 				'values'  => null,
 				'filter'  => 'intval'
 			),
 			'columns' => array(
-				'default' => 4,
+				'default' => wpmoly_o( 'movie-archives-grid-columns' ),
 				'values'  => null,
 				'filter'  => 'intval'
 			),

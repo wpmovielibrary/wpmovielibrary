@@ -1080,10 +1080,10 @@ $wpmoly_config = array(
 					'overview' => __( 'Overview', 'wpmovielibrary' ),
 					'meta'     => __( 'Metadata', 'wpmovielibrary' ),
 					'details'  => __( 'Details', 'wpmovielibrary' ),
-					'images'   => __( 'Images', 'wpmovielibrary' ),
-					'posters'  => __( 'Posters', 'wpmovielibrary' )
+					'actors'   => __( 'Actors', 'wpmovielibrary' ),
+					'images'   => __( 'Images', 'wpmovielibrary' )
 				),
-				'default' => array( 'overview', 'meta', 'details', 'images', 'posters' )
+				'default' => array( 'overview', 'meta', 'details', 'images', 'actors' )
 			),
 
 			// Title Content
