@@ -1,5 +1,8 @@
 
 		<?php do_action( 'wpmoly_before_metabox_content' ); ?>
+		<input type="hidden" id="wpmoly-autocomplete-collection" value="<?php echo wpmoly_o( 'collection-autocomplete' ); ?>" />
+		<input type="hidden" id="wpmoly-autocomplete-genre" value="<?php echo wpmoly_o( 'genre-autocomplete' ); ?>" />
+		<input type="hidden" id="wpmoly-autocomplete-actor" value="<?php echo wpmoly_o( 'actor-autocomplete' ); ?>" />
 
 		<div id="wpmoly-meta" class="wpmoly-meta">
 

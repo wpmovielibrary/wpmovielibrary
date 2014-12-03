@@ -8,6 +8,12 @@ wpmoly = wpmoly || {};
 		_movie_tmdb_id: $('#meta_data_tmdb_id').val(),
 		$spinner: $( '#wpmoly-tmdb .spinner' ),
 
+		autocomplete: {
+			collection: $( '#wpmoly-autocomplete-collection' ).val(),
+			genre: $( '#wpmoly-autocomplete-genre' ).val(),
+			actor: $( '#wpmoly-autocomplete-actor' ).val()
+		}
+
 	};
 
 		/**
@@ -258,33 +264,33 @@ wpmoly = wpmoly || {};
 					$( field ).val( value );
 				});
 
-				if ( data.taxonomy.actors.length ) {
-					var limit = parseInt( $( '#wpmoly_actor_limit' ).val() ) || 0,
-					    actors = ( limit ? data.taxonomy.actors.splice( 0, limit ) : data.taxonomy.actors );
+				    if ( undefined != data.taxonomy.actors && '1' == wpmoly.editor.autocomplete.actor ) {
+					    var limit = parseInt( $( '#wpmoly_actor_limit' ).val() ) || 0,
+						actors = ( limit ? data.taxonomy.actors.splice( 0, limit ) : data.taxonomy.actors );
 
-					$.each( actors, function(i) {
-						$( '#tagsdiv-actor .tagchecklist' ).append( '<span><a id="actor-check-num-' + i + '" class="ntdelbutton">X</a>&nbsp;' + this + '</span>' );
-						tagBox.flushTags( $( '#actor.tagsdiv' ), $( '<span>' + this + '</span>' ) );
-					});
-				}
+					    $.each( actors, function(i) {
+						    $( '#tagsdiv-actor .tagchecklist' ).append( '<span><a id="actor-check-num-' + i + '" class="ntdelbutton">X</a>&nbsp;' + this + '</span>' );
+						    tagBox.flushTags( $( '#actor.tagsdiv' ), $( '<span>' + this + '</span>' ) );
+					    });
+				    }
 
-				if ( data.taxonomy.genres.length ) {
-					$.each( data.taxonomy.genres, function(i) {
-						$( '#tagsdiv-genre .tagchecklist' ).append( '<span><a id="genre-check-num-' + i + '" class="ntdelbutton">X</a>&nbsp;' + this + '</span>' );
-						tagBox.flushTags( $( '#genre.tagsdiv' ), $( '<span>' + this + '</span>' ) );
-					});
-				}
+				    if ( undefined != data.taxonomy.genres && '1' == wpmoly.editor.autocomplete.genre ) {
+					    $.each( data.taxonomy.genres, function(i) {
+						    $( '#tagsdiv-genre .tagchecklist' ).append( '<span><a id="genre-check-num-' + i + '" class="ntdelbutton">X</a>&nbsp;' + this + '</span>' );
+						    tagBox.flushTags( $( '#genre.tagsdiv' ), $( '<span>' + this + '</span>' ) );
+					    });
+				    }
 
-				if ( data.meta.director.length ) {
-					
-					$.each( data.meta.director, function( i, val ) {
-						$( '#newcollection' ).delay( 1000 ).queue( function( next ) {
-							$( this ).prop( 'value', val );
-							$( '#collection-add-submit' ).click();
-							next();
-						});
-					});
-				}
+				    if ( undefined != data.meta.director && '1' == wpmoly.editor.autocomplete.collection ) {
+					    
+					    $.each( data.meta.director, function( i, val ) {
+						    $( '#newcollection' ).delay( 1000 ).queue( function( next ) {
+							    $( this ).prop( 'value', val );
+							    $( '#collection-add-submit' ).click();
+							    next();
+						    });
+					    });
+				    }
 
 				wpmoly_meta_preview.set( data );
 
