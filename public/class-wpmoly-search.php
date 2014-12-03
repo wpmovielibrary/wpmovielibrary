@@ -1,6 +1,9 @@
 <?php
 /**
  * WPMovieLibrary Movie Search Class extension.
+ * 
+ * Generates meta_query parameters for WP_Query to filter movies by specific
+ * meta and values.
  *
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie@caercam.org>
@@ -13,6 +16,18 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 
 	class WPMOLY_Search extends WPMOLY_Movies {
 
+		/**
+		 * Define meta callbacks and parameters. 'value' callback just
+		 * matches the meta as a single value whereas the 'interval'
+		 * callback explodes the value and uses the first two results
+		 * to match an interval of values.
+		 * 
+		 * Strict mode is off by default but can be toggled to match
+		 * values strictly (using '=') rather than losely (using 'LIKE').
+		 * 
+		 * @since    2.1
+		 * @var      array
+		 */
 		protected static $filters = array(
 			'tmdb_id'              => array( 'callback' => 'value', 'strict' => true ),
 			'title'                => array( 'callback' => 'value', 'strict' => false ),
@@ -47,6 +62,16 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 			'format'               => array( 'callback' => 'value', 'strict' => false )
 		);
 
+		/**
+		 * Magic!
+		 * 
+		 * @since    2.1
+		 * 
+		 * @param    string    $name Called method name
+		 * @param    array     $arguments Called method arguments
+		 * 
+		 * @return   mixed    Callback function return value
+		 */
 		public static function __callStatic( $name, $arguments ) {
 
 			$_name = str_replace( 'by_', '', $name );
@@ -59,6 +84,18 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 			}
 		}
 
+		/**
+		 * Filter movies by release date.
+		 * 
+		 * If submitted is 4 characters long, ie. a year, search by
+		 * year.
+		 * 
+		 * @since    2.1
+		 * 
+		 * @param    string    $date Date to look for
+		 * 
+		 * @return   array     Meta_query parameter for WP_Query
+		 */
 		public static function by_release_date( $date ) {
 
 			if ( 4 == strlen( $date ) )
@@ -70,6 +107,15 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 			return $meta_query;
 		}
 
+		/**
+		 * Filter movies by year.
+		 * 
+		 * @since    2.1
+		 * 
+		 * @param    string    $value Year to match
+		 * 
+		 * @return   array     Meta_query parameter for WP_Query
+		 */
 		public static function by_year( $value ) {
 
 			$meta_query = self::by_interval( 'release_date', $value, $strict = false );
@@ -77,15 +123,37 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 			return $meta_query;
 		}
 
+		/**
+		 * Filter movies by rating.
+		 * 
+		 * @since    2.1
+		 * 
+		 * @param    string    $rating Rating to match
+		 * 
+		 * @return   array     Meta_query parameter for WP_Query
+		 */
 		public static function by_rating( $rating ) {
 
-			$value = number_format( $rating, 1, '.', '');
-			$value = self::filter_interval( $value );
+			$value = self::filter_interval( $rating, 'number_format', array( 1, '.', '' ) );
 			$meta_query = self::by_interval( 'rating', $value, $strict = true );
 
 			return $meta_query;
 		}
 
+		/**
+		 * Filter movies by an interval of values.
+		 * 
+		 * Interval must have two values, if not, fall back to filter by
+		 * single value.
+		 * 
+		 * @since    2.1
+		 * 
+		 * @param    string     $meta Meta key to look for
+		 * @param    array      $interval Meta values to match
+		 * @param    boolean    $strict Strict mode
+		 * 
+		 * @return   array      Meta_query parameter for WP_Query
+		 */
 		private static function by_interval( $meta, $interval, $strict = false ) {
 
 			if ( ! is_array( $interval ) )
@@ -114,6 +182,19 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 			return $meta_query;
 		}
 
+		/**
+		 * Filter movies by value. If strict mode is on, matching will
+		 * be strict using the '=' comparator; if strict mode off, match
+		 * losely using 'LIKE'.
+		 * 
+		 * @since    2.1
+		 * 
+		 * @param    string     $meta Meta key to look for
+		 * @param    string     $value Meta value to match
+		 * @param    boolean    $strict Strict mode
+		 * 
+		 * @return   array      Meta_query parameter for WP_Query
+		 */
 		private static function by_value( $meta, $value, $strict = false ) {
 
 			$compare = 'LIKE';
@@ -137,18 +218,32 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 			return $meta_query;
 		}
 
-		private static function filter_interval( $param ) {
+		/**
+		 * Determine if value if an interval or a single value. Interval
+		 * must have strictly two values separated with by '-'. If more
+		 * than two values are found, fall back to self::by_value(). The
+		 * same occurs if only one value is found.
+		 * 
+		 * @since    2.1
+		 * 
+		 * @param    string    $param Value to filter
+		 * @param    string    $callback Optional. Callback function.
+		 * @param    array     $callback_args Optional. Callback parameters.
+		 * 
+		 * @return   mixed     
+		 */
+		private static function filter_interval( $param, $callback = 'intval', $callback_args = array() ) {
 
 			$param = explode( '-', $param );
 
 			if ( is_array( $param ) && 2 == count( $param ) )
 				$param = array(
-					'min' => intval( $param[0] ),
-					'max' => intval( $param[1] ),
+					'min' => call_user_func_array( $callback, array_merge( (array) $param[0], $callback_args ) ),
+					'max' => call_user_func_array( $callback, array_merge( (array) $param[1], $callback_args ) ),
 				);
 
 			if ( 1 == count( $param ) )
-				$param = $param[0];
+				$param = call_user_func_array( $callback, array_merge( (array) $param[0], $callback_args ) );
 
 			return $param;
 		}
