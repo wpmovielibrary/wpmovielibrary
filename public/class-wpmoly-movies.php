@@ -70,9 +70,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			add_action( 'pre_get_posts', __CLASS__ . '::movies_query_meta', 10, 1 );
 			add_filter( 'query_vars', __CLASS__ . '::movies_query_vars', 10, 1 );
 
-			// TODO: is that useful anyway?
-			add_filter( 'wpmoly_get_movies_from_media', __CLASS__ . '::get_movies_from_media', 10, 1 );
-			add_filter( 'wpmoly_get_movies_from_status', __CLASS__ . '::get_movies_from_status', 10, 1 );
+			// debug
 			//add_filter( 'posts_request', __CLASS__ . '::posts_request', 10, 2 );
 		}
 
