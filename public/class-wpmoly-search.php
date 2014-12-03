@@ -76,9 +76,12 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 
 			$_name = str_replace( 'by_', '', $name );
 			if ( isset( self::$filters[ $_name ] ) ) {
+
 				extract( self::$filters[ $_name ] );
-				$arguments = array( $_name, $arguments[0], $strict );
-				$meta_query = call_user_func_array( __CLASS__ . "::by_$callback", $arguments );
+
+				$arguments[0] = self::filter_interval( $arguments[0] );
+				$arguments    = array( $_name, $arguments[0], $strict );
+				$meta_query   = call_user_func_array( __CLASS__ . "::by_$callback", $arguments );
 
 				return $meta_query;
 			}
@@ -170,12 +173,14 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 				array(
 					'key'     => $meta_key,
 					'value'   => $min,
-					'compare' => '>='
+					'compare' => '>=',
+					'type'    => 'SIGNED'
 				),
 				array(
 					'key'     => $meta_key,
 					'value'   => $max,
-					'compare' => '<='
+					'compare' => '<=',
+					'type'    => 'SIGNED'
 				)
 			);
 
