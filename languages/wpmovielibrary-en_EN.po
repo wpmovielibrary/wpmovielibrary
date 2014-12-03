@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary 2.0-alpha.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/wpmovielibrary\n"
-"POT-Creation-Date: 2014-12-02 18:03+0100\n"
-"PO-Revision-Date: 2014-12-02 18:04+0100\n"
+"POT-Creation-Date: 2014-12-03 09:54+0100\n"
+"PO-Revision-Date: 2014-12-03 09:55+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: WPMovieLibrary <support@wpmovielibrary.com>\n"
 "Language: English\n"
@@ -364,7 +364,7 @@ msgstr "An error occured when trying to imported queued movie \"%s\": %s"
 #: ../includes/config/wpmoly-admin-menu.php:20
 #: ../includes/widgets/class-movies-widget.php:35
 #: ../includes/widgets/class-movies-widget.php:172
-#: ../public/class-wpmoly-movies.php:97 ../public/class-wpmoly-movies.php:109
+#: ../public/class-wpmoly-movies.php:95 ../public/class-wpmoly-movies.php:107
 #: ../public/class-wpmoly-archives.php:128
 #: ../public/class-wpmoly-archives.php:135
 #: ../views/admin/settings/settings.php:13
@@ -724,7 +724,7 @@ msgid "No metadata could be found, please import metadata before queuing."
 msgstr "Settings saved."
 
 #: ../includes/classes/class-wpmoly-l10n.php:387
-#: ../public/class-wpmoly-movies.php:98
+#: ../public/class-wpmoly-movies.php:96
 msgid "Movie"
 msgstr "Movie"
 
@@ -2574,13 +2574,13 @@ msgstr "Import and Export your settings and movies from file, text or URL."
 
 #: ../includes/config/wpmoly-admin-menu.php:58
 #: ../includes/config/wpmoly-admin-menu.php:59
-#: ../public/class-wpmoly-movies.php:103
+#: ../public/class-wpmoly-movies.php:101
 msgid "All Movies"
 msgstr "All Movies"
 
 #: ../includes/config/wpmoly-admin-menu.php:71
 #: ../includes/config/wpmoly-admin-menu.php:72
-#: ../public/class-wpmoly-movies.php:99
+#: ../public/class-wpmoly-movies.php:97
 msgid "Add New"
 msgstr "Add New"
 
@@ -2802,6 +2802,26 @@ msgstr "format"
 msgid "TMDb ID"
 msgstr "TMDb ID"
 
+#: ../includes/config/wpmoly-movies.php:128
+msgid "tmdb"
+msgstr "tmdb"
+
+#: ../includes/config/wpmoly-movies.php:137
+msgid "title"
+msgstr "title"
+
+#: ../includes/config/wpmoly-movies.php:146
+msgid "originaltitle"
+msgstr "originaltitle"
+
+#: ../includes/config/wpmoly-movies.php:155
+msgid "tagline"
+msgstr "tagline"
+
+#: ../includes/config/wpmoly-movies.php:164
+msgid "overview"
+msgstr "overview"
+
 #: ../includes/config/wpmoly-movies.php:167
 #: ../includes/widgets/class-movies-widget.php:122
 #: ../public/class-wpmoly-shortcodes.php:359
@@ -2836,6 +2856,10 @@ msgstr "country"
 msgid "language"
 msgstr "language"
 
+#: ../includes/config/wpmoly-movies.php:227
+msgid "genres"
+msgstr "genres"
+
 #: ../includes/config/wpmoly-movies.php:238
 msgid "director"
 msgstr "director"
@@ -2867,6 +2891,18 @@ msgstr "writer"
 #: ../includes/config/wpmoly-movies.php:307
 msgid "certification"
 msgstr "certification"
+
+#: ../includes/config/wpmoly-movies.php:316
+msgid "budget"
+msgstr "budget"
+
+#: ../includes/config/wpmoly-movies.php:325
+msgid "revenue"
+msgstr "revenue"
+
+#: ../includes/config/wpmoly-movies.php:334
+msgid "imdb"
+msgstr "imdb"
 
 #: ../includes/config/wpmoly-movies.php:343
 msgid "adult"
@@ -3038,54 +3074,54 @@ msgstr "No images were imported for this movie."
 msgid "New Actor"
 msgstr "New Actor"
 
-#: ../public/class-wpmoly-movies.php:100
+#: ../public/class-wpmoly-movies.php:98
 msgid "Add New Movie"
 msgstr "Add New Movie"
 
-#: ../public/class-wpmoly-movies.php:101
+#: ../public/class-wpmoly-movies.php:99
 msgid "Edit Movie"
 msgstr "Edit Movie"
 
-#: ../public/class-wpmoly-movies.php:102
+#: ../public/class-wpmoly-movies.php:100
 msgid "New Movie"
 msgstr "New Movie"
 
-#: ../public/class-wpmoly-movies.php:104
+#: ../public/class-wpmoly-movies.php:102
 msgid "View Movie"
 msgstr "View Movie"
 
-#: ../public/class-wpmoly-movies.php:105
+#: ../public/class-wpmoly-movies.php:103
 msgid "Search Movies"
 msgstr "Search Movies"
 
-#: ../public/class-wpmoly-movies.php:106
+#: ../public/class-wpmoly-movies.php:104
 #: ../views/admin/dashboard-latest-movies/latest-movies.php:26
 #: ../views/admin/dashboard-most-rated-movies/most-rated-movies.php:26
 msgid "No movies found"
 msgstr "No movies found"
 
-#: ../public/class-wpmoly-movies.php:107
+#: ../public/class-wpmoly-movies.php:105
 msgid "No movies found in Trash"
 msgstr "No movies found in Trash"
 
-#: ../public/class-wpmoly-movies.php:138
+#: ../public/class-wpmoly-movies.php:136
 msgctxt "wpmovielibrary"
 msgid "Imported Draft"
 msgstr "Import Drafts"
 
-#: ../public/class-wpmoly-movies.php:143
+#: ../public/class-wpmoly-movies.php:141
 #, php-format
 msgid "Imported Draft <span class=\"count\">(%s)</span>"
 msgid_plural "Imported Draft <span class=\"count\">(%s)</span>"
 msgstr[0] "Imported Draft <span class=\"count\">(%s)</span>"
 msgstr[1] "Imported Draft <span class=\"count\">(%s)</span>"
 
-#: ../public/class-wpmoly-movies.php:147
+#: ../public/class-wpmoly-movies.php:145
 msgctxt "wpmovielibrary"
 msgid "Queued Movie"
 msgstr "Enqueue Movie"
 
-#: ../public/class-wpmoly-movies.php:152
+#: ../public/class-wpmoly-movies.php:150
 #, php-format
 msgid "Queued Movie <span class=\"count\">(%s)</span>"
 msgid_plural "Queued Movies <span class=\"count\">(%s)</span>"
@@ -4006,7 +4042,7 @@ msgstr "We have cookies!"
 msgid "Here are some useful links:"
 msgstr "Here are some useful links:"
 
-#: ../views/admin/metabox/metabox.php:13
+#: ../views/admin/metabox/metabox.php:16
 msgid "Collapse"
 msgstr "Collapse"
 
@@ -4265,21 +4301,6 @@ msgstr "Detail"
 #~ msgstr ""
 #~ "<p class=\"description\">This is the Description. Again HTML is allowed</"
 #~ "p>"
-
-#~ msgid "tmdbid"
-#~ msgstr "tmdbid"
-
-#~ msgid "title"
-#~ msgstr "title"
-
-#~ msgid "originaltitle"
-#~ msgstr "originaltitle"
-
-#~ msgid "overview"
-#~ msgstr "overview"
-
-#~ msgid "genre"
-#~ msgstr "genre"
 
 #~ msgid "I can't test an empty key, you know."
 #~ msgstr "I can't test an empty key, you know."

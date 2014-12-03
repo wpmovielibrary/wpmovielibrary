@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary 2.0-alpha.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/wpmovielibrary\n"
-"POT-Creation-Date: 2014-12-02 18:03+0100\n"
-"PO-Revision-Date: 2014-12-02 18:47+0100\n"
+"POT-Creation-Date: 2014-12-03 09:54+0100\n"
+"PO-Revision-Date: 2014-12-03 09:56+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: WPMovieLibrary <support@wpmovielibrary.com>\n"
 "Language: Français\n"
@@ -378,7 +378,7 @@ msgstr ""
 #: ../includes/config/wpmoly-admin-menu.php:20
 #: ../includes/widgets/class-movies-widget.php:35
 #: ../includes/widgets/class-movies-widget.php:172
-#: ../public/class-wpmoly-movies.php:97 ../public/class-wpmoly-movies.php:109
+#: ../public/class-wpmoly-movies.php:95 ../public/class-wpmoly-movies.php:107
 #: ../public/class-wpmoly-archives.php:128
 #: ../public/class-wpmoly-archives.php:135
 #: ../views/admin/settings/settings.php:13
@@ -741,7 +741,7 @@ msgstr ""
 "file d'attente."
 
 #: ../includes/classes/class-wpmoly-l10n.php:387
-#: ../public/class-wpmoly-movies.php:98
+#: ../public/class-wpmoly-movies.php:96
 msgid "Movie"
 msgstr "Film"
 
@@ -2627,13 +2627,13 @@ msgstr ""
 
 #: ../includes/config/wpmoly-admin-menu.php:58
 #: ../includes/config/wpmoly-admin-menu.php:59
-#: ../public/class-wpmoly-movies.php:103
+#: ../public/class-wpmoly-movies.php:101
 msgid "All Movies"
 msgstr "Tous les films"
 
 #: ../includes/config/wpmoly-admin-menu.php:71
 #: ../includes/config/wpmoly-admin-menu.php:72
-#: ../public/class-wpmoly-movies.php:99
+#: ../public/class-wpmoly-movies.php:97
 msgid "Add New"
 msgstr "Nouveau"
 
@@ -2855,6 +2855,26 @@ msgstr "format"
 msgid "TMDb ID"
 msgstr "TMDb ID"
 
+#: ../includes/config/wpmoly-movies.php:128
+msgid "tmdb"
+msgstr "tmdb"
+
+#: ../includes/config/wpmoly-movies.php:137
+msgid "title"
+msgstr "titre"
+
+#: ../includes/config/wpmoly-movies.php:146
+msgid "originaltitle"
+msgstr "titre-original"
+
+#: ../includes/config/wpmoly-movies.php:155
+msgid "tagline"
+msgstr "slogan"
+
+#: ../includes/config/wpmoly-movies.php:164
+msgid "overview"
+msgstr "résumé"
+
 #: ../includes/config/wpmoly-movies.php:167
 #: ../includes/widgets/class-movies-widget.php:122
 #: ../public/class-wpmoly-shortcodes.php:359
@@ -2889,6 +2909,10 @@ msgstr "pays"
 msgid "language"
 msgstr "langage"
 
+#: ../includes/config/wpmoly-movies.php:227
+msgid "genres"
+msgstr "genres"
+
 #: ../includes/config/wpmoly-movies.php:238
 msgid "director"
 msgstr "réalisateur"
@@ -2920,6 +2944,18 @@ msgstr "écrivain"
 #: ../includes/config/wpmoly-movies.php:307
 msgid "certification"
 msgstr "certification"
+
+#: ../includes/config/wpmoly-movies.php:316
+msgid "budget"
+msgstr "budget"
+
+#: ../includes/config/wpmoly-movies.php:325
+msgid "revenue"
+msgstr "recettes"
+
+#: ../includes/config/wpmoly-movies.php:334
+msgid "imdb"
+msgstr "imdb"
 
 #: ../includes/config/wpmoly-movies.php:343
 msgid "adult"
@@ -3087,54 +3123,54 @@ msgstr "Aucune image importée pour ce film."
 msgid "New Actor"
 msgstr "Nouvel acteur"
 
-#: ../public/class-wpmoly-movies.php:100
+#: ../public/class-wpmoly-movies.php:98
 msgid "Add New Movie"
 msgstr "Ajouter un film"
 
-#: ../public/class-wpmoly-movies.php:101
+#: ../public/class-wpmoly-movies.php:99
 msgid "Edit Movie"
 msgstr "Éditer un film"
 
-#: ../public/class-wpmoly-movies.php:102
+#: ../public/class-wpmoly-movies.php:100
 msgid "New Movie"
 msgstr "Nouveau film"
 
-#: ../public/class-wpmoly-movies.php:104
+#: ../public/class-wpmoly-movies.php:102
 msgid "View Movie"
 msgstr "Voir le film"
 
-#: ../public/class-wpmoly-movies.php:105
+#: ../public/class-wpmoly-movies.php:103
 msgid "Search Movies"
 msgstr "Chercher des films"
 
-#: ../public/class-wpmoly-movies.php:106
+#: ../public/class-wpmoly-movies.php:104
 #: ../views/admin/dashboard-latest-movies/latest-movies.php:26
 #: ../views/admin/dashboard-most-rated-movies/most-rated-movies.php:26
 msgid "No movies found"
 msgstr "Aucun film trouvé"
 
-#: ../public/class-wpmoly-movies.php:107
+#: ../public/class-wpmoly-movies.php:105
 msgid "No movies found in Trash"
 msgstr "Aucun film trouvé dans la corbeille"
 
-#: ../public/class-wpmoly-movies.php:138
+#: ../public/class-wpmoly-movies.php:136
 msgctxt "wpmovielibrary"
 msgid "Imported Draft"
 msgstr "Brouillons d’import"
 
-#: ../public/class-wpmoly-movies.php:143
+#: ../public/class-wpmoly-movies.php:141
 #, php-format
 msgid "Imported Draft <span class=\"count\">(%s)</span>"
 msgid_plural "Imported Draft <span class=\"count\">(%s)</span>"
 msgstr[0] "Brouillon d’import <span class=\"count\">(%s)</span>"
 msgstr[1] "Brouillons d’import <span class=\"count\">(%s)</span>"
 
-#: ../public/class-wpmoly-movies.php:147
+#: ../public/class-wpmoly-movies.php:145
 msgctxt "wpmovielibrary"
 msgid "Queued Movie"
 msgstr "Ajouter à la file d'attente"
 
-#: ../public/class-wpmoly-movies.php:152
+#: ../public/class-wpmoly-movies.php:150
 #, php-format
 msgid "Queued Movie <span class=\"count\">(%s)</span>"
 msgid_plural "Queued Movies <span class=\"count\">(%s)</span>"
@@ -4078,7 +4114,7 @@ msgstr "On a des cookies !"
 msgid "Here are some useful links:"
 msgstr "Voici quelques liens utiles"
 
-#: ../views/admin/metabox/metabox.php:13
+#: ../views/admin/metabox/metabox.php:16
 msgid "Collapse"
 msgstr "Réduire"
 
@@ -4343,21 +4379,6 @@ msgstr "Détail"
 #~ msgstr ""
 #~ "<p class=\"description\">This is the Description. Again HTML is allowed</"
 #~ "p>"
-
-#~ msgid "tmdbid"
-#~ msgstr "tmdbid"
-
-#~ msgid "title"
-#~ msgstr "titre"
-
-#~ msgid "originaltitle"
-#~ msgstr "titre-original"
-
-#~ msgid "overview"
-#~ msgstr "résumé"
-
-#~ msgid "genre"
-#~ msgstr "genre"
 
 #~ msgid "I can't test an empty key, you know."
 #~ msgstr "Je ne peux pas tester une clé vide."
