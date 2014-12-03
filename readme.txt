@@ -83,25 +83,48 @@ The easiest Away to install WPMovieLibrary is to use the WordPress Extensions in
 
 == Frequently Asked Questions ==
 
-= Is this legal? =
+= What exactly does it do? =
+WordPress Movie Library is a plugin that helps you to create and manage your movie library.
 
-Absolutely. Unlike most similar plugins, WPMovieLibrary uses TheMovieDB instead of IMDb due to the lack of proper official and legal API.
+= How does it work? =
+You create/import movies like regular Posts/Pages. WPMovieLibrary provides various data related to your movies such as director, actors, genres, runtime, release date, production countries, budget… To help you sort your library efficiently. You have the possibility to affect specific, personal data to your movies: rating, media, status, language, subtitles…
 
-= Do I need an API key? =
+Using WPMovieLibrary you will fetch all you need to know about a movie in a single click, metadata as well as images and posters.
 
-No you don't. You can use your own TMDb API key for better results, but that is not required per se for WPMovieLibrary to work, the plugin can use its own API key if you don't provide one.
+= What's the difference between "Metadata" and "Details"? =
+"Metadata" are generic data related to movies that are gathered from an external source, [TheMovieDB API](http://themoviedb.org): directors, actors, genres… "Details", on the other hand, are strictly personal and related to movies and most of all, you. How much you liked that movie (rating), how you own it / saw it (media), what's your copy current state (status), in which languages/subtitles did you saw it / do you own it, etc.
 
 = How can I import metadata? =
-
 Create a new Movie, input the movie title in search field below the content editor, hit "Search". If your search brings multiple results you will be presented a list of possible matches, else all fields will be automatically filled and you movie's poster automatically imported.
 
 = How can I import my list of DVDs? =
-
 Use the import tool: simply paste a list of titles, all your movies will be created instantly. Now you can import metadata one-by-one or group the search, and then import directly the movies or add it to the queue for later final import.
 
-= My movies don't show in my homepage/slider/widget =
+= Is this legal? =
+Absolutely. Unlike most similar plugins, WPMovieLibrary uses TheMovieDB instead of IMDb due to the lack of proper official and legal API.
 
+= Can I use another API (RottenTomatoes, IMDb, …)? =
+No, at least not directly. WPMovieLibrary uses TMDb only.
+
+= Why TMDb (and not another API)? =
+Because TMDb seemed (and still does) the more effective and easy-to-use API out there. It may not be as complete as IMDb or other, but it is very openly usable; IMDb is great but does not provide an official API, requiring to use a workaround like OMDb API; RottenTomatoes is great too, but has strict terms of use including a restriction to use in US only. TMDb terms of use and features suits us most, so that's the one we use.
+
+= Do I need an API key? =
+No you don't. You can use your own TMDb API key for better results, but that is not required per se for WPMovieLibrary to work, the plugin can use its own API key if you don't provide one.
+
+= My movies don't show in my homepage/slider/widget =
 Your theme/plugin/widget most likely doesn't support Custom Post Types; open a thread in the support forum to get some help.
+
+= Can I import TV Shows? =
+No. As its name implies, WPMovieLibrary is about managing a movie library, and was never meant to include TV Shows.
+
+= Do you plan to TV Shows support? =
+Not really, no. It would require a huge lot of work to adapt the plugin's structure to TV Shows as it was built for movies only; we may develop a fork dedicated to TV Show, though, but that's not quite soon as WPMovieLibrary is already taking a lot of your time right now.
+
+= All my metadata disappeared with the last update! =
+Most likely they did not; if you've updated from a version 1.x your movies need to be updated to the new metadata format. You should be showed a notice in your dashboard informing you about this; if you're not, ask us for support on [WordPress.org Support](https://wordpress.org/support/plugin/wpmovielibrary) so that we can help you fix this.
+
+
 
 == Screenshots ==
 
