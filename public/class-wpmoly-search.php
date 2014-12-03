@@ -79,7 +79,9 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 
 				extract( self::$filters[ $_name ] );
 
-				$arguments[0] = self::filter_interval( $arguments[0] );
+				if ( 'interval' == $callback )
+					$arguments[0] = self::filter_interval( $arguments[0] );
+
 				$arguments    = array( $_name, $arguments[0], $strict );
 				$meta_query   = call_user_func_array( __CLASS__ . "::by_$callback", $arguments );
 
