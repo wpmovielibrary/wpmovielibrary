@@ -563,8 +563,16 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			foreach ( $_data as $key => $term ) {
 				
-				$term = trim( str_replace( '&#039;', "'", $term ) );
-				$_term = ( $has_taxonomy ? get_term_by( 'name', $term, $taxonomy ) : $term );
+				$term = trim( str_replace( array( '&#039;', "’" ), "'", $term ) );
+
+				if ( $has_taxonomy ) {
+					$_term = get_term_by( 'name', $term, $taxonomy );
+					if ( ! $_term )
+						$_term = get_term_by( 'slug', sanitize_title( $term ), $taxonomy );
+				}
+				else {
+					$_term = $term;
+				}
 
 				if ( ! $_term )
 					$_term = $term;
