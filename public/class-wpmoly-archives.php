@@ -60,8 +60,8 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			if ( ! is_post_type_archive( 'movie' ) )
 				return false;
 
-			$page = wpmoly_o( 'movie-archives' );
-			if ( get_post( $page ) )
+			$page = intval( wpmoly_o( 'movie-archives' ) );
+			if ( $page && get_post( $page ) )
 				wp_redirect( get_permalink( $page ) );
 		}
 
