@@ -30,6 +30,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 
 			$this->init();
 			$this->register_hook_callbacks();
+			
 		}
 
 		/**
@@ -72,7 +73,7 @@ if ( ! class_exists( 'WPMOLY_Legacy' ) ) :
 		 */
 		public function deprecated_meta_notice() {
 
-			echo self::render_admin_template( 'admin-notice.php', array( 'notice' => 'deprecated-meta' ) );
+			echo self::render_admin_template( 'admin-notice.php', array( 'notice' => 'deprecated-meta' ), $require = 'always' );
 		}
 
 		/**

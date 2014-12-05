@@ -7,7 +7,7 @@
 			<a class="button-primary" href="<?php echo wp_nonce_url( admin_url( '/admin.php?page=wpmovielibrary&amp;hide_wpmoly_api_key_notice=1' ), 'hide-wpmoly-api-key-notice', '_nonce' ) ?>"><?php _e( 'Do not notify me again', 'wpmovielibrary' ) ?></a>
 		</span>
 	</div>
-<?php elseif ( 'missing-archive' == $notice ) : ?>
+<?php endif; if ( 'missing-archive' == $notice ) : ?>
 
 	<div class="update-nag">
 		<?php _e( 'WPMovieLibrary couldn\'t find an archive page; this page is required to provide archives of your collections, genres and actors.', 'wpmovielibrary' ) ?><br /><br />
@@ -15,19 +15,19 @@
 			<a class="button-primary" href="<?php echo wp_nonce_url( admin_url( '/admin.php?page=wpmovielibrary&amp;wpmoly_set_archive_page=1' ), 'wpmoly-set-archive-page', '_nonce' ) ?>"><?php _e( 'Create an archive page', 'wpmovielibrary' ) ?></a>
 		</span>
 	</div>
-<?php elseif ( 'deprecated-meta' == $notice ) : ?>
+<?php endif; if ( 'deprecated-meta' == $notice ) : ?>
 
 	<div class="update-nag warning wpmoly">
 		<div class="label"><span class="wpmolicon icon-no"></span></div>
 		<div class="content"><?php printf( __( '<strong>WPMovieLibrary found deprecated movie metadata</strong>; since version 1.3 movies metadata are stored and managed differently to provide extended search and filtering features. Therefore, you will need to update your movies to the new standard format. <strong>Not doing so will produce bugs and random behaviours when using the plugin</strong>. Please proceed to <a href="%s">update your movies</a> using the dedicated tool. <a href="http://wpmovielibrary.com/development/release-notes/#version-1.3">Learn more about this change</a>.', 'wpmovielibrary' ), admin_url( '/admin.php?page=wpmovielibrary-update-movies' ) ) ?></div>
 	</div>
-<?php elseif ( 'permalinks-changed' == $notice ) : ?>
+<?php endif; if ( 'permalinks-changed' == $notice ) : ?>
 
 	<div class="update-nag wpmoly">
 		<div class="label"><span class="wpmolicon icon-info"></span></div>
 		<div class="content"><?php printf( __( 'Changes were made that affects the Permalinks. You should visit <a href="%s">WordPress Permalink</a> page to update the Rewrite rules; you may experience errors when trying to load pages using the new URL if the structures are not update correctly. Tip: you don\'t need to change anything in the Permalink page: simply loading it will update the rules.', 'wpmovielibrary' ), admin_url( '/options-permalink.php' ) ) ?></div>
 	</div>
-<?php elseif ( 'custom-pages' == $notice ) : ?>
+<?php endif; if ( 'custom-pages' == $notice ) : ?>
 
 	<div class="update-nag wpmoly">
 		<div class="label"><span class="wpmolicon icon-info"></span></div>
