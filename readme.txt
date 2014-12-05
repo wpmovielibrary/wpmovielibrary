@@ -4,7 +4,7 @@ Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 3.8
 Tested up to: 4.0.1
-Stable tag: 2.1
+Stable tag: 2.1.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,7 +12,7 @@ WordPress Movie Library is an advanced movie library managing plugin to turn you
 
 == Description ==
 
-The best way to manage your personnal movie library. Handle collections of movies, automatically fetch metadata, images and posters, create collections by mass importing lists of movie titles…
+The best way to manage your personnal movie library. Handle collections of movies, automatically fetch metadata, images and posters, create collections by mass importing lists of movie titles… [Demo: See what it looks like!](http://demo.wpmovielibrary.com/)
 
 = Simple yet powerfull =
 WPMovieLibrary uses WordPress simple but efficient techniques to provide you a really simple tool to change your classic WordPress Blog to an extended management software for your movie collection.
@@ -137,6 +137,9 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 7. Import queue
 
 == Changelog ==
+
+= 2.1.0.1 =
+* Fix - Permalink issue causing 404 on movie archives page
 
 = 2.1 =
 * Feat - Custom Archives pages
