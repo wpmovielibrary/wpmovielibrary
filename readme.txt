@@ -53,13 +53,13 @@ Short list of supported features:
 Want to extend WPMovieLibrary? Additionnal extensions are available on [WPMovieLibrary/Extensions](http://wpmovielibrary.com/extensions/)
 
 = Get involved =
-Developers and Translators can contribute to the source code on the [GitHub Repository](https://github.com/CaerCam/wpmovielibrary/).
+Developers and Translators can contribute to the source code on the [GitHub Repository](https://github.com/wpmovielibrary/wpmovielibrary/).
 
 = Links =
 
 *    [Official website](http://wpmovielibrary.com/)
 *    [Documentation](http://wpmovielibrary.com/documentation/)
-*    [Development](https://github.com/CaerCam/wpmovielibrary/)
+*    [Development](https://github.com/wpmovielibrary/wpmovielibrary/)
 
 == Installation ==
 
@@ -138,11 +138,33 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 
 == Changelog ==
 
+= 2.1 =
+* Feat - Custom Archives pages
+* Feat - Implement page creation tool
+* Feat - Headbox customization settings
+* Feat - Meta query URL by value and range of values
+* Tweak - New metadata: local release date
+* Tweak - Add year to movie select list in editor
+* Tweak - Implement [movies] Shortcode pagination
+* Tweak - Save metadata once they’re collected
+* Tweak - Add movies to categories/tags archive pages
+* Tweak - Not rated message instead of stars
+* Tweak - Exclude current movie from Movies Widget in single
+* Tweak - Add label for unknown movie duration
+* Fix - Undeletable movie details
+* Fix - Missing search results (pages not included)
+* Fix - Empty search query
+* Fix - Missing format in details view
+* Fix - Apostrophe in actor name breaking taxonomies links
+* Fix - Poster showing with poster=’none’ param in [movies] Shortcode
+* Fix - ‘actors’ meta not working in [movie] Shortcode
+* Fix - Collections added automatically despite settings in editor
+
 = 2.0.2.2 =
 * Tweak - Icon Font updated
-* Fix bugs in legacy mode
-* Fix Movie Headbox missing menu arrow
-* Fix 'Add New' link blocked by JS in movie editor
+* Fix - bugs in legacy mode
+* Fix - Movie Headbox missing menu arrow
+* Fix - 'Add New' link blocked by JS in movie editor
 
 = 2.0.2.1 =
 * Fix - Movie certification not correctly fetched on some occasions
