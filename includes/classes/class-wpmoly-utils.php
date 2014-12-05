@@ -253,13 +253,13 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			extract( $archives );
 
 			if ( $movie )
-				$new_rules[ $l10n_rules['movies'] . '/?$' ] = 'index.php?p=' . $movie;
+				$new_rules[ $l10n_rules['movies'] . '/?$' ] = 'index.php?page_id=' . $movie;
 			if ( $collection )
-				$new_rules[ $l10n_rules['collection'] . '/?$' ] = 'index.php?p=' . $collection;
+				$new_rules[ $l10n_rules['collection'] . '/?$' ] = 'index.php?page_id=' . $collection;
 			if ( $genre )
-				$new_rules[ $l10n_rules['genre'] . '/?$' ] = 'index.php?p=' . $genre;
+				$new_rules[ $l10n_rules['genre'] . '/?$' ] = 'index.php?page_id=' . $genre;
 			if ( $actor )
-				$new_rules[ $l10n_rules['actor'] . '/?$' ] = 'index.php?p=' . $actor;
+				$new_rules[ $l10n_rules['actor'] . '/?$' ] = 'index.php?page_id=' . $actor;
 
 			return $new_rules;
 		}
