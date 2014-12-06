@@ -9,12 +9,15 @@ foreach ( $default as $_letter ) :
 					<li id="wpmoly-movie-grid-menu-item-<?php echo $_letter ?>" class="wpmoly movies grid menu list item<?php if ( strtolower( $_letter ) == strtolower( $current ) ) echo ' active'; ?>"><?php if ( in_array( $_letter, $letters ) ) { ?><a href="<?php echo $_url; ?>"><?php echo $_letter; ?></a><?php } else { echo $_letter; } ?></li>
 
 <?php endforeach; ?>
-					<li id="wpmoly-movie-grid-menu-item-all" class="wpmoly movies grid menu list item<?php if ( 'all' == $current ) echo ' active'; ?>"><a href="<?php echo add_query_arg( array( 'letter' => '', 'number' => -1 ), $default_url ) ?>"><?php _e( 'All', 'wpmovielibrary' ) ?></a></li>
+					<li id="wpmoly-movie-grid-menu-item-all" class="wpmoly movies grid menu list item<?php if ( 'all' == $current ) echo ' active'; ?>"><a href="<?php echo add_query_arg( array( 'letter' => '', 'meta' => '', 'detail' => '', 'value' => '', 'number' => -1 ), $default_url ) ?>"><?php _e( 'All', 'wpmovielibrary' ) ?></a></li>
 				</ul>
 
 				<form action="">
 					<input type="hidden" name="order" value="<?php echo $order; ?>" />
 					<input type="hidden" name="letter" value="<?php echo $current; ?>" />
+					<input type="hidden" name="meta" value="<?php echo $meta; ?>" />
+					<input type="hidden" name="detail" value="<?php echo $detail; ?>" />
+					<input type="hidden" name="value" value="<?php echo $value; ?>" />
 					<input type="submit" value="" style="display:none" />
 					<ul id="wpmoly-movie-grid-menu-2" class="wpmoly movies grid menu list">
 						<li id="wpmoly-movie-grid-menu-item-alpha-asc" class="wpmoly movies grid menu list item<?php if ( 'ASC' == $order ) echo ' active'; ?>"><a href="<?php echo add_query_arg( array( 'order' => 'ASC' ), $default_url ) ?>" title="<?php _e( 'List ascendingly', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-sort-alpha-asc"></span></a></li>

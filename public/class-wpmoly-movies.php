@@ -60,6 +60,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				add_filter( 'get_search_query', __CLASS__ . '::get_search_query', 11, 1 );
 			}
 
+			// Add movies to categories and Tags archives
 			add_filter( 'pre_get_posts', __CLASS__ . '::filter_archives_query', 11, 1 );
 
 			// Movie content
@@ -67,7 +68,6 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			add_filter( 'get_the_excerpt', __CLASS__ . '::movie_excerpt' );
 
 			// Pass meta through URLs
-			//add_action( 'pre_get_posts', __CLASS__ . '::movies_query_meta', 10, 1 );
 			add_filter( 'query_vars', __CLASS__ . '::movies_query_vars', 10, 1 );
 
 			// debug
@@ -407,61 +407,6 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
-		 * Add support for Movie Details to the current WP_Query.
-		 * 
-		 * If current WP_Query has a WPMOLY meta var set, edit the query to
-		 * return the movies matching the wanted detail.
-		 *
-		 * @since    1.0
-		 * 
-		 * @param    object      $wp_query Current WP_Query instance
-		 */
-		public static function movies_query_meta( $wp_query ) {
-
-			/*if ( is_admin() )
-				return false;
-
-			if ( isset( $wp_query->query_vars['meta'] ) ) {
-				$meta = 'meta';
-				$meta_key = $wp_query->query_vars['meta'];
-			}
-			else if ( isset( $wp_query->query_vars['detail'] ) ) {
-				$meta = 'detail';
-				$meta_key = $wp_query->query_vars['detail'];
-			}
-			else
-				return false;
-
-			$l10n_rewrite = WPMOLY_L10n::get_l10n_rewrite();
-			$meta_value   = strtolower( $wp_query->query_vars['value'] );
-			$meta_key     = apply_filters( 'wpmoly_filter_rewrites',$meta_key );
-			$meta_key     = array_search( $meta_key, $l10n_rewrite[ $meta ] );
-
-			// If meta_key does not exist, trigger a 404 error
-			if ( ! $meta_key ) {
-				$wp_query->set( 'post__in', array( -1 ) );
-				return false;
-			}
-
-			// Languages and countries meta are special
-			if ( 'spoken_languages' == $meta_key && 'meta' == $meta )
-				$meta = 'languages';
-			else if ( 'production_countries' == $meta_key && 'meta' == $meta )
-				$meta = 'countries';
-
-			$value = array_search( $meta_value, $l10n_rewrite[ $meta ] );
-			if ( ! $value )
-				$value = array_search( remove_accents( rawurldecode( $meta_value ) ), $l10n_rewrite[ $meta ] );
-
-			if ( false != $value )
-				$meta_value = $value;
-
-			$meta_query = call_user_func( "WPMOLY_Search::by_{$meta_key}", $meta_value );
-
-			$wp_query->set( 'meta_query', $meta_query );*/
-		}
-
-		/**
 		 * Add Movie Details slugs to queryable vars
 		 * 
 		 * @since    1.0
@@ -749,19 +694,18 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				'order'    => wpmoly_o( 'movie-archives-movies-order', $default = true ),
 				'columns'  => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
 				'number'   => wpmoly_o( 'movie-archives-movies-per-page', $default = true ),
-				'editable' => wpmoly_o( 'movie-archives-frontend-edit', $default = true )
+				'editable' => wpmoly_o( 'movie-archives-frontend-edit', $default = true ),
+				'meta'     => '',
+				'detail'   => '',
+				'value'    => ''
 			);
 			$args = wp_parse_args( $args, $defaults );
 
-			// Allow URL params to override Shortcode settings
-			if ( ! empty( $_GET ) ) {
-				$vars = array(
-					'number'  => get_query_var( 'number' ),
-					'columns' => get_query_var( 'columns' ),
-					'order'   => get_query_var( 'order' )
-				);
-				$args = wp_parse_args( $vars, $args );
-			}
+			// Allow URL params to override settings
+			$vars = array( 'meta', 'detail', 'value' );
+			foreach ( $vars as $var )
+				$args[ $var ] = get_query_var( $var, $args[ $var ] );
+
 			extract( $args );
 
 			$default = str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
@@ -772,10 +716,10 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			foreach ( $result as $r )
 				$letters[] = $r->letter;
 
-			$letter_url  = add_query_arg( compact( 'order', 'columns', 'number' ), get_permalink() );
-			$default_url = add_query_arg( compact( 'order', 'columns', 'number', 'letter' ), get_permalink() );
+			$letter_url  = add_query_arg( compact( 'order', 'columns', 'number', 'meta', 'detail', 'value' ), get_permalink() );
+			$default_url = add_query_arg( compact( 'order', 'columns', 'number', 'meta', 'detail', 'value', 'letter' ), get_permalink() );
 
-			$attributes = compact( 'letters', 'default', 'letter', 'order', 'number', 'columns', 'letter_url', 'default_url', 'editable' );
+			$attributes = compact( 'letters', 'default', 'letter', 'order', 'number', 'columns', 'meta', 'detail', 'value', 'letter_url', 'default_url', 'editable' );
 
 			$content = self::render_template( 'movies/grid/menu.php', $attributes );
 
@@ -800,7 +744,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			$defaults = array(
 				'number'   => wpmoly_o( 'movie-archives-movies-per-page', $default = true ),
-				'columns'  => wpmoly_o( 'movie-archives-grid-column', $default = true ),
+				'columns'  => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
 				'meta'     => null,
 				'detail'   => null,
 				'value'    => null,
@@ -834,6 +778,10 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$number = min( $number, $limit );
 			if ( ! $number )
 				$number = wpmoly_o( 'movie-archives-movies-per-page', $default = true );
+
+			$columns = min( $columns, 8 );
+			if ( 0 > $columns )
+				$columns = wpmoly_o( 'movie-archives-grid-columns', $default = true );
 
 			// Calculate offset
 			$paged = get_query_var( '_page' );

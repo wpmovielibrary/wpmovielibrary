@@ -160,6 +160,14 @@
 	vertical-align: top;
 }
 
+#wpmoly-movie-grid.grid-col-8 > .movie {
+	width: 11.3%;
+}
+
+#wpmoly-movie-grid.grid-col-7 > .movie {
+	width: 13.33%;
+}
+
 #wpmoly-movie-grid.grid-col-6 > .movie {
 	width: 15.7%;
 }

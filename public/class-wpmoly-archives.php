@@ -36,6 +36,9 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			add_action( 'template_redirect', array( $this, 'template_redirect' ) );
 
 			add_filter( 'the_content', __CLASS__ . '::get_pages', 10, 1 );
+
+			if ( '' == wpmoly_o( 'movie-archives' ) )
+				add_action( 'pre_get_posts', __CLASS__ . '::meta_archives', 10, 1 );
 		}
 
 		/**
@@ -477,6 +480,67 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$content = self::render_template( 'archives/menu.php', $attributes );
 
 			return $content;
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                            Meta Archives
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * Add support for Movie Details to the current WP_Query.
+		 * 
+		 * If current WP_Query has a WPMOLY meta var set, edit the query to
+		 * return the movies matching the wanted detail.
+		 *
+		 * @since    1.0
+		 * 
+		 * @param    object      $wp_query Current WP_Query instance
+		 */
+		public static function meta_archives( $wp_query ) {
+
+			if ( is_admin() )
+				return false;
+
+			if ( isset( $wp_query->query_vars['meta'] ) ) {
+				$meta = 'meta';
+				$meta_key = $wp_query->query_vars['meta'];
+			}
+			else if ( isset( $wp_query->query_vars['detail'] ) ) {
+				$meta = 'detail';
+				$meta_key = $wp_query->query_vars['detail'];
+			}
+			else
+				return false;
+
+			$l10n_rewrite = WPMOLY_L10n::get_l10n_rewrite();
+			$meta_value   = strtolower( $wp_query->query_vars['value'] );
+			$meta_value   = apply_filters( 'wpmoly_filter_rewrites', $meta_value );
+			$_key         = array_search( $meta_value, $l10n_rewrite[ $meta ] );
+
+			// If meta_key does not exist, trigger a 404 error
+			if ( ! $_key ) {
+				$wp_query->set( 'post__in', array( -1 ) );
+				return false;
+			}
+
+			// Languages and countries meta are special
+			if ( 'spoken_languages' == $meta_key && 'meta' == $meta )
+				$meta = 'languages';
+			else if ( 'production_countries' == $meta_key && 'meta' == $meta )
+				$meta = 'countries';
+
+			$value = array_search( $meta_value, $l10n_rewrite[ $meta ] );
+			if ( ! $value )
+				$value = array_search( remove_accents( rawurldecode( $meta_value ) ), $l10n_rewrite[ $meta ] );
+
+			if ( false != $value )
+				$meta_value = $value;
+
+			$meta_query = call_user_func( "WPMOLY_Search::by_{$meta_key}", $meta_value );
+
+			$wp_query->set( 'meta_query', $meta_query );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
