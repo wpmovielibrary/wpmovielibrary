@@ -36,6 +36,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			//add_action( 'wp_head', __CLASS__ . '::debug_page_request' );
 
 			add_filter( 'wpmoly_filter_rewrites', __CLASS__ . '::filter_rewrites', 10, 1 );
+			add_filter( 'wpmoly_filter_value_rewrites', __CLASS__ . '::filter_value_rewrites', 10, 3 );
 		}
 
 		/**
@@ -261,6 +262,21 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			$rewrite = sanitize_title_with_dashes( $rewrite );
 
 			return $rewrite;
+		}
+
+		public static function filter_value_rewrites( $meta, $key, $value ) {
+
+			$rewrites = self::get_l10n_rewrite();
+			$_value   = apply_filters( 'wpmoly_filter_rewrites', $value );
+			$_value   = array_search( $_value, $rewrites[ $meta ] );
+
+			if ( ! $_value )
+				$_value = array_search( remove_accents( rawurldecode( $value ) ), $rewrites[ $meta ] );
+
+			if ( false != $_value )
+				$value = $_value;
+
+			return $value;
 		}
 
 		/**

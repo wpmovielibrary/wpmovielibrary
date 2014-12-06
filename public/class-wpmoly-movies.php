@@ -67,7 +67,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			add_filter( 'get_the_excerpt', __CLASS__ . '::movie_excerpt' );
 
 			// Pass meta through URLs
-			add_action( 'pre_get_posts', __CLASS__ . '::movies_query_meta', 10, 1 );
+			//add_action( 'pre_get_posts', __CLASS__ . '::movies_query_meta', 10, 1 );
 			add_filter( 'query_vars', __CLASS__ . '::movies_query_vars', 10, 1 );
 
 			// debug
@@ -418,7 +418,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 */
 		public static function movies_query_meta( $wp_query ) {
 
-			if ( is_admin() )
+			/*if ( is_admin() )
 				return false;
 
 			if ( isset( $wp_query->query_vars['meta'] ) ) {
@@ -458,7 +458,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			$meta_query = call_user_func( "WPMOLY_Search::by_{$meta_key}", $meta_value );
 
-			$wp_query->set( 'meta_query', $meta_query );
+			$wp_query->set( 'meta_query', $meta_query );*/
 		}
 
 		/**
@@ -570,7 +570,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			if ( ! empty( $query->query_vars['suppress_filters'] ) )
 				return $wp_query;
 
-			if ( ( ! is_category() || ( is_category() && '0' == wpmoly_o( 'enable-categories' ) ) )&& ( ! is_tag() || ( is_tag() && '0' == wpmoly_o( 'enable-tags' ) ) ) )
+			if ( ( ! is_category() || ( is_category() && '0' == wpmoly_o( 'enable-categories' ) ) ) && ( ! is_tag() || ( is_tag() && '0' == wpmoly_o( 'enable-tags' ) ) ) )
 				return $wp_query;
 
 			$post_types = $wp_query->get( 'post_type' );
@@ -801,23 +801,22 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$defaults = array(
 				'number'   => wpmoly_o( 'movie-archives-movies-per-page', $default = true ),
 				'columns'  => wpmoly_o( 'movie-archives-grid-column', $default = true ),
+				'meta'     => null,
+				'detail'   => null,
+				'value'    => null,
 				'title'    => false,
 				'genre'    => false,
 				'rating'   => false,
-				'letter'   => '',
+				'letter'   => null,
 				'order'    => wpmoly_o( 'movie-archives-movies-order', $default = true )
 			);
 			$args = wp_parse_args( $args, $defaults );
 
 			// Allow URL params to override Shortcode settings
 			if ( ! empty( $_GET ) ) {
-				$vars = array(
-					'number'  => get_query_var( 'number' ),
-					'columns' => get_query_var( 'columns' ),
-					'letter'  => get_query_var( 'letter' ),
-					'order'   => get_query_var( 'order' )
-				);
-				$args = wp_parse_args( $vars, $args );
+				$vars = array( 'number', 'columns', 'letter', 'order', 'meta', 'detail', 'value' );
+				foreach ( $vars as $var )
+					$args[ $var ] = get_query_var( $var, $args[ $var ] );
 			}
 
 			extract( $args, EXTR_SKIP );
@@ -842,52 +841,48 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			if ( $paged )
 				$offset = max( 0, $number * ( $paged - 1 ) );
 
-			// Don't use LIMIT with weird values
-			$limit = '';
-			if ( $offset < $number )
-				$limit = sprintf( 'LIMIT %d,%d', $offset, $number );
-
-			if ( '' != $letter ) {
-
-				$result = $wpdb->get_results(
-					$wpdb->prepare(
-						"SELECT ID
-						   FROM {$wpdb->posts}
-						  WHERE post_type='movie'
-						    AND post_status='publish'
-						    AND post_title LIKE '%s'
-						  ORDER BY post_title {$order}
-						  {$limit}",
-						wpmoly_esc_like( $letter ) . '%'
-					)
-				);
-				$total = count( $result );
-
-				if ( ! empty( $result ) )
-					foreach ( $result as $r )
-						$movies[] = $r->ID;
+			if ( '' == $meta && '' != $detail ) {
+				$meta = $detail;
+				$type = 'detail';
+			}
+			else {
+				$type = 'meta';
 			}
 
-			$args = array(
-				'posts_per_page' => $number,
-				'offset'         => $offset,
-				'orderby'        => 'post_title',
-				'order'          => $order,
-				'post_type'      => 'movie',
-				'post_status'    => 'publish'
-			);
+			// Don't use LIMIT with weird values
+			$limit = "LIMIT 0,$number";
+			if ( $offset >= $number )
+				$limit = sprintf( 'LIMIT %d,%d', $offset, $number );
 
-			if ( ! empty( $movies ) )
-				$args['post__in'] = $movies;
+			$where = array( "post_type='movie'", " AND post_status='publish'" );
+			if ( '' != $letter )
+				$where[] = " AND post_title LIKE '" . wpmoly_esc_like( $letter ) . "%'";
 
-			$movies = get_posts( $args );
+			$join = array();
+			if ( '' != $value && '' != $meta ) {
+				$value = apply_filters( 'wpmoly_filter_value_rewrites', $type, $meta, $value );
+				$meta_query = call_user_func( "WPMOLY_Search::by_$meta", $value, 'sql' );
+
+				$join[]  = $meta_query['join'];
+				$where[] = $meta_query['where'];
+			}
+
+			$where = implode( '', $where );
+			$join  = implode( '', $join );
+			$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT ID FROM {$wpdb->posts} {$join} WHERE {$where} ORDER BY post_title {$order} {$limit}";
+
+			$movies = $wpdb->get_col( $query );
+			$total  = $wpdb->get_var( 'SELECT FOUND_ROWS() AS total' );
+			$movies = array_map( 'get_post', $movies );
 
 			$args = array(
 				'order'   => $order,
 				'columns' => $columns,
 				'number'  => $number,
-				'letter'  => $letter
+				'letter'  => $letter,
+				'value'   => $value
 			);
+			$args[ $type ] = $meta;
 			$url = add_query_arg( $args, get_permalink() );
 
 			$args = array(

@@ -230,20 +230,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			WPMOLY_L10n::delete_l10n_rewrite_rules();
 			$l10n_rules = WPMOLY_L10n::set_l10n_rewrite_rules();
 
-			foreach ( $l10n_rules['detail'] as $slug => $detail ) {
-
-				$_detail = apply_filters( 'wpmoly_filter_rewrites', $detail );
-				$new_rules[ $l10n_rules['movies'] . '/(' . $_detail . ')/([^/]+)/?$' ] = 'index.php?detail=$matches[1]&value=$matches[2]';
-				$new_rules[ $l10n_rules['movies'] . '/(' . $_detail . ')/([^/]+)/page/?([0-9]{1,})/?$' ] = 'index.php?detail=$matches[1]&value=$matches[2]&paged=$matches[3]';
-			}
-
-			foreach ( $l10n_rules['meta'] as $slug => $meta ) {
-
-				$_meta = apply_filters( 'wpmoly_filter_rewrites', $meta );
-				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/?$' ] = 'index.php?meta=$matches[1]&value=$matches[2]';
-				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/page/?([0-9]{1,})/?$' ] = 'index.php?meta=$matches[1]&value=$matches[2]&paged=$matches[3]';
-			}
-
 			$archives = array(
 				'movie'      => intval( wpmoly_o( 'movie-archives' ) ),
 				'collection' => intval( wpmoly_o( 'collection-archives' ) ),
@@ -251,6 +237,24 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				'actor'      => intval( wpmoly_o( 'actor-archives' ) )
 			);
 			extract( $archives );
+
+			$base = 'index.php?';
+			if ( $movie )
+				$base .= 'page_id=' . $movie . '&';
+
+			foreach ( $l10n_rules['detail'] as $slug => $detail ) {
+
+				$_detail = apply_filters( 'wpmoly_filter_rewrites', $detail );
+				$new_rules[ $l10n_rules['movies'] . '/(' . $_detail . ')/([^/]+)/?$' ] = $base . 'detail=' . $slug . '&value=$matches[2]';
+				$new_rules[ $l10n_rules['movies'] . '/(' . $_detail . ')/([^/]+)/page/?([0-9]{1,})/?$' ] = $base . 'detail=' . $slug . '&value=$matches[2]&paged=$matches[3]';
+			}
+
+			foreach ( $l10n_rules['meta'] as $slug => $meta ) {
+
+				$_meta = apply_filters( 'wpmoly_filter_rewrites', $meta );
+				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/?$' ] = $base . 'meta=' . $slug . '&value=$matches[2]';
+				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/page/?([0-9]{1,})/?$' ] = $base . 'meta=' . $slug . '&value=$matches[2]&paged=$matches[3]';
+			}
 
 			if ( $movie )
 				$new_rules[ $l10n_rules['movies'] . '/?$' ] = 'index.php?page_id=' . $movie;

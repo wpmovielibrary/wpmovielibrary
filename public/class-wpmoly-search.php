@@ -82,8 +82,11 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 				if ( 'interval' == $callback )
 					$arguments[0] = self::filter_interval( $arguments[0] );
 
-				$arguments    = array( $_name, $arguments[0], $strict );
-				$meta_query   = call_user_func_array( __CLASS__ . "::by_$callback", $arguments );
+				$args = array( $_name, $arguments[0], $strict );
+				$meta_query = call_user_func_array( __CLASS__ . "::by_$callback", $args );
+
+				if ( isset( $arguments[1] ) && 'sql' == $arguments[1] )
+					$meta_query = self::get_sql( $meta_query );
 
 				return $meta_query;
 			}
@@ -253,6 +256,25 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 				$param = call_user_func_array( $callback, array_merge( (array) $param[0], $callback_args ) );
 
 			return $param;
+		}
+
+		/**
+		 * Convert a Meta Query array to SQL.
+		 * 
+		 * @since    2.1
+		 * 
+		 * @param    array    $query Meta Query parameters
+		 * 
+		 * @return   string   SQL query part
+		 */
+		private static function get_sql( $query ) {
+
+			global $wpdb;
+
+			$meta_query = new WP_Meta_Query( $query );
+			$meta_query = $meta_query->get_sql( 'post', $wpdb->posts, 'ID' );
+
+			return $meta_query;
 		}
 
 	}

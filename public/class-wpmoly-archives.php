@@ -255,6 +255,9 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$number  = (int) get_query_var( 'number' );
 			$columns = (int) get_query_var( 'columns' );
 			$order   = get_query_var( 'order' );
+			$meta    = get_query_var( 'meta' );
+			$detail  = get_query_var( 'detail' );
+			$value   = get_query_var( 'value' );
 
 			if ( ! isset( $_GET['order'] ) || '' == $_GET['order'] )
 				$order = wpmoly_o( 'movie-archives-movies-order', $default = true );
@@ -274,7 +277,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				$grid_menu = WPMOLY_Movies::get_grid_menu( $args );
 			}
 
-			$args    = compact( 'number', 'paged', 'order', 'columns', 'letter' );
+			$args    = compact( 'number', 'paged', 'order', 'columns', 'letter', 'meta', 'detail', 'value' );
 			$grid    = WPMOLY_Movies::get_the_grid( $args );
 			$content = $grid_menu . $grid;
 
