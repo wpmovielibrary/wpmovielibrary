@@ -264,6 +264,17 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			return $rewrite;
 		}
 
+		/**
+		 * Filter a meta value to match a translation, if any.
+		 * 
+		 * @since    2.1.1
+		 * 
+		 * @param    string    $meta Meta type
+		 * @param    string    $key Meta key
+		 * @param    string    $value Meta value
+		 * 
+		 * @return   string    Un-rewrite meta value if any, original meta value else
+		 */
 		public static function filter_value_rewrites( $meta, $key, $value ) {
 
 			$rewrites = self::get_l10n_rewrite();
@@ -324,21 +335,32 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			return $permalink;
 		}
 
+		/**
+		 * Build Meta URL. Use an array of parameter to build a custom
+		 * URLs for meta queries.
+		 * 
+		 * @since    2.1.1
+		 * 
+		 * @param    array    $args URL parameters to use
+		 * 
+		 * @return   string    Custom URL
+		 */
 		public static function build_meta_permalink( $args ) {
 
 			global $wp_rewrite;
 			$rewrite = ( '' != $wp_rewrite->permalink_structure );
 
 			$defaults = array(
-				'number'  => null,//wpmoly_o( 'movie-archives-movies-per-page', $default = true ),
-				'columns' => null,//wpmoly_o( 'movie-archives-grid-columns', $default = true ),
-				'order'   => null,//wpmoly_o( 'movie-archives-movies-order', $default = true ),
-				'paged'   => null,//1,
+				'number'  => null,
+				'columns' => null,
+				'order'   => null,
+				'paged'   => null,
 				'meta'    => null,
 				'detail'  => null,
 				'value'   => null,
 				'letter'  => null
 			);
+
 			$args = wp_parse_args( $args, $defaults );
 			extract( $args );
 
