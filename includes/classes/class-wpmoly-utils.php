@@ -205,7 +205,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			$changed = delete_transient( 'wpmoly-permalinks-changed' );
 
-			$new_rules = self::generate_custom_permalinks();
+			$new_rules = self::generate_custom_rules();
 
 			if ( ! is_null( $rules ) )
 				return $new_rules + $rules;
@@ -222,9 +222,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 *
 		 * @return   array    $new_rules List of new to rules to add to the current rewrite rules.
 		 */
-		private static function generate_custom_permalinks() {
+		private static function generate_custom_rules() {
 
-			$new_rules  = array();
+			$new_rules = array();
 
 			WPMOLY_L10n::delete_l10n_rewrite();
 			WPMOLY_L10n::delete_l10n_rewrite_rules();
@@ -242,23 +242,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( $movie )
 				$base .= 'page_id=' . $movie . '&';
 
-			
-			$l10n_rules['meta'] = $l10n_rules['detail'] + $l10n_rules['meta'];
-
-			foreach ( $l10n_rules['meta'] as $slug => $meta ) {
-
-				$meta = apply_filters( 'wpmoly_filter_rewrites', $meta );
-
-				// Simple meta link
-				$regex = sprintf( '%s/(%s)/([^/]+)/?$', $l10n_rules['movies'], $meta );
-				$value = sprintf( '%smeta=%s&value=$matches[2]', $base, $slug );
-				$new_rules[ $regex ] = $value;
-
-				// Simple meta link
-				$regex = sprintf( '%s/(%s)/([^/]+)/(.*?)/?$', $l10n_rules['movies'], $meta );
-				$value = sprintf( '%smeta=%s&value=$matches[2]&sorting=$matches[3]', $base, $slug );
-				$new_rules[ $regex ] = $value;
-			}
+			$new_rules += self::generate_custom_meta_rules( 'meta', $l10n_rules['meta'], $l10n_rules['movies'], $base );
+			$new_rules += self::generate_custom_meta_rules( 'detail', $l10n_rules['detail'], $l10n_rules['movies'], $base );
 
 			if ( $movie )
 				$new_rules[ $l10n_rules['movies'] . '/?$' ] = 'index.php?page_id=' . $movie;
@@ -268,6 +253,28 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$new_rules[ $l10n_rules['genre'] . '/?$' ] = 'index.php?page_id=' . $genre;
 			if ( $actor )
 				$new_rules[ $l10n_rules['actor'] . '/?$' ] = 'index.php?page_id=' . $actor;
+
+			return $new_rules;
+		}
+
+		private static function generate_custom_meta_rules( $type, $data, $movies, $base ) {
+
+			$new_rules = array();
+
+			foreach ( $data as $slug => $meta ) {
+
+				$meta = apply_filters( 'wpmoly_filter_rewrites', $meta );
+
+				// Simple meta link
+				$regex = sprintf( '%s/(%s)/([^/]+)/?$', $movies, $meta );
+				$value = sprintf( '%s%s=%s&value=$matches[2]', $base, $type, $slug );
+				$new_rules[ $regex ] = $value;
+
+				// Simple meta link
+				$regex = sprintf( '%s/(%s)/([^/]+)/(.*?)/?$', $movies, $meta );
+				$value = sprintf( '%s%s=%s&value=$matches[2]&sorting=$matches[3]', $base, $type, $slug );
+				$new_rules[ $regex ] = $value;
+			}
 
 			return $new_rules;
 		}

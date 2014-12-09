@@ -322,8 +322,8 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				$meta_value = self::filter_rewrites( __( ucwords( $value ), 'wpmovielibrary' ) );
 
 			$args = array();
-			$args[ $type ] = $meta_key;
-			$args['value'] = $meta_value;
+			$args[ $type ] = $key;
+			$args['value'] = $value;
 
 			$url = self::build_meta_permalink( $args );
 
@@ -369,13 +369,14 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			}
 			else if ( '' != $detail && '' != $value ) {
 				$type = 'detail';
-				$meta = $meta;
+				$meta = $detail;
 			}
 
 			$l10n_rewrite = self::get_l10n_rewrite();
 			$meta = $l10n_rewrite[ $type ][ $meta ];
+			$value = self::filter_rewrites( __( ucwords( $value ), 'wpmovielibrary' ) );
 
-			$value = sanitize_title( $value );
+			//$value = sanitize_title( $value );
 
 			if ( $rewrite ) {
 

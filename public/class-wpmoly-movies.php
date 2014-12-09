@@ -824,10 +824,15 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$join = array();
 			if ( '' != $value && '' != $meta ) {
 
-				if ( 'production' == $meta )
-					$meta = 'production_companies';
+				// Languages and countries meta are special
+				if ( 'spoken_languages' == $meta )
+					$_type = 'languages';
+				else if ( 'production_countries' == $meta )
+					$_type = 'countries';
+				else
+					$_type = $meta;
 
-				$value = apply_filters( 'wpmoly_filter_value_rewrites', $type, $meta, $value );
+				$value = apply_filters( 'wpmoly_filter_value_rewrites', $_type, $meta, $value );
 				$meta_query = call_user_func( "WPMOLY_Search::by_$meta", $value, 'sql' );
 
 				$join[]  = $meta_query['join'];
