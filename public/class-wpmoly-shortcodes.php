@@ -320,7 +320,7 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 		}
 
 		/**
-		 * Movie Runtime shortcode. This shortcode supports aliases.
+		 * Movie Release date shortcode. This shortcode supports aliases.
 		 *
 		 * @since    1.2
 		 * 
@@ -357,6 +357,53 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 				$attributes = array( 'meta' => $release_date );
 				if ( $label ) {
 					$attributes['title'] = __( 'Release Date', 'wpmovielibrary' );
+					$view = 'shortcodes/metadata-label.php';
+				}
+
+				$content = WPMovieLibrary::render_template( $view, $attributes, $require = 'always' );
+
+				return $content;
+
+			}, $echo = false );
+
+			return $content;
+		}
+
+		/**
+		 * Movie Local Release date shortcode. This shortcode does not
+		 * support aliases.
+		 *
+		 * @since    2.1.1
+		 * 
+		 * @param    array     Shortcode attributes
+		 * @param    string    Shortcode content
+		 * @param    string    Shortcode tag name
+		 * 
+		 * @return   string    Shortcode display
+		 */
+		public static function movie_local_release_date_shortcode( $atts = array(), $content = null, $tag = null ) {
+
+			$atts = self::filter_shortcode_atts( 'movie_local_release_date', $atts );
+
+			$movie_id = WPMOLY_Shortcodes::find_movie_id( $atts['id'], $atts['title'] );
+			if ( is_null( $movie_id ) )
+				return $content;
+
+			$atts['movie_id'] = $movie_id;
+
+			// Caching
+			$name = apply_filters( 'wpmoly_cache_name', 'movie_local_release_date_shortcode', $atts );
+			$content = WPMOLY_Cache::output( $name, function() use ( $atts, $content ) {
+
+				extract( $atts );
+
+				$release_date = wpmoly_get_movie_meta( $movie_id, 'local_release_date' );
+				$release_date = apply_filters( "wpmoly_format_movie_release_date", $release_date, $format );
+
+				$view = 'shortcodes/metadata.php';
+				$attributes = array( 'meta' => $release_date );
+				if ( $label ) {
+					$attributes['title'] = __( 'Local Release Date', 'wpmovielibrary' );
 					$view = 'shortcodes/metadata-label.php';
 				}
 
