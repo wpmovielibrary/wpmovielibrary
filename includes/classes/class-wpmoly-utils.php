@@ -251,12 +251,12 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 				// Simple meta link
 				$regex = sprintf( '%s/(%s)/([^/]+)/?$', $l10n_rules['movies'], $meta );
-				$value = sprintf( '%sdetail=%s&value=$matches[2]', $base, $slug );
+				$value = sprintf( '%smeta=%s&value=$matches[2]', $base, $slug );
 				$new_rules[ $regex ] = $value;
 
 				// Simple meta link
 				$regex = sprintf( '%s/(%s)/([^/]+)/(.*?)/?$', $l10n_rules['movies'], $meta );
-				$value = sprintf( '%sdetail=%s&value=$matches[2]&sorting=$matches[3]', $base, $slug );
+				$value = sprintf( '%smeta=%s&value=$matches[2]&sorting=$matches[3]', $base, $slug );
 				$new_rules[ $regex ] = $value;
 			}
 

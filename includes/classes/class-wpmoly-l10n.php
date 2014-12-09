@@ -364,13 +364,16 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			$args = wp_parse_args( $args, $defaults );
 			extract( $args );
 
-			// Languages and countries meta are special
-			if ( 'spoken_languages' == $meta )
-				$meta = 'languages';
-			else if ( 'production_countries' == $meta )
-				$meta = 'countries';
-			else if ( 'production_companies' == $meta )
-				$meta = 'production';
+			if ( '' != $meta && '' != $value ) {
+				$type = 'meta';
+			}
+			else if ( '' != $detail && '' != $value ) {
+				$type = 'detail';
+				$meta = $meta;
+			}
+
+			$l10n_rewrite = self::get_l10n_rewrite();
+			$meta = $l10n_rewrite[ $type ][ $meta ];
 
 			$value = sanitize_title( $value );
 
@@ -383,10 +386,6 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				$url = array( $movies );
 				if ( '' != $meta && '' != $value ) {
 					$url[] = $meta;
-					$url[] = $value;
-				}
-				elseif ( '' != $detail && '' != $value ) {
-					$url[] = $detail;
 					$url[] = $value;
 				}
 
@@ -415,11 +414,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				$url = array();
 
 				if ( '' != $meta && '' != $value ) {
-					$url['meta'] = $meta;
-					$url['value'] = $value;
-				}
-				else if ( '' != $detail && '' != $value ) {
-					$url['detail'] = $detail;
+					$url[ $type ] = $meta;
 					$url['value'] = $value;
 				}
 
