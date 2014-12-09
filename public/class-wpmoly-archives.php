@@ -253,30 +253,13 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$has_menu = wpmoly_o( 'movie-archives-menu', $default = true );
 			$editable = wpmoly_o( 'movie-archives-frontend-edit', $default = true );
 
-			$letter  = get_query_var( 'letter' );
-			$paged   = (int) get_query_var( '_page' );
-			$number  = (int) get_query_var( 'number' );
-			$columns = (int) get_query_var( 'columns' );
-			$order   = get_query_var( 'order' );
-			$meta    = get_query_var( 'meta' );
-			$detail  = get_query_var( 'detail' );
-			$value   = get_query_var( 'value' );
-
-			if ( ! isset( $_GET['order'] ) || '' == $_GET['order'] )
-				$order = wpmoly_o( 'movie-archives-movies-order', $default = true );
-
-			if ( 'DESC' != $order )
-				$order = 'ASC';
-
-			if ( ! $number )
-				$number = wpmoly_o( 'movie-archives-movies-per-page', $default = true );
-
-			if ( ! $columns )
-				$columns = wpmoly_o( 'movie-archives-grid-columns', $default = true );
+			global $wp_query;
+			$params = self::parse_query_vars( $wp_query->query );
+			extract( $params );
 
 			$grid_menu = '';
 			if ( $has_menu ) {
-				$args = compact( 'columns', 'number', 'order', 'editable' );
+				$args = compact( 'columns', 'number', 'order', 'editable', 'letter' );
 				$grid_menu = WPMOLY_Movies::get_grid_menu( $args );
 			}
 
@@ -561,6 +544,70 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$has_pages = ! in_array( 0, $archives );
 
 			return $has_pages;
+		}
+
+		public static function parse_query_vars( $vars ) {
+
+			$defaults = array(
+				'letter'  => '',
+				'paged'   => 1,
+				'number'  => wpmoly_o( 'movie-archives-movies-per-page', $default = true ),
+				'columns' => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
+				'order'   => wpmoly_o( 'movie-archives-movies-order', $default = true ),
+				'meta'    => null,
+				'detail'  => null,
+				'value'   => null
+			);
+			$params = array(
+				'meta'    => get_query_var( 'meta' ),
+				'detail'  => get_query_var( 'detail' ),
+				'value'   => get_query_var( 'value' )
+			);
+
+			// I can haz sortingz!
+			if ( isset( $vars['sorting'] ) && '' != $vars['sorting'] ) {
+
+				$sorting = '/' . $vars['sorting'];
+				$regex = array(
+					'letter' => '(\/([0-9A-Za-z]{1}))\/',
+					'number' => '(([0-9]{1,})\:([0-9]{1,}))\/?',
+					'order'  => '(asc|desc|ASC|DESC)\/?',
+					'paged'  => '(page\/([0-9]{1,}))\/?'
+				);
+
+				// Has letter?
+				$preg = preg_match( "/{$regex['letter']}/", $sorting, $matches );
+				if ( $preg && isset( $matches[2] ) && '' != $matches[2] ) {
+					$params['letter'] = $matches[2];
+				}
+
+				// Has number/columns?
+				$preg = preg_match( "/{$regex['number']}/", $sorting, $matches );
+				if ( $preg ) {
+					if ( $preg && isset( $matches[2] ) && '' != $matches[2] ) {
+						$params['columns'] = $matches[2];
+					}
+					if ( $preg && isset( $matches[3] ) && '' != $matches[3] ) {
+						$params['number'] = $matches[3];
+					}
+				}
+
+				// Has sorting?
+				$preg = preg_match( "/{$regex['order']}/", $sorting, $matches );
+				if ( $preg && isset( $matches[1] ) && '' != $matches[1] ) {
+					$params['order'] = strtoupper( $matches[1] );
+				}
+
+				// Has pagination?
+				$preg = preg_match( "/{$regex['paged']}/", $sorting, $matches );
+				if ( $preg ) {
+					$params['paged'] = $matches[2];
+				}
+			}
+
+			$params = wp_parse_args( $params, $defaults );
+
+			return $params;
 		}
 
 		/**

@@ -242,18 +242,22 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( $movie )
 				$base .= 'page_id=' . $movie . '&';
 
-			foreach ( $l10n_rules['detail'] as $slug => $detail ) {
-
-				$_detail = apply_filters( 'wpmoly_filter_rewrites', $detail );
-				$new_rules[ $l10n_rules['movies'] . '/(' . $_detail . ')/([^/]+)/?$' ] = $base . 'detail=' . $slug . '&value=$matches[2]';
-				$new_rules[ $l10n_rules['movies'] . '/(' . $_detail . ')/([^/]+)/page/?([0-9]{1,})/?$' ] = $base . 'detail=' . $slug . '&value=$matches[2]&paged=$matches[3]';
-			}
+			
+			$l10n_rules['meta'] = $l10n_rules['detail'] + $l10n_rules['meta'];
 
 			foreach ( $l10n_rules['meta'] as $slug => $meta ) {
 
-				$_meta = apply_filters( 'wpmoly_filter_rewrites', $meta );
-				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/?$' ] = $base . 'meta=' . $slug . '&value=$matches[2]';
-				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/page/?([0-9]{1,})/?$' ] = $base . 'meta=' . $slug . '&value=$matches[2]&paged=$matches[3]';
+				$meta = apply_filters( 'wpmoly_filter_rewrites', $meta );
+
+				// Simple meta link
+				$regex = sprintf( '%s/(%s)/([^/]+)/?$', $l10n_rules['movies'], $meta );
+				$value = sprintf( '%sdetail=%s&value=$matches[2]', $base, $slug );
+				$new_rules[ $regex ] = $value;
+
+				// Simple meta link
+				$regex = sprintf( '%s/(%s)/([^/]+)/(.*?)/?$', $l10n_rules['movies'], $meta );
+				$value = sprintf( '%sdetail=%s&value=$matches[2]&sorting=$matches[3]', $base, $slug );
+				$new_rules[ $regex ] = $value;
 			}
 
 			if ( $movie )

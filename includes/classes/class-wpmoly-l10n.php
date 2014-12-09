@@ -300,9 +300,6 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				$format = 'html';
 
 			$l10n_rewrite = self::get_l10n_rewrite();
-			$movies = wpmoly_o( 'rewrite-movie' );
-			if ( ! $movies )
-				$movies = 'movies';
 
 			if ( ! $l10n_rewrite[ $type ][ $key ] )
 				return $value;
@@ -313,12 +310,11 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			else
 				$meta_value = self::filter_rewrites( __( ucwords( $value ), 'wpmovielibrary' ) );
 
-			global $wp_rewrite;
-			$url = '';
-			if ( '' != $wp_rewrite->permalink_structure )
-				$url = home_url( "/{$movies}/{$meta_key}/{$meta_value}/" );
-			else
-				$url = home_url( "/index.php?post_type=movie&amp;${type}={$meta_key}&amp;value={$meta_value}" );
+			$args = array();
+			$args[ $type ] = $meta_key;
+			$args['value'] = $meta_value;
+
+			$url = self::build_meta_permalink( $args );
 
 			if ( 'raw' == $format )
 				return $url;
@@ -326,6 +322,104 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			$permalink = sprintf( '<a href="%1$s" title="%2$s">%2$s</a>', $url, $value );
 
 			return $permalink;
+		}
+
+		public static function build_meta_permalink( $args ) {
+
+			global $wp_rewrite;
+			$rewrite = ( '' != $wp_rewrite->permalink_structure );
+
+			$defaults = array(
+				'number'  => null,//wpmoly_o( 'movie-archives-movies-per-page', $default = true ),
+				'columns' => null,//wpmoly_o( 'movie-archives-grid-columns', $default = true ),
+				'order'   => null,//wpmoly_o( 'movie-archives-movies-order', $default = true ),
+				'paged'   => null,//1,
+				'meta'    => null,
+				'detail'  => null,
+				'value'   => null,
+				'letter'  => null
+			);
+			$args = wp_parse_args( $args, $defaults );
+			extract( $args );
+
+			// Languages and countries meta are special
+			if ( 'spoken_languages' == $meta )
+				$meta = 'languages';
+			else if ( 'production_countries' == $meta )
+				$meta = 'countries';
+			else if ( 'production_companies' == $meta )
+				$meta = 'production';
+
+			$value = sanitize_title( $value );
+
+			if ( $rewrite ) {
+
+				$movies = wpmoly_o( 'rewrite-movie' );
+				if ( ! $movies )
+					$movies = 'movies';
+
+				$url = array( $movies );
+				if ( '' != $meta && '' != $value ) {
+					$url[] = $meta;
+					$url[] = $value;
+				}
+				elseif ( '' != $detail && '' != $value ) {
+					$url[] = $detail;
+					$url[] = $value;
+				}
+
+				if ( '' != $letter )
+					$url[] = $letter;
+
+				if ( '' != $columns && '' != $number )
+					$url[] = "$columns:$number";
+
+				if ( '' != $order )
+					$url[] = $order;
+
+				if ( 1 < $paged )
+					$url[] = "page/$paged";
+
+				$url = implode( '/', $url );
+				$url = home_url( $url );
+			}
+			else {
+
+				$movie = intval( wpmoly_o( 'movie-archives' ) );
+				$base  = 'index.php?';
+				if ( $movie )
+					$base .= 'page_id=' . $movie . '&';
+
+				$url = array();
+
+				if ( '' != $meta && '' != $value ) {
+					$url['meta'] = $meta;
+					$url['value'] = $value;
+				}
+				else if ( '' != $detail && '' != $value ) {
+					$url['detail'] = $detail;
+					$url['value'] = $value;
+				}
+
+				if ( '' != $letter )
+					$url['letter'] = $letter;
+
+				if ( '' != $columns )
+					$url['columns'] = $columns;
+
+				if ( '' != $number )
+					$url['number'] = $number;
+
+				if ( '' != $order )
+					$url['order'] = $order;
+
+				if ( 1 < $paged )
+					$url['page'] = $paged;
+
+				$url = add_query_arg( $url, home_url( "/${base}" ) );
+			}
+
+			return $url;
 		}
 
 		/**
