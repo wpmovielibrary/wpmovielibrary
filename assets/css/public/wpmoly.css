@@ -28,33 +28,6 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-/*.wpmolicon.icon-cinema:before,
-.wpmolicon.icon-unavailable:before,
-.wpmolicon.icon-sd:before,
-.wpmolicon.icon-hd:before,
-.wpmolicon.icon-3d:before {
-	font-size: 24px;
-	left: -6px;
-	position: relative;
-	top: -6px;
-}
-
-.wpmolicon.icon-actor:before {
-	font-size: 28px;
-	height: 28px;
-	left: -4px;
-	line-height: 28px;
-	position: relative;
-	top: -4px;
-}*/
-
-/*.wpmolicon.icon-resize-enlarge:before,
-.wpmolicon.icon-resize-shrink:before {
-	font-size: 18px;
-	position: relative;
-	top: 1px;
-}*/
-
 .wpmolicon.icon-available:before {
 	content: "\e663";
 }
@@ -256,6 +229,7 @@
 }
 
 #wpmoly-movie-grid-menu-item-count input {
+	display: inline-block;
 	max-height: 24px;
 	padding: 0px;
 	text-align: center;

@@ -81,8 +81,15 @@
 				search = search.replace(/rows=[0-9]{1,}/i, 'rows=' + rows );
 				document.location.search = search;
 			}
-			else {
+			else if ( ( new RegExp(/\/[0-9]{1,}\:[0-9]{1,}/i) ).test( url ) ) {
 				url = url.replace(/\/[0-9]{1,}\:[0-9]{1,}/i, '/' + columns + ':' + rows );
+				document.location.href = url;
+			}
+			else {
+				if ( -1 === url.indexOf( wpmoly.lang.grid ) )
+					url = wpmoly.lang.grid + '/' + columns + ':' + rows + '/';
+				else
+					url = columns + ':' + rows + '/';
 				document.location.href = url;
 			}
 		};

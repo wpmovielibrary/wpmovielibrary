@@ -188,6 +188,14 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		public function enqueue_scripts() {
 
 			wp_enqueue_script( WPMOLY_SLUG, WPMOLY_URL . '/assets/js/public/wpmoly.js', array( 'jquery' ), WPMOLY_VERSION, true );
+			wp_localize_script(
+				WPMOLY_SLUG, 'wpmoly',
+				array(
+					'lang' => array(
+						'grid' => __( 'grid', 'wpmovielibrary' )
+					)
+				)
+			);
 		}
 
 		/**
