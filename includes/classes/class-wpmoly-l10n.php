@@ -367,8 +367,8 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			$rewrite = ( '' != $wp_rewrite->permalink_structure );
 
 			$defaults = array(
-				'number'  => null,
 				'columns' => null,
+				'rows'    => null,
 				'order'   => null,
 				'paged'   => null,
 				'meta'    => null,
@@ -435,17 +435,27 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				$url[] = $value;
 			}
 
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
+				$grid = __( 'grid', 'wpmovielibrary' );
+			else
+				$grid = 'grid';
+
+			$url[] = $grid;
+
 			if ( '' != $letter )
 				$url[] = $letter;
 
-			if ( '' != $columns && '' != $number )
-				$url[] = "$columns:$number";
+			if ( '' != $columns && '' != $rows )
+				$url[] = "$columns:$rows";
 
 			if ( '' != $order )
 				$url[] = $order;
 
 			if ( 1 < $paged )
 				$url[] = "page/$paged";
+
+			if ( $grid == end( $url ) )
+				$grid = array_pop( $url );
 
 			$url = implode( '/', $url );
 			$url = home_url( $url );

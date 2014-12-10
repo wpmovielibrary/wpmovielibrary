@@ -695,9 +695,21 @@ $wpmoly_config = array(
 				'desc'     => __( 'How many columns should the movie grid have.', 'wpmovielibrary' ),
 				'min'      => 1,
 				'step'     => 1,
-				'max'      => 6,
+				'max'      => 8,
 				'display_value' => 'text',
 				'default'  => 4
+			),
+
+			'grid-rows' => array(
+				'id'       => 'wpmoly-movie-archives-grid-rows',
+				'type'     => 'slider',
+				'title'    => __( 'Grid Rows', 'wpmovielibrary' ),
+				'desc'     => __( 'How many rows should the movie grid have.', 'wpmovielibrary' ),
+				'min'      => 1,
+				'step'     => 1,
+				'max'      => 12,
+				'display_value' => 'text',
+				'default'  => 6
 			),
 
 			'movies-order' => array(
@@ -710,15 +722,6 @@ $wpmoly_config = array(
 					'DESC' => __( 'Descending' ),
 				),
 				'default'  => 'ASC'
-			),
-
-			'movies-per-page' => array(
-				'id'       => 'wpmoly-movie-archives-movies-per-page',
-				'type'     => 'text',
-				'title'    => __( 'Movies per page', 'wpmovielibrary' ),
-				'desc'     => __( 'How many movies should be listed per archive page.', 'wpmovielibrary' ),
-				'validate' => 'numeric',
-				'default'  => 50
 			),
 
 			'movies-limit' => array(

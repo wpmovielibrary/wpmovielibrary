@@ -58,6 +58,17 @@
 			});
 		};
 
+		wpmoly.grid_edit = function() {
+
+			var number = $( "#wpmoly-grid-columns" ).val(),
+			   columns = $( "#wpmoly-movies-per-page" ).val()
+			   columns = parseInt( columns ),
+			    number = number * columns
+			       url = document.location.href;
+
+			console.log( columns, number );
+		};
+
 		wpmoly.init();
 	
 })(jQuery);

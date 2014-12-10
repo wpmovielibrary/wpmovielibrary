@@ -69,19 +69,6 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			// Pass meta through URLs
 			add_filter( 'query_vars', __CLASS__ . '::movies_query_vars', 10, 1 );
-
-			// debug
-			//add_filter( 'posts_request', __CLASS__ . '::posts_request', 10, 2 );
-		}
-
-		/**
-		 * Debug
-		 *
-		 * @since    2.0
-		 */
-		public static function posts_request( $request, $wp_query ) {
-			var_dump( $request );
-			return $request;
 		}
 
 		/**
@@ -694,7 +681,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$defaults = array(
 				'order'    => wpmoly_o( 'movie-archives-movies-order', $default = true ),
 				'columns'  => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
-				'number'   => wpmoly_o( 'movie-archives-movies-per-page', $default = true ),
+				'rows'     => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
 				'editable' => wpmoly_o( 'movie-archives-frontend-edit', $default = true ),
 				'meta'     => '',
 				'detail'   => '',
@@ -717,22 +704,24 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			foreach ( $result as $r )
 				$letters[] = $r->letter;
 
-			$attributes = compact( 'letters', 'default', 'letter', 'order', 'number', 'columns', 'meta', 'detail', 'value', 'editable' );
+			$limit = wpmoly_o( 'movie-archives-movies-limit' );
+
+			$attributes = compact( 'letters', 'default', 'letter', 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'editable', 'limit' );
 
 			$urls = array();
 			$l10n = false;
 			$_letter = $letter;
 			$letter = '{letter}';
-			$urls['letter'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'number', 'meta', 'detail', 'value', 'letter', 'l10n' ) );
+			$urls['letter'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'letter', 'l10n' ) );
 			$letter = $_letter;
 
-			$urls['all'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'number', 'meta', 'detail', 'value', 'l10n' ) );
+			$urls['all'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n' ) );
 
 			$order = 'ASC';
-			$urls['asc'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'number', 'meta', 'detail', 'value', 'letter', 'l10n' ) );
+			$urls['asc'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'letter', 'l10n' ) );
 
 			$order = 'DESC';
-			$urls['desc'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'number', 'meta', 'detail', 'value', 'letter', 'l10n' ) );
+			$urls['desc'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'letter', 'l10n' ) );
 
 			$attributes['urls'] = $urls;
 
@@ -758,8 +747,8 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			global $wpdb;
 
 			$defaults = array(
-				'number'   => wpmoly_o( 'movie-archives-movies-per-page', $default = true ),
 				'columns'  => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
+				'rows'     => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
 				'paged'    => 1,
 				'meta'     => null,
 				'detail'   => null,
@@ -774,7 +763,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			// Allow URL params to override Shortcode settings
 			if ( ! empty( $_GET ) ) {
-				$vars = array( 'number', 'columns', 'letter', 'order', 'meta', 'detail', 'value' );
+				$vars = array( 'columns', 'rows', 'letter', 'order', 'meta', 'detail', 'value' );
 				foreach ( $vars as $var )
 					$args[ $var ] = get_query_var( $var, $args[ $var ] );
 			}
@@ -791,13 +780,13 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			if ( -1 == $number )
 				$number = $limit;
 
-			$number = min( $number, $limit );
-			if ( ! $number )
-				$number = wpmoly_o( 'movie-archives-movies-per-page', $default = true );
-
 			$columns = min( $columns, 8 );
 			if ( 0 > $columns )
 				$columns = wpmoly_o( 'movie-archives-grid-columns', $default = true );
+
+			$rows = min( $rows, 12 );
+			if ( 0 > $rows )
+				$rows = wpmoly_o( 'movie-archives-grid-rows', $default = true );
 
 			// Calculate offset
 			$offset = 0;
@@ -811,6 +800,10 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			else {
 				$type = 'meta';
 			}
+
+			$_number = $columns * $rows;
+			if ( $_number != $number )
+				$number = $_number;
 
 			// Don't use LIMIT with weird values
 			$limit = "LIMIT 0,$number";
@@ -850,7 +843,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$args = array(
 				'order'   => $order,
 				'columns' => $columns,
-				'number'  => $number,
+				'rows'    => $rows,
 				'letter'  => $letter,
 				'value'   => $value,
 				$type     => $meta,

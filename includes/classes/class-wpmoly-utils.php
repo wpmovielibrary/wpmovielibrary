@@ -242,11 +242,17 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( $movie )
 				$base .= 'page_id=' . $movie . '&';
 
+			$grid = 'grid';
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
+				$grid = __( 'grid', 'wpmovielibrary' );
+
 			$new_rules += self::generate_custom_meta_rules( 'meta', $l10n_rules['meta'], $l10n_rules['movies'], $base );
 			$new_rules += self::generate_custom_meta_rules( 'detail', $l10n_rules['detail'], $l10n_rules['movies'], $base );
 
-			if ( $movie )
+			if ( $movie ) {
 				$new_rules[ $l10n_rules['movies'] . '/?$' ] = 'index.php?page_id=' . $movie;
+				$new_rules[ $l10n_rules['movies'] . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $movie . '&sorting=$matches[1]';
+			}
 			if ( $collection )
 				$new_rules[ $l10n_rules['collection'] . '/?$' ] = 'index.php?page_id=' . $collection;
 			if ( $genre )
@@ -260,18 +266,21 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		private static function generate_custom_meta_rules( $type, $data, $movies, $base ) {
 
 			$new_rules = array();
+			$grid = 'grid';
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
+				$grid = __( 'grid', 'wpmovielibrary' );
 
 			foreach ( $data as $slug => $meta ) {
 
 				$meta = apply_filters( 'wpmoly_filter_rewrites', $meta );
 
 				// Simple meta link
-				$regex = sprintf( '%s/(%s)/([^/]+)/?$', $movies, $meta );
+				$regex = sprintf( '%s/(%s)/([^/]+)(/%s)?/?$', $movies, $meta, $grid );
 				$value = sprintf( '%s%s=%s&value=$matches[2]', $base, $type, $slug );
 				$new_rules[ $regex ] = $value;
 
 				// Simple meta link
-				$regex = sprintf( '%s/(%s)/([^/]+)/(.*?)/?$', $movies, $meta );
+				$regex = sprintf( '%s/(%s)/([^/]+)/%s/(.*?)/?$', $movies, $meta, $grid );
 				$value = sprintf( '%s%s=%s&value=$matches[2]&sorting=$matches[3]', $base, $type, $slug );
 				$new_rules[ $regex ] = $value;
 			}
