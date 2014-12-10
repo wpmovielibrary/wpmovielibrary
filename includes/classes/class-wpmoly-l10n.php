@@ -278,9 +278,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 
 		public static function translate_value( $type, $meta, $value ) {
 
-			if ( 'rating' == $meta )
-				$value = number_format( $value, 1, '.', '' );
-			else
+			if ( 'rating' != $meta )
 				$value = self::filter_rewrites( __( ucwords( $value ), 'wpmovielibrary' ) );
 
 			return $value;
@@ -398,7 +396,8 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			}
 
 			unset( $args['l10n'] );
-			$args['value'] = sanitize_title( $args['value'] );
+			if ( 'rating' != $args['meta'] )
+				$args['value'] = sanitize_title( $args['value'] );
 
 			$url = '';
 			if ( $rewrite )
