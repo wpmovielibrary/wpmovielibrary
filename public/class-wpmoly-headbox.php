@@ -314,6 +314,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 				foreach ( $detail as $i => $d ) {
 					if ( '' != $d )
 						$d = $default_fields[ $slug ]['options'][ $d ];
+					$d = apply_filters( "wpmoly_movie_meta_link", $slug, $d, 'detail' );
 					$detail[ $i ] = apply_filters( "wpmoly_format_movie_field", $d );
 				}
 
