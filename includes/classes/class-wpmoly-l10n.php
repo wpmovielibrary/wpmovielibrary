@@ -364,6 +364,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			$args = wp_parse_args( $args, $defaults );
 			extract( $args );
 
+			$type = '';
 			if ( '' != $meta && '' != $value ) {
 				$type = 'meta';
 			}
@@ -372,11 +373,13 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				$meta = $detail;
 			}
 
-			$l10n_rewrite = self::get_l10n_rewrite();
-			$meta = $l10n_rewrite[ $type ][ $meta ];
-			$value = self::filter_rewrites( __( ucwords( $value ), 'wpmovielibrary' ) );
+			if ( '' != $type ) {
+				$l10n_rewrite = self::get_l10n_rewrite();
+				$meta = $l10n_rewrite[ $type ][ $meta ];
+				$value = self::filter_rewrites( __( ucwords( $value ), 'wpmovielibrary' ) );
+			}
 
-			//$value = sanitize_title( $value );
+			$value = sanitize_title( $value );
 
 			if ( $rewrite ) {
 
@@ -414,7 +417,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 
 				$url = array();
 
-				if ( '' != $meta && '' != $value ) {
+				if ( '' != $type && '' != $meta && '' != $value ) {
 					$url[ $type ] = $meta;
 					$url['value'] = $value;
 				}

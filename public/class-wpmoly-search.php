@@ -100,17 +100,21 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 		 * 
 		 * @since    2.1
 		 * 
-		 * @param    string    $date Date to look for
+		 * @param    string     $date Date to look for
+		 * @param    boolean    $format Whether to return an SQL Query part of simple Meta Query Array
 		 * 
-		 * @return   array     Meta_query parameter for WP_Query
+		 * @return   array      Meta_query parameter for WP_Query
 		 */
-		public static function by_release_date( $date ) {
+		public static function by_release_date( $date, $format = 'array' ) {
 
 			if ( 4 == strlen( $date ) )
-				return self::by_year( $date );
+				return self::by_year( $date, $format );
 
 			$value = self::filter_interval( $date );
 			$meta_query = self::by_interval( 'release_date', $value, $strict = true );
+
+			if ( 'sql' === $format )
+				$meta_query = self::get_sql( $meta_query );
 
 			return $meta_query;
 		}
@@ -120,13 +124,17 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 		 * 
 		 * @since    2.1
 		 * 
-		 * @param    string    $value Year to match
+		 * @param    string     $value Year to match
+		 * @param    boolean    $format Whether to return an SQL Query part of simple Meta Query Array
 		 * 
-		 * @return   array     Meta_query parameter for WP_Query
+		 * @return   array      Meta_query parameter for WP_Query
 		 */
-		public static function by_year( $value ) {
+		public static function by_year( $value, $format = 'array' ) {
 
 			$meta_query = self::by_interval( 'release_date', $value, $strict = false );
+
+			if ( 'sql' === $format )
+				$meta_query = self::get_sql( $meta_query );
 
 			return $meta_query;
 		}
@@ -136,14 +144,18 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 		 * 
 		 * @since    2.1
 		 * 
-		 * @param    string    $rating Rating to match
+		 * @param    string     $rating Rating to match
+		 * @param    boolean    $format Whether to return an SQL Query part of simple Meta Query Array
 		 * 
-		 * @return   array     Meta_query parameter for WP_Query
+		 * @return   array      Meta_query parameter for WP_Query
 		 */
-		public static function by_rating( $rating ) {
+		public static function by_rating( $rating, $format = 'array' ) {
 
 			$value = self::filter_interval( $rating, 'number_format', array( 1, '.', '' ) );
 			$meta_query = self::by_interval( 'rating', $value, $strict = true );
+
+			if ( 'sql' === $format )
+				$meta_query = self::get_sql( $meta_query );
 
 			return $meta_query;
 		}
