@@ -12,7 +12,7 @@ foreach ( $default as $l ) :
 					<li id="wpmoly-movie-grid-menu-item-all" class="wpmoly movies grid menu list item<?php if ( 'all' == $current ) echo ' active'; ?>"><a href="<?php echo  $urls['all']; ?>"><?php _e( 'All', 'wpmovielibrary' ) ?></a></li>
 				</ul>
 
-				<form action="">
+				<form id="wpmoly-grid-form" action="">
 					<input type="submit" value="" style="display:none" />
 					<ul id="wpmoly-movie-grid-menu-2" class="wpmoly movies grid menu list">
 						<li id="wpmoly-movie-grid-menu-item-alpha-asc" class="wpmoly movies grid menu list item<?php if ( 'ASC' == $order ) echo ' active'; ?>"><a href="<?php echo str_replace( array( 'DESC', 'desc' ), 'ASC', $urls['asc'] ) ?>" title="<?php _e( 'List ascendingly', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-sort-alpha-asc"></span></a></li>
@@ -20,7 +20,7 @@ foreach ( $default as $l ) :
  <?php if ( '1' == $editable ) : ?>
 						<li id="wpmoly-movie-grid-menu-item-count" class="wpmoly movies grid menu list item hide-if-no-js">
 							<span class="wpmolicon icon-grid"></span>
-							<input type="text" id="wpmoly-grid-columns" size="2" value="<?php echo $columns; ?>" />&nbsp;x&nbsp;<input type="text" id="wpmoly-grid-rows" size="2" value="<?php echo $rows; ?>" />
+							<input type="text" name="columns" id="wpmoly-grid-columns" size="2" value="<?php echo $columns; ?>" />&nbsp;x&nbsp;<input type="text" name="rows" id="wpmoly-grid-rows" size="2" value="<?php echo $rows; ?>" />
 						</li>
 
 <?php endif; ?>

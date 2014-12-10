@@ -5,13 +5,22 @@
 
 		wpmoly.init = function() {
 
-			$( '.wpmoly.list' ).change(function() {
+			$( 'select.wpmoly.list' ).change(function() {
 				if ( this.options[ this.selectedIndex ].value.length > 0 )
 					location.href = this.options[ this.selectedIndex ].value;
 			});
 
 			if ( undefined != $( '#wpmoly-movie-grid > .movie' ) )
 				wpmoly.grid_resize();
+
+			$( "#wpmoly-grid-form" ).on( 'submit', function(e) {
+				e.preventDefault();
+				wpmoly.grid_edit();
+			});
+
+			$( "#wpmoly-grid-rows, #wpmoly-grid-columns" ).on( 'change', function() {
+				wpmoly.grid_edit();
+			});
 
 			$( '.hide-if-js' ).hide();
 			$( '.hide-if-no-js' ).removeClass( 'hide-if-no-js' );
@@ -60,13 +69,22 @@
 
 		wpmoly.grid_edit = function() {
 
-			var number = $( "#wpmoly-grid-columns" ).val(),
-			   columns = $( "#wpmoly-movies-per-page" ).val()
-			   columns = parseInt( columns ),
-			    number = number * columns
-			       url = document.location.href;
+			var rows = $( "#wpmoly-grid-rows" ).val(),
+			 columns = $( "#wpmoly-grid-columns" ).val(),
+			 columns = parseInt( columns ),
+			    rows = parseInt( rows ),
+			     url = document.location.href,
+			  search = document.location.search;
 
-			console.log( columns, number );
+			if ( '' != search ) {
+				search = search.replace(/columns=[0-9]{1,}/i, 'columns=' + columns );
+				search = search.replace(/rows=[0-9]{1,}/i, 'rows=' + rows );
+				document.location.search = search;
+			}
+			else {
+				url = url.replace(/\/[0-9]{1,}\:[0-9]{1,}/i, '/' + columns + ':' + rows );
+				document.location.href = url;
+			}
 		};
 
 		wpmoly.init();

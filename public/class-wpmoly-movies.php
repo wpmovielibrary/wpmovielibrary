@@ -409,6 +409,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$q_var[] = 'letter';
 			$q_var[] = 'number';
 			$q_var[] = 'columns';
+			$q_var[] = 'rows';
 			$q_var[] = '_page';
 			$q_var[] = 'sorting';
 			return $q_var;
@@ -691,7 +692,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$args = wp_parse_args( $args, $defaults );
 
 			// Allow URL params to override settings
-			$vars = array( 'meta', 'detail', 'value' );
+			$vars = array( 'meta', 'detail', 'value', 'columns', 'rows' );
 			foreach ( $vars as $var )
 				$args[ $var ] = get_query_var( $var, $args[ $var ] );
 
