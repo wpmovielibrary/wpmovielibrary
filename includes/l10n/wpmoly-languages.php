@@ -18,6 +18,7 @@ $wpmoly_supported_languages = array(
 
 	'bg' => __( 'Bulgarian', 'wpmovielibrary-iso' ),
 	'cs' => __( 'Czech', 'wpmovielibrary-iso' ),
+	'cn' => __( 'Cantonese', 'wpmovielibrary-iso' ),
 	'da' => __( 'Danish', 'wpmovielibrary-iso' ),
 	'de' => __( 'German', 'wpmovielibrary-iso' ),
 	'el' => __( 'Greek', 'wpmovielibrary-iso' ),
@@ -137,6 +138,11 @@ $wpmoly_languages = array(
 		'name'     => __( 'Bulgarian', 'wpmovielibrary-iso' ),
 		'standard' => 'Bulgarian'
 	),
+	'cn' => array(
+		'native'   => '广州话 / 廣州話',
+		'name'     => __( 'Cantonese', 'wpmovielibrary-iso' ),
+		'standard' => 'Cantonese'
+	),
 	'cs' => array(
 		'native'   => 'Český',
 		'name'     => __( 'Czech', 'wpmovielibrary-iso' ),
@@ -208,9 +214,14 @@ $wpmoly_languages = array(
 		'standard' => 'Japanese'
 	),
 	'ko' => array(
-		'native'   => '한국어/조선어',
+		'native'   => '한국어/조선말',
 		'name'     => __( 'Korean', 'wpmovielibrary-iso' ),
 		'standard' => 'Korean'
+	),
+	'la' => array(
+		'native'   => 'Latin',
+		'name'     => __( 'Latin', 'wpmovielibrary-iso' ),
+		'standard' => 'Latin'
 	),
 	'nb' => array(
 		'native'   => 'Bokmål',

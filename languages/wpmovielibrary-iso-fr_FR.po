@@ -22,6 +22,9 @@ msgstr "Arabe"
 msgid "Bulgarian"
 msgstr "Bulgare"
 
+msgid "Cantonese"
+msgstr "Cantonais"
+
 msgid "Czech"
 msgstr "Tchèque"
 
@@ -66,6 +69,9 @@ msgstr "Japonais"
 
 msgid "Korean"
 msgstr "Coréen"
+
+msgid "Latin"
+msgstr "Latin"
 
 msgid "Norwegian Bokmål"
 msgstr "Bokmål"
