@@ -32,9 +32,6 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			// Debug
-			//add_action( 'wp_head', __CLASS__ . '::debug_page_request' );
-
 			add_filter( 'wpmoly_filter_rewrites', __CLASS__ . '::filter_rewrites', 10, 1 );
 			add_filter( 'wpmoly_filter_value_rewrites', __CLASS__ . '::filter_value_rewrites', 10, 3 );
 		}
@@ -53,20 +50,6 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				$l10n_rewrite = self::set_l10n_rewrite();
 
 			return $l10n_rewrite;
-		}
-
-		/**
-		 * Debug
-		 * 
-		 * @since    2.0
-		 */
-		public static function debug_page_request() {
-
-			global $wp;
-
-			echo "<!-- Request: {$wp->request} -->\n";
-			echo "<!-- Matched Rewrite Rule: {$wp->matched_rule} -->\n";
-			echo "<!-- Matched Rewrite Query: {$wp->matched_query} -->\n";
 		}
 
 		/**
@@ -438,8 +421,6 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				$movies = 'movies';
 
 			$url = array();
-			//if ( false === stripos( $permalink, $movies ) && is_page(  ) )
-				//$url[] = $movies;
 
 			if ( '' != $meta && '' != $value ) {
 				$url[] = $meta;

@@ -175,12 +175,16 @@ class WPMOLY_Taxonomies_Widget extends WPMOLY_Widget {
 					'title'       => esc_attr( $term->name . ( $count ? sprintf( '&nbsp;(%d)', $term->count ) : '' ) )
 				);
 
-			if ( $limit )
-				$items[] = array(
-					'attr_title'  => $this->taxonomies[ $taxonomy ]['view_all'],
-					'link'        => WPMOLY_L10n::get_taxonomy_permalink( $archive, $value = false ),
-					'title'       => __( 'View the complete list', 'wpmovielibrary' )
-				);
+			if ( $limit ) {
+				$url = WPMOLY_L10n::get_taxonomy_permalink( $archive, $value = false );
+				if ( '' != $url ) {
+					$items[] = array(
+						'attr_title'  => $this->taxonomies[ $taxonomy ]['view_all'],
+						'link'        => $url,
+						'title'       => __( 'View the complete list', 'wpmovielibrary' )
+					);
+				}
+			}
 
 			$items = apply_filters( 'wpmoly_widget_collection_list', $items, $list, $css );
 			$attributes = array( 'items' => $items, 'description' => $description, 'default_option' => $this->taxonomies[ $taxonomy ]['default'], 'style' => $this->widget_css );
