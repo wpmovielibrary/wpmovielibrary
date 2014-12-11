@@ -367,11 +367,11 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				'detail'  => null,
 				'value'   => null,
 				'letter'  => null,
-				'l10n'    => true
+				'l10n'    => true,
+				'is_tax'  => false
 			);
 			$args = wp_parse_args( $args, $defaults );
 
-			// 
 			$args['type'] = '';
 			if ( '' != $args['meta'] && '' != $args['value'] ) {
 				$args['type'] = 'meta';
@@ -477,10 +477,15 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		private static function build_default_meta_permalink( $args ) {
 
-			$movie = intval( wpmoly_o( 'movie-archives' ) );
+			if ( false !== $args['is_tax'] )
+				$type = $args['is_tax'];
+			else
+				$type = 'movie';
+
+			$page = intval( wpmoly_o( $type . '-archives' ) );
 			$base  = 'index.php?';
-			if ( $movie )
-				$base .= 'page_id=' . $movie . '&';
+			if ( $page )
+				$base .= 'page_id=' . $page . '&';
 
 			$url = array();
 
@@ -489,7 +494,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				$url['value'] = $args['value'];
 			}
 
-			unset( $args['type'], $args['meta'], $args['value'], $args['baseurl'] );
+			unset( $args['type'], $args['meta'], $args['value'], $args['baseurl'], $args['is_tax'] );
 
 			foreach ( $args as $slug => $arg )
 				if ( '' != $arg )

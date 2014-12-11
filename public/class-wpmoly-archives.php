@@ -307,6 +307,11 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			global $wp_query;
 			$params = self::parse_terms_query_vars( $wp_query->query );
 
+			// Allow URL params to override settings
+			$vars = array( 'number', 'orderby', 'letter' );
+			foreach ( $vars as $var )
+				$params[ $var ] = get_query_var( $var, $params[ $var ] );
+
 			$name = WPMOLY_Cache::wpmoly_cache_name( "{$taxonomy}_archive" );
 			$content = WPMOLY_Cache::output( $name, function() use ( $wpdb, $taxonomy, $term_title, $params ) {
 
@@ -453,16 +458,18 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				$letters[] = $r->letter;
 
 			$baseurl = get_permalink();
+			$is_tax = $taxonomy;
 
-			$args = compact( 'order', 'orderby', 'number', 'baseurl', 'letter' );
+			$args = compact( 'order', 'orderby', 'number', 'baseurl', 'is_tax' );
 			$attributes = compact( 'letters', 'default', 'letter', 'order', 'orderby', 'number', 'letter_url', 'default_url', 'editable' );
 
 			$urls = array();
+			$urls['all'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$args['order'] = $order;
+
 			$args['letter'] = '{letter}';
 			$urls['letter'] = WPMOLY_L10n::build_meta_permalink( $args );
 			$args['letter'] = $letter;
-
-			$urls['all'] = WPMOLY_L10n::build_meta_permalink( $args );
 
 			$args['order'] = 'ASC';
 			$args['orderby'] = 'count';
