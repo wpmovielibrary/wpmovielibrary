@@ -77,8 +77,13 @@
 			  search = document.location.search;
 
 			if ( '' != search ) {
-				search = search.replace(/columns=[0-9]{1,}/i, 'columns=' + columns );
-				search = search.replace(/rows=[0-9]{1,}/i, 'rows=' + rows );
+				if ( ( new RegExp(/\/[0-9]{1,}\:[0-9]{1,}/i) ).test( search ) ) {
+					search = search.replace(/columns=[0-9]{1,}/i, 'columns=' + columns );
+					search = search.replace(/rows=[0-9]{1,}/i, 'rows=' + rows );
+				}
+				else {
+					search += 'columns=' + columns + '&rows=' + rows;
+				}
 				document.location.search = search;
 			}
 			else if ( ( new RegExp(/\/[0-9]{1,}\:[0-9]{1,}/i) ).test( url ) ) {

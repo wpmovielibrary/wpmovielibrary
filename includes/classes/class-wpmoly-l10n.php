@@ -489,7 +489,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				$url['value'] = $args['value'];
 			}
 
-			unset( $args['type'], $args['meta'], $args['value'] );
+			unset( $args['type'], $args['meta'], $args['value'], $args['baseurl'] );
 
 			foreach ( $args as $slug => $arg )
 				if ( '' != $arg )
