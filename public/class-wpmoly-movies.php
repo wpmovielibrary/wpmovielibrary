@@ -712,18 +712,19 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			$urls = array();
 			$l10n = false;
-			$_letter = $letter;
-			$letter = '{letter}';
-			$urls['letter'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'letter', 'l10n', 'permalink' ) );
-			$letter = $_letter;
 
-			$urls['all'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n', 'permalink' ) );
+			$args = compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n', 'permalink' );
+			$urls['all'] = WPMOLY_L10n::build_meta_permalink( $args );
 
-			$order = 'ASC';
-			$urls['asc'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'letter', 'l10n', 'permalink' ) );
+			$args['letter'] = '{letter}';
+			$urls['letter'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$args['letter'] = $letter;
 
-			$order = 'DESC';
-			$urls['desc'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'letter', 'l10n', 'permalink' ) );
+			$args['order'] = 'ASC';
+			$urls['asc'] = WPMOLY_L10n::build_meta_permalink( $args );
+
+			$args['order'] = 'DESC';
+			$urls['desc'] = WPMOLY_L10n::build_meta_permalink( $args );
 
 			$attributes['urls'] = $urls;
 
@@ -782,6 +783,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$total  = $total->publish;
 
 			// Limit the maximum number of terms to get
+			$number = $columns * $rows;
 			$limit = wpmoly_o( 'movie-archives-movies-limit', $default = true );
 			if ( -1 == $number )
 				$number = $limit;
@@ -806,10 +808,6 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			else {
 				$type = 'meta';
 			}
-
-			$_number = $columns * $rows;
-			if ( $_number != $number )
-				$number = $_number;
 
 			// Don't use LIMIT with weird values
 			$limit = "LIMIT 0,$number";

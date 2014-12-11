@@ -357,9 +357,11 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 
 			$defaults = array(
 				'baseurl' => get_permalink(),
+				'number'  => null,
 				'columns' => null,
 				'rows'    => null,
 				'order'   => null,
+				'orderby' => null,
 				'paged'   => null,
 				'meta'    => null,
 				'detail'  => null,
@@ -439,6 +441,11 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 
 			if ( '' != $columns && '' != $rows )
 				$url[] = "$columns:$rows";
+			else if ( '' != $number )
+				$url[] = $number;
+
+			if ( '' != $orderby )
+				$url[] = $orderby;
 
 			if ( '' != $order )
 				$url[] = $order;

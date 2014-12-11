@@ -205,11 +205,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			$changed = delete_transient( 'wpmoly-permalinks-changed' );
 
-			$new_rules = self::generate_custom_rules();
+			$new_rules = self::generate_custom_rules( $rules );
 
-			print_r( $new_rules + $rules );
-			if ( ! is_null( $rules ) )
-				return $new_rules + $rules;
+			return $new_rules;
 		}
 
 		/**
@@ -223,7 +221,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 *
 		 * @return   array    $new_rules List of new to rules to add to the current rewrite rules.
 		 */
-		private static function generate_custom_rules() {
+		private static function generate_custom_rules( $rules ) {
 
 			$new_rules = array();
 
@@ -247,8 +245,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
 				$grid = __( 'grid', 'wpmovielibrary' );
 
-			$new_rules[ '([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?name=$matches[1]&sorting=$matches[2]';
-
 			$new_rules += self::generate_custom_meta_rules( 'meta', $l10n_rules['meta'], $l10n_rules['movies'], $base );
 			$new_rules += self::generate_custom_meta_rules( 'detail', $l10n_rules['detail'], $l10n_rules['movies'], $base );
 
@@ -256,12 +252,28 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$new_rules[ $l10n_rules['movies'] . '/?$' ] = 'index.php?page_id=' . $movie;
 				$new_rules[ $l10n_rules['movies'] . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $movie . '&sorting=$matches[1]';
 			}
-			if ( $collection )
+
+			if ( $collection ) {
+				$title = sanitize_title( get_the_title( $collection ) );
 				$new_rules[ $l10n_rules['collection'] . '/?$' ] = 'index.php?page_id=' . $collection;
-			if ( $genre )
+				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $collection . '&sorting=$matches[1]';
+			}
+
+			if ( $genre ) {
+				$title = sanitize_title( get_the_title( $genre ) );
 				$new_rules[ $l10n_rules['genre'] . '/?$' ] = 'index.php?page_id=' . $genre;
-			if ( $actor )
+				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $genre . '&sorting=$matches[1]';
+			}
+
+			if ( $actor ) {
+				$title = sanitize_title( get_the_title( $actor ) );
 				$new_rules[ $l10n_rules['actor'] . '/?$' ] = 'index.php?page_id=' . $actor;
+				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $actor . '&sorting=$matches[1]';
+			}
+
+			$rules[ '([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?name=$matches[1]&sorting=$matches[2]';
+
+			$new_rules = $new_rules + $rules;
 
 			return $new_rules;
 		}

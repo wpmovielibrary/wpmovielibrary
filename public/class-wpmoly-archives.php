@@ -304,22 +304,16 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			else if ( 'actor' == $taxonomy )
 				$term_title = __( 'View all movies staring &laquo; %s &raquo;', 'wpmovielibrary' );
 
+			global $wp_query;
+			$params = self::parse_terms_query_vars( $wp_query->query );
+
 			$name = WPMOLY_Cache::wpmoly_cache_name( "{$taxonomy}_archive" );
-			$content = WPMOLY_Cache::output( $name, function() use ( $wpdb, $taxonomy, $term_title ) {
+			$content = WPMOLY_Cache::output( $name, function() use ( $wpdb, $taxonomy, $term_title, $params ) {
 
 				$has_menu = wpmoly_o( 'tax-archives-menu', $default = true );
 				$hide_empty = wpmoly_o( 'tax-archives-hide-empty', $default = true );
 
-				$letter  = get_query_var( 'letter' );
-				$order   = get_query_var( 'order' );
-				$orderby = get_query_var( 'orderby' );
-				$paged   = (int) get_query_var( '_page' );
-				$number  = (int) get_query_var( 'number' );
-
-				if ( ! isset( $_GET['order'] ) )
-					$order = wpmoly_o( 'tax-archives-terms-order', $default = true );
-				if ( '' == $orderby )
-					$orderby = wpmoly_o( 'tax-archives-terms-orderby', $default = true );
+				extract( $params );
 
 				$_orderby = 't.name';
 				if ( 'count' == $orderby )
@@ -335,10 +329,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				if ( $paged )
 					$offset = ( $number * ( $paged - 1 ) );
 
-				// Don't use LIMIT with weird values
-				$limit = '';
-				if ( $offset < $number )
-					$limit = sprintf( 'LIMIT %d,%d', $offset, $number );
+				$limit = sprintf( 'LIMIT %d,%d', $offset, $number );
 
 				$where = '';
 				if ( '0' != $hide_empty )
@@ -391,19 +382,25 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				// ... the main menu...
 				$menu = '';
 				if ( $has_menu ) {
-					$args = compact( 'order', 'orderby', 'number' );
+					$args = compact( 'order', 'orderby', 'number', 'letter' );
 					$menu = self::taxonomy_archive_menu( $taxonomy, $args );
 				}
 
 				$args['letter'] = $letter;
-				$url = add_query_arg( $args, get_permalink() );
+				$args['baseurl'] = get_permalink();
+				$url = WPMOLY_L10n::build_meta_permalink( $args );
+
+				global $wp_rewrite;
+				$format = '/page/%#%';
+				if ( '' == $wp_rewrite->permalink_structure )
+					$format = '&_page=%#%';
 
 				// ... and the pagination menu.
 				$args = array(
 					'type'    => 'list',
 					'total'   => ceil( ( $total - 1 ) / $number ),
 					'current' => max( 1, $paged ),
-					'format'  => $url . '&_page=%#%',
+					'format'  => $url . $format,
 				);
 				$pagination = WPMOLY_Utils::paginate_links( $args );
 				$pagination = '<div id="wpmoly-movies-pagination">' . $pagination . '</div>';
@@ -439,8 +436,9 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			global $wpdb;
 
 			$defaults = array(
+				'letter'   => '',
 				'order'    => wpmoly_o( 'tax-archives-terms-order', $default = true ),
-				'orderby'  => wpmoly_o( 'tax-archives-terms-sort', $default = true ),
+				'orderby'  => wpmoly_o( 'tax-archives-terms-orderby', $default = true ),
 				'number'   => wpmoly_o( 'tax-archives-terms-per-page', $default = true ),
 				'editable' => wpmoly_o( 'tax-archives-frontend-edit', $default = true )
 			);
@@ -449,16 +447,36 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 
 			$default = str_split( 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
 			$letters = array();
-			$letter  = get_query_var( 'letter' );
 			
 			$result = $wpdb->get_results( "SELECT DISTINCT LEFT(t.name, 1) as letter FROM {$wpdb->terms} AS t INNER JOIN {$wpdb->term_taxonomy} AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ('collection') ORDER BY t.name ASC" );
 			foreach ( $result as $r )
 				$letters[] = $r->letter;
 
-			$letter_url  = add_query_arg( compact( 'order', 'orderby', 'number' ), get_permalink() );
-			$default_url = add_query_arg( compact( 'order', 'orderby', 'number', 'letter' ), get_permalink() );
+			$baseurl = get_permalink();
 
+			$args = compact( 'order', 'orderby', 'number', 'baseurl', 'letter' );
 			$attributes = compact( 'letters', 'default', 'letter', 'order', 'orderby', 'number', 'letter_url', 'default_url', 'editable' );
+
+			$urls = array();
+			$args['letter'] = '{letter}';
+			$urls['letter'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$args['letter'] = $letter;
+
+			$urls['all'] = WPMOLY_L10n::build_meta_permalink( $args );
+
+			$args['order'] = 'ASC';
+			$args['orderby'] = 'count';
+			$urls['count_asc'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$args['orderby'] = 'title';
+			$urls['title_asc'] = WPMOLY_L10n::build_meta_permalink( $args );
+
+			$args['order'] = 'DESC';
+			$args['orderby'] = 'count';
+			$urls['count_desc'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$args['orderby'] = 'title';
+			$urls['title_desc'] = WPMOLY_L10n::build_meta_permalink( $args );
+
+			$attributes['urls'] = $urls;
 
 			$content = self::render_template( 'archives/menu.php', $attributes );
 
@@ -556,7 +574,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		/**
 		 * Parse grid sorting parameters
 		 * 
-		 * @since    2.1
+		 * @since    2.1.1
 		 * 
 		 * @param    array    $args Query parameters
 		 * 
@@ -567,10 +585,9 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$defaults = array(
 				'letter'  => '',
 				'paged'   => 1,
-				'number'  => wpmoly_o( 'movie-archives-movies-per-page', $default = true ),
 				'columns' => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
 				'rows'    => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
-				'order'   => wpmoly_o( 'movie-archives-movies-order', $default = true ),
+				'order'   => wpmoly_o( "movie-archives-movies-order", $default = true ),
 				'meta'    => null,
 				'detail'  => null,
 				'value'   => null
@@ -587,7 +604,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				$sorting = '/' . $vars['sorting'];
 				$regex = array(
 					'letter' => '(\/([0-9A-Za-z]{1}))\/',
-					'number' => '(([0-9]{1,})\:([0-9]{1,}))\/?',
+					'number' => '(([0-9]{1,})\:([0-9]{1,})|([0-9]{1,}))\/?',
 					'order'  => '(asc|desc|ASC|DESC)\/?',
 					'paged'  => '(page\/([0-9]{1,}))\/?'
 				);
@@ -600,19 +617,83 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 
 				// Has number/columns?
 				$preg = preg_match( "/{$regex['number']}/", $sorting, $matches );
-				if ( $preg ) {
-					if ( $preg && isset( $matches[2] ) && '' != $matches[2] ) {
-						$params['columns'] = $matches[2];
-					}
-					if ( $preg && isset( $matches[3] ) && '' != $matches[3] ) {
-						$params['rows'] = $matches[3];
-					}
+				if ( $preg && ( isset( $matches[2] ) && '' != $matches[2] ) && ( isset( $matches[3] ) && '' != $matches[3] ) ) {
+					$params['columns'] = $matches[2];
+					$params['rows'] = $matches[3];
 				}
 
 				// Has sorting?
 				$preg = preg_match( "/{$regex['order']}/", $sorting, $matches );
 				if ( $preg && isset( $matches[1] ) && '' != $matches[1] ) {
 					$params['order'] = strtoupper( $matches[1] );
+				}
+
+				// Has pagination?
+				$preg = preg_match( "/{$regex['paged']}/", $sorting, $matches );
+				if ( $preg ) {
+					$params['paged'] = $matches[2];
+				}
+			}
+
+			$params = wp_parse_args( $params, $defaults );
+
+			return $params;
+		}
+
+		/**
+		 * Parse taxonomy archives sorting parameters
+		 * 
+		 * @since    2.1.1
+		 * 
+		 * @param    array    $args Query parameters
+		 * 
+		 * @return   array    Parsed parameters
+		 */
+		public static function parse_terms_query_vars( $vars ) {
+
+			$defaults = array(
+				'letter'  => '',
+				'paged'   => 1,
+				'number'  => wpmoly_o( "tax-archives-terms-per-page", $default = true ),
+				'order'   => wpmoly_o( "tax-archives-terms-order", $default = true ),
+				'orderby' => wpmoly_o( "tax-archives-terms-orderby", $default = true ),
+			);
+			$params = array();
+
+			// I can haz sortingz!
+			if ( isset( $vars['sorting'] ) && '' != $vars['sorting'] ) {
+
+				$sorting = '/' . $vars['sorting'];
+				$regex = array(
+					'letter'  => '(\/([0-9A-Za-z]{1}))\/',
+					'number'  => '([0-9]{1,})\/?',
+					'order'   => '(asc|desc|ASC|DESC)\/?',
+					'orderby' => '(count|title)\/?',
+					'paged'   => '(page\/([0-9]{1,}))\/?'
+				);
+
+				// Has letter?
+				$preg = preg_match( "/{$regex['letter']}/", $sorting, $matches );
+				if ( $preg && isset( $matches[2] ) && '' != $matches[2] ) {
+					$params['letter'] = $matches[2];
+				}
+
+				// Has number/columns?
+				$preg = preg_match( "/{$regex['number']}/", $sorting, $matches );
+				if ( $preg && isset( $matches[1] ) && '' != $matches[1] ) {
+					$params['number'] = $matches[1];
+				}
+
+				// Has sorting?
+				$preg = preg_match( "/{$regex['order']}/", $sorting, $matches );
+				if ( $preg && isset( $matches[1] ) && '' != $matches[1] ) {
+					$params['order'] = strtoupper( $matches[1] );
+				}
+
+				// Has sorting?
+				$preg = preg_match( "/{$regex['orderby']}/", $sorting, $matches );
+				if ( $preg && isset( $matches[1] ) && '' != $matches[1] ) {
+					$params['orderby'] = strtolower( $matches[1] );
 				}
 
 				// Has pagination?
