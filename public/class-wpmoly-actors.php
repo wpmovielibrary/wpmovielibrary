@@ -57,8 +57,12 @@ if ( ! class_exists( 'WPMOLY_Actors' ) ) :
 			$taxonomy    = 'actor';
 			$object_type = array( 'movie' );
 
-			$slug = wpmoly_o( 'rewrite-actor' );
-			$slug = ( '' != $slug ? $slug : 'actor' );
+			$slug = 'actor';
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) ) {
+				$rewrite = wpmoly_o( 'rewrite-actor' );
+				if ( '' != $slug )
+					$slug = $rewrite;
+			}
 
 			if ( wpmoly_o( 'actor-posts' ) )
 				$object_type[] = 'post';

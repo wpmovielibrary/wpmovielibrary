@@ -512,13 +512,14 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		public static function get_taxonomy_permalink( $taxonomy, $value ) {
 
-			$l10n_rewrite = self::get_l10n_rewrite();
-
 			$page_id = intval( wpmoly_o( "{$taxonomy}-archives" ) );
 			if ( ! $page_id || ! get_post( $page_id ) )
 				return $value;
 
-			$url = get_permalink( $page_id );
+			if ( '1' != wpmoly_o( 'rewrite-enable' ) )
+				$url = home_url( sanitize_title( get_the_title( $page_id ) ) );
+			else
+				$url = get_permalink( $page_id );
 
 			if ( false === $value )
 				return $url;

@@ -94,8 +94,12 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				'menu_name'          => __( 'Movies', 'wpmovielibrary' )
 			);
 
-			$slug = wpmoly_o( 'rewrite-movie' );
-			$slug = ( '' != $slug ? $slug : 'movies' );
+			$slug = 'movies';
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) ) {
+				$rewrite = wpmoly_o( 'rewrite-movie' );
+				if ( '' != $slug )
+					$slug = $rewrite;
+			}
 
 			$args = array(
 				'labels'             => $labels,
@@ -697,7 +701,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				$args[ $var ] = get_query_var( $var, $args[ $var ] );
 
 			extract( $args );
-			$baseurl = get_permalink();
+			$baseurl = get_post_type_archive_link( 'movie' );
 
 			$default = str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
 			$letters = array();
@@ -713,7 +717,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$urls = array();
 			$l10n = false;
 
-			$args = compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n', 'permalink' );
+			$args = compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n', 'baseurl' );
 			$urls['all'] = WPMOLY_L10n::build_meta_permalink( $args );
 
 			$args['letter'] = '{letter}';
@@ -852,7 +856,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				'value'   => $value,
 				$type     => $meta,
 				'l10n'    => false,
-				'baseurl' => get_permalink()
+				'baseurl' => get_post_type_archive_link( 'movie' )
 			);
 			$url = WPMOLY_L10n::build_meta_permalink( $args );
 

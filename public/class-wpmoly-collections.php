@@ -57,8 +57,12 @@ if ( ! class_exists( 'WPMOLY_Collections' ) ) :
 			$taxonomy    = 'collection';
 			$object_type = array( 'movie' );
 
-			$slug = wpmoly_o( 'rewrite-collection' );
-			$slug = ( '' != $slug ? $slug : 'collection' );
+			$slug = 'collection';
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) ) {
+				$rewrite = wpmoly_o( 'rewrite-collection' );
+				if ( '' != $slug )
+					$slug = $rewrite;
+			}
 
 			if ( wpmoly_o( 'collection-posts' ) )
 				$object_type[] = 'post';

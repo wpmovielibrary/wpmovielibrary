@@ -56,8 +56,12 @@ if ( ! class_exists( 'WPMOLY_Genres' ) ) :
 			$taxonomy    = 'genre';
 			$object_type = array( 'movie' );
 
-			$slug = wpmoly_o( 'rewrite-genre' );
-			$slug = ( '' != $slug ? $slug : 'genre' );
+			$slug = 'genre';
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) ) {
+				$rewrite = wpmoly_o( 'rewrite-genre' );
+				if ( '' != $slug )
+					$slug = $rewrite;
+			}
 
 			if ( wpmoly_o( 'genre-posts' ) )
 				$object_type[] = 'post';

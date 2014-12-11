@@ -229,6 +229,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			WPMOLY_L10n::delete_l10n_rewrite_rules();
 			$l10n_rules = WPMOLY_L10n::set_l10n_rewrite_rules();
 
+			$translate = wpmoly_o( 'rewrite-enable' );
 			$archives = array(
 				'movie'      => intval( wpmoly_o( 'movie-archives' ) ),
 				'collection' => intval( wpmoly_o( 'collection-archives' ) ),
@@ -242,7 +243,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$base .= 'page_id=' . $movie . '&';
 
 			$grid = 'grid';
-			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
+			if ( '1' == $translate )
 				$grid = __( 'grid', 'wpmovielibrary' );
 
 			$new_rules += self::generate_custom_meta_rules( 'meta', $l10n_rules['meta'], $l10n_rules['movies'], $base );
@@ -253,21 +254,33 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$new_rules[ $l10n_rules['movies'] . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $movie . '&sorting=$matches[1]';
 			}
 
-			if ( $collection ) {
-				$title = sanitize_title( get_the_title( $collection ) );
-				$new_rules[ $l10n_rules['collection'] . '/?$' ] = 'index.php?page_id=' . $collection;
+			if ( $collection && get_post( $collection ) ) {
+				$title = get_post( $collection )->post_name;
+				$slug  = 'collection';
+				if ( '1' == $translate )
+					$slug = $l10n_rules['collection'];
+
+				$new_rules[ $slug . '/?$' ] = 'index.php?page_id=' . $collection;
 				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $collection . '&sorting=$matches[1]';
 			}
 
-			if ( $genre ) {
-				$title = sanitize_title( get_the_title( $genre ) );
-				$new_rules[ $l10n_rules['genre'] . '/?$' ] = 'index.php?page_id=' . $genre;
+			if ( $genre && get_post( $genre ) ) {
+				$title = get_post( $genre )->post_name;
+				$slug  = 'genre';
+				if ( '1' == $translate )
+					$slug = $l10n_rules['genre'];
+
+				$new_rules[ $slug . '/?$' ] = 'index.php?page_id=' . $genre;
 				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $genre . '&sorting=$matches[1]';
 			}
 
-			if ( $actor ) {
-				$title = sanitize_title( get_the_title( $actor ) );
-				$new_rules[ $l10n_rules['actor'] . '/?$' ] = 'index.php?page_id=' . $actor;
+			if ( $actor && get_post( $actor ) ) {
+				$title = get_post( $actor )->post_name;
+				$slug  = 'actor';
+				if ( '1' == $translate )
+					$slug = $l10n_rules['actor'];
+
+				$new_rules[ $slug . '/?$' ] = 'index.php?page_id=' . $actor;
 				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $actor . '&sorting=$matches[1]';
 			}
 
