@@ -532,6 +532,13 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		/**
+		 * Check if Archive Pages have been set
+		 * 
+		 * @since    2.1
+		 * 
+		 * @return   boolean
+		 */
 		public static function has_custom_page() {
 
 			$archives = array(
@@ -546,6 +553,15 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			return $has_pages;
 		}
 
+		/**
+		 * Parse grid sorting parameters
+		 * 
+		 * @since    2.1
+		 * 
+		 * @param    array    $args Query parameters
+		 * 
+		 * @return   array    Parsed parameters
+		 */
 		public static function parse_query_vars( $vars ) {
 
 			$defaults = array(

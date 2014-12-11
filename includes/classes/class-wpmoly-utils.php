@@ -207,6 +207,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			$new_rules = self::generate_custom_rules();
 
+			print_r( $new_rules + $rules );
 			if ( ! is_null( $rules ) )
 				return $new_rules + $rules;
 		}
@@ -245,6 +246,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$grid = 'grid';
 			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
 				$grid = __( 'grid', 'wpmovielibrary' );
+
+			$new_rules[ '([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?name=$matches[1]&sorting=$matches[2]';
 
 			$new_rules += self::generate_custom_meta_rules( 'meta', $l10n_rules['meta'], $l10n_rules['movies'], $base );
 			$new_rules += self::generate_custom_meta_rules( 'detail', $l10n_rules['detail'], $l10n_rules['movies'], $base );
@@ -474,10 +477,11 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( is_null( $key ) || is_null( $value ) || '' == $value )
 				return $value;
 
+			$baseurl = get_post_type_archive_link( 'movie' );
 			$link = explode( ',', $value );
-			foreach ( $link as $i => $l ) {
-				$l = trim( $l );
-				$link[ $i ] = WPMOLY_L10n::get_meta_permalink( $key, $l, $type );
+			foreach ( $link as $i => $value ) {
+				$value = trim( $value );
+				$link[ $i ] = WPMOLY_L10n::get_meta_permalink( compact( 'key', 'value', 'type', 'baseurl' ) );
 			}
 
 			$link = implode( ', ', $link );

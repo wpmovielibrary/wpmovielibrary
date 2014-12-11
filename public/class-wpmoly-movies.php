@@ -697,6 +697,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				$args[ $var ] = get_query_var( $var, $args[ $var ] );
 
 			extract( $args );
+			$baseurl = get_permalink();
 
 			$default = str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
 			$letters = array();
@@ -713,16 +714,16 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$l10n = false;
 			$_letter = $letter;
 			$letter = '{letter}';
-			$urls['letter'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'letter', 'l10n' ) );
+			$urls['letter'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'letter', 'l10n', 'permalink' ) );
 			$letter = $_letter;
 
-			$urls['all'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n' ) );
+			$urls['all'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n', 'permalink' ) );
 
 			$order = 'ASC';
-			$urls['asc'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'letter', 'l10n' ) );
+			$urls['asc'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'letter', 'l10n', 'permalink' ) );
 
 			$order = 'DESC';
-			$urls['desc'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'letter', 'l10n' ) );
+			$urls['desc'] = WPMOLY_L10n::build_meta_permalink( compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'letter', 'l10n', 'permalink' ) );
 
 			$attributes['urls'] = $urls;
 
@@ -745,7 +746,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 */
 		public static function get_the_grid( $args = array() ) {
 
-			global $wpdb;
+			global $wpdb, $wp_query;
 
 			$defaults = array(
 				'columns'  => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
@@ -767,6 +768,10 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				$vars = array( 'columns', 'rows', 'letter', 'order', 'meta', 'detail', 'value' );
 				foreach ( $vars as $var )
 					$args[ $var ] = get_query_var( $var, $args[ $var ] );
+			}
+			else {
+				$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
+				$args = wp_parse_args( $_args, $args );
 			}
 
 			extract( $args, EXTR_SKIP );
@@ -848,7 +853,8 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				'letter'  => $letter,
 				'value'   => $value,
 				$type     => $meta,
-				'l10n'    => false
+				'l10n'    => false,
+				'baseurl' => get_permalink()
 			);
 			$url = WPMOLY_L10n::build_meta_permalink( $args );
 

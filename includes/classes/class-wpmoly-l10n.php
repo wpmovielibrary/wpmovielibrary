@@ -315,14 +315,21 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 * 
 		 * @since    1.0
 		 * 
-		 * @param    string    $key Meta key
-		 * @param    string    $value Text for the link
-		 * @param    string    $type Meta type, 'detail' or 'meta'
-		 * @param    string    $format Result format, 'raw' or 'html'
+		 * @param    string    $args Permalink parameters
 		 * 
 		 * @return   string    HTML href of raw URL
 		 */
-		public static function get_meta_permalink( $key, $value, $type = 'meta', $format = 'html' ) {
+		public static function get_meta_permalink( $args ) {
+
+			$defaults = array(
+				'key'     => null,
+				'value'   => null,
+				'type'    => null,
+				'format'  => null,
+				'baseurl' => null,
+			);
+			$args = wp_parse_args( $args, $defaults );
+			extract( $args );
 
 			if ( ! in_array( $type, array( 'meta', 'detail' ) ) )
 				return null;
@@ -335,8 +342,9 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			$value = self::translate_value( $type, $key, $value );
 
 			$args = array(
-				$type   => $key,
-				'value' => $value
+				$type     => $key,
+				'value'   => $value,
+				'baseurl' => $baseurl
 			);
 
 			$url = self::build_meta_permalink( $args );
@@ -365,6 +373,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			$rewrite = ( '' != $wp_rewrite->permalink_structure );
 
 			$defaults = array(
+				'baseurl' => get_permalink(),
 				'columns' => null,
 				'rows'    => null,
 				'order'   => null,
@@ -428,7 +437,10 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			if ( ! $movies )
 				$movies = 'movies';
 
-			$url = array( $movies );
+			$url = array();
+			//if ( false === stripos( $permalink, $movies ) && is_page(  ) )
+				//$url[] = $movies;
+
 			if ( '' != $meta && '' != $value ) {
 				$url[] = $meta;
 				$url[] = $value;
@@ -457,7 +469,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				$grid = array_pop( $url );
 
 			$url = implode( '/', $url );
-			$url = home_url( $url );
+			$url = $baseurl . $url;
 
 			return $url;
 		}
