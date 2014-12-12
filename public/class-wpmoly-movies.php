@@ -705,8 +705,13 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			extract( $args );
 			$baseurl = get_post_type_archive_link( 'movie' );
 
-			if ( ! in_array( $view, array( 'grid', 'archives', 'list' ) ) )
-				$view = 'grid';
+			$views = array( 'grid', 'archives', 'list' );
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
+				$views = array( 'grid' => __( 'grid', 'wpmovielibrary' ), 'archives' => __( 'archives', 'wpmovielibrary' ), 'list' => __( 'list', 'wpmovielibrary' ) );
+
+			$_view = array_search( $view, $views );
+			if ( false !== $_view )
+				$view = $_view;
 
 			$default = str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
 			$letters = array();
@@ -796,8 +801,13 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			extract( $args, EXTR_SKIP );
 			$total  = 0;
 
-			if ( ! in_array( $view, array( 'grid', 'archives', 'list' ) ) )
-				$view = 'grid';
+			$views = array( 'grid', 'archives', 'list' );
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
+				$views = array( 'grid' => __( 'grid', 'wpmovielibrary' ), 'archives' => __( 'archives', 'wpmovielibrary' ), 'list' => __( 'list', 'wpmovielibrary' ) );
+
+			$_view = array_search( $view, $views );
+			if ( false !== $_view )
+				$view = $_view;
 
 			$movies = array();
 			$total  = wp_count_posts( 'movie' );

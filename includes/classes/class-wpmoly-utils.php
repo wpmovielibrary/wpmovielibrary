@@ -288,7 +288,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$rules[ '([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?name=$matches[1]&view=$matches[2]&sorting=$matches[3]';
 
 			$new_rules = $new_rules + $rules;
-			print_r( $new_rules );
 
 			return $new_rules;
 		}

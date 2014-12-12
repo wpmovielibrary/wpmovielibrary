@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary 2.0-alpha.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/wpmovielibrary\n"
-"POT-Creation-Date: 2014-12-12 10:41+0100\n"
-"PO-Revision-Date: 2014-12-12 10:42+0100\n"
+"POT-Creation-Date: 2014-12-12 19:49+0100\n"
+"PO-Revision-Date: 2014-12-12 19:50+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: WPMovieLibrary <support@wpmovielibrary.com>\n"
 "Language: English\n"
@@ -207,7 +207,7 @@ msgstr "Empty or invalid Post ID or Movie Details"
 
 #: ../admin/class-wpmoly-edit-movies.php:163
 #: ../admin/class-wpmoly-import-table.php:46
-#: ../includes/classes/class-wpmoly-l10n.php:586
+#: ../includes/classes/class-wpmoly-l10n.php:601
 msgid "Poster"
 msgstr "Poster"
 
@@ -367,19 +367,19 @@ msgstr "An error occured when trying to imported queued movie \"%s\": %s"
 #: ../public/class-wpmoly-movies.php:82 ../public/class-wpmoly-movies.php:94
 #: ../public/class-wpmoly-archives.php:151
 #: ../public/class-wpmoly-archives.php:158
-#: ../public/class-wpmoly-archives.php:289
-#: ../public/class-wpmoly-archives.php:350
+#: ../public/class-wpmoly-archives.php:290
+#: ../public/class-wpmoly-archives.php:363
 #: ../views/admin/settings/settings.php:13
 msgid "Movies"
 msgstr "Movies"
 
 #: ../admin/class-wpmoly-admin.php:156
-#: ../includes/classes/class-wpmoly-utils.php:690
-#: ../includes/classes/class-wpmoly-utils.php:724
-#: ../includes/classes/class-wpmoly-utils.php:761
-#: ../includes/classes/class-wpmoly-utils.php:789
-#: ../includes/classes/class-wpmoly-utils.php:816
-#: ../public/class-wpmoly-archives.php:535
+#: ../includes/classes/class-wpmoly-utils.php:696
+#: ../includes/classes/class-wpmoly-utils.php:730
+#: ../includes/classes/class-wpmoly-utils.php:767
+#: ../includes/classes/class-wpmoly-utils.php:795
+#: ../includes/classes/class-wpmoly-utils.php:822
+#: ../public/class-wpmoly-archives.php:548
 #, php-format
 msgid "%d movie"
 msgid_plural "%d movies"
@@ -601,122 +601,115 @@ msgstr "Settings"
 msgid "Currently using default value."
 msgstr "Currently using default value."
 
-#: ../includes/classes/class-wpmoly-l10n.php:433
-#: ../includes/classes/class-wpmoly-utils.php:247
-#: ../includes/classes/class-wpmoly-utils.php:299
-#: ../public/class-wpmovielibrary.php:195
-msgid "grid"
-msgstr "grid"
-
-#: ../includes/classes/class-wpmoly-l10n.php:553
+#: ../includes/classes/class-wpmoly-l10n.php:568
 #: ../includes/config/wpmoly-movies.php:25
 msgid "Available"
 msgstr "Available"
 
-#: ../includes/classes/class-wpmoly-l10n.php:554
+#: ../includes/classes/class-wpmoly-l10n.php:569
 msgid "One movie successfully deleted."
 msgstr "One movie successfully deleted."
 
-#: ../includes/classes/class-wpmoly-l10n.php:555
+#: ../includes/classes/class-wpmoly-l10n.php:570
 #, php-format
 msgid "%s movies successfully deleted."
 msgstr "%s movies successfully deleted."
 
-#: ../includes/classes/class-wpmoly-l10n.php:556
+#: ../includes/classes/class-wpmoly-l10n.php:571
 msgid "One movie removed from the queue."
 msgstr "One movie removed from the queue."
 
-#: ../includes/classes/class-wpmoly-l10n.php:557
+#: ../includes/classes/class-wpmoly-l10n.php:572
 #, php-format
 msgid "%s movies removed from the queue."
 msgstr "%s movies removed from the queue."
 
-#: ../includes/classes/class-wpmoly-l10n.php:558
+#: ../includes/classes/class-wpmoly-l10n.php:573
 msgid "Done!"
 msgstr "Done!"
 
-#: ../includes/classes/class-wpmoly-l10n.php:559
+#: ../includes/classes/class-wpmoly-l10n.php:574
 msgid "One movie added to the queue."
 msgstr "One movie added to the queue."
 
-#: ../includes/classes/class-wpmoly-l10n.php:560
+#: ../includes/classes/class-wpmoly-l10n.php:575
 #, php-format
 msgid "%s movies added to the queue."
 msgstr "%s movies added to the queue."
 
-#: ../includes/classes/class-wpmoly-l10n.php:561
+#: ../includes/classes/class-wpmoly-l10n.php:576
 msgid "Images added!"
 msgstr "Images added!"
 
-#: ../includes/classes/class-wpmoly-l10n.php:562
+#: ../includes/classes/class-wpmoly-l10n.php:577
 msgid "Image from"
 msgstr "Image from"
 
-#: ../includes/classes/class-wpmoly-l10n.php:563
+#: ../includes/classes/class-wpmoly-l10n.php:578
 msgid "Images uploaded!"
 msgstr "Images uploaded!"
 
-#: ../includes/classes/class-wpmoly-l10n.php:564
+#: ../includes/classes/class-wpmoly-l10n.php:579
 msgid "Import Images"
 msgstr "Import Images"
 
-#: ../includes/classes/class-wpmoly-l10n.php:565
+#: ../includes/classes/class-wpmoly-l10n.php:580
 #, php-format
 msgid "Import Images for \"%s\""
 msgstr "Import Images for \"%s\""
 
-#: ../includes/classes/class-wpmoly-l10n.php:566
+#: ../includes/classes/class-wpmoly-l10n.php:581
 msgid "Please wait while the images are uploaded..."
 msgstr "Please wait while the images are uploaded..."
 
-#: ../includes/classes/class-wpmoly-l10n.php:567
+#: ../includes/classes/class-wpmoly-l10n.php:582
 msgid "Import Poster"
 msgstr "Import Poster"
 
-#: ../includes/classes/class-wpmoly-l10n.php:568
+#: ../includes/classes/class-wpmoly-l10n.php:583
 #, php-format
 msgid "Select a poster for \"%s\""
 msgstr "Select a poster for \"%s\""
 
-#: ../includes/classes/class-wpmoly-l10n.php:569
+#: ../includes/classes/class-wpmoly-l10n.php:584
 msgid "Please wait while the poster is uploaded..."
 msgstr "Please wait while the poster is uploaded..."
 
-#: ../includes/classes/class-wpmoly-l10n.php:570
+#: ../includes/classes/class-wpmoly-l10n.php:585
 msgid "Imported"
 msgstr "Imported"
 
-#: ../includes/classes/class-wpmoly-l10n.php:571
+#: ../includes/classes/class-wpmoly-l10n.php:586
 msgid "One movie successfully imported!"
 msgstr "One movie successfully imported!"
 
-#: ../includes/classes/class-wpmoly-l10n.php:572
+#: ../includes/classes/class-wpmoly-l10n.php:587
 #, php-format
 msgid "%s movies successfully imported!"
 msgstr "%s movies successfully imported!"
 
-#: ../includes/classes/class-wpmoly-l10n.php:573
+#: ../includes/classes/class-wpmoly-l10n.php:588
 msgid "Progressing"
 msgstr "Progressing"
 
-#: ../includes/classes/class-wpmoly-l10n.php:574
+#: ../includes/classes/class-wpmoly-l10n.php:589
 msgid "Invalid key: it should be 32 characters long."
 msgstr "Invalid key: it should be 32 characters long."
 
-#: ../includes/classes/class-wpmoly-l10n.php:575
+#: ../includes/classes/class-wpmoly-l10n.php:590
 #: ../views/admin/metabox/panels/panel-images.php:25
 msgid "Load Images"
 msgstr "Load Images"
 
-#: ../includes/classes/class-wpmoly-l10n.php:576
+#: ../includes/classes/class-wpmoly-l10n.php:591
 msgid "Load More"
 msgstr "Load More"
 
-#: ../includes/classes/class-wpmoly-l10n.php:577
+#: ../includes/classes/class-wpmoly-l10n.php:592
 msgid "Loading Images…"
 msgstr "Loading Images…"
 
-#: ../includes/classes/class-wpmoly-l10n.php:578
+#: ../includes/classes/class-wpmoly-l10n.php:593
 msgid ""
 "No movie could be found. You need to select a movie before importing images "
 "or posters."
@@ -724,76 +717,76 @@ msgstr ""
 "No movie could be found. You need to select a movie before importing images "
 "or posters."
 
-#: ../includes/classes/class-wpmoly-l10n.php:579
+#: ../includes/classes/class-wpmoly-l10n.php:594
 msgid "Metadata saved!"
 msgstr "Metadata saved!"
 
-#: ../includes/classes/class-wpmoly-l10n.php:580
+#: ../includes/classes/class-wpmoly-l10n.php:595
 msgid "No metadata could be found, please import metadata before queuing."
 msgstr "Settings saved."
 
-#: ../includes/classes/class-wpmoly-l10n.php:581
+#: ../includes/classes/class-wpmoly-l10n.php:596
 #: ../public/class-wpmoly-movies.php:83
 msgid "Movie"
 msgstr "Movie"
 
-#: ../includes/classes/class-wpmoly-l10n.php:582
-#: ../includes/classes/class-wpmoly-l10n.php:583
+#: ../includes/classes/class-wpmoly-l10n.php:597
+#: ../includes/classes/class-wpmoly-l10n.php:598
 #: ../views/admin/update-movies.php:122
 msgid "movie updated"
 msgid_plural "movies updated"
 msgstr[0] "movie updated"
 msgstr[1] "movies updated"
 
-#: ../includes/classes/class-wpmoly-l10n.php:584
+#: ../includes/classes/class-wpmoly-l10n.php:599
 msgid "not updated"
 msgstr "not updated"
 
-#: ../includes/classes/class-wpmoly-l10n.php:585
+#: ../includes/classes/class-wpmoly-l10n.php:600
 msgid "Oops… Did something went wrong?"
 msgstr "Oops… Did something went wrong?"
 
-#: ../includes/classes/class-wpmoly-l10n.php:587
+#: ../includes/classes/class-wpmoly-l10n.php:602
 msgid "Saving Images…"
 msgstr "Saving Images…"
 
-#: ../includes/classes/class-wpmoly-l10n.php:588
+#: ../includes/classes/class-wpmoly-l10n.php:603
 msgid "Searching movie"
 msgstr "Searching movie"
 
-#: ../includes/classes/class-wpmoly-l10n.php:589
+#: ../includes/classes/class-wpmoly-l10n.php:604
 msgid "Fetching movie data"
 msgstr "Fetching movie data"
 
-#: ../includes/classes/class-wpmoly-l10n.php:590
+#: ../includes/classes/class-wpmoly-l10n.php:605
 msgid "see no more"
 msgstr "see no more"
 
-#: ../includes/classes/class-wpmoly-l10n.php:591
+#: ../includes/classes/class-wpmoly-l10n.php:606
 msgid "see more"
 msgstr "see more"
 
-#: ../includes/classes/class-wpmoly-l10n.php:592
-#: ../includes/classes/class-wpmoly-l10n.php:597
+#: ../includes/classes/class-wpmoly-l10n.php:607
+#: ../includes/classes/class-wpmoly-l10n.php:612
 #: ../views/admin/update-movies.php:122
 msgid "selected"
 msgid_plural "selected"
 msgstr[0] "selected"
 msgstr[1] "selected"
 
-#: ../includes/classes/class-wpmoly-l10n.php:593
+#: ../includes/classes/class-wpmoly-l10n.php:608
 msgid "Setting featured image…"
 msgstr "Setting featured image…"
 
-#: ../includes/classes/class-wpmoly-l10n.php:594
+#: ../includes/classes/class-wpmoly-l10n.php:609
 msgid "updated successfully"
 msgstr "updated successfully"
 
-#: ../includes/classes/class-wpmoly-l10n.php:595
+#: ../includes/classes/class-wpmoly-l10n.php:610
 msgid "Used"
 msgstr "Used"
 
-#: ../includes/classes/class-wpmoly-l10n.php:596
+#: ../includes/classes/class-wpmoly-l10n.php:611
 msgid "updating movies..."
 msgstr "updating movies..."
 
@@ -834,27 +827,43 @@ msgstr "No"
 msgid "Official Website"
 msgstr "Official Website"
 
-#: ../includes/classes/class-wpmoly-utils.php:562
+#: ../includes/classes/class-wpmoly-utils.php:247
+#: ../includes/classes/class-wpmoly-utils.php:301
+#: ../public/class-wpmovielibrary.php:195
+msgid "grid"
+msgstr "grid"
+
+#: ../includes/classes/class-wpmoly-utils.php:247
+#: ../includes/classes/class-wpmoly-utils.php:301
+msgid "archives"
+msgstr "archives"
+
+#: ../includes/classes/class-wpmoly-utils.php:247
+#: ../includes/classes/class-wpmoly-utils.php:301
+msgid "list"
+msgstr "list"
+
+#: ../includes/classes/class-wpmoly-utils.php:568
 msgid "Not rated yet!"
 msgstr "Not rated yet!"
 
-#: ../includes/classes/class-wpmoly-utils.php:1008
+#: ../includes/classes/class-wpmoly-utils.php:1014
 msgid "Invalid taxonomy"
 msgstr "Invalid taxonomy"
 
-#: ../includes/classes/class-wpmoly-utils.php:1102
+#: ../includes/classes/class-wpmoly-utils.php:1108
 msgid "&laquo; Previous"
 msgstr "&laquo; Previous"
 
-#: ../includes/classes/class-wpmoly-utils.php:1103
+#: ../includes/classes/class-wpmoly-utils.php:1109
 msgid "Next &raquo;"
 msgstr "Next &raquo;"
 
-#: ../includes/classes/class-wpmoly-utils.php:1143
+#: ../includes/classes/class-wpmoly-utils.php:1149
 msgid "&hellip;"
 msgstr "&hellip;"
 
-#: ../includes/classes/class-wpmoly-utils.php:1185
+#: ../includes/classes/class-wpmoly-utils.php:1191
 #, php-format
 msgid ""
 "<strong>%s</strong> is required by the following plugins: %s. These plugins "
@@ -1156,7 +1165,7 @@ msgstr "Release date"
 #: ../public/class-wpmoly-genres.php:71
 #: ../public/class-wpmoly-archives.php:153
 #: ../public/class-wpmoly-archives.php:164
-#: ../public/class-wpmoly-archives.php:291
+#: ../public/class-wpmoly-archives.php:292
 #: ../views/taxonomies-widget/taxonomies-admin.php:16
 msgid "Genres"
 msgstr "Genres"
@@ -1245,7 +1254,7 @@ msgstr "Writer"
 #: ../public/class-wpmoly-shortcodes.php:507
 #: ../public/class-wpmoly-archives.php:154
 #: ../public/class-wpmoly-archives.php:167
-#: ../public/class-wpmoly-archives.php:292
+#: ../public/class-wpmoly-archives.php:293
 #: ../views/taxonomies-widget/taxonomies-admin.php:17
 msgid "Actors"
 msgstr "Actors"
@@ -1619,7 +1628,7 @@ msgstr "Allow movies to use regular WordPress Post Tags."
 #: ../public/class-wpmoly-collections.php:72
 #: ../public/class-wpmoly-archives.php:152
 #: ../public/class-wpmoly-archives.php:161
-#: ../public/class-wpmoly-archives.php:290
+#: ../public/class-wpmoly-archives.php:291
 #: ../views/taxonomies-widget/taxonomies-admin.php:15
 msgid "Collections"
 msgstr "Collections"
@@ -3177,37 +3186,37 @@ msgstr "New Movie Collection"
 msgid "New Genre"
 msgstr "New Genre"
 
-#: ../public/class-wpmoly-archives.php:346
+#: ../public/class-wpmoly-archives.php:359
 #, php-format
 msgid "Movies by %s"
 msgstr "Movies by %s"
 
-#: ../public/class-wpmoly-archives.php:348
+#: ../public/class-wpmoly-archives.php:361
 #, php-format
 msgid "Movies by %s: %s"
 msgstr "Movies by %s: %s"
 
-#: ../public/class-wpmoly-archives.php:356
+#: ../public/class-wpmoly-archives.php:369
 #, php-format
 msgid " − Letter %s"
 msgstr " − Letter %s"
 
-#: ../public/class-wpmoly-archives.php:359
+#: ../public/class-wpmoly-archives.php:372
 #, php-format
 msgid " %s Page %d "
 msgstr " %s Page %d "
 
-#: ../public/class-wpmoly-archives.php:452
+#: ../public/class-wpmoly-archives.php:465
 #, php-format
 msgid "View all movies from collection &laquo; %s &raquo;"
 msgstr "View all movies from collection &laquo; %s &raquo;"
 
-#: ../public/class-wpmoly-archives.php:454
+#: ../public/class-wpmoly-archives.php:467
 #, php-format
 msgid "View all &laquo; %s &raquo; movies"
 msgstr "View all &laquo; %s &raquo; movies"
 
-#: ../public/class-wpmoly-archives.php:456
+#: ../public/class-wpmoly-archives.php:469
 #, php-format
 msgid "View all movies staring &laquo; %s &raquo;"
 msgstr "View all movies staring &laquo; %s &raquo;"
@@ -3316,11 +3325,25 @@ msgstr "List ascendingly"
 msgid "List descendingly"
 msgstr "List descendingly"
 
-#: ../views/movies/grid/loop.php:32
+#: ../views/movies/grid/menu.php:21
+msgid "Show movies as an extended list"
+msgstr "Show movies as an extended list"
+
+#: ../views/movies/grid/menu.php:22
+msgid "Show movies as a list of titles"
+msgstr "Show movies as a list of titles"
+
+#: ../views/movies/grid/menu.php:23
+msgid "Show movies as a poster grid"
+msgstr "Show movies as a poster grid"
+
+#: ../views/movies/grid/loop.php:32 ../views/movies/grid/list-loop.php:26
+#: ../views/movies/grid/archives-loop.php:19
 msgid "This is somewhat embarrassing, isn&rsquo;t it?"
 msgstr "This is somewhat embarrassing, isn&rsquo;t it?"
 
-#: ../views/movies/grid/loop.php:33
+#: ../views/movies/grid/loop.php:33 ../views/movies/grid/list-loop.php:27
+#: ../views/movies/grid/archives-loop.php:20
 msgid "We could&rsquo;t find any movie matching your criteria."
 msgstr "We could&rsquo;t find any movie matching your criteria."
 

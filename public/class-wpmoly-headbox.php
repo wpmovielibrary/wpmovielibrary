@@ -37,7 +37,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 				$theme = '';
 
 			$id      = get_the_ID();
-			$poster  = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'full' );
+			$poster  = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'large' );
 			$poster  = $poster[0];
 
 			$headbox = array(

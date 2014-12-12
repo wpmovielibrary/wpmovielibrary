@@ -443,13 +443,11 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				$url[] = $value;
 			}
 
-			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
-				$grid = __( 'grid', 'wpmovielibrary' );
-			else
-				$grid = 'grid';
-
 			if ( '' != $view )
 				$grid = $view;
+
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
+				$grid = __( $grid, 'wpmovielibrary' );
 
 			$url[] = $grid;
 
