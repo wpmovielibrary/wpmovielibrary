@@ -203,7 +203,8 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				}
 			}
 
-			if ( self::has_custom_page() )
+			$self = new WPMOLY_Archives();
+			if ( $self->has_custom_page() )
 				update_option( 'wpmoly_has_custom_pages', 'yes' );
 
 			return $_pages;
@@ -422,11 +423,11 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 
 			$grid_menu = '';
 			if ( $has_menu ) {
-				$args = compact( 'columns', 'rows', 'number', 'order', 'editable', 'letter' );
+				$args = compact( 'columns', 'rows', 'number', 'order', 'editable', 'letter', 'view' );
 				$grid_menu = WPMOLY_Movies::get_grid_menu( $args );
 			}
 
-			$args    = compact( 'number', 'paged', 'order', 'columns', 'rows', 'letter', 'meta', 'detail', 'value' );
+			$args    = compact( 'number', 'paged', 'order', 'columns', 'rows', 'letter', 'meta', 'detail', 'value', 'view' );
 			$grid    = WPMOLY_Movies::get_the_grid( $args );
 			$content = $grid_menu . $grid;
 
@@ -750,7 +751,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				'paged'   => 1,
 				'columns' => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
 				'rows'    => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
-				'order'   => wpmoly_o( "movie-archives-movies-order", $default = true ),
+				'order'   => wpmoly_o( 'movie-archives-movies-order', $default = true ),
 				'meta'    => null,
 				'detail'  => null,
 				'value'   => null
@@ -758,7 +759,8 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$params = array(
 				'meta'    => get_query_var( 'meta' ),
 				'detail'  => get_query_var( 'detail' ),
-				'value'   => get_query_var( 'value' )
+				'value'   => get_query_var( 'value' ),
+				'view'    => get_query_var( 'view' )
 			);
 
 			// I can haz sortingz!
@@ -777,7 +779,6 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				if ( $preg && isset( $matches[2] ) && '' != $matches[2] ) {
 					$params['letter'] = $matches[2];
 				}
-				
 
 				// Has number/columns?
 				$preg = preg_match( "/{$regex['number']}/", $sorting, $matches );

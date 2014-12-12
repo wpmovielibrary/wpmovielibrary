@@ -285,12 +285,20 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			elseif ( 'spoken_languages' == $key )
 				$meta = 'languages';
 
-			$rewrites = self::get_l10n_rewrite();
-			$_value   = apply_filters( 'wpmoly_filter_rewrites', $value );
-			$_value   = array_search( $_value, $rewrites[ $meta ] );
+			if ( 'rating' == $key ) {
+				$supported = WPMOLY_Settings::get_supported_movie_details();
+				$supported = $supported['rating']['options'];
+				$_value = str_replace( '%20', ' ', $value );
+				$_value = array_search( $_value, $supported );
+			}
+			else {
+				$rewrites = self::get_l10n_rewrite();
+				$_value   = apply_filters( 'wpmoly_filter_rewrites', $value );
+				$_value   = array_search( $_value, $rewrites[ $meta ] );
 
-			if ( ! $_value )
-				$_value = array_search( remove_accents( rawurldecode( $value ) ), $rewrites[ $meta ] );
+				if ( ! $_value )
+					$_value = array_search( remove_accents( rawurldecode( $value ) ), $rewrites[ $meta ] );
+			}
 
 			if ( false != $_value )
 				$value = $_value;
@@ -373,7 +381,8 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				'value'   => null,
 				'letter'  => null,
 				'l10n'    => true,
-				'is_tax'  => false
+				'is_tax'  => false,
+				'view'    => null
 			);
 			$args = wp_parse_args( $args, $defaults );
 
@@ -438,6 +447,9 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				$grid = __( 'grid', 'wpmovielibrary' );
 			else
 				$grid = 'grid';
+
+			if ( '' != $view )
+				$grid = $view;
 
 			$url[] = $grid;
 

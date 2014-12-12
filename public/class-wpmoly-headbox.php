@@ -28,7 +28,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 *
 		 * @return   string      The filtered content containing original content plus movie infos if available, the untouched original content else.
 		 */
-		public static function get_content( $content ) {
+		public static function get_content( $content = null ) {
 
 			$theme = wp_get_theme();
 			if ( ! is_null( $theme->stylesheet ) )

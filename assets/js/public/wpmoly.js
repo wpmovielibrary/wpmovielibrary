@@ -10,7 +10,7 @@
 					location.href = this.options[ this.selectedIndex ].value;
 			});
 
-			if ( undefined != $( '#wpmoly-movie-grid > .movie' ) )
+			if ( undefined != $( '#wpmoly-movie-grid.grid > .movie' ) )
 				wpmoly.grid_resize();
 
 			$( "#wpmoly-grid-form" ).on( 'submit', function(e) {
@@ -45,7 +45,7 @@
 
 		wpmoly.grid_resize = function() {
 
-			var $movies = $( '#wpmoly-movie-grid > .movie' )
+			var $movies = $( '#wpmoly-movie-grid.grid > .movie' )
 			 max_height = 0,
 			  max_width = 0;
 

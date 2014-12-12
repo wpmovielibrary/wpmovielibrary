@@ -416,6 +416,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$q_var[] = 'rows';
 			$q_var[] = '_page';
 			$q_var[] = 'sorting';
+			$q_var[] = 'view';
 			return $q_var;
 		}
 
@@ -691,17 +692,21 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				'meta'     => '',
 				'detail'   => '',
 				'value'    => '',
-				'letter'   => ''
+				'letter'   => '',
+				'view'     => 'grid'
 			);
 			$args = wp_parse_args( $args, $defaults );
 
 			// Allow URL params to override settings
-			$vars = array( 'meta', 'detail', 'value', 'columns', 'rows' );
+			$vars = array( 'meta', 'detail', 'value', 'columns', 'rows', 'view' );
 			foreach ( $vars as $var )
 				$args[ $var ] = get_query_var( $var, $args[ $var ] );
 
 			extract( $args );
 			$baseurl = get_post_type_archive_link( 'movie' );
+
+			if ( ! in_array( $view, array( 'grid', 'archives', 'list' ) ) )
+				$view = 'grid';
 
 			$default = str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
 			$letters = array();
@@ -712,13 +717,21 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			$limit = wpmoly_o( 'movie-archives-movies-limit' );
 
-			$attributes = compact( 'letters', 'default', 'letter', 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'editable', 'limit' );
+			$attributes = compact( 'letters', 'default', 'letter', 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'editable', 'limit', 'view' );
 
 			$urls = array();
 			$l10n = false;
 
-			$args = compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n', 'baseurl' );
+			$args = compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n', 'baseurl', 'view' );
 			$urls['all'] = WPMOLY_L10n::build_meta_permalink( $args );
+
+			$args['view'] = 'list';
+			$urls['list'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$args['view'] = 'archives';
+			$urls['archives'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$args['view'] = 'grid';
+			$urls['grid'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$args['view'] = $view;
 
 			$args['letter'] = '{letter}';
 			$urls['letter'] = WPMOLY_L10n::build_meta_permalink( $args );
@@ -764,13 +777,14 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				'genre'    => false,
 				'rating'   => false,
 				'letter'   => null,
-				'order'    => wpmoly_o( 'movie-archives-movies-order', $default = true )
+				'order'    => wpmoly_o( 'movie-archives-movies-order', $default = true ),
+				'view'     => 'grid'
 			);
 			$args = wp_parse_args( $args, $defaults );
 
 			// Allow URL params to override Shortcode settings
 			if ( ! empty( $_GET ) ) {
-				$vars = array( 'columns', 'rows', 'letter', 'order', 'meta', 'detail', 'value' );
+				$vars = array( 'columns', 'rows', 'letter', 'order', 'meta', 'detail', 'value', 'view' );
 				foreach ( $vars as $var )
 					$args[ $var ] = get_query_var( $var, $args[ $var ] );
 			}
@@ -781,6 +795,9 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			extract( $args, EXTR_SKIP );
 			$total  = 0;
+
+			if ( ! in_array( $view, array( 'grid', 'archives', 'list' ) ) )
+				$view = 'grid';
 
 			$movies = array();
 			$total  = wp_count_posts( 'movie' );
@@ -848,6 +865,9 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$total  = $wpdb->get_var( 'SELECT FOUND_ROWS() AS total' );
 			$movies = array_map( 'get_post', $movies );
 
+			if ( 'list' == $view )
+				$movies = self::prepare_list_view( $movies );
+
 			$args = array(
 				'order'   => $order,
 				'columns' => $columns,
@@ -856,6 +876,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				'value'   => $value,
 				$type     => $meta,
 				'l10n'    => false,
+				'view'    => $view,
 				'baseurl' => get_post_type_archive_link( 'movie' )
 			);
 			$url = WPMOLY_L10n::build_meta_permalink( $args );
@@ -875,15 +896,9 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$paginate = WPMOLY_Utils::paginate_links( $args );
 			$paginate = '<div id="wpmoly-movies-pagination">' . $paginate . '</div>';
 
-			$attributes = array(
-				'movies'  => $movies,
-				'columns' => $columns,
-				'title'   => $title,
-				'genre'   => $genre,
-				'rating'  => $rating
-			);
+			$attributes = compact( 'movies', 'columns', 'title', 'genre', 'rating' );
 
-			$content  = self::render_template( 'movies/grid/loop.php', $attributes );
+			$content  = self::render_template( "movies/grid/$view-loop.php", $attributes );
 			$content  = $content . $paginate;
 
 			return $content;
@@ -894,6 +909,32 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 *                                 Utils
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		public static function prepare_list_view( $movies ) {
+
+			global $post;
+
+			$list    = array();
+			$default = str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
+			$current = '';
+
+			if ( empty( $movies ) )
+				return $movies;
+
+			foreach ( $movies as $post ) {
+
+				setup_postdata( $post );
+
+				$_current = substr( get_the_title(), 0, 1 );
+				if ( $_current != $current )
+					$current = $_current;
+
+				$list[ $current ][] = array( 'id' => get_the_ID(), 'url' => get_permalink(), 'title' => get_the_title() );
+			}
+			wp_reset_postdata();
+
+			return $list;
+		}
 
 		/**
 		 * Handle Deactivation/Uninstallation actions.

@@ -242,16 +242,17 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( $movie )
 				$base .= 'page_id=' . $movie . '&';
 
-			$grid = 'grid';
+			$grid = '(grid|archives|list)';
 			if ( '1' == $translate )
-				$grid = __( 'grid', 'wpmovielibrary' );
+				$grid = sprintf( '(%s|%s|%s)', __( 'grid', 'wpmovielibrary' ), __( 'archives', 'wpmovielibrary' ), __( 'list', 'wpmovielibrary' ) );
 
 			$new_rules += self::generate_custom_meta_rules( 'meta', $l10n_rules['meta'], $l10n_rules['movies'], $base );
 			$new_rules += self::generate_custom_meta_rules( 'detail', $l10n_rules['detail'], $l10n_rules['movies'], $base );
 
 			if ( $movie ) {
 				$new_rules[ $l10n_rules['movies'] . '/?$' ] = 'index.php?page_id=' . $movie;
-				$new_rules[ $l10n_rules['movies'] . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $movie . '&sorting=$matches[1]';
+				$new_rules[ $l10n_rules['movies'] . '/' . $grid . '/?$' ] = 'index.php?page_id=' . $movie . '&view=$matches[1]';
+				$new_rules[ $l10n_rules['movies'] . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $movie . '&view=$matches[1]&sorting=$matches[2]';
 			}
 
 			if ( $collection && get_post( $collection ) ) {
@@ -261,7 +262,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 					$slug = $l10n_rules['collection'];
 
 				$new_rules[ $slug . '/?$' ] = 'index.php?page_id=' . $collection;
-				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $collection . '&sorting=$matches[1]';
+				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $collection . '&view=$matches[1]&sorting=$matches[2]';
 			}
 
 			if ( $genre && get_post( $genre ) ) {
@@ -271,7 +272,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 					$slug = $l10n_rules['genre'];
 
 				$new_rules[ $slug . '/?$' ] = 'index.php?page_id=' . $genre;
-				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $genre . '&sorting=$matches[1]';
+				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $genre . '&view=$matches[1]&sorting=$matches[2]';
 			}
 
 			if ( $actor && get_post( $actor ) ) {
@@ -281,22 +282,23 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 					$slug = $l10n_rules['actor'];
 
 				$new_rules[ $slug . '/?$' ] = 'index.php?page_id=' . $actor;
-				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $actor . '&sorting=$matches[1]';
+				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $actor . '&view=$matches[1]&sorting=$matches[2]';
 			}
 
-			$rules[ '([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?name=$matches[1]&sorting=$matches[2]';
+			$rules[ '([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?name=$matches[1]&view=$matches[2]&sorting=$matches[3]';
 
 			$new_rules = $new_rules + $rules;
+			print_r( $new_rules );
 
 			return $new_rules;
 		}
 
 		private static function generate_custom_meta_rules( $type, $data, $movies, $base ) {
 
-			$new_rules = array();
-			$grid = 'grid';
+			$new_rules = array();$grid = 'grid';
+			$grid = '(grid|archives|list)';
 			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
-				$grid = __( 'grid', 'wpmovielibrary' );
+				$grid = sprintf( '(%s|%s|%s)', __( 'grid', 'wpmovielibrary' ), __( 'archives', 'wpmovielibrary' ), __( 'list', 'wpmovielibrary' ) );
 
 			foreach ( $data as $slug => $meta ) {
 
@@ -505,7 +507,11 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$baseurl = get_post_type_archive_link( 'movie' );
 			$link = explode( ',', $value );
 			foreach ( $link as $i => $value ) {
+
 				$value = trim( $value );
+				if ( 'rating' == $key )
+					$value = WPMOLY_L10n::untranslate_value( 'meta', $key, $value );
+
 				$link[ $i ] = WPMOLY_L10n::get_meta_permalink( compact( 'key', 'value', 'type', 'baseurl' ) );
 			}
 

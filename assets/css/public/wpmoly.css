@@ -104,6 +104,11 @@
 	text-align: center;
 }
 
+#wpmoly-movie-grid-menu a,
+#wpmoly-movie-grid-menu-2 a {
+	text-decoration: none;
+}
+
 #wpmoly-movie-grid-menu .wpmoly.grid.menu.item,
 #wpmoly-movie-grid-menu-2 .wpmoly.grid.menu.item {
 	display: inline-block;
@@ -124,7 +129,15 @@
 
 #wpmoly-movie-grid {
 	margin: 1em 0.5em;
+}
+
+#wpmoly-movie-grid.grid {
 	text-align: center;
+}
+
+#wpmoly-movie-grid.archives > .wpmoly.block.headbox  {
+	margin-bottom: 1em;
+	margin-top: 1em;
 }
 
 #wpmoly-movie-grid > .movie {
