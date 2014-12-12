@@ -15,6 +15,23 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 
 	class WPMOLY_Archives extends WPMOLY_Module {
 
+		protected $pages = array();
+
+		/**
+		 * Initializes variables
+		 *
+		 * @since    1.0
+		 */
+		public function init() {
+
+			$this->pages = array(
+				'movie'      => intval( wpmoly_o( 'movie-archives' ) ),
+				'collection' => intval( wpmoly_o( 'collection-archives' ) ),
+				'genre'      => intval( wpmoly_o( 'genre-archives' ) ),
+				'actor'      => intval( wpmoly_o( 'actor-archives' ) )
+			);
+		}
+
 		/**
 		 * Constructor
 		 *
@@ -22,6 +39,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 */
 		public function __construct() {
 
+			$this->init();
 			$this->register_hook_callbacks();
 		}
 
@@ -35,7 +53,9 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			add_action( 'admin_notices', array( $this, 'custom_pages_notice' ) );
 			add_action( 'template_redirect', array( $this, 'template_redirect' ) );
 
-			add_filter( 'the_content', __CLASS__ . '::get_pages', 10, 1 );
+			add_filter( 'the_content', array( $this, 'get_pages' ), 10, 1 );
+			add_filter( 'the_title', array( $this, 'movie_archives_title' ), 10, 2 );
+			add_filter( 'wp_title', array( $this, 'movie_archives_title' ), 10, 2 );
 
 			if ( '' == wpmoly_o( 'movie-archives' ) )
 				add_action( 'pre_get_posts', __CLASS__ . '::meta_archives', 10, 1 );
@@ -199,7 +219,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 * 
 		 * @return   string    HTML markup
 		 */
-		public static function get_pages( $content ) {
+		public function get_pages( $content ) {
 
 			global $wp_query;
 
@@ -215,10 +235,10 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				'actor'      => intval( wpmoly_o( 'actor-archives' ) )
 			);
 
-			if ( ! in_array( $id, $archives ) )
+			if ( ! in_array( $id, $this->pages ) )
 				return $content;
 
-			extract( $archives );
+			extract( $this->pages );
 			$archive = '';
 			if ( $movie && $movie == $id )
 				$archive = self::movie_archives();
@@ -237,6 +257,126 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 *                           Movie Archives
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		public function movie_archives_title( $title, $id = null ) {
+
+			// Exclude admin
+			if ( is_admin() )
+				return $title;
+
+			// 'wp_title' filter second parameter is separator, not id
+			if ( ! is_int( $id ) )
+				$id = get_the_ID();
+
+			// Exclude not-archive pages 
+			if ( ! in_array( $id, $this->pages ) )
+				return $title;
+
+			$filter = current_filter();
+			$page = array_search( $id, $this->pages );
+			$titles = array(
+				'movie'      => __( 'Movies', 'wpmovielibrary' ),
+				'collection' => __( 'Collections', 'wpmovielibrary' ),
+				'genre'      => __( 'Genres', 'wpmovielibrary' ),
+				'actor'      => __( 'Actors', 'wpmovielibrary' )
+			);
+
+			/**
+			 * Filter Archive Pages Titles
+			 * 
+			 * @since    2.1.1
+			 * 
+			 * @param    array    $titles Default Archive Pages titles
+			 * 
+			 * @return   array    Filtered titles
+			 */
+			$titles = apply_filters( 'wpmoly_filter_archive_pages_titles', $titles );
+
+			/**
+			 * Filter Archive Page's default title
+			 * 
+			 * @since    2.1.1
+			 * 
+			 * @param    string    $title Current Archive Page title
+			 * @param    int       $id Current Archive Page Post ID
+			 * 
+			 * @return   string    Filtered title
+			 */
+			$title = apply_filters( "wpmoly_filter_{$page}_archive_page_default_title", $titles[ $page ], $id );
+
+			if ( ( ! is_single( $id ) && ! is_page( $id ) )|| ( 'the_title' == $filter && ! in_the_loop() ) )
+				return $title;
+
+			$meta   = get_query_var( 'meta' );
+			$detail = get_query_var( 'detail' );
+			$value  = get_query_var( 'value' );
+			$letter = get_query_var( 'sorting' );
+
+			if ( $id == $this->pages['movie'] ) {
+
+				if ( '' != $meta ) {
+					$_meta = WPMOLY_Settings::get_supported_movie_meta();
+					if ( isset( $_meta[ $meta ] ) )
+						$meta = $_meta[ $meta ]['title'];
+
+					/*if ( '' != $value )
+						$_value = $value;*/
+				}
+				elseif ( '' != $detail ) {
+					$_detail = WPMOLY_Settings::get_supported_movie_detail();
+					if ( isset( $_detail[ $detail ] ) )
+						$detail = $_detail[ $detail ]['title'];
+				}
+
+				if ( '' == $meta && '' != $detail )
+					$meta = $detail;
+
+				if ( '' != $meta && '' == $value )
+					$title = sprintf( __( 'Movies by %s', 'wpmovielibrary' ), $meta );
+				elseif ( '' != $meta && '' != $value )
+					$title = sprintf( __( 'Movies by %s: %s', 'wpmovielibrary' ), ucwords( $meta ), ucwords( $value ) );
+				else
+					$title = __( 'Movies', 'wpmovielibrary' );
+			}
+
+			if ( '' != $letter ) {
+				$sorting = self::parse_query_vars( array( 'sorting' => $letter ) );
+				$letter  = $sorting['letter'];
+				$title  .= sprintf( __( ' − Letter %s', 'wpmovielibrary' ), $letter );
+
+				if ( '' != $sorting['paged'] && 'wp_title' == $filter )
+					$title .= sprintf( __( ' | Page %d', 'wpmovielibrary' ), $sorting['paged'] );
+			}
+
+			/**
+			 * Filter Page's Post title as used in (get_)the_title()
+			 * 
+			 * @since    2.1.1
+			 * 
+			 * @param    string    $title Current Archive Page title
+			 * @param    int       $id Current Archive Page Post ID
+			 * 
+			 * @return   string    Filtered title
+			 */
+			$title = apply_filters( "wpmoly_filter_{$page}_archive_page_title", $title, $id );
+
+			if ( 'wp_title' == $filter ) {
+				$title = str_replace( array( ':', '−' ), '&nbsp;|&nbsp;', $title ) . '&nbsp;|&nbsp;';
+				/**
+				 * Filter Page's main title as used in wp_title()
+				 * 
+				 * @since    2.1.1
+				 * 
+				 * @param    string    $title Current Archive Page title
+				 * @param    int       $id Current Archive Page Post ID
+				 * 
+				 * @return   string    Filtered title
+				 */
+				$title = apply_filters( "wpmoly_filter_{$page}_archive_page_wp_title", $title, $id );
+			}
+
+			return $title;
+		}
 
 		/**
 		 * Render Custom Movie Archives pages.
@@ -564,16 +704,9 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 * 
 		 * @return   boolean
 		 */
-		public static function has_custom_page() {
+		public function has_custom_page() {
 
-			$archives = array(
-				'movie'      => intval( wpmoly_o( 'movie-archives' ) ),
-				'collection' => intval( wpmoly_o( 'collection-archives' ) ),
-				'genre'      => intval( wpmoly_o( 'genre-archives' ) ),
-				'actor'      => intval( wpmoly_o( 'actor-archives' ) )
-			);
-
-			$has_pages = ! in_array( 0, $archives );
+			$has_pages = ! in_array( 0, $this->pages );
 
 			return $has_pages;
 		}
@@ -621,6 +754,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				if ( $preg && isset( $matches[2] ) && '' != $matches[2] ) {
 					$params['letter'] = $matches[2];
 				}
+				
 
 				// Has number/columns?
 				$preg = preg_match( "/{$regex['number']}/", $sorting, $matches );
@@ -725,8 +859,8 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		public function activate( $network_wide ) {
 
 			delete_option( 'wpmoly_has_custom_pages' );
-			if ( ! self::has_custom_page() )
-				add_option( 'wpmoly_has_custom_pages', 'no', null, 'no' );
+			if ( ! $this->has_custom_page() )
+				add_option( 'wpmoly_has_custom_pages', 'no' );
 		}
 
 		/**
@@ -748,13 +882,6 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 
 			delete_option( 'wpmoly_has_custom_pages' );
 		}
-
-		/**
-		 * Initializes variables
-		 *
-		 * @since    1.0
-		 */
-		public function init() {}
 
 	}
 
