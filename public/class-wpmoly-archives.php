@@ -322,7 +322,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$meta   = get_query_var( 'meta' );
 			$detail = get_query_var( 'detail' );
 			$value  = get_query_var( 'value' );
-			$letter = get_query_var( 'sorting' );
+			$sorting = get_query_var( 'sorting' );
 
 			$_detail = '';
 			$_meta   = '';
@@ -363,10 +363,12 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 					$title = __( 'Movies', 'wpmovielibrary' );
 			}
 
-			if ( '' != $letter ) {
-				$sorting = self::parse_query_vars( array( 'sorting' => $letter ) );
+			if ( '' != $sorting ) {
+				$sorting = self::parse_query_vars( compact( 'sorting' ) );
 				$letter  = $sorting['letter'];
-				$title  .= sprintf( __( ' − Letter %s', 'wpmovielibrary' ), $letter );
+
+				if ( '' != $letter )
+					$title  .= sprintf( __( ' − Letter %s', 'wpmovielibrary' ), $letter );
 
 				if ( '' != $sorting['paged'] && 'wp_title' == $filter )
 					$title .= sprintf( __( ' %s Page %d ', 'wpmovielibrary' ), $sep, $sorting['paged'] );
