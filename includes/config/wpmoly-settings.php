@@ -678,6 +678,18 @@ $wpmoly_config = array(
 				'default'  => ''
 			),
 
+			// Movie archives page title rewrite
+			'movie-archives-title-rewrite' => array(
+				'id'       => 'wpmoly-movie-archives-title-rewrite',
+				'type'     => 'switch',
+				'title'    => __( 'Rewrite Movie Archives Page Titles', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, movie archives page’s title and post title will be rewritten to feature currently browsed metas, details, and letters.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 1
+			),
+
+			// Movie archives page menu
 			'menu' => array(
 				'id'       => 'wpmoly-movie-archives-menu',
 				'type'     => 'switch',
@@ -688,6 +700,7 @@ $wpmoly_config = array(
 				'default'  => 1
 			),
 
+			// Movie archives page grid columns
 			'grid-columns' => array(
 				'id'       => 'wpmoly-movie-archives-grid-columns',
 				'type'     => 'slider',
@@ -700,6 +713,7 @@ $wpmoly_config = array(
 				'default'  => 4
 			),
 
+			// Movie archives page grid rows
 			'grid-rows' => array(
 				'id'       => 'wpmoly-movie-archives-grid-rows',
 				'type'     => 'slider',
@@ -712,6 +726,7 @@ $wpmoly_config = array(
 				'default'  => 6
 			),
 
+			// Movie archives page grid default sorting order
 			'movies-order' => array(
 				'id'       => 'wpmoly-movie-archives-movies-order',
 				'type'     => 'button_set',
@@ -724,6 +739,7 @@ $wpmoly_config = array(
 				'default'  => 'ASC'
 			),
 
+			// Movie archives page max number of movies per page
 			'movies-limit' => array(
 				'id'       => 'wpmoly-movie-archives-movies-limit',
 				'type'     => 'text',
@@ -733,6 +749,7 @@ $wpmoly_config = array(
 				'default'  => 99
 			),
 
+			// Movie archives page frontend edit inputs
 			'frontend-edit' => array(
 				'id'       => 'wpmoly-movie-archives-frontend-edit',
 				'type'     => 'switch',
@@ -790,6 +807,18 @@ $wpmoly_config = array(
 				'required' => array( 'wpmoly-enable-actor', "=", 1 )
 			),
 
+			// Movie archives page title rewrite
+			'archives-title-rewrite' => array(
+				'id'       => 'wpmoly-tax-archives-title-rewrite',
+				'type'     => 'switch',
+				'title'    => __( 'Rewrite Archives Page Titles', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, taxonomy archives page’s title and post title will be rewritten to feature currently browsed letter.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 1
+			),
+
+			// Taxonomy archives page menu
 			'archives-menu' => array(
 				'id'       => 'wpmoly-tax-archives-menu',
 				'type'     => 'switch',
@@ -800,6 +829,7 @@ $wpmoly_config = array(
 				'default'  => 1
 			),
 
+			// Taxonomy archives page don't show empty terms
 			'hide-empty' => array(
 				'id'       => 'wpmoly-tax-archives-hide-empty',
 				'type'     => 'switch',
@@ -810,6 +840,7 @@ $wpmoly_config = array(
 				'default'  => 1
 			),
 
+			// Taxonomy archives page default term order
 			'terms-orderby' => array(
 				'id'       => 'wpmoly-tax-archives-terms-orderby',
 				'type'     => 'button_set',
@@ -822,6 +853,7 @@ $wpmoly_config = array(
 				'default'  => 'title'
 			),
 
+			// Taxonomy archives page sorting order
 			'terms-order' => array(
 				'id'       => 'wpmoly-tax-archives-terms-order',
 				'type'     => 'button_set',
@@ -834,6 +866,7 @@ $wpmoly_config = array(
 				'default'  => 'ASC'
 			),
 
+			// Taxonomy archives page number of terms per page
 			'terms-per-page' => array(
 				'id'       => 'wpmoly-tax-archives-terms-per-page',
 				'type'     => 'text',
@@ -843,6 +876,7 @@ $wpmoly_config = array(
 				'default'  => 50
 			),
 
+			// Taxonomy archives page max number of terms per page
 			'terms-limit' => array(
 				'id'       => 'wpmoly-tax-archives-terms-limit',
 				'type'     => 'text',
@@ -852,6 +886,7 @@ $wpmoly_config = array(
 				'default'  => 999
 			),
 
+			// Taxonomy archives page frontend inputs
 			'frontend-edit' => array(
 				'id'       => 'wpmoly-tax-archives-frontend-edit',
 				'type'     => 'switch',

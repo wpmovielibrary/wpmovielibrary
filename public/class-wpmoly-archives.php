@@ -265,14 +265,25 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				return $title;
 
 			// 'wp_title' filter second parameter is separator, not id
-			if ( ! is_int( $id ) )
-				$id = get_the_ID();
+			$filter = current_filter();
+			$sep = '&nbsp;|&nbsp;';
+			if ( 'wp_title' == $filter ) {
+				$sep = $id;
+				$id  = get_the_ID();
+			}
 
 			// Exclude not-archive pages 
 			if ( ! in_array( $id, $this->pages ) )
 				return $title;
 
-			$filter = current_filter();
+			$is_movie = ( $id == $this->pages['movie'] );
+			$rewrite_movie = ( '1' == wpmoly_o( 'movie-archives-title-rewrite' ) );
+			$rewrite_taxonomy = ( '1' == wpmoly_o( 'tax-archives-title-rewrite' ) );
+
+			if ( ( $is_movie && ! $rewrite_movie ) || ( ! $is_movie && ! $rewrite_taxonomy ) ) {
+				return $title;
+			}
+
 			$page = array_search( $id, $this->pages );
 			$titles = array(
 				'movie'      => __( 'Movies', 'wpmovielibrary' ),
@@ -312,7 +323,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$value  = get_query_var( 'value' );
 			$letter = get_query_var( 'sorting' );
 
-			if ( $id == $this->pages['movie'] ) {
+			if ( $is_movie && $rewrite_movie ) {
 
 				if ( '' != $meta ) {
 					$_meta = WPMOLY_Settings::get_supported_movie_meta();
@@ -345,7 +356,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				$title  .= sprintf( __( ' − Letter %s', 'wpmovielibrary' ), $letter );
 
 				if ( '' != $sorting['paged'] && 'wp_title' == $filter )
-					$title .= sprintf( __( ' | Page %d', 'wpmovielibrary' ), $sorting['paged'] );
+					$title .= sprintf( __( ' %s Page %d ', 'wpmovielibrary' ), $sep, $sorting['paged'] );
 			}
 
 			/**
@@ -361,7 +372,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$title = apply_filters( "wpmoly_filter_{$page}_archive_page_title", $title, $id );
 
 			if ( 'wp_title' == $filter ) {
-				$title = str_replace( array( ':', '−' ), '&nbsp;|&nbsp;', $title ) . '&nbsp;|&nbsp;';
+				$title = str_replace( array( ':', '−' ), $sep, $title ) . $sep;
 				/**
 				 * Filter Page's main title as used in wp_title()
 				 * 
