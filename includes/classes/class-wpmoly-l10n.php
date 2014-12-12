@@ -280,6 +280,11 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		 */
 		public static function untranslate_value( $meta, $key, $value ) {
 
+			if ( 'production_countries' == $key )
+				$meta = 'countries';
+			elseif ( 'spoken_languages' == $key )
+				$meta = 'languages';
+
 			$rewrites = self::get_l10n_rewrite();
 			$_value   = apply_filters( 'wpmoly_filter_rewrites', $value );
 			$_value   = array_search( $_value, $rewrites[ $meta ] );

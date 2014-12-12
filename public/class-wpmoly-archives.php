@@ -323,29 +323,41 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$value  = get_query_var( 'value' );
 			$letter = get_query_var( 'sorting' );
 
+			$_detail = '';
+			$_meta   = '';
+
 			if ( $is_movie && $rewrite_movie ) {
 
+				
 				if ( '' != $meta ) {
-					$_meta = WPMOLY_Settings::get_supported_movie_meta();
-					if ( isset( $_meta[ $meta ] ) )
-						$meta = $_meta[ $meta ]['title'];
+					$supported = WPMOLY_Settings::get_supported_movie_meta();
+					if ( isset( $supported[ $meta ] ) )
+						$_meta = $supported[ $meta ]['title'];
 
-					/*if ( '' != $value )
-						$_value = $value;*/
+					if ( '' != $value )
+						$value = WPMOLY_L10n::untranslate_value( 'meta', $meta, $value );
 				}
 				elseif ( '' != $detail ) {
-					$_detail = WPMOLY_Settings::get_supported_movie_detail();
-					if ( isset( $_detail[ $detail ] ) )
-						$detail = $_detail[ $detail ]['title'];
+					$supported = WPMOLY_Settings::get_supported_movie_detail();
+					if ( isset( $supported[ $detail ] ) )
+						$_detail = $supported[ $detail ]['title'];
+
+					if ( '' != $value )
+						$value = WPMOLY_L10n::untranslate_value( 'detail', $detail, $value );
 				}
 
-				if ( '' == $meta && '' != $detail )
-					$meta = $detail;
+				if ( in_array( $meta, array( 'production_countries', 'spoken_languages' ) ) )
+					$value = __( $value, 'wpmovielibrary-iso' );
+				else
+					$value = __( $value, 'wpmovielibrary' );
 
-				if ( '' != $meta && '' == $value )
-					$title = sprintf( __( 'Movies by %s', 'wpmovielibrary' ), $meta );
-				elseif ( '' != $meta && '' != $value )
-					$title = sprintf( __( 'Movies by %s: %s', 'wpmovielibrary' ), ucwords( $meta ), ucwords( $value ) );
+				if ( '' == $_meta && '' != $_detail )
+					$_meta = $_detail;
+
+				if ( '' != $_meta && '' == $value )
+					$title = sprintf( __( 'Movies by %s', 'wpmovielibrary' ), $_meta );
+				elseif ( '' != $_meta && '' != $value )
+					$title = sprintf( __( 'Movies by %s: %s', 'wpmovielibrary' ), ucwords( $_meta ), $value );
 				else
 					$title = __( 'Movies', 'wpmovielibrary' );
 			}
