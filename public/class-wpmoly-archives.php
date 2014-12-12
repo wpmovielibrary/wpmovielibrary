@@ -872,6 +872,8 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			delete_option( 'wpmoly_has_custom_pages' );
 			if ( ! $this->has_custom_page() )
 				add_option( 'wpmoly_has_custom_pages', 'no' );
+			else
+				add_option( 'wpmoly_has_custom_pages', 'yes' );
 		}
 
 		/**
