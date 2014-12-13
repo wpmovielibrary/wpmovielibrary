@@ -316,7 +316,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			 */
 			$title = apply_filters( "wpmoly_filter_{$page}_archive_page_default_title", $titles[ $page ], $id );
 
-			if ( ( ! is_single( $id ) && ! is_page( $id ) )|| ( 'the_title' == $filter && ! in_the_loop() ) )
+			if ( ( ! is_single( $id ) && ! is_page( $id ) ) || ( 'the_title' == $filter && ! in_the_loop() ) )
 				return $title;
 
 			$meta   = get_query_var( 'meta' );
@@ -329,8 +329,8 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 
 			if ( $is_movie && $rewrite_movie ) {
 
-				
 				if ( '' != $meta ) {
+
 					$supported = WPMOLY_Settings::get_supported_movie_meta();
 					if ( isset( $supported[ $meta ] ) )
 						$_meta = $supported[ $meta ]['title'];
@@ -339,6 +339,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 						$value = WPMOLY_L10n::untranslate_value( 'meta', $meta, $value );
 				}
 				elseif ( '' != $detail ) {
+
 					$supported = WPMOLY_Settings::get_supported_movie_detail();
 					if ( isset( $supported[ $detail ] ) )
 						$_detail = $supported[ $detail ]['title'];
@@ -347,10 +348,10 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 						$value = WPMOLY_L10n::untranslate_value( 'detail', $detail, $value );
 				}
 
-				if ( in_array( $meta, array( 'production_countries', 'spoken_languages' ) ) )
+				/*if ( in_array( $meta, array( 'production_countries', 'spoken_languages' ) ) )
 					$value = __( $value, 'wpmovielibrary-iso' );
 				else
-					$value = __( $value, 'wpmovielibrary' );
+					$value = __( $value, 'wpmovielibrary' );*/
 
 				if ( '' == $_meta && '' != $_detail )
 					$_meta = $_detail;
@@ -559,7 +560,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 
 				$args['letter'] = $letter;
 				$args['baseurl'] = get_permalink();
-				$url = WPMOLY_L10n::build_meta_permalink( $args );
+				$url = WPMOLY_Utils::build_meta_permalink( $args );
 
 				global $wp_rewrite;
 				$format = '/page/%#%';
@@ -630,24 +631,24 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$attributes = compact( 'letters', 'default', 'letter', 'order', 'orderby', 'number', 'letter_url', 'default_url', 'editable' );
 
 			$urls = array();
-			$urls['all'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['all'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['order'] = $order;
 
 			$args['letter'] = '{letter}';
-			$urls['letter'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['letter'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['letter'] = $letter;
 
 			$args['order'] = 'ASC';
 			$args['orderby'] = 'count';
-			$urls['count_asc'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['count_asc'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['orderby'] = 'title';
-			$urls['title_asc'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['title_asc'] = WPMOLY_Utils::build_meta_permalink( $args );
 
 			$args['order'] = 'DESC';
 			$args['orderby'] = 'count';
-			$urls['count_desc'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['count_desc'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['orderby'] = 'title';
-			$urls['title_desc'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['title_desc'] = WPMOLY_Utils::build_meta_permalink( $args );
 
 			$attributes['urls'] = $urls;
 

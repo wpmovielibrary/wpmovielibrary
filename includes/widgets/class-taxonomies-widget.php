@@ -176,7 +176,7 @@ class WPMOLY_Taxonomies_Widget extends WPMOLY_Widget {
 				);
 
 			if ( $limit ) {
-				$url = WPMOLY_L10n::get_taxonomy_permalink( $archive, $value = false );
+				$url = WPMOLY_Utils::get_taxonomy_permalink( $archive, $value = false );
 				if ( '' != $url ) {
 					$items[] = array(
 						'attr_title'  => $this->taxonomies[ $taxonomy ]['view_all'],

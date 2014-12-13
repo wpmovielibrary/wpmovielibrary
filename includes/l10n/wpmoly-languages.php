@@ -417,8 +417,8 @@ $wpmoly_countries = array(
 		'name'   => __( 'Bhutan', 'wpmovielibrary-iso' )
 	),
 	'BO' => array(
-		'native' => 'Bolivia, Plurinational State of',
-		'name'   => __( 'Bolivia, Plurinational State of', 'wpmovielibrary-iso' )
+		'native' => 'Bolivia',
+		'name'   => __( 'Bolivia', 'wpmovielibrary-iso' )
 	),
 	'BQ' => array(
 		'native' => 'Bonaire, Sint Eustatius and Saba',

@@ -289,6 +289,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			$new_rules = $new_rules + $rules;
 
+			WPMOLY_L10n::set_l10n_rewrite();
+
 			return $new_rules;
 		}
 
@@ -480,6 +482,256 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
+		 *                          Custom Permalinks
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * Generate Custom Movie Meta permalinks
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $args Permalink parameters
+		 * 
+		 * @return   string    HTML href of raw URL
+		 */
+		public static function get_meta_permalink( $args ) {
+
+			$defaults = array(
+				'key'     => null,
+				'value'   => null,
+				'type'    => null,
+				'format'  => null,
+				'baseurl' => null,
+			);
+			$args = wp_parse_args( $args, $defaults );
+			extract( $args );
+
+			if ( ! in_array( $type, array( 'meta', 'detail' ) ) )
+				return null;
+
+			if ( 'raw' !== $format )
+				$format = 'html';
+
+			$name  = $value;
+			$key   = WPMOLY_L10n::translate_meta( $type, $key );
+			$value = WPMOLY_L10n::translate_value( $type, $key, $value );
+
+			$args = array(
+				$type     => $key,
+				'value'   => $value,
+				'baseurl' => $baseurl
+			);
+
+			$url = self::build_meta_permalink( $args );
+
+			if ( 'raw' == $format )
+				return $url;
+
+			$permalink = sprintf( '<a href="%s" title="%s">%s</a>', $url, $value, $name );
+
+			return $permalink;
+		}
+
+		/**
+		 * Build Meta URL. Use an array of parameter to build a custom
+		 * URLs for meta queries.
+		 * 
+		 * @since    2.1.1
+		 * 
+		 * @param    array     $args URL parameters to use
+		 * 
+		 * @return   string    Custom URL
+		 */
+		public static function build_meta_permalink( $args ) {
+
+			global $wp_rewrite;
+			$rewrite = ( '' != $wp_rewrite->permalink_structure );
+
+			$defaults = array(
+				'baseurl' => get_permalink(),
+				'number'  => null,
+				'columns' => null,
+				'rows'    => null,
+				'order'   => null,
+				'orderby' => null,
+				'paged'   => null,
+				'meta'    => null,
+				'detail'  => null,
+				'value'   => null,
+				'letter'  => null,
+				'l10n'    => true,
+				'is_tax'  => false,
+				'view'    => null
+			);
+			$args = wp_parse_args( $args, $defaults );
+
+			$args['type'] = '';
+			if ( '' != $args['meta'] && '' != $args['value'] ) {
+				$args['type'] = 'meta';
+			}
+			else if ( '' != $args['detail'] && '' != $args['value'] ) {
+				$args['type'] = 'detail';
+				$args['meta'] = $args['detail'];
+			}
+
+			// Meta should already be translated, but won't if the
+			// method is called directly, so we have to have a way
+			// translate meta if needed
+			if ( false === $args['l10n'] ) {
+				$args['meta']  = WPMOLY_L10n::translate_meta( $args['type'], $args['meta'] );
+				$args['value'] = WPMOLY_L10n::translate_value( $args['type'], $args['meta'], $args['value'] );
+			}
+
+			unset( $args['l10n'] );
+			if ( 'rating' != $args['meta'] )
+				$args['value'] = sanitize_title( $args['value'] );
+
+			$url = '';
+			if ( $rewrite )
+				$url = self::build_custom_meta_permalink( $args );
+			else
+				$url = self::build_default_meta_permalink( $args );
+
+			return $url;
+		}
+
+		/**
+		 * Build a custom meta permalink for custom permalinks settings
+		 * 
+		 * This generate a user-friendly URL to access meta-based archive
+		 * pages.
+		 * 
+		 * @since    2.1.1
+		 * 
+		 * @param    array    $args URL parameters
+		 * 
+		 * @return   string   Generated URL
+		 */
+		private static function build_custom_meta_permalink( $args ) {
+
+			extract( $args );
+
+			$movies = wpmoly_o( 'rewrite-movie' );
+			if ( ! $movies )
+				$movies = 'movies';
+
+			$url = array();
+
+			if ( '' != $meta && '' != $value ) {
+				$url[] = $meta;
+				$url[] = $value;
+			}
+
+			$grid = 'grid';
+			if ( '' != $view )
+				$grid = $view;
+
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
+				$grid = __( $grid, 'wpmovielibrary' );
+
+			$url[] = $grid;
+
+			if ( '' != $letter )
+				$url[] = $letter;
+
+			if ( '' != $columns && '' != $rows )
+				$url[] = "$columns:$rows";
+			else if ( '' != $number )
+				$url[] = $number;
+
+			if ( '' != $orderby )
+				$url[] = $orderby;
+
+			if ( '' != $order )
+				$url[] = $order;
+
+			if ( 1 < $paged )
+				$url[] = "page/$paged";
+
+			if ( $grid == end( $url ) )
+				$grid = array_pop( $url );
+
+			$url = implode( '/', $url );
+			$url = $baseurl . $url;
+
+			return $url;
+		}
+
+		/**
+		 * Build a custom meta permalink for default permalinks settings
+		 * 
+		 * This generate a meta URL with raw URL parameters instead of
+		 * nice user-friendly URLs if the user chose not to use WordPress
+		 * permalinks.
+		 * 
+		 * @since    2.1.1
+		 * 
+		 * @param    array    $args URL parameters
+		 * 
+		 * @return   string   Generated URL
+		 */
+		private static function build_default_meta_permalink( $args ) {
+
+			if ( false !== $args['is_tax'] )
+				$type = $args['is_tax'];
+			else
+				$type = 'movie';
+
+			$page = intval( wpmoly_o( $type . '-archives' ) );
+			$base  = 'index.php?';
+			if ( $page )
+				$base .= 'page_id=' . $page . '&';
+
+			$url = array();
+
+			if ( '' != $args['type'] && '' != $args['meta'] && '' != $args['value'] ) {
+				$url[ $args['type'] ] = $args['meta'];
+				$url['value'] = $args['value'];
+			}
+
+			unset( $args['type'], $args['meta'], $args['value'], $args['baseurl'], $args['is_tax'] );
+
+			foreach ( $args as $slug => $arg )
+				if ( '' != $arg )
+					$url[ $slug ] = $arg;
+
+			$url = add_query_arg( $url, home_url( "/${base}" ) );
+
+			return $url;
+		}
+
+		/**
+		 * Generate Custom Taxonomies permalinks
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $taxonomy Taxonomy name
+		 * @param    string    $value Text for the link
+		 * 
+		 * @return   string    HTML href of raw URL
+		 */
+		public static function get_taxonomy_permalink( $taxonomy, $value ) {
+
+			$page_id = intval( wpmoly_o( "{$taxonomy}-archives" ) );
+			if ( ! $page_id || ! get_post( $page_id ) )
+				return $value;
+
+			if ( '1' != wpmoly_o( 'rewrite-enable' ) )
+				$url = home_url( sanitize_title( get_the_title( $page_id ) ) );
+			else
+				$url = get_permalink( $page_id );
+
+			if ( false === $value )
+				return $url;
+
+			$permalink = sprintf( '<a href="%s" title="%s">%s</a>', $url, strip_tags( $value ), $value );
+
+			return $permalink;
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
 		 *                              Utils
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -511,7 +763,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				if ( 'rating' == $key )
 					$value = WPMOLY_L10n::untranslate_value( 'meta', $key, $value );
 
-				$link[ $i ] = WPMOLY_L10n::get_meta_permalink( compact( 'key', 'value', 'type', 'baseurl' ) );
+				$link[ $i ] = self::get_meta_permalink( compact( 'key', 'value', 'type', 'baseurl' ) );
 			}
 
 			$link = implode( ', ', $link );

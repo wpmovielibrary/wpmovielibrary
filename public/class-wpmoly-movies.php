@@ -728,25 +728,25 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$l10n = false;
 
 			$args = compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n', 'baseurl', 'view' );
-			$urls['all'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['all'] = WPMOLY_Utils::build_meta_permalink( $args );
 
 			$args['view'] = 'list';
-			$urls['list'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['list'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['view'] = 'archives';
-			$urls['archives'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['archives'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['view'] = 'grid';
-			$urls['grid'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['grid'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['view'] = $view;
 
 			$args['letter'] = '{letter}';
-			$urls['letter'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['letter'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['letter'] = $letter;
 
 			$args['order'] = 'ASC';
-			$urls['asc'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['asc'] = WPMOLY_Utils::build_meta_permalink( $args );
 
 			$args['order'] = 'DESC';
-			$urls['desc'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['desc'] = WPMOLY_Utils::build_meta_permalink( $args );
 
 			$attributes['urls'] = $urls;
 
@@ -889,7 +889,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				'view'    => $view,
 				'baseurl' => get_post_type_archive_link( 'movie' )
 			);
-			$url = WPMOLY_L10n::build_meta_permalink( $args );
+			$url = WPMOLY_Utils::build_meta_permalink( $args );
 
 			global $wp_rewrite;
 			$format = '/page/%#%';
