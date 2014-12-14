@@ -619,7 +619,17 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$default = str_split( 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
 			$letters = array();
 			
-			$result = $wpdb->get_results( "SELECT DISTINCT LEFT(t.name, 1) as letter FROM {$wpdb->terms} AS t INNER JOIN {$wpdb->term_taxonomy} AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ('collection') ORDER BY t.name ASC" );
+			$result = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT DISTINCT LEFT(t.name, 1) as letter
+					   FROM {$wpdb->terms} AS t
+					  INNER JOIN {$wpdb->term_taxonomy} AS tt
+					     ON t.term_id = tt.term_id
+					  WHERE tt.taxonomy = %s
+					  ORDER BY t.name ASC",
+					$taxonomy
+				)
+			);
 			foreach ( $result as $r )
 				$letters[] = $r->letter;
 
