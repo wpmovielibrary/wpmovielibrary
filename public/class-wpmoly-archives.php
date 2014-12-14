@@ -762,7 +762,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				'meta'    => get_query_var( 'meta' ),
 				'detail'  => get_query_var( 'detail' ),
 				'value'   => get_query_var( 'value' ),
-				'view'    => get_query_var( 'view' )
+				'view'    => get_query_var( 'view', 'grid' )
 			);
 
 			// I can haz sortingz!

@@ -443,6 +443,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				$url[] = $value;
 			}
 
+			$grid = 'grid';
 			if ( '' != $view )
 				$grid = $view;
 
