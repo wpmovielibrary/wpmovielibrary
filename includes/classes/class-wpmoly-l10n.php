@@ -78,7 +78,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				else
 					$key = key( $detail['rewrite'] );
 
-				$l10n_rewrite[ $key ] = $slug;
+				$l10n_rewrite[ sanitize_title( $key ) ] = $slug;
 
 				foreach ( $detail['options'] as $_slug => $option ) {
 					if ( 'rating' == $slug )
@@ -132,7 +132,6 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			 * @param    array    $l10n_rewrite Existing rewrites
 			 */
 			$l10n_rewrite = apply_filters( 'wpmoly_filter_l10n_rewrite', $l10n_rewrite );
-			print_r( $l10n_rewrite );
 
 			self::delete_l10n_rewrite();
 			add_option( 'wpmoly_l10n_rewrite', $l10n_rewrite );
@@ -305,9 +304,9 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			$countries = WPMOLY_Settings::get_supported_countries();
 
 			if ( 2 == strlen( $country ) )
-				$code = $country;
+				$code = strtoupper( $country );
 			else
-				$code = array_search( $country, $countries );
+				$code = array_search( strtoupper( $country ), $countries );
 
 			if ( false !== $code )
 				$country = $countries[ $code ];
@@ -330,9 +329,28 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 
 			$languages = WPMOLY_Settings::get_available_languages();
 
-			$code = array_search( $language, $languages['native'] );
+			if ( 2 == strlen( $language ) )
+				$code = strtolower( $language );
+			else
+				$code = array_search( $language, $languages['native'] );
+
 			if ( false !== $code )
 				$language = $languages['standard'][ $code ];
+
+			return $language;
+		}
+
+		public static function get_language_native_name( $language ) {
+
+			$languages = WPMOLY_Settings::get_available_languages();
+
+			if ( 2 == strlen( $language ) )
+				$code = strtolower( $language );
+			else
+				$code = array_search( $language, $languages['native'] );
+
+			if ( false !== $code )
+				$language = $languages['native'][ $code ];
 
 			return $language;
 		}

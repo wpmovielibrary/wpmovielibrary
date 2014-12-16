@@ -96,7 +96,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			foreach ( $this->filters as $filter )
 				add_filter( $filter['tag'], $filter['function'], $filter['priority'], $filter['args'] );
 
-			add_filter( 'wpmoly_movie_meta_link', __CLASS__ . '::add_meta_link', 10, 3 );
+			add_filter( 'wpmoly_movie_meta_link', __CLASS__ . '::add_meta_link', 10, 4 );
 
 			add_filter( 'wpmoly_movie_rating_stars', __CLASS__ . '::get_movie_rating_stars', 10, 3 );
 
@@ -312,7 +312,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 				// Simple meta link
 				$regex = sprintf( '%s/(%s)/([^/]+)/%s/(.*?)/?$', $movies, $meta, $grid );
-				$value = sprintf( '%s%s=%s&value=$matches[2]&sorting=$matches[3]', $base, $type, $slug );
+				$value = sprintf( '%s%s=%s&value=$matches[2]&view=$matches[3]&sorting=$matches[4]', $base, $type, $slug );
 				$new_rules[ $regex ] = $value;
 			}
 
@@ -487,6 +487,38 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
+		 * Add a meta link to the movie meta value
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    string    $key Meta key
+		 * @param    string    $value Meta value
+		 * @param    string    $type Meta type, 'detail' or 'meta'
+		 * 
+		 * @return   string    Formatted output
+		 */
+		public static function add_meta_link( $key, $value, $type, $text = null ) {
+
+			if ( ! wpmoly_o( 'meta-links' ) || 'nowhere' == wpmoly_o( 'meta-links' ) || ( 'posts_only' == wpmoly_o( 'meta-links' ) && ! is_single() ) )
+				return $value;
+
+			if ( is_null( $key ) || is_null( $value ) || '' == $value )
+				return $value;
+
+			$baseurl = get_post_type_archive_link( 'movie' );
+			$link = explode( ',', $value );
+			foreach ( $link as $i => $value ) {
+
+				$value = trim( $value );
+				$link[ $i ] = self::get_meta_permalink( compact( 'key', 'value', 'text', 'type', 'baseurl' ) );
+			}
+
+			$link = implode( ', ', $link );
+
+			return $link;
+		}
+
+		/**
 		 * Generate Custom Movie Meta permalinks
 		 * 
 		 * @since    1.0
@@ -500,6 +532,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$defaults = array(
 				'key'     => null,
 				'value'   => null,
+				'text'    => null,
 				'type'    => null,
 				'format'  => null,
 				'baseurl' => null,
@@ -513,8 +546,24 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( 'raw' !== $format )
 				$format = 'html';
 
-			$name  = $value;
-			$key   = WPMOLY_L10n::translate_rewrite( $key );
+			$title = $value;
+			if ( is_null( $text ) )
+				$text = $value;
+
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) ) {
+				if ( 'production_countries' == $key ) {
+					$value = WPMOLY_L10n::get_country_standard_name( $value );
+				} else if ( 'spoken_languages' == $key ) {
+					$value = WPMOLY_L10n::get_language_standard_name( $value );
+				}
+				$value = __( $value, 'wpmovielibrary-iso' );
+			}
+
+			if ( 'rating' != $key )
+				$value = sanitize_title( $value );
+
+			$key = WPMOLY_L10n::translate_rewrite( $key );
+			$value = WPMOLY_L10n::translate_rewrite( $value );
 
 			$args = array(
 				$type     => $key,
@@ -527,7 +576,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( 'raw' == $format )
 				return $url;
 
-			$permalink = sprintf( '<a href="%s" title="%s">%s</a>', $url, $value, $name );
+			$permalink = sprintf( '<a href="%1$s" title="%2$s (%3$s)">%3$s</a>', $url, $title, $text );
 
 			return $permalink;
 		}
@@ -559,7 +608,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				'detail'  => null,
 				'value'   => null,
 				'letter'  => null,
-				'l10n'    => true,
 				'is_tax'  => false,
 				'view'    => null
 			);
@@ -573,18 +621,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$args['type'] = 'detail';
 				$args['meta'] = $args['detail'];
 			}
-
-			// Meta should already be translated, but won't if the
-			// method is called directly, so we have to have a way
-			// translate meta if needed
-			if ( false === $args['l10n'] ) {
-				$args['meta']  = WPMOLY_L10n::translate_rewrite( $args['meta'] );
-				$args['value'] = WPMOLY_L10n::translate_rewrite( $args['value'] );
-			}
-
-			unset( $args['l10n'] );
-			if ( 'rating' != $args['meta'] )
-				$args['value'] = sanitize_title( $args['value'] );
 
 			$url = '';
 			if ( $rewrite )
@@ -734,38 +770,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 *                              Utils
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		/**
-		 * Add a meta link to the movie meta value
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    string    $key Meta key
-		 * @param    string    $value Meta value
-		 * @param    string    $type Meta type, 'detail' or 'meta'
-		 * 
-		 * @return   string    Formatted output
-		 */
-		public static function add_meta_link( $key, $value, $type ) {
-
-			if ( ! wpmoly_o( 'meta-links' ) || 'nowhere' == wpmoly_o( 'meta-links' ) || ( 'posts_only' == wpmoly_o( 'meta-links' ) && ! is_single() ) )
-				return $value;
-
-			if ( is_null( $key ) || is_null( $value ) || '' == $value )
-				return $value;
-
-			$baseurl = get_post_type_archive_link( 'movie' );
-			$link = explode( ',', $value );
-			foreach ( $link as $i => $value ) {
-
-				$value = trim( $value );
-				$link[ $i ] = self::get_meta_permalink( compact( 'key', 'value', 'type', 'baseurl' ) );
-			}
-
-			$link = implode( ', ', $link );
-
-			return $link;
-		}
 
 		/**
 		 * Generate rating stars block.

@@ -788,6 +788,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$args = wp_parse_args( $args, $defaults );
 
 			// Allow URL params to override Shortcode settings
+			
 			if ( ! empty( $_GET ) ) {
 				$vars = array( 'columns', 'rows', 'letter', 'order', 'meta', 'detail', 'value', 'view' );
 				foreach ( $vars as $var )
@@ -806,7 +807,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				$views = array( 'grid' => __( 'grid', 'wpmovielibrary' ), 'archives' => __( 'archives', 'wpmovielibrary' ), 'list' => __( 'list', 'wpmovielibrary' ) );
 
 			$_view = array_search( $view, $views );
-			if ( false !== $_view )
+			if ( false != $_view )
 				$view = $_view;
 
 			$movies = array();
@@ -852,17 +853,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$join = array();
 			if ( '' != $value && '' != $meta ) {
 
-				// Languages and countries meta are special
-				if ( 'spoken_languages' == $meta )
-					$_type = 'languages';
-				else if ( 'production_countries' == $meta )
-					$_type = 'countries';
-				else
-					$_type = $type;
-
-				$_value = WPMOLY_L10n::untranslate_rewrite( $value );
-				$_value = WPMOLY_L10n::get_country_standard_name( $_value );
-				$meta_query = call_user_func( "WPMOLY_Search::by_$meta", $_value, 'sql' );
+				$meta_query = call_user_func( "WPMOLY_Search::by_$meta", $value, 'sql' );
 
 				$join[]  = $meta_query['join'];
 				$where[] = $meta_query['where'];

@@ -348,12 +348,15 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 						$value = WPMOLY_L10n::untranslate_rewrite( $value );
 				}
 
-				if ( in_array( $meta, array( 'production_countries', 'spoken_languages' ) ) ) {
+				if ( 'production_countries' == $meta ) {
 					$value = WPMOLY_L10n::get_country_standard_name( $value );
 					$value = __( $value, 'wpmovielibrary-iso' );
-				}
-				else
+				} else if ( 'spoken_languages' == $meta ) {
+					$value = WPMOLY_L10n::get_language_standard_name( $value );
+					$value = __( $value, 'wpmovielibrary-iso' );
+				} else {
 					$value = __( $value, 'wpmovielibrary' );
+				}
 
 				if ( '' == $_meta && '' != $_detail )
 					$_meta = $_detail;

@@ -131,14 +131,12 @@ class WPMOLY_Details_Widget extends WPMOLY_Widget {
 			$items = array();
 			foreach ( $details as $slug => $_title ) {
 
-				$_slug = ( $rewrite ? __( $slug, 'wpmovielibrary' ) : $slug );
-
 				$item = array(
 					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary' ), __( $_title, 'wpmovielibrary' ) ),
 					'link'        => WPMOLY_Utils::get_meta_permalink(
 						array(
 							'key'     => $detail,
-							'value'   => $_slug,
+							'value'   => $slug,
 							'type'    => 'detail',
 							'format'  => 'raw',
 							'baseurl' => get_post_type_archive_link( 'movie' )
