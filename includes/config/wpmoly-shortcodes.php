@@ -37,6 +37,36 @@ $wpmoly_shortcodes = array(
 				'values'  => null,
 				'filter'  => 'intval'
 			),
+			'rows' => array(
+				'default' => wpmoly_o( 'movie-archives-grid-rows' ),
+				'values'  => null,
+				'filter'  => 'intval'
+			),
+			'view' => array(
+				'default' => null,
+				'values'  => array( 'grid', 'archives', 'list' ),
+				'filter'  => 'esc_attr'
+			),
+			'letter' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'meta' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'detail' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'value' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
 			'title' => array(
 				'default' => false,
 				'values'  => 'boolean',

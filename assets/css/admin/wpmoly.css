@@ -62,8 +62,13 @@ body.post-php.post-type-movie #postimagediv {
 .wpmoly-movies-widget-select-meta {
 	background: none repeat scroll 0% 0% #e5e5e5;
 	box-shadow: 0 0 2px rgba(0, 0, 0, 0.15) inset;
+	display: none;
 	margin: 0px -15px;
 	padding: 8px 15px;
+}
+
+.wpmoly-movies-widget-select-meta.selected {
+	display: block;
 }
 
 .wpmoly-movies-widget-select-meta .redux-container-select {

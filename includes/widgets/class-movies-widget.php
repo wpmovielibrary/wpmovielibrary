@@ -276,6 +276,7 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 
 		$items = array();
 
+
 		foreach ( $movies->posts as $movie ) {
 			$item = array(
 				'ID'          => $movie->ID,

@@ -783,7 +783,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$defaults = WPMOLY_Settings::get_supported_movie_details();
 
 			if ( is_null( $post_id ) || ! intval( $post_id ) )
-				$post_id = '';
+				$post_id = get_the_ID();
 
 			if ( is_null( $base ) )
 				$base = wpmoly_o( 'format-rating' );
@@ -812,7 +812,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$_empty  = ceil( 5.0 - ( $_filled + $_half ) );
 
 			if ( 0.0 == $rating ) {
-				$stars = sprintf( '<small><em>%s</em></small>', __( 'Not rated yet!', 'wpmovielibrary' ) );
+				$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="not-rated" title="' . $title . '">';
+				$stars .= sprintf( '<small><em>%s</em></small>', __( 'Not rated yet!', 'wpmovielibrary' ) );
+				$stars .= '</div>';
 			}
 			else if ( 10 == $base ) {
 				$_filled = $rating * 2;

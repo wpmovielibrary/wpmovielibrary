@@ -113,7 +113,7 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 				if ( $menu )
 					$grid_menu = WPMOLY_Movies::get_grid_menu( $atts );
 
-				$content = WPMOLY_Movies::get_the_grid( $atts );
+				$content = WPMOLY_Movies::get_the_grid( $atts, $shortcode = true );
 
 				$content = $grid_menu . $content;
 
