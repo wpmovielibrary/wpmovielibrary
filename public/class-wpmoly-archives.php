@@ -368,7 +368,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				$letter  = $sorting['letter'];
 
 				if ( '' != $letter )
-					$title  .= sprintf( __( ' − Letter %s', 'wpmovielibrary' ), $letter );
+					$title  .= sprintf( ' − %s ', sprintf( __( 'Letter %s', 'wpmovielibrary' ), $letter ) );
 
 				if ( '' != $sorting['paged'] && 'wp_title' == $filter )
 					$title .= sprintf( __( ' %s Page %d ', 'wpmovielibrary' ), $sep, $sorting['paged'] );
