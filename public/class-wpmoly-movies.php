@@ -935,7 +935,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 				setup_postdata( $post );
 
-				$_current = substr( get_the_title(), 0, 1 );
+				$_current = substr( remove_accents( get_the_title() ), 0, 1 );
 				if ( $_current != $current )
 					$current = $_current;
 
