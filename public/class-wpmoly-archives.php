@@ -336,7 +336,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 						$_meta = $supported[ $meta ]['title'];
 
 					if ( '' != $value )
-						$value = WPMOLY_L10n::untranslate_value( 'meta', $meta, $value );
+						$value = WPMOLY_L10n::untranslate_rewrite( $value );
 				}
 				elseif ( '' != $detail ) {
 
@@ -345,13 +345,15 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 						$_detail = $supported[ $detail ]['title'];
 
 					if ( '' != $value )
-						$value = WPMOLY_L10n::untranslate_value( 'detail', $detail, $value );
+						$value = WPMOLY_L10n::untranslate_rewrite( $value );
 				}
 
-				/*if ( in_array( $meta, array( 'production_countries', 'spoken_languages' ) ) )
+				if ( in_array( $meta, array( 'production_countries', 'spoken_languages' ) ) ) {
+					$value = WPMOLY_L10n::get_country_standard_name( $value );
 					$value = __( $value, 'wpmovielibrary-iso' );
+				}
 				else
-					$value = __( $value, 'wpmovielibrary' );*/
+					$value = __( $value, 'wpmovielibrary' );
 
 				if ( '' == $_meta && '' != $_detail )
 					$_meta = $_detail;

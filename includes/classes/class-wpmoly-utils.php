@@ -514,8 +514,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$format = 'html';
 
 			$name  = $value;
-			$key   = WPMOLY_L10n::translate_meta( $type, $key );
-			$value = WPMOLY_L10n::translate_value( $type, $key, $value );
+			$key   = WPMOLY_L10n::translate_rewrite( $key );
 
 			$args = array(
 				$type     => $key,
@@ -579,8 +578,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			// method is called directly, so we have to have a way
 			// translate meta if needed
 			if ( false === $args['l10n'] ) {
-				$args['meta']  = WPMOLY_L10n::translate_meta( $args['type'], $args['meta'] );
-				$args['value'] = WPMOLY_L10n::translate_value( $args['type'], $args['meta'], $args['value'] );
+				$args['meta']  = WPMOLY_L10n::translate_rewrite( $args['meta'] );
+				$args['value'] = WPMOLY_L10n::translate_rewrite( $args['value'] );
 			}
 
 			unset( $args['l10n'] );
@@ -760,9 +759,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			foreach ( $link as $i => $value ) {
 
 				$value = trim( $value );
-				if ( 'rating' == $key )
-					$value = WPMOLY_L10n::untranslate_value( 'meta', $key, $value );
-
 				$link[ $i ] = self::get_meta_permalink( compact( 'key', 'value', 'type', 'baseurl' ) );
 			}
 
@@ -966,19 +962,15 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( true !== $count )
 				$count = false;
 
-			$supported = WPMOLY_Settings::get_available_languages();
-			foreach ( $supported as $i => $s ) {
-				unset( $supported[ $i ] );
-				$supported[ $s['native'] ] = $s['name'];
-			}
-
 			$languages = self::get_used_meta( 'spoken_languages', $count );
 			foreach ( $languages as $i => $language ) {
-				if ( isset( $supported[ $language['name'] ] ) ) {
+
+				$_language = WPMOLY_L10n::get_language_standard_name( $language['name'] );
+				if ( $_language != $language['name'] ) {
 					if ( ! $count )
-						$used_languages[ $language['name'] ] = $supported[ $language['name'] ];
+						$used_languages[ $language['name'] ] = __( $_language, 'wpmovielibrary-iso' );
 					else
-						$used_languages[ $language['name'] ] = sprintf( '%s (%s)', $supported[ $language['name'] ], sprintf( _n( '%d movie', '%d movies', $language['count'], 'wpmovielibrary' ), $language['count'] ) );
+						$used_languages[ $language['name'] ] = sprintf( '%s (%s)', __( $_language, 'wpmovielibrary-iso' ), sprintf( _n( '%d movie', '%d movies', $language['count'], 'wpmovielibrary' ), $language['count'] ) );
 				}
 			}
 
@@ -1003,19 +995,15 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( true !== $count )
 				$count = false;
 
-			$supported = WPMOLY_Settings::get_supported_countries();
-			foreach ( $supported as $i => $s ) {
-				unset( $supported[ $i ] );
-				$supported[ $s['native'] ] = $s['name'];
-			}
-
 			$countries = self::get_used_meta( 'production_countries', $count );
 			foreach ( $countries as $i => $country ) {
-				if ( isset( $supported[ $country['name'] ] ) ) {
+
+				$_country = WPMOLY_L10n::get_country_standard_name( $country['name'] );
+				if ( $_country != $country['name'] ) {
 					if ( ! $count )
-						$used_countries[ $country['name'] ] = $supported[ $country['name'] ];
+						$used_countries[ $country['name'] ] = __( $_country, 'wpmovielibrary-iso' );
 					else
-						$used_countries[ $country['name'] ] = sprintf( '%s (%s)', $supported[ $country['name'] ], sprintf( _n( '%d movie', '%d movies', $country['count'], 'wpmovielibrary' ), $country['count'] ) );
+						$used_countries[ $country['name'] ] = sprintf( '%s (%s)', __( $_country, 'wpmovielibrary-iso' ), sprintf( _n( '%d movie', '%d movies', $country['count'], 'wpmovielibrary' ), $country['count'] ) );
 				}
 			}
 

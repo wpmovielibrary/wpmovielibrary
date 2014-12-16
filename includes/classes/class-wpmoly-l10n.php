@@ -67,8 +67,9 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 
 			$details   = WPMOLY_Settings::get_supported_movie_details();
 			$meta      = WPMOLY_Settings::get_supported_movie_meta();
-			$languages = WPMOLY_Settings::get_available_languages();
 			$countries = WPMOLY_Settings::get_supported_countries();
+			$languages = WPMOLY_Settings::get_available_languages();
+			$languages = $languages['standard'];
 
 			foreach ( $details as $slug => $detail ) {
 
@@ -90,7 +91,9 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			}
 
 			foreach ( $meta as $slug => $m ) {
+
 				if ( ! is_null( $m['rewrite'] ) ) {
+
 					if ( $translate )
 						$key = array_pop( $m['rewrite'] );
 					else
@@ -100,29 +103,26 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				}
 			}
 
-			foreach ( $languages as $language ) {
-
-				$slug = $language['native'];
+			foreach ( $countries as $code => $country ) {
 
 				if ( $translate )
-					$key = $language['name'];
+					$key = __( $country, 'wpmovielibrary-iso' );
 				else
-					$key = $language['standard'];
+					$key = $country;
 
-				$l10n_rewrite[ sanitize_title( $key ) ] = $slug;
+				$l10n_rewrite[ sanitize_title( $key ) ] = $code;
 			}
 
-			foreach ( $countries as $country ) {
-
-				$slug = $country['native'];
+			foreach ( $languages as $code => $language ) {
 
 				if ( $translate )
-					$key = $country['name'];
+					$key = __( $language, 'wpmovielibrary-iso' );
 				else
-					$key = $country['native'];
+					$key = $language;
 
-				$l10n_rewrite[ sanitize_title( $key ) ] = $slug;
+				$l10n_rewrite[ sanitize_title( $key ) ] = $code;
 			}
+			
 
 			/**
 			 * Filter the rewrites list
@@ -132,43 +132,12 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			 * @param    array    $l10n_rewrite Existing rewrites
 			 */
 			$l10n_rewrite = apply_filters( 'wpmoly_filter_l10n_rewrite', $l10n_rewrite );
+			print_r( $l10n_rewrite );
 
 			self::delete_l10n_rewrite();
 			add_option( 'wpmoly_l10n_rewrite', $l10n_rewrite );
 
 			return $l10n_rewrite;
-		}
-
-		public function set_l10n_countries() {
-
-			$translate = wpmoly_o( 'translate-countries' );
-			$countries = WPMOLY_Settings::get_supported_countries();
-
-			$l10n_countries = array();
-
-			foreach ( $countries as $code => $country ) {
-
-				
-			}
-
-			return $l10n_countries;
-		}
-
-		public function set_l10n_languages() {
-
-			$translate = wpmoly_o( 'translate-languages' );
-			$languages = WPMOLY_Settings::get_available_languages();
-
-			$l10n_languages = array();
-
-			foreach ( $languages as $language ) {
-
-				$l10n_languages[ $language['native'] ] = $language['standard'];
-				if ( $translate )
-					$l10n_languages[ $language['name'] ] = $language['standard'];
-			}
-
-			return $l10n_languages;
 		}
 
 		/**
@@ -299,62 +268,73 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 			return $rewrite;
 		}
 
-		public static function translate_meta( $type, $meta ) {
+		public static function translate_rewrite( $value ) {
 
 			$rewrites = self::get_l10n_rewrite();
+			$value = self::filter_rewrites( $value );
 
-			if ( ! isset( $rewrites[ $type ][ $meta ] ) )
-				return $meta;
-
-			$meta = $rewrites[ $type ][ $meta ];
-
-			return $meta;
-		}
-
-		public static function translate_value( $type, $meta, $value ) {
-
-			if ( 'rating' != $meta )
-				$value = self::filter_rewrites( __( ucwords( $value ), 'wpmovielibrary' ) );
+			$_value = array_search( $value, $rewrites );
+			if ( false !== $_value )
+				$value = $_value;
 
 			return $value;
 		}
 
 		/**
-		 * Filter a meta value to match a translation, if any.
+		 * Filter a value to match a translation, if any.
 		 * 
 		 * @since    2.1.1
 		 * 
-		 * @param    string    $meta Meta type
-		 * @param    string    $key Meta key
-		 * @param    string    $value Meta value
+		 * @param    string    $value Value to translate back to original
 		 * 
-		 * @return   string    Un-rewrite meta value if any, original meta value else
+		 * @return   string    Un-rewrite value if any, original value else
 		 */
-		public static function untranslate_value( $meta, $key, $value ) {
+		public static function untranslate_rewrite( $value ) {
 
-			$_key = self::filter_translation_key( $key );
-			if ( $_key )
-				$meta = $_key;
+			$rewrites = self::get_l10n_rewrite();
+			$value = self::filter_rewrites( $value );
 
-			if ( 'rating' == $key ) {
-				$supported = WPMOLY_Settings::get_supported_movie_details();
-				$supported = $supported['rating']['options'];
-				$_value = str_replace( '%20', ' ', $value );
-				$_value = array_search( $_value, $supported );
-			}
-			else {
-				$rewrites = self::get_l10n_rewrite();
-				$_value   = apply_filters( 'wpmoly_filter_rewrites', $value );
-				$_value   = array_search( $_value, $rewrites[ $meta ] );
+			if ( ! isset( $rewrites[ $value ] ) )
+				return $value;
 
-				if ( ! $_value )
-					$_value = array_search( remove_accents( rawurldecode( $value ) ), $rewrites[ $meta ] );
-			}
+			return $rewrites[ $value ];
+		}
 
-			if ( false != $_value )
-				$value = $_value;
+		public static function get_country_standard_name( $country ) {
 
-			return $value;
+			$countries = WPMOLY_Settings::get_supported_countries();
+
+			if ( 2 == strlen( $country ) )
+				$code = $country;
+			else
+				$code = array_search( $country, $countries );
+
+			if ( false !== $code )
+				$country = $countries[ $code ];
+
+			return $country;
+		}
+
+		public static function get_country_code( $country ) {
+
+			$countries = WPMOLY_Settings::get_supported_countries();
+
+			$code = array_search( $country, $countries );
+			if ( false !== $code )
+				return $code;
+
+			return null;
+		}
+
+		public static function get_language_standard_name( $language ) {
+
+			$languages = WPMOLY_Settings::get_available_languages();
+
+			$code = array_search( $language, $languages['native'] );
+			if ( false !== $code )
+				$language = $languages['standard'][ $code ];
+
+			return $language;
 		}
 
 		public static function filter_translation_key( $key ) {

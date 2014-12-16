@@ -860,7 +860,8 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				else
 					$_type = $type;
 
-				$_value = WPMOLY_L10n::untranslate_value( $_type, $meta, $value );
+				$_value = WPMOLY_L10n::untranslate_rewrite( $value );
+				$_value = WPMOLY_L10n::get_country_standard_name( $_value );
 				$meta_query = call_user_func( "WPMOLY_Search::by_$meta", $_value, 'sql' );
 
 				$join[]  = $meta_query['join'];
