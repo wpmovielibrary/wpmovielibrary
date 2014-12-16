@@ -767,23 +767,23 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 * 
 		 * @return   string    HTML content
 		 */
-		public static function get_the_grid( $args = array() ) {
+		public static function get_the_grid( $args = array(), $shortcode = false ) {
 
 			global $wpdb, $wp_query;
 
 			$defaults = array(
-				'columns'  => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
-				'rows'     => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
-				'paged'    => 1,
-				'meta'     => null,
-				'detail'   => null,
-				'value'    => null,
-				'title'    => false,
-				'genre'    => false,
-				'rating'   => false,
-				'letter'   => null,
-				'order'    => wpmoly_o( 'movie-archives-movies-order', $default = true ),
-				'view'     => 'grid'
+				'columns'   => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
+				'rows'      => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
+				'paged'     => 1,
+				'meta'      => null,
+				'detail'    => null,
+				'value'     => null,
+				'title'     => false,
+				'genre'     => false,
+				'rating'    => false,
+				'letter'    => null,
+				'order'     => wpmoly_o( 'movie-archives-movies-order', $default = true ),
+				'view'      => 'grid'
 			);
 			$args = wp_parse_args( $args, $defaults );
 
@@ -793,7 +793,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				foreach ( $vars as $var )
 					$args[ $var ] = get_query_var( $var, $args[ $var ] );
 			}
-			else {
+			elseif ( true !== $shortcode ) {
 				$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
 				$args = wp_parse_args( $_args, $args );
 			}
