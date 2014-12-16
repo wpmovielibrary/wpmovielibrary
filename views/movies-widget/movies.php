@@ -33,7 +33,7 @@
 <?php endif; ?>
 
 <?php if ( 'no' != $show_rating ) : ?>
-				<div class="wpmoly movie rating"><?php echo $item['_rating'] ?><?php if ( 'starsntext' == $show_rating ) echo '<span class="wpmoly movie rating label">' . $item['rating'] . '/5</span>' ?></div>
+				<div class="wpmoly movie rating"><?php echo $item['_rating'] ?><?php if ( 'starsntext' == $show_rating && '0.0' != $item['rating'] ) echo '<span class="wpmoly movie rating label">' . $item['rating'] . '/5</span>' ?></div>
 <?php endif; ?>
 
 <?php if ( 'after' == $show_title ) : ?>
