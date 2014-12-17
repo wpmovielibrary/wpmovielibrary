@@ -432,11 +432,11 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$grid_menu = '';
 			if ( $has_menu ) {
 				$args = compact( 'columns', 'rows', 'number', 'order', 'editable', 'letter', 'view' );
-				$grid_menu = WPMOLY_Movies::get_grid_menu( $args );
+				$grid_menu = WPMOLY_Grid::get_menu( $args );
 			}
 
 			$args    = compact( 'number', 'paged', 'order', 'columns', 'rows', 'letter', 'meta', 'detail', 'value', 'view' );
-			$grid    = WPMOLY_Movies::get_the_grid( $args );
+			$grid    = WPMOLY_Grid::get_content( $args );
 			$content = $grid_menu . $grid;
 
 			return $content;
