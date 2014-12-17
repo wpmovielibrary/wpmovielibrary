@@ -237,12 +237,19 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			if ( 'movie' != get_post_type() )
 				return $content;
 
-			if ( ! wpmoly_o( 'vintage-content' ) )
+			if ( ! wpmoly_o( 'vintage-content' ) ) {
 				$headbox = WPMOLY_Headbox::get_content( $content );
-			else
+			} else {
 				$headbox = self::movie_vintage_content( $content );
+			}
 
-			return $headbox . $content;
+			if ( 'bottom' == wpmoly_o( 'headbox-position' ) ) {
+				$content .= $headbox;
+			} else {
+				$content = $headbox . $content;
+			}
+
+			return $content;
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
