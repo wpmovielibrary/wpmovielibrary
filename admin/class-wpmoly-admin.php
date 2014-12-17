@@ -110,6 +110,9 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			add_action( 'in_admin_footer', array( $this, 'legal_mentions' ) );
 
 			add_action( 'dashboard_glance_items', array( $this, 'dashboard_glance_items' ), 10, 1 );
+
+			add_filter( 'plugin_action_links_' . WPMOLY_PLUGIN, array( $this, 'plugin_action_links' ), 10, 1 );
+			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 		}
 
 		/**
@@ -156,6 +159,51 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$items[] = sprintf( '<a class="movie-count" href="%s">%s</a>', admin_url( '/edit.php?post_type=movie' ), sprintf( _n( '%d movie', '%d movies', $movies->publish, 'wpmovielibrary' ), $movies->publish ) );
 
 			return $items;
+		}
+
+		/**
+		 * Add new links to the Plugins Page
+		 *
+		 * @since    2.1.1
+		 * 
+		 * @param    array    $links Current links list
+		 * 
+		 * @return   array    $links Updated links list
+		 */
+		public function plugin_action_links( $links ) {
+
+			$new_links = array(
+				sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=wpmovielibrary-settings' ), __( 'Settings', 'wpmovielibrary' ) )
+			);
+
+			$links = array_merge( $new_links, $links );
+
+			return $links;
+		}
+
+		/**
+		 * Add new links to the Plugin's row meta list
+		 *
+		 * @since    2.1.1
+		 * 
+		 * @param    mixed    $links Plugin Row Meta
+		 * @param    mixed    $file  Plugin Base file
+		 * 
+		 * @return   array    $links Updated links list
+		 */
+		public function plugin_row_meta( $links, $file ) {
+
+			if ( $file != WPMOLY_PLUGIN )
+				return $links;
+
+			$row_meta = array(
+				'docs'    => '<a href="' . esc_url( 'http://wpmovielibrary.com/documentation/' ) . '" title="' . esc_attr( __( 'View WPMovieLibrary Documentation', 'wpmovielibrary' ) ) . '">' . __( 'Documentation', 'wpmovielibrary' ) . '</a>',
+				'apidocs' => '<a href="' . esc_url( 'https://wordpress.org/support/plugin/wpmovielibrary/' ) . '" title="' . esc_attr( __( 'Visit WPMovieLibrary Support Forum', 'wpmovielibrary' ) ) . '">' . __( 'Support', 'wpmovielibrary' ) . '</a>',
+			);
+
+			$links = array_merge( $links, $row_meta );
+
+			return $links;
 		}
 
 		/**
