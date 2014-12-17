@@ -550,21 +550,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( is_null( $text ) )
 				$text = $value;
 
-			if ( '1' == wpmoly_o( 'rewrite-enable' ) ) {
-				if ( 'production_countries' == $key ) {
-					$value = WPMOLY_L10n::get_country_standard_name( $value );
-				} else if ( 'spoken_languages' == $key ) {
-					$value = WPMOLY_L10n::get_language_standard_name( $value );
-				}
-				$value = __( $value, 'wpmovielibrary-iso' );
-			}
-
-			if ( 'rating' != $key )
-				$value = sanitize_title( $value );
-
-			$key = WPMOLY_L10n::translate_rewrite( $key );
-			$value = WPMOLY_L10n::translate_rewrite( $value );
-
 			$args = array(
 				$type     => $key,
 				'value'   => $value,
@@ -621,6 +606,21 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$args['type'] = 'detail';
 				$args['meta'] = $args['detail'];
 			}
+
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) ) {
+				if ( 'production_countries' == $args['meta'] ) {
+					$args['value'] = WPMOLY_L10n::get_country_standard_name( $args['value'] );
+				} else if ( 'spoken_languages' == $args['meta'] ) {
+					$args['value'] = WPMOLY_L10n::get_language_standard_name( $args['value'] );
+				}
+				$args['value'] = __( $args['value'], 'wpmovielibrary-iso' );
+			}
+
+			if ( 'rating' != $args['meta'] )
+				$args['value'] = sanitize_title( $args['value'] );
+
+			$args['meta'] = WPMOLY_L10n::translate_rewrite( $args['meta'] );
+			$args['value'] = WPMOLY_L10n::translate_rewrite( $args['value'] );
 
 			$url = '';
 			if ( $rewrite )

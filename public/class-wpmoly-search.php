@@ -107,7 +107,7 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 		 */
 		public static function by_release_date( $date, $format = 'array' ) {
 
-			if ( 4 == strlen( $date ) )
+			if ( 4 == strlen( $date ) || 7 == strlen( $date ) )
 				return self::by_year( $date, $format );
 
 			$value = self::filter_interval( $date );
@@ -162,7 +162,7 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 
 		public static function by_production_countries( $country, $format = 'array' ) {
 
-			$value = self::filter_value( $value );
+			$value = self::filter_value( $country );
 			$value = WPMOLY_L10n::get_country_standard_name( $value );
 			$meta_query = self::by_interval( 'production_countries', $value, $strict = false );
 
@@ -174,7 +174,7 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 
 		public static function by_spoken_languages( $language, $format = 'array' ) {
 
-			$value = self::filter_value( $value );
+			$value = self::filter_value( $language );
 			$value = WPMOLY_L10n::get_language_native_name( $value );
 			$meta_query = self::by_interval( 'spoken_languages', $value, $strict = false );
 

@@ -734,7 +734,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$urls = array();
 			$l10n = false;
 
-			$args = compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n', 'baseurl', 'view' );
+			$args = compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n', 'baseurl', 'view', 'letter' );
 			$urls['all'] = WPMOLY_Utils::build_meta_permalink( $args );
 
 			$args['view'] = 'list';

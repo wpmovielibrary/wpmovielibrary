@@ -96,7 +96,20 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 			if ( '' == $format )
 				$format = 'j F Y';
 
-			$output = date_i18n( $format, strtotime( $data ) );
+			if ( 'j F Y' == $format ) {
+
+				$year = date_i18n( 'Y', strtotime( $data ) );
+				$year = apply_filters( 'wpmoly_movie_meta_link', 'release_date', $year, 'meta', $year );
+				$date  = date_i18n( 'j F', strtotime( $data ) );
+				$_date = date( 'Y-m', strtotime( $data ) );
+				$date = apply_filters( 'wpmoly_movie_meta_link', 'release_date', $_date, 'meta', $date );
+
+				$output = "$date&nbsp;$year";
+
+			} else {
+				$output = date_i18n( $format, strtotime( $data ) );
+			}
+
 			$output = self::format_movie_field( $output );
 
 			return $output;
