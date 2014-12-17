@@ -160,6 +160,30 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 			return $meta_query;
 		}
 
+		public static function by_production_countries( $country, $format = 'array' ) {
+
+			$value = self::filter_value( $value );
+			$value = WPMOLY_L10n::get_country_standard_name( $value );
+			$meta_query = self::by_interval( 'production_countries', $value, $strict = false );
+
+			if ( 'sql' === $format )
+				$meta_query = self::get_sql( $meta_query );
+
+			return $meta_query;
+		}
+
+		public static function by_spoken_languages( $language, $format = 'array' ) {
+
+			$value = self::filter_value( $value );
+			$value = WPMOLY_L10n::get_language_native_name( $value );
+			$meta_query = self::by_interval( 'spoken_languages', $value, $strict = false );
+
+			if ( 'sql' === $format )
+				$meta_query = self::get_sql( $meta_query );
+
+			return $meta_query;
+		}
+
 		/**
 		 * Filter movies by an interval of values.
 		 * 
@@ -223,6 +247,8 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 			if ( true === $strict )
 				$compare = '=';
 
+			$value = self::filter_value( $value );
+
 			$meta_query = array(
 				'relation' => 'OR',
 				array(
@@ -268,6 +294,17 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 				$param = call_user_func_array( $callback, array_merge( (array) $param[0], $callback_args ) );
 
 			return $param;
+		}
+
+		private static function filter_value( $value ) {
+
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) ) {
+				$value = WPMOLY_L10n::untranslate_rewrite( $value );
+			} else {
+				$value = WPMOLY_L10n::translate_rewrite( $value );
+			}
+
+			return $value;
 		}
 
 		/**

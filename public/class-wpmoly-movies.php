@@ -735,25 +735,25 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$l10n = false;
 
 			$args = compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n', 'baseurl', 'view' );
-			$urls['all'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['all'] = WPMOLY_Utils::build_meta_permalink( $args );
 
 			$args['view'] = 'list';
-			$urls['list'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['list'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['view'] = 'archives';
-			$urls['archives'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['archives'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['view'] = 'grid';
-			$urls['grid'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['grid'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['view'] = $view;
 
 			$args['letter'] = '{letter}';
-			$urls['letter'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['letter'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['letter'] = $letter;
 
 			$args['order'] = 'ASC';
-			$urls['asc'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['asc'] = WPMOLY_Utils::build_meta_permalink( $args );
 
 			$args['order'] = 'DESC';
-			$urls['desc'] = WPMOLY_L10n::build_meta_permalink( $args );
+			$urls['desc'] = WPMOLY_Utils::build_meta_permalink( $args );
 
 			$attributes['urls'] = $urls;
 
@@ -795,6 +795,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$args = wp_parse_args( $args, $defaults );
 
 			// Allow URL params to override Shortcode settings
+			
 			if ( ! empty( $_GET ) ) {
 				$vars = array( 'columns', 'rows', 'letter', 'order', 'meta', 'detail', 'value', 'view' );
 				foreach ( $vars as $var )
@@ -813,7 +814,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				$views = array( 'grid' => __( 'grid', 'wpmovielibrary' ), 'archives' => __( 'archives', 'wpmovielibrary' ), 'list' => __( 'list', 'wpmovielibrary' ) );
 
 			$_view = array_search( $view, $views );
-			if ( false !== $_view )
+			if ( false != $_view )
 				$view = $_view;
 
 			$movies = array();
@@ -859,16 +860,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$join = array();
 			if ( '' != $value && '' != $meta ) {
 
-				// Languages and countries meta are special
-				if ( 'spoken_languages' == $meta )
-					$_type = 'languages';
-				else if ( 'production_countries' == $meta )
-					$_type = 'countries';
-				else
-					$_type = $type;
-
-				$_value = WPMOLY_L10n::untranslate_value( $_type, $meta, $value );
-				$meta_query = call_user_func( "WPMOLY_Search::by_$meta", $_value, 'sql' );
+				$meta_query = call_user_func( "WPMOLY_Search::by_$meta", $value, 'sql' );
 
 				$join[]  = $meta_query['join'];
 				$where[] = $meta_query['where'];
@@ -896,7 +888,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				'view'    => $view,
 				'baseurl' => get_post_type_archive_link( 'movie' )
 			);
-			$url = WPMOLY_L10n::build_meta_permalink( $args );
+			$url = WPMOLY_Utils::build_meta_permalink( $args );
 
 			global $wp_rewrite;
 			$format = '/page/%#%';
