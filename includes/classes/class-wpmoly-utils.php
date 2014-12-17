@@ -212,14 +212,17 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 		/**
 		 * Create a new set of permalinks for movies to access movies by
-		 * details and meta. 
+		 * details and meta. Support custom views and sorting for the
+		 * archive pages.
 		 * 
 		 * This also add permalink structures for custom taxonomies and
 		 * implement translation support for all custom permalinks.
 		 *
 		 * @since    2.0
+		 * 
+		 * @param    array    $rules Current rewrite rules
 		 *
-		 * @return   array    $new_rules List of new to rules to add to the current rewrite rules.
+		 * @return   array    $new_rules Updated rewrite rules
 		 */
 		private static function generate_custom_rules( $rules ) {
 
@@ -238,10 +241,12 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			);
 			extract( $archives );
 
+			// Links base
 			$base = 'index.php?';
 			if ( $movie )
 				$base .= 'page_id=' . $movie . '&';
 
+			// Support alternative grid views
 			$grid = '(grid|archives|list)';
 			if ( '1' == $translate )
 				$grid = sprintf( '(%s|%s|%s)', __( 'grid', 'wpmovielibrary' ), __( 'archives', 'wpmovielibrary' ), __( 'list', 'wpmovielibrary' ) );
@@ -294,9 +299,25 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			return $new_rules;
 		}
 
+		/**
+		 * Generate custom rewrite rules for movie metadata and details.
+		 * 
+		 * This generates a long list of regex that will be usefull to list
+		 * movies by their meta and details.
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $notice The notice message
+		 * @param    string    $type Notice type: update, error, wpmoly?
+		 * @param    string    $movies 'movies' permalink translation or original
+		 * @param    string    $base links base, general index or custom page
+		 * 
+		 * @return   array     $new_rules Set of rewrite rules to merge to current rules
+		 */
 		private static function generate_custom_meta_rules( $type, $data, $movies, $base ) {
 
-			$new_rules = array();$grid = 'grid';
+			$new_rules = array();
+
 			$grid = '(grid|archives|list)';
 			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
 				$grid = sprintf( '(%s|%s|%s)', __( 'grid', 'wpmovielibrary' ), __( 'archives', 'wpmovielibrary' ), __( 'list', 'wpmovielibrary' ) );

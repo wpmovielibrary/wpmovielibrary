@@ -259,6 +259,17 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		/**
+		 * Filter page's title to feature letters, meta, value in archives
+		 * pages' titles. Hooked to 'the_title' and 'wp_title' filters.
+		 * 
+		 * @since    2.1.1
+		 * 
+		 * @param    string        $title Current title
+		 * @param    int|string    $id Current page ID if current filter if 'the_title', separator if filter is 'wp_title'
+		 * 
+		 * @return   string    
+		 */
 		public function movie_archives_title( $title, $id = null ) {
 
 			// Exclude admin

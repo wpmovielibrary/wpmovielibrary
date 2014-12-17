@@ -253,8 +253,17 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			return $content;
 		}
 
-		
-
+		/**
+		 * Prepare the list view movie list
+		 * 
+		 * Explode the movie list by letters to show an alphabetical list
+		 * 
+		 * @since    2.1.1
+		 * 
+		 * @param    array    $movies Movies to list
+		 * 
+		 * @return   array    Multidimensionnal array containing prepared movies
+		 */
 		public static function prepare_list_view( $movies ) {
 
 			global $post;
