@@ -3,8 +3,8 @@ Contributors: askelon
 Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 3.8
-Tested up to: 4.0.1
-Stable tag: 2.1.1-beta1
+Tested up to: 4.1
+Stable tag: 2.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -137,6 +137,16 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 7. Import queue
 
 == Changelog ==
+
+= 2.1.1 =
+* Feat - Movie meta/detail archives use movie custom archives page
+* Feat - New movie grid list and archives views
+* Tweak - Improved handling of terms with apostrophes
+* Tweak - Add missing meta Shortcodes: tagline, budget, revenue, certification, writer, imdb_id, tmdb_id, adult, homepage
+* Tweak - Better meta URL and translation handling
+* Tweak - Archives pages title rewrite
+* Tweak - Empty grid message
+* Fix - Movie archives page not falling back to default with no page set
 
 = 2.1.0.1 =
 * Fix - Permalink issue causing 404 on movie archives page
