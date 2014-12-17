@@ -312,11 +312,24 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 					$detail = array( $detail );
 
 				foreach ( $detail as $i => $d ) {
-					if ( '' != $d )
-						$d = $default_fields[ $slug ]['options'][ $d ];
-					$d = apply_filters( "wpmoly_movie_meta_link", $slug, $d, 'detail' );
+
+					if ( '' != $d ) {
+
+						$value = $default_fields[ $slug ]['options'][ $d ];
+
+						if ( 'rating' == $slug ) {
+							$d = apply_filters( "wpmoly_movie_meta_link", 'rating', array_search( $value, $default_fields[ $slug ]['options'] ), 'detail', $value );
+						} else {
+							$d = apply_filters( "wpmoly_movie_meta_link", $slug, $value, 'detail' );
+						}
+					}
+
 					$detail[ $i ] = apply_filters( "wpmoly_format_movie_field", $d );
+
 				}
+
+				if ( empty( $detail ) )
+					$detail[] = apply_filters( "wpmoly_format_movie_field", '' );
 
 				$title = '';
 				if ( isset( $default_fields[ $slug ] ) )
