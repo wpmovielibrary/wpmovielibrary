@@ -123,10 +123,14 @@
 	padding: 0.25em 0.5em;
 }
 
+.wpmoly.updated,
 .wpmoly.update-nag {
+	display: block;
+	min-height: 3.75rem;
 	padding: 0 !important;
 }
 
+.wpmoly.updated .label,
 .wpmoly.update-nag .label {
 	background: #0099D5;
 	display: block;
@@ -135,6 +139,7 @@
 	width: 4em;
 }
 
+.wpmoly.updated .label .wpmolicon,
 .wpmoly.update-nag .label .wpmolicon {
 	color: #fff;
 	font-size: 2.5rem;
@@ -145,6 +150,7 @@
 	width: 2.5rem;
 }
 
+.wpmoly.updated .content,
 .wpmoly.update-nag .content {
 	padding: 0.75rem 1rem;
 	margin-left: 4em;
@@ -164,5 +170,15 @@
 	text-shadow: 0 1px 0 #a55d1c;
 }
 
+.wpmoly.updated {
+	border-color: #7ad03a !important;
+}
 
+.wpmoly.updated .label {
+	background: #7ad03a;
+}
+
+.wpmoly.updated .label .wpmolicon {
+	text-shadow: 0 1px 0 #418a0a;
+}
 

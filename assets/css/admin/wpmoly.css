@@ -3,6 +3,11 @@ body.post-php.post-type-movie #postimagediv {
 	text-align: center;
 }
 
+#wpmoly-home a:focus,
+.wpmoly a:focus {
+	box-shadow: 0 0 0;
+}
+
 .wpmolicon {
 	font-size: 20px;
 }
@@ -49,6 +54,25 @@ body.post-php.post-type-movie #postimagediv {
 	border-radius: 2px;
 	height: 4em;
 	max-width: 4em;
+}
+
+#dismiss-custom-pages-notice {
+	box-shadow: 0 0 0;
+	float: right;
+	font-size: small;
+	margin-left: 2em;
+	text-decoration: none;
+}
+
+#dismiss-custom-pages-notice .wpmolicon {
+	color: #aaa;
+	font-size: 1em;
+	position: relative;
+	top: 0.35rem;
+}
+
+#dismiss-custom-pages-notice:hover .wpmolicon {
+	color: #c00;
 }
 
 /* Widgets */

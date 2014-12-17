@@ -68,8 +68,24 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 */
 		public function custom_pages_notice() {
 
-			if ( 'yes' != get_option( 'wpmoly_has_custom_pages', 'no' ) )
-				echo self::render_admin_template( 'admin-notice.php', array( 'notice' => 'custom-pages' ) );
+			if ( 'yes' == get_option( 'wpmoly_has_custom_pages', 'no' ) )
+				return false;
+
+			$notice = 'custom-pages';
+			if ( isset( $_GET['dismiss-custom-pages-notice'] ) )
+				$notice = 'dismiss-custom-pages';
+
+			echo self::render_admin_template( 'admin-notice.php', compact( 'notice' ) );
+		}
+
+		/**
+		 * Hide Custom Pages notice
+		 *
+		 * @since    2.1.1
+		 */
+		public static function hide_custom_pages_notice() {
+
+			update_option( 'wpmoly_has_custom_pages', 'yes' );
 		}
 
 		/**
@@ -94,6 +110,9 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 * @since    2.1
 		 */
 		public static function create_pages() {
+
+			if ( isset( $_GET['_wpmolynonce_dismiss_custom_pages_notice'] ) )
+				self::hide_custom_pages_notice();
 
 			if ( isset( $_GET['create_pages'] ) )
 				self::add_custom_pages();
