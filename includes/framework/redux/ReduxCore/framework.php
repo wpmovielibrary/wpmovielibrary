@@ -68,8 +68,8 @@
             // ATTENTION DEVS
             // Please update the build number with each push, no matter how small.
             // This will make for easier support when we ask users what version they are using.
-            public static $_version = '3.3.9.4';
-            public static $_dir;
+            public static $_version = '3.3.9.16';
+            public static $_dir; 
             public static $_url;
             public static $_upload_dir;
             public static $_upload_url;
@@ -313,7 +313,9 @@
                     $this->get_options();
 
                     // Tracking
-                    $this->_tracking();
+                    if ( true != Redux_Helpers::isTheme( __FILE__ ) || ( true == Redux_Helpers::isTheme( __FILE__ ) && !$this->args['disable_tracking'] ) ) {
+                        $this->_tracking();
+                    }
 
                     // Set option with defaults
                     //add_action( 'init', array( &$this, '_set_default_options' ), 101 );
@@ -418,9 +420,6 @@
 
 
                     }
-
-                    // mod_rewrite check
-                    //Redux_Functions::modRewriteCheck();
                 }
 
                 /**
@@ -506,6 +505,7 @@
                     'disable_save_warn'         => false,
                     // Disable the save warn
                     'open_expanded'             => false,
+                    'hide_expand'               => false,
                     // Start the panel fully expanded to start with
                     'network_admin'             => false,
                     // Enable network admin when using network database mode
@@ -541,8 +541,9 @@
                         ),
                     ),
                     'show_import_export'        => true,
-                    'dev_mode'                  => false,
+                    'dev_mode'                  => true,
                     'system_info'               => false,
+                    'disable_tracking'          => false,
                 );
             }
 
@@ -1174,6 +1175,8 @@
                                         $this->options_defaults[ $field['id'] ] = array();
                                     } elseif ( $field['type'] == "image_select" ) {
                                         $this->options_defaults[ $field['id'] ] = '';
+                                    } elseif ( $field['type'] == "select" ) {
+                                        $this->options_defaults[ $field['id'] ] = '';
                                     } else {
                                         $this->options_defaults[ $field['id'] ] = $field['options'];
                                     }
@@ -1643,17 +1646,17 @@
 
                     // JS
                     wp_register_script(
-                        'select2-sortable-js',
-                        self::$_url . 'assets/js/vendor/select2.sortable.min.js',
+                        'redux-select2-sortable-js',
+                        self::$_url . 'assets/js/vendor/redux.select2.sortable' . $min . '.js',
                         array( 'jquery' ),
-                        filemtime( self::$_dir . 'assets/js/vendor/select2.sortable.min.js' ),
+                        filemtime( self::$_dir . 'assets/js/vendor/redux.select2.sortable' . $min . '.js' ),
                         true
                     );
 
                     wp_register_script(
                         'select2-js',
                         self::$_url . 'assets/js/vendor/select2/select2.min.js',
-                        array( 'jquery', 'select2-sortable-js' ),
+                        array( 'jquery', 'redux-select2-sortable-js' ),
                         filemtime( self::$_dir . 'assets/js/vendor/select2/select2.min.js' ),
                         true
                     );
@@ -1727,7 +1730,7 @@
                     wp_register_style(
                         'redux-rtl-css',
                         self::$_url . 'assets/css/rtl.css',
-                        '',
+                        array('redux-css'),
                         filemtime( self::$_dir . 'assets/css/rtl.css' ),
                         'all'
                     );
@@ -2640,6 +2643,10 @@
                             if ( ! $display || isset( $this->no_panel_section[ $k ] ) ) {
                                 $this->no_panel[] = $field['id'];
                             } else {
+                                if (isset($field['hidden']) && $field['hidden']) {
+                                    $field['label_for'] = 'redux_hide_field';
+                                }
+                                
                                 add_settings_field(
                                     "{$fieldk}_field",
                                     $th,
@@ -2727,7 +2734,7 @@
                 do_action( "redux/extensions/{$this->args['opt_name']}/before", $this );
 
                 foreach ( $folders as $folder ) {
-                    if ( $folder === '.' || $folder === '..' || ! is_dir( $path . $folder ) || substr( $folder, 0, 1 ) === '.' || substr( $folder, 0, 1 ) === '@' ) {
+                    if ( $folder === '.' || $folder === '..' || ! is_dir( $path . $folder ) || substr( $folder, 0, 1 ) === '.' || substr( $folder, 0, 1 ) === '@' || substr( $folder, 0, 4 ) === '_vti' ) {
                         continue;
                     }
 
@@ -2918,6 +2925,7 @@
 
                     //setcookie('redux-compiler-' . $this->args['opt_name'], 1, time() + 1000, "/");
                     //setcookie("redux-saved-{$this->args['opt_name']}", 'defaults', time() + 1000, "/");
+
                     $this->set_transients(); // Update the transients
 
                     return $plugin_options;
@@ -2958,12 +2966,17 @@
 
                     //setcookie("redux-saved-{$this->args['opt_name']}", 'defaults_section', time() + 1000, "/");
                     unset( $plugin_options['defaults'], $plugin_options['defaults_section'], $plugin_options['import'], $plugin_options['import_code'], $plugin_options['import_link'], $plugin_options['compiler'], $plugin_options['redux-section'] );
+                    
                     $this->set_transients();
 
                     return $plugin_options;
                 }
 
-                $this->transients['last_save_mode'] = "normal"; // Last save mode
+//                if ($this->transients['last_save_mode'] != 'remove') {
+                    $this->transients['last_save_mode'] = "normal"; // Last save mode
+//               } else {
+//                    $this->transients['last_save_mode'] = '';
+//                }
 
 
                 // Validate fields (if needed)
@@ -3026,9 +3039,8 @@
                     //set_transient($this->args['opt_name'].'-transients', $this->transients);
                     //exit();
                 }
-
+                
                 $this->set_transients( $this->transients );
-
 
                 return $plugin_options;
             }
@@ -3049,7 +3061,10 @@
                 foreach ( $sections as $k => $section ) {
                     if ( isset( $section['fields'] ) ) {
                         foreach ( $section['fields'] as $fkey => $field ) {
-                            $field['section_id'] = $k;
+                            
+                            if( is_array( $field ) ) {
+                                $field['section_id'] = $k;
+                            }
 
                             if ( isset( $field['type'] ) && ( $field['type'] == 'checkbox' || $field['type'] == 'checkbox_hide_below' || $field['type'] == 'checkbox_hide_all' ) ) {
                                 if ( ! isset( $plugin_options[ $field['id'] ] ) ) {
@@ -3073,7 +3088,7 @@
 
                             // Check for empty id value
 
-                            if ( ! isset( $plugin_options[ $field['id'] ] ) || ( isset( $plugin_options[ $field['id'] ] ) && $plugin_options[ $field['id'] ] == '' ) ) {
+                            if ( ! isset( $field['id'] ) || ! isset( $plugin_options[ $field['id'] ] ) || ( isset( $plugin_options[ $field['id'] ] ) && $plugin_options[ $field['id'] ] == '' ) ) {
 
                                 // If we are looking for an empty value, in the case of 'not_empty'
                                 // then we need to keep processing.
@@ -3244,6 +3259,11 @@
                     $icon = ( ! isset( $section['icon'] ) ) ? '<i class="el-icon-cog' . $icon_class . '"></i> ' : '<i class="' . $section['icon'] . $icon_class . '"></i> ';
                 }
 
+                $hide_section = '';
+                if (isset($section['hidden'])) {
+                    $hide_section = ($section['hidden'] == true) ? ' hidden ' : '';
+                }
+                
                 $canBeSubSection = ( $k > 0 && ( ! isset( $sections[ ( $k ) ]['type'] ) || $sections[ ( $k ) ]['type'] != "divide" ) ) ? true : false;
 
                 if ( ! $canBeSubSection && isset( $section['subsection'] ) && $section['subsection'] == true ) {
@@ -3260,7 +3280,7 @@
                     $subsectionsClass = $subsections ? ' hasSubSections' : '';
                     $subsectionsClass .= ( ! isset( $section['fields'] ) || empty( $section['fields'] ) ) ? ' empty_section' : '';
                     $extra_icon = $subsections ? '<span class="extraIconSubsections"><i class="el el-icon-chevron-down">&nbsp;</i></span>' : '';
-                    $string .= '<li id="' . $k . $suffix . '_section_group_li" class="redux-group-tab-link-li' . $section['class'] . $subsectionsClass . '">';
+                    $string .= '<li id="' . $k . $suffix . '_section_group_li" class="redux-group-tab-link-li' . $hide_section . $section['class'] . $subsectionsClass . '">';
                     $string .= '<a href="javascript:void(0);" id="' . $k . $suffix . '_section_group_li_a" class="redux-group-tab-link-a" data-key="' . $k . '" data-rel="' . $k . $suffix . '">' . $extra_icon . $icon . '<span class="group_title">' . $section['title'] . '</span></a>';
                     $nextK = $k;
 
@@ -3286,6 +3306,11 @@
                                     continue;
                                 }
 
+                                $hide_sub = '';
+                                if (isset($sections[ $nextK ]['hidden'])) {
+                                    $hide_sub = ($sections[ $nextK ]['hidden'] == true) ? ' hidden ' : '';
+                                }
+                                
                                 if ( ( isset( $this->args['icon_type'] ) && $this->args['icon_type'] == 'image' ) || ( isset( $sections[ $nextK ]['icon_type'] ) && $sections[ $nextK ]['icon_type'] == 'image' ) ) {
                                     //if( !empty( $this->args['icon_type'] ) && $this->args['icon_type'] == 'image' ) {
                                     $icon = ( ! isset( $sections[ $nextK ]['icon'] ) ) ? '' : '<img class="image_icon_type" src="' . $sections[ $nextK ]['icon'] . '" /> ';
@@ -3300,7 +3325,7 @@
                                     $icon = ( ! isset( $sections[ $nextK ]['icon'] ) ) ? '' : '<i class="' . $sections[ $nextK ]['icon'] . $icon_class . '"></i> ';
                                 }
                                 $section[ $nextK ]['class'] = isset( $section[ $nextK ]['class'] ) ? $section[ $nextK ]['class'] : '';
-                                $string .= '<li id="' . $nextK . $suffix . '_section_group_li" class="redux-group-tab-link-li ' . $section[ $nextK ]['class'] . ( $icon ? ' hasIcon' : '' ) . '">';
+                                $string .= '<li id="' . $nextK . $suffix . '_section_group_li" class="redux-group-tab-link-li ' . $hide_sub . $section[ $nextK ]['class'] . ( $icon ? ' hasIcon' : '' ) . '">';
                                 $string .= '<a href="javascript:void(0);" id="' . $nextK . $suffix . '_section_group_li_a" class="redux-group-tab-link-a" data-key="' . $nextK . '" data-rel="' . $nextK . $suffix . '">' . $icon . '<span class="group_title">' . $sections[ $nextK ]['title'] . '</span></a>';
                                 $string .= '</li>';
                             }
@@ -3409,8 +3434,9 @@
                 echo '<div id="info_bar">';
 
                 $expanded = ( $this->args['open_expanded'] ) ? ' expanded' : '';
-
-                echo '<a href="javascript:void(0);" class="expand_options' . $expanded . '">' . __( 'Expand', 'redux-framework' ) . '</a>';
+                $hide_expand = $this->args['hide_expand'] ? ' style="display: none;"' : '';
+                
+                echo '<a href="javascript:void(0);" class="expand_options' . $expanded . '"' . $hide_expand . '>' . __( 'Expand', 'redux-framework' ) . '</a>';
                 echo '<div class="redux-action_bar">';
                 submit_button( __( 'Save Changes', 'redux-framework' ), 'primary', 'redux_save', false );
 
@@ -3473,7 +3499,7 @@
                          * @param string  translated "settings imported" text
                          */
                         echo '<div class="saved_notice admin-notice notice-yellow"><strong>' . apply_filters( "redux-defaults-section-text-{$this->args['opt_name']}", __( 'Section Defaults Restored!', 'redux-framework' ) ) . '</strong></div>';
-                    } else {
+                    } else if ( $this->transients['last_save_mode'] == "normal") {
                         /**
                          * action 'redux/options/{opt_name}/saved'
                          *
@@ -3488,8 +3514,10 @@
                          */
                         echo '<div class="saved_notice admin-notice notice-green"><strong>' . apply_filters( "redux-saved-text-{$this->args['opt_name']}", __( 'Settings Saved!', 'redux-framework' ) ) . '</strong></div>';
                     }
+                    
                     unset( $this->transients['last_save_mode'] );
-
+                    //$this->transients['last_save_mode'] = 'remove';
+                    $this->set_transients();
                 }
 
                 /**
@@ -3769,7 +3797,6 @@
                 }
 
                 $this->set_transients();
-
             }
 
             /**
@@ -4101,7 +4128,7 @@
              *
              * @return array $params
              */
-            private function check_dependencies( $field ) {
+            public function check_dependencies( $field ) {
                 //$params = array('data_string' => "", 'class_string' => "");
 
                 if ( ! empty( $field['required'] ) ) {
@@ -4154,42 +4181,85 @@
             // Compare data for required field
             private function compareValueDependencies( $parentValue, $checkValue, $operation ) {
                 $return = false;
-
                 switch ( $operation ) {
                     case '=':
                     case 'equals':
                         $data['operation'] = "=";
-                        if ( is_array( $checkValue ) ) {
-                            if ( in_array( $parentValue, $checkValue ) ) {
-                                $return = true;
+                        
+                        if (is_array($parentValue)) {
+                            foreach($parentValue as $idx => $val) {
+                                if (is_array($checkValue)) {
+                                    foreach($checkValue as $i => $v) {
+                                        if ($val == $v) {
+                                            $return = true;
+                                        }
+                                    }
+                                } else {
+                                    if ($val == $checkValue) {
+                                        $return = true;
+                                    }
+                                }
                             }
                         } else {
-                            if ( $parentValue == $checkValue ) {
-                                $return = true;
-                            } else if ( is_array( $parentValue ) ) {
-                                if ( in_array( $checkValue, $parentValue ) ) {
+                            if (is_array($checkValue)) {
+                                foreach($checkValue as $i => $v) {
+                                    if ($parentValue == $v) {
+                                        $return = true;
+                                    }
+                                }
+                            } else {
+                                if ($parentValue == $checkValue) {
                                     $return = true;
                                 }
                             }
                         }
-                        break;
+                    break;
+                    
                     case '!=':
                     case 'not':
                         $data['operation'] = "!==";
-                        if ( is_array( $checkValue ) ) {
-                            if ( ! in_array( $parentValue, $checkValue ) ) {
-                                $return = true;
+                        if (is_array($parentValue)) {
+                            foreach($parentValue as $idx => $val) {
+                                if (is_array($checkValue)) {
+                                    foreach($checkValue as $i => $v) {
+                                        if ($val != $v) {
+                                            $return = true;
+                                        }
+                                    }
+                                } else {
+                                    if ($val != $checkValue) {
+                                        $return = true;
+                                    }
+                                }
                             }
                         } else {
-                            if ( $parentValue != $checkValue ) {
-                                $return = true;
-                            } else if ( is_array( $parentValue ) ) {
-                                if ( ! in_array( $checkValue, $parentValue ) ) {
+                            if (is_array($checkValue)) {
+                                foreach($checkValue as $i => $v) {
+                                    if ($parentValue != $v) {
+                                        $return = true;
+                                    }
+                                }
+                            } else {
+                                if ($parentValue != $checkValue) {
                                     $return = true;
                                 }
                             }
                         }
-                        break;
+                        
+//                        if ( is_array( $checkValue ) ) {
+//                            if ( ! in_array( $parentValue, $checkValue ) ) {
+//                                $return = true;
+//                            }
+//                        } else {
+//                            if ( $parentValue != $checkValue ) {
+//                                $return = true;
+//                            } else if ( is_array( $parentValue ) ) {
+//                                if ( ! in_array( $checkValue, $parentValue ) ) {
+//                                    $return = true;
+//                                }
+//                            }
+//                        }
+                    break;
                     case '>':
                     case 'greater':
                     case 'is_larger':
@@ -4223,15 +4293,41 @@
                         }
                         break;
                     case 'contains':
-                        if ( strpos( $parentValue, $checkValue ) !== false ) {
-                            $return = true;
+                        if (is_array($parentValue)) {
+                            $parentValue = implode(',', $parentValue);
                         }
+                        
+                        if (is_array($checkValue)) {
+                            foreach($checkValue as $idx => $opt) {
+                                if ( strpos( $parentValue, $opt ) !== false ) {
+                                    $return = true;
+                                }
+                            }
+                        } else {
+                            if ( strpos( $parentValue, $checkValue ) !== false ) {
+                                $return = true;
+                            }
+                        }
+                        
                         break;
                     case 'doesnt_contain':
                     case 'not_contain':
-                        if ( strpos( $parentValue, $checkValue ) === false ) {
-                            $return = true;
+                        if (is_array($parentValue)) {
+                            $parentValue = implode(',', $parentValue);
                         }
+
+                        if (is_array($checkValue)) {
+                            foreach($checkValue as $idx => $opt) {
+                                if ( strpos( $parentValue, $opt ) === false ) {
+                                    $return = true;
+                                }
+                            }
+                        } else {
+                            if ( strpos( $parentValue, $checkValue ) === false ) {
+                                $return = true;
+                            }
+                        }
+                        
                         break;
                     case 'is_empty_or':
                         if ( empty( $parentValue ) || $parentValue == $checkValue ) {
@@ -4267,7 +4363,9 @@
 
                 if ( ! in_array( $data['parent'], $this->fieldsHidden ) && ( ! isset( $this->folds[ $field['id'] ] ) || $this->folds[ $field['id'] ] != "hide" ) ) {
                     if ( isset( $this->options[ $data['parent'] ] ) ) {
+                        //echo $data['parent'];
                         $return = $this->compareValueDependencies( $this->options[ $data['parent'] ], $data['checkValue'], $data['operation'] );
+                        //$return = $this->compareValueDependencies( $data['parent'], $data['checkValue'], $data['operation'] );
                     }
                 }
 
