@@ -18,7 +18,7 @@
 
     redux.field_objects.border.init = function( selector ) {
         if ( !selector ) {
-            selector = $( document ).find( ".redux-group-tab:visible" ).find( '.redux-container-border:visible' );
+            selector = $( document ).find( '.redux-container-border' );
         }
 
         $( selector ).each(
@@ -29,14 +29,13 @@
                 if ( !el.hasClass( 'redux-field-container' ) ) {
                     parent = el.parents( '.redux-field-container:first' );
                 }
-                if ( parent.is( ":hidden" ) ) { // Skip hidden fields
-                    return;
-                }
+                
                 if ( parent.hasClass( 'redux-field-init' ) ) {
                     parent.removeClass( 'redux-field-init' );
                 } else {
                     return;
                 }
+                
                 el.find( ".redux-border-top, .redux-border-right, .redux-border-bottom, .redux-border-left, .redux-border-all" ).numeric({
                     allowMinus: false
                 });

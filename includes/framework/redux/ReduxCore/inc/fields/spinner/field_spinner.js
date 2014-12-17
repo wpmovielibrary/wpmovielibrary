@@ -15,7 +15,7 @@
     redux.field_objects.spinner.init = function( selector ) {
 
         if ( !selector ) {
-            selector = $( document ).find( ".redux-group-tab:visible" ).find( '.redux-container-spinner:visible' );
+            selector = $( document ).find( '.redux-container-spinner' );
         }
 
         $( selector ).each(
@@ -24,9 +24,6 @@
                 var parent = el;
                 if ( !el.hasClass( 'redux-field-container' ) ) {
                     parent = el.parents( '.redux-field-container:first' );
-                }
-                if ( parent.is( ":hidden" ) ) { // Skip hidden fields
-                    return;
                 }
                 if ( parent.hasClass( 'redux-field-init' ) ) {
                     parent.removeClass( 'redux-field-init' );
@@ -41,10 +38,10 @@
 
                         el.find( "#" + spinner.id ).spinner(
                             {
-                                value: parseFloat( spinner.val, null ),
-                                min: parseFloat( spinner.min, null ),
-                                max: parseFloat( spinner.max, null ),
-                                step: parseFloat( spinner.step, null ),
+                                value: parseInt( spinner.val, null ),
+                                min: parseInt( spinner.min, null ),
+                                max: parseInt( spinner.max, null ),
+                                step: parseInt( spinner.step, null ),
                                 range: "min",
 
                                 slide: function( event, ui ) {

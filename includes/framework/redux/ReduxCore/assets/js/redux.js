@@ -29,7 +29,6 @@
                 return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
             };
 
-            $.redux.hideFields();
             $.redux.checkRequired();
             $.redux.initEvents();
             $.redux.initQtip();
@@ -37,6 +36,8 @@
             $.redux.notices();
             $.redux.tabControl();
             $.redux.devFunctions();
+
+
         }
     );
 
@@ -86,27 +87,9 @@
 
         $( '.expand_options' ).click(
             function( e ) {
-                
                 e.preventDefault();
 
-                var container = $('.redux-container');
-                if ($(container).hasClass('fully-expanded')) {
-                    $(container).removeClass('fully-expanded');
-
-                    var tab = $.cookie( "redux_current_tab" );
-
-                    $('.redux-container:first').find( '#' + tab + '_section_group' ).fadeIn(
-                        200, function() {
-                            if ( $('.redux-container:first').find( '#redux-footer' ).length !== 0 ) {
-                                $.redux.stickyInfo(); // race condition fix
-                            }
-                            $.redux.initFields();
-                        }
-                    );                
-                }
-
                 $.redux.expandOptions( $( this ).parents( '.redux-container:first' ) );
-
                 return false;
             }
         );
@@ -152,13 +135,7 @@
                 window.onbeforeunload = null;
             }
         );
-    };
 
-    $.redux.hideFields = function() {
-        $("label[for='redux_hide_field']").each(function(idx,val){
-            var tr = $(this).parent().parent();
-            $(tr).addClass('hidden');
-        });
     };
 
     $.redux.checkRequired = function() {
@@ -471,7 +448,7 @@
     };
 
     $.redux.initFields = function() {
-        $( ".redux-group-tab:visible" ).find( ".redux-field-init:visible" ).each(
+        $( ".redux-field-init:visible" ).each(
             function() {
                 var type = $( this ).attr( 'data-type' );
                 //console.log(type);
@@ -784,173 +761,93 @@
         switch ( operation ) {
             case '=':
             case 'equals':
-                if ( $.isArray( parentValue ) ) {
-                    $(parentValue[0]).each(function(idx, val){
-                        if ($.isArray(checkValue)) {
-                            $(checkValue).each (function(i, v){
-                                if (val == v) {
-                                    show = true;
-                                    return true;
-                                }
-                            });
-                        } else {
-                            if (val == checkValue) {
-                                show = true;
-                                return true;
-                            }
-                        }
-                    });
+                //if value was array
+                if ( $.isArray( checkValue ) ) {
+                    if ( $.inArray( parentValue, checkValue ) != -1 ) {
+                        show = true;
+                    }
                 } else {
-                    if ($.isArray(checkValue)) {
-                        $(checkValue).each (function(i, v){
-                            if (parentValue == v) {
-                                show = true;
-                            }
-                        });
-                    } else {
-                        if (parentValue == checkValue) {
+                    if ( parentValue == checkValue ) {
+                        show = true;
+                    } else if ( $.isArray( parentValue ) ) {
+                        if ( $.inArray( checkValue, parentValue ) != -1 ) {
                             show = true;
                         }
                     }
                 }
-            break;
-            
+                break;
             case '!=':
             case 'not':
-                if ( $.isArray( parentValue ) ) {
-                    $(parentValue[0]).each(function(idx, val){
-                        if ($.isArray(checkValue)) {
-                            $(checkValue).each (function(i, v){
-                                if (val != v) {
-                                    show = true;
-                                    return true;
-                                }
-                            });
-                        } else {
-                            if (val != checkValue) {
-                                show = true;
-                                return true;
-                            }
-                        }
-                    });
+                //if value was array
+                if ( $.isArray( checkValue ) ) {
+                    //if (checkValue.toString().indexOf('|') !== -1) {
+                    //    checkValue_array = checkValue.split('|');
+                    if ( $.inArray( parentValue, checkValue ) == -1 ) {
+                        show = true;
+                    }
                 } else {
-                    if ($.isArray(checkValue)) {
-                        $(checkValue).each (function(i, v){
-                            if (parentValue != v) {
-                                show = true;
-                            }
-                        });
-                    } else {
-                        if (parentValue != checkValue) {
+                    if ( parentValue != checkValue ) {
+                        show = true;
+                    } else if ( $.isArray( parentValue ) ) {
+                        if ( $.inArray( checkValue, parentValue ) == -1 ) {
                             show = true;
                         }
                     }
                 }
-                
-//                //if value was array
-//                if ( $.isArray( checkValue ) ) {
-//                    if ( $.inArray( parentValue, checkValue ) == -1 ) {
-//                        show = true;
-//                    }
-//                } else {
-//                    if ( parentValue != checkValue ) {
-//                        show = true;
-//                    } else if ( $.isArray( parentValue ) ) {
-//                        if ( $.inArray( checkValue, parentValue ) == -1 ) {
-//                            show = true;
-//                        }
-//                    }
-//                }
-            break;
-            
+                break;
             case '>':
             case 'greater':
             case 'is_larger':
-                if ( parseFloat( parentValue ) > parseFloat( checkValue ) ) {
+                if ( parseFloat( parentValue ) > parseFloat( checkValue ) )
                     show = true;
-                }
-            break;
-            
+                break;
             case '>=':
             case 'greater_equal':
             case 'is_larger_equal':
-                if ( parseFloat( parentValue ) >= parseFloat( checkValue ) ) {
+                if ( parseFloat( parentValue ) >= parseFloat( checkValue ) )
                     show = true;
-                }
-            break;
-            
+                break;
             case '<':
             case 'less':
             case 'is_smaller':
-                if ( parseFloat( parentValue ) < parseFloat( checkValue ) ) {
+                if ( parseFloat( parentValue ) < parseFloat( checkValue ) )
                     show = true;
-                }
-            break;
-            
+                break;
             case '<=':
             case 'less_equal':
             case 'is_smaller_equal':
-                if ( parseFloat( parentValue ) <= parseFloat( checkValue ) ) {
+                if ( parseFloat( parentValue ) <= parseFloat( checkValue ) )
                     show = true;
-                }
-            break;
-            
+                break;
             case 'contains':
-                if ( $.isArray( checkValue ) ) {
-                    $(checkValue).each (function(idx, val) {
-                        if ( parentValue.toString().indexOf( val ) !== -1 ) {
-                            show = true;
-                        }
-                    });
-                } else {
-                    if ( parentValue.toString().indexOf( checkValue ) !== -1 ) {
-                        show = true;
-                    }
-                }
-            break;
-            
+                if ( parentValue.toString().indexOf( checkValue ) != -1 )
+                    show = true;
+                break;
             case 'doesnt_contain':
             case 'not_contain':
-                if ( $.isArray( checkValue ) ) {
-                    $(checkValue).each (function(idx, val) {
-                        if ( parentValue.toString().indexOf( val ) === -1 ) {
-                            show = true;
-                        }
-                    });
-                } else {
-                    if ( parentValue.toString().indexOf( checkValue ) === -1 ) {
-                        show = true;
-                    }
-                }
-            break;
-            
+                if ( parentValue.toString().indexOf( checkValue ) == -1 )
+                    show = true;
+                break;
             case 'is_empty_or':
-                if ( parentValue === "" || parentValue == checkValue ) {
+                if ( parentValue === "" || parentValue == checkValue )
                     show = true;
-                }
-            break;
-            
+                break;
             case 'not_empty_and':
-                if ( parentValue !== "" && parentValue != checkValue ) {
+                if ( parentValue !== "" && parentValue != checkValue )
                     show = true;
-                }
-            break;
-            
+                break;
             case 'is_empty':
             case 'empty':
             case '!isset':
-                if ( !parentValue || parentValue === "" || parentValue === null ) {
+                if ( !parentValue || parentValue === "" || parentValue === null )
                     show = true;
-                }
-            break;
-            
+                break;
             case 'not_empty':
             case '!empty':
             case 'isset':
-                if ( parentValue && parentValue !== "" && parentValue !== null ) {
+                if ( parentValue && parentValue !== "" && parentValue !== null )
                     show = true;
-                }
-            break;
+                break;
         }
         return show;
 
