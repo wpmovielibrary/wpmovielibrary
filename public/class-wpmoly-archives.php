@@ -590,7 +590,8 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				$menu = '';
 				if ( $has_menu ) {
 					$args = compact( 'order', 'orderby', 'number', 'letter' );
-					$menu = self::taxonomy_archive_menu( $taxonomy, $args );
+					// PHP 5.3
+					$menu = WPMOLY_Archives::taxonomy_archive_menu( $taxonomy, $args );
 				}
 
 				$args['letter'] = $letter;
