@@ -212,7 +212,6 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$join  = implode( '', $join );
 			$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT ID FROM {$wpdb->posts} {$join} WHERE {$where} ORDER BY post_title {$order} {$limit}";
 
-			var_dump( $view );
 			$movies = $wpdb->get_col( $query );
 			$total  = $wpdb->get_var( 'SELECT FOUND_ROWS() AS total' );
 			$movies = array_map( 'get_post', $movies );
