@@ -206,7 +206,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$changed = delete_transient( 'wpmoly-permalinks-changed' );
 
 			$new_rules = self::generate_custom_rules( $rules );
-			print_r( $new_rules );
 
 			return $new_rules;
 		}
