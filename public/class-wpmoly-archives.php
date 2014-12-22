@@ -735,30 +735,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			else
 				return false;
 
-			$l10n_rewrite = WPMOLY_L10n::get_l10n_rewrite();
-			$meta_value   = strtolower( $wp_query->query_vars['value'] );
-			$meta_value   = apply_filters( 'wpmoly_filter_rewrites', $meta_value );
-			$_key         = array_search( $meta_value, $l10n_rewrite[ $meta ] );
-
-			// If meta_key does not exist, trigger a 404 error
-			if ( ! $_key ) {
-				$wp_query->set( 'post__in', array( -1 ) );
-				return false;
-			}
-
-			// Languages and countries meta are special
-			if ( 'spoken_languages' == $meta_key && 'meta' == $meta )
-				$meta = 'languages';
-			else if ( 'production_countries' == $meta_key && 'meta' == $meta )
-				$meta = 'countries';
-
-			$value = array_search( $meta_value, $l10n_rewrite[ $meta ] );
-			if ( ! $value )
-				$value = array_search( remove_accents( rawurldecode( $meta_value ) ), $l10n_rewrite[ $meta ] );
-
-			if ( false != $value )
-				$meta_value = $value;
-
+			$meta_value = $wp_query->query_vars['value'];
 			$meta_query = call_user_func( "WPMOLY_Search::by_{$meta_key}", $meta_value );
 
 			$wp_query->set( 'meta_query', $meta_query );
