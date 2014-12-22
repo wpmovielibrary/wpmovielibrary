@@ -304,7 +304,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$rules[ '([^/]+)/([^/]+)/([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?pagename=$matches[1]&meta=$matches[2]&value=$matches[3]&view=$matches[4]&sorting=$matches[5]';
 
 			$new_rules = $new_rules + $rules;
-			print_r( $new_rules );
 
 			WPMOLY_L10n::set_l10n_rewrite();
 
