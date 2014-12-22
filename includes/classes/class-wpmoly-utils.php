@@ -206,6 +206,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$changed = delete_transient( 'wpmoly-permalinks-changed' );
 
 			$new_rules = self::generate_custom_rules( $rules );
+			print_r( $new_rules );
 
 			return $new_rules;
 		}
@@ -290,7 +291,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $actor . '&view=$matches[1]&sorting=$matches[2]';
 			}
 
-			$rules[ '([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?name=$matches[1]&view=$matches[2]&sorting=$matches[3]';
+			$rules[ '([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?pagename=$matches[1]&view=$matches[2]&sorting=$matches[3]';
 
 			$new_rules = $new_rules + $rules;
 

@@ -24,11 +24,14 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 		 * 
 		 * @since    2.0
 		 * 
+		 * @param    array       Shortcode arguments to use as parameters
+		 * @param    boolean     Are we actually doing a Shortcode?
+		 * 
 		 * @return   string    HTML content
 		 */
-		public static function get_menu( $args ) {
+		public static function get_menu( $args, $shortcode = false ) {
 
-			global $wpdb;
+			global $wpdb, $wp_query;
 
 			$defaults = array(
 				'order'    => wpmoly_o( 'movie-archives-movies-order', $default = true ),
@@ -44,12 +47,16 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$args = wp_parse_args( $args, $defaults );
 
 			// Allow URL params to override settings
-			$vars = array( 'meta', 'detail', 'value', 'columns', 'rows', 'view' );
-			foreach ( $vars as $var )
-				$args[ $var ] = get_query_var( $var, $args[ $var ] );
+			$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
+			$args = wp_parse_args( $_args, $args );
 
 			extract( $args );
-			$baseurl = get_post_type_archive_link( 'movie' );
+
+			if ( true === $shortcode ) {
+				$baseurl = get_permalink();
+			} else {
+				$baseurl = get_post_type_archive_link( 'movie' );
+			}
 
 			$views = array( 'grid', 'archives', 'list' );
 			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
@@ -110,11 +117,11 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 		 * 
 		 * @since    2.0
 		 * 
-		 * @param    array     Shortcode arguments to use as parameters
+		 * @param    array       Shortcode arguments to use as parameters
 		 * 
 		 * @return   string    HTML content
 		 */
-		public static function get_content( $args = array(), $shortcode = false ) {
+		public static function get_content( $args = array() ) {
 
 			global $wpdb, $wp_query;
 
@@ -135,16 +142,8 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$args = wp_parse_args( $args, $defaults );
 
 			// Allow URL params to override Shortcode settings
-			
-			if ( ! empty( $_GET ) ) {
-				$vars = array( 'columns', 'rows', 'letter', 'order', 'meta', 'detail', 'value', 'view' );
-				foreach ( $vars as $var )
-					$args[ $var ] = get_query_var( $var, $args[ $var ] );
-			}
-			elseif ( true !== $shortcode ) {
-				$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
-				$args = wp_parse_args( $_args, $args );
-			}
+			$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
+			$args = wp_parse_args( $_args, $args );
 
 			extract( $args, EXTR_SKIP );
 			$total  = 0;
