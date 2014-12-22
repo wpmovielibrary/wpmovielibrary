@@ -401,12 +401,11 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 
 			if ( '' != $sorting ) {
 				$sorting = self::parse_query_vars( compact( 'sorting' ) );
-				$letter  = $sorting['letter'];
 
-				if ( '' != $letter )
-					$title  .= sprintf( ' − %s ', sprintf( __( 'Letter %s', 'wpmovielibrary' ), $letter ) );
+				if ( isset( $sorting['letter'] ) && '' != $sorting['letter'] )
+					$title  .= sprintf( ' − %s ', sprintf( __( 'Letter %s', 'wpmovielibrary' ), $sorting['letter'] ) );
 
-				if ( '' != $sorting['paged'] && 'wp_title' == $filter )
+				if ( isset( $sorting['paged'] ) && '' != $sorting['paged'] && 'wp_title' == $filter )
 					$title .= sprintf( __( ' %s Page %d ', 'wpmovielibrary' ), $sep, $sorting['paged'] );
 			}
 
@@ -772,22 +771,20 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 */
 		public static function parse_query_vars( $vars ) {
 
+			$translate = ( '1' == wpmoly_o( 'rewrite-enable' ) );
 			$defaults = array(
-				'letter'  => '',
-				'paged'   => 1,
-				'columns' => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
-				'rows'    => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
-				'order'   => wpmoly_o( 'movie-archives-movies-order', $default = true ),
-				'meta'    => null,
-				'detail'  => null,
-				'value'   => null
+				'letter', 'paged', 'columns', 'rows', 'order', 'meta', 'detail', 'value', 'view'
 			);
-			$params = array(
-				'meta'    => get_query_var( 'meta' ),
-				'detail'  => get_query_var( 'detail' ),
-				'value'   => get_query_var( 'value' ),
-				'view'    => get_query_var( 'view', 'grid' )
-			);
+			$params = array();
+
+			foreach ( $defaults as $default ) {
+				if ( isset( $vars[ $default ] ) ) {
+					$var = $vars[ $default ];
+					if ( $translate )
+						$var = WPMOLY_L10n::untranslate_rewrite( $var );
+					$params[ $default ] = $var;
+				}
+			}
 
 			// I can haz sortingz!
 			if ( isset( $vars['sorting'] ) && '' != $vars['sorting'] ) {
@@ -825,8 +822,6 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 					$params['paged'] = $matches[2];
 				}
 			}
-
-			$params = wp_parse_args( $params, $defaults );
 
 			return $params;
 		}
