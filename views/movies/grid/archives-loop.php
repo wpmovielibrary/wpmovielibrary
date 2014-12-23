@@ -17,11 +17,11 @@ if ( ! empty( $movies ) ) :
 						<h2><?php the_title(); ?></h2>
 <?php
 						echo WPMOLY_Movies::movie_vintage_content();
-		}
 ?>
 					</div>
-
 <?php
+		}
+
 	endforeach;
 	wp_reset_postdata();
 else :
