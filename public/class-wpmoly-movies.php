@@ -270,7 +270,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 *
 		 * @return   string      The filtered content containing original content plus movie infos if available, the untouched original content else.
 		 */
-		public static function movie_vintage_content( $content ) {
+		public static function movie_vintage_content( $content = null ) {
 
 			// Caching
 			$name = apply_filters( 'wpmoly_cache_name', 'movie_content_' . get_the_ID() );
