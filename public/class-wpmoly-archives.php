@@ -720,22 +720,16 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 */
 		public static function meta_archives( $wp_query ) {
 
-			if ( is_admin() )
+			if ( is_admin() || ! is_post_type_archive( 'movie' ) )
 				return false;
 
-			if ( isset( $wp_query->query_vars['meta'] ) ) {
-				$meta = 'meta';
-				$meta_key = $wp_query->query_vars['meta'];
-			}
-			else if ( isset( $wp_query->query_vars['detail'] ) ) {
-				$meta = 'detail';
-				$meta_key = $wp_query->query_vars['detail'];
-			}
-			else
+			$vars = self::parse_query_vars( $wp_query->query_vars );
+			extract( $vars );
+
+			if ( ! isset( $meta ) || ! isset( $value ) )
 				return false;
 
-			$meta_value = $wp_query->query_vars['value'];
-			$meta_query = call_user_func( "WPMOLY_Search::by_{$meta_key}", $meta_value );
+			$meta_query = call_user_func( "WPMOLY_Search::by_{$meta}", $value );
 
 			$wp_query->set( 'meta_query', $meta_query );
 		}

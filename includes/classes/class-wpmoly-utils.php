@@ -253,16 +253,20 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$grid = sprintf( '(%s|%s|%s)', __( 'grid', 'wpmovielibrary' ), __( 'archives', 'wpmovielibrary' ), __( 'list', 'wpmovielibrary' ) );
 
 			if ( $movie ) {
-				$new_rules[ $l10n_rules['movies'] . '/?$' ] = 'index.php?page_id=' . $movie;
-				$new_rules[ $l10n_rules['movies'] . '/' . $grid . '/?$' ] = 'index.php?page_id=' . $movie . '&view=$matches[1]';
-				$new_rules[ $l10n_rules['movies'] . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $movie . '&view=$matches[1]&sorting=$matches[2]';
-				$new_rules[ $l10n_rules['movies'] . '/' . $meta . '/([^/]+)/?$' ] = 'index.php?page_id=' . $movie . '&meta=$matches[1]&value=$matches[2]';
-				$new_rules[ $l10n_rules['movies'] . '/' . $meta . '/([^/]+)/' . $grid . '/?$' ] = 'index.php?page_id=' . $movie . '&meta=$matches[1]&value=$matches[2]&view=$matches[3]';
-				$new_rules[ $l10n_rules['movies'] . '/' . $meta . '/([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $movie . '&meta=$matches[1]&value=$matches[2]&view=$matches[3]&sorting=$matches[4]';
-				$new_rules[ $l10n_rules['movies'] . '/([^/]+)/([^/]+)/?$' ] = 'index.php?page_id=' . $movie . '&meta=$matches[1]&value=$matches[2]';
-				$new_rules[ $l10n_rules['movies'] . '/([^/]+)/([^/]+)/' . $grid . '/?$' ] = 'index.php?page_id=' . $movie . '&meta=$matches[1]&value=$matches[2]&view=$matches[3]';
-				$new_rules[ $l10n_rules['movies'] . '/([^/]+)/([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $movie . '&meta=$matches[1]&value=$matches[2]&view=$matches[3]&sorting=$matches[4]';
+				$_movie = 'page_id=' . $movie;
+			} else {
+				$_movie = 'post_type=movie';
 			}
+
+			$new_rules[ $l10n_rules['movies'] . '/?$' ] = 'index.php?' . $_movie;
+			$new_rules[ $l10n_rules['movies'] . '/' . $grid . '/?$' ] = 'index.php?' . $_movie . '&view=$matches[1]';
+			$new_rules[ $l10n_rules['movies'] . '/' . $grid . '/(.*?)/?$' ] = 'index.php?' . $_movie . '&view=$matches[1]&sorting=$matches[2]';
+			$new_rules[ $l10n_rules['movies'] . '/' . $meta . '/([^/]+)/?$' ] = 'index.php?' . $_movie . '&meta=$matches[1]&value=$matches[2]';
+			$new_rules[ $l10n_rules['movies'] . '/' . $meta . '/([^/]+)/' . $grid . '/?$' ] = 'index.php?' . $movie . '&meta=$matches[1]&value=$matches[2]&view=$matches[3]';
+			$new_rules[ $l10n_rules['movies'] . '/' . $meta . '/([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?' . $_movie . '&meta=$matches[1]&value=$matches[2]&view=$matches[3]&sorting=$matches[4]';
+			$new_rules[ $l10n_rules['movies'] . '/([^/]+)/([^/]+)/?$' ] = 'index.php?' . $_movie . '&meta=$matches[1]&value=$matches[2]';
+			$new_rules[ $l10n_rules['movies'] . '/([^/]+)/([^/]+)/' . $grid . '/?$' ] = 'index.php?' . $_movie . '&meta=$matches[1]&value=$matches[2]&view=$matches[3]';
+			$new_rules[ $l10n_rules['movies'] . '/([^/]+)/([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?' . $_movie . '&meta=$matches[1]&value=$matches[2]&view=$matches[3]&sorting=$matches[4]';
 
 			if ( $collection && get_post( $collection ) ) {
 				$title = get_post( $collection )->post_name;
@@ -308,47 +312,6 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			WPMOLY_L10n::set_l10n_rewrite();
 
 			return $new_rules;
-		}
-
-		/**
-		 * Generate custom rewrite rules for movie metadata and details.
-		 * 
-		 * This generates a long list of regex that will be usefull to list
-		 * movies by their meta and details.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    string    $notice The notice message
-		 * @param    string    $type Notice type: update, error, wpmoly?
-		 * @param    string    $movies 'movies' permalink translation or original
-		 * @param    string    $base links base, general index or custom page
-		 * 
-		 * @return   array     $new_rules Set of rewrite rules to merge to current rules
-		 */
-		private static function generate_custom_meta_rules( $type, $data, $movies, $base ) {
-
-			/*$new_rules = array();
-
-			$grid = '(grid|archives|list)';
-			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
-				$grid = sprintf( '(%s|%s|%s)', __( 'grid', 'wpmovielibrary' ), __( 'archives', 'wpmovielibrary' ), __( 'list', 'wpmovielibrary' ) );
-
-			foreach ( $data as $slug => $meta ) {
-
-				$meta = apply_filters( 'wpmoly_filter_rewrites', $meta );
-
-				// Simple meta link
-				$regex = sprintf( '%s/(%s)/([^/]+)(/%s)?/?$', $movies, $meta, $grid );
-				$value = sprintf( '%s%s=%s&value=$matches[2]', $base, $type, $slug );
-				$new_rules[ $regex ] = $value;
-
-				// Simple meta link
-				$regex = sprintf( '%s/(%s)/([^/]+)/%s/(.*?)/?$', $movies, $meta, $grid );
-				$value = sprintf( '%s%s=%s&value=$matches[2]&view=$matches[3]&sorting=$matches[4]', $base, $type, $slug );
-				$new_rules[ $regex ] = $value;
-			}
-
-			return $new_rules;*/
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
