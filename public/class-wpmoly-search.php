@@ -102,21 +102,43 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 		 * 
 		 * @param    string     $date Date to look for
 		 * @param    boolean    $format Whether to return an SQL Query part of simple Meta Query Array
+		 * @param    boolean    $local Local release date?
 		 * 
 		 * @return   array      Meta_query parameter for WP_Query
 		 */
-		public static function by_release_date( $date, $format = 'array' ) {
+		public static function by_release_date( $date, $format = 'array', $local = false ) {
 
 			if ( 4 == strlen( $date ) || 7 == strlen( $date ) )
-				return self::by_year( $date, $format );
+				return self::by_year( $date, $format, $local );
+
+			$key = 'release_date';
+			if ( true === $local )
+				$key = "local_$key";
 
 			$value = self::filter_interval( $date );
-			$meta_query = self::by_interval( 'release_date', $value, $strict = true, $filter = false );
+			$meta_query = self::by_interval( $key, $value, $strict = true, $filter = false );
 
 			if ( 'sql' === $format )
 				$meta_query = self::get_sql( $meta_query );
 
 			return $meta_query;
+		}
+
+		/**
+		 * Filter movies by local release date.
+		 * 
+		 * This is an alias for self::by_release_date()
+		 * 
+		 * @since    2.1.1.3
+		 * 
+		 * @param    string     $date Date to look for
+		 * @param    boolean    $format Whether to return an SQL Query part of simple Meta Query Array
+		 * 
+		 * @return   array      Meta_query parameter for WP_Query
+		 */
+		public static function by_local_release_date( $date, $format = 'array' ) {
+
+			return self::by_release_date( $date, $format, $local = true );
 		}
 
 		/**
@@ -126,12 +148,17 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 		 * 
 		 * @param    string     $value Year to match
 		 * @param    boolean    $format Whether to return an SQL Query part of simple Meta Query Array
+		 * @param    boolean    $local Local release date?
 		 * 
 		 * @return   array      Meta_query parameter for WP_Query
 		 */
-		public static function by_year( $value, $format = 'array' ) {
+		public static function by_year( $value, $format = 'array', $local = false ) {
 
-			$meta_query = self::by_interval( 'release_date', $value, $strict = false, $filter = false );
+			$key = 'release_date';
+			if ( true === $local )
+				$key = "local_$key";
+
+			$meta_query = self::by_interval( $key, $value, $strict = false, $filter = false );
 
 			if ( 'sql' === $format )
 				$meta_query = self::get_sql( $meta_query );
