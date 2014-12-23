@@ -495,7 +495,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		public static function add_meta_link( $key, $value, $type, $text = null ) {
 
 			if ( ! wpmoly_o( 'meta-links' ) || 'nowhere' == wpmoly_o( 'meta-links' ) || ( 'posts_only' == wpmoly_o( 'meta-links' ) && ! is_single() ) )
-				return $value;
+				return $text;
 
 			if ( is_null( $key ) || is_null( $value ) || '' == $value )
 				return $value;
