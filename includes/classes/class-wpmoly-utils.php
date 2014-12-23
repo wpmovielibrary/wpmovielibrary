@@ -264,7 +264,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$new_rules[ $l10n_rules['movies'] . '/' . $meta . '/([^/]+)/?$' ] = 'index.php?' . $_movie . '&meta=$matches[1]&value=$matches[2]';
 			$new_rules[ $l10n_rules['movies'] . '/' . $meta . '/([^/]+)/' . $grid . '/?$' ] = 'index.php?' . $movie . '&meta=$matches[1]&value=$matches[2]&view=$matches[3]';
 			$new_rules[ $l10n_rules['movies'] . '/' . $meta . '/([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?' . $_movie . '&meta=$matches[1]&value=$matches[2]&view=$matches[3]&sorting=$matches[4]';
+			$new_rules[ $l10n_rules['movies'] . '/page/([0-9]+)/?$' ] = 'index.php?' . $_movie . '&paged=$matches[1]';
 			$new_rules[ $l10n_rules['movies'] . '/([^/]+)/([^/]+)/?$' ] = 'index.php?' . $_movie . '&meta=$matches[1]&value=$matches[2]';
+			$new_rules[ $l10n_rules['movies'] . '/([^/]+)/([^/]+)/page/([0-9]+)/?$' ] = 'index.php?' . $_movie . '&meta=$matches[1]&value=$matches[2]&paged=$matches[3]';
 			$new_rules[ $l10n_rules['movies'] . '/([^/]+)/([^/]+)/' . $grid . '/?$' ] = 'index.php?' . $_movie . '&meta=$matches[1]&value=$matches[2]&view=$matches[3]';
 			$new_rules[ $l10n_rules['movies'] . '/([^/]+)/([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?' . $_movie . '&meta=$matches[1]&value=$matches[2]&view=$matches[3]&sorting=$matches[4]';
 

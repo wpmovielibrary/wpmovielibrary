@@ -118,10 +118,11 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 		 * @since    2.0
 		 * 
 		 * @param    array       Shortcode arguments to use as parameters
+		 * @param    boolean     Are we actually doing a Shortcode?
 		 * 
 		 * @return   string    HTML content
 		 */
-		public static function get_content( $args = array() ) {
+		public static function get_content( $args = array(), $shortcode = false ) {
 
 			global $wpdb, $wp_query;
 
@@ -218,6 +219,12 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			if ( 'list' == $view )
 				$movies = self::prepare_list_view( $movies );
 
+			if ( true === $shortcode ) {
+				$baseurl = get_permalink();
+			} else {
+				$baseurl = get_post_type_archive_link( 'movie' );
+			}
+
 			$args = array(
 				'order'   => $order,
 				'columns' => $columns,
@@ -227,7 +234,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				$type     => $meta,
 				'l10n'    => false,
 				'view'    => $view,
-				'baseurl' => get_post_type_archive_link( 'movie' )
+				'baseurl' => $baseurl
 			);
 			$url = WPMOLY_Utils::build_meta_permalink( $args );
 
