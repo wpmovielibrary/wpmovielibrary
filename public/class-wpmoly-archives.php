@@ -308,6 +308,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				return $title;
 
 			$is_movie = ( $id == $this->pages['movie'] );
+			$translate = ( '1' == wpmoly_o( 'rewrite-enable' ) );
 			$rewrite_movie = ( '1' == wpmoly_o( 'movie-archives-title-rewrite' ) );
 			$rewrite_taxonomy = ( '1' == wpmoly_o( 'tax-archives-title-rewrite' ) );
 
@@ -361,6 +362,9 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 
 				if ( '' != $meta ) {
 
+					if ( $translate )
+						$meta = WPMOLY_L10n::untranslate_rewrite( $meta );
+
 					$supported = WPMOLY_Settings::get_supported_movie_meta();
 					if ( isset( $supported[ $meta ] ) )
 						$_meta = $supported[ $meta ]['title'];
@@ -369,6 +373,9 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 						$value = WPMOLY_L10n::untranslate_rewrite( $value );
 				}
 				elseif ( '' != $detail ) {
+
+					if ( $translate )
+						$detail = WPMOLY_L10n::untranslate_rewrite( $detail );
 
 					$supported = WPMOLY_Settings::get_supported_movie_detail();
 					if ( isset( $supported[ $detail ] ) )
