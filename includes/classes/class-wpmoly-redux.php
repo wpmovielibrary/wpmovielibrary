@@ -17,11 +17,7 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 			if ( ! class_exists( 'ReduxFramework' ) )
 				return;
 
-			// This is needed. Bah WordPress bugs.  ;)
-			if ( true == Redux_Helpers::isTheme( __FILE__ ) )
-				$this->initSettings();
-			else
-				add_action( 'plugins_loaded', array( $this, 'initSettings' ), 10 );
+			add_action( 'plugins_loaded', array( $this, 'initSettings' ), 10 );
 
 		}
 
