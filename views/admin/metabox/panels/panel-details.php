@@ -1,5 +1,6 @@
 
 		<div id="wpmoly-details" class="wpmoly-details">
+			<p><em><?php _e( 'Details are personal data related to your experience of the movie: which media do you own? In which language(s)/subtitle(s)? What is the current status of your copy? How much did you enjoy it? These data are not automatically fetched like metadata, they are here to make it easier for you to manage your library.', 'wpmovielibrary' ) ?></em></p>
 
 <?php foreach ( $details as $slug => $detail ) :
 	$slug = str_replace( 'movie_', '', $slug );
