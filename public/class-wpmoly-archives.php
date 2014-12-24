@@ -659,7 +659,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$args = wp_parse_args( $args, $defaults );
 			extract( $args );
 
-			$default = str_split( 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
+			$default = str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
 			$letters = array();
 			
 			$result = $wpdb->get_results(
