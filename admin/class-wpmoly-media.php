@@ -131,7 +131,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				return false;
 
 			// Do nothing
-			if ( ! wpmoly_o( 'images-delete' ) && ! wpmoly_o( 'images-delete' ) )
+			if ( ! wpmoly_o( 'images-delete' ) && ! wpmoly_o( 'posters-delete' ) )
 				return false;
 
 			// Delete posters only
@@ -279,7 +279,12 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload is empty.', 'wpmovielibrary' ) );
 
 			$image_type = ( 'poster' == $image_type ? 'poster' : 'backdrop' );
-			$size = wpmoly_o( 'images-size' );
+
+			if ( 'poster' == $image_type ) {
+				$size = wpmoly_o( 'poster-size' );
+			} else {
+				$size = wpmoly_o( 'images-size' );
+			}
 
 			if ( is_array( $file ) ) {
 				$data = $file;
