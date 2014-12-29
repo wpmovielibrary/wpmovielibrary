@@ -4,7 +4,7 @@ Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 2.1.1.2
+Stable tag: 2.1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -137,6 +137,18 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 7. Import queue
 
 == Changelog ==
+
+= 2.1.2 =
+* Fix - Countries/languages names missing translation
+* Fix - Release date formatting bug
+* Fix - Movie archives pages titles missing translations
+* Fix - Remove ReduxFramework potential crash-triggering part
+* Fix - Poster size ignored on import
+* Fix - Pagination bug on movie archive pages
+* Tweak - Implement local release date meta query
+* Tweak - Add numbers to actor taxonomy archives menu
+* Tweak - Informative message in metabox details panel
+* Dev - Update permalinks handling
 
 = 2.1.1.2 =
 * Fix - Forgotten debug notice
