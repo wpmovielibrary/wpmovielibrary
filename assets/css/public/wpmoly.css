@@ -106,13 +106,20 @@
 
 #wpmoly-movie-grid-menu a,
 #wpmoly-movie-grid-menu-2 a {
-	text-decoration: none;
+	text-decoration: none !important;
 }
+
+#wpmoly-movie-grid-menu span,
+#wpmoly-movie-grid-menu-2 span {
+	line-height: 1.25em;
+}
+
 
 #wpmoly-movie-grid-menu .wpmoly.grid.menu.item,
 #wpmoly-movie-grid-menu-2 .wpmoly.grid.menu.item {
-	display: inline-block;
 	border-left: 1px solid #ddd;
+	display: inline-block;
+	margin: 0;
 	padding: 0.15rem 0.5rem;
 }
 
@@ -244,6 +251,7 @@
 #wpmoly-movie-grid-menu-item-count input {
 	display: inline-block;
 	max-height: 24px;
+	max-width: 48px;
 	padding: 0px;
 	text-align: center;
 }
@@ -550,30 +558,6 @@
 	padding-left: 6px;
 }
 
-/** Movie Headbox
- ***************************************************/
-
-.wpmoly.headbox.theme-twentyfourteen {
-	margin-left: -30px;
-	margin-right: -30px;
-}
-
-.wpmoly.headbox.theme-twentyfourteen > .wpmoly.headbox.movie.content {
-	border: 1px solid #e5e5e5;
-}
-
-.wpmoly.headbox.theme-twentytwelve > .wpmoly.headbox.movie.poster {
-	min-height: 164px;
-}
-
-.wpmoly.headbox.theme-twentytwelve .wpmoly.headbox.movie.title {
-	margin: 4px 0 0;
-}
-
-.wpmoly.headbox.theme-emerald {
-	clear: both;
-}
-
 
 /** Movie Meta & Details block
  ***************************************************/
@@ -794,3 +778,48 @@
 	text-shadow: 0 1px 0 white;
 	width: 100%;
 }
+
+/** Themes compat
+ ***************************************************/
+
+.wpmoly.headbox.theme-twentyfourteen {
+	margin-left: -30px;
+	margin-right: -30px;
+}
+
+.wpmoly.headbox.theme-twentyfourteen > .wpmoly.headbox.movie.content {
+	border: 1px solid #e5e5e5;
+}
+
+.wpmoly.headbox.theme-twentytwelve > .wpmoly.headbox.movie.poster {
+	min-height: 164px;
+}
+
+.wpmoly.headbox.theme-twentytwelve .wpmoly.headbox.movie.title {
+	margin: 4px 0 0;
+}
+
+.wpmoly.headbox.theme-emerald {
+	clear: both;
+}
+
+#wpmoly-movie-grid-menu-2.wpmoly.movies.grid.menu.theme-twentyfifteen a {
+	border-bottom: 0 !important;
+	text-decoration: none;
+}
+
+#wpmoly-movie-grid-menu.wpmoly.movies.grid.menu.theme-twentyfifteen span,
+#wpmoly-movie-grid-menu-2.wpmoly.movies.grid.menu.theme-twentyfifteen span {
+	line-height: 1.5em !important;
+}
+
+/*#wpmoly-movie-grid-menu-2.wpmoly.movies.grid.menu.theme-twentyfourteen a {
+	height: 2em;
+	line-height: 2em;
+}
+
+#wpmoly-movie-grid-menu-2.wpmoly.movies.grid.menu.theme-twentyfourteen input {
+	height: 32px;
+	max-height: 32px;
+}*/
+

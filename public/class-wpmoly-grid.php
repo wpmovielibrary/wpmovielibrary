@@ -104,6 +104,12 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 
 			$attributes['urls'] = $urls;
 
+			$theme = wp_get_theme();
+			if ( ! is_null( $theme->stylesheet ) )
+				$attributes['theme'] = ' theme-' . $theme->stylesheet;
+			else
+				$attributes['theme'] = '';
+
 			$content = self::render_template( 'movies/grid/menu.php', $attributes );
 
 			return $content;
@@ -253,7 +259,13 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$paginate = WPMOLY_Utils::paginate_links( $args );
 			$paginate = '<div id="wpmoly-movies-pagination">' . $paginate . '</div>';
 
-			$attributes = compact( 'movies', 'columns', 'title', 'genre', 'rating' );
+			$theme = wp_get_theme();
+			if ( ! is_null( $theme->stylesheet ) )
+				$theme = ' theme-' . $theme->stylesheet;
+			else
+				$theme = '';
+
+			$attributes = compact( 'movies', 'columns', 'title', 'genre', 'rating', 'theme' );
 
 			$content  = self::render_template( "movies/grid/$view-loop.php", $attributes );
 			$content  = $content . $paginate;

@@ -1,5 +1,5 @@
 
-				<div id="wpmoly-movie-grid" class="wpmoly movies list">
+				<div id="wpmoly-movie-grid" class="wpmoly movies list<?php echo $theme; ?>">
 
 <?php
 global $post;

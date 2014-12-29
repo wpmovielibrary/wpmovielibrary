@@ -1,5 +1,5 @@
 
-				<ul id="wpmoly-movie-grid-menu" class="wpmoly movies grid menu list">
+				<ul id="wpmoly-movie-grid-menu" class="wpmoly movies grid menu list<?php echo $theme; ?>">
 
 <?php
 $current = $letter;
@@ -14,7 +14,7 @@ foreach ( $default as $l ) :
 
 				<form id="wpmoly-grid-form" action="">
 					<input type="submit" value="" style="display:none" />
-					<ul id="wpmoly-movie-grid-menu-2" class="wpmoly movies grid menu list">
+					<ul id="wpmoly-movie-grid-menu-2" class="wpmoly movies grid menu list<?php echo $theme; ?>">
 						<li id="wpmoly-movie-grid-menu-item-alpha-asc" class="wpmoly movies grid menu list item<?php if ( 'ASC' == $order ) echo ' active'; ?>"><a href="<?php echo str_replace( array( 'DESC', 'desc' ), 'ASC', $urls['asc'] ) ?>" title="<?php _e( 'List ascendingly', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-sort-alpha-asc"></span></a></li>
 						<li id="wpmoly-movie-grid-menu-item-alpha-desc" class="wpmoly movies grid menu list item<?php if ( 'DESC' == $order ) echo ' active'; ?>"><a href="<?php echo str_replace( array( 'ASC', 'asc' ), 'DESC', $urls['desc'] ) ?>" title="<?php _e( 'List descendingly', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-sort-alpha-desc"></span></a></li>
  <?php if ( '1' == $editable ) : ?>
