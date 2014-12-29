@@ -103,6 +103,16 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 
 			$atts = self::filter_shortcode_atts( 'movie_grid', $atts );
 
+			// Shortcode not working properly on Posts
+			if ( 'page' != get_post_type() ) {
+
+				$notive = '';
+				if ( current_user_can( 'manage_options' ) )
+					$notive = sprintf( '<p><em>%s</em></p>', sprintf( __( 'The Movie Grid can not be used on regular Posts (<a href="%s">learn why</a>), please consider using a Page instead. This message is visible by logged in administrators only.', 'wpmovielibrary' ), esc_url( 'http://wpmovielibrary.com/documentation/shortcodes/movie_grid/' ) ) );
+
+				return $notive;
+			}
+
 			// Caching
 			$name = apply_filters( 'wpmoly_cache_name', 'movie_grid_shortcode', $atts );
 			$content = WPMOLY_Cache::output( $name, function() use ( $atts, $content ) {
