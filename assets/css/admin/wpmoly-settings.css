@@ -8,14 +8,16 @@
 }
 
 #wpmoly-sort-meta.redux-sorter-container h3,
-#wpmoly-sort-details.redux-sorter-container h3 {
+#wpmoly-sort-details.redux-sorter-container h3,
+#wpmoly-movie-archives-movies-meta.redux-sorter-container h3 {
 	border: 0;
 	margin: 0 0 0.5rem 0;
 	text-align: center;
 }
 
 #wpmoly-sort-meta.redux-sorter-container ul,
-#wpmoly-sort-details.redux-sorter-container ul {
+#wpmoly-sort-details.redux-sorter-container ul,
+#wpmoly-movie-archives-movies-meta.redux-sorter-container ul {
 	background: transparent;
 	border: 0;
 	padding: 0;
@@ -23,7 +25,8 @@
 }
 
 #wpmoly-sort-meta.redux-sorter-container li,
-#wpmoly-sort-details.redux-sorter-container li {
+#wpmoly-sort-details.redux-sorter-container li,
+#wpmoly-movie-archives-movies-meta.redux-sorter-container li {
 	border: 0;
 	color: #eee !important;
 	margin-bottom: 2px !important;

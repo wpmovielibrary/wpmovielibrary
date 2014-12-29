@@ -287,11 +287,11 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$_eq_hover_color = $colors->icon_colors['focus'];
 ?>
 	<style>
-		#progress, #queue_progress, #wpmoly-sort-meta_used li, #wpmoly-sort-details_used li { background: <?php echo $_eq_light_blue ?> !important; }
+		#progress, #queue_progress, #wpmoly-sort-meta_used li, #wpmoly-sort-details_used li, #wpmoly-movie-archives-movies-meta_used li { background: <?php echo $_eq_light_blue ?> !important; }
 		#tmdb_images_preview #tmdb_load_images:hover { border-color: <?php echo $_eq_light_blue ?> !important; }
-		#wpmoly-sort-meta_used li, #wpmoly-sort-details_available li { color: <?php echo $_eq_text_color ?> !important; }
-		#wpmoly-sort-meta_used li:hover, #wpmoly-sort-details_available li:hover { color: <?php echo $_eq_hover_color ?> !important; }
-		#wpmoly-sort-meta_available li, #wpmoly-sort-details_available li { background: <?php echo $_eq_dark_grey ?> !important; }
+		#wpmoly-sort-meta_used li, #wpmoly-sort-details_available li, #wpmoly-movie-archives-movies-meta_available li { color: <?php echo $_eq_text_color ?> !important; }
+		#wpmoly-sort-meta_used li:hover, #wpmoly-sort-details_available li:hover, #wpmoly-movie-archives-movies-meta_available li:hover { color: <?php echo $_eq_hover_color ?> !important; }
+		#wpmoly-sort-meta_available li, #wpmoly-sort-details_available li, #wpmoly-movie-archives-movies-meta_available li { background: <?php echo $_eq_dark_grey ?> !important; }
 	</style>
 <?php
 		}

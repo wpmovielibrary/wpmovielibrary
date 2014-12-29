@@ -149,6 +149,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$args = wp_parse_args( $args, $defaults );
 
 			$grid_meta = (array) wpmoly_o( 'movie-archives-movies-meta', $default = true );
+			$grid_meta = array_keys( $grid_meta['used'] );
 			$title  = in_array( 'title', $grid_meta );
 			$rating = in_array( 'rating', $grid_meta );
 			$year   = in_array( 'year', $grid_meta );
@@ -270,7 +271,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			else
 				$theme = '';
 
-			$attributes = compact( 'movies', 'columns', 'title', 'genre', 'rating', 'theme' );
+			$attributes = compact( 'movies', 'columns', 'title', 'year', 'rating', 'theme' );
 
 			$content  = self::render_template( "movies/grid/$view-loop.php", $attributes );
 			$content  = $content . $paginate;

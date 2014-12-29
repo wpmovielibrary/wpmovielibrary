@@ -45,12 +45,13 @@
 
 		wpmoly.grid_resize = function() {
 
-			var $movies = $( '#wpmoly-movie-grid.grid > .movie' )
+			var $movies = $( '#wpmoly-movie-grid.grid .movie' ),
+			   $posters = $( '#wpmoly-movie-grid.grid .poster' ),
 			 max_height = 0,
 			  max_width = 0;
 
-			$.each( $movies, function() {
-				var $img = $( this ).find( 'img.wpmoly.grid.movie.poster' ),
+			$.each( $posters, function() {
+				var $img = $( this ),
 				   width = $img.width(),
 				  height = $img.height();
 
@@ -61,10 +62,24 @@
 
 			});
 
-			$movies.css({
-				height: Math.round( max_width * 1.33 ),
-				width: max_width
-			});
+			if ( $( '#wpmoly-movie-grid.grid' ).hasClass( 'spaced' ) ) {
+				var _poster = {
+					height: Math.round( max_width * 1.33 ),
+					width: max_width
+				},
+				     _movie = {
+					width: max_width
+				};
+			} else {
+				var _poster = {
+					height: Math.round( max_width * 1.33 ),
+					width: max_width
+				},
+				     _movie = _poster;
+			}
+
+			$posters.css( _poster );
+			$movies.css( _movie );
 		};
 
 		wpmoly.grid_edit = function() {

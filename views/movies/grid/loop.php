@@ -1,5 +1,5 @@
 
-				<div id="wpmoly-movie-grid" class="wpmoly movies grid grid-col-<?php echo $columns . $theme; ?>">
+				<div id="wpmoly-movie-grid" class="wpmoly movies grid grid-col-<?php echo $columns . $theme; ?><?php if ( $title || $year || $rating ) echo ' spaced'; ?>">
 
 <?php
 global $post;
