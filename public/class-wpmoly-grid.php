@@ -140,13 +140,18 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				'detail'    => null,
 				'value'     => null,
 				'title'     => false,
-				'genre'     => false,
+				'year'      => false,
 				'rating'    => false,
 				'letter'    => null,
 				'order'     => wpmoly_o( 'movie-archives-movies-order', $default = true ),
 				'view'      => 'grid'
 			);
 			$args = wp_parse_args( $args, $defaults );
+
+			$grid_meta = (array) wpmoly_o( 'movie-archives-movies-meta', $default = true );
+			$title  = in_array( 'title', $grid_meta );
+			$rating = in_array( 'rating', $grid_meta );
+			$year   = in_array( 'year', $grid_meta );
 
 			// Allow URL params to override Shortcode settings
 			$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );

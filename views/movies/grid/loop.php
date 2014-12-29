@@ -16,8 +16,8 @@ if ( ! empty( $movies ) ) :
 							<?php if ( has_post_thumbnail() ) the_post_thumbnail( $size, array( 'class' => 'wpmoly grid movie poster' ) ); ?>
 <?php 	if ( $title ) : ?>
 							<h4 class="wpmoly grid movie title"><?php the_title(); ?></h4>
-<?php 	endif; if ( $genre ) : ?>
-							<span class="wpmoly grid movie genres"><?php echo wpmoly_get_movie_meta( get_the_ID(), 'genres' ); ?></span>
+<?php 	endif; if ( $year ) : ?>
+							<span class="wpmoly grid movie genres"><?php echo apply_filters( 'wpmoly_format_movie_release_date', wpmoly_get_movie_meta( get_the_ID(), 'release_date' ), 'Y' ); ?></span>
 <?php 	endif; if ( $rating ) : ?>
 							<span class="wpmoly grid movie rating"><?php echo apply_filters( 'wpmoly_movie_rating_stars', wpmoly_get_movie_rating( get_the_ID() ) ); ?></span>
 <?php 	endif; ?>
