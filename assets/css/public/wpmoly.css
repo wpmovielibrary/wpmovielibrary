@@ -191,10 +191,17 @@
 	
 }
 
+#wpmoly-movie-grid .wpmoly.movie.year {
+	font-size: small;
+}
+
 #wpmoly-movie-grid .wpmoly.movie.title {
 	font-size: 1em;
 	margin: 0.5em 0 0 0;
 	text-align: left;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 #wpmoly-movie-grid .wpmoly.movie.details-1 {
