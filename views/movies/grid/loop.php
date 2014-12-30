@@ -12,7 +12,7 @@ if ( ! empty( $movies ) ) :
 			$size = 'large';
 ?>
 					<div id="wpmoly-movie-<?php the_ID(); ?>" <?php post_class( 'wpmoly movie' ) ?>>
-						<a class="wpmoly grid movie link" href="<?php the_permalink(); ?>">
+						<a class="wpmoly grid movie link" title="<?php the_title(); ?>" href="<?php the_permalink(); ?>">
 							<?php if ( has_post_thumbnail() ) the_post_thumbnail( $size, array( 'class' => 'wpmoly grid movie poster' ) ); ?>
 <?php 	if ( $title ) : ?>
 							<h4 class="wpmoly grid movie title"><?php the_title(); ?></h4>
