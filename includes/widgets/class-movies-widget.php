@@ -206,7 +206,6 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 		switch ( $select ) {
 			case 'status':
 			case 'media':
-			case 'rating':
 				$_select = $instance["select_$select"];
 				$args = array(
 					'orderby'    => 'post_date',
@@ -225,6 +224,11 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 						'compare' => 'NOT LIKE'
 					);
 				}
+				break;
+			case 'rating':
+				$args = array( 'orderby' => 'meta_value_num', 'meta_key' => '_wpmoly_movie_rating' );
+				if ( 'all' != $select_rating )
+					$args['meta_value'] = $select_rating;
 				break;
 			case 'title':
 				$args = array( 'orderby' => 'title' );
