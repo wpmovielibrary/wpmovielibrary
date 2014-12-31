@@ -626,6 +626,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			foreach ( $details as $slug => $detail ) {
 
+				if ( 'custom' == $detail['panel'] ) {
+					unset( $details[ $slug ] );
+					continue;
+				}
+
 				$field_name = $detail['type'];
 				$class_name = "ReduxFramework_{$field_name}";
 				$value      = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post_id, 'meta' => $slug ) );
