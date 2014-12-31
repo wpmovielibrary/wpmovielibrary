@@ -345,13 +345,16 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			$tmdb_id    = WPMOLY_Movies::get_movie_meta( $post_id, 'tmdb_id' );
 			$title      = WPMOLY_Movies::get_movie_meta( $post_id, 'title' );
 			$production = WPMOLY_Movies::get_movie_meta( $post_id, 'production_companies' );
+			$director   = WPMOLY_Movies::get_movie_meta( $post_id, 'director' );
+			$original_title = WPMOLY_Movies::get_movie_meta( $post_id, 'original_title' );
+
 			$production = explode( ',', $production );
 			$production = trim( array_shift( $production ) );
 			$year       = WPMOLY_Movies::get_movie_meta( $post_id, 'release_date' );
 			$year       = apply_filters( 'wpmoly_format_movie_date',  $year, 'Y' );
 
-			$find = array( '{title}', '{year}', '{production}' );
-			$replace = array( $title, $year, $production );
+			$find = array( '{title}', '{originaltitle}', '{year}', '{production}', '{director}' );
+			$replace = array( $title, $original_title, $year, $production, $director );
 
 			$_description = str_replace( $find, $replace, wpmoly_o( "{$image_type}-description" ) );
 			$_title       = str_replace( $find, $replace, wpmoly_o( "{$image_type}-title" ) );
