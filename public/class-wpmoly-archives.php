@@ -57,6 +57,8 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			add_filter( 'the_title', array( $this, 'movie_archives_title' ), 10, 2 );
 			add_filter( 'wp_title', array( $this, 'movie_archives_title' ), 10, 2 );
 
+			add_action( 'pre_get_posts', __CLASS__ . '::subpages', 10, 1 );
+
 			if ( '' == wpmoly_o( 'movie-archives' ) )
 				add_action( 'pre_get_posts', __CLASS__ . '::meta_archives', 10, 1 );
 		}
@@ -739,6 +741,44 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$meta_query = call_user_func( "WPMOLY_Search::by_{$meta}", $value );
 
 			$wp_query->set( 'meta_query', $meta_query );
+		}
+
+		/**
+		 * Prevent custom permalinks from breaking pages hierarchy.
+		 * 
+		 * The permalink structure for meta query could interfere with
+		 * pages with three levels or hierarchy, ie. page with URLs like
+		 * http://domain/page_a/{matching_meta_or_detail}/page_c/,
+		 * resulting in page A being displayed instead of page C. Very
+		 * unlike, but still possible.
+		 *
+		 * @since    2.1.3
+		 * 
+		 * @param    object      $wp_query Current WP_Query instance
+		 */
+		public static function subpages( $wp_query ) {
+
+			global $wp;
+
+			// Don't run this in dashboard or on posts
+			$request = $wp->request;
+			if ( is_admin() || is_null( $request ) || ! isset( $wp_query->queried_object_id ) || is_null( $wp_query->queried_object_id ) )
+				return false;
+
+			// Page is correct, dismiss
+			$post_id = $wp_query->queried_object_id;
+			$pageuri = get_page_uri( $post_id );
+			if ( $request == $pageuri )
+				return false;
+
+			$page = get_page_by_path( $request );
+			if ( is_null( $page ) )
+				return false;
+
+			$wp_query->queried_object = $page;
+			$wp_query->queried_object_id = $page->ID;
+			$wp_query->set( 'pagename', $page->post_name );
+			unset( $wp_query->query['meta'], $wp_query->query['value'], $wp_query->query_vars['meta'], $wp_query->query_vars['value'] );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

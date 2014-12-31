@@ -277,7 +277,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 					$slug = $l10n_rules['collection'];
 
 				$new_rules[ $slug . '/?$' ] = 'index.php?page_id=' . $collection;
-				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $collection . '&view=$matches[1]&sorting=$matches[2]';
+				$new_rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $collection . '&view=$matches[1]&sorting=$matches[2]';
 			}
 
 			if ( $genre && get_post( $genre ) ) {
@@ -287,7 +287,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 					$slug = $l10n_rules['genre'];
 
 				$new_rules[ $slug . '/?$' ] = 'index.php?page_id=' . $genre;
-				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $genre . '&view=$matches[1]&sorting=$matches[2]';
+				$new_rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $genre . '&view=$matches[1]&sorting=$matches[2]';
 			}
 
 			if ( $actor && get_post( $actor ) ) {
@@ -297,17 +297,14 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 					$slug = $l10n_rules['actor'];
 
 				$new_rules[ $slug . '/?$' ] = 'index.php?page_id=' . $actor;
-				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $actor . '&view=$matches[1]&sorting=$matches[2]';
+				$new_rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $actor . '&view=$matches[1]&sorting=$matches[2]';
 			}
 
-			$rules[ '([^/]+)/' . $grid . '/?$' ] = 'index.php?pagename=$matches[1]&view=$matches[2]';
-			$rules[ '([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?pagename=$matches[1]&view=$matches[2]&sorting=$matches[3]';
-			$rules[ '([^/]+)/' . $meta . '/([^/]+)/?$' ] = 'index.php?pagename=$matches[1]&meta=$matches[2]&value=$matches[3]';
-			$rules[ '([^/]+)/' . $meta . '/([^/]+)/' . $grid . '/?$' ] = 'index.php?pagename=$matches[1]&meta=$matches[2]&value=$matches[3]&view=$matches[4]';
-			$rules[ '([^/]+)/' . $meta . '/([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?pagename=$matches[1]&meta=$matches[2]&value=$matches[3]&view=$matches[4]&sorting=$matches[5]';
-			$rules[ '([^/]+)/([^/]+)/([^/]+)/?$' ] = 'index.php?pagename=$matches[1]&meta=$matches[2]&value=$matches[3]';
-			$rules[ '([^/]+)/([^/]+)/([^/]+)/' . $grid . '/?$' ] = 'index.php?pagename=$matches[1]&meta=$matches[2]&value=$matches[3]&view=$matches[4]';
-			$rules[ '([^/]+)/([^/]+)/([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?pagename=$matches[1]&meta=$matches[2]&value=$matches[3]&view=$matches[4]&sorting=$matches[5]';
+			$new_rules[ '([^/]+)/' . $grid . '/?$' ] = 'index.php?pagename=$matches[1]&view=$matches[2]';
+			$new_rules[ '([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?pagename=$matches[1]&view=$matches[2]&sorting=$matches[3]';
+			$new_rules[ '([^/]+)/' . $meta . '/([^/]+)/?$' ] = 'index.php?pagename=$matches[1]&meta=$matches[2]&value=$matches[3]';
+			$new_rules[ '([^/]+)/' . $meta . '/([^/]+)/' . $grid . '/?$' ] = 'index.php?pagename=$matches[1]&meta=$matches[2]&value=$matches[3]&view=$matches[4]';
+			$new_rules[ '([^/]+)/' . $meta . '/([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?pagename=$matches[1]&meta=$matches[2]&value=$matches[3]&view=$matches[4]&sorting=$matches[5]';
 
 			$new_rules = $new_rules + $rules;
 
@@ -1200,12 +1197,12 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 */
 		public static function get_the_terms( $terms, $id, $taxonomy ) {
 
-			// Term ordering is killing quick/bulk edit, avoid it
-			if ( is_admin() && 'edit-movie' == get_current_screen()->id )
-				return $terms;
-
 			// Only apply to "our" taxonomies
 			if ( ! in_array( $taxonomy, array( 'collection',  'genre',  'actor' ) ) )
+				return $terms;
+
+			// Term ordering is killing quick/bulk edit, avoid it
+			if ( is_admin() && ( ! function_exists( 'get_current_screen' ) || 'edit-movie' == get_current_screen()->id ) )
 				return $terms;
 
 			$terms = wp_cache_get( $id, "{$taxonomy}_relationships_sorted" );
@@ -1237,11 +1234,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 */
 		public static function get_ordered_object_terms( $terms, $object_ids, $taxonomies, $args ) {
 
-			if ( ! function_exists( 'get_current_screen' ) )
-				return $terms;
-
 			// Term ordering is killing quick/bulk edit, avoid it
-			if ( is_admin() && 'edit-movie' == get_current_screen()->id )
+			if ( is_admin() && ( ! function_exists( 'get_current_screen' ) || 'edit-movie' == get_current_screen()->id ) )
 				return $terms;
 
 			global $wpdb;
