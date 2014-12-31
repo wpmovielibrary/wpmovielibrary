@@ -173,7 +173,7 @@ wpmoly = wpmoly || {};
 
 				var $movies = $( '<tr class="wpmoly-import-movie-select"><td colspan="7"><div class="tmdb_select_movies"></div></td></tr>' );
 				$.each( movies, function() {
-					$( '.tmdb_select_movies', $movies ).append( '<div class="tmdb_select_movie"><a href="#" onclick="wpmoly_import_meta.get( ' + post_id + ', ' + this.id + ' ); return false;"><img src="' + this.poster + '" alt="' + this.title + '" /><em>' + this.title + '</em></a><input type=\'hidden\' value=\'' + this.json + '\' /></div>' );
+					$( '.tmdb_select_movies', $movies ).append( '<div class="tmdb_select_movie"><a href="#" onclick="wpmoly_import_meta.get( ' + post_id + ', ' + this.id + ' ); return false;"><img src="' + this.poster + '" alt="' + this.title + '" /><em>' + this.title + '</em> (' + this.year + ')</a><input type=\'hidden\' value=\'' + this.json + '\' /></div>' );
 				});
 
 				$target.after( $movies );

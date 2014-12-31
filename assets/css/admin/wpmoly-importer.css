@@ -300,7 +300,7 @@
 }
 
 .wpmoly-import-movie-select .tmdb_select_movies {
-	max-height: 8em;
+	max-height: 12em;
 	overflow-y: scroll;
 }
 
