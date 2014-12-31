@@ -273,7 +273,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 
 			$attributes = compact( 'movies', 'columns', 'title', 'year', 'rating', 'theme' );
 
-			$content  = self::render_template( "movies/grid/$view-loop.php", $attributes );
+			$content  = self::render_template( "movies/grid/$view-loop.php", $attributes, $require = 'always' );
 			$content  = $content . $paginate;
 
 			return $content;
