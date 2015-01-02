@@ -292,6 +292,8 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		public static function get_details_tab() {
 
 			// TODO: better filtering/formatting
+			$details = wpmoly_get_movie_details();
+
 			$fields = wpmoly_o( 'sort-details' );
 			$default_fields = WPMOLY_Settings::get_supported_movie_details();
 
@@ -307,7 +309,8 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 
 			foreach ( $fields as $slug => $field ) {
 
-				$detail = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post_id, 'meta' => $slug ) );
+				$detail = $details[ $slug ];
+
 				if ( ! is_array( $detail ) )
 					$detail = array( $detail );
 
@@ -316,11 +319,10 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 					if ( '' != $d ) {
 
 						$value = $default_fields[ $slug ]['options'][ $d ];
-
 						if ( 'rating' == $slug ) {
 							$d = apply_filters( "wpmoly_movie_meta_link", 'rating', array_search( $value, $default_fields[ $slug ]['options'] ), 'detail', $value );
 						} else {
-							$d = apply_filters( "wpmoly_movie_meta_link", $slug, $value, 'detail' );
+							$d = apply_filters( "wpmoly_movie_meta_link", $slug, $value, 'detail', $value );
 						}
 					}
 

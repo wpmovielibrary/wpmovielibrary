@@ -149,8 +149,8 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 *
 		 * @since    1.0
 		 * 
-		 * @param    string    Meta type to return: data, status, media or rating
 		 * @param    int       Movie Post ID
+		 * @param    string    Meta type to return: data, status, media or rating
 		 *
 		 * @return   array|string    WPMOLY Movie Meta if available, empty string else.
 		 */
@@ -165,7 +165,8 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			if ( is_admin() && 'data' == $meta && wpmoly_has_deprecated_meta( $post_id ) && wpmoly_o( 'legacy-mode' ) )
 				WPMOLY_Legacy::update_movie( $post_id );
 
-			if ( 'data' == $meta ) {
+			if ( 'data' == $meta || 'meta' == $meta ) {
+
 				$_meta = WPMOLY_Settings::get_supported_movie_meta();
 				$value = array();
 
@@ -173,6 +174,16 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				$value['poster'] = get_post_meta( $post_id, "_wpmoly_movie_poster", true );
 
 				foreach ( array_keys( $_meta ) as $slug )
+					$value[ $slug ] = get_post_meta( $post_id, "_wpmoly_movie_{$slug}", true );
+
+				return $value;
+
+			} else if ( 'details' == $meta ) {
+
+				$details = WPMOLY_Settings::get_supported_movie_details();
+				$value = array();
+
+				foreach ( array_keys( $details ) as $slug )
 					$value[ $slug ] = get_post_meta( $post_id, "_wpmoly_movie_{$slug}", true );
 
 				return $value;

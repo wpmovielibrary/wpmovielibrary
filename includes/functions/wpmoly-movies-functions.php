@@ -111,6 +111,19 @@ function wpmoly_get_movie_meta( $post_id = null, $meta = 'data' ) {
 }
 
 /**
+ * Return Movie's details.
+ *
+ * @since    2.1.3
+ * 
+ * @param    int    Movie Post ID
+ *
+ * @return   array|string    WPMOLY Movie details.
+ */
+function wpmoly_get_movie_details( $post_id = null ) {
+	return WPMOLY_Movies::get_movie_meta( $post_id, 'details' );
+}
+
+/**
  * Return Movie's Status.
  *
  * @since    1.0
