@@ -4,7 +4,7 @@ Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 2.1.2
+Stable tag: 2.1.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -137,6 +137,19 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 7. Import queue
 
 == Changelog ==
+
+= 2.1.3 =
+* Fix - Details not shown properly on archive pages
+* Fix - Possible empty grid bug on movie archives pages
+* Fix - Images sizes labels in settings panel
+* Fix - Movies Widget order by rating/media/status bug
+* Tweak - Update Grid style to display properly titles and ratings
+* Tweak - New Grid setting: show titles/ratings/years
+* Tweak - Add years to importer movies choice
+* Tweak - Add director and original title support to posters/images title
+* Tweak - Updated Icon font
+* Dev - Add a safety to meta queries preventing from overriding existing subpages
+* Dev - Minor editor metabox tweaks
 
 = 2.1.2 =
 * Fix - Countries/languages names missing translation
