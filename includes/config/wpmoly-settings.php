@@ -392,9 +392,9 @@ $wpmoly_config = array(
 				'title'    => __( 'Images Default Size', 'wpmovielibrary' ),
 				'desc'     => __( 'Movie Image size. Default is TMDb&rsquo;s original size.', 'wpmovielibrary' ),
 				'options'  => array(
-					'small'    => __( 'Small (~200px)', 'wpmovielibrary' ),
-					'medium'   => __( 'Medium (~350px)', 'wpmovielibrary' ),
-					'full'     => __( 'Full (~800px) ', 'wpmovielibrary' ),
+					'small'    => __( 'Small (~300px)', 'wpmovielibrary' ),
+					'medium'   => __( 'Medium (~780px)', 'wpmovielibrary' ),
+					'full'     => __( 'Full (~1280px) ', 'wpmovielibrary' ),
 					'original' => __( 'Original', 'wpmovielibrary' )
 				),
 				'default'  =>'original'

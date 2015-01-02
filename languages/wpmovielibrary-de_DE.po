@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary 1.2.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/wpmovielibrary\n"
-"POT-Creation-Date: 2014-12-29 13:06+0100\n"
-"PO-Revision-Date: 2014-12-29 13:06+0100\n"
+"POT-Creation-Date: 2015-01-02 09:46+0100\n"
+"PO-Revision-Date: 2015-01-02 09:47+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_DE\n"
@@ -104,7 +104,7 @@ msgstr "Das Bild, was Du versuchst hochzuladen, ist leer."
 msgid "The image you're trying to upload already exists."
 msgstr "Das Bild, was Du versuchst hochzuladen, existiert bereits."
 
-#: ../admin/class-wpmoly-media.php:391
+#: ../admin/class-wpmoly-media.php:394
 msgid "See available Movie Posters"
 msgstr "Sehe die verfügbaren Film-Plakate."
 
@@ -251,26 +251,26 @@ msgstr "Quick&nbsp;Edit"
 msgid "WordPress Movie Library"
 msgstr "WordPress Movie Library"
 
-#: ../admin/class-wpmoly-edit-movies.php:726
-#: ../admin/class-wpmoly-edit-movies.php:756
+#: ../admin/class-wpmoly-edit-movies.php:731
+#: ../admin/class-wpmoly-edit-movies.php:761
 #: ../includes/classes/legacy/class-wpmoly-legacy.php:257
 msgid "Error: submitted post is not a movie."
 msgstr "Fehler: eingetragener Post ist kein Film."
 
-#: ../admin/class-wpmoly-edit-movies.php:732
+#: ../admin/class-wpmoly-edit-movies.php:737
 msgid "Error: the submitted movie details are invalid."
 msgstr "Fehler: die eingetragenen Film-Details sind ungültig."
 
-#: ../admin/class-wpmoly-edit-movies.php:904
+#: ../admin/class-wpmoly-edit-movies.php:909
 msgid "You are not allowed to edit posts."
 msgstr "Du hast nicht die Befugnis Posts zu bearbeiten."
 
-#: ../admin/class-wpmoly-edit-movies.php:907
+#: ../admin/class-wpmoly-edit-movies.php:912
 #, php-format
 msgid "Posts with #%s is invalid or is not a movie."
 msgstr "Posts mit #%s sind ungültig oder kein Film."
 
-#: ../admin/class-wpmoly-edit-movies.php:1024
+#: ../admin/class-wpmoly-edit-movies.php:1029
 msgid "(no title)"
 msgstr "(nicht titel)"
 
@@ -376,21 +376,21 @@ msgstr ""
 #: ../includes/widgets/class-movies-widget.php:35
 #: ../includes/widgets/class-movies-widget.php:172
 #: ../public/class-wpmoly-movies.php:82 ../public/class-wpmoly-movies.php:94
-#: ../public/class-wpmoly-archives.php:170
-#: ../public/class-wpmoly-archives.php:177
-#: ../public/class-wpmoly-archives.php:321
-#: ../public/class-wpmoly-archives.php:406
+#: ../public/class-wpmoly-archives.php:172
+#: ../public/class-wpmoly-archives.php:179
+#: ../public/class-wpmoly-archives.php:323
+#: ../public/class-wpmoly-archives.php:408
 #: ../views/admin/settings/settings.php:13
 msgid "Movies"
 msgstr "Filme"
 
 #: ../admin/class-wpmoly-admin.php:159
-#: ../includes/classes/class-wpmoly-utils.php:946
-#: ../includes/classes/class-wpmoly-utils.php:976
-#: ../includes/classes/class-wpmoly-utils.php:1009
-#: ../includes/classes/class-wpmoly-utils.php:1037
-#: ../includes/classes/class-wpmoly-utils.php:1064
-#: ../public/class-wpmoly-archives.php:592
+#: ../includes/classes/class-wpmoly-utils.php:943
+#: ../includes/classes/class-wpmoly-utils.php:973
+#: ../includes/classes/class-wpmoly-utils.php:1006
+#: ../includes/classes/class-wpmoly-utils.php:1034
+#: ../includes/classes/class-wpmoly-utils.php:1061
+#: ../public/class-wpmoly-archives.php:594
 #, php-format
 msgid "%d movie"
 msgid_plural "%d movies"
@@ -870,27 +870,27 @@ msgstr "Nicht"
 msgid "Official Website"
 msgstr "Offizielle Website"
 
-#: ../includes/classes/class-wpmoly-utils.php:817
+#: ../includes/classes/class-wpmoly-utils.php:814
 msgid "Not rated yet!"
 msgstr "Nicht bewertet !"
 
-#: ../includes/classes/class-wpmoly-utils.php:1256
+#: ../includes/classes/class-wpmoly-utils.php:1250
 msgid "Invalid taxonomy"
 msgstr "Ungültige Klase"
 
-#: ../includes/classes/class-wpmoly-utils.php:1350
+#: ../includes/classes/class-wpmoly-utils.php:1344
 msgid "&laquo; Previous"
 msgstr "&laquo; Vorherige"
 
-#: ../includes/classes/class-wpmoly-utils.php:1351
+#: ../includes/classes/class-wpmoly-utils.php:1345
 msgid "Next &raquo;"
 msgstr "Nächste &raquo;"
 
-#: ../includes/classes/class-wpmoly-utils.php:1391
+#: ../includes/classes/class-wpmoly-utils.php:1385
 msgid "&hellip;"
 msgstr "&hellip;"
 
-#: ../includes/classes/class-wpmoly-utils.php:1433
+#: ../includes/classes/class-wpmoly-utils.php:1427
 #, php-format
 msgid ""
 "<strong>%s</strong> is required by the following plugins: %s. These plugins "
@@ -1174,9 +1174,9 @@ msgstr "Starttermin"
 #: ../includes/config/wpmoly-movies.php:413
 #: ../public/class-wpmoly-shortcodes.php:568
 #: ../public/class-wpmoly-genres.php:71
-#: ../public/class-wpmoly-archives.php:172
-#: ../public/class-wpmoly-archives.php:183
-#: ../public/class-wpmoly-archives.php:323
+#: ../public/class-wpmoly-archives.php:174
+#: ../public/class-wpmoly-archives.php:185
+#: ../public/class-wpmoly-archives.php:325
 #: ../views/taxonomies-widget/taxonomies-admin.php:16
 msgid "Genres"
 msgstr "Genres"
@@ -1263,9 +1263,9 @@ msgstr "Drehbuch-Autor"
 #: ../public/class-wpmoly-headbox.php:119
 #: ../public/class-wpmoly-headbox.php:188 ../public/class-wpmoly-actors.php:72
 #: ../public/class-wpmoly-shortcodes.php:517
-#: ../public/class-wpmoly-archives.php:173
-#: ../public/class-wpmoly-archives.php:186
-#: ../public/class-wpmoly-archives.php:324
+#: ../public/class-wpmoly-archives.php:175
+#: ../public/class-wpmoly-archives.php:188
+#: ../public/class-wpmoly-archives.php:326
 #: ../views/taxonomies-widget/taxonomies-admin.php:17
 msgid "Actors"
 msgstr "Schauspieler"
@@ -1478,12 +1478,10 @@ msgid "Tiny (~150px)"
 msgstr "Winzig (~150px)"
 
 #: ../includes/config/wpmoly-settings.php:338
-#: ../includes/config/wpmoly-settings.php:395
 msgid "Small (~200px)"
 msgstr "Klein (~200px)"
 
 #: ../includes/config/wpmoly-settings.php:339
-#: ../includes/config/wpmoly-settings.php:396
 msgid "Medium (~350px)"
 msgstr "Mittel (~350px)"
 
@@ -1492,7 +1490,6 @@ msgid "Large (~500px)"
 msgstr "Groß (~500px)"
 
 #: ../includes/config/wpmoly-settings.php:341
-#: ../includes/config/wpmoly-settings.php:397
 msgid "Full (~800px) "
 msgstr "Voll (~800px) "
 
@@ -1549,6 +1546,21 @@ msgstr "Bild-Standard-Größe"
 #: ../includes/config/wpmoly-settings.php:393
 msgid "Movie Image size. Default is TMDb&rsquo;s original size."
 msgstr "Film-Bild-Größe. Standardmäßig: Die Original-Größe von TMDb."
+
+#: ../includes/config/wpmoly-settings.php:395
+#, fuzzy
+msgid "Small (~300px)"
+msgstr "Klein (~200px)"
+
+#: ../includes/config/wpmoly-settings.php:396
+#, fuzzy
+msgid "Medium (~780px)"
+msgstr "Mittel (~350px)"
+
+#: ../includes/config/wpmoly-settings.php:397
+#, fuzzy
+msgid "Full (~1280px) "
+msgstr "Voll (~800px) "
 
 #: ../includes/config/wpmoly-settings.php:407
 msgid "Delete images with movies"
@@ -1629,9 +1641,9 @@ msgstr ""
 #: ../includes/config/wpmoly-admin-menu.php:84
 #: ../includes/config/wpmoly-admin-menu.php:85
 #: ../public/class-wpmoly-collections.php:72
-#: ../public/class-wpmoly-archives.php:171
-#: ../public/class-wpmoly-archives.php:180
-#: ../public/class-wpmoly-archives.php:322
+#: ../public/class-wpmoly-archives.php:173
+#: ../public/class-wpmoly-archives.php:182
+#: ../public/class-wpmoly-archives.php:324
 #: ../views/taxonomies-widget/taxonomies-admin.php:15
 msgid "Collections"
 msgstr "Sammlungen"
@@ -2985,11 +2997,11 @@ msgstr "Datum"
 msgid "Random"
 msgstr ""
 
-#: ../includes/widgets/class-movies-widget.php:273 ../views/empty.php:13
+#: ../includes/widgets/class-movies-widget.php:282 ../views/empty.php:13
 msgid "Nothing to display."
 msgstr "Nichts anzuzeigen."
 
-#: ../includes/widgets/class-movies-widget.php:283
+#: ../includes/widgets/class-movies-widget.php:292
 #: ../includes/widgets/class-details-widget.php:135
 #: ../includes/widgets/class-taxonomies-widget.php:173
 #, php-format
@@ -3097,7 +3109,7 @@ msgstr "Nichts anzuzeigen für die Klasse  \"Actor\"."
 msgid "View the complete list"
 msgstr "Siehe die komplette Liste"
 
-#: ../public/class-wpmoly-headbox.php:389
+#: ../public/class-wpmoly-headbox.php:391
 msgid "No images were imported for this movie."
 msgstr ""
 
@@ -3175,37 +3187,37 @@ msgstr "Neue Film-Sammlung"
 msgid "New Genre"
 msgstr "Neues Genre"
 
-#: ../public/class-wpmoly-archives.php:402
+#: ../public/class-wpmoly-archives.php:404
 #, fuzzy, php-format
 msgid "Movies by %s"
 msgstr "Filme"
 
-#: ../public/class-wpmoly-archives.php:404
+#: ../public/class-wpmoly-archives.php:406
 #, php-format
 msgid "Movies by %s: %s"
 msgstr ""
 
-#: ../public/class-wpmoly-archives.php:413
+#: ../public/class-wpmoly-archives.php:415
 #, php-format
 msgid "Letter %s"
 msgstr ""
 
-#: ../public/class-wpmoly-archives.php:416
+#: ../public/class-wpmoly-archives.php:418
 #, php-format
 msgid " %s Page %d "
 msgstr ""
 
-#: ../public/class-wpmoly-archives.php:509
+#: ../public/class-wpmoly-archives.php:511
 #, php-format
 msgid "View all movies from collection &laquo; %s &raquo;"
 msgstr "Siehe alle Filme von der Sammlung &laquo; %s &raquo;"
 
-#: ../public/class-wpmoly-archives.php:511
+#: ../public/class-wpmoly-archives.php:513
 #, php-format
 msgid "View all &laquo; %s &raquo; movies"
 msgstr "Alle &laquo; %s &raquo; Filme"
 
-#: ../public/class-wpmoly-archives.php:513
+#: ../public/class-wpmoly-archives.php:515
 #, php-format
 msgid "View all movies staring &laquo; %s &raquo;"
 msgstr "Alle Filme mit &laquo; %s &raquo;"
