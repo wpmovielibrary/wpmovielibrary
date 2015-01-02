@@ -555,11 +555,11 @@
 	width: 32%;
 }
 
-.wpmoly.headbox.movie.title > span + span,
-.wpmoly.headbox.movie.subtitle > span + span,
-.wpmoly.headbox.movie.details-1 > span + span,
-.wpmoly.headbox.movie.details-2 > span + span,
-.wpmoly.headbox.movie.details-3 > span + span {
+.wpmoly.headbox.movie.title > span:not(.empty) + span,
+.wpmoly.headbox.movie.subtitle > span:not(.empty) + span,
+.wpmoly.headbox.movie.details-1 > span:not(.empty) + span,
+.wpmoly.headbox.movie.details-2 > span:not(.empty) + span,
+.wpmoly.headbox.movie.details-3 > span:not(.empty) + span {
 	border-left: 1px solid #888;
 	margin-left: 6px;
 	padding-left: 6px;
