@@ -175,12 +175,16 @@
 
 #wpmoly-meta-panels .wpmoly-details-item {
 	display: inline-table;
-	width: 33%;
+	margin: 0 0.5%;
+	width: 32%;
 }
 
 #wpmoly-meta-panels .wpmoly-details-item-title {
+	border-bottom: 1px solid #ddd;
 	margin-bottom: 0.25rem;
 	margin-left: 0.1rem;
+	padding-bottom: 0.25em;
+	position: relative;
 }
 
 #wpmoly-meta-panels .wpmoly-details-item-title .wpmolicon,
@@ -190,7 +194,7 @@
 }
 
 #wpmoly-meta-panels .wpmoly-details-item .select2-container {
-	width: 90% !important;
+	width: 100% !important;
 }
 
 #wpmoly_details #wpmoly-details-major-publishing-actions {
