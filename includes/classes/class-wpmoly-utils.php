@@ -1202,7 +1202,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				return $terms;
 
 			// Term ordering is killing quick/bulk edit, avoid it
-			if ( is_admin() && ( ! function_exists( 'get_current_screen' ) || 'edit-movie' == get_current_screen()->id ) )
+			if ( is_admin() && ( function_exists( 'get_current_screen' ) && 'edit-movie' == get_current_screen()->id ) )
 				return $terms;
 
 			$terms = wp_cache_get( $id, "{$taxonomy}_relationships_sorted" );
@@ -1235,7 +1235,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		public static function get_ordered_object_terms( $terms, $object_ids, $taxonomies, $args ) {
 
 			// Term ordering is killing quick/bulk edit, avoid it
-			if ( is_admin() && ( ! function_exists( 'get_current_screen' ) || 'edit-movie' == get_current_screen()->id ) )
+			if ( is_admin() && ( function_exists( 'get_current_screen' ) && 'edit-movie' == get_current_screen()->id ) )
 				return $terms;
 
 			global $wpdb;
