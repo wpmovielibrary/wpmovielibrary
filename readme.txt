@@ -4,7 +4,7 @@ Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 2.1.3
+Stable tag: 2.1.3.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -137,6 +137,14 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 7. Import queue
 
 == Changelog ==
+
+= 2.1.3.1 =
+* Fix - Terms ordering minor bug fix
+* Fix - Minor archives menu bug fix
+* Fix - Runtime formatting bug when using strings
+* Tweak - Bulk edit and metabox minor updates
+* Tweak - Font update + minor style tweaks
+* Dev - Smoother terms ordering process
 
 = 2.1.3 =
 * Fix - Details not shown properly on archive pages
