@@ -271,6 +271,7 @@
 	background-position: center -142px;
 	background-repeat: no-repeat;
 	background-size: 100% auto;
+	clear: both;
 	position: relative;
 }
 
