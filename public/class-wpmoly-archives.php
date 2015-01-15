@@ -706,7 +706,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 
 			$attributes['urls'] = $urls;
 
-			$content = self::render_template( 'archives/menu.php', $attributes );
+			$content = self::render_template( 'archives/menu.php', $attributes, $require = 'always' );
 
 			return $content;
 		}
