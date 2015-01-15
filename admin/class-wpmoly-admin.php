@@ -111,6 +111,10 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			add_action( 'dashboard_glance_items', array( $this, 'dashboard_glance_items' ), 10, 1 );
 
+			add_action( 'add_meta_boxes_page', array( $this, 'add_meta_box' ), 10 );
+			add_action( 'add_meta_boxes_post', array( $this, 'add_meta_box' ), 10 );
+			add_action( 'load-post.php', array( $this, 'convert_post_type' ), 10 );
+
 			add_filter( 'plugin_action_links_' . WPMOLY_PLUGIN, array( $this, 'plugin_action_links' ), 10, 1 );
 			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 		}
@@ -159,6 +163,71 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$items[] = sprintf( '<a class="movie-count" href="%s">%s</a>', admin_url( '/edit.php?post_type=movie' ), sprintf( _n( '%d movie', '%d movies', $movies->publish, 'wpmovielibrary' ), $movies->publish ) );
 
 			return $items;
+		}
+
+		/**
+		 * Register WPMOLY Metabox
+		 * 
+		 * @since    2.1.4
+		 */
+		public function add_meta_box( $post ) {
+
+			add_meta_box( 'wpmoly-metabox', __( 'WordPress Movie Library', 'wpmovielibrary' ), array( $this, 'metabox' ), $post->post_type, 'side', 'high', null );
+		}
+
+		/**
+		 * Posts Metabox content callback.
+		 * 
+		 * @since    2.0
+		 * 
+		 * @param    object    Current Post object
+		 */
+		public static function metabox( $post ) {
+
+			$post_type = $post->post_type;
+			$post_id   = $post->ID;
+
+			if ( 'page' == $post_type ) {
+				$post_type = __( 'Page' );
+			} elseif ( 'post' == $post_type ) {
+				$post_type = __( 'Post' );
+			} else {
+				$post_type = null;
+			}
+
+			$attributes = compact( 'post_type', 'post_id' );
+
+			echo self::render_admin_template( 'metabox/metabox.php', $attributes );
+		}
+
+		/**
+		 * Convert a Post (or Page) to Movie.
+		 * 
+		 * This is used to convert regular posts and pages to movies to
+		 * avoid having to duplicate content of manually create/delete
+		 * contents to use WPMOLY features.
+		 * 
+		 * @since    2.1.4
+		 */
+		public function convert_post_type() {
+
+			if ( ! isset( $_REQUEST['wpmoly_convert_post_type'] ) || '1' != $_REQUEST['wpmoly_convert_post_type'] )
+				return false;
+
+			wpmoly_check_admin_referer( 'convert-post-type' );
+
+			$post_id = intval( esc_attr( $_REQUEST['post'] ) );
+			if ( is_null( get_post( $post_id ) ) || ! in_array( get_post_type( $post_id ), array( 'post', 'page' ) ) )
+				return false;
+
+			$update = set_post_type( $post_id, $post_type = 'movie' );
+			if ( $update ) {
+				$update = "&message=11";
+			} else {
+				$update = '';
+			}
+
+			wp_safe_redirect( admin_url( "post.php?post={$post_id}&action=edit{$update}" ) );
 		}
 
 		/**

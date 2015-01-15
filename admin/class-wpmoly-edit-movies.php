@@ -38,6 +38,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 9 );
 
+			add_filter( 'post_updated_messages', __CLASS__ . '::movie_updated_messages', 10, 1 );
+
 			add_filter( 'manage_movie_posts_columns', __CLASS__ . '::movies_columns_head' );
 			add_action( 'manage_movie_posts_custom_column', __CLASS__ . '::movies_columns_content', 10, 2 );
 			add_filter( 'manage_edit-movie_sortable_columns', __CLASS__ . '::movies_sortable_columns', 10, 1 );
@@ -78,11 +80,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				return false;
 
 			wp_enqueue_media();
-			//wp_enqueue_script( 'media-grid' );
 			wp_enqueue_script( 'media' );
-			/*wp_localize_script( 'media-grid', '_wpMediaGridSettings', array(
-				'adminUrl' => parse_url( self_admin_url(), PHP_URL_PATH ),
-			) );*/
 
 			wp_register_script( 'select2-sortable-js', ReduxFramework::$_url . 'assets/js/vendor/select2.sortable.min.js', array( 'jquery' ), WPMOLY_VERSION, true );
 			wp_register_script( 'select2-js', ReduxFramework::$_url . 'assets/js/vendor/select2/select2.min.js', array( 'jquery', 'select2-sortable-js' ), WPMOLY_VERSION, true );
@@ -134,6 +132,44 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$response = self::save_movie_meta( $post_id, $data );
 
 			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'save-movie-meta' ) );
+		}
+
+		/**
+		 * Add message support for movies in Post Editor.
+		 * 
+		 * @since    2.1.4
+		 * 
+		 * @param    array    $messages Default Post update messages
+		 * 
+		 * @return   array    Updated Post update messages
+		 */
+		public static function movie_updated_messages( $messages ) {
+
+			global $post;
+			$post_ID = $post->ID;
+
+			$new_messages = array(
+				'movie' => array(
+					1 => sprintf( __( 'Movie updated. <a href="%s">View movie</a>', 'wpmovielibrary' ), esc_url( get_permalink( $post_ID ) ) ),
+					2 => __( 'Custom field updated.', 'wpmovielibrary' ) ,
+					3 => __( 'Custom field deleted.', 'wpmovielibrary' ),
+					4 => __( 'Movie updated.', 'wpmovielibrary' ),
+					/* translators: %s: date and time of the revision */
+					5 => isset( $_GET['revision'] ) ? sprintf( __( 'Movie restored to revision from %s', 'wpmovielibrary' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+					6 => sprintf( __( 'Movie published. <a href="%s">View movie</a>', 'wpmovielibrary' ), esc_url( get_permalink( $post_ID ) ) ),
+					7 => __( 'Movie saved.' ),
+					8 => sprintf( __( 'Movie submitted. <a target="_blank" href="%s">Preview movie</a>', 'wpmovielibrary' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post_ID ) ) ) ),
+					9 => sprintf( __( 'Movie scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview movie</a>', 'wpmovielibrary' ),
+						/* translators: Publish box date format, see http://php.net/date */
+						date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( get_permalink( $post_ID ) ) ),
+					10 => sprintf( __( 'Movie draft updated. <a target="_blank" href="%s">Preview movie</a>', 'wpmovielibrary' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post_ID ) ) ) ),
+					11 => __( 'Successfully converted to movie.', 'wpmovielibrary' )
+				)
+			);
+
+			$messages = array_merge( $messages, $new_messages );
+
+			return $messages;
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
