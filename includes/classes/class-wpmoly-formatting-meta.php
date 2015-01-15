@@ -140,6 +140,7 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 			if ( '' == $format )
 				$format = 'G \h i \m\i\n';
 
+			$data = intval( $data );
 			$output = date_i18n( $format, mktime( 0, $data ) );
 			if ( false !== stripos( $output, 'am' ) || false !== stripos( $output, 'pm' ) )
 				$output = date_i18n( 'G:i', mktime( 0, $data ) );
