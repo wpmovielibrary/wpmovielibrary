@@ -40,6 +40,7 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 			add_filter( 'redux/options/' . $this->args['opt_name'] . '/field/wpmoly-headbox-details-1/register', array( $this, 'available_movie_tags' ), 10, 1 );
 			add_filter( 'redux/options/' . $this->args['opt_name'] . '/field/wpmoly-headbox-details-2/register', array( $this, 'available_movie_tags' ), 10, 1 );
 			add_filter( 'redux/options/' . $this->args['opt_name'] . '/field/wpmoly-headbox-details-3/register', array( $this, 'available_movie_tags' ), 10, 1 );
+			add_filter( 'redux/options/' . $this->args['opt_name'] . '/data/post_types/after', array( $this, 'filter_select_data_post_types' ), 10, 1 );
 
 			// If Redux is running as a plugin, this will remove the demo notice and links
 			//add_action( 'redux/loaded', array( $this, 'remove_demo' ) );
@@ -151,6 +152,13 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 
 			$field['options'] = WPMOLY_Settings::get_available_movie_tags();
 			return $field;
+		}
+
+		public function filter_select_data_post_types( $data ) {
+
+			unset( $data['attachment'], $data['movie'] );
+
+			return $data;
 		}
 
 		/**

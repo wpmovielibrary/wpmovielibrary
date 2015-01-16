@@ -40,9 +40,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			// Bulk/quick edit
 			add_filter( 'bulk_post_updated_messages', __CLASS__ . '::movie_bulk_updated_messages', 10, 2 );
-			add_action( 'admin_footer-edit.php', __CLASS__ . '::bulk_admin_footer', 10 );
-			add_action( 'load-post.php', __CLASS__ . '::convert_post_type', 10 );
-			add_action( 'load-edit.php', __CLASS__ . '::bulk_convert_post_type', 10 );
 
 			add_action( 'quick_edit_custom_box', __CLASS__ . '::quick_edit_movies', 10, 2 );
 			add_action( 'bulk_edit_custom_box', __CLASS__ . '::bulk_edit_movies', 10, 2 );
@@ -60,8 +57,13 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			// Metabox
 			add_action( 'add_meta_boxes_movie', __CLASS__ . '::add_meta_box', 10 );
-			add_action( 'add_meta_boxes_page', __CLASS__ . '::add_meta_box', 10 );
-			add_action( 'add_meta_boxes_post', __CLASS__ . '::add_meta_box', 10 );
+
+			if ( 1 == wpmoly_o( 'convert-enable' ) ) {
+				add_action( 'admin_footer-edit.php', __CLASS__ . '::bulk_admin_footer', 10 );
+				add_action( 'load-post.php', __CLASS__ . '::convert_post_type', 10 );
+				add_action( 'load-edit.php', __CLASS__ . '::bulk_convert_post_type', 10 );
+				add_action( 'add_meta_boxes', __CLASS__ . '::add_meta_box', 10 );
+			}
 
 			// Post edit
 			add_filter( 'post_updated_messages', __CLASS__ . '::movie_updated_messages', 10, 1 );
@@ -220,7 +222,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			global $post_type;
  
-			if ( ! in_array( $post_type, array( 'post', 'page' ) ) )
+			$post_types = wpmoly_o( 'convert-post-types' );
+			if ( ! in_array( $post_type, $post_types ) )
 				return false;
 ?>
 	<script type="text/javascript">
@@ -250,7 +253,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			wpmoly_check_admin_referer( 'convert-post-type' );
 
 			$post_id = intval( esc_attr( $_REQUEST['post'] ) );
-			if ( is_null( get_post( $post_id ) ) || ! in_array( get_post_type( $post_id ), array( 'post', 'page' ) ) )
+			$post_types = wpmoly_o( 'convert-post-types' );
+			if ( is_null( get_post( $post_id ) ) || ! in_array( get_post_type( $post_id ), $post_types ) )
 				return false;
 
 			$update = self::bulk_convert_posts( $post_id );
@@ -304,7 +308,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			global $typenow;
 
-			if ( ! in_array( $typenow, array( 'post', 'page' ) ) )
+			$post_types = wpmoly_o( 'convert-post-types' );
+
+			if ( ! in_array( $typenow, $post_types ) )
 				return false;
 
 			$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
@@ -701,7 +707,13 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		public static function add_meta_box( $post ) {
 
-			add_meta_box( 'wpmoly-metabox', __( 'WordPress Movie Library', 'wpmovielibrary' ), __CLASS__ . '::metabox', $post->post_type, 'normal', 'high', null );
+			if ( 'movie' == $post->post_type ) {
+				$context = 'normal';
+			} else {
+				$context = 'side';
+			}
+
+			add_meta_box( 'wpmoly-metabox', __( 'WordPress Movie Library', 'wpmovielibrary' ), __CLASS__ . '::metabox', $post->post_type, $context, 'high', null );
 		}
 
 		/**
@@ -729,13 +741,17 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		public static function standard_metabox( $post ) {
 
+			global $wp_post_types;
+
 			$post_type = $post->post_type;
 			$post_id   = $post->ID;
 
-			if ( 'page' == $post_type ) {
-				$post_type = __( 'Page' );
-			} elseif ( 'post' == $post_type ) {
-				$post_type = __( 'Post' );
+			$post_types = wpmoly_o( 'convert-post-types' );
+
+			if ( in_array( $post_type, $post_types ) ) {
+				if ( isset( $wp_post_types[ $post_type ]->labels->singular_name ) ) {
+					$post_type = $wp_post_types[ $post_type ]->labels->singular_name;
+				}
 			} else {
 				$post_type = null;
 			}

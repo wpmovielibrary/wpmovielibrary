@@ -28,7 +28,7 @@ $wpmoly_config = array(
 	array(
 		'icon'    => 'wpmolicon icon-movie',
 		'title'   => __( 'Movies', 'wpmovielibrary' ),
-				'desc' => __( 'WPMovieLibrary handles movies as regular WordPress posts, but you can define some specific behaviours movies only should have.', 'wpmovielibrary'),
+		'desc'    => __( 'WPMovieLibrary handles movies as regular WordPress posts, but you can define some specific behaviours movies only should have.', 'wpmovielibrary'),
 		'subsection' => true,
 		'fields'  => array(
 
@@ -294,6 +294,40 @@ $wpmoly_config = array(
 					'10' => __( '10 stars', 'wpmovielibrary' )
 				),
 				'default'  => '5'
+			),
+		),
+	),
+
+	// 'wpmoly-converting' Formatting settings subsection
+	array(
+		'icon'    => 'wpmolicon icon-import',
+		'title'   => __( 'Converting', 'wpmovielibrary' ),
+		'heading' => __( 'Converting settings', 'wpmovielibrary' ),
+		'desc'    => __( 'This section allows you to configure the post types convertor tool. This can be usefull to convert regular posts, pages and possibly other custom post types into movies to avoid duplicate contents or having to manually recreate already existing contents. Note that this will most likely affect your SEO as it will change Posts’ URLs.', 'wpmovielibrary' ),
+		'subsection' => true,
+		'fields'  => array(
+
+			// Post type convert enable
+			'convert-enable' => array(
+				'id'       => 'wpmoly-convert-enable',
+				'type'     => 'switch',
+				'title'    => __( 'Convert Post Types', 'wpmovielibrary' ),
+				'desc'     => __( 'Enable post types conversion tools.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0
+			),
+
+			// Post type to convert
+			'convert-post-types' => array(
+				'id'       => 'wpmoly-convert-post-types',
+				'type'     => 'select',
+				'title'    => __( 'Post Types available to convert', 'wpmovielibrary' ),
+				'desc'     => __( 'Select which post types should be convertible to movie.', 'wpmovielibrary' ),
+				'data'     => 'post_types',
+				'multi'    => true,
+				'required' => array( 'wpmoly-convert-enable', "=", '1' ),
+				'default'  => array( 'post', 'page', 'review' )
 			),
 		),
 	),

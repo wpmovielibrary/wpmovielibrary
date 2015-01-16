@@ -966,6 +966,7 @@
                                     $data[ $name ] = ucfirst( $name );
                                 }
                             }
+                            $data = apply_filters( "redux/options/{$this->args['opt_name']}/data/post_types/after", $data );
                         } else if ( $type == "tags" || $type == "tag" ) { // NOT WORKING!
                             $tags = get_tags( $args );
                             if ( ! empty( $tags ) ) {
