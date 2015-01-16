@@ -609,7 +609,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				global $wp_rewrite;
 				$format = '/page/%#%';
 				if ( '' == $wp_rewrite->permalink_structure )
-					$format = '&_page=%#%';
+					$format = '&paged=%#%';
 
 				// ... and the pagination menu.
 				$args = array(
@@ -880,7 +880,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 
 			$defaults = array(
 				'letter'  => '',
-				'paged'   => 1,
+				'paged'   => '1',
 				'number'  => wpmoly_o( "tax-archives-terms-per-page", $default = true ),
 				'order'   => wpmoly_o( "tax-archives-terms-order", $default = true ),
 				'orderby' => wpmoly_o( "tax-archives-terms-orderby", $default = true ),
@@ -928,9 +928,12 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				if ( $preg ) {
 					$params['paged'] = $matches[2];
 				}
-			}
 
-			$params = wp_parse_args( $params, $defaults );
+				$params = wp_parse_args( $params, $defaults );
+
+			} else {
+				$params = wp_parse_args( $vars, $defaults );
+			}
 
 			return $params;
 		}

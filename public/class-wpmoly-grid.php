@@ -253,7 +253,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			global $wp_rewrite;
 			$format = '/page/%#%';
 			if ( '' == $wp_rewrite->permalink_structure )
-				$format = '&_page=%#%';
+				$format = '&paged=%#%';
 
 			$args = array(
 				'type'    => 'list',

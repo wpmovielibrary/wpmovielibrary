@@ -707,10 +707,15 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			else
 				$type = 'movie';
 
-			$page = intval( wpmoly_o( $type . '-archives' ) );
-			$base  = 'index.php?';
-			if ( $page )
-				$base .= 'page_id=' . $page . '&';
+			if ( ! isset( $args['baseurl'] ) || empty( $args['baseurl'] ) ) {
+				$page = intval( wpmoly_o( $type . '-archives' ) );
+				$base  = 'index.php?';
+				if ( $page )
+					$base .= 'page_id=' . $page . '&';
+				$base = home_url( "/${base}" );
+			} else {
+				$base = $args['baseurl'];
+			}
 
 			$url = array();
 
@@ -725,7 +730,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				if ( '' != $arg )
 					$url[ $slug ] = $arg;
 
-			$url = add_query_arg( $url, home_url( "/${base}" ) );
+			$url = add_query_arg( $url, $base );
 
 			return $url;
 		}
