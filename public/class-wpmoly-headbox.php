@@ -41,14 +41,17 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 			$poster  = $poster[0];
 
 			$headbox = array(
-				'title'     => wpmoly_o( 'headbox-title', $default = true ),
-				'subtitle'  => wpmoly_o( 'headbox-subtitle', $default = true ),
-				'details_1' => wpmoly_o( 'headbox-details-1', $default = true ),
-				'details_2' => wpmoly_o( 'headbox-details-2', $default = true ),
-				'details_3' => wpmoly_o( 'headbox-details-3', $default = true )
+				'title'     => wpmoly_o( 'headbox-title' ),
+				'subtitle'  => wpmoly_o( 'headbox-subtitle' ),
+				'details_1' => wpmoly_o( 'headbox-details-1' ),
+				'details_2' => wpmoly_o( 'headbox-details-2' ),
+				'details_3' => wpmoly_o( 'headbox-details-3' )
 			);
 
 			foreach ( $headbox as $slug => $content ) {
+
+				if ( ! $content || empty( $content ) )
+					continue;
 
 				$line = '';
 				foreach ( $content as $item ) {
