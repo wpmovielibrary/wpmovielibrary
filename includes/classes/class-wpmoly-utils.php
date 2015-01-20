@@ -822,7 +822,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			else if ( 10 == $base ) {
 				$_filled = $rating * 2;
 				$_empty  = 10 - $_filled;
-				$title   = "{$rating}/10 − {$title}";
+				$title   = "{$_filled}/10 − {$title}";
 
 				$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '" title="' . $title . '">';
 				$stars .= str_repeat( $filled, $_filled );
