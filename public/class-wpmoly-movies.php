@@ -249,7 +249,8 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				return $content;
 
 			if ( ! wpmoly_o( 'vintage-content' ) ) {
-				$headbox = WPMOLY_Headbox::get_content( $content );
+				$headbox = new WPMOLY_Headbox();
+				$headbox = $headbox->render( $content );
 			} else {
 				$headbox = self::movie_vintage_content( $content );
 			}

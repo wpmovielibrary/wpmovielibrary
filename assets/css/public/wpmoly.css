@@ -263,7 +263,7 @@
 	text-align: center;
 }
 
-/** Movie Headbox
+/** Default Movie Headbox
  ***************************************************/
 
 .wpmoly.headbox {
@@ -568,6 +568,54 @@
 	padding-left: 6px;
 }
 
+/** Default Movie Headbox
+ ***************************************************/
+
+.wpmoly.headbox.imdb {
+	background: #fff;
+}
+
+.wpmoly.headbox.imdb .wpmoly.headbox {
+	background: transparent;
+}
+
+.wpmoly.headbox.imdb.movie.poster {
+	background: #fff;
+	float: left;
+}
+
+.wpmoly.headbox.imdb.movie hr,
+.wpmoly.headbox.imdb.movie .wpmoly.headbox.movie.meta,
+.wpmoly.headbox.imdb.movie .wpmoly.headbox.movie.section {
+	clear: none;
+}
+
+.wpmoly.headbox.imdb.movie hr {
+	background: #ccc;
+	margin: 12px 0;
+}
+
+.wpmoly.headbox.imdb .wpmoly.headbox.movie.images .image {
+	width: 31%;
+}
+
+.wpmoly.headbox.imdb.movie .wpmoly.headbox.movie.meta.title {
+	padding-top: 12px;
+}
+
+.wpmoly.headbox.imdb.movie .wpmoly.headbox.movie.meta.year {
+	font-size: small;
+}
+
+.wpmoly.headbox.imdb.movie .wpmoly.headbox.movie.meta {
+	
+}
+
+.wpmoly.headbox.imdb.movie .wpmoly.headbox.movie.meta.certification {
+	border: 2px solid #bbb;
+	border-radius: 3px;
+	padding: 2px 6px;
+}
 
 /** Movie Meta & Details block
  ***************************************************/

@@ -1143,6 +1143,20 @@ $wpmoly_config = array(
 		'subsection' => true,
 		'fields'  => array(
 
+			// Headbox theme
+			'headbox-theme' => array(
+				'id'       => 'wpmoly-headbox-theme',
+				'type'     => 'select',
+				'title'    => __( 'Headbox Theme', 'wpmovielibrary' ),
+				'desc'     => __( 'Select a Theme to use for your Headbox.', 'wpmovielibrary' ),
+				'options'  => array(
+					'wpmoly'   => __( 'WPMovieLibrary', 'wpmovielibrary' ),
+					'imdb'     => __( 'IMDb', 'wpmovielibrary' ),
+					'allocine' => __( 'Allociné', 'wpmovielibrary' ),
+				),
+				'default'  => 'wpmoly'
+			),
+
 			// Headbox Position
 			'headbox-position' => array(
 				'id'       => 'wpmoly-headbox-position',
@@ -1153,7 +1167,7 @@ $wpmoly_config = array(
 					'top'    => __( 'Top', 'wpmovielibrary' ),
 					'bottom' => __( 'Bottom', 'wpmovielibrary' )
 				),
-				'default'  => 'top'
+				'default'  => 'top',
 			),
 
 			// Headbox Tabs
@@ -1171,7 +1185,8 @@ $wpmoly_config = array(
 					'actors'   => __( 'Actors', 'wpmovielibrary' ),
 					'images'   => __( 'Images', 'wpmovielibrary' )
 				),
-				'default' => array( 'overview', 'meta', 'details', 'images', 'actors' )
+				'default' => array( 'overview', 'meta', 'details', 'images', 'actors' ),
+				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
 			),
 
 			// Title Content
@@ -1183,7 +1198,8 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'options'  => array(),
-				'default'  => array( 'title' )
+				'default'  => array( 'title' ),
+				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
 			),
 
 			// Subtitle Content
@@ -1195,7 +1211,8 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'options'  => array(),
-				'default'  => array( 'tagline' )
+				'default'  => array( 'tagline' ),
+				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
 			),
 
 			//  Content
@@ -1207,7 +1224,8 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'options'  => array(),
-				'default'  => array( 'status', 'media' )
+				'default'  => array( 'status', 'media' ),
+				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
 			),
 
 			//  Content
@@ -1219,7 +1237,8 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'options'  => array(),
-				'default'  => array( 'release_date', 'runtime' )
+				'default'  => array( 'release_date', 'runtime' ),
+				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
 			),
 
 			//  Content
@@ -1231,7 +1250,8 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'options'  => array(),
-				'default'  => array( 'rating' )
+				'default'  => array( 'rating' ),
+				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
 			)
 		)
 	),

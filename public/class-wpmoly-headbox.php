@@ -13,14 +13,119 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 
 	class WPMOLY_Headbox extends WPMOLY_Movies {
 
+		protected $themes = array(
+			'wpmoly',
+			'allocine',
+			'imdb'
+		);
+
+		/**
+		 * Show WPMOLY 2.0 modern metadata/details headbox content.
+		 *
+		 * @since    2.1.4
+		 * 
+		 * @param    string      $content The original post content
+		 *
+		 * @return   string      The filtered content containing original content plus movie infos if available, the untouched original content else.
+		 */
+		public function render( $content = null ) {
+
+			$theme = wpmoly_o( 'headbox-theme' );
+			if ( ! in_array( $theme, $this->themes ) )
+				$theme = 'wpmoly';
+
+			return call_user_func( array( $this, "get_{$theme}_headbox" ), $content );
+		}
+
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
-		 *                          Movie Headbox
+		 *                      Allocine Movie Headbox
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		private function get_allocine_headbox( $content = null ) {
+
+			return $content;
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                        IMDb Movie Headbox
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		private function get_imdb_headbox( $content = null ) {
+
+			$id = get_the_ID();
+
+			$meta = self::get_movie_meta( $id, 'meta' );
+			$details = self::get_movie_meta( $id, 'details' );
+			
+			$poster = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'medium' );
+			$poster = $poster[0];
+
+			$images = $this->get_imdb_headbox_images( $id );
+
+			$meta['year']  = apply_filters( 'wpmoly_format_movie_year', $meta['release_date'], 'Y' );
+			$meta['_year'] = date_i18n( 'Y', strtotime( $meta['release_date'] ) );
+			$meta['_runtime'] = $meta['runtime'];
+
+			$_meta = array( 'title', 'director', 'writer', 'certification', 'runtime', 'genres', 'cast', 'release_date', 'overview', 'tagline', 'genres', 'homepage', 'production_countries', 'spoken_languages', 'budget', 'revenue', 'production_companies' );
+			foreach ( $_meta as $m )
+				$meta[ $m ] = apply_filters( "wpmoly_format_movie_$m", $meta[ $m ] );
+
+			$details['rating_stars'] = apply_filters( 'wpmoly_movie_rating_stars', $details['rating'], $id, $base = 10 );
+
+			$attributes = compact( 'id', 'meta', 'details', 'poster', 'images' );
+
+			$content = WPMovieLibrary::render_template( 'movies/movie-imdb-headbox.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		private function get_imdb_headbox_images( $post_id ) {
+
+			$attachments = get_posts( array(
+				'post_type'   => 'attachment',
+				'orderby'     => 'title',
+				'numberposts' => -1,
+				'post_status' => null,
+				'post_parent' => $post_id,
+				'meta_key'    => '_wpmoly_image_related_tmdb_id',
+				'exclude'     => get_post_thumbnail_id( $post_id )
+			) );
+
+			$images = array();
+			$content = __( 'No images were imported for this movie.', 'wpmovielibrary' );
+			
+			if ( $attachments ) {
+
+				foreach ( $attachments as $attachment )
+					$images[] = array(
+						'thumbnail' => wp_get_attachment_image_src( $attachment->ID, 'thumbnail' ),
+						'full'      => wp_get_attachment_image_src( $attachment->ID, 'full' )
+					);
+
+				$content = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => 'thumbnail', 'movie_id' => get_the_ID(), 'images' => $images ), $require = 'always' );
+			}
+
+			$attributes = array(
+				'images' => $content
+			);
+
+			$content = WPMovieLibrary::render_template( 'movies/headbox/tabs/images.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                       Default Movie Headbox
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
-		 * Show WPMOLY 2.0 modern metadata/details headbox content.
+		 * Show WPMOLY 2.0 modern metadata/details default headbox content.
 		 *
 		 * @since    2.0
 		 * 
@@ -28,7 +133,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 *
 		 * @return   string      The filtered content containing original content plus movie infos if available, the untouched original content else.
 		 */
-		public static function get_content( $content = null ) {
+		public function get_wpmoly_headbox( $content = null ) {
 
 			$theme = wp_get_theme();
 			if ( ! is_null( $theme->stylesheet ) )
@@ -87,8 +192,8 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 			$attributes = array(
 				'id'      => get_the_ID(),
 				'headbox' => $headbox,
-				'menu'    => self::get_menu(),
-				'tabs'    => self::get_tabs(),
+				'menu'    => $this->get_wpmoly_headbox_menu(),
+				'tabs'    => $this->get_wpmoly_headbox_tabs(),
 				'theme'   => $theme,
 			);
 			$content = WPMovieLibrary::render_template( 'movies/movie-headbox.php', $attributes, $require = 'always' );
@@ -103,7 +208,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 * 
 		 * @return   string    Headbox Menu HTML markup
 		 */
-		public static function get_menu() {
+		public function get_wpmoly_headbox_menu() {
 
 			$links = array(
 				'overview' => array(
@@ -169,33 +274,33 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 * 
 		 * @return   string    Headbox Tabs content HTML markup
 		 */
-		public static function get_tabs() {
+		public function get_wpmoly_headbox_tabs() {
 
 			$tabs = array(
 				'overview' => array(
 					'title'   => __( 'Overview', 'wpmovielibrary' ),
 					'icon'    => 'overview',
-					'content' => self::get_overview_tab()
+					'content' => $this->get_wpmoly_headbox_overview_tab()
 				),
 				'meta' => array(
 					'title'   => __( 'Metadata', 'wpmovielibrary' ),
 					'icon'    => 'meta',
-					'content' => self::get_meta_tab()
+					'content' => $this->get_wpmoly_headbox_meta_tab()
 				),
 				'details' => array(
 					'title'   => __( 'Details', 'wpmovielibrary' ),
 					'icon'    => 'details',
-					'content' => self::get_details_tab()
+					'content' => $this->get_wpmoly_headbox_details_tab()
 				),
 				'actors' => array(
 					'title'   => __( 'Actors', 'wpmovielibrary' ),
 					'icon'    => 'actor',
-					'content' => self::get_actors_tab()
+					'content' => $this->get_wpmoly_headbox_actors_tab()
 				),
 				'images' => array(
 					'title'   => __( 'Images', 'wpmovielibrary' ),
 					'icon'    => 'images',
-					'content' => self::get_images_tab()
+					'content' => $this->get_wpmoly_headbox_images_tab()
 				)
 			);
 
@@ -224,7 +329,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 * 
 		 * @return   string    Tab content HTML markup
 		 */
-		public static function get_overview_tab() {
+		public function get_wpmoly_headbox_overview_tab() {
 
 			$attributes = array(
 				'overview' => wpmoly_get_movie_meta( get_the_ID(), 'overview' )
@@ -242,7 +347,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 * 
 		 * @return   string    Tab content HTML markup
 		 */
-		public static function get_meta_tab() {
+		public function get_wpmoly_headbox_meta_tab() {
 
 			// TODO: better filtering/formatting
 			$metadata = wpmoly_get_movie_meta();
@@ -292,7 +397,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 * 
 		 * @return   string    Tab content HTML markup
 		 */
-		public static function get_details_tab() {
+		public function get_wpmoly_headbox_details_tab() {
 
 			// TODO: better filtering/formatting
 			$details = wpmoly_get_movie_details();
@@ -359,7 +464,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 * 
 		 * @return   string    Tab content HTML markup
 		 */
-		public static function get_actors_tab() {
+		public function get_wpmoly_headbox_actors_tab() {
 
 			$actors = wpmoly_get_movie_meta( get_the_ID(), 'cast' );
 			$actors = apply_filters( 'wpmoly_format_movie_actors', $actors );
@@ -380,7 +485,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 * 
 		 * @return   string    Tab content HTML markup
 		 */
-		public static function get_images_tab() {
+		public function get_wpmoly_headbox_images_tab() {
 
 			$attachments = get_posts( array(
 				'post_type'   => 'attachment',
