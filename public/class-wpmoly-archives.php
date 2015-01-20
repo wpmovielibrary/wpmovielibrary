@@ -821,7 +821,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			foreach ( $defaults as $default ) {
 				if ( isset( $vars[ $default ] ) ) {
 					$var = $vars[ $default ];
-					if ( $translate )
+					if ( $translate || in_array( $default, array( 'meta', 'detail' ) ) )
 						$var = WPMOLY_L10n::untranslate_rewrite( $var );
 					$params[ $default ] = $var;
 				}
