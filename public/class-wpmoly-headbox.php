@@ -66,6 +66,15 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 
 			$images = $this->get_imdb_headbox_images( $id );
 
+			$collections = get_the_terms( $id, 'collection' );
+			if ( $collections && ! is_wp_error( $collections ) ) {
+				foreach ( $collections as $i => $c ) {
+					$collections[ $i ] = $c->name;
+				}
+			}
+			$collections = implode( ',', $collections );
+			$meta['collections'] = WPMOLY_Utils::format_movie_terms_list( $collections, 'collection' );
+
 			$meta['year']  = apply_filters( 'wpmoly_format_movie_year', $meta['release_date'], 'Y' );
 			$meta['_year'] = date_i18n( 'Y', strtotime( $meta['release_date'] ) );
 			$meta['_runtime'] = $meta['runtime'];

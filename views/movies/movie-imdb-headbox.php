@@ -15,67 +15,97 @@
 			<div class="wpmoly headbox imdb movie poster">
 				<img src="<?php echo $poster; ?>" alt="<?php printf( '%s (%d) %s', $meta['title'], $meta['year'], __( 'Poster', 'wpmovielibrary' ) ); ?>" title="<?php printf( '%s (%d) %s', $meta['title'], $meta['_year'], __( 'Poster', 'wpmovielibrary' ) ); ?>" />
 			</div>
-			<h2 class="wpmoly headbox imdb movie meta title"><?php echo $meta['title']; ?> <span class="wpmoly headbox imdb movie meta year">(<?php echo $meta['year']; ?>)</span></h2>
 			<div class="wpmoly headbox imdb movie section ">
+				<h2 class="wpmoly headbox imdb movie meta title"><?php echo $meta['title']; ?> <span class="wpmoly headbox imdb movie meta year">(<?php echo $meta['year']; ?>)</span></h2>
 				<span class="wpmoly headbox imdb movie meta certification"><?php echo $meta['certification']; ?></span>
 				<span class="wpmoly headbox imdb movie meta runtime"><?php echo $meta['_runtime']; ?> min</span> - 
 				<span class="wpmoly headbox imdb movie meta genres"><?php echo $meta['genres']; ?></span> - 
 				<span class="wpmoly headbox imdb movie meta release_date"><?php echo $meta['release_date']; ?></span>
-			</div>
-			<hr />
-			<div class="wpmoly headbox imdb movie section rating">
-				<span class="wpmoly headbox imdb movie rating starlined">Your rating: <?php echo $details['rating_stars']; ?></span>
-			</div>
-			<hr />
-			<div class="wpmoly headbox imdb movie section overview">
+				<hr />
+				<span class="wpmoly headbox imdb movie rating starlined"><?php _e( 'Your rating:', 'wpmovielibrary' ); ?> <?php echo $details['rating_stars']; ?></span>
+				<hr />
 				<p><?php echo $meta['overview']; ?></p>
-				<div class="wpmoly headbox imdb movie meta director">Director: <?php echo $meta['director']; ?></div>
-				<div class="wpmoly headbox imdb movie meta writer">Writers: <?php echo $meta['writer']; ?></div>
-				<div class="wpmoly headbox imdb movie meta cast">Stars: <?php echo $meta['cast']; ?></div>
+				<div class="wpmoly headbox imdb movie meta director">
+					<span class="wpmoly headbox imdb movie meta label"><?php _e( 'Director:', 'wpmovielibrary' ); ?>&nbsp;</span>
+					<span class="wpmoly headbox imdb movie meta value"><?php echo $meta['director']; ?></span>
+				</div>
+				<div class="wpmoly headbox imdb movie meta writer">
+					<span class="wpmoly headbox imdb movie meta label"><?php _e( 'Writers:', 'wpmovielibrary' ); ?>&nbsp;</span>
+					<span class="wpmoly headbox imdb movie meta value"><?php echo $meta['writer']; ?></span>
+				</div>
+				<div class="wpmoly headbox imdb movie meta cast">
+					<span class="wpmoly headbox imdb movie meta label"><?php _e( 'Stars:', 'wpmovielibrary' ); ?>&nbsp;</span>
+					<span class="wpmoly headbox imdb movie meta value"><?php echo $meta['cast']; ?></span>
+				</div>
 			</div>
-			<hr />
 <?php if ( ! empty( $images ) ) : ?>
 			<div class="wpmoly headbox imdb movie section images">
 				<h3 class="wpmoly headbox imdb movie meta sub-title"><?php _e( 'Photos', 'wpmovielibrary' ); ?></h3>
 				<?php echo $images; ?>
 			</div>
-			<hr />
 <?php endif; ?>
 			<div class="wpmoly headbox imdb movie section storyline">
-				<h3 class="wpmoly headbox imdb movie meta sub-title">Storyline</h3>
+				<h3 class="wpmoly headbox imdb movie meta sub-title"><?php _e( 'Storyline', 'wpmovielibrary' ); ?></h3>
 				<p class="wpmoly headbox imdb movie meta overview"><?php echo $meta['overview']; ?></p>
+				<hr />
+				<div class="wpmoly headbox imdb movie meta collections">
+					<span class="wpmoly headbox imdb movie meta label"><?php _e( 'Collections:', 'wpmovielibrary' ); ?></span>
+					<span class="wpmoly headbox imdb movie meta value"><?php echo $meta['collections']; ?></span>
+				</div>
+				<hr />
+				<div class="wpmoly headbox imdb movie meta tagline">
+					<span class="wpmoly headbox imdb movie meta label"><?php _e( 'Tagline:', 'wpmovielibrary' ); ?></span>
+					<span class="wpmoly headbox imdb movie meta value"><?php echo $meta['tagline']; ?></span>
+				</div>
+				<hr />
+				<div class="wpmoly headbox imdb movie meta genres">
+					<span class="wpmoly headbox imdb movie meta label"><?php _e( 'Genres:', 'wpmovielibrary' ); ?></span>
+					<span class="wpmoly headbox imdb movie meta value"><?php echo $meta['genres']; ?></span>
+				</div>
 			</div>
-			<div class="wpmoly headbox imdb movie section tagline">
-				<h4 class="wpmoly headbox imdb movie meta sub-title">Tagline</h4>
-				<p class="wpmoly headbox imdb movie meta tagline"><?php echo $meta['tagline']; ?></p>
-			</div>
-			<div class="wpmoly headbox imdb movie section genres">
-				<h4 class="wpmoly headbox imdb movie meta sub-title">Genres</h4>
-				<p class="wpmoly headbox imdb movie meta genres"><?php echo $meta['genres']; ?></p>
-			</div>
-			<hr />
 			<div class="wpmoly headbox imdb movie section production-details">
-				<h3 class="wpmoly headbox imdb movie meta sub-title">Details</h3>
-				<div class="wpmoly headbox imdb movie meta homepage">Official Site: <?php echo $meta['homepage']; ?></div>
-				<div class="wpmoly headbox imdb movie meta production_countries">Country: <?php echo $meta['production_countries']; ?></div>
-				<div class="wpmoly headbox imdb movie meta spoken_languages">Language: <?php echo $meta['spoken_languages']; ?></div>
-				<div class="wpmoly headbox imdb movie meta release_date">Release Date: <?php echo $meta['release_date']; ?></div>
+				<h3 class="wpmoly headbox imdb movie meta sub-title"><?php _e( 'Details', 'wpmovielibrary' ); ?></h3>
+				<div class="wpmoly headbox imdb movie meta homepage">
+					<span class="wpmoly headbox imdb movie meta label"><?php _e( 'Official Website:', 'wpmovielibrary' ); ?>&nbsp;</span>
+					<span class="wpmoly headbox imdb movie meta value"><?php echo $meta['homepage']; ?></span>
+				</div>
+				<div class="wpmoly headbox imdb movie meta production_countries">
+					<span class="wpmoly headbox imdb movie meta label"><?php _e( 'Country:', 'wpmovielibrary' ); ?>&nbsp;</span>
+					<span class="wpmoly headbox imdb movie meta value"><?php echo $meta['production_countries']; ?></span>
+				</div>
+				<div class="wpmoly headbox imdb movie meta spoken_languages">
+					<span class="wpmoly headbox imdb movie meta label"><?php _e( 'Language:', 'wpmovielibrary' ); ?>&nbsp;</span>
+					<span class="wpmoly headbox imdb movie meta value"><?php echo $meta['spoken_languages']; ?></span>
+				</div>
+				<div class="wpmoly headbox imdb movie meta release_date">
+					<span class="wpmoly headbox imdb movie meta label"><?php _e( 'Release Date:', 'wpmovielibrary' ); ?>&nbsp;</span>
+					<span class="wpmoly headbox imdb movie meta value"><?php echo $meta['release_date']; ?></span>
+				</div>
 			</div>
-			<hr />
 			<div class="wpmoly headbox imdb movie section box-office">
-				<h3 class="wpmoly headbox imdb movie meta sub-title">Box Office</h3>
-				<div class="wpmoly headbox imdb movie meta budget">Budget: <?php echo $meta['budget']; ?></div>
-				<div class="wpmoly headbox imdb movie meta revenue">Revenue: <?php echo $meta['revenue']; ?></div>
+				<h3 class="wpmoly headbox imdb movie meta sub-title"><?php _e( 'Box Office', 'wpmovielibrary' ); ?></h3>
+				<div class="wpmoly headbox imdb movie meta budget">
+					<span class="wpmoly headbox imdb movie meta label"><?php _e( 'Budget:', 'wpmovielibrary' ); ?>&nbsp;</span>
+					<span class="wpmoly headbox imdb movie meta value"><?php echo $meta['budget']; ?></span>
+				</div>
+				<div class="wpmoly headbox imdb movie meta revenue">
+					<span class="wpmoly headbox imdb movie meta label"><?php _e( 'Revenue:', 'wpmovielibrary' ); ?>&nbsp;</span>
+					<span class="wpmoly headbox imdb movie meta value"><?php echo $meta['revenue']; ?></span>
+				</div>
 			</div>
-			<hr />
 			<div class="wpmoly headbox imdb movie section companies">
-				<h3 class="wpmoly headbox imdb movie meta sub-title">Company Credits</h3>
-				<div class="wpmoly headbox imdb movie meta production_companies">Production Co: <?php echo $meta['production_companies']; ?></div>
+				<h3 class="wpmoly headbox imdb movie meta sub-title"><?php _e( 'Company Credits', 'wpmovielibrary' ); ?></h3>
+				<div class="wpmoly headbox imdb movie meta production_companies">
+					<span class="wpmoly headbox imdb movie meta label"><?php _e( 'Production Companies:', 'wpmovielibrary' ); ?>&nbsp;</span>
+					<span class="wpmoly headbox imdb movie meta value"><?php echo $meta['production_companies']; ?></span>
+				</div>
 			</div>
-			<hr />
 			<div class="wpmoly headbox imdb movie section tech-specs">
-				<h3 class="wpmoly headbox imdb movie meta sub-title">Technical Specs</h3>
-				<div class="wpmoly headbox imdb movie meta runtime">Runtime: <?php echo $meta['runtime']; ?></div>
+				<h3 class="wpmoly headbox imdb movie meta sub-title"><?php _e( 'Technical Specs', 'wpmovielibrary' ); ?></h3>
+				<div class="wpmoly headbox imdb movie meta runtime">
+					<span class="wpmoly headbox imdb movie meta label"><?php _e( 'Runtime:', 'wpmovielibrary' ); ?>&nbsp;</span>
+					<span class="wpmoly headbox imdb movie meta value"><?php echo $meta['runtime']; ?></span>
+				</div>
 			</div>
 		</div>
 		<div style="clear:both"></div>
