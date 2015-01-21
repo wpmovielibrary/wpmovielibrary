@@ -62,6 +62,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 		public static function set_l10n_rewrite() {
 
 			$translate = wpmoly_o( 'rewrite-enable' );
+			$locale    = substr( get_locale(), 0, 2 );
 
 			$l10n_rewrite = array();
 
@@ -81,10 +82,18 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				$l10n_rewrite[ sanitize_title( $key ) ] = $slug;
 
 				foreach ( $detail['options'] as $_slug => $option ) {
-					if ( 'rating' == $slug )
+
+					if ( $translate ) {
+						if ( false !== strstr( 'rating', $slug ) ) {
+							$key = $_slug;
+						} else {
+							$key = sanitize_title( $option );
+						}
+					} elseif ( in_array( $slug, array( 'status', 'media', 'rating' ) ) || false !== strstr( $slug, 'rating' ) ) {
 						$key = $_slug;
-					else
+					} else {
 						$key = sanitize_title( $option );
+					}
 
 					$l10n_rewrite[ $key ] = $_slug;
 				}

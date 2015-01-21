@@ -211,6 +211,41 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 			return $meta_query;
 		}
 
+		public static function by_status( $status, $format = 'array' ) {
+
+			$value = self::filter_value( $status );
+			$meta_query = self::by_interval( 'status', $value, $strict = true, $filter = false );
+
+			if ( 'sql' === $format )
+				$meta_query = self::get_sql( $meta_query );
+
+			return $meta_query;
+		}
+
+		public static function by_language( $language, $format = 'array' ) {
+
+			$value = self::filter_value( $language );
+			$value = WPMOLY_L10n::untranslate_rewrite( $value );
+			$meta_query = self::by_interval( 'language', $value, $strict = false, $filter = false );
+
+			if ( 'sql' === $format )
+				$meta_query = self::get_sql( $meta_query );
+
+			return $meta_query;
+		}
+
+		public static function by_subtitles( $subtitles, $format = 'array' ) {
+
+			$value = self::filter_value( $subtitles );
+			$value = WPMOLY_L10n::untranslate_rewrite( $value );
+			$meta_query = self::by_interval( 'subtitles', $value, $strict = false, $filter = false );
+
+			if ( 'sql' === $format )
+				$meta_query = self::get_sql( $meta_query );
+
+			return $meta_query;
+		}
+
 		/**
 		 * Filter movies by an interval of values.
 		 * 
