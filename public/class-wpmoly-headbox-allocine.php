@@ -1,0 +1,250 @@
+<?php
+/**
+ * WPMovieLibrary Movie Headbox Class extension.
+ *
+ * @package   WPMovieLibrary
+ * @author    Charlie MERLAND <charlie@caercam.org>
+ * @license   GPL-3.0
+ * @link      http://www.caercam.org/
+ * @copyright 2014 CaerCam.org
+ */
+
+if ( ! class_exists( 'WPMOLY_Headbox_Allocine' ) ) :
+
+	class WPMOLY_Headbox_Allocine extends WPMOLY_Headbox {
+
+		/**
+		 * Allocine Headbox Tabs.
+		 *
+		 * @since    2.1.4
+		 * @var      array
+		 */
+		protected $tabs;
+
+		/**
+		 * Initialize Allocine Headbox.
+		 *
+		 * @since    2.1.4
+		 */
+		public function init() {
+
+			$tabs = array(
+				'main' =>  array(
+					'title' => null,
+					'icon'  => 'home',
+					'content' => $this->render_main_tab()
+					
+				),
+				'details' =>  array(
+					'title' => __( 'Details', 'wpmovielibrary' ),
+					'icon'  => 'meta',
+					'content' => ''//$this->render_details_tab()
+				),
+				'casting' =>  array(
+					'title' => __( 'Casting', 'wpmovielibrary' ),
+					'icon'  => 'actor',
+					'content' => ''//$this->render_casting_tab()
+				),
+				'photos' =>  array(
+					'title' => __( 'Photos', 'wpmovielibrary' ),
+					'icon'  => 'images',
+					'content' => $this->render_images_tab()
+				),
+				'trailers' =>  array(
+					'title' => __( 'Bandes-annonces', 'wpmovielibrary' ),
+					'icon'  => 'movie',
+					'content' => ''//$this->render_trailers_tab()
+				)
+			);
+
+			/**
+			 * Filter the Headbox Default Tabs.
+			 * 
+			 * @since    2.1.4
+			 * 
+			 * @param    array    $tabs Default Headbox Tabs
+			 */
+			$this->tabs = apply_filters( 'wpmoly_filter_allocine_headbox_tabs', $tabs );
+
+		}
+
+		/**
+		 * Render Allocine styled Headbox.
+		 *
+		 * @since    2.1.4
+		 * 
+		 * @param    string    $content The original post content
+		 *
+		 * @return   string    Filtered content
+		 */
+		public function render( $content = null ) {
+
+			$this->init();
+
+			$id = get_the_ID();
+
+			$theme = wp_get_theme();
+			if ( ! is_null( $theme->stylesheet ) )
+				$theme = 'theme-' . $theme->stylesheet;
+			else
+				$theme = '';
+
+			$title = apply_filters( 'wpmoly_format_movie_title', self::get_movie_meta( $id, 'title' ) );
+
+			$menu = $this->render_menu();
+			$tabs = $this->render_tabs();
+
+			$attributes = compact( 'id', 'theme', 'title', 'menu', 'tabs' );
+
+			$content = self::render_template( 'movies/movie-allocine-headbox.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		/**
+		 * Render Allocine styled Headbox Menu.
+		 *
+		 * @since    2.1.4
+		 * 
+		 * @return   string    Headbox Tab HTML content
+		 */
+		private function render_menu() {
+
+			$attributes = array(
+				'id'    => get_the_ID(),
+				'links' => $this->tabs
+			);
+			$content = self::render_template( 'movies/headbox-allocine/menu.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		/**
+		 * Render Allocine styled Headbox Tabs.
+		 *
+		 * @since    2.1.4
+		 * 
+		 * @return   string    Headbox Tab HTML content
+		 */
+		private function render_tabs() {
+
+			$attributes = array(
+				'id'   => get_the_ID(),
+				'tabs' => $this->tabs
+			);
+			$content = self::render_template( 'movies/headbox-allocine/tabs.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		/**
+		 * Render Allocine styled Headbox 'Overview' Tab.
+		 *
+		 * @since    2.1.4
+		 * 
+		 * @return   string    Headbox Tab HTML content
+		 */
+		private function render_main_tab() {
+
+			$id = get_the_ID();
+
+			$poster = get_the_post_thumbnail( $id, 'medium' );
+			$images = get_posts( array(
+				'post_type'   => 'attachment',
+				'orderby'     => 'title',
+				'numberposts' => 5,
+				'post_status' => null,
+				'post_parent' => $id,
+				'meta_key'    => '_wpmoly_image_related_tmdb_id',
+				'exclude'     => get_post_thumbnail_id( $id )
+			) );
+			$images = array_map( 'wp_prepare_attachment_for_js', $images );
+			$images = array_filter( $images );
+
+			$collections = get_the_terms( $id, 'collection' );
+			if ( $collections && ! is_wp_error( $collections ) ) {
+				foreach ( $collections as $i => $c ) {
+					$collections[ $i ] = $c->name;
+				}
+			}
+
+			if ( is_array( $collections ) )
+				$collections = implode( ',', $collections );
+
+			$meta  = array();
+			$_meta = array( 'title', 'director', 'composer', 'writer', 'local_release_date', 'runtime', 'genres', 'overview', 'production_countries', 'spoken_languages', 'budget', 'revenue' );
+			foreach ( $_meta as $m )
+				$meta[ $m ] = apply_filters( "wpmoly_format_movie_$m", self::get_movie_meta( $id, $m ) );
+
+			$meta['collections'] = WPMOLY_Utils::format_movie_terms_list( $collections, 'collection' );
+
+			$meta['cast'] = self::get_movie_meta( $id, 'cast' );
+			$casting      = $meta['cast'];
+			$meta['cast'] = array_slice( explode( ', ', $meta['cast'] ), 0, 3 );
+			$meta['cast'] = implode( ', ', $meta['cast'] );
+			$meta['cast'] = apply_filters( 'wpmoly_format_movie_cast', $meta['cast'] );
+
+			$casting = apply_filters( 'wpmoly_format_movie_cast', $casting );
+			$casting = array_slice( explode( ', ', $casting ), 0, 4 );
+
+			$meta['release_date'] = self::get_movie_meta( $id, 'release_date' );
+			$meta['year'] = apply_filters( 'wpmoly_format_movie_year', $meta['release_date'], 'Y' );
+			$meta['release_date'] = apply_filters( 'wpmoly_format_movie_release_date', $meta['release_date'] );
+
+			$rating = apply_filters( 'wpmoly_movie_rating_stars', self::get_movie_meta( $id, 'rating' ), $id, $base = 10 );
+
+			$attributes = compact( 'id', 'meta', 'rating', 'casting', 'poster', 'images' );
+
+			$content = self::render_template( 'movies/headbox-allocine/tabs/overview.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		/**
+		 * Render Allocine styled Headbox 'Images' Tab.
+		 *
+		 * @since    2.1.4
+		 * 
+		 * @return   string    Headbox Tab HTML content
+		 */
+		private function render_images_tab() {
+
+			$id = get_the_ID();
+
+			$images = get_posts( array(
+				'post_type'   => 'attachment',
+				'orderby'     => 'post_date',
+				'numberposts' => -1,
+				'post_status' => null,
+				'post_parent' => $id,
+				'meta_key'    => '_wpmoly_image_related_tmdb_id',
+				'exclude'     => get_post_thumbnail_id( $id )
+			) );
+			$images = array_map( 'wp_prepare_attachment_for_js', $images );
+			$images = array_filter( $images );
+
+			$posters = get_posts( array(
+				'post_type'   => 'attachment',
+				'orderby'     => 'post_date',
+				'numberposts' => -1,
+				'post_status' => null,
+				'post_parent' => $id,
+				'meta_key'    => '_wpmoly_poster_related_tmdb_id'
+			) );
+			$posters = array_map( 'wp_prepare_attachment_for_js', $posters );
+			$posters = array_filter( $posters );
+
+			$attributes = array(
+				'id'      => get_the_ID(),
+				'images'  => $images,
+				'posters' => $posters
+			);
+
+			$content = self::render_template( 'movies/headbox-allocine/tabs/images.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+	}
+
+endif;

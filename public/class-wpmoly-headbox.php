@@ -13,11 +13,13 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 
 	class WPMOLY_Headbox extends WPMOLY_Movies {
 
-		protected $themes = array(
-			'wpmoly',
-			'allocine',
-			'imdb'
-		);
+		/**
+		 * Available Headbox Themes.
+		 *
+		 * @since    2.1.4
+		 * @var      array
+		 */
+		protected $themes;
 
 		/**
 		 * Show WPMOLY 2.0 modern metadata/details headbox content.
@@ -30,223 +32,45 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 */
 		public function render( $content = null ) {
 
-			$theme = wpmoly_o( 'headbox-theme' );
-			if ( ! in_array( $theme, $this->themes ) )
-				$theme = 'wpmoly';
-
-			return call_user_func( array( $this, "get_{$theme}_headbox" ), $content );
-		}
-
-		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-		 *
-		 *                      Allocine Movie Headbox
-		 * 
-		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		private function get_allocine_headbox( $content = null ) {
-
-			$id = get_the_ID();
-
-			$theme = wp_get_theme();
-			if ( ! is_null( $theme->stylesheet ) )
-				$theme = 'theme-' . $theme->stylesheet;
-			else
-				$theme = '';
-
-			$title = apply_filters( 'wpmoly_format_movie_title', self::get_movie_meta( $id, 'title' ) );
-
-			$menu = $this->get_allocine_headbox_menu();
-			$tabs = $this->get_allocine_headbox_tabs();
-
-			$attributes = compact( 'id', 'theme', 'title', 'menu', 'tabs' );
-
-			$content = WPMovieLibrary::render_template( 'movies/movie-allocine-headbox.php', $attributes, $require = 'always' );
-
-			return $content;
-		}
-
-		private function get_allocine_headbox_menu() {
-
-			$links = array(
-				'main' =>  array(
-					'title' => null,
-					'icon'  => 'home'
-				),
-				'details' =>  array(
-					'title' => __( 'Details', 'wpmovielibrary' ),
-					'icon'  => 'overview'
-				),
-				'casting' =>  array(
-					'title' => __( 'Casting', 'wpmovielibrary' ),
-					'icon'  => 'actor'
-				),
-				'photos' =>  array(
-					'title' => __( 'Photos', 'wpmovielibrary' ),
-					'icon'  => 'images'
-				),
-				'trailers' =>  array(
-					'title' => __( 'Bandes-annonces', 'wpmovielibrary' ),
-					'icon'  => 'movie'
-				)
+			$themes = array(
+				'wpmoly'   => 'WPMOLY_Headbox',
+				'allocine' => 'WPMOLY_Headbox_Allocine',
+				'imdb'     => 'WPMOLY_Headbox_IMDb'
 			);
 
 			/**
-			 * Filter the Headbox menu links.
+			 * Filter the list of available themes to add additional
+			 * Headbox styles.
 			 * 
 			 * @since    2.1.4
 			 * 
-			 * @param    array    $links default menu links
+			 * @param    array    Default available Headbox themes
 			 */
-			$links = apply_filters( 'wpmoly_filter_allocine_headbox_menu_link', $links );
+			$this->themes = apply_filters( 'wpmoly_filter_headbox_themes', $themes );
 
-			$attributes = array(
-				'id'    => get_the_ID(),
-				'links' => $links
-			);
-			$content = WPMovieLibrary::render_template( 'movies/headbox-allocine/menu.php', $attributes, $require = 'always' );
+			$theme = wpmoly_o( 'headbox-theme' );
+			if ( ! in_array( $theme, array_keys( $this->themes ) ) )
+				$theme = 'wpmoly';
 
-			return $content;
-		}
+			if ( '' != $theme ) {
 
-		/**
-		 * Modern headbox tabs content.
-		 *
-		 * @since    2.0
-		 * 
-		 * @return   string    Headbox Tabs content HTML markup
-		 */
-		public function get_allocine_headbox_tabs() {
+				$theme = esc_attr( $theme );
+				$class = WPMOLY_PATH . "/public/class-wpmoly-headbox-$theme.php";
 
-			$tabs = array(
-				'main' => array(
-					'title'   => null,
-					'content' => $this->get_allocine_headbox_overview_tab()
-				),
-				'casting' => array(
-					'title'   => null,
-					'content' => ''//$this->get_wpmoly_headbox_images_tab()
-				),
-				'photos' => array(
-					'title'   => null,
-					'content' => $this->get_allocine_headbox_images_tab()
-				)
-			);
+				if ( file_exists( $class ) )
+					require_once $class;
 
-			/**
-			 * Filter the Headbox tabs.
-			 * 
-			 * @since    2.0
-			 * 
-			 * @param    array    $tabs default headbox tabs
-			 */
-			$tabs = apply_filters( 'wpmoly_filter_allocine_headbox_menu_tabs', $tabs );
-
-			$attributes = array(
-				'id'   => get_the_ID(),
-				'tabs' => $tabs
-			);
-			$content = WPMovieLibrary::render_template( 'movies/headbox-allocine/tabs.php', $attributes, $require = 'always' );
-
-			return $content;
-		}
-
-		private function get_allocine_headbox_overview_tab() {
-
-			$id = get_the_ID();
-
-			$poster = get_the_post_thumbnail( $id, 'medium' );
-			$images = get_posts( array(
-				'post_type'   => 'attachment',
-				'orderby'     => 'title',
-				'numberposts' => 5,
-				'post_status' => null,
-				'post_parent' => $id,
-				'meta_key'    => '_wpmoly_image_related_tmdb_id',
-				'exclude'     => get_post_thumbnail_id( $id )
-			) );
-			$images = array_map( 'wp_prepare_attachment_for_js', $images );
-			$images = array_filter( $images );
-
-			$collections = get_the_terms( $id, 'collection' );
-			if ( $collections && ! is_wp_error( $collections ) ) {
-				foreach ( $collections as $i => $c ) {
-					$collections[ $i ] = $c->name;
+				if ( class_exists( $this->themes[ $theme ] ) ) {
+					$class   = new $this->themes[ $theme ];
+					$headbox = $class->render( $content );
+				} else {
+					$headbox = self::get_wpmoly_headbox( $content );
 				}
+			} else {
+				$headbox = self::get_wpmoly_headbox( $content );
 			}
 
-			if ( is_array( $collections ) )
-				$collections = implode( ',', $collections );
-
-			$meta  = array();
-			$_meta = array( 'title', 'director', 'composer', 'writer', 'local_release_date', 'runtime', 'genres', 'overview', 'production_countries', 'spoken_languages', 'budget', 'revenue' );
-			foreach ( $_meta as $m )
-				$meta[ $m ] = apply_filters( "wpmoly_format_movie_$m", self::get_movie_meta( $id, $m ) );
-
-			$meta['collections'] = WPMOLY_Utils::format_movie_terms_list( $collections, 'collection' );
-
-			$meta['cast'] = self::get_movie_meta( $id, 'cast' );
-			$casting      = $meta['cast'];
-			$meta['cast'] = array_slice( explode( ', ', $meta['cast'] ), 0, 3 );
-			$meta['cast'] = implode( ', ', $meta['cast'] );
-			$meta['cast'] = apply_filters( 'wpmoly_format_movie_cast', $meta['cast'] );
-
-			$casting = apply_filters( 'wpmoly_format_movie_cast', $casting );
-			$casting = array_slice( explode( ', ', $casting ), 0, 4 );
-
-			$meta['release_date'] = self::get_movie_meta( $id, 'release_date' );
-			$meta['year'] = apply_filters( 'wpmoly_format_movie_year', $meta['release_date'], 'Y' );
-			$meta['release_date'] = apply_filters( 'wpmoly_format_movie_release_date', $meta['release_date'] );
-
-			$rating = apply_filters( 'wpmoly_movie_rating_stars', self::get_movie_meta( $id, 'rating' ), $id, $base = 10 );
-
-			$attributes = compact( 'id', 'meta', 'rating', 'casting', 'poster', 'images' );
-
-			$content = WPMovieLibrary::render_template( 'movies/headbox-allocine/tabs/overview.php', $attributes, $require = 'always' );
-
-			return $content;
-		}
-
-		private function get_allocine_headbox_images_tab() {
-
-			$id = get_the_ID();
-
-			$images = get_posts( array(
-				'post_type'   => 'attachment',
-				'orderby'     => 'post_date',
-				'numberposts' => -1,
-				'post_status' => null,
-				'post_parent' => $id,
-				'meta_key'    => '_wpmoly_image_related_tmdb_id',
-				'exclude'     => get_post_thumbnail_id( $id )
-			) );
-			$images = array_map( 'wp_prepare_attachment_for_js', $images );
-			$images = array_filter( $images );
-
-			$_images = array();
-			foreach ( $images as $image )
-				$_images[] = $image['id'];
-
-			$posters = get_posts( array(
-				'post_type'   => 'attachment',
-				'orderby'     => 'post_date',
-				'numberposts' => -1,
-				'post_status' => null,
-				'post_parent' => $id,
-// 				'meta_key'    => '_wpmoly_poster_related_tmdb_id',
-				'exclude'     => $_images
-			) );
-			$posters = array_map( 'wp_prepare_attachment_for_js', $posters );
-			$posters = array_filter( $posters );
-
-			$attributes = array(
-				'id'      => get_the_ID(),
-				'images'  => $images,
-				'posters' => $posters
-			);
-
-			$content = WPMovieLibrary::render_template( 'movies/headbox-allocine/tabs/images.php', $attributes, $require = 'always' );
-
-			return $content;
+			return $headbox;
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
