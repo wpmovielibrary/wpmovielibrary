@@ -45,6 +45,45 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 
 		private function get_allocine_headbox( $content = null ) {
 
+			$id = get_the_ID();
+
+			$meta = self::get_movie_meta( $id, 'meta' );
+			$details = self::get_movie_meta( $id, 'details' );
+			
+			$poster = get_the_post_thumbnail( $id, 'medium' );
+
+			$images = $this->get_imdb_headbox_images( $id );
+
+			$collections = get_the_terms( $id, 'collection' );
+			if ( $collections && ! is_wp_error( $collections ) ) {
+				foreach ( $collections as $i => $c ) {
+					$collections[ $i ] = $c->name;
+				}
+			}
+
+			if ( is_array( $collections ) )
+				$collections = implode( ',', $collections );
+
+			$meta['collections'] = WPMOLY_Utils::format_movie_terms_list( $collections, 'collection' );
+
+			$meta['year']  = apply_filters( 'wpmoly_format_movie_year', $meta['release_date'], 'Y' );
+			$meta['_year'] = date_i18n( 'Y', strtotime( $meta['release_date'] ) );
+			$meta['_runtime'] = $meta['runtime'];
+
+			$meta['_cast'] = array_slice( explode( ', ', $meta['cast'] ), 0, 3 );
+			$meta['_cast'] = implode( ', ', $meta['_cast'] );
+			$meta['_cast'] = apply_filters( "wpmoly_format_movie_cast", $meta['_cast'] );
+
+			$_meta = array( 'title', 'director', 'writer', 'certification', 'runtime', 'genres', 'cast', 'composer', 'local_release_date', 'release_date', 'overview', 'tagline', 'genres', 'homepage', 'producer', 'production_countries', 'spoken_languages', 'budget', 'revenue', 'production_companies' );
+			foreach ( $_meta as $m )
+				$meta[ $m ] = apply_filters( "wpmoly_format_movie_$m", $meta[ $m ] );
+
+			$details['rating_stars'] = apply_filters( 'wpmoly_movie_rating_stars', $details['rating'], $id, $base = 10 );
+
+			$attributes = compact( 'id', 'meta', 'details', 'poster', 'images' );
+
+			$content = WPMovieLibrary::render_template( 'movies/movie-allocine-headbox.php', $attributes, $require = 'always' );
+
 			return $content;
 		}
 
@@ -61,8 +100,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 			$meta = self::get_movie_meta( $id, 'meta' );
 			$details = self::get_movie_meta( $id, 'details' );
 			
-			$poster = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'medium' );
-			$poster = $poster[0];
+			$poster = get_the_post_thumbnail( $id, 'medium' );
 
 			$images = $this->get_imdb_headbox_images( $id );
 
@@ -72,7 +110,10 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 					$collections[ $i ] = $c->name;
 				}
 			}
-			$collections = implode( ',', $collections );
+
+			if ( is_array( $collections ) )
+				$collections = implode( ',', $collections );
+
 			$meta['collections'] = WPMOLY_Utils::format_movie_terms_list( $collections, 'collection' );
 
 			$meta['year']  = apply_filters( 'wpmoly_format_movie_year', $meta['release_date'], 'Y' );
