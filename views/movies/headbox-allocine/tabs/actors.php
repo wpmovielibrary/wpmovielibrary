@@ -12,7 +12,6 @@
  */
 ?>
 
-				<div class="wpmoly headbox allocine movie meta cast">
 					<div id="movie-headbox-<?php echo $id ?>-" class="wpmoly headbox allocine movie section casting">
 						<h3 class="wpmoly headbox allocine movie meta sub-title"><?php _e( 'Directors', 'wpmovielibrary' ); ?></h3>
 						<div class="wpmoly headbox allocine movie meta casting">
@@ -130,7 +129,4 @@ foreach ( $meta['production_companies'] as $actor ) :
 endforeach;
 ?>
 						</div>
-					</div>
-				</div>
- 
- 
+					</div> 

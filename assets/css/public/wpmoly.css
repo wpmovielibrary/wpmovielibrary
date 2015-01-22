@@ -739,6 +739,10 @@
 	top: 4px;
 }
 
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.value .not-rated {
+	display: none;
+}
+
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.more {
 	margin-top: 8px;
 	overflow: hidden;

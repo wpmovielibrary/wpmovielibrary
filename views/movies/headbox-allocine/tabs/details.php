@@ -14,7 +14,6 @@
  */
 ?>
 
-				<div class="wpmoly headbox allocine movie meta details">
 					<div id="movie-headbox-<?php echo $id ?>-overview" class="wpmoly headbox allocine movie section">
 						<h3 class="wpmoly headbox allocine movie meta sub-title"><?php _e( 'Overview', 'wpmovielibrary' ); ?></h3>
 						<h6><?php echo $tagline ?></h6>
@@ -72,5 +71,4 @@ endforeach;
 							</ul>
 						</div>
 					</div>
-				</div>
  

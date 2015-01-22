@@ -11,7 +11,6 @@
  */
 ?>
 
-				<div class="wpmoly headbox allocine movie meta images">
 					<div id="movie-headbox-<?php echo $id ?>-posters" class="wpmoly headbox allocine movie section images">
 						<h3 class="wpmoly headbox allocine movie meta sub-title"><?php _e( 'Posters', 'wpmovielibrary' ); ?></h3>
 <?php foreach ( $posters as $poster ) : ?>
@@ -27,5 +26,3 @@
 
 <?php endforeach; ?>
 					</div>
-				</div>
- 

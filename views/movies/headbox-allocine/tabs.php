@@ -10,18 +10,18 @@
  * @uses    $tabs
  */
 ?>
-		<div class="wpmoly headbox allocine movie content">
+			<div class="wpmoly headbox allocine movie content">
 <?php
 $hide = '';
 foreach ( $tabs as $slug => $tab ) :
 ?>
-			<div id="movie-headbox-<?php echo $slug ?>-<?php echo $id ?>" class="wpmoly headbox allocine movie content tab <?php echo $slug . $hide ?>">
+				<div id="movie-headbox-<?php echo $slug ?>-<?php echo $id ?>" class="wpmoly headbox allocine movie content tab <?php echo $slug . $hide ?>">
 
 <?php echo $tab['content'] ?>
 
-			</div>
+				</div>
 
 <?php
 $hide = ' hide-if-js';
 endforeach; ?>
-		</div>
+			</div>

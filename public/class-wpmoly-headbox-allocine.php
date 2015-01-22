@@ -173,6 +173,12 @@ if ( ! class_exists( 'WPMOLY_Headbox_Allocine' ) ) :
 
 			$meta['collections'] = WPMOLY_Utils::format_movie_terms_list( $collections, 'collection' );
 
+			$meta['release_date'] = self::get_movie_meta( $id, 'release_date' );
+			$meta['year'] = apply_filters( 'wpmoly_format_movie_year', $meta['release_date'], 'Y' );
+			$meta['release_date'] = apply_filters( 'wpmoly_format_movie_release_date', $meta['release_date'] );
+
+			$meta = array_map( 'WPMOLY_Formatting_Meta::format_movie_field', $meta );
+
 			$meta['cast'] = self::get_movie_meta( $id, 'cast' );
 			$casting      = $meta['cast'];
 			$meta['cast'] = array_slice( explode( ', ', $meta['cast'] ), 0, 3 );
@@ -182,11 +188,8 @@ if ( ! class_exists( 'WPMOLY_Headbox_Allocine' ) ) :
 			$casting = apply_filters( 'wpmoly_format_movie_cast', $casting );
 			$casting = array_slice( explode( ', ', $casting ), 0, 4 );
 
-			$meta['release_date'] = self::get_movie_meta( $id, 'release_date' );
-			$meta['year'] = apply_filters( 'wpmoly_format_movie_year', $meta['release_date'], 'Y' );
-			$meta['release_date'] = apply_filters( 'wpmoly_format_movie_release_date', $meta['release_date'] );
-
 			$rating = apply_filters( 'wpmoly_movie_rating_stars', self::get_movie_meta( $id, 'rating' ), $id, $base = 10 );
+
 
 			$attributes = compact( 'id', 'meta', 'rating', 'casting', 'poster', 'images' );
 
