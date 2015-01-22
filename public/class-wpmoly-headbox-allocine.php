@@ -38,12 +38,12 @@ if ( ! class_exists( 'WPMOLY_Headbox_Allocine' ) ) :
 				'details' =>  array(
 					'title' => __( 'Details', 'wpmovielibrary' ),
 					'icon'  => 'meta',
-					'content' => ''//$this->render_details_tab()
+					'content' => $this->render_details_tab()
 				),
 				'casting' =>  array(
 					'title' => __( 'Casting', 'wpmovielibrary' ),
 					'icon'  => 'actor',
-					'content' => ''//$this->render_casting_tab()
+					'content' => $this->render_casting_tab()
 				),
 				'photos' =>  array(
 					'title' => __( 'Photos', 'wpmovielibrary' ),
@@ -196,6 +196,107 @@ if ( ! class_exists( 'WPMOLY_Headbox_Allocine' ) ) :
 			$attributes = compact( 'id', 'meta', 'rating', 'casting', 'poster', 'images' );
 
 			$content = self::render_template( 'movies/headbox-allocine/tabs/overview.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		/**
+		 * Render Allocine styled Headbox 'Details' Tab.
+		 *
+		 * @since    2.1.4
+		 * 
+		 * @return   string    Headbox Tab HTML content
+		 */
+		private function render_details_tab() {
+
+			$id = get_the_ID();
+
+			$overview = self::get_movie_meta( $id, 'overview' );
+			$tagline  = self::get_movie_meta( $id, 'tagline' );
+
+			$details = wpmoly_get_movie_details();
+			$default_fields = WPMOLY_Settings::get_supported_movie_details();
+
+			foreach ( $details as $slug => $detail ) {
+
+				if ( ! is_array( $detail ) )
+					$detail = array( $detail );
+
+				if ( isset( $default_fields[ $slug ]['panel'] ) && 'custom' == $default_fields[ $slug ]['panel'] ) {
+					unset( $details[ $slug ] );
+				} else {
+
+					foreach ( $detail as $i => $d ) {
+
+						if ( ! empty( $d ) ) {
+
+							$value = $default_fields[ $slug ]['options'][ $d ];
+							if ( 'rating' == $slug ) {
+								$d = apply_filters( "wpmoly_movie_meta_link", 'rating', array_search( $value, $default_fields[ $slug ]['options'] ), 'detail', $value );
+							} else {
+								$d = apply_filters( "wpmoly_movie_meta_link", $slug, $value, 'detail', $value );
+							}
+
+							$detail[ $i ] = apply_filters( "wpmoly_format_movie_field", $d );
+						}
+					}
+
+					$detail = implode( ', ', $detail );
+
+					if ( empty( $detail ) )
+						$detail = apply_filters( "wpmoly_format_movie_field", '' );
+
+					$title = '';
+					if ( isset( $default_fields[ $slug ] ) )
+						$title = __( $default_fields[ $slug ]['title'], 'wpmovielibrary' );
+
+					$details[ $slug ] = array( 'slug' => $slug, 'title' => $title, 'value' => $detail );
+				}
+			}
+
+			$metas = wpmoly_get_movie_meta();
+			$metas = wpmoly_filter_undimension_array( $metas );
+
+			$default_fields = WPMOLY_Settings::get_supported_movie_meta();
+
+			if ( ! empty( $metas ) ) {
+
+				unset( $metas['title'], $metas['cast'], $metas['overview'], $metas['tagline'] );
+
+				foreach ( $metas as $slug => $field ) {
+
+					if ( isset( $default_fields[ $slug ] ) ) {
+						// Custom filter if available
+						if ( has_filter( "wpmoly_format_movie_{$slug}" ) )
+							$field = apply_filters( "wpmoly_format_movie_{$slug}", $field );
+
+						// Filter empty field
+						$field = apply_filters( "wpmoly_format_movie_field", $field );
+
+						$metas[ $slug ] = array( 'slug' => $slug, 'title' => __( $default_fields[ $slug ]['title'], 'wpmovielibrary' ), 'value' => $field );
+					} else {
+						unset( $metas[ $slug ] );
+					}
+				}
+			}
+
+			$attributes = compact( 'id', 'overview', 'tagline', 'details', 'metas' );
+
+			$content = self::render_template( 'movies/headbox-allocine/tabs/details.php', $attributes, $require = 'always' );
+
+			return $content;
+		}
+
+		/**
+		 * Render Allocine styled Headbox 'Casting' Tab.
+		 *
+		 * @since    2.1.4
+		 * 
+		 * @return   string    Headbox Tab HTML content
+		 */
+		private function render_casting_tab() {
+
+			$content = '';
 
 			return $content;
 		}

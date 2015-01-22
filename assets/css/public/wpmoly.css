@@ -65,6 +65,7 @@
 #wp-admin-bar-wpmovielibrary .wpmolicon {
 	font-family: 'wpmovielibrary';
 	font-size: 1.25em;
+	line-height: 1.25em;
 	margin-right: 0.25em;
 	opacity: 0.75;
 }
@@ -703,6 +704,13 @@
 	font-size: 22px;
 }
 
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section h6 {
+	color: #666;
+	font-family: 'Arial', 'Helvetica', sans-serif;
+	font-size: 14px;
+	font-style: italic;
+}
+
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section.main,
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section.details {
 	font-size: 14px;
@@ -767,6 +775,11 @@
 	vertical-align: top;
 	width: 49%;
 }
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection.full {
+	width: 100%;
+}
+
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection + .wpmoly.headbox.movie.subsection {
 	float: right;
 	margin-left: 1%;
@@ -797,6 +810,15 @@
 	padding: 4px 0 4px 8px;
 	vertical-align: top;
 	width: 45%;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection.full .wpmoly.headbox.movie.meta.label {
+	width: 36%;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection.full .wpmoly.headbox.movie.meta.value {
+	white-space: normal;
+	width: 60%;
 }
 
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection .wpmoly.headbox.movie.meta.value {
