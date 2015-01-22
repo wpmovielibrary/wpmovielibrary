@@ -85,7 +85,7 @@
 						</li>
 					</ul>
 				</div>
-				<div class="wpmoly headbox allocine movie meta more"><a href="#" title="More Details"><span class="wpmolicon icon-plus"></span></a></div>
+				<div class="wpmoly headbox allocine movie meta more"><a href="#" title="More Details" onclick="wpmoly_headbox.toggle( 'details', <?php echo $id ?> ); return false;"><span class="wpmolicon icon-plus"></span></a></div>
 			</div>
 			<hr />
 			<div id="movie-headbox-<?php echo $id ?>-casting" class="wpmoly headbox allocine movie section cast">
@@ -99,7 +99,7 @@
 
 <?php endforeach; ?>
 				</div>
-				<div class="wpmoly headbox allocine movie meta more"><a href="#" title="Full Casting"><span class="wpmolicon icon-plus"></span></a></div>
+				<div class="wpmoly headbox allocine movie meta more"><a href="#" title="Full Casting" onclick="wpmoly_headbox.toggle( 'casting', <?php echo $id ?> ); return false;"><span class="wpmolicon icon-plus"></span></a></div>
 			</div>
 			<hr />
 			<div id="movie-headbox-<?php echo $id ?>-photos" class="wpmoly headbox allocine movie section images">
@@ -108,7 +108,7 @@
 				<img src="<?php echo esc_url( $image['sizes']['thumbnail']['url'] ); ?>" width="<?php echo $image['sizes']['thumbnail']['width']; ?>" height="<?php echo $image['sizes']['thumbnail']['height']; ?>" title="<?php echo esc_attr( $image['title'] ); ?>" alt="<?php echo esc_attr( $image['alt'] ); ?>" />
 
 <?php endforeach; ?>
-				<div class="wpmoly headbox allocine movie meta more"><a href="#" title="More Images"><span class="wpmolicon icon-plus"></span></a></div>
+				<div class="wpmoly headbox allocine movie meta more"><a href="#" title="More Images" onclick="wpmoly_headbox.toggle( 'photos', <?php echo $id ?> ); return false;"><span class="wpmolicon icon-plus"></span></a></div>
 			</div>
 			<hr />
  

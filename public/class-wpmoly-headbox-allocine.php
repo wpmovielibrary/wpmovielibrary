@@ -49,11 +49,6 @@ if ( ! class_exists( 'WPMOLY_Headbox_Allocine' ) ) :
 					'title' => __( 'Photos', 'wpmovielibrary' ),
 					'icon'  => 'images',
 					'content' => $this->render_images_tab()
-				),
-				'trailers' =>  array(
-					'title' => __( 'Bandes-annonces', 'wpmovielibrary' ),
-					'icon'  => 'movie',
-					'content' => ''//$this->render_trailers_tab()
 				)
 			);
 

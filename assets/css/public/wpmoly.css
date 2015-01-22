@@ -928,8 +928,12 @@
 	margin: 12px 0px;
 }
 
-.wpmoly.headbox.imdb .wpmoly.headbox.movie.images .image {
-	width: 31%;
+.wpmoly.headbox.imdb .wpmoly.headbox.movie.images > .thumbnail {
+	margin: 0;
+}
+
+.wpmoly.headbox.imdb .wpmoly.headbox.movie.images > .thumbnail > .image {
+	width: 24%;
 }
 
 .wpmoly.headbox.imdb.movie .wpmoly.headbox.movie.meta.title {

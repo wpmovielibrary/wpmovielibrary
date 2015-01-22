@@ -36,7 +36,7 @@ endforeach;
 						<h3 class="wpmoly headbox allocine movie meta sub-title"><?php _e( 'Actors and Actresses', 'wpmovielibrary' ); ?></h3>
 						<div class="wpmoly headbox allocine movie meta casting">
 <?php
-$i = 1; $class = '';
+$i = 0; $class = '';
 foreach ( $meta['cast'] as $actor ) :
 	if ( ! empty( $actor ) ) :
 
