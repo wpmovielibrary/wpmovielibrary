@@ -1,12 +1,16 @@
 <?php
 /**
- * Movie Headbox Images Tab Template view
+ * Movie Headbox Details Tab Template view
  * 
  * Showing a movie's headbox details tab, Allociné style.
  * 
  * @since    2.1.4
  * 
- * @uses    
+ * @uses    $id
+ * @uses    $tagline
+ * @uses    $overview
+ * @uses    $details
+ * @uses    $metas
  */
 ?>
 

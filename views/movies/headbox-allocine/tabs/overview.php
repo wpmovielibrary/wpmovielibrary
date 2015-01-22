@@ -67,14 +67,6 @@
 							<span class="wpmoly headbox allocine movie meta label"><?php _e( 'Local Release Date', 'wpmovielibrary' ); ?>&nbsp;</span>
 							<span class="wpmoly headbox allocine movie meta value"><?php echo $meta['local_release_date']; ?></span>
 						</li>
-						<!--<li>
-							<span class="wpmoly headbox allocine movie meta label"><?php _e( 'Producer', 'wpmovielibrary' ); ?>&nbsp;</span>
-							<span class="wpmoly headbox allocine movie meta value"><?php echo $meta['producer']; ?></span>
-						</li>
-						<li>
-							<span class="wpmoly headbox allocine movie meta label"><?php _e( 'Production Companies', 'wpmovielibrary' ); ?>&nbsp;</span>
-							<span class="wpmoly headbox allocine movie meta value"><?php echo $meta['production_companies']; ?></span>
-						</li>-->
 					</ul>
 				</div>
 				<div class="wpmoly headbox allocine movie subsection">
@@ -91,14 +83,6 @@
 							<span class="wpmoly headbox allocine movie meta label"><?php _e( 'Language', 'wpmovielibrary' ); ?>&nbsp;</span>
 							<span class="wpmoly headbox allocine movie meta value"><?php echo $meta['spoken_languages']; ?></span>
 						</li>
-						<!--<li>
-							<span class="wpmoly headbox allocine movie meta label"><?php _e( 'Certification', 'wpmovielibrary' ); ?>&nbsp;</span>
-							<span class="wpmoly headbox allocine movie meta value"><?php echo $meta['certification']; ?></span>
-						</li>
-						<li>
-							<span class="wpmoly headbox allocine movie meta label"><?php _e( 'Official Website', 'wpmovielibrary' ); ?>&nbsp;</span>
-							<span class="wpmoly headbox allocine movie meta value"><?php echo $meta['homepage']; ?></span>
-						</li>-->
 					</ul>
 				</div>
 				<div class="wpmoly headbox allocine movie meta more"><a href="#" title="More Details"><span class="wpmolicon icon-plus"></span></a></div>

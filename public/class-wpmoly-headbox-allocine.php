@@ -296,7 +296,17 @@ if ( ! class_exists( 'WPMOLY_Headbox_Allocine' ) ) :
 		 */
 		private function render_casting_tab() {
 
-			$content = '';
+			$id = get_the_ID();
+
+			$meta = self::get_movie_meta( $id, 'meta' );
+			foreach ( $meta as $slug => $m ) {
+				$meta[ $slug ] = apply_filters( "wpmoly_format_movie_$slug", $m );
+				$meta[ $slug ] = explode( ', ', $meta[ $slug ] );
+			}
+
+			$attributes = compact( 'id', 'meta' );
+
+			$content = self::render_template( 'movies/headbox-allocine/tabs/actors.php', $attributes, $require = 'always' );
 
 			return $content;
 		}

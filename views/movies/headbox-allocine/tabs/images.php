@@ -6,6 +6,7 @@
  * 
  * @since    2.1.4
  * 
+ * @uses    $posters
  * @uses    $images
  */
 ?>

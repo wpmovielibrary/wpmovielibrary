@@ -65,7 +65,6 @@
 #wp-admin-bar-wpmovielibrary .wpmolicon {
 	font-family: 'wpmovielibrary';
 	font-size: 1.25em;
-	line-height: 1.25em;
 	margin-right: 0.25em;
 	opacity: 0.75;
 }
@@ -602,6 +601,7 @@
 	border-bottom: 1px solid #a6b2c8;
 	height: 31px;
 	margin: 0 8px 14px 0;
+	overflow: hidden;
 	padding: 0;
 	position: static;
 }
@@ -663,9 +663,14 @@
 .wpmoly.headbox.allocine .wpmoly.headbox.movie.menu ul li .wpmolicon {
 	color: #b4b9c3;
 	font-size: 16px;
+	line-height: 31px;
 	margin-right: 8px;
 	opacity: 0.8;
 	text-shadow: 0 1px 0 #fff;
+}
+
+.wpmoly.headbox.allocine .wpmoly.headbox.movie.menu ul li:first-child .wpmolicon {
+	color: #005ea8;
 }
 
 .wpmoly.headbox.allocine .wpmoly.headbox.movie.content {
@@ -702,6 +707,7 @@
 	color: #c00;
 	font-family: 'Arial', 'Helvetica', sans-serif;
 	font-size: 22px;
+	font-weight: normal;
 }
 
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section h6 {
@@ -829,7 +835,7 @@
 
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section .wpmoly.headbox.movie.meta.actor {
 	display: inline-block;
-	margin: 0 0.7%;
+	margin: 20px 0.7% 0 0.7%;
 	max-height: 240px;
 	text-align: center;
 	vertical-align: top;
@@ -854,6 +860,21 @@
 
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section .wpmoly.headbox.movie.meta.actor .name {
 	font-size: 12px;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section .wpmoly.headbox.movie.meta.actor.small {
+	max-height: 160px;
+	width: 12.2%;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section .wpmoly.headbox.movie.meta.actor.small .wpmolicon {
+	font-size: 36px;
+	height: 92px;
+	line-height: 92px;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section .wpmoly.headbox.movie.meta.actor.small .photo {
+	height: 100px;
 }
 
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section.images img {
