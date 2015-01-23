@@ -366,40 +366,6 @@ $wpmoly_movie_meta_aliases = array(
 	'musician'   => 'composer'
 );
 
-$wpmoly_metabox_panels = array(
-
-	'preview' => array(
-		'title'    => __( 'Preview', 'wpmovielibrary' ),
-		'icon'     => 'wpmolicon icon-video',
-		'callback' => 'WPMOLY_Edit_Movies::render_preview_panel'
-	),
-
-	'meta' => array(
-		'title'    => __( 'Metadata', 'wpmovielibrary' ),
-		'icon'     => 'wpmolicon icon-meta',
-		'callback' => 'WPMOLY_Edit_Movies::render_meta_panel'
-	),
-
-	'details' => array(
-		'title'    => __( 'Details', 'wpmovielibrary' ),
-		'icon'     => 'wpmolicon icon-details',
-		'callback' => 'WPMOLY_Edit_Movies::render_details_panel'
-	),
-
-	'images' => array(
-		'title'    => __( 'Images', 'wpmovielibrary' ),
-		'icon'     => 'wpmolicon icon-images-alt',
-		'callback' => 'WPMOLY_Edit_Movies::render_images_panel'
-	),
-
-	'posters' => array(
-		'title'    => __( 'Posters', 'wpmovielibrary' ),
-		'icon'     => 'wpmolicon icon-poster',
-		'callback' => 'WPMOLY_Edit_Movies::render_posters_panel'
-	)
-
-);
-
 $wpmoly_tags = array(
 	'media'              => __( 'Media', 'wpmovielibrary' ),
 	'status'             => __( 'Status', 'wpmovielibrary' ),

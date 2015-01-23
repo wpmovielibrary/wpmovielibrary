@@ -63,6 +63,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'WPMOLY_Settings'    => WPMOLY_Settings::get_instance(),
 				'WPMOLY_TMDb'        => WPMOLY_TMDb::get_instance(),
 				'WPMOLY_Utils'       => WPMOLY_Utils::get_instance(),
+				'WPMOLY_Metaboxes'   => WPMOLY_Metaboxes::get_instance(),
 				'WPMOLY_Edit_Movies' => WPMOLY_Edit_Movies::get_instance(),
 				'WPMOLY_Media'       => WPMOLY_Media::get_instance(),
 				'WPMOLY_Import'      => WPMOLY_Import::get_instance(),

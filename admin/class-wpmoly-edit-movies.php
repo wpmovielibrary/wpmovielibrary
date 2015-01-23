@@ -51,19 +51,16 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			add_filter( 'manage_edit-movie_sortable_columns', __CLASS__ . '::movies_sortable_columns', 10, 1 );
 			add_action( 'pre_get_posts', __CLASS__ . '::movies_sortable_columns_order', 10, 1 );
 
+			// Post Convert
+			if ( 1 == wpmoly_o( 'convert-enable' ) ) {
+				add_action( 'admin_footer-edit.php', 'WPMOLY_Edit_Movies::bulk_admin_footer', 10 );
+				add_action( 'load-post.php', 'WPMOLY_Edit_Movies::convert_post_type', 10 );
+				add_action( 'load-edit.php', 'WPMOLY_Edit_Movies::bulk_convert_post_type', 10 );
+			}
+
 			// Media
 			add_action( 'the_posts', __CLASS__ . '::the_posts_hijack', 10, 2 );
 			add_action( 'ajax_query_attachments_args', __CLASS__ . '::load_images_dummy_query_args', 10, 1 );
-
-			// Metabox
-			add_action( 'add_meta_boxes_movie', __CLASS__ . '::add_meta_box', 10 );
-
-			if ( 1 == wpmoly_o( 'convert-enable' ) ) {
-				add_action( 'admin_footer-edit.php', __CLASS__ . '::bulk_admin_footer', 10 );
-				add_action( 'load-post.php', __CLASS__ . '::convert_post_type', 10 );
-				add_action( 'load-edit.php', __CLASS__ . '::bulk_convert_post_type', 10 );
-				add_action( 'add_meta_boxes', __CLASS__ . '::add_meta_box', 10 );
-			}
 
 			// Post edit
 			add_filter( 'post_updated_messages', __CLASS__ . '::movie_updated_messages', 10, 1 );
@@ -699,36 +696,18 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
-		 * Register WPMOLY Metabox
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    object    Current Post object
-		 */
-		public static function add_meta_box( $post ) {
-
-			if ( 'movie' == $post->post_type ) {
-				$context = 'normal';
-			} else {
-				$context = 'side';
-			}
-
-			add_meta_box( 'wpmoly-metabox', __( 'WordPress Movie Library', 'wpmovielibrary' ), __CLASS__ . '::metabox', $post->post_type, $context, 'high', null );
-		}
-
-		/**
 		 * Posts Metabox content callback.
 		 * 
 		 * @since    2.1.4
 		 * 
 		 * @param    object    Current Post object
 		 */
-		public static function metabox( $post ) {
+		public static function metabox( $post, $args = array() ) {
 
 			if ( 'movie' == $post->post_type ) {
-				self::movie_metabox( $post );
+				self::movie_metabox( $post, $args );
 			} else {
-				self::standard_metabox( $post );
+				self::standard_metabox( $post, $args );
 			}
 		}
 
@@ -737,9 +716,10 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * @since    2.1.4
 		 * 
-		 * @param    object    Current Post object
+		 * @param    object    $post Current Post object
+		 * @param    array     $args Metabox parameters
 		 */
-		public static function standard_metabox( $post ) {
+		public static function standard_metabox( $post, $args = array() ) {
 
 			global $wp_post_types;
 
@@ -766,15 +746,32 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * @since    2.0
 		 * 
-		 * @param    object    Current Post object
+		 * @param    object    $post Current Post object
+		 * @param    array     $args Metabox parameters
 		 */
-		public static function movie_metabox( $post ) {
+		public static function movie_metabox( $post, $args = array() ) {
 
-			$default_panels = WPMOLY_Settings::get_metabox_panels();
+			$defaults = array(
+				'panels' => array()
+			);
+			$args = wp_parse_args( $args['args'], $defaults );
+
+			/**
+			 * Filter the Metabox Panels to add/remove tabs.
+			 *
+			 * This should be used through Plugins to create additionnal
+			 * Metabox panels.
+			 *
+			 * @since    2.0
+			 *
+			 * @param    array    $wpmoly_metabox_panels Existing Panels
+			 */
+			$args['panels'] = apply_filters( 'wpmoly_filter_metabox_panels', $args['panels'] );
+
 			$tabs   = array();
 			$panels = array();
 
-			foreach ( $default_panels as $id => $panel ) {
+			foreach ( $args['panels'] as $id => $panel ) {
 
 				if ( ! is_callable( $panel['callback'] ) )
 					continue;

@@ -254,32 +254,6 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 		}
 
 		/**
-		 * Return Panels data
-		 *
-		 * @since    2.0
-		 *
-		 * @return   array    WPMOLY Panels
-		 */
-		public static function get_metabox_panels() {
-
-			global $wpmoly_metabox_panels;
-
-			/**
-			 * Filter the Metabox Panels to add/remove tabs.
-			 *
-			 * This should be used through Plugins to create additionnal
-			 * Metabox panels.
-			 *
-			 * @since    2.0
-			 *
-			 * @param    array    $wpmoly_metabox_panels Existing Panels
-			 */
-			$wpmoly_metabox_panels = apply_filters( 'wpmoly_filter_metabox_panels', $wpmoly_metabox_panels );
-
-			return $wpmoly_metabox_panels;
-		}
-
-		/**
 		 * Return Available Movie tags
 		 *
 		 * @since    2.1
