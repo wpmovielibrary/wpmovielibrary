@@ -301,7 +301,6 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$filter = current_filter();
 			$sep = '&nbsp;|&nbsp;';
 			if ( 'wp_title' == $filter ) {
-				$sep = $id;
 				$id  = get_the_ID();
 			}
 
@@ -431,7 +430,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$title = apply_filters( "wpmoly_filter_{$page}_archive_page_title", $title, $id );
 
 			if ( 'wp_title' == $filter ) {
-				$title = str_replace( array( ':', '−' ), $sep, $title ) . $sep;
+				$title = str_replace( array( ' : ', ' − ' ), $sep, $title ) . $sep;
 				/**
 				 * Filter Page's main title as used in wp_title()
 				 * 
