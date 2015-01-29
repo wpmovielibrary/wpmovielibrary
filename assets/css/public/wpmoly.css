@@ -740,7 +740,7 @@
 }
 
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.value .not-rated {
-	display: none;
+	display: inline-block;
 }
 
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.more {

@@ -98,7 +98,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			add_filter( 'wpmoly_movie_meta_link', __CLASS__ . '::add_meta_link', 10, 4 );
 
-			add_filter( 'wpmoly_movie_rating_stars', __CLASS__ . '::get_movie_rating_stars', 10, 3 );
+			add_filter( 'wpmoly_movie_rating_stars', __CLASS__ . '::get_movie_rating_stars', 10, 4 );
 
 			add_filter( 'post_thumbnail_html', __CLASS__ . '::filter_default_thumbnail', 10, 5 );
 
@@ -781,7 +781,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function get_movie_rating_stars( $rating, $post_id = null, $base = null ) {
+		public static function get_movie_rating_stars( $rating, $post_id = null, $base = null, $include_empty = false ) {
 
 			$defaults = WPMOLY_Settings::get_supported_movie_details();
 
@@ -815,9 +815,15 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$_empty  = ceil( 5.0 - ( $_filled + $_half ) );
 
 			if ( 0.0 == $rating ) {
-				$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="not-rated" title="' . $title . '">';
-				$stars .= sprintf( '<small><em>%s</em></small>', __( 'Not rated yet!', 'wpmovielibrary' ) );
-				$stars .= '</div>';
+				if ( true === $include_empty ) {
+					$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '" title="' . $title . '">';
+					$stars .= str_repeat( $empty, 10 );
+					$stars .= '</div>';
+				} else {
+					$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="not-rated" title="' . $title . '">';
+					$stars .= sprintf( '<small><em>%s</em></small>', __( 'Not rated yet!', 'wpmovielibrary' ) );
+					$stars .= '</div>';
+				}
 			}
 			else if ( 10 == $base ) {
 				$_filled = $rating * 2;
