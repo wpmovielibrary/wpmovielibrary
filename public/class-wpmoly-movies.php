@@ -564,7 +564,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 */
 		public static function get_movie( $post = null, $output = OBJECT, $filter = 'raw' ) {
 
-			return get_post( $post = null, $output = OBJECT, $filter = 'raw' );
+			return get_post( $post, $output, $filter );
 		}
 
 		/**
@@ -579,7 +579,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 */
 		public static function get_movie_by_title( $movie_title, $output = OBJECT ) {
 
-			return get_page_by_title( $movie_title, $output = OBJECT, $post_type = 'movie' );
+			return get_page_by_title( $movie_title, $output, $post_type = 'movie' );
 		}
 
 		/**
