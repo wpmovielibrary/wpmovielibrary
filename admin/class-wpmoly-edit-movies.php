@@ -1119,8 +1119,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 								$_d[] = $d;
 
 						$movie_details[ $slug ] = $_d;
-					}
-					else if ( in_array( $_detail, array_keys( $detail['options'] ) ) ) {
+					} else if ( 'select' == $detail['type'] && in_array( $_detail, array_keys( $detail['options'] ) ) ) {
+						$movie_details[ $slug ] = $_detail;
+					} else if ( 'text' == $detail['type'] ) {
 						$movie_details[ $slug ] = $_detail;
 					}
 				}

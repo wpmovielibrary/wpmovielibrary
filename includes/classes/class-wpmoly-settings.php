@@ -107,11 +107,15 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			 */
 			$details = apply_filters( 'wpmoly_pre_filter_details', $wpmoly_movie_details );
 
-			if ( ! is_null( $detail ) && isset( $details[ "movie_{$detail}" ] ) )
+			if ( ! is_null( $detail ) && isset( $details[ "movie_{$detail}" ] ) ) {
 				$details = apply_filters( "wpmoly_filter_detail_{$detail}", $details[ "movie_{$detail}" ]['options'] );
-			else
-				foreach ( $details as $_detail => $data )
-					$details[ $_detail ]['options'] = apply_filters( "wpmoly_filter_detail_{$_detail}", $details[ $_detail ]['options'] );
+			} else {
+				foreach ( $details as $_detail => $data ) {
+					if ( 'select' == $data['type'] && ! empty( $data['options'] ) ) {
+						$data['options'] = apply_filters( "wpmoly_filter_detail_{$_detail}", $details[ $_detail ]['options'] );
+					}
+				}
+			}
 
 			/**
 			 * Filter the Details list to add/remove details.
