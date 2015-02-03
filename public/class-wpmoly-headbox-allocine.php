@@ -153,8 +153,15 @@ if ( ! class_exists( 'WPMOLY_Headbox_Allocine' ) ) :
 				'meta_key'    => '_wpmoly_image_related_tmdb_id',
 				'exclude'     => get_post_thumbnail_id( $id )
 			) );
-			$images = array_map( 'wp_prepare_attachment_for_js', $images );
-			$images = array_filter( $images );
+			if ( $images ) {
+				foreach ( $images as $i => $image ) {
+					$images[ $i ] = array(
+						'thumbnail' => wp_get_attachment_image_src( $image->ID, 'thumbnail' ),
+						'full'      => wp_get_attachment_image_src( $image->ID, 'full' )
+					);
+				}
+				$images = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => 'thumbnail', 'movie_id' => $id, 'images' => $images ), $require = 'always' );
+			}
 
 			$collections = get_the_terms( $id, 'collection' );
 			if ( $collections && ! is_wp_error( $collections ) ) {
@@ -329,8 +336,17 @@ if ( ! class_exists( 'WPMOLY_Headbox_Allocine' ) ) :
 				'meta_key'    => '_wpmoly_image_related_tmdb_id',
 				'exclude'     => get_post_thumbnail_id( $id )
 			) );
-			$images = array_map( 'wp_prepare_attachment_for_js', $images );
-			$images = array_filter( $images );
+
+			if ( $images ) {
+
+				foreach ( $images as $i => $image )
+					$images[ $i ] = array(
+						'thumbnail' => wp_get_attachment_image_src( $image->ID, 'thumbnail' ),
+						'full'      => wp_get_attachment_image_src( $image->ID, 'full' )
+					);
+
+				$images = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => 'thumbnail', 'movie_id' => get_the_ID(), 'images' => $images ), $require = 'always' );
+			}
 
 			$posters = get_posts( array(
 				'post_type'   => 'attachment',
@@ -340,8 +356,17 @@ if ( ! class_exists( 'WPMOLY_Headbox_Allocine' ) ) :
 				'post_parent' => $id,
 				'meta_key'    => '_wpmoly_poster_related_tmdb_id'
 			) );
-			$posters = array_map( 'wp_prepare_attachment_for_js', $posters );
-			$posters = array_filter( $posters );
+
+			if ( $posters ) {
+
+				foreach ( $posters as $i => $poster )
+					$posters[ $i ] = array(
+						'thumbnail' => wp_get_attachment_image_src( $poster->ID, 'thumbnail' ),
+						'full'      => wp_get_attachment_image_src( $poster->ID, 'full' )
+					);
+
+				$posters = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => 'thumbnail', 'movie_id' => get_the_ID(), 'images' => $posters ), $require = 'always' );
+			}
 
 			$attributes = array(
 				'id'      => get_the_ID(),

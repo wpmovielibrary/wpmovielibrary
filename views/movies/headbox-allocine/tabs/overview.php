@@ -116,10 +116,8 @@ endforeach;
 					<hr />
 					<div id="movie-headbox-<?php echo $id ?>-photos" class="wpmoly headbox allocine movie section images">
 						<h3 class="wpmoly headbox allocine movie meta sub-title"><?php _e( 'Photos', 'wpmovielibrary' ); ?></h3>
-<?php foreach ( $images as $image ) : ?>
-						<img src="<?php echo esc_url( $image['sizes']['thumbnail']['url'] ); ?>" width="<?php echo $image['sizes']['thumbnail']['width']; ?>" height="<?php echo $image['sizes']['thumbnail']['height']; ?>" title="<?php echo esc_attr( $image['title'] ); ?>" alt="<?php echo esc_attr( $image['alt'] ); ?>" />
+<?php echo $images; ?>
 
-<?php endforeach; ?>
 						<div class="wpmoly headbox allocine movie meta more"><a href="#" title="More Images" onclick="wpmoly_headbox.toggle( 'photos', <?php echo $id ?> ); return false;"><span class="wpmolicon icon-plus"></span></a></div>
 					</div>
  
