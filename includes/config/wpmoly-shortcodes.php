@@ -437,11 +437,6 @@ $wpmoly_shortcodes = array(
 				'values'  => null,
 				'filter'  => 'esc_attr'
 			),
-			'key' => array(
-				'default' => null,
-				'values'  => array( 'media', 'status', 'rating' ),
-				'filter'  => 'esc_attr'
-			),
 			'stars' => array(
 				'default' => false,
 				'values'  => 'boolean',
