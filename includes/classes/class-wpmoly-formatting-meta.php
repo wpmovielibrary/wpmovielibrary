@@ -96,20 +96,43 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 			if ( '' == $format )
 				$format = 'j F Y';
 
+			$args = array(
+				'key'  => 'release_date',
+				'type' => 'meta'
+			);
+
 			if ( 'j F Y' == $format ) {
 
 				$date  = date_i18n( 'j F', strtotime( $data ) );
 				$_date = date( 'Y-m', strtotime( $data ) );
 				$year = date_i18n( 'Y', strtotime( $data ) );
 
-				$year = apply_filters( 'wpmoly_movie_meta_link', 'release_date', $year, 'meta', $year );
-				$date = apply_filters( 'wpmoly_movie_meta_link', 'release_date', $_date, 'meta', $date );
+				$year = apply_filters( 'wpmoly_movie_meta_link', array(
+					'key'   => 'release_date',
+					'value' => $year,
+					'type'  => 'meta',
+					'text'  => $year,
+					'title' => sprintf( __( 'More movies released on %s', 'wpmovielibrary' ), $year ),
+				) );
+				$date = apply_filters( 'wpmoly_movie_meta_link', array(
+					'key'   => 'release_date',
+					'value' => $_date,
+					'type'  => 'meta',
+					'text'  => $date,
+					'title' => sprintf( __( 'More movies released on %s', 'wpmovielibrary' ), date_i18n( 'F Y', strtotime( $data ) ) ),
+				) );
 
 				$output = "$date&nbsp;$year";
 
 			} else {
 				$output = date_i18n( $format, strtotime( $data ) );
-				$output = apply_filters( 'wpmoly_movie_meta_link', 'release_date', $output, 'meta', $output );
+				$output = apply_filters( 'wpmoly_movie_meta_link', array(
+					'key'   => 'release_date',
+					'value' => $output,
+					'type'  => 'meta',
+					'text'  => $output,
+					'title' => sprintf( __( 'More movies released on %s', 'wpmovielibrary' ), $output ),
+				) );
 			}
 
 			$output = self::format_movie_field( $output );
@@ -175,7 +198,13 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 					$title = $d;
 				}
 
-				$url = apply_filters( 'wpmoly_movie_meta_link', 'spoken_languages', $d, 'meta', $title );
+				$url = apply_filters( 'wpmoly_movie_meta_link', array(
+					'key'   => 'spoken_languages',
+					'value' => $d,
+					'type'  => 'meta',
+					'text'  => $title,
+					'title' => sprintf( __( 'More movies in %s', 'wpmovielibrary' ), $title )
+				) );
 				$data[ $i ] = $url;
 			}
 
@@ -218,7 +247,7 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 						case 'flag':
 							$country = WPMOLY_L10n::get_country_standard_name( $country );
 							$code    = WPMOLY_L10n::get_country_code( $country );
-							$text = self::movie_country_flag( $code, $country );
+							$text    = self::movie_country_flag( $code, $country );
 							break;
 						case 'original':
 							$text = $country;
@@ -226,15 +255,15 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 						case 'translated':
 							$country = WPMOLY_L10n::get_country_standard_name( $country );
 							$country = __( $country, 'wpmovielibrary-iso' );
-							$text = $country;
+							$text    = $country;
 							break;
 						case 'ptranslated':
 							$country = __( $country, 'wpmovielibrary-iso' );
-							$text = sprintf( '(%s)', $country );
+							$text    = sprintf( '(%s)', $country );
 							break;
 						case 'poriginal':
 							$country = WPMOLY_L10n::get_country_standard_name( $country );
-							$text = sprintf( '(%s)', $country );
+							$text    = sprintf( '(%s)', $country );
 							break;
 						default:
 							$text = '';
@@ -242,7 +271,13 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 					}
 
 					if ( 'flag' != $f && '' != $text ) {
-						$text = apply_filters( 'wpmoly_movie_meta_link', 'production_countries', $value, 'meta', $text );
+						$text = apply_filters( 'wpmoly_movie_meta_link', array(
+							'key'   => 'production_countries',
+							'value' => $value,
+							'type'  => 'meta',
+							'text'  => $text,
+							'title' => sprintf( __( 'More movies from %s', 'wpmovielibrary' ), $text )
+						) );
 					}
 
 					$_value[] = $text;
@@ -268,7 +303,13 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 		 */
 		public static function format_movie_production_companies( $data ) {
 
-			$output = apply_filters( 'wpmoly_movie_meta_link', 'production_companies', $data, 'meta' );
+			$output = apply_filters( 'wpmoly_movie_meta_link', array(
+				'key'   => 'production_companies',
+				'value' => $data,
+				'type'  => 'meta',
+				'text'  => $data,
+				'title' => sprintf( __( 'More movies produced by %s', 'wpmovielibrary' ), $data )
+			) );
 			$output = self::format_movie_field( $output );
 
 			return $output;
@@ -285,7 +326,13 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 		 */
 		public static function format_movie_producer( $data ) {
 
-			$output = apply_filters( 'wpmoly_movie_meta_link', 'producer', $data, 'meta' );
+			$output = apply_filters( 'wpmoly_movie_meta_link', array(
+				'key'   => 'producer',
+				'value' => $data,
+				'type'  => 'meta',
+				'text'  => $data,
+				'title' => sprintf( __( 'More movies produced by %s', 'wpmovielibrary' ), $data )
+			) );
 			$output = self::format_movie_field( $output );
 
 			return $output;
@@ -302,7 +349,13 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 		 */
 		public static function format_movie_composer( $data ) {
 
-			$output = apply_filters( 'wpmoly_movie_meta_link', 'composer', $data, 'meta' );
+			$output = apply_filters( 'wpmoly_movie_meta_link', array(
+				'key'   => 'composer',
+				'value' => $data,
+				'type'  => 'meta',
+				'text'  => $data,
+				'title' => sprintf( __( 'More movies from composer %s', 'wpmovielibrary' ), $data )
+			) );
 			$output = self::format_movie_field( $output );
 
 			return $output;
@@ -319,7 +372,13 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 		 */
 		public static function format_movie_editor( $data ) {
 
-			$output = apply_filters( 'wpmoly_movie_meta_link', 'editor', $data, 'meta' );
+			$output = apply_filters( 'wpmoly_movie_meta_link', array(
+				'key'   => 'editor',
+				'value' => $data,
+				'type'  => 'meta',
+				'text'  => $data,
+				'title' => sprintf( __( 'More movies edited by %s', 'wpmovielibrary' ), $data )
+			) );
 			$output = self::format_movie_field( $output );
 
 			return $output;
@@ -336,7 +395,13 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 		 */
 		public static function format_movie_author( $data ) {
 
-			$output = apply_filters( 'wpmoly_movie_meta_link', 'author', $data, 'meta' );
+			$output = apply_filters( 'wpmoly_movie_meta_link', array(
+				'key'   => 'author',
+				'value' => $data,
+				'type'  => 'meta',
+				'text'  => $data,
+				'title' => sprintf( __( 'More movies from author %s', 'wpmovielibrary' ), $data )
+			) );
 			$output = self::format_movie_field( $output );
 
 			return $output;
@@ -353,7 +418,13 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 		 */
 		public static function format_movie_photography( $data ) {
 
-			$output = apply_filters( 'wpmoly_movie_meta_link', 'photography', $data, 'meta' );
+			$output = apply_filters( 'wpmoly_movie_meta_link', array(
+				'key'   => 'photography',
+				'value' => $data,
+				'type'  => 'meta',
+				'text'  => $data,
+				'title' => sprintf( __( 'More movies for director of photography %s', 'wpmovielibrary' ), $data )
+			) );
 			$output = self::format_movie_field( $output );
 
 			return $output;
@@ -370,7 +441,13 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 		 */
 		public static function format_movie_certification( $data ) {
 
-			$output = apply_filters( 'wpmoly_movie_meta_link', 'certification', $data, 'meta' );
+			$output = apply_filters( 'wpmoly_movie_meta_link', array(
+				'key'   => 'certification',
+				'value' => $data,
+				'type'  => 'meta',
+				'text'  => $data,
+				'title' => sprintf( __( 'More movies certified %s', 'wpmovielibrary' ), $data )
+			) );
 			$output = self::format_movie_field( $output );
 
 			return $output;
@@ -441,9 +518,18 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 
 			$status = array( 'true', 'false' );
 			$output = array( __( 'Yes', 'wpmovielibrary' ), __( 'No', 'wpmovielibrary' ) );
-
 			$output = str_replace( $status, $output, $data );
-			$output = apply_filters( 'wpmoly_movie_meta_link', 'adult', $output, 'meta' );
+
+			$output_ = array( 1, 0 );
+			$output_ = str_replace( $status, $output_, $data );
+
+			$output = apply_filters( 'wpmoly_movie_meta_link', array(
+				'key' => 'adult',
+				'value' => $output,
+				'type'  => 'meta',
+				'text'  => $output,
+				'title' => _n( 'More movies for adults only', 'More movies for all audiences', $output_, 'wpmovielibrary' )
+			) );
 			$output = self::format_movie_field( $output );
 
 			return $output;

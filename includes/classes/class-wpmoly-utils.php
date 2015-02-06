@@ -96,7 +96,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			foreach ( $this->filters as $filter )
 				add_filter( $filter['tag'], $filter['function'], $filter['priority'], $filter['args'] );
 
-			add_filter( 'wpmoly_movie_meta_link', __CLASS__ . '::add_meta_link', 10, 4 );
+			add_filter( 'wpmoly_movie_meta_link', __CLASS__ . '::add_meta_link', 10, 1 );
 
 			add_filter( 'wpmoly_movie_rating_stars', __CLASS__ . '::get_movie_rating_stars', 10, 4 );
 
@@ -485,13 +485,21 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * 
 		 * @since    2.0
 		 * 
-		 * @param    string    $key Meta key
-		 * @param    string    $value Meta value
-		 * @param    string    $type Meta type, 'detail' or 'meta'
+		 * @param    array     $args Link parameters
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function add_meta_link( $key, $value, $type, $text = null ) {
+		public static function add_meta_link( $args ) {
+
+			$defaults = array(
+				'key'   => null,
+				'value' => null,
+				'type'  => 'meta',
+				'text'  => null,
+				'title' => null,
+			);
+			$args = wp_parse_args( $args, $defaults );
+			extract( $args );
 
 			if ( ! wpmoly_o( 'meta-links' ) || 'nowhere' == wpmoly_o( 'meta-links' ) || ( 'posts_only' == wpmoly_o( 'meta-links' ) && ! is_single() ) )
 				return $text;
@@ -504,7 +512,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			foreach ( $link as $i => $value ) {
 
 				$value = trim( $value );
-				$link[ $i ] = self::get_meta_permalink( compact( 'key', 'value', 'text', 'type', 'baseurl' ) );
+				$link[ $i ] = self::get_meta_permalink( compact( 'key', 'value', 'text', 'type', 'title', 'baseurl' ) );
 			}
 
 			$link = implode( ', ', $link );
@@ -530,6 +538,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				'type'    => null,
 				'format'  => null,
 				'baseurl' => null,
+				'title'   => null
 			);
 			$args = wp_parse_args( $args, $defaults );
 			extract( $args );
@@ -540,7 +549,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( 'raw' !== $format )
 				$format = 'html';
 
-			$title = $value;
+			if ( is_null( $title ) )
+				$title = $value;
+
 			if ( is_null( $text ) )
 				$text = $value;
 
@@ -555,7 +566,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( 'raw' == $format )
 				return $url;
 
-			$permalink = sprintf( '<a href="%1$s" title="%2$s (%3$s)">%3$s</a>', $url, $title, $text );
+			$permalink = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $url, $title, $text );
 
 			return $permalink;
 		}
@@ -896,7 +907,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 				if ( is_object( $_term ) && '' != $_term->name ) {
 					$link = get_term_link( $_term, $taxonomy );
-					$_term = ( is_wp_error( $link ) ? $_term->name : sprintf( '<a href="%s">%s</a>', $link, $_term->name ) );
+					$_term = ( is_wp_error( $link ) ? $_term->name : sprintf( '<a href="%s" title="%s">%s</a>', $link, sprintf( __( 'More movies from %s', 'wpmovielibrary' ), $_term->name ), $_term->name ) );
 				}
 				$_data[ $key ] = $_term;
 			}

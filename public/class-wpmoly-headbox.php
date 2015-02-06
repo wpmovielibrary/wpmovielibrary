@@ -399,9 +399,19 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 
 						$value = $default_fields[ $slug ]['options'][ $d ];
 						if ( 'rating' == $slug ) {
-							$d = apply_filters( "wpmoly_movie_meta_link", 'rating', array_search( $value, $default_fields[ $slug ]['options'] ), 'detail', $value );
+							$d = apply_filters( "wpmoly_movie_meta_link", array(
+								'key'   => 'rating',
+								'value' => array_search( $value, $default_fields[ $slug ]['options'] ),
+								'type'  => 'detail',
+								'text'  => $value
+							) );
 						} else {
-							$d = apply_filters( "wpmoly_movie_meta_link", $slug, $value, 'detail', $value );
+							$d = apply_filters( "wpmoly_movie_meta_link", array(
+								'key'   => $slug,
+								'value' => $value,
+								'meta'  => 'detail',
+								'text'  => $value
+							) );
 						}
 					}
 
