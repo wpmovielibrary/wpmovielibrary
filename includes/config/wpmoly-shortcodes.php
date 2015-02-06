@@ -425,6 +425,44 @@ $wpmoly_shortcodes = array(
 		'aliases'  => array( 'movie_pictures', 'movie_photos' )
 	),
 
+	'movie_rating' => array(
+		'atts'     => array(
+			'id' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'title' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'key' => array(
+				'default' => null,
+				'values'  => array( 'media', 'status', 'rating' ),
+				'filter'  => 'esc_attr'
+			),
+			'stars' => array(
+				'default' => false,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			),
+			'numbers' => array(
+				'default' => false,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			),
+			'raw' => array(
+				'default' => true,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			)
+		),
+		'content'  => null,
+		'callback' => 'movie_rating_shortcode',
+		'aliases'  => null
+	),
+
 	'movie_detail' => array(
 		'atts'     => array(
 			'id' => array(
@@ -450,10 +488,9 @@ $wpmoly_shortcodes = array(
 		),
 		'content'  => null,
 		'callback' => 'movie_detail_shortcode',
-		'aliases' => array(
+		'aliases'  => array(
 			'movie_media',
 			'movie_status',
-			'movie_rating',
 			'movie_languages',
 			'movie_subtitles',
 			'movie_format'

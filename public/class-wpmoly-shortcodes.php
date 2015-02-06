@@ -685,6 +685,60 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 		}
 
 		/**
+		 * Movie Rating shortcode.
+		 *
+		 * @since    2.1.4
+		 * 
+		 * @param    array     Shortcode attributes
+		 * @param    string    Shortcode content
+		 * 
+		 * @return   string    Shortcode display
+		 */
+		public static function movie_rating_shortcode( $atts = array(), $content = null ) {
+
+			$atts = self::filter_shortcode_atts( 'movie_rating', $atts );
+
+			$movie_id = WPMOLY_Shortcodes::find_movie_id( $atts['id'], $atts['title'] );
+			if ( is_null( $movie_id ) )
+				return $content;
+
+			$atts['movie_id'] = $movie_id;
+
+			// Caching
+			$name = apply_filters( 'wpmoly_cache_name', 'movie_rating_shortcode', $atts );
+			$content = WPMOLY_Cache::output( $name, function() use ( $atts, $content ) {
+
+				extract( $atts );
+
+				$content = wpmoly_get_movie_rating( $movie_id );
+
+				if ( $stars || $numbers ) {
+
+					$output = '';
+					if ( $stars )
+						$output .= apply_filters( 'wpmoly_format_movie_rating', $content, $format = 'html' );
+
+					if ( $numbers ) {
+						$output .= '&nbsp;−&nbsp;';
+						if ( 10 == wpmoly_o( 'format-rating' ) ) {
+							$output .= sprintf( '%d/10', ( $content * 2 ) );
+						} else {
+							$output .= sprintf( '%s/5', $content );
+						}
+					}
+				} else {
+					$format = ( ! $raw ? 'html' : 'raw' );
+					$output = apply_filters( 'wpmoly_format_movie_rating', $content, $format );
+				}
+
+				return $output;
+
+			}, $echo = false );
+
+			return $content;
+		}
+
+		/**
 		 * Movie Detail shortcode. This shortcode supports aliases.
 		 *
 		 * @since    1.1
