@@ -260,17 +260,33 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 			);
 
 			/**
+			 * Filter the Headbox tabs before applying settings.
+			 * 
+			 * @since    2.1
+			 * 
+			 * @param    array    $tabs default menu links
+			 */
+			$tabs = apply_filters( 'wpmoly_pre_filter_headbox_menu_tabs', $tabs );
+
+			$_tabs = array();
+			$select  = wpmoly_o( 'headbox-tabs' );
+			if ( is_array( $select ) )
+				foreach ( $select as $s )
+					if ( isset( $tabs[ $s ] ) )
+						$_tabs[ $s ] = $tabs[ $s ];
+
+			/**
 			 * Filter the Headbox tabs.
 			 * 
 			 * @since    2.0
 			 * 
 			 * @param    array    $tabs default headbox tabs
 			 */
-			$tabs = apply_filters( 'wpmoly_filter_headbox_menu_tabs', $tabs );
+			$_tabs = apply_filters( 'wpmoly_filter_headbox_menu_tabs', $_tabs );
 
 			$attributes = array(
 				'id'   => get_the_ID(),
-				'tabs' => $tabs
+				'tabs' => $_tabs
 			);
 			$content = WPMovieLibrary::render_template( 'movies/headbox/tabs.php', $attributes, $require = 'always' );
 
