@@ -397,7 +397,12 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 
 					if ( '' != $d ) {
 
-						$value = $default_fields[ $slug ]['options'][ $d ];
+						if ( isset( $default_fields[ $slug ]['options'] ) ) {
+							$value = $default_fields[ $slug ]['options'][ $d ];
+						} else {
+							$value = $d;
+						}
+
 						if ( 'rating' == $slug ) {
 							$d = apply_filters( "wpmoly_movie_meta_link", array(
 								'key'   => 'rating',
