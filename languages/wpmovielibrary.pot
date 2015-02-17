@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary 2.0-beta.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/wpmovielibrary\n"
-"POT-Creation-Date: 2015-01-29 12:43+0100\n"
-"PO-Revision-Date: 2015-01-29 12:43+0100\n"
+"POT-Creation-Date: 2015-02-17 15:45+0100\n"
+"PO-Revision-Date: 2015-02-17 15:45+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: WPMovieLibrary <support@wpmovielibrary.com>\n"
 "Language: English\n"
@@ -412,16 +412,16 @@ msgstr ""
 msgid "Error: the submitted movie details are invalid."
 msgstr ""
 
-#: ../admin/class-wpmoly-edit-movies.php:1174
+#: ../admin/class-wpmoly-edit-movies.php:1175
 msgid "You are not allowed to edit posts."
 msgstr ""
 
-#: ../admin/class-wpmoly-edit-movies.php:1177
+#: ../admin/class-wpmoly-edit-movies.php:1178
 #, php-format
 msgid "Posts with #%s is invalid or is not a movie."
 msgstr ""
 
-#: ../admin/class-wpmoly-edit-movies.php:1300
+#: ../admin/class-wpmoly-edit-movies.php:1301
 msgid "(no title)"
 msgstr ""
 
@@ -525,11 +525,11 @@ msgid "Movies"
 msgstr ""
 
 #: ../admin/class-wpmoly-admin.php:160
-#: ../includes/classes/class-wpmoly-utils.php:954
-#: ../includes/classes/class-wpmoly-utils.php:984
-#: ../includes/classes/class-wpmoly-utils.php:1017
-#: ../includes/classes/class-wpmoly-utils.php:1045
-#: ../includes/classes/class-wpmoly-utils.php:1072
+#: ../includes/classes/class-wpmoly-utils.php:965
+#: ../includes/classes/class-wpmoly-utils.php:995
+#: ../includes/classes/class-wpmoly-utils.php:1028
+#: ../includes/classes/class-wpmoly-utils.php:1056
+#: ../includes/classes/class-wpmoly-utils.php:1083
 #: ../public/class-wpmoly-archives.php:593
 #, php-format
 msgid "%d movie"
@@ -980,16 +980,65 @@ msgid_plural "%s transients deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../includes/classes/class-wpmoly-formatting-meta.php:135
+#: ../includes/classes/class-wpmoly-formatting-meta.php:115
+#: ../includes/classes/class-wpmoly-formatting-meta.php:122
+#: ../includes/classes/class-wpmoly-formatting-meta.php:134
+#, php-format
+msgid "More movies released on %s"
+msgstr ""
+
+#: ../includes/classes/class-wpmoly-formatting-meta.php:158
 msgid "Duration unknown"
 msgstr ""
 
-#: ../includes/classes/class-wpmoly-formatting-meta.php:443
+#: ../includes/classes/class-wpmoly-formatting-meta.php:206
+#, php-format
+msgid "More movies in %s"
+msgstr ""
+
+#: ../includes/classes/class-wpmoly-formatting-meta.php:279
+#: ../includes/classes/class-wpmoly-utils.php:910
+#, php-format
+msgid "More movies from %s"
+msgstr ""
+
+#: ../includes/classes/class-wpmoly-formatting-meta.php:311
+#: ../includes/classes/class-wpmoly-formatting-meta.php:334
+#, php-format
+msgid "More movies produced by %s"
+msgstr ""
+
+#: ../includes/classes/class-wpmoly-formatting-meta.php:357
+#, php-format
+msgid "More movies from composer %s"
+msgstr ""
+
+#: ../includes/classes/class-wpmoly-formatting-meta.php:380
+#, php-format
+msgid "More movies edited by %s"
+msgstr ""
+
+#: ../includes/classes/class-wpmoly-formatting-meta.php:403
+#, php-format
+msgid "More movies from author %s"
+msgstr ""
+
+#: ../includes/classes/class-wpmoly-formatting-meta.php:426
+#, php-format
+msgid "More movies for director of photography %s"
+msgstr ""
+
+#: ../includes/classes/class-wpmoly-formatting-meta.php:449
+#, php-format
+msgid "More movies certified %s"
+msgstr ""
+
+#: ../includes/classes/class-wpmoly-formatting-meta.php:520
 #: ../views/movies-widget/movies-admin.php:137
 msgid "Yes"
 msgstr ""
 
-#: ../includes/classes/class-wpmoly-formatting-meta.php:443
+#: ../includes/classes/class-wpmoly-formatting-meta.php:520
 #: ../views/movies-widget/movies-admin.php:113
 #: ../views/movies-widget/movies-admin.php:121
 #: ../views/movies-widget/movies-admin.php:129
@@ -997,31 +1046,37 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: ../includes/classes/class-wpmoly-formatting-meta.php:464
+#: ../includes/classes/class-wpmoly-formatting-meta.php:531
+msgid "More movies for adults only"
+msgid_plural "More movies for all audiences"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../includes/classes/class-wpmoly-formatting-meta.php:550
 msgid "Official Website"
 msgstr ""
 
-#: ../includes/classes/class-wpmoly-utils.php:824
+#: ../includes/classes/class-wpmoly-utils.php:835
 msgid "Not rated yet!"
 msgstr ""
 
-#: ../includes/classes/class-wpmoly-utils.php:1263
+#: ../includes/classes/class-wpmoly-utils.php:1274
 msgid "Invalid taxonomy"
 msgstr ""
 
-#: ../includes/classes/class-wpmoly-utils.php:1360
+#: ../includes/classes/class-wpmoly-utils.php:1371
 msgid "&laquo; Previous"
 msgstr ""
 
-#: ../includes/classes/class-wpmoly-utils.php:1361
+#: ../includes/classes/class-wpmoly-utils.php:1372
 msgid "Next &raquo;"
 msgstr ""
 
-#: ../includes/classes/class-wpmoly-utils.php:1401
+#: ../includes/classes/class-wpmoly-utils.php:1412
 msgid "&hellip;"
 msgstr ""
 
-#: ../includes/classes/class-wpmoly-utils.php:1443
+#: ../includes/classes/class-wpmoly-utils.php:1454
 #, php-format
 msgid ""
 "<strong>%s</strong> is required by the following plugins: %s. These plugins "
@@ -3172,7 +3227,7 @@ msgstr ""
 msgid "View the complete list"
 msgstr ""
 
-#: ../public/class-wpmoly-headbox.php:454
+#: ../public/class-wpmoly-headbox.php:485
 #: ../public/class-wpmoly-headbox-imdb.php:87
 msgid "No images were imported for this movie."
 msgstr ""
@@ -3487,7 +3542,7 @@ msgstr ""
 msgid "Year of production"
 msgstr ""
 
-#: ../views/movies/headbox-allocine/tabs/images.php:23
+#: ../views/movies/headbox-allocine/tabs/images.php:21
 msgid "Movie Pictures"
 msgstr ""
 
