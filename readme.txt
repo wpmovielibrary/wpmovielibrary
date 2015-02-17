@@ -4,7 +4,7 @@ Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 2.1.3.1
+Stable tag: 2.1.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -137,6 +137,20 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 7. Import queue
 
 == Changelog ==
+
+= 2.1.4 =
+* Feat - New Headbox styles: Allociné and IMDb
+* Feat - Add a 'convert to movie' button to pages and posts
+* Tweak - Implement [movie_rating] Shortcode
+* Tweak - Add title attribute to meta links
+* Fix - URL parsing bug when permalinks are disabled
+* Fix - Rating stars erroneous title when using 10-base rating
+* Fix - Permalink bug when permalink translation is set off
+* Fix - Movies Widget title overflow	
+* Fix - Archive pages title separator
+* Dev - get_movie() / get_movie_by_title() parameters fix
+* Dev - Updated permalink translation process
+* Dev - Font update + Metabox rework
 
 = 2.1.3.1 =
 * Fix - Terms ordering minor bug fix
