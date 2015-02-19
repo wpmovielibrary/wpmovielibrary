@@ -178,4 +178,8 @@ wpmoly = {};
 			wpmoly.settings.utils.details_select = function() {};
 			wpmoly.settings.utils.api_check = function() {};
 			wpmoly.settings.utils.toggle_radio = function() {};
-			
+
+
+jQuery(document).ready(function() {
+	wpmoly.init();
+});

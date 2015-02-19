@@ -297,3 +297,9 @@ wpmoly = wpmoly || {};
 		if ( undefined != $( nonce_name ) && undefined != nonce )
 			$( nonce_name ).val( nonce );
 	};
+
+	wpmoly.init = function() {
+
+		if ( ( 'edit-movie' == pagenow && 'edit-php' == adminpage ) || ( 'movie' == pagenow && 'post-new-php' == adminpage ) )
+			$( '#toplevel_page_wpmovielibrary, #toplevel_page_wpmovielibrary > a' ).addClass( 'wp-has-current-submenu wp-open-submenu' );
+	};
