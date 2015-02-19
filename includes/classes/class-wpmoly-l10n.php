@@ -81,6 +81,9 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 
 				$l10n_rewrite[ sanitize_title( $key ) ] = $slug;
 
+				if ( ! isset( $detail['options'] ) )
+					continue;
+
 				foreach ( $detail['options'] as $_slug => $option ) {
 
 					if ( $translate ) {
