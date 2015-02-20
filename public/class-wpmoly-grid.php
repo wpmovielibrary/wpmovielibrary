@@ -51,7 +51,6 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$args = wp_parse_args( $_args, $args );
 
 			extract( $args );
-			print_r( $args );
 
 			$baseurl = get_permalink();
 			/*if ( true === $shortcode ) {
