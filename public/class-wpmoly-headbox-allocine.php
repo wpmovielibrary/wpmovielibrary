@@ -33,7 +33,6 @@ if ( ! class_exists( 'WPMOLY_Headbox_Allocine' ) ) :
 					'title' => null,
 					'icon'  => 'home',
 					'content' => $this->render_main_tab()
-					
 				),
 				'details' =>  array(
 					'title' => __( 'Details', 'wpmovielibrary' ),
@@ -123,6 +122,7 @@ if ( ! class_exists( 'WPMOLY_Headbox_Allocine' ) ) :
 		 */
 		private function render_tabs() {
 
+			//print_r( $this->tabs );
 			$attributes = array(
 				'id'   => get_the_ID(),
 				'tabs' => $this->tabs
@@ -197,6 +197,9 @@ if ( ! class_exists( 'WPMOLY_Headbox_Allocine' ) ) :
 
 			$rating = apply_filters( 'wpmoly_movie_rating_stars', self::get_movie_meta( $id, 'rating' ), $id, $base = 10 );
 
+			if ( empty( $images ) ) {
+				$images = sprintf( __( 'No image to show for %s', 'wpmovielibrary' ), '<em>' . $meta['title'] . '</em>' );
+			}
 
 			$attributes = compact( 'id', 'meta', 'rating', 'casting', 'poster', 'images' );
 
@@ -381,6 +384,13 @@ if ( ! class_exists( 'WPMOLY_Headbox_Allocine' ) ) :
 					);
 
 				$posters = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => 'thumbnail', 'movie_id' => get_the_ID(), 'images' => $posters ), $require = 'always' );
+			}
+
+			if ( empty( $images ) ) {
+				$images = __( 'No image to show.', 'wpmovielibrary' );
+			}
+			if ( empty( $posters ) ) {
+				$posters = __( 'No poster to show.', 'wpmovielibrary' );
 			}
 
 			$attributes = array(

@@ -581,6 +581,7 @@
 	background: #fff;
 	border: 1px solid #dbdbdb;
 	border-radius: 3px;
+	margin-bottom: 20px;
 	padding: 8px 14px;
 }
 
@@ -706,8 +707,9 @@
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.sub-title {
 	color: #c00;
 	font-family: 'Arial', 'Helvetica', sans-serif;
-	font-size: 22px;
+	font-size: 22px !important;
 	font-weight: normal;
+	margin-bottom: 16px !important;
 }
 
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section h6 {

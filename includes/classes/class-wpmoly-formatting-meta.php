@@ -276,7 +276,7 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 							'value' => $value,
 							'type'  => 'meta',
 							'text'  => $text,
-							'title' => sprintf( __( 'More movies from %s', 'wpmovielibrary' ), $text )
+							'title' => sprintf( __( 'More movies from country %s', 'wpmovielibrary' ), $text )
 						) );
 					}
 
@@ -303,13 +303,24 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 		 */
 		public static function format_movie_production_companies( $data ) {
 
-			$output = apply_filters( 'wpmoly_movie_meta_link', array(
-				'key'   => 'production_companies',
-				'value' => $data,
-				'type'  => 'meta',
-				'text'  => $data,
-				'title' => sprintf( __( 'More movies produced by %s', 'wpmovielibrary' ), $data )
-			) );
+			$output = array();
+
+			$data = explode( ',', $data );
+			$data = array_map( 'trim', $data );
+
+			foreach ( $data as $d ) {
+				$output[] = apply_filters( 'wpmoly_movie_meta_link', array(
+					'key'   => 'production_companies',
+					'value' => $d,
+					'type'  => 'meta',
+					'text'  => $d,
+					'title' => sprintf( __( 'More movies produced by %s', 'wpmovielibrary' ), $d )
+				) );
+			}
+
+			if ( ! empty( $output ) )
+				$output = implode( ', ', $output );
+
 			$output = self::format_movie_field( $output );
 
 			return $output;
@@ -326,13 +337,24 @@ if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) ) :
 		 */
 		public static function format_movie_producer( $data ) {
 
-			$output = apply_filters( 'wpmoly_movie_meta_link', array(
-				'key'   => 'producer',
-				'value' => $data,
-				'type'  => 'meta',
-				'text'  => $data,
-				'title' => sprintf( __( 'More movies produced by %s', 'wpmovielibrary' ), $data )
-			) );
+			$output = array();
+
+			$data = explode( ',', $data );
+			$data = array_map( 'trim', $data );
+
+			foreach ( $data as $d ) {
+				$output[] = apply_filters( 'wpmoly_movie_meta_link', array(
+					'key'   => 'producer',
+					'value' => $d,
+					'type'  => 'meta',
+					'text'  => $d,
+					'title' => sprintf( __( 'More movies produced by %s', 'wpmovielibrary' ), $d )
+				) );
+			}
+
+			if ( ! empty( $output ) )
+				$output = implode( ', ', $output );
+
 			$output = self::format_movie_field( $output );
 
 			return $output;
