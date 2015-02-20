@@ -38,6 +38,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				'columns'  => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
 				'rows'     => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
 				'editable' => wpmoly_o( 'movie-archives-frontend-edit', $default = true ),
+				'advanced' => wpmoly_o( 'movie-archives-frontend-advanced-edit', $default = false ),
 				'meta'     => '',
 				'detail'   => '',
 				'value'    => '',
@@ -76,7 +77,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 
 			$limit = wpmoly_o( 'movie-archives-movies-limit' );
 
-			$attributes = compact( 'letters', 'default', 'letter', 'order', 'orderby', 'columns', 'rows', 'meta', 'detail', 'value', 'editable', 'limit', 'view' );
+			$attributes = compact( 'letters', 'default', 'letter', 'order', 'orderby', 'columns', 'rows', 'meta', 'detail', 'value', 'editable', 'advanced', 'limit', 'view' );
 
 			$urls = array();
 			$l10n = false;
@@ -227,10 +228,20 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				$where[] = $meta_query['where'];
 			}
 
-			if ( 'year' == $orderby || 'date' == $orderby ) {
-				$select[] = ' wp_postmeta.meta_value AS year';
-				$join[]   = ' INNER JOIN wp_postmeta ON ( wp_posts.ID = wp_postmeta.post_id )';
-				$where[]  = ' AND wp_postmeta.meta_key = "_wpmoly_movie_release_date"';
+			$_orderby = array(
+				'year'      => 'release_date',
+				'date'      => 'release_date',
+				'localdate' => 'local_release_date',
+				'rating'    => 'rating'
+			);
+			if ( in_array( $orderby, array_keys( $_orderby ) ) ) {
+
+				$select[] = ' pm.meta_value AS value';
+				$join[]   = ' INNER JOIN wp_postmeta AS pm ON ( wp_posts.ID = pm.post_id )';
+				$where[]  = ' AND pm.meta_key = "_wpmoly_movie_' . $_orderby[ $orderby ] . '"';
+				$orderby = 'value';
+			} else {
+				$orderby = 'post_title';
 			}
 
 			$where  = implode( '', $where );

@@ -27,6 +27,11 @@ $wpmoly_shortcodes = array(
 				'values'  => array( 'ASC', 'DESC' ),
 				'filter'  => 'esc_attr'
 			),
+			'orderby' => array(
+				'default' => wpmoly_o( 'movie-archives-movies-orderby' ),
+				'values'  => array( 'title', 'date', 'localdate', 'rating' ),
+				'filter'  => 'esc_attr'
+			),
 			'number' => array(
 				'default' => wpmoly_o( 'movie-archives-movies-per-page' ),
 				'values'  => null,

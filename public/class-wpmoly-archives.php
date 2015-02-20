@@ -834,7 +834,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 					'letter'  => '(\/([0-9A-Za-z]{1}))\/',
 					'number'  => '(([0-9]{1,})\:([0-9]{1,})|([0-9]{1,}))\/?',
 					'order'   => '(asc|desc|ASC|DESC)\/?',
-					'orderby' => '(year|date|localdate)\/?',
+					'orderby' => '(title|year|date|localdate|rating)\/?',
 					'paged'   => '(page\/([0-9]{1,}))\/?'
 				);
 

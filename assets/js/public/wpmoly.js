@@ -22,6 +22,24 @@
 				wpmoly.grid_edit();
 			});
 
+			$( "#wpmoly-grid-sort-toggle" ).on( 'click', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				$( "#wpmoly-movie-grid-menu-2-sorting" ).slideToggle( 200 );
+				$( "#wpmoly-movie-grid-menu-2-sorting" ).on( 'click', function(e) {
+					e.stopPropagation();
+				});
+				$( "body" ).addClass( 'waitee' ).on( 'click', function() {
+					$( "#wpmoly-movie-grid-menu-2-sorting" ).slideUp( 200 );
+					$( "body.waitee" ).removeClass( 'waitee' ).off( 'click' );
+				});
+			});
+
+			$( "#wpmoly-grid-sort" ).on( 'click', function(e) {
+				e.preventDefault();
+				wpmoly.grid_sort();
+			});
+
 			$( '.hide-if-js' ).hide();
 			$( '.hide-if-no-js' ).removeClass( 'hide-if-no-js' );
 		};
@@ -110,6 +128,47 @@
 					url = wpmoly.lang.grid + '/' + columns + ':' + rows + '/';
 				else
 					url = columns + ':' + rows + '/';
+				document.location.href = url;
+			}
+		};
+
+		wpmoly.grid_sort = function() {
+
+			var order = document.querySelector( "#wpmoly-grid-order" ).value,
+			  orderby = document.querySelector( "#wpmoly-grid-orderby" ).value,
+			     rows = parseInt( ( document.querySelector( "#wpmoly-grid-rows" ) || {} ).value ),
+			  columns = parseInt( ( document.querySelector( "#wpmoly-grid-columns" ) || {} ).value ),
+			      url = document.location.href,
+			   search = document.location.search;
+
+			/*if ( null !== order )
+				order = order.value;*/
+
+			if ( '' != search ) {
+				if ( ( new RegExp(/title|date|localdate|year|rating|asc|desc/i) ).test( search ) ) {
+					search = search.replace(/title|date|localdate|year|rating/i, 'orderby=' + orderby );
+					search = search.replace(/asc|desc/i, 'order=' + order );
+				} else {
+					search += 'orderby=' + orderby + '&order=' + order;
+				}
+				document.location.search = search;
+			}
+			else if ( ( new RegExp(/title|date|localdate|year|rating|asc|desc/i) ).test( url ) ) {
+				url = url.replace(/title|date|localdate|year|rating/i, orderby );
+				url = url.replace(/asc|desc/i, order );
+				document.location.href = url;
+			}
+			else {
+
+				var cols = '';
+				if ( ! isNaN( columns ) && ! isNaN( rows ) )
+					cols = columns + ':' + rows + '/';
+
+				if ( -1 === url.indexOf( wpmoly.lang.grid ) )
+					url = wpmoly.lang.grid + '/' + cols + orderby + '/' + order;
+				else
+					url = cols + orderby + '/' + order;
+
 				document.location.href = url;
 			}
 		};
