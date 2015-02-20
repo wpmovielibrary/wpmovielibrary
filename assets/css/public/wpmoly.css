@@ -188,6 +188,12 @@
 	vertical-align: top;
 }
 
+#wpmoly-movie-grid > .movie.with-title,
+#wpmoly-movie-grid > .movie.with-rating,
+#wpmoly-movie-grid > .movie.with-year {
+	margin-bottom: 1em;
+}
+
 #wpmoly-movie-grid.grid-col-8 > .movie {
 	width: 11.3%;
 }

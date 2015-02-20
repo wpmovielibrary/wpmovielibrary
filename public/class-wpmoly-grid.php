@@ -151,18 +151,18 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			);
 			$args = wp_parse_args( $args, $defaults );
 
-			$grid_meta = (array) wpmoly_o( 'movie-archives-movies-meta', $default = true );
-			$grid_meta = array_keys( $grid_meta['used'] );
-			$title  = in_array( 'title', $grid_meta );
-			$rating = in_array( 'rating', $grid_meta );
-			$year   = in_array( 'year', $grid_meta );
-
 			// Allow URL params to override Shortcode settings
 			$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
 			$args = wp_parse_args( $_args, $args );
 
 			extract( $args, EXTR_SKIP );
 			$total  = 0;
+
+			$grid_meta = (array) wpmoly_o( 'movie-archives-movies-meta', $default = true );
+			$grid_meta = array_keys( $grid_meta['used'] );
+			$title  = ( $title || in_array( 'title', $grid_meta ) );
+			$rating = ( $rating || in_array( 'rating', $grid_meta ) );
+			$year   = ( $year || in_array( 'year', $grid_meta ) );
 
 			$views = array( 'grid', 'archives', 'list' );
 			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
