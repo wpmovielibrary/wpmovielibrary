@@ -243,7 +243,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 *
 		 * @return   string      The filtered content containing original content plus movie infos if available, the untouched original content else.
 		 */
-		public static function movie_content( $content ) {
+		public static function movie_content( $content = null ) {
 
 			if ( 'movie' != get_post_type() )
 				return $content;

@@ -5,12 +5,13 @@
 global $post;
 
 $vintage_mode = wpmoly_o( 'vintage-content' );
+
 if ( ! empty( $movies ) ) :
 	foreach ( $movies as $post ) :
 		setup_postdata( $post );
 
-		if ( ! $vintage_mode ) {
-			echo WPMOLY_Headbox::get_content();
+		if ( '0' == $vintage_mode ) {
+			echo WPMOLY_Movies::movie_content();
 		} else {
 ?>
 					<div id="post-<?php the_ID(); ?>" class="wpmoly movies archives movie">

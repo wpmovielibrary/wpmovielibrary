@@ -51,12 +51,14 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$args = wp_parse_args( $_args, $args );
 
 			extract( $args );
+			print_r( $args );
 
-			if ( true === $shortcode ) {
+			$baseurl = get_permalink();
+			/*if ( true === $shortcode ) {
 				$baseurl = get_permalink();
 			} else {
 				$baseurl = get_post_type_archive_link( 'movie' );
-			}
+			}*/
 
 			$views = array( 'grid', 'archives', 'list' );
 			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
@@ -165,11 +167,13 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
 				$views = array( 'grid' => __( 'grid', 'wpmovielibrary' ), 'archives' => __( 'archives', 'wpmovielibrary' ), 'list' => __( 'list', 'wpmovielibrary' ) );
 
-			$_view = array_search( $view, $views );
-			if ( false != $_view )
-				$view = $_view;
-			else
-				$view = 'grid';
+			if ( ! isset( $views[ $view ] ) ) {
+				$_view = array_search( $view, $views );
+				if ( false != $_view )
+					$view = $_view;
+				else
+					$view = 'grid';
+			}
 
 			$movies = array();
 			$total  = wp_count_posts( 'movie' );
@@ -231,11 +235,12 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			if ( 'list' == $view )
 				$movies = self::prepare_list_view( $movies );
 
-			if ( true === $shortcode ) {
+			$baseurl = get_permalink();
+			/*if ( true === $shortcode ) {
 				$baseurl = get_permalink();
 			} else {
 				$baseurl = get_post_type_archive_link( 'movie' );
-			}
+			}*/
 
 			$args = array(
 				'order'   => $order,

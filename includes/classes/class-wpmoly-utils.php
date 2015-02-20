@@ -306,6 +306,12 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$new_rules[ '([^/]+)/' . $meta . '/([^/]+)/' . $grid . '/?$' ] = 'index.php?pagename=$matches[1]&meta=$matches[2]&value=$matches[3]&view=$matches[4]';
 			$new_rules[ '([^/]+)/' . $meta . '/([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?pagename=$matches[1]&meta=$matches[2]&value=$matches[3]&view=$matches[4]&sorting=$matches[5]';
 
+			$new_rules[ '([^/]+)/([^/]+)/' . $grid . '/?$' ] = 'index.php?pagename=$matches[1]/$matches[2]&view=$matches[3]';
+			$new_rules[ '([^/]+)/([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?pagename=$matches[1]/$matches[2]&view=$matches[3]&sorting=$matches[4]';
+			$new_rules[ '([^/]+)/([^/]+)/' . $meta . '/([^/]+)/?$' ] = 'index.php?pagename=$matches[1]/$matches[2]&meta=$matches[3]&value=$matches[4]';
+			$new_rules[ '([^/]+)/([^/]+)/' . $meta . '/([^/]+)/' . $grid . '/?$' ] = 'index.php?pagename=$matches[1]/$matches[2]&meta=$matches[3]&value=$matches[4]&view=$matches[5]';
+			$new_rules[ '([^/]+)/([^/]+)/' . $meta . '/([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?pagename=$matches[1]/$matches[2]&meta=$matches[3]&value=$matches[4]&view=$matches[5]&sorting=$matches[6]';
+
 			$new_rules = $new_rules + $rules;
 
 			WPMOLY_L10n::set_l10n_rewrite();
