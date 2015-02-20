@@ -468,11 +468,11 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 
 			$grid_menu = '';
 			if ( $has_menu ) {
-				$args = compact( 'columns', 'rows', 'number', 'order', 'editable', 'letter', 'view' );
+				$args = compact( 'columns', 'rows', 'number', 'order', 'orderby', 'editable', 'letter', 'view' );
 				$grid_menu = WPMOLY_Grid::get_menu( $args );
 			}
 
-			$args    = compact( 'number', 'paged', 'order', 'columns', 'rows', 'letter', 'meta', 'detail', 'value', 'view' );
+			$args    = compact( 'number', 'paged', 'order', 'orderby', 'columns', 'rows', 'letter', 'meta', 'detail', 'value', 'view' );
 			$grid    = WPMOLY_Grid::get_content( $args );
 			$content = $grid_menu . $grid;
 
@@ -831,10 +831,11 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 
 				$sorting = '/' . $vars['sorting'];
 				$regex = array(
-					'letter' => '(\/([0-9A-Za-z]{1}))\/',
-					'number' => '(([0-9]{1,})\:([0-9]{1,})|([0-9]{1,}))\/?',
-					'order'  => '(asc|desc|ASC|DESC)\/?',
-					'paged'  => '(page\/([0-9]{1,}))\/?'
+					'letter'  => '(\/([0-9A-Za-z]{1}))\/',
+					'number'  => '(([0-9]{1,})\:([0-9]{1,})|([0-9]{1,}))\/?',
+					'order'   => '(asc|desc|ASC|DESC)\/?',
+					'orderby' => '(year|date|localdate)\/?',
+					'paged'   => '(page\/([0-9]{1,}))\/?'
 				);
 
 				// Has letter?
@@ -854,6 +855,11 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 				$preg = preg_match( "/{$regex['order']}/", $sorting, $matches );
 				if ( $preg && isset( $matches[1] ) && '' != $matches[1] ) {
 					$params['order'] = strtoupper( $matches[1] );
+				}
+
+				$preg = preg_match( "/{$regex['orderby']}/", $sorting, $matches );
+				if ( $preg && isset( $matches[1] ) && '' != $matches[1] ) {
+					$params['orderby'] = $matches[1];
 				}
 
 				// Has pagination?
