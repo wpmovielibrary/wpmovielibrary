@@ -57,6 +57,21 @@ $wpmoly_shortcodes = array(
 				'values'  => null,
 				'filter'  => 'esc_attr'
 			),
+			'collection' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'genre' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'actor' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
 			'meta' => array(
 				'default' => null,
 				'values'  => null,
@@ -414,8 +429,13 @@ $wpmoly_shortcodes = array(
 				'values'  => array( 'none', 'thumb', 'thumbnail', 'medium', 'large', 'full' ),
 				'filter'  => 'esc_attr'
 			),
+			'type' => array(
+				'default' => 'all',
+				'values'  => array( 'all', 'images', 'backdrops', 'posters' ),
+				'filter'  => 'esc_attr'
+			),
 			'count' => array(
-				'default' => null,
+				'default' => -1,
 				'values'  => null,
 				'filter'  => 'intval'
 			),
@@ -427,7 +447,7 @@ $wpmoly_shortcodes = array(
 		),
 		'content'  => null,
 		'callback' => 'movie_images_shortcode',
-		'aliases'  => array( 'movie_pictures', 'movie_photos' )
+		'aliases'  => array( 'movie_pictures', 'movie_photos', 'movie_posters' )
 	),
 
 	'movie_rating' => array(
