@@ -307,6 +307,17 @@ $wpmoly_config = array(
 		'subsection' => true,
 		'fields'  => array(
 
+			// Notice
+			array(
+                            'id'     => 'wpmoly-convert-notice',
+                            'type'   => 'info',
+                            'notice' => true,
+                            'style'  => 'critical',
+                            'icon'   => 'wpmolicon icon-warning',
+                            'title'  => __( 'Experimental', 'wpmovielibrary' ),
+                            'desc'   => __( 'Posts to Movies conversion is still experimental. Do not activate this unless you are sure of what you are doing, and make sure you have backups of your database before using this feature.', 'wpmovielibrary' )
+                        ),
+
 			// Post type convert enable
 			'convert-enable' => array(
 				'id'       => 'wpmoly-convert-enable',

@@ -87,7 +87,8 @@ if ( ! class_exists( 'WPMovieLibrary_Metaboxes' ) ) :
 									'callback' => 'WPMOLY_Edit_Movies::render_posters_panel'
 								)
 							)
-						)
+						),
+						'condition'     => null
 					),
 				),
 				'default' => array(
@@ -97,7 +98,8 @@ if ( ! class_exists( 'WPMovieLibrary_Metaboxes' ) ) :
 						'screen'        => wpmoly_o( 'convert-post-types', array() ),
 						'context'       => 'side',
 						'priority'      => 'high',
-						'callback_args' => null
+						'callback_args' => null,
+						'condition'     => ( '1' == wpmoly_o( 'convert-enable' ) )
 					)
 				),
 			);
@@ -163,6 +165,9 @@ if ( ! class_exists( 'WPMovieLibrary_Metaboxes' ) ) :
 
 					if ( ! is_array( $screen ) )
 						$screen = array( $screen );
+
+					if ( ! is_null( $condition ) && false === $condition )
+						continue;
 
 					foreach ( $screen as $s )
 						add_meta_box( $id . '-metabox', $title, $callback, $s, $context, $priority, $callback_args );
