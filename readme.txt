@@ -141,6 +141,9 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 = 2.1.4 =
 * Feat - New Headbox styles: Allociné and IMDb
 * Feat - Add a 'convert to movie' button to pages and posts
+* Feat - Grid sorting modes: rating, release date, local release date
+* Feat - Grid content modes: now supports collections, genres and actors
+* Feat - Implement new [movie_posters] Shortcode
 * Tweak - Implement [movie_rating] Shortcode
 * Tweak - Add title attribute to meta links
 * Fix - URL parsing bug when permalinks are disabled
@@ -150,7 +153,7 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 * Fix - Archive pages title separator
 * Dev - get_movie() / get_movie_by_title() parameters fix
 * Dev - Updated permalink translation process
-* Dev - Font update + Metabox rework
+* Dev - Font update + Metabox tweaks
 
 = 2.1.3.1 =
 * Fix - Terms ordering minor bug fix
