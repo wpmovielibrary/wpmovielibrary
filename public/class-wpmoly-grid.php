@@ -135,19 +135,22 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			global $wpdb, $wp_query;
 
 			$defaults = array(
-				'columns'   => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
-				'rows'      => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
-				'paged'     => 1,
-				'meta'      => null,
-				'detail'    => null,
-				'value'     => null,
-				'title'     => false,
-				'year'      => false,
-				'rating'    => false,
-				'letter'    => null,
-				'order'     => wpmoly_o( 'movie-archives-movies-order', $default = true ),
-				'orderby'   => 'post_title',
-				'view'      => 'grid'
+				'columns'    => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
+				'rows'       => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
+				'paged'      => 1,
+				'collection' => null,
+				'actor'      => null,
+				'genre'      => null,
+				'meta'       => null,
+				'detail'     => null,
+				'value'      => null,
+				'title'      => false,
+				'year'       => false,
+				'rating'     => false,
+				'letter'     => null,
+				'order'      => wpmoly_o( 'movie-archives-movies-order', $default = true ),
+				'orderby'    => 'post_title',
+				'view'       => 'grid'
 			);
 			$args = wp_parse_args( $args, $defaults );
 
@@ -226,6 +229,45 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 
 				$join[]  = $meta_query['join'];
 				$where[] = $meta_query['where'];
+			}
+
+			$tax_query = array();
+			if ( ! is_null( $collection ) && ! empty( $collection ) ) {
+				$tax_query = array(
+					'taxonomy' => 'collection',
+					'terms'    => $collection,
+				);
+			} elseif ( ! is_null( $genre ) && ! empty( $genre ) ) {
+				$tax_query = array(
+					'taxonomy' => 'genre',
+					'terms'    => $genre,
+				);
+			} elseif ( ! is_null( $actor ) && ! empty( $actor ) ) {
+				$tax_query = array(
+					'taxonomy' => 'actor',
+					'terms'    => $actor,
+				);
+			}
+
+			if ( ! empty( $tax_query ) ) {
+
+				$tax_query = array(
+					'relation' => 'OR',
+					array(
+						'taxonomy' => $tax_query['taxonomy'],
+						'field'    => 'slug',
+						'terms'    => $tax_query['terms'],
+					),
+					array(
+						'taxonomy' => $tax_query['taxonomy'],
+						'field'    => 'name',
+						'terms'    => $tax_query['terms'],
+					)
+				);
+				$tax_query = get_tax_sql( $tax_query, $wpdb->posts, 'ID' );
+
+				$join[]  = $tax_query['join'];
+				$where[] = $tax_query['where'];
 			}
 
 			$_orderby = array(
