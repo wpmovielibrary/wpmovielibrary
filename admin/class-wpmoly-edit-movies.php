@@ -776,7 +776,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				if ( ! is_callable( $panel['callback'] ) )
 					continue;
 
-				$is_active = ( ( 'preview' == $id && ! $empty ) || ( 'meta' == $id && $empty ) );
+				$is_active = ( 'preview' == $id );
 				$tabs[ $id ] = array(
 					'title'  => $panel['title'],
 					'icon'   => $panel['icon'],
@@ -789,8 +789,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			}
 
 			$attributes = array(
-				'tabs'   => $tabs,
-				'panels' => $panels
+				'tabs'      => $tabs,
+				'panels'    => $panels,
+				'post_type' => ( 'movie' != get_post_type() ? get_post_type : null )
 			);
 
 			echo self::render_admin_template( 'metabox/metabox.php', $attributes );
@@ -834,8 +835,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			$attributes = array(
 				'empty'     => $empty,
-				'thumbnail' => get_the_post_thumbnail( $post->ID, 'medium' ),
-				'rating'    => apply_filters( 'wpmoly_movie_rating_stars', $rating, $post->ID, $base = 5 ),
+				'thumbnail' => get_the_post_thumbnail( $post_id, 'medium' ),
+				'rating'    => apply_filters( 'wpmoly_movie_rating_stars', $rating, $post_id, $base = 5 ),
 				'preview'   => $preview
 			);
 
@@ -891,7 +892,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			foreach ( $details as $slug => $detail ) {
 
-				if ( 'custom' == $detail['panel'] ) {
+				if ( isset( $detail['panel'] ) && 'custom' == $detail['panel'] ) {
 					unset( $details[ $slug ] );
 					continue;
 				}

@@ -227,7 +227,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 						'type'   => ( isset( $meta['sizes']['medium']['mime-type'] ) ? str_replace( 'image/', ' subtype-', $meta['sizes']['medium']['mime-type'] ) : '' ),
 						'height' => ( isset( $meta['sizes']['medium']['height'] ) ? $meta['sizes']['medium']['height'] : 0 ),
 						'width'  => ( isset( $meta['sizes']['medium']['width'] ) ? $meta['sizes']['medium']['width'] : 0 ),
-						'format' => ( $width && $height ? ( $height > $width ? ' portrait' : ' landscape' ) : '' ),
+						'format' => ( 'poster' == $type ? ' landscape' : ' portrait' ),
 						'image'  => wp_get_attachment_image_src( $attachment->ID, 'medium' ),
 						'link'   => get_edit_post_link( $attachment->ID )
 					);
