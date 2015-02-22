@@ -94,8 +94,8 @@ $wpmoly_movie_details = array(
 		'title'    => __( 'Movie Subtitles', 'wpmovielibrary' ),
 		'desc'     => __( 'Select a subtitle for this movie', 'wpmovielibrary' ),
 		'icon'     => 'wpmolicon icon-subtitles',
-		'options'  => $wpmoly_supported_languages,
-		'default'  => '',
+		'options'  => array_merge( array( 'none' => __( 'None', 'wpmovielibrary' ) ), $wpmoly_supported_languages ),
+		'default'  => 'none',
 		'multi'    => true,
 		'rewrite'  => array( 'subtitles' => __( 'subtitles', 'wpmovielibrary' ) )
 	),
