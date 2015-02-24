@@ -74,17 +74,6 @@ $wpmoly_config = array(
 				'default'  => '75',
 				'required' => array( 'wpmoly-excerpt', "=", 1 ),
 				'indent'   => true
-			),
-
-			// Replace excerpt by overview
-			'vintage-content' => array(
-				'id'       => 'wpmoly-vintage-content',
-				'type'     => 'switch',
-				'title'    => __( 'Use old metadata view', 'wpmovielibrary' ),
-				'desc'     => __( 'If enabled, movies will use the old metadata display from WPMovieLibrary 1.x instead of the WPMovieLibrary 2.0 movie header.', 'wpmovielibrary' ),
-				'on'       => __( 'Enabled', 'wpmovielibrary' ),
-				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
 			)
 		)
 	),
@@ -1180,18 +1169,15 @@ $wpmoly_config = array(
 		'subsection' => true,
 		'fields'  => array(
 
-			// Headbox theme
-			'headbox-theme' => array(
-				'id'       => 'wpmoly-headbox-theme',
-				'type'     => 'select',
-				'title'    => __( 'Headbox Theme', 'wpmovielibrary' ),
-				'desc'     => __( 'Select a Theme to use for your Headbox.', 'wpmovielibrary' ),
-				'options'  => array(
-					'wpmoly'   => __( 'WPMovieLibrary', 'wpmovielibrary' ),
-					'imdb'     => __( 'IMDb', 'wpmovielibrary' ),
-					'allocine' => __( 'Allociné', 'wpmovielibrary' ),
-				),
-				'default'  => 'wpmoly'
+			// Replace excerpt by overview
+			'headbox-enable' => array(
+				'id'       => 'wpmoly-headbox-enable',
+				'type'     => 'switch',
+				'title'    => __( 'Enable Headbox', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, movies will use the Headbox introduced with version 2. Disable to show old metadata display from WPMovieLibrary 1.x instead.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 1
 			),
 
 			// Headbox Position
@@ -1207,7 +1193,32 @@ $wpmoly_config = array(
 				'default'  => 'top',
 			),
 
-			// Headbox Tabs
+			// Notice
+			array(
+                            'id'     => 'wpmoly-headbox-notice',
+                            'type'   => 'info',
+                            'notice' => true,
+                            'style'  => 'critical',
+                            'icon'   => 'wpmolicon icon-warning',
+                            'title'  => __( 'Experimental', 'wpmovielibrary' ),
+                            'desc'   => __( 'The Headbox Themes are still experimental: although they should work correctly they are not fully customisable and have spots for some unimplemented yet features such as actors images. Just so you know!', 'wpmovielibrary' )
+                        ),
+
+			// Headbox theme
+			'headbox-theme' => array(
+				'id'       => 'wpmoly-headbox-theme',
+				'type'     => 'select',
+				'title'    => __( 'Headbox Theme', 'wpmovielibrary' ),
+				'desc'     => __( 'Select a Theme to use for your Headbox.', 'wpmovielibrary' ),
+				'options'  => array(
+					'wpmoly'   => __( 'WPMovieLibrary', 'wpmovielibrary' ),
+					'imdb'     => __( 'IMDb', 'wpmovielibrary' ),
+					'allocine' => __( 'Allociné', 'wpmovielibrary' ),
+				),
+				'default'  => 'wpmoly'
+			),
+
+			// Default Headbox Tabs
 			'headbox-tabs' => array(
 				'id'       => 'wpmoly-headbox-tabs',
 				'type'     => 'select',
