@@ -153,6 +153,7 @@
 	position: absolute;
 	top: 40px;
 	width: 100%;
+	z-index: 9999;
 }
 
 #wpmoly-movie-grid-menu-2-sorting a {
@@ -1239,9 +1240,16 @@
 /** Themes compat
  ***************************************************/
 
-.wpmoly.headbox.theme-twentyfourteen {
-	margin-left: -30px;
-	margin-right: -30px;
+.wpmoly.headbox.theme-twentyfourteen,
+.wpmoly.movies.grid.menu.theme-twentyfourteen {
+	margin-left: -30px !important;
+	margin-right: -30px !important;
+}
+
+.wpmoly.movies.archives.theme-twentyfourteen > .wpmoly.block.headbox {
+	margin-left: -38px !important;
+	margin-right: -38px !important;
+	padding: 8px 20px;
 }
 
 .wpmoly.headbox.theme-twentyfourteen > .wpmoly.headbox.movie.content {

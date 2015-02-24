@@ -35,6 +35,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 
 			$defaults = array(
 				'order'    => wpmoly_o( 'movie-archives-movies-order', $default = true ),
+				'orderby'  => wpmoly_o( 'movie-archives-movies-orderby', $default = true ),
 				'columns'  => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
 				'rows'     => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
 				'editable' => wpmoly_o( 'movie-archives-frontend-edit', $default = true ),
