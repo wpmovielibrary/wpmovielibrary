@@ -110,9 +110,9 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			if ( ! is_null( $detail ) && isset( $details[ "movie_{$detail}" ] ) ) {
 				$details = apply_filters( "wpmoly_filter_detail_{$detail}", $details[ "movie_{$detail}" ]['options'] );
 			} else {
-				foreach ( $details as $_detail => $data ) {
+				foreach ( $details as $slug => $data ) {
 					if ( 'select' == $data['type'] && ! empty( $data['options'] ) ) {
-						$data['options'] = apply_filters( "wpmoly_filter_detail_{$_detail}", $details[ $_detail ]['options'] );
+						$details[ $slug ]['options'] = apply_filters( "wpmoly_filter_detail_{$slug}", $data['options'] );
 					}
 				}
 			}
@@ -129,7 +129,6 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			 */
 			$_details = apply_filters( 'wpmoly_filter_details', $details );
 
-			
 			if ( ! is_null( $detail ) )
 				return $details[ $detail ]['options'];
 
