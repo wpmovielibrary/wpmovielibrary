@@ -629,6 +629,14 @@
 	padding: 8px 14px;
 }
 
+.wpmoly.headbox.block.allocine.position-top {
+	padding: 14px;
+}
+
+.wpmoly.headbox.block.allocine.position-top .wpmoly.headbox.allocine.movie.section.title {
+	display: none;
+}
+
 .wpmoly.headbox.allocine a {
 	color: #005ea8;
 	outline: none;

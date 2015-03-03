@@ -78,10 +78,17 @@ if ( ! class_exists( 'WPMOLY_Headbox_Allocine' ) ) :
 			$id = get_the_ID();
 
 			$theme = wp_get_theme();
-			if ( ! is_null( $theme->stylesheet ) )
+			if ( ! is_null( $theme->stylesheet ) ) {
 				$theme = 'theme-' . $theme->stylesheet;
-			else
+			} else {
 				$theme = '';
+			}
+
+			if ( 'bottom' == wpmoly_o( 'headbox-position' ) ) {
+				$theme .= ' position-bottom';
+			} else {
+				$theme .= ' position-top';
+			}
 
 			$title = apply_filters( 'wpmoly_format_movie_title', self::get_movie_meta( $id, 'title' ) );
 

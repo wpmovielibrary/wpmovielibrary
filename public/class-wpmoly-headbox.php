@@ -91,10 +91,17 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		public function get_wpmoly_headbox( $content = null ) {
 
 			$theme = wp_get_theme();
-			if ( ! is_null( $theme->stylesheet ) )
+			if ( ! is_null( $theme->stylesheet ) ) {
 				$theme = 'theme-' . $theme->stylesheet;
-			else
+			} else {
 				$theme = '';
+			}
+
+			if ( 'bottom' == wpmoly_o( 'headbox-position' ) ) {
+				$theme .= ' position-bottom';
+			} else {
+				$theme .= ' position-top';
+			}
 
 			$id      = get_the_ID();
 			$poster  = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'large' );

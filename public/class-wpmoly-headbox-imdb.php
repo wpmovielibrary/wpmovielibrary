@@ -24,6 +24,19 @@ if ( ! class_exists( 'WPMOLY_Headbox_IMDb' ) ) :
 		 */
 		public function render( $content = null ) {
 
+			$theme = wp_get_theme();
+			if ( ! is_null( $theme->stylesheet ) ) {
+				$theme = 'theme-' . $theme->stylesheet;
+			} else {
+				$theme = '';
+			}
+
+			if ( 'bottom' == wpmoly_o( 'headbox-position' ) ) {
+				$theme .= ' position-bottom';
+			} else {
+				$theme .= ' position-top';
+			}
+
 			$id = get_the_ID();
 
 			$meta = self::get_movie_meta( $id, 'meta' );
@@ -55,7 +68,7 @@ if ( ! class_exists( 'WPMOLY_Headbox_IMDb' ) ) :
 
 			$details['rating_stars'] = apply_filters( 'wpmoly_movie_rating_stars', $details['rating'], $id, $base = 10 );
 
-			$attributes = compact( 'id', 'meta', 'details', 'poster', 'images' );
+			$attributes = compact( 'id', 'meta', 'details', 'poster', 'images', 'theme' );
 
 			$content = WPMovieLibrary::render_template( 'movies/movie-imdb-headbox.php', $attributes, $require = 'always' );
 

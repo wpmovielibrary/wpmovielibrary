@@ -10,7 +10,7 @@
  */
 ?>
 
-	<div id="movie-headbox-<?php echo $id ?>" class="wpmoly block headbox imdb contained <?php //echo $theme ?>">
+	<div id="movie-headbox-<?php echo $id ?>" class="wpmoly block headbox imdb contained <?php echo $theme ?>">
 		<div class="wpmoly headbox imdb movie">
 			<div class="wpmoly headbox imdb movie poster">
 <?php if ( ! empty( $poster ) ) : ?>
