@@ -11,7 +11,7 @@
 
 <?php foreach ( $images as $image ) : ?>
 					<li class="tmdb_movie_images tmdb_movie_imported_image">
-						<a class="open-editor" href="<?php echo $image['link'] ?>" data-id="<?php echo $image['id'] ?>">
+						<a href="<?php echo $image['link'] ?>" data-id="<?php echo $image['id'] ?>">
 							<div class="js--select-attachment type-image <?php echo $image['type'] . $image['format'] ?>">
 								<div class="thumbnail">
 									<div class="centered"><img src="<?php echo $image['image'][0] ?>" draggable="false" alt=""></div>

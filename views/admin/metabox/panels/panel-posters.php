@@ -8,10 +8,9 @@
 			<div id="tmdb_posters_preview" class="hide-if-no-js">
 				<ul id="__attachments-view" class="attachments ui-sortable ui-sortable-disabled" tabindex="-1">
 
-<?php 
-foreach ( $posters as $poster ) : ?>
+<?php foreach ( $posters as $poster ) : ?>
 					<li class="tmdb_movie_images tmdb_movie_imported_image">
-						<a class="open-editor" href="<?php echo $poster['link'] ?>" data-id="<?php echo $poster['id'] ?>">
+						<a href="<?php echo $poster['link'] ?>" data-id="<?php echo $poster['id'] ?>">
 							<div class="js--select-attachment type-image <?php echo $poster['type'] . $poster['format'] ?>">
 								<div class="thumbnail">
 									<div class="centered"><img src="<?php echo $poster['image'][0] ?>" draggable="false" alt=""></div>
