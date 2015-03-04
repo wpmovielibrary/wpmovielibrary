@@ -57,6 +57,16 @@ $wpmoly_shortcodes = array(
 				'values'  => null,
 				'filter'  => 'esc_attr'
 			),
+			'category' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'tag' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
 			'collection' => array(
 				'default' => null,
 				'values'  => null,

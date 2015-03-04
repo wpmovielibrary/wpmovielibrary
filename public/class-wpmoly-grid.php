@@ -139,6 +139,8 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				'columns'    => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
 				'rows'       => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
 				'paged'      => 1,
+				'category'   => null,
+				'tag'        => null,
 				'collection' => null,
 				'actor'      => null,
 				'genre'      => null,
@@ -247,6 +249,16 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				$tax_query = array(
 					'taxonomy' => 'actor',
 					'terms'    => $actor,
+				);
+			} elseif ( ! is_null( $category ) && ! empty( $category ) ) {
+				$tax_query = array(
+					'taxonomy' => 'category',
+					'terms'    => $category,
+				);
+			} elseif ( ! is_null( $tag ) && ! empty( $tag ) ) {
+				$tax_query = array(
+					'taxonomy' => 'post_tag',
+					'terms'    => $tag,
 				);
 			}
 
