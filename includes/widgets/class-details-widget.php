@@ -121,7 +121,7 @@ class WPMOLY_Details_Widget extends WPMOLY_Widget {
 
 		if ( ! empty( $details ) ) {
 
-			$baseurl = get_post_type_archive_link( 'movie' );
+			$baseurl = trailingslashit( get_post_type_archive_link( 'movie' ) );
 
 			$this->widget_css .= " wpmoly {$detail}";
 
@@ -139,7 +139,7 @@ class WPMOLY_Details_Widget extends WPMOLY_Widget {
 							'value'   => $slug,
 							'type'    => 'detail',
 							'format'  => 'raw',
-							'baseurl' => get_post_type_archive_link( 'movie' )
+							'baseurl' => $baseurl
 						)
 					)
 				);
