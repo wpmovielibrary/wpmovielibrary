@@ -4,13 +4,13 @@
 <?php
 global $post;
 
-$vintage_mode = wpmoly_o( 'vintage-content' );
+$headbox_enable = wpmoly_o( 'headbox-enable' );
 
 if ( ! empty( $movies ) ) :
 	foreach ( $movies as $post ) :
 		setup_postdata( $post );
 
-		if ( '0' == $vintage_mode ) {
+		if ( '1' == $headbox_enable ) {
 			echo WPMOLY_Movies::movie_content();
 		} else {
 ?>

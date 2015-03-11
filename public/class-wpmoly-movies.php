@@ -248,7 +248,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			if ( 'movie' != get_post_type() )
 				return $content;
 
-			if ( ! wpmoly_o( 'vintage-content' ) ) {
+			if ( wpmoly_o( 'headbox-enable' ) ) {
 				$headbox = new WPMOLY_Headbox();
 				$headbox = $headbox->render( $content );
 			} else {
