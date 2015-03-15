@@ -157,9 +157,14 @@ if ( ! class_exists( 'WPMOLY_Formatting_Details' ) ) :
 			if ( ! is_array( $data ) )
 				$data = array( $data );
 
-			foreach ( $data as $d )
-				if ( isset( $lang[ $d ] ) )
+			foreach ( $data as $d ) {
+				if ( 'none' == $d ) {
+					$title = array( __( 'None', 'wpmovielibrary' ) );
+					break;
+				} elseif ( isset( $lang[ $d ] ) ) {
 					$title[] = __( $lang[ $d ], 'wpmovielibrary' );
+				}
+			}
 
 			$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'subtitle', 'data' => 'subtitles', 'title' => implode( ', ', $title ) ), $require = 'always' );
 
