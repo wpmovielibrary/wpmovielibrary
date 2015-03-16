@@ -161,6 +161,9 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
 			$args = wp_parse_args( $_args, $args );
 
+			// debug
+			$main_args = $args;
+
 			extract( $args, EXTR_SKIP );
 			$total  = 0;
 
@@ -332,6 +335,9 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			);
 			$url = WPMOLY_Utils::build_meta_permalink( $args );
 
+			// debug
+			$permalinks_args = $args;
+
 			global $wp_rewrite;
 			$format = '/page/%#%';
 			if ( '' == $wp_rewrite->permalink_structure )
@@ -353,7 +359,13 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			else
 				$theme = '';
 
-			$attributes = compact( 'movies', 'columns', 'title', 'year', 'rating', 'theme' );
+			// debug
+			$debug = null;
+			if ( current_user_can( 'manage_options' ) && '1' == wpmoly_o( 'debug-mode' ) ) {
+				$debug = compact( 'main_args', 'permalinks_args' );
+			}
+
+			$attributes = compact( 'movies', 'columns', 'title', 'year', 'rating', 'theme', 'debug' );
 
 			$content  = self::render_template( "movies/grid/$view-loop.php", $attributes, $require = 'always' );
 			$content  = $content . $paginate;

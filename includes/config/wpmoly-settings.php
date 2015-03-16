@@ -1425,7 +1425,7 @@ $wpmoly_config = array(
 					'http'  => __( 'HTTP', 'wpmovielibrary' ),
 					'https' => __( 'HTTPS', 'wpmovielibrary' )
 				),
-				'default' => 'https'
+				'default'  => 'https'
 			),
 
 			// API Language
@@ -1435,7 +1435,7 @@ $wpmoly_config = array(
 				'title'    => __( 'API Language', 'wpmovielibrary' ),
 				'desc'     => __( 'Default language to use when fetching informations from TMDb. Default is english. You can always change this manually when add a new movie.', 'wpmovielibrary' ),
 				'options'  => $wpmoly_supported_languages,
-				'default' => 'en'
+				'default'  => 'en'
 			),
 
 			// API Country
@@ -1445,7 +1445,7 @@ $wpmoly_config = array(
 				'title'    => __( 'API Country', 'wpmovielibrary' ),
 				'desc'     => __( 'Default country to use when fetching release informations from TMDb. Default is United States. This is mostly used to get movie certifications corresponding to your country.', 'wpmovielibrary' ),
 				'options'  => $wpmoly_supported_countries,
-				'default' => 'US'
+				'default'  => 'US'
 			),
 
 			// API Alternative Country
@@ -1455,8 +1455,28 @@ $wpmoly_config = array(
 				'title'    => __( 'API Alternative Country', 'wpmovielibrary' ),
 				'desc'     => __( 'You can select an alternative country to use when fetching release informations from TMDb. If primary country leaves empty results, the alternative country will be used to fill the blank.', 'wpmovielibrary' ),
 				'options'  => $wpmoly_supported_countries,
-				'default' => 'US'
+				'default'  => 'US'
 			),
+		)
+	),
+
+	// 'wpmoly-advanced' Advanced Settings
+	array(
+		'icon'    => 'wpmolicon icon-advanced',
+		'title'   => __( 'Advanced Settings', 'wpmovielibrary' ),
+		'heading' => __( 'Advanced Plugin Settings & Tools', 'wpmovielibrary' ),
+		'fields'  => array(
+
+			// API internal mode
+                        'personnal' => array(
+				'id'       => 'wpmoly-debug-mode',
+				'type'     => 'switch',
+				'title'    => __( 'Debug Mode', 'wpmovielibrary' ),
+				'desc'     => __( 'Log specific information for debugging purpose.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0
+                        ),
 		)
 	),
 

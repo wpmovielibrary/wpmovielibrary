@@ -1,3 +1,11 @@
+<?php if ( ! is_null( $debug ) ) : ?>
+				<div>
+					<strong>$main_args:</strong><br />
+					<pre><?php print_r( $debug['main_args'] ); ?></pre>
+					<strong>$permalinks_args:</strong><br />
+					<pre><?php print_r( $debug['permalinks_args'] ); ?></pre>
+				</div>
+<?php endif; ?>
 
 				<div id="wpmoly-movie-grid" class="wpmoly movies grid grid-col-<?php echo $columns . $theme; ?><?php if ( $title || $year || $rating ) echo ' spaced'; ?>">
 
