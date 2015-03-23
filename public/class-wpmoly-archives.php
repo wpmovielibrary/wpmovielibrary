@@ -260,18 +260,36 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			if ( ! in_array( $id, $this->pages ) )
 				return $content;
 
+			// Fetch archives
 			extract( $this->pages );
 			$archive = '';
-			if ( $movie && $movie == $id )
+			if ( $movie && $movie == $id ) {
 				$archive = self::movie_archives();
-			elseif ( $collection && $collection == $id )
+			} else if ( $collection && $collection == $id ) {
 				$archive = self::taxonomy_archives( 'collection' );
-			elseif ( $genre && $genre == $id )
+			} else if ( $genre && $genre == $id ) {
 				$archive = self::taxonomy_archives( 'genre' );
-			elseif ( $actor && $actor == $id )
+			} else if ( $actor && $actor == $id ) {
 				$archive = self::taxonomy_archives( 'actor' );
+			}
 
-			return $archive . $content;
+			// Determine archives position
+			if ( $movie && $archive ) {
+				$position = wpmoly_o( 'movie-archives-position' );
+			} else if ( ( $collection || $genre || $actor ) && $archive ) {
+				$position = wpmoly_o( 'tax-archives-position' );
+			} else {
+				$position = 'top';
+			}
+
+			// Positioning
+			if ( 'bottom' == $position ) {
+				$content = $content . $archive;
+			} else {
+				$content = $archive . $content;
+			}
+
+			return $content;
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

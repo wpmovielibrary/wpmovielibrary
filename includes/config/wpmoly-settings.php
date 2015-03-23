@@ -712,6 +712,19 @@ $wpmoly_config = array(
 				'default'  => ''
 			),
 
+			// Archives Position
+			'movie-archives-position' => array(
+				'id'       => 'wpmoly-movie-archives-position',
+				'type'     => 'select',
+				'title'    => __( 'Archives Position', 'wpmovielibrary' ),
+				'desc'     => __( 'Where to display the Archives on the page.', 'wpmovielibrary' ),
+				'options'  => array(
+					'top'    => __( 'Top', 'wpmovielibrary' ),
+					'bottom' => __( 'Bottom', 'wpmovielibrary' )
+				),
+				'default'  => 'top',
+			),
+
 			// Movie archives page title rewrite
 			'movie-archives-title-rewrite' => array(
 				'id'       => 'wpmoly-movie-archives-title-rewrite',
@@ -881,6 +894,19 @@ $wpmoly_config = array(
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
 				'default'  => '',
 				'required' => array( 'wpmoly-enable-actor', "=", 1 )
+			),
+
+			// Archives Position
+			'archives-position' => array(
+				'id'       => 'wpmoly-tax-archives-position',
+				'type'     => 'select',
+				'title'    => __( 'Archives Position', 'wpmovielibrary' ),
+				'desc'     => __( 'Where to display the Archives on the page.', 'wpmovielibrary' ),
+				'options'  => array(
+					'top'    => __( 'Top', 'wpmovielibrary' ),
+					'bottom' => __( 'Bottom', 'wpmovielibrary' )
+				),
+				'default'  => 'top',
 			),
 
 			// Movie archives page title rewrite
