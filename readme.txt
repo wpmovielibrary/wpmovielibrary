@@ -144,8 +144,10 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 * Feat - Grid sorting modes: rating, release date, local release date
 * Feat - Grid content modes: now supports collections, genres and actors
 * Feat - Implement new [movie_posters] Shortcode
+* Tweak - New Archives position option
 * Tweak - Implement [movie_rating] Shortcode
 * Tweak - Add title attribute to meta links
+* Tweak - New 'None' option for subtitles
 * Fix - URL parsing bug when permalinks are disabled
 * Fix - Rating stars erroneous title when using 10-base rating
 * Fix - Permalink bug when permalink translation is set off
