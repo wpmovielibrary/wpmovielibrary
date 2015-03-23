@@ -395,50 +395,53 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 
 			foreach ( $fields as $slug => $field ) {
 
-				$detail = $details[ $slug ];
+				if ( isset( $details[ $slug ] ) ) {
 
-				if ( ! is_array( $detail ) )
-					$detail = array( $detail );
+					$detail = $details[ $slug ];
 
-				foreach ( $detail as $i => $d ) {
+					if ( ! is_array( $detail ) )
+						$detail = array( $detail );
 
-					if ( '' != $d ) {
+					foreach ( $detail as $i => $d ) {
 
-						if ( isset( $default_fields[ $slug ]['options'] ) ) {
-							$value = $default_fields[ $slug ]['options'][ $d ];
-						} else {
-							$value = $d;
+						if ( '' != $d ) {
+
+							if ( isset( $default_fields[ $slug ]['options'] ) ) {
+								$value = $default_fields[ $slug ]['options'][ $d ];
+							} else {
+								$value = $d;
+							}
+
+							if ( 'rating' == $slug ) {
+								$d = apply_filters( "wpmoly_movie_meta_link", array(
+									'key'   => 'rating',
+									'value' => array_search( $value, $default_fields[ $slug ]['options'] ),
+									'type'  => 'detail',
+									'text'  => $value
+								) );
+							} else {
+								$d = apply_filters( "wpmoly_movie_meta_link", array(
+									'key'   => $slug,
+									'value' => $value,
+									'meta'  => 'detail',
+									'text'  => $value
+								) );
+							}
 						}
 
-						if ( 'rating' == $slug ) {
-							$d = apply_filters( "wpmoly_movie_meta_link", array(
-								'key'   => 'rating',
-								'value' => array_search( $value, $default_fields[ $slug ]['options'] ),
-								'type'  => 'detail',
-								'text'  => $value
-							) );
-						} else {
-							$d = apply_filters( "wpmoly_movie_meta_link", array(
-								'key'   => $slug,
-								'value' => $value,
-								'meta'  => 'detail',
-								'text'  => $value
-							) );
-						}
+						$detail[ $i ] = apply_filters( "wpmoly_format_movie_field", $d );
+
 					}
 
-					$detail[ $i ] = apply_filters( "wpmoly_format_movie_field", $d );
+					if ( empty( $detail ) )
+						$detail[] = apply_filters( "wpmoly_format_movie_field", '' );
 
+					$title = '';
+					if ( isset( $default_fields[ $slug ] ) )
+						$title = __( $default_fields[ $slug ]['title'], 'wpmovielibrary' );
+
+					$items[] = array( 'slug' => $slug, 'title' => $title, 'value' => $detail );
 				}
-
-				if ( empty( $detail ) )
-					$detail[] = apply_filters( "wpmoly_format_movie_field", '' );
-
-				$title = '';
-				if ( isset( $default_fields[ $slug ] ) )
-					$title = __( $default_fields[ $slug ]['title'], 'wpmovielibrary' );
-
-				$items[] = array( 'slug' => $slug, 'title' => $title, 'value' => $detail );
 			}
 
 			$attributes = array(
