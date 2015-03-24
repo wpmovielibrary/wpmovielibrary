@@ -562,6 +562,19 @@ $wpmoly_config = array(
 				'default'  => 0,
 				'required' => array( 'wpmoly-enable-collection', "=", 1 ),
 				'indent'   => true
+			),
+
+			// Collections Post Types
+			'collection-post-types' => array(
+				'id'       => 'wpmoly-collection-post-types',
+				'type'     => 'select',
+				'title'    => __( 'Collections Post Types support', 'wpmovielibrary' ),
+				'desc'     => __( 'Select which post types should support collections.', 'wpmovielibrary' ),
+				'data'     => 'post_types',
+				'multi'    => true,
+				'required' => array( 'wpmoly-collection-posts', "=", '1' ),
+				'default'  => array( 'post', 'page' ),
+				'indent'   => true
 			)
 		)
 	),
@@ -598,7 +611,7 @@ $wpmoly_config = array(
 				'indent'   => true
 			),
 
-			// Enable Collections for regular WordPress Posts
+			// Enable Genres for regular WordPress Posts
 			'genre-posts' => array(
 				'id'       => 'wpmoly-genre-posts',
 				'type'     => 'switch',
@@ -608,6 +621,19 @@ $wpmoly_config = array(
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0,
 				'required' => array( 'wpmoly-enable-genre', "=", 1 ),
+				'indent'   => true
+			),
+
+			// Genres Post Types
+			'genre-post-types' => array(
+				'id'       => 'wpmoly-genre-post-types',
+				'type'     => 'select',
+				'title'    => __( 'Genres Post Types support', 'wpmovielibrary' ),
+				'desc'     => __( 'Select which post types should support genres.', 'wpmovielibrary' ),
+				'data'     => 'post_types',
+				'multi'    => true,
+				'required' => array( 'wpmoly-genre-posts', "=", '1' ),
+				'default'  => array( 'post', 'page' ),
 				'indent'   => true
 			)
 		)
@@ -657,7 +683,7 @@ $wpmoly_config = array(
 				'indent'   => true
 			),
 
-			// Enable Collections for regular WordPress Posts
+			// Enable Actors for regular WordPress Posts
 			'actor-posts' => array(
 				'id'       => 'wpmoly-actor-posts',
 				'type'     => 'switch',
@@ -667,6 +693,19 @@ $wpmoly_config = array(
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0,
 				'required' => array( 'wpmoly-enable-actor', "=", 1 ),
+				'indent'   => true
+			),
+
+			// Actors Post Types
+			'actor-post-types' => array(
+				'id'       => 'wpmoly-actor-post-types',
+				'type'     => 'select',
+				'title'    => __( 'Actors Post Types support', 'wpmovielibrary' ),
+				'desc'     => __( 'Select which post types should support actors.', 'wpmovielibrary' ),
+				'data'     => 'post_types',
+				'multi'    => true,
+				'required' => array( 'wpmoly-actor-posts', "=", '1' ),
+				'default'  => array( 'post', 'page' ),
 				'indent'   => true
 			)
 		),
