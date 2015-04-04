@@ -305,8 +305,9 @@ wpmoly = wpmoly || {};
 	 */
 	wpmoly.init = function() {
 
-		var pagenow = pagenow   || false,
-		  adminpage = adminpage || false;
+		var pagenow = window.pagenow   || false,
+		  adminpage = window.adminpage || false;
+
 		if ( ! pagenow || ! adminpage ) {
 			return;
 		}
