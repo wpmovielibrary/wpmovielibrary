@@ -8,6 +8,8 @@ $ = $ || jQuery;
 
 wpmoly = {};
 
+	wpmoly.init = function() {};
+
 	wpmoly.editor = {};
 	wpmoly.importer = {};
 	wpmoly.queue = {};

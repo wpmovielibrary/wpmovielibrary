@@ -298,8 +298,20 @@ wpmoly = wpmoly || {};
 			$( nonce_name ).val( nonce );
 	};
 
+	/**
+	 * Init script.
+	 * 
+	 * @since    2.1.4
+	 */
 	wpmoly.init = function() {
 
-		if ( ( 'edit-movie' == pagenow && 'edit-php' == adminpage ) || ( 'movie' == pagenow && 'post-new-php' == adminpage ) )
+		var pagenow = pagenow   || false,
+		  adminpage = adminpage || false;
+		if ( ! pagenow || ! adminpage ) {
+			return;
+		}
+
+		if ( ( 'edit-movie' == pagenow && 'edit-php' == adminpage ) || ( 'movie' == pagenow && 'post-new-php' == adminpage ) ) {
 			$( '#toplevel_page_wpmovielibrary, #toplevel_page_wpmovielibrary > a' ).addClass( 'wp-has-current-submenu wp-open-submenu' );
+		}
 	};
