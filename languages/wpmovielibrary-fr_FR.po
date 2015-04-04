@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary 2.0-alpha.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/wpmovielibrary\n"
-"POT-Creation-Date: 2015-03-24 09:27+0100\n"
-"PO-Revision-Date: 2015-03-24 09:36+0100\n"
+"POT-Creation-Date: 2015-04-04 09:18+0100\n"
+"PO-Revision-Date: 2015-04-04 09:29+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: WPMovieLibrary <support@wpmovielibrary.com>\n"
 "Language: Français\n"
@@ -30,6 +30,105 @@ msgstr "Vous n'êtes pas autorisé à éditer ce contenu."
 #: ../admin/class-dashboard-most-rated-movies-widget.php:280
 msgid "Go back"
 msgstr "Retour"
+
+#: ../admin/class-wpmoly-list-table.php:133
+msgid "List View"
+msgstr "Vue en liste"
+
+#: ../admin/class-wpmoly-list-table.php:134
+msgid "Excerpt View"
+msgstr "Liste avec extraits"
+
+#: ../admin/class-wpmoly-list-table.php:290
+msgid "No items found."
+msgstr "Aucun résultat."
+
+#: ../admin/class-wpmoly-list-table.php:416
+msgid "Select bulk action"
+msgstr "Sélectionnez l’action groupée"
+
+#: ../admin/class-wpmoly-list-table.php:418
+#: ../admin/class-wpmoly-import-table.php:420
+#: ../views/admin/import/import.php:48
+msgid "Bulk Actions"
+msgstr "Actions groupées"
+
+#: ../admin/class-wpmoly-list-table.php:428
+#: ../admin/class-wpmoly-import-table.php:430 ../admin/class-dashboard.php:197
+#: ../views/admin/import/import.php:52
+msgid "Apply"
+msgstr "Appliquer"
+
+#: ../admin/class-wpmoly-list-table.php:516
+msgid "Filter by date"
+msgstr "Filtrer par date"
+
+#: ../admin/class-wpmoly-list-table.php:518
+msgid "All dates"
+msgstr "Toutes les dates"
+
+#: ../admin/class-wpmoly-list-table.php:531
+#, php-format
+msgid "%1$s %2$d"
+msgstr "%1$s sur %2$d"
+
+#: ../admin/class-wpmoly-list-table.php:578
+#, php-format
+msgid "%s pending"
+msgstr "%s en attente"
+
+#: ../admin/class-wpmoly-list-table.php:657
+#: ../admin/class-wpmoly-list-table.php:1079
+#: ../admin/class-wpmoly-import-queue.php:105
+#: ../admin/class-wpmoly-import-table.php:93
+#: ../admin/class-wpmoly-import-table.php:528
+#: ../views/admin/import/import.php:55
+#, php-format
+msgid "1 item"
+msgid_plural "%s items"
+msgstr[0] "1 élément"
+msgstr[1] "%s éléments"
+
+#: ../admin/class-wpmoly-list-table.php:676
+#: ../admin/class-wpmoly-import-table.php:111
+msgid "Go to the first page"
+msgstr "Aller à la première page"
+
+#: ../admin/class-wpmoly-list-table.php:683
+#: ../admin/class-wpmoly-import-table.php:118
+msgid "Go to the previous page"
+msgstr "Aller à la page précédente"
+
+#: ../admin/class-wpmoly-list-table.php:692
+msgid "Select Page"
+msgstr "Sélectionner une page"
+
+#: ../admin/class-wpmoly-list-table.php:693
+#: ../admin/class-wpmoly-import-table.php:127
+msgid "Current page"
+msgstr "Page courante"
+
+#: ../admin/class-wpmoly-list-table.php:699
+#: ../admin/class-wpmoly-import-table.php:133
+#, php-format
+msgctxt "paging"
+msgid "%1$s of %2$s"
+msgstr "%1$s sur %2$s"
+
+#: ../admin/class-wpmoly-list-table.php:703
+#: ../admin/class-wpmoly-import-table.php:137
+msgid "Go to the next page"
+msgstr "Aller à la prochaine page"
+
+#: ../admin/class-wpmoly-list-table.php:710
+#: ../admin/class-wpmoly-import-table.php:144
+msgid "Go to the last page"
+msgstr "Aller à la dernière page"
+
+#: ../admin/class-wpmoly-list-table.php:847
+#: ../admin/class-wpmoly-import-table.php:564
+msgid "Select All"
+msgstr "Tout sélectionner"
 
 #: ../admin/class-wpmoly-metaboxes.php:53
 #: ../admin/class-wpmoly-metaboxes.php:96
@@ -99,7 +198,7 @@ msgid "Movie \"%s\" already imported."
 msgstr "Le film « <em>%s</em> » a déjà été importé."
 
 #: ../admin/class-wpmoly-import.php:251
-#: ../admin/class-wpmoly-import-table.php:339
+#: ../admin/class-wpmoly-import-table.php:335
 #: ../views/admin/dashboard-latest-movies/latest-movies.php:17
 #: ../views/admin/dashboard-most-rated-movies/most-rated-movies.php:17
 #: ../views/admin/dashboard/movie-modal.php:20
@@ -364,7 +463,7 @@ msgid "Error update Post #%d post_type."
 msgstr "Une erreur est survenue lors de la mise à jour du Post #%d."
 
 #: ../admin/class-wpmoly-edit-movies.php:375
-#: ../admin/class-wpmoly-import-table.php:46
+#: ../admin/class-wpmoly-import-table.php:42
 #: ../includes/classes/class-wpmoly-l10n.php:431
 msgid "Poster"
 msgstr "Affiche"
@@ -478,16 +577,6 @@ msgstr ""
 "Erreur de l'API : une erreur s’est produite lors du traitement de la requête."
 
 #: ../admin/class-wpmoly-import-queue.php:105
-#: ../admin/class-wpmoly-import-table.php:97
-#: ../admin/class-wpmoly-import-table.php:532
-#: ../views/admin/import/import.php:55
-#, php-format
-msgid "1 item"
-msgid_plural "%s items"
-msgstr[0] "1 élément"
-msgstr[1] "%s éléments"
-
-#: ../admin/class-wpmoly-import-queue.php:105
 #: ../views/admin/import/import.php:55
 msgid "No item"
 msgstr "Aucun élément"
@@ -585,7 +674,7 @@ msgstr "Support"
 msgid "About WPMovieLibrary"
 msgstr "À propos de WPMovieLibrary"
 
-#: ../admin/class-wpmoly-import-table.php:47
+#: ../admin/class-wpmoly-import-table.php:43
 #: ../includes/config/wpmoly-settings.php:142
 #: ../includes/config/wpmoly-settings.php:835
 #: ../includes/config/wpmoly-settings.php:862
@@ -601,7 +690,7 @@ msgstr "À propos de WPMovieLibrary"
 msgid "Title"
 msgstr "Titre"
 
-#: ../admin/class-wpmoly-import-table.php:48
+#: ../admin/class-wpmoly-import-table.php:44
 #: ../includes/config/wpmoly-settings.php:135
 #: ../includes/config/wpmoly-movies.php:232
 #: ../includes/config/wpmoly-movies.php:376
@@ -609,82 +698,42 @@ msgstr "Titre"
 msgid "Director"
 msgstr "Réalisateur"
 
-#: ../admin/class-wpmoly-import-table.php:49
+#: ../admin/class-wpmoly-import-table.php:45
 #: ../views/admin/import/import.php:61
 msgid "Actions"
 msgstr "Actions"
 
-#: ../admin/class-wpmoly-import-table.php:78
+#: ../admin/class-wpmoly-import-table.php:74
 msgid "No movies found, dude."
 msgstr "Aucun film trouvé."
 
-#: ../admin/class-wpmoly-import-table.php:115
-msgid "Go to the first page"
-msgstr "Aller à la première page"
-
-#: ../admin/class-wpmoly-import-table.php:122
-msgid "Go to the previous page"
-msgstr "Aller à la page précédente"
-
-#: ../admin/class-wpmoly-import-table.php:131
-msgid "Current page"
-msgstr "Page courante"
-
-#: ../admin/class-wpmoly-import-table.php:137
-#, php-format
-msgctxt "paging"
-msgid "%1$s of %2$s"
-msgstr "%1$s sur %2$s"
-
-#: ../admin/class-wpmoly-import-table.php:141
-msgid "Go to the next page"
-msgstr "Aller à la prochaine page"
-
-#: ../admin/class-wpmoly-import-table.php:148
-msgid "Go to the last page"
-msgstr "Aller à la dernière page"
-
-#: ../admin/class-wpmoly-import-table.php:340
+#: ../admin/class-wpmoly-import-table.php:336
 msgid "Fetch data from TMDb"
 msgstr "Télécharger les données"
 
-#: ../admin/class-wpmoly-import-table.php:341
+#: ../admin/class-wpmoly-import-table.php:337
 msgid "Enqueue"
 msgstr "Ajouter à la file d'attente"
 
-#: ../admin/class-wpmoly-import-table.php:342
+#: ../admin/class-wpmoly-import-table.php:338
 #: ../views/admin/dashboard-latest-movies/latest-movies.php:18
 #: ../views/admin/dashboard-most-rated-movies/most-rated-movies.php:18
 #: ../views/admin/import/queued-movies.php:14
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ../admin/class-wpmoly-import-table.php:383
+#: ../admin/class-wpmoly-import-table.php:379
 msgid "Find Metadata"
 msgstr "Chercher les métadonnées"
 
-#: ../admin/class-wpmoly-import-table.php:384
+#: ../admin/class-wpmoly-import-table.php:380
 msgid "Enqueue Movie"
 msgstr "Ajouter à la file d'attente"
 
-#: ../admin/class-wpmoly-import-table.php:385
+#: ../admin/class-wpmoly-import-table.php:381
 #: ../views/admin/import/import.php:49
 msgid "Delete Movie"
 msgstr "Supprimer"
-
-#: ../admin/class-wpmoly-import-table.php:424
-#: ../views/admin/import/import.php:48
-msgid "Bulk Actions"
-msgstr "Actions groupées"
-
-#: ../admin/class-wpmoly-import-table.php:434 ../admin/class-dashboard.php:197
-#: ../views/admin/import/import.php:52
-msgid "Apply"
-msgstr "Appliquer"
-
-#: ../admin/class-wpmoly-import-table.php:568
-msgid "Select All"
-msgstr "Tout sélectionner"
 
 #: ../admin/class-dashboard.php:190
 msgid "Show on screen"
@@ -3085,10 +3134,8 @@ msgid "Import / Export"
 msgstr "Import / export"
 
 #: ../includes/config/wpmoly-settings.php:1704
-msgid "Import and Export your settings and movies from file, text or URL."
-msgstr ""
-"Importer et exporter vos réglages et films depuis un fichier, un texte ou "
-"une URL."
+msgid "Import and Export your settings."
+msgstr "Importer et exporter vos réglages."
 
 #: ../includes/config/wpmoly-admin-menu.php:58
 #: ../includes/config/wpmoly-admin-menu.php:59
