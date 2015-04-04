@@ -182,6 +182,7 @@ if ( wpmoly_requirements_met() ) {
 		require_once( WPMOLY_PATH . 'admin/class-wpmoly-metaboxes.php' );
 		require_once( WPMOLY_PATH . 'admin/class-wpmoly-edit-movies.php' );
 		require_once( WPMOLY_PATH . 'admin/class-wpmoly-media.php' );
+		require_once( WPMOLY_PATH . 'admin/class-wpmoly-list-table.php' );
 		require_once( WPMOLY_PATH . 'admin/class-wpmoly-import-table.php' );
 		require_once( WPMOLY_PATH . 'admin/class-wpmoly-import-queue.php' );
 		require_once( WPMOLY_PATH . 'admin/class-wpmoly-import.php' );

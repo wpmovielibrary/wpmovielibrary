@@ -9,13 +9,9 @@
  * @copyright 2014 CaerCam.org
  */
 
-if( ! class_exists( 'WP_List_Table' ) ) {
-    require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
-}
-
 error_reporting( ~E_NOTICE );
 
-class WPMOLY_Import_Table extends WP_List_Table {
+class WPMOLY_Import_Table extends WPMOLY_List_Table {
 
 	/**
 	 * Constructor. Calls WP_List_Table and set up data.
