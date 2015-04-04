@@ -287,17 +287,19 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			}
 
 			$_orderby = array(
-				'year'      => 'release_date',
-				'date'      => 'release_date',
-				'localdate' => 'local_release_date',
-				'rating'    => 'rating'
+				'year'       => 'release_date',
+				'date'       => 'release_date',
+				'localdate'  => 'local_release_date',
+				'rating'     => 'rating'
 			);
-			if ( in_array( $orderby, array_keys( $_orderby ) ) ) {
 
+			if ( in_array( $orderby, array_keys( $_orderby ) ) ) {
 				$select[] = ' pm.meta_value AS value';
 				$join[]   = ' INNER JOIN wp_postmeta AS pm ON ( wp_posts.ID = pm.post_id )';
 				$where[]  = ' AND pm.meta_key = "_wpmoly_movie_' . $_orderby[ $orderby ] . '"';
 				$orderby = 'value';
+			} elseif ( 'post_date' == $orderby ) {
+				$orderby = 'post_date';
 			} else {
 				$orderby = 'post_title';
 			}
