@@ -1701,7 +1701,7 @@ $wpmoly_config = array(
 	array(
 		'icon'    => 'wpmolicon icon-update',
 		'title'   => __( 'Import / Export', 'wpmovielibrary' ),
-		'heading' => __( 'Import and Export your settings and movies from file, text or URL.', 'wpmovielibrary' ),
+		'heading' => __( 'Import and Export your settings.', 'wpmovielibrary' ),
 		'fields'  => array(
 
 			'import-export' => array(
