@@ -205,8 +205,27 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 
 		switch ( $select ) {
 			case 'status':
+				$_select = $instance[ "select_$select" ];
+				$args = array(
+					'orderby'    => 'post_date',
+					'meta_query' => array()
+				);
+				if ( 'all' != $_select ) {
+					$args['meta_query'][] = array(
+						'key'     => "_wpmoly_movie_$select",
+						'value'   => $_select,
+						'compare' => '='
+					);
+				} else {
+					$args['meta_query'][] = array(
+						'key'     => "_wpmoly_movie_$select",
+						'value'   => '',
+						'compare' => '!='
+					);
+				}
+				break;
 			case 'media':
-				$_select = $instance["select_$select"];
+				$_select = $instance[ "select_$select" ];
 				$args = array(
 					'orderby'    => 'post_date',
 					'meta_query' => array()
