@@ -30,7 +30,7 @@
 				<span class="wpmoly headbox imdb movie meta release_date"><?php echo $meta['release_date']; ?></span>
 <?php endif; ?>
 				<hr />
-<?php if ( ! empty( $meta['rating_stars'] ) ) : ?>
+<?php if ( ! empty( $details['rating_stars'] ) ) : ?>
 				<span class="wpmoly headbox imdb movie rating starlined"><?php _e( 'Your rating:', 'wpmovielibrary' ); ?> <?php echo $details['rating_stars']; ?></span>
 				<hr />
 <?php endif; if ( ! empty( $meta['overview'] ) ) : ?>
