@@ -1,80 +1,103 @@
 
-$ = $ || jQuery;
-
 wpmoly = wpmoly || {};
 
-wpmoly.widget = wpmoly_widget = {
+_.extend( wpmoly, { widgets: {} } );
 
-	select: '.wpmoly-movies-widget-select-select > option',
-	select_meta_select: '.wpmoly-movies-widget-meta-select',
+_.extend( wpmoly.widgets, {
 
-	select_status: '.wpmoly-movies-widget-select-status',
-	select_media: '.wpmoly-movies-widget-select-media',
-	select_rating: '.wpmoly-movies-widget-select-rating',
-	select_meta: '.wpmoly-movies-widget-select-meta',
-	select_year: '.wpmoly-movies-widget-select-release_date',
-	select_language: '.wpmoly-movies-widget-select-spoken_languages',
-	select_production_countries: '.wpmoly-movies-widget-select-production_countries',
-	select_production_companies: '.wpmoly-movies-widget-select-production_companies',
-};
+	_widgets: [],
 
-	/*wpmoly.widget = function() {
-		
-	};*/
+	Model: {
+		Movie: Backbone.Model.extend({
 
-	wpmoly.widget.init = function() {
+			defaults: {
+				select:        'date',
+				select_status: 'all',
+				select_media:  'all',
+				select_rating: 'all',
+				select_meta:   'all'
+			},
 
-		wpmoly_widget.hide();
+			
+		})
+	},
 
-		$( wpmoly_widget.select ).on( 'click', function( e ) {
-			wpmoly_widget.toggle( e, this.value );
-		});
+	View: {
+		Movie: Backbone.View.extend({
 
-		$( wpmoly_widget.select_meta + ' option' ).on( 'click', function( e ) {
-			wpmoly_widget.toggle_meta( e, this.value );
-		});
+			events: {
+				'change [data-select="select"]':      'switch_select',
+				'change [data-select-meta="select"]': 'switch_meta_select',
+			},
 
-		$( wpmoly_widget.select_meta_select + ' select' ).on( 'change', function( e ) {
-			$( wpmoly_widget.select_meta_select + ' option' ).prop( 'selected', false );
-			if ( e.added.element.length )
-				$( e.added.element[0] ).prop( 'selected', true );
-		});
+			initialize: function() {
 
-		/*$( wpmoly_widget.select_meta ).on( 'change', function( e ) {
-			wpmoly_widget.toggle_meta( e );
-		});*/
-	};
+				this.hide_selects();
 
-	wpmoly.widget.toggle = function( event, select ) {
-	    
-		$( '.wpmoly-movies-widget-select.selected' ).removeClass( 'selected' );
+				_.each( this.model.attributes, function( value, key ) {
+					value = this.$( '.wpmoly-movies-widget-' + key.replace( '_', '-' ) ).val() || '';
+					this.model.attributes[ key ] = value;
+				}, this );
 
-		var $selector = $( '.wpmoly-movies-widget-select-' + select );
-		if ( undefined != $selector )
-			$selector.addClass( 'selected' ).show();
+				this.model.on( 'change:select',      this.toggle_select, this );
+				this.model.on( 'change:select_meta', this.toggle_select_meta, this );
+			},
 
-		wpmoly_widget.hide();
-	};
+			hide_selects: function() {
 
-	wpmoly.widget.toggle_meta = function( event, select ) {
+				this.$( '.wpmoly-movies-widget-select' ).not( '.wpmoly-movies-widget-select-select' ).not( '.selected' ).hide();
+				this.$( '.wpmoly-movies-widget-meta-select' ).not( '.selected' ).hide();
+			},
 
-		var $target = $( event.target ),
-		    $widget = $target.parents( 'div.widget' ),
-		    $select = $widget.find( '.wpmoly-movies-widget-select-' + select ),
-		   $selects = $widget.find( '.wpmoly-movies-widget-select-meta .redux-container-select' );
+			switch_select: function( event ) {
 
-		console.log( $select, $selects );
-		$selects.removeClass( 'selected' ).hide();
-		$select.addClass( 'selected' ).show();
-		//wpmoly_widget.hide();
+				var $elem = this.$( event.currentTarget ),
+				   select = $elem.val();
 
-	};
+				this.model.set({ select: select });
+			},
 
-	wpmoly.widget.hide = function() {
-		$( wpmoly_widget.select_status ).not( '.selected' ).hide();
-		$( wpmoly_widget.select_media ).not( '.selected' ).hide();
-		$( wpmoly_widget.select_rating ).not( '.selected' ).hide();
-		$( wpmoly_widget.select_meta_select ).not( '.selected' ).hide();
+			switch_meta_select: function( event ) {
+
+				var $elem = this.$( event.currentTarget ),
+				   select = $elem.val();
+
+				this.model.set( 'select_meta', select );
+			},
+
+			toggle_select: function( model, value ) {
+
+				this.hide_selects();
+				this.$( '.wpmoly-movies-widget-select.selected' ).removeClass( 'selected' ).hide();
+				this.$( '.wpmoly-movies-widget-select-' + value ).addClass( 'selected' ).show();
+			},
+
+			toggle_select_meta: function( model, value ) {
+
+				console.log( value );
+				this.$( '.wpmoly-movies-widget-meta-select.selected' ).removeClass( 'selected' ).hide();
+				this.$( '.wpmoly-movies-widget-select-' + value ).addClass( 'selected' ).show();
+			}
+		})
+	},
+},
+{
+	init: function() {
+
+		var $widgets = Backbone.$( '[data-wpmoly=movies-widget]' );
+
+		_.each( $widgets, function( widget ) {
+			var  _widget = new wpmoly.widgets.Model.Movie;
+			_widget.view = new wpmoly.widgets.View.Movie({
+				el:    widget,
+				model: _widget,
+			});
+			this._widgets.push( _widget );
+		}, this );
 	}
 
-wpmoly_widget.init();
+} );
+
+jQuery( document ).ready( function() {
+	wpmoly.widgets.init();
+});

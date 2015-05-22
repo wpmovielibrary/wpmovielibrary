@@ -99,6 +99,10 @@ body.post-php.post-type-movie #postimagediv {
 	display: inline-block;
 }
 
+.wpmoly-movies-widget-select-meta .redux-container-select select {
+	max-width: 300px;
+}
+
 /* Select Movies */
 
 .tmdb_select_movie {

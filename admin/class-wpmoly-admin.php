@@ -445,10 +445,10 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			}
 
 			if ( $hook_suffix == $widgets ) {
-				$scripts['select2-sortable-js'] = array( '/includes/framework/redux/ReduxCore/assets/js/vendor/select2.sortable.min.js', array( 'jquery' ), false );
-				$scripts['select2-js']          = array( '/includes/framework/redux/ReduxCore/assets/js/vendor/select2/select2.min.js', array( 'jquery', ), false );
-				$scripts['field-select-js']     = array( '/includes/framework/redux/ReduxCore/inc/fields/select/field_select.min.js', array( 'jquery' ), false );
-				$scripts['widget']              = array( '/assets/js/admin/wpmoly-widget.js', array( $wpmoly_slug, 'jquery' ), false );
+// 				$scripts['select2-sortable-js'] = array( '/includes/framework/redux/ReduxCore/assets/js/vendor/select2.sortable.min.js', array( 'jquery' ), false );
+// 				$scripts['select2-js']          = array( '/includes/framework/redux/ReduxCore/assets/js/vendor/select2/select2.min.js', array( 'jquery', ), false );
+// 				$scripts['field-select-js']     = array( '/includes/framework/redux/ReduxCore/inc/fields/select/field_select.min.js', array( 'jquery' ), false );
+				$scripts['widget']              = array( '/assets/js/admin/wpmoly-widget.js', array( $wpmoly_slug, 'jquery', 'underscore', 'wp-backbone' ), true );
 			}
 
 			if ( $hook_suffix == $edit || $hook_suffix == $new ) {
