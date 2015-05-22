@@ -344,7 +344,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$sendback = add_query_arg( compact( 'updated', 'ids' ), $sendback );
 			$sendback = remove_query_arg( array( 'action', 'paged', 'mode', 'action2', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status',  'post', 'bulk_edit', 'post_view' ), $sendback );
 			
-			wp_safe_redirect( $sendback );
+			wp_safe_redirect( esc_url( $sendback ) );
 			exit();
 		}
 

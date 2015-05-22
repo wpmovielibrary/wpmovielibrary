@@ -583,10 +583,10 @@
                     $this->set_options( $data );
                 }
 
-                wp_redirect( add_query_arg( array(
+                wp_redirect( esc_url( add_query_arg( array(
                     'page'    => $this->args['page_slug'],
                     'updated' => 'true'
-                ), network_admin_url( 'settings.php' ) ) );
+                ), network_admin_url( 'settings.php' ) ) ) );
                 exit();
             }
 

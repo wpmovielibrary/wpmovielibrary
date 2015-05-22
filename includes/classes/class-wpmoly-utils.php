@@ -699,7 +699,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$grid = array_pop( $url );
 
 			$url = implode( '/', $url );
-			$url = $baseurl . $url;
+			$url = esc_url( $baseurl . $url );
 
 			return $url;
 		}
@@ -747,7 +747,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				if ( '' != $arg )
 					$url[ $slug ] = $arg;
 
-			$url = add_query_arg( $url, $base );
+			$url = esc_url( add_query_arg( $url, $base ) );
 
 			return $url;
 		}
