@@ -201,51 +201,116 @@ function wpmoly_get_movie_format( $post_id = null ) {
 	return WPMOLY_Movies::get_movie_meta( $post_id, 'format' );
 }
 
+/**
+ * Check for a specific Movie Meta/Detail.
+ * 
+ * Has to be called inside the loop.
+ *
+ * @since    2.1.4.2
+ * 
+ * @param    string    Movie format.
+ *
+ * @return   boolean
+ */
+function wpmoly_has_movie_meta( $meta, $value ) {
 
+	$metas = (array) WPMOLY_Movies::get_movie_meta( null, $meta );
 
+	return in_array( $value, $metas );
+}
 
+/**
+ * Check for a specific Movie media.
+ * 
+ * Alias for wpmoly_has_movie_meta().
+ *
+ * @since    2.1.4.2
+ * 
+ * @param    string    Movie media.
+ *
+ * @return   boolean
+ */
+function wpmoly_is_movie_media( $media ) {
 
+	return wpmoly_has_movie_meta( 'media', $media );
+}
 
+/**
+ * Check for a specific Movie status.
+ * 
+ * Alias for wpmoly_has_movie_meta().
+ *
+ * @since    2.1.4.2
+ * 
+ * @param    string    Movie status.
+ *
+ * @return   boolean
+ */
+function wpmoly_is_movie_status( $status ) {
 
+	return wpmoly_has_movie_meta( 'status', $status );
+}
 
+/**
+ * Check for a specific Movie rating.
+ * 
+ * Alias for wpmoly_has_movie_meta().
+ *
+ * @since    2.1.4.2
+ * 
+ * @param    string    Movie rating.
+ *
+ * @return   boolean
+ */
+function wpmoly_is_movie_rating( $rating ) {
 
+	return wpmoly_has_movie_meta( 'rating', $rating );
+}
 
+/**
+ * Check for a specific Movie language.
+ * 
+ * Alias for wpmoly_has_movie_meta().
+ *
+ * @since    2.1.4.2
+ * 
+ * @param    string    Movie language.
+ *
+ * @return   boolean
+ */
+function wpmoly_is_movie_language( $language ) {
 
+	return wpmoly_has_movie_meta( 'language', $language );
+}
 
+/**
+ * Check for a specific Movie subtitle.
+ * 
+ * Alias for wpmoly_has_movie_meta().
+ *
+ * @since    2.1.4.2
+ * 
+ * @param    string    Movie subtitle.
+ *
+ * @return   boolean
+ */
+function wpmoly_is_movie_subtitles( $subtitles ) {
 
+	return wpmoly_has_movie_meta( 'subtitles', $subtitles );
+}
 
+/**
+ * Check for a specific Movie format.
+ * 
+ * Alias for wpmoly_has_movie_meta().
+ *
+ * @since    2.1.4.2
+ * 
+ * @param    string    Movie format.
+ *
+ * @return   boolean
+ */
+function wpmoly_is_movie_format( $format ) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	return wpmoly_has_movie_meta( 'format', $format );
+}
