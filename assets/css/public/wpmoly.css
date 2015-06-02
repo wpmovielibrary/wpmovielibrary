@@ -626,10 +626,14 @@
 	border: 1px solid #dbdbdb;
 	border-radius: 3px;
 	margin-bottom: 20px;
+	width: 100%;
+}
+
+.wpmoly.headbox.allocine > .wpmoly.headbox.movie {
 	padding: 8px 14px;
 }
 
-.wpmoly.headbox.block.allocine.position-top {
+.wpmoly.headbox.block.allocine.position-top > .wpmoly.headbox.movie {
 	padding: 14px;
 }
 

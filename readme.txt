@@ -140,7 +140,7 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 
 = 2.1.4.1 =
 * Tweak - Edit misleading Settings description
-* Tweak - Minor grid ordering tweak #243 	
+* Tweak - Minor grid ordering tweak #243
 * Tweak - Update l10n
 * Fix - Minor JS messing with Customizer
 * Fix - WordPress 4.2 WP_List_Table Class incompatibilities
