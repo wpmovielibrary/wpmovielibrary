@@ -1305,7 +1305,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			extract($args, EXTR_SKIP);
 
-			$orderby = "ORDER BY term_order";
+			$orderby = "ORDER BY tr.term_order";
 			$order = 'ASC';
 
 			$taxonomies = "'" . implode("', '", $taxonomies) . "'";
