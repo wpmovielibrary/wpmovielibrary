@@ -284,19 +284,21 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 */
 		public static function movie_vintage_content( $content = null ) {
 
-			// Caching
-			$name = apply_filters( 'wpmoly_cache_name', 'movie_content_' . get_the_ID() );
-			$html = WPMOLY_Cache::output( $name, function() use ( $content ) {
+			// Naughty PHP 5.3 fix
+			$details  = WPMOLY_Movies::movie_details();
+			$metadata = WPMOLY_Movies::movie_metadata();
 
-				// Naughty PHP 5.3 fix
-				$details  = WPMOLY_Movies::movie_details();
-				$metadata = WPMOLY_Movies::movie_metadata();
+			$html = $details . $metadata;
 
-				$html = $details . $metadata;
-
-				return $html;
-
-			}, $echo = false );
+			/**
+			 * Filter vintage content
+			 * 
+			 * @param    string    $html New content: details + metadata
+			 * @param    string    $details Details content
+			 * @param    string    $metadata Metadata content
+			 * @param    string    $content Old content
+			 */
+			$html = apply_filters( 'wpmoly_movie_vintage_content', $html, $details, $metadata, $content );
 
 			return $html;
 		}
