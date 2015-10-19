@@ -38,7 +38,7 @@ abstract class WPMOLY_Widget extends WP_Widget {
 			'description' => $this->widget_description
 		);
 
-		$this->WP_Widget( $this->widget_id, $this->widget_name, $widget_args );
+		parent::__construct( $this->widget_id, $this->widget_name, $widget_args );
 	}
 
 	/**
