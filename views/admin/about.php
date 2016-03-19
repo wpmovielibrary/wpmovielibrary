@@ -18,11 +18,6 @@
 		</h2>
 
 		<div id="features" class="changelog">
-			<div class="about-overview">
-				
-			</div>
-
-			<hr />
 
 			<div class="feature-section col two-col">
 				<div class="col-1">

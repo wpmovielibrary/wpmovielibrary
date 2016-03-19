@@ -8,6 +8,14 @@
 
 /** About page **/
 
+.dashboard_page_wpmovielibrary-about .wpmoly.update-nag {
+	margin-top: 25px !important;
+}
+
+.dashboard_page_wpmovielibrary-about #features {
+	margin-top: 25px;
+}
+
 .wp-badge.wpmoly-badge {
 	background: url('../../img/header.jpg') no-repeat;
 	background-position: -184px -246px;
@@ -109,10 +117,22 @@
 /* WPMOLY Notice
  ****************************************************/
 
-.wpmoly {
+.wpmoly.update-nag {
 	border-color: #0099d5 !important;
-	margin: 25px 20px 8px 0 !important;
+	margin: 45px 20px 8px 0 !important;
 	padding: 0.75em 1.5em !important;
+}
+
+#dismiss-custom-pages-notice {
+	float: right;
+	font-size: 12px;
+	padding: 0 8px;
+	text-decoration: none;
+}
+
+#dismiss-custom-pages-notice .wpmolicon {
+	font-size: 18px;
+	margin: 2px 0 -4px 0;
 }
 
 .no-js-alert {
