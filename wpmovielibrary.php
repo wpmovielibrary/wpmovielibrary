@@ -11,7 +11,7 @@
  * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
- * @copyright 2014 CaerCam.org
+ * @copyright 2016 CaerCam.org
  *
  * @wordpress-plugin
  * Plugin Name: WPMovieLibrary
@@ -39,7 +39,7 @@ define( 'WPMOLY_SLUG',                   'wpmoly' );
 define( 'WPMOLY_URL',                    plugins_url( basename( __DIR__ ) ) );
 define( 'WPMOLY_PATH',                   plugin_dir_path( __FILE__ ) );
 define( 'WPMOLY_REQUIRED_PHP_VERSION',   '5.3' );
-define( 'WPMOLY_REQUIRED_WP_VERSION',    '3.8' );
+define( 'WPMOLY_REQUIRED_WP_VERSION',    '4.2' );
 define( 'WPMOLY_DEFAULT_POSTER_URL',     plugins_url( basename( __DIR__ ) ) . '/assets/img/no_poster{size}.jpg' );
 define( 'WPMOLY_DEFAULT_POSTER_PATH',    WPMOLY_PATH . '/assets/img/no_poster{size}.jpg' );
 define( 'WPMOLY_MAX_TAXONOMY_LIST',      50 );

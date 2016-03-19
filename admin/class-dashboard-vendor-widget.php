@@ -8,7 +8,7 @@
  * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
- * @copyright 2014 CaerCam.org
+ * @copyright 2016 CaerCam.org
  */
 
 if ( ! class_exists( 'WPMOLY_Dashboard_Vendor_Widget' ) ) :

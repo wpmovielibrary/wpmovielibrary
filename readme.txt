@@ -2,8 +2,8 @@
 Contributors: askelon
 Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
-Requires at least: 3.8
-Tested up to: 4.2.2
+Requires at least: 4.2
+Tested up to: 4.4.2
 Stable tag: 2.1.4.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -13,6 +13,9 @@ WordPress Movie Library is an advanced movie library managing plugin to turn you
 == Description ==
 
 The best way to manage your personnal movie library. Handle collections of movies, automatically fetch metadata, images and posters, create collections by mass importing lists of movie titles… [Demo: See what it looks like!](http://demo.wpmovielibrary.com/)
+
+= Announcing WPMovieLibrary 3.0 =
+The plugin is under heavy work since late 2015 with a complete rewrite of the whole code in process. Be sure to check up frequently on the [official blog](http://wpmovielibrary.com/category/blog/) and social networks to see how developement is going!
 
 = Simple yet powerfull =
 WPMovieLibrary uses WordPress simple but efficient techniques to provide you a really simple tool to change your classic WordPress Blog to an extended management software for your movie collection.
@@ -65,8 +68,8 @@ Developers and Translators can contribute to the source code on the [GitHub Repo
 
 = Minimum Requirements =
 
-* WordPress 3.8 or greater
-* PHP version 5.3 or greater (5.4 recommended)
+* WordPress 4.2 or greater
+* PHP version 5.3 or greater (5.5 recommended)
 * MySQL version 5.0 or greater
 
 = Automatic installation =
@@ -137,6 +140,17 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 7. Import queue
 
 == Changelog ==
+
+= 2.1.4.2 =
+ * Tweak - Movies Widget available/unavailable status distinction
+ * Tweak - About page style
+ * Tweak - Disable outdated notice
+ * Fix - Duplicate Dashboard menu entry
+ * Fix - SQL bug on term ordering
+ * Fix - PHP Notice on deprecated Widget constructor
+ * Dev - New filter for vintage content
+ * Dev - Fix potential XSS vulnerabilities
+ * Dev - Update Movies Widget Admin to Backbone.js
 
 = 2.1.4.1 =
 * Tweak - Edit misleading Settings description

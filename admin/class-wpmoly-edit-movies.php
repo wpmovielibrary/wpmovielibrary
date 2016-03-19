@@ -9,7 +9,7 @@
  * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
  * @link      http://www.caercam.org/
- * @copyright 2014 CaerCam.org
+ * @copyright 2016 CaerCam.org
  */
 
 if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
@@ -822,7 +822,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					'title'          => '<span class="lipsum">Lorem ipsum dolor</span>',
 					'original_title' => '<span class="lipsum">Lorem ipsum dolor sit amet</span>',
 					'genres'         => '<span class="lipsum">Lorem, ipsum, dolor, sit, amet</span>',
-					'release_date'   => '<span class="lipsum">2014</span>',
+					'release_date'   => '<span class="lipsum">2016</span>',
 					'rating'         => '<span class="lipsum">0-0</span>',
 					'overview'       => '<span class="lipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut mattis fermentum eros, et rhoncus enim cursus vitae. Nullam interdum mi feugiat, tempor turpis ac, viverra lorem. Nunc placerat sapien ut vehicula iaculis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia augue pharetra orci porta, nec posuere lectus accumsan. Mauris porttitor posuere lacus, sit amet auctor nibh congue eu.</span>',
 					'director'       => '<span class="lipsum">Lorem ipsum</span>',
