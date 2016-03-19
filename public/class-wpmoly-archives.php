@@ -50,7 +50,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'admin_notices', array( $this, 'custom_pages_notice' ) );
+			//add_action( 'admin_notices', array( $this, 'custom_pages_notice' ) );
 			add_action( 'template_redirect', array( $this, 'template_redirect' ) );
 
 			add_filter( 'the_content', array( $this, 'get_pages' ), 10, 1 );
