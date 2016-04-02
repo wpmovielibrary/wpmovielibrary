@@ -1,0 +1,4 @@
+
+						<a href="#" id="wpmoly-import-{{ data.type }}s" class="wpmoly-import-images" data-action="import"><span class="wpmolicon icon-import"></span><span class="label"><# if ( 'backdrop' == data.type ) { #><?php _e( 'Import Backdrops', 'wpmovielibrary' ); ?><# } else if ( 'poster' == data.type ) { #><?php _e( 'Import Posters', 'wpmovielibrary' ); ?><# } #></span></a>
+						<a href="#" id="wpmoly-upload-{{ data.type }}s" class="wpmoly-upload-images" data-action="upload"><span class="wpmolicon icon-export"></span><span class="label"><# if ( 'backdrop' == data.type ) { #><?php _e( 'Upload Backdrops', 'wpmovielibrary' ); ?><# } else if ( 'poster' == data.type ) { #><?php _e( 'Upload Posters', 'wpmovielibrary' ); ?><# } #></span></a>
+						<a href="#" id="wpmoly-load-{{ data.type }}s" class="wpmoly-load-images wpmoly-load-{{ data.type }}s"><span class="wpmolicon icon-plus"></span></a>
