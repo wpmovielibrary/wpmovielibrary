@@ -120,7 +120,7 @@ class Template {
 			}
 		}
 
-		$template_path = apply_filters( "wpmoly/{$admin}template/path", $template_path );
+		$template_path = apply_filters( "wpmoly/filter/{$admin}template/path", $template_path );
 
 		if ( is_file( $template_path ) ) {
 
@@ -133,7 +133,7 @@ class Template {
 				require_once( $template_path );
 			}
 
-			$this->template = apply_filters( "wpmoly/{$admin}template/content", ob_get_clean(), $this->path, $template_path, $this->data );
+			$this->template = apply_filters( "wpmoly/filter/{$admin}template/content", ob_get_clean(), $this->path, $template_path, $this->data );
 		} else {
 			$this->template = '';
 		}

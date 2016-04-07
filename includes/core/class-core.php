@@ -12,14 +12,14 @@
 namespace wpmoly\Core;
 
 /**
- * 
+ * Simple Singleton Class.
  * 
  * @since      3.0
  * @package    WPMovieLibrary
  * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Core {
+abstract class Core {
 
 	/**
 	 * Current instance.
@@ -28,19 +28,26 @@ class Core {
 	 * 
 	 * @var      Library
 	 */
-	public static $instance;
+	protected static $instances = array();
 
 	/**
 	 * Singleton.
 	 * 
 	 * @since    3.0
+	 * 
+	 * @return   self
 	 */
-	public static function get_instance() {
+	final public static function get_instance() {
 
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new static;
+		$class = get_called_class();
+		if ( ! isset( self::$instances[ $class ] ) ) {
+			self::$instances[ $class ] = new $class;
 		}
 
-		return self::$instance;
+		return self::$instances[ $class ];
 	}
+
+	protected function __construct() {}
+
+	final private function __clone() {}
 }

@@ -142,7 +142,7 @@ class Options extends Core {
 		 * 
 		 * @param    array    $countries
 		 */
-		$this->countries = apply_filters( 'wpmoly/options/countries', $defaults['countries'] );
+		$this->countries = apply_filters( 'wpmoly/filter/options/countries', $defaults['countries'] );
 
 		/**
 		 * Filter the default languages list.
@@ -151,7 +151,7 @@ class Options extends Core {
 		 * 
 		 * @param    array    $languages
 		 */
-		$this->languages = apply_filters( 'wpmoly/options/languages', $defaults['languages'] );
+		$this->languages = apply_filters( 'wpmoly/filter/options/languages', $defaults['languages'] );
 
 		/**
 		 * Filter the default supported countries list.
@@ -160,7 +160,7 @@ class Options extends Core {
 		 * 
 		 * @param    array    $supported_countries
 		 */
-		$this->supported_countries = apply_filters( 'wpmoly/options/supported_countries', $defaults['supported_countries'] );
+		$this->supported_countries = apply_filters( 'wpmoly/filter/options/supported_countries', $defaults['supported_countries'] );
 
 		/**
 		 * Filter the default supported languages list.
@@ -169,7 +169,7 @@ class Options extends Core {
 		 * 
 		 * @param    array    $supported_languages
 		 */
-		$this->supported_languages = apply_filters( 'wpmoly/options/supported_languages', $defaults['supported_languages'] );
+		$this->supported_languages = apply_filters( 'wpmoly/filter/options/supported_languages', $defaults['supported_languages'] );
 
 		/**
 		 * Filter the default movie meta list.
@@ -178,7 +178,7 @@ class Options extends Core {
 		 * 
 		 * @param    array    $default_meta
 		 */
-		$this->default_meta = apply_filters( 'wpmoly/movie/default/meta', $defaults['default_meta'] );
+		$this->default_meta = apply_filters( 'wpmoly/filter/movie/default/meta', $defaults['default_meta'] );
 
 		/**
 		 * Filter the default movie details list.
@@ -187,7 +187,7 @@ class Options extends Core {
 		 * 
 		 * @param    array    $default_details
 		 */
-		$this->default_details = apply_filters( 'wpmoly/movie/default/details', $defaults['default_details'] );
+		$this->default_details = apply_filters( 'wpmoly/filter/movie/default/details', $defaults['default_details'] );
 	}
 
 	/**

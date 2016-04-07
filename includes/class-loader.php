@@ -45,15 +45,6 @@ class Loader extends Core {
 	protected $filters;
 
 	/**
-	 * Class instance.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @var      Loader
-	 */
-	public static $instance;
-
-	/**
 	 * Initialize the collections used to maintain the actions and filters.
 	 * 
 	 * @since    3.0
@@ -63,20 +54,6 @@ class Loader extends Core {
 		$this->actions = array();
 		$this->filters = array();
 
-	}
-
-	/**
-	 * Library singleton.
-	 *
-	 * @since    3.0
-	 */
-	public static function get_instance() {
-
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new static;
-		}
-
-		return self::$instance;
 	}
 
 	/**

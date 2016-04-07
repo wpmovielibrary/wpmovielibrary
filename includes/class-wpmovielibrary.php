@@ -84,6 +84,8 @@ class Library {
 	 * for the admin area and the public-facing side of the site.
 	 *
 	 * @since    3.0
+	 * 
+	 * @return    \wpmoly\Library
 	 */
 	public function __construct() {
 
@@ -96,6 +98,8 @@ class Library {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+
+		return $this;
 	}
 
 	/**
@@ -234,22 +238,22 @@ class Library {
 	private function define_public_hooks() {
 
 		$public = new Frontend( $this->get_plugin_name(), $this->get_version() );
-
 		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_scripts' );
 
-		$registrar = new Registrar;
-
+		$registrar = Registrar::get_instance();
 		$this->loader->add_action( 'init', $registrar, 'register_post_types' );
 		$this->loader->add_action( 'init', $registrar, 'register_taxonomies' );
+		$this->loader->add_action( 'init', $registrar, 'register_post_statuses' );
 
 		// Public-side Ajax
 		$ajax = Ajax\Ajax::get_instance();
 		$ajax->define_public_hooks();
 
-		$terms = new Terms;
+		$terms = Terms::get_instance();
 		$this->loader->add_filter( 'get_the_terms',       $terms, 'get_the_terms',            10, 3 );
 		$this->loader->add_filter( 'wp_get_object_terms', $terms, 'get_ordered_object_terms', 10, 4 );
+		$this->loader->add_filter( 'wpmoly/filter/post_type/movie', $terms, 'movie_standard_taxonomies' );
 
 	}
 

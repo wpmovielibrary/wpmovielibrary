@@ -109,7 +109,7 @@ class Metaboxes {
 		 * 
 		 * @param    array    $metaboxes Available metaboxes parameters
 		 */
-		$this->metaboxes = apply_filters( 'wpmoly/metaboxes', $metaboxes );
+		$this->metaboxes = apply_filters( 'wpmoly/filter/metaboxes', $metaboxes );
 
 		/**
 		 * Filter the plugin convertor metabox
@@ -118,7 +118,7 @@ class Metaboxes {
 		 * 
 		 * @param    array    $convertor Convertor metabox parameters
 		 */
-		$this->convertor = apply_filters( 'wpmoly/metabox/convertor', $convertor );
+		$this->convertor = apply_filters( 'wpmoly/filter/metabox/convertor', $convertor );
 
 		// Instanciate metaboxes
 		$this->make();

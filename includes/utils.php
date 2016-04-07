@@ -41,6 +41,24 @@ function wpmoly_o( $name, $default = null ) {
 }
 
 /**
+ * Retrieve a specific option in a boolean form.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $name Option name
+ * @param    mixed     $default Option default value to return if needed
+ * 
+ * @return   boolean
+ */
+function wpmoly_is_o( $name, $default = null ) {
+
+	$value = wpmoly_o( $name, $default );
+
+	return _is_bool( $value );
+}
+
+
+/**
  * Return a WPMoly-defined object.
  * 
  * @since    3.0

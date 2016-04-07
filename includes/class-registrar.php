@@ -13,6 +13,8 @@
 
 namespace wpmoly;
 
+use wpmoly\Core\Core;
+
 /**
  * Register the 'movie' Custom Post Type along with the 'import' post statuses.
  * 
@@ -23,124 +25,96 @@ namespace wpmoly;
  * @subpackage WPMovieLibrary/includes
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Registrar {
+class Registrar extends Core {
 
 	/**
-	 * Register Custom Post Types.
-	 * 
+	 * Custom Post Types list
+	 *
 	 * @since    3.0
 	 * 
-	 * @return   null
+	 * @var    array
 	 */
-	public function register_post_types() {
+	private $post_types;
 
-		$labels = array(
-			'name'               => __( 'Movies', 'wpmovielibrary' ),
-			'singular_name'      => __( 'Movie', 'wpmovielibrary' ),
-			'add_new'            => __( 'Add New', 'wpmovielibrary' ),
-			'add_new_item'       => __( 'Add New Movie', 'wpmovielibrary' ),
-			'edit_item'          => __( 'Edit Movie', 'wpmovielibrary' ),
-			'new_item'           => __( 'New Movie', 'wpmovielibrary' ),
-			'all_items'          => __( 'All Movies', 'wpmovielibrary' ),
-			'view_item'          => __( 'View Movie', 'wpmovielibrary' ),
-			'search_items'       => __( 'Search Movies', 'wpmovielibrary' ),
-			'not_found'          => __( 'No movies found', 'wpmovielibrary' ),
-			'not_found_in_trash' => __( 'No movies found in Trash', 'wpmovielibrary' ),
-			'parent_item_colon'  => '',
-			'menu_name'          => __( 'Movie Library', 'wpmovielibrary' )
+	/**
+	 * Custom Post Statuses list
+	 *
+	 * @since    3.0
+	 * 
+	 * @var    array
+	 */
+	private $post_statuses;
+
+	/**
+	 * Custom Taxonomies list
+	 *
+	 * @since    3.0
+	 * 
+	 * @var    array
+	 */
+	private $taxonomies;
+
+	/**
+	 * Define the custom post types, statuses and taxonomies.
+	 *
+	 * @since    3.0
+	 * 
+	 * @return    \wpmoly\Registrar
+	 */
+	public function __construct() {
+
+		$this->post_types = array(
+			array(
+				'slug' => 'movie',
+				'args' => array(
+					'labels' => array(
+						'name'               => __( 'Movies', 'wpmovielibrary' ),
+						'singular_name'      => __( 'Movie', 'wpmovielibrary' ),
+						'add_new'            => __( 'Add New', 'wpmovielibrary' ),
+						'add_new_item'       => __( 'Add New Movie', 'wpmovielibrary' ),
+						'edit_item'          => __( 'Edit Movie', 'wpmovielibrary' ),
+						'new_item'           => __( 'New Movie', 'wpmovielibrary' ),
+						'all_items'          => __( 'All Movies', 'wpmovielibrary' ),
+						'view_item'          => __( 'View Movie', 'wpmovielibrary' ),
+						'search_items'       => __( 'Search Movies', 'wpmovielibrary' ),
+						'not_found'          => __( 'No movies found', 'wpmovielibrary' ),
+						'not_found_in_trash' => __( 'No movies found in Trash', 'wpmovielibrary' ),
+						'parent_item_colon'  => '',
+						'menu_name'          => __( 'Movie Library', 'wpmovielibrary' )
+					),
+					'rewrite' => array(
+						'slug' => wpmoly_is_o( 'rewrite-enable' ) ? wpmoly_o( 'rewrite-movie', 'movies' ) : 'movies'
+					),
+					'public'             => true,
+					'publicly_queryable' => true,
+					'show_ui'            => true,
+					'show_in_menu'       => true,
+					'has_archive'        => true,
+					'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
+					'menu_position'      => 2,
+					'menu_icon'          => 'dashicons-wpmoly'
+				)
+			)
 		);
 
-		$slug = 'movies';
-		if ( '1' == wpmoly_o( 'rewrite-enable' ) ) {
-			$slug = wpmoly_o( 'rewrite-movie', $slug );
-		}
-
-		$args = array(
-			'labels'             => $labels,
-			'rewrite'            => array(
-				'slug'       => $slug
+		$this->post_statuses = array(
+			array(
+				'slug' => 'import-draft',
+				'args' => array(
+					'label'       => _x( 'Imported Draft', 'wpmovielibrary' ),
+					'label_count' => _n_noop( 'Imported Draft <span class="count">(%s)</span>', 'Imported Draft <span class="count">(%s)</span>', 'wpmovielibrary' ),
+				)
 			),
-			'public'             => true,
-			'publicly_queryable' => true,
-			'show_ui'            => true,
-			'show_in_menu'       => true,
-			'has_archive'        => true,
-			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
-			'menu_position'      => 2,
-			'menu_icon'          => 'dashicons-wpmoly'
+			array(
+				'slug' => 'import-queued',
+				'args' => array(
+					'label'       => _x( 'Queued Movie', 'wpmovielibrary' ),
+					'label_count' => _n_noop( 'Queued Movie <span class="count">(%s)</span>', 'Queued Movies <span class="count">(%s)</span>', 'wpmovielibrary' ),
+				)
+			)
 		);
 
-		$args['taxonomies'] = array();
-		if ( wpmoly_o( 'enable-categories' ) ) {
-			$args['taxonomies'][] = 'category';
-		}
-
-		if ( wpmoly_o( 'enable-tags' ) ) {
-			$args['taxonomies'][] = 'post_tag';
-		}
-
-		/**
-		 * Filter the 'movie' Custom Post Type parameters prior to registration.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array    $args Post Type args
-		 */
-		$args = apply_filters( 'wpmoly/register/movie', $args );
-
-		register_post_type( 'movie', $args );
-
-		$args = array(
-			'label'                     => _x( 'Imported Draft', 'wpmovielibrary' ),
-			'public'                    => false,
-			'exclude_from_search'       => true,
-			'show_in_admin_all_list'    => false,
-			'show_in_admin_status_list' => false,
-			'label_count'               => _n_noop( 'Imported Draft <span class="count">(%s)</span>', 'Imported Draft <span class="count">(%s)</span>' ),
-		);
-
-		/**
-		 * Filter the 'import-draft' Custom Post Status parameters prior to registration.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array    $args Post Status args
-		 */
-		$args = apply_filters( 'wpmoly/register/import-draft', $args );
-
-		register_post_status( 'import-draft', $args );
-
-		$args = array(
-			'label'                     => _x( 'Queued Movie', 'wpmovielibrary' ),
-			'public'                    => false,
-			'exclude_from_search'       => true,
-			'show_in_admin_all_list'    => false,
-			'show_in_admin_status_list' => false,
-			'label_count'               => _n_noop( 'Queued Movie <span class="count">(%s)</span>', 'Queued Movies <span class="count">(%s)</span>' ),
-		);
-
-		/**
-		 * Filter the 'import-queued' Custom Post Status parameters prior to registration.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array    $args Post Status args
-		 */
-		$args = apply_filters( 'wpmoly/register/import-queued', $args );
-
-		register_post_status( 'import-queued', $args );
-	}
-
-	/**
-	 * Register Custom Taxonomies.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   null
-	 */
-	public function register_taxonomies() {
-
-		$taxonomies = array(
+		$this->taxonomies = array(
 			array(
 				'slug'  => 'collection',
 				'posts' => array( 'movie' ),
@@ -224,6 +198,109 @@ class Registrar {
 			)
 		);
 
+		return $this;
+	}
+
+	/**
+	 * Register Custom Post Types.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public function register_post_types() {
+
+		/**
+		 * Filter the Custom Post Types parameters prior to registration.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $post_types Post Types list
+		 */
+		$post_types = apply_filters( 'wpmoly/filter/post_types', $this->post_types );
+
+		foreach ( $this->post_types as $post_type ) {
+
+			/**
+			 * Filter the Custom Post Type parameters prior to registration.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    array    $args Post Type args
+			 */
+			$args = apply_filters( "wpmoly/filter/post_type/{$post_type['slug']}", $post_type['args'] );
+
+			$args = array_merge( array(
+				'labels'             => array(),
+				'rewrite'            => true,
+				'public'             => true,
+				'publicly_queryable' => true,
+				'show_ui'            => true,
+				'show_in_menu'       => true,
+				'has_archive'        => true,
+				'menu_position'      => null,
+				'menu_icon'          => null,
+				'taxonomies'         => array(),
+				'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' )
+			), $args );
+
+			register_post_type( $post_type['slug'], $args );
+		}
+	}
+
+	/**
+	 * Register Custom Post Statuses.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public function register_post_statuses() {
+
+		/**
+		 * Filter the Custom Post Statuses parameters prior to registration.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $post_statuses Post Statuses list
+		 */
+		$post_statuses = apply_filters( 'wpmoly/filter/post_statuses', $this->post_statuses );
+
+		foreach ( $this->post_statuses as $post_status ) {
+
+			/**
+			 * Filter the Custom Post Status parameters prior to registration.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    array    $args Post Status args
+			 */
+			$args = apply_filters( "wpmoly/filter/post_status/{$post_status['slug']}", $post_status['args'] );
+			$args = array_merge( array(
+				'label'                     => false,
+				'label_count'               => false,
+				'public'                    => false,
+				'internal'                  => true,
+				'private'                   => true,
+				'publicly_queryable'        => false,
+				'exclude_from_search'       => true,
+				'show_in_admin_all_list'    => false,
+				'show_in_admin_status_list' => false,
+			), $args );
+
+			register_post_status( $post_status['slug'], $args );
+		}
+	}
+
+	/**
+	 * Register Custom Taxonomies.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public function register_taxonomies() {
+
 		/**
 		 * Filter the custom taxonomies parameters prior to registration.
 		 * 
@@ -231,27 +308,26 @@ class Registrar {
 		 * 
 		 * @param    array    $taxonomies Taxonomies list
 		 */
-		$taxonomies = apply_filters( 'wpmoly/register/taxonomies', $taxonomies );
+		$taxonomies = apply_filters( 'wpmoly/filter/taxonomies', $this->taxonomies );
 
 		foreach ( $taxonomies as $taxonomy ) {
-
-			/**
-			 * Filter a custom taxonomy parameters prior to registration.
-			 * 
-			 * @since    3.0
-			 * 
-			 * @param    array    $taxonomy Taxonomy parameters
-			 * @param    array    $taxonomies Taxonomies list
-			 */
-			$taxonomy = apply_filters( "wpmoly/register/taxonomy/{$taxonomy['slug']}", $taxonomy, $taxonomies );
 
 			if ( wpmoly_o( "{$taxonomy['slug']}-posts" ) ) {
 				$taxonomy['args']['posts'][] = 'post';
 			}
 
-			if ( '1' == wpmoly_o( 'rewrite-enable' ) ) {
+			if ( wpmoly_is_o( 'rewrite-enable' ) ) {
 				$taxonomy['slug'] = wpmoly_o( "rewrite-{$taxonomy['slug']}", $taxonomy['slug'] );
 			}
+
+			/**
+			 * Filter the custom taxonomy parameters prior to registration.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    array    $taxonomy Taxonomy parameters
+			 */
+			$args = apply_filters( "wpmoly/filter/taxonomy/{$taxonomy['slug']}", $taxonomy['args'] );
 
 			$args = array_merge( array(
 				'show_ui'           => true,
@@ -261,7 +337,7 @@ class Registrar {
 				'query_var'         => true,
 				'sort'              => true,
 				'rewrite'           => array( 'slug' => $taxonomy['slug'] )
-			), $taxonomy['args'] );
+			), $args );
 
 			register_taxonomy( $taxonomy['slug'], $taxonomy['posts'], $args );
 		}
