@@ -401,6 +401,8 @@ class Node {
 	 */
 	public function is_empty() {
 
-		return empty( $this->data ) || empty( array_filter( $this->data ) );
+		$data = array_filter( $this->data );
+
+		return empty( $this->data ) || empty( $data );
 	}
 }
