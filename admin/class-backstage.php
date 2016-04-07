@@ -68,9 +68,9 @@ class Backstage {
 
 		wp_register_style( 'wpmoly-font', WPMOLY_URL . 'public/fonts/wpmovielibrary/style.css', array(), $this->version, 'all' );
 
-		wp_register_style( 'wpmoly',        WPMOLY_URL . 'admin/css/wpmoly.css', array(), $this->version, 'all' );
-		wp_register_style( 'wpmoly-common', WPMOLY_URL . 'public/css/common.css', array(), $this->version, 'all' );
-		wp_register_style( 'select2',       WPMOLY_URL . 'admin/css/select2.min.css', array(), $this->version, 'all' );
+		wp_register_style( 'wpmoly',         WPMOLY_URL . 'admin/css/wpmoly.css', array(), $this->version, 'all' );
+		wp_register_style( 'wpmoly-common',  WPMOLY_URL . 'public/css/common.css', array(), $this->version, 'all' );
+		wp_register_style( 'wpmoly-select2', WPMOLY_URL . 'admin/css/select2.min.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -133,7 +133,7 @@ class Backstage {
 		wp_register_script( 'wpmoly-tester',               WPMOLY_URL . 'admin/js/wpmoly-tester.js',         array( 'wpmoly' ), $this->version, true );
 
 		// Libraries
-		wp_register_script( 'select2',                     WPMOLY_URL . 'admin/js/select2.min.js',           array( 'jquery' ), '4.0.1',  true );
+		wp_register_script( 'wpmoly-select2',              WPMOLY_URL . 'admin/js/select2.min.js',           array( 'jquery' ), '4.0.1',  true );
 		wp_register_script( 'jquery-actual',               WPMOLY_URL . 'admin/js/jquery.actual.min.js',     array( 'jquery' ), '1.0.17', true );
 	}
 
@@ -152,7 +152,7 @@ class Backstage {
 
 		wp_enqueue_style( 'wpmoly' );
 		wp_enqueue_style( 'wpmoly-common' );
-		wp_enqueue_style( 'select2' );
+		wp_enqueue_style( 'wpmoly-select2' );
 	}
 
 	/**
@@ -222,7 +222,7 @@ class Backstage {
 			wp_enqueue_script( 'wpmoly-tester' );
 
 			// Libraries
-			wp_enqueue_script( 'select2' );
+			wp_enqueue_script( 'wpmoly-select2' );
 			wp_enqueue_script( 'jquery-actual' );
 		}
 	}
