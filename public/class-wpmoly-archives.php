@@ -705,7 +705,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 			$urls['all'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['order'] = $order;
 
-			$args['letter'] = '{letter}';
+			$args['letter'] = ':letter:';
 			$urls['letter'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['letter'] = $letter;
 

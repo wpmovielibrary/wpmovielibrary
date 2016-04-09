@@ -4,7 +4,7 @@
 <?php
 $current = $letter;
 foreach ( $default as $l ) :
-	$_url = str_replace( '{letter}', $l, $urls['letter'] );
+	$_url = str_replace( ':letter:', $l, $urls['letter'] );
 ?>
 					<li id="wpmoly-movie-grid-menu-item-<?php echo $l ?>" class="wpmoly movies grid menu list item<?php if ( strtolower( $l ) == strtolower( $current ) ) echo ' active'; ?>"><?php if ( in_array( $l, $letters ) ) { ?><a href="<?php echo $_url; ?>"><?php echo $l; ?></a><?php } else { echo $l; } ?></li>
 

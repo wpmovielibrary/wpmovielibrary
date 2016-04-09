@@ -95,7 +95,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$urls['grid'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['view'] = $view;
 
-			$args['letter'] = '{letter}';
+			$args['letter'] = ':letter:';
 			$urls['letter'] = WPMOLY_Utils::build_meta_permalink( $args );
 			$args['letter'] = $letter;
 
