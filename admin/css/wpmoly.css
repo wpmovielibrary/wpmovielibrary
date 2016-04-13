@@ -327,7 +327,8 @@
 	display: inline-block;
 	font-size: 20px;
 	position: absolute;
-	right: 0
+	right: 0;
+	top: 0;
 }
 
 #wpmoly-metabox #wpmoly-movie-search #wpmoly-search-form .wpmoly-search-tools {

@@ -89,7 +89,7 @@ _.extend( Search, {
 			var container = this.$el.width(),
 			     settings = this.$( '.wpmoly-search-settings' ).width(),
 			        tools = this.$( '.wpmoly-search-tools' ).width(),
-			        width = container - settings - tools - 2;
+			        width = container - settings - tools - 8;
 
 			this.$( '.wpmoly-search-query' ).width( width );
 		},
