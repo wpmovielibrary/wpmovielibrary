@@ -234,9 +234,6 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		 */
 		public static function import_movie( $movie ) {
 
-			$post_date     = current_time('mysql');
-			$post_date     = wp_checkdate( substr( $post_date, 5, 2 ), substr( $post_date, 8, 2 ), substr( $post_date, 0, 4 ), $post_date );
-			$post_date_gmt = get_gmt_from_date( $post_date );
 			$post_author   = get_current_user_id();
 			$post_content  = '';
 			$post_excerpt  = '';
@@ -262,8 +259,6 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 				'post_author'    => $post_author,
 				'post_content'   => $post_content,
 				'post_excerpt'   => $post_excerpt,
-				'post_date'      => $post_date,
-				'post_date_gmt'  => $post_date_gmt,
 				'post_name'      => sanitize_title( $post_title ),
 				'post_status'    => 'import-draft',
 				'post_title'     => $post_title,

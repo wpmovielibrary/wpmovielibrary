@@ -186,9 +186,8 @@ if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 			$post_title = str_replace( "&#039;", "'", $post_title );
 			$metadata = $movie;
 
-			$post_date     = current_time('mysql');
-			$post_date     = wp_checkdate( substr( $post_date, 5, 2 ), substr( $post_date, 8, 2 ), substr( $post_date, 0, 4 ), $post_date );
-			$post_date_gmt = get_gmt_from_date( $post_date );
+			$post_date     = current_time( 'mysql' );
+			$post_date_gmt = current_time( 'mysql', 1 );
 
 			$_post = array(
 				'ID'             => $post_id,
@@ -251,14 +250,8 @@ if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 		 */
 		public static function dequeue_movie( $post_id ) {
 
-			$post_date     = current_time('mysql');
-			$post_date     = wp_checkdate( substr( $post_date, 5, 2 ), substr( $post_date, 8, 2 ), substr( $post_date, 0, 4 ), $post_date );
-			$post_date_gmt = get_gmt_from_date( $post_date );
-
 			$_post = array(
 				'ID'             => $post_id,
-				'post_date'      => $post_date,
-				'post_date_gmt'  => $post_date_gmt,
 				'post_status'    => 'import-draft'
 			);
 
@@ -296,7 +289,8 @@ if ( ! class_exists( 'WPMOLY_Queue' ) ) :
 
 			$_post = array(
 				'ID'          => $post_id,
-				'post_status' => 'publish'
+				'post_status' => 'publish',
+				//'post_date'   => 
 			);
 
 			if ( wpmoly_o( 'poster-featured' ) ) {
