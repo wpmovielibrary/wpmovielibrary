@@ -55,6 +55,8 @@ _.extend( Search, {
 		 */
 		bindEvents: function() {
 
+			this.listenTo( this.model, 'change:query', this.render );
+
 			wpmoly.on( 'settings:open', function() {
 				this.$el.addClass( 'settings-opened' );
 			}, this );
@@ -166,6 +168,24 @@ _.extend( Search, {
 
 			this.change();
 			this.search();
+		},
+
+		/**
+		 * Render the View.
+		 *
+		 * @since    3.0
+		 *
+		 * @return   Returns itself to allow chaining
+		 */
+		render: function() {
+
+			this.$el.html( this.template( {
+				query: this.model.get( 'query' )
+			} ) );
+
+			this.resize();
+
+			return this;
 		}
 	})
 

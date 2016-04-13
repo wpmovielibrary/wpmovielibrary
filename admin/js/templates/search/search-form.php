@@ -3,7 +3,7 @@
 					<button type="button" id="wpmoly-search-settings-toggle" data-action="toggle-settings" class="icon" title="<?php _e( 'Search options', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-settings"></span><span class="wpmolicon icon-arrow-down"></span></button>
 				</div>
 				<div class="wpmoly-search-query">
-					<input id="wpmoly-search-query" type="text" placeholder="<?php _e( 'ex: Interstellar', 'wpmovielibrary' ); ?>" />
+					<input id="wpmoly-search-query" type="text" placeholder="<?php _e( 'ex: Interstellar', 'wpmovielibrary' ); ?>" value="{{ data.query }}" />
 					<button type="button" id="wpmoly-search" data-action="search" class="icon"><span class="wpmolicon icon-search"></span></button>
 				</div>
 				<div class="wpmoly-search-tools">

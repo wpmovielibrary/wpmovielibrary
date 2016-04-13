@@ -16,10 +16,13 @@ _.extend( wpmoly.controller, {
 
 			this.post_id = options.post_id || '';
 
+			var $title = wpmoly.$( '#title' );
+			$title.on( 'input', _.bind( this.setTitle, this ) );
+
 			// API block
 			this.api       = wpmoly.api;
 			this.settings  = new wpmoly.model.Settings( _wpmoly_search_settings || {}, { controller: this } );
-			this.search    = new wpmoly.model.Search( {}, { controller: this } );
+			this.search    = new wpmoly.model.Search( { query: $title.val() }, { controller: this } );
 			this.status    = new wpmoly.model.Status( null, { controller: this } );
 			this.results   = new wpmoly.model.Results( null, { controller  : this } );
 
@@ -49,6 +52,18 @@ _.extend( wpmoly.controller, {
 			wpmoly.on( 'api:fetch',     this.fetchMovie,   this );
 
 			wpmoly.on( 'editor:meta:reload', this.fetchMovie, this );
+		},
+
+		/**
+		 * Update the search query on post title changes.
+		 *
+		 * @since    3.0
+		 *
+		 * @return   void
+		 */
+		setTitle: function() {
+
+			this.search.set({ query: wpmoly.$( '#title' ).val() });
 		},
 
 		/**
