@@ -237,9 +237,9 @@ class Library {
 	 */
 	private function define_public_hooks() {
 
-		$public = new Frontend( $this->get_plugin_name(), $this->get_version() );
+		/*$public = new Frontend( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_scripts' );*/
 
 		$registrar = Registrar::get_instance();
 		$this->loader->add_action( 'init', $registrar, 'register_post_types' );
