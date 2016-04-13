@@ -27,14 +27,6 @@ _.extend( Modal, {
 			this.post_id = wpmoly.$( '#post_ID' ).val() || '';
 			this.tmdb_id = wpmoly.editor.controller.meta.get( 'tmdb_id' ) || '';
 
-			// Set current browsing mode, 'poster' or 'backdrop'
-			var mode = this.frame.content.mode() || '';
-			if ( 'backdrop' === mode ) {
-				this.uploader.imageType = 'backdrop';
-			} else if ( 'poster' === mode ) {
-				this.uploader.imageType = 'poster';
-			}
-
 			this.selection = new wp.media.model.Selection( [], {
 				multiple: true
 			} );
@@ -54,6 +46,12 @@ _.extend( Modal, {
 			wpmoly.on( 'editor:poster:set-as:done',   this.closeModal, this );
 
 			this.listenTo( this.frame, 'uploader:ready', this.bindUploader );
+			this.listenTo( this.frame, 'content:activate:backdrop', function() {
+				this.uploader.imageType = 'backdrop';
+			}, this );
+			this.listenTo( this.frame, 'content:activate:poster', function() {
+				this.uploader.imageType = 'poster';
+			}, this );
 		},
 
 		/**
