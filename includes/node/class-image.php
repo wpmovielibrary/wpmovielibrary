@@ -62,6 +62,8 @@ class Image extends Node {
 	/**
 	 * Set a handful of useful values for different sizes of the image.
 	 * 
+	 * TODO transfer to Backdrop and Poster classes
+	 * 
 	 * @since    3.0
 	 * 
 	 * @param    array    $meta Image Attachment metadata
@@ -150,7 +152,3 @@ class Image extends Node {
 		
 	}
 }
-
-class Backdrop extends Image {}
-
-class Poster extends Image {}

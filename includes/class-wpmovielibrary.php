@@ -151,6 +151,8 @@ class Library {
 		require_once WPMOLY_PATH . 'includes/node/class-meta.php';
 		require_once WPMOLY_PATH . 'includes/node/class-details.php';
 		require_once WPMOLY_PATH . 'includes/node/class-image.php';
+		require_once WPMOLY_PATH . 'includes/node/class-backdrop.php';
+		require_once WPMOLY_PATH . 'includes/node/class-poster.php';
 		require_once WPMOLY_PATH . 'includes/node/class-images.php';
 		require_once WPMOLY_PATH . 'includes/node/class-media.php';
 		require_once WPMOLY_PATH . 'includes/node/class-movie.php';

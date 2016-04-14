@@ -13,6 +13,8 @@ namespace wpmoly\Metabox;
 
 use wpmoly\Loader;
 use wpmoly\Node\Movie;
+use wpmoly\Node\Backdrop;
+use wpmoly\Node\Poster;
 use wpmoly\Core\Template;
 
 /**
@@ -385,8 +387,8 @@ class Editor extends Metabox {
 			$background = $background ? $background[0] : '';
 		} else {
 			$media = $movie->media->get_posters()->first();
-			$poster     = $media ? $media->sizes->medium->path : '';
-			$background = $media ? $media->sizes->original->path : '';
+			$poster     = $media ? $media->sizes->medium->path   : Poster::get_default_url( 'medium' );
+			$background = $media ? $media->sizes->original->path : Backdrop::get_default_url( 'full' );
 		}
 
 		$template->data = array(
