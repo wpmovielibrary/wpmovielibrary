@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the WPMovieLibrary package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPMovieLibrary 2.0-beta.1\n"
+"Project-Id-Version: WPMovieLibrary 3.0-alpha1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/wpmovielibrary\n"
-"POT-Creation-Date: 2016-02-26 16:16+0100\n"
-"PO-Revision-Date: 2016-02-26 16:16+0100\n"
+"POT-Creation-Date: 2016-04-21 10:31+0100\n"
+"PO-Revision-Date: 2016-04-21 10:31+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: WPMovieLibrary <support@wpmovielibrary.com>\n"
 "Language: English\n"
@@ -28,65 +28,65 @@ msgstr ""
 "X-Poedit-SearchPath-6: ../includes\n"
 "X-Poedit-SearchPath-7: ../public\n"
 
-#: ../admin/class-editor-metabox.php:342
+#: ../admin/class-editor-metabox.php:446
 msgid ""
 "The movie search requires JavaScript to be enabled, but it seems it isn’t… "
 "Check your browser settings to make sure JavaScript is correctly activated."
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:362
+#: ../admin/class-editor-metabox.php:466
 #, php-format
 msgid "Movie updated. <a href=\"%s\">View movie</a>"
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:363
+#: ../admin/class-editor-metabox.php:467
 msgid "Custom field updated."
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:364
+#: ../admin/class-editor-metabox.php:468
 msgid "Custom field deleted."
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:365
+#: ../admin/class-editor-metabox.php:469
 msgid "Movie updated."
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:366
+#: ../admin/class-editor-metabox.php:470
 #, php-format
 msgid "Movie restored to revision from %s"
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:367
+#: ../admin/class-editor-metabox.php:471
 #, php-format
 msgid "Movie published. <a href=\"%s\">View movie</a>"
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:368
+#: ../admin/class-editor-metabox.php:472
 msgid "Movie saved."
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:369
+#: ../admin/class-editor-metabox.php:473
 #, php-format
 msgid "Movie submitted. <a target=\"_blank\" href=\"%s\">Preview movie</a>"
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:370
+#: ../admin/class-editor-metabox.php:474
 #, php-format
 msgid ""
 "Movie scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s"
 "\">Preview movie</a>"
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:370
+#: ../admin/class-editor-metabox.php:474
 msgid "M j, Y @ G:i"
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:371
+#: ../admin/class-editor-metabox.php:475
 #, php-format
 msgid "Movie draft updated. <a target=\"_blank\" href=\"%s\">Preview movie</a>"
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:372
+#: ../admin/class-editor-metabox.php:476
 msgid "Successfully converted to movie."
 msgstr ""
 
@@ -96,23 +96,23 @@ msgid "WordPress Movie Library"
 msgstr ""
 
 #: ../admin/class-metaboxes.php:68 ../includes/config/wpmoly-options.php:142
-#: ../includes/config/wpmoly-options.php:1354
+#: ../includes/config/wpmoly-options.php:1414
 msgid "Metadata"
 msgstr ""
 
 #: ../admin/class-metaboxes.php:74 ../includes/config/wpmoly-options.php:236
-#: ../includes/config/wpmoly-options.php:1355
+#: ../includes/config/wpmoly-options.php:1415
 msgid "Details"
 msgstr ""
 
 #: ../admin/class-metaboxes.php:80 ../includes/config/wpmoly-options.php:396
-#: ../includes/config/wpmoly-options.php:475
-#: ../includes/config/wpmoly-options.php:1357
+#: ../includes/config/wpmoly-options.php:505
+#: ../includes/config/wpmoly-options.php:1417
 msgid "Images"
 msgstr ""
 
 #: ../admin/class-metaboxes.php:86 ../includes/config/wpmoly-options.php:405
-#: ../includes/class-i18n.php:94
+#: ../includes/class-i18n.php:96
 msgid "Posters"
 msgstr ""
 
@@ -121,6 +121,7 @@ msgid "Edit Image"
 msgstr ""
 
 #: ../admin/js/templates/editor/image-editor.php:4
+#: ../admin/templates/metabox/preview.php:12
 msgid "Close Editor"
 msgstr ""
 
@@ -154,9 +155,9 @@ msgstr ""
 
 #: ../admin/js/templates/editor/image-editor.php:29
 #: ../includes/config/wpmoly-options.php:200
-#: ../includes/config/wpmoly-options.php:893
-#: ../includes/config/wpmoly-options.php:920
-#: ../includes/config/wpmoly-options.php:1050
+#: ../includes/config/wpmoly-options.php:953
+#: ../includes/config/wpmoly-options.php:980
+#: ../includes/config/wpmoly-options.php:1110
 #: ../includes/config/wpmoly-movies.php:151
 #: ../includes/config/wpmoly-movies.php:448
 msgid "Title"
@@ -263,7 +264,27 @@ msgstr ""
 msgid "Hide previoulsy imported posters"
 msgstr ""
 
-#: ../admin/js/templates/search/settings.php:61
+#: ../admin/js/templates/search/settings.php:62
+msgid "Automatically import backdrops"
+msgstr ""
+
+#: ../admin/js/templates/search/settings.php:66
+msgid "Automatically import posters"
+msgstr ""
+
+#: ../admin/js/templates/search/settings.php:70
+msgid "Number of backdrops to import:"
+msgstr ""
+
+#: ../admin/js/templates/search/settings.php:74
+msgid "Number of posters to import:"
+msgstr ""
+
+#: ../admin/js/templates/search/settings.php:80
+msgid "Set default poster as featured image"
+msgstr ""
+
+#: ../admin/js/templates/search/settings.php:83
 msgid "Save current settings"
 msgstr ""
 
@@ -336,8 +357,12 @@ msgstr ""
 msgid "This image is already in your media library."
 msgstr ""
 
-#: ../admin/js/templates/modal/image.php:14
+#: ../admin/js/templates/modal/image.php:11
 msgid "Unselect"
+msgstr ""
+
+#: ../admin/templates/metabox/preview.php:11
+msgid "Open Editor"
 msgstr ""
 
 #: ../admin/templates/metabox/metabox-convert.php:2
@@ -353,6 +378,8 @@ msgid "Convert %s to Movie"
 msgstr ""
 
 #: ../admin/templates/metabox/panels/panel-backdrops.php:2
+#: ../admin/templates/metabox/panels/panel-details.php:2
+#: ../admin/templates/metabox/panels/panel-meta.php:2
 #: ../admin/templates/metabox/panels/panel-posters.php:2
 msgid ""
 "It seems you have JavaScript deactivated; the import feature will not work "
@@ -364,7 +391,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: ../admin/templates/metabox/panels/panel-details.php:3
+#: ../admin/templates/metabox/panels/panel-details.php:5
 msgid ""
 "Details are personal data related to your experience of the movie: which "
 "media do you own? In which language(s)/subtitle(s)? What is the current "
@@ -374,11 +401,12 @@ msgid ""
 msgstr ""
 
 #: ../includes/ajax/class-ajax-api.php:40
-#: ../includes/ajax/class-ajax-api.php:67
+#: ../includes/ajax/class-ajax-api.php:72
+#: ../includes/ajax/class-ajax-api.php:126
 msgid "Invalid search query."
 msgstr ""
 
-#: ../includes/ajax/class-ajax-api.php:121
+#: ../includes/ajax/class-ajax-api.php:132
 msgid "No image found."
 msgstr ""
 
@@ -659,47 +687,47 @@ msgid "Your most rated movies"
 msgstr ""
 
 #: ../includes/config/wpmoly-admin-menu.php:20
-#: ../includes/config/wpmoly-options.php:88 ../includes/class-registrar.php:38
+#: ../includes/config/wpmoly-options.php:88 ../includes/class-registrar.php:71
 msgid "Movies"
 msgstr ""
 
 #: ../includes/config/wpmoly-admin-menu.php:58
 #: ../includes/config/wpmoly-admin-menu.php:59
-#: ../includes/class-registrar.php:44
+#: ../includes/class-registrar.php:77
 msgid "All Movies"
 msgstr ""
 
 #: ../includes/config/wpmoly-admin-menu.php:71
 #: ../includes/config/wpmoly-admin-menu.php:72
-#: ../includes/class-registrar.php:40
+#: ../includes/class-registrar.php:73
 msgid "Add New"
 msgstr ""
 
 #: ../includes/config/wpmoly-admin-menu.php:84
 #: ../includes/config/wpmoly-admin-menu.php:85
-#: ../includes/config/wpmoly-options.php:583
-#: ../includes/class-registrar.php:149
+#: ../includes/config/wpmoly-options.php:643
+#: ../includes/class-registrar.php:123
 msgid "Collections"
 msgstr ""
 
 #: ../includes/config/wpmoly-admin-menu.php:97
 #: ../includes/config/wpmoly-admin-menu.php:98
 #: ../includes/config/wpmoly-options.php:196
-#: ../includes/config/wpmoly-options.php:643
+#: ../includes/config/wpmoly-options.php:703
 #: ../includes/config/wpmoly-movies.php:261
 #: ../includes/config/wpmoly-movies.php:446
-#: ../includes/class-registrar.php:176
+#: ../includes/class-registrar.php:150
 msgid "Genres"
 msgstr ""
 
 #: ../includes/config/wpmoly-admin-menu.php:110
 #: ../includes/config/wpmoly-admin-menu.php:111
 #: ../includes/config/wpmoly-options.php:211
-#: ../includes/config/wpmoly-options.php:703
-#: ../includes/config/wpmoly-options.php:1356
+#: ../includes/config/wpmoly-options.php:763
+#: ../includes/config/wpmoly-options.php:1416
 #: ../includes/config/wpmoly-movies.php:296
 #: ../includes/config/wpmoly-movies.php:459
-#: ../includes/class-registrar.php:203
+#: ../includes/class-registrar.php:177
 msgid "Actors"
 msgstr ""
 
@@ -727,7 +755,7 @@ msgid "Settings"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:79
-#: ../includes/config/wpmoly-options.php:540
+#: ../includes/config/wpmoly-options.php:600
 msgid "General"
 msgstr ""
 
@@ -755,39 +783,41 @@ msgstr ""
 #: ../includes/config/wpmoly-options.php:269
 #: ../includes/config/wpmoly-options.php:374
 #: ../includes/config/wpmoly-options.php:416
-#: ../includes/config/wpmoly-options.php:445
-#: ../includes/config/wpmoly-options.php:501
-#: ../includes/config/wpmoly-options.php:562
-#: ../includes/config/wpmoly-options.php:573
-#: ../includes/config/wpmoly-options.php:594
-#: ../includes/config/wpmoly-options.php:605
-#: ../includes/config/wpmoly-options.php:618
+#: ../includes/config/wpmoly-options.php:427
+#: ../includes/config/wpmoly-options.php:467
+#: ../includes/config/wpmoly-options.php:516
+#: ../includes/config/wpmoly-options.php:553
+#: ../includes/config/wpmoly-options.php:622
+#: ../includes/config/wpmoly-options.php:633
 #: ../includes/config/wpmoly-options.php:654
 #: ../includes/config/wpmoly-options.php:665
 #: ../includes/config/wpmoly-options.php:678
 #: ../includes/config/wpmoly-options.php:714
 #: ../includes/config/wpmoly-options.php:725
-#: ../includes/config/wpmoly-options.php:750
-#: ../includes/config/wpmoly-options.php:831
-#: ../includes/config/wpmoly-options.php:842
-#: ../includes/config/wpmoly-options.php:933
-#: ../includes/config/wpmoly-options.php:944
-#: ../includes/config/wpmoly-options.php:1015
-#: ../includes/config/wpmoly-options.php:1026
-#: ../includes/config/wpmoly-options.php:1037
-#: ../includes/config/wpmoly-options.php:1094
-#: ../includes/config/wpmoly-options.php:1123
+#: ../includes/config/wpmoly-options.php:738
+#: ../includes/config/wpmoly-options.php:774
+#: ../includes/config/wpmoly-options.php:785
+#: ../includes/config/wpmoly-options.php:810
+#: ../includes/config/wpmoly-options.php:891
+#: ../includes/config/wpmoly-options.php:902
+#: ../includes/config/wpmoly-options.php:993
+#: ../includes/config/wpmoly-options.php:1004
+#: ../includes/config/wpmoly-options.php:1075
+#: ../includes/config/wpmoly-options.php:1086
+#: ../includes/config/wpmoly-options.php:1097
 #: ../includes/config/wpmoly-options.php:1154
-#: ../includes/config/wpmoly-options.php:1197
-#: ../includes/config/wpmoly-options.php:1301
-#: ../includes/config/wpmoly-options.php:1443
-#: ../includes/config/wpmoly-options.php:1454
-#: ../includes/config/wpmoly-options.php:1489
-#: ../includes/config/wpmoly-options.php:1501
-#: ../includes/config/wpmoly-options.php:1523
-#: ../includes/config/wpmoly-options.php:1590
-#: ../includes/config/wpmoly-options.php:1601
-#: ../includes/config/wpmoly-options.php:1621
+#: ../includes/config/wpmoly-options.php:1183
+#: ../includes/config/wpmoly-options.php:1214
+#: ../includes/config/wpmoly-options.php:1257
+#: ../includes/config/wpmoly-options.php:1361
+#: ../includes/config/wpmoly-options.php:1503
+#: ../includes/config/wpmoly-options.php:1514
+#: ../includes/config/wpmoly-options.php:1549
+#: ../includes/config/wpmoly-options.php:1561
+#: ../includes/config/wpmoly-options.php:1583
+#: ../includes/config/wpmoly-options.php:1650
+#: ../includes/config/wpmoly-options.php:1661
+#: ../includes/config/wpmoly-options.php:1681
 msgid "Enabled"
 msgstr ""
 
@@ -797,39 +827,41 @@ msgstr ""
 #: ../includes/config/wpmoly-options.php:270
 #: ../includes/config/wpmoly-options.php:375
 #: ../includes/config/wpmoly-options.php:417
-#: ../includes/config/wpmoly-options.php:446
-#: ../includes/config/wpmoly-options.php:502
-#: ../includes/config/wpmoly-options.php:563
-#: ../includes/config/wpmoly-options.php:574
-#: ../includes/config/wpmoly-options.php:595
-#: ../includes/config/wpmoly-options.php:606
-#: ../includes/config/wpmoly-options.php:619
+#: ../includes/config/wpmoly-options.php:428
+#: ../includes/config/wpmoly-options.php:468
+#: ../includes/config/wpmoly-options.php:517
+#: ../includes/config/wpmoly-options.php:554
+#: ../includes/config/wpmoly-options.php:623
+#: ../includes/config/wpmoly-options.php:634
 #: ../includes/config/wpmoly-options.php:655
 #: ../includes/config/wpmoly-options.php:666
 #: ../includes/config/wpmoly-options.php:679
 #: ../includes/config/wpmoly-options.php:715
 #: ../includes/config/wpmoly-options.php:726
-#: ../includes/config/wpmoly-options.php:751
-#: ../includes/config/wpmoly-options.php:832
-#: ../includes/config/wpmoly-options.php:843
-#: ../includes/config/wpmoly-options.php:934
-#: ../includes/config/wpmoly-options.php:945
-#: ../includes/config/wpmoly-options.php:1016
-#: ../includes/config/wpmoly-options.php:1027
-#: ../includes/config/wpmoly-options.php:1038
-#: ../includes/config/wpmoly-options.php:1095
-#: ../includes/config/wpmoly-options.php:1124
+#: ../includes/config/wpmoly-options.php:739
+#: ../includes/config/wpmoly-options.php:775
+#: ../includes/config/wpmoly-options.php:786
+#: ../includes/config/wpmoly-options.php:811
+#: ../includes/config/wpmoly-options.php:892
+#: ../includes/config/wpmoly-options.php:903
+#: ../includes/config/wpmoly-options.php:994
+#: ../includes/config/wpmoly-options.php:1005
+#: ../includes/config/wpmoly-options.php:1076
+#: ../includes/config/wpmoly-options.php:1087
+#: ../includes/config/wpmoly-options.php:1098
 #: ../includes/config/wpmoly-options.php:1155
-#: ../includes/config/wpmoly-options.php:1198
-#: ../includes/config/wpmoly-options.php:1302
-#: ../includes/config/wpmoly-options.php:1444
-#: ../includes/config/wpmoly-options.php:1455
-#: ../includes/config/wpmoly-options.php:1490
-#: ../includes/config/wpmoly-options.php:1502
-#: ../includes/config/wpmoly-options.php:1524
-#: ../includes/config/wpmoly-options.php:1591
-#: ../includes/config/wpmoly-options.php:1602
-#: ../includes/config/wpmoly-options.php:1622
+#: ../includes/config/wpmoly-options.php:1184
+#: ../includes/config/wpmoly-options.php:1215
+#: ../includes/config/wpmoly-options.php:1258
+#: ../includes/config/wpmoly-options.php:1362
+#: ../includes/config/wpmoly-options.php:1504
+#: ../includes/config/wpmoly-options.php:1515
+#: ../includes/config/wpmoly-options.php:1550
+#: ../includes/config/wpmoly-options.php:1562
+#: ../includes/config/wpmoly-options.php:1584
+#: ../includes/config/wpmoly-options.php:1651
+#: ../includes/config/wpmoly-options.php:1662
+#: ../includes/config/wpmoly-options.php:1682
 msgid "Disabled"
 msgstr ""
 
@@ -941,7 +973,7 @@ msgid "Release date"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:197
-#: ../includes/config/wpmoly-options.php:1353
+#: ../includes/config/wpmoly-options.php:1413
 #: ../includes/config/wpmoly-movies.php:184
 #: ../includes/config/wpmoly-movies.php:447
 msgid "Overview"
@@ -966,7 +998,7 @@ msgid "Country"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:204
-#: ../includes/config/wpmoly-options.php:1104
+#: ../includes/config/wpmoly-options.php:1164
 #: ../includes/config/wpmoly-movies.php:250
 #: ../includes/config/wpmoly-movies.php:452
 msgid "Languages"
@@ -1097,8 +1129,8 @@ msgid "Status"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:287
-#: ../includes/config/wpmoly-options.php:896
-#: ../includes/config/wpmoly-options.php:922
+#: ../includes/config/wpmoly-options.php:956
+#: ../includes/config/wpmoly-options.php:982
 #: ../includes/config/wpmoly-movies.php:439
 msgid "Rating"
 msgstr ""
@@ -1179,8 +1211,8 @@ msgid ""
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:364
-#: ../includes/config/wpmoly-options.php:552
-#: ../includes/config/wpmoly-options.php:1326
+#: ../includes/config/wpmoly-options.php:612
+#: ../includes/config/wpmoly-options.php:1386
 msgid "Experimental"
 msgstr ""
 
@@ -1228,147 +1260,198 @@ msgid ""
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:425
-msgid "Posters Default Size"
+msgid "Automatically import Posters"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:426
+msgid "Automatically import Posters while import a new movie."
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:436
+msgid "Number of Posters"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:437
+msgid ""
+"Maximum number of Posters to automatically import when importing a new movie."
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:447
+msgid "Posters Default Size"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:448
 msgid "Movie Poster size. Default is TMDb&rsquo;s original size."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:428
-msgid "Invisible (~100px)"
+#: ../includes/config/wpmoly-options.php:450
+msgid "Invisible (92px)"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:429
-msgid "Tiny (~150px)"
+#: ../includes/config/wpmoly-options.php:451
+msgid "Tiny (154px)"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:430
-msgid "Small (~200px)"
+#: ../includes/config/wpmoly-options.php:452
+msgid "Small (185px)"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:431
-msgid "Medium (~350px)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:432
-msgid "Large (~500px)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:433
-msgid "Full (~800px) "
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:434
-#: ../includes/config/wpmoly-options.php:490
-#: ../includes/config/wpmoly-options.php:1137
-#: ../includes/config/wpmoly-options.php:1140
-#: ../includes/config/wpmoly-options.php:1167
-#: ../includes/config/wpmoly-options.php:1170
-msgid "Original"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:443
-msgid "Delete posters with movies"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:444
-msgid "Enable this if you want to delete posters along with movies."
+#: ../includes/config/wpmoly-options.php:453
+msgid "Medium (342px)"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:454
-msgid "Posters image title"
+msgid "Large (500px)"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:455
-msgid "Title for the imported posters images."
+msgid "Full (780px) "
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:457
-msgid "Poster for the movie"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:464
-msgid "Posters image description"
+#: ../includes/config/wpmoly-options.php:456
+#: ../includes/config/wpmoly-options.php:542
+#: ../includes/config/wpmoly-options.php:1197
+#: ../includes/config/wpmoly-options.php:1200
+#: ../includes/config/wpmoly-options.php:1227
+#: ../includes/config/wpmoly-options.php:1230
+msgid "Original"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:465
-msgid "Description text for the imported posters images."
+msgid "Delete posters with movies"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:467
-#: ../includes/config/wpmoly-options.php:523
-msgid "All right reserved."
+#: ../includes/config/wpmoly-options.php:466
+msgid "Enable this if you want to delete posters along with movies."
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:476
-msgid "Images settings"
+msgid "Posters image title"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:484
-msgid "Images Default Size"
+#: ../includes/config/wpmoly-options.php:477
+msgid "Title for the imported posters images."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:485
-msgid "Movie Image size. Default is TMDb&rsquo;s original size."
+#: ../includes/config/wpmoly-options.php:479
+msgid "Poster for the movie"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:486
+msgid "Posters image description"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:487
-msgid "Small (~300px)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:488
-msgid "Medium (~780px)"
+msgid "Description text for the imported posters."
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:489
-msgid "Full (~1280px) "
+#: ../includes/config/wpmoly-options.php:575 ../includes/class-i18n.php:78
+#: ../includes/class-i18n.php:99
+msgid "All right reserved."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:499
-msgid "Delete images with movies"
+#: ../includes/config/wpmoly-options.php:496
+#: ../includes/config/wpmoly-options.php:582
+msgid "Allowed tags"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:500
+#: ../includes/config/wpmoly-options.php:497
+#: ../includes/config/wpmoly-options.php:583
+#, php-format
 msgid ""
-"Enable this if you want to delete all imported images along with movies. "
-"Handy if you have a great number of movies to delete and possibly dozens of "
-"images attached."
+"<br />%s<br /><br />To limit the number of elements in list like genres or "
+"production companies, use the <code>{tag,number}</code> synthax. Example: "
+"<code>{production_companies,1}</code> will use the first company from list "
+"instead of the whole list."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:510
-msgid "Images title"
+#: ../includes/config/wpmoly-options.php:506
+msgid "Images settings"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:511
-msgid "Title for the imported movie images."
+#: ../includes/config/wpmoly-options.php:514
+msgid "Automatically import Backdrops"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:513
-msgid "Image from the movie"
+#: ../includes/config/wpmoly-options.php:515
+msgid "Automatically import Backdrops while import a new movie."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:520
-msgid "Images description"
+#: ../includes/config/wpmoly-options.php:525
+msgid "Number of Backdrops"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:521
-msgid "Description text for the imported movie images."
+#: ../includes/config/wpmoly-options.php:526
+msgid ""
+"Maximum number of Backdrops to automatically import when importing a new "
+"movie."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:531
-msgid "Taxonomies"
+#: ../includes/config/wpmoly-options.php:536
+msgid "Images Default Size"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:532
-msgid "Built-in Taxonomies configuration"
+#: ../includes/config/wpmoly-options.php:537
+msgid "Movie Image size. Default is TMDb&rsquo;s original size."
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:539
+msgid "Medium (300px)"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:540
+msgid "Large (780px)"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:541
+msgid "Full (1280px) "
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:551
+msgid "Delete backdrops with movies"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:552
+msgid ""
+"Enable this if you want to delete all imported backdrops along with movies. "
+"Handy if you have a great number of movies to delete and possibly dozens of "
+"backdrops attached."
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:562
+msgid "Images title"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:563
+msgid "Title for the imported movie backdrops."
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:565 ../includes/class-i18n.php:77
+msgid "Image from the movie"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:572
+msgid "Images description"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:573
+msgid "Description text for the imported movie backdrops."
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:591
+msgid "Taxonomies"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:592
+msgid "Built-in Taxonomies configuration"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:601
 msgid "General settings"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:553
+#: ../includes/config/wpmoly-options.php:613
 msgid ""
 "Enabling Categories and Post tags for movies will result in your movies "
 "appearing in Categories and Post Tags archive pages, among regular WordPress "
@@ -1376,31 +1459,31 @@ msgid ""
 "Categories/Post Tags. Use it carefully."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:560
+#: ../includes/config/wpmoly-options.php:620
 msgid "Enable Categories"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:561
+#: ../includes/config/wpmoly-options.php:621
 msgid "Allow movies to use regular WordPress Categories."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:571
+#: ../includes/config/wpmoly-options.php:631
 msgid "Enable Post Tags"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:572
+#: ../includes/config/wpmoly-options.php:632
 msgid "Allow movies to use regular WordPress Post Tags."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:584
+#: ../includes/config/wpmoly-options.php:644
 msgid "Collections settings"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:592
+#: ../includes/config/wpmoly-options.php:652
 msgid "Enable Collections"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:593
+#: ../includes/config/wpmoly-options.php:653
 msgid ""
 "Enable Collections Custom Taxonomy. Collections work for movies as "
 "Categories work for Posts: a hierarchical taxonomy to group your movies "
@@ -1408,84 +1491,84 @@ msgid ""
 "director, but you can use them differently at your will."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:603
+#: ../includes/config/wpmoly-options.php:663
 msgid "Add Collections automatically"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:604
+#: ../includes/config/wpmoly-options.php:664
 msgid ""
 "Automatically add custom taxonomies when adding/importing movies. If "
 "enabled, each added/imported movie will be automatically added to the "
 "collection corresponding to its director(s)."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:616
-msgid "Posts Collections support"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:617
-msgid ""
-"<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to "
-"use collection taxonomy."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:629
-msgid "Collections Post Types support"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:630
-msgid "Select which post types should support collections."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:644
-msgid "Genres settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:652
-msgid "Enable Genres"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:653
-msgid ""
-"Enable Genres Custom Taxonomy. Genres work for movies as Tags work for "
-"Posts: a non-hierarchical taxonomy to improve movies management."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:663
-msgid "Add Genres automatically"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:664
-msgid "Automatically add Genres when adding/importing movies."
-msgstr ""
-
 #: ../includes/config/wpmoly-options.php:676
-msgid "Posts Genres support"
+msgid "Posts Collections support"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:677
 msgid ""
 "<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to "
-"use genre taxonomy."
+"use collection taxonomy."
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:689
-msgid "Genres Post Types support"
+msgid "Collections Post Types support"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:690
-msgid "Select which post types should support genres."
+msgid "Select which post types should support collections."
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:704
-msgid "Actors settings"
+msgid "Genres settings"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:712
-msgid "Enable Actors"
+msgid "Enable Genres"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:713
+msgid ""
+"Enable Genres Custom Taxonomy. Genres work for movies as Tags work for "
+"Posts: a non-hierarchical taxonomy to improve movies management."
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:723
+msgid "Add Genres automatically"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:724
+msgid "Automatically add Genres when adding/importing movies."
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:736
+msgid "Posts Genres support"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:737
+msgid ""
+"<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to "
+"use genre taxonomy."
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:749
+msgid "Genres Post Types support"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:750
+msgid "Select which post types should support genres."
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:764
+msgid "Actors settings"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:772
+msgid "Enable Actors"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:773
 msgid ""
 "Enable Actors Custom Taxonomy. Actors work for movies as Tags work for "
 "Posts: a non-hierarchical taxonomy to improve movies management. "
@@ -1493,19 +1576,19 @@ msgid ""
 "appearing in the top of the list, then the supporting roles, and so on."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:723
+#: ../includes/config/wpmoly-options.php:783
 msgid "Add Actors automatically"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:724
+#: ../includes/config/wpmoly-options.php:784
 msgid "Automatically add Actors when adding/importing movies."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:736
+#: ../includes/config/wpmoly-options.php:796
 msgid "Actors limit"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:737
+#: ../includes/config/wpmoly-options.php:797
 msgid ""
 "Limit the number of actors per movie. This is useful if you're dealing with "
 "big libraries and don't want to have massive lists of actors created. "
@@ -1514,175 +1597,175 @@ msgid ""
 "as a regular metadata. Set to 0 to disable."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:748
+#: ../includes/config/wpmoly-options.php:808
 msgid "Posts Actors support"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:749
+#: ../includes/config/wpmoly-options.php:809
 msgid ""
 "<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to "
 "use actor taxonomy."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:761
+#: ../includes/config/wpmoly-options.php:821
 msgid "Actors Post Types support"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:762
+#: ../includes/config/wpmoly-options.php:822
 msgid "Select which post types should support actors."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:775
+#: ../includes/config/wpmoly-options.php:835
 msgid "Archives"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:776
+#: ../includes/config/wpmoly-options.php:836
 msgid "Archives Pages Settings"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:784
+#: ../includes/config/wpmoly-options.php:844
 msgid "Movie Archives"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:785
+#: ../includes/config/wpmoly-options.php:845
 msgid "Movie Archives page settings"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:786
+#: ../includes/config/wpmoly-options.php:846
 msgid ""
 "This section allow you to define a custom page to use for movie archives."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:805
+#: ../includes/config/wpmoly-options.php:865
 msgid "Movie Archives Page"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:806
+#: ../includes/config/wpmoly-options.php:866
 msgid "Choose a page to use to display movie archives."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:816
-#: ../includes/config/wpmoly-options.php:1000
+#: ../includes/config/wpmoly-options.php:876
+#: ../includes/config/wpmoly-options.php:1060
 msgid "Archives Position"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:817
-#: ../includes/config/wpmoly-options.php:1001
+#: ../includes/config/wpmoly-options.php:877
+#: ../includes/config/wpmoly-options.php:1061
 msgid "Where to display the Archives on the page."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:819
-#: ../includes/config/wpmoly-options.php:1003
-#: ../includes/config/wpmoly-options.php:1313
+#: ../includes/config/wpmoly-options.php:879
+#: ../includes/config/wpmoly-options.php:1063
+#: ../includes/config/wpmoly-options.php:1373
 msgid "Top"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:820
-#: ../includes/config/wpmoly-options.php:1004
-#: ../includes/config/wpmoly-options.php:1314
+#: ../includes/config/wpmoly-options.php:880
+#: ../includes/config/wpmoly-options.php:1064
+#: ../includes/config/wpmoly-options.php:1374
 msgid "Bottom"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:829
+#: ../includes/config/wpmoly-options.php:889
 msgid "Rewrite Movie Archives Page Titles"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:830
+#: ../includes/config/wpmoly-options.php:890
 msgid ""
 "If enabled, movie archives page’s title and post title will be rewritten to "
 "feature currently browsed metas, details, and letters."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:840
-#: ../includes/config/wpmoly-options.php:1024
+#: ../includes/config/wpmoly-options.php:900
+#: ../includes/config/wpmoly-options.php:1084
 msgid "Archives Menu"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:841
+#: ../includes/config/wpmoly-options.php:901
 msgid ""
 "If enabled, add an alphabetical menu and sorting options before the movies "
 "list."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:851
+#: ../includes/config/wpmoly-options.php:911
 msgid "Grid Columns"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:852
+#: ../includes/config/wpmoly-options.php:912
 msgid "How many columns should the movie grid have."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:864
+#: ../includes/config/wpmoly-options.php:924
 msgid "Grid Rows"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:865
+#: ../includes/config/wpmoly-options.php:925
 msgid "How many rows should the movie grid have."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:877
+#: ../includes/config/wpmoly-options.php:937
 msgid "Movies order"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:878
+#: ../includes/config/wpmoly-options.php:938
 msgid "How movies should be ordered by default."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:880
-#: ../includes/config/wpmoly-options.php:1062
+#: ../includes/config/wpmoly-options.php:940
+#: ../includes/config/wpmoly-options.php:1122
 msgid "Ascending"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:881
-#: ../includes/config/wpmoly-options.php:1063
+#: ../includes/config/wpmoly-options.php:941
+#: ../includes/config/wpmoly-options.php:1123
 msgid "Descending"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:890
+#: ../includes/config/wpmoly-options.php:950
 msgid "Movies Sorting"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:891
+#: ../includes/config/wpmoly-options.php:951
 msgid "Default movies sorting."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:894
+#: ../includes/config/wpmoly-options.php:954
 #: ../includes/config/wpmoly-movies.php:195
 msgid "Release Date"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:895
+#: ../includes/config/wpmoly-options.php:955
 #: ../includes/config/wpmoly-movies.php:206
 msgid "Local Release Date"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:905
+#: ../includes/config/wpmoly-options.php:965
 msgid "Movies per page limit"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:906
+#: ../includes/config/wpmoly-options.php:966
 msgid ""
 "Limit the number of movies per page to be listed. Can be useful if your "
 "dealing with massive numbers of movies."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:914
+#: ../includes/config/wpmoly-options.php:974
 msgid "Grid Movies Meta"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:915
+#: ../includes/config/wpmoly-options.php:975
 msgid "You can show some metadata along with posters in the grid."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:921
+#: ../includes/config/wpmoly-options.php:981
 msgid "Year"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:931
+#: ../includes/config/wpmoly-options.php:991
 msgid "Editable movies-per-page value"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:932
+#: ../includes/config/wpmoly-options.php:992
 msgid ""
 "If enabled, allows movies-per-page value to be modified on frontend. The "
 "sorting menu will show an input where visitors can change the movies-per-"
@@ -1690,11 +1773,11 @@ msgid ""
 "above if this feature is to be activated."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:942
+#: ../includes/config/wpmoly-options.php:1002
 msgid "Advanced Editable grid settings"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:943
+#: ../includes/config/wpmoly-options.php:1003
 msgid ""
 "If enabled, allows the grid sorting to be modified on frontend. The sorting "
 "menu will show a list of possible sortings (rating, release date, title, …) "
@@ -1703,110 +1786,110 @@ msgid ""
 "publicly."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:954
+#: ../includes/config/wpmoly-options.php:1014
 msgid "Taxonomy Archives"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:955
+#: ../includes/config/wpmoly-options.php:1015
 msgid "Taxonomy Archives page settings"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:956
+#: ../includes/config/wpmoly-options.php:1016
 msgid ""
 "This section allow you to define a custom page to use for taxonomy archives."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:964
+#: ../includes/config/wpmoly-options.php:1024
 msgid "Collection Archives Page"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:965
+#: ../includes/config/wpmoly-options.php:1025
 msgid "Choose a page to use to display collection archives."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:976
+#: ../includes/config/wpmoly-options.php:1036
 msgid "Genre Archives Page"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:977
+#: ../includes/config/wpmoly-options.php:1037
 msgid "Choose a page to use to display genre archives."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:988
+#: ../includes/config/wpmoly-options.php:1048
 msgid "Actor Archives Page"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:989
+#: ../includes/config/wpmoly-options.php:1049
 msgid "Choose a page to use to display actor archives."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1013
+#: ../includes/config/wpmoly-options.php:1073
 msgid "Rewrite Archives Page Titles"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1014
+#: ../includes/config/wpmoly-options.php:1074
 msgid ""
 "If enabled, taxonomy archives page’s title and post title will be rewritten "
 "to feature currently browsed letter."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1025
+#: ../includes/config/wpmoly-options.php:1085
 msgid ""
 "If enabled, add an alphabetical menu and sorting options before the terms "
 "list."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1035
+#: ../includes/config/wpmoly-options.php:1095
 msgid "Hide empty terms"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1036
+#: ../includes/config/wpmoly-options.php:1096
 msgid "If enabled, terms related to no movie will be excluded from the list."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1046
+#: ../includes/config/wpmoly-options.php:1106
 msgid "Terms sort"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1047
+#: ../includes/config/wpmoly-options.php:1107
 msgid "How terms should be sorted by default."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1049
+#: ../includes/config/wpmoly-options.php:1109
 msgid "Movie count"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1059
+#: ../includes/config/wpmoly-options.php:1119
 msgid "Terms order"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1060
+#: ../includes/config/wpmoly-options.php:1120
 msgid "How terms should be ordered by default."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1072
+#: ../includes/config/wpmoly-options.php:1132
 msgid "Terms per page"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1073
+#: ../includes/config/wpmoly-options.php:1133
 msgid "How many terms should be listed per archive page."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1082
+#: ../includes/config/wpmoly-options.php:1142
 msgid "Terms per page limit"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1083
+#: ../includes/config/wpmoly-options.php:1143
 msgid ""
 "Limit the number of terms per page to be listed. Can be useful if your "
 "dealing with massive numbers of terms."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1092
+#: ../includes/config/wpmoly-options.php:1152
 msgid "Editable terms-per-page value"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1093
+#: ../includes/config/wpmoly-options.php:1153
 msgid ""
 "If enabled, allows terms-per-page value to be modified on frontend. The "
 "sorting menu will show an input where visitors can change the terms-per-page "
@@ -1814,96 +1897,96 @@ msgid ""
 "if this feature is to be activated."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1105
+#: ../includes/config/wpmoly-options.php:1165
 msgid "Languages Support"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1113
-#: ../includes/config/wpmoly-options.php:1138
-#: ../includes/config/wpmoly-options.php:1139
-#: ../includes/config/wpmoly-options.php:1168
-#: ../includes/config/wpmoly-options.php:1169
+#: ../includes/config/wpmoly-options.php:1173
+#: ../includes/config/wpmoly-options.php:1198
+#: ../includes/config/wpmoly-options.php:1199
+#: ../includes/config/wpmoly-options.php:1228
+#: ../includes/config/wpmoly-options.php:1229
 msgid "Translation"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1114
+#: ../includes/config/wpmoly-options.php:1174
 msgid "Translation settings"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1121
+#: ../includes/config/wpmoly-options.php:1181
 msgid "Translate Countries"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1122
+#: ../includes/config/wpmoly-options.php:1182
 msgid ""
 "If enabled, countries names will be translated to the current WordPress "
 "language."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1133
+#: ../includes/config/wpmoly-options.php:1193
 msgid "Country names format"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1134
+#: ../includes/config/wpmoly-options.php:1194
 #, php-format
 msgid ""
 "How production countries should be appear in your movies. Default is "
 "<code>Flag + translation</code> showing something like <code>%s</code>."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1134
+#: ../includes/config/wpmoly-options.php:1194
 #: ../includes/config/wpmoly-languages.php:79
 msgid "Ireland"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1136
+#: ../includes/config/wpmoly-options.php:1196
 msgid "Flag"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1152
+#: ../includes/config/wpmoly-options.php:1212
 msgid "Translate Languages"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1153
+#: ../includes/config/wpmoly-options.php:1213
 msgid ""
 "If enabled, languages names will be translated to the current WordPress "
 "language."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1164
+#: ../includes/config/wpmoly-options.php:1224
 msgid "Languages names format"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1165
+#: ../includes/config/wpmoly-options.php:1225
 msgid ""
 "How spoken languages should be appear in your movies. Default is translated."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1171
+#: ../includes/config/wpmoly-options.php:1231
 msgid "Abbreviated translation"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1172
+#: ../includes/config/wpmoly-options.php:1232
 msgid "Abbreviated original"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1185
+#: ../includes/config/wpmoly-options.php:1245
 msgid "Permalinks"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1186
+#: ../includes/config/wpmoly-options.php:1246
 msgid "Rewrite rules & Permalinks"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1187
+#: ../includes/config/wpmoly-options.php:1247
 msgid "You can adapt the plugin’s permalinks to your local language."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1195
+#: ../includes/config/wpmoly-options.php:1255
 msgid "Translate permalinks"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1196
+#: ../includes/config/wpmoly-options.php:1256
 msgid ""
 "Although it can be very tempting to customize your URLs, <strong>beware</"
 "strong>: you probably shouldn't modify this more than once if your site "
@@ -1911,174 +1994,174 @@ msgid ""
 "your site’s referencing."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1207
+#: ../includes/config/wpmoly-options.php:1267
 msgid "Movies URL Rewrite"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1208
+#: ../includes/config/wpmoly-options.php:1268
 msgid ""
 "URL Rewrite Rule to apply on movies. Default is <code>movies</code>, "
 "resulting in URL like <code>http://yourblog/movies/fight-club</code>. You "
 "can use this field to translate URLs to your language."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1219
+#: ../includes/config/wpmoly-options.php:1279
 msgid "Collections URL Rewrite"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1220
+#: ../includes/config/wpmoly-options.php:1280
 msgid ""
 "URL Rewrite Rule to apply on collections. Default is <code>collection</"
 "code>, resulting in URL like <code>http://yourblog/collection/david-fincher</"
 "code>. You can use this field to translate URLs to your language."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1234
+#: ../includes/config/wpmoly-options.php:1294
 msgid "Genres URL Rewrite"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1235
+#: ../includes/config/wpmoly-options.php:1295
 msgid ""
 "URL Rewrite Rule to apply on genres. Default is <code>genre</code>, "
 "resulting in URL like <code>http://yourblog/genre/thriller</code>. You can "
 "use this field to translate URLs to your language."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1249
+#: ../includes/config/wpmoly-options.php:1309
 msgid "Actors URL Rewrite"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1250
+#: ../includes/config/wpmoly-options.php:1310
 msgid ""
 "URL Rewrite Rule to apply on actors. Default is <code>actor</code>, "
 "resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can "
 "use this field to translate URLs to your language."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1281
+#: ../includes/config/wpmoly-options.php:1341
 msgid "Appearance"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1282
+#: ../includes/config/wpmoly-options.php:1342
 msgid "Styling and customization"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1290
+#: ../includes/config/wpmoly-options.php:1350
 msgid "Headbox"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1291
+#: ../includes/config/wpmoly-options.php:1351
 msgid "Styling the movie headbox"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1299
+#: ../includes/config/wpmoly-options.php:1359
 msgid "Enable Headbox"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1300
+#: ../includes/config/wpmoly-options.php:1360
 msgid ""
 "If enabled, movies will use the Headbox introduced with version 2. Disable "
 "to show old metadata display from WPMovieLibrary 1.x instead."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1310
+#: ../includes/config/wpmoly-options.php:1370
 msgid "Headbox Position"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1311
+#: ../includes/config/wpmoly-options.php:1371
 msgid "Where to display the Headbox on posts."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1327
+#: ../includes/config/wpmoly-options.php:1387
 msgid ""
 "The Headbox Themes are still experimental: although they should work "
 "correctly they are not fully customisable and have spots for some "
 "unimplemented yet features such as actors images. Just so you know!"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1334
+#: ../includes/config/wpmoly-options.php:1394
 msgid "Headbox Theme"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1335
+#: ../includes/config/wpmoly-options.php:1395
 msgid "Select a Theme to use for your Headbox."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1337
+#: ../includes/config/wpmoly-options.php:1397
 msgid "WPMovieLibrary"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1338
+#: ../includes/config/wpmoly-options.php:1398
 msgid "IMDb"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1339
+#: ../includes/config/wpmoly-options.php:1399
 msgid "Allociné"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1348
+#: ../includes/config/wpmoly-options.php:1408
 msgid "Headbox Tabs"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1349
+#: ../includes/config/wpmoly-options.php:1409
 msgid "Which tabs should appear in the headbox and in which order."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1367
+#: ../includes/config/wpmoly-options.php:1427
 msgid "Headbox Title"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1368
+#: ../includes/config/wpmoly-options.php:1428
 msgid "Content of the Headbox Title line."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1380
+#: ../includes/config/wpmoly-options.php:1440
 msgid "Headbox Subtitle"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1381
+#: ../includes/config/wpmoly-options.php:1441
 msgid "Content of the Headbox Subtitle line."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1393
+#: ../includes/config/wpmoly-options.php:1453
 msgid "Headbox Details 1"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1394
+#: ../includes/config/wpmoly-options.php:1454
 msgid "Content of the Headbox first details line."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1406
+#: ../includes/config/wpmoly-options.php:1466
 msgid "Headbox Details 2"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1407
+#: ../includes/config/wpmoly-options.php:1467
 msgid "Content of the Headbox second details line."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1419
+#: ../includes/config/wpmoly-options.php:1479
 msgid "Headbox Details 3"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1420
+#: ../includes/config/wpmoly-options.php:1480
 msgid "Content of the Headbox third details line."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1433
-#: ../includes/config/wpmoly-options.php:1696
-#: ../includes/config/wpmoly-options.php:1769
+#: ../includes/config/wpmoly-options.php:1493
+#: ../includes/config/wpmoly-options.php:1756
+#: ../includes/config/wpmoly-options.php:1829
 msgid "Cache"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1434
+#: ../includes/config/wpmoly-options.php:1494
 msgid "Caching"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1441
+#: ../includes/config/wpmoly-options.php:1501
 msgid "Enable Caching"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1442
+#: ../includes/config/wpmoly-options.php:1502
 msgid ""
 "If enabled, WPMovieLibrary will cache movie related data to prevent too "
 "frequent queries to the database. <strong>This feature is experimental!</"
@@ -2088,41 +2171,41 @@ msgid ""
 "performance\">Learn more about caching</a>."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1452
+#: ../includes/config/wpmoly-options.php:1512
 msgid "User Caching"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1453
+#: ../includes/config/wpmoly-options.php:1513
 msgid ""
 "If enabled, caching will be activated for logged in users as well as guests."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1465
+#: ../includes/config/wpmoly-options.php:1525
 msgid "Caching Time"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1466
+#: ../includes/config/wpmoly-options.php:1526
 msgid ""
 "Time of validity for cached data, in seconds. Default is 3600 (one hour)"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1478
+#: ../includes/config/wpmoly-options.php:1538
 msgid "Legacy"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1479
+#: ../includes/config/wpmoly-options.php:1539
 msgid "Compatibility settings for WPMovieLibrary 1.x"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1486
+#: ../includes/config/wpmoly-options.php:1546
 msgid "Enable Legacy mode"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1487
+#: ../includes/config/wpmoly-options.php:1547
 msgid "WPMovieLibrary 1.x compatibility mode"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1488
+#: ../includes/config/wpmoly-options.php:1548
 msgid ""
 "If enabled, WPMovieLibrary will automatically update all movies to the new "
 "metadata format introduced by version 1.3. Each time a metadata is access, "
@@ -2132,37 +2215,37 @@ msgid ""
 "release-notes/#version-1.3\">Learn more about this change</a>."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1498
+#: ../includes/config/wpmoly-options.php:1558
 msgid "Enable Legacy Safety mode"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1499
+#: ../includes/config/wpmoly-options.php:1559
 msgid "WPMovieLibrary 1.x compatibility safety mode"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1500
+#: ../includes/config/wpmoly-options.php:1560
 msgid ""
 "If enabled, WPMovieLibrary will update deprecated metadata to the new format "
 "but will <em>not</em> delete the deprecated metadata for safety."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1512
+#: ../includes/config/wpmoly-options.php:1572
 msgid "API"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1513
+#: ../includes/config/wpmoly-options.php:1573
 msgid "TheMovieDB API settings"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1520
+#: ../includes/config/wpmoly-options.php:1580
 msgid "Personnal API Key"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1521
+#: ../includes/config/wpmoly-options.php:1581
 msgid "Optional: use your own TMDb API key"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1522
+#: ../includes/config/wpmoly-options.php:1582
 msgid ""
 "A valid TMDb API key is required to fetch informations on the movies you add "
 "to WPMovieLibrary. Leave deactivated if you do not have a personnal API key. "
@@ -2170,21 +2253,21 @@ msgid ""
 "href=\"https://www.themoviedb.org/\">get your own</a>."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1522
+#: ../includes/config/wpmoly-options.php:1582
 msgid ""
 "If you do not have an API key or do not want to use yours right now, "
 "WPMovieLibrary will use just its own."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1531
+#: ../includes/config/wpmoly-options.php:1591
 msgid "API Key"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1532
+#: ../includes/config/wpmoly-options.php:1592
 msgid "Set up your own API key"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1533
+#: ../includes/config/wpmoly-options.php:1593
 msgid ""
 "Using your own API key is a more privacy-safe choice as it will avoid "
 "WPMovieLibrary to filter queries sent to the API through its own relay "
@@ -2192,234 +2275,234 @@ msgid ""
 "your API usage in your TMDb user account."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1545
+#: ../includes/config/wpmoly-options.php:1605
 msgid "API Scheme"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1546
+#: ../includes/config/wpmoly-options.php:1606
 msgid "Default scheme used to contact TMDb API. Default is HTTPS."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1548
+#: ../includes/config/wpmoly-options.php:1608
 msgid "HTTP"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1549
+#: ../includes/config/wpmoly-options.php:1609
 msgid "HTTPS"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1558
+#: ../includes/config/wpmoly-options.php:1618
 msgid "API Language"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1559
+#: ../includes/config/wpmoly-options.php:1619
 msgid ""
 "Default language to use when fetching informations from TMDb. Default is "
 "english. You can always change this manually when add a new movie."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1568
+#: ../includes/config/wpmoly-options.php:1628
 msgid "API Country"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1569
+#: ../includes/config/wpmoly-options.php:1629
 msgid ""
 "Default country to use when fetching release informations from TMDb. Default "
 "is United States. This is mostly used to get movie certifications "
 "corresponding to your country."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1578
+#: ../includes/config/wpmoly-options.php:1638
 msgid "API Alternative Country"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1579
+#: ../includes/config/wpmoly-options.php:1639
 msgid ""
 "You can select an alternative country to use when fetching release "
 "informations from TMDb. If primary country leaves empty results, the "
 "alternative country will be used to fill the blank."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1588
+#: ../includes/config/wpmoly-options.php:1648
 msgid "Adult movies"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1589
+#: ../includes/config/wpmoly-options.php:1649
 msgid "Include adult movies (XXX, 18+) in search results."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1599
+#: ../includes/config/wpmoly-options.php:1659
 msgid "Search results pagination"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1600
+#: ../includes/config/wpmoly-options.php:1660
 msgid "Enable pagination browsing for search results."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1611
+#: ../includes/config/wpmoly-options.php:1671
 msgid "Advanced Settings"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1612
+#: ../includes/config/wpmoly-options.php:1672
 msgid "Advanced Plugin Settings & Tools"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1619
+#: ../includes/config/wpmoly-options.php:1679
 msgid "Debug Mode"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1620
+#: ../includes/config/wpmoly-options.php:1680
 msgid "Log specific information for debugging purpose."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1636
+#: ../includes/config/wpmoly-options.php:1696
 msgid "Deactivate"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1637
+#: ../includes/config/wpmoly-options.php:1697
 msgid "Deactivation options"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1643
-#: ../includes/config/wpmoly-options.php:1717
+#: ../includes/config/wpmoly-options.php:1703
+#: ../includes/config/wpmoly-options.php:1777
 msgid "Movie Post Type"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1644
+#: ../includes/config/wpmoly-options.php:1704
 msgid "How to handle Movies when WPMovieLibrary is deactivated."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1646
-#: ../includes/config/wpmoly-options.php:1660
-#: ../includes/config/wpmoly-options.php:1673
-#: ../includes/config/wpmoly-options.php:1686
-msgid "Conserve (recommended)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1647
-msgid "Convert to Posts"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1648
-#: ../includes/config/wpmoly-options.php:1662
-#: ../includes/config/wpmoly-options.php:1675
-#: ../includes/config/wpmoly-options.php:1688
-#: ../includes/config/wpmoly-options.php:1735
-#: ../includes/config/wpmoly-options.php:1748
-#: ../includes/config/wpmoly-options.php:1761
-msgid "Delete (irreversible)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1649
-#: ../includes/config/wpmoly-options.php:1722
-msgid "Delete Completely (irreversible)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1657
-#: ../includes/config/wpmoly-options.php:1730
-msgid "Collections Taxonomy"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1658
-msgid "How to handle Collections Taxonomy when WPMovieLibrary is deactivated."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1661
-msgid "Convert to Categories"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1670
-#: ../includes/config/wpmoly-options.php:1743
-msgid "Genres Taxonomy"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1671
-msgid "How to handle Genres Taxonomy when WPMovieLibrary is deactivated."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1674
-#: ../includes/config/wpmoly-options.php:1687
-msgid "Convert to Tags"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1683
-#: ../includes/config/wpmoly-options.php:1756
-msgid "Actors Taxonomy"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1684
-msgid "How to handle Actors Taxonomy when WPMovieLibrary is deactivated."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1697
-msgid "How to handle Cached data when WPMovieLibrary is deactivated."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1699
+#: ../includes/config/wpmoly-options.php:1706
 #: ../includes/config/wpmoly-options.php:1720
 #: ../includes/config/wpmoly-options.php:1733
 #: ../includes/config/wpmoly-options.php:1746
-#: ../includes/config/wpmoly-options.php:1759
-#: ../includes/config/wpmoly-options.php:1772
-msgid "Conserve"
+msgid "Conserve (recommended)"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1700
-#: ../includes/config/wpmoly-options.php:1773
-msgid "Empty (recommended)"
+#: ../includes/config/wpmoly-options.php:1707
+msgid "Convert to Posts"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1710
-msgid "Uninstall"
+#: ../includes/config/wpmoly-options.php:1708
+#: ../includes/config/wpmoly-options.php:1722
+#: ../includes/config/wpmoly-options.php:1735
+#: ../includes/config/wpmoly-options.php:1748
+#: ../includes/config/wpmoly-options.php:1795
+#: ../includes/config/wpmoly-options.php:1808
+#: ../includes/config/wpmoly-options.php:1821
+msgid "Delete (irreversible)"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1711
-msgid "Uninstallation options"
+#: ../includes/config/wpmoly-options.php:1709
+#: ../includes/config/wpmoly-options.php:1782
+msgid "Delete Completely (irreversible)"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:1717
+#: ../includes/config/wpmoly-options.php:1790
+msgid "Collections Taxonomy"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:1718
-msgid "How to handle Movies when WPMovieLibrary is uninstalled."
+msgid "How to handle Collections Taxonomy when WPMovieLibrary is deactivated."
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:1721
-msgid "Convert to Posts (recommended)"
+msgid "Convert to Categories"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:1730
+#: ../includes/config/wpmoly-options.php:1803
+msgid "Genres Taxonomy"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:1731
-msgid "How to handle Collections Taxonomy when WPMovieLibrary is uninstalled."
+msgid "How to handle Genres Taxonomy when WPMovieLibrary is deactivated."
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:1734
-msgid "Convert to Categories (recommended)"
+#: ../includes/config/wpmoly-options.php:1747
+msgid "Convert to Tags"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:1743
+#: ../includes/config/wpmoly-options.php:1816
+msgid "Actors Taxonomy"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:1744
-msgid "How to handle Genres Taxonomy when WPMovieLibrary is uninstalled."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1747
-#: ../includes/config/wpmoly-options.php:1760
-msgid "Convert to Tags (recommended)"
+msgid "How to handle Actors Taxonomy when WPMovieLibrary is deactivated."
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:1757
-msgid "How to handle Actors Taxonomy when WPMovieLibrary is uninstalled."
+msgid "How to handle Cached data when WPMovieLibrary is deactivated."
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:1759
+#: ../includes/config/wpmoly-options.php:1780
+#: ../includes/config/wpmoly-options.php:1793
+#: ../includes/config/wpmoly-options.php:1806
+#: ../includes/config/wpmoly-options.php:1819
+#: ../includes/config/wpmoly-options.php:1832
+msgid "Conserve"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:1760
+#: ../includes/config/wpmoly-options.php:1833
+msgid "Empty (recommended)"
 msgstr ""
 
 #: ../includes/config/wpmoly-options.php:1770
+msgid "Uninstall"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:1771
+msgid "Uninstallation options"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:1778
+msgid "How to handle Movies when WPMovieLibrary is uninstalled."
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:1781
+msgid "Convert to Posts (recommended)"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:1791
+msgid "How to handle Collections Taxonomy when WPMovieLibrary is uninstalled."
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:1794
+msgid "Convert to Categories (recommended)"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:1804
+msgid "How to handle Genres Taxonomy when WPMovieLibrary is uninstalled."
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:1807
+#: ../includes/config/wpmoly-options.php:1820
+msgid "Convert to Tags (recommended)"
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:1817
+msgid "How to handle Actors Taxonomy when WPMovieLibrary is uninstalled."
+msgstr ""
+
+#: ../includes/config/wpmoly-options.php:1830
 msgid "How to handle Cached data when WPMovieLibrary is uninstalled."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1783
+#: ../includes/config/wpmoly-options.php:1843
 msgid "Import / Export"
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:1784
+#: ../includes/config/wpmoly-options.php:1844
 msgid "Import and Export your settings."
 msgstr ""
 
 #: ../includes/config/wpmoly-admin-bar-menu.php:20
-#: ../includes/class-registrar.php:50
+#: ../includes/class-registrar.php:83
 msgid "Movie Library"
 msgstr ""
 
@@ -3059,7 +3142,7 @@ msgstr ""
 msgid "language"
 msgstr ""
 
-#: ../includes/config/wpmoly-movies.php:265 ../includes/class-i18n.php:80
+#: ../includes/config/wpmoly-movies.php:265 ../includes/class-i18n.php:81
 msgid "genres"
 msgstr ""
 
@@ -3119,299 +3202,299 @@ msgstr ""
 msgid "Video Format"
 msgstr ""
 
-#: ../includes/class-registrar.php:39
+#: ../includes/class-registrar.php:72
 msgid "Movie"
 msgstr ""
 
-#: ../includes/class-registrar.php:41
+#: ../includes/class-registrar.php:74
 msgid "Add New Movie"
 msgstr ""
 
-#: ../includes/class-registrar.php:42
+#: ../includes/class-registrar.php:75
 msgid "Edit Movie"
 msgstr ""
 
-#: ../includes/class-registrar.php:43
+#: ../includes/class-registrar.php:76
 msgid "New Movie"
 msgstr ""
 
-#: ../includes/class-registrar.php:45
+#: ../includes/class-registrar.php:78
 msgid "View Movie"
 msgstr ""
 
-#: ../includes/class-registrar.php:46
+#: ../includes/class-registrar.php:79
 msgid "Search Movies"
 msgstr ""
 
-#: ../includes/class-registrar.php:47
+#: ../includes/class-registrar.php:80
 msgid "No movies found"
 msgstr ""
 
-#: ../includes/class-registrar.php:48
+#: ../includes/class-registrar.php:81
 msgid "No movies found in Trash"
 msgstr ""
 
-#: ../includes/class-registrar.php:94
+#: ../includes/class-registrar.php:104
 msgctxt "wpmovielibrary"
 msgid "Imported Draft"
 msgstr ""
 
-#: ../includes/class-registrar.php:99
+#: ../includes/class-registrar.php:105
 #, php-format
 msgid "Imported Draft <span class=\"count\">(%s)</span>"
 msgid_plural "Imported Draft <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../includes/class-registrar.php:114
+#: ../includes/class-registrar.php:111
 msgctxt "wpmovielibrary"
 msgid "Queued Movie"
 msgstr ""
 
-#: ../includes/class-registrar.php:119
+#: ../includes/class-registrar.php:112
 #, php-format
 msgid "Queued Movie <span class=\"count\">(%s)</span>"
 msgid_plural "Queued Movies <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../includes/class-registrar.php:150
+#: ../includes/class-registrar.php:124
 msgid "New Collection"
 msgstr ""
 
-#: ../includes/class-registrar.php:151
+#: ../includes/class-registrar.php:125
 msgid "Search Collections"
 msgstr ""
 
-#: ../includes/class-registrar.php:152
+#: ../includes/class-registrar.php:126
 msgid "Popular Collections"
 msgstr ""
 
-#: ../includes/class-registrar.php:153
+#: ../includes/class-registrar.php:127
 msgid "All Collections"
 msgstr ""
 
-#: ../includes/class-registrar.php:154
+#: ../includes/class-registrar.php:128
 msgid "Parent Collection"
 msgstr ""
 
-#: ../includes/class-registrar.php:155
+#: ../includes/class-registrar.php:129
 msgid "Parent Collection:"
 msgstr ""
 
-#: ../includes/class-registrar.php:156
+#: ../includes/class-registrar.php:130
 msgid "Edit Collection"
 msgstr ""
 
-#: ../includes/class-registrar.php:157
+#: ../includes/class-registrar.php:131
 msgid "View Collection"
 msgstr ""
 
-#: ../includes/class-registrar.php:158
+#: ../includes/class-registrar.php:132
 msgid "Update Collection"
 msgstr ""
 
-#: ../includes/class-registrar.php:159
+#: ../includes/class-registrar.php:133
 msgid "Add New Collection"
 msgstr ""
 
-#: ../includes/class-registrar.php:160
+#: ../includes/class-registrar.php:134
 msgid "New Collection Name"
 msgstr ""
 
-#: ../includes/class-registrar.php:161
+#: ../includes/class-registrar.php:135
 msgid "Separate collections with commas"
 msgstr ""
 
-#: ../includes/class-registrar.php:162
+#: ../includes/class-registrar.php:136
 msgid "Add or remove collections"
 msgstr ""
 
-#: ../includes/class-registrar.php:163
+#: ../includes/class-registrar.php:137
 msgid "Choose from the most used collections"
 msgstr ""
 
-#: ../includes/class-registrar.php:164
+#: ../includes/class-registrar.php:138
 msgid "No collections found."
 msgstr ""
 
-#: ../includes/class-registrar.php:165
+#: ../includes/class-registrar.php:139
 msgid "No collections"
 msgstr ""
 
-#: ../includes/class-registrar.php:166
+#: ../includes/class-registrar.php:140
 msgid "Collections list navigation"
 msgstr ""
 
-#: ../includes/class-registrar.php:167
+#: ../includes/class-registrar.php:141
 msgid "Collections list"
 msgstr ""
 
-#: ../includes/class-registrar.php:177
+#: ../includes/class-registrar.php:151
 msgid "New Genre"
 msgstr ""
 
-#: ../includes/class-registrar.php:178
+#: ../includes/class-registrar.php:152
 msgid "Search Genres"
 msgstr ""
 
-#: ../includes/class-registrar.php:179
+#: ../includes/class-registrar.php:153
 msgid "Popular Genres"
 msgstr ""
 
-#: ../includes/class-registrar.php:180
+#: ../includes/class-registrar.php:154
 msgid "All Genres"
 msgstr ""
 
-#: ../includes/class-registrar.php:181
+#: ../includes/class-registrar.php:155
 msgid "Parent Genre"
 msgstr ""
 
-#: ../includes/class-registrar.php:182
+#: ../includes/class-registrar.php:156
 msgid "Parent Genre:"
 msgstr ""
 
-#: ../includes/class-registrar.php:183
+#: ../includes/class-registrar.php:157
 msgid "Edit Genre"
 msgstr ""
 
-#: ../includes/class-registrar.php:184
+#: ../includes/class-registrar.php:158
 msgid "View Genre"
 msgstr ""
 
-#: ../includes/class-registrar.php:185
+#: ../includes/class-registrar.php:159
 msgid "Update Genre"
 msgstr ""
 
-#: ../includes/class-registrar.php:186
+#: ../includes/class-registrar.php:160
 msgid "Add New Genre"
 msgstr ""
 
-#: ../includes/class-registrar.php:187
+#: ../includes/class-registrar.php:161
 msgid "New Genre Name"
 msgstr ""
 
-#: ../includes/class-registrar.php:188
+#: ../includes/class-registrar.php:162
 msgid "Separate genres with commas"
 msgstr ""
 
-#: ../includes/class-registrar.php:189
+#: ../includes/class-registrar.php:163
 msgid "Add or remove genres"
 msgstr ""
 
-#: ../includes/class-registrar.php:190
+#: ../includes/class-registrar.php:164
 msgid "Choose from the most used genres"
 msgstr ""
 
-#: ../includes/class-registrar.php:191
+#: ../includes/class-registrar.php:165
 msgid "No genres found."
 msgstr ""
 
-#: ../includes/class-registrar.php:192
+#: ../includes/class-registrar.php:166
 msgid "No genres"
 msgstr ""
 
-#: ../includes/class-registrar.php:193
+#: ../includes/class-registrar.php:167
 msgid "Genres list navigation"
 msgstr ""
 
-#: ../includes/class-registrar.php:194
+#: ../includes/class-registrar.php:168
 msgid "Genres list"
 msgstr ""
 
-#: ../includes/class-registrar.php:204
+#: ../includes/class-registrar.php:178
 msgid "New Actor"
 msgstr ""
 
-#: ../includes/class-registrar.php:205
+#: ../includes/class-registrar.php:179
 msgid "Search Actors"
 msgstr ""
 
-#: ../includes/class-registrar.php:206
+#: ../includes/class-registrar.php:180
 msgid "Popular Actors"
 msgstr ""
 
-#: ../includes/class-registrar.php:207
+#: ../includes/class-registrar.php:181
 msgid "All Actors"
 msgstr ""
 
-#: ../includes/class-registrar.php:208
+#: ../includes/class-registrar.php:182
 msgid "Parent Actor"
 msgstr ""
 
-#: ../includes/class-registrar.php:209
+#: ../includes/class-registrar.php:183
 msgid "Parent Actor:"
 msgstr ""
 
-#: ../includes/class-registrar.php:210
+#: ../includes/class-registrar.php:184
 msgid "Edit Actor"
 msgstr ""
 
-#: ../includes/class-registrar.php:211
+#: ../includes/class-registrar.php:185
 msgid "View Actor"
 msgstr ""
 
-#: ../includes/class-registrar.php:212
+#: ../includes/class-registrar.php:186
 msgid "Update Actor"
 msgstr ""
 
-#: ../includes/class-registrar.php:213
+#: ../includes/class-registrar.php:187
 msgid "Add New Actor"
 msgstr ""
 
-#: ../includes/class-registrar.php:214
+#: ../includes/class-registrar.php:188
 msgid "New Actor Name"
 msgstr ""
 
-#: ../includes/class-registrar.php:215
+#: ../includes/class-registrar.php:189
 msgid "Separate actors with commas"
 msgstr ""
 
-#: ../includes/class-registrar.php:216
+#: ../includes/class-registrar.php:190
 msgid "Add or remove actors"
 msgstr ""
 
-#: ../includes/class-registrar.php:217
+#: ../includes/class-registrar.php:191
 msgid "Choose from the most used actors"
 msgstr ""
 
-#: ../includes/class-registrar.php:218
+#: ../includes/class-registrar.php:192
 msgid "No actors found."
 msgstr ""
 
-#: ../includes/class-registrar.php:219
+#: ../includes/class-registrar.php:193
 msgid "No actors"
 msgstr ""
 
-#: ../includes/class-registrar.php:220
+#: ../includes/class-registrar.php:194
 msgid "Actors list navigation"
 msgstr ""
 
-#: ../includes/class-registrar.php:221
+#: ../includes/class-registrar.php:195
 msgid "Actors list"
 msgstr ""
 
-#: ../includes/class-i18n.php:71
+#: ../includes/class-i18n.php:69
 msgid "actors"
 msgstr ""
 
-#: ../includes/class-i18n.php:72
+#: ../includes/class-i18n.php:70
 msgid "add automatically"
 msgstr ""
 
-#: ../includes/class-i18n.php:73
+#: ../includes/class-i18n.php:71
 msgid "Available Backdrops"
 msgstr ""
 
-#: ../includes/class-i18n.php:74
+#: ../includes/class-i18n.php:72
 msgid "Available Posters"
 msgstr ""
 
-#: ../includes/class-i18n.php:76
+#: ../includes/class-i18n.php:74
 msgid "Backdrop"
 msgstr ""
 
-#: ../includes/class-i18n.php:77
+#: ../includes/class-i18n.php:75
 msgid "Backdrops"
 msgstr ""
 
@@ -3419,103 +3502,123 @@ msgstr ""
 msgid "collections"
 msgstr ""
 
-#: ../includes/class-i18n.php:81
-msgid "Import selected images"
+#: ../includes/class-i18n.php:80
+msgid "Featured image set!"
 msgstr ""
 
 #: ../includes/class-i18n.php:82
+msgid "Import selected images"
+msgstr ""
+
+#: ../includes/class-i18n.php:83
 #, php-format
 msgid "Importing movie %s…"
 msgstr ""
 
 #: ../includes/class-i18n.php:84
-msgid "No movies found!"
-msgstr ""
-
-#: ../includes/class-i18n.php:85
-msgid "One movie found!"
+msgid "Importing poster…"
 msgstr ""
 
 #: ../includes/class-i18n.php:86
+msgid "No movies found!"
+msgstr ""
+
+#: ../includes/class-i18n.php:87
+msgid "One movie found!"
+msgstr ""
+
+#: ../includes/class-i18n.php:88
 #, php-format
 msgid "%d movies found!"
 msgstr ""
 
-#: ../includes/class-i18n.php:88
+#: ../includes/class-i18n.php:90
 msgid "Metadata saved!"
 msgstr ""
 
-#: ../includes/class-i18n.php:89
+#: ../includes/class-i18n.php:91
 msgid "Backdrops and Posters"
 msgstr ""
 
-#: ../includes/class-i18n.php:90
+#: ../includes/class-i18n.php:92
 #, php-format
 msgid "Movie %s imported successfully!"
 msgstr ""
 
-#: ../includes/class-i18n.php:91
+#: ../includes/class-i18n.php:93
 #, php-format
 msgid "or %s using the %s list."
 msgstr ""
 
-#: ../includes/class-i18n.php:93
+#: ../includes/class-i18n.php:95
 msgid "Poster"
 msgstr ""
 
-#: ../includes/class-i18n.php:96
+#: ../includes/class-i18n.php:98
+msgid "Poster from the movie"
+msgstr ""
+
+#: ../includes/class-i18n.php:100
+msgid "Poster successfully imported!"
+msgstr ""
+
+#: ../includes/class-i18n.php:101
 msgid "Ready!"
 msgstr ""
 
-#: ../includes/class-i18n.php:97
+#: ../includes/class-i18n.php:102
 msgid "Reload"
 msgstr ""
 
-#: ../includes/class-i18n.php:98
+#: ../includes/class-i18n.php:103
 msgid ""
 "You’re about to save the current settings. This will erase the existing "
 "settings and apply to every search, including multiple imports.<br /><br /"
 ">Are you sure you want to do that?"
 msgstr ""
 
-#: ../includes/class-i18n.php:99
+#: ../includes/class-i18n.php:104
 msgid "Run Forrest, run!"
 msgstr ""
 
-#: ../includes/class-i18n.php:100
+#: ../includes/class-i18n.php:105
 msgid "Saving settings…"
 msgstr ""
 
-#: ../includes/class-i18n.php:101
+#: ../includes/class-i18n.php:106
 #, php-format
 msgid "Searching movie %s…"
 msgstr ""
 
-#: ../includes/class-i18n.php:103
+#: ../includes/class-i18n.php:108
 msgid "one selected image"
 msgstr ""
 
-#: ../includes/class-i18n.php:104
+#: ../includes/class-i18n.php:109
 #, php-format
 msgid "%d selected images"
 msgstr ""
 
-#: ../includes/class-i18n.php:106
+#: ../includes/class-i18n.php:111
 #, php-format
 msgid ""
 "You’re about to set %s as %s for the movie %s.<br /><br />Are you sure you "
 "want to do that?"
 msgstr ""
 
-#: ../includes/class-i18n.php:107
+#: ../includes/class-i18n.php:112
+msgid "Setting featured image…"
+msgstr ""
+
+#: ../includes/class-i18n.php:113
 msgid "Error: settings were not saved."
 msgstr ""
 
-#: ../includes/class-i18n.php:108
+#: ../includes/class-i18n.php:114
 msgid "Settings saved!"
 msgstr ""
 
-#: ../includes/class-terms.php:98
+#: ../includes/class-terms.php:125
 msgid "Invalid taxonomy"
 msgstr ""
 

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WPMovieLibrary package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPMovieLibrary 1.2.1\n"
+"Project-Id-Version: WPMovieLibrary 3.0-alpha1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/wpmovielibrary\n"
 "POT-Creation-Date: 2015-04-04 09:18+0100\n"
 "PO-Revision-Date: 2015-04-04 09:19+0100\n"

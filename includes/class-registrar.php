@@ -28,42 +28,15 @@ use wpmoly\Core\Core;
 class Registrar extends Core {
 
 	/**
-	 * Custom Post Types list
-	 *
+	 * Register Custom Post Types.
+	 * 
 	 * @since    3.0
 	 * 
-	 * @var    array
+	 * @return   void
 	 */
-	private $post_types;
+	public function register_post_types() {
 
-	/**
-	 * Custom Post Statuses list
-	 *
-	 * @since    3.0
-	 * 
-	 * @var    array
-	 */
-	private $post_statuses;
-
-	/**
-	 * Custom Taxonomies list
-	 *
-	 * @since    3.0
-	 * 
-	 * @var    array
-	 */
-	private $taxonomies;
-
-	/**
-	 * Define the custom post types, statuses and taxonomies.
-	 *
-	 * @since    3.0
-	 * 
-	 * @return    \wpmoly\Registrar
-	 */
-	public function __construct() {
-
-		$this->post_types = array(
+		$post_types = array(
 			array(
 				'slug' => 'movie',
 				'args' => array(
@@ -97,7 +70,54 @@ class Registrar extends Core {
 			)
 		);
 
-		$this->post_statuses = array(
+		/**
+		 * Filter the Custom Post Types parameters prior to registration.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $post_types Post Types list
+		 */
+		$post_types = apply_filters( 'wpmoly/filter/post_types', $post_types );
+
+		foreach ( $post_types as $post_type ) {
+
+			/**
+			 * Filter the Custom Post Type parameters prior to registration.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    array    $args Post Type args
+			 */
+			$args = apply_filters( "wpmoly/filter/post_type/{$post_type['slug']}", $post_type['args'] );
+
+			$args = array_merge( array(
+				'labels'             => array(),
+				'rewrite'            => true,
+				'public'             => true,
+				'publicly_queryable' => true,
+				'show_ui'            => true,
+				'show_in_menu'       => true,
+				'has_archive'        => true,
+				'menu_position'      => null,
+				'menu_icon'          => null,
+				'taxonomies'         => array(),
+				'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' )
+			), $args );
+
+			register_post_type( $post_type['slug'], $args );
+		}
+	}
+
+	/**
+	 * Register Custom Post Statuses.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public function register_post_statuses() {
+
+		$post_statuses = array(
 			array(
 				'slug' => 'import-draft',
 				'args' => array(
@@ -114,7 +134,51 @@ class Registrar extends Core {
 			)
 		);
 
-		$this->taxonomies = array(
+		/**
+		 * Filter the Custom Post Statuses parameters prior to registration.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $post_statuses Post Statuses list
+		 */
+		$post_statuses = apply_filters( 'wpmoly/filter/post_statuses', $post_statuses );
+
+		foreach ( $post_statuses as $post_status ) {
+
+			/**
+			 * Filter the Custom Post Status parameters prior to registration.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    array    $args Post Status args
+			 */
+			$args = apply_filters( "wpmoly/filter/post_status/{$post_status['slug']}", $post_status['args'] );
+			$args = array_merge( array(
+				'label'                     => false,
+				'label_count'               => false,
+				'public'                    => false,
+				'internal'                  => true,
+				'private'                   => true,
+				'publicly_queryable'        => false,
+				'exclude_from_search'       => true,
+				'show_in_admin_all_list'    => false,
+				'show_in_admin_status_list' => false,
+			), $args );
+
+			register_post_status( $post_status['slug'], $args );
+		}
+	}
+
+	/**
+	 * Register Custom Taxonomies.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public function register_taxonomies() {
+
+		$taxonomies = array(
 			array(
 				'slug'  => 'collection',
 				'posts' => array( 'movie' ),
@@ -198,109 +262,6 @@ class Registrar extends Core {
 			)
 		);
 
-		return $this;
-	}
-
-	/**
-	 * Register Custom Post Types.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   void
-	 */
-	public function register_post_types() {
-
-		/**
-		 * Filter the Custom Post Types parameters prior to registration.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array    $post_types Post Types list
-		 */
-		$post_types = apply_filters( 'wpmoly/filter/post_types', $this->post_types );
-
-		foreach ( $this->post_types as $post_type ) {
-
-			/**
-			 * Filter the Custom Post Type parameters prior to registration.
-			 * 
-			 * @since    3.0
-			 * 
-			 * @param    array    $args Post Type args
-			 */
-			$args = apply_filters( "wpmoly/filter/post_type/{$post_type['slug']}", $post_type['args'] );
-
-			$args = array_merge( array(
-				'labels'             => array(),
-				'rewrite'            => true,
-				'public'             => true,
-				'publicly_queryable' => true,
-				'show_ui'            => true,
-				'show_in_menu'       => true,
-				'has_archive'        => true,
-				'menu_position'      => null,
-				'menu_icon'          => null,
-				'taxonomies'         => array(),
-				'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' )
-			), $args );
-
-			register_post_type( $post_type['slug'], $args );
-		}
-	}
-
-	/**
-	 * Register Custom Post Statuses.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   void
-	 */
-	public function register_post_statuses() {
-
-		/**
-		 * Filter the Custom Post Statuses parameters prior to registration.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array    $post_statuses Post Statuses list
-		 */
-		$post_statuses = apply_filters( 'wpmoly/filter/post_statuses', $this->post_statuses );
-
-		foreach ( $this->post_statuses as $post_status ) {
-
-			/**
-			 * Filter the Custom Post Status parameters prior to registration.
-			 * 
-			 * @since    3.0
-			 * 
-			 * @param    array    $args Post Status args
-			 */
-			$args = apply_filters( "wpmoly/filter/post_status/{$post_status['slug']}", $post_status['args'] );
-			$args = array_merge( array(
-				'label'                     => false,
-				'label_count'               => false,
-				'public'                    => false,
-				'internal'                  => true,
-				'private'                   => true,
-				'publicly_queryable'        => false,
-				'exclude_from_search'       => true,
-				'show_in_admin_all_list'    => false,
-				'show_in_admin_status_list' => false,
-			), $args );
-
-			register_post_status( $post_status['slug'], $args );
-		}
-	}
-
-	/**
-	 * Register Custom Taxonomies.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   void
-	 */
-	public function register_taxonomies() {
-
 		/**
 		 * Filter the custom taxonomies parameters prior to registration.
 		 * 
@@ -308,7 +269,7 @@ class Registrar extends Core {
 		 * 
 		 * @param    array    $taxonomies Taxonomies list
 		 */
-		$taxonomies = apply_filters( 'wpmoly/filter/taxonomies', $this->taxonomies );
+		$taxonomies = apply_filters( 'wpmoly/filter/taxonomies', $taxonomies );
 
 		foreach ( $taxonomies as $taxonomy ) {
 

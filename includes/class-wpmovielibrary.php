@@ -195,8 +195,8 @@ class Library {
 
 		$i18n = new i18n();
 
-		$this->loader->add_action( 'plugins_loaded',        $i18n, 'load_plugin_textdomain' );
-		$this->loader->add_action( 'plugins_loaded',        $i18n, 'load_additional_textdomains' );
+		$this->loader->add_action( 'init',                  $i18n, 'load_plugin_textdomain' );
+		$this->loader->add_action( 'init',                  $i18n, 'load_additional_textdomains' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $i18n, 'localize_scripts', 20 );
 
 	}
@@ -213,7 +213,8 @@ class Library {
 			return false;
 		}
 
-		$admin = new Backstage( $this->get_plugin_name(), $this->get_version() );
+		//$admin = new Backstage( $this->get_plugin_name(), $this->get_version() );
+		$admin = new Backstage( $this->get_plugin_name(), time() );
 
 		$this->loader->add_filter( 'admin_init',                $admin, 'admin_init' );
 		$this->loader->add_filter( 'plupload_default_params',   $admin, 'plupload_default_params' );
