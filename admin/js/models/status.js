@@ -35,7 +35,11 @@ _.extend( wpmoly.model, {
 				this.set({ date: new Date() });
 			}
 		}
-	}),
+	})
+
+} );
+
+_.extend( wpmoly.model, {
 
 	Status: Backbone.Collection.extend({
 
