@@ -228,25 +228,8 @@ class Media extends Node {
 				'excerpt'     => $attachment->post_excerpt,
 				'image_alt'   => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', $single = true )
 			);
-			$image = new Backdrop( $image );
 
-			$this->backdrops->add( $image );
-
-			/*$meta = \wp_get_attachment_metadata( $attachment->ID, $unfiltered = true );
-			$image = array(
-				'id'          => $attachment->ID,
-				'title'       => $attachment->post_title,
-				'description' => $attachment->post_content,
-				'excerpt'     => $attachment->post_excerpt,
-				'image_alt'   => \get_post_meta( $attachment->ID, '_wp_attachment_image_alt', $single = true )
-			);
-			$image = new Backdrop( $image );
-			$image->set_sizes( $meta );
-
-			$image->edit_link   = get_edit_post_link( $attachment->ID );
-			$image->delete_link = get_delete_post_link( $attachment->ID );
-
-			$this->backdrops->add( $image );*/
+			$this->backdrops->add( new Backdrop( $image ) );
 		}
 
 		return $this->backdrops;
@@ -283,25 +266,8 @@ class Media extends Node {
 				'excerpt'     => $attachment->post_excerpt,
 				'image_alt'   => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', $single = true )
 			);
-			$image = new Poster( $image );
 
-			$this->posters->add( $image );
-
-			/*$meta = \wp_get_attachment_metadata( $attachment->ID, $unfiltered = true );
-			$image = array(
-				'id'          => $attachment->ID,
-				'title'       => $attachment->post_title,
-				'description' => $attachment->post_content,
-				'excerpt'     => $attachment->post_excerpt,
-				'image_alt'   => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', $single = true )
-			);
-			$image = new Poster( $image );
-			$image->set_sizes( $meta );
-
-			$image->edit_link   = get_edit_post_link( $attachment->ID );
-			$image->delete_link = get_delete_post_link( $attachment->ID );
-
-			$this->posters->add( $image );*/
+			$this->posters->add( new Poster( $image ) );
 		}
 
 		return $this->posters;

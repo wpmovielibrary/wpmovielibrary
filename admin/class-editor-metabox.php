@@ -377,20 +377,6 @@ class Editor extends Metabox {
 		}
 
 		$movie = get_movie( $post->ID );
-
-		/*if ( has_post_thumbnail() ) {
-			$thumbnail  = get_post_thumbnail_id();
-			$poster     = wp_get_attachment_image_src( $thumbnail, 'large' );
-			$background = wp_get_attachment_image_src( $thumbnail, 'original' );
-
-			$poster     = $poster ? $poster[0] : '';
-			$background = $background ? $background[0] : '';
-		} else {
-			$media = $movie->media->get_posters()->first();
-			$poster     = $media ? $media->sizes->medium->path   : Poster::get_default_url( 'medium' );
-			$background = $media ? $media->sizes->original->path : Backdrop::get_default_url( 'full' );
-		}*/
-
 		$template->data = array(
 			'movie'      => $movie,
 			'empty'      => $movie->meta->is_empty(),
