@@ -3,8 +3,8 @@ Contributors: askelon
 Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 4.2
-Tested up to: 4.4.2
-Stable tag: 2.1.4.2
+Tested up to: 4.5.1
+Stable tag: 2.1.4.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -140,6 +140,11 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 7. Import queue
 
 == Changelog ==
+
+= 2.1.4.3 =
+ * Fix - URL escaping bug causing the movie grid letter URL malformation
+ * Fix - Empty date bug in importer resulting in movies being dated from January 1st, 1970
+ * Dev - Term ordering updated to match the modifications brought by WordPress 4.4
 
 = 2.1.4.2 =
  * Tweak - Movies Widget available/unavailable status distinction
