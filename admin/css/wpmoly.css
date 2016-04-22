@@ -1241,6 +1241,8 @@
 #wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image .wpmoly-import-images .label,
 #wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image .wpmoly-upload-images .label {
 	display: block;
+	margin: 0 auto;
+	max-width: 72px;
 	padding: 0 10px;
 }
 
@@ -1699,7 +1701,7 @@ body.post-php.post-type-movie .media-modal .media-toolbar .media-toolbar-seconda
 
 	#wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image .wpmoly-import-images .label,
 	#wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image .wpmoly-upload-images .label {
-		display: none;
+		font-size: 12px;
 	}
 }
 

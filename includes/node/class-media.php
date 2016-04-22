@@ -131,6 +131,10 @@ class Media extends Node {
 				break;
 		}
 
+		if ( ! $backdrop instanceof Image ) {
+			$backdrop = DefaultBackdrop::get_instance();
+		}
+
 		return $backdrop;
 	}
 
@@ -167,6 +171,10 @@ class Media extends Node {
 			default :
 				$poster = DefaultPoster::get_instance();
 				break;
+		}
+
+		if ( ! $poster instanceof Image ) {
+			$poster = DefaultPoster::get_instance();
 		}
 
 		return $poster;
