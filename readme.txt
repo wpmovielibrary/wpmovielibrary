@@ -1,5 +1,5 @@
 === WPMovieLibrary ===
-Contributors: askelon
+Contributors: caercam
 Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 4.2
