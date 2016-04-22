@@ -3,7 +3,7 @@ wpmoly = window.wpmoly || {};
 
 (function( $, _, Backbone ) {
 
-	wpmoly.editor = {
+	editor = wpmoly.editor = {
 
 		runned: false,
 
@@ -12,13 +12,15 @@ wpmoly = window.wpmoly || {};
 			var $editor = $( '#wpmoly-meta' ),
 			    post_id = $( '#post_ID' ).val();
 
-			if ( $editor.length && ! $editor.hasClass( 'hidden' ) ) {
+			editor.controller = new wpmoly.controller.Editor( {}, {
+				post_id: post_id
+			} );
+
+			if ( $editor.length /*&& ! $editor.hasClass( 'hidden' )*/ ) {
 
 				wpmoly.editor = new wpmoly.view.Editor({
 					el         : $editor,
-					controller : new wpmoly.controller.Editor( {}, {
-						post_id: post_id
-					} )
+					controller : editor.controller
 				});
 
 				wpmoly.editor.tagbox = {

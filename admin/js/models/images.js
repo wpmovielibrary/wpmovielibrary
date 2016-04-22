@@ -130,6 +130,9 @@ _.extend( wpmoly.model, {
 			var frame = wp.media.frame, Uploader, uploader;
 			if ( frame ) {
 				uploader  = frame.uploader.uploader.uploader;
+
+				frame.uploader.imageType = this.type;
+				frame.content.mode( 'upload' );
 			} else {
 				Uploader = wp.Uploader;
 				Uploader.prototype.init = function() {
@@ -149,13 +152,9 @@ _.extend( wpmoly.model, {
 				});
 
 				uploader = uploader.uploader;
+				uploader.imageType = this.type;
 			}
-
-			if ( frame ) {
-				frame.content.mode( 'upload' );
-			}
-
-			uploader.imageType = this.type;
+			
 
 			_.each( images, function( image ) {
 

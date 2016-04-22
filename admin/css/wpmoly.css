@@ -86,7 +86,7 @@
 #wpmoly-metabox #wpmoly-movie-preview .wpmoly-movie-preview-background {
 	background-position: center center;
 	background-repeat: no-repeat;
-	background-size: 100% auto;
+	background-size: cover;
 	height: 100%;
 	opacity: 0.65;
 	position: absolute;
@@ -1002,10 +1002,17 @@
  * Editor Metabox images panels
  */
 
+#wpmoly-metabox #wpmoly-meta #wpmoly-meta-backdrops-panel,
+#wpmoly-metabox #wpmoly-meta #wpmoly-meta-posters-panel {
+	padding: 25px;
+	width: calc(100% - 50px);
+}
+
 #wpmoly-metabox #wpmoly-meta .wpmoly-images-preview,
 #wpmoly-metabox #wpmoly-meta .wpmoly-imported-images {
 	margin: 0;
 	min-height: 1px;
+	padding: 0 !important;
 	width: 100%;
 }
 
@@ -1670,6 +1677,10 @@ body.post-php.post-type-movie .media-modal .media-toolbar .media-toolbar-seconda
 		width: 99.5%;
 	}
 
+	#wpmoly-metabox #wpmoly-meta #wpmoly-meta-menu {
+		margin-left: -150px;
+	}
+
 	#wpmoly-metabox #wpmoly-meta #wpmoly-meta-menu,
 	#wpmoly-metabox #wpmoly-movie-search #wpmoly-search-status {
 		width: 150px;
@@ -1679,10 +1690,16 @@ body.post-php.post-type-movie .media-modal .media-toolbar .media-toolbar-seconda
 		width: 96px;
 	}
 
+	#wpmoly-metabox #wpmoly-meta,
 	#wpmoly-metabox #wpmoly-movie-search #wpmoly-search-form,
 	#wpmoly-metabox #wpmoly-meta .panel,
 	#wpmoly-metabox #wpmoly-movie-search #wpmoly-search-settings {
 		margin-left: 150px;
+	}
+
+	#wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image .wpmoly-import-images .label,
+	#wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image .wpmoly-upload-images .label {
+		display: none;
 	}
 }
 
@@ -1725,18 +1742,25 @@ body.post-php.post-type-movie .media-modal .media-toolbar .media-toolbar-seconda
 
 @media screen and (max-width: 1024px) {
 
+	#wpmoly-metabox #wpmoly-meta #wpmoly-meta-menu {
+		margin-left: -50px;
+	}
+
 	#wpmoly-metabox #wpmoly-meta #wpmoly-meta-menu .tab .text {
 		display: none;
 	}
 
 	#wpmoly-metabox #wpmoly-meta #wpmoly-meta-menu,
 	#wpmoly-metabox #wpmoly-movie-search #wpmoly-search-status {
-		width: 48px;
+		width: 50px;
 	}
 
+	#wpmoly-metabox #wpmoly-meta,
 	#wpmoly-metabox #wpmoly-movie-search #wpmoly-search-form,
 	#wpmoly-metabox #wpmoly-meta .panel,
 	#wpmoly-metabox #wpmoly-movie-search #wpmoly-search-settings {
 		margin-left: 48px;
 	}
+
+	
 }

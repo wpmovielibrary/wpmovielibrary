@@ -25,7 +25,7 @@ _.extend( Modal, {
 			this.uploader = this.frame.uploader;
 
 			this.post_id = wpmoly.$( '#post_ID' ).val() || '';
-			this.tmdb_id = wpmoly.editor.controller.meta.get( 'tmdb_id' ) || '';
+			this.tmdb_id = wpmoly.$( '#meta_tmdb_id' ).val() || '';
 
 			this.selection = new wp.media.model.Selection( [], {
 				multiple: true
@@ -45,11 +45,11 @@ _.extend( Modal, {
 			wpmoly.on( 'editor:backdrop:set-as:done', this.closeModal, this );
 			wpmoly.on( 'editor:poster:set-as:done',   this.closeModal, this );
 
-			this.listenTo( this.frame, 'uploader:ready', this.bindUploader );
-			this.listenTo( this.frame, 'content:activate:backdrop', function() {
+			this.frame.on( 'uploader:ready', this.bindUploader, this );
+			this.frame.on( 'content:activate:backdrop', function() {
 				this.uploader.imageType = 'backdrop';
 			}, this );
-			this.listenTo( this.frame, 'content:activate:poster', function() {
+			this.frame.on( 'content:activate:poster', function() {
 				this.uploader.imageType = 'poster';
 			}, this );
 		},
@@ -82,14 +82,14 @@ _.extend( Modal, {
 			}, this ) );
 
 			this.uploader.uploader.uploader.bind( 'BeforeUpload', _.bind( function( uploader, file ) {
-				wpmoly.trigger( 'editor:' + uploader.imageType + ':import:start', uploader, file );
+				wpmoly.trigger( 'editor:' + this.uploader.imageType + ':import:start', uploader, file );
 			}, this ) );
 
 			// File successfully uploaded
 			this.uploader.uploader.uploader.bind( 'FileUploaded', _.bind( function( uploader, file, response ) {
-				wpmoly.trigger( 'editor:' + uploader.imageType + ':import:done', uploader, file, response );
-				wpmoly.trigger( 'editor:' + uploader.imageType + ':set-as', [ file.attachment ] );
-				wpmoly.trigger( 'editor:' + uploader.imageType + ':set-texts', file.attachment );
+				wpmoly.trigger( 'editor:' + this.uploader.imageType + ':import:done', uploader, file, response );
+				wpmoly.trigger( 'editor:' + this.uploader.imageType + ':set-as', [ file.attachment ] );
+				wpmoly.trigger( 'editor:' + this.uploader.imageType + ':set-texts', file.attachment );
 			}, this ) );
 
 			return this;

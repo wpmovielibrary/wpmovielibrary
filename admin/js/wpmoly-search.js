@@ -12,7 +12,7 @@ wpmoly = window.wpmoly || {};
 			var $search = $( '#wpmoly-movie-search' ),
 			    post_id = $( '#post_ID' ).val();
 
-			if ( $search.length && ! $search.hasClass( 'hidden' ) ) {
+			if ( $search.length /*&& ! $search.hasClass( 'hidden' )*/ ) {
 				wpmoly.search = new wpmoly.view.Search.Search({
 					el         : $search,
 					controller : new wpmoly.controller.Search( {}, {

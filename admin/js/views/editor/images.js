@@ -101,10 +101,10 @@ _.extend( wpmoly.view, {
 		set_grid: function() {
 
 			var prev = this.columns,
-			   width = this.$el.actual( 'width' );
+			   width = this.$el.actual( 'width' ) - 50;
 
 			if ( width ) {
-				this.columns = Math.min( Math.round( width / this.ideal_width ), 12 ) || 1;
+				this.columns = Math.min( Math.ceil( width / this.ideal_width ), 12 ) || 1;
 				if ( ! prev || prev !== this.columns ) {
 					this.$el.closest( '.wpmoly-imported-images' ).attr( 'data-columns', this.columns );
 				}
@@ -144,7 +144,7 @@ _.extend( wpmoly.view, {
 				$items = $li.find( '.thumbnail' );
 			}
 
-			var width = this.$( 'li:first' ).actual( 'width' ) - 8,
+			var width = this.$( 'li:first' ).actual( 'width' ) - 10,
 			   height = this.set_thumbnail_height( width );
 
 			this.thumbnail_width  = width;
