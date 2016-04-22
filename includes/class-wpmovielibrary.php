@@ -213,8 +213,7 @@ class Library {
 			return false;
 		}
 
-		//$admin = new Backstage( $this->get_plugin_name(), $this->get_version() );
-		$admin = new Backstage( $this->get_plugin_name(), time() );
+		$admin = new Backstage( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_filter( 'admin_init',                $admin, 'admin_init' );
 		$this->loader->add_filter( 'plupload_default_params',   $admin, 'plupload_default_params' );

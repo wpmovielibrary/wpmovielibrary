@@ -196,14 +196,46 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 		return null;
 	}
 
+	/**
+	 * Return the first item in the collection.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Node
+	 */
 	public function first() {
 
 		return reset( $this->items );
 	}
 
+	/**
+	 * Return the last item in the collection.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Node
+	 */
 	public function last() {
 
 		return end( $this->items );
+	}
+
+	/**
+	 * Return a random item in the collection.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Node
+	 */
+	public function random() {
+
+		if ( 1 == $this->count() ) {
+			return $this->first();
+		}
+
+		$position = rand( 0, $this->count() - 1 );
+
+		return $this->at( $position );
 	}
 
 	/**

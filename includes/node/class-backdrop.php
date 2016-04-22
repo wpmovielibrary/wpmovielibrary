@@ -19,59 +19,68 @@ namespace wpmoly\Node;
  * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Backdrop extends Image {
+class Backdrop extends Image {}
+
+/**
+ * 
+ *
+ * @since      3.0
+ * @package    WPMovieLibrary
+ * @subpackage WPMovieLibrary/includes/core
+ * @author     Charlie Merland <charlie@caercam.org>
+ */
+class DefaultBackdrop extends DefaultImage {
 
 	/**
-	 * Default backdrop thumbnail (150x150)
-	 * 
-	 * @var    string
-	 */
-	protected $thumbnail;
-
-	/**
-	 * Default medium backdrop (300x200)
-	 * 
-	 * @var    string
-	 */
-	protected $medium;
-	
-	/**
-	 * Default large backdrop (780x520)
-	 * 
-	 * @var    string
-	 */
-	protected $large;
-
-	/**
-	 * Default full backdrop (1280x853)
-	 * 
-	 * @var    string
-	 */
-	protected $full;
-
-	/**
-	 * Default original backdrop (1920x1280)
-	 * 
-	 * @var    string
-	 */
-	protected $original;
-
-	/**
-	 * Setup default backdrops sizes.
-	 * 
-	 * TODO this is a Node; use ::set()
+	 * Set a handful of useful values for different sizes of the image.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   void
+	 * @return   object
 	 */
-	public function init() {
+	public function set_defaults() {
 
-		$this->thumbnail = 'backdrop-thumbnail.jpg';
-		$this->medium    = 'backdrop-medium.jpg';
-		$this->large     = 'backdrop-large.jpg';
-		$this->full      = 'backdrop-full.jpg';
-		$this->original  = 'backdrop.jpg';
+		$sizes = array(
+			'thumbnail' => (object) array(
+				'file'   => 'backdrop-thumbnail.jpg',
+				'url'    => WPMOLY_URL . 'public/img/backdrop-thumbnail.jpg',
+				'width'  => 150,
+				'height' => 150,
+			),
+			'medium' => (object) array(
+				'file'   => 'backdrop-medium.jpg',
+				'url'    => WPMOLY_URL . 'public/img/backdrop-medium.jpg',
+				'width'  => 300,
+				'height' => 200
+			),
+			'large' => (object) array(
+				'file'   => 'backdrop-large.jpg',
+				'url'    => WPMOLY_URL . 'public/img/backdrop-large.jpg',
+				'width'  => 780,
+				'height' => 520
+			),
+			'full' => (object) array(
+				'file'   => 'backdrop-full.jpg',
+				'url'    => WPMOLY_URL . 'public/img/backdrop-full.jpg',
+				'width'  => 1280,
+				'height' => 853
+			),
+			'original' => (object) array(
+				'file'   => 'backdrop.jpg',
+				'url'    => WPMOLY_URL . 'public/img/backdrop.jpg',
+				'width'  => 1920,
+				'height' => 1280
+			)
+		);
+
+		/**
+		 * Filter default backdrop sizes
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $default_sizes
+		 */
+		return $this->sizes = apply_filters( 'wpmoly/filter/default_backdrop/sizes', (object) $sizes );
 	}
 
 	/**
@@ -83,11 +92,11 @@ class Backdrop extends Image {
 	 * 
 	 * @return   string
 	 */
-	public static function get_default_path( $size = 'original' ) {
+	public static function get_default_path( $size ) {
 
 		$backdrop = new static;
 
-		return isset( $backdrop->$size ) ? WPMOLY_PATH . 'public/img/' . $backdrop->$size : '';
+		return isset( $backdrop->$size ) ? WPMOLY_PATH . 'public/img/' . $backdrop->$size : null;
 	}
 
 	/**
@@ -99,11 +108,11 @@ class Backdrop extends Image {
 	 * 
 	 * @return   string
 	 */
-	public static function get_default_url( $size = 'original' ) {
+	public static function get_default_url( $size ) {
 
 		$backdrop = new static;
 
-		return isset( $backdrop->$size ) ? WPMOLY_URL . 'public/img/' . $backdrop->$size : '';
+		return isset( $backdrop->$size ) ? WPMOLY_URL . 'public/img/' . $backdrop->$size : null;
 	}
 
 	/**
@@ -112,11 +121,13 @@ class Backdrop extends Image {
 	 * @since    3.0
 	 * 
 	 * @param    string    $size Backdrop size
+	 * @param    string    $type 'url' or 'path'
 	 * 
 	 * @return   string
 	 */
-	public static function get_default( $size = 'original', $type = 'url' ) {
+	public static function get_default( $size, $type = 'url' ) {
 
 		return 'path' === $type ? self::get_default_path( $size ) : self::get_default_url( $size );
 	}
+
 }

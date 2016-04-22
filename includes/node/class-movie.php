@@ -117,15 +117,8 @@ class Movie extends Node {
 		$movie->details->id = $movie_id;
 		$movie->media->id   = $movie_id;
 
-		$movie->media->movie = $movie;
+		//$movie->media->movie = $movie;
 
-		/*$data = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT meta_key, meta_value FROM {$wpdb->postmeta} WHERE post_id=%d AND meta_key LIKE '_wpmoly_movie_%%'",
-				$movie_id
-			),
-			ARRAY_A
-		);*/
 		$data = get_post_meta( $movie_id );
 
 		$meta = array();
@@ -173,6 +166,44 @@ class Movie extends Node {
 	public function get_posters( $load = false ) {
 
 		return $this->media->get_posters( $load );
+	}
+
+	/**
+	 * Simple accessor for Movie's Backdrop.
+	 * 
+	 * Different variant can be used. 'featured' will use the featured image
+	 * if available, default backdrop if no featured image is defined. 'first',
+	 * 'last' and 'random' are self-explanatory and will fall back to the
+	 * default backdrop if no backdrop is available.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $variant Backdrop variant.
+	 * 
+	 * @return   Backdrop|DefaultBackdrop
+	 */
+	public function get_backdrop( $variant = 'featured' ) {
+
+		return $this->media->get_backdrop( $variant );
+	}
+
+	/**
+	 * Simple accessor for Movie's Poster.
+	 * 
+	 * Different variant can be used. 'featured' will use the featured image
+	 * if available, default poster if no featured image is defined. 'first',
+	 * 'last' and 'random' are self-explanatory and will fall back to the
+	 * default poster if no poster is available.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $variant Poster variant.
+	 * 
+	 * @return   Poster|DefaultPoster
+	 */
+	public function get_poster( $variant = 'featured' ) {
+
+		return $this->media->get_poster( $variant );
 	}
 
 	/**

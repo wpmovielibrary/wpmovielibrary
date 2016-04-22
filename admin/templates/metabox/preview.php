@@ -2,12 +2,12 @@
 		<div id="wpmoly-movie-preview" class="wpmoly-movie-preview<?php echo $empty ? ' hidden' : ''; ?>">
 
 			<div class="wpmoly-movie-preview-bg-container">
-				<div class="wpmoly-movie-preview-background" style="background-image:url(<?php echo $background; ?>)"></div>
+				<div class="wpmoly-movie-preview-background" style="background-image:url(<?php $background->render(); ?>)"></div>
 			</div>
 
 			<div class="wpmoly-movie-preview-content clearfix">
 				<div class="wpmoly-movie-preview-poster">
-					<img src="<?php echo $poster; ?>" alt="" />
+					<?php $poster->render( 'medium', 'html' ); ?>
 					<button type="button" data-action="open-editor" class="button button-primary hide-if-no-js"><?php _e( 'Open Editor', 'wpmovielibrary' ); ?></button>
 					<button type="button" data-action="close-editor" class="button button-secondary hide-if-no-js hidden"><?php _e( 'Close Editor', 'wpmovielibrary' ); ?></button>
 				</div>

@@ -97,6 +97,82 @@ class Media extends Node {
 	}
 
 	/**
+	 * Simple accessor for Movie's Backdrop.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $variant Backdrop variant.
+	 * 
+	 * @return   Backdrop|DefaultBackdrop
+	 */
+	public function get_backdrop( $variant = 'featured' ) {
+
+		if ( 'featured' == $variant && ! has_post_thumbnail( $this->id ) ) {
+			$variant = 'default';
+		}
+
+		switch ( $variant ) {
+			case 'featured' :
+				$image_id = get_post_thumbnail_id();
+				$backdrop = Backdrop::get_instance( $image_id );
+				break;
+			case 'first' :
+				$backdrop = $this->backdrops->first();
+				break;
+			case 'last' :
+				$backdrop = $this->backdrops->last();
+				break;
+			case 'random' :
+				$backdrop = $this->backdrops->random();
+				break;
+			case 'default' :
+			default :
+				$backdrop = DefaultBackdrop::get_instance();
+				break;
+		}
+
+		return $backdrop;
+	}
+
+	/**
+	 * Simple accessor for Movie's Poster.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $variant Poster variant.
+	 * 
+	 * @return   Poster|DefaultPoster
+	 */
+	public function get_poster( $variant = 'featured' ) {
+
+		if ( 'featured' == $variant && ! has_post_thumbnail( $this->id ) ) {
+			$variant = 'default';
+		}
+
+		switch ( $variant ) {
+			case 'featured' :
+				$image_id = get_post_thumbnail_id();
+				$poster = Poster::get_instance( $image_id );
+				break;
+			case 'first' :
+				$poster = $this->posters->first();
+				break;
+			case 'last' :
+				$poster = $this->posters->last();
+				break;
+			case 'random' :
+				$poster = $this->posters->random();
+				break;
+			case 'default' :
+			default :
+				$poster = DefaultPoster::get_instance();
+				break;
+		}
+
+		return $poster;
+	}
+
+	/**
 	 * Load media: backdrops and posters for the current Movie.
 	 * 
 	 * @since    3.0
@@ -145,7 +221,18 @@ class Media extends Node {
 
 		foreach ( $attachments as $i => $attachment ) {
 
-			$meta = \wp_get_attachment_metadata( $attachment->ID, $unfiltered = true );
+			$image = array(
+				'id'          => $attachment->ID,
+				'title'       => $attachment->post_title,
+				'description' => $attachment->post_content,
+				'excerpt'     => $attachment->post_excerpt,
+				'image_alt'   => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', $single = true )
+			);
+			$image = new Backdrop( $image );
+
+			$this->backdrops->add( $image );
+
+			/*$meta = \wp_get_attachment_metadata( $attachment->ID, $unfiltered = true );
 			$image = array(
 				'id'          => $attachment->ID,
 				'title'       => $attachment->post_title,
@@ -159,7 +246,7 @@ class Media extends Node {
 			$image->edit_link   = get_edit_post_link( $attachment->ID );
 			$image->delete_link = get_delete_post_link( $attachment->ID );
 
-			$this->backdrops->add( $image );
+			$this->backdrops->add( $image );*/
 		}
 
 		return $this->backdrops;
@@ -189,7 +276,18 @@ class Media extends Node {
 
 		foreach ( $attachments as $i => $attachment ) {
 
-			$meta = \wp_get_attachment_metadata( $attachment->ID, $unfiltered = true );
+			$image = array(
+				'id'          => $attachment->ID,
+				'title'       => $attachment->post_title,
+				'description' => $attachment->post_content,
+				'excerpt'     => $attachment->post_excerpt,
+				'image_alt'   => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', $single = true )
+			);
+			$image = new Poster( $image );
+
+			$this->posters->add( $image );
+
+			/*$meta = \wp_get_attachment_metadata( $attachment->ID, $unfiltered = true );
 			$image = array(
 				'id'          => $attachment->ID,
 				'title'       => $attachment->post_title,
@@ -203,7 +301,7 @@ class Media extends Node {
 			$image->edit_link   = get_edit_post_link( $attachment->ID );
 			$image->delete_link = get_delete_post_link( $attachment->ID );
 
-			$this->posters->add( $image );
+			$this->posters->add( $image );*/
 		}
 
 		return $this->posters;

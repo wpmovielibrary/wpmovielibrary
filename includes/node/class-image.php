@@ -21,10 +21,15 @@ namespace wpmoly\Node;
  */
 class Image extends Node {
 
-	public $sizes;
+	/**
+	 * Image Attachment Post object
+	 * 
+	 * @var    WP_Post
+	 */
+	public $attachment;
 
 	/**
-	 * Node properties sanitizers
+	 * Image properties sanitizers
 	 * 
 	 * @var    array
 	 */
@@ -36,7 +41,7 @@ class Image extends Node {
 	);
 
 	/**
-	 * Node properties escapers
+	 * Image properties escapers
 	 * 
 	 * @var    array
 	 */
@@ -48,7 +53,7 @@ class Image extends Node {
 	);
 
 	/**
-	 * Node default properties values
+	 * Image default properties values
 	 * 
 	 * @var    array
 	 */
@@ -60,26 +65,52 @@ class Image extends Node {
 	);
 
 	/**
-	 * Set a handful of useful values for different sizes of the image.
+	 * Image defaults sizes
 	 * 
-	 * TODO transfer to Backdrop and Poster classes
+	 * @var    object
+	 */
+	protected $sizes;
+
+	/**
+	 * Make the Image.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    array    $meta Image Attachment metadata
-	 * 
-	 * @return   null
+	 * @return   void
 	 */
-	public function set_sizes( $meta ) {
+	public function make() {
 
-		$default_sizes = (object) array(
+		$this->attachment = get_post( $this->id );
+
+		$this->set_defaults();
+	}
+
+	/**
+	 * Set a handful of useful values for different sizes of the image.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   object
+	 */
+	public function set_defaults() {
+
+		$meta = wp_get_attachment_metadata( $this->id, $unfiltered = true );
+		$image = array(
+			'id'          => $this->id,
+			'title'       => $this->attachment->post_title,
+			'description' => $this->attachment->post_content,
+			'excerpt'     => $this->attachment->post_excerpt,
+			'image_alt'   => get_post_meta( $this->id, '_wp_attachment_image_alt', $single = true )
+		);
+
+		$sizes = array(
 			'thumbnail' => array(),
 			'medium'    => array(),
 			'large'     => array()
 		);
-		$this->sizes = apply_filters( 'wpmoly/filter/images/default_sizes', $default_sizes );
 
-		foreach ( $this->sizes as $slug => $size ) {
+		// Basic WordPress image sizes
+		foreach ( $sizes as $slug => $size ) {
 			if ( ! empty( $meta['sizes'][ $slug ] ) ) {
 				$m = $meta['sizes'][ $slug ];
 				$size = array(
@@ -89,20 +120,66 @@ class Image extends Node {
 				);
 
 				$src = wp_get_attachment_image_src( $this->id, $slug );
-				$size['path'] = ! empty( $src[0] ) ? $src[0] : '';
+				$size['url'] = ! empty( $src[0] ) ? $src[0] : '';
 
-				$this->sizes->$slug = (object) $size;
+				$sizes[ $slug ] = (object) $size;
 			}
 		}
 
-		$this->sizes->original = (object) array(
+		// Original size data
+		$original = array(
 			'file'   => ! empty( $meta['file'] )   ? esc_attr( $meta['file'] )  : '',
 			'width'  => ! empty( $meta['width'] )  ? intval( $meta['width'] )  : '',
 			'height' => ! empty( $meta['height'] ) ? intval( $meta['height'] ) : ''
 		);
 
 		$src = wp_get_attachment_image_src( $this->id, 'full' );
-		$this->sizes->original->path = ! empty( $src[0] ) ? $src[0] : '';
+		$original['url'] = ! empty( $src[0] ) ? $src[0] : '';
+
+		$sizes['original'] = (object) $original;
+
+		/**
+		 * Filter default image sizes
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    object    $sizes Image sizes
+		 * @param    object    $attachment Image Attachment Post
+		 */
+		return $this->sizes = apply_filters( 'wpmoly/filter/images/sizes', (object) $sizes, $this->attachment );
+	}
+
+	private function filter_size( $size ) {
+
+		if ( is_array( $size ) ) {
+			return $this->filter_exact_size( $size );
+		}
+
+		$size = (string) $size;
+		if ( isset( $this->sizes[ $size ] ) ) {
+			return $size;
+		}
+
+		return 'original';
+	}
+
+	private function filter_exact_size( $size ) {
+
+		$size = (array) $size;
+		if ( empty( $size ) ) {
+			return false;
+		}
+
+		// Only focus on width
+		$size = $size[0];
+
+		foreach ( $this->sizes as $slug => $width ) {
+			if ( $width >= $size ) {
+				return $slug;
+			}
+		}
+
+		return 'original';
 	}
 
 	/**
@@ -111,20 +188,20 @@ class Image extends Node {
 	 * @since    3.0
 	 * 
 	 * @param    string     $size Image size to render
-	 * @param    string     $output Raw image URL or HTML?
+	 * @param    string     $format Raw image URL or HTML?
 	 * @param    boolean    $echo Echo or return?
 	 * 
 	 * @return   string|null
 	 */
-	public function render( $size = 'original', $output = 'raw', $echo = true ) {
+	public function render( $size = 'original', $format = 'raw', $echo = true ) {
 
 		if ( ! isset( $this->sizes->$size ) ) {
 			return '';
 		}
 
-		$output = $this->sizes->$size->path;
-		if ( 'html' == $output ) {
-			$output = '<img src="' . $output . '" alt="" />';
+		$output = $this->sizes->$size->url;
+		if ( 'html' == $format ) {
+			$output = '<img src="' . esc_url( $output ) . '" alt="" />';
 		}
 
 		if ( false === $echo ) {
@@ -133,22 +210,54 @@ class Image extends Node {
 
 		echo $output;
 	}
+}
 
-	
-	public function remove() {
+/**
+ * 
+ *
+ * @since      3.0
+ * @package    WPMovieLibrary
+ * @subpackage WPMovieLibrary/includes/core
+ * @author     Charlie Merland <charlie@caercam.org>
+ */
+class DefaultImage extends Image {
 
-		
+	/**
+	 * Default Poster instance.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @var      array
+	 */
+	public static $instance;
+
+	/**
+	 * Make the Image.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public function make() {
+
+		$this->attachment = false;
+
+		$this->set_defaults();
 	}
 
-	
-	public function save() {
+	/**
+	 * Get a Default Poster instance.
+	 *
+	 * @since    3.0
+	 * 
+	 * @return   DefaultPoster
+	 */
+	public static function get_instance( $unused = null ) {
 
-		
-	}
+		if ( isset( self::$instance ) ) {
+			return self::$instance;
+		}
 
-	
-	public function update() {
-
-		
+		return self::$instance = new static;
 	}
 }
