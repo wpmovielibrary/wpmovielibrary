@@ -15,7 +15,7 @@ use wpmoly\Loader;
 use wpmoly\Node\Movie;
 use wpmoly\Node\Backdrop;
 use wpmoly\Node\Poster;
-use wpmoly\Core\Template;
+use wpmoly\Core\AdminTemplate as Template;
 
 /**
  * Create a metabox for movie metadata.
@@ -152,15 +152,12 @@ class Editor extends Metabox {
 			);
 		}
 
-		$attributes = array(
+		$this->template->set_data( array(
 			'empty'   => $this->movie->meta->is_empty(),
 			'tabs'    => $tabs,
 			'panels'  => $panels,
 			'metabox' => $metabox
-		);
-
-		$this->template->data = $attributes;
-		$this->template->render();
+		) )->render();
 	}
 
 	/**
@@ -189,9 +186,9 @@ class Editor extends Metabox {
 			$default_meta[ $key ]['html'] = $this->get_field( $field, $key, $value, 'meta', 'json' );
 		}
 
-		$panel->data = array(
+		$panel->set_data( array(
 			'fields' => $default_meta
-		);
+		) );
 
 		return $panel->prepare( $require );
 	}
@@ -222,11 +219,11 @@ class Editor extends Metabox {
 			$default_meta[ $key ]['html'] = $this->get_field( $field, $key, $value, 'meta', 'json' );
 		}
 
-		$panel->data = array(
+		$panel->set_data( array(
 			'fields' => $default_meta
-		);
+		) );
 
-		return $panel->prepare( $require );
+		return $panel->render( $require, $echo = false );
 	}
 
 	/**
@@ -255,11 +252,11 @@ class Editor extends Metabox {
 			$default_details[ $key ]['html'] = $this->get_field( $field, $key, $value, 'detail', $format );
 		}
 
-		$panel->data = array(
+		$panel->set_data( array(
 			'fields' => $default_details
-		);
+		) );
 
-		return $panel->prepare( $require );
+		return $panel->render( $require, $echo = false );
 	}
 
 	/**
@@ -282,9 +279,9 @@ class Editor extends Metabox {
 			$backdrops = $this->media->load_backdrops();
 		}
 
-		$panel->data = compact( 'backdrops' );
+		$panel->set_data( compact( 'backdrops' ) );
 
-		return $panel->prepare( $require );
+		return $panel->render( $require, $echo = false );
 	}
 
 	/**
@@ -307,9 +304,9 @@ class Editor extends Metabox {
 			$posters = $this->media->load_posters();
 		}
 
-		$panel->data = compact( 'posters' );
+		$panel->set_data( compact( 'posters' ) );
 
-		return $panel->prepare( $require );
+		return $panel->render( $require, $echo = false );
 	}
 
 	/**
@@ -377,15 +374,13 @@ class Editor extends Metabox {
 		}
 
 		$movie = get_movie( $post->ID );
-		$template->data = array(
+		$template->set_data( array(
 			'movie'      => $movie,
 			'empty'      => $movie->meta->is_empty(),
 			'poster'     => $movie->get_poster(),
 			'background' => $movie->get_backdrop( 'random' ),
 			'fields'     => $default_meta
-		);
-
-		echo $template->prepare();
+		) )->render();
 	}
 
 	/**
