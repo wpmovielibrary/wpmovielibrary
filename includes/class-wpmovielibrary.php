@@ -179,7 +179,6 @@ class Library {
 
 		$this->loader  = Loader::get_instance();
 		$this->options = Options::get_instance();
-		$this->api     = API\API::get_instance();
 
 	}
 

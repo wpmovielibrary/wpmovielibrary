@@ -24,6 +24,20 @@ use WP_Error;
 class API {
 
 	/**
+	 * Class constructor.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   API
+	 */
+	public function __construct() {
+
+		$this->api = \wpmoly\API\API::get_instance();
+
+		return $this;
+	}
+
+	/**
 	 * API Search.
 	 * 
 	 * Search TheMovieDB for movies matching the query. To get a specific
@@ -47,8 +61,7 @@ class API {
 		$params['year']                 = isset( $_POST['year'] ) ? sanitize_text_field( $_POST['year'] ) : null;
 		$params['primary_release_year'] = isset( $_POST['primary_release_year'] ) ? sanitize_text_field( $_POST['primary_release_year'] ) : null;
 
-		$wpmoly = \get_wpmoly();
-		$result = $wpmoly->api->movie->search( $query, $params );
+		$result = $this->api->movie->search( $query, $params );
 		if ( is_wp_error( $result ) ) {
 			wp_send_json_error( $result );
 		}
@@ -77,8 +90,7 @@ class API {
 			'language'           => sanitize_text_field( $_POST['language'] )
 		);
 
-		$wpmoly = \get_wpmoly();
-		$result = $wpmoly->api->movie->get( $query, $params );
+		$result = $this->api->movie->get( $query, $params );
 		if ( is_wp_error( $result ) ) {
 			wp_send_json_error( $result );
 		}
@@ -126,8 +138,7 @@ class API {
 			wp_send_json_error( __( 'Invalid search query.', 'wpmovielibrary' ) );
 		}
 
-		$wpmoly = \get_wpmoly();
-		$images = $wpmoly->api->movie->get_images( $tmdb_id );
+		$images = $this->api->movie->get_images( $tmdb_id );
 		if ( is_null( $images ) ) {
 			wp_send_json_error( __( 'No image found.', 'wpmovielibrary' ) );
 		}
