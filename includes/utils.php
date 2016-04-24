@@ -156,6 +156,15 @@ function _parse_args_strict( $args, $default ) {
 	return $parsed;
 }
 
+/**
+ * Literal boolean check.
+ * 
+ * @since    3.0
+ * 
+ * @param    mixed    $var
+ * 
+ * @return   boolean
+ */
 function _is_bool( $var ) {
 
 	if ( ! is_string( $var ) ) {
