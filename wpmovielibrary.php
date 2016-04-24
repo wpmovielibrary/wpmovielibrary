@@ -10,7 +10,7 @@
  * Plugin Name:       WPMovieLibrary
  * Plugin URI:        http://wpmovielibrary.com
  * Description:       WordPress Movie Library is an advanced movie library managing plugin to turn your WordPress Blog into a Movie Library. 
- * Version:           3.0
+ * Version:           3.0-alpha1
  * Author:            Charlie Merland
  * Author URI:        http://charliemerland.me/
  * License:           GPL-3.0+
@@ -28,7 +28,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'WPMOLY_SLUG',    'wpmovielibrary' );
 define( 'WPMOLY_NAME',    'WPMovieLibrary' );
-define( 'WPMOLY_VERSION', '3.0' );
+define( 'WPMOLY_VERSION', '3.0-alpha1' );
 define( 'WPMOLY_URL',     plugins_url( basename( __DIR__ ) ) . '/' );
 define( 'WPMOLY_PATH',    plugin_dir_path( __FILE__ ) );
 
