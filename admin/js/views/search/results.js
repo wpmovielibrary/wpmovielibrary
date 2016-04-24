@@ -38,13 +38,13 @@ _.extend( Search, {
 		 */
 		render: function() {
 
-			var config = wpmoly.api.configuration,
-			      data = {
+			var  config = wpmoly.api.configuration
+			poster_path = this.model.get( 'poster_path' ),
+			       data = {
 				title    : this.model.get( 'title' ),
 				overview : this.model.get( 'overview' ).split( ' ' ).slice( 0, 30 ).join( ' ' ) + '…',
 				year     : new Date( this.model.get( 'release_date' ) ).getFullYear() || '',
-				poster   : wpmoly.api.poster.getUrl( this.model.get( 'poster_path' ), 'small' )
-				//poster   : config.base_url + config.sizes.poster.small + this.model.get( 'poster_path' )
+				poster   : poster_path ? wpmoly.api.poster.getUrl( poster_path, 'small' ) : wpmolyDefaultImages.poster.small.url
 			};
 
 			this.$el.html( this.template( data ) );

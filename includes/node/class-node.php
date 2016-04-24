@@ -172,6 +172,20 @@ class Node {
 	}
 
 	/**
+	 * Magic method to access class properties.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $prop Property name
+	 * 
+	 * @return   mixed
+	 */
+	public function __get( $prop ) {
+
+		return isset( $this->$prop ) ? $this->$prop : null;
+	}
+
+	/**
 	 * Get a Node instance.
 	 *
 	 * @since    3.0

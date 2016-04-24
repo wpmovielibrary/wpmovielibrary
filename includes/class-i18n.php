@@ -117,6 +117,15 @@ class i18n {
 		);
 
 		wp_localize_script( 'wpmoly', 'wpmolyL10n', $localized );
+
+		$poster   = Node\DefaultPoster::get_instance();
+		$backdrop = Node\DefaultBackdrop::get_instance();
+		$localized = array(
+			'poster'   => $poster->__get( 'sizes' ),
+			'backdrop' => $backdrop->__get( 'sizes' )
+		);
+
+		wp_localize_script( 'wpmoly', 'wpmolyDefaultImages', $localized );
 	}
 
 }
