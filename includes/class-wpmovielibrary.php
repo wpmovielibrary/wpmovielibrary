@@ -177,6 +177,10 @@ class Library {
 			require_once WPMOLY_PATH . 'admin/class-editor-metabox.php';
 		}
 
+		// Shortcodes
+		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode.php';
+		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-movies.php';
+
 		$this->loader  = Loader::get_instance();
 		$this->options = Options::get_instance();
 
@@ -238,9 +242,10 @@ class Library {
 	 */
 	private function define_public_hooks() {
 
-		/*$public = new Frontend( $this->get_plugin_name(), $this->get_version() );
-		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_scripts' );*/
+		$public = new Frontend( $this->get_plugin_name(), $this->get_version() );
+		// $this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_styles' );
+		// $this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_scripts' );
+		$this->loader->add_action( 'init', $public, 'register_shortcodes' );
 
 		$registrar = Registrar::get_instance();
 		$this->loader->add_action( 'init', $registrar, 'register_post_types' );
