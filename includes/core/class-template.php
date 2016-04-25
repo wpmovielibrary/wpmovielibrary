@@ -297,11 +297,11 @@ class PublicTemplate extends Template {
 			 * @since    3.0
 			 * 
 			 * @param    string    $content Plugin-relative file path
-			 * @param    string    $path Plugin-relative file path
 			 * @param    string    $template WordPress-relative file path
+			 * @param    string    $path Plugin-relative file path
 			 * @param    array     $data Template data
 			 */
-			$this->template = apply_filters( "wpmoly/filter/template/content", $content, $this->path, $template, $this->data );
+			$this->template = apply_filters( "wpmoly/filter/template/content", $content, $template, $this->path, $this->data );
 		}
 
 		/**
@@ -310,11 +310,11 @@ class PublicTemplate extends Template {
 		 * @since    3.0
 		 * 
 		 * @param    string    $template Template content
-		 * @param    string    $path Plugin-relative file path
 		 * @param    string    $template WordPress-relative file path
+		 * @param    string    $path Plugin-relative file path
 		 * @param    array     $data Template data
 		 */
-		do_action( "wpmoly/render/template/after", $this->template, $this->path, $template, $this->data );
+		do_action( "wpmoly/render/template/after", $this->template, $template, $this->path, $this->data );
 
 		return $this->template;
 	}
@@ -342,10 +342,10 @@ class PublicTemplate extends Template {
 		 * 
 		 * @since    3.0
 		 * 
-		 * @param    string    $path Plugin-relative file path
 		 * @param    string    $template WordPress-relative file path
+		 * @param    string    $path Plugin-relative file path
 		 * @param    array     $data Template data
 		 */
-		return $template = apply_filters( "wpmoly/filter/template/path", $this->path, $template, $this->data );
+		return $template = apply_filters( "wpmoly/filter/template/path", $template, $this->path, $this->data );
 	}
 }
