@@ -69,8 +69,11 @@ class Terms extends Core {
 		}
 
 		// Term ordering is killing quick/bulk edit, avoid it
-		if ( is_admin() && ( function_exists( 'get_current_screen' ) && 'edit-movie' == get_current_screen()->id ) ) {
-			return $terms;
+		if ( is_admin() && function_exists( 'get_current_screen' ) ) {
+			$screen = get_current_screen();
+			if ( isset( $screen->id ) && 'edit-movie' == $screen->id ) {
+				return $terms;
+			}
 		}
 
 		$terms = wp_cache_get( $id, "{$taxonomy}_relationships_sorted" );
