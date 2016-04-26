@@ -96,8 +96,6 @@ class Movie extends Node {
 		$this->meta    = new Meta( $this->id );
 		$this->details = new Details( $this->id );
 		$this->media   = new Media( $this->id );
-
-		//$this->load_meta();
 	}
 
 	/**

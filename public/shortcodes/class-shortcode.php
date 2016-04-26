@@ -50,13 +50,6 @@ abstract class Shortcode {
 	protected $escapes = array();
 
 	/**
-	 * Shortcode default attributes
-	 * 
-	 * @var    string
-	 */
-	protected $defaults = array();
-
-	/**
 	 * Shortcode template
 	 * 
 	 * @var    string
@@ -111,8 +104,8 @@ abstract class Shortcode {
 		foreach ( $this->validates as $key => $null ) {
 			if ( isset( $attributes[ $key ] ) ) {
 				$this->set( $key, $attributes[ $key ] );
-			} elseif ( isset( $this->defaults[ $key ] ) ) {
-				$this->attributes[ $key ] = $this->attributes[ $key ];
+			} else {
+				$this->attributes[ $key ] = $this->validates[ $key ]['default'];
 			}
 		}
 
@@ -199,10 +192,19 @@ abstract class Shortcode {
 		$shortcode = new static( $atts, $content );
 		$shortcode->run();
 
-		$template = $shortcode->template;
-		$template->set_data( $shortcode->attributes );
+		return $shortcode->output();
+	}
 
-		return $template->render( 'once', $echo = false );
+	/**
+	 * Output the Shortcode.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	public function output() {
+
+		return $this->template->render( 'once', $echo = false );
 	}
 
 	/**
