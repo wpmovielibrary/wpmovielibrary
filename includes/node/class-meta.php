@@ -41,13 +41,48 @@ class Meta extends Node {
 	}
 
 	/**
-	 * Fetch the Meta.
+	 * Make the Node.
+	 * 
+	 * Nothing to do for meta at this stage.
 	 * 
 	 * @since    3.0
 	 * 
 	 * @return   null
 	 */
-	public function fetch() {}
+	public function make() {
+
+		$this->load();
+	}
+
+	/**
+	 * Load the Node metadata.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   null
+	 */
+	protected function load() {
+
+		$data = get_post_meta( $this->id );
+		if ( empty( $data ) ) {
+			return false;
+		}
+
+		foreach ( $data as $key => $value ) {
+
+			if ( false !== strpos( $key, '_wpmoly_movie_' ) ) {
+
+				if ( is_array( $value ) && 1 == count( $value ) ) {
+					$value = $value[0];
+				}
+
+				$key   = str_replace( '_wpmoly_movie_', '', $key );
+				$value = maybe_unserialize( $value );
+
+				$this->set( $key, $value );
+			}
+		}
+	}
 
 	/**
 	 * Save the Meta.
@@ -135,15 +170,4 @@ class Meta extends Node {
 
 		
 	}
-
-	/**
-	 * Make the Node.
-	 * 
-	 * Nothing to do for meta at this stage.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   null
-	 */
-	public function make() {}
 }

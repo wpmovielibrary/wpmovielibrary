@@ -93,51 +93,11 @@ class Movie extends Node {
 
 		$this->post = get_post( $this->id );
 
-		$this->meta    = new Meta;
-		$this->details = new Details;
-		$this->media   = new Media;
-	}
+		$this->meta    = new Meta( $this->id );
+		$this->details = new Details( $this->id );
+		$this->media   = new Media( $this->id );
 
-	/**
-	 * Load a specific movie. Grab every relevant post meta and split them
-	 * between meta and details.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    int    $movie_id Movie ID
-	 * 
-	 * @return   Movie
-	 */
-	public static function find( $movie_id ) {
-
-		global $wpdb;
-
-		$movie = new static( array( 'id' => $movie_id ) );
-		$movie->meta->id    = $movie_id;
-		$movie->details->id = $movie_id;
-		$movie->media->id   = $movie_id;
-
-		//$movie->media->movie = $movie;
-
-		$data = get_post_meta( $movie_id );
-
-		$meta = array();
-		if ( ! empty( $data ) ) {
-			foreach ( (array) $data as $meta_key => $meta_value ) {
-				if ( false !== strpos( $meta_key, '_wpmoly_movie_' ) ) {
-					$key = str_replace( '_wpmoly_movie_', '', $meta_key );
-					if ( is_array( $meta_value ) && 1 == count( $meta_value ) ) {
-						$meta_value = $meta_value[0];
-					}
-
-					$meta[ $key ] = maybe_unserialize( $meta_value );
-				}
-			}
-			$movie->meta->set( $meta );
-			$movie->details->set( $meta );
-		}
-
-		return $movie;
+		//$this->load_meta();
 	}
 
 	/**
