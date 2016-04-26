@@ -113,7 +113,7 @@ class Media extends Node {
 
 		switch ( $variant ) {
 			case 'featured' :
-				$image_id = get_post_thumbnail_id();
+				$image_id = get_post_thumbnail_id( $this->id );
 				$backdrop = Backdrop::get_instance( $image_id );
 				break;
 			case 'first' :
@@ -155,7 +155,7 @@ class Media extends Node {
 
 		switch ( $variant ) {
 			case 'featured' :
-				$image_id = get_post_thumbnail_id();
+				$image_id = get_post_thumbnail_id( $this->id );
 				$poster = Poster::get_instance( $image_id );
 				break;
 			case 'first' :
