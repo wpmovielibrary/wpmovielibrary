@@ -101,6 +101,10 @@ class Node {
 		// Run some things before actually construct anything
 		$this->init();
 
+		if ( is_int( $data ) ) {
+			$data = array( 'id' => $data );
+		}
+
 		// Prepare data
 		$class = get_called_class();
 		if ( is_object( $data ) ) {
@@ -112,11 +116,13 @@ class Node {
 		// Try to set instance ID
 		if ( isset( $data['id'] ) ) {
 			$this->id = (int) $data['id'];
+		} elseif ( isset( $data['ID'] ) ) {
+			$this->id = (int) $data['ID'];
 		}
 
 		// Try to load previously set instance
-		if ( ! empty( $class::$instances[ $this->id ] ) ) {
-			return $class::$instances[ $this->id ];
+		if ( ! empty( self::$instances[ $class ][ $this->id ] ) ) {
+			return self::$instances[ $class ][ $this->id ];
 		}
 
 		// Populate data
@@ -130,7 +136,7 @@ class Node {
 
 		// Set instance
 		if ( $this->id ) {
-			$class::$instances[ $this->id ] = &$this;
+			self::$instances[ $class ][ $this->id ] = &$this;
 		}
 
 		// Run some things after construction
@@ -203,12 +209,12 @@ class Node {
 
 		// Return an existing instance
 		$class = get_called_class();
-		if ( isset( $class::$instances[ $node_id ] ) ) {
-			return $class::$instances[ $node_id ];
+		if ( isset( self::$instances[ $class ][ $node_id ] ) ) {
+			return self::$instances[ $class ][ $node_id ];
 		}
 
 		// Never loaded, fallback to the actual node
-		$node = $class::find( $node_id );
+		$node = new $class( $node_id );
 
 		return $node;
 	}
