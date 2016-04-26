@@ -133,8 +133,14 @@ abstract class Shortcode {
 
 		if ( ! isset( $this->validates[ $key ] ) ) {
 			$function = 'esc_attr';
+			$values   = null;
 		} else {
 			$function = $this->validates[ $key ]['filter'];
+			$values   = $this->validates[ $key ]['values'];
+		}
+
+		if ( ! is_null( $values ) && ! in_array( $value, $values ) ) {
+			return false;
 		}
 
 		if ( function_exists( $function ) ) {
@@ -151,6 +157,10 @@ abstract class Shortcode {
 	/**
 	 * Set a specific attribute.
 	 * 
+	 * Attributes not present in the validate list are simply ignored. If
+	 * the attribute value doesn't match the allowed values set in the
+	 * validate list, default value is used.
+	 * 
 	 * @since    3.0
 	 * 
 	 * @param    string    $key Attribute name
@@ -160,18 +170,27 @@ abstract class Shortcode {
 	 */
 	private function set( $key, $value ) {
 
-		// unknown property, exit
+		// unknown attribute, exit
 		if ( ! isset( $this->validates[ $key ] ) ) {
 			return false;
 		}
 
-		$this->attributes[ $key ] = $this->validate( $key, $value );
+		// Validate the attribute
+		$value = $this->validate( $key, $value );
+
+		$this->attributes[ $key ] = $value ? $value : $this->validates[ $key ]['default'];
 	}
 
 	/**
 	 * Run the Shortcode.
 	 * 
+	 * Create a new instance of Shortcode, run the Shortcode and build the
+	 * Template for return.
+	 * 
 	 * @since    3.0
+	 * 
+	 * @param    array     $atts Shortcode parameters
+	 * @param    string    $content Shortcode content
 	 * 
 	 * @return   string
 	 */
