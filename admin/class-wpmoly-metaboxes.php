@@ -60,31 +60,36 @@ if ( ! class_exists( 'WPMovieLibrary_Metaboxes' ) ) :
 								'preview' => array(
 									'title'    => __( 'Preview', 'wpmovielibrary' ),
 									'icon'     => 'wpmolicon icon-video',
-									'callback' => 'WPMOLY_Edit_Movies::render_preview_panel'
+									'callback' => 'WPMOLY_Edit_Movies::render_preview_panel',
+									'default'  => true
 								),
 
 								'meta' => array(
 									'title'    => __( 'Metadata', 'wpmovielibrary' ),
 									'icon'     => 'wpmolicon icon-meta',
-									'callback' => 'WPMOLY_Edit_Movies::render_meta_panel'
+									'callback' => 'WPMOLY_Edit_Movies::render_meta_panel',
+									'default'  => false
 								),
 
 								'details' => array(
 									'title'    => __( 'Details', 'wpmovielibrary' ),
 									'icon'     => 'wpmolicon icon-details',
-									'callback' => 'WPMOLY_Edit_Movies::render_details_panel'
+									'callback' => 'WPMOLY_Edit_Movies::render_details_panel',
+									'default'  => false
 								),
 
 								'images' => array(
 									'title'    => __( 'Images', 'wpmovielibrary' ),
 									'icon'     => 'wpmolicon icon-images-alt',
-									'callback' => 'WPMOLY_Edit_Movies::render_images_panel'
+									'callback' => 'WPMOLY_Edit_Movies::render_images_panel',
+									'default'  => false
 								),
 
 								'posters' => array(
 									'title'    => __( 'Posters', 'wpmovielibrary' ),
 									'icon'     => 'wpmolicon icon-poster',
-									'callback' => 'WPMOLY_Edit_Movies::render_posters_panel'
+									'callback' => 'WPMOLY_Edit_Movies::render_posters_panel',
+									'default'  => false
 								)
 							)
 						),
