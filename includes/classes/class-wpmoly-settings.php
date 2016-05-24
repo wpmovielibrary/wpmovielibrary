@@ -317,6 +317,27 @@ if ( ! class_exists( 'WPMOLY_Settings' ) ) :
 			global $wpmoly_admin_bar_menu;
 
 			/**
+			 * Filter the Admin menu list before permission check.
+			 *
+			 * This should be used through Plugins to create additionnal
+			 * subpages.
+			 *
+			 * @since    2.0
+			 *
+			 * @param    array    $wpmoly_admin_menu Admin menu
+			 */
+			$wpmoly_admin_bar_menu = apply_filters( 'wpmoly_pre_filter_admin_bar_menu', $wpmoly_admin_bar_menu );
+
+			$submenu = array();
+			foreach ( $wpmoly_admin_bar_menu['submenu'] as $key => $item ) {
+				if ( ! empty( $item['capability'] ) && current_user_can( $item['capability'] ) ) {
+					$submenu[ $key ] = $item;
+				}
+			}
+
+			$wpmoly_admin_bar_menu['submenu'] = $submenu;
+
+			/**
 			 * Filter the Admin menu list to edit/add/remove subpages.
 			 *
 			 * This should be used through Plugins to create additionnal
