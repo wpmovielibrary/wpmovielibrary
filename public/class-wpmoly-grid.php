@@ -16,17 +16,17 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
 		 *                              Movie Grid
-		 * 
+		 *
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Generate alphanumerical breadcrumb menu for Grid view
-		 * 
+		 *
 		 * @since    2.0
-		 * 
+		 *
 		 * @param    array       Shortcode arguments to use as parameters
 		 * @param    boolean     Are we actually doing a Shortcode?
-		 * 
+		 *
 		 * @return   string    HTML content
 		 */
 		public static function get_menu( $args, $shortcode = false ) {
@@ -71,7 +71,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 
 			$default = str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
 			$letters = array();
-			
+
 			$result = $wpdb->get_results( "SELECT DISTINCT LEFT(post_title, 1) as letter FROM {$wpdb->posts} WHERE post_type='movie' AND post_status='publish' ORDER BY letter" );
 			foreach ( $result as $r )
 				$letters[] = $r->letter;
@@ -120,15 +120,15 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 
 		/**
 		 * Generate Movie Grid
-		 * 
+		 *
 		 * If a current letter is passed to the query use it to narrow
 		 * the list of movies.
-		 * 
+		 *
 		 * @since    2.0
-		 * 
+		 *
 		 * @param    array       Shortcode arguments to use as parameters
 		 * @param    boolean     Are we actually doing a Shortcode?
-		 * 
+		 *
 		 * @return   string    HTML content
 		 */
 		public static function get_content( $args = array(), $shortcode = false ) {
@@ -152,7 +152,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				'rating'     => false,
 				'letter'     => null,
 				'order'      => wpmoly_o( 'movie-archives-movies-order', $default = true ),
-				'orderby'    => 'post_title',
+				'orderby'    => wpmoly_o( 'movie-archives-movies-orderby', $default = true ),
 				'view'       => 'grid'
 			);
 			$args = wp_parse_args( $args, $defaults );
@@ -377,13 +377,13 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 
 		/**
 		 * Prepare the list view movie list
-		 * 
+		 *
 		 * Explode the movie list by letters to show an alphabetical list
-		 * 
+		 *
 		 * @since    2.1.1
-		 * 
+		 *
 		 * @param    array    $movies Movies to list
-		 * 
+		 *
 		 * @return   array    Multidimensionnal array containing prepared movies
 		 */
 		public static function prepare_list_view( $movies ) {
