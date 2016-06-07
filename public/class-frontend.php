@@ -88,7 +88,14 @@ class Frontend {
 	 */
 	public function register_shortcodes() {
 
-		add_shortcode( 'movies', array( '\wpmoly\Shortcodes\Movies', 'shortcode' ) );
+		$shortcodes = array(
+			'\wpmoly\Shortcodes\Movies',
+			'\wpmoly\Shortcodes\Metadata'
+		);
+
+		foreach ( $shortcodes as $shortcode ) {
+			$shortcode::register();
+		}
 	}
 
 }
