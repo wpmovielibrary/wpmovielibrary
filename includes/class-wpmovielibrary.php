@@ -180,6 +180,7 @@ class Library {
 		// Shortcodes
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-movies.php';
+		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-metadata.php';
 
 		$this->loader  = Loader::get_instance();
 		$this->options = Options::get_instance();
