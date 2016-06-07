@@ -136,7 +136,7 @@ class AdminTemplate extends Template {
 
 		$path = 'admin/templates/' . (string) $path;
 		if ( ! file_exists( WPMOLY_PATH . $path ) ) {
-			return WP_Error( 'missing_template_path', sprintf( __( 'Error: "%s" does not exists.', 'wpmovielibrary' ), esc_attr( WPMOLY_PATH . $path ) ) );
+			return new WP_Error( 'missing_template_path', sprintf( __( 'Error: "%s" does not exists.', 'wpmovielibrary' ), esc_attr( WPMOLY_PATH . $path ) ) );
 		}
 
 		$this->path = $path;
@@ -239,7 +239,7 @@ class PublicTemplate extends Template {
 
 		$path = 'public/templates/' . (string) $path;
 		if ( ! file_exists( WPMOLY_PATH . $path ) ) {
-			return WP_Error( 'missing_template_path', sprintf( __( 'Error: "%s" does not exists.', 'wpmovielibrary' ), esc_attr( WPMOLY_PATH . $path ) ) );
+			return new WP_Error( 'missing_template_path', sprintf( __( 'Error: "%s" does not exists.', 'wpmovielibrary' ), esc_attr( WPMOLY_PATH . $path ) ) );
 		}
 
 		$this->path = $path;
