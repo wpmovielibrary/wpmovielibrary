@@ -29,11 +29,25 @@ abstract class Shortcode {
 	public static $name;
 
 	/**
+	 * Shortcode real Tag, used for aliases
+	 * 
+	 * @var    string
+	 */
+	protected $tag;
+
+	/**
 	 * Shortcode attributes
 	 * 
 	 * @var    string
 	 */
 	protected $attributes;
+
+	/**
+	 * Shortcode aliases
+	 * 
+	 * @var    array
+	 */
+	protected static $aliases = array();
 
 	/**
 	 * Shortcode attributes sanitizers
@@ -73,14 +87,17 @@ abstract class Shortcode {
 	 * 
 	 * @return   Shortcode
 	 */
-	public function __construct( $atts = array(), $content = null ) {
+	public function __construct( $atts = array(), $content = null, $tag = null ) {
 
 		// Run some things before actually construct anything
 		$this->init();
 
+		// Set tag
+		$this->tag = (string) $tag;
+
 		// Set content
-		$this->content = $content;
-		$this->set_attributes( $atts );
+		$this->content = (string) $content;
+		$this->set_attributes( (array) $atts );
 
 		// Run some things after construction
 		$this->make();
@@ -172,6 +189,32 @@ abstract class Shortcode {
 		$value = $this->validate( $key, $value );
 
 		$this->attributes[ $key ] = $value ? $value : $this->validates[ $key ]['default'];
+	}
+
+	/**
+	 * Register the Shortcode.
+	 * 
+	 * Add hook for the current Shortcode and its optional aliases.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public static function register() {
+
+		// Get Shortcode Class name
+		$class = get_called_class();
+
+		// Register main Shortcode
+		add_shortcode( $class::$name, array( $class, 'shortcode' ) );
+
+		// Register aliases
+		if ( ! empty( $class::$aliases ) ) {
+			$aliases = array_keys( $class::$aliases );
+			foreach ( $aliases as $alias ) {
+				add_shortcode( $alias, array( $class, 'shortcode' ) );
+			}
+		}
 	}
 
 	/**

@@ -26,6 +26,13 @@ use wpmoly\Core\PublicTemplate as Template;
 class Movies extends Shortcode {
 
 	/**
+	 * Shortcode name, used for declaring the Shortcode
+	 * 
+	 * @var    string
+	 */
+	public static $name = 'movies';
+
+	/**
 	 * Shortcode attributes sanitizers
 	 * 
 	 * @var    array
@@ -94,9 +101,6 @@ class Movies extends Shortcode {
 	 */
 	protected function make() {
 
-		// Set name, used for declaring the Shortcode
-		self::$name = 'movies';
-
 		// Set Template
 		$this->template = new Template( 'shortcodes/movies.php' );
 	}
@@ -148,9 +152,16 @@ class Movies extends Shortcode {
 			}
 		}
 
-		$this->template->set_data( array(
-			'movies' => $movies//Collection\Movies::find( $args )
-		) );
+		wp_reset_postdata();
+
+		$data = array(
+			'movies'  => $movies,//Collection\Movies::find( $args )
+			'poster'  => (string) $this->attributes['poster'],
+			'details' => (array) $this->attributes['details'],
+			'meta'    => (array) $this->attributes['meta'],
+		);
+
+		$this->template->set_data( $data );
 
 		return $this;
 	}
