@@ -91,6 +91,8 @@ class Frontend {
 		$shortcodes = array(
 			'\wpmoly\Shortcodes\Movies',
 			'\wpmoly\Shortcodes\Metadata',
+			'\wpmoly\Shortcodes\Countries',
+			'\wpmoly\Shortcodes\Runtime',
 			'\wpmoly\Shortcodes\ReleaseDate',
 			'\wpmoly\Shortcodes\LocalReleaseDate'
 		);

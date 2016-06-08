@@ -31,33 +31,17 @@ class LocalReleaseDate extends ReleaseDate {
 	public static $name = 'movie_local_release_date';
 
 	/**
-	 * Get the metadata value.
-	 * 
-	 * This method overrides Metadata::get_meta_value() to apply custom date
-	 * formats if needed.
+	 * Build the Shortcode.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   mixed
+	 * @return   void
 	 */
-	protected function get_meta_value() {
+	protected function make() {
+
+		parent::make();
 
 		// Hard set key
 		$this->attributes['key'] = 'local_release_date';
-
-		// Get Movie ID
-		$post_id = $this->get_movie_id();
-
-		// Get value
-		$value = get_movie_meta( $post_id, $this->attributes['key'], $single = true );
-		if ( empty( $value ) ) {
-			return $value;
-		}
-
-		if ( ! empty( $this->attributes['format'] ) ) {
-			$value = date_i18n( $this->attributes['format'], strtotime( $value ) );
-		}
-
-		return $value;
 	}
 }

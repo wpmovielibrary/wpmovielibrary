@@ -136,6 +136,8 @@ class Library {
 		// Includes
 		require_once WPMOLY_PATH . 'includes/core/class-core.php';
 		require_once WPMOLY_PATH . 'includes/utils.php';
+		require_once WPMOLY_PATH . 'includes/formatting.php';
+		require_once WPMOLY_PATH . 'includes/default-filters.php';
 		require_once WPMOLY_PATH . 'includes/class-loader.php';
 		require_once WPMOLY_PATH . 'includes/class-i18n.php';
 		require_once WPMOLY_PATH . 'includes/class-options.php';
@@ -181,6 +183,8 @@ class Library {
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-movies.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-metadata.php';
+		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-countries.php';
+		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-runtime.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-release-date.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-local-release-date.php';
 

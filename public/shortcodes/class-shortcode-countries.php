@@ -1,6 +1,6 @@
 <?php
 /**
- * Define the Release Date Shortcode class.
+ * Define the Local Release Date Shortcode class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
@@ -14,21 +14,21 @@ namespace wpmoly\Shortcodes;
 use wpmoly\Core\PublicTemplate as Template;
 
 /**
- * Release Date Shortcode class.
+ * Local Release Date Shortcode class.
  *
  * @since      3.0
  * @package    WPMovieLibrary
  * @subpackage WPMovieLibrary/public/shortcode
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class ReleaseDate extends Metadata {
+class Countries extends Metadata {
 
 	/**
 	 * Shortcode name, used for declaring the Shortcode
 	 * 
 	 * @var    string
 	 */
-	public static $name = 'movie_release_date';
+	public static $name = 'movie_countries';
 
 	/**
 	 * Shortcode attributes sanitizers
@@ -59,6 +59,15 @@ class ReleaseDate extends Metadata {
 	);
 
 	/**
+	 * Shortcode aliases
+	 * 
+	 * @var    array
+	 */
+	protected static $aliases = array(
+		'movie_country' => 'production_countries'
+	);
+
+	/**
 	 * Build the Shortcode.
 	 * 
 	 * @since    3.0
@@ -70,6 +79,6 @@ class ReleaseDate extends Metadata {
 		parent::make();
 
 		// Hard set key
-		$this->attributes['key'] = 'release_date';
+		$this->attributes['key'] = 'production_countries';
 	}
 }

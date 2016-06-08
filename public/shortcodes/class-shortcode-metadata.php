@@ -55,6 +55,11 @@ class Metadata extends Shortcode {
 			'default' => false,
 			'values'  => null,
 			'filter'  => 'esc_attr'
+		),
+		'format' => array(
+			'default' => '',
+			'values'  => null,
+			'filter'  => 'esc_attr'
 		)
 	);
 
@@ -68,10 +73,12 @@ class Metadata extends Shortcode {
 		'movie_overview'       => 'overview',
 		'movie_title'          => 'title',
 		'movie_original_title' => 'original_title',
-		'movie_production'     => 'production_compagnies',
-		'movie_country'        => 'production_countries',
+		'movie_production'     => 'production_companies',
+		/*'movie_country'        => 'production_countries',
+		'movie_countries'      => 'production_countries',
 		'movie_language'       => 'spoken_languages',
-		'movie_lang'           => 'spoken_languages',
+		'movie_languages'      => 'spoken_languages',
+		'movie_lang'           => 'spoken_languages',*/
 		'movie_producer'       => 'producer',
 		'movie_photography'    => 'photography',
 		'movie_composer'       => 'composer',
@@ -143,22 +150,38 @@ class Metadata extends Shortcode {
 	/**
 	 * Get the metadata value.
 	 * 
-	 * This method should overriden by child classes to apply some formatting
-	 * to the returned data.
-	 * 
 	 * @since    3.0
 	 * 
 	 * @return   mixed
 	 */
 	protected function get_meta_value() {
 
+		$key    = $this->attributes['key'];
+		$format = isset( $this->attributes['format'] ) ? $this->attributes['format'] : null;
+
 		// Get Movie ID
 		$post_id = $this->get_movie_id();
 
 		// Get value
-		$value = get_movie_meta( $post_id, $this->attributes['key'], $single = true );
+		$value = get_movie_meta( $post_id, $key, $single = true );
+		if ( empty( $value ) ) {
+			return $value;
+		}
 
-		return $value;
+		// Raw value requested
+		if ( 'raw' == $format ) {
+			return $value;
+		}
+
+		/**
+		 * Filter meta value.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $value
+		 * @param    string    $format
+		 */
+		return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, $format );
 	}
 
 	/**
