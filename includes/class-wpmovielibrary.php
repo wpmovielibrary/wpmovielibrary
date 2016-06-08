@@ -181,6 +181,8 @@ class Library {
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-movies.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-metadata.php';
+		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-release-date.php';
+		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-local-release-date.php';
 
 		$this->loader  = Loader::get_instance();
 		$this->options = Options::get_instance();

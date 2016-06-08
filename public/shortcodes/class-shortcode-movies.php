@@ -1,12 +1,12 @@
 <?php
 /**
- * Define the Shortcode class.
+ * Define the Movies Shortcode class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * @subpackage WPMovieLibrary/public/shortcode
  */
 
 namespace wpmoly\Shortcodes;
@@ -20,7 +20,7 @@ use wpmoly\Core\PublicTemplate as Template;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * @subpackage WPMovieLibrary/public/shortcode
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Movies extends Shortcode {

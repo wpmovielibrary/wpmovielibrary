@@ -1,18 +1,16 @@
 <?php
 /**
- * Define the Shortcode class.
+ * Define the Metadata Shortcode class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * @subpackage WPMovieLibrary/public/shortcode
  */
 
 namespace wpmoly\Shortcodes;
 
-use WP_Query;
-use wpmoly\Collection;
 use wpmoly\Core\PublicTemplate as Template;
 
 /**
@@ -20,7 +18,7 @@ use wpmoly\Core\PublicTemplate as Template;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * @subpackage WPMovieLibrary/public/shortcode
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Metadata extends Shortcode {
@@ -66,7 +64,27 @@ class Metadata extends Shortcode {
 	 * @var    array
 	 */
 	protected static $aliases = array(
-		'movie_release_date' => 'release_date'
+		'movie_director'       => 'director',
+		'movie_overview'       => 'overview',
+		'movie_title'          => 'title',
+		'movie_original_title' => 'original_title',
+		'movie_production'     => 'production_compagnies',
+		'movie_country'        => 'production_countries',
+		'movie_language'       => 'spoken_languages',
+		'movie_lang'           => 'spoken_languages',
+		'movie_producer'       => 'producer',
+		'movie_photography'    => 'photography',
+		'movie_composer'       => 'composer',
+		'movie_author'         => 'author',
+		'movie_writer'         => 'writer',
+		'movie_tagline'        => 'tagline',
+		'movie_certification'  => 'certification',
+		'movie_budget'         => 'budget',
+		'movie_revenue'        => 'revenue',
+		'movie_imdb_id'        => 'imdb_id',
+		'movie_tmdb_id'        => 'tmdb_id',
+		'movie_adult'          => 'adult',
+		'movie_homepage'       => 'homepage'
 	);
 
 	/**
@@ -95,6 +113,55 @@ class Metadata extends Shortcode {
 	}
 
 	/**
+	 * Get Movie ID from title if needed.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   int
+	 */
+	protected function get_movie_id() {
+
+		global $wpdb;
+
+		if ( is_null( $this->attributes['title'] ) ) {
+			return $this->attributes['id'];
+		}
+
+		$like = $wpdb->esc_like( $this->attributes['title'] );
+		$like = '%' . $like . '%';
+
+		$post_id = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT ID FROM {$wpdb->posts} WHERE post_title LIKE %s",
+				$like
+			)
+		);
+
+		return $this->attributes['id'] = $post_id;
+	}
+
+	/**
+	 * Get the metadata value.
+	 * 
+	 * This method should overriden by child classes to apply some formatting
+	 * to the returned data.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   mixed
+	 */
+	protected function get_meta_value() {
+
+		// Get Movie ID
+		$post_id = $this->get_movie_id();
+
+		// Get value
+		$value = get_movie_meta( $post_id, $this->attributes['key'], $single = true );
+
+		return $value;
+	}
+
+	/**
 	 * Run the Shortcode.
 	 * 
 	 * Perform all needed Shortcode stuff.
@@ -105,29 +172,9 @@ class Metadata extends Shortcode {
 	 */
 	public function run() {
 
-		global $wpdb;
-
-		// Get movie by title
-		if ( ! is_null( $this->attributes['title'] ) ) {
-
-			$like = $wpdb->esc_like( $this->attributes['title'] );
-			$like = '%' . $like . '%';
-
-			$post_id = $wpdb->get_var(
-				$wpdb->prepare(
-					"SELECT ID FROM {$wpdb->posts} WHERE post_title LIKE %s",
-					$like
-				)
-			);
-
-			$this->attributes['id'] = $post_id;
-		}
-
-		$key     = (string) $this->attributes['key'];
-		$post_id = (int) $this->attributes['id'];
-
 		// Get value
-		$meta = get_movie_meta( $post_id, $key, $single = true );
+		$meta = $this->get_meta_value();
+		$key  = $this->attributes['key'];
 
 		// Get label
 		$label = wpmoly_o( 'default_meta' );

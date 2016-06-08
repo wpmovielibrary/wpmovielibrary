@@ -10,4 +10,4 @@
  */
 ?>
 
-	<span class="wpmoly shortcode item meta <?php echo $key ?> value"><?php echo $meta ?></span>
+	<span class="wpmoly shortcode item meta <?php echo esc_attr( $key ) ?> value<?php if ( empty( $meta ) ) echo ' empty'; ?>"><?php echo esc_attr( $meta ) ?></span>

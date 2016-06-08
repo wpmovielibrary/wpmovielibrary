@@ -90,7 +90,9 @@ class Frontend {
 
 		$shortcodes = array(
 			'\wpmoly\Shortcodes\Movies',
-			'\wpmoly\Shortcodes\Metadata'
+			'\wpmoly\Shortcodes\Metadata',
+			'\wpmoly\Shortcodes\ReleaseDate',
+			'\wpmoly\Shortcodes\LocalReleaseDate'
 		);
 
 		foreach ( $shortcodes as $shortcode ) {
