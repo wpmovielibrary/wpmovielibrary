@@ -80,8 +80,8 @@ class Metadata extends Shortcode {
 	 */
 	protected function make() {
 
-		if ( is_null( $this->tag ) && isset( $this->aliases[ $this->tag ] ) ) {
-			$this->set( 'key', $this->aliases[ $this->tag ] );
+		if ( ! is_null( $this->tag ) && isset( self::$aliases[ $this->tag ] ) ) {
+			$this->set( 'key', self::$aliases[ $this->tag ] );
 		}
 
 		// Set Template
@@ -107,6 +107,7 @@ class Metadata extends Shortcode {
 
 		global $wpdb;
 
+		// Get movie by title
 		if ( ! is_null( $this->attributes['title'] ) ) {
 
 			$like = $wpdb->esc_like( $this->attributes['title'] );
@@ -119,23 +120,25 @@ class Metadata extends Shortcode {
 				)
 			);
 
-			$post_id = intval( $post_id );
-
-			//$metadata = get_movie_meta( $post_id, $this->attributes['key'] );
-
-			//var_dump( $metadata );
-		} else {
-			
+			$this->attributes['id'] = $post_id;
 		}
 
-		/*$data = array(
-			'movies'  => $movies,//Collection\Movies::find( $args )
-			'poster'  => (string) $this->attributes['poster'],
-			'details' => (array) $this->attributes['details'],
-			'meta'    => (array) $this->attributes['meta'],
-		);
+		$key     = (string) $this->attributes['key'];
+		$post_id = (int) $this->attributes['id'];
 
-		$this->template->set_data( $data );*/
+		// Get value
+		$meta = get_movie_meta( $post_id, $key, $single = true );
+
+		// Get label
+		$label = wpmoly_o( 'default_meta' );
+		$label = isset( $label[ $key ]['title'] ) ? $label[ $key ]['title'] : '';
+
+		// Set template data
+		$this->template->set_data( array(
+			'meta'  => $meta,
+			'label' => $label,
+			'key'   => $key
+		) );
 
 		return $this;
 	}
