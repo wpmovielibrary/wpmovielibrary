@@ -101,6 +101,35 @@ function get_movie( $movie ) {
 }
 
 /**
+ * Return a movie metadata.
+ * 
+ * @since    3.0
+ * 
+ * @param    int        $movie_id Movie ID, object or array
+ * @param    string     $key Movie Meta key to return.
+ * @param    boolean    $single Whether to return a single value
+ * 
+ * @return   Movie|boolean
+ */
+function get_movie_meta( $movie_id, $key = '', $single = false ) {
+
+	$key = (string) $key;
+
+	$value = '';
+	if ( 'movie' != get_post_type( $movie_id ) ) {
+		return $value;
+	}
+
+	if ( ! empty( $key ) ) {
+		$key = '_wpmoly_movie_' . $key;
+	}
+
+	$value = get_post_meta( $movie_id, $key, $single );
+
+	return $value;
+}
+
+/**
  * Strictly merge user defined arguments into defaults array.
  * 
  * This function is a alternative to wp_parse_args() to merge arrays strictly,
