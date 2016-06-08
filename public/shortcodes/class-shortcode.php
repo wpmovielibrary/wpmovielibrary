@@ -84,6 +84,7 @@ abstract class Shortcode {
 	 * 
 	 * @param    array     $atts Shortcode parameters
 	 * @param    string    $content Shortcode content
+	 * @param    string    $tag Shortcode tag
 	 * 
 	 * @return   Shortcode
 	 */
@@ -178,7 +179,7 @@ abstract class Shortcode {
 	 * 
 	 * @return   void
 	 */
-	private function set( $key, $value ) {
+	protected function set( $key, $value ) {
 
 		// unknown attribute, exit
 		if ( ! isset( $this->validates[ $key ] ) ) {
@@ -227,12 +228,13 @@ abstract class Shortcode {
 	 * 
 	 * @param    array     $atts Shortcode parameters
 	 * @param    string    $content Shortcode content
+	 * @param    string    $tag Shortcode tag
 	 * 
 	 * @return   string
 	 */
-	public static function shortcode( $atts = array(), $content = null ) {
+	public static function shortcode( $atts = array(), $content = null, $tag = null ) {
 
-		$shortcode = new static( $atts, $content );
+		$shortcode = new static( $atts, $content, $tag );
 		$shortcode->run();
 
 		return $shortcode->output();
@@ -247,7 +249,7 @@ abstract class Shortcode {
 	 */
 	public function output() {
 
-		return $this->template->render( 'once', $echo = false );
+		return $this->template->render( 'always', $echo = false );
 	}
 
 	/**
