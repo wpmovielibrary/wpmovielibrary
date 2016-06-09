@@ -36,7 +36,7 @@ class i18n {
 
 		$domain      = 'wpmovielibrary';
 		$rel_path    = false;
-		$plugin_path = dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/';
+		$plugin_path = dirname( dirname( dirname( plugin_basename( __FILE__ ) ) ) ) . '/languages/';
 
 		load_plugin_textdomain( $domain, $rel_path, $plugin_path );
 	}
@@ -50,7 +50,7 @@ class i18n {
 
 		$domain      = 'wpmovielibrary-iso';
 		$rel_path    = false;
-		$plugin_path = dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/';
+		$plugin_path = dirname( dirname( dirname( plugin_basename( __FILE__ ) ) ) ) . '/languages/';
 
 		load_plugin_textdomain( $domain, $rel_path, $plugin_path );
 	}

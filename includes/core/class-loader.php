@@ -119,19 +119,42 @@ class Loader extends Core {
 
 	/**
 	 * Register the filters and actions with WordPress.
-	 *
+	 * 
 	 * @since    3.0
+	 * 
+	 * @return   void
 	 */
 	public function run() {
 
 		foreach ( $this->filters as $hook ) {
-			add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
+			add_filter( $hook['hook'], $this->callback( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
 
 		foreach ( $this->actions as $hook ) {
-			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
+			add_action( $hook['hook'], $this->callback( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
 
+	}
+
+	/**
+	 * Determine callback type.
+	 * 
+	 * If $component is empty, assume $callback is a function.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $component
+	 * @param    string    $callback
+	 * 
+	 * @return   string|array
+	 */
+	private function callback( $component, $callback ) {
+
+		if ( empty( $component ) ) {
+			return $callback;
+		}
+
+		return array( $component, $callback );
 	}
 
 }

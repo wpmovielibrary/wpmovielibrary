@@ -204,80 +204,74 @@ function spoken_languages( $data ) {
 }
 
 /**
- * Format a Movie's countries for display
+ * Format a Movie's countries for display.
  * 
  * @since    2.0
  * 
- * @param    string    $data field value
+ * @param    string    $countries Countries list
  * 
  * @return   string    Formatted output
  */
-function production_countries( $data ) {
+function production_countries( $countries ) {
 
-	if ( is_null( $data ) || '' == $data ) {
-		return $data;
+	if ( empty( $countries ) ) {
+		return $countries;
 	}
 
 	if ( '1' == wpmoly_o( 'translate-countries' ) ) {
-		$format = wpmoly_o( 'countries-format', array() );
+		$formats = wpmoly_o( 'countries-format', array() );
 	} else {
-		$format = array( 'flag', 'original' );
+		$formats = array( 'flag', 'original' );
 	}
 
-	$data = explode( ',', $data );
-	foreach ( $data as $i => $country ) {
+	$output = array();
+	$countries = explode( ',', $countries );
+	foreach ( $countries as $country ) {
 
-		$country = trim( $country );
-		$value   = $country;
-		$_value  = array();
+		$country = get_country( $country );
 
-		foreach ( $format as $c => $f ) {
+		$items = array();
+		foreach ( $formats as $format ) {
 
-			/*switch ( $f ) {
+			switch ( $format ) {
 				case 'flag':
-					$country = WPMOLY_L10n::get_country_standard_name( $country );
-					$code    = WPMOLY_L10n::get_country_code( $country );
-					$text    = country_flag( $code, $country );
+					$item = $country->flag();
 					break;
 				case 'original':
-					$text = $country;
+					$item = $country->standard_name;
 					break;
 				case 'translated':
-					$country = WPMOLY_L10n::get_country_standard_name( $country );
-					$country = __( $country, 'wpmovielibrary-iso' );
-					$text    = $country;
+					$item = $country->localized_name;
 					break;
 				case 'ptranslated':
-					$country = __( $country, 'wpmovielibrary-iso' );
-					$text    = sprintf( '(%s)', $country );
+					$item = sprintf( '(%s)', $country->localized_name );
 					break;
 				case 'poriginal':
-					$country = WPMOLY_L10n::get_country_standard_name( $country );
-					$text    = sprintf( '(%s)', $country );
+					$item = sprintf( '(%s)', $country->standard_name );
 					break;
 				default:
-					$text = '';
+					$item = '';
 					break;
-			}*/
+			}
 
-			//if ( 'flag' != $f && '' != $text ) {
-				/*$text = apply_filters( 'wpmoly_movie_meta_link', array(
+			//if ( 'flag' != $format && ! empty( $item ) ) {
+				/*$item = apply_filters( 'wpmoly_movie_meta_link', array(
 					'key'   => 'production_countries',
-					'value' => $value,
+					'value' => $country->standard_name,
 					'type'  => 'meta',
-					'text'  => $text,
-					'title' => sprintf( __( 'More movies from country %s', 'wpmovielibrary' ), $text )
+					'text'  => $item,
+					'title' => sprintf( __( 'More movies from country %s', 'wpmovielibrary' ), $item )
 				) );*/
 			//}
 
-			$_value[] = '';//$text;
+			$items[] = $item;
 		}
 
-		$data[ $i ] = implode( '&nbsp;',$_value );
+		$output[] = implode( '&nbsp;', $items );
 	}
 
-	$data = implode( ',&nbsp; ', $data );
-	$output = filter_empty( $data );
+	$output = implode( ',&nbsp; ', $output );
+	$output = filter_empty( $output );
 
 	return $output;
 }
@@ -597,38 +591,6 @@ function filter_empty( $data ) {
 	 * @param    string    $data Empty value replacer
 	 */
 	return apply_filters( 'wpmoly/filter/meta/value/empty', $data );
-}
-
-/**
- * Add tiny flags before country names.
- * 
- * @since    2.0
- * 
- * @param    string    $code Country ISO code
- * @param    string    $name Country nam
- * 
- * @return   string    Formatted output
- */
-function country_flag( $code, $name ) {
-
-	if ( ! in_array( 'flag', wpmoly_o( 'countries-format' ) ) )
-		return $name;
-
-	$flag = '<span class="flag flag-%s" title="%s"></span>';
-	$flag = sprintf( $flag, strtolower( $code ), $name );
-
-	/**
-	 * Apply filter to the rendered country flag
-	 * 
-	 * @since    2.0
-	 * 
-	 * @param    string    $flag HTML markup
-	 * @param    string    $code Country ISO code
-	 * @param    string    $name Country name
-	 */
-	$flag = apply_filters( 'wpmoly_filter_country_flag_html', $flag, $code, $name );
-
-	return $flag;
 }
 
 /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

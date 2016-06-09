@@ -129,6 +129,11 @@ function get_movie_meta( $movie_id, $key = '', $single = false ) {
 	return $value;
 }
 
+function get_country( $country ) {
+
+	return \wpmoly\Helpers\Country::get( $country );
+}
+
 /**
  * Strictly merge user defined arguments into defaults array.
  * 

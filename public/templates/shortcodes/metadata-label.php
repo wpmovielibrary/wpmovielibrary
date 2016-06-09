@@ -12,5 +12,5 @@
 
 	<div class="wpmoly shortcode block<?php if ( empty( $meta ) ) echo ' empty'; ?>">
 		<span class="wpmoly shortcode item meta <?php echo esc_attr( $key ) ?> title"><?php echo esc_attr( $label ) ?></span>
-		<span class="wpmoly shortcode item meta <?php echo esc_attr( $key ) ?> value"><?php echo ! empty( $meta ) ? esc_attr( $meta ) : '−'; ?></span>
+		<span class="wpmoly shortcode item meta <?php echo esc_attr( $key ) ?> value"><?php echo $meta; ?></span>
 	</div>

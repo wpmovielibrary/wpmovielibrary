@@ -1617,7 +1617,7 @@ $redux_sections = array(
 				'type'     => 'select',
 				'title'    => __( 'API Language', 'wpmovielibrary' ),
 				'desc'     => __( 'Default language to use when fetching informations from TMDb. Default is english. You can always change this manually when add a new movie.', 'wpmovielibrary' ),
-				'options'  => $supported_languages,
+				'options'  => \wpmoly\Helpers\Country::$supported,
 				'default'  => 'en'
 			),
 
@@ -1627,7 +1627,7 @@ $redux_sections = array(
 				'type'     => 'select',
 				'title'    => __( 'API Country', 'wpmovielibrary' ),
 				'desc'     => __( 'Default country to use when fetching release informations from TMDb. Default is United States. This is mostly used to get movie certifications corresponding to your country.', 'wpmovielibrary' ),
-				'options'  => $supported_countries,
+				'options'  => \wpmoly\Helpers\Country::$supported,
 				'default'  => 'US'
 			),
 
@@ -1637,7 +1637,7 @@ $redux_sections = array(
 				'type'     => 'select',
 				'title'    => __( 'API Alternative Country', 'wpmovielibrary' ),
 				'desc'     => __( 'You can select an alternative country to use when fetching release informations from TMDb. If primary country leaves empty results, the alternative country will be used to fill the blank.', 'wpmovielibrary' ),
-				'options'  => $supported_countries,
+				'options'  => \wpmoly\Helpers\Country::$supported,
 				'default'  => 'US'
 			),
 

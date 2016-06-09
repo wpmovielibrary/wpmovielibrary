@@ -111,15 +111,35 @@ class Options extends Core {
 	 */
 	public function __construct() {
 
-		$wpmoly_loading_config = true;
-		require WPMOLY_PATH . 'includes/config.php';
+		// Load config files
+		$this->load();
 
-		require WPMOLY_PATH . 'vendor/redux/framework.php';
-		$this->redux = new \ReduxFramework( $redux_sections, $redux_args );
 		$this->options = $this->redux->options;
+	}
+
+	/**
+	 * Load all required configuration files.
+	 * 
+	 * @since    3.0
+	 */
+	private function load() {
+
+		require_once WPMOLY_PATH . 'includes/config/wpmoly-languages.php';
+		require_once WPMOLY_PATH . 'includes/config/wpmoly-options.php';
+		require_once WPMOLY_PATH . 'includes/config/wpmoly-movies.php';
+		require_once WPMOLY_PATH . 'includes/config/wpmoly-admin-bar-menu.php';
+
+		if ( is_admin() ) {
+			require_once WPMOLY_PATH . 'includes/config/wpmoly-admin-menu.php';
+			require_once WPMOLY_PATH . 'includes/config/wpmoly-admin-dashboard.php';
+		}
+
+		require_once WPMOLY_PATH . 'vendor/redux/framework.php';
+
+		$this->redux = new \ReduxFramework( $redux_sections, $redux_args );
 
 		// Set important defaults values
-		$defaults = compact( 'countries', 'languages', 'supported_countries', 'supported_languages', 'default_meta', 'default_details' );
+		$defaults = compact( 'languages', 'supported_languages', 'default_meta', 'default_details' );
 		$this->set_defaults( $defaults );
 	}
 
@@ -136,15 +156,6 @@ class Options extends Core {
 	private function set_defaults( $defaults ) {
 
 		/**
-		 * Filter the default countries list.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array    $countries
-		 */
-		$this->countries = apply_filters( 'wpmoly/filter/options/countries', $defaults['countries'] );
-
-		/**
 		 * Filter the default languages list.
 		 * 
 		 * @since    3.0
@@ -152,15 +163,6 @@ class Options extends Core {
 		 * @param    array    $languages
 		 */
 		$this->languages = apply_filters( 'wpmoly/filter/options/languages', $defaults['languages'] );
-
-		/**
-		 * Filter the default supported countries list.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array    $supported_countries
-		 */
-		$this->supported_countries = apply_filters( 'wpmoly/filter/options/supported_countries', $defaults['supported_countries'] );
 
 		/**
 		 * Filter the default supported languages list.
@@ -202,7 +204,7 @@ class Options extends Core {
 	 */
 	public function get( $name, $default = null ) {
 
-		if ( in_array( $name, array( 'countries', 'languages', 'supported_countries', 'supported_languages', 'default_meta', 'default_details' ) ) ) {
+		if ( in_array( $name, array( 'languages', 'supported_languages', 'default_meta', 'default_details' ) ) ) {
 			return $this->$name;
 		}
 
@@ -243,7 +245,7 @@ class Options extends Core {
 	 */
 	public function __isset( $name ) {
 
-		if ( in_array( $name, array( 'countries', 'languages', 'supported_countries', 'supported_languages', 'default_meta', 'default_details' ) ) ) {
+		if ( in_array( $name, array( 'languages', 'supported_languages', 'default_meta', 'default_details' ) ) ) {
 			return true;
 		}
 

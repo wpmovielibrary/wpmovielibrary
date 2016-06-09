@@ -135,16 +135,16 @@ class Library {
 
 		// Includes
 		require_once WPMOLY_PATH . 'includes/core/class-core.php';
-		require_once WPMOLY_PATH . 'includes/utils.php';
-		require_once WPMOLY_PATH . 'includes/formatting.php';
-		require_once WPMOLY_PATH . 'includes/default-filters.php';
-		require_once WPMOLY_PATH . 'includes/class-loader.php';
-		require_once WPMOLY_PATH . 'includes/class-i18n.php';
-		require_once WPMOLY_PATH . 'includes/class-options.php';
-		require_once WPMOLY_PATH . 'includes/class-registrar.php';
-		require_once WPMOLY_PATH . 'includes/class-terms.php';
+		require_once WPMOLY_PATH . 'includes/helpers/class-country.php';
+		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
+		require_once WPMOLY_PATH . 'includes/helpers/formatting.php';
 
 		// Core
+		require_once WPMOLY_PATH . 'includes/core/class-loader.php';
+		require_once WPMOLY_PATH . 'includes/core/class-i18n.php';
+		require_once WPMOLY_PATH . 'includes/core/class-options.php';
+		require_once WPMOLY_PATH . 'includes/core/class-registrar.php';
+		require_once WPMOLY_PATH . 'includes/core/class-terms.php';
 		require_once WPMOLY_PATH . 'includes/core/class-collection.php';
 		require_once WPMOLY_PATH . 'includes/core/class-template.php';
 
@@ -224,6 +224,7 @@ class Library {
 		}
 
 		$admin = new Backstage( $this->get_plugin_name(), $this->get_version() );
+		//$admin->set_default_filters();
 
 		$this->loader->add_filter( 'admin_init',                $admin, 'admin_init' );
 		$this->loader->add_filter( 'plupload_default_params',   $admin, 'plupload_default_params' );
@@ -250,10 +251,13 @@ class Library {
 	private function define_public_hooks() {
 
 		$public = new Frontend( $this->get_plugin_name(), $this->get_version() );
-		// $this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_styles' );
-		// $this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_scripts' );
+		$public->set_default_filters();
+
+		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_styles' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_scripts' );
 		$this->loader->add_action( 'init', $public, 'register_shortcodes' );
 
+		// Register Post Types, Taxonomies…
 		$registrar = Registrar::get_instance();
 		$this->loader->add_action( 'init', $registrar, 'register_post_types' );
 		$this->loader->add_action( 'init', $registrar, 'register_taxonomies' );
