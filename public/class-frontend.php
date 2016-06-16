@@ -84,6 +84,7 @@ class Frontend {
 		$loader = Loader::get_instance();
 
 		$loader->add_filter( 'wpmoly/shortcode/format/runtime/value',              '', 'wpmoly\Formatting\runtime' );
+		$loader->add_filter( 'wpmoly/shortcode/format/spoken_languages/value',     '', 'wpmoly\Formatting\spoken_languages' );
 		$loader->add_filter( 'wpmoly/shortcode/format/production_countries/value', '', 'wpmoly\Formatting\production_countries' );
 		$loader->add_filter( 'wpmoly/shortcode/format/local_release_date/value',   '', 'wpmoly\Formatting\local_release_date' );
 		$loader->add_filter( 'wpmoly/shortcode/format/release_date/value',         '', 'wpmoly\Formatting\release_date' );
@@ -102,6 +103,7 @@ class Frontend {
 			'\wpmoly\Shortcodes\Movies',
 			'\wpmoly\Shortcodes\Metadata',
 			'\wpmoly\Shortcodes\Countries',
+			'\wpmoly\Shortcodes\Languages',
 			'\wpmoly\Shortcodes\Runtime',
 			'\wpmoly\Shortcodes\ReleaseDate',
 			'\wpmoly\Shortcodes\LocalReleaseDate'

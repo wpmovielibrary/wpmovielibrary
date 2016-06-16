@@ -170,35 +170,33 @@ function runtime( $data, $format = null ) {
  * 
  * @return   string    Formatted output
  */
-function spoken_languages( $data ) {
+function spoken_languages( $languages ) {
 
-	if ( is_null( $data ) || '' == $data ) {
-		return $data;
+	if ( empty( $languages ) ) {
+		return $languages;
 	}
 
-	$data = explode( ',', $data );
-	foreach ( $data as $i => $d ) {
+	$output = array();
+	$languages = explode( ',', $languages );
+	foreach ( $languages as $language ) {
 
-		$d = trim( $d );
 		if ( '1' == wpmoly_o( 'translate-languages' ) ) {
-			$title = WPMOLY_L10n::get_language_standard_name( $d );
-			$title = __( $title, 'wpmovielibrary-iso' );
-		} else {
-			$title = $d;
+			$language = get_language( $language );
+			$language = $language->localized_name;
 		}
 
 		/*$url = apply_filters( 'wpmoly_movie_meta_link', array(
 			'key'   => 'spoken_languages',
-			'value' => $d,
+			'value' => $language,
 			'type'  => 'meta',
 			'text'  => $title,
 			'title' => sprintf( __( 'More movies in %s', 'wpmovielibrary' ), $title )
 		) );*/
-		$data[ $i ] = '';//$url;
+		$output[] = $language;
 	}
 
-	$data = implode( ', ', $data );
-	$output = filter_empty( $data );
+	$output = implode( ', ', $output );
+	$output = filter_empty( $output );
 
 	return $output;
 }

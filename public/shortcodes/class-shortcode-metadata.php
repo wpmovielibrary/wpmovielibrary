@@ -74,11 +74,6 @@ class Metadata extends Shortcode {
 		'movie_title'          => 'title',
 		'movie_original_title' => 'original_title',
 		'movie_production'     => 'production_companies',
-		/*'movie_country'        => 'production_countries',
-		'movie_countries'      => 'production_countries',
-		'movie_language'       => 'spoken_languages',
-		'movie_languages'      => 'spoken_languages',
-		'movie_lang'           => 'spoken_languages',*/
 		'movie_producer'       => 'producer',
 		'movie_photography'    => 'photography',
 		'movie_composer'       => 'composer',
