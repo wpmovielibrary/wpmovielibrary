@@ -129,9 +129,32 @@ function get_movie_meta( $movie_id, $key = '', $single = false ) {
 	return $value;
 }
 
+/**
+ * Get a translation country instance.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $country Country name or ISO code
+ * 
+ * @return   \wpmoly\Helpers\Country
+ */
 function get_country( $country ) {
 
 	return \wpmoly\Helpers\Country::get( $country );
+}
+
+/**
+ * Get a translation language instance.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $language Language name or ISO code
+ * 
+ * @return   \wpmoly\Helpers\Language
+ */
+function get_language( $Language ) {
+
+	return \wpmoly\Helpers\Language::get( $language );
 }
 
 /**
