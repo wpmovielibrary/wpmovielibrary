@@ -18,6 +18,7 @@
 									<option value="id"><?php _e( 'TMDb ID', 'wpmovielibrary' ); ?></option>
 								</select>
 								<input id="tmdb_query" type="text" name="wpmoly[tmdb_query]" value="" size="30" maxlength="32" placeholder="<?php _e( 'ex: The Secret Life of Walter Mitty', 'wpmovielibrary' ); ?>" />
+								<a id="tmdb_search_clean" title="<?php _e( 'Clean Search', 'wpmovielibrary' ); ?>" href="#"><span class="wpmolicon icon-no-alt"></span></a>
 								<a id="tmdb_search" name="wpmoly[tmdb_search]" title="<?php _e( 'Search', 'wpmovielibrary' ); ?>" href="<?php echo get_edit_post_link() ?>&amp;wpmoly_auto_fetch=1" onclick="wpmoly.editor.meta.search(); return false;" class="button button-secondary button-icon"><span class="wpmolicon icon-search"></span></a>
 								<a id="tmdb_update" name="wpmoly[tmdb_update]" title="<?php _e( 'Update', 'wpmovielibrary' ); ?>" href="<?php echo get_edit_post_link() ?>&amp;wpmoly_auto_fetch=1" onclick="wpmoly.editor.meta.update(); return false;" class="button button-secondary button-icon"><span class="wpmolicon icon-update"></span></a>
 								<span class="spinner"></span>

@@ -50,6 +50,10 @@ wpmoly = wpmoly || {};
 				element: '#tmdb_query',
 				event: 'input'
 			},
+			_clean: {
+				element: '#tmdb_search_clean',
+				event: 'click'
+			},
 
 			fields: '#meta_data',
 		};
@@ -86,6 +90,14 @@ wpmoly = wpmoly || {};
 					wpmoly_edit_meta.title = $(this).val();
 				});
 
+				$( wpmoly_edit_meta._clean.element ).on( wpmoly_edit_meta._clean.event, function( event ) {
+
+					event.preventDefault();
+
+					$( wpmoly_edit_meta._query.element ).val( '' );
+					wpmoly_edit_meta.title = '';
+				});
+
 				wpmoly_edit_meta.poster_featured = ( undefined != wpmoly_edit_meta.poster_featured && '1' == wpmoly_edit_meta.poster_featured );
 			};
 
@@ -101,6 +113,10 @@ wpmoly = wpmoly || {};
 
 				if ( '' == wpmoly_edit_meta.title )
 					wpmoly_edit_meta.title = $( '#tmdb_query' ).val();
+
+				if ( '' == wpmoly_edit_meta.title ) {
+					return false;
+				}
 
 				wpmoly.editor.$spinner.css({display: 'inline-block'});
 				$( wpmoly_edit_meta.fields ).empty().hide();

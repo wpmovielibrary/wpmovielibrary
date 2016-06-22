@@ -314,6 +314,18 @@
 	height: 28px;
 }
 
+#tmdb_search_clean {
+	color: #aaa;
+	margin-left: -28px;
+	margin-right: 4px;
+	text-decoration: none;
+}
+
+#tmdb_search_clean .wpmolicon {
+	position: relative;
+	top: 6px;
+}
+
 #meta_data {
 	background: #333;
 	display: none;
