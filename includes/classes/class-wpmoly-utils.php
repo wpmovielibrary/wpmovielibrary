@@ -999,13 +999,11 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			$languages = self::get_used_meta( 'spoken_languages', $count );
 			foreach ( $languages as $i => $language ) {
-
 				$_language = WPMOLY_L10n::get_language_standard_name( $language['name'] );
-				if ( $_language != $language['name'] ) {
-					if ( ! $count )
-						$used_languages[ $language['name'] ] = __( $_language, 'wpmovielibrary-iso' );
-					else
-						$used_languages[ $language['name'] ] = sprintf( '%s (%s)', __( $_language, 'wpmovielibrary-iso' ), sprintf( _n( '%d movie', '%d movies', $language['count'], 'wpmovielibrary' ), $language['count'] ) );
+				if ( ! $count ) {
+					$used_languages[ $language['name'] ] = __( $_language, 'wpmovielibrary-iso' );
+				} else {
+					$used_languages[ $language['name'] ] = sprintf( '%s (%s)', __( $_language, 'wpmovielibrary-iso' ), sprintf( _n( '%d movie', '%d movies', $language['count'], 'wpmovielibrary' ), $language['count'] ) );
 				}
 			}
 
@@ -1032,15 +1030,15 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			$countries = self::get_used_meta( 'production_countries', $count );
 			foreach ( $countries as $i => $country ) {
-
 				$_country = WPMOLY_L10n::get_country_standard_name( $country['name'] );
-				if ( $_country != $country['name'] ) {
-					if ( ! $count )
-						$used_countries[ $country['name'] ] = __( $_country, 'wpmovielibrary-iso' );
-					else
-						$used_countries[ $country['name'] ] = sprintf( '%s (%s)', __( $_country, 'wpmovielibrary-iso' ), sprintf( _n( '%d movie', '%d movies', $country['count'], 'wpmovielibrary' ), $country['count'] ) );
+				if ( ! $count ) {
+					$used_countries[ $country['name'] ] = __( $_country, 'wpmovielibrary-iso' );
+				} else {
+					$used_countries[ $country['name'] ] = sprintf( '%s (%s)', __( $_country, 'wpmovielibrary-iso' ), sprintf( _n( '%d movie', '%d movies', $country['count'], 'wpmovielibrary' ), $country['count'] ) );
 				}
 			}
+
+			$used_countries = array_unique( $used_countries );
 
 			return $used_countries;
 		}
