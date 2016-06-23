@@ -459,29 +459,21 @@ function money( $money ) {
  * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string    $adult field value
  * 
  * @return   string    Formatted output
  */
-function adult( $data ) {
+function adult( $adult ) {
 
-	$status = array( 'true', 'false' );
-	$output = array( __( 'Yes', 'wpmovielibrary' ), __( 'No', 'wpmovielibrary' ) );
-	$output = str_replace( $status, $output, $data );
+	if ( empty( $adult ) ) {
+		$adult = '';
+	} elseif ( _is_bool( $adult ) ) {
+		$adult = __( 'Yes', 'wpmovielibrary' );
+	} else {
+		$adult = __( 'No', 'wpmovielibrary' );
+	}
 
-	$output_ = array( 1, 0 );
-	$output_ = str_replace( $status, $output_, $data );
-
-	$output = $data;/*apply_filters( 'wpmoly_movie_meta_link', array(
-		'key' => 'adult',
-		'value' => $output,
-		'type'  => 'meta',
-		'text'  => $output,
-		'title' => _n( 'More movies for adults only', 'More movies for all audiences', $output_, 'wpmovielibrary' )
-	) );*/
-	$output = filter_empty( $output );
-
-	return $output;
+	return filter_empty( $adult );
 }
 
 /**
@@ -489,19 +481,17 @@ function adult( $data ) {
  * 
  * @since    3.0
  * 
- * @param    string    $data Homepage link
+ * @param    string    $homepage Homepage link
  * 
  * @return   string    Formatted output
  */
-function homepage( $data ) {
+function homepage( $homepage ) {
 
-	if ( ! empty( $data ) ) {
-		$data = sprintf( '<a href="%1$s" title="%2$s">%1$s</a>', $data, __( 'Official Website', 'wpmovielibrary' ) );
+	if ( ! empty( $homepage ) ) {
+		$homepage = sprintf( '<a href="%1$s" title="%2$s">%1$s</a>', esc_url( $homepage ), __( 'Official Website', 'wpmovielibrary' ) );
 	}
 
-	$output = filter_empty( $data );
-
-	return $output;
+	return filter_empty( $homepage );
 }
 
 /**
@@ -622,7 +612,7 @@ function status( $data, $format = 'html', $icon = false ) {
  */
 function rating( $data, $format = 'html' ) {
 
-	$format = ( 'raw' == $format ? 'raw' : 'html' );
+	/*$format = ( 'raw' == $format ? 'raw' : 'html' );
 
 	if ( '' == $data )
 		return $data;
@@ -630,7 +620,7 @@ function rating( $data, $format = 'html' ) {
 	if ( 'html' == $format ) {
 		$data = apply_filters( 'wpmoly_movie_rating_stars', $data );
 		$data = WPMovieLibrary::render_template( 'shortcodes/rating.php', array( 'data' => $data ), $require = 'always' );
-	}
+	}*/
 
 	return $data;
 }
@@ -649,7 +639,7 @@ function rating( $data, $format = 'html' ) {
  */
 function language( $data, $format = 'html' ) {
 
-	$format = ( 'raw' == $format ? 'raw' : 'html' );
+	/*$format = ( 'raw' == $format ? 'raw' : 'html' );
 
 	if ( '' == $data )
 		return $data;
@@ -670,7 +660,7 @@ function language( $data, $format = 'html' ) {
 		if ( isset( $lang[ $d ] ) )
 			$title[] = __( $lang[ $d ], 'wpmovielibrary' );
 
-	$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'lang', 'data' => 'lang', 'title' => implode( ', ', $title ) ), $require = 'always' );
+	$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'lang', 'data' => 'lang', 'title' => implode( ', ', $title ) ), $require = 'always' );*/
 
 	return $data;
 }
@@ -689,7 +679,7 @@ function language( $data, $format = 'html' ) {
  */
 function subtitles( $data, $format = 'html' ) {
 
-	$format = ( 'raw' == $format ? 'raw' : 'html' );
+	/*$format = ( 'raw' == $format ? 'raw' : 'html' );
 
 	if ( '' == $data )
 		return $data;
@@ -715,7 +705,7 @@ function subtitles( $data, $format = 'html' ) {
 		}
 	}
 
-	$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'subtitle', 'data' => 'subtitles', 'title' => implode( ', ', $title ) ), $require = 'always' );
+	$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'subtitle', 'data' => 'subtitles', 'title' => implode( ', ', $title ) ), $require = 'always' );*/
 
 	return $data;
 }
@@ -754,7 +744,7 @@ function format( $data, $format = 'html', $icon = false ) {
  */
 function detail( $detail, $data, $format = 'html', $icon = false ) {
 
-	$format = ( 'raw' == $format ? 'raw' : 'html' );
+	/*$format = ( 'raw' == $format ? 'raw' : 'html' );
 
 	if ( '' == $data )
 		return $data;
@@ -779,7 +769,9 @@ function detail( $detail, $data, $format = 'html', $icon = false ) {
 		}
 	}
 
-	return $_data;
+	return $_data;*/
+
+	return $data;
 }
 
 /**
@@ -795,7 +787,7 @@ function detail( $detail, $data, $format = 'html', $icon = false ) {
  */
 function get_rating_stars( $rating, $post_id = null, $base = null, $include_empty = false ) {
 
-	$defaults = WPMOLY_Settings::get_supported_movie_details();
+	/*$defaults = WPMOLY_Settings::get_supported_movie_details();
 
 	if ( is_null( $post_id ) || ! intval( $post_id ) )
 		$post_id = get_the_ID();
@@ -854,7 +846,7 @@ function get_rating_stars( $rating, $post_id = null, $base = null, $include_empt
 		$stars .= str_repeat( $half, $_half );
 		$stars .= str_repeat( $empty, $_empty );
 		$stars .= '</div>';
-	}
+	}*/
 
 	/**
 	 * Filter generated HTML markup.
@@ -864,9 +856,11 @@ function get_rating_stars( $rating, $post_id = null, $base = null, $include_empt
 	 * @param    string    Stars HTML markup
 	 * @param    float     Rating value
 	 */
-	$stars = apply_filters( 'wpmoly_movie_rating_stars_html', $stars, $rating );
+	/*$stars = apply_filters( 'wpmoly_movie_rating_stars_html', $stars, $rating );
 
-	return $stars;
+	return $stars;*/
+
+	return $rating;
 }
 
 /**
@@ -887,7 +881,7 @@ function get_rating_stars( $rating, $post_id = null, $base = null, $include_empt
  */
 function terms_list( $data, $taxonomy ) {
 
-	$has_taxonomy = wpmoly_o( "enable-{$taxonomy}" );
+	/*$has_taxonomy = wpmoly_o( "enable-{$taxonomy}" );
 	$_data = explode( ',', $data );
 
 	foreach ( $_data as $key => $term ) {
@@ -915,5 +909,7 @@ function terms_list( $data, $taxonomy ) {
 
 	$_data = ( ! empty( $_data ) ? implode( ', ', $_data ) : '&mdash;' );
 
-	return $_data;
+	return $_data;*/
+
+	return $data;
 }

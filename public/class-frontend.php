@@ -97,6 +97,8 @@ class Frontend {
 		$loader->add_filter( 'wpmoly/shortcode/format/release_date/value',         '', 'wpmoly\Formatting\release_date',         15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/budget/value',               '', 'wpmoly\Formatting\budget',               15, 1 );
 		$loader->add_filter( 'wpmoly/shortcode/format/revenue/value',              '', 'wpmoly\Formatting\revenue',              15, 1 );
+		$loader->add_filter( 'wpmoly/shortcode/format/adult/value',                '', 'wpmoly\Formatting\adult',                15, 1 );
+		$loader->add_filter( 'wpmoly/shortcode/format/homepage/value',             '', 'wpmoly\Formatting\homepage',             15, 1 );
 	}
 
 	/**
