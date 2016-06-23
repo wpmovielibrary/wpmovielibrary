@@ -152,7 +152,7 @@ function get_country( $country ) {
  * 
  * @return   \wpmoly\Helpers\Language
  */
-function get_language( $Language ) {
+function get_language( $language ) {
 
 	return \wpmoly\Helpers\Language::get( $language );
 }
