@@ -60,6 +60,11 @@ class Metadata extends Shortcode {
 			'default' => 'display',
 			'values'  => null,
 			'filter'  => 'esc_attr'
+		),
+		'count' => array(
+			'default' => -1,
+			'values'  => null,
+			'filter'  => 'intval'
 		)
 	);
 
@@ -73,6 +78,8 @@ class Metadata extends Shortcode {
 		'movie_overview'       => 'overview',
 		'movie_title'          => 'title',
 		'movie_original_title' => 'original_title',
+		'movie_genres'         => 'genres',
+		'movie_actors'         => 'cast',
 		'movie_production'     => 'production_companies',
 		'movie_producer'       => 'producer',
 		'movie_photography'    => 'photography',
@@ -187,6 +194,27 @@ class Metadata extends Shortcode {
 			 * @param    string    $value
 			 */
 			return apply_filters( "wpmoly/shortcode/format/{$key}/raw/value", $value );
+		}
+
+		// Deal with lists
+		if ( ! empty( $this->attributes['count'] ) && 0 <  $this->attributes['count'] ) {
+
+			$old_value = $value;
+
+			$value = explode( ',', $value );
+			$value = array_map( 'trim', $value );
+			$value = array_slice( $value, 0, $this->attributes['count'] );
+
+			/**
+			 * Filter array-shaped meta value.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    array     $value
+			 * @param    string    $format
+			 * @param    string    $old_value
+			 */
+			return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, $format, $old_value );
 		}
 
 		/**

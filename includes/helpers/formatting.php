@@ -28,16 +28,15 @@ function director( $data ) {
  * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string    $genres field value
  * 
  * @return   string    Formatted output
  */
-function genres( $data ) {
+function genres( $genres ) {
 
-	$output = terms_list( $data, 'genre' );
-	$output = filter_empty( $output );
+	$genres = terms_list( $genres, 'genre' );
 
-	return $output;
+	return filter_empty( $genres );
 }
 
 /**
@@ -49,16 +48,15 @@ function genres( $data ) {
  * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string    $actors field value
  * 
  * @return   string    Formatted output
  */
-function cast( $data ) {
+function cast( $actors ) {
 
-	$output = terms_list( $data,  'actor' );
-	$output = filter_empty( $output );
+	$actors = terms_list( $actors,  'actor' );
 
-	return $output;
+	return filter_empty( $actors );
 }
 
 /**
@@ -874,42 +872,52 @@ function get_rating_stars( $rating, $post_id = null, $base = null, $include_empt
  * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string    $terms field value
  * @param    string    $taxonomy taxonomy we're dealing with
  * 
  * @return   string    Formatted output
  */
-function terms_list( $data, $taxonomy ) {
+function terms_list( $terms, $taxonomy ) {
 
-	/*$has_taxonomy = wpmoly_o( "enable-{$taxonomy}" );
-	$_data = explode( ',', $data );
+	$has_taxonomy = (boolean) wpmoly_o( "enable-{$taxonomy}" );
 
-	foreach ( $_data as $key => $term ) {
+	if ( is_string( $terms ) ) {
+		$terms = explode( ',', $terms );
+	}
+
+	foreach ( $terms as $key => $term ) {
 		
 		$term = trim( str_replace( array( '&#039;', "’" ), "'", $term ) );
 
-		if ( $has_taxonomy ) {
-			$_term = get_term_by( 'name', $term, $taxonomy );
-			if ( ! $_term )
-				$_term = get_term_by( 'slug', sanitize_title( $term ), $taxonomy );
+		if ( ! $has_taxonomy ) {
+			$t = $term;
 		}
 		else {
-			$_term = $term;
+			$t = get_term_by( 'name', $term, $taxonomy );
+			if ( ! $t ) {
+				$t = get_term_by( 'slug', sanitize_title( $term ), $taxonomy );
+			}
 		}
 
-		if ( ! $_term )
-			$_term = $term;
-
-		if ( is_object( $_term ) && '' != $_term->name ) {
-			$link = get_term_link( $_term, $taxonomy );
-			$_term = ( is_wp_error( $link ) ? $_term->name : sprintf( '<a href="%s" title="%s">%s</a>', $link, sprintf( __( 'More movies from %s', 'wpmovielibrary' ), $_term->name ), $_term->name ) );
+		if ( ! $t ) {
+			$t = $term;
 		}
-		$_data[ $key ] = $_term;
+
+		if ( is_object( $t ) && '' != $t->name ) {
+			$link = get_term_link( $t, $taxonomy );
+			if ( ! is_wp_error( $link ) ) {
+				$t = sprintf( '<a href="%s" title="%s">%s</a>', $link, sprintf( __( 'More movies from %s', 'wpmovielibrary' ), $t->name ), $t->name );
+			} else {
+				$t = $t->name;
+			}
+		}
+
+		$terms[ $key ] = $t;
 	}
 
-	$_data = ( ! empty( $_data ) ? implode( ', ', $_data ) : '&mdash;' );
+	if ( empty( $terms ) ) {
+		return '';
+	}
 
-	return $_data;*/
-
-	return $data;
+	return implode( ', ', $terms );
 }
