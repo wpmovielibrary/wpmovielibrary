@@ -79,15 +79,22 @@ class Frontend {
 		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wpmoly.js', array( 'jquery', 'underscore', 'backbone' ), $this->version, true );
 	}
 
+	/**
+	 * Register default filters for the plugin.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
 	public function set_default_filters() {
 
 		$loader = Loader::get_instance();
 
-		$loader->add_filter( 'wpmoly/shortcode/format/runtime/value',              '', 'wpmoly\Formatting\runtime' );
-		$loader->add_filter( 'wpmoly/shortcode/format/spoken_languages/value',     '', 'wpmoly\Formatting\spoken_languages' );
-		$loader->add_filter( 'wpmoly/shortcode/format/production_countries/value', '', 'wpmoly\Formatting\production_countries' );
-		$loader->add_filter( 'wpmoly/shortcode/format/local_release_date/value',   '', 'wpmoly\Formatting\local_release_date' );
-		$loader->add_filter( 'wpmoly/shortcode/format/release_date/value',         '', 'wpmoly\Formatting\release_date' );
+		$loader->add_filter( 'wpmoly/shortcode/format/runtime/value',              '', 'wpmoly\Formatting\runtime',              10, 2 );
+		$loader->add_filter( 'wpmoly/shortcode/format/spoken_languages/value',     '', 'wpmoly\Formatting\spoken_languages',     10, 1 );
+		$loader->add_filter( 'wpmoly/shortcode/format/production_countries/value', '', 'wpmoly\Formatting\production_countries', 10, 1 );
+		$loader->add_filter( 'wpmoly/shortcode/format/local_release_date/value',   '', 'wpmoly\Formatting\local_release_date',   10, 2 );
+		$loader->add_filter( 'wpmoly/shortcode/format/release_date/value',         '', 'wpmoly\Formatting\release_date',         10, 2 );
 	}
 
 	/**
