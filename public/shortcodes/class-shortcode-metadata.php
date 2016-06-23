@@ -57,7 +57,7 @@ class Metadata extends Shortcode {
 			'filter'  => 'esc_attr'
 		),
 		'format' => array(
-			'default' => '',
+			'default' => 'display',
 			'values'  => null,
 			'filter'  => 'esc_attr'
 		)

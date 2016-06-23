@@ -5,7 +5,7 @@ namespace wpmoly\Formatting;
 /**
  * Format a Movie's director for display
  * 
- * @since    1.1
+ * @since    3.0
  * 
  * @param    string    $data field value
  * 
@@ -26,7 +26,7 @@ function director( $data ) {
  * terms. If term genre exists, provide a link, raw text value
  * if no matching term could be found.
  * 
- * @since    1.1
+ * @since    3.0
  * 
  * @param    string    $data field value
  * 
@@ -47,7 +47,7 @@ function genres( $data ) {
  * terms. If term actor exists, provide a link, raw text value
  * if no matching term could be found.
  * 
- * @since    1.1
+ * @since    3.0
  * 
  * @param    string    $data field value
  * 
@@ -64,7 +64,7 @@ function cast( $data ) {
 /**
  * Format a Movie's release date for display
  * 
- * @since    1.1
+ * @since    3.0
  * 
  * @param    string    $data field value
  * 
@@ -106,7 +106,7 @@ function release_date( $date, $date_format = null ) {
 /**
  * Format a Movie's runtime for display
  * 
- * @since    1.1
+ * @since    3.0
  * 
  * @param    string    $data field value
  * 
@@ -140,7 +140,7 @@ function runtime( $data, $format = null ) {
 /**
  * Format a Movie's languages for display
  * 
- * @since    2.0
+ * @since    3.0
  * 
  * @param    string    $data field value
  * 
@@ -180,7 +180,7 @@ function spoken_languages( $languages ) {
 /**
  * Format a Movie's countries for display.
  * 
- * @since    2.0
+ * @since    3.0
  * 
  * @param    string    $countries Countries list
  * 
@@ -253,7 +253,7 @@ function production_countries( $countries ) {
 /**
  * Format a Movie's production companies for display
  * 
- * @since    2.0
+ * @since    3.0
  * 
  * @param    string    $data field value
  * 
@@ -287,7 +287,7 @@ function production_companies( $data ) {
 /**
  * Format a Movie's producer for display
  * 
- * @since    2.0
+ * @since    3.0
  * 
  * @param    string    $data field value
  * 
@@ -321,7 +321,7 @@ function producer( $data ) {
 /**
  * Format a Movie's composer for display
  * 
- * @since    2.0
+ * @since    3.0
  * 
  * @param    string    $data field value
  * 
@@ -344,7 +344,7 @@ function composer( $data ) {
 /**
  * Format a Movie's editor for display
  * 
- * @since    2.0
+ * @since    3.0
  * 
  * @param    string    $data field value
  * 
@@ -367,7 +367,7 @@ function editor( $data ) {
 /**
  * Format a Movie's author for display
  * 
- * @since    2.0
+ * @since    3.0
  * 
  * @param    string    $data field value
  * 
@@ -390,7 +390,7 @@ function author( $data ) {
 /**
  * Format a Movie's director of photography for display
  * 
- * @since    2.0
+ * @since    3.0
  * 
  * @param    string    $data field value
  * 
@@ -413,7 +413,7 @@ function photography( $data ) {
 /**
  * Format a Movie's certification for display
  * 
- * @since    2.0
+ * @since    3.0
  * 
  * @param    string    $data field value
  * 
@@ -434,67 +434,30 @@ function certification( $data ) {
 }
 
 /**
- * Format a Movie's budget for display
+ * Format a money value for display
  * 
- * @since    2.0
+ * @since    3.0
  * 
- * @param    string    $data field value
- * 
- * @return   string    Formatted output
- */
-function budget( $data, $format = 'html' ) {
-
-	$output = intval( $data );
-	if ( ! $output ) {
-		return $output;
-	}
-
-	if ( 'html' != $format ) {
-		$format = 'raw';
-	}
-
-	if ( 'html' == $format ) {
-		$output = '$' . number_format_i18n( $output );
-	}
-
-	$output = filter_empty( $output );
-
-	return $output;
-}
-
-/**
- * Format a Movie's revenue for display
- * 
- * @since    2.0
- * 
- * @param    string    $data field value
+ * @param    string    $money field value
  * 
  * @return   string    Formatted output
  */
-function revenue( $data, $format = 'html' ) {
+function money( $money ) {
 
-	$output = intval( $data );
-	if ( ! $output ) {
-		return $output;
+	$money = intval( $money );
+	if ( ! $money ) {
+		return '';
 	}
 
-	if ( 'html' != $format ) {
-		$format = 'raw';
-	}
+	$money = '$' . number_format_i18n( $money );
 
-	if ( 'html' == $format ) {
-		$output = '$' . number_format_i18n( $output );
-	}
-
-	$output = filter_empty( $output );
-
-	return $output;
+	return filter_empty( $money );
 }
 
 /**
  * Format a Movie's adult status for display
  * 
- * @since    2.0
+ * @since    3.0
  * 
  * @param    string    $data field value
  * 
@@ -524,7 +487,7 @@ function adult( $data ) {
 /**
  * Format movie homepage link.
  * 
- * @since    2.0.3
+ * @since    3.0
  * 
  * @param    string    $data Homepage link
  * 
@@ -544,7 +507,7 @@ function homepage( $data ) {
 /**
  * Format a Movie's misc field for display
  * 
- * @since    1.1
+ * @since    3.0
  * 
  * @param    string    $data field value
  * 
@@ -601,12 +564,20 @@ function production( $data ) {
 	return production_companies( $data );
 }
 
+function budget( $data ) {
+	return money( $data );
+}
+
+function revenue( $data ) {
+	return money( $data );
+}
+
 /**
  * Format a Movie's media. If format is HTML, will return a
  * HTML formatted string; will return the value without change
  * if raw is asked.
  * 
- * @since    1.1
+ * @since    3.0
  * 
  * @param    string     $data detail value
  * @param    string     $format data format, raw or HTML
@@ -624,7 +595,7 @@ function media( $data, $format = 'html', $icon = false ) {
  * HTML formatted string; will return the value without change
  * if raw is asked.
  * 
- * @since    1.1
+ * @since    3.0
  * 
  * @param    string     $data detail value
  * @param    string     $format data format, raw or HTML
@@ -642,7 +613,7 @@ function status( $data, $format = 'html', $icon = false ) {
  * HTML formatted string; will return the value without change
  * if raw is asked.
  * 
- * @since    1.1
+ * @since    3.0
  * 
  * @param    string     $data detail value
  * @param    string     $format data format, raw or HTML
@@ -669,7 +640,7 @@ function rating( $data, $format = 'html' ) {
  * HTML formatted string; will return the value without change
  * if raw is asked.
  * 
- * @since    2.0
+ * @since    3.0
  * 
  * @param    string     $data detail value
  * @param    string     $format data format, raw or HTML
@@ -709,7 +680,7 @@ function language( $data, $format = 'html' ) {
  * HTML formatted string; will return the value without change
  * if raw is asked.
  * 
- * @since    2.0
+ * @since    3.0
  * 
  * @param    string     $data detail value
  * @param    string     $format data format, raw or HTML
@@ -754,7 +725,7 @@ function subtitles( $data, $format = 'html' ) {
  * HTML formatted string; will return the value without change
  * if raw is asked.
  * 
- * @since    2.0
+ * @since    3.0
  * 
  * @param    string     $data detail value
  * @param    string     $format data format, raw or HTML
@@ -772,7 +743,7 @@ function format( $data, $format = 'html', $icon = false ) {
  * HTML formatted string; will return the value without change
  * if raw is asked.
  * 
- * @since    2.0
+ * @since    3.0
  * 
  * @param    string     $detail details slug
  * @param    string     $data detail value
@@ -814,7 +785,7 @@ function detail( $detail, $data, $format = 'html', $icon = false ) {
 /**
  * Generate rating stars block.
  * 
- * @since    2.0
+ * @since    3.0
  * 
  * @param    float      $rating movie to turn into stars
  * @param    int        $post_id movie's post ID
@@ -888,7 +859,7 @@ function get_rating_stars( $rating, $post_id = null, $base = null, $include_empt
 	/**
 	 * Filter generated HTML markup.
 	 * 
-	 * @since    2.0
+	 * @since    3.0
 	 * 
 	 * @param    string    Stars HTML markup
 	 * @param    float     Rating value
@@ -907,7 +878,7 @@ function get_rating_stars( $rating, $post_id = null, $base = null, $include_empt
  * actors and genres can be added to the metadata and not terms,
  * we rely on metadata to show a correct list.
  * 
- * @since    1.1
+ * @since    3.0
  * 
  * @param    string    $data field value
  * @param    string    $taxonomy taxonomy we're dealing with
