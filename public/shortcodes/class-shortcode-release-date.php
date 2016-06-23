@@ -59,6 +59,13 @@ class ReleaseDate extends Metadata {
 	);
 
 	/**
+	 * Shortcode aliases
+	 * 
+	 * @var    array
+	 */
+	protected static $aliases = array();
+
+	/**
 	 * Build the Shortcode.
 	 * 
 	 * @since    3.0

@@ -31,6 +31,13 @@ class LocalReleaseDate extends ReleaseDate {
 	public static $name = 'movie_local_release_date';
 
 	/**
+	 * Shortcode aliases
+	 * 
+	 * @var    array
+	 */
+	protected static $aliases = array();
+
+	/**
 	 * Build the Shortcode.
 	 * 
 	 * @since    3.0

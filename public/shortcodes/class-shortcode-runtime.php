@@ -59,6 +59,13 @@ class Runtime extends Metadata {
 	);
 
 	/**
+	 * Shortcode aliases
+	 * 
+	 * @var    array
+	 */
+	protected static $aliases = array();
+
+	/**
 	 * Build the Shortcode.
 	 * 
 	 * @since    3.0
