@@ -1,0 +1,29 @@
+
+
+.wpmoly {
+	font-size: 16px;
+}
+
+.wpmoly,
+.wpmoly > * {
+	font-family: sans-serif;
+	font-weight: normal;
+	line-height: normal;
+	margin: 0;
+	outline: 0;
+	padding: 0;
+}
+
+.wpmoly.shortcode.block,
+.wpmoly.shortcode.block .wpmoly.shortcode.item.meta.title,
+.wpmoly.shortcode.block .wpmoly.shortcode.item.meta.value {
+	display: block;
+}
+
+.wpmoly.shortcode.block .wpmoly.shortcode.item.meta.title {
+	font-weight: bold;
+}
+
+.wpmoly.shortcode.block .wpmoly.shortcode.item.meta.value {
+	
+}
