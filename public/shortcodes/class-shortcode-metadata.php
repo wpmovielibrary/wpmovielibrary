@@ -160,12 +160,33 @@ class Metadata extends Shortcode {
 		// Get value
 		$value = get_movie_meta( $post_id, $key, $single = true );
 		if ( empty( $value ) ) {
+			/**
+			 * Filter empty meta value.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $value
+			 * @param    string    $format
+			 */
+			$value = apply_filters( "wpmoly/shortcode/format/{$key}/empty/value", $value, $format );
+			if ( empty( $value ) ) {
+				/** This filter is documented in includes/helpers/formatting.php **/
+				$value = apply_filters( 'wpmoly/filter/meta/empty/value', '&mdash;' );
+			}
+
 			return $value;
 		}
 
 		// Raw value requested
 		if ( 'raw' == $format ) {
-			return $value;
+			/**
+			 * Filter raw meta value.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $value
+			 */
+			return apply_filters( "wpmoly/shortcode/format/{$key}/raw/value", $value );
 		}
 
 		/**

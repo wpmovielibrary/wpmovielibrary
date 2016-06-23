@@ -564,7 +564,7 @@ function filter_empty( $data ) {
 	 * 
 	 * @param    string    $data Empty value replacer
 	 */
-	return apply_filters( 'wpmoly/filter/meta/value/empty', $data );
+	return apply_filters( 'wpmoly/filter/meta/empty/value', $data );
 }
 
 /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
