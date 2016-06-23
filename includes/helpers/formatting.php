@@ -70,56 +70,32 @@ function cast( $data ) {
  * 
  * @return   string    Formatted output
  */
-function release_date( $data, $format = null ) {
+function release_date( $date, $date_format = null ) {
 
-	if ( is_null( $data ) || '' == $data )
-		return $data;
+	if ( empty( $date ) ) {
+		return filter_empty( $date );
+	}
 
-	if ( is_null( $format ) ) {
+	$timestamp  = strtotime( $date );
+	$date_parts = array();
+
+	if ( ! is_null( $date_format ) ) {
+		$format = (string) $date_format;
+	} else {
 		$format = wpmoly_o( 'format-date' );
 	}
 
-	if ( '' == $format ) {
+	if ( empty( $format ) ) {
 		$format = 'j F Y';
 	}
 
-	$args = array(
-		'key'  => 'release_date',
-		'type' => 'meta'
-	);
-
-	if ( 'j F Y' == $format ) {
-
-		$date  = date_i18n( 'j F', strtotime( $data ) );
-		$_date = date( 'Y-m', strtotime( $data ) );
-		$year = date_i18n( 'Y', strtotime( $data ) );
-
-		/*$year = apply_filters( 'wpmoly_movie_meta_link', array(
-			'key'   => 'release_date',
-			'value' => $year,
-			'type'  => 'meta',
-			'text'  => $year,
-			'title' => sprintf( __( 'More movies released on %s', 'wpmovielibrary' ), $year ),
-		) );
-		$date = apply_filters( 'wpmoly_movie_meta_link', array(
-			'key'   => 'release_date',
-			'value' => $_date,
-			'type'  => 'meta',
-			'text'  => $date,
-			'title' => sprintf( __( 'More movies released on %s', 'wpmovielibrary' ), date_i18n( 'F Y', strtotime( $data ) ) ),
-		) );*/
-
-		$output = "$date&nbsp;$year";
-
+	if ( 'j F Y' == $date_format ) {
+		$date_href = date( 'Y-m', $timestamp );
+		$date_parts[] = date_i18n( 'j F', $timestamp );
+		$date_parts[] = date_i18n( 'Y', $timestamp );
+		$output = implode( '&nbsp;', $date_parts );
 	} else {
-		$output = date_i18n( $format, strtotime( $data ) );
-		/*$output = apply_filters( 'wpmoly_movie_meta_link', array(
-			'key'   => 'release_date',
-			'value' => $output,
-			'type'  => 'meta',
-			'text'  => $output,
-			'title' => sprintf( __( 'More movies released on %s', 'wpmovielibrary' ), $output ),
-		) );*/
+		$output = date_i18n( $format, $timestamp );
 	}
 
 	$output = filter_empty( $output );
