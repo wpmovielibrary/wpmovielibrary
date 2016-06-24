@@ -3,24 +3,27 @@
 namespace wpmoly\Formatting;
 
 /**
- * Format a Movie's director for display
+ * Format Movies director.
+ * 
+ * Match each name against the collection taxonomy to detect missing
+ * terms. If term collection exists, provide a link, raw text value
+ * if no matching term could be found.
  * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string    $director field value
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
-function director( $data ) {
+function director( $director ) {
 
-	$output = terms_list( $data, 'collection' );
-	$output = filter_empty( $output );
+	$director = terms_list( $director, 'collection' );
 
-	return $output;
+	return filter_empty( $director );
 }
 
 /**
- * Format a Movie's genres for display
+ * Format Movies genres.
  * 
  * Match each genre against the genre taxonomy to detect missing
  * terms. If term genre exists, provide a link, raw text value
@@ -30,7 +33,7 @@ function director( $data ) {
  * 
  * @param    string    $genres field value
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
 function genres( $genres ) {
 
@@ -40,7 +43,7 @@ function genres( $genres ) {
 }
 
 /**
- * Format a Movie's casting for display
+ * Format Movies casting.
  * 
  * Match each actor against the actor taxonomy to detect missing
  * terms. If term actor exists, provide a link, raw text value
@@ -48,9 +51,9 @@ function genres( $genres ) {
  * 
  * @since    3.0
  * 
- * @param    string    $actors field value
+ * @param    string    $actors Movie actors list
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
 function cast( $actors ) {
 
@@ -60,13 +63,17 @@ function cast( $actors ) {
 }
 
 /**
- * Format a Movie's release date for display
+ * Format Movies release date.
+ * 
+ * If no format is provided, use the format defined in settings. If no such
+ * settings can be found, fallback to a standard 'day Month Year' format.
  * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string    $date Movie release date
+ * @param    string    $date_format Date format for output
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
 function release_date( $date, $date_format = null ) {
 
@@ -91,33 +98,36 @@ function release_date( $date, $date_format = null ) {
 		$date_href = date( 'Y-m', $timestamp );
 		$date_parts[] = date_i18n( 'j F', $timestamp );
 		$date_parts[] = date_i18n( 'Y', $timestamp );
-		$output = implode( '&nbsp;', $date_parts );
+		$date = implode( '&nbsp;', $date_parts );
 	} else {
-		$output = date_i18n( $format, $timestamp );
+		$date = date_i18n( $format, $timestamp );
 	}
 
-	$output = filter_empty( $output );
-
-	return $output;
+	return filter_empty( $date );
 }
 
 /**
- * Format a Movie's runtime for display
+ * Format Movies runtime.
+ * 
+ * If no format is provided, use the format defined in settings. If no such
+ * settings can be found, fallback to a standard 'X h Y min' format.
  * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string    $runtime field value
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
-function runtime( $data, $format = null ) {
+function runtime( $runtime, $time_format = null ) {
 
-	$data = intval( $data );
-	if ( ! $data ) {
+	$runtime = intval( $runtime );
+	if ( ! $runtime ) {
 		return filter_empty( __( 'Duration unknown', 'wpmovielibrary' ) );
 	}
 
-	if ( is_null( $format ) ) {
+	if ( ! is_null( $time_format ) ) {
+		$format = (string) $time_format;
+	} else {
 		$format = wpmoly_o( 'format-time' );
 	}
 
@@ -125,29 +135,27 @@ function runtime( $data, $format = null ) {
 		$format = 'G \h i \m\i\n';
 	}
 
-	$output = date_i18n( $format, mktime( 0, $data ) );
-	if ( false !== stripos( $output, 'am' ) || false !== stripos( $output, 'pm' ) ) {
-		$output = date_i18n( 'G:i', mktime( 0, $data ) );
+	$runtime = date_i18n( $format, mktime( 0, $runtime ) );
+	if ( false !== stripos( $runtime, 'am' ) || false !== stripos( $runtime, 'pm' ) ) {
+		$runtime = date_i18n( 'G:i', mktime( 0, $runtime ) );
 	}
 
-	$output = filter_empty( $output );
-
-	return $output;
+	return filter_empty( $runtime );
 }
 
 /**
- * Format a Movie's languages for display
+ * Format Movies languages.
  * 
  * $text and $icon parameters are essentially used by language and subtitles
  * details.
  * 
  * @since    3.0
  * 
- * @param    string     $languages Languages
+ * @param    array      $languages Languages
  * @param    boolean    $text Show text?
  * @param    boolean    $icon Show icon?
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
 function spoken_languages( $languages, $text = true, $icon = false ) {
 
@@ -159,8 +167,7 @@ function spoken_languages( $languages, $text = true, $icon = false ) {
 		$languages = explode( ',', $languages );
 	}
 
-	$output = array();
-	foreach ( $languages as $language ) {
+	foreach ( $languages as $key => $language ) {
 
 		$language = get_language( $language );
 		if ( true !== $text ) {
@@ -175,31 +182,23 @@ function spoken_languages( $languages, $text = true, $icon = false ) {
 			$name = '<span class="wpmoly language iso icon" title="' . esc_attr( $language->standard_name ) . '">' . esc_attr( $language->code ) . '</span>&nbsp;' . $name;
 		}
 
-		/*$url = apply_filters( 'wpmoly_movie_meta_link', array(
-			'key'   => 'spoken_languages',
-			'value' => $language,
-			'type'  => 'meta',
-			'text'  => $title,
-			'title' => sprintf( __( 'More movies in %s', 'wpmovielibrary' ), $title )
-		) );*/
-		$output[] = $name;
+		$languages[ $key ] = $name;
 	}
 
-	$output = implode( ', ', $output );
-	$output = filter_empty( $output );
+	$languages = implode( ',&nbsp;', $languages );
 
-	return $output;
+	return filter_empty( $languages );
 }
 
 /**
- * Format a Movie's countries for display.
+ * Format Movies countries.
  * 
  * @since    3.0
  * 
  * @param    string     $countries Countries list
  * @param    boolean    $icon Show icon?
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
 function production_countries( $countries, $icon = false ) {
 
@@ -215,9 +214,8 @@ function production_countries( $countries, $icon = false ) {
 		$formats = array( 'original' );
 	}
 
-	$output = array();
 	$countries = explode( ',', $countries );
-	foreach ( $countries as $country ) {
+	foreach ( $countries as $key => $country ) {
 
 		$country = get_country( $country );
 
@@ -245,219 +243,123 @@ function production_countries( $countries, $icon = false ) {
 					break;
 			}
 
-			//if ( 'flag' != $format && ! empty( $item ) ) {
-				/*$item = apply_filters( 'wpmoly_movie_meta_link', array(
-					'key'   => 'production_countries',
-					'value' => $country->standard_name,
-					'type'  => 'meta',
-					'text'  => $item,
-					'title' => sprintf( __( 'More movies from country %s', 'wpmovielibrary' ), $item )
-				) );*/
-			//}
-
 			$items[] = $item;
 		}
 
-		$output[] = implode( '&nbsp;', $items );
+		$countries[ $key ] = implode( '&nbsp;', $items );
 	}
 
-	$output = implode( ',&nbsp; ', $output );
-	$output = filter_empty( $output );
+	$countries = implode( ',&nbsp; ', $countries );
 
-	return $output;
+	return filter_empty( $countries );
 }
 
 /**
- * Format a Movie's production companies for display
+ * Format Movies production companies.
  * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string    $companies Movie production companies
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
-function production_companies( $data ) {
+function production_companies( $companies ) {
 
-	$output = array();
-
-	$data = explode( ',', $data );
-	$data = array_map( 'trim', $data );
-
-	foreach ( $data as $d ) {
-		$output[] = $d;/*apply_filters( 'wpmoly_movie_meta_link', array(
-			'key'   => 'production_companies',
-			'value' => $d,
-			'type'  => 'meta',
-			'text'  => $d,
-			'title' => sprintf( __( 'More movies produced by %s', 'wpmovielibrary' ), $d )
-		) );*/
-	}
-
-	if ( ! empty( $output ) )
-		$output = implode( ', ', $output );
-
-	$output = filter_empty( $output );
-
-	return $output;
+	return filter_empty( $companies );
 }
 
 /**
- * Format a Movie's producer for display
+ * Format Movies producer.
  * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string    $producer Movie producer
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
-function producer( $data ) {
+function producer( $producer ) {
 
-	$output = array();
-
-	$data = explode( ',', $data );
-	$data = array_map( 'trim', $data );
-
-	foreach ( $data as $d ) {
-		$output[] = $d;/*apply_filters( 'wpmoly_movie_meta_link', array(
-			'key'   => 'producer',
-			'value' => $d,
-			'type'  => 'meta',
-			'text'  => $d,
-			'title' => sprintf( __( 'More movies produced by %s', 'wpmovielibrary' ), $d )
-		) );*/
-	}
-
-	if ( ! empty( $output ) )
-		$output = implode( ', ', $output );
-
-	$output = filter_empty( $output );
-
-	return $output;
+	return filter_empty( $producer );
 }
 
 /**
- * Format a Movie's composer for display
+ * Format Movies composer.
  * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string    $composer Movie original music composer
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
-function composer( $data ) {
+function composer( $composer ) {
 
-	$output = $data;/*apply_filters( 'wpmoly_movie_meta_link', array(
-		'key'   => 'composer',
-		'value' => $data,
-		'type'  => 'meta',
-		'text'  => $data,
-		'title' => sprintf( __( 'More movies from composer %s', 'wpmovielibrary' ), $data )
-	) );*/
-	$output = filter_empty( $output );
-
-	return $output;
+	return filter_empty( $composer );
 }
 
 /**
- * Format a Movie's editor for display
+ * Format Movies editor.
  * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string    $editor Movie editor
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
-function editor( $data ) {
+function editor( $editor ) {
 
-	$output = $data;/*apply_filters( 'wpmoly_movie_meta_link', array(
-		'key'   => 'editor',
-		'value' => $data,
-		'type'  => 'meta',
-		'text'  => $data,
-		'title' => sprintf( __( 'More movies edited by %s', 'wpmovielibrary' ), $data )
-	) );*/
-	$output = filter_empty( $output );
-
-	return $output;
+	return filter_empty( $editor );
 }
 
 /**
- * Format a Movie's author for display
+ * Format Movies author.
  * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string    $author Movie author
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
-function author( $data ) {
+function author( $author ) {
 
-	$output = $data;/*apply_filters( 'wpmoly_movie_meta_link', array(
-		'key'   => 'author',
-		'value' => $data,
-		'type'  => 'meta',
-		'text'  => $data,
-		'title' => sprintf( __( 'More movies from author %s', 'wpmovielibrary' ), $data )
-	) );*/
-	$output = filter_empty( $output );
-
-	return $output;
+	return filter_empty( $author );
 }
 
 /**
- * Format a Movie's director of photography for display
+ * Format Movies director of photography.
  * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string    $photography Movie director of photography
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
-function photography( $data ) {
+function photography( $photography ) {
 
-	$output = $data;/*apply_filters( 'wpmoly_movie_meta_link', array(
-		'key'   => 'photography',
-		'value' => $data,
-		'type'  => 'meta',
-		'text'  => $data,
-		'title' => sprintf( __( 'More movies for director of photography %s', 'wpmovielibrary' ), $data )
-	) );*/
-	$output = filter_empty( $output );
-
-	return $output;
+	return filter_empty( $photography );
 }
 
 /**
- * Format a Movie's certification for display
+ * Format Movies certification.
  * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string    $certification Movie certification
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
-function certification( $data ) {
+function certification( $certification ) {
 
-	$output = $data;/*apply_filters( 'wpmoly_movie_meta_link', array(
-		'key'   => 'certification',
-		'value' => $data,
-		'type'  => 'meta',
-		'text'  => $data,
-		'title' => sprintf( __( 'More movies certified %s', 'wpmovielibrary' ), $data )
-	) );*/
-	$output = filter_empty( $output );
-
-	return $output;
+	return filter_empty( $certification );
 }
 
 /**
- * Format a money value for display
+ * Format a money value.
  * 
  * @since    3.0
  * 
  * @param    string    $money field value
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
 function money( $money ) {
 
@@ -472,13 +374,13 @@ function money( $money ) {
 }
 
 /**
- * Format a Movie's adult status for display
+ * Format Movies adult status.
  * 
  * @since    3.0
  * 
  * @param    string    $adult field value
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
 function adult( $adult ) {
 
@@ -500,7 +402,7 @@ function adult( $adult ) {
  * 
  * @param    string    $homepage Homepage link
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
 function homepage( $homepage ) {
 
@@ -512,75 +414,152 @@ function homepage( $homepage ) {
 }
 
 /**
- * Format a Movie's misc field for display
+ * Format Movies casting.
+ * 
+ * Alias for \wpmoly\Formatting\cast()
  * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string     $actors Movie actors list
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
-function filter_empty( $data ) {
-
-	if ( ! empty( $data ) ) {
-		return $data;
-	}
-
-	// Long dash
-	$data = '&mdash;';
-
-	/**
-	 * Filter empty meta value.
-	 * 
-	 * @param    string    $data Empty value replacer
-	 */
-	return apply_filters( 'wpmoly/filter/meta/empty/value', $data );
-}
-
-/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *
- *                             Aliases
- * 
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 function actors( $actors ) {
 	return cast( $actors );
 }
 
+/**
+ * Format Movies release date.
+ * 
+ * Alias for \wpmoly\Formatting\release_date()
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $date Movie release date
+ * @param    string    $date_format Date format for output
+ * 
+ * @return   string    Formatted value
+ */
 function date( $date, $format = null ) {
 	return release_date( $date, $format );
 }
 
+/**
+ * Format Movies local release date.
+ * 
+ * Alias for \wpmoly\Formatting\release_date()
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $date Movie local release date
+ * @param    string    $date_format Date format for output
+ * 
+ * @return   string    Formatted value
+ */
 function local_release_date( $date, $format = null ) {
 	return release_date( $date, $format );
 }
 
+/**
+ * Format Movies release date.
+ * 
+ * Alias for \wpmoly\Formatting\release_date()
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $date Movie release date
+ * @param    string    $date_format Date format for output
+ * 
+ * @return   string    Formatted value
+ */
 function year( $date ) {
 	return release_date( $date, $format = 'Y' );
 }
 
+/**
+ * Format Movies languages.
+ * 
+ * Alias for \wpmoly\Formatting\spoken_languages()
+ * 
+ * @since    3.0
+ * 
+ * @param    array      $languages Languages
+ * @param    boolean    $text Show text?
+ * @param    boolean    $icon Show icon?
+ * 
+ * @return   string    Formatted value
+ */
 function languages( $languages, $text = true, $icon = false ) {
 	return spoken_languages( $languages, $text, $icon );
 }
 
+/**
+ * Format Movies countries.
+ * 
+ * Alias for \wpmoly\Formatting\production_countries()
+ * 
+ * @since    3.0
+ * 
+ * @param    string     $countries Countries list
+ * @param    boolean    $icon Show icon?
+ * 
+ * @return   string    Formatted value
+ */
 function countries( $countries, $icon = false ) {
 	return production_countries( $countries );
 }
 
+/**
+ * Format Movies production companies.
+ * 
+ * Alias for \wpmoly\Formatting\production_companies()
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $companies Movie production companies
+ * 
+ * @return   string    Formatted value
+ */
 function production( $companies ) {
 	return production_companies( $companies );
 }
 
+/**
+ * Format Movies budget.
+ * 
+ * Alias for \wpmoly\Formatting\money()
+ * 
+ * @since    3.0
+ * 
+ * @param    string     $budget Movie budget
+ * @param    boolean    $text Show text?
+ * @param    boolean    $icon Show icon?
+ * 
+ * @return   string    Formatted value
+ */
 function budget( $budget ) {
 	return money( $budget );
 }
 
+/**
+ * Format Movies revenue.
+ * 
+ * Alias for \wpmoly\Formatting\money()
+ * 
+ * @since    3.0
+ * 
+ * @param    string     $medias Movie revenue
+ * @param    boolean    $text Show text?
+ * @param    boolean    $icon Show icon?
+ * 
+ * @return   string    Formatted value
+ */
 function revenue( $revenue ) {
 	return money( $revenue );
 }
 
 /**
- * Format movies media.
+ * Format Movies media.
  * 
  * @since    3.0
  * 
@@ -588,7 +567,7 @@ function revenue( $revenue ) {
  * @param    boolean    $text Show text?
  * @param    boolean    $icon Show icon?
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
 function media( $media, $text = true, $icon = false ) {
 
@@ -596,7 +575,7 @@ function media( $media, $text = true, $icon = false ) {
 }
 
 /**
- * Format movies status.
+ * Format Movies status.
  * 
  * @since    3.0
  * 
@@ -604,7 +583,7 @@ function media( $media, $text = true, $icon = false ) {
  * @param    boolean    $text Show text?
  * @param    boolean    $icon Show icon?
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
 function status( $statuses, $text = true, $icon = false ) {
 
@@ -612,35 +591,9 @@ function status( $statuses, $text = true, $icon = false ) {
 }
 
 /**
- * Format movies rating.
+ * Format Movies language.
  * 
- * @since    3.0
- * 
- * @param    string     $rating Movie rating
- * @param    boolean    $text Show text?
- * @param    boolean    $icon Show icon?
- * 
- * @return   string    Formatted output
- */
-function rating( $rating, $text = true, $icon = false ) {
-
-	/*$format = ( 'raw' == $format ? 'raw' : 'html' );
-
-	if ( '' == $data )
-		return $data;
-
-	if ( 'html' == $format ) {
-		$data = apply_filters( 'wpmoly_movie_rating_stars', $data );
-		$data = WPMovieLibrary::render_template( 'shortcodes/rating.php', array( 'data' => $data ), $require = 'always' );
-	}*/
-
-	return $rating;
-}
-
-/**
- * Format movies language.
- * 
- * Alias for spoken_languages().
+ * Alias for \wpmoly\Formatting\spoken_languages()
  * 
  * @since    3.0
  * 
@@ -648,7 +601,7 @@ function rating( $rating, $text = true, $icon = false ) {
  * @param    boolean    $text Show text?
  * @param    boolean    $icon Show icon?
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
 function language( $languages, $text = true, $icon = false ) {
 
@@ -656,9 +609,10 @@ function language( $languages, $text = true, $icon = false ) {
 }
 
 /**
- * Format movies subtitles.
+ * Format Movies subtitles.
  * 
- * Alias for spoken_languages() since subtitles are languages names.
+ * Alias for \wpmoly\Formatting\spoken_languages() since subtitles are languages
+ * names.
  * 
  * @since    3.0
  * 
@@ -666,7 +620,7 @@ function language( $languages, $text = true, $icon = false ) {
  * @param    boolean    $text Show text?
  * @param    boolean    $icon Show icon?
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
 function subtitles( $subtitles, $text = true, $icon = false ) {
 
@@ -674,7 +628,7 @@ function subtitles( $subtitles, $text = true, $icon = false ) {
 }
 
 /**
- * Format movies format.
+ * Format Movies format.
  * 
  * @since    3.0
  * 
@@ -682,7 +636,7 @@ function subtitles( $subtitles, $text = true, $icon = false ) {
  * @param    boolean    $text Show text?
  * @param    boolean    $icon Show icon?
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
 function format( $format, $text = true, $icon = false ) {
 
@@ -690,7 +644,118 @@ function format( $format, $text = true, $icon = false ) {
 }
 
 /**
- * Format movies details.
+ * Format Movies rating.
+ * 
+ * @since    3.0
+ * 
+ * @param    string     $rating Movie rating
+ * @param    boolean    $text Show text?
+ * @param    boolean    $icon Show icon?
+ * 
+ * @return   string    Formatted value
+ */
+function rating( $rating, $text = true, $icon = false ) {
+
+	$base = (int) wpmoly_o( 'format-rating' );
+	if ( 10 != $base ) {
+		$base = 5;
+	}
+
+	$rating = floatval( $rating );
+	if ( 0 > $rating ) {
+		$rating = 0.0;
+	}
+	if ( 5.0 < $rating ) {
+		$rating = 5.0;
+	}
+
+	$details = wpmoly_o( 'default_details' );
+	if ( isset( $details['rating']['options'][ (string) $rating ] ) ) {
+		$label = $details['rating']['options'][ (string) $rating ];
+	} else {
+		$label = '';
+	}
+
+	$id = preg_replace( '/([0-5])(\.|_)(0|5)/i', '$1-$3', $rating );
+	$class = "wpmoly-movie-rating wpmoly-movie-rating-$id";
+
+	if ( true === $icon ) {
+
+		$stars = array();
+
+		/**
+		 * Filter filled stars icon HTML block.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $html Filled star icon default HTML block
+		 */
+		$stars['filled'] = apply_filters( 'wpmoly/filter/html/filled/star', '<span class="wpmolicon icon-star-filled"></span>' );
+
+		/**
+		 * Filter half-filled stars icon HTML block.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $html Half-filled star icon default HTML block
+		 */
+		$stars['half']= apply_filters( 'wpmoly/filter/html/half/star', '<span class="wpmolicon icon-star-half"></span>' );
+
+		/**
+		 * Filter empty stars icon HTML block.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $html Empty star icon default HTML block
+		 */
+		$stars['empty'] = apply_filters( 'wpmoly/filter/html/empty/star', '<span class="wpmolicon icon-star-empty"></span>' );
+
+		$filled = floor( $rating );
+		$half   = ceil( $rating - floor( $rating ) );
+		$empty  = ceil( 5.0 - ( $filled + $half ) );
+
+		$html = '';
+		if ( 0.0 == $rating ) {
+			if ( true === $include_empty ) {
+				$html = str_repeat( $stars['empty'], 10 );
+			} else {
+				$class = 'not-rated';
+				$html  = sprintf( '<small><em>%s</em></small>', __( 'Not rated yet!', 'wpmovielibrary' ) );
+			}
+		}
+		else if ( 10 == $base ) {
+			$_filled = $rating * 2;
+			$_empty  = 10 - $_filled;
+			$title   = "{$_filled}/10 − {$label}";
+
+			$html = str_repeat( $stars['filled'], $_filled ) . str_repeat( $stars['empty'], $_empty );
+		}
+		else {
+			$title = "{$rating}/5 − {$label}";
+			$html  = str_repeat( $stars['filled'], $_filled ) . str_repeat( $stars['half'], $_half ) . str_repeat( $stars['empty'], $_empty );
+		}
+
+		$html = '<span class="' . $class . '" title="' . $title . '">' . $html . '</span>';
+
+		/**
+		 * Filter generated HTML markup.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $html Stars HTML markup
+		 * @param    float     $rating Rating value
+		 * @param    string    $label Rating title
+		 */
+		$html = apply_filters( 'wpmoly/filter/html/rating/stars', $html, $rating, $label );
+
+		return $html . '&nbsp;' . $label;
+	}
+
+	return $label;
+}
+
+/**
+ * Format Movies details.
  * 
  * @since    3.0
  * 
@@ -699,7 +764,7 @@ function format( $format, $text = true, $icon = false ) {
  * @param    boolean    $text Show text?
  * @param    boolean    $icon Show icon?
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
 function detail( $detail, $data, $text = true, $icon = false ) {
 
@@ -733,96 +798,35 @@ function detail( $detail, $data, $text = true, $icon = false ) {
 }
 
 /**
- * Generate rating stars block.
+ * Format Movies empty fields.
+ * 
+ * This is used by almost every other formatting function to filter and replace
+ * empty values.
  * 
  * @since    3.0
  * 
- * @param    float      $rating movie to turn into stars
- * @param    int        $post_id movie's post ID
- * @param    int        $base 5-stars or 10-stars?
+ * @param    string    $value field value
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
-function get_rating_stars( $rating, $post_id = null, $base = null, $include_empty = false ) {
+function filter_empty( $value ) {
 
-	/*$defaults = WPMOLY_Settings::get_supported_movie_details();
-
-	if ( is_null( $post_id ) || ! intval( $post_id ) )
-		$post_id = get_the_ID();
-
-	if ( is_null( $base ) )
-		$base = wpmoly_o( 'format-rating' );
-	if ( 10 != $base )
-		$base = 5;
-
-	if ( 0 > $rating )
-		$rating = 0.0;
-	if ( 5.0 < $rating )
-		$rating = 5.0;
-
-	$title = '';
-	if ( isset( $defaults['rating']['options'][ $rating ] ) )
-		$title = $defaults['rating']['options'][ $rating ];
-
-	$_rating = preg_replace( '/([0-5])(\.|_)(0|5)/i', '$1-$3', $rating );
-
-	$class   = "wpmoly-movie-rating wpmoly-movie-rating-{$_rating}";
-
-	$filled  = '<span class="wpmolicon icon-star-filled"></span>';
-	$half    = '<span class="wpmolicon icon-star-half"></span>';
-	$empty   = '<span class="wpmolicon icon-star-empty"></span>';
-
-	$_filled = floor( $rating );
-	$_half   = ceil( $rating - floor( $rating ) );
-	$_empty  = ceil( 5.0 - ( $_filled + $_half ) );
-
-	if ( 0.0 == $rating ) {
-		if ( true === $include_empty ) {
-			$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '" title="' . $title . '">';
-			$stars .= str_repeat( $empty, 10 );
-			$stars .= '</div>';
-		} else {
-			$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="not-rated" title="' . $title . '">';
-			$stars .= sprintf( '<small><em>%s</em></small>', __( 'Not rated yet!', 'wpmovielibrary' ) );
-			$stars .= '</div>';
-		}
+	if ( ! empty( $value ) ) {
+		return $value;
 	}
-	else if ( 10 == $base ) {
-		$_filled = $rating * 2;
-		$_empty  = 10 - $_filled;
-		$title   = "{$_filled}/10 − {$title}";
-
-		$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '" title="' . $title . '">';
-		$stars .= str_repeat( $filled, $_filled );
-		$stars .= str_repeat( $empty, $_empty );
-		$stars .= '</div>';
-	}
-	else {
-		$title   = "{$rating}/5 − {$title}";
-		$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '" title="' . $title . '">';
-		$stars .= str_repeat( $filled, $_filled );
-		$stars .= str_repeat( $half, $_half );
-		$stars .= str_repeat( $empty, $_empty );
-		$stars .= '</div>';
-	}*/
 
 	/**
-	 * Filter generated HTML markup.
+	 * Filter empty meta value.
 	 * 
-	 * @since    3.0
+	 * Use a long dash for replacer.
 	 * 
-	 * @param    string    Stars HTML markup
-	 * @param    float     Rating value
+	 * @param    string    $value Empty value replacer
 	 */
-	/*$stars = apply_filters( 'wpmoly_movie_rating_stars_html', $stars, $rating );
-
-	return $stars;*/
-
-	return $rating;
+	return apply_filters( 'wpmoly/filter/meta/empty/value', '&mdash;' );
 }
 
 /**
- * Format a Movie's misc actors/genres list depending on
+ * Format Movies misc actors/genres list depending on
  * existing terms.
  * 
  * This is used to provide links for actors and genres lists
@@ -835,7 +839,7 @@ function get_rating_stars( $rating, $post_id = null, $base = null, $include_empt
  * @param    string    $terms field value
  * @param    string    $taxonomy taxonomy we're dealing with
  * 
- * @return   string    Formatted output
+ * @return   string    Formatted value
  */
 function terms_list( $terms, $taxonomy ) {
 
