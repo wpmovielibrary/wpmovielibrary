@@ -4,9 +4,10 @@
  * 
  * Showing a specific movie metadata.
  * 
- * @since    1.2
+ * @since    3.0
  * 
- * @uses    $movies
+ * @uses    $meta
+ * @uses    $key
  */
 ?>
 
