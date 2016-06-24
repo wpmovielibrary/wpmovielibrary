@@ -60,6 +60,16 @@ class Detail extends Metadata {
 			'default' => 'display',
 			'values'  => null,
 			'filter'  => 'esc_attr'
+		),
+		'icon' => array(
+			'default' => true,
+			'values'  => null,
+			'filter'  => '_is_boolval'
+		),
+		'text' => array(
+			'default' => true,
+			'values'  => null,
+			'filter'  => '_is_boolval'
 		)
 	);
 
@@ -149,27 +159,6 @@ class Detail extends Metadata {
 			return apply_filters( "wpmoly/shortcode/format/{$key}/raw/value", $value );
 		}
 
-		// Deal with lists
-		if ( ! empty( $this->attributes['count'] ) && 0 <  $this->attributes['count'] ) {
-
-			$old_value = $value;
-
-			$value = explode( ',', $value );
-			$value = array_map( 'trim', $value );
-			$value = array_slice( $value, 0, $this->attributes['count'] );
-
-			/**
-			 * Filter array-shaped detail value.
-			 * 
-			 * @since    3.0
-			 * 
-			 * @param    array     $value
-			 * @param    string    $format
-			 * @param    string    $old_value
-			 */
-			return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, $format, $old_value );
-		}
-
 		/**
 		 * Filter detail value.
 		 * 
@@ -178,7 +167,7 @@ class Detail extends Metadata {
 		 * @param    string    $value
 		 * @param    string    $format
 		 */
-		return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, $format );
+		return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, $this->attributes['text'], $this->attributes['icon'] );
 	}
 
 	/**
@@ -194,18 +183,16 @@ class Detail extends Metadata {
 
 		// Get value
 		$detail = $this->get_detail_value();
+		$text   = $this->attributes['text'];
+		$icon   = $this->attributes['icon'];
 		$key    = $this->attributes['key'];
 
 		// Get label
-		$label = wpmoly_o( 'default_detail' );
+		$label = wpmoly_o( 'default_details' );
 		$label = isset( $label[ $key ]['title'] ) ? $label[ $key ]['title'] : '';
 
 		// Set template data
-		$this->template->set_data( array(
-			'detail' => $detail,
-			'label'  => $label,
-			'key'    => $key
-		) );
+		$this->template->set_data( compact( 'detail', 'label', 'text', 'icon', 'key' ) );
 
 		return $this;
 	}

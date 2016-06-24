@@ -138,13 +138,18 @@ function runtime( $data, $format = null ) {
 /**
  * Format a Movie's languages for display
  * 
+ * $text and $icon parameters are essentially used by language and subtitles
+ * details.
+ * 
  * @since    3.0
  * 
- * @param    string    $data field value
+ * @param    string     $languages Languages
+ * @param    boolean    $text Show text?
+ * @param    boolean    $icon Show icon?
  * 
  * @return   string    Formatted output
  */
-function spoken_languages( $languages ) {
+function spoken_languages( $languages, $text = true, $icon = false ) {
 
 	if ( empty( $languages ) ) {
 		return $languages;
@@ -157,9 +162,17 @@ function spoken_languages( $languages ) {
 	$output = array();
 	foreach ( $languages as $language ) {
 
-		if ( '1' == wpmoly_o( 'translate-languages' ) ) {
-			$language = get_language( $language );
-			$language = $language->localized_name;
+		$language = get_language( $language );
+		if ( true !== $text ) {
+			$name = '';
+		} elseif ( '1' == wpmoly_o( 'translate-languages' ) ) {
+			$name = $language->localized_name;
+		} else {
+			$name = $language->standard_name;
+		}
+
+		if ( true === $icon ) {
+			$name = '<span class="wpmoly language iso icon" title="' . esc_attr( $language->standard_name ) . '">' . esc_attr( $language->code ) . '</span>&nbsp;' . $name;
 		}
 
 		/*$url = apply_filters( 'wpmoly_movie_meta_link', array(
@@ -169,7 +182,7 @@ function spoken_languages( $languages ) {
 			'text'  => $title,
 			'title' => sprintf( __( 'More movies in %s', 'wpmovielibrary' ), $title )
 		) );*/
-		$output[] = $language;
+		$output[] = $name;
 	}
 
 	$output = implode( ', ', $output );
@@ -183,11 +196,12 @@ function spoken_languages( $languages ) {
  * 
  * @since    3.0
  * 
- * @param    string    $countries Countries list
+ * @param    string     $countries Countries list
+ * @param    boolean    $icon Show icon?
  * 
  * @return   string    Formatted output
  */
-function production_countries( $countries ) {
+function production_countries( $countries, $icon = false ) {
 
 	if ( empty( $countries ) ) {
 		return $countries;
@@ -195,8 +209,10 @@ function production_countries( $countries ) {
 
 	if ( '1' == wpmoly_o( 'translate-countries' ) ) {
 		$formats = wpmoly_o( 'countries-format', array() );
-	} else {
+	} elseif ( false === $icon ) {
 		$formats = array( 'flag', 'original' );
+	} else {
+		$formats = array( 'original' );
 	}
 
 	$output = array();
@@ -527,40 +543,40 @@ function filter_empty( $data ) {
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-function actors( $data ) {
-	return cast( $data );
+function actors( $actors ) {
+	return cast( $actors );
 }
 
-function date( $data, $format = null ) {
-	return release_date( $data, $format );
+function date( $date, $format = null ) {
+	return release_date( $date, $format );
 }
 
-function local_release_date( $data, $format = null ) {
-	return release_date( $data, $format );
+function local_release_date( $date, $format = null ) {
+	return release_date( $date, $format );
 }
 
-function year( $data ) {
-	return release_date( $data, $format = 'Y' );
+function year( $date ) {
+	return release_date( $date, $format = 'Y' );
 }
 
-function languages( $data ) {
-	return spoken_languages( $data );
+function languages( $languages, $text = true, $icon = false ) {
+	return spoken_languages( $languages, $text, $icon );
 }
 
-function countries( $data ) {
-	return production_countries( $data );
+function countries( $countries, $icon = false ) {
+	return production_countries( $countries );
 }
 
-function production( $data ) {
-	return production_companies( $data );
+function production( $companies ) {
+	return production_companies( $companies );
 }
 
-function budget( $data ) {
-	return money( $data );
+function budget( $budget ) {
+	return money( $budget );
 }
 
-function revenue( $data ) {
-	return money( $data );
+function revenue( $revenue ) {
+	return money( $revenue );
 }
 
 /**
@@ -568,15 +584,15 @@ function revenue( $data ) {
  * 
  * @since    3.0
  * 
- * @param    string     $data detail value
- * @param    string     $format data format, raw or HTML
- * @param    boolean    $icon Show as icon or text
+ * @param    string     $medias Movie media
+ * @param    boolean    $text Show text?
+ * @param    boolean    $icon Show icon?
  * 
  * @return   string    Formatted output
  */
-function media( $data, $format = 'html', $icon = false ) {
+function media( $media, $text = true, $icon = false ) {
 
-	return detail( 'media', $data, $format, $icon );
+	return detail( 'media', $media, $text, $icon );
 }
 
 /**
@@ -584,15 +600,15 @@ function media( $data, $format = 'html', $icon = false ) {
  * 
  * @since    3.0
  * 
- * @param    string     $data detail value
- * @param    string     $format data format, raw or HTML
- * @param    boolean    $icon Show as icon or text
+ * @param    array      $data Movie statuses
+ * @param    boolean    $text Show text?
+ * @param    boolean    $icon Show icon?
  * 
  * @return   string    Formatted output
  */
-function status( $data, $format = 'html', $icon = false ) {
+function status( $statuses, $text = true, $icon = false ) {
 
-	return detail( 'status', $data, $format, $icon );
+	return detail( 'status', $statuses, $text, $icon );
 }
 
 /**
@@ -600,12 +616,13 @@ function status( $data, $format = 'html', $icon = false ) {
  * 
  * @since    3.0
  * 
- * @param    string     $data detail value
- * @param    string     $format data format, raw or HTML
+ * @param    string     $rating Movie rating
+ * @param    boolean    $text Show text?
+ * @param    boolean    $icon Show icon?
  * 
  * @return   string    Formatted output
  */
-function rating( $data, $format = 'html' ) {
+function rating( $rating, $text = true, $icon = false ) {
 
 	/*$format = ( 'raw' == $format ? 'raw' : 'html' );
 
@@ -617,7 +634,7 @@ function rating( $data, $format = 'html' ) {
 		$data = WPMovieLibrary::render_template( 'shortcodes/rating.php', array( 'data' => $data ), $require = 'always' );
 	}*/
 
-	return $data;
+	return $rating;
 }
 
 /**
@@ -627,13 +644,15 @@ function rating( $data, $format = 'html' ) {
  * 
  * @since    3.0
  * 
- * @param    string|array     $languages
+ * @param    array      $languages Movie languages
+ * @param    boolean    $text Show text?
+ * @param    boolean    $icon Show icon?
  * 
  * @return   string    Formatted output
  */
-function language( $languages ) {
+function language( $languages, $text = true, $icon = false ) {
 
-	return spoken_languages( $languages );
+	return spoken_languages( $languages, $text, $icon );
 }
 
 /**
@@ -643,13 +662,15 @@ function language( $languages ) {
  * 
  * @since    3.0
  * 
- * @param    string     $subtitles
+ * @param    array      $subtitles Movie subtitles
+ * @param    boolean    $text Show text?
+ * @param    boolean    $icon Show icon?
  * 
  * @return   string    Formatted output
  */
-function subtitles( $subtitles ) {
+function subtitles( $subtitles, $text = true, $icon = false ) {
 
-	return spoken_languages( $subtitles );
+	return spoken_languages( $subtitles, $text, $icon );
 }
 
 /**
@@ -657,15 +678,15 @@ function subtitles( $subtitles ) {
  * 
  * @since    3.0
  * 
- * @param    string     $data detail value
- * @param    string     $format data format, raw or HTML
- * @param    boolean    $icon Show as icon or text
+ * @param    array      $format Movie formats
+ * @param    boolean    $text Show text?
+ * @param    boolean    $icon Show icon?
  * 
  * @return   string    Formatted output
  */
-function format( $data, $format = 'html', $icon = false ) {
+function format( $format, $text = true, $icon = false ) {
 
-	return detail( 'format', $data, $format, $icon );
+	return detail( 'format', $format, $text, $icon );
 }
 
 /**
@@ -675,12 +696,12 @@ function format( $data, $format = 'html', $icon = false ) {
  * 
  * @param    string     $detail details slug
  * @param    array      $data detail value
- * @param    string     $format data format, raw or HTML
- * @param    boolean    $icon Show as icon or text
+ * @param    boolean    $text Show text?
+ * @param    boolean    $icon Show icon?
  * 
  * @return   string    Formatted output
  */
-function detail( $detail, $data, $format = 'html', $icon = false ) {
+function detail( $detail, $data, $text = true, $icon = false ) {
 
 	$data = (array) $data;
 	if ( empty( $data ) ) {
@@ -695,7 +716,16 @@ function detail( $detail, $data, $format = 'html', $icon = false ) {
 	$details = $details[ $detail ]['options'];
 	foreach ( $data as $key => $slug ) {
 		if ( isset( $details[ $slug ] ) ) {
-			$data[ $key ] = __( $details[ $slug ], 'wpmovielibrary' );
+			$value = '';
+			if ( true === $text ) {
+				$value = __( $details[ $slug ], 'wpmovielibrary' );
+			}
+
+			if ( true === $icon ) {
+				$value = '<span class="wpmolicon icon-' . $slug . '"></span>&nbsp;' . $value;
+			}
+
+			$data[ $key ] = $value;
 		}
 	}
 

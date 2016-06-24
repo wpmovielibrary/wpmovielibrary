@@ -11,7 +11,6 @@
  * @uses    $key
  */
 
-print_r( $detail );
 ?>
 
 	<div class="wpmoly shortcode block<?php if ( empty( $detail ) ) echo ' empty'; ?>">
