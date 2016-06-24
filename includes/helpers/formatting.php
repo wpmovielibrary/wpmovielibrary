@@ -150,8 +150,11 @@ function spoken_languages( $languages ) {
 		return $languages;
 	}
 
+	if ( is_string( $languages ) ) {
+		$languages = explode( ',', $languages );
+	}
+
 	$output = array();
-	$languages = explode( ',', $languages );
 	foreach ( $languages as $language ) {
 
 		if ( '1' == wpmoly_o( 'translate-languages' ) ) {
@@ -561,9 +564,7 @@ function revenue( $data ) {
 }
 
 /**
- * Format a Movie's media. If format is HTML, will return a
- * HTML formatted string; will return the value without change
- * if raw is asked.
+ * Format movies media.
  * 
  * @since    3.0
  * 
@@ -579,9 +580,7 @@ function media( $data, $format = 'html', $icon = false ) {
 }
 
 /**
- * Format a Movie's status. If format is HTML, will return a
- * HTML formatted string; will return the value without change
- * if raw is asked.
+ * Format movies status.
  * 
  * @since    3.0
  * 
@@ -597,9 +596,7 @@ function status( $data, $format = 'html', $icon = false ) {
 }
 
 /**
- * Format a Movie's rating. If format is HTML, will return a
- * HTML formatted string; will return the value without change
- * if raw is asked.
+ * Format movies rating.
  * 
  * @since    3.0
  * 
@@ -624,94 +621,39 @@ function rating( $data, $format = 'html' ) {
 }
 
 /**
- * Format a Movie's language. If format is HTML, will return a
- * HTML formatted string; will return the value without change
- * if raw is asked.
+ * Format movies language.
+ * 
+ * Alias for spoken_languages().
  * 
  * @since    3.0
  * 
- * @param    string     $data detail value
- * @param    string     $format data format, raw or HTML
+ * @param    string|array     $languages
  * 
  * @return   string    Formatted output
  */
-function language( $data, $format = 'html' ) {
+function language( $languages ) {
 
-	/*$format = ( 'raw' == $format ? 'raw' : 'html' );
-
-	if ( '' == $data )
-		return $data;
-
-	if ( wpmoly_o( 'details-icons' ) && 'html' == $format  ) {
-		$view = 'shortcodes/detail-icon-title.php';
-	} else if ( 'html' == $format ) {
-		$view = 'shortcodes/detail.php';
-	}
-
-	$title = array();
-	$lang  = WPMOLY_Settings::get_available_movie_language();
-
-	if ( ! is_array( $data ) )
-		$data = array( $data );
-
-	foreach ( $data as $d )
-		if ( isset( $lang[ $d ] ) )
-			$title[] = __( $lang[ $d ], 'wpmovielibrary' );
-
-	$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'lang', 'data' => 'lang', 'title' => implode( ', ', $title ) ), $require = 'always' );*/
-
-	return $data;
+	return spoken_languages( $languages );
 }
 
 /**
- * Format a Movie's . If format is HTML, will return a
- * HTML formatted string; will return the value without change
- * if raw is asked.
+ * Format movies subtitles.
+ * 
+ * Alias for spoken_languages() since subtitles are languages names.
  * 
  * @since    3.0
  * 
- * @param    string     $data detail value
- * @param    string     $format data format, raw or HTML
+ * @param    string     $subtitles
  * 
  * @return   string    Formatted output
  */
-function subtitles( $data, $format = 'html' ) {
+function subtitles( $subtitles ) {
 
-	/*$format = ( 'raw' == $format ? 'raw' : 'html' );
-
-	if ( '' == $data )
-		return $data;
-
-	if ( wpmoly_o( 'details-icons' ) && 'html' == $format  ) {
-		$view = 'shortcodes/detail-icon-title.php';
-	} else if ( 'html' == $format ) {
-		$view = 'shortcodes/detail.php';
-	}
-
-	$title = array();
-	$lang  = WPMOLY_Settings::get_available_movie_language();
-
-	if ( ! is_array( $data ) )
-		$data = array( $data );
-
-	foreach ( $data as $d ) {
-		if ( 'none' == $d ) {
-			$title = array( __( 'None', 'wpmovielibrary' ) );
-			break;
-		} elseif ( isset( $lang[ $d ] ) ) {
-			$title[] = __( $lang[ $d ], 'wpmovielibrary' );
-		}
-	}
-
-	$data = WPMovieLibrary::render_template( $view, array( 'detail' => 'subtitle', 'data' => 'subtitles', 'title' => implode( ', ', $title ) ), $require = 'always' );*/
-
-	return $data;
+	return spoken_languages( $subtitles );
 }
 
 /**
- * Format a Movie's . If format is HTML, will return a
- * HTML formatted string; will return the value without change
- * if raw is asked.
+ * Format movies format.
  * 
  * @since    3.0
  * 
@@ -727,14 +669,12 @@ function format( $data, $format = 'html', $icon = false ) {
 }
 
 /**
- * Format a Movie detail. If format is HTML, will return a
- * HTML formatted string; will return the value without change
- * if raw is asked.
+ * Format movies details.
  * 
  * @since    3.0
  * 
  * @param    string     $detail details slug
- * @param    string     $data detail value
+ * @param    array      $data detail value
  * @param    string     $format data format, raw or HTML
  * @param    boolean    $icon Show as icon or text
  * 
@@ -742,34 +682,24 @@ function format( $data, $format = 'html', $icon = false ) {
  */
 function detail( $detail, $data, $format = 'html', $icon = false ) {
 
-	/*$format = ( 'raw' == $format ? 'raw' : 'html' );
-
-	if ( '' == $data )
+	$data = (array) $data;
+	if ( empty( $data ) ) {
 		return $data;
-
-	if ( true === $icon || ( wpmoly_o( 'details-icons' ) && 'html' == $format ) ) {
-		$view = 'shortcodes/detail-icon.php';
-	} else {
-		$view = 'shortcodes/detail.php';
 	}
 
-	$title = '';
-	$default_fields = call_user_func( "WPMOLY_Settings::get_available_movie_{$detail}" );
+	$details = wpmoly_o( 'default_details' );
+	if ( ! isset( $details[ $detail ]['options'] ) ) {
+		return '';
+	}
 
-	if ( ! is_array( $data ) )
-		$data = array( $data );
-
-	$_data = '';
-	foreach ( $data as $d ) {
-		if ( isset( $default_fields[ $d ] ) ) {
-			$title = __( $default_fields[ $d ], 'wpmovielibrary' );
-			$_data .= WPMovieLibrary::render_template( $view, array( 'detail' => $detail, 'data' => $d, 'title' => $title ), $require = 'always' );
+	$details = $details[ $detail ]['options'];
+	foreach ( $data as $key => $slug ) {
+		if ( isset( $details[ $slug ] ) ) {
+			$data[ $key ] = __( $details[ $slug ], 'wpmovielibrary' );
 		}
 	}
 
-	return $_data;*/
-
-	return $data;
+	return implode( ', ', $data );
 }
 
 /**

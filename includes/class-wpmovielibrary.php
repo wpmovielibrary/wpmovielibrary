@@ -183,7 +183,10 @@ class Library {
 		// Shortcodes
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-movies.php';
+		//require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-images.php';
+		//require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-posters.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-metadata.php';
+		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-detail.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-countries.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-languages.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-runtime.php';
