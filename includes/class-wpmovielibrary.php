@@ -138,6 +138,7 @@ class Library {
 		require_once WPMOLY_PATH . 'includes/helpers/class-country.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-language.php';
 		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
+		require_once WPMOLY_PATH . 'includes/helpers/permalinks.php';
 		require_once WPMOLY_PATH . 'includes/helpers/formatting.php';
 
 		// Core
@@ -146,6 +147,7 @@ class Library {
 		require_once WPMOLY_PATH . 'includes/core/class-options.php';
 		require_once WPMOLY_PATH . 'includes/core/class-registrar.php';
 		require_once WPMOLY_PATH . 'includes/core/class-terms.php';
+		require_once WPMOLY_PATH . 'includes/core/class-permalink.php';
 		require_once WPMOLY_PATH . 'includes/core/class-collection.php';
 		require_once WPMOLY_PATH . 'includes/core/class-template.php';
 

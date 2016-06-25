@@ -1,6 +1,6 @@
 <?php
 
-namespace wpmoly\Formatting;
+namespace wpmoly\Helpers\Formatting;
 
 /**
  * Format Movies director.
@@ -84,26 +84,23 @@ function release_date( $date, $date_format = null ) {
 	$timestamp  = strtotime( $date );
 	$date_parts = array();
 
-	if ( ! is_null( $date_format ) ) {
-		$format = (string) $date_format;
-	} else {
-		$format = wpmoly_o( 'format-date' );
-	}
-
-	if ( empty( $format ) ) {
-		$format = 'j F Y';
+	$date_format = (string) $date_format;
+	if ( empty( $date_format ) ) {
+		$date_format = wpmoly_o( 'format-date' );
+		if ( empty( $date_format ) ) {
+			$date_format = 'j F Y';
+		}
 	}
 
 	if ( 'j F Y' == $date_format ) {
-		$date_href = date( 'Y-m', $timestamp );
 		$date_parts[] = date_i18n( 'j F', $timestamp );
 		$date_parts[] = date_i18n( 'Y', $timestamp );
 		$date = implode( '&nbsp;', $date_parts );
 	} else {
-		$date = date_i18n( $format, $timestamp );
+		$date = date_i18n( $date_format, $timestamp );
 	}
 
-	return filter_empty( $date );
+	return apply_filters( 'wpmoly/filter/meta/release_date/url', filter_empty( $date ), $date, $date_parts, $date_format, $timestamp );
 }
 
 /**
@@ -125,17 +122,15 @@ function runtime( $runtime, $time_format = null ) {
 		return filter_empty( __( 'Duration unknown', 'wpmovielibrary' ) );
 	}
 
-	if ( ! is_null( $time_format ) ) {
-		$format = (string) $time_format;
-	} else {
-		$format = wpmoly_o( 'format-time' );
+	$time_format = (string) $time_format;
+	if ( empty( $time_format ) ) {
+		$time_format = wpmoly_o( 'format-time' );
+		if ( empty( $time_format ) ) {
+			$time_format = 'G \h i \m\i\n';
+		}
 	}
 
-	if ( '' == $format ) {
-		$format = 'G \h i \m\i\n';
-	}
-
-	$runtime = date_i18n( $format, mktime( 0, $runtime ) );
+	$runtime = date_i18n( $time_format, mktime( 0, $runtime ) );
 	if ( false !== stripos( $runtime, 'am' ) || false !== stripos( $runtime, 'pm' ) ) {
 		$runtime = date_i18n( 'G:i', mktime( 0, $runtime ) );
 	}
@@ -160,7 +155,7 @@ function runtime( $runtime, $time_format = null ) {
 function spoken_languages( $languages, $text = true, $icon = false ) {
 
 	if ( empty( $languages ) ) {
-		return $languages;
+		return filter_empty( $languages );
 	}
 
 	if ( is_string( $languages ) ) {
@@ -203,7 +198,7 @@ function spoken_languages( $languages, $text = true, $icon = false ) {
 function production_countries( $countries, $icon = false ) {
 
 	if ( empty( $countries ) ) {
-		return $countries;
+		return filter_empty( $countries );
 	}
 
 	if ( '1' == wpmoly_o( 'translate-countries' ) ) {
@@ -365,7 +360,7 @@ function money( $money ) {
 
 	$money = intval( $money );
 	if ( ! $money ) {
-		return '';
+		return filter_empty( $money );
 	}
 
 	$money = '$' . number_format_i18n( $money );
@@ -392,6 +387,10 @@ function adult( $adult ) {
 		$adult = __( 'No', 'wpmovielibrary' );
 	}
 
+	if ( empty( $adult ) ) {
+		return filter_empty( $adult );
+	}
+
 	return filter_empty( $adult );
 }
 
@@ -406,9 +405,11 @@ function adult( $adult ) {
  */
 function homepage( $homepage ) {
 
-	if ( ! empty( $homepage ) ) {
-		$homepage = sprintf( '<a href="%1$s" title="%2$s">%1$s</a>', esc_url( $homepage ), __( 'Official Website', 'wpmovielibrary' ) );
+	if ( empty( $homepage ) ) {
+		return filter_empty( $homepage );
 	}
+
+	$homepage = sprintf( '<a href="%1$s" title="%2$s">%1$s</a>', esc_url( $homepage ), __( 'Official Website', 'wpmovielibrary' ) );
 
 	return filter_empty( $homepage );
 }
@@ -416,7 +417,7 @@ function homepage( $homepage ) {
 /**
  * Format Movies casting.
  * 
- * Alias for \wpmoly\Formatting\cast()
+ * Alias for \wpmoly\Helpers\Formatting\cast()
  * 
  * @since    3.0
  * 
@@ -431,7 +432,7 @@ function actors( $actors ) {
 /**
  * Format Movies release date.
  * 
- * Alias for \wpmoly\Formatting\release_date()
+ * Alias for \wpmoly\Helpers\Formatting\release_date()
  * 
  * @since    3.0
  * 
@@ -447,7 +448,7 @@ function date( $date, $format = null ) {
 /**
  * Format Movies local release date.
  * 
- * Alias for \wpmoly\Formatting\release_date()
+ * Alias for \wpmoly\Helpers\Formatting\release_date()
  * 
  * @since    3.0
  * 
@@ -463,7 +464,7 @@ function local_release_date( $date, $format = null ) {
 /**
  * Format Movies release date.
  * 
- * Alias for \wpmoly\Formatting\release_date()
+ * Alias for \wpmoly\Helpers\Formatting\release_date()
  * 
  * @since    3.0
  * 
@@ -479,7 +480,7 @@ function year( $date ) {
 /**
  * Format Movies languages.
  * 
- * Alias for \wpmoly\Formatting\spoken_languages()
+ * Alias for \wpmoly\Helpers\Formatting\spoken_languages()
  * 
  * @since    3.0
  * 
@@ -496,7 +497,7 @@ function languages( $languages, $text = true, $icon = false ) {
 /**
  * Format Movies countries.
  * 
- * Alias for \wpmoly\Formatting\production_countries()
+ * Alias for \wpmoly\Helpers\Formatting\production_countries()
  * 
  * @since    3.0
  * 
@@ -512,7 +513,7 @@ function countries( $countries, $icon = false ) {
 /**
  * Format Movies production companies.
  * 
- * Alias for \wpmoly\Formatting\production_companies()
+ * Alias for \wpmoly\Helpers\Formatting\production_companies()
  * 
  * @since    3.0
  * 
@@ -527,7 +528,7 @@ function production( $companies ) {
 /**
  * Format Movies budget.
  * 
- * Alias for \wpmoly\Formatting\money()
+ * Alias for \wpmoly\Helpers\Formatting\money()
  * 
  * @since    3.0
  * 
@@ -544,7 +545,7 @@ function budget( $budget ) {
 /**
  * Format Movies revenue.
  * 
- * Alias for \wpmoly\Formatting\money()
+ * Alias for \wpmoly\Helpers\Formatting\money()
  * 
  * @since    3.0
  * 
@@ -593,7 +594,7 @@ function status( $statuses, $text = true, $icon = false ) {
 /**
  * Format Movies language.
  * 
- * Alias for \wpmoly\Formatting\spoken_languages()
+ * Alias for \wpmoly\Helpers\Formatting\spoken_languages()
  * 
  * @since    3.0
  * 
@@ -611,7 +612,7 @@ function language( $languages, $text = true, $icon = false ) {
 /**
  * Format Movies subtitles.
  * 
- * Alias for \wpmoly\Formatting\spoken_languages() since subtitles are languages
+ * Alias for \wpmoly\Helpers\Formatting\spoken_languages() since subtitles are languages
  * names.
  * 
  * @since    3.0
@@ -770,7 +771,7 @@ function detail( $detail, $data, $text = true, $icon = false ) {
 
 	$data = (array) $data;
 	if ( empty( $data ) ) {
-		return $data;
+		return filter_empty( $data );
 	}
 
 	$details = wpmoly_o( 'default_details' );
@@ -842,6 +843,10 @@ function filter_empty( $value ) {
  * @return   string    Formatted value
  */
 function terms_list( $terms, $taxonomy ) {
+
+	if ( empty( $terms ) ) {
+		return filter_empty( $terms );
+	}
 
 	$has_taxonomy = (boolean) wpmoly_o( "enable-{$taxonomy}" );
 

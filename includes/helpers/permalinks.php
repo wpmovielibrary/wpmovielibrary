@@ -1,6 +1,60 @@
 <?php
 
-namespace wpmoly\Links;
+namespace wpmoly\Helpers\Permalinks;
+
+use wpmoly\Permalink;
+
+/**
+ * Build a permalink for dates.
+ * 
+ * Uses \wpmoly\Permalink() to generate custom URLs for release dates and local
+ * release dates.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $date Filtered date.
+ * @param    array     $raw_date Unfiltered date
+ * @param    array     $date_parts Date parts, if need be
+ * @param    string    $date_format Date format
+ * @param    int       $timestamp Date UNIX Timestam
+ * 
+ * @return   string
+ */
+function date_permalink( $date, $raw_date = array(), $date_parts = array(), $date_format = '', $timestamp = '' ) {
+
+	if ( empty( $raw_date ) ) {
+		return $date;
+	}
+
+	$permalink = new Permalink;
+	switch ( $date_format ) {
+		case 'Y':
+			$permalink->setID( 'date' );
+			$permalink->setContent( date_i18n( $date_format, $timestamp ) );
+			$permalink->setTitle( $date );
+			$permalink->setTitleAttr( sprintf( __( 'Movies release in %s', 'wpmovielibrary' ), date_i18n( $date_format, $timestamp ) ) );
+			break;
+		case 'j F':
+			$permalink->setID( 'date' );
+			$permalink->setContent( date_i18n( 'Y-m', $timestamp ) );
+			$permalink->setTitle( $date );
+			$permalink->setTitleAttr( sprintf( __( 'Movies release in %s', 'wpmovielibrary' ), date_i18n( $date_format, $timestamp ) ) );
+			break;
+		case 'j F Y':
+			$month = date_permalink( $date_parts[0], $raw_date, $date_parts, $date_format = 'j F', $timestamp );
+			$year  = date_permalink( $date_parts[1], $raw_date, $date_parts, $date_format = 'Y',   $timestamp );
+			$permalink = $month . ' ' . $year;
+			break;
+		default:
+			break;
+	}
+
+	if ( ! $permalink instanceof Permalink ) {
+		return $permalink;
+	}
+
+	return $permalink->toHTML();
+}
 
 /**
  * Add a meta link to the movie meta value
@@ -11,7 +65,7 @@ namespace wpmoly\Links;
  * 
  * @return   string    Formatted output
  */
-public static function add_meta_link( $args ) {
+/*public static function add_meta_link( $args ) {
 
 	$defaults = array(
 		'key'   => null,
@@ -40,7 +94,7 @@ public static function add_meta_link( $args ) {
 	$link = implode( ', ', $link );
 
 	return $link;
-}
+}*/
 
 /**
  * Generate Custom Movie Meta permalinks
@@ -51,7 +105,7 @@ public static function add_meta_link( $args ) {
  * 
  * @return   string    HTML href of raw URL
  */
-public static function get_meta_permalink( $args ) {
+/*public static function get_meta_permalink( $args ) {
 
 	$defaults = array(
 		'key'     => null,
@@ -91,7 +145,7 @@ public static function get_meta_permalink( $args ) {
 	$permalink = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $url, $title, $text );
 
 	return $permalink;
-}
+}*/
 
 /**
  * Build Meta URL. Use an array of parameter to build a custom
@@ -103,7 +157,7 @@ public static function get_meta_permalink( $args ) {
  * 
  * @return   string    Custom URL
  */
-public static function build_meta_permalink( $args ) {
+/*public static function build_meta_permalink( $args ) {
 
 	global $wp_rewrite;
 	$rewrite = ( '' != $wp_rewrite->permalink_structure );
@@ -156,7 +210,7 @@ public static function build_meta_permalink( $args ) {
 		$url = self::build_default_meta_permalink( $args );
 
 	return $url;
-}
+}*/
 
 /**
  * Build a custom meta permalink for custom permalinks settings
@@ -170,7 +224,7 @@ public static function build_meta_permalink( $args ) {
  * 
  * @return   string   Generated URL
  */
-private static function build_custom_meta_permalink( $args ) {
+/*private static function build_custom_meta_permalink( $args ) {
 
 	extract( $args );
 
@@ -218,7 +272,7 @@ private static function build_custom_meta_permalink( $args ) {
 	$url = esc_url( $baseurl . $url );
 
 	return $url;
-}
+}*/
 
 /**
  * Build a custom meta permalink for default permalinks settings
@@ -233,7 +287,7 @@ private static function build_custom_meta_permalink( $args ) {
  * 
  * @return   string   Generated URL
  */
-private static function build_default_meta_permalink( $args ) {
+/*private static function build_default_meta_permalink( $args ) {
 
 	if ( false !== $args['is_tax'] )
 		$type = $args['is_tax'];
@@ -266,4 +320,4 @@ private static function build_default_meta_permalink( $args ) {
 	$url = esc_url( add_query_arg( $url, $base ) );
 
 	return $url;
-}
+}*/
