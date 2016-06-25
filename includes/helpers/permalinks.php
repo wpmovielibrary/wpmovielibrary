@@ -16,7 +16,7 @@ use wpmoly\Permalink;
  * @param    array     $raw_date Unfiltered date
  * @param    array     $date_parts Date parts, if need be
  * @param    string    $date_format Date format
- * @param    int       $timestamp Date UNIX Timestam
+ * @param    int       $timestamp Date UNIX Timestamp
  * 
  * @return   string
  */

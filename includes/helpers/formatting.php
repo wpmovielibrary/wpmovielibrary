@@ -100,7 +100,21 @@ function release_date( $date, $date_format = null ) {
 		$date = date_i18n( $date_format, $timestamp );
 	}
 
-	return apply_filters( 'wpmoly/filter/meta/release_date/url', filter_empty( $date ), $date, $date_parts, $date_format, $timestamp );
+	/**
+	 * Filter release date meta final value.
+	 * 
+	 * This is used to generate permalinks for dates and can be extended to
+	 * post-formatting modifications.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $date Filtered date.
+	 * @param    array     $raw_date Unfiltered date
+	 * @param    array     $date_parts Date parts, if need be
+	 * @param    string    $date_format Date format
+	 * @param    int       $timestamp Date UNIX Timestamp
+	 */
+	return apply_filters( 'wpmoly/filter/meta/release_date', filter_empty( $date ), $date, $date_parts, $date_format, $timestamp );
 }
 
 /**
