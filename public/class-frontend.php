@@ -90,6 +90,7 @@ class Frontend {
 
 		$loader = Loader::get_instance();
 
+		// Meta/Details Formatting
 		$loader->add_filter( 'wpmoly/shortcode/format/adult/value',                '', 'wpmoly\Helpers\Formatting\adult',          15, 1 );
 		$loader->add_filter( 'wpmoly/shortcode/format/budget/value',               '', 'wpmoly\Helpers\Formatting\budget',         15, 1 );
 		$loader->add_filter( 'wpmoly/shortcode/format/homepage/value',             '', 'wpmoly\Helpers\Formatting\homepage',       15, 1 );
@@ -108,8 +109,25 @@ class Frontend {
 		$loader->add_filter( 'wpmoly/shortcode/format/status/value',               '', 'wpmoly\Helpers\Formatting\status',         15, 3 );
 		$loader->add_filter( 'wpmoly/shortcode/format/subtitles/value',            '', 'wpmoly\Helpers\Formatting\languages',      15, 3 );
 
-		$loader->add_filter( 'wpmoly/filter/meta/release_date/url',                '', 'wpmoly\Helpers\Permalinks\date_permalink', 15, 5 );
-		$loader->add_filter( 'wpmoly/filter/meta/local_release_date/url',          '', 'wpmoly\Helpers\Permalinks\date_permalink', 15, 5 );
+		// Meta Permalinks
+		$loader->add_filter( 'wpmoly/filter/meta/adult/url',                '', 'wpmoly\Helpers\Permalinks\adult',              15, 1 );
+		$loader->add_filter( 'wpmoly/filter/meta/author/url',               '', 'wpmoly\Helpers\Permalinks\author',             15, 1 );
+		$loader->add_filter( 'wpmoly/filter/meta/composer/url',             '', 'wpmoly\Helpers\Permalinks\composer',           15, 1 );
+		$loader->add_filter( 'wpmoly/filter/meta/local_release_date/url',   '', 'wpmoly\Helpers\Permalinks\local_release_date', 15, 5 );
+		$loader->add_filter( 'wpmoly/filter/meta/photography/url',          '', 'wpmoly\Helpers\Permalinks\photography',        15, 1 );
+		$loader->add_filter( 'wpmoly/filter/meta/producer/url',             '', 'wpmoly\Helpers\Formatting\producer',           15, 1 );
+		$loader->add_filter( 'wpmoly/filter/meta/production_countries/url', '', 'wpmoly\Helpers\Permalinks\countries',          15, 1 );
+		$loader->add_filter( 'wpmoly/filter/meta/release_date/url',         '', 'wpmoly\Helpers\Permalinks\release_date',       15, 5 );
+		$loader->add_filter( 'wpmoly/filter/meta/spoken_languages/url',     '', 'wpmoly\Helpers\Permalinks\languages',          15, 2 );
+		$loader->add_filter( 'wpmoly/filter/meta/writer/url',               '', 'wpmoly\Helpers\Permalinks\writer',             15, 1 );
+
+		// Details Permalinks
+		$loader->add_filter( 'wpmoly/filter/detail/format/url',    '', 'wpmoly\Helpers\Permalinks\format',    15, 3 );
+		$loader->add_filter( 'wpmoly/filter/detail/language/url',  '', 'wpmoly\Helpers\Permalinks\language',  15, 3 );
+		$loader->add_filter( 'wpmoly/filter/detail/media/url',     '', 'wpmoly\Helpers\Permalinks\media',     15, 3 );
+		$loader->add_filter( 'wpmoly/filter/detail/rating/url',    '', 'wpmoly\Helpers\Permalinks\rating',    15, 3 );
+		$loader->add_filter( 'wpmoly/filter/detail/status/url',    '', 'wpmoly\Helpers\Permalinks\status',    15, 3 );
+		$loader->add_filter( 'wpmoly/filter/detail/subtitles/url', '', 'wpmoly\Helpers\Permalinks\subtitles', 15, 3 );
 	}
 
 	/**

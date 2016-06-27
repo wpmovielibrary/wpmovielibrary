@@ -114,7 +114,7 @@ function release_date( $date, $date_format = null ) {
 	 * @param    string    $date_format Date format
 	 * @param    int       $timestamp Date UNIX Timestamp
 	 */
-	return apply_filters( 'wpmoly/filter/meta/release_date', filter_empty( $date ), $date, $date_parts, $date_format, $timestamp );
+	return apply_filters( 'wpmoly/filter/meta/release_date/url', filter_empty( $date ), $date, $date_parts, $date_format, $timestamp );
 }
 
 /**
@@ -176,9 +176,13 @@ function spoken_languages( $languages, $text = true, $icon = false ) {
 		$languages = explode( ',', $languages );
 	}
 
+	$languages_data = array();
+
 	foreach ( $languages as $key => $language ) {
 
 		$language = get_language( $language );
+		$languages_data[ $key ] = $language;
+
 		if ( true !== $text ) {
 			$name = '';
 		} elseif ( '1' == wpmoly_o( 'translate-languages' ) ) {
@@ -187,6 +191,7 @@ function spoken_languages( $languages, $text = true, $icon = false ) {
 			$name = $language->standard_name;
 		}
 
+		// TODO use CSS ::before for icons instead of HTML block
 		if ( true === $icon ) {
 			$name = '<span class="wpmoly language iso icon" title="' . esc_attr( $language->standard_name ) . '">' . esc_attr( $language->code ) . '</span>&nbsp;' . $name;
 		}
@@ -194,9 +199,22 @@ function spoken_languages( $languages, $text = true, $icon = false ) {
 		$languages[ $key ] = $name;
 	}
 
-	$languages = implode( ',&nbsp;', $languages );
+	if ( empty( $languages ) ) {
+		return filter_empty( $languages );
+	}
 
-	return filter_empty( $languages );
+	/**
+	 * Filter languages meta final value.
+	 * 
+	 * This is used to generate permalinks for languages and can be extended to
+	 * post-formatting modifications.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $languages Filtered languages list.
+	 * @param    array     $raw_languages Unfiltered languages list.
+	 */
+	return apply_filters( 'wpmoly/filter/meta/spoken_languages/url', implode( ', ', $languages ), $languages_data );
 }
 
 /**

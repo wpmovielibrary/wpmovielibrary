@@ -165,7 +165,7 @@ class Permalink {
 			return $this->toString();
 		}
 
-		return $this->permalink = '<a href="' . $this->toString() . '" title="' . $this->attr_title . '">' . $this->title . '</a>';
+		return $this->permalink = '<a href="' . esc_url( $this->toString() ) . '" title="' . $this->attr_title . '">' . $this->title . '</a>';
 	}
 
 	/**

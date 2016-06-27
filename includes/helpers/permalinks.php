@@ -5,6 +5,44 @@ namespace wpmoly\Helpers\Permalinks;
 use wpmoly\Permalink;
 
 /**
+ * Build a permalink for languages.
+ * 
+ * Uses \wpmoly\Permalink() to generate custom URLs for languages.
+ * 
+ * @since    3.0
+ * 
+ * @param    string          $languages Formatted list of languages.
+ * @param    array|object    $languages_data List or single Language instance.
+ * 
+ * @return   string
+ */
+function languages( $languages, $languages_data ) {
+
+	$languages = explode( ',', $languages );
+	if ( empty( $languages ) ) {
+		return $languages;
+	}
+
+	if ( $languages_data instanceof \wpmoly\Helpers\Language ) {
+
+		$permalink = new Permalink;
+		$permalink->setID( 'language' );
+		$permalink->setContent( $languages_data->code );
+		$permalink->setTitle( $languages[0] );
+		$permalink->setTitleAttr( sprintf( __( '%s-speaking movies', 'wpmovielibrary' ), $languages_data->localized_name ) );
+
+		return $permalink->toHTML();
+	}
+
+	$permalinks = array();
+	foreach ( $languages as $key => $language ) {
+		$permalinks[] = languages( trim( $language ), $languages_data[ $key ] );
+	}
+
+	return implode( ', ', $permalinks );
+}
+
+/**
  * Build a permalink for dates.
  * 
  * Uses \wpmoly\Permalink() to generate custom URLs for release dates and local
@@ -20,7 +58,7 @@ use wpmoly\Permalink;
  * 
  * @return   string
  */
-function date_permalink( $date, $raw_date = array(), $date_parts = array(), $date_format = '', $timestamp = '' ) {
+function release_date( $date, $raw_date = array(), $date_parts = array(), $date_format = '', $timestamp = '' ) {
 
 	if ( empty( $raw_date ) ) {
 		return $date;
@@ -41,8 +79,8 @@ function date_permalink( $date, $raw_date = array(), $date_parts = array(), $dat
 			$permalink->setTitleAttr( sprintf( __( 'Movies release in %s', 'wpmovielibrary' ), date_i18n( $date_format, $timestamp ) ) );
 			break;
 		case 'j F Y':
-			$month = date_permalink( $date_parts[0], $raw_date, $date_parts, $date_format = 'j F', $timestamp );
-			$year  = date_permalink( $date_parts[1], $raw_date, $date_parts, $date_format = 'Y',   $timestamp );
+			$month = release_date( $date_parts[0], $raw_date, $date_parts, $date_format = 'j F', $timestamp );
+			$year  = release_date( $date_parts[1], $raw_date, $date_parts, $date_format = 'Y',   $timestamp );
 			$permalink = $month . ' ' . $year;
 			break;
 		default:
