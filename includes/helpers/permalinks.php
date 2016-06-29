@@ -5,44 +5,6 @@ namespace wpmoly\Helpers\Permalinks;
 use wpmoly\Permalink;
 
 /**
- * Build a permalink for languages.
- * 
- * Uses \wpmoly\Permalink() to generate custom URLs for languages.
- * 
- * @since    3.0
- * 
- * @param    string          $languages Formatted list of languages.
- * @param    array|object    $languages_data List or single Language instance.
- * 
- * @return   string
- */
-function languages( $languages, $languages_data ) {
-
-	$languages = explode( ',', $languages );
-	if ( empty( $languages ) ) {
-		return $languages;
-	}
-
-	if ( $languages_data instanceof \wpmoly\Helpers\Language ) {
-
-		$permalink = new Permalink;
-		$permalink->setID( 'language' );
-		$permalink->setContent( $languages_data->code );
-		$permalink->setTitle( $languages[0] );
-		$permalink->setTitleAttr( sprintf( __( '%s-speaking movies', 'wpmovielibrary' ), $languages_data->localized_name ) );
-
-		return $permalink->toHTML();
-	}
-
-	$permalinks = array();
-	foreach ( $languages as $key => $language ) {
-		$permalinks[] = languages( trim( $language ), $languages_data[ $key ] );
-	}
-
-	return implode( ', ', $permalinks );
-}
-
-/**
  * Build a permalink for dates.
  * 
  * Uses \wpmoly\Permalink() to generate custom URLs for release dates and local
@@ -92,6 +54,75 @@ function release_date( $date, $raw_date = array(), $date_parts = array(), $date_
 	}
 
 	return $permalink->toHTML();
+}
+
+/**
+ * Build a permalink for languages.
+ * 
+ * Uses \wpmoly\Permalink() to generate custom URLs for languages.
+ * 
+ * @since    3.0
+ * 
+ * @param    string          $language Formatted language.
+ * @param    array|object    $language_data Language instance.
+ * 
+ * @return   string
+ */
+function language( $language, $language_data, $icon ) {
+
+	if ( empty( $language ) ) {
+		return $language;
+	}
+
+	if ( $language_data instanceof \wpmoly\Helpers\Language ) {
+
+		$permalink = new Permalink;
+		$permalink->setID( 'language' );
+		$permalink->setContent( $language_data->code );
+		$permalink->setTitle( $language );
+		$permalink->setTitleAttr( sprintf( __( '%s-speaking movies', 'wpmovielibrary' ), $language_data->localized_name ) );
+
+		$language = $permalink->toHTML();
+	}
+
+	if ( ! empty( $icon ) ) {
+		$language = $icon . $language;
+	}
+
+	return $language;
+}
+
+/**
+ * Build a permalink for countries.
+ * 
+ * Uses \wpmoly\Permalink() to generate custom URLs for countries.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $country Formatted country.
+ * @param    object    $country_data Country instance.
+ * @param    object    $format Country format.
+ * 
+ * @return   string
+ */
+function country( $country, $country_data, $format ) {
+
+	if ( 'flag' == $format || empty( $country ) ) {
+		return $country;
+	}
+
+	if ( $country_data instanceof \wpmoly\Helpers\Country ) {
+
+		$permalink = new Permalink;
+		$permalink->setID( 'country' );
+		$permalink->setContent( $country_data->code );
+		$permalink->setTitle( $country );
+		$permalink->setTitleAttr( sprintf( __( 'Movies produced in %s', 'wpmovielibrary' ), $country_data->localized_name ) );
+
+		return $permalink->toHTML();
+	}
+
+	return $country;
 }
 
 /**

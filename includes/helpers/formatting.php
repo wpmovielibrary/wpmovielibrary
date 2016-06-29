@@ -114,7 +114,7 @@ function release_date( $date, $date_format = null ) {
 	 * @param    string    $date_format Date format
 	 * @param    int       $timestamp Date UNIX Timestamp
 	 */
-	return apply_filters( 'wpmoly/filter/meta/release_date/url', filter_empty( $date ), $date, $date_parts, $date_format, $timestamp );
+	return apply_filters( 'wpmoly/filter/meta/release_date', filter_empty( $date ), $date, $date_parts, $date_format, $timestamp );
 }
 
 /**
@@ -166,7 +166,7 @@ function runtime( $runtime, $time_format = null ) {
  * 
  * @return   string    Formatted value
  */
-function spoken_languages( $languages, $text = true, $icon = false ) {
+function spoken_languages( $languages, $text = true, $icon = '' ) {
 
 	if ( empty( $languages ) ) {
 		return filter_empty( $languages );
@@ -191,12 +191,25 @@ function spoken_languages( $languages, $text = true, $icon = false ) {
 			$name = $language->standard_name;
 		}
 
-		// TODO use CSS ::before for icons instead of HTML block
-		if ( true === $icon ) {
-			$name = '<span class="wpmoly language iso icon" title="' . esc_attr( $language->standard_name ) . '">' . esc_attr( $language->code ) . '</span>&nbsp;' . $name;
+		if ( _is_bool( $icon ) ) {
+			$icon = '<span class="wpmoly language iso icon" title="' . esc_attr( $language->localized_name ) . ' (' . esc_attr( $language->standard_name ) . ')">' . esc_attr( $language->code ) . '</span>&nbsp;';
+		} else {
+			$icon = false;
 		}
 
-		$languages[ $key ] = $name;
+		/**
+		 * Filter language meta value.
+		 * 
+		 * This is used to generate permalinks for languages and can be extended to
+		 * post-formatting modifications.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $language Filtered language.
+		 * @param    array     $language_data Language instance.
+		 * @param    string    $icon Language icon string.
+		 */
+		$languages[ $key ] = apply_filters( 'wpmoly/filter/meta/language', $name, $language, $icon );
 	}
 
 	if ( empty( $languages ) ) {
@@ -212,9 +225,10 @@ function spoken_languages( $languages, $text = true, $icon = false ) {
 	 * @since    3.0
 	 * 
 	 * @param    string    $languages Filtered languages list.
-	 * @param    array     $raw_languages Unfiltered languages list.
+	 * @param    array     $languages_data Languages data array.
+	 * @
 	 */
-	return apply_filters( 'wpmoly/filter/meta/spoken_languages/url', implode( ', ', $languages ), $languages_data );
+	return apply_filters( 'wpmoly/filter/meta/spoken_languages', implode( ', ', $languages ), $languages_data, $text, $icon );
 }
 
 /**
@@ -240,6 +254,8 @@ function production_countries( $countries, $icon = false ) {
 	} else {
 		$formats = array( 'original' );
 	}
+
+	$countries_data = array();
 
 	$countries = explode( ',', $countries );
 	foreach ( $countries as $key => $country ) {
@@ -270,15 +286,38 @@ function production_countries( $countries, $icon = false ) {
 					break;
 			}
 
-			$items[] = $item;
+			/**
+			 * Filter country meta value.
+			 * 
+			 * This is used to generate permalinks for countries and can be extended to
+			 * post-formatting modifications.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $countries Filtered countries list.
+			 * @param    array     $countries_data Countries data array.
+			 */
+			$items[] = apply_filters( 'wpmoly/filter/meta/country', $item, $country, $format );
 		}
 
+		$countries_data[ $key ] = $items;
 		$countries[ $key ] = implode( '&nbsp;', $items );
 	}
 
-	$countries = implode( ',&nbsp; ', $countries );
+	if ( empty( $countries ) ) {
+		return filter_empty( $countries );
+	}
 
-	return filter_empty( $countries );
+	/**
+	 * Filter countries meta final value.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $countries Filtered countries list.
+	 * @param    array     $countries_data Countries data array.
+	 * @param    array     $formats Countries format.
+	 */
+	return apply_filters( 'wpmoly/filter/meta/production_countries', implode( ', ', $countries ), $countries_data, $formats );
 }
 
 /**

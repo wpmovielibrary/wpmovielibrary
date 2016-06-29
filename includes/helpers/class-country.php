@@ -455,7 +455,7 @@ class Country {
 	 */
 	public function flag() {
 
-		$flag = sprintf( '<span class="flag flag-%s" title="%s"></span>', strtolower( $this->code ), $this->standard_name );
+		$flag = sprintf( '<span class="flag flag-%s" title="%s"></span>', strtolower( $this->code ), sprintf( '%s (%s)', $this->localized_name, $this->standard_name ) );
 
 		/**
 		* Apply filter to the rendered country flag
