@@ -134,12 +134,12 @@ class Library {
 	private function load_dependencies() {
 
 		// Includes
+		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
 		require_once WPMOLY_PATH . 'includes/core/class-core.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-country.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-language.php';
-		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
-		require_once WPMOLY_PATH . 'includes/helpers/permalinks.php';
-		require_once WPMOLY_PATH . 'includes/helpers/formatting.php';
+		require_once WPMOLY_PATH . 'includes/helpers/class-permalinks.php';
+		require_once WPMOLY_PATH . 'includes/helpers/class-formatting.php';
 
 		// Core
 		require_once WPMOLY_PATH . 'includes/core/class-loader.php';
