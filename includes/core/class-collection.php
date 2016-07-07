@@ -113,9 +113,8 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 			}
 		} else {
 			$this->items[] = $item;
+			++$this->length;
 		}
-
-		++$this->length;
 	}
 
 	/**

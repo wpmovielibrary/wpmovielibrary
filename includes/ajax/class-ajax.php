@@ -248,9 +248,13 @@ class Ajax {
 			$media = $movie->get_backdrops( $load = true );
 		}
 
-		foreach( $media as $i => $image ) {
-			$attachment = wp_prepare_attachment_for_js( $image->id  );
-			$media->items[ $i ] = array_merge( $image->data, $attachment );
+		if ( $media->has_items() ) {
+			while ( $media->has_items() ) {
+				$image = $media->the_item();
+				$attachment = wp_prepare_attachment_for_js( $image->id  );
+				$image = array_merge( $image->data, $attachment );
+				$media->add( $image, $media->key() );
+			}
 		}
 
 		wp_send_json_success( $media );
