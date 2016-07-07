@@ -133,11 +133,11 @@ class Frontend {
 		$loader->add_filter( 'wpmoly/filter/meta/writer/single',      '', array( 'wpmoly\Helpers\Permalinks', 'writer' ),        15, 1 );
 
 		// Details Permalinks
-		//$loader->add_filter( 'wpmoly/filter/detail/format/single',    '', array( 'wpmoly\Helpers\Permalinks', 'format' ),    15, 3 );
+		$loader->add_filter( 'wpmoly/filter/detail/format/single',    '', array( 'wpmoly\Helpers\Permalinks', 'format' ),    15, 4 );
 		$loader->add_filter( 'wpmoly/filter/detail/language/single',  '', array( 'wpmoly\Helpers\Permalinks', 'language' ),  15, 4 );
-		//$loader->add_filter( 'wpmoly/filter/detail/media/single',     '', array( 'wpmoly\Helpers\Permalinks', 'media' ),     15, 3 );
-		//$loader->add_filter( 'wpmoly/filter/detail/rating',           '', array( 'wpmoly\Helpers\Permalinks', 'rating' ),    15, 3 );
-		//$loader->add_filter( 'wpmoly/filter/detail/status/single',    '', array( 'wpmoly\Helpers\Permalinks', 'status' ),    15, 3 );
+		$loader->add_filter( 'wpmoly/filter/detail/media/single',     '', array( 'wpmoly\Helpers\Permalinks', 'media' ),     15, 4 );
+		$loader->add_filter( 'wpmoly/filter/detail/rating',           '', array( 'wpmoly\Helpers\Permalinks', 'rating' ),    15, 5 );
+		$loader->add_filter( 'wpmoly/filter/detail/status/single',    '', array( 'wpmoly\Helpers\Permalinks', 'status' ),    15, 4 );
 		//$loader->add_filter( 'wpmoly/filter/detail/subtitles/single', '', array( 'wpmoly\Helpers\Permalinks', 'subtitles' ), 15, 3 );
 	}
 

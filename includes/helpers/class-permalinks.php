@@ -158,6 +158,327 @@ class Permalinks {
 	}
 
 	/**
+	 * Build a permalink for countries.
+	 * 
+	 * Uses \wpmoly\Permalink() to generate custom URLs for countries.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $country Formatted country.
+	 * @param    object    $country_data Country instance.
+	 * @param    object    $format Country format.
+	 * 
+	 * @return   string
+	 */
+	public static function country( $country, $country_data, $format ) {
+
+		if ( 'flag' == $format || empty( $country ) ) {
+			return $country;
+		}
+
+		if ( $country_data instanceof \wpmoly\Helpers\Country ) {
+
+			$permalink = new Permalink;
+			$permalink->setID( 'country' );
+			$permalink->setContent( $country_data->code );
+			$permalink->setTitle( $country );
+			$permalink->setTitleAttr( sprintf( __( 'Movies produced in %s', 'wpmovielibrary' ), $country_data->localized_name ) );
+
+			/**
+			 * Filter single country permalink.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $permalink Permalink HTML output.
+			 * @param    object    $permalink_object Permalink instance.
+			 * @param    string    $country Default text.
+			 */
+			return apply_filters( 'wpmoly/filter/permalink/country', $permalink->toHTML(), $permalink, $country );
+		}
+
+		return $country;
+	}
+
+	/**
+	 * Build a permalink for formats.
+	 * 
+	 * Uses \wpmoly\Permalink() to generate custom URLs for formats.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string          $format Formatted detail value.
+	 * @param    array|object    $slug Detail slug.
+	 * @param    boolean         $text Show text?
+	 * @param    string          $icon Show icon?
+	 * 
+	 * @return   string
+	 */
+	public static function format( $format, $slug, $text, $icon ) {
+
+		if ( empty( $format ) ) {
+			return $format;
+		}
+
+		$permalink = new Permalink;
+		$permalink->setID( 'format' );
+		$permalink->setContent( $slug );
+		$permalink->setTitle( $format );
+		$permalink->setTitleAttr( sprintf( __( '%s movies', 'wpmovielibrary' ), $format ) );
+
+		/**
+		 * Filter single format permalink.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $permalink Permalink HTML output.
+		 * @param    object    $permalink_object Permalink instance.
+		 * @param    string    $format Default text.
+		 */
+		return apply_filters( "wpmoly/filter/permalink/format", $permalink->toHTML(), $permalink, $format );
+	}
+
+	/**
+	 * Build a permalink for languages.
+	 * 
+	 * Uses \wpmoly\Permalink() to generate custom URLs for languages.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string          $language Formatted language.
+	 * @param    array|object    $language_data Language instance.
+	 * @param    string          $icon Language icon.
+	 * @param    string          $variant Details language variant.
+	 * 
+	 * @return   string
+	 */
+	public static function language( $language, $language_data, $icon, $variant = 'my_' ) {
+
+		if ( empty( $language ) ) {
+			return $language;
+		}
+
+		$variant = (string) $variant;
+		if ( 'my_' != $variant ) {
+			$variant = '';
+		}
+
+		if ( ! empty( $variant ) ) {
+			$id = 'my-language';
+			$attr_title = __( 'My %s-speaking movies', 'wpmovielibrary' );
+		} else {
+			$id = 'language';
+			$attr_title = __( '%s-speaking movies', 'wpmovielibrary' );
+		}
+
+		if ( $language_data instanceof \wpmoly\Helpers\Language ) {
+
+			$permalink = new Permalink;
+			$permalink->setID( $id );
+			$permalink->setContent( $language_data->code );
+			$permalink->setTitle( $language );
+			$permalink->setTitleAttr( sprintf( $attr_title, $language_data->localized_name ) );
+
+			/**
+			 * Filter single language permalink.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $permalink Permalink HTML output.
+			 * @param    object    $permalink_object Permalink instance.
+			 * @param    string    $language Default text.
+			 */
+			$language = apply_filters( "wpmoly/filter/permalink/{$variant}language", $permalink->toHTML(), $permalink, $language );
+		}
+
+		if ( ! empty( $icon ) ) {
+			$language = $icon . $language;
+		}
+
+		return $language;
+	}
+
+	/**
+	 * Build a permalink for media.
+	 * 
+	 * Uses \wpmoly\Permalink() to generate custom URLs for media.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string          $media Formatted detail value.
+	 * @param    array|object    $slug Detail slug.
+	 * @param    boolean         $text Show text?
+	 * @param    string          $icon Show icon?
+	 * 
+	 * @return   string
+	 */
+	public static function media( $media, $slug, $text, $icon ) {
+
+		if ( empty( $media ) ) {
+			return $media;
+		}
+
+		$permalink = new Permalink;
+		$permalink->setID( 'media' );
+		$permalink->setContent( $slug );
+		$permalink->setTitle( $media );
+		$permalink->setTitleAttr( sprintf( __( '%s movies', 'wpmovielibrary' ), $media ) );
+
+		/**
+		 * Filter single media permalink.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $permalink Permalink HTML output.
+		 * @param    object    $permalink_object Permalink instance.
+		 * @param    string    $media Default text.
+		 */
+		return apply_filters( "wpmoly/filter/permalink/media", $permalink->toHTML(), $permalink, $media );
+	}
+
+	/**
+	 * Build a permalink for directors of photography.
+	 * 
+	 * Uses \wpmoly\Permalink() to generate custom URLs for directors of
+	 * photography.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $company Movie director of photography.
+	 * 
+	 * @return   string
+	 */
+	public static function photographer( $photographer ) {
+
+		if ( empty( $photographer ) ) {
+			return $photographer;
+		}
+
+		$permalink = new Permalink;
+		$permalink->setID( 'photography' );
+		$permalink->setContent( sanitize_title_with_dashes( $photographer ) );
+		$permalink->setTitle( $photographer );
+		$permalink->setTitleAttr( sprintf( __( 'Movies from Director of Photography %s', 'wpmovielibrary' ), $photographer ) );
+
+		/**
+		 * Filter single photographer permalink.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $permalink Permalink HTML output.
+		 * @param    object    $permalink_object Permalink instance.
+		 * @param    string    $photographer Default text.
+		 */
+		return apply_filters( 'wpmoly/filter/permalink/photographer', $permalink->toHTML(), $permalink, $photographer );
+	}
+
+	/**
+	 * Build a permalink for producers.
+	 * 
+	 * Uses \wpmoly\Permalink() to generate custom URLs for producer.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $producer Movie producer
+	 * 
+	 * @return   string
+	 */
+	public static function producer( $producer ) {
+
+		if ( empty( $producer ) ) {
+			return $producer;
+		}
+
+		$permalink = new Permalink;
+		$permalink->setID( 'producer' );
+		$permalink->setContent( sanitize_title_with_dashes( $producer ) );
+		$permalink->setTitle( $producer );
+		$permalink->setTitleAttr( sprintf( __( 'Movies produced by %s', 'wpmovielibrary' ), $producer ) );
+
+		/**
+		 * Filter single producer permalink.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $permalink Permalink HTML output.
+		 * @param    object    $permalink_object Permalink instance.
+		 * @param    string    $producer Default text.
+		 */
+		return apply_filters( 'wpmoly/filter/permalink/producer', $permalink->toHTML(), $permalink, $producer );
+	}
+
+	/**
+	 * Build a permalink for production companies.
+	 * 
+	 * Uses \wpmoly\Permalink() to generate custom URLs for production companies.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $company Movie production company
+	 * 
+	 * @return   string
+	 */
+	public static function production( $company ) {
+
+		if ( empty( $company ) ) {
+			return $company;
+		}
+
+		$permalink = new Permalink;
+		$permalink->setID( 'production' );
+		$permalink->setContent( sanitize_title_with_dashes( $company ) );
+		$permalink->setTitle( $company );
+		$permalink->setTitleAttr( sprintf( __( 'Movies produced by %s', 'wpmovielibrary' ), $company ) );
+
+		/**
+		 * Filter single production permalink.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $permalink Permalink HTML output.
+		 * @param    object    $permalink_object Permalink instance.
+		 * @param    string    $company Default text.
+		 */
+		return apply_filters( 'wpmoly/filter/permalink/production', $permalink->toHTML(), $permalink, $company );
+	}
+
+	/**
+	 * Build a permalink for ratings.
+	 * 
+	 * Uses \wpmoly\Permalink() to generate custom URLs for ratings.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $rating Rating Stars HTML markup
+	 * @param    string    $html Rating Stars HTML block
+	 * @param    string    $label Rating label
+	 * @param    float     $value Rating value
+	 * @param    string    $title Rating title
+	 */
+	public static function rating( $rating, $html = '', $label = '', $value = 0, $title = '' ) {
+
+		if ( empty( $rating ) ) {
+			return $rating;
+		}
+
+		$permalink = new Permalink;
+		$permalink->setID( 'rating' );
+		$permalink->setContent( floatval( $value ) );
+		$permalink->setTitle( $rating, 'html' );
+		$permalink->setTitleAttr( sprintf( __( '“%s” movies', 'wpmovielibrary' ), $rating ) );
+
+		/**
+		 * Filter single rating permalink.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $permalink Permalink HTML output.
+		 * @param    object    $permalink_object Permalink instance.
+		 * @param    string    $rating Default text.
+		 */
+		return apply_filters( 'wpmoly/filter/permalink/rating', $permalink->toHTML(), $permalink, $rating );
+	}
+
+	/**
 	 * Build a permalink for dates.
 	 * 
 	 * Uses \wpmoly\Permalink() to generate custom URLs for release dates and local
@@ -233,211 +554,41 @@ class Permalinks {
 	}
 
 	/**
-	 * Build a permalink for languages.
+	 * Build a permalink for statuses.
 	 * 
-	 * Uses \wpmoly\Permalink() to generate custom URLs for languages.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string          $language Formatted language.
-	 * @param    array|object    $language_data Language instance.
-	 * @param    string          $icon Language icon.
-	 * @param    string          $variant Details language variant.
-	 * 
-	 * @return   string
-	 */
-	public static function language( $language, $language_data, $icon, $variant = 'my_' ) {
-
-		if ( empty( $language ) ) {
-			return $language;
-		}
-
-		$variant = (string) $variant;
-		if ( 'my_' != $variant ) {
-			$variant = '';
-		}
-
-		if ( ! empty( $variant ) ) {
-			$id = 'my-language';
-			$attr_title = __( 'My %s-speaking movies', 'wpmovielibrary' );
-		} else {
-			$id = 'language';
-			$attr_title = __( '%s-speaking movies', 'wpmovielibrary' );
-		}
-
-		if ( $language_data instanceof \wpmoly\Helpers\Language ) {
-
-			$permalink = new Permalink;
-			$permalink->setID( $id );
-			$permalink->setContent( $language_data->code );
-			$permalink->setTitle( $language );
-			$permalink->setTitleAttr( sprintf( $attr_title, $language_data->localized_name ) );
-
-			/**
-			 * Filter single language permalink.
-			 * 
-			 * @since    3.0
-			 * 
-			 * @param    string    $permalink Permalink HTML output.
-			 * @param    object    $permalink_object Permalink instance.
-			 * @param    string    $language Default text.
-			 */
-			$language = apply_filters( "wpmoly/filter/permalink/{$variant}language", $permalink->toHTML(), $permalink, $language );
-		}
-
-		if ( ! empty( $icon ) ) {
-			$language = $icon . $language;
-		}
-
-		return $language;
-	}
-
-	/**
-	 * Build a permalink for countries.
-	 * 
-	 * Uses \wpmoly\Permalink() to generate custom URLs for countries.
+	 * Uses \wpmoly\Permalink() to generate custom URLs for statuses.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    string    $country Formatted country.
-	 * @param    object    $country_data Country instance.
-	 * @param    object    $format Country format.
+	 * @param    string          $status Formatted detail value.
+	 * @param    array|object    $slug Detail slug.
+	 * @param    boolean         $text Show text?
+	 * @param    string          $icon Show icon?
 	 * 
 	 * @return   string
 	 */
-	public static function country( $country, $country_data, $format ) {
+	public static function status( $status, $slug, $text, $icon ) {
 
-		if ( 'flag' == $format || empty( $country ) ) {
-			return $country;
-		}
-
-		if ( $country_data instanceof \wpmoly\Helpers\Country ) {
-
-			$permalink = new Permalink;
-			$permalink->setID( 'country' );
-			$permalink->setContent( $country_data->code );
-			$permalink->setTitle( $country );
-			$permalink->setTitleAttr( sprintf( __( 'Movies produced in %s', 'wpmovielibrary' ), $country_data->localized_name ) );
-
-			/**
-			 * Filter single country permalink.
-			 * 
-			 * @since    3.0
-			 * 
-			 * @param    string    $permalink Permalink HTML output.
-			 * @param    object    $permalink_object Permalink instance.
-			 * @param    string    $country Default text.
-			 */
-			return apply_filters( 'wpmoly/filter/permalink/country', $permalink->toHTML(), $permalink, $country );
-		}
-
-		return $country;
-	}
-
-	/**
-	 * Build a permalink for directors of photography.
-	 * 
-	 * Uses \wpmoly\Permalink() to generate custom URLs for directors of
-	 * photography.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $company Movie director of photography.
-	 * 
-	 * @return   string
-	 */
-	public static function photographer( $photographer ) {
-
-		if ( empty( $photographer ) ) {
-			return $photographer;
+		if ( empty( $status ) ) {
+			return $status;
 		}
 
 		$permalink = new Permalink;
-		$permalink->setID( 'photography' );
-		$permalink->setContent( sanitize_title_with_dashes( $photographer ) );
-		$permalink->setTitle( $photographer );
-		$permalink->setTitleAttr( sprintf( __( 'Movies from Director of Photography %s', 'wpmovielibrary' ), $photographer ) );
+		$permalink->setID( 'status' );
+		$permalink->setContent( $slug );
+		$permalink->setTitle( $status );
+		$permalink->setTitleAttr( sprintf( __( '%s movies', 'wpmovielibrary' ), $status ) );
 
 		/**
-		 * Filter single photographer permalink.
+		 * Filter single status permalink.
 		 * 
 		 * @since    3.0
 		 * 
 		 * @param    string    $permalink Permalink HTML output.
 		 * @param    object    $permalink_object Permalink instance.
-		 * @param    string    $photographer Default text.
+		 * @param    string    $status Default text.
 		 */
-		return apply_filters( 'wpmoly/filter/permalink/photographer', $permalink->toHTML(), $permalink, $photographer );
-	}
-
-	/**
-	 * Build a permalink for production companies.
-	 * 
-	 * Uses \wpmoly\Permalink() to generate custom URLs for production companies.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $company Movie production company
-	 * 
-	 * @return   string
-	 */
-	public static function production( $company ) {
-
-		if ( empty( $company ) ) {
-			return $company;
-		}
-
-		$permalink = new Permalink;
-		$permalink->setID( 'production' );
-		$permalink->setContent( sanitize_title_with_dashes( $company ) );
-		$permalink->setTitle( $company );
-		$permalink->setTitleAttr( sprintf( __( 'Movies produced by %s', 'wpmovielibrary' ), $company ) );
-
-		/**
-		 * Filter single production permalink.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    string    $permalink Permalink HTML output.
-		 * @param    object    $permalink_object Permalink instance.
-		 * @param    string    $company Default text.
-		 */
-		return apply_filters( 'wpmoly/filter/permalink/production', $permalink->toHTML(), $permalink, $company );
-	}
-
-	/**
-	 * Build a permalink for producers.
-	 * 
-	 * Uses \wpmoly\Permalink() to generate custom URLs for producer.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $producer Movie producer
-	 * 
-	 * @return   string
-	 */
-	public static function producer( $producer ) {
-
-		if ( empty( $producer ) ) {
-			return $producer;
-		}
-
-		$permalink = new Permalink;
-		$permalink->setID( 'producer' );
-		$permalink->setContent( sanitize_title_with_dashes( $producer ) );
-		$permalink->setTitle( $producer );
-		$permalink->setTitleAttr( sprintf( __( 'Movies produced by %s', 'wpmovielibrary' ), $producer ) );
-
-		/**
-		 * Filter single producer permalink.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    string    $permalink Permalink HTML output.
-		 * @param    object    $permalink_object Permalink instance.
-		 * @param    string    $producer Default text.
-		 */
-		return apply_filters( 'wpmoly/filter/permalink/producer', $permalink->toHTML(), $permalink, $producer );
+		return apply_filters( "wpmoly/filter/permalink/status", $permalink->toHTML(), $permalink, $status );
 	}
 
 	/**
