@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Define the collection class.
  *
@@ -22,11 +23,25 @@ namespace wpmoly\Collection;
 abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
-	 * Collection Current Node
+	 * Collection Loop status
 	 * 
-	 * @var    string
+	 * @var    boolean
 	 */
-	protected $position;
+	protected $looping;
+
+	/**
+	 * Collection current position
+	 * 
+	 * @var    int
+	 */
+	protected $position = -1;
+
+	/**
+	 * Collection current Node
+	 * 
+	 * @var    Node
+	 */
+	public $item;
 
 	/**
 	 * Collection Nodes
@@ -34,13 +49,6 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 	 * @var    array
 	 */
 	public $items = array();
-
-	/**
-	 * Collection Current Node
-	 * 
-	 * @var    \Node
-	 */
-	protected $current;
 
 	/**
 	 * Collection Previous Node
@@ -55,13 +63,6 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 	 * @var    \Node
 	 */
 	protected $next;
-
-	/**
-	 * Collection Node type
-	 * 
-	 * @var    boolean
-	 */
-	public $has_items;
 
 	/**
 	 * Collection size
@@ -86,8 +87,6 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 		if ( 1 < $this->count() ) {
 			$this->next = &$this->items[1];
 		}
-
-		return $this;
 	}
 
 	/**
@@ -108,9 +107,7 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 			if ( isset( $this->items[ $position ] ) ) {
 				if ( false === $append ) {
 					$this->items[ $position ] = $item;
-				}/* else {
-					$this->items[ $position ] = $item;
-				}*/
+				}
 			} else {
 				$this->items[ $position ] = $item;
 			}
@@ -126,13 +123,15 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    \Node    $item Node instance
+	 * @param    string     $key Item key
 	 * 
 	 * @return   void
 	 */
-	public function remove( $item ) {
+	public function remove( $key ) {
 
-		
+		if ( isset( $this->items[ $key ] ) ) {
+			unset( $this->items[ $key ] );
+		}
 	}
 
 	/**
@@ -147,7 +146,7 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 	 * 
 	 * @return   array
 	 */
-	public function where( $key, $value, $strict = false, $force_array = false ) {
+	public function where( $key, $value, $strict = false, $force_array = true ) {
 
 		$array = $this->filter( function( $item ) use ( $key, $value, $strict ) {
 			return $strict ? $value === $item->get( $key ) : $value == $item->get( $key );
@@ -197,15 +196,15 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 	}
 
 	/**
-	 * Return the first item in the collection.
+	 * Retrieve the first Node of the collection.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   Node
+	 * @return   Node|null
 	 */
 	public function first() {
 
-		return reset( $this->items );
+		return $this->at(0);
 	}
 
 	/**
@@ -213,11 +212,11 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   Node
+	 * @return   Node|null
 	 */
 	public function last() {
 
-		return end( $this->items );
+		return $this->at( $this->count() );
 	}
 
 	/**
@@ -239,6 +238,18 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 	}
 
 	/**
+	 * Get current Key.
+	 * 
+	 * @since    0.1
+	 * 
+	 * @return   int
+	 */
+	public function key() {
+
+		return $this->position;
+	}
+
+	/**
 	 * Return current item.
 	 * 
 	 * @since    3.0
@@ -247,11 +258,11 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 	 */
 	public function current() {
 
-		return $this->items[ $this->position ];
+		return $this->item;
 	}
 
 	/**
-	 * Decrement position.
+	 * Decrement position and set current item.
 	 * 
 	 * @since    3.0
 	 * 
@@ -260,10 +271,12 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 	public function prev() {
 
 		$this->position--;
+
+		return $this->item = $this->items[ $this->position ];
 	}
 
 	/**
-	 * Increment position.
+	 * Increment position and set current item.
 	 * 
 	 * @since    3.0
 	 * 
@@ -272,18 +285,8 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 	public function next() {
 
 		$this->position++;
-	}
 
-	/**
-	 * Get current Key.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   int
-	 */
-	public function key() {
-
-		return $this->position;
+		return $this->item = $this->items[ $this->position ];
 	}
 
 	/**
@@ -300,7 +303,7 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 	}
 
 	/**
-	 * Reset the position to the first item.
+	 * Reset position and current item.
 	 * 
 	 * @since    3.0
 	 * 
@@ -308,7 +311,9 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 	 */
 	public function rewind() {
 
-		$this->position = 0;
+		$this->position = -1;
+
+		$this->item = $this->first();
 	}
 
 	/**
@@ -411,13 +416,13 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 	/**
 	 * Check if the collection contains at least one item.
 	 * 
-	 * @since    3.0
+	 * @since    0.1
 	 * 
 	 * @return   boolean
 	 */
-	public function has_items() {
+	public function is_empty() {
 
-		return (boolean) $this->count();
+		return ! $this->count();
 	}
 
 	/**
@@ -429,6 +434,65 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 	 */
 	public function count() {
 
-		return count( $this->items );
+		return $this->length = count( $this->items );
 	}
+
+	/**
+	 * Check if current item is the first of the collection.
+	 * 
+	 * @since    0.1
+	 * 
+	 * @return   boolean
+	 */
+	public function is_first() {
+
+		return ! $this->key();
+	}
+
+	/**
+	 * Check if current item is the last of the collection.
+	 * 
+	 * @since    0.1
+	 * 
+	 * @return   boolean
+	 */
+	public function is_last() {
+
+		return $this->key() == $this->count() - 1;
+	}
+
+	/**
+	 * Are we done looping?
+	 * 
+	 * @since    0.1
+	 * 
+	 * @return   boolean
+	 */
+	public function has_items() {
+
+		if ( $this->position + 1 < $this->length ) {
+			return true;
+		} elseif ( $this->length && $this->position + 1 == $this->length ) {
+			$this->rewind();
+		}
+
+		return $this->looping = false;
+	}
+
+	/**
+	 * Loop: jump to the next item and set it has the current item.
+	 * 
+	 * @since    0.1
+	 * 
+	 * @return   boolean
+	 */
+	public function the_item() {
+
+		$this->looping = true;
+
+		$this->next();
+
+		return $this->item;
+	}
+
 }
