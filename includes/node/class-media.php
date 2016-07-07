@@ -69,13 +69,24 @@ class Media extends Node {
 	 * 
 	 * @return   Posters
 	 */
-	public function get_backdrops( $load = false ) {
+	public function get_backdrops( $load = false, $language = '', $number = -1 ) {
 
 		if ( ! $this->backdrops->has_items() && true === $load ) {
-			$this->load_backdrops();
+			$this->load_backdrops( $language, $number );
 		}
 
-		return $this->backdrops;
+		if ( -1 == $number ) {
+			return $this->backdrops;
+		}
+
+		$backdrops = new Images( 'backdrops' );
+		while ( $this->backdrops->key() < $number - 1 ) {
+			$backdrops->add( $this->backdrops->next() );
+		}
+
+		$this->backdrops->rewind();
+
+		return $backdrops;
 	}
 
 	/**
@@ -87,13 +98,24 @@ class Media extends Node {
 	 * 
 	 * @return   Posters
 	 */
-	public function get_posters( $load = false ) {
+	public function get_posters( $load = false, $language = '', $number = -1 ) {
 
 		if ( ! $this->posters->has_items() && true === $load ) {
-			$this->load_posters();
+			$this->load_posters( $language, $number );
 		}
 
-		return $this->posters;
+		if ( -1 == $number ) {
+			return $this->posters;
+		}
+
+		$posters = new Images( 'posters' );
+		while ( $this->posters->key() < $number - 1 ) {
+			$posters->add( $this->posters->next() );
+		}
+
+		$this->posters->rewind();
+
+		return $posters;
 	}
 
 	/**

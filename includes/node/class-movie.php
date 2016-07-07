@@ -107,9 +107,9 @@ class Movie extends Node {
 	 * 
 	 * @return   Posters
 	 */
-	public function get_backdrops( $load = false ) {
+	public function get_backdrops( $load = false, $language = '', $number = -1 ) {
 
-		return $this->media->get_backdrops( $load );
+		return $this->media->get_backdrops( $load, $language, $number );
 	}
 
 	/**
@@ -121,9 +121,9 @@ class Movie extends Node {
 	 * 
 	 * @return   Posters
 	 */
-	public function get_posters( $load = false ) {
+	public function get_posters( $load = false, $language = '', $number = -1 ) {
 
-		return $this->media->get_posters( $load );
+		return $this->media->get_posters( $load, $language, $number );
 	}
 
 	/**

@@ -21,5 +21,26 @@ namespace wpmoly\Collection;
  */
 class Images extends Collection {
 
+	/**
+	 * Collection items type, either 'backdrops' or 'posters'.
+	 * 
+	 * @var    string
+	 */
 	public $type;
+
+	/**
+	 * Initialize Collection.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $type Items type, either 'backdrops' or 'posters'.
+	 * 
+	 * @return   Images    Return itself to allow chaining
+	 */
+	public function __construct( $type = '' ) {
+
+		parent::__construct();
+
+		$this->type = $type;
+	}
 }
