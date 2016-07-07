@@ -185,7 +185,7 @@ class Library {
 		// Shortcodes
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-movies.php';
-		//require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-images.php';
+		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-images.php';
 		//require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-posters.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-metadata.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-detail.php';

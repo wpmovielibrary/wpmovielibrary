@@ -21,6 +21,10 @@
 	display: block;
 }
 
+.wpmoly.shortcode.inline-block {
+	display: inline-block;
+}
+
 .wpmoly.shortcode.block .wpmoly.shortcode.item.detail.title,
 .wpmoly.shortcode.block .wpmoly.shortcode.item.meta.title {
 	font-weight: bold;
@@ -42,3 +46,4 @@
 	text-transform: uppercase;
 	top: -2px;
 }
+

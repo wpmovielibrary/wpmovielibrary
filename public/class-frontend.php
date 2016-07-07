@@ -152,6 +152,7 @@ class Frontend {
 
 		$shortcodes = array(
 			'\wpmoly\Shortcodes\Movies',
+			'\wpmoly\Shortcodes\Images',
 			'\wpmoly\Shortcodes\Metadata',
 			'\wpmoly\Shortcodes\Detail',
 			'\wpmoly\Shortcodes\Countries',
