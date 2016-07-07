@@ -64,6 +64,13 @@ class Permalink {
 	private $permalink;
 
 	/**
+	 * Permalink title type, 'text' or 'html'.
+	 * 
+	 * @var    string
+	 */
+	private $title_type = 'text';
+
+	/**
 	 * Class constructor.
 	 * 
 	 * @since    3.0
@@ -95,6 +102,8 @@ class Permalink {
 	/**
 	 * Set Permalink ID.
 	 * 
+	 * Uses sanitize_key() to automatically clean value.
+	 * 
 	 * @since    3.0
 	 * 
 	 * @param    string    $id
@@ -108,6 +117,9 @@ class Permalink {
 
 	/**
 	 * Set Permalink Content.
+	 * 
+	 * Content is not sanitized at this point as it will be escaped latter
+	 * by esc_url().
 	 * 
 	 * @since    3.0
 	 * 
@@ -123,19 +135,54 @@ class Permalink {
 	/**
 	 * Set Permalink Title.
 	 * 
+	 * Uses esc_html() and wp_kses() to sanitize the title.
+	 * 
 	 * @since    3.0
 	 * 
 	 * @param    string    $title
 	 * 
 	 * @return   string
 	 */
-	public function setTitle( $title ) {
+	public function setTitle( $title, $format = 'text' ) {
+
+		if ( 'html' == $format ) {
+
+			$allowed_html = array(
+				'b'    => array(),
+				'i'    => array(),
+				'u'    => array(),
+				'em'   => array(),
+				'del'  => array(),
+				'ins'  => array(),
+				'span' => array(
+					'title' => array(),
+					'class' => array(),
+					'id'    => array()
+				),
+				'strong' => array(),
+			);
+
+			/**
+			 * Filter permalinks list of allowed HTML tags for title.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    array     $allowed_html Default allowed HTML tags.
+			 * @param    string    $title Permalink title value.
+			 * @param    object    $permalink \wpmoly\Permalink instance.
+			 */
+			$allowed_html = apply_filters( 'wpmoly/filter/permalinks/title/allowed_html', $allowed_html, $title, $this );
+
+			return $this->title = wp_kses( $title, $allowed_html );
+		}
 
 		return $this->title = esc_html( $title );
 	}
 
 	/**
 	 * Set Permalink Title attribute.
+	 * 
+	 * Uses esc_attr() to sanitize the attribute.
 	 * 
 	 * @since    3.0
 	 * 
