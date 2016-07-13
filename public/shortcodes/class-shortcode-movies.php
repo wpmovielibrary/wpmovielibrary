@@ -12,6 +12,7 @@
 namespace wpmoly\Shortcodes;
 
 use WP_Query;
+use wpmoly\Grid;
 use wpmoly\Collection;
 use wpmoly\Core\PublicTemplate as Template;
 
@@ -38,56 +39,25 @@ class Movies extends Shortcode {
 	 * @var    array
 	 */
 	protected $validates = array(
-		'collection' => array(
-			'default' => false,
-			'values'  => null,
-			'filter'  => 'esc_attr'
-		),
-		'genre' => array(
-			'default' => false,
-			'values'  => null,
-			'filter'  => 'esc_attr'
-		),
-		'actor' => array(
-			'default' => false,
-			'values'  => null,
-			'filter'  => 'esc_attr'
-		),
-		'order' => array(
-			'default' => 'desc',
-			'values'  => array( 'asc', 'desc' ),
-			'filter'  => 'esc_attr'
-		),
-		'orderby' => array(
-			'default' => 'date',
-			'values'  => array( 'date', 'title', 'rating' ),
-			'filter'  => 'esc_attr'
-		),
-		'count' => array(
-			'default' => 4,
-			'values'  => null,
-			'filter'  => 'intval'
-		),
-		'poster' => array(
-			'default' => 'medium',
-			'values'  => array( 'none', 'thumb', 'thumbnail', 'medium', 'large', 'full' ),
-			'filter'  => 'esc_attr'
-		),
-		'meta' => array(
-			'default' => false,
-			'values'  => array( 'director', 'runtime', 'release_date', 'genres', 'actors', 'overview', 'title', 'original_title', 'production', 'country', 'language', 'producer', 'photography', 'composer', 'author', 'writer' ),
-			'filter'  => 'esc_attr'
-		),
-		'details' => array(
-			'default' => false,
-			'values'  => array( 'media', 'status', 'rating' ),
-			'filter'  => 'esc_attr'
-		),
-		'paginate' => array(
-			'default' => false,
-			'values'  => 'boolean',
+		'mode' => array(
+			'default' => 'grid',
+			'values'  => array( 'grid', 'list', 'archive' ),
 			'filter'  => 'esc_attr'
 		)
+	);
+
+	/**
+	 * Shortcode aliases
+	 * 
+	 * @var    array
+	 */
+	protected static $aliases = array(
+		'movie_grid'     => 'grid',
+		'movies_grid'    => 'grid',
+		'movie_list'     => 'list',
+		'movies_list'    => 'list',
+		'movie_archive'  => 'archive',
+		'movies_archive' => 'archive',
 	);
 
 	/**
@@ -101,8 +71,14 @@ class Movies extends Shortcode {
 	 */
 	protected function make() {
 
+		if ( ! is_null( $this->tag ) && isset( self::$aliases[ $this->tag ] ) ) {
+			$this->set( 'mode', self::$aliases[ $this->tag ] );
+		}
+
+		$template = 'shortcodes/movies-' . $this->attributes['mode'] . '.php';
+
 		// Set Template
-		$this->template = new Template( 'shortcodes/movies.php' );
+		$this->template = new Template( $template );
 	}
 
 	/**
@@ -116,7 +92,18 @@ class Movies extends Shortcode {
 	 */
 	public function run() {
 
-		global $post;
+		/*$grid = new Grid();
+		$grid->set( $this->attributes );
+
+		$data = array(
+			'movies'  => $grid->movies
+		);
+
+		$this->template->set_data( $data );
+
+		return $this;*/
+
+		/*global $post;
 
 		$args = array(
 			'post_type'      => 'movie',
@@ -163,7 +150,7 @@ class Movies extends Shortcode {
 
 		$this->template->set_data( $data );
 
-		return $this;
+		return $this;*/
 	}
 
 	/**

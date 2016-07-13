@@ -6,10 +6,10 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes
+ * @subpackage WPMovieLibrary/includes/core
  */
 
-namespace wpmoly;
+namespace wpmoly\Core;
 
 /**
  * Fired during plugin activation.
@@ -18,7 +18,7 @@ namespace wpmoly;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes
+ * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Activator {

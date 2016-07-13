@@ -39,8 +39,8 @@ define( 'WPMOLY_PATH',    plugin_dir_path( __FILE__ ) );
  */
 function activate_wpmovielibrary() {
 
-	require_once WPMOLY_PATH . 'includes/class-activator.php';
-	wpmoly\Activator::activate();
+	require_once WPMOLY_PATH . 'includes/core/class-activator.php';
+	wpmoly\Core\Activator::activate();
 }
 
 /**
@@ -50,8 +50,8 @@ function activate_wpmovielibrary() {
  */
 function deactivate_wpmovielibrary() {
 
-	require_once WPMOLY_PATH . 'includes/class-deactivator.php';
-	wpmoly\Deactivator::deactivate();
+	require_once WPMOLY_PATH . 'includes/core/class-deactivator.php';
+	wpmoly\Core\Deactivator::deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_wpmovielibrary' );

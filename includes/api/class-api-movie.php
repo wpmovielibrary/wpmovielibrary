@@ -6,6 +6,7 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
+ * @subpackage WPMovieLibrary/includes/api
  */
 
 namespace wpmoly\API;
@@ -17,7 +18,9 @@ use WP_Error;
  * 
  * This class handles movies specifically.
  *
+ * @since      3.0
  * @package    WPMovieLibrary
+ * @subpackage WPMovieLibrary/includes/api
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Movie extends Core {

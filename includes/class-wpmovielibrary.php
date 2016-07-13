@@ -95,7 +95,6 @@ class Library {
 		$this->version     = WPMOLY_VERSION;
 
 		$this->load_dependencies();
-		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
@@ -133,23 +132,29 @@ class Library {
 	 */
 	private function load_dependencies() {
 
-		// Includes
+		// Helpers
 		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
-		require_once WPMOLY_PATH . 'includes/core/class-core.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-country.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-language.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-permalinks.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-formatting.php';
 
 		// Core
+		require_once WPMOLY_PATH . 'includes/core/class-core.php';
 		require_once WPMOLY_PATH . 'includes/core/class-loader.php';
 		require_once WPMOLY_PATH . 'includes/core/class-i18n.php';
-		require_once WPMOLY_PATH . 'includes/core/class-options.php';
+		require_once WPMOLY_PATH . 'includes/core/class-l10n.php';
 		require_once WPMOLY_PATH . 'includes/core/class-registrar.php';
-		require_once WPMOLY_PATH . 'includes/core/class-terms.php';
-		require_once WPMOLY_PATH . 'includes/core/class-permalink.php';
-		require_once WPMOLY_PATH . 'includes/core/class-collection.php';
-		require_once WPMOLY_PATH . 'includes/core/class-template.php';
+
+		// Load i18n/l10n before setting options
+		$this->set_locale();
+
+		// Includes
+		require_once WPMOLY_PATH . 'includes/class-options.php';
+		require_once WPMOLY_PATH . 'includes/class-terms.php';
+		require_once WPMOLY_PATH . 'includes/class-permalink.php';
+		require_once WPMOLY_PATH . 'includes/class-collection.php';
+		require_once WPMOLY_PATH . 'includes/class-template.php';
 
 		// Nodes
 		require_once WPMOLY_PATH . 'includes/node/class-node.php';
@@ -186,7 +191,6 @@ class Library {
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-movies.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-images.php';
-		//require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-posters.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-metadata.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-detail.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-countries.php';
@@ -195,7 +199,7 @@ class Library {
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-release-date.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-local-release-date.php';
 
-		$this->loader  = Loader::get_instance();
+		$this->loader  = Core\Loader::get_instance();
 		$this->options = Options::get_instance();
 
 	}
@@ -210,11 +214,14 @@ class Library {
 	 */
 	private function set_locale() {
 
-		$i18n = new i18n();
+		$i18n = new Core\i18n();
+		$l10n = new Core\l10n();
+		$loader = Core\Loader::get_instance();
 
-		$this->loader->add_action( 'init',                  $i18n, 'load_plugin_textdomain' );
-		$this->loader->add_action( 'init',                  $i18n, 'load_additional_textdomains' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $i18n, 'localize_scripts', 20 );
+		$loader->add_action( 'init',                  $i18n, 'load_plugin_textdomain' );
+		$loader->add_action( 'init',                  $i18n, 'load_additional_textdomains' );
+
+		$loader->add_action( 'admin_enqueue_scripts', $l10n, 'localize_scripts', 20 );
 
 	}
 
@@ -265,7 +272,7 @@ class Library {
 		$this->loader->add_action( 'init', $public, 'register_shortcodes' );
 
 		// Register Post Types, Taxonomies…
-		$registrar = Registrar::get_instance();
+		$registrar = Core\Registrar::get_instance();
 		$this->loader->add_action( 'init', $registrar, 'register_post_types' );
 		$this->loader->add_action( 'init', $registrar, 'register_taxonomies' );
 		$this->loader->add_action( 'init', $registrar, 'register_post_statuses' );

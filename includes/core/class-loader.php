@@ -6,12 +6,10 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes
+ * @subpackage WPMovieLibrary/includes/core
  */
 
-namespace wpmoly;
-
-use wpmoly\Core\Core;
+namespace wpmoly\Core;
 
 /**
  * Register all actions and filters for the plugin.
@@ -21,7 +19,7 @@ use wpmoly\Core\Core;
  * run function to execute the list of actions and filters.
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes
+ * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Loader extends Core {

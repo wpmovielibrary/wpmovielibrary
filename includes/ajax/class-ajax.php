@@ -6,20 +6,20 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * @subpackage WPMovieLibrary/includes/ajax
  */
 
 namespace wpmoly\Ajax;
 
 use WP_Error;
-use wpmoly\Loader;
+use wpmoly\Core\Loader;
 
 /**
  * Handle all the plugin's AJAX callbacks.
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * @subpackage WPMovieLibrary/includes/ajax
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Ajax {

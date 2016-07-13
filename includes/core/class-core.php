@@ -47,7 +47,17 @@ abstract class Core {
 		return self::$instances[ $class ];
 	}
 
+	/**
+	 * Protected class constructor.
+	 * 
+	 * @since    3.0
+	 */
 	protected function __construct() {}
 
+	/**
+	 * Final clone magic method.
+	 * 
+	 * @since    3.0
+	 */
 	final private function __clone() {}
 }

@@ -8,12 +8,10 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes
+ * @subpackage WPMovieLibrary/includes/core
  */
 
-namespace wpmoly;
-
-use wpmoly\Core\Core;
+namespace wpmoly\Core;
 
 /**
  * Register the 'movie' Custom Post Type along with the 'import' post statuses.
@@ -22,7 +20,7 @@ use wpmoly\Core\Core;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes
+ * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Registrar extends Core {

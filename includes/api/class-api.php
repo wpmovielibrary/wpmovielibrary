@@ -6,6 +6,7 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
+ * @subpackage WPMovieLibrary/includes/api
  */
 
 namespace wpmoly\API;
@@ -15,7 +16,9 @@ use WP_Error;
 /**
  * Handle the interactions with the TMDb API.
  *
+ * @since      3.0
  * @package    WPMovieLibrary
+ * @subpackage WPMovieLibrary/includes/api
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class API {

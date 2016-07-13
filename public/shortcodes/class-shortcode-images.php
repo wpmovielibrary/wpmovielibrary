@@ -64,7 +64,7 @@ class Images extends Shortcode {
 		),
 		'featured' => array(
 			'default' => true,
-			'values'  => false,
+			'values'  => null,
 			'filter'  => '_is_bool'
 		)
 	);

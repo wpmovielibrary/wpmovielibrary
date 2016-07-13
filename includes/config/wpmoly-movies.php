@@ -90,7 +90,7 @@ $default_details = array(
 		'title'    => __( 'Movie Language', 'wpmovielibrary' ),
 		'desc'     => __( 'Select a language for this movie', 'wpmovielibrary' ),
 		'icon'     => 'wpmolicon icon-lang',
-		'options'  => $supported_languages,
+		'options'  => \wpmoly\Core\l10n::$supported_languages,
 		'default'  => '',
 		'multi'    => true,
 		'rewrite'  => array( 'lang' => __( 'lang', 'wpmovielibrary' ) ),
@@ -105,7 +105,7 @@ $default_details = array(
 		'title'    => __( 'Movie Subtitles', 'wpmovielibrary' ),
 		'desc'     => __( 'Select a subtitle for this movie', 'wpmovielibrary' ),
 		'icon'     => 'wpmolicon icon-subtitles',
-		'options'  => array_merge( array( 'none' => __( 'None', 'wpmovielibrary' ) ), $supported_languages ),
+		'options'  => array_merge( array( 'none' => __( 'None', 'wpmovielibrary' ) ), \wpmoly\Core\l10n::$supported_languages ),
 		'default'  => 'none',
 		'multi'    => true,
 		'rewrite'  => array( 'subtitles' => __( 'subtitles', 'wpmovielibrary' ) ),
@@ -418,50 +418,4 @@ $default_meta = array(
 		'escape'        => 'esc_url'
 
 	)
-);
-
-$meta_aliases = array(
-
-	'country'    => 'production_countries',
-	'production' => 'production_companies',
-	'lang'       => 'spoken_languages',
-	'language'   => 'spoken_languages',
-	'languages'  => 'spoken_languages',
-	'actors'     => 'cast',
-	'resume'     => 'overview',
-	'date'       => 'release_date',
-	'musician'   => 'composer'
-);
-
-$tags = array(
-	'media'              => __( 'Media', 'wpmovielibrary' ),
-	'status'             => __( 'Status', 'wpmovielibrary' ),
-	'rating'             => __( 'Rating', 'wpmovielibrary' ),
-	'language'           => __( 'Language (detail)', 'wpmovielibrary' ),
-	'subtitles'          => __( 'Subtitles', 'wpmovielibrary' ),
-	'format'             => __( 'Video Format', 'wpmovielibrary' ),
-	'director'           => __( 'Director', 'wpmovielibrary' ),
-	'runtime'            => __( 'Runtime', 'wpmovielibrary' ),
-	'release_date'       => __( 'Release date', 'wpmovielibrary' ),
-	'genres'             => __( 'Genres', 'wpmovielibrary' ),
-	'overview'           => __( 'Overview', 'wpmovielibrary' ),
-	'title'              => __( 'Title', 'wpmovielibrary' ),
-	'original_title'     => __( 'Original Title', 'wpmovielibrary' ),
-	'production'         => __( 'Production', 'wpmovielibrary' ),
-	'countries'          => __( 'Country', 'wpmovielibrary' ),
-	'languages'          => __( 'Languages', 'wpmovielibrary' ),
-	'producer'           => __( 'Producer', 'wpmovielibrary' ),
-	'local_release_date' => __( 'Local release date', 'wpmovielibrary' ),
-	'photography'        => __( 'Director of Photography', 'wpmovielibrary' ),
-	'composer'           => __( 'Original Music Composer', 'wpmovielibrary' ),
-	'author'             => __( 'Author', 'wpmovielibrary' ),
-	'writer'             => __( 'Writer', 'wpmovielibrary' ),
-	'cast'               => __( 'Actors', 'wpmovielibrary' ),
-	'certification'      => __( 'Certification', 'wpmovielibrary' ),
-	'budget'             => __( 'Budget', 'wpmovielibrary' ),
-	'revenue'            => __( 'Revenue', 'wpmovielibrary' ),
-	'tagline'            => __( 'Tagline', 'wpmovielibrary' ),
-	'imdb_id'            => __( 'IMDb Id', 'wpmovielibrary' ),
-	'adult'              => __( 'Adult', 'wpmovielibrary' ),
-	'homepage'           => __( 'Homepage', 'wpmovielibrary' )
 );

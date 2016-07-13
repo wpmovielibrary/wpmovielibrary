@@ -10,7 +10,7 @@
  */
 ?>
 
-	<div class="wpmoly shortcode block movies">
+	<div class="wpmoly shortcode block movies archive">
 
 <?php /*foreach ( $movies as $movie ) : ?>
 

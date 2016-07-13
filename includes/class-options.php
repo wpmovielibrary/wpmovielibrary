@@ -12,6 +12,7 @@
 namespace wpmoly;
 
 use wpmoly\Core\Core;
+use wpmoly\Core\l10n;
 
 /**
  * 
@@ -118,29 +119,28 @@ class Options extends Core {
 	}
 
 	/**
-	 * Load all required configuration files.
+	 * Load all required configuration files and frameworks.
 	 * 
 	 * @since    3.0
 	 */
 	private function load() {
 
-		require_once WPMOLY_PATH . 'includes/config/wpmoly-languages.php';
 		require_once WPMOLY_PATH . 'includes/config/wpmoly-options.php';
 		require_once WPMOLY_PATH . 'includes/config/wpmoly-movies.php';
-		require_once WPMOLY_PATH . 'includes/config/wpmoly-admin-bar-menu.php';
-
-		if ( is_admin() ) {
-			require_once WPMOLY_PATH . 'includes/config/wpmoly-admin-menu.php';
-			require_once WPMOLY_PATH . 'includes/config/wpmoly-admin-dashboard.php';
-		}
-
 		require_once WPMOLY_PATH . 'vendor/redux/framework.php';
 
+		// Load ReduxFramework
 		$this->redux = new \ReduxFramework( $redux_sections, $redux_args );
 
 		// Set important defaults values
-		$defaults = compact( 'languages', 'supported_languages', 'default_meta', 'default_details' );
-		$this->set_defaults( $defaults );
+		$this->set_defaults( array(
+			'countries'           => l10n::$standard_countries,
+			'supported_countries' => l10n::$supported_countries,
+			'languages'           => l10n::$standard_languages,
+			'supported_languages' => l10n::$supported_languages,
+			'default_meta'        => $default_meta,
+			'default_details'     => $default_details
+		) );
 	}
 
 	/**
@@ -156,13 +156,31 @@ class Options extends Core {
 	private function set_defaults( $defaults ) {
 
 		/**
+		 * Filter the default countries list.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $countries
+		 */
+		$this->countries = apply_filters( 'wpmoly/filter/options/countries/stantard', $defaults['countries'] );
+
+		/**
+		 * Filter the default supported countries list.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $supported_countries
+		 */
+		$this->supported_countries = apply_filters( 'wpmoly/filter/options/countries/supported', $defaults['supported_countries'] );
+
+		/**
 		 * Filter the default languages list.
 		 * 
 		 * @since    3.0
 		 * 
 		 * @param    array    $languages
 		 */
-		$this->languages = apply_filters( 'wpmoly/filter/options/languages', $defaults['languages'] );
+		$this->languages = apply_filters( 'wpmoly/filter/options/languages/stantard', $defaults['languages'] );
 
 		/**
 		 * Filter the default supported languages list.
@@ -171,7 +189,7 @@ class Options extends Core {
 		 * 
 		 * @param    array    $supported_languages
 		 */
-		$this->supported_languages = apply_filters( 'wpmoly/filter/options/supported_languages', $defaults['supported_languages'] );
+		$this->supported_languages = apply_filters( 'wpmoly/filter/options/languages/supported', $defaults['supported_languages'] );
 
 		/**
 		 * Filter the default movie meta list.
@@ -180,7 +198,7 @@ class Options extends Core {
 		 * 
 		 * @param    array    $default_meta
 		 */
-		$this->default_meta = apply_filters( 'wpmoly/filter/movie/default/meta', $defaults['default_meta'] );
+		$this->default_meta = apply_filters( 'wpmoly/filter/options/movie/meta', $defaults['default_meta'] );
 
 		/**
 		 * Filter the default movie details list.
@@ -189,7 +207,7 @@ class Options extends Core {
 		 * 
 		 * @param    array    $default_details
 		 */
-		$this->default_details = apply_filters( 'wpmoly/filter/movie/default/details', $defaults['default_details'] );
+		$this->default_details = apply_filters( 'wpmoly/filter/options/movie/details', $defaults['default_details'] );
 	}
 
 	/**
@@ -204,7 +222,7 @@ class Options extends Core {
 	 */
 	public function get( $name, $default = null ) {
 
-		if ( in_array( $name, array( 'languages', 'supported_languages', 'default_meta', 'default_details' ) ) ) {
+		if ( in_array( $name, array( 'countries', 'supported_countries', 'languages', 'supported_languages', 'default_meta', 'default_details' ) ) ) {
 			return $this->$name;
 		}
 

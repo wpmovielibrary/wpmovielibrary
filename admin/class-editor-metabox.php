@@ -11,7 +11,7 @@
 
 namespace wpmoly\Metabox;
 
-use wpmoly\Loader;
+use wpmoly\Core\Loader;
 use wpmoly\Node\Movie;
 use wpmoly\Node\Backdrop;
 use wpmoly\Node\Poster;

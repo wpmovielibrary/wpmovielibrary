@@ -90,7 +90,7 @@ class Frontend {
 	 */
 	public function set_default_filters() {
 
-		$loader = Loader::get_instance();
+		$loader = Core\Loader::get_instance();
 
 		// Meta/Details Formatting
 		$loader->add_filter( 'wpmoly/shortcode/format/adult/value',                '', array( 'wpmoly\Helpers\Formatting', 'adult' ),              15, 1 );

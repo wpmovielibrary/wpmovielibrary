@@ -11,7 +11,7 @@
 
 namespace wpmoly\Metabox;
 
-use wpmoly\Loader;
+use wpmoly\Core\Loader;
 
 /**
  * Create a set of metaboxes for the plugin to display data in a nicer way
