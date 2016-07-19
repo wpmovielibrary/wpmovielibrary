@@ -6,6 +6,145 @@
 }
 
 /*
+ * Grid Builder Shortcuts
+ */
+
+#wpmoly-grid-builder-shortcuts {
+	margin-top: -4px;
+}
+
+#wpmoly-grid-builder-id,
+#wpmoly-grid-builder-shortcode {
+	border-radius: 2px;
+	color: #eee;
+	display: inline-block;
+	padding: 2px 8px;
+}
+
+#wpmoly-grid-builder-id {
+	background: #333;
+}
+
+#wpmoly-grid-builder-shortcode {
+	background: #3190c6;
+}
+
+/*
+ * Grid Builder Preview
+ */
+
+#wpmoly-grid-builder {
+	
+}
+
+#wpmoly-grid-builder .grid-builder-separator {
+	background: repeating-linear-gradient(
+		-45deg,
+		#e5e5e5,
+		#e5e5e5 10px,
+		#f1f1f1 10px,
+		#f1f1f1 20px
+	);
+	height: 1em;
+	margin: 15px 0 0 0;
+	text-align: center;
+}
+
+#wpmoly-grid-builder .grid-builder-separator .separator-label {
+	background: #f1f1f1;
+	color: #aaa;
+	display: inline-block;
+	font-variant: small-caps;
+	font-weight: bold;
+	height: 1em;
+	line-height: 1em;
+	margin: 0 auto;
+	padding: 0 10px;
+}
+
+#wpmoly-grid-builder-preview {
+	margin: 15px 0;
+}
+
+/*
+ * Grid Type Metabox
+ */
+
+#wpmoly-grid-type-metabox {
+	
+}
+
+#wpmoly-grid-type-metabox .handlediv,
+#wpmoly-grid-type-metabox .hndle {
+	display: none;
+}
+
+#wpmoly-grid-type-metabox .inside {
+	margin: 0;
+	padding: 0;
+}
+
+#wpmoly-grid-type-metabox .inside button {
+	background: rgba(49, 144, 198, 0.5);
+	border: 0;
+	color: #eee;
+	cursor: pointer;
+	float: left;
+	font-size: 2.5em;
+	height: 2.5em;
+	width: 33.3333334%
+}
+
+#wpmoly-grid-type-metabox .inside button:hover,
+#wpmoly-grid-type-metabox .inside button.active {
+	background: #3190c6;
+}
+
+/*
+ * Grid Meta Metaboxes
+ */
+
+.postbox.butterbean-ui .hndle,
+.postbox.butterbean-ui .handlediv {
+	display: none;
+}
+
+.postbox.butterbean-ui,
+.postbox.butterbean-ui .butterbean-manager,
+.postbox.butterbean-ui .butterbean-nav {
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
+}
+
+.postbox.butterbean-ui .butterbean-nav {
+	margin-top: 14px;
+}
+
+.postbox.butterbean-ui .butterbean-nav li[aria-selected=true] a {
+	background: #fff;
+	box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.postbox.butterbean-ui .butterbean-content {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	padding: 12px 15px;
+	width: calc( 100% - 211px );
+}
+
+/*
+ * Grid Publish Metabox
+ */
+
+#wpmoly-grid-publish-metabox .inside {
+	margin: 0;
+	padding: 0;
+}
+
+
+/*
  * Editor Metabox
  */
 

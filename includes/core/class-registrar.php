@@ -23,7 +23,28 @@ namespace wpmoly\Core;
  * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Registrar extends Core {
+class Registrar extends Singleton {
+
+	/**
+	 * Default Custom Post Types.
+	 * 
+	 * @var    array
+	 */
+	private $post_types = array();
+
+	/**
+	 * Default Custom Post Statuses.
+	 * 
+	 * @var    array
+	 */
+	private $post_statuses = array();
+
+	/**
+	 * Default Custom Taxonomies.
+	 * 
+	 * @var    array
+	 */
+	private $taxonomies = array();
 
 	/**
 	 * Register Custom Post Types.
@@ -65,6 +86,33 @@ class Registrar extends Core {
 					'menu_position'      => 2,
 					'menu_icon'          => 'dashicons-wpmoly'
 				)
+			),
+			array(
+				'slug' => 'grid',
+				'args' => array(
+					'labels' => array(
+						'name'               => __( 'Grids', 'wpmovielibrary' ),
+						'singular_name'      => __( 'Grid', 'wpmovielibrary' ),
+						'add_new'            => __( 'Add New', 'wpmovielibrary' ),
+						'add_new_item'       => __( 'Add New Grid', 'wpmovielibrary' ),
+						'edit_item'          => __( 'Edit Grid', 'wpmovielibrary' ),
+						'new_item'           => __( 'New Grid', 'wpmovielibrary' ),
+						'all_items'          => __( 'Grids', 'wpmovielibrary' ),
+						'view_item'          => __( 'View Grid', 'wpmovielibrary' ),
+						'search_items'       => __( 'Search Grids', 'wpmovielibrary' ),
+						'not_found'          => __( 'No gridss found', 'wpmovielibrary' ),
+						'not_found_in_trash' => __( 'No grids found in Trash', 'wpmovielibrary' ),
+						'parent_item_colon'  => '',
+						'menu_name'          => __( 'Grids', 'wpmovielibrary' )
+					),
+					'rewrite'            => false,
+					'public'             => false,
+					'publicly_queryable' => false,
+					'show_ui'            => true,
+					'show_in_menu'       => 'edit.php?post_type=movie',
+					'has_archive'        => false,
+					'supports'           => array( 'title' )
+				)
 			)
 		);
 
@@ -75,9 +123,9 @@ class Registrar extends Core {
 		 * 
 		 * @param    array    $post_types Post Types list
 		 */
-		$post_types = apply_filters( 'wpmoly/filter/post_types', $post_types );
+		$this->post_types = apply_filters( 'wpmoly/filter/post_types', $post_types );
 
-		foreach ( $post_types as $post_type ) {
+		foreach ( $this->post_types as $post_type ) {
 
 			/**
 			 * Filter the Custom Post Type parameters prior to registration.
@@ -139,9 +187,9 @@ class Registrar extends Core {
 		 * 
 		 * @param    array    $post_statuses Post Statuses list
 		 */
-		$post_statuses = apply_filters( 'wpmoly/filter/post_statuses', $post_statuses );
+		$this->post_statuses = apply_filters( 'wpmoly/filter/post_statuses', $post_statuses );
 
-		foreach ( $post_statuses as $post_status ) {
+		foreach ( $this->post_statuses as $post_status ) {
 
 			/**
 			 * Filter the Custom Post Status parameters prior to registration.
@@ -267,9 +315,9 @@ class Registrar extends Core {
 		 * 
 		 * @param    array    $taxonomies Taxonomies list
 		 */
-		$taxonomies = apply_filters( 'wpmoly/filter/taxonomies', $taxonomies );
+		$this->taxonomies = apply_filters( 'wpmoly/filter/taxonomies', $taxonomies );
 
-		foreach ( $taxonomies as $taxonomy ) {
+		foreach ( $this->taxonomies as $taxonomy ) {
 
 			if ( wpmoly_o( "{$taxonomy['slug']}-posts" ) ) {
 				$taxonomy['args']['posts'][] = 'post';
@@ -301,7 +349,4 @@ class Registrar extends Core {
 			register_taxonomy( $taxonomy['slug'], $taxonomy['posts'], $args );
 		}
 	}
-
-	
-
 }

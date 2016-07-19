@@ -13,7 +13,7 @@ namespace wpmoly\Shortcodes;
 
 use WP_Query;
 use wpmoly\Grid;
-use wpmoly\Collection;
+//use wpmoly\Collection;
 use wpmoly\Core\PublicTemplate as Template;
 
 /**

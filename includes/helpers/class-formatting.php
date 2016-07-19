@@ -1,7 +1,24 @@
 <?php
+/**
+ * Define the formatting helper class.
+ *
+ * @link       http://wpmovielibrary.com
+ * @since      3.0
+ *
+ * @package    WPMovieLibrary
+ * @subpackage WPMovieLibrary/includes/helpers
+ */
 
 namespace wpmoly\Helpers;
 
+/**
+ * Add a set of formatting helpers for various data.
+ *
+ * @since      3.0
+ * @package    WPMovieLibrary
+ * @subpackage WPMovieLibrary/includes/helpers
+ * @author     Charlie Merland <charlie@caercam.org>
+ */
 class Formatting {
 
 	/**

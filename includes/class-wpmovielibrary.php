@@ -132,31 +132,34 @@ class Library {
 	 */
 	private function load_dependencies() {
 
+		// Singleton
+		require_once WPMOLY_PATH . 'includes/core/class-singleton.php';
+
 		// Helpers
 		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-country.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-language.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-permalinks.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-formatting.php';
+		require_once WPMOLY_PATH . 'includes/helpers/class-terms.php';
+		//require_once WPMOLY_PATH . 'includes/helpers/class-grid.php';
 
 		// Core
-		require_once WPMOLY_PATH . 'includes/core/class-core.php';
 		require_once WPMOLY_PATH . 'includes/core/class-loader.php';
 		require_once WPMOLY_PATH . 'includes/core/class-i18n.php';
 		require_once WPMOLY_PATH . 'includes/core/class-l10n.php';
 		require_once WPMOLY_PATH . 'includes/core/class-registrar.php';
+		require_once WPMOLY_PATH . 'includes/core/class-template.php';
 
 		// Load i18n/l10n before setting options
 		$this->set_locale();
 
 		// Includes
 		require_once WPMOLY_PATH . 'includes/class-options.php';
-		require_once WPMOLY_PATH . 'includes/class-terms.php';
 		require_once WPMOLY_PATH . 'includes/class-permalink.php';
-		require_once WPMOLY_PATH . 'includes/class-collection.php';
-		require_once WPMOLY_PATH . 'includes/class-template.php';
 
 		// Nodes
+		require_once WPMOLY_PATH . 'includes/node/class-collection.php';
 		require_once WPMOLY_PATH . 'includes/node/class-node.php';
 		require_once WPMOLY_PATH . 'includes/node/class-meta.php';
 		require_once WPMOLY_PATH . 'includes/node/class-details.php';
@@ -182,6 +185,7 @@ class Library {
 
 		if ( is_admin() ) {
 			require_once WPMOLY_PATH . 'admin/class-backstage.php';
+			require_once WPMOLY_PATH . 'admin/class-grid-builder.php';
 			require_once WPMOLY_PATH . 'admin/class-metaboxes.php';
 			require_once WPMOLY_PATH . 'admin/class-metabox.php';
 			require_once WPMOLY_PATH . 'admin/class-editor-metabox.php';
@@ -214,8 +218,8 @@ class Library {
 	 */
 	private function set_locale() {
 
-		$i18n = new Core\i18n();
-		$l10n = new Core\l10n();
+		$i18n = Core\i18n::get_instance();
+		$l10n = Core\l10n::get_instance();
 		$loader = Core\Loader::get_instance();
 
 		$loader->add_action( 'init',                  $i18n, 'load_plugin_textdomain' );
@@ -251,6 +255,17 @@ class Library {
 		$metaboxes = new Metabox\Metaboxes;
 		$metaboxes->define_admin_hooks();
 
+		$builder = new Admin\GridBuilder;
+		$builder->add_metaboxes();
+
+		$this->loader->add_action( 'edit_form_top',               $builder, 'header' );
+		$this->loader->add_action( 'edit_form_after_editor',      $builder, 'preview' );
+		$this->loader->add_action( 'dbx_post_sidebar',            $builder, 'footer' );
+
+		$this->loader->add_action( 'load-post.php',               $builder, 'load' );
+		$this->loader->add_action( 'load-post-new.php',           $builder, 'load' );
+		$this->loader->add_action( 'butterbean_register',         $builder, 'register_butterbean', 10, 2 );
+
 		// Admin-side Ajax
 		$ajax = Ajax\Ajax::get_instance();
 		$ajax->define_admin_hooks();
@@ -281,7 +296,7 @@ class Library {
 		$ajax = Ajax\Ajax::get_instance();
 		$ajax->define_public_hooks();
 
-		$terms = Terms::get_instance();
+		$terms = Helpers\Terms::get_instance();
 		$this->loader->add_filter( 'get_the_terms',       $terms, 'get_the_terms',            10, 3 );
 		$this->loader->add_filter( 'wp_get_object_terms', $terms, 'get_ordered_object_terms', 10, 4 );
 		$this->loader->add_filter( 'wpmoly/filter/post_type/movie', $terms, 'movie_standard_taxonomies' );

@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ * Define the permalink class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
@@ -12,7 +12,7 @@
 namespace wpmoly;
 
 /**
- * 
+ * Handle custom permalinks.
  *
  * @since      3.0
  * @package    WPMovieLibrary

@@ -1,4 +1,41 @@
 
+/*
+ * General
+ */
+
+.wpmoly .button {
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	box-shadow: 0 0 0;
+	color: #555;
+}
+
+.wpmoly .button.left {
+	float: left;
+}
+
+.wpmoly .button.right {
+	float: right;
+}
+
+.wpmoly .button:hover,
+.wpmoly .button:focus,
+.wpmoly .button:active,
+.wpmoly .button.active {
+	background: transparent;
+	color: #3190c6;
+}
+
+.wpmoly .button:focus,
+.wpmoly .button:active {
+	box-shadow: 0 0 0;
+}
+
+/*
+ * Admin menu
+ */
+
 #menu-posts-movie .wp-menu-image.dashicons-before.dashicons-wpmoly:before {
 	content: "\e900";
 	font-family: "wpmovielibrary" !important;
@@ -97,4 +134,108 @@
 .wpmoly-confirm-modal .confirm-modal-footer .confirm-modal-button.confirm {
 	background: #a2ce51;
 }
+
+/*
+ * Movie Grid
+ */
+
+.wpmoly.grid {}
+
+.wpmoly.grid.actors {}
+
+.wpmoly.grid.genres {}
+
+.wpmoly.grid .wpmoly.grid.menu {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	height: 2.5rem;
+	line-height: 2.5rem;
+	padding: 0;
+}
+
+.wpmoly.grid .wpmoly.grid.menu .button {
+	height: 2.5rem;
+	font-size: 1.25em;
+	line-height: 2.5rem;
+	width: 2.5rem;
+}
+
+.wpmoly.grid .wpmoly.grid.content {
+	margin: 0 -4px;
+	padding: 15px 0;
+	
+}
+
+.wpmoly.grid .wpmoly.grid.content .wpmoly.grid.movie {
+	float: left;
+	margin: 0 4px;
+	min-height: 240px;
+	min-width: 160px;
+	width: calc( 20% - 8px );
+}
+
+.wpmoly.grid .wpmoly.grid.content .wpmoly.grid.movie .wpmoly.grid.movie.poster {
+	background-image: url(../img/poster-small.jpg);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	margin: 0;
+	min-height: none;
+	min-width: none;
+	width: 100%;
+}
+
+.wpmoly.grid .wpmoly.grid.content .wpmoly.grid.movie .wpmoly.grid.movie.title,
+.wpmoly.grid .wpmoly.grid.content .wpmoly.grid.movie .wpmoly.grid.movie.rating {
+	height: 2em;
+	margin: 0;
+	min-height: auto;
+	min-width: auto;
+	width: 100%;
+}
+
+.wpmoly.grid .wpmoly.grid.content .wpmoly.grid.movie .wpmoly.grid.movie.title {
+	font-weight: bold;
+	margin-top: 6px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.wpmoly.grid .wpmoly.grid.pagination {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	height: 2.5rem;
+	line-height: 2.5rem;
+	padding: 0;
+	text-align: center;
+}
+
+.wpmoly.grid .wpmoly.grid.pagination .pagination.menu {
+	display: inline-block;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.wpmoly.grid .wpmoly.grid.pagination .pagination.menu input {
+	box-shadow: 0 0 0;
+	padding: 0 4px;
+	text-align: center;
+}
+
+.wpmoly.grid .wpmoly.grid.pagination .button {
+	height: 2.5rem;
+	font-size: 1.25em;
+	line-height: 2.5rem;
+	width: 2.5rem;
+}
+
+
+
+
+
+
+
 

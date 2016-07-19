@@ -11,7 +11,7 @@
 
 namespace wpmoly;
 
-use wpmoly\Core\Core;
+use wpmoly\Core\Singleton;
 use wpmoly\Core\l10n;
 
 /**
@@ -22,7 +22,7 @@ use wpmoly\Core\l10n;
  * @subpackage WPMovieLibrary/includes
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Options extends Core {
+class Options extends Singleton {
 
 	/**
 	 * Options slug.

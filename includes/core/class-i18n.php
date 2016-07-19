@@ -25,7 +25,7 @@ namespace wpmoly\Core;
  * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class i18n {
+class i18n extends Singleton {
 
 	/**
 	 * Load the plugin text domain for translation.

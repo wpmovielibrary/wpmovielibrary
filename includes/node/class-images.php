@@ -9,7 +9,7 @@
  * @subpackage WPMovieLibrary/includes/core
  */
 
-namespace wpmoly\Collection;
+namespace wpmoly\Collections;
 
 /**
  * 

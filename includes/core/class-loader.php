@@ -22,7 +22,7 @@ namespace wpmoly\Core;
  * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Loader extends Core {
+class Loader extends Singleton {
 
 	/**
 	 * The array of actions registered with WordPress.

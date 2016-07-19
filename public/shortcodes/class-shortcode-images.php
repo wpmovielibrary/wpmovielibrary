@@ -11,7 +11,7 @@
 
 namespace wpmoly\Shortcodes;
 
-use wpmoly\Collection;
+use wpmoly\Collections;
 use wpmoly\Core\PublicTemplate as Template;
 
 /**
@@ -94,7 +94,7 @@ class Images extends Shortcode {
 	 */
 	protected function make() {
 
-		$this->collection = new Collection\Images;
+		$this->collection = new Collections\Images;
 
 		switch ( $this->tag ) {
 			case 'movie_image':

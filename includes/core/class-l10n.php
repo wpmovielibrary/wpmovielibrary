@@ -21,16 +21,41 @@ use wpmoly\Node;
  * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class l10n extends Core {
+class l10n extends Singleton {
 
+	/**
+	 * Supported languages
+	 * 
+	 * @var    array
+	 */
 	public static $supported_languages;
 
+	/**
+	 * Standard languages
+	 * 
+	 * @var    array
+	 */
 	public static $standard_languages;
 
+	/**
+	 * Native languages
+	 * 
+	 * @var    array
+	 */
 	public static $native_languages;
 
+	/**
+	 * Supported countries
+	 * 
+	 * @var    array
+	 */
 	public static $supported_countries;
 
+	/**
+	 * Standard countries
+	 * 
+	 * @var    array
+	 */
 	public static $standard_countries;
 
 	/**

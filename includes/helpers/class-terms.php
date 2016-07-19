@@ -1,27 +1,27 @@
 <?php
 /**
- * 
+ * Define the Terms class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes
+ * @subpackage WPMovieLibrary/includes/helpers
  */
 
-namespace wpmoly;
+namespace wpmoly\Helpers;
 
-use wpmoly\Core\Core;
+use wpmoly\Core\Singleton;
 
 /**
- * 
+ * Handle some terms related functionnalities.
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes
+ * @subpackage WPMovieLibrary/includes/helpers
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Terms extends Core {
+class Terms extends Singleton {
 
 	/**
 	 * Add support for standard taxonomies to movies.

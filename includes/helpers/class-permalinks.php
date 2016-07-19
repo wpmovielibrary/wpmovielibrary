@@ -1,9 +1,26 @@
 <?php
+/**
+ * Define the permalinks helper class.
+ *
+ * @link       http://wpmovielibrary.com
+ * @since      3.0
+ *
+ * @package    WPMovieLibrary
+ * @subpackage WPMovieLibrary/includes/helpers
+ */
 
 namespace wpmoly\Helpers;
 
 use wpmoly\Permalink;
 
+/**
+ * Build custom permalinks for various data.
+ *
+ * @since      3.0
+ * @package    WPMovieLibrary
+ * @subpackage WPMovieLibrary/includes/helpers
+ * @author     Charlie Merland <charlie@caercam.org>
+ */
 class Permalinks {
 
 	/**

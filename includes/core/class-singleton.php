@@ -1,6 +1,6 @@
 <?php
 /**
- * Define the Core class.
+ * Define the Singleton class.
  * 
  * @link       http://wpmovielibrary.com
  * @since      3.0
@@ -19,14 +19,14 @@ namespace wpmoly\Core;
  * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
-abstract class Core {
+abstract class Singleton {
 
 	/**
 	 * Current instance.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @var      Library
+	 * @var      Singleton
 	 */
 	protected static $instances = array();
 
@@ -35,7 +35,7 @@ abstract class Core {
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   self
+	 * @return   Singleton
 	 */
 	final public static function get_instance() {
 

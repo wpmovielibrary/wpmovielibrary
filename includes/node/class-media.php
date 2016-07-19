@@ -12,7 +12,7 @@
 namespace wpmoly\Node;
 
 use wpmoly\Node\Image;
-use wpmoly\Collection\Images;
+use wpmoly\Collections\Images;
 
 /**
  * 
