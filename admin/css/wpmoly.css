@@ -126,6 +126,10 @@
 	box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.04);
 }
 
+.postbox.butterbean-ui .butterbean-nav .wpmolicon {
+	margin-right: 3px;
+}
+
 .postbox.butterbean-ui .butterbean-content {
 	background: #fff;
 	border: 1px solid #e5e5e5;
