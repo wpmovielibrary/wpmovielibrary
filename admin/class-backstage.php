@@ -225,6 +225,21 @@ class Backstage {
 			wp_enqueue_script( 'wpmoly-select2' );
 			wp_enqueue_script( 'jquery-actual' );
 		}
+
+		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'grid' == get_post_type() ) {
+
+			// Vendor
+			wp_enqueue_script( 'sprintf' );
+			wp_enqueue_script( 'underscore-string' );
+
+			// Base
+			wp_enqueue_script( 'wpmoly' );
+			wp_enqueue_script( 'wpmoly-utils' );
+
+			// Libraries
+			wp_enqueue_script( 'wpmoly-select2' );
+		}
+
 	}
 
 	/**

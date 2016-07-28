@@ -76,55 +76,175 @@ class GridBuilder {
 				'context'   => 'normal',
 				'priority'  => 'high',
 				'sections'  => array(
-					'grid-filters' => array(
+					'movie-grid-presets' => array(
+						'label'    => esc_html__( 'Presets', 'wpmovielibrary' ),
+						'icon'     => 'wpmolicon icon-cogs',
+						'settings' => array(
+							'movie-grid-preset' => array(
+								'type'    => 'select',
+								'section' => 'movie-grid-presets',
+								'label'   => esc_html__( 'Grid preset', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
+								'attr'    => array( 'class' => 'select2' ),
+								'choices' => array(
+									'last-added-movies'     => esc_html__( 'Latest Added Movies', 'wpmovielibrary' ),
+									'last-released-movies'  => esc_html__( 'Latest Released Movies', 'wpmovielibrary' ),
+									'first-added-movies'    => esc_html__( 'Earliest Added Movies', 'wpmovielibrary' ),
+									'first-released-movies' => esc_html__( 'Earliest Released Movies', 'wpmovielibrary' ),
+									'incoming-movies'       => esc_html__( 'Incoming Movies', 'wpmovielibrary' ),
+									'alpha-movies'          => esc_html__( 'Alpabetical Movies', 'wpmovielibrary' ),
+									'current-year-movies'   => esc_html__( 'This Year Movies', 'wpmovielibrary' ),
+									'last-year-movies'      => esc_html__( 'Last Year Movies', 'wpmovielibrary' ),
+									'rated-movies'          => esc_html__( 'Best Rated Movies', 'wpmovielibrary' ),
+									'inverse-rated-movies'  => esc_html__( 'Worst Rated Movies', 'wpmovielibrary' ),
+									'custom'                => esc_html__( 'Custom', 'wpmovielibrary' )
+								),
+								'sanitize' => 'esc_attr'
+							)
+						)
+					),
+					'movie-grid-filters' => array(
 						'label'    => esc_html__( 'Filters', 'wpmovielibrary' ),
 						'icon'     => 'dashicons-filter',
 						'settings' => array(
 							'text' => array(
 								'type'     => 'text',
-								'section'  => 'grid-filters',
+								'section'  => 'movie-grid-filters',
 								'label'    => esc_html__( 'Text input', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'widefat' ),
 								'sanitize' => 'wp_filter_nohtml_kses'
 							)
 						)
 					),
-					'grid-ordering' => array(
+					'movie-grid-ordering' => array(
 						'label' => esc_html__( 'Ordering', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-randomize',
 						'settings' => array(
-							'text1' => array(
-								'type'     => 'text',
-								'section'  => 'grid-ordering',
-								'label'    => esc_html__( 'Text input', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'widefat' ),
-								'sanitize' => 'wp_filter_nohtml_kses'
+							'movie-grid-order-by' => array(
+								'type'     => 'select',
+								'section'  => 'movie-grid-ordering',
+								'label'    => esc_html__( 'Order By…', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => '' ),
+								'choices' => array(
+									'post-date'           => esc_html__( 'Post Date', 'wpmovielibrary' ),
+									'released-date'       => esc_html__( 'Release Date', 'wpmovielibrary' ),
+									'local-released-date' => esc_html__( 'Local Release Date', 'wpmovielibrary' ),
+									'rating'              => esc_html__( 'Rating', 'wpmovielibrary' ),
+									'alpabetical'         => esc_html__( 'Alpabetically', 'wpmovielibrary' ),
+									'random'              => esc_html__( 'Random', 'wpmovielibrary' ),
+								),
+								'sanitize' => 'esc_attr'
+							),
+							'movie-grid-order' => array(
+								'type'     => 'select',
+								'section'  => 'movie-grid-ordering',
+								'label'    => esc_html__( 'Order', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => '' ),
+								'choices' => array(
+									'asc'  => esc_html__( 'Ascendingly', 'wpmovielibrary' ),
+									'desc' => esc_html__( 'Descendingly', 'wpmovielibrary' ),
+								),
+								'sanitize' => 'esc_attr'
 							)
 						)
 					),
-					'grid-appearance' => array(
+					'movie-grid-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
 						'settings' => array(
-							'text2' => array(
+							'movie-grid-mode' => array(
+								'type'     => 'radio',
+								'section'  => 'movie-grid-appearance',
+								'label'    => esc_html__( 'Grid Mode', 'wpmovielibrary' ),
+								'description' => __( '<strong>Grid</strong> mode displays a grid of movie posters, <strong>List</strong> mode displays a simple list of movie titles and <strong>Archive</strong> mode displays a list of movie Headboxes.', 'wpmovielibrary' ),
+								'attr'     => array(),
+								'choices' => array(
+									'grid'    => esc_html__( 'Grid', 'wpmovielibrary' ),
+									'list'    => esc_html__( 'List', 'wpmovielibrary' ),
+									'archive' => esc_html__( 'Archive', 'wpmovielibrary' ),
+								),
+								'sanitize' => 'esc_attr'
+							),
+							'movie-grid-columns' => array(
 								'type'     => 'text',
-								'section'  => 'grid-appearance',
-								'label'    => esc_html__( 'Text input', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'widefat' ),
-								'sanitize' => 'wp_filter_nohtml_kses'
-							)
+								'section'  => 'movie-grid-appearance',
+								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Default number of rows for the grid.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => '', 'size' => '2' ),
+								'sanitize' => 'intval',
+								'default'  => 5
+							),
+							'movie-grid-rows' => array(
+								'type'     => 'text',
+								'section'  => 'movie-grid-appearance',
+								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Default number of columns for the grid.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => '', 'size' => '2' ),
+								'sanitize' => 'intval',
+								'default'  => 4
+							),
+							'movie-grid-total' => array(
+								'type'     => 'text',
+								'section'  => 'movie-grid-appearance',
+								'label'    => esc_html__( 'Number of movies', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Default number of movies for the grid. Setting a number of movie will result in the rows number to be ignored.', 'wpmovielibrary' ),
+								'attr'     => array( 'size' => '2' ),
+								'sanitize' => 'intval',
+								'default'  => 5
+							),
 						)
 					),
-					'grid-controls' => array(
+					'movie-grid-controls' => array(
 						'label' => esc_html__( 'Controls', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-tools',
 						'settings' => array(
-							'text3' => array(
-								'type'     => 'text',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Text input', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'widefat' ),
-								'sanitize' => 'wp_filter_nohtml_kses'
+							'movie-grid-show-menu' => array(
+								'type'     => 'checkbox',
+								'section'  => 'movie-grid-controls',
+								'label'    => esc_html__( 'Show Menu', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Enable the grid menu. Visitors will be able to change some settings to alter the grid appearance to their liking. The changes are local not persitent and will never be stored anywhere on your site.', 'wpmovielibrary' ),
+								'attr'     => array(),
+								'sanitize' => 'intval'
+							),
+							'movie-grid-mode-control' => array(
+								'type'     => 'checkbox',
+								'section'  => 'movie-grid-controls',
+								'label'    => esc_html__( 'Grid Mode', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid mode.', 'wpmovielibrary' ),
+								'attr'     => array( 'data-parent' => 'movie-grid-show-menu' ),
+								'sanitize' => 'intval'
+							),
+							'movie-grid-content-control' => array(
+								'type'     => 'checkbox',
+								'section'  => 'movie-grid-controls',
+								'label'    => esc_html__( 'Grid Content', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid content, ie. number of movies, rows, columns…', 'wpmovielibrary' ),
+								'attr'     => array( 'data-parent' => 'movie-grid-show-menu' ),
+								'sanitize' => 'intval'
+							),
+							'movie-grid-display-control' => array(
+								'type'     => 'checkbox',
+								'section'  => 'movie-grid-controls',
+								'label'    => esc_html__( 'Grid Display', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid display, ie. showing/hiding titles, ratings, genres…', 'wpmovielibrary' ),
+								'attr'     => array( 'data-parent' => 'movie-grid-show-menu' ),
+								'sanitize' => 'intval'
+							),
+							'movie-grid-order-control' => array(
+								'type'     => 'checkbox',
+								'section'  => 'movie-grid-controls',
+								'label'    => esc_html__( 'Grid Ordering', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid ordering, ie. the sorting and ordering settings.', 'wpmovielibrary' ),
+								'attr'     => array( 'data-parent' => 'movie-grid-show-menu' ),
+								'sanitize' => 'intval'
+							),
+							'movie-grid-show-pagination' => array(
+								'type'     => 'checkbox',
+								'section'  => 'movie-grid-controls',
+								'label'    => esc_html__( 'Show Pagination', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Enable the pagination menu for visitors.', 'wpmovielibrary' ),
+								'attr'     => array(),
+								'sanitize' => 'intval'
 							)
 						)
 					)
@@ -418,17 +538,21 @@ class GridBuilder {
 					$manager->register_control(
 						$control_id,
 						array(
-							'type'    => $control->type,
-							'section' => $section_id,
-							'label'   => $control->label,
-							'attr'    => $control->attr
+							'section'     => $section_id,
+							'type'        => isset( $control->type )        ? $control->type        : false,
+							'label'       => isset( $control->label )       ? $control->label       : false,
+							'attr'        => isset( $control->attr )        ? $control->attr        : false,
+							'choices'     => isset( $control->choices )     ? $control->choices     : false,
+							'description' => isset( $control->description ) ? $control->description : false
 						)
 					);
 
 					$manager->register_setting(
 						$control_id,
 						array(
-							'sanitize_callback' => $control->sanitize
+							'sanitize_callback' => isset( $control->sanitize ) ? $control->sanitize : false,
+							'default'           => isset( $control->default )  ? $control->default  : false,
+							'value'             => isset( $control->value )    ? $control->value    : '',
 						)
 					);
 				}
