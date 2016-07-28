@@ -12,8 +12,7 @@
 namespace wpmoly\Shortcodes;
 
 use WP_Query;
-use wpmoly\Grid;
-//use wpmoly\Collection;
+use wpmoly\Node\Grid;
 use wpmoly\Core\PublicTemplate as Template;
 
 /**
@@ -92,10 +91,11 @@ class Movies extends Shortcode {
 	 */
 	public function run() {
 
-		/*$grid = new Grid();
+		$grid = new Grid();
 		$grid->set( $this->attributes );
+		print_r( $grid );
 
-		$data = array(
+		/*$data = array(
 			'movies'  => $grid->movies
 		);
 
