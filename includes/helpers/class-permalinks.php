@@ -11,8 +11,6 @@
 
 namespace wpmoly\Helpers;
 
-use wpmoly\Permalink;
-
 /**
  * Build custom permalinks for various data.
  *

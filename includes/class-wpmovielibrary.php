@@ -139,10 +139,10 @@ class Library {
 		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-country.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-language.php';
+		require_once WPMOLY_PATH . 'includes/helpers/class-permalink.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-permalinks.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-formatting.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-terms.php';
-		//require_once WPMOLY_PATH . 'includes/helpers/class-grid.php';
 
 		// Core
 		require_once WPMOLY_PATH . 'includes/core/class-loader.php';
@@ -154,9 +154,8 @@ class Library {
 		// Load i18n/l10n before setting options
 		$this->set_locale();
 
-		// Includes
+		// Options
 		require_once WPMOLY_PATH . 'includes/class-options.php';
-		require_once WPMOLY_PATH . 'includes/class-permalink.php';
 
 		// Nodes
 		require_once WPMOLY_PATH . 'includes/node/class-collection.php';
@@ -169,6 +168,7 @@ class Library {
 		require_once WPMOLY_PATH . 'includes/node/class-images.php';
 		require_once WPMOLY_PATH . 'includes/node/class-media.php';
 		require_once WPMOLY_PATH . 'includes/node/class-movie.php';
+		require_once WPMOLY_PATH . 'includes/node/class-grid.php';
 
 		// API
 		require_once WPMOLY_PATH . 'includes/api/class-api.php';
