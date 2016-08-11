@@ -110,6 +110,24 @@ class Movie {
 
 		$this->backdrops = new Collection;
 		$this->posters   = new Collection;
+
+		/**
+		 * Filter the default movie meta list.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $default_meta
+		 */
+		$this->default_meta = apply_filters( 'wpmoly/filter/default/movie/meta', array( 'tmdb_id', 'title', 'original_title', 'tagline', 'overview', 'release_date', 'local_release_date', 'runtime', 'production_companies', 'production_countries', 'spoken_languages', 'genres', 'director', 'producer', 'cast', 'photography', 'composer', 'author', 'writer', 'certification', 'budget', 'revenue', 'imdb_id', 'adult', 'homepage' ) );
+
+		/**
+		 * Filter the default movie details list.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $default_details
+		 */
+		$this->default_details = apply_filters( 'wpmoly/filter/default/movie/details', array( 'status', 'media', 'rating', 'language', 'subtitles', 'format' ) );
 	}
 
 	/**
@@ -158,11 +176,22 @@ class Movie {
 	 */
 	public function __set( $name, $value ) {
 
-		if ( ! isset( $this->name ) || $value !== $this->$name ) {
+		if ( is_object( $name ) ) {
+			$name = get_object_vars();
+		}
+
+		if ( is_array( $name ) ) {
+			foreach ( $name as $key => $value ) {
+				$this->__set( $key, $value );
+			}
+			return true;
+		}
+
+		if ( ! isset( $this->$name ) ) {
 			return $this->$name = $value;
 		}
 
-		return $value;
+		return $this->$name = $value;
 	}
 
 	/**
@@ -474,7 +503,11 @@ class Movie {
 	 */
 	public function save_meta() {
 
-		
+		foreach ( $this->default_meta as $key ) {
+			if ( isset( $this->$key ) ) {
+				update_post_meta( $this->id, '_wpmoly_movie_' . $key, $this->$key );
+			}
+		}
 	}
 
 	/**
@@ -486,6 +519,10 @@ class Movie {
 	 */
 	public function save_details() {
 
-		
+		foreach ( $this->default_details as $key ) {
+			if ( isset( $this->$key ) ) {
+				update_post_meta( $this->id, '_wpmoly_movie_' . $key, $this->$key );
+			}
+		}
 	}
 }
