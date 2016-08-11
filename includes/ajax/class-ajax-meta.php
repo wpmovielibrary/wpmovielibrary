@@ -49,14 +49,14 @@ class Meta {
 
 		$movie = get_movie( $post_id );
 		if ( 'meta' == $type ) {
-			$movie->meta->set( $data );
-			$movie->meta->update();
+			$movie->set( $data );
+			$movie->save_meta();
 		} else {
-			$movie->details->set( $data );
-			$movie->details->update();
+			$movie->set( $data );
+			$movie->save_details();
 		}
 
-		wp_send_json_success( $movie->meta );
+		wp_send_json_success();
 	}
 
 	/**

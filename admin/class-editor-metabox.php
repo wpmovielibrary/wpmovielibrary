@@ -41,8 +41,8 @@ class Editor extends Metabox {
 
 		// Saving actions
 		$this->actions[] = array( 'save_post_movie',               $this, 'save', 10, 3 );
-		/*$this->actions[] = array( 'wp_insert_post_empty_content',  $this, 'empty_content' );
-		$this->actions[] = array( 'wp_insert_post_data',           $this, 'empty_title' );*/
+		//$this->actions[] = array( 'wp_insert_post_empty_content',  $this, 'empty_content' );
+		//$this->actions[] = array( 'wp_insert_post_data',           $this, 'empty_title' );
 
 		// Before Metabox content
 		$this->actions[] = array( 'wpmoly/before/metabox/content', $this, 'movie_preview', 10, 1 );
@@ -60,9 +60,8 @@ class Editor extends Metabox {
 	 */
 	public function define_admin_hooks() {
 
-		/*$loader = Loader::get_instance();
-		$loader->add_action( 'admin_footer-post.php',     $this, 'print_js_templates' );
-		$loader->add_action( 'admin_footer-post-new.php', $this, 'print_js_templates' );*/
+		$this->actions[] = array( 'admin_footer-post.php',     $this, 'print_js_templates', 10, 0 );
+		$this->actions[] = array( 'admin_footer-post-new.php', $this, 'print_js_templates', 10, 0 );
 	}
 
 	/**

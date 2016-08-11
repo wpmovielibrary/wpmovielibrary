@@ -122,11 +122,13 @@ final class Library {
 	 */
 	private function init() {
 
+		// Load loader 8)
 		$this->loader = Core\Loader::get_instance();
 
 		// Load i18n/l10n before setting options
 		$this->set_locale();
 
+		// Load options
 		$this->options = Core\Options::get_instance();
 	}
 
@@ -276,8 +278,11 @@ final class Library {
 		$this->loader->add_action( 'butterbean_register',         $builder, 'register_butterbean', 10, 2 );
 
 		// Admin-side Ajax
-		/*$ajax = Ajax\Ajax::get_instance();
-		$ajax->define_admin_hooks();*/
+		$ajax = Ajax\Ajax::get_instance();
+		foreach ( $ajax->hooks['actions'] as $action ) {
+			list( $hook, $class, $method, $priority, $arguments ) = $action;
+			$this->loader->add_action( $hook, $class, $method, $priority, $arguments );
+		}
 	}
 
 	/**
@@ -303,7 +308,10 @@ final class Library {
 
 		// Public-side Ajax
 		$ajax = Ajax\Ajax::get_instance();
-		$ajax->define_public_hooks();
+		foreach ( $ajax->hooks['actions'] as $action ) {
+			list( $hook, $class, $method, $priority, $arguments ) = $action;
+			$this->loader->add_action( $hook, $class, $method, $priority, $arguments );
+		}
 
 		$terms = Helpers\Terms::get_instance();
 		$this->loader->add_filter( 'get_the_terms',       $terms, 'get_the_terms',            10, 3 );

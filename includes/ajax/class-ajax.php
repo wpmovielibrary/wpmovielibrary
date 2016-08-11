@@ -27,16 +27,12 @@ class Ajax {
 	/**
 	 * Admin Ajax callback methods.
 	 * 
-	 * @since    3.0
-	 * 
 	 * @var      array
 	 */
 	public $admin_callbacks;
 
 	/**
 	 * Public Ajax callback methods.
-	 * 
-	 * @since    3.0
 	 * 
 	 * @var      array
 	 */
@@ -45,11 +41,16 @@ class Ajax {
 	/**
 	 * Current instance.
 	 * 
-	 * @since    3.0
-	 * 
 	 * @var      Library
 	 */
 	public static $instance;
+
+	/**
+	 * Hook list.
+	 * 
+	 * @var    array
+	 */
+	public $hooks = array();
 
 	/**
 	 * Class constructor.
@@ -109,6 +110,15 @@ class Ajax {
 		 * @param    array    $admin_callbacks
 		 */
 		$this->public_callbacks = apply_filters( 'wpmoly/filter/ajax/public_callbacks', $public_callbacks );
+
+		$this->hooks['actions'] = array();
+		$this->hooks['filters'] = array();
+
+		if ( is_admin() ) {
+			$this->define_admin_hooks();
+		} else {
+			$this->define_public_hooks();
+		}
 	}
 
 	/**
@@ -173,10 +183,8 @@ class Ajax {
 	 */
 	public function define_admin_hooks() {
 
-		$loader = Loader::get_instance();
-
 		foreach ( array_keys( $this->admin_callbacks ) as $callback ) {
-			$loader->add_action( "wp_ajax_wpmoly_$callback", $this, "{$callback}_callback" );
+			$this->hooks['actions'][] = array( "wp_ajax_wpmoly_$callback", $this, "{$callback}_callback", null, null );
 		}
 	}
 
@@ -189,11 +197,9 @@ class Ajax {
 	 */
 	public function define_public_hooks() {
 
-		$loader = Loader::get_instance();
-
 		foreach ( array_keys( $this->public_callbacks ) as $callback ) {
-			$loader->add_action( "wp_ajax_wpmoly_$callback",        $this, "{$callback}_callback" );
-			$loader->add_action( "wp_ajax_nopriv_wpmoly_$callback", $this, "{$callback}_callback" );
+			$this->hooks['actions'][] = array( "wp_ajax_wpmoly_$callback",        $this, "{$callback}_callback", null, null );
+			$this->hooks['actions'][] = array( "wp_ajax_nopriv_wpmoly_$callback", $this, "{$callback}_callback", null, null );
 		}
 	}
 
