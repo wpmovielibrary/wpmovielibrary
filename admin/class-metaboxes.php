@@ -11,7 +11,7 @@
 
 namespace wpmoly\Metabox;
 
-use wpmoly\Core;
+//use wpmoly\Core;
 
 /**
  * Create a set of metaboxes for the plugin to display data in a nicer way
@@ -42,6 +42,8 @@ class Metaboxes {
 	 * @var      array
 	 */
 	public $convertor;
+
+	public $hooks = array();
 
 	/**
 	 * Class constructor.
@@ -91,7 +93,7 @@ class Metaboxes {
 			)
 		);
 
-		$convertor = array(
+		/*$convertor = array(
 			'id'            => 'wpmoly-convertor',
 			'title'         => __( 'WordPress Movie Library', 'wpmovielibrary' ),
 			'callback'      => array( $this, 'movie_convertor' ),
@@ -100,7 +102,7 @@ class Metaboxes {
 			'priority'      => 'high',
 			'callback_args' => null,
 			'condition'     => ( '1' == wpmoly_o( 'convert-enable' ) )
-		);
+		);*/
 
 		/**
 		 * Filter the plugin metaboxes
@@ -118,7 +120,10 @@ class Metaboxes {
 		 * 
 		 * @param    array    $convertor Convertor metabox parameters
 		 */
-		$this->convertor = apply_filters( 'wpmoly/filter/metabox/convertor', $convertor );
+		//$this->convertor = apply_filters( 'wpmoly/filter/metabox/convertor', $convertor );
+
+		$this->hooks['actions'] = array();
+		$this->hooks['filters'] = array();
 
 		// Instanciate metaboxes
 		$this->make();
@@ -133,36 +138,38 @@ class Metaboxes {
 	 */
 	public function define_admin_hooks() {
 
-		$loader = Core\Loader::get_instance();
-
 		foreach ( $this->metaboxes as $metabox ) {
 
 			$metabox->define_admin_hooks();
 
 			// Add metabox
 			foreach ( (array) $metabox->screen as $screen ) {
-				$loader->add_action( "add_meta_boxes_{$screen}", $metabox, 'create' );
+				$this->hooks['actions'][] = array( "add_meta_boxes_{$screen}", $metabox, 'create', null, null );
 			}
 
 			// Register hooks
 			if ( ! empty( $metabox->actions ) ) {
 				foreach ( $metabox->actions as $action ) {
-					list( $hook, $class, $method, $priority, $arguments ) = $action;
-					$loader->add_action( $hook, $class, $method, $priority, $arguments );
+					//list( $hook, $class, $method, $priority, $arguments ) = $action;
+					//$this->hooks['actions'][] = array( $hook, $class, $method, $priority, $arguments );
+					$this->hooks['actions'][] = $action;
 				}
 			}
 
 			if ( ! empty( $metabox->filters ) ) {
 				foreach ( $metabox->filters as $filter ) {
-					list( $hook, $class, $method, $priority, $arguments ) = $filter;
-					$loader->add_filter( $hook, $class, $method, $priority, $arguments );
+					//list( $hook, $class, $method, $priority, $arguments ) = $filter;
+					//$this->hooks['actions'][] = array( $hook, $class, $method, $priority, $arguments );
+					$this->hooks['actions'][] = $filter;
 				}
 			}
 		}
 
 		if ( isset( $this->convertor ) ) {
-			$loader->add_action( 'add_meta_boxes', $this, 'add_convertor_meta_box' );
+			$this->hooks['actions'][] = array( 'add_meta_boxes', $this, 'add_convertor_meta_box', null, null );
 		}
+
+		return $this->hooks;
 	}
 
 	/**
@@ -186,6 +193,8 @@ class Metaboxes {
 
 			$this->metaboxes[ $slug ] = new $callback_class( $metabox );
 		}
+
+		$this->define_admin_hooks();
 	}
 
 	/**
@@ -197,7 +206,7 @@ class Metaboxes {
 	 */
 	public function add_convertor_meta_box() {
 
-		extract( $this->convertor );
+		/*extract( $this->convertor );
 
 		if ( ! is_array( $screen ) ) {
 			$screen = array( $screen );
@@ -211,7 +220,7 @@ class Metaboxes {
 
 		foreach ( $screen as $s ) {
 			add_meta_box( 'convertor-metabox', $title, $callback, $s, $context, $priority, $callback_args );
-		}
+		}*/
 
 	}
 }

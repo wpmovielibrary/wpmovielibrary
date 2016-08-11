@@ -113,10 +113,7 @@ class Editor extends Metabox {
 	 */
 	public function editor( $post ) {
 
-		$this->movie   = Movie::get_instance( $post->ID );
-		$this->meta    = $this->movie->meta;
-		$this->details = $this->movie->details;
-		$this->media   = $this->movie->media;
+		$this->movie = get_movie( $post );
 
 		/**
 		 * Filter the Metabox Panels to add/remove tabs.
@@ -153,7 +150,7 @@ class Editor extends Metabox {
 		}
 
 		$this->template->set_data( array(
-			'empty'   => $this->movie->meta->is_empty(),
+			'empty'   => $this->movie->is_empty(),
 			'tabs'    => $tabs,
 			'panels'  => $panels,
 			'metabox' => $metabox
@@ -213,7 +210,7 @@ class Editor extends Metabox {
 			if ( 'json' === $format ) {
 				$value = "{{ data.$key }}";
 			} else {
-				$value = $this->meta->get_the( $key );
+				$value = $this->movie->$key;
 			}
 
 			$default_meta[ $key ]['html'] = $this->get_field( $field, $key, $value, 'meta', 'json' );
@@ -246,7 +243,7 @@ class Editor extends Metabox {
 			if ( 'json' === $format ) {
 				$value = "{{ data.$key }}";
 			} else {
-				$value = $this->details->get( $key );
+				$value = $this->movie->$key;
 			}
 
 			$default_details[ $key ]['html'] = $this->get_field( $field, $key, $value, 'detail', $format );
@@ -276,7 +273,7 @@ class Editor extends Metabox {
 		if ( 'json' === $format ) {
 			$backdrops = array();
 		} else {
-			$backdrops = $this->media->load_backdrops();
+			$backdrops = $this->movie->load_backdrops();
 		}
 
 		$panel->set_data( compact( 'backdrops' ) );
@@ -301,7 +298,7 @@ class Editor extends Metabox {
 		if ( 'json' === $format ) {
 			$posters = array();
 		} else {
-			$posters = $this->media->load_posters();
+			$posters = $this->movie->load_posters();
 		}
 
 		$panel->set_data( compact( 'posters' ) );
@@ -328,11 +325,11 @@ class Editor extends Metabox {
 		$movie = get_movie( $post_id );
 
 		if ( ! empty( $_POST['wpmoly']['meta'] ) ) {
-			$movie->meta->set( $_POST['wpmoly']['meta'] )->save();
+			$movie->movie->set( $_POST['wpmoly']['meta'] )->save_meta();
 		}
 
 		if ( ! empty( $_POST['wpmoly']['detail'] ) ) {
-			$movie->details->set( $_POST['wpmoly']['detail'] )->save();
+			$movie->movie->set( $_POST['wpmoly']['detail'] )->save_details();
 		}
 	}
 
@@ -367,7 +364,7 @@ class Editor extends Metabox {
 			if ( 'json' === $format ) {
 				$value = "{{ data.$key }}";
 			} else {
-				$value = $this->meta->get_the( $key );
+				$value = $this->movie->$key;
 			}
 
 			$default_meta[ $key ]['html'] = $this->get_field( $field, $key, $value, 'meta', 'json' );
@@ -376,7 +373,7 @@ class Editor extends Metabox {
 		$movie = get_movie( $post->ID );
 		$template->set_data( array(
 			'movie'      => $movie,
-			'empty'      => $movie->meta->is_empty(),
+			'empty'      => $movie->is_empty(),
 			'poster'     => $movie->get_poster(),
 			'background' => $movie->get_backdrop( 'random' ),
 			'fields'     => $default_meta
@@ -417,7 +414,7 @@ class Editor extends Metabox {
 		);
 
 		$movie = get_movie( $post->ID );
-		$empty = $movie->meta->is_empty();
+		$empty = $movie->is_empty();
 ?>
 
 		<div id="wpmoly-movie-search" class="wpmoly-movie-search <?php echo $empty ? '' : ' hidden'; ?>">

@@ -166,6 +166,21 @@ class Movie {
 	}
 
 	/**
+	 * Property set.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $name Property name
+	 * @param    mixed     $value Property value
+	 * 
+	 * @return   mixed
+	 */
+	public function set( $name, $value = null ) {
+
+		return $this->__set( $name, $value );
+	}
+
+	/**
 	 * Property accessor.
 	 * 
 	 * @since    3.0
@@ -181,18 +196,48 @@ class Movie {
 	}
 
 	/**
-	 * Property set.
+	 * Enhanced property accessor. Unlike Node::get() this method automatically
+	 * escapes the property requested and therefore should be used when the
+	 * property is meant for display.
 	 * 
 	 * @since    3.0
 	 * 
 	 * @param    string    $name Property name
-	 * @param    mixed     $value Property value
 	 * 
-	 * @return   mixed
+	 * @return   void
 	 */
-	public function set( $name, $value = null ) {
+	public function get_the( $name ) {
 
-		return $this->__set( $name, $value );
+		$hook_name = sanitize_key( $name );
+
+		return apply_filters( 'wpmoly/filter/the/movie/' . $hook_name, $this->get( $name ), $this );
+	}
+
+	/**
+	 * Simple property echoer. Use Node::get_the() to automatically escape
+	 * the requested property.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $name Property name
+	 * 
+	 * @return   void
+	 */
+	public function the( $name ) {
+
+		echo $this->get_the( $name );
+	}
+
+	/**
+	 * Does this movie have metadata?
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   boolean
+	 */
+	public function is_empty() {
+
+		return empty( $this->tmdb_id );
 	}
 
 	/**

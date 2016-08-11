@@ -14,16 +14,16 @@
 
 				<div class="wpmoly-movie-preview-meta">
 					<div class="wpmoly-movie-preview-hgroup">
-						<h2 class="wpmoly-movie-preview-title"><?php $movie->meta->the( 'title' ); ?><span class="wpmoly-movie-preview-original-title">(<?php $movie->meta->the( 'original_title' ); ?>)</span></h2>
-						<h5 class="wpmoly-movie-preview-tagline"><?php $movie->meta->the( 'tagline' ); ?></h5>
+						<h2 class="wpmoly-movie-preview-title"><?php echo $movie->the( 'title' ); ?><span class="wpmoly-movie-preview-original-title">(<?php $movie->the( 'original_title' ); ?>)</span></h2>
+						<h5 class="wpmoly-movie-preview-tagline"><?php $movie->the( 'tagline' ); ?></h5>
 					</div>
 					<div class="wpmoly-movie-preview-intro">
-						<span><?php echo substr( $movie->meta->get( 'release_date' ), 0, 4 ); ?></span>&nbsp;|&nbsp;
-						<span><?php $movie->meta->the( 'runtime' ); ?> min</span>&nbsp;|&nbsp;
-						<span><?php $movie->meta->the( 'genres' ); ?></span>&nbsp;|&nbsp;
-						<span><?php $movie->meta->the( 'certification' ); ?></span>
+						<span><?php echo substr( $movie->get( 'release_date' ), 0, 4 ); ?></span>&nbsp;|&nbsp;
+						<span><?php $movie->the( 'runtime' ); ?> min</span>&nbsp;|&nbsp;
+						<span><?php $movie->the( 'genres' ); ?></span>&nbsp;|&nbsp;
+						<span><?php $movie->the( 'certification' ); ?></span>
 					</div>
-					<div class="wpmoly-movie-preview-overview"><?php $movie->meta->the( 'overview' ); ?></div>
+					<div class="wpmoly-movie-preview-overview"><?php $movie->the( 'overview' ); ?></div>
 				</div>
 			</div>
 

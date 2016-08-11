@@ -169,8 +169,6 @@ final class Library {
 		// Nodes
 		require_once WPMOLY_PATH . 'includes/node/class-collection.php';
 		require_once WPMOLY_PATH . 'includes/node/class-node.php';
-		//require_once WPMOLY_PATH . 'includes/node/class-meta.php';
-		//require_once WPMOLY_PATH . 'includes/node/class-details.php';
 		require_once WPMOLY_PATH . 'includes/node/class-image.php';
 		require_once WPMOLY_PATH . 'includes/node/class-default-image.php';
 		require_once WPMOLY_PATH . 'includes/node/class-default-backdrop.php';
@@ -195,8 +193,8 @@ final class Library {
 			require_once WPMOLY_PATH . 'admin/class-backstage.php';
 			require_once WPMOLY_PATH . 'admin/class-grid-builder.php';
 			require_once WPMOLY_PATH . 'admin/class-metaboxes.php';
-			//require_once WPMOLY_PATH . 'admin/class-metabox.php';
-			//require_once WPMOLY_PATH . 'admin/class-editor-metabox.php';
+			require_once WPMOLY_PATH . 'admin/class-metabox.php';
+			require_once WPMOLY_PATH . 'admin/class-editor-metabox.php';
 		}
 
 		// Shortcodes
@@ -256,8 +254,15 @@ final class Library {
 		$this->loader->add_action( 'admin_footer-post-new.php', $admin, 'enqueue_templates' );
 
 		// Metaboxes
-		//$metaboxes = new Metabox\Metaboxes;
-		//$metaboxes->define_admin_hooks();
+		$metaboxes = new Metabox\Metaboxes;
+		foreach ( $metaboxes->hooks['actions'] as $action ) {
+			list( $hook, $class, $method, $priority, $arguments ) = $action;
+			$this->loader->add_action( $hook, $class, $method, $priority, $arguments );
+		}
+		foreach ( $metaboxes->hooks['filters'] as $action ) {
+			list( $hook, $class, $method, $priority, $arguments ) = $filter;
+			$this->loader->add_filter( $hook, $class, $method, $priority, $arguments );
+		}
 
 		$builder = new Admin\GridBuilder;
 		$builder->add_metaboxes();
