@@ -25,7 +25,30 @@ namespace wpmoly\Core;
  * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class i18n extends Singleton {
+class i18n {
+
+	/**
+	 * Singleton.
+	 *
+	 * @var    i18n
+	 */
+	private static $instance = null;
+
+	/**
+	 * Singleton.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Options
+	 */
+	final public static function get_instance() {
+
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new static;
+		}
+
+		return self::$instance;
+	}
 
 	/**
 	 * Load the plugin text domain for translation.

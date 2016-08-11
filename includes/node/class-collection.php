@@ -10,7 +10,7 @@
  * @subpackage WPMovieLibrary/includes/core
  */
 
-namespace wpmoly\Collections;
+namespace wpmoly\Node;
 
 /**
  * 
@@ -20,7 +20,7 @@ namespace wpmoly\Collections;
  * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
-abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess {
+class Collection implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Collection Loop status
@@ -53,14 +53,14 @@ abstract class Collection implements \Iterator, \SeekableIterator, \ArrayAccess 
 	/**
 	 * Collection Previous Node
 	 * 
-	 * @var    \Node
+	 * @var    Node
 	 */
 	protected $previous;
 
 	/**
 	 * Collection Next Node
 	 * 
-	 * @var    \Node
+	 * @var    Node
 	 */
 	protected $next;
 

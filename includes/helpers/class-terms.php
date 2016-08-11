@@ -11,8 +11,6 @@
 
 namespace wpmoly\Helpers;
 
-use wpmoly\Core\Singleton;
-
 /**
  * Handle some terms related functionnalities.
  *
@@ -21,7 +19,30 @@ use wpmoly\Core\Singleton;
  * @subpackage WPMovieLibrary/includes/helpers
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Terms extends Singleton {
+class Terms {
+
+	/**
+	 * Singleton.
+	 *
+	 * @var    Terms
+	 */
+	private static $instance = null;
+
+	/**
+	 * Singleton.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Singleton
+	 */
+	final public static function get_instance() {
+
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new static;
+		}
+
+		return self::$instance;
+	}
 
 	/**
 	 * Add support for standard taxonomies to movies.

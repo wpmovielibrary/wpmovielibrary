@@ -28,7 +28,14 @@ namespace wpmoly;
  * @subpackage WPMovieLibrary/includes
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Library {
+final class Library {
+
+	/**
+	 * The single instance of the plugin.
+	 *
+	 * @var    Library
+	 */
+	private static $instance = null;
 
 	/**
 	 * The loader that's responsible for maintaining and registering all
@@ -68,15 +75,6 @@ class Library {
 	public $options;
 
 	/**
-	 * The current plugin instance.
-	 *
-	 * @since    3.0
-	 *
-	 * @var      Library
-	 */
-	public static $instance;
-
-	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout
@@ -89,8 +87,6 @@ class Library {
 	 */
 	public function __construct() {
 
-		self::$instance = $this;
-
 		$this->plugin_name = WPMOLY_SLUG;
 		$this->version     = WPMOLY_VERSION;
 
@@ -102,17 +98,36 @@ class Library {
 	}
 
 	/**
-	 * Library singleton.
-	 *
+	 * Singleton.
+	 * 
 	 * @since    3.0
+	 * 
+	 * @return   Singleton
 	 */
-	public static function get_instance() {
+	final public static function get_instance() {
 
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new static;
 		}
 
 		return self::$instance;
+	}
+
+	/**
+	 * Initialize core.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	private function init() {
+
+		$this->loader = Core\Loader::get_instance();
+
+		// Load i18n/l10n before setting options
+		$this->set_locale();
+
+		$this->options = Core\Options::get_instance();
 	}
 
 	/**
@@ -132,8 +147,15 @@ class Library {
 	 */
 	private function load_dependencies() {
 
-		// Singleton
-		require_once WPMOLY_PATH . 'includes/core/class-singleton.php';
+		// Core
+		require_once WPMOLY_PATH . 'includes/core/class-loader.php';
+		require_once WPMOLY_PATH . 'includes/core/class-i18n.php';
+		require_once WPMOLY_PATH . 'includes/core/class-l10n.php';
+		require_once WPMOLY_PATH . 'includes/core/class-registrar.php';
+		require_once WPMOLY_PATH . 'includes/core/class-template.php';
+		require_once WPMOLY_PATH . 'includes/core/class-options.php';
+
+		$this->init();
 
 		// Helpers
 		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
@@ -144,29 +166,15 @@ class Library {
 		require_once WPMOLY_PATH . 'includes/helpers/class-formatting.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-terms.php';
 
-		// Core
-		require_once WPMOLY_PATH . 'includes/core/class-loader.php';
-		require_once WPMOLY_PATH . 'includes/core/class-i18n.php';
-		require_once WPMOLY_PATH . 'includes/core/class-l10n.php';
-		require_once WPMOLY_PATH . 'includes/core/class-registrar.php';
-		require_once WPMOLY_PATH . 'includes/core/class-template.php';
-
-		// Load i18n/l10n before setting options
-		$this->set_locale();
-
-		// Options
-		require_once WPMOLY_PATH . 'includes/class-options.php';
-
 		// Nodes
 		require_once WPMOLY_PATH . 'includes/node/class-collection.php';
 		require_once WPMOLY_PATH . 'includes/node/class-node.php';
-		require_once WPMOLY_PATH . 'includes/node/class-meta.php';
-		require_once WPMOLY_PATH . 'includes/node/class-details.php';
+		//require_once WPMOLY_PATH . 'includes/node/class-meta.php';
+		//require_once WPMOLY_PATH . 'includes/node/class-details.php';
 		require_once WPMOLY_PATH . 'includes/node/class-image.php';
-		require_once WPMOLY_PATH . 'includes/node/class-backdrop.php';
-		require_once WPMOLY_PATH . 'includes/node/class-poster.php';
-		require_once WPMOLY_PATH . 'includes/node/class-images.php';
-		require_once WPMOLY_PATH . 'includes/node/class-media.php';
+		require_once WPMOLY_PATH . 'includes/node/class-default-image.php';
+		require_once WPMOLY_PATH . 'includes/node/class-default-backdrop.php';
+		require_once WPMOLY_PATH . 'includes/node/class-default-poster.php';
 		require_once WPMOLY_PATH . 'includes/node/class-movie.php';
 		require_once WPMOLY_PATH . 'includes/node/class-grid.php';
 
@@ -187,8 +195,8 @@ class Library {
 			require_once WPMOLY_PATH . 'admin/class-backstage.php';
 			require_once WPMOLY_PATH . 'admin/class-grid-builder.php';
 			require_once WPMOLY_PATH . 'admin/class-metaboxes.php';
-			require_once WPMOLY_PATH . 'admin/class-metabox.php';
-			require_once WPMOLY_PATH . 'admin/class-editor-metabox.php';
+			//require_once WPMOLY_PATH . 'admin/class-metabox.php';
+			//require_once WPMOLY_PATH . 'admin/class-editor-metabox.php';
 		}
 
 		// Shortcodes
@@ -202,9 +210,6 @@ class Library {
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-runtime.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-release-date.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-local-release-date.php';
-
-		$this->loader  = Core\Loader::get_instance();
-		$this->options = Options::get_instance();
 
 	}
 
@@ -220,12 +225,11 @@ class Library {
 
 		$i18n = Core\i18n::get_instance();
 		$l10n = Core\l10n::get_instance();
-		$loader = Core\Loader::get_instance();
 
-		$loader->add_action( 'init',                  $i18n, 'load_plugin_textdomain' );
-		$loader->add_action( 'init',                  $i18n, 'load_additional_textdomains' );
+		$this->loader->add_action( 'init',                  $i18n, 'load_plugin_textdomain' );
+		$this->loader->add_action( 'init',                  $i18n, 'load_additional_textdomains' );
 
-		$loader->add_action( 'admin_enqueue_scripts', $l10n, 'localize_scripts', 20 );
+		$this->loader->add_action( 'admin_enqueue_scripts', $l10n, 'localize_scripts', 20 );
 
 	}
 
@@ -252,8 +256,8 @@ class Library {
 		$this->loader->add_action( 'admin_footer-post-new.php', $admin, 'enqueue_templates' );
 
 		// Metaboxes
-		$metaboxes = new Metabox\Metaboxes;
-		$metaboxes->define_admin_hooks();
+		//$metaboxes = new Metabox\Metaboxes;
+		//$metaboxes->define_admin_hooks();
 
 		$builder = new Admin\GridBuilder;
 		$builder->add_metaboxes();
@@ -267,8 +271,8 @@ class Library {
 		$this->loader->add_action( 'butterbean_register',         $builder, 'register_butterbean', 10, 2 );
 
 		// Admin-side Ajax
-		$ajax = Ajax\Ajax::get_instance();
-		$ajax->define_admin_hooks();
+		/*$ajax = Ajax\Ajax::get_instance();
+		$ajax->define_admin_hooks();*/
 	}
 
 	/**

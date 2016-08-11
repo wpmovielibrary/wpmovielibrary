@@ -21,7 +21,14 @@ use wpmoly\Node;
  * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class l10n extends Singleton {
+class l10n {
+
+	/**
+	 * Singleton.
+	 *
+	 * @var    l10n
+	 */
+	private static $instance = null;
 
 	/**
 	 * Supported languages
@@ -67,6 +74,22 @@ class l10n extends Singleton {
 
 		$this->set_countries();
 		$this->set_languages();
+	}
+
+	/**
+	 * Singleton.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Options
+	 */
+	final public static function get_instance() {
+
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new static;
+		}
+
+		return self::$instance;
 	}
 
 	/**
@@ -632,8 +655,8 @@ class l10n extends Singleton {
 		$poster   = Node\DefaultPoster::get_instance();
 		$backdrop = Node\DefaultBackdrop::get_instance();
 		$localized = array(
-			'poster'   => $poster->__get( 'sizes' ),
-			'backdrop' => $backdrop->__get( 'sizes' )
+			'poster'   => $poster->get_sizes(),
+			'backdrop' => $backdrop->get_sizes()
 		);
 
 		wp_localize_script( 'wpmoly', 'wpmolyDefaultImages', $localized );

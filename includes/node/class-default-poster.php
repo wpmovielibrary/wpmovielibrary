@@ -1,6 +1,6 @@
 <?php
 /**
- * Define the poster class.
+ * Define the DefaultPoster class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
@@ -12,17 +12,7 @@
 namespace wpmoly\Node;
 
 /**
- * 
- *
- * @since      3.0
- * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
- * @author     Charlie Merland <charlie@caercam.org>
- */
-class Poster extends Image {}
-
-/**
- * 
+ * Default class for empty Poster instances.
  *
  * @since      3.0
  * @package    WPMovieLibrary
@@ -100,5 +90,4 @@ class DefaultPoster extends DefaultImage {
 		 */
 		return $this->sizes = apply_filters( 'wpmoly/filter/default_poster/sizes', (object) $sizes );
 	}
-
 }

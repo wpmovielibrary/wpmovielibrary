@@ -9,10 +9,7 @@
  * @subpackage WPMovieLibrary/includes
  */
 
-namespace wpmoly;
-
-use wpmoly\Core\Singleton;
-use wpmoly\Core\l10n;
+namespace wpmoly\Core;
 
 /**
  * 
@@ -22,7 +19,14 @@ use wpmoly\Core\l10n;
  * @subpackage WPMovieLibrary/includes
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Options extends Singleton {
+class Options {
+
+	/**
+	 * Singleton.
+	 *
+	 * @var    Options
+	 */
+	private static $instance = null;
 
 	/**
 	 * Options slug.
@@ -116,6 +120,22 @@ class Options extends Singleton {
 		$this->load();
 
 		$this->options = $this->redux->options;
+	}
+
+	/**
+	 * Singleton.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Options
+	 */
+	final public static function get_instance() {
+
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new static;
+		}
+
+		return self::$instance;
 	}
 
 	/**

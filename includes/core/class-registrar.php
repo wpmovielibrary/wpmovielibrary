@@ -23,7 +23,14 @@ namespace wpmoly\Core;
  * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Registrar extends Singleton {
+class Registrar {
+
+	/**
+	 * Singleton.
+	 *
+	 * @var    Registrar
+	 */
+	private static $instance = null;
 
 	/**
 	 * Default Custom Post Types.
@@ -45,6 +52,22 @@ class Registrar extends Singleton {
 	 * @var    array
 	 */
 	private $taxonomies = array();
+
+	/**
+	 * Singleton.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Options
+	 */
+	final public static function get_instance() {
+
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new static;
+		}
+
+		return self::$instance;
+	}
 
 	/**
 	 * Register Custom Post Types.

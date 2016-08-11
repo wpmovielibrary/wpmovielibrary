@@ -60,9 +60,9 @@ class Editor extends Metabox {
 	 */
 	public function define_admin_hooks() {
 
-		$loader = Loader::get_instance();
+		/*$loader = Loader::get_instance();
 		$loader->add_action( 'admin_footer-post.php',     $this, 'print_js_templates' );
-		$loader->add_action( 'admin_footer-post-new.php', $this, 'print_js_templates' );
+		$loader->add_action( 'admin_footer-post-new.php', $this, 'print_js_templates' );*/
 	}
 
 	/**

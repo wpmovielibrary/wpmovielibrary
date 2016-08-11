@@ -1,25 +1,37 @@
 <?php
 /**
- * Define the image class.
+ * Define the Image class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * @subpackage WPMovieLibrary/includes/node
  */
 
 namespace wpmoly\Node;
 
 /**
- * 
+ * Generic Node class to handle Backdrop and Poster instances.
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * @subpackage WPMovieLibrary/includes/node
  * @author     Charlie Merland <charlie@caercam.org>
+ * 
+ * @property    string    $title Attachment title.
+ * @property    string    $description Attachment description.
+ * @property    string    $excerpt Attachment excerpt.
+ * @property    string    $image_alt Attachment alternative description.
  */
-class Image extends Node {
+class Image {
+
+	/**
+	 * Image ID.
+	 * 
+	 * @var    int
+	 */
+	public $id;
 
 	/**
 	 * Image Attachment Post object
@@ -27,42 +39,6 @@ class Image extends Node {
 	 * @var    WP_Post
 	 */
 	public $attachment;
-
-	/**
-	 * Image properties sanitizers
-	 * 
-	 * @var    array
-	 */
-	protected $validates = array(
-		'title'       => 'sanitize_text_field',
-		'description' => 'wp_kses_post',
-		'excerpt'     => 'sanitize_text_field',
-		'image_alt'   => 'sanitize_text_field'
-	);
-
-	/**
-	 * Image properties escapers
-	 * 
-	 * @var    array
-	 */
-	protected $escapes = array(
-		'title'       => 'esc_attr',
-		'description' => 'wp_kses',
-		'excerpt'     => 'esc_attr',
-		'image_alt'   => 'esc_attr'
-	);
-
-	/**
-	 * Image default properties values
-	 * 
-	 * @var    array
-	 */
-	protected $defaults = array(
-		'title'       => '',
-		'description' => '',
-		'excerpt'     => '',
-		'image_alt'   => ''
-	);
 
 	/**
 	 * Image defaults sizes
@@ -78,11 +54,32 @@ class Image extends Node {
 	 * 
 	 * @return   void
 	 */
-	public function make() {
+	public function __construct( $image = null ) {
 
-		$this->attachment = get_post( $this->id );
+		if ( is_numeric( $image ) ) {
+			$this->id   = absint( $image );
+			$this->attachment = get_post( $this->id );
+		} elseif ( $image instanceof Image ) {
+			$this->id   = absint( $image->id );
+			$this->attachment = $image->attachment;
+		} elseif ( isset( $image->ID ) ) {
+			$this->id   = absint( $image->ID );
+			$this->attachment = $image;
+		}
 
 		$this->set_defaults();
+	}
+
+	/**
+	 * Get available sizes.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   object
+	 */
+	public function get_sizes() {
+
+		return $this->sizes;
 	}
 
 	/**
@@ -95,13 +92,6 @@ class Image extends Node {
 	public function set_defaults() {
 
 		$meta = wp_get_attachment_metadata( $this->id, $unfiltered = true );
-		$image = array(
-			'id'          => $this->id,
-			'title'       => $this->attachment->post_title,
-			'description' => $this->attachment->post_content,
-			'excerpt'     => $this->attachment->post_excerpt,
-			'image_alt'   => get_post_meta( $this->id, '_wp_attachment_image_alt', $single = true )
-		);
 
 		$sizes = array(
 			'thumbnail' => array(),
@@ -149,7 +139,7 @@ class Image extends Node {
 		return $this->sizes = apply_filters( 'wpmoly/filter/images/sizes', (object) $sizes, $this->attachment );
 	}
 
-	private function filter_size( $size ) {
+	/*private function filter_size( $size ) {
 
 		if ( is_array( $size ) ) {
 			return $this->filter_exact_size( $size );
@@ -180,7 +170,7 @@ class Image extends Node {
 		}
 
 		return 'original';
-	}
+	}*/
 
 	/**
 	 * Render the image.
@@ -209,55 +199,5 @@ class Image extends Node {
 		}
 
 		echo $output;
-	}
-}
-
-/**
- * 
- *
- * @since      3.0
- * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
- * @author     Charlie Merland <charlie@caercam.org>
- */
-class DefaultImage extends Image {
-
-	/**
-	 * Default Poster instance.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @var      array
-	 */
-	public static $instance;
-
-	/**
-	 * Make the Image.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   void
-	 */
-	public function make() {
-
-		$this->attachment = false;
-
-		$this->set_defaults();
-	}
-
-	/**
-	 * Get a Default Poster instance.
-	 *
-	 * @since    3.0
-	 * 
-	 * @return   DefaultPoster
-	 */
-	public static function get_instance( $unused = null ) {
-
-		if ( isset( self::$instance ) ) {
-			return self::$instance;
-		}
-
-		return self::$instance = new static;
 	}
 }

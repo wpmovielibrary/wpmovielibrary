@@ -22,7 +22,14 @@ namespace wpmoly\Core;
  * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Loader extends Singleton {
+class Loader {
+
+	/**
+	 * Singleton.
+	 *
+	 * @var    Loader
+	 */
+	protected static $instance = null;
 
 	/**
 	 * The array of actions registered with WordPress.
@@ -51,7 +58,22 @@ class Loader extends Singleton {
 
 		$this->actions = array();
 		$this->filters = array();
+	}
 
+	/**
+	 * Singleton.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Singleton
+	 */
+	final public static function get_instance() {
+
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new static;
+		}
+
+		return self::$instance;
 	}
 
 	/**

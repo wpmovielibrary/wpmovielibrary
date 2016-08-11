@@ -1,6 +1,6 @@
 <?php
 /**
- * Define the .
+ * Define the Movie Node.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
@@ -12,21 +12,51 @@
 namespace wpmoly\Node;
 
 /**
- * 
+ * Define the most important class of the plugin: Movie.
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes
+ * @subpackage WPMovieLibrary/includes/node
  * @author     Charlie Merland <charlie@caercam.org>
+ * 
+ * @property    int        $tmdb_id Movie TMDb ID.
+ * @property    string     $title Movie title.
+ * @property    string     $original_title Movie original title.
+ * @property    string     $tagline Movie tagline.
+ * @property    string     $overview Movie overview.
+ * @property    string     $release_date Movie release date.
+ * @property    string     $local_release_date Movie local release date.
+ * @property    int        $runtime Movie runtime.
+ * @property    string     $production_companies Movie production companies.
+ * @property    string     $production_countries Movie production countries.
+ * @property    string     $spoken_languages Movie spoken languages.
+ * @property    string     $genres Movie genres.
+ * @property    string     $director Movie director.
+ * @property    string     $producer Movie producer.
+ * @property    string     $cast Movie actors.
+ * @property    string     $photography Movie director of photography.
+ * @property    string     $composer Movie original music composer.
+ * @property    string     $author Movie author.
+ * @property    string     $writer Movie writer.
+ * @property    string     $certification Movie certification.
+ * @property    int        $budget Movie budget.
+ * @property    int        $revenue Movie revenue.
+ * @property    int        $imdb_id Movie IMDb ID.
+ * @property    boolean    $adult Movie adult-only.
+ * @property    string     $homepage Movie official URL.
+ * @property    string     $status Movie status.
+ * @property    string     $media Movie media.
+ * @property    float      $rating Movie rating.
+ * @property    string     $language Movie language.
+ * @property    string     $subtitles Movie subtitles.
+ * @property    string     $format Movie format.
  */
-class Movie extends Node {
+class Movie {
 
 	/**
 	 * Movie ID.
 	 * 
-	 * @since    3.0
-	 * 
-	 * @var      int
+	 * @var    int
 	 */
 	public $id;
 
@@ -38,92 +68,189 @@ class Movie extends Node {
 	public $post;
 
 	/**
-	 * Movie Metadata
+	 * Movie poster.
 	 * 
-	 * @var    Meta
+	 * @var    Poster
 	 */
-	public $meta;
+	protected $poster;
 
 	/**
-	 * Movie Details
+	 * Movie posters collection.
 	 * 
-	 * @var    Details
+	 * @var    Collection
 	 */
-	public $details;
+	protected $posters;
 
 	/**
-	 * Movie Media
+	 * Movie backdrops collection.
 	 * 
-	 * @var    Media
+	 * @var    Collection
 	 */
-	public $media;
+	protected $backdrops;
 
 	/**
-	 * Object instances.
+	 * Class Constructor.
 	 * 
 	 * @since    3.0
-	 * 
-	 * @var      array
+	 *
+	 * @param    int|Movie|WP_Post    $product Movie ID, movie instance or post object
 	 */
-	public static $instances;
+	public function __construct( $movie = null ) {
 
-	/**
-	 * Initialize the Node.
-	 * 
-	 * Nothing to do for movies at this stage.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   null
-	 */
-	public function init() {}
+		if ( is_numeric( $movie ) ) {
+			$this->id   = absint( $movie );
+			$this->post = get_post( $this->id );
+		} elseif ( $movie instanceof Movie ) {
+			$this->id   = absint( $movie->id );
+			$this->post = $movie->post;
+		} elseif ( isset( $movie->ID ) ) {
+			$this->id   = absint( $movie->ID );
+			$this->post = $movie;
+		}
 
-	/**
-	 * Make the Node.
-	 * 
-	 * Meta, Details and Media are set at this stage and not in Node::init()
-	 * be cause Node::make() is run after constructor and we need $this->id
-	 * to be available to link data Nodes to the movie Node.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   null
-	 */
-	public function make() {
-
-		$this->post = get_post( $this->id );
-
-		$this->meta    = new Meta( $this->id );
-		$this->details = new Details( $this->id );
-		$this->media   = new Media( $this->id );
+		$this->backdrops = new Collection;
+		$this->posters   = new Collection;
 	}
 
 	/**
-	 * Simple accessor for Backdrops collection.
+	 * __isset()
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    boolean    $load Try to load images if empty
+	 * @param    mixed    $name
 	 * 
-	 * @return   Posters
+	 * @return   boolean
 	 */
-	public function get_backdrops( $load = false, $language = '', $number = -1 ) {
+	public function __isset( $name ) {
 
-		return $this->media->get_backdrops( $load, $language, $number );
+		return metadata_exists( 'post', $this->id, '_wpmoly_movie_' . $name );
 	}
 
 	/**
-	 * Simple accessor for Posters collection.
+	 * __get().
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    boolean    $load Try to load images if empty
+	 * @param    string    $name
 	 * 
-	 * @return   Posters
+	 * @return   mixed
 	 */
-	public function get_posters( $load = false, $language = '', $number = -1 ) {
+	public function __get( $name ) {
 
-		return $this->media->get_posters( $load, $language, $number );
+		$value = get_post_meta( $this->id, '_wpmoly_movie_' . $name, $single = true );
+
+		if ( false !== $value ) {
+			$this->$name = $value;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * __set().
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $name
+	 * @param    mixed     $value
+	 * 
+	 * @return   mixed
+	 */
+	public function __set( $name, $value ) {
+
+		if ( ! isset( $this->name ) || $value !== $this->$name ) {
+			return $this->$name = $value;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Property accessor.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $name Property name
+	 * @param    mixed     $default Default value
+	 * 
+	 * @return   mixed
+	 */
+	public function get( $name, $default = null ) {
+
+		return $this->__isset( $name ) ? $this->$name : $default;
+	}
+
+	/**
+	 * Property set.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $name Property name
+	 * @param    mixed     $value Property value
+	 * 
+	 * @return   mixed
+	 */
+	public function set( $name, $value = null ) {
+
+		return $this->__set( $name, $value );
+	}
+
+	/**
+	 * Load backdrops for the current Movie.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $language Language to filter images
+	 * @param    int       $number Number of images to fetch
+	 * 
+	 * @return   Backdrops
+	 */
+	public function load_backdrops( $language = '', $number = -1 ) {
+
+		global $wpdb;
+
+		$attachments = get_posts( array(
+			'post_type'   => 'attachment',
+			'numberposts' => -1,
+			'post_status' => null,
+			'post_parent' => $this->id,
+			'meta_key'    => '_wpmoly_image_related_tmdb_id'
+		) );
+
+		foreach ( $attachments as $attachment ) {
+			$this->backdrops->add( new Image( $attachment ) );
+		}
+
+		return $this->backdrops;
+	}
+
+	/**
+	 * Load posters for the current Movie.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $language Language to filter images
+	 * @param    int       $number Number of images to fetch
+	 * 
+	 * @return   null
+	 */
+	public function load_posters( $language = '', $number = -1 ) {
+
+		global $wpdb;
+
+		$attachments = get_posts( array(
+			'post_type'   => 'attachment',
+			'numberposts' => -1,
+			'post_status' => null,
+			'post_parent' => $this->id,
+			'meta_key'    => '_wpmoly_poster_related_tmdb_id'
+		) );
+
+		foreach ( $attachments as $attachment ) {
+			$this->posters->add( new Image( $attachment ) );
+		}
+
+		return $this->posters;
 	}
 
 	/**
@@ -142,7 +269,35 @@ class Movie extends Node {
 	 */
 	public function get_backdrop( $variant = 'featured' ) {
 
-		return $this->media->get_backdrop( $variant );
+		if ( 'featured' == $variant && ! has_post_thumbnail( $this->id ) ) {
+			$variant = 'default';
+		}
+
+		switch ( $variant ) {
+			case 'featured' :
+				$image_id = get_post_thumbnail_id( $this->id );
+				$backdrop = new Image( $image_id );
+				break;
+			case 'first' :
+				$backdrop = $this->backdrops->first();
+				break;
+			case 'last' :
+				$backdrop = $this->backdrops->last();
+				break;
+			case 'random' :
+				$backdrop = $this->backdrops->random();
+				break;
+			case 'default' :
+			default :
+				$backdrop = DefaultBackdrop::get_instance();
+				break;
+		}
+
+		if ( ! $backdrop instanceof Image ) {
+			$backdrop = DefaultBackdrop::get_instance();
+		}
+
+		return $backdrop;
 	}
 
 	/**
@@ -161,75 +316,131 @@ class Movie extends Node {
 	 */
 	public function get_poster( $variant = 'featured' ) {
 
-		return $this->media->get_poster( $variant );
+		if ( 'featured' == $variant && ! has_post_thumbnail( $this->id ) ) {
+			$variant = 'default';
+		}
+
+		switch ( $variant ) {
+			case 'featured' :
+				$image_id = get_post_thumbnail_id( $this->id );
+				$poster = new Image( $image_id );
+				break;
+			case 'first' :
+				$poster = $this->posters->first();
+				break;
+			case 'last' :
+				$poster = $this->posters->last();
+				break;
+			case 'random' :
+				$poster = $this->posters->random();
+				break;
+			case 'default' :
+			default :
+				$poster = DefaultPoster::get_instance();
+				break;
+		}
+
+		if ( ! $poster instanceof Image ) {
+			$poster = DefaultPoster::get_instance();
+		}
+
+		return $poster;
 	}
 
 	/**
-	 * Find a movie using a specific criteria.
+	 * Simple accessor for Backdrops collection.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    string    $type Type of criteria
-	 * @param    string    $value Value to search
+	 * @param    string    $language Filter backdrops by language
+	 * @param    int       $number Limit the number of backdrops
 	 * 
-	 * @return   Movie
+	 * @return   Posters
 	 */
-	public static function find_by( $type, $value ) {
+	public function get_backdrops( $language = '', $number = -1 ) {
 
-		return new static;
+		if ( ! $this->backdrops->has_items() ) {
+			$this->load_backdrops( $language, $number );
+		}
+
+		if ( -1 == $number ) {
+			return $this->backdrops;
+		}
+
+		$backdrops = new Collection;
+		while ( $this->backdrops->key() < $number - 1 ) {
+			$backdrops->add( $this->backdrops->next() );
+		}
+
+		$this->backdrops->rewind();
+
+		return $backdrops;
 	}
 
 	/**
-	 * Fetch the Movie.
+	 * Simple accessor for Posters collection.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   null
+	 * @param    string    $language Filter posters by language
+	 * @param    int       $number Limit the number of posters
+	 * 
+	 * @return   Posters
 	 */
-	public function fetch() {}
+	public function get_posters( $language = '', $number = -1 ) {
+
+		if ( ! $this->posters->has_items() ) {
+			$this->load_posters( $language, $number );
+		}
+
+		if ( -1 == $number ) {
+			return $this->posters;
+		}
+
+		$posters = new Collection;
+		while ( $this->posters->key() < $number - 1 ) {
+			$posters->add( $this->posters->next() );
+		}
+
+		$this->posters->rewind();
+
+		return $posters;
+	}
 
 	/**
-	 * Save the Movie.
+	 * Save movie.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   null
+	 * @return   void
 	 */
 	public function save() {
 
-		$this->meta->save();
-		$this->details->save();
-
-		$this->media->save();
+		$this->save_meta();
+		$this->save_details();
 	}
 
 	/**
-	 * Update the Movie.
+	 * Save movie metadata.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   null
+	 * @return   void
 	 */
-	public function update() {
+	public function save_meta() {
 
-		$this->meta->update();
-		$this->details->update();
-
-		$this->media->update();
+		
 	}
 
 	/**
-	 * Remove the Movie.
+	 * Save movie details.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   null
+	 * @return   void
 	 */
-	public function remove() {
+	public function save_details() {
 
-		$this->meta->remove();
-		$this->details->remove();
-
-		$this->media->remove();
+		
 	}
 }

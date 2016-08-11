@@ -77,11 +77,7 @@ function _get_object( $data, $object ) {
 		return $data;
 	}
 
-	if ( ( is_object( $data ) || is_array( $data ) ) ) {
-		return new $object( $data );
-	}
-
-	$data = $object::get_instance( $data );
+	$data = new $object( $data );
 
 	return $data;
 }

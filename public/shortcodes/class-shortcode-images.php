@@ -11,7 +11,7 @@
 
 namespace wpmoly\Shortcodes;
 
-use wpmoly\Collections;
+use wpmoly\Node\Collection;
 use wpmoly\Core\PublicTemplate as Template;
 
 /**
@@ -94,7 +94,7 @@ class Images extends Shortcode {
 	 */
 	protected function make() {
 
-		$this->collection = new Collections\Images;
+		$this->collection = new Collection;
 
 		switch ( $this->tag ) {
 			case 'movie_image':
@@ -139,7 +139,6 @@ class Images extends Shortcode {
 		// Get Movie
 		$post_id = $this->get_movie_id();
 		$this->movie = get_movie( $post_id );
-		$this->movie->media->load();
 
 		$callback = $this->attributes['type'];
 		$this->$callback();
@@ -216,7 +215,7 @@ class Images extends Shortcode {
 	 */
 	private function posters() {
 
-		$posters = $this->movie->get_posters( $load = false, $language = '', $number = $this->attributes['number'] );
+		$posters = $this->movie->get_posters( $language = '', $number = $this->attributes['number'] );
 
 		$this->collection = $posters;
 	}
@@ -248,7 +247,7 @@ class Images extends Shortcode {
 	 */
 	private function backdrops() {
 
-		$backdrops = $this->movie->get_backdrops( $load = false, $language = '', $number = $this->attributes['number'] );
+		$backdrops = $this->movie->get_backdrops( $language = '', $number = $this->attributes['number'] );
 
 		$this->collection = $backdrops;
 	}

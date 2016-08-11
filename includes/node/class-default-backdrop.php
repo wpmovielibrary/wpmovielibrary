@@ -1,32 +1,22 @@
 <?php
 /**
- * Define the backdrop class.
+ * Define the DefaultBackdrop class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * @subpackage WPMovieLibrary/includes/node
  */
 
 namespace wpmoly\Node;
 
 /**
- * 
+ * Default class for empty Backdrop instances.
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
- * @author     Charlie Merland <charlie@caercam.org>
- */
-class Backdrop extends Image {}
-
-/**
- * 
- *
- * @since      3.0
- * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * @subpackage WPMovieLibrary/includes/node
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class DefaultBackdrop extends DefaultImage {
@@ -82,5 +72,4 @@ class DefaultBackdrop extends DefaultImage {
 		 */
 		return $this->sizes = apply_filters( 'wpmoly/filter/default_backdrop/sizes', (object) $sizes );
 	}
-
 }

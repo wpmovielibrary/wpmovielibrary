@@ -11,7 +11,7 @@
 
 namespace wpmoly\Metabox;
 
-use wpmoly\Core\Loader;
+use wpmoly\Core;
 
 /**
  * Create a set of metaboxes for the plugin to display data in a nicer way
@@ -133,7 +133,7 @@ class Metaboxes {
 	 */
 	public function define_admin_hooks() {
 
-		$loader = Loader::get_instance();
+		$loader = Core\Loader::get_instance();
 
 		foreach ( $this->metaboxes as $metabox ) {
 
