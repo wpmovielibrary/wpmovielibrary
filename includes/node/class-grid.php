@@ -160,7 +160,7 @@ class Grid extends Node {
 	}
 
 	/**
-	 * Return a .
+	 * Return a valid number of rows.
 	 * 
 	 * Used by Node::__validate().
 	 * 
@@ -204,7 +204,9 @@ class Grid extends Node {
 	}
 
 	/**
+	 * Return a valid number of columns.
 	 * 
+	 * Used by Node::__validate().
 	 * 
 	 * @since    3.0
 	 * 
