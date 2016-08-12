@@ -38,6 +38,11 @@ class Movies extends Shortcode {
 	 * @var    array
 	 */
 	protected $validates = array(
+		'id' => array(
+			'default' => '',
+			'values'  => null,
+			'filter'  => 'intval'
+		),
 		'mode' => array(
 			'default' => 'grid',
 			'values'  => array( 'grid', 'list', 'archive' ),
@@ -91,8 +96,10 @@ class Movies extends Shortcode {
 	 */
 	public function run() {
 
-		$grid = new Grid();
-		$grid->set( $this->attributes );
+		$grid = new Grid( $this->attributes['id'] );
+		//$grid->set( $this->attributes );
+		$grid->set( 'mode', 'abc' );
+		print_r( $grid->mode );
 		print_r( $grid );
 
 		/*$data = array(

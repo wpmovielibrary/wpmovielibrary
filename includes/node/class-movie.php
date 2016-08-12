@@ -51,21 +51,7 @@ namespace wpmoly\Node;
  * @property    string     $subtitles Movie subtitles.
  * @property    string     $format Movie format.
  */
-class Movie {
-
-	/**
-	 * Movie ID.
-	 * 
-	 * @var    int
-	 */
-	public $id;
-
-	/**
-	 * Movie Post object
-	 * 
-	 * @var    WP_Post
-	 */
-	public $post;
+class Movie extends Node {
 
 	/**
 	 * Movie poster.
@@ -89,24 +75,15 @@ class Movie {
 	protected $backdrops;
 
 	/**
-	 * Class Constructor.
+	 * Initialize the Movie.
 	 * 
 	 * @since    3.0
 	 *
-	 * @param    int|Movie|WP_Post    $product Movie ID, movie instance or post object
+	 * @return   void
 	 */
-	public function __construct( $movie = null ) {
+	public function init() {
 
-		if ( is_numeric( $movie ) ) {
-			$this->id   = absint( $movie );
-			$this->post = get_post( $this->id );
-		} elseif ( $movie instanceof Movie ) {
-			$this->id   = absint( $movie->id );
-			$this->post = $movie->post;
-		} elseif ( isset( $movie->ID ) ) {
-			$this->id   = absint( $movie->ID );
-			$this->post = $movie;
-		}
+		$this->suffix = '_wpmoly_movie_';
 
 		$this->backdrops = new Collection;
 		$this->posters   = new Collection;
@@ -128,100 +105,6 @@ class Movie {
 		 * @param    array    $default_details
 		 */
 		$this->default_details = apply_filters( 'wpmoly/filter/default/movie/details', array( 'status', 'media', 'rating', 'language', 'subtitles', 'format' ) );
-	}
-
-	/**
-	 * __isset()
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    mixed    $name
-	 * 
-	 * @return   boolean
-	 */
-	public function __isset( $name ) {
-
-		return metadata_exists( 'post', $this->id, '_wpmoly_movie_' . $name );
-	}
-
-	/**
-	 * __get().
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $name
-	 * 
-	 * @return   mixed
-	 */
-	public function __get( $name ) {
-
-		$value = get_post_meta( $this->id, '_wpmoly_movie_' . $name, $single = true );
-
-		if ( false !== $value ) {
-			$this->$name = $value;
-		}
-
-		return $value;
-	}
-
-	/**
-	 * __set().
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $name
-	 * @param    mixed     $value
-	 * 
-	 * @return   mixed
-	 */
-	public function __set( $name, $value ) {
-
-		if ( is_object( $name ) ) {
-			$name = get_object_vars();
-		}
-
-		if ( is_array( $name ) ) {
-			foreach ( $name as $key => $value ) {
-				$this->__set( $key, $value );
-			}
-			return true;
-		}
-
-		if ( ! isset( $this->$name ) ) {
-			return $this->$name = $value;
-		}
-
-		return $this->$name = $value;
-	}
-
-	/**
-	 * Property set.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $name Property name
-	 * @param    mixed     $value Property value
-	 * 
-	 * @return   mixed
-	 */
-	public function set( $name, $value = null ) {
-
-		return $this->__set( $name, $value );
-	}
-
-	/**
-	 * Property accessor.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $name Property name
-	 * @param    mixed     $default Default value
-	 * 
-	 * @return   mixed
-	 */
-	public function get( $name, $default = null ) {
-
-		return $this->__isset( $name ) ? $this->$name : $default;
 	}
 
 	/**
@@ -505,7 +388,7 @@ class Movie {
 
 		foreach ( $this->default_meta as $key ) {
 			if ( isset( $this->$key ) ) {
-				update_post_meta( $this->id, '_wpmoly_movie_' . $key, $this->$key );
+				update_post_meta( $this->id, $this->suffix . $key, $this->$key );
 			}
 		}
 	}
@@ -521,7 +404,7 @@ class Movie {
 
 		foreach ( $this->default_details as $key ) {
 			if ( isset( $this->$key ) ) {
-				update_post_meta( $this->id, '_wpmoly_movie_' . $key, $this->$key );
+				update_post_meta( $this->id, $this->suffix . $key, $this->$key );
 			}
 		}
 	}

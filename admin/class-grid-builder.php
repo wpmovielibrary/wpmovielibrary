@@ -163,13 +163,14 @@ class GridBuilder {
 									'list'    => esc_html__( 'List', 'wpmovielibrary' ),
 									'archive' => esc_html__( 'Archive', 'wpmovielibrary' ),
 								),
-								'sanitize' => 'esc_attr'
+								'sanitize' => 'esc_attr',
+								'default'  => 'grid'
 							),
 							'movie-grid-columns' => array(
 								'type'     => 'text',
 								'section'  => 'movie-grid-appearance',
 								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Default number of rows for the grid.', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => '', 'size' => '2' ),
 								'sanitize' => 'intval',
 								'default'  => 5
@@ -178,7 +179,7 @@ class GridBuilder {
 								'type'     => 'text',
 								'section'  => 'movie-grid-appearance',
 								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Default number of columns for the grid.', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => '', 'size' => '2' ),
 								'sanitize' => 'intval',
 								'default'  => 4
@@ -187,7 +188,7 @@ class GridBuilder {
 								'type'     => 'text',
 								'section'  => 'movie-grid-appearance',
 								'label'    => esc_html__( 'Number of movies', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Default number of movies for the grid. Setting a number of movie will result in the rows number to be ignored.', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of movies for the grid. Setting a number of movie will result in the rows number to be ignored. Default is 5.', 'wpmovielibrary' ),
 								'attr'     => array( 'size' => '2' ),
 								'sanitize' => 'intval',
 								'default'  => 5
@@ -202,49 +203,55 @@ class GridBuilder {
 								'type'     => 'checkbox',
 								'section'  => 'movie-grid-controls',
 								'label'    => esc_html__( 'Show Menu', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Enable the grid menu. Visitors will be able to change some settings to alter the grid appearance to their liking. The changes are local not persitent and will never be stored anywhere on your site.', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Enable the grid menu. Visitors will be able to change some settings to alter the grid appearance to their liking. The changes are local not persitent and will never be stored anywhere on your site. Default is enabled.', 'wpmovielibrary' ),
 								'attr'     => array(),
-								'sanitize' => 'intval'
+								'sanitize' => '_is_bool',
+								'default'  => 1
 							),
 							'movie-grid-mode-control' => array(
 								'type'     => 'checkbox',
 								'section'  => 'movie-grid-controls',
 								'label'    => esc_html__( 'Grid Mode', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors can change the grid mode.', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid mode. Default is disabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'data-parent' => 'movie-grid-show-menu' ),
-								'sanitize' => 'intval'
+								'sanitize' => '_is_bool',
+								'default'  => 0
 							),
 							'movie-grid-content-control' => array(
 								'type'     => 'checkbox',
 								'section'  => 'movie-grid-controls',
 								'label'    => esc_html__( 'Grid Content', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors can change the grid content, ie. number of movies, rows, columns…', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid content, ie. number of movies, rows, columns… Default is disabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'data-parent' => 'movie-grid-show-menu' ),
-								'sanitize' => 'intval'
+								'sanitize' => '_is_bool',
+								'default'  => 0
 							),
 							'movie-grid-display-control' => array(
 								'type'     => 'checkbox',
 								'section'  => 'movie-grid-controls',
 								'label'    => esc_html__( 'Grid Display', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors can change the grid display, ie. showing/hiding titles, ratings, genres…', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid display, ie. showing/hiding titles, ratings, genres… Default is disabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'data-parent' => 'movie-grid-show-menu' ),
-								'sanitize' => 'intval'
+								'sanitize' => '_is_bool',
+								'default'  => 0
 							),
 							'movie-grid-order-control' => array(
 								'type'     => 'checkbox',
 								'section'  => 'movie-grid-controls',
 								'label'    => esc_html__( 'Grid Ordering', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors can change the grid ordering, ie. the sorting and ordering settings.', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid ordering, ie. the sorting and ordering settings. Default is enabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'data-parent' => 'movie-grid-show-menu' ),
-								'sanitize' => 'intval'
+								'sanitize' => '_is_bool',
+								'default'  => 1
 							),
 							'movie-grid-show-pagination' => array(
 								'type'     => 'checkbox',
 								'section'  => 'movie-grid-controls',
 								'label'    => esc_html__( 'Show Pagination', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Enable the pagination menu for visitors.', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Enable the pagination menu for visitors. Default is enabled.', 'wpmovielibrary' ),
 								'attr'     => array(),
-								'sanitize' => 'intval'
+								'sanitize' => '_is_bool',
+								'default'  => 1
 							)
 						)
 					)
@@ -533,6 +540,8 @@ class GridBuilder {
 				);
 
 				foreach ( $section->settings as $control_id => $control ) {
+
+					$control_id = '_wpmoly_' . str_replace( '-', '_', $control_id );
 
 					$control = (object) $control;
 					$manager->register_control(
