@@ -11,7 +11,6 @@
 
 namespace wpmoly\Shortcodes;
 
-use WP_Query;
 use wpmoly\Node\Grid;
 use wpmoly\Core\PublicTemplate as Template;
 
@@ -97,67 +96,14 @@ class Movies extends Shortcode {
 	public function run() {
 
 		$grid = new Grid( $this->attributes['id'] );
-		//$grid->set( $this->attributes );
-		$grid->set( 'mode', 'abc' );
-		print_r( $grid->mode );
-		print_r( $grid );
+		$grid->set( 'mode', $this->attributes['mode'] );
 
-		/*$data = array(
-			'movies'  => $grid->movies
-		);
+		$this->template->set_data( array(
+			'grid'   => $grid,
+			'movies' => $grid->items
+		) );
 
-		$this->template->set_data( $data );
-
-		return $this;*/
-
-		/*global $post;
-
-		$args = array(
-			'post_type'      => 'movie',
-			'post_status'    => 'publish',
-			'posts_per_page' => $this->attributes['count'],
-			'page'           => $this->attributes['paginate'] ? get_query_var( 'page' ) : 1,
-			'order'          => $this->attributes['order']
-		);
-
-		if ( 'rating' == $this->attributes['orderby'] ) {
-			$args['orderby']  = 'meta_value_num';
-			$args['meta_key'] = '_wpmoly_movie_rating';
-		} else {
-			$args['orderby'] = $this->attributes['orderby'];
-		}
-
-		if ( ! $this->attributes['collection'] ) {
-			$args['collection'] = $this->attributes['collection'];
-		} elseif ( ! $this->attributes['genre'] ) {
-			$args['genre'] = $this->attributes['genre'];
-		} elseif ( ! $this->attributes['actor'] ) {
-			$args['actor'] = $this->attributes['actor'];
-		}
-
-		$movies = array();
-
-		$query = new WP_Query( $args );
-		if ( $query->have_posts() ) {
-			while ( $query->have_posts() ) {
-				$query->the_post();
-
-				$movies[] = get_movie( $post );
-			}
-		}
-
-		wp_reset_postdata();
-
-		$data = array(
-			'movies'  => $movies,//Collection\Movies::find( $args )
-			'poster'  => (string) $this->attributes['poster'],
-			'details' => (array) $this->attributes['details'],
-			'meta'    => (array) $this->attributes['meta'],
-		);
-
-		$this->template->set_data( $data );
-
-		return $this;*/
+		return $this;
 	}
 
 	/**

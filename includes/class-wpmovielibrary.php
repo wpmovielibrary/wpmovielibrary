@@ -178,6 +178,9 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/node/class-movie.php';
 		require_once WPMOLY_PATH . 'includes/node/class-grid.php';
 
+		// Queries
+		require_once WPMOLY_PATH . 'includes/query/class-query-movies.php';
+
 		// API
 		require_once WPMOLY_PATH . 'includes/api/class-api.php';
 		require_once WPMOLY_PATH . 'includes/api/class-api-core.php';

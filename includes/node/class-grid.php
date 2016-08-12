@@ -38,6 +38,27 @@ namespace wpmoly\Node;
 class Grid extends Node {
 
 	/**
+	 * Node Collection.
+	 * 
+	 * @var    Collection
+	 */
+	public $items;
+
+	/**
+	 * Supported Grid types.
+	 * 
+	 * @var    array
+	 */
+	private $supported_types = array();
+
+	/**
+	 * Supported Grid modes.
+	 * 
+	 * @var    array
+	 */
+	private $supported_modes = array();
+
+	/**
 	 * Initialize the Grid.
 	 * 
 	 * @since    3.0
@@ -47,6 +68,201 @@ class Grid extends Node {
 	public function init() {
 
 		$this->suffix = '_wpmoly_' . $this->type . '_grid_';
+		$this->items = new Collection;
+
+		/**
+		 * Filter the supported Grid types.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $supported_types
+		 */
+		$this->supported_types = apply_filters( 'wpmoly/filter/grid/supported/types', array( 'movie', 'actor', 'genre' ) );
+
+		foreach ( $this->supported_types as $type ) {
+
+			/**
+			 * Filter the supported Grid modes.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    array    $supported_modes
+			 */
+			$this->supported_modes[ $type ] = apply_filters( 'wpmoly/filter/grid/supported/' . $type . '/modes', array( 'grid', 'list', 'archive' ) );
+		}
+
+		$this->build();
+	}
+
+	/**
+	 * Build the Grid.
+	 * 
+	 * Load items depending on presets or custom settings.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   array
+	 */
+	private function build() {
+
+		if ( 'custom' != $this->preset ) {
+			$query = $this->get_query_callback();
+			if ( is_callable( $query ) ) {
+				$items = call_user_func( $query );
+				foreach ( (array) $items as $item ) {
+					$this->items->add( $item );
+				}
+				return $this->items;
+			}
+		}
+
+		return $this->build_query();
+	}
+
+	/**
+	 * Determine the callback to use based on the Grid type.
+	 * 
+	 * This should return a valid array( $class, $method ) callback.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   array
+	 */
+	private function get_query_callback() {
+
+		$classes = array(
+			'movie' => '\wpmoly\Query\Movies',
+			'actor' => '\wpmoly\Query\Actors',
+			'genre' => '\wpmoly\Query\Genres'
+		);
+
+		if ( isset( $classes[ $this->type ] ) ) {
+			$class = $classes[ $this->type ];
+			$method = str_replace( '-', '_', $this->preset );
+			if ( method_exists( $class, $method ) ) {
+				return array( $class, $method );
+			}
+		}
+
+		return array();
+	}
+
+	/**
+	 * Perform a custom query.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   array
+	 */
+	private function build_query() {
+
+		return array();
+	}
+
+	/**
+	 * Return a .
+	 * 
+	 * Used by Node::__validate().
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   array
+	 */
+	public function validate_rows( $rows ) {
+
+		/**
+		 * Filter the minimum number of rows.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    int     $min Default minimum number of rows.
+		 * @param    Grid    $grid Grid instance.
+		 */
+		$min = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/rows/min', 1, $this );
+
+		/**
+		 * Filter the maximum number of rows.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    int     $max Default maximum number of rows.
+		 * @param    Grid    $grid Grid instance.
+		 */
+		$max = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/rows/max', 10, $this );
+
+		/**
+		 * Filter the default number of rows.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    int     $default Default number of rows.
+		 * @param    Grid    $grid Grid instance.
+		 */
+		$default = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/rows/default', 4, $this );
+
+		return ! empty( $rows ) ? max( $min, min( $rows, $max ) ) : $default;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   array
+	 */
+	public function validate_columns( $columns ) {
+
+		/**
+		 * Filter the minimum number of columns.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    int     $min Default minimum number of columns.
+		 * @param    Grid    $grid Grid instance.
+		 */
+		$min = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/columns/min', 1, $this );
+
+		/**
+		 * Filter the maximum number of columns.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    int     $max Default maximum number of columns.
+		 * @param    Grid    $grid Grid instance.
+		 */
+		$max = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/columns/max', 12, $this );
+
+		/**
+		 * Filter the default number of columns.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    int     $default Default number of columns.
+		 * @param    Grid    $grid Grid instance.
+		 */
+		$default = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/columns/default', 5, $this );
+
+		return ! empty( $columns ) ? max( $min, min( $columns, $max ) ) : $default;
+	}
+
+	/**
+	 * Make sure a Grid preset is supported.
+	 * 
+	 * Used by Node::__validate().
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $preset Grid preset to validate.
+	 * 
+	 * @return   string
+	 */
+	public function validate_preset( $preset ) {
+
+		if ( empty( $preset ) ) {
+			$preset = 'default_preset';
+		}
+
+		return $preset;
 	}
 
 	/**
@@ -62,7 +278,7 @@ class Grid extends Node {
 	 */
 	public function validate_mode( $mode ) {
 
-		return in_array( $mode, array( 'grid', 'list', 'archive' ) ) ? $mode : 'grid';
+		return in_array( $mode, $this->supported_modes[ $this->type ] ) ? $mode : 'grid';
 	}
 
 	/**
@@ -78,6 +294,6 @@ class Grid extends Node {
 	 */
 	public function validate_type( $type ) {
 
-		return in_array( $type, array( 'movie', 'actor', 'genre' ) ) ? $type : 'movie';
+		return in_array( $type, $this->supported_types ) ? $type : 'movie';
 	}
 }

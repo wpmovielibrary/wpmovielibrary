@@ -6,35 +6,28 @@
  * 
  * @since    1.2
  * 
+ * @uses    $grid
  * @uses    $movies
  */
 ?>
 
-	<div class="wpmoly shortcode block movies grid">
+	<div class="wpmoly shortcode block movies grid <?php echo $grid->columns; ?>-columns">
 
-<?php /*foreach ( $movies as $movie ) : ?>
-
+<?php
+if ( $movies->has_items() ) :
+	while ( $movies->has_items() ) :
+		$movie = $movies->the_item();
+?>
 		<div class="wpmoly shortcode inline-block movie">
-
 			<div class="wpmoly shortcode poster">
-				<a href="<?php echo get_the_permalink( $movie->id ); ?>"><?php $movie->get_poster()->render( $poster, 'html' ); ?></a>
+				<a href="<?php echo get_the_permalink( $movie->id ); ?>"><?php $movie->get_poster()->render( 'medium', 'html' ); ?></a>
 			</div>
-
-			<a class="wpmoly shortcode link" href="<?php echo get_the_permalink( $movie->id ); ?>"><h4><?php $movie->meta->the_title(); ?></h4></a>
-
-			<div class="wpmoly shortcode meta">
-<?php
-	if ( ! empty( $meta ) ) :
-		foreach ( $meta as $slug ) :
-?>
-				<dt class="wpmoly shortcode meta <?php echo $slug ?> title"><?php echo $slug ?></dt>
-				<dd class="wpmoly shortcode meta <?php echo $slug ?> value"><?php $movie->meta->the( $slug ); ?></dd>
-<?php
-		endforeach;
-	endif;
-?>
-			</div>
+			<div class="wpmoly shortcode meta title"><a class="wpmoly shortcode link" href="<?php echo get_the_permalink( $movie->id ); ?>"><?php $movie->the( 'title' ); ?></a></div>
+			<div class="wpmoly shortcode meta genres"><?php echo apply_filters( 'wpmoly/shortcode/format/genres/value', $movie->genres ); ?></div>
+			<div class="wpmoly shortcode meta runtime"><?php echo apply_filters( 'wpmoly/shortcode/format/runtime/value', $movie->runtime ); ?></div>
 		</div>
-<?php endforeach;*/ ?>
-
+<?php
+	endwhile;
+endif;
+?>
 	</div>
