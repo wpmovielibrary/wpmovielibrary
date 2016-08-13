@@ -324,11 +324,13 @@ class Editor extends Metabox {
 		$movie = get_movie( $post_id );
 
 		if ( ! empty( $_POST['wpmoly']['meta'] ) ) {
-			$movie->movie->set( $_POST['wpmoly']['meta'] )->save_meta();
+			$movie->set( $_POST['wpmoly']['meta'] );
+			$movie->save_meta();
 		}
 
 		if ( ! empty( $_POST['wpmoly']['detail'] ) ) {
-			$movie->movie->set( $_POST['wpmoly']['detail'] )->save_details();
+			$movie->set( $_POST['wpmoly']['detail'] );
+			$movie->save_details();
 		}
 	}
 

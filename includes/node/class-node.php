@@ -90,6 +90,10 @@ class Node {
 	 */
 	public function __get( $name ) {
 
+		if ( 'suffix' == $name ) {
+			return $this->suffix;
+		}
+
 		// Load metadata
 		$value = get_post_meta( $this->id, $this->suffix . $name, $single = true );
 
