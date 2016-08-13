@@ -100,16 +100,83 @@ class GridBuilder {
 									'custom'                => esc_html__( 'Custom', 'wpmovielibrary' )
 								),
 								'sanitize' => 'esc_attr'
+							),
+							'movie-grid-preset2' => array(
+								'type'    => 'radio-image',
+								'section' => 'movie-grid-presets',
+								'label'   => esc_html__( 'Grid preset', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
+								'attr'    => array( 'class' => 'select2' ),
+								'choices' => array(
+									'alphabetical-movies' => array(
+										'label' => esc_html__( 'Alpabetical Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/alphabetical-movies.png'
+									),
+									'unalphabetical-movies' => array(
+										'label' => esc_html__( 'Alpabetical Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/unalphabetical-movies.png'
+									),
+									'current-year-movies' => array(
+										'label' => esc_html__( 'This Year Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/current-year-movies.png'
+									),
+									'last-year-movies' => array(
+										'label' => esc_html__( 'Last Year Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/last-year-movies.png'
+									),
+									'last-added-movies' => array(
+										'label' => esc_html__( 'Latest Added Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/last-added-movies.png'
+									),
+									'first-added-movies' => array(
+										'label' => esc_html__( 'Earliest Added Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/first-added-movies.png'
+									),
+									'last-released-movies' => array(
+										'label' => esc_html__( 'Latest Released Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/last-released-movies.png'
+									),
+									'first-released-movies' => array(
+										'label' => esc_html__( 'Earliest Released Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/first-released-movies.png'
+									),
+									'incoming-movies' => array(
+										'label' => esc_html__( 'Incoming Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/incoming-movies.png'
+									),
+									'most-rated-movies' => array(
+										'label' => esc_html__( 'Most Rated Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/most-rated-movies.png'
+									),
+									'least-rated-movies' => array(
+										'label' => esc_html__( 'Least Rated Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/least-rated-movies.png'
+									),
+									'custom' => array(
+										'label' => esc_html__( 'Custom', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/custom.png'
+									)
+								),
+								'sanitize' => 'esc_attr'
 							)
 						)
 					),
-					'movie-grid-filters' => array(
-						'label'    => esc_html__( 'Filters', 'wpmovielibrary' ),
+					'movie-grid-content' => array(
+						'label'    => esc_html__( 'Content', 'wpmovielibrary' ),
 						'icon'     => 'dashicons-filter',
 						'settings' => array(
+							'movie-grid-total' => array(
+								'type'     => 'text',
+								'section'  => 'movie-grid-content',
+								'label'    => esc_html__( 'Number of movies', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of movies for the grid. Setting a number of movie will result in the rows number to be ignored. Default is 5.', 'wpmovielibrary' ),
+								'attr'     => array( 'size' => '2' ),
+								'sanitize' => 'intval',
+								'default'  => 5
+							),
 							'text' => array(
 								'type'     => 'text',
-								'section'  => 'movie-grid-filters',
+								'section'  => 'movie-grid-content',
 								'label'    => esc_html__( 'Text input', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'widefat' ),
 								'sanitize' => 'wp_filter_nohtml_kses'
@@ -152,20 +219,6 @@ class GridBuilder {
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
 						'settings' => array(
-							'movie-grid-mode' => array(
-								'type'     => 'radio',
-								'section'  => 'movie-grid-appearance',
-								'label'    => esc_html__( 'Grid Mode', 'wpmovielibrary' ),
-								'description' => __( '<strong>Grid</strong> mode displays a grid of movie posters, <strong>List</strong> mode displays a simple list of movie titles and <strong>Archive</strong> mode displays a list of movie Headboxes.', 'wpmovielibrary' ),
-								'attr'     => array(),
-								'choices' => array(
-									'grid'    => esc_html__( 'Grid', 'wpmovielibrary' ),
-									'list'    => esc_html__( 'List', 'wpmovielibrary' ),
-									'archive' => esc_html__( 'Archive', 'wpmovielibrary' ),
-								),
-								'sanitize' => 'esc_attr',
-								'default'  => 'grid'
-							),
 							'movie-grid-columns' => array(
 								'type'     => 'text',
 								'section'  => 'movie-grid-appearance',
@@ -184,19 +237,10 @@ class GridBuilder {
 								'sanitize' => 'intval',
 								'default'  => 4
 							),
-							'movie-grid-total' => array(
-								'type'     => 'text',
-								'section'  => 'movie-grid-appearance',
-								'label'    => esc_html__( 'Number of movies', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Number of movies for the grid. Setting a number of movie will result in the rows number to be ignored. Default is 5.', 'wpmovielibrary' ),
-								'attr'     => array( 'size' => '2' ),
-								'sanitize' => 'intval',
-								'default'  => 5
-							),
 						)
 					),
 					'movie-grid-controls' => array(
-						'label' => esc_html__( 'Controls', 'wpmovielibrary' ),
+						'label' => esc_html__( 'User Control', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-tools',
 						'settings' => array(
 							'movie-grid-show-menu' => array(
@@ -323,10 +367,27 @@ class GridBuilder {
 		}
 
 ?>
-		<button type="button" data-action="grid-type" data-value="movies" class="active"><span class="wpmolicon icon-video"></span></button>
-		<button type="button" data-action="grid-type" data-value="actors"><span class="wpmolicon icon-actor-alt"></span></button>
-		<button type="button" data-action="grid-type" data-value="genres"><span class="wpmolicon icon-tag"></span></button>
+		<div class="grid-builder-separator">
+			<div class="button separator-label"><?php _e( 'Type' ); ?></div>
+		</div>
+
+		<button type="button" data-action="grid-type" data-value="movies" title="<?php _e( 'Movies', 'wpmovielibrary' ); ?>" class="active"><span class="wpmolicon icon-video"></span></button>
+		<button type="button" data-action="grid-type" data-value="actors" title="<?php _e( 'Actors', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-actor-alt"></span></button>
+		<button type="button" data-action="grid-type" data-value="genres" title="<?php _e( 'Genres', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-tag"></span></button>
 		<div class="clear"></div>
+
+		<div class="grid-builder-separator">
+			<div class="button separator-label"><?php _e( 'Mode' ); ?></div>
+		</div>
+
+		<button type="button" data-action="grid-mode" data-value="grid" title="<?php _e( 'Grid', 'wpmovielibrary' ); ?>" class="active"><span class="wpmolicon icon-th"></span></button>
+		<button type="button" data-action="grid-mode" data-value="list" title="<?php _e( 'List', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-list"></span></button>
+		<button type="button" data-action="grid-mode" data-value="archive" title="<?php _e( 'Archive', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-th-list"></span></button>
+		<div class="clear"></div>
+
+		<div class="grid-builder-separator">
+			<div class="button separator-label"><?php _e( 'Variant' ); ?></div>
+		</div>
 <?php
 	}
 

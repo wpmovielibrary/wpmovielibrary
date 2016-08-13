@@ -30,14 +30,11 @@
 }
 
 /*
- * Grid Builder Preview
+ * Grid Builder separator
  */
 
-#wpmoly-grid-builder {
-	
-}
-
-#wpmoly-grid-builder .grid-builder-separator {
+#wpmoly-grid-builder .grid-builder-separator,
+#wpmoly-grid-type-metabox .grid-builder-separator {
 	background: repeating-linear-gradient(
 		-45deg,
 		#e5e5e5,
@@ -50,8 +47,11 @@
 	text-align: center;
 }
 
-#wpmoly-grid-builder .grid-builder-separator .separator-label {
+#wpmoly-grid-builder .grid-builder-separator .separator-label,
+#wpmoly-grid-type-metabox .grid-builder-separator .separator-label {
 	background: #f1f1f1;
+	border: 0;
+	box-shadow: 0 0 0;
 	color: #aaa;
 	display: inline-block;
 	font-variant: small-caps;
@@ -60,6 +60,14 @@
 	line-height: 1em;
 	margin: 0 auto;
 	padding: 0 10px;
+}
+
+/*
+ * Grid Builder Preview
+ */
+
+#wpmoly-grid-builder {
+	
 }
 
 #wpmoly-grid-builder-preview {
@@ -71,7 +79,14 @@
  */
 
 #wpmoly-grid-type-metabox {
-	
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
+	margin: 55px 1px 20px 1px;
+}
+
+#wpmoly-grid-type-metabox .grid-builder-separator {
+	margin-bottom: 15px;
 }
 
 #wpmoly-grid-type-metabox .handlediv,
