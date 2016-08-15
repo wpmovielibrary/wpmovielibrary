@@ -70,6 +70,7 @@ class Backstage {
 
 		wp_register_style( 'wpmoly',         WPMOLY_URL . 'admin/css/wpmoly.css', array(), $this->version, 'all' );
 		wp_register_style( 'wpmoly-common',  WPMOLY_URL . 'public/css/common.css', array(), $this->version, 'all' );
+		wp_register_style( 'wpmoly-grids',   WPMOLY_URL . 'public/css/wpmoly-grids.css', array(), $this->version, 'all' );
 		wp_register_style( 'wpmoly-select2', WPMOLY_URL . 'admin/css/select2.min.css', array(), $this->version, 'all' );
 	}
 
@@ -152,6 +153,7 @@ class Backstage {
 
 		wp_enqueue_style( 'wpmoly' );
 		wp_enqueue_style( 'wpmoly-common' );
+		wp_enqueue_style( 'wpmoly-grids' );
 		wp_enqueue_style( 'wpmoly-select2' );
 	}
 

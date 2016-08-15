@@ -11,7 +11,9 @@
 
 namespace wpmoly\Admin;
 
+use wpmoly\Node\Grid;
 use wpmoly\Core\Loader;
+use wpmoly\Core\PublicTemplate;
 
 /**
  * Provide a tool to create, build, and save grids.
@@ -383,7 +385,7 @@ class GridBuilder {
 		<div class="clear"></div>
 
 		<div class="grid-builder-separator">
-			<div class="button separator-label"><?php _e( 'Variant' ); ?></div>
+			<div class="button separator-label"><?php _e( 'Theme' ); ?></div>
 		</div>
 <?php
 	}
@@ -446,13 +448,23 @@ class GridBuilder {
 		if ( 'grid' !== $post->post_type ) {
 			return false;
 		}
+
+		$grid = new Grid( get_the_ID() );
+
+		$template = new PublicTemplate( 'shortcodes/movies-' . $grid->mode . '.php' );
+		$template->set_data( array(
+			'grid'   => $grid,
+			'movies' => $grid->items
+		) );
+
 ?>
 		<div id="wpmoly-grid-builder" class="wpmoly">
 			<div class="grid-builder-separator">
 				<button type="button" data-action="toggle-preview" class="button separator-label"><?php _e( 'Preview' ); ?></button>
 			</div>
 			<div id="wpmoly-grid-builder-preview">
-				<div class="wpmoly grid">
+				<?php $template->render( 'always', $echo = true ); ?>
+				<!--<div class="wpmoly grid movies theme-default">
 					<div class="wpmoly grid menu clearfix">
 						<button type="button" data-action="grid-menu" class="button left"><span class="wpmolicon icon-order"></span></button>
 						<button type="button" data-action="grid-settings" class="button right"><span class="wpmolicon icon-settings"></span></button>
@@ -547,12 +559,12 @@ class GridBuilder {
 							</div>
 						</div>
 					</div>
-					<div class="wpmoly grid pagination clearfix">
+					<div class="wpmoly grid pagination-menu clearfix">
 						<button type="button" data-action="grid-paginate" data-value="prev" class="button left"><span class="wpmolicon icon-arrow-left"></span></button>
-						<div class="pagination menu">Page <span class="current-page"><input type="text" size="1" data-action="grid-paginate" value="1" /></span> of <span class="total-pages">123</span></div>
+						<div class="pagination-menu">Page <span class="current-page"><input type="text" size="1" data-action="grid-paginate" value="1" /></span> of <span class="total-pages">123</span></div>
 						<button type="button" data-action="grid-paginate" data-value="next" class="button right"><span class="wpmolicon icon-arrow-right"></span></button>
 					</div>
-				</div>
+				</div>-->
 			</div>
 			<div class="grid-builder-separator"><button type="button" class="button separator-label"><?php _e( 'Settings' ); ?></button></div>
 		</div>

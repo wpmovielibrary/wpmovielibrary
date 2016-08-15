@@ -64,9 +64,11 @@ class Frontend {
 
 		wp_enqueue_style( $this->plugin_name, WPMOLY_URL . 'public/css/wpmoly.css', array(), $this->version, 'all' );
 
-		wp_enqueue_style( $this->plugin_name . '-flags', WPMOLY_URL . 'public/css/wpmoly-flags.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name . '-common', WPMOLY_URL . 'public/css/common.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name . '-grids',  WPMOLY_URL . 'public/css/wpmoly-grids.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name . '-flags',  WPMOLY_URL . 'public/css/wpmoly-flags.css', array(), $this->version, 'all' );
 
-		wp_enqueue_style( $this->plugin_name . '-font', WPMOLY_URL . 'public/fonts/wpmovielibrary/style.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name . '-font',   WPMOLY_URL . 'public/fonts/wpmovielibrary/style.css', array(), $this->version, 'all' );
 	}
 
 	/**

@@ -1,0 +1,158 @@
+
+/*
+ * Movie Grid
+ */
+
+.wpmoly.grid {}
+
+.wpmoly.grid.actors {}
+
+.wpmoly.grid.genres {}
+
+/* Main menu  */
+
+.wpmoly.grid .wpmoly.grid.menu {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	height: 2.5rem;
+	line-height: 2.5rem;
+	padding: 0;
+}
+
+.wpmoly.grid .wpmoly.grid.menu .button {
+	height: 2.5rem;
+	font-size: 1.25em;
+	line-height: 2.5rem;
+	width: 2.5rem;
+}
+
+/* Content */
+
+.wpmoly.grid .wpmoly.grid.content {
+	margin: 0 -4px;
+	padding: 15px 0;
+	
+}
+
+.wpmoly.grid .wpmoly.grid.content .wpmoly.grid.movie {
+	float: left;
+	margin: 0 4px;
+	min-height: 240px;
+	min-width: 160px;
+	width: calc( 20% - 8px );
+}
+
+.wpmoly.grid .wpmoly.grid.content .wpmoly.grid.movie .wpmoly.grid.movie.poster {
+	background-image: url(../img/poster-small.jpg);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	float: none;
+	width: 100%;
+}
+
+.wpmoly.grid .wpmoly.grid.content .wpmoly.grid.movie .wpmoly.grid.movie.title,
+.wpmoly.grid .wpmoly.grid.content .wpmoly.grid.movie .wpmoly.grid.movie.rating {
+	height: 2em;
+	margin: 0;
+	min-height: auto;
+	min-width: auto;
+	width: 100%;
+}
+
+.wpmoly.grid .wpmoly.grid.content .wpmoly.grid.movie .wpmoly.grid.movie.title {
+	font-weight: bold;
+	margin-top: 6px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* Default Theme */
+
+.wpmoly.grid .wpmoly.grid.content .wpmoly.grid.movie {
+	margin: 0 0.25rem 1rem 0.25rem;
+}
+
+.wpmoly.grid.theme-default .wpmoly.grid.content .wpmoly.grid.movie .movie.poster {
+	border-radius: 0.25rem;
+	box-shadow: 0 2px 2px #bbb;
+	margin: 0 0 0.5rem 0;
+	position: relative;
+}
+
+.wpmoly.grid.theme-default .wpmoly.grid.content .wpmoly.grid.movie .movie.poster a {
+	box-shadow: 0 0 0;
+	height: 100%;
+	position: absolute;
+	text-decoration: none;
+	width: 100%;
+}
+
+.wpmoly.grid.theme-default .wpmoly.grid.content .wpmoly.grid.movie .meta.title,
+.wpmoly.grid.theme-default .wpmoly.grid.content .wpmoly.grid.movie .meta.genres,
+.wpmoly.grid.theme-default .wpmoly.grid.content .wpmoly.grid.movie .meta.runtime {
+	padding: 0 0.25em;
+}
+
+.wpmoly.grid.theme-default .wpmoly.grid.content .wpmoly.grid.movie .meta.title,
+.wpmoly.grid.theme-default .wpmoly.grid.content .wpmoly.grid.movie .meta.genres {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.wpmoly.grid.theme-default .wpmoly.grid.content .wpmoly.grid.movie .meta.title a {
+	color: #2f5066;
+	font-size: 0.9em;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.wpmoly.grid.theme-default .wpmoly.grid.content .wpmoly.grid.movie .meta.genres {
+	color: #728999;
+	font-size: 0.8em;
+}
+
+.wpmoly.grid.theme-default .wpmoly.grid.content .wpmoly.grid.movie .meta.genres a {
+	color: #728999;
+	text-decoration: none;
+}
+
+.wpmoly.grid.theme-default .wpmoly.grid.content .wpmoly.grid.movie .meta.runtime {
+	color: #728999;
+	font-size: 0.8em;
+}
+
+/* Pagination Menu */
+
+.wpmoly.grid .wpmoly.grid.pagination-menu {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	height: 2.5rem;
+	line-height: 2.5rem;
+	padding: 0;
+	text-align: center;
+}
+
+.wpmoly.grid .wpmoly.grid.pagination-menu .pagination-menu {
+	display: inline-block;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.wpmoly.grid .wpmoly.grid.pagination-menu .pagination-menu input {
+	box-shadow: 0 0 0;
+	padding: 0 4px;
+	text-align: center;
+	width: auto;
+}
+
+.wpmoly.grid .wpmoly.grid.pagination-menu .button {
+	height: 2.5rem;
+	font-size: 1.25em;
+	line-height: 2.5rem;
+	width: 2.5rem;
+}

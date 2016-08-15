@@ -59,6 +59,13 @@ class Grid extends Node {
 	private $supported_modes = array();
 
 	/**
+	 * Supported Grid themes.
+	 * 
+	 * @var    array
+	 */
+	private $supported_themes = array();
+
+	/**
 	 * Initialize the Grid.
 	 * 
 	 * @since    3.0
@@ -89,6 +96,15 @@ class Grid extends Node {
 			 * @param    array    $supported_modes
 			 */
 			$this->supported_modes[ $type ] = apply_filters( 'wpmoly/filter/grid/supported/' . $type . '/modes', array( 'grid', 'list', 'archive' ) );
+
+			/**
+			 * Filter the supported Grid themes.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    array    $supported_themes
+			 */
+			$this->supported_themes[ $type ] = apply_filters( 'wpmoly/filter/grid/supported/' . $type . '/themes', array( 'default' ) );
 		}
 
 		$this->build();
@@ -321,6 +337,22 @@ class Grid extends Node {
 		}
 
 		return $preset;
+	}
+
+	/**
+	 * Make sure a Grid theme is supported.
+	 * 
+	 * Used by Node::__validate().
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $theme Grid theme to validate.
+	 * 
+	 * @return   string
+	 */
+	public function validate_theme( $theme ) {
+
+		return in_array( $theme, $this->supported_themes[ $this->type ] ) ? $theme : 'default';
 	}
 
 	/**

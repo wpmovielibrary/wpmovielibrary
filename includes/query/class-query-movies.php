@@ -329,7 +329,7 @@ class Movies {
 		 * 
 		 * @param    int    $orderby
 		 */
-		$orderby = apply_filters( 'wpmoly/filter/query/movies/defaults/orderby', array( 'date' ) );
+		$orderby = apply_filters( 'wpmoly/filter/query/movies/defaults/orderby', 'post_date' );
 
 		/**
 		 * Filter default query order.
