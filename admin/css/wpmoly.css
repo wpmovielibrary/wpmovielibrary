@@ -102,17 +102,56 @@
 #wpmoly-grid-type-metabox .inside button {
 	background: rgba(49, 144, 198, 0.5);
 	border: 0;
-	color: #eee;
+	color: #fff;
 	cursor: pointer;
 	float: left;
 	font-size: 2.5em;
 	height: 2.5em;
+	opacity: 0.6;
 	width: 33.3333334%
+}
+
+#wpmoly-grid-type-metabox .inside button {
+	background: #414bcf;
 }
 
 #wpmoly-grid-type-metabox .inside button:hover,
 #wpmoly-grid-type-metabox .inside button.active {
+	opacity: 1.0;
+}
+
+#wpmoly-grid-type-metabox #movie-grid-modes button,
+#wpmoly-grid-type-metabox #movie-grid-grid-mode-themes button,
+#wpmoly-grid-type-metabox #movie-grid-list-mode-themes button,
+#wpmoly-grid-type-metabox #movie-grid-archive-mode-themes button,
+#wpmoly-grid-type-metabox #grid-types button[data-value="movie"] {
 	background: #3190c6;
+}
+
+#wpmoly-grid-type-metabox #actor-grid-modes button,
+#wpmoly-grid-type-metabox #actor-grid-grid-mode-themes button,
+#wpmoly-grid-type-metabox #actor-grid-list-mode-themes button,
+#wpmoly-grid-type-metabox #actor-grid-archive-mode-themes button,
+#wpmoly-grid-type-metabox #grid-types button[data-value="actor"] {
+	background: #2ad07c;
+}
+
+#wpmoly-grid-type-metabox #genre-grid-modes button,
+#wpmoly-grid-type-metabox #genre-grid-grid-mode-themes button,
+#wpmoly-grid-type-metabox #genre-grid-list-mode-themes button,
+#wpmoly-grid-type-metabox #genre-grid-archive-mode-themes button,
+#wpmoly-grid-type-metabox #grid-types button[data-value="genre"] {
+	background: #ffa434;
+}
+
+#wpmoly-grid-type-metabox .supported-grid-modes,
+#wpmoly-grid-type-metabox .supported-grid-themes {
+	display: none;
+}
+
+#wpmoly-grid-type-metabox .supported-grid-modes.active,
+#wpmoly-grid-type-metabox .supported-grid-themes.active {
+	display: block;
 }
 
 /*

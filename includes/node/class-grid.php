@@ -77,34 +77,160 @@ class Grid extends Node {
 		$this->suffix = '_wpmoly_' . $this->type . '_grid_';
 		$this->items = new Collection;
 
+		$grid_types = array(
+			'movie' => array(
+				'label' => __( 'Movie', 'wpmovielibrary' ),
+				'icon'  => 'wpmolicon icon-video',
+				'modes' => array(
+					'grid' => array(
+						'label'  => __( 'Grid', 'wpmovielibrary' ),
+						'icon'   => 'wpmolicon icon-th',
+						'themes' => array(
+							'default' => array(
+								'label' => __( 'Default' ),
+								'icon'  => 'wpmolicon icon-style'
+							),
+							'variant-1' => array(
+								'label' => __( 'Variant #1' ),
+								'icon'  => 'wpmolicon icon-style'
+							),
+							'variant-2' => array(
+								'label' => __( 'Variant #2' ),
+								'icon'  => 'wpmolicon icon-style'
+							)
+						)
+					),
+					'list' => array(
+						'label' => __( 'List', 'wpmovielibrary' ),
+						'icon'  => 'wpmolicon icon-list',
+						'themes' => array(
+							'default' => array(
+								'label' => __( 'Default' ),
+								'icon'  => 'wpmolicon icon-style'
+							)
+						)
+					),
+					'archive' => array(
+						'label' => __( 'Archive', 'wpmovielibrary' ),
+						'icon'  => 'wpmolicon icon-th-list',
+						'themes' => array(
+							'default' => array(
+								'label' => __( 'Default' ),
+								'icon'  => 'wpmolicon icon-style'
+							),
+							'variant-1' => array(
+								'label' => __( 'Variant #1' ),
+								'icon'  => 'wpmolicon icon-style'
+							)
+						)
+					)
+				)
+			),
+			'actor' => array(
+				'label' => __( 'Actor', 'wpmovielibrary' ),
+				'icon'  => 'wpmolicon icon-actor-alt',
+				'modes' => array(
+					'grid' => array(
+						'label' => __( 'Grid', 'wpmovielibrary' ),
+						'icon'  => 'wpmolicon icon-th',
+						'themes' => array(
+							'default' => array(
+								'label' => __( 'Default' ),
+								'icon'  => 'wpmolicon icon-style'
+							)
+						)
+					),
+					'list' => array(
+						'label' => __( 'List', 'wpmovielibrary' ),
+						'icon'  => 'wpmolicon icon-list',
+						'themes' => array(
+							'default' => array(
+								'label' => __( 'Default' ),
+								'icon'  => 'wpmolicon icon-style'
+							)
+						)
+					),
+					'archive' => array(
+						'label' => __( 'Archive', 'wpmovielibrary' ),
+						'icon'  => 'wpmolicon icon-th-list',
+						'themes' => array(
+							'default' => array(
+								'label' => __( 'Default' ),
+								'icon'  => 'wpmolicon icon-style'
+							)
+						)
+					)
+				)
+			),
+			'genre' => array(
+				'label' => __( 'Genre', 'wpmovielibrary' ),
+				'icon'  => 'wpmolicon icon-tag',
+				'modes' => array(
+					'grid' => array(
+						'label' => __( 'Grid', 'wpmovielibrary' ),
+						'icon'  => 'wpmolicon icon-th',
+						'themes' => array(
+							'default' => array(
+								'label' => __( 'Default' ),
+								'icon'  => 'wpmolicon icon-style'
+							)
+						)
+					),
+					'list' => array(
+						'label' => __( 'List', 'wpmovielibrary' ),
+						'icon'  => 'wpmolicon icon-list',
+						'themes' => array(
+							'default' => array(
+								'label' => __( 'Default' ),
+								'icon'  => 'wpmolicon icon-style'
+							)
+						)
+					),
+					'archive' => array(
+						'label' => __( 'Archive', 'wpmovielibrary' ),
+						'icon'  => 'wpmolicon icon-th-list',
+						'themes' => array(
+							'default' => array(
+								'label' => __( 'Default' ),
+								'icon'  => 'wpmolicon icon-style'
+							)
+						)
+					)
+				)
+			)
+		);
+
 		/**
 		 * Filter the supported Grid types.
 		 * 
 		 * @since    3.0
 		 * 
-		 * @param    array    $supported_types
+		 * @param    array    $default_types
 		 */
-		$this->supported_types = apply_filters( 'wpmoly/filter/grid/supported/types', array( 'movie', 'actor', 'genre' ) );
+		$this->supported_types = apply_filters( 'wpmoly/filter/grid/supported/types', $grid_types );
 
-		foreach ( $this->supported_types as $type ) {
+		foreach ( $this->supported_types as $type_id => $type ) {
 
 			/**
 			 * Filter the supported Grid modes.
 			 * 
 			 * @since    3.0
 			 * 
-			 * @param    array    $supported_modes
+			 * @param    array    $default_modes
 			 */
-			$this->supported_modes[ $type ] = apply_filters( 'wpmoly/filter/grid/supported/' . $type . '/modes', array( 'grid', 'list', 'archive' ) );
+			$this->supported_modes[ $type_id ] = apply_filters( 'wpmoly/filter/grid/supported/' . $type_id . '/modes', $type['modes'] );
 
-			/**
-			 * Filter the supported Grid themes.
-			 * 
-			 * @since    3.0
-			 * 
-			 * @param    array    $supported_themes
-			 */
-			$this->supported_themes[ $type ] = apply_filters( 'wpmoly/filter/grid/supported/' . $type . '/themes', array( 'default' ) );
+			foreach ( $this->supported_modes[ $type_id ] as $mode_id => $mode ) {
+
+				/**
+				 * Filter the supported Grid themes.
+				 * 
+				 * @since    3.0
+				 * 
+				 * @param    array    $default_themes
+				 */
+				$this->supported_themes[ $type_id ][ $mode_id ] = apply_filters( 'wpmoly/filter/grid/supported/' . $type_id . '/' . $mode_id . '/themes', $mode['themes'] );
+			}
 		}
 
 		$this->build();
@@ -173,6 +299,42 @@ class Grid extends Node {
 	private function build_query() {
 
 		return array();
+	}
+
+	/**
+	 * Simple accessor for supported types.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   array
+	 */
+	public function get_supported_types() {
+
+		return $this->supported_types;
+	}
+
+	/**
+	 * Simple accessor for supported modes.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   array
+	 */
+	public function get_supported_modes( $type = '' ) {
+
+		return ! empty( $type ) && ! empty( $this->supported_modes[ $type ] ) ? $this->supported_modes[ $type ] : $this->supported_modes;
+	}
+
+	/**
+	 * Simple accessor for supported themes.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   array
+	 */
+	public function get_supported_themes( $type = '', $mode = '' ) {
+
+		return ! empty( $type ) && ! empty( $mode ) && ! empty( $this->supported_themes[ $type ][ $mode ] ) ? $this->supported_themes[ $type ][ $mode ] : $this->supported_themes;
 	}
 
 	/**
@@ -352,7 +514,7 @@ class Grid extends Node {
 	 */
 	public function validate_theme( $theme ) {
 
-		return in_array( $theme, $this->supported_themes[ $this->type ] ) ? $theme : 'default';
+		return isset( $this->supported_themes[ $this->type ][ $theme ] ) ? $theme : 'default';
 	}
 
 	/**
@@ -368,7 +530,7 @@ class Grid extends Node {
 	 */
 	public function validate_mode( $mode ) {
 
-		return in_array( $mode, $this->supported_modes[ $this->type ] ) ? $mode : 'grid';
+		return isset( $this->supported_modes[ $this->type ][ $mode ] ) ? $mode : 'grid';
 	}
 
 	/**
@@ -384,6 +546,6 @@ class Grid extends Node {
 	 */
 	public function validate_type( $type ) {
 
-		return in_array( $type, $this->supported_types ) ? $type : 'movie';
+		return isset( $this->supported_types[ $type ] ) ? $type : 'movie';
 	}
 }

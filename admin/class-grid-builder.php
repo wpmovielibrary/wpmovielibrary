@@ -34,26 +34,27 @@ class GridBuilder {
 	private $metaboxes = array();
 
 	/**
+	 * Grid instance.
+	 * 
+	 * @var    Grid
+	 */
+	private $grid;
+
+	/**
 	 * Class constructor.
 	 * 
 	 * @since    3.0
 	 */
 	public function __construct() {
 
+		// Load the Grid
+		$this->grid = new Grid( get_the_ID() );
+
 		$metaboxes = array(
 			'type' => array(
 				'id'            => 'wpmoly-grid-type',
 				'title'         => __( 'Type', 'wpmovielibrary' ),
 				'callback'      => array( $this, 'type_metabox' ),
-				'screen'        => 'grid',
-				'context'       => 'side',
-				'priority'      => 'high',
-				'callback_args' => null
-			),
-			'configure' => array(
-				'id'            => 'wpmoly-grid-configure',
-				'title'         => __( 'Configure', 'wpmovielibrary' ),
-				'callback'      => array( $this, 'configure_metabox' ),
 				'screen'        => 'grid',
 				'context'       => 'side',
 				'priority'      => 'high',
@@ -299,6 +300,38 @@ class GridBuilder {
 						)
 					)
 				)
+			),
+			'actor-grid-settings' => array(
+				'label'     => esc_html__( 'Réglages', 'wpmovielibrary' ),
+				'post_type' => 'grid',
+				'context'   => 'normal',
+				'priority'  => 'high',
+				'sections'  => array(
+					'actor-grid-presets' => array(
+						'label'    => esc_html__( 'Presets', 'wpmovielibrary' ),
+						'icon'     => 'wpmolicon icon-cogs',
+						'settings' => array(
+							'actor-grid-preset' => array(
+								'type'    => 'radio-image',
+								'section' => 'actor-grid-presets',
+								'label'   => esc_html__( 'Grid preset', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
+								'attr'    => array( 'class' => 'visible-labels half-col' ),
+								'choices' => array(
+									'alphabetical-actors' => array(
+										'label' => esc_html__( 'Alpabetical Actors', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/alphabetical-movies.png'
+									),
+									'unalphabetical-movies' => array(
+										'label' => esc_html__( 'Alpabetical Actors', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/unalphabetical-movies.png'
+									)
+								),
+								'sanitize' => 'esc_attr'
+							)
+						)
+					)
+				)
 			)
 		);
 
@@ -365,47 +398,67 @@ class GridBuilder {
 			return false;
 		}
 
+		$types = $this->grid->get_supported_types();
+		$modes = $this->grid->get_supported_modes();
+		$themes = $this->grid->get_supported_themes();
+		var_dump( $this->grid->type, $this->grid->mode, $this->grid->theme );
 ?>
 		<div class="grid-builder-separator">
 			<div class="button separator-label"><?php _e( 'Type' ); ?></div>
 		</div>
 
-		<button type="button" data-action="grid-type" data-value="movies" title="<?php _e( 'Movies', 'wpmovielibrary' ); ?>" class="active"><span class="wpmolicon icon-video"></span></button>
-		<button type="button" data-action="grid-type" data-value="actors" title="<?php _e( 'Actors', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-actor-alt"></span></button>
-		<button type="button" data-action="grid-type" data-value="genres" title="<?php _e( 'Genres', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-tag"></span></button>
-		<div class="clear"></div>
+		<div id="grid-types" class="supported-grid-types">
+<?php
+		foreach ( $types as $type_id => $type ) :
+?>
+			<button type="button" data-action="grid-type" data-value="<?php echo $type_id; ?>" title="<?php echo $type['label']; ?>" class="<?php echo $type_id == $this->grid->type ? 'active' : ''; ?>"><span class="<?php echo $type['icon']; ?>"></span></button>
+<?php
+		endforeach;
+?>
+			<div class="clear"></div>
+		</div>
 
 		<div class="grid-builder-separator">
 			<div class="button separator-label"><?php _e( 'Mode' ); ?></div>
 		</div>
 
-		<button type="button" data-action="grid-mode" data-value="grid" title="<?php _e( 'Grid', 'wpmovielibrary' ); ?>" class="active"><span class="wpmolicon icon-th"></span></button>
-		<button type="button" data-action="grid-mode" data-value="list" title="<?php _e( 'List', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-list"></span></button>
-		<button type="button" data-action="grid-mode" data-value="archive" title="<?php _e( 'Archive', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-th-list"></span></button>
-		<div class="clear"></div>
+<?php
+		foreach ( $types as $type_id => $type ) :
+?>
+		<div id="<?php echo $type_id; ?>-grid-modes" class="supported-grid-modes<?php echo $type_id == $this->grid->type ? ' active' : ''; ?>">
+<?php
+			foreach ( $modes[ $type_id ] as $mode_id => $mode ) :
+?>
+			<button type="button" data-action="grid-mode" data-value="<?php echo $mode_id; ?>" title="<?php echo $mode['label']; ?>" class="<?php echo $type_id == $this->grid->type && $mode_id == $this->grid->mode ? ' active' : ''; ?>"><span class="<?php echo $mode['icon']; ?>"></span></button>
+<?php
+			endforeach;
+?>
+			<div class="clear"></div>
+		</div>
+<?php
+		endforeach;
+?>
 
 		<div class="grid-builder-separator">
 			<div class="button separator-label"><?php _e( 'Theme' ); ?></div>
 		</div>
 <?php
-	}
-
-	/**
-	 * Grid Configure Metabox callback.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    object    $post Current Post instance.
-	 * 
-	 * @return   void
-	 */
-	public function configure_metabox( $post ) {
-
-		if ( 'grid' !== $post->post_type ) {
-			return false;
-		}
-
-		echo '!';
+		foreach ( $types as $type_id => $type ) :
+			foreach ( $modes[ $type_id ] as $mode_id => $mode ) :
+?>
+		<div id="<?php echo $type_id; ?>-grid-<?php echo $mode_id; ?>-mode-themes" class="supported-grid-themes<?php echo $type_id == $this->grid->type && $mode_id == $this->grid->mode ? ' active' : ''; ?>">
+<?php
+				foreach ( $themes[ $type_id ][ $mode_id ] as $theme_id => $theme ) :
+?>
+			<button type="button" data-action="grid-theme" data-value="<?php echo $theme_id; ?>" title="<?php echo $theme['label']; ?>" class="<?php echo $type_id == $this->grid->type && $mode_id == $this->grid->mode && $theme_id == $this->grid->theme ? 'active' : ''; ?>"><span class="<?php echo $theme['icon']; ?>"></span></button>
+<?php
+				endforeach;
+?>
+			<div class="clear"></div>
+		</div>
+<?php
+			endforeach;
+		endforeach;
 	}
 
 	/**
@@ -449,14 +502,11 @@ class GridBuilder {
 			return false;
 		}
 
-		// Load the Grid
-		$grid = new Grid( get_the_ID() );
-
 		// Grid template setup
-		$template = new PublicTemplate( 'shortcodes/movies-' . $grid->mode . '.php' );
+		$template = new PublicTemplate( 'shortcodes/movies-' . $this->grid->mode . '.php' );
 		$template->set_data( array(
-			'grid'   => $grid,
-			'movies' => $grid->items
+			'grid'   => $this->grid,
+			'movies' => $this->grid->items
 		) );
 
 ?>
