@@ -449,8 +449,10 @@ class GridBuilder {
 			return false;
 		}
 
+		// Load the Grid
 		$grid = new Grid( get_the_ID() );
 
+		// Grid template setup
 		$template = new PublicTemplate( 'shortcodes/movies-' . $grid->mode . '.php' );
 		$template->set_data( array(
 			'grid'   => $grid,
@@ -464,113 +466,19 @@ class GridBuilder {
 			</div>
 			<div id="wpmoly-grid-builder-preview">
 				<?php $template->render( 'always', $echo = true ); ?>
-				<!--<div class="wpmoly grid movies theme-default">
-					<div class="wpmoly grid menu clearfix">
-						<button type="button" data-action="grid-menu" class="button left"><span class="wpmolicon icon-order"></span></button>
-						<button type="button" data-action="grid-settings" class="button right"><span class="wpmolicon icon-settings"></span></button>
-					</div>
-					<div class="wpmoly grid content clearfix">
-						<div class="wpmoly grid movie">
-							<div class="wpmoly grid movie poster"></div>
-							<div class="wpmoly grid movie title">Loren ispum dolor sit amet</div>
-							<div class="wpmoly grid movie rating">
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-half"></span>
-								<span class="wpmolicon icon-star-empty"></span>
-							</div>
-						</div>
-						<div class="wpmoly grid movie">
-							<div class="wpmoly grid movie poster"></div>
-							<div class="wpmoly grid movie title">Loren ispum dolor sit amet</div>
-							<div class="wpmoly grid movie rating">
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-half"></span>
-								<span class="wpmolicon icon-star-empty"></span>
-							</div>
-						</div>
-						<div class="wpmoly grid movie">
-							<div class="wpmoly grid movie poster"></div>
-							<div class="wpmoly grid movie title">Loren ispum dolor sit amet</div>
-							<div class="wpmoly grid movie rating">
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-half"></span>
-								<span class="wpmolicon icon-star-empty"></span>
-							</div>
-						</div>
-						<div class="wpmoly grid movie">
-							<div class="wpmoly grid movie poster"></div>
-							<div class="wpmoly grid movie title">Loren ispum dolor sit amet</div>
-							<div class="wpmoly grid movie rating">
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-half"></span>
-								<span class="wpmolicon icon-star-empty"></span>
-							</div>
-						</div>
-						<div class="wpmoly grid movie">
-							<div class="wpmoly grid movie poster"></div>
-							<div class="wpmoly grid movie title">Loren ispum dolor sit amet</div>
-							<div class="wpmoly grid movie rating">
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-half"></span>
-								<span class="wpmolicon icon-star-empty"></span>
-							</div>
-						</div>
-						<div class="wpmoly grid movie">
-							<div class="wpmoly grid movie poster"></div>
-							<div class="wpmoly grid movie title">Loren ispum dolor sit amet</div>
-							<div class="wpmoly grid movie rating">
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-half"></span>
-								<span class="wpmolicon icon-star-empty"></span>
-							</div>
-						</div>
-						<div class="wpmoly grid movie">
-							<div class="wpmoly grid movie poster"></div>
-							<div class="wpmoly grid movie title">Loren ispum dolor sit amet</div>
-							<div class="wpmoly grid movie rating">
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-half"></span>
-								<span class="wpmolicon icon-star-empty"></span>
-							</div>
-						</div>
-						<div class="wpmoly grid movie">
-							<div class="wpmoly grid movie poster"></div>
-							<div class="wpmoly grid movie title">Loren ispum dolor sit amet</div>
-							<div class="wpmoly grid movie rating">
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-filled"></span>
-								<span class="wpmolicon icon-star-half"></span>
-								<span class="wpmolicon icon-star-empty"></span>
-							</div>
-						</div>
-					</div>
-					<div class="wpmoly grid pagination-menu clearfix">
-						<button type="button" data-action="grid-paginate" data-value="prev" class="button left"><span class="wpmolicon icon-arrow-left"></span></button>
-						<div class="pagination-menu">Page <span class="current-page"><input type="text" size="1" data-action="grid-paginate" value="1" /></span> of <span class="total-pages">123</span></div>
-						<button type="button" data-action="grid-paginate" data-value="next" class="button right"><span class="wpmolicon icon-arrow-right"></span></button>
-					</div>
-				</div>-->
 			</div>
 			<div class="grid-builder-separator"><button type="button" class="button separator-label"><?php _e( 'Settings' ); ?></button></div>
 		</div>
 <?php
 	}
 
+	/**
+	 * Load ButterBean if needed.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
 	public function load() {
 
 		// Bail if not our post type.
@@ -581,6 +489,16 @@ class GridBuilder {
 		require_once WPMOLY_PATH . 'vendor/butterbean/butterbean.php';
 	}
 
+	/**
+	 * Register ButterBean's metabox settings.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    $butterbean ButterBean instance.
+	 * @param    string    $post_type Current Post Type.
+	 * 
+	 * @return   void
+	 */
 	public function register_butterbean( $butterbean, $post_type ) {
 
 		foreach ( $this->settings as $id => $setting ) {
@@ -637,224 +555,6 @@ class GridBuilder {
 				}
 			}
 		}
-
-		/*$butterbean->register_manager(
-			'movie-grid-settings',
-			array(
-				'label'     => esc_html__( 'Réglages', 'wpmovielibrary' ),
-				'post_type' => 'grid',
-				'context'   => 'normal',
-				'priority'  => 'high'
-			)
-		);
-
-		$manager = $butterbean->get_manager( 'movie-grid-settings' );
-
-		
-
-
-		$manager->register_section(
-			'grid-ordering',
-			array(
-				'label' => esc_html__( 'Ordering', 'wpmovielibrary' ),
-				'icon'  => 'dashicons-randomize'
-			)
-		);
-
-		$manager->register_section(
-			'grid-appearance',
-			array(
-				'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
-				'icon'  => 'dashicons-admin-appearance'
-			)
-		);
-
-		$butterbean->register_manager(
-			'actor-grid-settings',
-			array(
-				'label'     => esc_html__( 'Réglages', 'wpmovielibrary' ),
-				'post_type' => 'grid',
-				'context'   => 'normal',
-				'priority'  => 'high'
-			)
-		);
-
-		$manager = $butterbean->get_manager( 'actor-grid-settings' );
-
-		$manager->register_section(
-			'grid-filters',
-			array(
-				'label' => esc_html__( 'Filters', 'wpmovielibrary' ),
-				'icon'  => 'dashicons-filter'
-			)
-		);
-
-		$manager->register_control(
-			'text',
-			array(
-				'type'    => 'text',
-				'section' => 'grid-filters',
-				'label'   => esc_html__( 'Text input', 'wpmovielibrary' ),
-				'attr'    => array( 'class' => 'widefat' )
-			)
-		);
-
-		$manager->register_setting(
-			'text',
-			array(
-				'sanitize_callback' => 'wp_filter_nohtml_kses'
-			)
-		);
-
-		$manager->register_section(
-			'grid-ordering',
-			array(
-				'label' => esc_html__( 'Ordering', 'wpmovielibrary' ),
-				'icon'  => 'dashicons-randomize'
-			)
-		);
-
-		/*$manager->register_control(
-			'textarea', // Same as setting name.
-			array(
-				'type'    => 'textarea',
-				'section' => 'grid-filters',
-				'label'   => esc_html__( 'Text area', 'wpmovielibrary' ),
-				'attr'    => array( 'class' => 'widefat' )
-			)
-		);
-
-		$manager->register_setting(
-			'textarea', // Same as control name.
-			array(
-				'sanitize_callback' => 'wp_filter_nohtml_kses'
-			)
-		);
-
-		$manager->register_section(
-			'section_2',
-			array(
-				'label' => esc_html__( 'Section 2', 'wpmovielibrary' ),
-				'icon'  => 'dashicons-admin-generic'
-			)
-		);
-
-		$manager->register_control(
-			'select', // Same as setting name.
-			array(
-				'type'    => 'select',
-				'section' => 'section_2',
-				'label'   => esc_html__( 'Select', 'wpmovielibrary' ),
-				'attr'    => array( 'class' => 'widefat' ),
-				'choices' => array(
-					'select_a' => 'Select A',
-					'select_b' => 'Select B',
-					'select_c' => 'Select C',
-					'select_d' => 'Select D',
-				)
-			)
-		);
-
-		$manager->register_setting(
-			'select', // Same as control name.
-			array(
-				'sanitize_callback' => 'esc_attr'
-			)
-		);
-
-		$manager->register_control(
-			'select_multiple', // Same as setting name.
-			array(
-				'type'    => 'select',
-				'section' => 'section_2',
-				'label'   => esc_html__( 'Select multiple', 'wpmovielibrary' ),
-				'attr'    => array( 'multiple' => 'true', 'class' => 'widefat' ),
-				'choices' => array(
-					'select_a' => 'Select A',
-					'select_b' => 'Select B',
-					'select_c' => 'Select C',
-					'select_d' => 'Select D',
-				)
-			)
-		);
-
-		$manager->register_setting(
-			'select_multiple', // Same as control name.
-			array(
-				'sanitize_callback' => ''
-			)
-		);
-
-		$manager->register_section(
-			'section_3',
-			array(
-				'label' => esc_html__( 'Section 3', 'wpmovielibrary' ),
-				'icon'  => 'dashicons-admin-generic'
-			)
-		);
-
-		$manager->register_control(
-			'radio', // Same as setting name.
-			array(
-				'type'    => 'radio',
-				'section' => 'section_3',
-				'label'   => esc_html__( 'Radio', 'wpmovielibrary' ),
-				'attr'    => array( 'class' => 'widefat' ),
-				'choices' => array(
-					'select_a' => 'Select A',
-					'select_b' => 'Select B',
-					'select_c' => 'Select C',
-					'select_d' => 'Select D',
-				)
-			)
-		);
-
-		$manager->register_setting(
-			'radio', // Same as control name.
-			array(
-				'sanitize_callback' => 'esc_attr'
-			)
-		);
-
-		$manager->register_control(
-			'checkbox', // Same as setting name.
-			array(
-				'type'    => 'checkbox',
-				'section' => 'section_3',
-				'label'   => esc_html__( 'Checkbox', 'wpmovielibrary' ),
-				'attr'    => array( 'class' => 'widefat' )
-			)
-		);
-
-		$manager->register_setting(
-			'checkbox', // Same as control name.
-			array(
-				'sanitize_callback' => 'esc_attr'
-			)
-		);
-
-		$manager->register_control(
-			'checkboxes', // Same as setting name.
-			array(
-				'type'    => 'checkboxes',
-				'section' => 'section_3',
-				'label'   => esc_html__( 'Checkboxes', 'wpmovielibrary' ),
-				'attr'    => array( 'multiple' => 'true', 'class' => 'widefat' ),
-				'choices' => array(
-					'select_a' => 'Select A',
-					'select_b' => 'Select B',
-					'select_c' => 'Select C',
-					'select_d' => 'Select D',
-				)
-			)
-		);
-
-		$manager->register_setting(
-			'checkboxes', // Same as control name.
-			array(
-				'sanitize_callback' => 'esc_attr'
-			)
-		);*/
 	}
 
 	/**
