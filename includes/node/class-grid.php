@@ -166,7 +166,9 @@ class Grid extends Node {
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   array
+	 * @param    int    $rows Number of rows.
+	 * 
+	 * @return   int
 	 */
 	public function validate_rows( $rows ) {
 
@@ -210,7 +212,9 @@ class Grid extends Node {
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   array
+	 * @param    int    $rows Number of columns.
+	 * 
+	 * @return   int
 	 */
 	public function validate_columns( $columns ) {
 
@@ -245,6 +249,58 @@ class Grid extends Node {
 		$default = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/columns/default', 5, $this );
 
 		return ! empty( $columns ) ? max( $min, min( $columns, $max ) ) : $default;
+	}
+
+	/**
+	 * Return a valid ideal column width.
+	 * 
+	 * Used by Node::__validate().
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    int    $column_width Ideal column width.
+	 * 
+	 * @return   int
+	 */
+	public function validate_column_width( $column_width ) {
+
+		/**
+		 * Filter the default ideal column width.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    int     $ideal_width Default ideal column width.
+		 * @param    Grid    $grid Grid instance.
+		 */
+		$ideal_width = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/columns/ideal_width', 160, $this );
+
+		return ! empty( $column_width ) ? intval( $column_width ) : $ideal_width;
+	}
+
+	/**
+	 * Return a valid ideal row height.
+	 * 
+	 * Used by Node::__validate().
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    int    $row_width Ideal row height.
+	 * 
+	 * @return   int
+	 */
+	public function validate_row_height( $row_height ) {
+
+		/**
+		 * Filter the default ideal row height.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    int     $ideal_width Default ideal row height.
+		 * @param    Grid    $grid Grid instance.
+		 */
+		$ideal_height = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/rows/ideal_height', 240, $this );
+
+		return ! empty( $row_height ) ? intval( $row_height ) : $ideal_height;
 	}
 
 	/**

@@ -81,32 +81,11 @@ class GridBuilder {
 						'icon'     => 'wpmolicon icon-cogs',
 						'settings' => array(
 							'movie-grid-preset' => array(
-								'type'    => 'select',
-								'section' => 'movie-grid-presets',
-								'label'   => esc_html__( 'Grid preset', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
-								'attr'    => array( 'class' => 'select2' ),
-								'choices' => array(
-									'last-added-movies'     => esc_html__( 'Latest Added Movies', 'wpmovielibrary' ),
-									'last-released-movies'  => esc_html__( 'Latest Released Movies', 'wpmovielibrary' ),
-									'first-added-movies'    => esc_html__( 'Earliest Added Movies', 'wpmovielibrary' ),
-									'first-released-movies' => esc_html__( 'Earliest Released Movies', 'wpmovielibrary' ),
-									'incoming-movies'       => esc_html__( 'Incoming Movies', 'wpmovielibrary' ),
-									'alpha-movies'          => esc_html__( 'Alpabetical Movies', 'wpmovielibrary' ),
-									'current-year-movies'   => esc_html__( 'This Year Movies', 'wpmovielibrary' ),
-									'last-year-movies'      => esc_html__( 'Last Year Movies', 'wpmovielibrary' ),
-									'rated-movies'          => esc_html__( 'Best Rated Movies', 'wpmovielibrary' ),
-									'inverse-rated-movies'  => esc_html__( 'Worst Rated Movies', 'wpmovielibrary' ),
-									'custom'                => esc_html__( 'Custom', 'wpmovielibrary' )
-								),
-								'sanitize' => 'esc_attr'
-							),
-							'movie-grid-preset2' => array(
 								'type'    => 'radio-image',
 								'section' => 'movie-grid-presets',
 								'label'   => esc_html__( 'Grid preset', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
-								'attr'    => array( 'class' => 'select2' ),
+								'attr'    => array( 'class' => 'visible-labels half-col' ),
 								'choices' => array(
 									'alphabetical-movies' => array(
 										'label' => esc_html__( 'Alpabetical Movies', 'wpmovielibrary' ),
@@ -191,7 +170,7 @@ class GridBuilder {
 								'type'     => 'select',
 								'section'  => 'movie-grid-ordering',
 								'label'    => esc_html__( 'Order By…', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => '' ),
+								'attr'     => array( 'class' => 'half-col' ),
 								'choices' => array(
 									'post-date'           => esc_html__( 'Post Date', 'wpmovielibrary' ),
 									'released-date'       => esc_html__( 'Release Date', 'wpmovielibrary' ),
@@ -206,7 +185,7 @@ class GridBuilder {
 								'type'     => 'select',
 								'section'  => 'movie-grid-ordering',
 								'label'    => esc_html__( 'Order', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => '' ),
+								'attr'     => array( 'class' => 'half-col' ),
 								'choices' => array(
 									'asc'  => esc_html__( 'Ascendingly', 'wpmovielibrary' ),
 									'desc' => esc_html__( 'Descendingly', 'wpmovielibrary' ),
@@ -224,7 +203,7 @@ class GridBuilder {
 								'section'  => 'movie-grid-appearance',
 								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => '', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								'sanitize' => 'intval',
 								'default'  => 5
 							),
@@ -233,9 +212,27 @@ class GridBuilder {
 								'section'  => 'movie-grid-appearance',
 								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => '', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								'sanitize' => 'intval',
 								'default'  => 4
+							),
+							'movie-grid-column-width' => array(
+								'type'     => 'text',
+								'section'  => 'movie-grid-appearance',
+								'label'    => esc_html__( 'Movie Poster ideal width', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Ideal width for posters. Grid columns will never exceed that width. Default is 160.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'sanitize' => 'intval',
+								'default'  => 160
+							),
+							'movie-grid-row-height' => array(
+								'type'     => 'text',
+								'section'  => 'movie-grid-appearance',
+								'label'    => esc_html__( 'Movie Poster ideal height', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Ideal height for posters. Grid rows will never exceed that height. Tip: that value should be equal to ideal width times 1.5. Default is 240.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'sanitize' => 'intval',
+								'default'  => 240
 							),
 						)
 					),
@@ -257,7 +254,7 @@ class GridBuilder {
 								'section'  => 'movie-grid-controls',
 								'label'    => esc_html__( 'Grid Mode', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Allow visitors can change the grid mode. Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'data-parent' => 'movie-grid-show-menu' ),
+								'attr'     => array( 'class' => 'half-col', 'data-parent' => 'movie-grid-show-menu' ),
 								'sanitize' => '_is_bool',
 								'default'  => 0
 							),
@@ -266,7 +263,7 @@ class GridBuilder {
 								'section'  => 'movie-grid-controls',
 								'label'    => esc_html__( 'Grid Content', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Allow visitors can change the grid content, ie. number of movies, rows, columns… Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'data-parent' => 'movie-grid-show-menu' ),
+								'attr'     => array( 'class' => 'half-col', 'data-parent' => 'movie-grid-show-menu' ),
 								'sanitize' => '_is_bool',
 								'default'  => 0
 							),
@@ -275,7 +272,7 @@ class GridBuilder {
 								'section'  => 'movie-grid-controls',
 								'label'    => esc_html__( 'Grid Display', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Allow visitors can change the grid display, ie. showing/hiding titles, ratings, genres… Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'data-parent' => 'movie-grid-show-menu' ),
+								'attr'     => array( 'class' => 'half-col', 'data-parent' => 'movie-grid-show-menu' ),
 								'sanitize' => '_is_bool',
 								'default'  => 0
 							),
@@ -284,7 +281,7 @@ class GridBuilder {
 								'section'  => 'movie-grid-controls',
 								'label'    => esc_html__( 'Grid Ordering', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Allow visitors can change the grid ordering, ie. the sorting and ordering settings. Default is enabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'data-parent' => 'movie-grid-show-menu' ),
+								'attr'     => array( 'class' => 'half-col', 'data-parent' => 'movie-grid-show-menu' ),
 								'sanitize' => '_is_bool',
 								'default'  => 1
 							),
@@ -293,7 +290,7 @@ class GridBuilder {
 								'section'  => 'movie-grid-controls',
 								'label'    => esc_html__( 'Show Pagination', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Enable the pagination menu for visitors. Default is enabled.', 'wpmovielibrary' ),
-								'attr'     => array(),
+								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 1
 							)

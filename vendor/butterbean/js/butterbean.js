@@ -219,7 +219,7 @@
 		attributes : function() {
 			return {
 				'id'    : 'butterbean-control-' + this.model.get( 'name' ),
-				'class' : 'butterbean-control butterbean-control-' + this.model.get( 'type' )
+				'class' : 'butterbean-control butterbean-control-' + this.model.get( 'type' ) + ' ' + this.model.get( 'class' )
 			};
 		},
 		initialize : function() {

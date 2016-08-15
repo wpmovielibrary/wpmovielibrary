@@ -153,6 +153,42 @@
 	width: calc( 100% - 211px );
 }
 
+.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-text.half-col,
+.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-select.half-col,
+.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-checkbox.half-col,
+.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-radio-image.half-col label {
+	display: inline-block;
+	vertical-align: top;
+	width: 49.5%;
+}
+
+.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels label {
+	position: relative;
+}
+
+.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text {
+	border: 4px solid #fff;
+	clip: auto;
+	color: #fff;
+	font-size: 1rem;
+	font-weight: 200;
+	height: calc( 100% - 14px );
+	line-height: 2.25rem;
+	margin: 0;
+	padding: 1px 1px 1px 47px;
+	position: absolute;
+	width: calc( 100% - 56px );
+}
+
+.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text:hover,
+.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text:focus {
+	border-color: #ccc;
+}
+
+.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels input:checked + span {
+	border-color: #00a0d2 !important;
+}
+
 /*
  * Grid Publish Metabox
  */

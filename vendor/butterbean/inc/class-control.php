@@ -316,6 +316,7 @@ class ButterBean_Control {
 		$this->json['choices']     = $this->choices;
 		$this->json['active']      = $this->is_active();
 
+		$this->json['class']       = isset( $this->attr['class'] ) ? $this->attr['class'] : '';
 		$this->json['value']       = isset( $this->settings[ $this->setting ] ) ? $this->get_value( $this->setting )      : '';
 		$this->json['field_name']  = isset( $this->settings[ $this->setting ] ) ? $this->get_field_name( $this->setting ) : '';
 

@@ -11,7 +11,7 @@
  */
 ?>
 
-	<div class="wpmoly shortcode block movies grid <?php echo $grid->columns; ?>-columns">
+	<div class="wpmoly shortcode block movies grid <?php echo $grid->columns; ?>-columns" data-columns="<?php echo $grid->columns; ?>" data-rows="<?php echo $grid->rows; ?>" data-column-width="<?php echo $grid->column_width; ?>" data-row-height="<?php echo $grid->row_height; ?>">
 
 <?php
 if ( $movies->has_items() ) :
