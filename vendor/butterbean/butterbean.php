@@ -702,6 +702,8 @@ if ( ! class_exists( 'ButterBean' ) ) {
 
 			$manager->post_id = $this->post_id = $post->ID;
 
+			do_action( 'butterbean_before_metabox', $manager, $post, $metabox, $this );
+
 			// Nonce field to validate on save.
 			wp_nonce_field( "butterbean_{$manager->name}_nonce", "butterbean_{$manager->name}" );
 		}

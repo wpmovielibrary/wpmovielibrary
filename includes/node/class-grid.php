@@ -45,6 +45,13 @@ class Grid extends Node {
 	public $items;
 
 	/**
+	 * Node JSON.
+	 * 
+	 * @var    object
+	 */
+	public $json;
+
+	/**
 	 * Supported Grid types.
 	 * 
 	 * @var    array
@@ -74,7 +81,7 @@ class Grid extends Node {
 	 */
 	public function init() {
 
-		$this->suffix = '_wpmoly_' . $this->type . '_grid_';
+		$this->suffix = '_wpmoly_grid_';
 		$this->items = new Collection;
 
 		$grid_types = array(
@@ -547,5 +554,27 @@ class Grid extends Node {
 	public function validate_type( $type ) {
 
 		return isset( $this->supported_types[ $type ] ) ? $type : 'movie';
+	}
+
+	/**
+	 * JSONify the Grid instance.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	public function toJSON() {
+
+		$json = array();
+
+		$json['type'] = $this->type;
+		$json['mode'] = $this->mode;
+		$json['theme'] = $this->theme;
+
+		$json['types'] = $this->supported_types;
+		$json['modes'] = $this->supported_modes;
+		$json['themes'] = $this->supported_themes;
+
+		return $this->json = json_encode( $json );
 	}
 }

@@ -72,7 +72,7 @@ class GridBuilder {
 		 */
 		$this->metaboxes = apply_filters( 'wpmoly/filter/grid/metaboxes', $metaboxes, $this );
 
-		$settings = array(
+		$managers = array(
 			'movie-grid-settings' => array(
 				'label'     => esc_html__( 'Réglages', 'wpmovielibrary' ),
 				'post_type' => 'grid',
@@ -143,7 +143,7 @@ class GridBuilder {
 							)
 						)
 					),
-					'movie-grid-content' => array(
+					/*'movie-grid-content' => array(
 						'label'    => esc_html__( 'Content', 'wpmovielibrary' ),
 						'icon'     => 'dashicons-filter',
 						'settings' => array(
@@ -196,7 +196,7 @@ class GridBuilder {
 								'sanitize' => 'esc_attr'
 							)
 						)
-					),
+					),*/
 					'movie-grid-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
@@ -332,194 +332,50 @@ class GridBuilder {
 						)
 					)
 				)
+			),
+			'genre-grid-settings' => array(
+				'label'     => esc_html__( 'Réglages', 'wpmovielibrary' ),
+				'post_type' => 'grid',
+				'context'   => 'normal',
+				'priority'  => 'high',
+				'sections'  => array(
+					'genre-grid-presets' => array(
+						'label'    => esc_html__( 'Presets', 'wpmovielibrary' ),
+						'icon'     => 'wpmolicon icon-cogs',
+						'settings' => array(
+							'genre-grid-preset' => array(
+								'type'    => 'radio-image',
+								'section' => 'genre-grid-presets',
+								'label'   => esc_html__( 'Grid preset', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
+								'attr'    => array( 'class' => 'visible-labels half-col' ),
+								'choices' => array(
+									'alphabetical-genres' => array(
+										'label' => esc_html__( 'Alpabetical Genres', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/alphabetical-movies.png'
+									),
+									'unalphabetical-genres' => array(
+										'label' => esc_html__( 'Alpabetical Genres', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/unalphabetical-movies.png'
+									)
+								),
+								'sanitize' => 'esc_attr'
+							)
+						)
+					)
+				)
 			)
 		);
 
 		/**
-		 * Filter grid settings for the grid builder.
+		 * Filter grid managers for the grid builder.
 		 * 
 		 * @since    3.0
 		 * 
-		 * @param    array     $settings Default settings.
+		 * @param    array     $managers Default managers.
 		 * @param    object    GridBuilder instance.
 		 */
-		$this->settings = apply_filters( 'wpmoly/filter/grid/settings', $settings, $this );
-	}
-
-	/**
-	 * Register metaboxes.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   void
-	 */
-	public function add_metaboxes() {
-
-		/**
-		 * Fires before starting to register metaboxes.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    object    GridBuilder instance.
-		 */
-		do_action( 'wpmoly/action/grid/before/add_metaboxes', $this );
-
-		foreach ( $this->metaboxes as $metabox ) {
-			$metabox = (object) $metabox;
-			foreach ( (array) $metabox->screen as $screen ) {
-				add_action( "add_meta_boxes_{$screen}", function() use ( $metabox ) {
-					add_meta_box( $metabox->id . '-metabox', $metabox->title, $metabox->callback, $metabox->screen, $metabox->context, $metabox->priority, $metabox->callback_args );
-				} );
-			}
-		}
-
-		/**
-		 * Fires when all metaboxes have been registered.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    object    GridBuilder instance.
-		 */
-		do_action( 'wpmoly/action/grid/after/add_metaboxes', $this );
-	}
-
-	/**
-	 * Grid Type Metabox callback.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    object    $post Current Post instance.
-	 * 
-	 * @return   void
-	 */
-	public function type_metabox( $post ) {
-
-		if ( 'grid' !== $post->post_type ) {
-			return false;
-		}
-
-		$types = $this->grid->get_supported_types();
-		$modes = $this->grid->get_supported_modes();
-		$themes = $this->grid->get_supported_themes();
-		var_dump( $this->grid->type, $this->grid->mode, $this->grid->theme );
-?>
-		<div class="grid-builder-separator">
-			<div class="button separator-label"><?php _e( 'Type' ); ?></div>
-		</div>
-
-		<div id="grid-types" class="supported-grid-types">
-<?php
-		foreach ( $types as $type_id => $type ) :
-?>
-			<button type="button" data-action="grid-type" data-value="<?php echo $type_id; ?>" title="<?php echo $type['label']; ?>" class="<?php echo $type_id == $this->grid->type ? 'active' : ''; ?>"><span class="<?php echo $type['icon']; ?>"></span></button>
-<?php
-		endforeach;
-?>
-			<div class="clear"></div>
-		</div>
-
-		<div class="grid-builder-separator">
-			<div class="button separator-label"><?php _e( 'Mode' ); ?></div>
-		</div>
-
-<?php
-		foreach ( $types as $type_id => $type ) :
-?>
-		<div id="<?php echo $type_id; ?>-grid-modes" class="supported-grid-modes<?php echo $type_id == $this->grid->type ? ' active' : ''; ?>">
-<?php
-			foreach ( $modes[ $type_id ] as $mode_id => $mode ) :
-?>
-			<button type="button" data-action="grid-mode" data-value="<?php echo $mode_id; ?>" title="<?php echo $mode['label']; ?>" class="<?php echo $type_id == $this->grid->type && $mode_id == $this->grid->mode ? ' active' : ''; ?>"><span class="<?php echo $mode['icon']; ?>"></span></button>
-<?php
-			endforeach;
-?>
-			<div class="clear"></div>
-		</div>
-<?php
-		endforeach;
-?>
-
-		<div class="grid-builder-separator">
-			<div class="button separator-label"><?php _e( 'Theme' ); ?></div>
-		</div>
-<?php
-		foreach ( $types as $type_id => $type ) :
-			foreach ( $modes[ $type_id ] as $mode_id => $mode ) :
-?>
-		<div id="<?php echo $type_id; ?>-grid-<?php echo $mode_id; ?>-mode-themes" class="supported-grid-themes<?php echo $type_id == $this->grid->type && $mode_id == $this->grid->mode ? ' active' : ''; ?>">
-<?php
-				foreach ( $themes[ $type_id ][ $mode_id ] as $theme_id => $theme ) :
-?>
-			<button type="button" data-action="grid-theme" data-value="<?php echo $theme_id; ?>" title="<?php echo $theme['label']; ?>" class="<?php echo $type_id == $this->grid->type && $mode_id == $this->grid->mode && $theme_id == $this->grid->theme ? 'active' : ''; ?>"><span class="<?php echo $theme['icon']; ?>"></span></button>
-<?php
-				endforeach;
-?>
-			<div class="clear"></div>
-		</div>
-<?php
-			endforeach;
-		endforeach;
-	}
-
-	/**
-	 * Grid Builder container opening.
-	 * 
-	 * Open the grid builder container and show a couple of useful snippets.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    object    $post Current Post instance.
-	 * 
-	 * @return   void
-	 */
-	public function header( $post ) {
-
-		if ( 'grid' !== $post->post_type ) {
-			return false;
-		}
-?>
-		<div id="grid-builder-container">
-
-			<div id="wpmoly-grid-builder-shortcuts">
-				<div id="wpmoly-grid-builder-id">Id: <code><?php the_ID(); ?></code></div>
-				<div id="wpmoly-grid-builder-shortcode">ShortCode: <code>[movies id=<?php the_ID(); ?>]</code></div>
-			</div>
-<?php
-	}
-
-	/**
-	 * Grid Preview editor toolbox.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    object    $post Current Post instance.
-	 * 
-	 * @return   void
-	 */
-	public function preview( $post ) {
-
-		if ( 'grid' !== $post->post_type ) {
-			return false;
-		}
-
-		// Grid template setup
-		$template = new PublicTemplate( 'shortcodes/movies-' . $this->grid->mode . '.php' );
-		$template->set_data( array(
-			'grid'   => $this->grid,
-			'movies' => $this->grid->items
-		) );
-
-?>
-		<div id="wpmoly-grid-builder" class="wpmoly">
-			<div class="grid-builder-separator">
-				<button type="button" data-action="toggle-preview" class="button separator-label"><?php _e( 'Preview' ); ?></button>
-			</div>
-			<div id="wpmoly-grid-builder-preview">
-				<?php $template->render( 'always', $echo = true ); ?>
-			</div>
-			<div class="grid-builder-separator"><button type="button" class="button separator-label"><?php _e( 'Settings' ); ?></button></div>
-		</div>
-<?php
+		$this->managers = apply_filters( 'wpmoly/filter/grid/managers', $managers, $this );
 	}
 
 	/**
@@ -540,7 +396,7 @@ class GridBuilder {
 	}
 
 	/**
-	 * Register ButterBean's metabox settings.
+	 * Register ButterBean's managers.
 	 * 
 	 * @since    3.0
 	 * 
@@ -551,22 +407,23 @@ class GridBuilder {
 	 */
 	public function register_butterbean( $butterbean, $post_type ) {
 
-		foreach ( $this->settings as $id => $setting ) {
+		foreach ( $this->managers as $id => $manager ) {
 
-			$setting = (object) $setting;
+			$manager = (object) $manager;
+			$sections = $manager->sections;
+
 			$butterbean->register_manager(
 				$id,
 				array(
-					'label'     => $setting->label,
-					'post_type' => $setting->post_type,
-					'context'   => $setting->context,
-					'priority'  => $setting->priority
+					'label'     => $manager->label,
+					'post_type' => $manager->post_type,
+					'context'   => $manager->context,
+					'priority'  => $manager->priority
 				)
 			);
-
 			$manager = $butterbean->get_manager( $id );
 
-			foreach ( $setting->sections as $section_id => $section ) {
+			foreach ( $sections as $section_id => $section ) {
 
 				$section = (object) $section;
 				$manager->register_section(
@@ -608,6 +465,206 @@ class GridBuilder {
 	}
 
 	/**
+	 * Register metaboxes.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public function add_metaboxes() {
+
+		/**
+		 * Fires before starting to register metaboxes.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    object    GridBuilder instance.
+		 */
+		do_action( 'wpmoly/action/grid/before/add_metaboxes', $this );
+
+		foreach ( $this->metaboxes as $metabox ) {
+			$metabox = (object) $metabox;
+			foreach ( (array) $metabox->screen as $screen ) {
+				add_action( "add_meta_boxes_{$screen}", function() use ( $metabox ) {
+					add_meta_box( $metabox->id . '-metabox', $metabox->title, $metabox->callback, $metabox->screen, $metabox->context, $metabox->priority, $metabox->callback_args );
+				} );
+			}
+		}
+
+		/**
+		 * Fires when all metaboxes have been registered.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    object    GridBuilder instance.
+		 */
+		do_action( 'wpmoly/action/grid/after/add_metaboxes', $this );
+	}
+
+	/**
+	 * Grid Builder container opening.
+	 * 
+	 * Open the grid builder container and show a couple of useful snippets.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    $post Current Post instance.
+	 * 
+	 * @return   void
+	 */
+	public function header( $post ) {
+
+		if ( 'grid' !== $post->post_type ) {
+			return false;
+		}
+?>
+		<div id="wpmoly-grid-builder">
+
+			<script type="text/javascript">var _wpmolyGridBuilderData = <?php echo $this->grid->toJSON(); ?>;</script>
+
+			<div id="wpmoly-grid-builder-shortcuts">
+				<div id="wpmoly-grid-builder-id">Id: <code><?php the_ID(); ?></code></div>
+				<div id="wpmoly-grid-builder-shortcode">ShortCode: <code>[movies id=<?php the_ID(); ?>]</code></div>
+			</div>
+<?php
+	}
+
+	/**
+	 * Add a separator before ButterBean metaboxes.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    $manager Manager instance.
+	 * @param    object    $post Current Post instance.
+	 * @param    array     $metabox Current Metabox properties.
+	 * @param    object    $butterbean ButterBean instance.
+	 * 
+	 * @return   void
+	 */
+	public function separator( $manager, $post, $metabox, $butterbean ) {
+
+		if ( 'grid' !== $post->post_type ) {
+			return false;
+		}
+
+		if ( ! in_array( $manager->name, array_keys( $this->managers ) ) ) {
+			return false;
+		}
+?>
+		<div class="grid-builder-separator">
+			<div class="button separator-label"><?php _e( 'Settings' ); ?></div>
+		</div>
+
+<?php
+	}
+
+	/**
+	 * Grid Type Metabox callback.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    $post Current Post instance.
+	 * 
+	 * @return   void
+	 */
+	public function type_metabox( $post ) {
+
+		if ( 'grid' !== $post->post_type ) {
+			return false;
+		}
+?>
+
+		<script id="tmpl-wpmoly-grid-builder-type-metabox" type="text/html">
+
+		<div class="grid-builder-separator">
+			<div class="button separator-label"><?php _e( 'Type' ); ?></div>
+		</div>
+
+		<div id="grid-types" class="supported-grid-types active">
+			<# _.each( data.types, function( type, type_id ) { #>
+			<button type="button" data-action="grid-type" data-value="{{ type_id }}" title="{{ type.label }}" class="<# if ( type_id == data.type ) { #>active<# } #>"><span class="{{ type.icon }}"></span></button>
+			<# } ); #>
+			<div class="clear"></div>
+		</div>
+
+		<div class="grid-builder-separator">
+			<div class="button separator-label"><?php _e( 'Mode' ); ?></div>
+		</div>
+
+		<# _.each( data.types, function( type, type_id ) { #>
+			<# if ( type_id == data.type ) { #>
+		<div id="{{ type_id }}-grid-modes" class="supported-grid-modes active">
+			<# _.each( data.modes[ type_id ], function( mode, mode_id ) { #>
+			<button type="button" data-action="grid-mode" data-value="{{ mode_id }}" title="{{ mode.label }}" class="active"><span class="{{ mode.icon }}"></span></button>
+			<# } ); #>
+			<div class="clear"></div>
+		</div>
+			<# } #>
+		<# } ); #>
+
+		<div class="grid-builder-separator">
+			<div class="button separator-label"><?php _e( 'Theme' ); ?></div>
+		</div>
+
+		<# _.each( data.types, function( type, type_id ) { #>
+			<# if ( type_id == data.type ) { #>
+				<# _.each( data.modes[ type_id ], function( mode, mode_id ) { #>
+					<# if ( mode_id == data.mode ) { #>
+		<div id="{{ type_id }}-grid-{{ mode_id }}-mode-themes" class="supported-grid-themes active">
+						<# _.each( data.themes[ type_id ][ mode_id ], function( theme, theme_id ) { #>
+			<button type="button" data-action="grid-theme" data-value="{{ theme_id }}" title="{{ theme.label }}" class="active"><span class="{{ theme.icon }}"></span></button>
+						<# } ); #>
+					<# } #>
+			<div class="clear"></div>
+		</div>
+				<# } ); #>
+			<# } #>
+		<# } ); #>
+
+		</script>
+
+		<div id="wpmoly-grid-builder-type-metabox"></div>
+
+		<div class="grid-builder-separator">
+			<div class="button separator-label"><?php _e( 'Save' ); ?></div>
+		</div>
+
+<?php
+	}
+
+	/**
+	 * Grid Preview editor toolbox.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    $post Current Post instance.
+	 * 
+	 * @return   void
+	 */
+	public function preview( $post ) {
+
+		if ( 'grid' !== $post->post_type ) {
+			return false;
+		}
+
+		// Grid template setup
+		$template = new PublicTemplate( 'shortcodes/movies-' . $this->grid->mode . '.php' );
+		$template->set_data( array(
+			'grid'   => $this->grid,
+			'movies' => $this->grid->items
+		) );
+
+?>
+		<div class="wpmoly">
+			<div class="grid-builder-separator">
+				<button type="button" data-action="toggle-preview" class="button separator-label"><?php _e( 'Preview' ); ?></button>
+			</div>
+			<div id="wpmoly-grid-builder-preview"><?php //$template->render( 'always', $echo = true ); ?></div>
+		</div>
+<?php
+	}
+
+	/**
 	 * Grid Builder container closing.
 	 * 
 	 * @since    3.0
@@ -622,7 +679,7 @@ class GridBuilder {
 			return false;
 		}
 ?>
-		</div><!-- /#grid-builder-container -->
+		</div><!-- /#wpmoly-grid-builder -->
 <?php
 	}
 

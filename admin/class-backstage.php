@@ -100,11 +100,13 @@ class Backstage {
 		wp_register_script( 'wpmoly-modal-model',          WPMOLY_URL . 'admin/js/models/modal/modal.js',    array( 'wpmoly' ), $this->version, true );
 		wp_register_script( 'wpmoly-image-model',          WPMOLY_URL . 'admin/js/models/image.js',          array( 'wpmoly' ), $this->version, true );
 		wp_register_script( 'wpmoly-images-model',         WPMOLY_URL . 'admin/js/models/images.js',         array( 'wpmoly' ), $this->version, true );
+		wp_register_script( 'wpmoly-grid-builder-model',   WPMOLY_URL . 'admin/js/models/grid-builder.js',   array( 'wpmoly' ), $this->version, true );
 
 		// Controllers
 		wp_register_script( 'wpmoly-search-controller',    WPMOLY_URL . 'admin/js/controllers/search.js',    array( 'wpmoly' ), $this->version, true );
 		wp_register_script( 'wpmoly-editor-controller',    WPMOLY_URL . 'admin/js/controllers/editor.js',    array( 'wpmoly' ), $this->version, true );
 		wp_register_script( 'wpmoly-modal-controller',     WPMOLY_URL . 'admin/js/controllers/modal.js',     array( 'wpmoly' ), $this->version, true );
+		wp_register_script( 'wpmoly-grid-builder-controller', WPMOLY_URL . 'admin/js/controllers/grid-builder.js',   array( 'wpmoly' ), $this->version, true );
 
 		// Views
 		wp_register_script( 'wpmoly-frame-view',           WPMOLY_URL . 'public/js/views/frame.js',          array( 'wpmoly' ), $this->version, true );
@@ -125,11 +127,14 @@ class Backstage {
 		wp_register_script( 'wpmoly-modal-images-view',    WPMOLY_URL . 'admin/js/views/modal/images.js',    array( 'wpmoly' ), $this->version, true );
 		wp_register_script( 'wpmoly-modal-browser-view',   WPMOLY_URL . 'admin/js/views/modal/browser.js',   array( 'wpmoly' ), $this->version, true );
 		wp_register_script( 'wpmoly-modal-post-view',      WPMOLY_URL . 'admin/js/views/modal/post.js',      array( 'wpmoly' ), $this->version, true );
+		wp_register_script( 'wpmoly-grid-builder-view',    WPMOLY_URL . 'admin/js/views/grid/builder.js',    array( 'wpmoly' ), $this->version, true );
+		wp_register_script( 'wpmoly-grid-type-view',       WPMOLY_URL . 'admin/js/views/grid/type.js',       array( 'wpmoly' ), $this->version, true );
 
 		// Runners
 		wp_register_script( 'wpmoly-api',                  WPMOLY_URL . 'admin/js/wpmoly-api.js',            array( 'wpmoly' ), $this->version, true );
 		wp_register_script( 'wpmoly-metabox',              WPMOLY_URL . 'admin/js/wpmoly-metabox.js',        array( 'wpmoly' ), $this->version, true );
 		wp_register_script( 'wpmoly-editor',               WPMOLY_URL . 'admin/js/wpmoly-editor.js',         array( 'wpmoly' ), $this->version, true );
+		wp_register_script( 'wpmoly-grid-builder',         WPMOLY_URL . 'admin/js/wpmoly-grid-builder.js',   array( 'wpmoly' ), $this->version, true );
 		wp_register_script( 'wpmoly-search',               WPMOLY_URL . 'admin/js/wpmoly-search.js',         array( 'wpmoly' ), $this->version, true );
 		wp_register_script( 'wpmoly-tester',               WPMOLY_URL . 'admin/js/wpmoly-tester.js',         array( 'wpmoly' ), $this->version, true );
 
@@ -233,6 +238,7 @@ class Backstage {
 			// Vendor
 			wp_enqueue_script( 'sprintf' );
 			wp_enqueue_script( 'underscore-string' );
+			wp_enqueue_script( 'wp-backbone' );
 
 			// Base
 			wp_enqueue_script( 'wpmoly' );
@@ -240,6 +246,19 @@ class Backstage {
 
 			// Libraries
 			wp_enqueue_script( 'wpmoly-select2' );
+
+			// Models
+			wp_enqueue_script( 'wpmoly-grid-builder-model' );
+
+			// Controllers
+			wp_enqueue_script( 'wpmoly-grid-builder-controller' );
+
+			// Views
+			wp_enqueue_script( 'wpmoly-grid-builder-view' );
+			wp_enqueue_script( 'wpmoly-grid-type-view' );
+
+			// Runners
+			wp_enqueue_script( 'wpmoly-grid-builder' );
 		}
 
 	}

@@ -123,7 +123,7 @@ class Registrar {
 						'all_items'          => __( 'Grids', 'wpmovielibrary' ),
 						'view_item'          => __( 'View Grid', 'wpmovielibrary' ),
 						'search_items'       => __( 'Search Grids', 'wpmovielibrary' ),
-						'not_found'          => __( 'No gridss found', 'wpmovielibrary' ),
+						'not_found'          => __( 'No grids found', 'wpmovielibrary' ),
 						'not_found_in_trash' => __( 'No grids found in Trash', 'wpmovielibrary' ),
 						'parent_item_colon'  => '',
 						'menu_name'          => __( 'Grids', 'wpmovielibrary' )
