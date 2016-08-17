@@ -29,6 +29,8 @@ _.extend( wpmoly.controller, {
 		setType: function( type ) {
 
 			this.builder.set({ type: type });
+			this.builder.set({ mode: 'grid' });
+			this.builder.set({ theme: 'default' });
 
 			//this.builder.save();
 		},
@@ -45,6 +47,7 @@ _.extend( wpmoly.controller, {
 		setMode: function( mode ) {
 
 			this.builder.set({ mode: mode });
+			this.builder.set({ theme: 'default' });
 
 			//this.builder.save();
 		},
@@ -62,8 +65,10 @@ _.extend( wpmoly.controller, {
 
 			this.builder.set({ theme: theme });
 
+			this.setTitle();
+
 			//this.builder.save();
-		},
+		}
 	})
 
 });
