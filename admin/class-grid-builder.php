@@ -595,7 +595,7 @@ class GridBuilder {
 			<# if ( type_id == data.type ) { #>
 		<div id="{{ type_id }}-grid-modes" class="supported-grid-modes active">
 			<# _.each( data.modes[ type_id ], function( mode, mode_id ) { #>
-			<button type="button" data-action="grid-mode" data-value="{{ mode_id }}" title="{{ mode.label }}" class="active"><span class="{{ mode.icon }}"></span></button>
+			<button type="button" data-action="grid-mode" data-value="{{ mode_id }}" title="{{ mode.label }}" class="<# if ( mode_id == data.mode ) { #>active<# } #>"><span class="{{ mode.icon }}"></span></button>
 			<# } ); #>
 			<div class="clear"></div>
 		</div>
@@ -612,7 +612,7 @@ class GridBuilder {
 					<# if ( mode_id == data.mode ) { #>
 		<div id="{{ type_id }}-grid-{{ mode_id }}-mode-themes" class="supported-grid-themes active">
 						<# _.each( data.themes[ type_id ][ mode_id ], function( theme, theme_id ) { #>
-			<button type="button" data-action="grid-theme" data-value="{{ theme_id }}" title="{{ theme.label }}" class="active"><span class="{{ theme.icon }}"></span></button>
+			<button type="button" data-action="grid-theme" data-value="{{ theme_id }}" title="{{ theme.label }}" class="<# if ( theme_id == data.theme ) { #>active<# } #>"><span class="{{ theme.icon }}"></span></button>
 						<# } ); #>
 					<# } #>
 			<div class="clear"></div>

@@ -37,7 +37,7 @@
 	vertical-align: top;
 }
 
-#wpmoly-grid-builder .postbox.butterbean-ui .inside .grid-builder-separator {
+#wpmoly-grid-builder .butterbean-ui.postbox .inside .grid-builder-separator {
 	margin: 0 0 15px 0;
 }
 
@@ -157,33 +157,38 @@
  * Grid Meta Metaboxes
  */
 
-.postbox.butterbean-ui .hndle,
-.postbox.butterbean-ui .handlediv {
+#wpmoly-grid-builder .butterbean-ui.postbox,
+#wpmoly-grid-builder .butterbean-ui.postbox .hndle,
+#wpmoly-grid-builder .butterbean-ui.postbox .handlediv {
 	display: none;
 }
 
-.postbox.butterbean-ui,
-.postbox.butterbean-ui .butterbean-manager,
-.postbox.butterbean-ui .butterbean-nav {
+#wpmoly-grid-builder .butterbean-ui.postbox.active {
+	display: block;
+}
+
+#wpmoly-grid-builder .butterbean-ui.postbox,
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-manager,
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-nav {
 	background: transparent;
 	border: 0;
 	box-shadow: 0 0 0;
 }
 
-.postbox.butterbean-ui .butterbean-nav {
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-nav {
 	margin-top: 14px;
 }
 
-.postbox.butterbean-ui .butterbean-nav li[aria-selected=true] a {
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-nav li[aria-selected=true] a {
 	background: #fff;
 	box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.04);
 }
 
-.postbox.butterbean-ui .butterbean-nav .wpmolicon {
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-nav .wpmolicon {
 	margin-right: 3px;
 }
 
-.postbox.butterbean-ui .butterbean-content {
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content {
 	background: #fff;
 	border: 1px solid #e5e5e5;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
@@ -191,20 +196,20 @@
 	width: calc( 100% - 211px );
 }
 
-.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-text.half-col,
-.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-select.half-col,
-.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-checkbox.half-col,
-.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-radio-image.half-col label {
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-text.half-col,
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-select.half-col,
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-checkbox.half-col,
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.half-col label {
 	display: inline-block;
 	vertical-align: top;
 	width: 49.5%;
 }
 
-.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels label {
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels label {
 	position: relative;
 }
 
-.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text {
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text {
 	border: 4px solid #fff;
 	clip: auto;
 	color: #fff;
@@ -218,12 +223,12 @@
 	width: calc( 100% - 56px );
 }
 
-.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text:hover,
-.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text:focus {
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text:hover,
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text:focus {
 	border-color: #ccc;
 }
 
-.postbox.butterbean-ui .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels input:checked + span {
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels input:checked + span {
 	border-color: #00a0d2 !important;
 }
 

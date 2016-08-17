@@ -17,23 +17,50 @@ _.extend( wpmoly.controller, {
 			this.builder = new wpmoly.model.GridBuilder;
 		},
 
-		setType: function( value ) {
+		/**
+		 * Set grid type.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    Grid type.
+		 * 
+		 * @return   void
+		 */
+		setType: function( type ) {
 
-			this.builder.set({ type: value });
+			this.builder.set({ type: type });
 
 			//this.builder.save();
 		},
 
-		setMode: function( value ) {
+		/**
+		 * Set grid mode.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    Grid mode.
+		 * 
+		 * @return   void
+		 */
+		setMode: function( mode ) {
 
-			this.builder.set({ mode: value });
+			this.builder.set({ mode: mode });
 
 			//this.builder.save();
 		},
 
-		setTheme: function( value ) {
+		/**
+		 * Set grid theme.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    Grid theme.
+		 * 
+		 * @return   void
+		 */
+		setTheme: function( theme ) {
 
-			this.builder.set({ theme: value });
+			this.builder.set({ theme: theme });
 
 			//this.builder.save();
 		},

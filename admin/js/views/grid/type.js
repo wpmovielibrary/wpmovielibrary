@@ -30,6 +30,13 @@ _.extend( Grid, {
 			this.bindEvents();
 		},
 
+		/**
+		 * Bind events.
+		 *
+		 * @since    3.0
+		 *
+		 * @return   void
+		 */
 		bindEvents: function() {
 
 			this.listenTo( this.model, 'change:type',  this.render );
@@ -37,35 +44,79 @@ _.extend( Grid, {
 			this.listenTo( this.model, 'change:theme', this.render );
 		},
 
+		/**
+		 * Set grid type.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    object    JS 'click' Event.
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		setType: function( event ) {
 
 			var $elem = this.$( event.currentTarget ),
 			    value = $elem.attr( 'data-value' );
 
 			this.controller.setType( value );
+
+			return this;
 		},
 
+		/**
+		 * Set grid mode.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    object    JS 'click' Event.
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		setMode: function( event ) {
 
 			var $elem = this.$( event.currentTarget ),
 			    value = $elem.attr( 'data-value' );
 
 			this.controller.setMode( value );
+
+			return this;
 		},
 
+		/**
+		 * Set grid theme.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    object    JS 'click' Event.
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		setTheme: function( event ) {
 
 			var $elem = this.$( event.currentTarget ),
 			    value = $elem.attr( 'data-value' );
 
 			this.controller.setTheme( value );
+
+			return this;
 		},
 
+		/**
+		 * Render the View.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    object    JS 'click' Event.
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		render: function() {
 
 			this.$el.html( this.template(
 				this.model.toJSON()
 			) );
+
+			return this;
 		}
 	})
 
