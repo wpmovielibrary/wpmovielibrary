@@ -194,4 +194,42 @@ class Meta {
 		wp_send_json_success( $terms );
 	}
 
+	/**
+	 * Autosave grid settings from the Grid Builder.
+	 * 
+	 * Do not save anything for auto-drafts, auto-saves and revisions.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   null
+	 */
+	public function save_grid_setting() {
+
+		if ( ! check_ajax_referer( 'save-grid-setting' ) ) {
+			wp_send_json_error();
+		}
+
+		$post_id = ! empty( $_POST['post_id'] ) ? intval( $_POST['post_id'] ) : false;
+		if ( ! $post_id || ! get_post( $post_id ) ) {
+			wp_send_json_error( __( 'Invalid Post ID.', 'wpmovielibrary' ) );
+		}
+
+		$is_autodraft = get_post_status( $post_id );
+		$is_autosave  = wp_is_post_autosave( $post_id );
+		$is_revision  = wp_is_post_revision( $post_id );
+		if ( 'auto-draft' == $is_autodraft || $is_autosave || $is_revision ) {
+			wp_send_json_error();
+		}
+
+		$data = isset( $_POST['data'] ) ? $_POST['data'] : false;
+		if ( ! $data ) {
+			wp_send_json_error( __( 'Invalid data.', 'wpmovielibrary' ) );
+		}
+
+		$grid = get_grid( $post_id );
+		$grid->set( $data );
+		$grid->save();
+
+		wp_send_json_success();
+	}
 }

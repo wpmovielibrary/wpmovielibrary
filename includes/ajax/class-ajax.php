@@ -12,7 +12,6 @@
 namespace wpmoly\Ajax;
 
 use WP_Error;
-use wpmoly\Core\Loader;
 
 /**
  * Handle all the plugin's AJAX callbacks.
@@ -69,6 +68,7 @@ class Ajax {
 			'autosave_collections'   => array( 'wpmoly\Ajax\Meta', 'save_collections' ),
 			'autosave_genres'        => array( 'wpmoly\Ajax\Meta', 'save_genres' ),
 			'autosave_actors'        => array( 'wpmoly\Ajax\Meta', 'save_actors' ),
+			'autosave_grid_setting'  => array( 'wpmoly\Ajax\Meta', 'save_grid_setting' ),
 
 			'api_search_movie'       => array( 'wpmoly\Ajax\API', 'search_movie' ),
 			'api_fetch_movie'        => array( 'wpmoly\Ajax\API', 'fetch_movie' ),

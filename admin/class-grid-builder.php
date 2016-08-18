@@ -79,13 +79,13 @@ class GridBuilder {
 				'context'   => 'normal',
 				'priority'  => 'high',
 				'sections'  => array(
-					'movie-grid-presets' => array(
+					'grid-presets' => array(
 						'label'    => esc_html__( 'Presets', 'wpmovielibrary' ),
 						'icon'     => 'wpmolicon icon-cogs',
 						'settings' => array(
-							'movie-grid-preset' => array(
+							'grid-preset' => array(
 								'type'    => 'radio-image',
-								'section' => 'movie-grid-presets',
+								'section' => 'grid-presets',
 								'label'   => esc_html__( 'Grid preset', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
 								'attr'    => array( 'class' => 'visible-labels half-col' ),
@@ -143,13 +143,13 @@ class GridBuilder {
 							)
 						)
 					),
-					/*'movie-grid-content' => array(
+					/*'grid-content' => array(
 						'label'    => esc_html__( 'Content', 'wpmovielibrary' ),
 						'icon'     => 'dashicons-filter',
 						'settings' => array(
-							'movie-grid-total' => array(
+							'grid-total' => array(
 								'type'     => 'text',
-								'section'  => 'movie-grid-content',
+								'section'  => 'grid-content',
 								'label'    => esc_html__( 'Number of movies', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of movies for the grid. Setting a number of movie will result in the rows number to be ignored. Default is 5.', 'wpmovielibrary' ),
 								'attr'     => array( 'size' => '2' ),
@@ -158,20 +158,20 @@ class GridBuilder {
 							),
 							'text' => array(
 								'type'     => 'text',
-								'section'  => 'movie-grid-content',
+								'section'  => 'grid-content',
 								'label'    => esc_html__( 'Text input', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'widefat' ),
 								'sanitize' => 'wp_filter_nohtml_kses'
 							)
 						)
 					),
-					'movie-grid-ordering' => array(
+					'grid-ordering' => array(
 						'label' => esc_html__( 'Ordering', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-randomize',
 						'settings' => array(
-							'movie-grid-order-by' => array(
+							'grid-order-by' => array(
 								'type'     => 'select',
-								'section'  => 'movie-grid-ordering',
+								'section'  => 'grid-ordering',
 								'label'    => esc_html__( 'Order By…', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
 								'choices' => array(
@@ -184,9 +184,9 @@ class GridBuilder {
 								),
 								'sanitize' => 'esc_attr'
 							),
-							'movie-grid-order' => array(
+							'grid-order' => array(
 								'type'     => 'select',
-								'section'  => 'movie-grid-ordering',
+								'section'  => 'grid-ordering',
 								'label'    => esc_html__( 'Order', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
 								'choices' => array(
@@ -197,40 +197,40 @@ class GridBuilder {
 							)
 						)
 					),*/
-					'movie-grid-appearance' => array(
+					'grid-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
 						'settings' => array(
-							'movie-grid-columns' => array(
+							'grid-columns' => array(
 								'type'     => 'text',
-								'section'  => 'movie-grid-appearance',
+								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								'sanitize' => 'intval',
 								'default'  => 5
 							),
-							'movie-grid-rows' => array(
+							'grid-rows' => array(
 								'type'     => 'text',
-								'section'  => 'movie-grid-appearance',
+								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								'sanitize' => 'intval',
 								'default'  => 4
 							),
-							'movie-grid-column-width' => array(
+							'grid-column-width' => array(
 								'type'     => 'text',
-								'section'  => 'movie-grid-appearance',
+								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Movie Poster ideal width', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal width for posters. Grid columns will never exceed that width. Default is 160.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								'sanitize' => 'intval',
 								'default'  => 160
 							),
-							'movie-grid-row-height' => array(
+							'grid-row-height' => array(
 								'type'     => 'text',
-								'section'  => 'movie-grid-appearance',
+								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Movie Poster ideal height', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal height for posters. Grid rows will never exceed that height. Tip: that value should be equal to ideal width times 1.5. Default is 240.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
@@ -239,58 +239,58 @@ class GridBuilder {
 							),
 						)
 					),
-					'movie-grid-controls' => array(
+					'grid-controls' => array(
 						'label' => esc_html__( 'User Control', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-tools',
 						'settings' => array(
-							'movie-grid-show-menu' => array(
+							'grid-show-menu' => array(
 								'type'     => 'checkbox',
-								'section'  => 'movie-grid-controls',
+								'section'  => 'grid-controls',
 								'label'    => esc_html__( 'Show Menu', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Enable the grid menu. Visitors will be able to change some settings to alter the grid appearance to their liking. The changes are local not persitent and will never be stored anywhere on your site. Default is enabled.', 'wpmovielibrary' ),
 								'attr'     => array(),
 								'sanitize' => '_is_bool',
 								'default'  => 1
 							),
-							'movie-grid-mode-control' => array(
+							'grid-mode-control' => array(
 								'type'     => 'checkbox',
-								'section'  => 'movie-grid-controls',
+								'section'  => 'grid-controls',
 								'label'    => esc_html__( 'Grid Mode', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Allow visitors can change the grid mode. Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'data-parent' => 'movie-grid-show-menu' ),
+								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 0
 							),
-							'movie-grid-content-control' => array(
+							'grid-content-control' => array(
 								'type'     => 'checkbox',
-								'section'  => 'movie-grid-controls',
+								'section'  => 'grid-controls',
 								'label'    => esc_html__( 'Grid Content', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Allow visitors can change the grid content, ie. number of movies, rows, columns… Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'data-parent' => 'movie-grid-show-menu' ),
+								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 0
 							),
-							'movie-grid-display-control' => array(
+							'grid-display-control' => array(
 								'type'     => 'checkbox',
-								'section'  => 'movie-grid-controls',
+								'section'  => 'grid-controls',
 								'label'    => esc_html__( 'Grid Display', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Allow visitors can change the grid display, ie. showing/hiding titles, ratings, genres… Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'data-parent' => 'movie-grid-show-menu' ),
+								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 0
 							),
-							'movie-grid-order-control' => array(
+							'grid-order-control' => array(
 								'type'     => 'checkbox',
-								'section'  => 'movie-grid-controls',
+								'section'  => 'grid-controls',
 								'label'    => esc_html__( 'Grid Ordering', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Allow visitors can change the grid ordering, ie. the sorting and ordering settings. Default is enabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'data-parent' => 'movie-grid-show-menu' ),
+								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 1
 							),
-							'movie-grid-show-pagination' => array(
+							'grid-show-pagination' => array(
 								'type'     => 'checkbox',
-								'section'  => 'movie-grid-controls',
+								'section'  => 'grid-controls',
 								'label'    => esc_html__( 'Show Pagination', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Enable the pagination menu for visitors. Default is enabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
@@ -307,13 +307,13 @@ class GridBuilder {
 				'context'   => 'normal',
 				'priority'  => 'high',
 				'sections'  => array(
-					'actor-grid-presets' => array(
+					'grid-presets' => array(
 						'label'    => esc_html__( 'Presets', 'wpmovielibrary' ),
 						'icon'     => 'wpmolicon icon-cogs',
 						'settings' => array(
-							'actor-grid-preset' => array(
+							'grid-preset' => array(
 								'type'    => 'radio-image',
-								'section' => 'actor-grid-presets',
+								'section' => 'grid-presets',
 								'label'   => esc_html__( 'Grid preset', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
 								'attr'    => array( 'class' => 'visible-labels half-col' ),
@@ -339,13 +339,13 @@ class GridBuilder {
 				'context'   => 'normal',
 				'priority'  => 'high',
 				'sections'  => array(
-					'genre-grid-presets' => array(
+					'grid-presets' => array(
 						'label'    => esc_html__( 'Presets', 'wpmovielibrary' ),
 						'icon'     => 'wpmolicon icon-cogs',
 						'settings' => array(
-							'genre-grid-preset' => array(
+							'grid-preset' => array(
 								'type'    => 'radio-image',
-								'section' => 'genre-grid-presets',
+								'section' => 'grid-presets',
 								'label'   => esc_html__( 'Grid preset', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
 								'attr'    => array( 'class' => 'visible-labels half-col' ),
@@ -364,7 +364,7 @@ class GridBuilder {
 						)
 					)
 				)
-			)
+			),
 		);
 
 		/**
@@ -521,6 +521,7 @@ class GridBuilder {
 		<div id="wpmoly-grid-builder">
 
 			<script type="text/javascript">var _wpmolyGridBuilderData = <?php echo $this->grid->toJSON(); ?>;</script>
+			<?php wp_nonce_field( 'save-grid-setting', 'wpmoly_save_grid_setting_nonce', $referer = false ); ?>
 
 			<div id="wpmoly-grid-builder-shortcuts">
 				<div id="wpmoly-grid-builder-id">Id: <code><?php the_ID(); ?></code></div>

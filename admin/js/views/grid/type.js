@@ -113,7 +113,11 @@ _.extend( Grid, {
 		render: function() {
 
 			this.$el.html( this.template(
-				this.model.toJSON()
+				_.extend( this.model.toJSON(), {
+					types  : this.model.types,
+					modes  : this.model.modes,
+					themes : this.model.themes
+				} )
 			) );
 
 			return this;

@@ -84,6 +84,17 @@ class Grid extends Node {
 		$this->suffix = '_wpmoly_grid_';
 		$this->items = new Collection;
 
+		$default_settings = array( 'type', 'mode', 'theme', 'preset', 'columns', 'rows', 'column_width', 'row_height', 'show_menu', 'mode_control', 'content_control', 'display_control', 'order_control', 'show_pagination' );
+
+		/**
+		 * Filter the default grid settings list.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $default_settings
+		 */
+		$this->default_settings = apply_filters( 'wpmoly/filter/default/' . $this->type . '/grid/settings', $default_settings );
+
 		$grid_types = array(
 			'movie' => array(
 				'label' => __( 'Movie', 'wpmovielibrary' ),
@@ -557,6 +568,22 @@ class Grid extends Node {
 	}
 
 	/**
+	 * Save grid settings.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public function save() {
+
+		foreach ( $this->default_settings as $setting ) {
+			if ( isset( $this->$setting ) ) {
+				update_post_meta( $this->id, $this->suffix . $setting, $this->$setting );
+			}
+		}
+	}
+
+	/**
 	 * JSONify the Grid instance.
 	 * 
 	 * @since    3.0
@@ -567,13 +594,14 @@ class Grid extends Node {
 
 		$json = array();
 
-		$json['type'] = $this->type;
-		$json['mode'] = $this->mode;
-		$json['theme'] = $this->theme;
-
 		$json['types'] = $this->supported_types;
 		$json['modes'] = $this->supported_modes;
 		$json['themes'] = $this->supported_themes;
+
+		$json['settings'] = array();
+		foreach ( $this->default_settings as $setting ) {
+			$json['settings'][ $setting ] = $this->$setting;
+		}
 
 		return $this->json = json_encode( $json );
 	}

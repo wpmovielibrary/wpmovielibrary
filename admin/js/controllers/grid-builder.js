@@ -14,7 +14,7 @@ _.extend( wpmoly.controller, {
 		 */
 		initialize: function( attributes, options ) {
 
-			this.builder = new wpmoly.model.GridBuilder;
+			this.builder = new wpmoly.model.GridBuilder( {}, { controller: this } );
 		},
 
 		/**
@@ -28,11 +28,8 @@ _.extend( wpmoly.controller, {
 		 */
 		setType: function( type ) {
 
-			this.builder.set({ type: type });
-			this.builder.set({ mode: 'grid' });
-			this.builder.set({ theme: 'default' });
-
-			//this.builder.save();
+			this.builder.set( this.builder.defaults(), { silent: true } );
+			this.builder.set({ theme: 'default', mode: 'grid', type: type });
 		},
 
 		/**
@@ -46,10 +43,7 @@ _.extend( wpmoly.controller, {
 		 */
 		setMode: function( mode ) {
 
-			this.builder.set({ mode: mode });
-			this.builder.set({ theme: 'default' });
-
-			//this.builder.save();
+			this.builder.set({ theme: 'default', mode: mode });
 		},
 
 		/**
@@ -66,8 +60,6 @@ _.extend( wpmoly.controller, {
 			this.builder.set({ theme: theme });
 
 			this.setTitle();
-
-			//this.builder.save();
 		}
 	})
 

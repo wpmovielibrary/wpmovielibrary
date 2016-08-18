@@ -97,6 +97,20 @@ function get_movie( $movie ) {
 }
 
 /**
+ * Return a grid object.
+ * 
+ * @since    3.0
+ * 
+ * @param    mixed    $grid Grid ID, object or array
+ * 
+ * @return   Grid|boolean
+ */
+function get_grid( $grid ) {
+
+	return _get_object( $grid, '\wpmoly\Node\Grid' );
+}
+
+/**
  * Return a movie metadata.
  * 
  * @since    3.0

@@ -10,10 +10,12 @@ wpmoly = window.wpmoly || {};
 		run: function() {
 
 			var $builder = $( '#wpmoly-grid-builder' ),
+			       nonce = $( '#wpmoly_save_grid_setting_nonce' ).val(),
 			     post_id = $( '#post_ID' ).val();
 
-			gridbuilder.controller = new wpmoly.controller.GridBuilder( {}, {
-				post_id: post_id
+			gridbuilder.controller = new wpmoly.controller.GridBuilder( {
+				post_id : post_id,
+				nonce   : nonce
 			} );
 
 			if ( $builder.length ) {
