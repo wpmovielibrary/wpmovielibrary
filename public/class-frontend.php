@@ -62,6 +62,8 @@ class Frontend {
 	 */
 	public function enqueue_styles() {
 
+		wp_enqueue_style( $this->plugin_name . '-normalize',  WPMOLY_URL . 'public/css/wpmoly-normalize-min.css', array(), $this->version, 'all' );
+
 		wp_enqueue_style( $this->plugin_name, WPMOLY_URL . 'public/css/wpmoly.css', array(), $this->version, 'all' );
 
 		wp_enqueue_style( $this->plugin_name . '-common', WPMOLY_URL . 'public/css/common.css', array(), $this->version, 'all' );
