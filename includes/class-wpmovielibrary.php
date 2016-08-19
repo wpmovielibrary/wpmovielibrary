@@ -204,6 +204,7 @@ final class Library {
 
 		// Shortcodes
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode.php';
+		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-movie.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-movies.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-images.php';
 		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-metadata.php';
@@ -302,9 +303,10 @@ final class Library {
 		$public = new Frontend( $this->get_plugin_name(), $this->get_version() );
 		$public->set_default_filters();
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_scripts' );
-		$this->loader->add_action( 'init', $public, 'register_shortcodes' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_styles', 95 );
+		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_scripts', 95 );
+		$this->loader->add_action( 'init',               $public, 'register_shortcodes' );
+		$this->loader->add_action( 'the_content',        $public, 'the_headbox' );
 
 		// Register Post Types, Taxonomies…
 		$registrar = Core\Registrar::get_instance();

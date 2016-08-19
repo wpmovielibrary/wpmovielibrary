@@ -100,6 +100,7 @@ class Frontend {
 		$loader->add_filter( 'wpmoly/shortcode/format/budget/value',               '', array( 'wpmoly\Helpers\Formatting', 'budget' ),             15, 1 );
 		$loader->add_filter( 'wpmoly/shortcode/format/certification/value',        '', array( 'wpmoly\Helpers\Formatting', 'certification' ),      15, 1 );
 		$loader->add_filter( 'wpmoly/shortcode/format/composer/value',             '', array( 'wpmoly\Helpers\Formatting', 'composer' ),           15, 1 );
+		$loader->add_filter( 'wpmoly/shortcode/format/director/value',             '', array( 'wpmoly\Helpers\Formatting', 'director' ),           15, 1 );
 		$loader->add_filter( 'wpmoly/shortcode/format/homepage/value',             '', array( 'wpmoly\Helpers\Formatting', 'homepage' ),           15, 1 );
 		$loader->add_filter( 'wpmoly/shortcode/format/cast/value',                 '', array( 'wpmoly\Helpers\Formatting', 'cast' ),               15, 1 );
 		$loader->add_filter( 'wpmoly/shortcode/format/format/value',               '', array( 'wpmoly\Helpers\Formatting', 'format' ),             15, 3 );
@@ -153,6 +154,7 @@ class Frontend {
 	public function register_shortcodes() {
 
 		$shortcodes = array(
+			'\wpmoly\Shortcodes\Movie',
 			'\wpmoly\Shortcodes\Movies',
 			'\wpmoly\Shortcodes\Images',
 			'\wpmoly\Shortcodes\Metadata',
@@ -167,6 +169,36 @@ class Frontend {
 		foreach ( $shortcodes as $shortcode ) {
 			$shortcode::register();
 		}
+	}
+
+	/**
+	 * Display the movie Headbox along with movie content.
+	 * 
+	 * If we're in search or archive templates, show the default, minimal
+	 * Headbox; if we're in single template, show the default full Headbox.
+	 * 
+	 * TODO implement other Headbox themes
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $content Post content.
+	 * 
+	 * @return   string
+	 */
+	public function the_headbox( $content ) {
+
+		if ( 'movie' != get_post_type() ) {
+			return $content;
+		}
+
+		$headbox = get_movie_headbox();
+		if ( is_single() ) {
+			$headbox->set( 'theme', 'default' );
+		} elseif ( is_archive() || is_search() ) {
+			$headbox->set( 'theme', 'default' );
+		}
+
+		return $headbox->output() . $content;
 	}
 
 }

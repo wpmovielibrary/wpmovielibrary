@@ -179,7 +179,7 @@ abstract class Shortcode {
 	 * 
 	 * @return   void
 	 */
-	protected function set( $key, $value ) {
+	public function set( $key, $value ) {
 
 		// unknown attribute, exit
 		if ( ! isset( $this->validates[ $key ] ) ) {

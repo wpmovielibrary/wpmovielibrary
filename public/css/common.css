@@ -39,6 +39,34 @@
 }
 
 /*
+ * Notice
+ */
+
+.wpmoly.notice {
+	
+}
+
+.wpmoly.notice .notice-content {
+	background: #fff;
+	border-left: 4px solid #3190c6;
+	padding: 10px 15px !important;
+	border-radius: 3px;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.15) !important;
+}
+
+.wpmoly.notice .notice-content p {
+	margin: 0 !important;
+}
+
+.wpmoly.notice .notice-footnote {
+	color: #888;
+	font-size: 12px;
+	font-style: italic;
+	margin-top: 4px !important;
+	text-align: right;
+}
+
+/*
  * Admin menu
  */
 

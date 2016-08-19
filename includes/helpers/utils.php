@@ -168,6 +168,31 @@ function get_language( $language ) {
 }
 
 /**
+ * Get a Movie Headbox instance.
+ * 
+ * Actually returns a Shortcode instance like used for the [movie] Shortcode.
+ * 
+ * @since    3.0
+ * 
+ * @param    int    $post_id Post ID
+ * 
+ * @return   \wpmoly\Shortcodes\Movie
+ */
+function get_movie_headbox( $post_id = null ) {
+
+	if ( is_null( $post_id ) ) {
+		$post_id = get_the_ID();
+	}
+
+	$headbox = new \wpmoly\Shortcodes\Movie( array(
+		'id' => $post_id
+	) );
+	$headbox->run();
+
+	return $headbox;
+}
+
+/**
  * Strictly merge user defined arguments into defaults array.
  * 
  * This function is a alternative to wp_parse_args() to merge arrays strictly,

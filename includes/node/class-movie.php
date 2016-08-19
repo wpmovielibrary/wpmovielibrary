@@ -11,6 +11,8 @@
 
 namespace wpmoly\Node;
 
+use wpmoly\Helpers\Formatting;
+
 /**
  * Define the most important class of the plugin: Movie.
  *
@@ -87,6 +89,8 @@ class Movie extends Node {
 
 		$this->backdrops = new Collection;
 		$this->posters   = new Collection;
+		$this->backdrops->loaded = false;
+		$this->posters->loaded   = false;
 
 		/**
 		 * Filter the default movie meta list.
@@ -105,6 +109,27 @@ class Movie extends Node {
 		 * @param    array    $default_details
 		 */
 		$this->default_details = apply_filters( 'wpmoly/filter/default/movie/details', array( 'status', 'media', 'rating', 'language', 'subtitles', 'format' ) );
+	}
+
+	/**
+	 * Property accessor.
+	 * 
+	 * Override Node::get() to add support for additional data like 'year'.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $name Property name
+	 * @param    mixed     $default Default value
+	 * 
+	 * @return   mixed
+	 */
+	public function get( $name, $default = null ) {
+
+		if ( 'year' == $name ) {
+			return Formatting::date( $this->release_date, 'Y' );
+		}
+
+		return parent::get( $name, $default );
 	}
 
 	/**
@@ -226,6 +251,10 @@ class Movie extends Node {
 	 */
 	public function get_backdrop( $variant = 'featured' ) {
 
+		if ( ! $this->backdrops->has_items() && ! $this->backdrops->loaded ) {
+			$this->load_backdrops();
+		}
+
 		if ( 'featured' == $variant && ! has_post_thumbnail( $this->id ) ) {
 			$variant = 'default';
 		}
@@ -272,6 +301,10 @@ class Movie extends Node {
 	 * @return   Poster|DefaultPoster
 	 */
 	public function get_poster( $variant = 'featured' ) {
+
+		if ( ! $this->posters->has_items() && ! $this->posters->loaded ) {
+			$this->load_posters();
+		}
 
 		if ( 'featured' == $variant && ! has_post_thumbnail( $this->id ) ) {
 			$variant = 'default';
