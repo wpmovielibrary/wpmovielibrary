@@ -15,16 +15,17 @@
 	background: #fff;
 	border: 1px solid #e5e5e5;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-	height: 2.5rem;
-	line-height: 2.5rem;
+	height: 3em;
+	line-height: 3em;
 	padding: 0;
 }
 
 .wpmoly.grid .wpmoly.grid.menu .button {
-	height: 2.5rem;
-	font-size: 1.25em;
-	line-height: 2.5rem;
-	width: 2.5rem;
+	height: 3em;
+	/*font-size: 1.25em;*/
+	line-height: 3em;
+	padding: 0;
+	width: 3em;
 }
 
 /* Content */
@@ -32,6 +33,13 @@
 .wpmoly.grid .wpmoly.grid.content {
 	margin: 0 -4px;
 	padding: 15px 0;
+	
+}
+
+.wpmoly.grid .wpmoly.grid.content a {
+	border: 0;
+	box-shadow: 0 0 0;
+	text-decoration: none;
 	
 }
 
@@ -131,14 +139,15 @@
 	background: #fff;
 	border: 1px solid #e5e5e5;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-	height: 2.5rem;
-	line-height: 2.5rem;
+	height: 3em;
+	line-height: 3em;
 	padding: 0;
 	text-align: center;
 }
 
 .wpmoly.grid .wpmoly.grid.pagination-menu .pagination-menu {
 	display: inline-block;
+	font-size: 0.85em;
 	margin: 0 auto;
 	padding: 0;
 }
@@ -151,8 +160,9 @@
 }
 
 .wpmoly.grid .wpmoly.grid.pagination-menu .button {
-	height: 2.5rem;
-	font-size: 1.25em;
-	line-height: 2.5rem;
-	width: 2.5rem;
+	height: 3em;
+	/*font-size: 1.25em;*/
+	line-height: 3em;
+	padding: 0;
+	width: 3em;
 }

@@ -1,10 +1,9 @@
 
-
 .wpmoly {
 	font-size: 16px;
 }
 
-.wpmoly,
+/*.wpmoly,
 .wpmoly > * {
 	box-shadow: 0 0 0 !important;
 	font-family: 'Open Sans', sans-serif !important;
@@ -15,7 +14,7 @@
 	outline: 0 !important;
 	padding: 0 !important;
 	text-transform: none !important;
-}
+}*/
 
 /*.wpmoly a {
 	border: 0 !important;
