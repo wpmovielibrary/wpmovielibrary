@@ -20,18 +20,6 @@ $actors = array_splice( $actors, 0, 4 );
 $actors = implode( ', ', $actors );
 $actors = apply_filters( 'wpmoly/shortcode/format/cast/value', $actors );
 
-if ( $movie->is_empty() ) :
-	if ( current_user_can( 'manage_options' ) ) :
-?>
-	<div class="wpmoly info notice">
-		<div class="notice-content">
-			<p><span class="wpmolicon icon-info"></span><?php printf( __( 'It seems this movie does not have any metadata available yet; %s?', 'wpmovielibrary' ), sprintf( '<a href="%s">%s</a>', get_edit_post_link(), __( 'care to add some', 'wpmovielibrary' ) ) ); ?></p>
-		</div>
-		<div class="notice-footnote"><?php _e( 'This notice is private; only you and other administrators can see it.', 'wpmovielibrary' ); ?></div>
-	</div>
-<?php
-	endif;
-else :
 ?>
 	<div id="movie-headbox-<?php echo $movie->id; ?>" class="wpmoly movie headbox default">
 		<div class="wpmoly movie headbox header">
@@ -59,4 +47,3 @@ else :
 			</div>
 		</div>
 	</div>
-<?php endif; ?>

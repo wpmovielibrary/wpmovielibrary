@@ -88,6 +88,17 @@ class Movie extends Shortcode {
 
 		$movie = get_movie( $this->attributes['id'] );
 
+		if ( $movie->is_empty() ) {
+			$this->template = new Template( 'notice.php' );
+				$this->template->set_data( array(
+					'type'    => 'info',
+					'icon'    => 'wpmolicon icon-info',
+					'message' => sprintf( __( 'It seems this movie does not have any metadata available yet; %s?', 'wpmovielibrary' ), sprintf( '<a href="%s">%s</a>', get_edit_post_link(), __( 'care to add some', 'wpmovielibrary' ) ) ),
+					'note'    => __( 'This notice is private; only you and other administrators can see it.', 'wpmovielibrary' )
+				) );
+			return $this;
+		}
+
 		$this->template->set_data( array(
 			'movie' => $movie
 		) );
