@@ -54,7 +54,7 @@ class Node {
 		if ( is_numeric( $node ) ) {
 			$this->id   = absint( $node );
 			$this->post = get_post( $this->id );
-		} elseif ( $node instanceof Movie ) {
+		} elseif ( $node instanceof Node ) {
 			$this->id   = absint( $node->id );
 			$this->post = $node->post;
 		} elseif ( isset( $node->ID ) ) {
