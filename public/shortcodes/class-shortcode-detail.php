@@ -6,7 +6,7 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/public/shortcode
+ * @subpackage WPMovieLibrary/public/shortcodes
  */
 
 namespace wpmoly\Shortcodes;
@@ -18,7 +18,7 @@ use wpmoly\Core\PublicTemplate as Template;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/public/shortcode
+ * @subpackage WPMovieLibrary/public/shortcodes
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Detail extends Metadata {

@@ -6,7 +6,7 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * @subpackage WPMovieLibrary/public/shortcodes
  */
 
 namespace wpmoly\Shortcodes;
@@ -16,7 +16,7 @@ namespace wpmoly\Shortcodes;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * @subpackage WPMovieLibrary/public/shortcodes
  * @author     Charlie Merland <charlie@caercam.org>
  */
 abstract class Shortcode {
