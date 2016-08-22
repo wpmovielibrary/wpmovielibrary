@@ -1,0 +1,150 @@
+
+.wpmoly.movie-headbox {
+	margin: 2em auto;
+	position: relative;
+}
+
+/*
+ * Movie Headboxes
+ */
+
+.wpmoly.movie-headbox.theme-default .headbox-header {
+	background: #333;
+	height: 240px;
+	position: relative;
+	width: 100%;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-header .headbox-backdrop-container {
+	height: 100%;
+	overflow: hidden;
+	position: absolute;
+	width: 100%;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-header .headbox-backdrop {
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	bottom: -1em;
+	filter: blur(0.8em);
+	-webkit-filter: blur(0.8em);
+	left: -1em;
+	opacity: 0.8;
+	position: absolute;
+	right: -1em;
+	top: -1em;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-header .headbox-angle {
+	background: #fff;
+	bottom: -5%;
+	left: -10%;
+	position: absolute;
+	height: 60px;
+	transform: rotate(-2deg);
+	width: 120%;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-header .headbox-poster {
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	float: left;
+	height: 15em;
+	left: 1.5em !important;
+	max-width: 30%;
+	position: relative;
+	top: -1em !important;
+	width: 10em;
+	z-index: 10;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-header .headbox-titles {
+	float: left;
+	left: 3em !important;
+	max-width: 60%;
+	position: relative;
+	top: 80px !important;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-header .headbox-titles .movie-title,
+.wpmoly.movie-headbox.theme-default .headbox-header .headbox-titles .movie-title a {
+	border: 0;
+	color: rgba(255, 255, 255, 0.85) !important;
+	font-size: 1.25em !important;
+	font-weight: 400 !important;
+	margin: 0;
+	padding: 0 !important;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-header .headbox-titles .movie-original-title {
+	color: rgba(255, 255, 255, 0.6);
+	font-size: 0.875em;
+	font-style: italic;
+	font-weight: 400 !important;
+	margin: -0.8rem 0 0.2rem 0.4rem;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-header .headbox-titles .movie-tagline {
+	color: rgba(255, 255, 255, 0.6);
+	font-size: 0.875em;
+	font-weight: 600 !important;
+	margin-top: 0.5rem;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-content {
+	background: #fff;
+	position: relative;
+	top: -2.25em;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-content .headbox-cast {
+	float: left;
+	left: 1.5em;
+	max-width: 30%;
+	position: relative;
+	top: 2em;
+	width: 10em;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-content .headbox-cast .movie-director,
+.wpmoly.movie-headbox.theme-default .headbox-content .headbox-cast .movie-actors {
+	color: #444;
+	font-size: 0.875em;
+	font-weight: 600 !important;
+	margin-bottom: 0.75em !important;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-content .headbox-metadata {
+	margin-left: 13em !important;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-content .headbox-metadata .headbox-release-info {
+	font-size: 1em !important;
+	margin-bottom: 1.5em !important;
+	margin-top: 0.25em !important;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-content .headbox-metadata .headbox-release-info a {
+	border: 0;
+	box-shadow: 0 0 0;
+	text-decoration: none;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-content .headbox-metadata .headbox-release-info,
+.wpmoly.movie-headbox.theme-default .headbox-content .headbox-metadata .headbox-release-info a,
+.wpmoly.movie-headbox.theme-default .headbox-content .headbox-metadata .headbox-release-info .meta {
+	color: #888;
+	font-size: 0.875em !important;
+	font-weight: 600;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-content .headbox-metadata .headbox-release-info a {
+	font-size: 1em !important;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-content .headbox-metadata .movie-overview {
+	color: #333;
+	text-align: justify;
+}

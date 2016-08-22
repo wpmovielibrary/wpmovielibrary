@@ -464,7 +464,7 @@ class Core {
 		}
 
 		if ( $this->internal ) {
-			$url = "{$this->scheme}://{$this->internal_url}/{$this->version}/$query";
+			$url = "{$this->scheme}://{$this->internal_url}/{WPMOLY_VERSION}/$query";
 			$params['api_key'] = $this->key;
 		} else {
 			$url = "http://{$this->default_url}/$query";

@@ -48,24 +48,6 @@ final class Library {
 	protected $loader;
 
 	/**
-	 * The unique identifier of this plugin.
-	 *
-	 * @since    3.0
-	 *
-	 * @var      string
-	 */
-	protected $plugin_name;
-
-	/**
-	 * The current version of the plugin.
-	 *
-	 * @since    3.0
-	 *
-	 * @var      string
-	 */
-	protected $version;
-
-	/**
 	 * Library options instance.
 	 *
 	 * @since    3.0
@@ -86,9 +68,6 @@ final class Library {
 	 * @return    \wpmoly\Library
 	 */
 	public function __construct() {
-
-		$this->plugin_name = WPMOLY_SLUG;
-		$this->version     = WPMOLY_VERSION;
 
 		$this->load_dependencies();
 		$this->define_admin_hooks();
@@ -249,7 +228,7 @@ final class Library {
 			return false;
 		}
 
-		$admin = new Backstage( $this->get_plugin_name(), $this->get_version() );
+		$admin = Backstage::get_instance();
 		//$admin->set_default_filters();
 
 		$this->loader->add_filter( 'admin_init',                $admin, 'admin_init' );
@@ -300,7 +279,7 @@ final class Library {
 	 */
 	private function define_public_hooks() {
 
-		$public = new Frontend( $this->get_plugin_name(), $this->get_version() );
+		$public = Frontend::get_instance();
 		$public->set_default_filters();
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_styles', 95 );
@@ -341,19 +320,6 @@ final class Library {
 	}
 
 	/**
-	 * The name of the plugin used to uniquely identify it within the context of
-	 * WordPress and to define internationalization functionality.
-	 *
-	 * @since     3.0
-	 *
-	 * @return    string    The name of the plugin.
-	 */
-	public function get_plugin_name() {
-
-		return $this->plugin_name;
-	}
-
-	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     3.0
@@ -364,17 +330,4 @@ final class Library {
 
 		return $this->loader;
 	}
-
-	/**
-	 * Retrieve the version number of the plugin.
-	 *
-	 * @since     3.0
-	 *
-	 * @return    string    The version number of the plugin.
-	 */
-	public function get_version() {
-
-		return $this->version;
-	}
-
 }

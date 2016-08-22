@@ -24,33 +24,182 @@ namespace wpmoly;
 class Frontend {
 
 	/**
-	 * The ID of this plugin.
-	 * 
-	 * @var      string
+	 * Single instance.
+	 *
+	 * @var    Frontend
 	 */
-	private $plugin_name;
+	private static $instance = null;
 
 	/**
-	 * The version of this plugin.
-	 * 
-	 * @var      string
+	 * Public stylesheets.
+	 *
+	 * @var    array
 	 */
-	private $version;
+	private $styles = array();
+
+	/**
+	 * Public scripts.
+	 *
+	 * @var    array
+	 */
+	private $scripts = array();
 
 	/**
 	 * Initialize the class and set its properties.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    string    $plugin_name       The name of the plugin.
-	 * @param    string    $version    The version of this plugin.
+	 * @return   void
+	 */
+	public function __construct() {
+
+		$styles = array(
+
+			// Plugin-wide normalize
+			'normalize' => array( 'file' => WPMOLY_URL . 'public/css/wpmoly-normalize-min.css' ),
+
+			// Main stylesheet
+			''          => array( 'file' => WPMOLY_URL . 'public/css/wpmoly.css', 'deps' => array( WPMOLY_SLUG . '-normalize' ) ),
+
+			// Common stylesheets
+			'common'    => array( 'file' => WPMOLY_URL . 'public/css/common.css' ),
+			'headboxes' => array( 'file' => WPMOLY_URL . 'public/css/wpmoly-headboxes.css' ),
+			'grids'     => array( 'file' => WPMOLY_URL . 'public/css/wpmoly-grids.css' ),
+			'flags'     => array( 'file' => WPMOLY_URL . 'public/css/wpmoly-flags.css' ),
+
+			// Plugin icon font
+			'font'      => array( 'file' => WPMOLY_URL . 'public/fonts/wpmovielibrary/style.css' )
+		);
+
+		/**
+		 * Filter the default styles to register.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $styles
+		 */
+		$this->styles = apply_filters( 'wpmoly/filter/default/public/styles', $styles );
+
+		$scripts = array(
+			'' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly.js', 'deps' => array( 'jquery', 'underscore', 'backbone' ) )
+		);
+
+		/**
+		 * Filter the default scripts to register.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $scripts
+		 */
+		$this->scripts = apply_filters( 'wpmoly/filter/default/public/scripts', $scripts );
+	}
+
+	/**
+	 * Singleton.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Singleton
+	 */
+	final public static function get_instance() {
+
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new static;
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Register frontend stylesheets.
+	 *
+	 * @since    3.0
+	 *
+	 * @return   null
+	 */
+	public function register_styles() {
+
+		foreach ( $this->styles as $id => $style ) {
+
+			if ( ! empty( $id ) ) {
+				$id = '-' . $id;
+			}
+			$id = WPMOLY_SLUG . $id;
+
+			$style = wp_parse_args( $style, array(
+				'file'    => '',
+				'deps'    => array(),
+				'version' => WPMOLY_VERSION,
+				'media'   => 'all'
+			) );
+
+			wp_register_style( $id, $style['file'], $style['deps'], $style['version'], $style['media'] );
+		}
+	}
+
+	/**
+	 * Enqueue a specific style.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $id Script ID.
 	 * 
 	 * @return   void
 	 */
-	public function __construct( $plugin_name, $version ) {
+	private function enqueue_style( $id = '' ) {
 
-		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		if ( ! empty( $id ) ) {
+			$id = '-' . $id;
+		}
+		$id = WPMOLY_SLUG . $id;
+
+		wp_enqueue_style( $id );
+	}
+
+	/**
+	 * Register frontend JavaScript.
+	 *
+	 * @since    3.0
+	 *
+	 * @return   null
+	 */
+	public function register_scripts() {
+
+		foreach ( $this->scripts as $id => $script ) {
+
+			if ( ! empty( $id ) ) {
+				$id = '-' . $id;
+			}
+			$id = WPMOLY_SLUG . $id;
+
+			$script = wp_parse_args( $script, array(
+				'file'    => '',
+				'deps'    => array(),
+				'version' => WPMOLY_VERSION,
+				'footer'  => true
+			) );
+
+			wp_register_script( $id, $script['file'], $script['deps'], $script['version'], $script['footer'] );
+		}
+	}
+
+	/**
+	 * Enqueue a specific script.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $id Style ID.
+	 * 
+	 * @return   void
+	 */
+	private function enqueue_script( $id = '' ) {
+
+		if ( ! empty( $id ) ) {
+			$id = '-' . $id;
+		}
+		$id = WPMOLY_SLUG . $id;
+
+		wp_enqueue_script( $id );
 	}
 
 	/**
@@ -62,15 +211,14 @@ class Frontend {
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( $this->plugin_name . '-normalize',  WPMOLY_URL . 'public/css/wpmoly-normalize-min.css', array(), $this->version, 'all' );
+		$this->register_styles();
 
-		wp_enqueue_style( $this->plugin_name, WPMOLY_URL . 'public/css/wpmoly.css', array(), $this->version, 'all' );
-
-		wp_enqueue_style( $this->plugin_name . '-common', WPMOLY_URL . 'public/css/common.css', array(), $this->version, 'all' );
-		wp_enqueue_style( $this->plugin_name . '-grids',  WPMOLY_URL . 'public/css/wpmoly-grids.css', array(), $this->version, 'all' );
-		wp_enqueue_style( $this->plugin_name . '-flags',  WPMOLY_URL . 'public/css/wpmoly-flags.css', array(), $this->version, 'all' );
-
-		wp_enqueue_style( $this->plugin_name . '-font',   WPMOLY_URL . 'public/fonts/wpmovielibrary/style.css', array(), $this->version, 'all' );
+		$this->enqueue_style();
+		$this->enqueue_style( 'common' );
+		$this->enqueue_style( 'headboxes' );
+		$this->enqueue_style( 'grids' );
+		$this->enqueue_style( 'flags' );
+		$this->enqueue_style( 'font' );
 	}
 
 	/**
@@ -82,7 +230,9 @@ class Frontend {
 	 */
 	public function enqueue_scripts() {
 
-		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wpmoly.js', array( 'jquery', 'underscore', 'backbone' ), $this->version, true );
+		$this->register_scripts();
+
+		//$this->enqueue_style();
 	}
 
 	/**

@@ -26,8 +26,9 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'WPMOLY_SLUG',    'wpmovielibrary' );
+define( 'WPMOLY_SLUG',    'wpmoly' );
 define( 'WPMOLY_NAME',    'WPMovieLibrary' );
+define( 'WPMOLY_DOMAIN',  'wpmovielibrary' );
 define( 'WPMOLY_VERSION', '3.0-alpha1' );
 define( 'WPMOLY_URL',     plugins_url( basename( __DIR__ ) ) . '/' );
 define( 'WPMOLY_PATH',    plugin_dir_path( __FILE__ ) );

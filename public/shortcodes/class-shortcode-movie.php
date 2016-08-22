@@ -69,7 +69,7 @@ class Movie extends Shortcode {
 	 */
 	protected function make() {
 
-		$template = 'shortcodes/movie-' . $this->attributes['theme'] . '.php';
+		$template = 'headboxes/movie-' . $this->attributes['theme'] . '.php';
 
 		// Set Template
 		$this->template = new Template( $template );
