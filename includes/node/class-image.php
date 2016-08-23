@@ -192,6 +192,8 @@ class Image {
 		$output = $this->sizes->$size->url;
 		if ( 'html' == $format ) {
 			$output = '<img src="' . esc_url( $output ) . '" alt="" />';
+		} else {
+			$output = esc_url( $output );
 		}
 
 		if ( false === $echo ) {
