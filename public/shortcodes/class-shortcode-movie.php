@@ -12,6 +12,7 @@
 namespace wpmoly\Shortcodes;
 
 use wpmoly\Node\Grid;
+use wpmoly\Node\Headbox;
 use wpmoly\Core\PublicTemplate as Template;
 
 /**
@@ -42,9 +43,14 @@ class Movie extends Shortcode {
 			'values'  => null,
 			'filter'  => 'intval'
 		),
+		'type' => array(
+			'default' => 'movie',
+			'values'  => null,
+			'filter'  => 'esc_attr'
+		),
 		'theme' => array(
 			'default' => 'default',
-			'values'  => array( 'default', 'vintage', 'allocine', 'imdb' ),
+			'values'  => null,
 			'filter'  => 'esc_attr'
 		)
 	);
@@ -69,7 +75,11 @@ class Movie extends Shortcode {
 	 */
 	protected function make() {
 
-		$template = 'headboxes/movie-' . $this->attributes['theme'] . '.php';
+		$this->headbox = new Headbox( $this->attributes['id'] );
+		$this->headbox->set( $this->attributes );
+		$this->headbox->build();
+
+		$template = 'headboxes/' . $this->headbox->get( 'type' ) . '-' . $this->headbox->get( 'theme' ) . '.php';
 
 		// Set Template
 		$this->template = new Template( $template );
@@ -86,8 +96,7 @@ class Movie extends Shortcode {
 	 */
 	public function run() {
 
-		$movie = get_movie( $this->attributes['id'] );
-
+		$movie = $this->headbox->node;
 		if ( $movie->is_empty() ) {
 			$this->template = new Template( 'notice.php' );
 				$this->template->set_data( array(

@@ -111,6 +111,17 @@ class Movie extends Node {
 		$this->default_details = apply_filters( 'wpmoly/filter/default/movie/details', array( 'status', 'media', 'rating', 'language', 'subtitles', 'format' ) );
 	}
 
+	public function __call( $method, $arguments ) {
+
+		if ( preg_match( '/get_[a-z_]+/i', $method ) ) {
+			$name = str_replace( 'get_', '', $method );
+			return $this->get_the( $name );
+		} elseif ( preg_match( '//i', $method ) ) {
+			$name = str_replace( 'the_', '', $method );
+			$this->the( $name );
+		}
+	}
+
 	/**
 	 * Property accessor.
 	 * 
