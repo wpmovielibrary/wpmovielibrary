@@ -111,6 +111,19 @@ class Movie extends Node {
 		$this->default_details = apply_filters( 'wpmoly/filter/default/movie/details', array( 'status', 'media', 'rating', 'language', 'subtitles', 'format' ) );
 	}
 
+	/**
+	 * Magic.
+	 * 
+	 * Add support for Movie::get_{$property}() and Movie::the_{$property}()
+	 * methods.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $method 
+	 * @param    array     $arguments 
+	 * 
+	 * @return   mixed
+	 */
 	public function __call( $method, $arguments ) {
 
 		if ( preg_match( '/get_[a-z_]+/i', $method ) ) {
