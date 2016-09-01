@@ -135,6 +135,7 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/core/class-registrar.php';
 		require_once WPMOLY_PATH . 'includes/core/class-template.php';
 		require_once WPMOLY_PATH . 'includes/core/class-options.php';
+		require_once WPMOLY_PATH . 'includes/core/class-rewrite.php';
 
 		$this->init();
 
@@ -175,7 +176,9 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/ajax/class-ajax-meta.php';
 
 		if ( is_admin() ) {
+
 			require_once WPMOLY_PATH . 'admin/class-backstage.php';
+			require_once WPMOLY_PATH . 'admin/class-permalink-settings.php';
 			require_once WPMOLY_PATH . 'admin/class-grid-builder.php';
 			require_once WPMOLY_PATH . 'admin/class-metaboxes.php';
 			require_once WPMOLY_PATH . 'admin/class-metabox.php';
@@ -250,6 +253,7 @@ final class Library {
 			$this->loader->add_filter( $hook, $class, $method, $priority, $arguments );
 		}
 
+		// Grid Builder
 		$builder = new Admin\GridBuilder;
 		$builder->add_metaboxes();
 
@@ -258,11 +262,15 @@ final class Library {
 		$this->loader->add_action( 'dbx_post_sidebar',            $builder, 'footer' );
 		/*$this->loader->addactions( 'admin_footer-post.php',       $builder, '' );
 		$this->loader->addactions( 'admin_footer-post-new.php',   $builder, '' );*/
-
 		$this->loader->add_action( 'load-post.php',               $builder, 'load' );
 		$this->loader->add_action( 'load-post-new.php',           $builder, 'load' );
 		$this->loader->add_action( 'butterbean_register',         $builder, 'register_butterbean', 10, 2 );
 		$this->loader->add_action( 'butterbean_before_metabox',   $builder, 'separator', 10, 4 );
+
+		// Permalink Settings
+		$permalinks = Admin\PermalinkSettings::get_instance();
+		$this->loader->add_action( 'load-options-permalink.php', $permalinks, 'register' );
+		$this->loader->add_action( 'load-options-permalink.php', $permalinks, 'update' );
 
 		// Admin-side Ajax
 		$ajax = Ajax\Ajax::get_instance();

@@ -54,11 +54,14 @@ class Backstage {
 	public function __construct() {
 
 		$styles = array(
-			''        => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly.css' ),
-			'font'    => array( 'file' => WPMOLY_URL . 'public/fonts/wpmovielibrary/style.css' ),
-			'common'  => array( 'file' => WPMOLY_URL . 'public/css/common.css' ),
-			'grids'   => array( 'file' => WPMOLY_URL . 'public/css/wpmoly-grids.css' ),
-			'select2' => array( 'file' => WPMOLY_URL . 'admin/css/select2.min.css' )
+			''             => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly.css' ),
+			'metabox'      => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-metabox.css' ),
+			'grid-builder' => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-grid-builder.css' ),
+
+			'font'         => array( 'file' => WPMOLY_URL . 'public/fonts/wpmovielibrary/style.css' ),
+			'common'       => array( 'file' => WPMOLY_URL . 'public/css/common.css' ),
+			'grids'        => array( 'file' => WPMOLY_URL . 'public/css/wpmoly-grids.css' ),
+			'select2'      => array( 'file' => WPMOLY_URL . 'admin/css/select2.min.css' )
 		);
 
 		/**
@@ -264,10 +267,12 @@ class Backstage {
 	 * Enqueue the stylesheets for the admin area.
 	 *
 	 * @since    3.0
+	 * 
+	 * @param    string    $hook_suffix
 	 *
 	 * @return   null
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles( $hook_suffix ) {
 
 		$this->register_styles();
 
@@ -276,6 +281,14 @@ class Backstage {
 		$this->enqueue_style( 'common' );
 		$this->enqueue_style( 'grids' );
 		$this->enqueue_style( 'select2' );
+
+		if ( 'options-permalink.php' == $hook_suffix ) {
+			$this->enqueue_style( 'metabox' );
+		}
+
+		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'grid' == get_post_type() ) {
+			$this->enqueue_style( 'grid-builder' );
+		}
 	}
 
 	/**
@@ -311,6 +324,20 @@ class Backstage {
 	public function enqueue_scripts( $hook_suffix ) {
 
 		$this->register_scripts();
+
+		if ( 'options-permalink.php' == $hook_suffix ) {
+
+			// Vendor
+			$this->enqueue_script( 'sprintf' );
+			$this->enqueue_script( 'underscore-string' );
+
+			// Base
+			$this->enqueue_script();
+
+			// Metabox
+			$this->enqueue_script( 'metabox-view' );
+			$this->enqueue_script( 'metabox' );
+		}
 
 		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'movie' == get_post_type() ) {
 
