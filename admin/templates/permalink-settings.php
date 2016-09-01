@@ -39,12 +39,10 @@
 ?>
 					<h4><?php echo esc_attr( $field['title'] ); ?></h4>
 					<p><?php echo wp_kses( $field['description'], wp_kses_allowed_html( 'post' ) ); ?></p>
-<?php
-				if ( 'radio' == $field['type'] ) {
-?>
 					<table class="form-table wpmoly-permalink-structure">
 						<tbody>
 <?php
+				if ( 'radio' == $field['type'] ) {
 					foreach ( $field['choices'] as $name => $choice ) {
 ?>
 							<tr>
@@ -55,7 +53,7 @@
 <?php
 						if ( 'custom' == $name ) {
 ?>
-									<input name="custom_<?php echo esc_attr( $name ); ?>" type="text" value="" class="regular-text code" />
+									<code><?php echo esc_url( home_url() . '/' ) ?></code> <input name="custom_<?php echo esc_attr( $name ); ?>" type="text" value="" class="regular-text code" />
 									<p><em><?php _e( 'Enter a custom base to use. A base <strong>must</strong> be set or WordPress will use default instead.', 'wpmovielibrary' ); ?></em></p>
 <?php
 						} else {
@@ -68,15 +66,20 @@
 							</tr>
 <?php
 					}
+				} elseif ( 'text' == $field['type'] ) {
+?>
+							<tr>
+								<th></th>
+								<td>
+									<code><?php echo esc_url( home_url() . '/' ) ?></code> <input name="<?php echo esc_attr( $slug ); ?>" type="text" value="<?php echo esc_attr( $field['default'] ); ?>" class="regular-text code" />
+								</td>
+							</tr>
+<?php
+				}
 ?>
 						</tbody>
 					</table>
 <?php
-				} elseif ( 'text' == $field['type'] ) {
-?>
-					<code><?php echo esc_url( home_url() . '/' ) ?></code> <input name="<?php echo esc_attr( $slug ); ?>" type="text" value="<?php echo esc_attr( $field['default'] ); ?>" class="regular-text code" />
-<?php
-				}
 			}
 ?>
 				</div>
