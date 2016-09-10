@@ -35,9 +35,9 @@ function get_wpmoly() {
  */
 function wpmoly_o( $name, $default = null ) {
 
-	$wpmoly = wpmoly\Library::get_instance();
+	$options = wpmoly\Core\Options::get_instance();
 
-	return $wpmoly->options->get( $name, $default );
+	return $options->get( $name, $default );
 }
 
 /**
@@ -190,6 +190,132 @@ function get_movie_headbox( $post_id = null ) {
 	$headbox->run();
 
 	return $headbox;
+}
+
+/**
+ * Retrieve 'actor' taxonomy archive page ID.
+ * 
+ * @since    3.0
+ * 
+ * @param    int    $default Default ID.
+ * 
+ * @return   int
+ */
+function get_actor_archives_page_id( $default = 0 ) {
+
+	return $post_id = wpmoly_o( 'actor-archives', (int) $default );
+}
+
+/**
+ * Get 'actor' taxonomy archive page if any.
+ * 
+ * @since    3.0
+ * 
+ * @return   WP_Post|null
+ */
+function get_actor_archives_page() {
+
+	$post_id = get_actor_archives_page_id();
+
+	return $page = get_post( $post_id );
+}
+
+/**
+ * Check if there is an archive page set for 'actor' taxonomy.
+ * 
+ * @since    3.0
+ * 
+ * @return   int
+ */
+function has_actor_archives_page() {
+
+	$page = get_actor_archives_page();
+
+	return ! is_null( $page );
+}
+
+/**
+ * Retrieve 'collection' taxonomy archive page ID.
+ * 
+ * @since    3.0
+ * 
+ * @param    int    $default Default ID.
+ * 
+ * @return   int
+ */
+function get_collection_archives_page_id( $default = 0 ) {
+
+	return $post_id = wpmoly_o( 'collection-archives', (int) $default );
+}
+
+/**
+ * Get 'collection' taxonomy archive page if any.
+ * 
+ * @since    3.0
+ * 
+ * @return   WP_Post|null
+ */
+function get_collection_archives_page() {
+
+	$post_id = get_collection_archives_page_id();
+
+	return $page = get_post( $post_id );
+}
+
+/**
+ * Check if there is an archive page set for 'collection' taxonomy.
+ * 
+ * @since    3.0
+ * 
+ * @return   int
+ */
+function has_collection_archives_page() {
+
+	$page = get_collection_archives_page();
+
+	return ! is_null( $page );
+}
+
+/**
+ * Retrieve 'genre' taxonomy archive page ID.
+ * 
+ * @since    3.0
+ * 
+ * @param    int    $default Default ID.
+ * 
+ * @return   int
+ */
+function get_genre_archives_page_id( $default = 0 ) {
+
+	return $post_id = wpmoly_o( 'genre-archives', (int) $default );
+}
+
+/**
+ * Get 'genre' taxonomy archive page if any.
+ * 
+ * @since    3.0
+ * 
+ * @return   WP_Post|null
+ */
+function get_genre_archives_page() {
+
+	$post_id = get_genre_archives_page_id();
+
+	return $page = get_post( $post_id );
+}
+
+/**
+ * Check if there is an archive page set for 'genre' taxonomy.
+ * 
+ * @since    3.0
+ * 
+ * @return   int
+ */
+function has_genre_archives_page() {
+
+	$page = get_genre_archives_page();
+
+	return ! is_null( $page );
 }
 
 /**
