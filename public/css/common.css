@@ -42,10 +42,7 @@
  * Notice
  */
 
-.wpmoly.notice {
-	
-}
-
+.wpmoly.info .notice-content,
 .wpmoly.notice .notice-content {
 	background: #fff;
 	border-left: 4px solid #3190c6;
@@ -54,10 +51,12 @@
 	box-shadow: 0 0 2px rgba(0, 0, 0, 0.15) !important;
 }
 
+.wpmoly.info .notice-content p,
 .wpmoly.notice .notice-content p {
 	margin: 0 !important;
 }
 
+.wpmoly.info .notice-footnote,
 .wpmoly.notice .notice-footnote {
 	color: #888;
 	font-size: 12px;
