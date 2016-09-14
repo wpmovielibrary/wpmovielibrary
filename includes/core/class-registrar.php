@@ -78,6 +78,11 @@ class Registrar {
 	 */
 	public function register_post_types() {
 
+		$permalinks = get_option( 'wpmoly_permalinks' );
+		if ( ! $permalinks ) {
+			$permalinks = array();
+		}
+
 		$post_types = array(
 			array(
 				'slug' => 'movie',
@@ -98,7 +103,7 @@ class Registrar {
 						'menu_name'          => __( 'Movie Library', 'wpmovielibrary' )
 					),
 					'rewrite' => array(
-						'slug' => wpmoly_is_o( 'rewrite-enable' ) ? wpmoly_o( 'rewrite-movie', 'movies' ) : 'movies'
+						'slug' => ! empty( $permalinks['movie_base'] ) ? $permalinks['movie_base'] : 'movies'
 					),
 					'public'             => true,
 					'publicly_queryable' => true,
@@ -346,8 +351,9 @@ class Registrar {
 				$taxonomy['args']['posts'][] = 'post';
 			}
 
-			if ( wpmoly_is_o( 'rewrite-enable' ) ) {
-				$taxonomy['slug'] = wpmoly_o( "rewrite-{$taxonomy['slug']}", $taxonomy['slug'] );
+			$slug = $taxonomy['slug'];
+			if ( ! empty( $permalinks["{$slug}_base"] ) ) {
+				$slug = $permalinks["{$slug}_base"];
 			}
 
 			/**
@@ -366,7 +372,7 @@ class Registrar {
 				'hierarchical'      => false,
 				'query_var'         => true,
 				'sort'              => true,
-				'rewrite'           => array( 'slug' => $taxonomy['slug'] )
+				'rewrite'           => array( 'slug' => $slug )
 			), $args );
 
 			register_taxonomy( $taxonomy['slug'], $taxonomy['posts'], $args );

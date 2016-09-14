@@ -28,14 +28,21 @@ class PermalinkSettings {
 	 * 
 	 * @var    array
 	 */
-	private $defaults = array();
+	private $defaults;
 
 	/**
 	 * Custom permalink settings.
 	 * 
 	 * @var    array
 	 */
-	private $settings = array();
+	private $settings;
+
+	/**
+	 * Existing permalink structures
+	 * 
+	 * @var    array
+	 */
+	private $permalinks;
 
 	/**
 	 * Singleton.
@@ -52,14 +59,25 @@ class PermalinkSettings {
 	private function __construct() {
 
 		$defaults = array(
-			'movie_permalink'      => '/' . _x( 'movie', 'slug', 'wpmovielibrary' ) . '/%postname%/',
-			'actor_permalink'      => '/' . _x( 'actor', 'slug', 'wpmovielibrary' ) . '/%actor%/',
-			'collection_permalink' => '/' . _x( 'collection', 'slug', 'wpmovielibrary' ) . '/%collection%/',
-			'genre_permalink'      => '/' . _x( 'genre', 'slug', 'wpmovielibrary' ) . '/%genre%/',
-			'movie_archives'       => '/' . _x( 'movies', 'slug', 'wpmovielibrary' ) . '/',
-			'actor_archives'       => '',
-			'collection_archives'  => '',
-			'genre_archives'       => '',
+			'movie_base'           => _x( 'movie', 'slug', 'wpmovielibrary' ),
+			'actor_base'           => _x( 'actor', 'slug', 'wpmovielibrary' ),
+			'collection_base'      => _x( 'collection', 'slug', 'wpmovielibrary' ),
+			'genre_base'           => _x( 'genre', 'slug', 'wpmovielibrary' ),
+
+			'movies_base'          => _x( 'movies', 'slug', 'wpmovielibrary' ),
+			'actors_base'          => _x( 'actors', 'slug', 'wpmovielibrary' ),
+			'collections_base'     => _x( 'collections', 'slug', 'wpmovielibrary' ),
+			'genres_base'          => _x( 'genres', 'slug', 'wpmovielibrary' ),
+
+			'movie_permalink'      => '/%movie_base%/%postname%/',
+			'actor_permalink'      => '/%actor_base%/%actor%/',
+			'collection_permalink' => '/%collection_base%/%collection%/',
+			'genre_permalink'      => '/%genre_base%/%genre%/',
+
+			'movie_archives'       => '/%movies_base%/',
+			'actor_archives'       => '/%actors_base%/',
+			'collection_archives'  => '/%collections_base%/',
+			'genre_archives'       => '/%genres_base%/',
 		);
 
 		/**
@@ -70,6 +88,8 @@ class PermalinkSettings {
 		 * @param    array    $defaults
 		 */
 		$this->defaults = apply_filters( 'wpmoly/filter/permalinks/structure/defaults', $defaults );
+
+		$this->permalinks = $this->get_permalinks();
 
 		$settings = array(
 			'movie-permalinks' => array(
@@ -83,47 +103,53 @@ class PermalinkSettings {
 						'choices' => array(
 							'simple' => array(
 								'label'  => __( 'Simple', 'wpmovielibrary' ),
-								'value'  => '/' . _x( 'movie', 'slug', 'wpmovielibrary' ) . '/%postname%/',
-								'description' => home_url() . '/' . _x( 'movie', 'slug', 'wpmovielibrary' ) . '/interstellar/'
+								'value'  => '/%movie_base%/%postname%/',
+								'description' => home_url() . '/' . $this->permalinks['movie_base'] . '/interstellar/'
 							),
 							'title_year' => array(
 								'label'  => __( 'Title and Year', 'wpmovielibrary' ),
-								'value'  => '/' . _x( 'movie', 'slug', 'wpmovielibrary' ) . '/%year%/%postname%/',
-								'description' => home_url() . '/' . _x( 'movie', 'slug', 'wpmovielibrary' ) . '/2016/interstellar/'
+								'value'  => '/%movie_base%/%year%/%postname%/',
+								'description' => home_url() . '/' . $this->permalinks['movie_base'] . '/2016/interstellar/'
 							),
 							'title_month' => array(
 								'label'  => __( 'Title and Month', 'wpmovielibrary' ),
-								'value'  => '/' . _x( 'movie', 'slug', 'wpmovielibrary' ) . '/%year%/%monthnum%/%postname%/',
-								'description' => home_url() . '/' . _x( 'movie', 'slug', 'wpmovielibrary' ) . '/2016/08/interstellar/'
+								'value'  => '/%movie_base%/%year%/%monthnum%/%postname%/',
+								'description' => home_url() . '/' . $this->permalinks['movie_base'] . '/2016/08/interstellar/'
 							),
 							'title_release_year' => array(
 								'label'  => __( 'Title and Release Year', 'wpmovielibrary' ),
-								'value'  => '/' . _x( 'movie', 'slug', 'wpmovielibrary' ) . '/%release_year%/%postname%/',
-								'description' => home_url() . '/' . _x( 'movie', 'slug', 'wpmovielibrary' ) . '/2014/interstellar/'
+								'value'  => '/%movie_base%/%release_year%/%postname%/',
+								'description' => home_url() . '/' . $this->permalinks['movie_base'] . '/2014/interstellar/'
 							),
 							'title_release_month' => array(
 								'label'  => __( 'Title and Release Month', 'wpmovielibrary' ),
-								'value'  => '/' . _x( 'movie', 'slug', 'wpmovielibrary' ) . '/%release_year%/%release_monthnum%/%postname%/',
-								'description' => home_url() . '/' . _x( 'movie', 'slug', 'wpmovielibrary' ) . '/2014/10/interstellar/'
+								'value'  => '/%movie_base%/%release_year%/%release_monthnum%/%postname%/',
+								'description' => home_url() . '/' . $this->permalinks['movie_base'] . '/2014/10/interstellar/'
 							),
 							'imdb_id' => array(
 								'label'  => __( 'IMDb ID', 'wpmovielibrary' ),
-								'value'  => '/' . _x( 'movie', 'slug', 'wpmovielibrary' ) . '/%imdb_id%/',
-								'description' => home_url() . '/' . _x( 'movie', 'slug', 'wpmovielibrary' ) . '/tt0816692/'
+								'value'  => '/%movie_base%/%imdb_id%/',
+								'description' => home_url() . '/' . $this->permalinks['movie_base'] . '/tt0816692/'
 							),
 							'tmdb_id' => array(
 								'label'  => __( 'TMDb ID', 'wpmovielibrary' ),
-								'value'  => '/' . _x( 'movie', 'slug', 'wpmovielibrary' ) . '/%tmdb_id%/',
-								'description' => home_url() . '/' . _x( 'movie', 'slug', 'wpmovielibrary' ) . '/157336/'
+								'value'  => '/%movie_base%/%tmdb_id%/',
+								'description' => home_url() . '/' . $this->permalinks['movie_base'] . '/157336/'
 							),
 							'archive' => array(
 								'label'  => __( 'Archive base', 'wpmovielibrary' ),
-								'value'  => '/' . _x( 'movies', 'slug', 'wpmovielibrary' ) . '/%postname%/',
-								'description' => home_url() . '/' . _x( 'movies', 'slug', 'wpmovielibrary' ) . '/interstellar/'
+								'value'  => '/%movies_base%/%postname%/',
+								'description' => home_url() . '/' . $this->permalinks['movies_base'] . '/interstellar/'
 							)
 						),
 						'default' => 'archive'
-					)
+					),
+					'movie_base' => array(
+						'type' => 'text',
+						'title' => __( 'Movie base', 'wpmovielibrary' ),
+						'description' => __( 'Base name for movie permalinks. Default is "movie".', 'wpmovielibrary' ),
+						'default' => _x( 'movie', 'slug', 'wpmovielibrary' )
+					),
 				)
 			),
 			'actor-permalinks' => array(
@@ -137,8 +163,13 @@ class PermalinkSettings {
 						'choices' => array(
 							'simple' => array(
 								'label'  => __( 'Simple', 'wpmovielibrary' ),
-								'value'  => '/' . _x( 'actor', 'slug', 'wpmovielibrary' ) . '/%actor%/',
-								'description' => home_url() . '/' . _x( 'actor', 'slug', 'wpmovielibrary' ) . '/matthew-mcconaughey/'
+								'value'  => '/%actor_base%/%actor%/',
+								'description' => home_url() . '/' . $this->permalinks['actor_base'] . '/matthew-mcconaughey/'
+							),
+							'archive' => array(
+								'label'  => __( 'Archive base', 'wpmovielibrary' ),
+								'value'  => '/%actors_base%/%actor%/',
+								'description' => home_url() . '/' . $this->permalinks['actors_base'] . '/interstellar/'
 							)
 						),
 						'default' => 'simple'
@@ -156,8 +187,13 @@ class PermalinkSettings {
 						'choices' => array(
 							'simple' => array(
 								'label'  => __( 'Simple', 'wpmovielibrary' ),
-								'value'  => '/' . _x( 'genre', 'slug', 'wpmovielibrary' ) . '/%genre%/',
-								'description' => home_url() . '/' . _x( 'genre', 'slug', 'wpmovielibrary' ) . '/science-fiction/'
+								'value'  => '/%genre_base%/%genre%/',
+								'description' => home_url() . '/' . $this->permalinks['genre_base'] . '/science-fiction/'
+							),
+							'archive' => array(
+								'label'  => __( 'Archive base', 'wpmovielibrary' ),
+								'value'  => '/%genres_base%/%genre%/',
+								'description' => home_url() . '/' . $this->permalinks['genres_base'] . '/interstellar/'
 							)
 						),
 						'default' => 'simple'
@@ -175,8 +211,13 @@ class PermalinkSettings {
 						'choices' => array(
 							'simple' => array(
 								'label'  => __( 'Simple', 'wpmovielibrary' ),
-								'value'  => '/' . _x( 'collection', 'slug', 'wpmovielibrary' ) . '/%collection%/',
-								'description' => home_url() . '/' . _x( 'collection', 'slug', 'wpmovielibrary' ) . '/christopher-nolan/'
+								'value'  => '/%collection_base%/%collection%/',
+								'description' => home_url() . '/' . $this->permalinks['collection_base'] . '/christopher-nolan/'
+							),
+							'archive' => array(
+								'label'  => __( 'Archive base', 'wpmovielibrary' ),
+								'value'  => '/%collections_base%/%collection%/',
+								'description' => home_url() . '/' . $this->permalinks['collections_base'] . '/interstellar/'
 							)
 						),
 						'default' => 'simple'
@@ -237,7 +278,7 @@ class PermalinkSettings {
 		 * 
 		 * @param    array    $settings
 		 */
-		$this->settings = apply_filters( 'wpmoly/filter/permalink/settings', $settings );
+		$this->settings = apply_filters( 'wpmoly/filter/permalinks/settings', $settings );
 	}
 
 	/**
@@ -277,12 +318,13 @@ class PermalinkSettings {
 	 */
 	public function register_sections() {
 
-		$permalinks = wp_parse_args( (array) get_option( 'wpmoly_permalinks' ), $this->defaults );
+		$enabled = ! empty( get_option( 'rewrite_rules' ) );
 
 		$metabox = new Template( 'permalink-settings.php' );
 		$metabox->set_data( array(
 			'settings'   => $this->settings,
-			'permalinks' => $permalinks
+			'permalinks' => $this->permalinks,
+			'enabled'    => $enabled
 		) );
 
 		$metabox->render();
@@ -307,19 +349,67 @@ class PermalinkSettings {
 			return false;
 		}
 
-		$permalinks = get_option( 'wpmoly_permalinks' );
-		if ( ! $permalinks ) {
+		$permalinks = array();
+		$new_permalinks = $_POST['wpmoly_permalinks'];
+
+		foreach ( $this->defaults as $name => $permalink ) {
+			if ( ! empty( $new_permalinks[ $name ] ) ) {
+				if ( 'custom' == $new_permalinks[ $name ] && ! empty( $new_permalinks["custom_{$name}"] ) ) {
+					$permalink = $new_permalinks["custom_{$name}"];
+				} else {
+					$permalink = $new_permalinks[ $name ];
+				}
+			}
+
+			if ( false === strpos( $name, 'base' ) ) {
+				$permalink = $this->slashit( $permalink );
+			}
+
+			$permalinks[ $name ] = $permalink;
+		}
+
+		$this->permalinks = $permalinks;
+		$this->set_permalinks();
+	}
+
+	/**
+	 * Retrieve permalink settings.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   array
+	 */
+	public function get_permalinks() {
+
+		$permalinks = array();
+		if ( is_null( $this->permalinks ) ) {
+			$permalinks = get_option( 'wpmoly_permalinks' );
+		}
+
+		if ( empty( $permalinks ) ) {
 			$permalinks = array();
 		}
 
-		$_permalinks = wp_parse_args( $_POST['wpmoly_permalinks'], $this->defaults );
-		foreach ( $_permalinks as $_name => $_permalink ) {
-			if ( 'custom' == $_permalinks[ $_name ] ) {
-				$_permalink = ! empty( $_permalinks["custom_{$_name}"] ) ? $this->slashit( $_permalinks["custom_{$_name}"] ) : '';
-			}
+		return $this->permalinks = wp_parse_args( $permalinks, $this->defaults );
+	}
 
-			$permalinks[ $_name ] = $_permalink;
-		}
+	/**
+	 * Save permalink settings.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	private function set_permalinks() {
+
+		/**
+		 * Filter the permalink settings before saving.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $permalinks
+		 */
+		$permalinks = apply_filters( 'wpmoly/filter/permalinks', $this->permalinks );
 
 		update_option( 'wpmoly_permalinks', $permalinks );
 	}

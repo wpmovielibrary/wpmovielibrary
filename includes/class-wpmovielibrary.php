@@ -270,7 +270,10 @@ final class Library {
 		// Permalink Settings
 		$permalinks = Admin\PermalinkSettings::get_instance();
 		$this->loader->add_action( 'load-options-permalink.php', $permalinks, 'register' );
-		$this->loader->add_action( 'admin_init', $permalinks, 'update' );
+		$this->loader->add_action( 'admin_init',                 $permalinks, 'update' );
+
+		$rewrite = Core\Rewrite::get_instance();
+		$this->loader->add_filter( 'rewrite_rules_array',        $rewrite, 'rewrite_rules' );
 
 		// Admin-side Ajax
 		$ajax = Ajax\Ajax::get_instance();

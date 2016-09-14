@@ -117,6 +117,7 @@ class Backstage {
 			// Views
 			'frame-view'              => array( 'file' => WPMOLY_URL . 'public/js/views/frame.js' ),
 			'confirm-view'            => array( 'file' => WPMOLY_URL . 'public/js/views/confirm.js' ),
+			'permalinks-view'         => array( 'file' => WPMOLY_URL . 'admin/js/views/permalinks.js' ),
 			'metabox-view'            => array( 'file' => WPMOLY_URL . 'admin/js/views/metabox.js' ),
 			'search-view'             => array( 'file' => WPMOLY_URL . 'admin/js/views/search/search.js' ),
 			'search-history-view'     => array( 'file' => WPMOLY_URL . 'admin/js/views/search/history.js' ),
@@ -139,6 +140,7 @@ class Backstage {
 			// Runners
 			'api'                     => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-api.js' ),
 			'metabox'                 => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-metabox.js' ),
+			'permalinks'              => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-permalinks.js' ),
 			'editor'                  => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-editor.js' ),
 			'grid-builder'            => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-grid-builder.js' ),
 			'search'                  => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-search.js' ),
@@ -337,6 +339,10 @@ class Backstage {
 			// Metabox
 			$this->enqueue_script( 'metabox-view' );
 			$this->enqueue_script( 'metabox' );
+
+			// Permalinks
+			$this->enqueue_script( 'permalinks-view' );
+			$this->enqueue_script( 'permalinks' );
 		}
 
 		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'movie' == get_post_type() ) {

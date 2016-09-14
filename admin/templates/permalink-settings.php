@@ -8,12 +8,18 @@
  * 
  * @uses    $settings
  * @uses    $permalinks
+ * @uses    $enabled
  */
 ?>
 
 		<p><?php _e( 'These settings control the permalinks used specifically by the movie library.', 'wpmovielibrary' ); ?></p>
 
-		<div id="wpmoly-permalinks" class="wpmoly-metabox wpmoly-tabbed-metabox clearfix">
+		<div id="wpmoly-permalinks-notice" class="wpmoly info<?php if ( true === $enabled ) : ?> hide-if-js<?php endif; ?>">
+			<div class="notice-content"><p><?php _e( 'Custom permalink settings are not available because WordPress Permalinks are disabled. To enable Permalinks please go to the top of the current page and select anything other than "Plain" in the "Common Settings" section.', 'wpmovielibrary' ); ?></p></div>
+		</div>
+
+		<script type="text/javascript">var _wpmolyPermalinks = <?php echo json_encode( $permalinks ); ?>;</script>
+		<div id="wpmoly-permalinks" class="wpmoly-metabox wpmoly-tabbed-metabox clearfix<?php if ( false === $enabled ) : ?> hide-if-js<?php endif; ?>">
 
 			<div id="wpmoly-permalinks-menu" class="wpmoly-metabox-menu">
 				<ul>
@@ -21,8 +27,7 @@
 		$active = true;
 		foreach ( $settings as $id => $setting ) {
 ?>
-					<li class="tab<?php if ( $active ) { ?> active<?php } ?>">
-					<a class="navigate" href="#wpmoly-<?php echo esc_attr( $id ); ?>"><span class="<?php echo esc_attr( $setting['icon'] ); ?>"></span><span class="title"><?php echo esc_attr( $setting['title'] ); ?></span></a></li>
+					<li class="tab<?php if ( $active ) { ?> active<?php } ?>"><a class="navigate" href="#wpmoly-<?php echo esc_attr( $id ); ?>"><span class="<?php echo esc_attr( $setting['icon'] ); ?>"></span><span class="title"><?php echo esc_attr( $setting['title'] ); ?></span></a></li>
 <?php
 			$active = false;
 		}
@@ -59,7 +64,7 @@
 ?>
 							<tr>
 								<th>
-									<label><input name="wpmoly_permalinks[<?php echo esc_attr( $slug ); ?>]" type="radio" value="<?php echo esc_attr( $choice['value'] ); ?>" class="wctog" <?php checked( $choice['value'], $value ); disabled( $is_disabled, true ); ?>/> <?php echo esc_attr( $choice['label'] ); ?></label>
+									<label><input id="<?php echo esc_attr( $slug . '_' . $name ); ?>" name="wpmoly_permalinks[<?php echo esc_attr( $slug ); ?>]" type="radio" value="<?php echo esc_attr( $choice['value'] ); ?>" class="" <?php checked( $choice['value'], $value ); disabled( $is_disabled, true ); ?>/> <?php echo esc_attr( $choice['label'] ); ?></label>
 								</th>
 								<td>
 									<code><?php echo esc_html( $choice['description'] ) ?></code>
@@ -70,10 +75,10 @@
 ?>
 							<tr>
 								<th>
-									<label><input name="wpmoly_permalinks[<?php echo esc_attr( $slug ); ?>]" type="radio" value="<?php echo esc_attr( $choice['value'] ); ?>" class="wctog" <?php checked( in_array( $value, $choices ), false ); disabled( $is_disabled, true ); ?>/> <?php _e( 'Custom Structure' ); ?></label>
+									<label><input id="custom_<?php echo esc_attr( $slug ); ?>" name="wpmoly_permalinks[<?php echo esc_attr( $slug ); ?>]" type="radio" value="custom" <?php checked( in_array( $value, $choices ), false ); disabled( $is_disabled, true ); ?>/> <?php _e( 'Custom Structure' ); ?></label>
 								</th>
 								<td>
-									<code><?php echo esc_url( untrailingslashit( home_url() ) ) ?></code> <input name="wpmoly_permalinks[custom_<?php echo esc_attr( $slug ); ?>]" type="text" value="<?php echo in_array( $value, $choices ) ? esc_attr( $value ) : ''; ?>" class="regular-text code" <?php disabled( $is_disabled, true ); ?>/>
+									<code><?php echo esc_url( untrailingslashit( home_url() ) ) ?></code> <input id="custom_<?php echo esc_attr( $slug ); ?>_value" name="wpmoly_permalinks[custom_<?php echo esc_attr( $slug ); ?>]" type="text" value="<?php echo ! in_array( $value, $choices ) ? esc_attr( $value ) : ''; ?>" class="regular-text code custom-value" <?php disabled( $is_disabled, true ); ?>/>
 									<p><em><?php _e( 'Enter a custom base to use. A base <strong>must</strong> be set or WordPress will use default instead.', 'wpmovielibrary' ); ?></em></p>
 								</td>
 							</tr>
@@ -81,9 +86,9 @@
 				} elseif ( 'text' == $field['type'] ) {
 ?>
 							<tr>
-								<th></th>
+								<th><label><?php echo esc_attr( $field['title'] ); ?></label></th>
 								<td>
-									<code><?php echo esc_url( untrailingslashit( home_url() ) ) ?></code> <input name="wpmoly_permalinks[<?php echo esc_attr( $slug ); ?>]" type="text" value="<?php echo esc_attr( $field['default'] ); ?>" class="regular-text code" <?php disabled( $disabled, true ); ?>/>
+									<input id="<?php echo esc_attr( $slug ); ?>" name="wpmoly_permalinks[<?php echo esc_attr( $slug ); ?>]" type="text" value="<?php echo esc_attr( $permalinks[ $slug ] ); ?>" class="regular-text code" <?php disabled( $is_disabled, true ); ?>/>
 								</td>
 							</tr>
 <?php

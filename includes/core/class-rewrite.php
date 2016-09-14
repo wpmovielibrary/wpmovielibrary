@@ -44,4 +44,25 @@ class Rewrite {
 		return self::$instance;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $rules Existing rewrite rules
+	 * 
+	 * @return   array
+	 */
+	public function rewrite_rules( $rules ) {
+
+		$permalinks = get_option( 'wpmoly_permalinks' );
+		if ( ! $permalinks ) {
+			$permalinks = array();
+		}
+
+		/*print_r( $permalinks );
+		print_r( $rules ); die();*/
+
+		return $rules;
+	}
 }
