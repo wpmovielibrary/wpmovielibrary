@@ -60,6 +60,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			$this->modules = array(
 				'WPMOLY_Dashboard'   => WPMOLY_Dashboard::get_instance(),
+				'WPMOLY_Dashboard'   => WPMOLY_Diagnose::get_instance(),
 				'WPMOLY_Settings'    => WPMOLY_Settings::get_instance(),
 				'WPMOLY_TMDb'        => WPMOLY_TMDb::get_instance(),
 				'WPMOLY_Utils'       => WPMOLY_Utils::get_instance(),
@@ -76,6 +77,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				'movie'    => 'movie',
 				'movies'   => 'edit.php',
 				'widgets'  => 'widgets.php',
+				'diagnose' => 'dashboard_page_wpmovielibrary-diagnose',
 				'settings' => sprintf( '%s_page_wpmovielibrary-settings', strtolower( __( 'Movies', 'wpmovielibrary' ) ) )
 			);
 
@@ -325,6 +327,15 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			);
 			remove_submenu_page( 'index.php', 'wpmovielibrary-about' );
 
+			add_dashboard_page(
+				$page_title = __( 'WPMovieLibrary Diagnose', 'wpmovielibrary' ),
+				$menu_title = __( 'WPMovieLibrary Diagnose', 'wpmovielibrary' ),
+				$capability = 'manage_options',
+				$menu_slug  = 'wpmovielibrary-diagnose',
+				$function   = 'WPMovieLibrary_Admin::diagnose_page'
+			);
+			remove_submenu_page( 'index.php', 'wpmovielibrary-diagnose' );
+
 			extract( $admin_menu['page'] );
 
 			add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
@@ -410,6 +421,27 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		}
 
 		/**
+		 * Diagnose page.
+		 * 
+		 * @since    2.1.4.4
+		 */
+		public static function diagnose_page() {
+
+			$diagnose = WPMOLY_Diagnose::get_instance();
+			$diagnose->run();
+
+			$data = array(
+				'version'  => $diagnose->get_version(),
+				'last_run' => $diagnose->get_last_run(),
+				'analysis' => $diagnose->get_analysis(),
+				'results'  => $diagnose->get_results(),
+				'items'    => $diagnose->get_items()
+			);
+
+			echo self::render_admin_template( 'diagnose.php', $data );
+		}
+
+		/**
 		 * Define all admin scripts but use only those needed by the
 		 * current page.
 		 * 
@@ -430,6 +462,9 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			if ( $hook_suffix == $settings )
 				$scripts['settings'] = array( '/assets/js/admin/wpmoly-settings.js', array( $wpmoly_slug, 'jquery', 'jquery-ui-sortable' ), true );
+
+			if ( $hook_suffix == $diagnose )
+				$scripts['diagnose'] = array( '/assets/js/admin/wpmoly-diagnose.js', array( $wpmoly_slug, 'jquery', 'underscore', 'wp-backbone' ), true );
 
 			if ( $hook_suffix == $importer ) {
 				$scripts['jquery-ajax-queue'] = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( 'jquery' ), true );
@@ -492,6 +527,9 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$styles['flags']    = '/assets/css/public/wpmoly-flags.css';
 				$styles['settings'] = '/assets/css/admin/wpmoly-settings.css';
 			}
+
+			if ( $hook_suffix == $diagnose )
+				$styles['diagnose'] = '/assets/css/admin/wpmoly-diagnose.css';
 
 			if ( $hook_suffix == $importer )
 				$styles['importer'] = '/assets/css/admin/wpmoly-importer.css';

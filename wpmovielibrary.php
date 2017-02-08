@@ -179,6 +179,7 @@ if ( wpmoly_requirements_met() ) {
 		require_once( WPMOLY_PATH . 'admin/class-dashboard-vendor-widget.php' );
 		require_once( WPMOLY_PATH . 'admin/class-wpmoly-api.php' );
 		require_once( WPMOLY_PATH . 'admin/class-wpmoly-api-wrapper.php' );
+		require_once( WPMOLY_PATH . 'admin/class-wpmoly-diagnose.php' );
 		require_once( WPMOLY_PATH . 'admin/class-wpmoly-metaboxes.php' );
 		require_once( WPMOLY_PATH . 'admin/class-wpmoly-edit-movies.php' );
 		require_once( WPMOLY_PATH . 'admin/class-wpmoly-media.php' );
