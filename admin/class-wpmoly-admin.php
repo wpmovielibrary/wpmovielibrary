@@ -430,15 +430,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$diagnose = WPMOLY_Diagnose::get_instance();
 			$diagnose->run();
 
-			$data = array(
-				'version'  => $diagnose->get_version(),
-				'last_run' => $diagnose->get_last_run(),
-				'analysis' => $diagnose->get_analysis(),
-				'results'  => $diagnose->get_results(),
-				'items'    => $diagnose->get_items()
-			);
-
-			echo self::render_admin_template( 'diagnose.php', $data );
+			echo self::render_admin_template( 'diagnose.php', array( 'diagnose' => $diagnose ) );
 		}
 
 		/**

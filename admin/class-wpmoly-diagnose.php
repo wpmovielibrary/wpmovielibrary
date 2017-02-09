@@ -21,11 +21,11 @@ if ( ! class_exists( 'WPMOLY_Diagnose' ) ) :
 		private $version = '1.0.8';
 
 		/**
-		 * Last time diagnose tool was runned.
+		 * Last time diagnose results were saved.
 		 * 
 		 * @var    string
 		 */
-		private $last_run = '';
+		private $last_saved = '';
 
 		/**
 		 * Diagnose steps.
@@ -40,6 +40,27 @@ if ( ! class_exists( 'WPMOLY_Diagnose' ) ) :
 		 * @var    array
 		 */
 		private $diagnose = array();
+
+		/**
+		 * Diagnose saving status.
+		 * 
+		 * @var    boolean
+		 */
+		private $saved;
+
+		/**
+		 * Survey send status.
+		 * 
+		 * @var    boolean
+		 */
+		private $sent;
+
+		/**
+		 * Survey dismiss status.
+		 * 
+		 * @var    boolean
+		 */
+		private $dismissed;
 
 		/**
 		 * Class Constructor.
@@ -256,7 +277,7 @@ if ( ! class_exists( 'WPMOLY_Diagnose' ) ) :
 						'curl-version'      => array( 'type' => '', 'message' => '' )
 					)
 				),
-				'analysis' => array(
+				'content' => array(
 					'data' => array(
 						'movies'                => '',
 						'actors'                => '',
@@ -287,15 +308,47 @@ if ( ! class_exists( 'WPMOLY_Diagnose' ) ) :
 			);
 
 			$this->diagnose = get_option( '_wpmoly_diagnose', $defaults );
-		}
 
-		public function run() {
+			$this->dismissed = get_option( '_wpmoly_dismiss_survey' );
 
 			if ( empty( $this->diagnose['version'] ) || empty( $this->diagnose['date'] ) ) {
 				$this->load();
+			} elseif ( $this->diagnose['date'] < time() - WEEK_IN_SECONDS ) {
+				$this->load();
+				$this->save();
 			}
 		}
 
+		/**
+		 * Run Diagnose.
+		 * 
+		 * @since    2.1.4.4
+		 * 
+		 * @return   void
+		 */
+		public function run() {
+
+			if ( isset( $_GET['survey'] ) && 'dismiss' === $_GET['survey'] ) {
+				$this->dismiss_survey( $dismiss = true );
+			} elseif ( isset( $_GET['survey'] ) && 'undismiss' === $_GET['survey'] ) {
+				$this->dismiss_survey( $dismiss = false );
+			} elseif ( isset( $_GET['survey'] ) && ( 'answer' === $_GET['survey'] || 'update' === $_GET['survey'] ) ) {
+				$this->load();
+				$this->save();
+				$this->send_survey();
+			} elseif ( isset( $_GET['diagnose'] ) && 'run' === $_GET['diagnose'] ) {
+				$this->load();
+				$this->save();
+			}
+		}
+
+		/**
+		 * Actually perform Diagnose.
+		 * 
+		 * @since    2.1.4.4
+		 * 
+		 * @return   void
+		 */
 		private function load() {
 
 			$this->diagnose['version'] = $this->version;
@@ -312,15 +365,53 @@ if ( ! class_exists( 'WPMOLY_Diagnose' ) ) :
 		}
 
 		/**
-		 * Get Diagnose items.
+		 * Saved diagnose results?
 		 * 
 		 * @since    2.1.4.4
 		 * 
+		 * @return   boolean
+		 */
+		public function is_saved() {
+
+			return $this->saved;
+		}
+
+		/**
+		 * Sent survey?
+		 * 
+		 * @since    2.1.4.4
+		 * 
+		 * @return   boolean
+		 */
+		public function is_sent() {
+
+			return $this->sent;
+		}
+
+		/**
+		 * Dismissed survey?
+		 * 
+		 * @since    2.1.4.4
+		 * 
+		 * @return   boolean
+		 */
+		public function is_dismissed() {
+
+			return $this->dismissed;
+		}
+
+		/**
+		 * Get Diagnose requirements.
+		 * 
+		 * @since    2.1.4.4
+		 * 
+		 * @param    string    $version
+		 * 
 		 * @return   array
 		 */
-		public function get_items() {
+		public function get_requirements( $version = 'v2' ) {
 
-			return $this->items;
+			return $this->items['requirements'][ $version ];
 		}
 
 		/**
@@ -328,11 +419,17 @@ if ( ! class_exists( 'WPMOLY_Diagnose' ) ) :
 		 * 
 		 * @since    2.1.4.4
 		 * 
+		 * @param    string    $section
+		 * 
 		 * @return   array
 		 */
-		public function get_analysis() {
+		public function get_analysis( $section = null ) {
 
-			return $this->diagnose['analysis'];
+			if ( ! is_null( $section ) ) {
+				return $this->items['analysis'][ $section ];
+			}
+
+			return $this->items['analysis'];
 		}
 
 		/**
@@ -340,11 +437,41 @@ if ( ! class_exists( 'WPMOLY_Diagnose' ) ) :
 		 * 
 		 * @since    2.1.4.4
 		 * 
+		 * @param    string    $version
+		 * @param    string    $result
+		 * 
 		 * @return   array
 		 */
-		public function get_results() {
+		public function get_results( $version = 'v2', $result = null ) {
 
-			return $this->diagnose['results'];
+			if ( ! is_null( $result ) ) {
+				return $this->diagnose['results'][ $version ][ $result ];
+			}
+
+			return $this->diagnose['results'][ $version ];
+		}
+
+		/**
+		 * Get Diagnose analysis content.
+		 * 
+		 * @since    2.1.4.4
+		 * 
+		 * @param    string    $section
+		 * @param    string    $content
+		 * 
+		 * @return   array
+		 */
+		public function get_contents( $section = null, $content = null ) {
+
+			if ( ! is_null( $section ) ) {
+				if ( ! is_null( $content ) ) {
+					return $this->diagnose['content'][ $section ][ $content ];
+				} else {
+					return $this->diagnose['content'][ $section ];
+				}
+			}
+
+			return $this->diagnose['content'];
 		}
 
 		/**
@@ -366,7 +493,7 @@ if ( ! class_exists( 'WPMOLY_Diagnose' ) ) :
 		 * 
 		 * @return   string
 		 */
-		public function get_last_run() {
+		public function get_last_saved() {
 
 			return empty( $this->diagnose['date'] ) ? __( 'Never', 'wpmovielibrary' ) : intval( $this->diagnose['date'] );
 		}
@@ -461,17 +588,17 @@ if ( ! class_exists( 'WPMOLY_Diagnose' ) ) :
 			$collections = wp_count_terms( 'collection' );
 			$genres      = wp_count_terms( 'genre' );
 
-			$this->diagnose['analysis']['data']['movies']          = isset( $movies->publish ) ? $movies->publish : '';
-			$this->diagnose['analysis']['data']['actors']          = is_numeric( $actors ) ? $actors : '';
-			$this->diagnose['analysis']['data']['collections']     = is_numeric( $collections ) ? $collections : '';
-			$this->diagnose['analysis']['data']['genres']          = is_numeric( $genres ) ? $genres : '';
-			$this->diagnose['analysis']['data']['api-internal']    = wpmoly_o( 'api-internal' );
-			$this->diagnose['analysis']['data']['api-language']    = wpmoly_o( 'api-language' );
-			$this->diagnose['analysis']['data']['api-country']     = wpmoly_o( 'api-country' );
-			$this->diagnose['analysis']['data']['api-country-alt'] = wpmoly_o( 'api-country-alt' );
-			$this->diagnose['analysis']['data']['poster-size']     = wpmoly_o( 'poster-size' );
-			$this->diagnose['analysis']['data']['images-size']     = wpmoly_o( 'images-size' );
-			$this->diagnose['analysis']['data']['headbox-theme']   = wpmoly_o( 'headbox-theme' );
+			$this->diagnose['content']['data']['movies']          = isset( $movies->publish ) ? $movies->publish : '';
+			$this->diagnose['content']['data']['actors']          = is_numeric( $actors ) ? $actors : '';
+			$this->diagnose['content']['data']['collections']     = is_numeric( $collections ) ? $collections : '';
+			$this->diagnose['content']['data']['genres']          = is_numeric( $genres ) ? $genres : '';
+			$this->diagnose['content']['data']['api-internal']    = wpmoly_o( 'api-internal' );
+			$this->diagnose['content']['data']['api-language']    = wpmoly_o( 'api-language' );
+			$this->diagnose['content']['data']['api-country']     = wpmoly_o( 'api-country' );
+			$this->diagnose['content']['data']['api-country-alt'] = wpmoly_o( 'api-country-alt' );
+			$this->diagnose['content']['data']['poster-size']     = wpmoly_o( 'poster-size' );
+			$this->diagnose['content']['data']['images-size']     = wpmoly_o( 'images-size' );
+			$this->diagnose['content']['data']['headbox-theme']   = wpmoly_o( 'headbox-theme' );
 		}
 
 		/**
@@ -482,17 +609,17 @@ if ( ! class_exists( 'WPMOLY_Diagnose' ) ) :
 		 * 
 		 * @return   void
 		 */
-		private function check_misc( $version = 'v2' ) {
+		private function check_misc() {
 
 			$theme = wp_get_theme();
-			$this->diagnose['analysis']['misc']['active-theme'] = $theme->get( 'Name' ) . ' ' . $theme->get( 'Version' );
+			$this->diagnose['content']['misc']['active-theme'] = $theme->get( 'Name' ) . ' ' . $theme->get( 'Version' );
 
 			$themes = wp_get_themes();
 			foreach ( $themes as $id => $theme ) {
 				$themes[ $id ] = $theme->get( 'Name' ) . ' ' . $theme->get( 'Version' );
 			}
 
-			$this->diagnose['analysis']['misc']['installed-themes'] = implode( ', ', $themes );
+			$this->diagnose['content']['misc']['installed-themes'] = implode( ', ', $themes );
 
 			// Load plugin file
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -512,20 +639,53 @@ if ( ! class_exists( 'WPMOLY_Diagnose' ) ) :
 				}
 			}
 
-			$this->diagnose['analysis']['misc']['active-plugins']    = implode( ', ', $active_plugins );
-			$this->diagnose['analysis']['misc']['installed-plugins'] = implode( ', ', $installed_plugins );
+			$this->diagnose['content']['misc']['active-plugins']    = implode( ', ', $active_plugins );
+			$this->diagnose['content']['misc']['installed-plugins'] = implode( ', ', $installed_plugins );
 
-			$this->diagnose['analysis']['misc']['multisite'] = is_multisite() ? 'Yes' : 'No';
-			$this->diagnose['analysis']['misc']['site-language'] = get_locale();
-			$this->diagnose['analysis']['misc']['date-format'] = get_option( 'date_format' );
-			$this->diagnose['analysis']['misc']['time-format'] = get_option( 'time_format' );
-			$this->diagnose['analysis']['misc']['permalink-structure'] = get_option( 'permalink_structure' ) ? get_option( 'permalink_structure' ) : 'Default';
+			$this->diagnose['content']['misc']['multisite'] = is_multisite() ? 'Yes' : 'No';
+			$this->diagnose['content']['misc']['site-language'] = get_locale();
+			$this->diagnose['content']['misc']['date-format'] = get_option( 'date_format' );
+			$this->diagnose['content']['misc']['time-format'] = get_option( 'time_format' );
+			$this->diagnose['content']['misc']['permalink-structure'] = get_option( 'permalink_structure' ) ? get_option( 'permalink_structure' ) : 'Default';
 
 			$post_types = get_post_types( array( 'exclude' => array( 'movie' ), '_builtin' => false ) );
-			$this->diagnose['analysis']['misc']['additional-post-types'] = implode( ', ', $post_types );
+			$this->diagnose['content']['misc']['additional-post-types'] = implode( ', ', $post_types );
 
 			$taxonomies = get_taxonomies( array( 'exclude' => array( 'collection', 'genre', 'actor' ), '_builtin' => false ) );
-			$this->diagnose['analysis']['misc']['additional-taxonomies'] = implode( ', ', $taxonomies );
+			$this->diagnose['content']['misc']['additional-taxonomies'] = implode( ', ', $taxonomies );
+		}
+
+		/**
+		 * Dismiss/undismiss survey info.
+		 * 
+		 * @since    2.1.4.4
+		 * 
+		 * @param    boolean    $dismiss
+		 * 
+		 * @return   boolean
+		 */
+		public function dismiss_survey( $dismiss = true ) {
+
+			if ( false === $dismiss ) {
+				delete_option( '_wpmoly_dismiss_survey' );
+				return $this->dismissed = false;
+			}
+
+			update_option( '_wpmoly_dismiss_survey', '1', $autoload = false );
+
+			return $this->dismissed = true;
+		}
+
+		/**
+		 * Send survey data.
+		 * 
+		 * @since    2.1.4.4
+		 * 
+		 * @return   boolean
+		 */
+		public function send_survey() {
+
+			$this->sent = true;
 		}
 
 		/**
@@ -533,9 +693,16 @@ if ( ! class_exists( 'WPMOLY_Diagnose' ) ) :
 		 * 
 		 * @since    2.1.4.4
 		 * 
-		 * @return   void
+		 * @return   boolean
 		 */
-		public function save() {}
+		public function save() {
+
+			$this->diagnose['date'] = time();
+
+			update_option( '_wpmoly_diagnose', $this->diagnose, $autoload = false );
+
+			return $this->saved = true;
+		}
 
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation.

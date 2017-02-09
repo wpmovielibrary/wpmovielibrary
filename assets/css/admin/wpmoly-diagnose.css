@@ -1,5 +1,9 @@
 
-.wrap.diagnose-wrap {
+.diagnose-wrap {
+	margin: 20px 20px 0 2px;
+}
+
+.diagnose-box {
 	background: #fff;
 	border: 1px solid #e5e5e5;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
@@ -24,7 +28,7 @@
 .diagnose-header .diagnose-title h1 {
 	font-size: 24px;
 	font-weight: 300;
-	margin: 6px 0 0;
+	margin: 15px 0 0;
 	padding: 0;
 }
 
@@ -35,7 +39,8 @@
 .diagnose-description {
 	border-bottom: 1px solid #eaeaea;
 	border-top: 1px solid #eaeaea;
-	padding: 20px 25px;
+	padding: 40px;
+	text-align: center;
 }
 
 .diagnose-description p {
@@ -50,11 +55,16 @@
 	padding: 20px;
 }
 
-.diagnose-survey h2 {
+.diagnose-survey h2,
+.diagnose-survey h4 {
 	color: #fff;
 	font-size: 32px;
 	font-weight: 300;
 	text-align: center;
+}
+
+.diagnose-survey h4 {
+	font-size: 24px;
 }
 
 .diagnose-survey .survey-info {
@@ -62,6 +72,7 @@
 }
 
 .diagnose-survey .survey-submit {
+	padding: 20px 0;
 	text-align: center;
 }
 
@@ -86,6 +97,18 @@
 }
 
 .diagnose-survey .survey-dismiss a:hover {
+	color: #fff;
+}
+
+.diagnose-survey .survey-dismissed {
+	text-align: center;
+}
+
+.diagnose-survey .survey-dismissed a {
+	color: #eee;
+}
+
+.diagnose-survey .survey-dismissed a:hover {
 	color: #fff;
 }
 
