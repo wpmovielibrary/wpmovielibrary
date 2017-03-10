@@ -12,6 +12,7 @@
  * @copyright 2016 CaerCam.org
  */
 
+require_once(ABSPATH . 'wp-admin/includes/screen.php');
 if ( ! class_exists( 'WPMOLY_Formatting_Meta' ) )
 	require_once WPMOLY_PATH . '/includes/classes/class-wpmoly-formatting-meta.php';
 if ( ! class_exists( 'WPMOLY_Formatting_Details' ) )
