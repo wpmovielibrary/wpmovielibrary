@@ -23,6 +23,9 @@ msgstr ""
 msgid "Bulgarian"
 msgstr ""
 
+msgid "Catalan"
+msgstr ""
+
 msgid "Cantonese"
 msgstr ""
 

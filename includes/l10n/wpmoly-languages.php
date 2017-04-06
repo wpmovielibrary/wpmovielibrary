@@ -17,6 +17,7 @@ if ( ! defined( 'WPINC' ) )
 $wpmoly_supported_languages = array(
 
 	'bg' => __( 'Bulgarian', 'wpmovielibrary-iso' ),
+	'ca' => __( 'Catalan', 'wpmovielibrary-iso' ),
 	'cs' => __( 'Czech', 'wpmovielibrary-iso' ),
 	'cn' => __( 'Cantonese', 'wpmovielibrary-iso' ),
 	'da' => __( 'Danish', 'wpmovielibrary-iso' ),
@@ -126,6 +127,7 @@ $wpmoly_languages = array(
 		'af' => 'Afrikaans',
 		'ar' => 'العربية',
 		'bg' => 'български език',
+		'ca' => 'Català',
 		'cn' => '广州话 / 廣州話',
 		'cs' => 'Český',
 		'da' => 'Dansk',
@@ -165,6 +167,7 @@ $wpmoly_languages = array(
 		'af' => 'Afrikaans',
 		'ar' => 'Arabic',
 		'bg' => 'Bulgarian',
+		'ca' => 'Catalan',
 		'cn' => 'Cantonese',
 		'cs' => 'Czech',
 		'da' => 'Danish',
