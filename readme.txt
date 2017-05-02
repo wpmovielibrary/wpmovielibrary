@@ -3,8 +3,8 @@ Contributors: caercam
 Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 4.2
-Tested up to: 4.5.1
-Stable tag: 2.1.4.3
+Tested up to: 4.7.4
+Stable tag: 2.1.4.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -51,9 +51,6 @@ Short list of supported features:
 *    Archive pages for Taxonomies
 *    Complete configuration of the data you want to show on your blog
 *    Much more!
-
-= Extensions =
-Want to extend WPMovieLibrary? Additionnal extensions are available on [WPMovieLibrary/Extensions](http://wpmovielibrary.com/extensions/)
 
 = Get involved =
 Developers and Translators can contribute to the source code on the [GitHub Repository](https://github.com/wpmovielibrary/wpmovielibrary/).
@@ -141,21 +138,27 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 
 == Changelog ==
 
+= 2.1.4.4 =
+* Feat - Add a 'clear search' button the movie search form in metabox
+* Tweak - Update user capabilities
+* Fix - PHP7.1 bug resulting in server errors preventing import of new movies
+* Dev - First draft of the Diagnose Tool
+
 = 2.1.4.3 =
- * Fix - URL escaping bug causing the movie grid letter URL malformation
- * Fix - Empty date bug in importer resulting in movies being dated from January 1st, 1970
- * Dev - Term ordering updated to match the modifications brought by WordPress 4.4
+* Fix - URL escaping bug causing the movie grid letter URL malformation
+* Fix - Empty date bug in importer resulting in movies being dated from January 1st, 1970
+* Dev - Term ordering updated to match the modifications brought by WordPress 4.4
 
 = 2.1.4.2 =
- * Tweak - Movies Widget available/unavailable status distinction
- * Tweak - About page style
- * Tweak - Disable outdated notice
- * Fix - Duplicate Dashboard menu entry
- * Fix - SQL bug on term ordering
- * Fix - PHP Notice on deprecated Widget constructor
- * Dev - New filter for vintage content
- * Dev - Fix potential XSS vulnerabilities
- * Dev - Update Movies Widget Admin to Backbone.js
+* Tweak - Movies Widget available/unavailable status distinction
+* Tweak - About page style
+* Tweak - Disable outdated notice
+* Fix - Duplicate Dashboard menu entry
+* Fix - SQL bug on term ordering
+* Fix - PHP Notice on deprecated Widget constructor
+* Dev - New filter for vintage content
+* Dev - Fix potential XSS vulnerabilities
+* Dev - Update Movies Widget Admin to Backbone.js
 
 = 2.1.4.1 =
 * Tweak - Edit misleading Settings description
@@ -386,7 +389,3 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 
 = 1.0 =
 * First stable release
-
-== Upgrade notice ==
-= 1.3 =
-WPMovieLibrary 1.3 is a major update. Test extensions and your theme prior to updating, see that extensions are up to date and 1.3 compatible, and be sure to keep backups of your databases. Reading the [release notes](http://wpmovielibrary.com/development/release-notes/#version-1.3) is a good idea too.
