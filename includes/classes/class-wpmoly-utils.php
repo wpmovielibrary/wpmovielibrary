@@ -380,37 +380,30 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( ! is_array( $data ) || empty( $data ) )
 				return $data;
 
-			$filter = array();
-			$_data = array();
-			$_meta = WPMOLY_Settings::get_supported_movie_meta( 'meta' );
+			$filtered_meta = array();
+			$supported_meta = WPMOLY_Settings::get_supported_movie_meta( 'meta' );
 
-			foreach ( $_meta as $slug => $f ) {
-				$filter[] = $slug;
-				$_data[ $slug ] = '';
-			}
-
-			foreach ( $data as $slug => $d ) {
-				if ( in_array( $slug, $filter ) ) {
-					if ( is_array( $d ) ) {
-						foreach ( $d as $_d ) {
-							if ( is_array( $_d ) && isset( $_d['name'] ) ) {
-								$_data[ $slug ][] = $_d['name'];
-							}
-						}
+			foreach ( array_keys( $supported_meta ) as $key ) {
+				if ( ! empty( $data[ $key ] ) ) {
+					if ( is_array( $data[ $key ] ) ) {
+						$filtered_meta[ $key ] = wp_list_pluck( $data[ $key ], 'name' );
+					} else {
+						$filtered_meta[ $key ] = $data[ $key ];
 					}
-					else {
-						$_data[ $slug ] = $d;
-					}
+				} else {
+					$filtered_meta[ $key ] = '';
 				}
 			}
 
-			return $_data;
+			if ( ! empty( $data['id'] ) ) {
+				$filtered_meta['tmdb_id'] = $data['id'];
+			}
+
+			return $filtered_meta;
 		}
 
 		/**
 		 * Filter a Movie's Crew to extract only supported data.
-		 * 
-		 * TODO find some cleaner way to validate crew
 		 * 
 		 * @since    1.0
 		 * 
@@ -423,28 +416,21 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( ! is_array( $data ) || empty( $data ) || ! isset( $data['crew'] ) )
 				return $data;
 
-			$filter = array();
-			$_data = array();
+			$filtered_crew = array(
+				'cast' => apply_filters( 'wpmoly_filter_cast_data', $data['cast'] )
+			);
 
-			$cast = apply_filters( 'wpmoly_filter_cast_data', $data['cast'] );
-			$data = $data['crew'];
-
-			foreach ( WPMOLY_Settings::get_supported_movie_meta( 'crew' ) as $slug => $f ) {
-				$filter[ $slug ] = $f['job'];
-				$_data[ $slug ] = '';
-			}
-
-			foreach ( $data as $i => $d ) {
-				if ( isset( $d['job'] ) ) {
-					$key = array_search( $d['job'], $filter );
-					if ( false !== $key && isset( $_data[ $key ] ) )
-						$_data[ $key ][] = $d['name'];
+			$supported_jobs = WPMOLY_Settings::get_supported_movie_meta( 'crew' );
+			foreach ( wp_list_pluck( $supported_jobs, 'job' ) as $job ) {
+				$jobs = wp_filter_object_list( $data['crew'], array( 'job' => $job ) );
+				if ( ! empty( $jobs ) ) {
+					$filtered_crew[ $job ] = wp_list_pluck( $jobs, 'name' );
+				} else {
+					$filtered_crew[ $job ] = '';
 				}
 			}
 
-			$_data['cast'] = $cast;
-
-			return $_data;
+			return $filtered_crew;
 		}
 
 		/**
@@ -461,8 +447,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( ! is_array( $data ) || empty( $data ) )
 				return $data;
 
-			foreach ( $data as $i => $d )
-				$data[ $i ] = $d['name'];
+			$data = wp_list_pluck( $data, 'name' );
 
 			return $data;
 		}
