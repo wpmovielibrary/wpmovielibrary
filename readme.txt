@@ -3,8 +3,8 @@ Contributors: caercam
 Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 4.2
-Tested up to: 4.7.4
-Stable tag: 2.1.4.4
+Tested up to: 4.7.5
+Stable tag: 2.1.4.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -137,6 +137,9 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 7. Import queue
 
 == Changelog ==
+
+= 2.1.4.5 =
+* Fix - Metadata import bug (directors, producers, directors of photography... not properly imported since 2.1.4.4)
 
 = 2.1.4.4 =
 * Feat - Add a 'clear search' button the movie search form in metabox
