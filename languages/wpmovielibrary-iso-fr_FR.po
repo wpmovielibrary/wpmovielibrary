@@ -23,6 +23,9 @@ msgstr "Arabe"
 msgid "Bulgarian"
 msgstr "Bulgare"
 
+msgid "Catalan"
+msgstr "Catalan"
+
 msgid "Cantonese"
 msgstr "Cantonais"
 
