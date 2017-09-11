@@ -88,8 +88,9 @@ body.branch-4 .media-frame.movie-posters .attachment {
 
 .media-frame.movie-posters .attachment-preview,
 .media-frame.movie-posters .attachment-preview .thumbnail {
-	width: 154px !important;
-	height: 218px !important;
+	overflow: hidden;
+	height: 202px !important;
+	width: 138px !important;
 }
 
 .media-frame.movie-posters .portrait .thumbnail img {
