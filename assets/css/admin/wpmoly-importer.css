@@ -327,6 +327,14 @@
 	margin: 6px 0 0 -8px;
 }
 
+#wpmoly_import .spinner.spinning,
+#wpmoly_imported .spinner.spinning,
+#wpmoly_import_queue .spinner.spinning {
+	display: inline-block;
+	opacity: 1;
+	visibility: visible;
+}
+
 #wpmoly_import_queue .spinner {
 	margin-left: -2px;
 }

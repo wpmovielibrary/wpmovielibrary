@@ -82,7 +82,7 @@ wpmoly = wpmoly || {};
 						movies: $( wpmoly_import_movies.list ).val(),
 					},
 					beforeSend: function() {
-						$( wpmoly_import_movies.button ).prev( '.spinner' ).css( { display: 'inline-block' } );
+						$( wpmoly_import_movies.button ).prev( '.spinner' ).addClass( 'spinning' );
 					},
 					error: function( response ) {
 						wpmoly_state.clear();
@@ -136,7 +136,7 @@ wpmoly = wpmoly || {};
 					},
 					complete: function( r ) {
 						wpmoly.update_nonce( 'import-movies-list', r.responseJSON.nonce );
-						$( wpmoly_import_movies.button ).prev( '.spinner' ).css( { display: 'none' } );
+						$( wpmoly_import_movies.button ).prev( '.spinner' ).removeClass( 'spinning' );
 					}
 				});
 			};
