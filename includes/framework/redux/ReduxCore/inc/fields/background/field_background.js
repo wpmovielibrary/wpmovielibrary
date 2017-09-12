@@ -13,15 +13,9 @@
     redux.field_objects = redux.field_objects || {};
     redux.field_objects.background = redux.field_objects.background || {};
 
-    $( document ).ready(
-        function() {
-            //redux.field_objects.background.init();
-        }
-    );
-
     redux.field_objects.background.init = function( selector ) {
         if ( !selector ) {
-            selector = $( document ).find( '.redux-container-background' );
+            selector = $( document ).find( ".redux-group-tab:visible" ).find( '.redux-container-background:visible' );
         }
 
         $( selector ).each(
@@ -31,18 +25,21 @@
                 if ( !el.hasClass( 'redux-field-container' ) ) {
                     parent = el.parents( '.redux-field-container:first' );
                 }
+
+                if ( parent.is( ":hidden" ) ) { // Skip hidden fields
+                    return;
+                }
+
                 if ( parent.hasClass( 'redux-field-init' ) ) {
                     parent.removeClass( 'redux-field-init' );
                 } else {
                     return;
                 }
-
                 // Remove the image button
                 el.find( '.redux-remove-background' ).unbind( 'click' ).on(
                     'click', function( e ) {
                         e.preventDefault();
                         redux.field_objects.background.removeImage( $( this ).parents( '.redux-container-background:first' ) );
-                        redux.field_objects.background.preview( $( this ) );
                         return false;
                     }
                 );
@@ -62,19 +59,22 @@
                     }
                 );
 
-                el.find( '.redux-color' ).wpColorPicker({
-                    change: function( u, ui ) {
-                        redux_change( $( this ) );
-                        $( '#' + u.target.id + '-transparency' ).removeAttr( 'checked' );
-                        $( this ).val( ui.color.toString() );
-                        redux.field_objects.background.preview( $( this ) );
-                    },
-                    
-                    clear: function() {
-                        redux_change( $( this ).parent().find( '.redux-color-init' ) );
-                        redux.field_objects.background.preview( $( this ) );
+                el.find( '.redux-color' ).wpColorPicker(
+                    {
+                        change: function( e, ui ) {
+                            $( this ).val( ui.color.toString() );
+                            redux_change( $( this ) );
+                            $( '#' + e.target.id + '-transparency' ).removeAttr( 'checked' );
+                            redux.field_objects.background.preview( $( this ) );
+                        },
+
+                        clear: function( e, ui ) {
+                            $( this ).val( ui.color.toString() );
+                            redux_change( $( this ).parent().find( '.redux-color-init' ) );
+                            redux.field_objects.background.preview( $( this ) );
+                        }
                     }
-                });
+                );
 
                 // Replace and validate field on blur
                 el.find( '.redux-color' ).on(
@@ -86,7 +86,7 @@
                             $( this ).parent().parent().find( '.wp-color-result' ).css(
                                 'background-color', 'transparent'
                             );
-                    
+
                             el.find( id + '-transparency' ).attr( 'checked', 'checked' );
                         } else {
                             if ( colorValidate( this ) === value ) {
@@ -151,6 +151,7 @@
                             }
                         }
                         redux.field_objects.background.preview( $( this ) );
+                        redux_change( $( this ) );
                     }
                 );
 
@@ -193,7 +194,7 @@
                     if ( data.value !== "" ) {
                         hide = false;
                         data.name = data.name.split( '[background-' );
-                        data.name = 'background-'+data.name[1].replace( ']', '' );
+                        data.name = 'background-' + data.name[1].replace( ']', '' );
                         if ( data.name == "background-image" ) {
                             css += data.name + ':url("' + data.value + '");';
                         } else {

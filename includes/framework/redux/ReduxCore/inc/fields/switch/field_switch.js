@@ -22,7 +22,7 @@
     redux.field_objects.switch.init = function( selector ) {
 
         if ( !selector ) {
-            selector = $( document ).find( '.redux-container-switch' );
+            selector = $( document ).find( ".redux-group-tab:visible" ).find( '.redux-container-switch:visible' );
         }
 
         $( selector ).each(
@@ -31,6 +31,9 @@
                 var parent = el;
                 if ( !el.hasClass( 'redux-field-container' ) ) {
                     parent = el.parents( '.redux-field-container:first' );
+                }
+                if ( parent.is( ":hidden" ) ) { // Skip hidden fields
+                    return;
                 }
                 if ( parent.hasClass( 'redux-field-init' ) ) {
                     parent.removeClass( 'redux-field-init' );
@@ -47,7 +50,7 @@
 
                         $( '.cb-disable', parent ).removeClass( 'selected' );
                         $( this ).addClass( 'selected' );
-                        $( '.checkbox-input', parent ).val( 1 );
+                        $( '.checkbox-input', parent ).val( 1 ).trigger('change');
 
                         redux_change( $( '.checkbox-input', parent ) );
 
@@ -69,7 +72,7 @@
 
                         $( '.cb-enable', parent ).removeClass( 'selected' );
                         $( this ).addClass( 'selected' );
-                        $( '.checkbox-input', parent ).val( 0 );
+                        $( '.checkbox-input', parent ).val( 0 ).trigger('change');
 
                         redux_change( $( '.checkbox-input', parent ) );
 

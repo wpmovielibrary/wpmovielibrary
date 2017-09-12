@@ -15,7 +15,7 @@
     redux.field_objects.spinner.init = function( selector ) {
 
         if ( !selector ) {
-            selector = $( document ).find( '.redux-container-spinner' );
+            selector = $( document ).find( ".redux-group-tab:visible" ).find( '.redux-container-spinner:visible' );
         }
 
         $( selector ).each(
@@ -25,6 +25,9 @@
                 if ( !el.hasClass( 'redux-field-container' ) ) {
                     parent = el.parents( '.redux-field-container:first' );
                 }
+                if ( parent.is( ":hidden" ) ) { // Skip hidden fields
+                    return;
+                }
                 if ( parent.hasClass( 'redux-field-init' ) ) {
                     parent.removeClass( 'redux-field-init' );
                 } else {
@@ -33,15 +36,15 @@
                 el.find( '.redux_spinner' ).each(
                     function() {
                         //slider init
-                        var spinner = $( this ).find('.spinner-input' ).data();
-                        spinner.id = $( this ).find('.spinner-input' ).attr('id');
+                        var spinner = $( this ).find( '.spinner-input' ).data();
+                        spinner.id = $( this ).find( '.spinner-input' ).attr( 'id' );
 
                         el.find( "#" + spinner.id ).spinner(
                             {
-                                value: parseInt( spinner.val, null ),
-                                min: parseInt( spinner.min, null ),
-                                max: parseInt( spinner.max, null ),
-                                step: parseInt( spinner.step, null ),
+                                value: parseFloat( spinner.val, null ),
+                                min: parseFloat( spinner.min, null ),
+                                max: parseFloat( spinner.max, null ),
+                                step: parseFloat( spinner.step, null ),
                                 range: "min",
 
                                 slide: function( event, ui ) {
@@ -58,13 +61,13 @@
                             neg = true;
                         }
 
-                        el.find( "#" + spinner.id ).numeric(
-                            {
-                                allowMinus: neg,
-                                min: spinner.min,
-                                max: spinner.max
-                            }
-                        );
+                        //el.find( "#" + spinner.id ).numeric(
+                        //    {
+                        //        allowMinus: neg,
+                        //        min: spinner.min,
+                        //        max: spinner.max
+                        //    }
+                        //);
 
                     }
                 );
@@ -109,6 +112,7 @@
         selector.removeClass( 'spinnerInputChange' );
 
         var spinner = selector.data();
+        value = parseFloat( value );
 
         if ( value === "" || value === null ) {
             value = spinner.min;
@@ -119,8 +123,7 @@
         } else {
             value = Math.round( value / spinner.step ) * spinner.step;
         }
-
-        selector.val( value );
+        selector.val( value ).trigger( 'change' );
     };
 
 })( jQuery );

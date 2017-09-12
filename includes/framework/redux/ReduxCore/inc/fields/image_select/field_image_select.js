@@ -17,7 +17,7 @@
     redux.field_objects.image_select.init = function( selector ) {
 
         if ( !selector ) {
-            selector = $( document ).find( '.redux-container-image_select' );
+            selector = $( document ).find( ".redux-group-tab:visible" ).find( '.redux-container-image_select:visible' );
         }
 
         $( selector ).each(
@@ -26,6 +26,9 @@
                 var parent = el;
                 if ( !el.hasClass( 'redux-field-container' ) ) {
                     parent = el.parents( '.redux-field-container:first' );
+                }
+                if ( parent.is( ":hidden" ) ) { // Skip hidden fields
+                    return;
                 }
                 if ( parent.hasClass( 'redux-field-init' ) ) {
                     parent.removeClass( 'redux-field-init' );
@@ -47,6 +50,19 @@
 
                             var presets = $( this ).closest( 'label' ).find( 'input' );
                             var data = presets.data( 'presets' );
+                            var merge = presets.data( 'merge' );
+
+                            if( merge !== undefined && merge !== null ) {
+                                if( $.type( merge ) === 'string' ) {
+                                    merge = merge.split('|');
+                                }
+
+                                $.each(data, function( index, value ) {
+                                    if( ( merge === true || $.inArray( index, merge ) != -1 ) && $.type( redux.options[index] ) === 'object' ) {
+                                        data[index] = $.extend(redux.options[index], data[index]);
+                                    }
+                                });
+                            }
 
                             if ( presets !== undefined && presets !== null ) {
                                 var answer = confirm( redux.args.preset_confirm );
@@ -56,13 +72,13 @@
                                         "checked", true
                                     );
                                     window.onbeforeunload = null;
-                                    if ( jQuery( '#import-code-value' ).length === 0 ) {
+                                    if ( $( '#import-code-value' ).length === 0 ) {
                                         $( this ).append( '<textarea id="import-code-value" style="display:none;" name="' + redux.args.opt_name + '[import_code]">' + JSON.stringify( data ) + '</textarea>' );
                                     } else {
                                         $( '#import-code-value' ).val( JSON.stringify( data ) );
                                     }
-                                    if ( jQuery( '#publishing-action #publish' ).length !== 0 ) {
-                                        jQuery( '#publish' ).click();
+                                    if ( $( '#publishing-action #publish' ).length !== 0 ) {
+                                        $( '#publish' ).click();
                                     } else {
                                         $( '#redux-import' ).click();
                                     }
@@ -74,7 +90,7 @@
                         } else {
                             el.find( 'label[for="' + id + '"]' ).addClass( 'redux-image-select-selected' ).find( "input[type='radio']" ).attr(
                                 "checked", true
-                            );
+                            ).trigger('change');
 
                             redux_change( $( this ).closest( 'label' ).find( 'input[type="radio"]' ) );
                         }

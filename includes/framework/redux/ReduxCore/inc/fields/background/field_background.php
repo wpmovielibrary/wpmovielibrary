@@ -115,7 +115,7 @@
 
                     echo '<input data-id="' . $this->field['id'] . '" name="' . $this->field['name'] . $this->field['name_suffix'] . '[background-color]" id="' . $this->field['id'] . '-color" class="redux-color redux-background-input redux-color-init ' . $this->field['class'] . '"  type="text" value="' . $this->value['background-color'] . '"  data-default-color="' . ( isset( $this->field['default']['background-color'] ) ? $this->field['default']['background-color'] : "" ) . '" />';
                     echo '<input type="hidden" class="redux-saved-color" id="' . $this->field['id'] . '-saved-color' . '" value="">';
-                    
+
                     if ( ! isset( $this->field['transparent'] ) || $this->field['transparent'] !== false ) {
                         $tChecked = "";
                         if ( $this->value['background-color'] == "transparent" ) {
@@ -348,20 +348,47 @@
              * @return      void
              */
             public function enqueue() {
-                wp_enqueue_script(
-                    'redux-field-background-js',
-                    ReduxFramework::$_url . 'inc/fields/background/field_background' . Redux_Functions::isMin() . '.js',
-                    array( 'jquery', 'wp-color-picker', 'select2-js', 'redux-js' ),
-                    time(),
-                    true
-                );
+                if ( function_exists( 'wp_enqueue_media' ) ) {
+                    wp_enqueue_media();
+                } else {
+                    if (!wp_script_is ( 'media-upload' )) {
+                        wp_enqueue_script( 'media-upload' );
+                    }
+                }
+                
+                if (!wp_style_is ( 'select2-css' )) {
+                    wp_enqueue_style( 'select2-css' );
+                }
+                
+                if (!wp_style_is ( 'wp-color-picker' )) {
+                    wp_enqueue_style( 'wp-color-picker' );
+                }
+                
+                if (!wp_script_is ( 'redux-field-background-js' )) {
+                    wp_enqueue_script(
+                        'redux-field-background-js',
+                        ReduxFramework::$_url . 'inc/fields/background/field_background' . Redux_Functions::isMin() . '.js',
+                        array( 'jquery', 'wp-color-picker', 'select2-js', 'redux-js' ),
+                        time(),
+                        true
+                    );
+                }
 
-                wp_enqueue_style(
-                    'redux-field-background-css',
-                    ReduxFramework::$_url . 'inc/fields/background/field_background.css',
-                    time(),
-                    true
-                );
+                if ($this->parent->args['dev_mode']) {
+                    if (!wp_style_is ( 'redux-field-background-css' )) {
+                        wp_enqueue_style(
+                            'redux-field-background-css',
+                            ReduxFramework::$_url . 'inc/fields/background/field_background.css',
+                            array(),
+                            time(),
+                            'all'
+                        );
+                    }
+                    
+                    if (!wp_style_is ( 'redux-color-picker-css' )) {
+                        wp_enqueue_style( 'redux-color-picker-css' );
+                    }
+                }
             }
 
             public static function getCSS( $value = array() ) {
