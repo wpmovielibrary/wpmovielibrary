@@ -802,6 +802,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( 10 != $base )
 				$base = 5;
 
+			$rating = floatval( $rating );
 			if ( 0 > $rating )
 				$rating = 0.0;
 			if ( 5.0 < $rating )
