@@ -4,7 +4,7 @@ Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 4.2
 Tested up to: 4.8.2
-Stable tag: 2.1.4.6
+Stable tag: 2.1.4.7
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -137,6 +137,9 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 7. Import queue
 
 == Changelog ==
+
+= 2.1.4.7 =
+* Fix - Previously badly fixed rating formatting bug
 
 = 2.1.4.6 =
 * Feat - Add API support for Catalan language
