@@ -806,6 +806,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$rating = 0.0;
 			if ( 5.0 < $rating )
 				$rating = 5.0;
+			else
+				$rating = 0;
 
 			$title = '';
 			if ( isset( $defaults['rating']['options'][ $rating ] ) )
