@@ -3,8 +3,8 @@ Contributors: caercam
 Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 4.2
-Tested up to: 4.7.5
-Stable tag: 2.1.4.5
+Tested up to: 4.8.2
+Stable tag: 2.1.4.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -137,6 +137,15 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 7. Import queue
 
 == Changelog ==
+
+= 2.1.4.6 =
+* Feat - Add API support for Catalan language
+* Fix - JavaScript error when trying to import already queued movies
+* Fix - Missing importer spinner icon
+* Fix - JavaScript error on featured image import
+* Fix - Poster modal style
+* Fix - Rating formatting bug
+* Dev - Update ReduxFramework to version 3.6.7.7
 
 = 2.1.4.5 =
 * Fix - Metadata import bug (directors, producers, directors of photography... not properly imported since 2.1.4.4)
