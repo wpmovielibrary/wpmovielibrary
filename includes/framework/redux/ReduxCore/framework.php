@@ -69,7 +69,7 @@
             // Please update the build number with each push, no matter how small.
             // This will make for easier support when we ask users what version they are using.
 
-            public static $_version = '3.6.5';
+            public static $_version = '3.6.7.7';
             public static $_dir;
             public static $_url;
             public static $_upload_dir;
@@ -2764,7 +2764,7 @@
                         }
                     }
                 }
-                
+
                 unset ( $plugin_options['defaults'], $plugin_options['defaults_section'], $plugin_options['import'], $plugin_options['import_code'], $plugin_options['import_link'], $plugin_options['compiler'], $plugin_options['redux-section'] );
                 if ( $this->args['database'] == 'transient' || $this->args['database'] == 'theme_mods' || $this->args['database'] == 'theme_mods_expanded' ) {
                     $this->set_options( $plugin_options );
@@ -3978,6 +3978,8 @@
              * @return  array $merged
              */
             function redux_array_merge_recursive_distinct( array $array1, array $array2 ) {
+                $merged = array();
+                
                 $merged = $array1;
 
                 foreach ( $array2 as $key => $value ) {
@@ -4070,7 +4072,8 @@
                     return false;
                 }
 
-                $args = array_merge( array( $current_user ), func_get_args() );
+                $name_arr=func_get_args();
+                $args = array_merge( array( $current_user ),$name_arr );
 
                 return call_user_func_array( array( 'self', 'user_can' ), $args );
             }
@@ -4123,7 +4126,8 @@
              */
             public static function user_can( $user, $capabilities, $object_id = null ) {
                 static $depth = 0;
-
+                $args = array();
+                
                 if ( $depth >= 30 ) {
                     return false;
                 }
