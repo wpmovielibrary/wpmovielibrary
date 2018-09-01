@@ -1,0 +1,793 @@
+/**
+ * Dashboard page.
+ */
+
+body.wp-admin.toplevel_page_wpmovielibrary {
+	background: #f3f3f8;
+}
+
+body.wp-admin.toplevel_page_wpmovielibrary #footer-thankyou,
+body.wp-admin.toplevel_page_wpmovielibrary #footer-upgrade {
+	display: none;
+}
+
+body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
+	padding-bottom: 0;
+}
+
+.wpmoly-wrap {
+	margin: 0 0 0 -20px;
+	position: relative;
+}
+
+/**
+ * Dashboard.
+ */
+
+.wpmoly-container {
+	margin: 0 auto;
+	padding: 30px;
+}
+
+.wpmoly-container.loading {
+	background-color: transparent;
+ 	background-image: url(/wp-content/plugins/wpmovielibrary/public/assets/img/loading.svg);
+ 	background-position: center center;
+ 	background-repeat: no-repeat;
+ 	background-size: 42px 42px;
+ 	height: calc( 100vh - 60px );
+}
+
+.wpmoly-container.loading .wpmoly-content,
+.wpmoly-container.loading .wpmoly-sidebar {
+	display: none !important;
+}
+
+/**
+ * Dashboard content.
+ */
+
+.wpmoly-container noscript {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+	display: block;
+	margin: 0 auto;
+	max-width: 480px;
+	padding: 15px 30px;
+	position: relative;
+	top: 150px;
+}
+
+.wpmoly-content {
+	float: left;
+	margin: 0 610px 0 0;
+	padding: 0;
+	position: relative;
+	width: calc( 100% - 610px );
+}
+
+.no-js .wpmoly-content {
+	text-align: center;
+}
+
+/**
+ * Dashboard sidebar.
+ */
+
+.wpmoly-sidebar {
+	column-count: 2;
+	column-gap: 20px;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	right: 30px;
+	width: 580px;
+}
+
+.wpmoly-sidebar .button {
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	box-shadow: 0 0 0;
+	color: #686d77;
+	font-size: 14px;
+	height: 24px;
+	line-height: 24px;
+	padding: 0;
+	width: 24px;
+}
+
+.wpmoly-sidebar .button:hover,
+.wpmoly-sidebar .button:focus,
+.wpmoly-sidebar .button:active,
+.wpmoly-sidebar .button {
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
+}
+
+.wpmoly-sidebar .button.home {
+	left: 10px;
+	position: absolute;
+}
+
+.wpmoly-sidebar .button.settings {
+	position: absolute;
+	right: 10px;
+}
+
+.wpmoly-sidebar .dashboard-block,
+.wpmoly-sidebar .editor-block {
+	background: #fff;
+	border: 1px solid #e1e2e6;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+	display: inline-block;
+	margin-bottom: 20px;
+	max-width: 280px;
+	position: relative;
+}
+
+.wpmoly-sidebar .editor-block {
+	padding: 15px 20px;
+	width: calc( 100% - 40px );
+}
+
+.wpmoly-sidebar .dashboard-block {
+	min-height: 120px;
+	padding: 180px 30px 30px 30px;
+	width: calc( 100% - 60px );
+}
+
+.wpmoly-sidebar .dashboard-block.collapsed,
+.wpmoly-sidebar .editor-block.collapsed {
+	background: #fff;
+	min-height: 50px;
+	opacity: .5;
+	padding: 0 20px;
+}
+
+.wpmoly-sidebar .dashboard-block.collapsed:hover,
+.wpmoly-sidebar .editor-block.collapsed:hover {
+	opacity: .75;
+}
+
+.wpmoly-sidebar .dashboard-block .button.arrow,
+.wpmoly-sidebar .editor-block .button.arrow {
+	display: none;
+	font-size: 14px;
+	left: auto;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+.wpmoly-sidebar .dashboard-block .button.arrow:hover,
+.wpmoly-sidebar .editor-block .button.arrow:hover {
+	color: #ccc;
+}
+
+.wpmoly-sidebar .dashboard-block .block-title,
+.wpmoly-sidebar .editor-block .block-title {
+	color: #373e48;
+	font-size: 14px;
+	font-weight: 600;
+	margin: 0;
+}
+
+.wpmoly-sidebar .dashboard-block.collapsed .block-title,
+.wpmoly-sidebar .dashboard-block .block-title {
+	margin: 15px 0;
+}
+
+.wpmoly-sidebar .dashboard-block.collapsed .license-alert,
+.wpmoly-sidebar .dashboard-block.collapsed .block-content {
+	display: none;
+}
+
+.wpmoly-sidebar .dashboard-block .block-content,
+.wpmoly-sidebar .editor-block .block-content {
+	position: relative;
+}
+
+.wpmoly-sidebar .dashboard-block .block-content p,
+.wpmoly-sidebar .editor-block .block-content p {
+	margin-bottom: 0;
+}
+
+.wpmoly-sidebar .discover-block {
+	background: #fff url(../img/dashboard-sidebar-header.png) center top no-repeat;
+	min-height: 120px;
+}
+
+.wpmoly-sidebar .discover-block .license-alert {
+	color: #fff;
+	display: none;
+	margin: 0 -30px;
+	padding: 10px 30px;
+}
+
+.wpmoly-sidebar .discover-block .license-alert p {
+	margin: 0;
+}
+
+.wpmoly-sidebar .discover-block .license-alert a {
+	color: #fff;
+}
+
+.wpmoly-sidebar .discover-block .license-alert strong {
+	display: block;
+}
+
+.wpmoly-sidebar .discover-block .no-license-alert {
+	background: #d73f40;
+}
+
+.wpmoly-sidebar .discover-block .expired-license-alert {
+	background: #e3ae43;
+}
+
+.wpmoly-sidebar .support-block {
+	background: #fff url(../img/dashboard-sidebar-support.png) center top no-repeat;
+}
+
+.wpmoly-sidebar .documentation-block {
+	background: #fff url(../img/dashboard-sidebar-documentation.png) center top no-repeat;
+}
+
+.wpmoly-sidebar .rating-block {
+	background: #fff url(../img/dashboard-sidebar-rating.png) center top no-repeat;
+}
+
+/**
+ * Dashboard Settings
+ */
+
+#wpmoly-settings {
+	height: auto;
+	margin: 0 auto;
+	max-width: 720px;
+	padding: 0;
+	position: relative;
+	width: 90%;
+}
+
+/**
+ * Settings Menu
+ */
+
+#wpmoly-settings .settings-menu {
+	background: #fff;
+	border: 1px solid #e1e2e6;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+	height: 50px;
+	margin: 0 auto 24px;
+	position: relative;
+	top: 0;
+	width: 100%;
+}
+
+#wpmoly-settings .settings-menu .setting-pages {
+	list-style: none;
+	margin: 0;
+	padding: 0 15px;
+}
+
+#wpmoly-settings .settings-menu .setting-page {
+	display: inline-block;
+	position: relative;
+}
+
+#wpmoly-settings .settings-menu .setting-page.active:after {
+	background: #686d77;
+	bottom: 0;
+	content: ' ';
+	height: 2px;
+	position: absolute;
+	width: 100%;
+}
+
+#wpmoly-settings .settings-menu .setting-page a {
+	display: block;
+	font-size: 14px;
+	height: 50px;
+	line-height: 50px;
+	padding: 0 15px;
+	text-decoration: none;
+}
+
+#wpmoly-settings .settings-menu .setting-page.active a {
+	color: #686d77;
+}
+
+#wpmoly-settings .settings-menu .button {
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
+	border-radius: 0;
+	height: 50px;
+	line-height: 48px;
+	font-size: 20px;
+	width: 50px;
+}
+
+#wpmoly-settings .settings-menu .button:hover {
+	color: #0073aa;
+}
+
+#wpmoly-settings .settings-menu .button.menu {
+	display: none;
+	font-size: 16px;
+	padding: 0 20px;
+	text-align: left;
+	width: 100%;
+}
+
+#wpmoly-settings .settings-menu .button.search {
+	position: absolute;
+	right: 10px;
+	top: 0;
+}
+
+#wpmoly-settings .settings-menu .setting-search {
+	background: #fff;
+	display: none;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+#wpmoly-settings .settings-menu.search-opened .setting-search {
+	display: block;
+}
+
+#wpmoly-settings .settings-menu .setting-search .button.close {
+	position: absolute;
+	right: 8px;
+}
+
+#wpmoly-settings .settings-menu .setting-search .button.search {
+	left: 8px;
+}
+
+#wpmoly-settings .settings-menu .setting-search .search-input {
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
+	height: 50px;
+	left: 50px;
+	line-height: 50px;
+	position: absolute;
+	right: 50px;
+	width: calc( 100% - 115px );
+}
+
+/**
+ * Settings Content
+ */
+
+#wpmoly-settings .settings-page .settings-group {
+	background: #fff;
+	border: 1px solid #e1e2e6;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+	margin: 0 0 24px;;
+	width: 100%;
+}
+
+#wpmoly-settings .settings-page .settings-group .group-content {
+	padding-bottom: 24px
+}
+
+#wpmoly-settings .settings-page .group-header {
+	border-bottom: 1px solid #e1e2e6;
+	height: 50px;
+	line-height: 50px;
+	position: relative;
+}
+
+#wpmoly-settings .settings-page .group-header .group-title {
+	cursor: pointer;
+	font-size: 14px;
+	padding: 0 24px;
+}
+
+#wpmoly-settings .settings-page .group-header .button {
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
+	border-radius: 0;
+	color: #c9d0de;
+	height: 50px;
+	line-height: 48px;
+	font-size: 20px;
+	width: 50px;
+}
+
+#wpmoly-settings .settings-page .group-header .button:hover {
+	color: #0073aa;
+}
+
+#wpmoly-settings .settings-page .group-header .button.save {
+	position: absolute;
+	right: 8px;
+	top: 0;
+}
+
+#wpmoly-settings .settings-page .settings-group.collapsed .group-title {
+	color: #c9d0de;
+}
+
+#wpmoly-settings .settings-page .settings-group.collapsed:hover .group-title {
+	color: #667;
+}
+
+#wpmoly-settings .settings-page .settings-group.collapsed .group-content {
+	display: none;
+}
+
+#wpmoly-settings .settings-page .setting {
+	border-top: 1px solid #e1e2e6;
+	padding: 24px 64px 24px 24px;
+	position: relative;
+}
+
+#wpmoly-settings .settings-page .setting:first-child,
+#wpmoly-settings .settings-page .setting.has-parent {
+	border: 0;
+}
+
+#wpmoly-settings .settings-page .setting.has-parent {
+	padding: 0 64px 8px 64px;
+}
+
+#wpmoly-settings .settings-page .setting.has-parent + .setting:not(.has-parent) {
+	margin-top: 24px;
+}
+
+#wpmoly-settings .settings-page .setting.has-children {
+	padding: 24px 64px 16px 24px;
+}
+
+#wpmoly-settings .settings-page .setting.boolean {
+
+}
+
+#wpmoly-settings .settings-page .setting.boolean.has-children:last-child {
+	padding-bottom: 24px;
+}
+
+/*#wpmoly-settings .settings-page .setting.boolean.has-children + .has-parent {
+	display: none;
+}*/
+
+#wpmoly-settings .settings-page .setting.boolean.has-children.checked + .has-parent {
+	display: block;
+}
+
+#wpmoly-settings .settings-page .setting.boolean.has-children + .has-parent,
+#wpmoly-settings .settings-page .setting.boolean.has-children.checked + .has-parent {
+	transition: display .3s ease;
+}
+
+#wpmoly-settings .settings-page .setting.boolean.has-parent .setting-title {
+	float: left;
+	margin-right: 6px;
+}
+
+#wpmoly-settings .settings-page .setting .button.info {
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	box-shadow: 0 0 0;
+	color: #c9d0de;
+	float: right;
+	height: 16px;
+	line-height: 16px;
+	padding: 0;
+	position: absolute;
+	right: 26px;
+	width: 16px;
+}
+
+#wpmoly-settings .settings-page .setting .button.info.active,
+#wpmoly-settings .settings-page .setting .button.info:hover {
+	color: #686d77;
+}
+
+#wpmoly-settings .settings-page .setting.boolean .setting-input {
+	position: absolute;
+	width: 42px;
+}
+
+#wpmoly-settings .settings-page .setting.boolean .setting-input input[type="checkbox"] {
+	display: none;
+	height: 1px;
+	position: absolute;
+	width: 1px;
+}
+
+#wpmoly-settings .settings-page .setting.boolean .setting-input label {
+
+}
+
+#wpmoly-settings .settings-page .setting.boolean .setting-input label:before,
+#wpmoly-settings .settings-page .setting.boolean .setting-input label:after {
+	content: ' ';
+	position: absolute;
+}
+
+#wpmoly-settings .settings-page .setting.boolean .setting-input label:before {
+	background: #686d77;
+	border: 2px solid #686d77;
+	border-radius: 16px;
+	height: 12px;
+	margin: 2px 0 0 2px;
+	width: 20px;
+}
+
+#wpmoly-settings .settings-page .setting.boolean .setting-input label:after {
+	background: #fff;
+	border-radius: 12px;
+	height: 12px;
+	margin: 4px 0 0 4px;
+	width: 12px;
+}
+
+#wpmoly-settings .settings-page .setting.boolean .setting-input label:hover::before {
+	background: #a1a3a8;
+	border-color: #a1a3a8;
+}
+
+#wpmoly-settings .settings-page .setting.boolean .setting-input input:checked + label:before {
+	background: #0073aa;
+	border-color: #0073aa;
+}
+
+#wpmoly-settings .settings-page .setting.boolean .setting-input input:checked + label:after {
+	margin-left: 12px;
+}
+
+#wpmoly-settings .settings-page .setting.boolean .setting-input label:after {
+	transition: all .3s ease;
+}
+
+#wpmoly-settings .settings-page .setting.boolean > .setting-content {
+	margin-left: 42px;
+}
+
+#wpmoly-settings .settings-page .setting .setting-title {
+	color: #666;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+#wpmoly-settings .settings-page .setting .setting-label {
+	color: #777;
+	font-size: 14px;
+	font-style: italic;
+}
+
+#wpmoly-settings .settings-page .setting .setting-description {
+	background: #686d77;
+	border-radius: 3px;
+	color: #fff;
+	display: none;
+	font-size: 14px;
+	margin: 6px -50px 10px 0;
+	padding: 6px 10px;
+	position: relative;
+}
+
+#wpmoly-settings .settings-page .setting .setting-description:before {
+	border: 4px solid transparent;
+	border-bottom-color: #686d77;
+	content: ' ';
+	position: absolute;
+	right: 15px;
+	top: -8px;
+	z-index: 2;
+}
+
+#wpmoly-settings .settings-page .setting .setting-description a {
+	color: #fff;
+}
+
+#wpmoly-settings .settings-page .setting input[type="text"],
+#wpmoly-settings .settings-page .setting input[type="email"],
+#wpmoly-settings .settings-page .setting input[type="number"] {
+	margin-top: 8px;
+}
+
+#wpmoly-settings .settings-page .setting input[type="text"],
+#wpmoly-settings .settings-page .setting input[type="email"],
+#wpmoly-settings .settings-page .setting input[type="number"] {
+	box-shadow: 0 0 0;
+	font-size: 16px;
+	height: 42px;
+	max-width: 360px;
+	padding: 0 12px;
+	width: 100%;
+}
+
+#wpmoly-settings .settings-page .setting input[type="text"]:focus,
+#wpmoly-settings .settings-page .setting input[type="email"]:focus,
+#wpmoly-settings .settings-page .setting input[type="number"]:focus {
+	box-shadow: 0 0 0 2px #e0eff6;
+}
+
+#wpmoly-settings .settings-page .setting input[type="number"] {
+	max-width: 96px;
+}
+
+#wpmoly-settings .settings-page .setting input[type="text"].valid,
+#wpmoly-settings .settings-page .setting input[type="email"].valid,
+#wpmoly-settings .settings-page .setting input[type="number"].valid {
+	border: 1px solid #29d272;
+	position: relative;
+}
+
+#wpmoly-settings .settings-page .setting input[type="text"].valid:focus,
+#wpmoly-settings .settings-page .setting input[type="email"].valid:focus,
+#wpmoly-settings .settings-page .setting input[type="number"].valid:focus {
+	box-shadow: 0 0 0 2px rgba(41, 210, 114, 0.4);
+}
+
+#wpmoly-settings .settings-page .setting input[type="text"].invalid,
+#wpmoly-settings .settings-page .setting input[type="email"].invalid,
+#wpmoly-settings .settings-page .setting input[type="number"].invalid {
+	border: 1px solid #d22953;
+}
+
+#wpmoly-settings .settings-page .setting input[type="text"].invalid:focus,
+#wpmoly-settings .settings-page .setting input[type="email"].invalid:focus,
+#wpmoly-settings .settings-page .setting input[type="number"].invalid:focus {
+	box-shadow: 0 0 0 2px rgba(210, 41, 83, 0.4);
+}
+
+#wpmoly-settings .settings-page .setting-group .group-content .setting-group {
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
+	margin: 24px 0 0;
+	width: auto;
+}
+
+#wpmoly-settings .settings-page .setting-group .group-content .setting-group .setting {
+	border: 0;
+	margin: 0 0 10px 0;
+	padding: 0;
+}
+
+#wpmoly-settings .settings-page .setting-group .group-content .setting-group .setting .setting-title {
+	font-weight: 600;
+}
+
+#wpmoly-settings.search-results .settings-page:not(.search-result),
+#wpmoly-settings.search-results .settings-group:not(.search-result),
+#wpmoly-settings.search-results .settings:not(.search-result) {
+	display: none !important;
+}
+
+#wpmoly-settings.search-results .settings-page.search-result,
+#wpmoly-settings.search-results .settings-group.search-result,
+#wpmoly-settings.search-results .settings.search-result {
+	display: block !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width:1860px) {
+
+	.wpmoly-sidebar {
+		column-count: 1;
+		column-gap: 0;
+		width: 280px;
+	}
+
+	.wpmoly-sidebar .dashboard-block {
+		display: inline-block;
+		width: calc( 100% - 60px );
+	}
+
+	.wpmoly-content {
+		margin: 0 310px 0 0;
+		width: calc( 100% - 310px );
+	}
+}
+
+@media screen and (max-width:1170px) {
+
+	#wpmoly-settings .settings-menu {
+		height: auto;
+	}
+
+	#wpmoly-settings .settings-menu .button.menu {
+		display: block;
+	}
+
+	#wpmoly-settings .settings-menu .setting-pages {
+		background: #fff;
+		border: 1px solid #e5e5e5;
+		display: none;
+		margin: -1px;
+		padding: 0;
+		position: relative;
+		z-index: 1;
+	}
+
+	#wpmoly-settings .settings-menu.opened .setting-pages {
+		display: block;
+	}
+
+	#wpmoly-settings .settings-menu .setting-page {
+		display: block;
+		margin: 0;
+	}
+
+	#wpmoly-settings .settings-menu .setting-page.active {
+		background: #0073aa;
+	}
+
+	#wpmoly-settings .settings-menu .setting-page.active a,
+	#wpmoly-settings .settings-menu .setting-page.active:hover a {
+		color: #fff;
+	}
+
+	#wpmoly-settings .settings-menu .setting-page.active:after {
+		position: static;
+	}
+
+	#wpmoly-settings .settings-menu .setting-page a {
+		color: #686d77;
+		font-size: 16px;
+		padding: 0 20px;
+	}
+
+	#wpmoly-settings .settings-menu .setting-page a:hover {
+		color: #0073aa;
+	}
+}
+
+@media screen and (max-width:768px) {
+
+	.wpmoly-sidebar {
+		column-count: 2;
+		column-gap: 20px;
+		float: none;
+		position: static;
+		margin: 0 auto;
+		width: 100%;
+	}
+
+	.wpmoly-sidebar .dashboard-block {
+		min-width: calc( 100% - 60px );
+	}
+
+	.wpmoly-content {
+		margin: 0;
+		width: 100%;
+	}
+}
+
+@media screen and (max-width:680px) {
+
+	.wpmoly-sidebar {
+		column-count: 1;
+		column-gap: 0;
+	}
+
+	.wpmoly-sidebar .dashboard-block,
+	.wpmoly-sidebar .editor-block {
+		display: block;
+		margin-bottom: 20px !important;
+	}
+}

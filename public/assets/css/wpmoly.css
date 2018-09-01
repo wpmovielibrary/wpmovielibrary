@@ -1,0 +1,60 @@
+/**
+ * Plugin main public stylesheet.
+ */
+
+.wpmoly {
+	font-size: 16px;
+}
+
+.wpmoly,
+.wpmoly > * {
+	font-family: 'Open Sans', sans-serif;
+	font-variant: normal;
+	text-transform: none;
+	letter-spacing: 0;
+}
+
+.wpmoly:after,
+.wpmoly:before {
+	position: inherit !important;
+}
+
+.wpmoly.shortcode.block,
+.wpmoly.shortcode.block .wpmoly.shortcode.item.detail.title,
+.wpmoly.shortcode.block .wpmoly.shortcode.item.meta.title,
+.wpmoly.shortcode.block .wpmoly.shortcode.item.meta.value {
+	display: block;
+}
+
+.wpmoly.shortcode.inline-block {
+	display: inline-block;
+}
+
+.wpmoly.shortcode.block .wpmoly.shortcode.item.detail.title,
+.wpmoly.shortcode.block .wpmoly.shortcode.item.meta.title {
+	font-size: 10px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.wpmoly.shortcode.block .wpmoly.shortcode.item.meta.value {
+	font-size: 16px;
+	font-weight: normal;
+	text-transform: none;
+}
+
+.wpmoly-widget .wpmoly.language.iso.icon,
+.wpmoly.shortcode .wpmoly.language.iso.icon,
+.wpmoly .meta.field .wpmoly.language.iso.icon {
+	border: 2px solid #aaa;
+	border-radius: 4px;
+	color: #aaa;
+	display: inline-block;
+	font-size: 9px;
+	height: 18px;
+	line-height: 14px;
+	position: relative;
+	text-align: center;
+	text-transform: uppercase;
+	width: 25px;
+}

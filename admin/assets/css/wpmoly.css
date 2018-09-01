@@ -1,0 +1,389 @@
+/**
+ * Plugin main admin stylesheet.
+ */
+
+.clearfix:after {
+	clear: both;
+	content: '';
+	display: table;
+}
+
+/**
+ * Icons.
+ */
+
+.wpmolicon,
+.wpmolicon::before {
+	height: 20px;
+	width: 20px;
+}
+
+/**
+ * UI.
+ */
+
+.wpmoly,
+.wpmoly > * {
+	font-size: 14px !important;
+}
+
+.wpmoly .button {
+	background: transparent;
+	color: #686d77;
+	border: 0;
+	border-radius: 0;
+	box-shadow: 0 0 0;
+	font-size: 14px;
+	height: 48px;
+	line-height: 48px;
+	text-align: center;
+	text-shadow: 0 0 0;
+	width: 48px;
+}
+
+.wpmoly .button:hover,
+.wpmoly .button.active {
+	color: #0073aa;
+}
+
+.wpmoly .button[disabled] {
+	background: #686d77 !important;
+	color: #fff !important;
+	text-shadow: 0 0 0 !important;
+}
+
+.wpmoly .button.empty {
+	background-color: transparent;
+	border: 0;
+	border-radius: 0;
+	box-shadow: 0 0 0;
+	color: #3190c6;
+	display: inline-block;
+	font-size: inherit;
+	height: auto;
+	line-height: inherit;
+	margin: auto;
+	padding: 0;
+	width: auto;
+}
+
+.wpmoly .button.loading {
+	background-color: transparent;
+	background-image: url(../../../public/assets/img/loading-white.svg);
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+.wpmoly .button.empty.loading {
+	color: transparent;
+	background-image: url(../../../public/assets/img/loading.svg);
+	background-size: 18px;
+}
+
+.wpmoly .field {
+	margin: 0 0 15px 0;
+	padding: 0;
+}
+
+.wpmoly .field.half-field {
+	display: inline-block;
+	margin: 0 15px 20px 0;
+	vertical-align: top;
+	width: calc( 50% - 20px );
+}
+
+.wpmoly .field .field-label {
+	color: #686d77;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+.wpmoly .field .field-control input[type="text"],
+.wpmoly .field .field-control input[type="date"],
+.wpmoly .field .field-control input[type="number"],
+.wpmoly .field .field-control textarea {
+	box-shadow: 0 0 0;
+	font-size: 16px;
+	min-height: 42px;
+	line-height: 42px;
+	padding: 2px 12px;
+	margin: 0;
+	width: calc( 100% - 32px );
+}
+
+.wpmoly .field .field-control .selectize-input.focus,
+.wpmoly .field .field-control input[type="text"]:focus,
+.wpmoly .field .field-control input[type="date"]:focus,
+.wpmoly .field .field-control input[type="number"]:focus,
+.wpmoly .field .field-control textarea:focus {
+	box-shadow: 0 0 0 2px #e0eff6;
+}
+
+.wpmoly .field.radio-image-field .field-control {
+
+}
+
+.wpmoly .field.radio-image-field .field-values {
+	margin: 15px -5px;
+}
+
+.wpmoly .field.radio-image-field .field-values .field-value {
+	display: inline-block;
+	margin: 0 5px;
+	max-width: 260px;
+	width: calc( 49% - 10px );
+}
+
+.wpmoly .field.radio-image-field .field-values .field-value input[type="radio"] {
+	display: none;
+}
+
+.wpmoly .field.radio-image-field .field-values .field-value label {
+	display: block;
+	position: relative;
+}
+
+.wpmoly .field.radio-image-field .field-values .field-value img {
+	border: 3px solid #e0eff6;
+	height: auto;
+	width: 100%;
+}
+
+.wpmoly .field.radio-image-field .field-values .field-value input[type="radio"]:checked + label img {
+	border: 3px solid #0073aa;
+	margin: -2px;
+	padding: 2px;
+}
+
+.wpmoly .field.radio-image-field .field-values .field-value .value-title {
+	color: #fff;
+	height: auto;
+	left: 50px;
+	position: absolute;
+	top: 25%;
+}
+
+.wpmoly .field.checkbox-field {
+	position: relative;
+}
+
+.wpmoly .field.checkbox-field .field-label,
+.wpmoly .field.checkbox-field .field-description {
+	margin-left: 40px;
+}
+
+.wpmoly .field.checkbox-field .field-control {
+	position: absolute;
+	top: 0;
+	width: 42px;
+}
+
+.wpmoly .field.checkbox-field .field-control input[type="checkbox"] {
+	display: none;
+	height: 1px;
+	position: absolute;
+	width: 1px;
+}
+
+.wpmoly .field.checkbox-field .field-control label:before,
+.wpmoly .field.checkbox-field .field-control label:after {
+	content: ' ';
+	position: absolute;
+}
+
+.wpmoly .field.checkbox-field .field-control label:before {
+	background: #686d77;
+	border: 2px solid #686d77;
+	border-radius: 16px;
+	height: 12px;
+	margin: 2px 0 0 2px;
+	width: 20px;
+}
+
+.wpmoly .field.checkbox-field .field-control label:after {
+	background: #fff;
+	border-radius: 12px;
+	height: 12px;
+	margin: 4px 0 0 4px;
+	width: 12px;
+}
+
+.wpmoly .field.checkbox-field .field-control label:hover::before {
+	background: #a1a3a8;
+	border-color: #a1a3a8;
+}
+
+.wpmoly .field.checkbox-field .field-control input:checked + label:before {
+	background: #0073aa;
+	border-color: #0073aa;
+}
+
+.wpmoly .field.checkbox-field .field-control input:checked + label:after {
+	margin-left: 12px;
+}
+
+.wpmoly .field.checkbox-field .field-control label:after {
+	transition: all .3s ease;
+}
+
+/**
+ * WPFooter
+ */
+
+.toplevel_page_wpmovielibrary #wpfooter,
+.movies-library_page_wpmovielibrary-movies #wpfooter,
+.movies-library_page_wpmovielibrary-grids #wpfooter,
+.movies-library_page_wpmovielibrary-actors #wpfooter,
+.movies-library_page_wpmovielibrary-genres #wpfooter,
+.movies-library_page_wpmovielibrary-settings #wpfooter {
+	display: none !important;
+}
+
+/**
+ * Toasts.
+ */
+
+.toasts {
+	bottom: auto;
+	left: auto;
+	max-width: 94%;
+	min-width: 616px;
+	right: 12px;
+	top: 46px;
+	width: auto;
+}
+
+.toast {
+	border-radius: 48px;
+	height: auto;
+	min-height: 32px;
+}
+
+.toast .toast-icon {
+	left: 8px;
+}
+
+.toast .toast-icon .dashicons {
+	position: relative;
+	top: calc( 50% - 24px );
+}
+
+.toast.inverted .toast-content {
+	margin-left: 42px;
+}
+
+.toast .toast-content code {
+	display: block;
+	font-size: 11px;
+	font-weight: 600;
+	margin: 0;
+	white-space: normal;
+}
+
+.toast .toast-content code:first-child {
+	margin-top: 8px;
+}
+
+/*
+ * Admin menu
+ */
+
+#toplevel_page_wpmovielibrary .wp-menu-image.dashicons-before.dashicons-wpmoly:before,
+#menu-posts-movies .wp-menu-image.dashicons-before.dashicons-wpmoly:before {
+	content: "\e801";
+	font-family: "wpmovielibrary" !important;
+}
+
+/*
+ * Notices
+ */
+
+.toplevel_page_wpmovielibrary #wpbody-content > .notice,
+.movies-library_page_wpmovielibrary-movies #wpbody-content > .notice,
+.movies-library_page_wpmovielibrary-grids #wpbody-content > .notice,
+.movies-library_page_wpmovielibrary-actors #wpbody-content > .notice,
+.movies-library_page_wpmovielibrary-genres #wpbody-content > .notice,
+.movies-library_page_wpmovielibrary-settings #wpbody-content > .notice {
+	margin: 32px 32px 16px 12px;
+}
+
+.toplevel_page_wpmovielibrary #wpbody-content > .notice + .notice,
+.movies-library_page_wpmovielibrary-movies #wpbody-content > .notice + .notice,
+.movies-library_page_wpmovielibrary-grids #wpbody-content > .notice + .notice,
+.movies-library_page_wpmovielibrary-actors #wpbody-content > .notice + .notice,
+.movies-library_page_wpmovielibrary-genres #wpbody-content > .notice + .notice,
+.movies-library_page_wpmovielibrary-settings #wpbody-content > .notice + .notice {
+	margin-top: 16px;
+}
+
+.notice.notice-wpmoly {
+	overflow: hidden;
+	padding-left: 42px;
+}
+
+.notice.notice-wpmoly:before {
+	color: #fff;
+	content: '\e802';
+	font-family: 'wpmovielibrary' !important;
+	font-size: 20px;
+	left: 2px;
+	position: absolute;
+	top: 8px;
+	z-index: 1;
+}
+
+.notice.notice-wpmoly:after {
+	border: 48px solid transparent;
+	content: '';
+	left: 0;
+	position: absolute;
+	top: -48px;
+}
+
+.notice.notice-wpmoly.notice-error:after {
+	border-left-color: #dc3232;
+}
+
+.notice.notice-wpmoly.notice-warning:after {
+	border-left-color: #ffb900;
+}
+
+.notice.notice-wpmoly.notice-success:after {
+	border-left-color: #46b450;
+}
+
+.notice.notice-wpmoly.notice-info:after {
+	border-left-color: #00a2d0;
+}
+
+.notice.notice-wpmoly p {
+	position: relative;
+	z-index: 1;
+}
+
+.notice.notice-wpmoly p:before,
+.notice.notice-wpmoly p:after {
+	background: #fff;
+	content: '';
+	height: 24px;
+	position: absolute;
+	width: 24px;
+}
+
+.notice.notice-wpmoly p:before {
+	left: -42px;
+	top: 32px;
+}
+
+.notice.notice-wpmoly p:after {
+	left: -8px;
+	top: -8px;
+	z-index: -1;
+}
+
+@media screen and (max-width:1860px) {
+	.toasts {
+		min-width: 316px;
+	}
+}

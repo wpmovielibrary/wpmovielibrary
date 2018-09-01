@@ -1,0 +1,1396 @@
+
+/*
+ * Post Browser Menu.
+ */
+
+.post-browser .post-browser-menu {
+	background: #fff;
+	border: 1px solid #e1e2e6;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+	height: 48px;
+	line-height: 48px;
+	padding: 0 12px;
+	position: relative;
+}
+
+.post-browser .post-browser-menu .button {
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
+	border-radius: 0;
+	color: #686d77;
+	display: inline-block;
+	font-size: 17px;
+	height: 48px;
+	line-height: 48px;
+	padding: 0;
+	text-align: center;
+	width: 32px;
+}
+
+.post-browser .post-browser-menu .button.search {
+	float: right;
+}
+
+.post-browser .post-browser-menu .button:hover,
+.post-browser .post-browser-menu .button.active {
+	background: transparent;
+	box-shadow: 0 0 0;
+	color: #0073aa;
+	transform: none;
+}
+
+.post-browser .post-browser-menu .posts-search {
+	background: #fff;
+	bottom: 0;
+	display: none;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.post-browser .post-browser-menu.search-opened .posts-search {
+	display: block;
+}
+
+.post-browser .post-browser-menu .posts-search .button.close {
+	position: absolute;
+	right: 12px;
+}
+
+.post-browser .post-browser-menu .posts-search .button.search {
+	position: absolute;
+	left: 8px;
+}
+
+.post-browser .post-browser-menu .posts-search .search-input {
+	background: #fff;
+	border: 0;
+	box-shadow: 0 0 0;
+	height: 100%;
+	left: 48px;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	right: 48px;
+	width: calc( 100% - 96px );
+}
+
+/*
+ * Post Browser Content.
+ */
+
+.post-browser .post-browser-content {
+	margin: 20px -6px;
+	min-height: 240px;
+	position: relative;
+}
+
+.post-browser .post-browser.loading .loader {
+	background-image: url(../../../public/assets/img/loading.svg);
+	background-position: center 96px;
+	background-repeat: no-repeat;
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 1;
+}
+
+.post-browser .post-browser-content .post {
+	display: inline-block;
+	margin: 6px 8px 16px;
+	max-width: 200px;
+	width: calc( 20% - 16px );
+}
+
+.post-browser .post-browser.loading .post {
+	opacity: .25;
+}
+
+.post-browser .post-browser-content .post-browser:hover {
+	opacity: .9;
+}
+
+.post-browser .post-browser-content .post .post-thumbnail {
+	background-color: #373e48;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	border-radius: 3px;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, .2);
+	overflow: hidden;
+	position: relative;
+}
+
+.post-browser .post-browser-content .post .post-thumbnail .button {
+	color: #fff;
+	height: 40px;
+	line-height: 40px;
+	opacity: 0;
+	position: absolute;
+	text-align: center;
+	top: 5px;
+	width: 40px;
+}
+
+.post-browser .post-browser-content .post .post-thumbnail .button.unpublish,
+.post-browser .post-browser-content .post .post-thumbnail .button.restore {
+	left: 5px;
+}
+
+.post-browser .post-browser-content .post .post-thumbnail .button.trash,
+.post-browser .post-browser-content .post .post-thumbnail .button.delete {
+	right: 5px;
+}
+
+.post-browser .post-browser-content .post:hover .post-thumbnail .button {
+	opacity: .8;
+}
+
+.post-browser .post-browser-content .post .post-thumbnail .button:hover {
+	opacity: 1;
+}
+
+.post-browser .post-browser-content .post.status-draft .post-thumbnail {
+	background: #46575c;
+}
+
+.post-browser .post-browser-content .post.status-trash .post-thumbnail {
+	background: #503333;
+}
+
+.post-browser .post-browser-content .post .post-thumbnail .confirm {
+	background: #d22953;
+	color: #fff;
+	display: none;
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 10;
+}
+
+.post-browser .post-browser-content .post.confirmation-asked .post-thumbnail .confirm {
+	display: block;
+}
+
+.post-browser .post-browser-content .post .post-thumbnail .confirm p {
+	margin: 60px 0 0;
+	text-align: center;
+}
+
+.post-browser .post-browser-content .post .post-thumbnail .confirm .button {
+	display: block;
+	font-size: 14px;
+	font-weight: 600;
+	margin: 0 auto;
+	padding: 0;
+	text-transform: uppercase;
+	width: auto;
+}
+
+.post-browser .post-browser-content .post .post-thumbnail .confirm .button.dismiss {
+	font-size: 14px;
+	height: 20px;
+	line-height: 20px;
+	opacity: .5;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 20px;
+}
+
+.post-browser .post-browser-content .post .post-thumbnail .confirm .button.delete {
+	position: static !important;
+}
+
+.post-browser .post-browser-content .post .post-thumbnail a {
+	display: block;
+	height: 100%;
+	position: relative;
+	width: 100%;
+}
+
+.post-browser .post-browser-content .post .post-title {
+	color: #373e48;
+	font-size: 14px;
+	font-weight: 600;
+	margin: 8px auto 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.post-browser .post-browser-content .post .post-title a {
+	color: #373e48;
+	text-decoration: none;
+}
+
+.post-browser .post-browser-content .post:hover .post-title a,
+.post-browser .post-browser-content .post .post-title a:hover {
+	color: #0073aa;
+}
+
+.post-browser .post-browser-content .post,
+.post-browser .post-browser-content .post:hover,
+.post-browser .post-browser-content .post .post-title a,
+.post-browser .post-browser-content .post .post-title a:hover {
+	transition: all .2s ease;
+}
+
+/*
+ * Grid Browser Content.
+ */
+
+.post-browser.grid-browser .post-browser-content .post .post-thumbnail:before {
+	bottom: 24px;
+	color: #fff;
+	font-family: "wpmovielibrary";
+	font-size: 72px;
+	height: 72px;
+	line-height: 72px;
+	opacity: .25;
+	position: absolute;
+	right: 24px;
+	width: 72px;
+}
+
+.post-browser.grid-browser .post-browser-content .post.type-empty .post-thumbnail:before {
+	content: '\e82e';
+}
+
+.post-browser.grid-browser .post-browser-content .post.type-actor .post-thumbnail:before {
+	content: '\e824';
+}
+
+.post-browser.grid-browser .post-browser-content .post.type-genre .post-thumbnail:before {
+	content: '\e835';
+}
+
+.post-browser.grid-browser .post-browser-content .post.type-movie .post-thumbnail:before {
+	content: '\e82b';
+}
+
+/*
+ * Movie Browser Content.
+ */
+
+.post-browser.movie-browser .movie-browser-content {
+	margin: 20px -8px;
+	min-height: 240px;
+	position: relative;
+}
+
+.post-browser.movie-browser .movie-browser-content.loading .loader {
+	background-image: url(../../../public/assets/img/loading.svg);
+	background-position: center 96px;
+	background-repeat: no-repeat;
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 1;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie {
+	display: inline-block;
+	margin: 6px 8px 16px;
+	vertical-align: top;
+}
+
+.post-browser.movie-browser .movie-browser-content.loading .movie {
+	opacity: .25;
+}
+
+/*.post-browser.movie-browser .movie-browser-content .movie:hover {
+	opacity: .9;
+}*/
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster {
+	/*background-color: #373e48;*/
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	border-radius: 3px;
+	overflow: visible;
+	position: relative;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster a {
+	height: auto;
+	width: auto;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu,
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status,
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-rating {
+	background: rgba(35, 62, 101, 0.8);
+	bottom: 0;
+	border-radius: 3px;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu,
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status,
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-rating,
+.post-browser.movie-browser .movie-browser-content .movie.edit-status .movie-poster:hover .edit-menu,
+.post-browser.movie-browser .movie-browser-content .movie.edit-rating .movie-poster:hover .edit-menu {
+	display: none;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster:hover .edit-menu,
+.post-browser.movie-browser .movie-browser-content .movie.edit-status .movie-poster .edit-status,
+.post-browser.movie-browser .movie-browser-content .movie.edit-rating .movie-poster .edit-rating {
+	display: block;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button {
+	opacity: 1;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button,
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status .button.dismiss,
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-rating .button.dismiss {
+	background: transparent;
+	box-shadow: 0 0 0;
+	border: 0;
+	border-radius: 0;
+	color: #fff;
+	position: absolute;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.edit,
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status .button.dismiss,
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-rating .button.dismiss {
+	color: #fff;
+	left: auto;
+	right: 0;
+	top: 0;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.edit,
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.restore {
+	bottom: auto;
+	left: 0;
+	right: auto;
+	top: 0;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.trash,
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.delete {
+	bottom: auto;
+	left: auto;
+	right: 0;
+	top: 0;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.preview {
+	color: #0073aa;
+	background: #fff;
+	border-radius: 50%;
+	left: calc( 50% - 20px );
+	right: auto;
+	top: calc( 50% - 20px );
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.rating,
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.status {
+	top: auto;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.rating {
+	bottom: 0;
+	color: #e0bd00;
+	display: none;
+	left: auto;
+	right: 0;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.status {
+	bottom: 0;
+	color: #aaa;
+	display: none;
+	left: 0;
+	right: auto;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.status.available {
+	color: #3de000;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.status.unavailable {
+	color: #e00020;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.status.loaned {
+	color: #e0bd00;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.status.scheduled {
+	color: #00b1e0;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-rating input,
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status select,
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-rating .button.apply,
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status .button.apply {
+	background: #fff;
+	border: 1px solid #fff;
+	border-radius: 3px;
+	font-size: 16px;
+	font-weight: 300;
+	height: 42px;
+	left: 10%;
+	position: absolute;
+	text-align: center;
+	top: calc( 50% - 16px );
+	width: 80%;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status .selectize-control {
+	left: 10%;
+	position: absolute;
+	top: calc( 50% - 25px );
+	width: 80%;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status .selectize-input {
+	border-radius: 3px;
+	min-width: auto;
+	width: calc( 100% - 30px );
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status .button.apply,
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-rating .button.apply {
+	bottom: 6%;
+	color: #373e48;
+	font-size: 12px;
+	font-weight: 500;
+	height: 32px;
+	line-height: 32px;
+	padding: 0;
+	text-transform: uppercase;
+	top: auto;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-title {
+	margin: 8px auto 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-title a {
+	color: #373e48;
+	font-size: 14px;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie:hover .movie-title a,
+.post-browser.movie-browser .movie-browser-content .movie .movie-title a:hover {
+	color: #0073aa;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie,
+.post-browser.movie-browser .movie-browser-content .movie > *,
+.post-browser.movie-browser .movie-browser-content .movie:hover,
+.post-browser.movie-browser .movie-browser-content .movie:hover > * {
+	transition: all .2s ease;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-year {
+	float: right;
+	font-size: 12px;
+	margin-top: 8px;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-genres {
+	font-size: 12px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.post-browser.movie-browser .movie-browser-content .movie .movie-runtime {
+	font-size: 12px;
+}
+
+/*
+ * Movie Modal.
+ */
+
+.movie-modal {
+	bottom: 0;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+}
+
+.movie-modal.closed {
+	display: none;
+	opacity: 0;
+	visibility: hidden;
+	z-index: -1;
+}
+
+.movie-modal.opened {
+	display: block;
+	opacity: 1;
+	visibility: visible;
+	z-index: 99999;
+}
+
+.movie-modal-backdrop {
+	background: #000;
+	bottom: 0;
+	left: 0;
+	opacity: .7;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.movie-modal-content {
+	background: #fff;
+	bottom: 30px;
+	box-shadow: 0 0 20px #000;
+	left: 30px;
+	position: absolute;
+	right: 30px;
+	top: 30px;
+}
+
+.movie-modal .movie-modal-editor,
+.movie-modal .movie-modal-preview {
+	display: none;
+}
+
+.movie-modal.opened.edit-mode .movie-modal-editor,
+.movie-modal.opened.preview-mode .movie-modal-preview {
+	display: block;
+}
+
+.movie-modal .movie-modal-loading {
+	background-color: rgba(255, 255, 255, .75);
+	background-image: url(../../../public/assets/img/loading.svg);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 48px 48px;
+	bottom: 30px;
+	content: ' ';
+	display: none;
+	left: 30px;
+	position: absolute;
+	right: 30px;
+	top: 30px;
+	z-index: 9999;
+}
+
+.movie-modal.loading .movie-modal-loading {
+	display: block;
+}
+
+/*
+ * Movie Modal Preview mode.
+ */
+
+.movie-modal-content .movie-preview-poster {
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100%;
+	left: 0;
+	position: absolute;
+	width: 40%;
+	top: 0;
+}
+
+.movie-modal-content .movie-preview-poster .movie-preview-navigation {
+	height: 100px;
+	position: absolute;
+	right: 0;
+	top: 140px;
+	width: 50px;
+}
+
+.movie-modal-content .movie-preview-poster .movie-preview-navigation .button {
+	background: #373e48;
+	border: 0;
+	box-shadow: 0 0 0;
+	border-radius: 0;
+	color: #aaa;
+	height: 50px;
+	line-height: 50px;
+	opacity: .95;
+	position: absolute;
+	transform: none;
+	width: 50px;
+}
+
+.movie-modal-content .movie-preview-poster .movie-preview-navigation .button.previous {
+	top: 0;
+}
+
+.movie-modal-content .movie-preview-poster .movie-preview-navigation .button.next {
+	bottom: 0;
+}
+
+.movie-modal-content .movie-preview-poster .movie-preview-navigation .button:hover {
+	background: #0073aa;
+	color: #fff;
+	opacity: 1;
+}
+
+.movie-modal-content .movie-preview-poster .movie-preview-navigation .button:active {
+	background: #005e8c;
+}
+
+.movie-modal-content .movie-preview-info {
+	height: 100%;
+	right: 0;
+	position: absolute;
+	width: 60%;
+	top: 0;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-header {
+	height: 60px;
+	padding: 160px 30px 20px 30px;
+	position: relative;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-header.with-background {
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	overflow: hidden;
+	position: absolute;
+	width: calc( 100% - 60px );
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-header.with-background:before {
+	background: #162329;
+	bottom: 0;
+	content: '';
+	left: 0;
+	opacity: .35;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 0;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-header.with-background:after {
+	box-shadow: 0 -16px 24px #162329, 0 -64px 48px #162329;
+	bottom: -120px;
+	content: '';
+	height: 120px;
+	left: -10%;
+	position: absolute;
+	width: 120%;
+	z-index: 1;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-header.with-background .movie-title,
+.movie-modal-content .movie-preview-info .movie-preview-header.with-background .movie-title .year,
+.movie-modal-content .movie-preview-info .movie-preview-header.with-background .movie-genres {
+	position: relative;
+	z-index: 2;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-header .movie-title {
+	color: #fff;
+	font-size: 32px;
+	font-weight: 300;
+	margin: 0;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-header .movie-title .year {
+	font-size: 15px;
+	font-weight: 400;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-header .movie-genres {
+	color: #e5e5e5;
+	font-size: 14px;
+	font-weight: 500;
+	margin: 6px 0 0;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-header .movie-genres a {
+	color: #e5e5e5;
+	text-decoration: none;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-header .movie-genres a:hover {
+	color: #fff;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-header .movie-preview-header-navigation {
+	bottom: 15px;
+	position: absolute;
+	right: 15px;
+	top: 15px;
+	width: 50px;
+	z-index: 10;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-header .movie-preview-header-navigation .button {
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
+	border-radius: 0;
+	color: #aaa;
+	height: 50px;
+	line-height: 50px;
+	position: absolute;
+	width: 50px;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-header .movie-preview-header-navigation .button:hover {
+	color: #ccc;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-header .movie-preview-header-navigation .button.close {
+	top: 0;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-header .movie-preview-header-navigation .button.edit {
+	bottom: 0;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-content {
+	bottom: 0;
+	left: 0;
+	overflow-y: scroll;
+	position: absolute;
+	right: 0;
+	top: 240px;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-content .movie-preview-details,
+.movie-modal-content .movie-preview-info .movie-preview-content .movie-preview-meta {
+	font-size: 16px;
+	padding: 20px 30px;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-content .movie-preview-details .movie-detail {
+	display: inline-block;
+	margin: 5px 0;
+	width: 49.5%;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-content .movie-preview-meta .movie-meta-label,
+.movie-modal-content .movie-preview-info .movie-preview-content .movie-preview-details .movie-detail-label {
+	color: #373e48;
+	display: inline-block;
+	font-weight: 600;
+	vertical-align: top;
+	width: 120px;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-content .movie-preview-meta .movie-meta-value,
+.movie-modal-content .movie-preview-info .movie-preview-content .movie-preview-details .movie-detail-value {
+	display: inline-block;
+	vertical-align: top;
+	width: calc( 100% - 140px );
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-content .movie-preview-meta {
+	border-top: 1px solid #f2f2f2;
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-content .movie-preview-meta .movie-meta.movie-overview h4 {
+}
+
+.movie-modal-content .movie-preview-info .movie-preview-content .movie-preview-meta .movie-meta.movie-overview p {
+	font-size: 16px;
+	font-weight: 400;
+}
+
+/*
+ * Movie Modal Editor Mode.
+ */
+
+.movie-modal-content .movie-editor-menu {
+	border-bottom: 1px solid #e5e5e5;
+	height: 50px;
+	overflow: hidden;
+}
+
+.movie-modal-content .movie-editor-menu .movie-editor-navigation {
+	float: right;
+	height: 50px;
+}
+
+.movie-modal-content .movie-editor-menu .movie-editor-navigation .spinner {
+	background-position: center right;
+	color: #888;
+	float: left;
+	font-size: 12px;
+	line-height: 48px;
+	height: 50px;
+	margin: 0 15px;
+	width: 80px;
+}
+
+.movie-modal.saving .movie-modal-content .movie-editor-menu .movie-editor-navigation .spinner {
+	display: block;
+	opacity: 1;
+	visibility: visible;
+}
+
+.movie-modal-content .movie-editor-menu .movie-editor-navigation .button {
+	background: #fff;
+	border: 0;
+	border-left: 1px solid #e5e5e5;
+	border-radius: 0;
+	box-shadow: 0 0 0;
+	float: left;
+	font-size: 16px;
+	height: 50px;
+	line-height: 50px;
+	margin: 0 0 0 2px;
+	width: 50px;
+}
+
+.movie-modal-content .movie-editor-menu .movie-editor-navigation .button:hover {
+	color: #0073aa;
+}
+
+.movie-modal-content .movie-editor-menu .movie-editor-navigation .button:active {
+	color: #005e8c;
+}
+
+.movie-modal-content .movie-editor-images {
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+	position: absolute;
+	top: 51px;
+	width: 25%;
+}
+
+.movie-modal-content .movie-editor-images .movie-editor-images-inner {
+	height: 100%;
+	margin-right: -15px;
+	overflow-x: auto;
+}
+
+.movie-modal-content .movie-editor-images .movie-posters,
+.movie-modal-content .movie-editor-images .movie-backdrops {
+	margin: 0 15px 0 10px;
+	padding: 20px 0;
+}
+
+.movie-modal-content .movie-editor-images .movie-poster,
+.movie-modal-content .movie-editor-images .movie-backdrop {
+	background-color: #373e48;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	float: left;
+}
+
+.movie-modal-content .movie-editor-images .movie-poster.first-poster {
+	width: 57.25%;
+}
+
+.movie-modal-content .movie-editor-images .movie-poster.second-poster {
+	width: 42.75%;
+}
+
+.movie-modal-content .movie-editor-images .movie-poster.third-poster,
+.movie-modal-content .movie-editor-images .movie-poster.fourth-poster,
+.movie-modal-content .movie-editor-images .movie-poster.fifth-poster,
+.movie-modal-content .movie-editor-images .movie-poster.more-poster {
+	width: 21.375%;
+}
+
+.movie-modal-content .movie-editor-images .movie-poster.more-poster a,
+.movie-modal-content .movie-editor-images .movie-backdrop.more-backdrop a {
+	background: #0073aa;
+	box-shadow: 0 0 0;
+	color: #eee;
+	display: block;
+	font-size: 11px;
+	font-weight: 500;
+	height: 100%;
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+	width: 100%;
+}
+
+.movie-modal-content .movie-editor-images .movie-poster.more-poster a:hover,
+.movie-modal-content .movie-editor-images .movie-backdrop.more-backdrop a:hover {
+	background: #0b86c2;
+	color: #fff;
+}
+
+.movie-modal-content .movie-editor-images .movie-poster.more-poster a:active,
+.movie-modal-content .movie-editor-images .movie-backdrop.more-backdrop a:active {
+	background: #005e8c;
+}
+
+.movie-modal-content .movie-editor-images .movie-backdrops {
+	border-top: 1px solid #e5e5e5;
+}
+
+.movie-modal-content .movie-editor-images .movie-backdrop {
+
+}
+
+.movie-modal-content .movie-editor-images .movie-backdrop.first-backdrop,
+.movie-modal-content .movie-editor-images .movie-backdrop.third-backdrop {
+	width: 44%;
+}
+
+.movie-modal-content .movie-editor-images .movie-backdrop.second-backdrop {
+	width: 56%;
+}
+
+.movie-modal-content .movie-editor-images .movie-backdrop.fourth-backdrop,
+.movie-modal-content .movie-editor-images .movie-backdrop.fifth-backdrop,
+.movie-modal-content .movie-editor-images .movie-backdrop.more-backdrop {
+	width: 18.6%;
+}
+
+
+
+.movie-modal-content .movie-editor-meta {
+	border-left: 1px solid #e5e5e5;
+	border-right: 1px solid #e5e5e5;
+	bottom: 0;
+	left: calc( 25% - 1px );
+	overflow: hidden;
+	position: absolute;
+	right: calc( 25% - 1px );
+	top: 51px;
+}
+
+.movie-modal-content .movie-editor-meta .movie-editor-meta-inner {
+	height: 100%;
+	margin-right: -15px;
+	overflow-x: auto;
+}
+
+.movie-modal-content .movie-editor-meta .movie-metadata {
+	padding: 20px 20px 20px 30px;
+}
+
+.movie-modal-content .movie-editor-meta .field-control input,
+.movie-modal-content .movie-editor-meta .field-control textarea {
+	width: calc( 100% - 22px ) !important;
+}
+
+.movie-modal-content .movie-editor-meta .half-field .field-control input,
+.movie-modal-content .movie-editor-meta .half-field .field-control textarea {
+	width: 100% !important;
+}
+
+.movie-modal-content .movie-editor-details {
+	bottom: 0;
+	overflow: hidden;
+	position: absolute;
+	right: 0;
+	top: 51px;
+	width: 25%;
+}
+
+.movie-modal-content .movie-editor-details .movie-editor-details-inner {
+	height: 100%;
+	margin-right: -15px;
+	overflow-x: auto;
+}
+
+.movie-modal-content .movie-editor-details .movie-details {
+	margin: 0 45px 0 30px;
+	padding: 20px 0;
+}
+
+.movie-modal-content .movie-editor-details .movie-details .selectize-control {
+	margin-top: 0;
+}
+
+.movie-modal-content .movie-editor-details .field-control .selectize-input {
+	width: calc( 100% - 28px ) !important;
+}
+
+/*
+ * Post Browser Pagination Menu.
+ */
+
+.post-browser .post-browser-pagination {
+	font-size: 0.85em;
+	margin: 0 auto;
+	padding: 0;
+	text-align: center;
+}
+
+.post-browser .post-browser-pagination .pagination-menu {
+	display: inline-block;
+	line-height: 48px;
+	vertical-align: middle;
+}
+
+.post-browser .post-browser-pagination .current-page,
+.post-browser .post-browser-pagination .total-pages {
+	margin: 0 .325rem;
+}
+
+.post-browser .post-browser-pagination input {
+	background: #fff;
+	border: 1px solid #ccc;
+	box-shadow: 0 0 0;
+	color: #222;
+	padding: 4px;
+	text-align: center;
+	width: auto;
+}
+
+.post-browser .post-browser-pagination .button {
+	height: 48px;
+	line-height: 48px;
+	padding: 0;
+	width: 48px;
+}
+
+.post-browser .post-browser-pagination .button[disabled] {
+	background: #fff !important;
+	color: #e3e7f0 !important;
+}
+
+/*
+ * Widgets.
+ */
+
+.post-editor-block .button {
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	box-shadow: 0 0 0;
+}
+
+.post-editor-block p.description {
+	color: #888;
+	font-size: 12px;
+	margin: 10px 0;
+}
+
+.post-editor-block label {
+	color: #686d77;
+	display: block;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+.post-editor-block input[type="text"] {
+	box-shadow: 0 0 0;
+	font-size: 16px;
+	min-height: 32px;
+	line-height: 32px;
+	padding: 0 12px;
+	margin: 0;
+	width: 100%;
+}
+
+.post-editor-block input[type="text"]:focus {
+	box-shadow: 0 0 0 2px #e0eff6;
+}
+
+.post-editor-block button.delete,
+.post-editor-block button.submit {
+	background: #686d77;
+	border: 0;
+	border-radius: 2px;
+	box-shadow: 0 0 0;
+	color: #fff;
+	display: block;
+	height: 32px;
+	line-height: 32px;
+	margin: 20px 0 0;
+	padding: 0;
+	width: 100%;
+}
+
+.post-editor-block button.delete:hover {
+	background: #da1f1f;
+	color: #fff;
+	cursor: pointer;
+}
+
+.post-editor-block button.submit:hover {
+	background: #0073aa;
+	color: #fff;
+	cursor: pointer;
+}
+
+.post-editor-block button.delete:active,
+.post-editor-block button.submit:active {
+	position: relative;
+	top: 1px;
+}
+
+.post-editor-block button[disabled].delete,
+.post-editor-block button[disabled].submit {
+	background: #686d77;
+	cursor: default;
+	opacity: .5;
+	position: static;
+}
+
+/*
+ * Discover Widget.
+ */
+
+.discover-movies-editor-block .links-list,
+.discover-movies-editor-block .posts-list {
+	margin: 10px 0;
+	padding: 0;
+}
+
+.discover-movies-editor-block .links-list {
+	border-top: 1px solid #f2f2f2;
+	margin-top: 15px;
+	padding-top: 15px;
+}
+
+.discover-movies-editor-block .posts-list {
+	column-count: 2;
+	column-gap: 10px;
+}
+
+.discover-movies-editor-block .posts-list .list-item.active a {
+	font-weight: 600;
+	text-decoration: none;
+}
+
+/*
+ * Drafts/Trash Widgets.
+ */
+
+.post-trash-editor-block .posts-list,
+.post-drafts-editor-block .posts-list {
+	margin: 10px 0;
+	max-height: 128px;
+	overflow: auto;
+	padding: 0 10px 0 0;
+	position: relative;
+}
+
+.post-trash-editor-block.loading .posts-list,
+.post-drafts-editor-block.loading .posts-list,
+.post-trash-editor-block.emptying .posts-list,
+.post-drafts-editor-block.emptying .posts-list {
+	overflow: hidden;
+}
+
+.post-trash-editor-block.loading .posts-list:after,
+.post-drafts-editor-block.loading .posts-list:after,
+.post-trash-editor-block.emptying .posts-list:after,
+.post-drafts-editor-block.emptying .posts-list:after {
+	background-color: rgba(255, 255, 255, .6);
+	background-image: url(../../../public/assets/img/loading.svg);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 32px 32px;
+	bottom: 0;
+	content: ' ';
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.post-trash-editor-block .posts-list .list-item,
+.post-drafts-editor-block .posts-list .list-item {
+	line-height: 28px;
+	padding: 0 8px;
+	position: relative;
+}
+
+.post-trash-editor-block .posts-list .list-item:nth-child(odd),
+.post-drafts-editor-block .posts-list .list-item:nth-child(odd) {
+	background: #f8f8f8;
+}
+
+.post-trash-editor-block .posts-list .list-item a,
+.post-drafts-editor-block .posts-list .list-item a {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: calc( 100% - 48px );
+}
+
+.post-trash-editor-block .posts-list .list-item button,
+.post-drafts-editor-block .posts-list .list-item button {
+	font-size: 14px;
+	left: auto;
+	opacity: .5;
+	position: absolute;
+	top: 2px;
+}
+
+.post-trash-editor-block .posts-list .list-item:hover button,
+.post-drafts-editor-block .posts-list .list-item:hover button {
+	opacity: 1;
+}
+
+.post-trash-editor-block .posts-list .list-item button.restore,
+.post-drafts-editor-block .posts-list .list-item button.publish {
+	right: 24px;
+}
+
+.post-trash-editor-block .posts-list .list-item button.restore:hover,
+.post-drafts-editor-block .posts-list .list-item button.publish:hover {
+	color: #0073aa;
+}
+
+.post-trash-editor-block .posts-list .list-item button.remove,
+.post-drafts-editor-block .posts-list .list-item button.remove {
+	right: 0;
+}
+
+.post-trash-editor-block .posts-list .list-item button.remove:hover,
+.post-drafts-editor-block .posts-list .list-item button.remove:hover {
+	color: #da1f1f;
+}
+
+.post-trash-editor-block .confirm,
+.post-drafts-editor-block .confirm {
+	background: #e5e5e5;
+	margin: 0 -20px;
+	padding: 20px;
+	position: relative;
+}
+
+.post-trash-editor-block .confirm,
+.post-drafts-editor-block .confirm,
+.post-trash-editor-block.confirmation-asked .posts-list,
+.post-drafts-editor-block.confirmation-asked .posts-list,
+.post-trash-editor-block.confirmation-asked > -content > .delete,
+.post-drafts-editor-block.confirmation-asked > -content > .delete {
+	display: none;
+}
+
+.post-trash-editor-block.confirmation-asked .confirm,
+.post-drafts-editor-block.confirmation-asked .confirm,
+.post-trash-editor-block .posts-list .list-item.confirmation-asked .confirm,
+.post-drafts-editor-block .posts-list .list-item.confirmation-asked .confirm {
+	display: block;
+}
+
+.post-trash-editor-block .confirm .description,
+.post-drafts-editor-block .confirm .description {
+	color: #444;
+	font-size: 13px;
+	font-style: normal;
+}
+
+.post-trash-editor-block .confirm .dismiss,
+.post-drafts-editor-block .confirm .dismiss {
+	font-size: 12px;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+.post-trash-editor-block .confirm label,
+.post-drafts-editor-block .confirm label,
+.post-trash-editor-block .confirm input,
+.post-drafts-editor-block .confirm input {
+	display: inline-block;
+}
+
+.post-trash-editor-block .confirm button.remove,
+.post-drafts-editor-block .confirm button.remove {
+
+}
+
+.post-trash-editor-block .posts-list .list-item .confirm,
+.post-drafts-editor-block .posts-list .list-item .confirm {
+	background: #d22953;
+	bottom: 0;
+	color: #fff;
+	top: 0;
+	margin: 0;
+	padding: 0 8px;
+	position: absolute;
+	right: 0;
+	left: 0;
+}
+
+.post-trash-editor-block .posts-list .list-item .confirm p,
+.post-drafts-editor-block .posts-list .list-item .confirm p {
+	line-height: 28px;
+	margin: 0;
+}
+
+.post-trash-editor-block .posts-list .list-item .confirm .button,
+.post-drafts-editor-block .posts-list .list-item .confirm .button {
+	color: #fff;
+	float: right;
+	font-size: 12px;
+	margin: 2px 4px;
+	opacity: 1;
+	position: static;
+	text-transform: uppercase;
+}
+
+.post-trash-editor-block .posts-list .list-item .confirm .button.accept,
+.post-drafts-editor-block .posts-list .list-item .confirm .button.accept {
+	font-weight: 600;
+}
+
+.post-trash-editor-block .posts-list .list-item .confirm .button.dismiss,
+.post-drafts-editor-block .posts-list .list-item .confirm .button.dismiss {
+	font-size: 10px;
+}
+
+@media screen and (max-width:1280px) {
+
+	.movie-modal-content .movie-preview-poster {
+		width: 34%;
+	}
+
+	.movie-modal-content .movie-preview-info .movie-preview-content {
+		top: 200px;
+	}
+
+	.movie-modal-content .movie-preview-poster .movie-preview-navigation {
+		top: 100px;
+	}
+
+	.movie-modal-content .movie-preview-info .movie-preview-header {
+		padding-top: 120px;
+	}
+
+	.movie-modal-content .movie-preview-info {
+		width: 66%;
+	}
+
+}
+
+@media screen and (max-width:640px), screen and (max-height:400px) {
+
+	.movie-modal-content {
+		bottom: 0;
+		left: 0;
+		right: 0;
+		top: 0;
+	}
+
+}

@@ -1,7 +1,0 @@
-.project
-.gitignore
-.gitmodules
-includes/framework/redux/sample-config.php
-includes/l10n/languages-pot-generate.js
-languages/de_countries.php
-phpcompatinfo.json

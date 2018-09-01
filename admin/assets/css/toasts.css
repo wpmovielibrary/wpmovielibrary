@@ -1,0 +1,159 @@
+
+.toasts {
+	bottom: 8px;
+	left: 208px;
+	max-width: 825px;
+	position: fixed;
+	right: 310px;
+	z-index: 9999;
+}
+
+.toast {
+	background: #fff;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+	border-radius: 4px;
+	height: 32px;
+	margin: 15px 0 0;
+	overflow: hidden;
+	padding: 8px;
+	position: relative;
+}
+
+.toast .toast-icon {
+	background: #eef0f3;
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 48px;
+}
+
+.toast .toast-icon .dashicons {
+	height: 48px;
+	line-height: 48px;
+	width: 48px;
+}
+
+.toast .toast-content {
+	color: #54656e;
+	font-size: 13px;
+	font-weight: 400;
+	margin: 0 48px;
+	overflow: hidden;
+	padding: 8px 12px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.toast .toast-buttons {
+	height: 40px;
+	position: absolute;
+	right: 4px;
+	top: calc( 50% - 20px );
+}
+
+.toast .toast-buttons:before {
+	background: rgba(255, 255, 255, .5);
+	content: ' ';
+	height: 26px;
+	position: absolute;
+	right: 40px;
+	top: 6px;
+	width: 1px;
+}
+
+.toast .toast-cancel-button,
+.toast .toast-dismiss-button {
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
+	color: rgba(255, 255, 255, .5);
+	cursor: pointer;
+	height: 40px;
+	line-height: 20px;
+	padding: 0;
+	width: 40px;
+}
+
+.toast .toast-cancel-button:hover,
+.toast .toast-dismiss-button:hover {
+	color: rgba(255, 255, 255, .85);
+}
+
+.toast .toast-cancel-button:active,
+.toast .toast-dismiss-button:active {
+	top: 1px;
+}
+
+.toast .toast-cancel-button {
+	font-size: 14px;
+	font-weight: 600;
+	position: absolute;
+	right: 56px;
+	text-transform: uppercase;
+	width: auto;
+}
+
+.toast.inverted.fail,
+.toast.fail .toast-icon {
+	background: #cf0000;
+	color: #fff;
+}
+
+.toast.inverted.warn,
+.toast.warn .toast-icon {
+	background: #da8301;
+	color: #fff;
+}
+
+.toast.inverted.info,
+.toast.info .toast-icon {
+	background: #1279b1;
+	color: #fff;
+}
+
+.toast.inverted.success,
+.toast.success .toast-icon {
+	background: #12b146;
+	color: #fff;
+}
+
+.toast.inverted .toast-content {
+	color: #fff;
+	margin-left: 32px;
+}
+
+.toast.inverted .toast-content a {
+	color: #fff;
+}
+
+.toast.inverted .toast-dismiss::before {
+	background: rgba(255, 255, 255, .25);
+}
+
+.toast.inverted .toast-dismiss button {
+	color: rgba(255, 255, 255, .5);
+}
+
+.toast.inverted .toast-dismiss button:hover {
+	color: #fff;
+}
+
+@media screen and (max-width:1080px) {
+	.toasts {
+		right: 8px;
+	}
+}
+
+@media screen and (max-width:960px) {
+	.toasts {
+		left: 48px;
+	}
+}
+
+@media screen and (max-width:782px) {
+	.toasts {
+		bottom: 8px;
+		left: 8px;
+	}
+}

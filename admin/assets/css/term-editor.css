@@ -1,0 +1,335 @@
+
+/*
+ * Term Editor Sections.
+ */
+
+.term-editor .editor-section {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	border-top: 0;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+	margin: -1px 0 0 0;
+	min-height: 128px;
+	padding: 30px;
+}
+
+.term-editor .editor-section .editor-menu {
+	border-bottom: 1px solid #e5e5e5;
+	margin: -20px -30px 10px;
+	padding: 0 50px;
+	text-align: right;
+}
+
+.term-editor .editor-section .editor-menu button {
+	border: 1px solid #e5e5e5;
+	border-bottom-color: #fff;
+	border-radius: 2px 2px 0 0;
+	color: #aaa;
+	height: 24px !important;
+	line-height: 24px !important;
+	margin-bottom: -1px;
+	padding: 0;
+	position: static;
+	transform: none;
+	width: 42px;
+}
+
+/*
+ * Term Editor Menu Section.
+ */
+
+.term-editor .editor-section.editor-menu {
+	border: 1px solid #e5e5e5;
+	display: none;
+	height: 48px;
+	margin: 40px auto 0;
+	min-height: auto;
+	padding: 0;
+}
+
+.term-editor .editor-section.editor-menu .button {
+	box-shadow: 0 0 0;
+	border: 0;
+	border-right: 1px solid #efefef;
+	float: left;
+	height: 48px;
+	transform: none;
+	width: 48px;
+}
+
+.term-editor .editor-section.editor-menu button[disabled="disabled"].button {
+	background: transparent !important;
+	border-color: #e5e5e5 !important;
+	color: #ddd !important;
+}
+
+/**
+ * Browser Section.
+ */
+
+.term-editor .editor-section.browser-section {
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
+	display: none;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.term-editor .editor-section.browser-section .grid .grid-menu.settings-menu {
+	display: none;
+}
+
+/**
+ * Explorer Section.
+ */
+
+.term-editor .editor-section.explorer-section {
+	border-top: 1px solid #e5e5e5;
+	display: none;
+	margin: 40px auto 0;
+}
+
+/*
+ * Blocks.
+ */
+
+.editor-block.term-editor-block .button {
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	box-shadow: 0 0 0;
+}
+
+.editor-block.term-editor-block p.description {
+	color: #888;
+	font-size: 12px;
+	margin: 10px 0;
+}
+
+.editor-block.term-editor-block label {
+	color: #686d77;
+	display: block;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+.editor-block.term-editor-block input[type="text"],
+.editor-block.term-editor-block input[type="date"],
+.editor-block.term-editor-block input[type="number"] {
+	box-shadow: 0 0 0;
+	font-size: 16px;
+	min-height: 32px;
+	line-height: 32px;
+	padding: 0 12px;
+	margin: 0;
+	width: 100%;
+}
+
+.editor-block.term-editor-block input[type="text"]:focus,
+.editor-block.term-editor-block input[type="date"]:focus,
+.editor-block.term-editor-block input[type="number"]:focus {
+	box-shadow: 0 0 0 2px #e0eff6;
+}
+
+.editor-block.term-editor-block button.delete,
+.editor-block.term-editor-block button.submit {
+	background: #686d77;
+	border: 0;
+	border-radius: 2px;
+	box-shadow: 0 0 0;
+	color: #fff;
+	display: block;
+	height: 32px;
+	line-height: 32px;
+	margin: 20px 0 0;
+	padding: 0;
+	width: 100%;
+}
+
+.editor-block.term-editor-block button.delete:hover {
+	background: #da1f1f;
+	cursor: pointer;
+}
+
+.editor-block.term-editor-block button.submit:hover {
+	background: #0073aa;
+	cursor: pointer;
+}
+
+.editor-block.term-editor-block button.delete:active,
+.editor-block.term-editor-block button.submit:active {
+	position: relative;
+	top: 1px;
+}
+
+.editor-block.term-editor-block button[disabled].delete,
+.editor-block.term-editor-block button[disabled].submit {
+	background: #686d77;
+	cursor: default;
+	opacity: .5;
+	position: static;
+}
+
+/*
+ * Submit Block.
+ */
+
+.editor-block.submit-term-editor-block {
+	height: 48px;
+	padding: 0 20px !important;
+}
+
+.editor-block.submit-term-editor-block .button {
+	position: absolute;
+	top: 12px;
+}
+
+.editor-block.submit-term-editor-block .button.settings {
+	left: 16px;
+	right: auto;
+}
+
+.editor-block.submit-term-editor-block .button.trash {
+	right: 48px;
+	left: auto;
+}
+
+.editor-block.submit-term-editor-block .button.save {
+	right: 16px;
+	left: auto;
+}
+
+.editor-block.submit-term-editor-block .button.trash:hover {
+	color: #d22953;
+}
+
+.editor-block.submit-term-editor-block .button.settings:hover,
+.editor-block.submit-term-editor-block .button.save:hover {
+	color: #0073aa;
+}
+
+.editor-block.submit-term-editor-block .confirm,
+.editor-block.submit-term-editor-block .spinner,
+.editor-block.submit-term-editor-block.loading .button.save .wpmolicon,
+.editor-block.submit-term-editor-block.trashing .button.trash .wpmolicon,
+.editor-block.submit-term-editor-block.confirmation-asked .content {
+	display: none;
+}
+
+.editor-block.submit-term-editor-block.loading .button.save .spinner,
+.editor-block.submit-term-editor-block.trashing .button.trash .spinner {
+	display: block;
+	margin: 0;
+	opacity: 1;
+	position: absolute;
+	right: 2px;
+	top: 2px;
+	visibility: visible;
+}
+
+.editor-block.submit-term-editor-block .button.save .icon-warning {
+	color: #d22953;
+}
+
+.editor-block.submit-term-editor-block .button.save .icon-yes-alt {
+	color: #a2ce51;
+}
+
+.editor-block.submit-term-editor-block .confirm {
+	background: #d22953;
+	bottom: 0;
+	color: #fff;
+	left: 20px;
+	padding: 15px 20px;
+	position: absolute;
+	right: 20px;
+	top: 0;
+}
+
+.editor-block.submit-term-editor-block .confirm .button {
+	color: #fff;
+	font-size: 13px;
+	font-weight: 600;
+	right: 20px;
+	text-transform: uppercase;
+	width: auto;
+}
+
+.editor-block.submit-term-editor-block .confirm .button + .button {
+	right: 64px;
+}
+
+.editor-block.submit-term-editor-block.confirmation-asked .confirm {
+	display: block;
+	margin: 0 -20px;
+}
+
+
+/**
+ * Term Headbox.
+ */
+
+.term-editor .term-headbox {
+	margin: 74px auto 32px;
+	max-width: 800px;
+}
+
+.wpmoly.term-headbox .headbox-header .headbox-thumbnail {
+	background-color: rgba(35, 62, 101, 0.8);
+	background-image: url(../../../public/assets/img/genre-unknown-thumb.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: relative;
+}
+
+.wpmoly.term-headbox .headbox-header .headbox-thumbnail .thumbnail-menu {
+	background: rgba(35, 62, 101, 0.8);
+	display: none;
+	height: 100%;
+	position: absolute;
+	width: 100%;
+}
+
+.wpmoly.term-headbox .headbox-header .headbox-thumbnail .thumbnail-menu .button {
+	height: 40px;
+	line-height: 48px;
+	padding: 0;
+	position: absolute;
+	width: 40px;
+}
+
+.wpmoly.term-headbox .headbox-header .headbox-thumbnail .thumbnail-menu .button.edit {
+	left: 10px;
+	top: 10px;
+}
+
+.wpmoly.term-headbox .headbox-header .headbox-thumbnail .thumbnail-menu .button.remove {
+	right: 10px;
+	top: 10px;
+}
+
+.wpmoly.term-headbox .headbox-header .headbox-thumbnail:hover .thumbnail-menu {
+	display: block;
+}
+
+.wpmoly.term-headbox .headbox-header .headbox-thumbnail .thumbnail-menu .svg-icon {
+}
+
+.wpmoly.term-headbox .headbox-header .headbox-thumbnail .thumbnail-menu .svg-icon-path {
+	fill: #fff;
+}
+
+.term-editor .term-headbox .headbox-content .headbox-title {
+	line-height: 32px;
+}
+
+.term-editor .term-headbox .headbox-content .headbox-subtitle {
+	margin: 0;
+}
+
+.term-editor .term-headbox .headbox-content .headbox-description {
+	margin: 15px 0;
+}
