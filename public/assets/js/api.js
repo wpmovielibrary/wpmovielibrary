@@ -12,9 +12,9 @@ var API = wpmoly.api = {
 
 	collections : {},
 
-	root : window.location.origin + '/wp-json/',
+	root : wpmolyApiSettings.root,
 
-	version : 'wpmoly/v1/',
+	version : wpmolyApiSettings.versionString,
 
 };
 
