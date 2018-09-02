@@ -903,7 +903,7 @@ wpmoly = window.wpmoly || {};
 			    children = this.schema.where( { parent : this.model.get( 'name' ) } );
 			if ( children.length ) {
 				var checked = this.$el.hasClass( 'checked' );
-				this.$el.nextAll( '[data-parent="' + this.model.get( 'name' ) + '"]' ).toggleClass( 'checked', checked ).fadeToggle();
+				this.$el.nextAll( '[data-parent="' + this.model.get( 'name' ) + '"]' ).toggleClass( 'checked', checked );
 				this.$el.nextAll( '[data-parent="' + this.model.get( 'name' ) + '"]' ).find( 'input[type="checkbox"]' ).prop( 'checked', checked );
 				_.each( children, function( field ) {
 					settings[ wpmolyApiSettings.option_prefix + field.get( 'name' ) ] = checked;
@@ -971,10 +971,14 @@ wpmoly = window.wpmoly || {};
 		prepare : function() {
 
 			var name = this.model.get( 'name' ),
-			   value = this.settings.get( wpmolyApiSettings.option_prefix + name ),
-			 options = _.extend( this.model.toJSON(), {
-				value : value || this.model.get( 'default' ),
-			} );
+			 options = this.model.toJSON()
+
+			var key = wpmolyApiSettings.option_prefix + name;
+			if ( this.settings.has( key ) && ! _.isNull( this.settings.get( key ) ) ) {
+				options.value = this.settings.get( key );
+			} else {
+				this.model.get( 'default' );
+			}
 
 			return options;
 		},
