@@ -196,7 +196,7 @@ class Settings {
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
 			),
-			'add_persons_to_frontpage' => array(
+			/*'add_persons_to_frontpage' => array(
 				'type'              => 'boolean',
 				'title'             => __( 'Persons', 'wpmovielibrary' ),
 				'label'             => __( 'Show persons on the front page.', 'wpmovielibrary' ),
@@ -206,7 +206,7 @@ class Settings {
 				'sanitize_callback' => '\wpmoly\rest\sanitize_boolean_value',
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
-			),
+			),*/
 
 			'add_to_search' => array(
 				'type'              => 'boolean',
@@ -230,7 +230,7 @@ class Settings {
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
 			),
-			'add_persons_to_search' => array(
+			/*'add_persons_to_search' => array(
 				'type'              => 'boolean',
 				'title'             => __( 'Persons', 'wpmovielibrary' ),
 				'label'             => __( 'Include persons to search results.', 'wpmovielibrary' ),
@@ -240,7 +240,7 @@ class Settings {
 				'sanitize_callback' => '\wpmoly\rest\sanitize_boolean_value',
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
-			),
+			),*/
 
 			'replace_excerpt' => array(
 				'type'              => 'boolean',
@@ -264,7 +264,7 @@ class Settings {
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
 			),
-			'replace_persons_excerpt' => array(
+			/*'replace_persons_excerpt' => array(
 				'type'              => 'boolean',
 				'title'             => __( 'Persons', 'wpmovielibrary' ),
 				'label'             => __( 'Replace persons excerpts with overviews.', 'wpmovielibrary' ),
@@ -274,7 +274,7 @@ class Settings {
 				'sanitize_callback' => '\wpmoly\rest\sanitize_boolean_value',
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
-			),
+			),*/
 
 			'formatting' => array(
 				'type'        => 'group',
@@ -311,7 +311,7 @@ class Settings {
 				'description' => __( 'Content settings.', 'wpmovielibrary' ),
 			),
 
-			'persons' => array(
+			/*'persons' => array(
 				'type'        => 'group',
 				'title'       => __( 'Persons', 'wpmovielibrary' ),
 				'description' => __( 'Persons settings.', 'wpmovielibrary' ),
@@ -327,7 +327,7 @@ class Settings {
 				'sanitize_callback' => '\wpmoly\rest\sanitize_boolean_value',
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
-			),
+			),*/
 
 			'actors' => array(
 				'type'        => 'group',
@@ -346,7 +346,7 @@ class Settings {
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
 			),
-			'auto_import_persons' => array(
+			/*'auto_import_persons' => array(
 				'type'              => 'boolean',
 				'title'             => __( 'Import persons', 'wpmovielibrary' ),
 				'label'             => __( 'Automatically import persons with new actors.', 'wpmovielibrary' ),
@@ -356,7 +356,7 @@ class Settings {
 				'sanitize_callback' => '\wpmoly\rest\sanitize_boolean_value',
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
-			),
+			),*/
 
 			'genres' => array(
 				'type'        => 'group',
@@ -593,7 +593,7 @@ class Settings {
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
 			),
-			'enable_persons_headbox' => array(
+			/*'enable_persons_headbox' => array(
 				'type'              => 'boolean',
 				'title'             => __( 'Persons', 'wpmovielibrary' ),
 				'label'             => __( 'Enable persons headboxes.', 'wpmovielibrary' ),
@@ -603,7 +603,7 @@ class Settings {
 				'sanitize_callback' => '\wpmoly\rest\sanitize_boolean_value',
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
-			),
+			),*/
 			'enable_actors_headbox' => array(
 				'type'              => 'boolean',
 				'title'             => __( 'Actors', 'wpmovielibrary' ),
