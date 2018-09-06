@@ -236,7 +236,9 @@ class Movie extends Node {
 	 */
 	public function is_empty() {
 
-		return empty( $this->get( 'tmdb_id' ) );
+		$tmdb_id = $this->get( 'tmdb_id' );
+
+		return empty( $tmdb_id );
 	}
 
 	/**
