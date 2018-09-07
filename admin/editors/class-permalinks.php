@@ -77,7 +77,8 @@ class Permalinks {
 	 */
 	public function register_sections() {
 
-		$enabled = ! empty( get_option( 'rewrite_rules' ) );
+		$rules = get_option( 'rewrite_rules' );
+		$enabled = ! empty( $rules );
 
 		$metabox = wpmoly_get_template( 'permalink-settings.php' );
 		$metabox->set_data( array(

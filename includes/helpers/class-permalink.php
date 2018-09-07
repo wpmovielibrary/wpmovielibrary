@@ -253,11 +253,12 @@ class Permalink {
 			return $this->permalink;
 		}
 
-		if ( empty( $this->to_string() ) ) {
-			return $this->to_string();
+		$html = $this->to_string();
+		if ( empty( $html ) ) {
+			return $html;
 		}
 
-		$this->permalink = '<a href="' . esc_url( $this->to_string() ) . '" title="' . $this->attr_title . '">' . $this->title . '</a>';
+		$this->permalink = '<a href="' . esc_url( $html ) . '" title="' . $this->attr_title . '">' . $this->title . '</a>';
 
 		return $this->permalink;
 	}

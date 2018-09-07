@@ -104,15 +104,18 @@ class Statistics extends Widget {
 	 */
 	protected function build_form() {
 
-		if ( empty( $this->get_attr( 'title' ) ) ) {
+		$title = $this->get_attr( 'title' );
+		if ( empty( $title ) ) {
 			$this->set_attr( 'title', __( 'Statistics', 'wpmovielibrary' ) );
 		}
 
-		if ( empty( $this->get_attr( 'description' ) ) ) {
+		$description = $this->get_attr( 'description' );
+		if ( empty( $description ) ) {
 			$this->set_attr( 'description', '' );
 		}
 
-		if ( empty( $this->get_attr( 'content' ) ) ) {
+		$content = $this->get_attr( 'content' );
+		if ( empty( $content ) ) {
 			$this->set_attr( 'content', __( 'All combined you have a total of {total} in your library, regrouped in {collections}, {genres} and {actors}.', 'wpmovielibrary' ) );
 		}
 	}

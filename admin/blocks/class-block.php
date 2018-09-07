@@ -206,10 +206,12 @@ class Block {
 		$this->template->set_data( $this->data );
 
 		$classes = array();
-		if ( ! empty( $this->get_arg( 'object_type' ) ) ) {
+		$object_type    = $this->get_arg( 'object_type' );
+		$object_subtype = $this->get_arg( 'object_subtype' );
+		if ( ! empty( $object_type ) ) {
 			$classes[] = 'editor-block';
 			$classes[] = $this->get_arg( 'object_type' ) . '-editor-block';
-			if ( ! empty( $this->get_arg( 'object_subtype' ) ) ) {
+			if ( ! empty( $object_subtype ) ) {
 				$classes[] = $this->get_arg( 'object_subtype' ) . '-editor-block';
 				$classes[] = str_replace( $this->get_arg( 'object_subtype' ), $this->get_arg( 'object_type' ), $this->id ) . '-editor-block';
 			}

@@ -278,7 +278,8 @@ abstract class Widget extends WP_Widget {
 	public function set_defaults() {
 
 		foreach ( $this->defaults as $key => $value ) {
-			if ( empty( $this->get_attr( $key ) ) ) {
+			$attr = $this->get_attr( $key );
+			if ( empty( $attr ) ) {
 				$this->set_attr( $key, $value );
 			}
 		}

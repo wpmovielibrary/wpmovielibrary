@@ -101,11 +101,13 @@ class Details extends Widget {
 	 */
 	protected function build_form() {
 
-		if ( empty( $this->get_attr( 'title' ) ) ) {
+		$title = $this->get_attr( 'title' );
+		if ( empty( $title ) ) {
 			$this->set_attr( 'title', __( 'Details', 'wpmovielibrary' ) );
 		}
 
-		if ( empty( $this->get_attr( 'description' ) ) ) {
+		$description = $this->get_attr( 'description' );
+		if ( empty( $description ) ) {
 			$this->set_attr( 'description', '' );
 		}
 
