@@ -1725,10 +1725,12 @@ wpmoly.editor = wpmoly.editor || {};
 						meta[ key ] = value || '';
 					}, this );
 
+					// Update TMDb ID.
 					if ( _.isEmpty( meta.tmdb_id ) && snapshot.has( 'id' ) ) {
 						meta.tmdb_id = snapshot.get( 'id' );
 					}
 
+					// Update credits.
 					if ( _.has( snapshot.get( 'credits' ) || {}, 'crew' ) ) {
 						meta.author      = ! _.isEmpty( meta.author ) ?      meta.author :      _.pluck( _.where( snapshot.get( 'credits' ).crew, { job : 'Author' } ), 'name' );
 						meta.composer    = ! _.isEmpty( meta.composer ) ?    meta.composer :    _.pluck( _.where( snapshot.get( 'credits' ).crew, { job : 'Original Music Composer' } ), 'name' );
@@ -1738,8 +1740,38 @@ wpmoly.editor = wpmoly.editor || {};
 						meta.writer      = ! _.isEmpty( meta.writer ) ?      meta.writer :      _.pluck( _.where( snapshot.get( 'credits' ).crew, { job : 'Novel' } ), 'name' );
 					}
 
+					// Update cast.
 					if ( _.has( snapshot.get( 'credits' ) || {}, 'cast' ) ) {
 						meta.cast = ! _.isEmpty( meta.cast ) ? meta.cast : _.pluck( snapshot.get( 'credits' ).cast, 'name' );
+					}
+
+					/**
+					 * Loop through release types. Check for theatrical, limited theatrical,
+					 * digital, physical, TV and premiere release. Use the corresponding
+					 * release date, but use the first available certification value.
+					 */
+					var language = this.settings.get( wpmolyApiSettings.option_prefix + 'api_country' ),
+					    releases = _.find( snapshot.get( 'release_dates' ), { iso_3166_1 : language } );
+					if ( ! _.isUndefined( releases ) ) {
+						var release_date = '',
+						   certification = '';
+						_.every( [ 3, 2, 4 ,5, 6, 1 ], function( type ) {
+							var release = _.find( releases.release_dates, { type : type } );
+							if ( _.isUndefined( release ) ) {
+								// Continue.
+								return true;
+							}
+							// Use first available certification.
+							if ( _.isEmpty( certification ) && ! _.isEmpty( release.certification ) ) {
+								meta.certification = release.certification;
+							}
+							// Set local release date.
+							if ( ! _.isEmpty( release.release_date ) ) {
+								meta.local_release_date = new Date( release.release_date ).toISOString().slice( 0, 10 );
+								// Break.
+								return false;
+							}
+						} );
 					}
 
 					this.meta.set( meta );
