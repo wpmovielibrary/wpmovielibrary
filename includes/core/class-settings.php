@@ -358,6 +358,24 @@ class Settings {
 				'show_in_rest'      => true,
 			),*/
 
+			'collections' => array(
+				'type'        => 'group',
+				'title'       => __( 'Collections', 'wpmovielibrary' ),
+				'description' => __( 'Collections settings.', 'wpmovielibrary' ),
+				'page'        => 'content',
+			),
+			'auto_import_collections' => array(
+				'type'              => 'boolean',
+				'title'             => __( 'Use directors as collections', 'wpmovielibrary' ),
+				'label'             => __( 'Automatically import directors as collections with new movies.', 'wpmovielibrary' ),
+				'description'       => __( 'When adding a new movie, the plugin will automatically create collections for each director if it does not already exist and relate it to the movies. Default is <code>true</code>.', 'wpmovielibrary' ),
+				'default'           => true,
+				'group'             => 'collections',
+				'sanitize_callback' => '\wpmoly\rest\sanitize_boolean_value',
+				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
+				'show_in_rest'      => true,
+			),
+
 			'genres' => array(
 				'type'        => 'group',
 				'title'       => __( 'Genres', 'wpmovielibrary' ),

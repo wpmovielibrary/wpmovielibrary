@@ -253,16 +253,19 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				initialize : function( attributes, options ) {
 
+					this.meta     = MovieEditor.editor.controller.meta;
 					this.post     = MovieEditor.editor.controller.post;
 					this.node     = MovieEditor.editor.controller.node;
 					this.snapshot = MovieEditor.editor.controller.snapshot;
+					this.settings = MovieEditor.editor.controller.settings;
 
 					this.term  = wp.api.models.Actors;
 					this.terms = new wp.api.collections.Actors;
 
 					PostEditor.controller.TaxonomyBlock.prototype.initialize.apply( this, arguments );
 
-					this.listenTo( this.post, 'saved', this.save );
+					this.listenTo( this.post, 'saved',  this.save );
+					this.listenTo( this.meta, 'change', this.synchronize );
 
 					this.on( 'update:terms', this.assign, this );
 				},
@@ -438,9 +441,11 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				initialize : function( attributes, options ) {
 
+					this.meta     = MovieEditor.editor.controller.meta;
 					this.post     = MovieEditor.editor.controller.post;
 					this.node     = MovieEditor.editor.controller.node;
 					this.snapshot = MovieEditor.editor.controller.snapshot;
+					this.settings = MovieEditor.editor.controller.settings;
 
 					this.term  = wp.api.models.Collections;
 					this.terms = new wp.api.collections.Collections;
@@ -448,6 +453,7 @@ wpmoly.editor = wpmoly.editor || {};
 					PostEditor.controller.TaxonomyBlock.prototype.initialize.apply( this, arguments );
 
 					this.listenTo( this.post, 'saved', this.save );
+					this.listenTo( this.meta, 'change', this.synchronize );
 
 					this.on( 'update:terms', this.assign, this );
 				},
@@ -633,9 +639,11 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				initialize : function( attributes, options ) {
 
+					this.meta     = MovieEditor.editor.controller.meta;
 					this.post     = MovieEditor.editor.controller.post;
 					this.node     = MovieEditor.editor.controller.node;
 					this.snapshot = MovieEditor.editor.controller.snapshot;
+					this.settings = MovieEditor.editor.controller.settings;
 
 					this.term  = wp.api.models.Genres;
 					this.terms = new wp.api.collections.Genres;
@@ -643,6 +651,7 @@ wpmoly.editor = wpmoly.editor || {};
 					PostEditor.controller.TaxonomyBlock.prototype.initialize.apply( this, arguments );
 
 					this.listenTo( this.post, 'saved', this.save );
+					this.listenTo( this.meta, 'change', this.synchronize );
 
 					this.on( 'update:terms', this.assign, this );
 				},
@@ -1854,6 +1863,20 @@ wpmoly.editor = wpmoly.editor || {};
 				template : wp.template( 'wpmoly-movie-editor-actors' ),
 
 				/**
+				 * Initialize the View.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {object} options Options.
+				 */
+				initialize : function( options ) {
+
+					PostEditor.view.TaxonomyBlock.prototype.initialize.apply( this, arguments );
+
+					this.listenTo( this.controller.terms, 'update', this.render );
+				},
+
+				/**
 				 * Synchronize taxonomy with meta.
 				 *
 				 * @since 3.0.0
@@ -1881,6 +1904,25 @@ wpmoly.editor = wpmoly.editor || {};
 					this.controller.updateTerms( names );
 
 					return this;
+				},
+
+				/**
+				 * Prepare rendering options.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return {object}
+				 */
+				prepare : function() {
+
+					var settings = this.controller.settings,
+					     options = { terms : [] };
+
+					if ( true === settings.get( wpmolyApiSettings.option_prefix + 'auto_import_actors' ) ) {
+						options.terms = this.controller.terms.toJSON() || [];
+					}
+
+					return options;
 				},
 
 			}),
@@ -2040,6 +2082,20 @@ wpmoly.editor = wpmoly.editor || {};
 				template : wp.template( 'wpmoly-movie-editor-collections' ),
 
 				/**
+				 * Initialize the View.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {object} options Options.
+				 */
+				initialize : function( options ) {
+
+					PostEditor.view.TaxonomyBlock.prototype.initialize.apply( this, arguments );
+
+					this.listenTo( this.controller.terms, 'update', this.render );
+				},
+
+				/**
 				 * Synchronize taxonomy with meta.
 				 *
 				 * @since 3.0.0
@@ -2062,14 +2118,37 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				change : function() {
 
-					var terms = this.$( '[data-field]' ).val();
+					/*var terms = this.$( '[data-field]' ).val();
 					_.each( this.controller.terms.models, function( term ) {
 						if ( ! _.contains( terms, term.get( 'name' ) ) ) {
 							this.controller.terms.remove( term, { silent : true } );
 						}
-					}, this );
+					}, this );*/
+
+					var names = this.$( '[data-field]' ).val();
+
+					this.controller.updateTerms( names );
 
 					return this;
+				},
+
+				/**
+				 * Prepare rendering options.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return {object}
+				 */
+				prepare : function() {
+
+					var settings = this.controller.settings,
+					     options = { terms : [] };
+
+					if ( true === settings.get( wpmolyApiSettings.option_prefix + 'auto_import_collections' ) ) {
+						options.terms = this.controller.terms.toJSON() || [];
+					}
+
+					return options;
 				},
 
 			}),
@@ -2404,6 +2483,20 @@ wpmoly.editor = wpmoly.editor || {};
 				template : wp.template( 'wpmoly-movie-editor-genres' ),
 
 				/**
+				 * Initialize the View.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {object} options Options.
+				 */
+				initialize : function( options ) {
+
+					PostEditor.view.TaxonomyBlock.prototype.initialize.apply( this, arguments );
+
+					this.listenTo( this.controller.terms, 'update', this.render );
+				},
+
+				/**
 				 * Synchronize taxonomy with meta.
 				 *
 				 * @since 3.0.0
@@ -2415,6 +2508,41 @@ wpmoly.editor = wpmoly.editor || {};
 					this.controller.synchronize();
 
 					return this;
+				},
+
+				/**
+				 * Update terms.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				change : function() {
+
+					var names = this.$( '[data-field]' ).val();
+
+					this.controller.updateTerms( names );
+
+					return this;
+				},
+
+				/**
+				 * Prepare rendering options.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return {object}
+				 */
+				prepare : function() {
+
+					var settings = this.controller.settings,
+					     options = { terms : [] };
+
+					if ( true === settings.get( wpmolyApiSettings.option_prefix + 'auto_import_genres' ) ) {
+						options.terms = this.controller.terms.toJSON() || [];
+					}
+
+					return options;
 				},
 
 			}),
