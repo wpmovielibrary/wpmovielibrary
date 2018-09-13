@@ -25,7 +25,15 @@
 						</div>
 						<# if ( ! _.isEmpty( data.actors ) ) { _.each( data.actors, function( actor ) { #>
 						<div class="person cast-member">
+							<# if ( ! _.isNull( actor.profile_path ) ) { #>
 							<div class="person-picture" style="background-image:url({{ 'https://image.tmdb.org/t/p/w185' + actor.profile_path || '' }})">
+							<# } else if ( 1 === actor.gender ) { #>
+							<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-female-thumbnail.png' ); ?>)">
+							<# } else if ( 2 === actor.gender ) { #>
+							<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-male-thumbnail.png' ); ?>)">
+							<# } else { #>
+							<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-neutral-thumbnail.png' ); ?>)">
+							<# } #>
 								<a href="#" title="Edit Person"><span class="wpmolicon icon-export"></span></a>
 							</div>
 							<div class="person-name"><a href="#">{{ actor.name }}</a></div>
@@ -49,11 +57,11 @@
 								<# if ( ! _.isNull( director.profile_path ) ) { #>
 								<div class="person-picture" style="background-image:url({{ 'https://image.tmdb.org/t/p/w185' + director.profile_path || '' }})">
 								<# } else if ( 1 === director.gender ) { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-female-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-female-thumbnail.png' ); ?>)">
 								<# } else if ( 2 === director.gender ) { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-male-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-male-thumbnail.png' ); ?>)">
 								<# } else { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-neutral-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-neutral-thumbnail.png' ); ?>)">
 								<# } #>
 									<a href="#" title="Import Person"><span class="wpmolicon icon-download"></span></a>
 								</div>
@@ -76,11 +84,11 @@
 								<# if ( ! _.isNull( producer.profile_path ) ) { #>
 								<div class="person-picture" style="background-image:url({{ 'https://image.tmdb.org/t/p/w185' + producer.profile_path || '' }})">
 								<# } else if ( 1 === producer.gender ) { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-female-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-female-thumbnail.png' ); ?>)">
 								<# } else if ( 2 === producer.gender ) { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-male-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-male-thumbnail.png' ); ?>)">
 								<# } else { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-neutral-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-neutral-thumbnail.png' ); ?>)">
 								<# } #>
 									<a href="#" title="Import Person"><span class="wpmolicon icon-download"></span></a>
 								</div>
@@ -103,11 +111,11 @@
 								<# if ( ! _.isNull( dop.profile_path ) ) { #>
 								<div class="person-picture" style="background-image:url({{ 'https://image.tmdb.org/t/p/w185' + dop.profile_path || '' }})">
 								<# } else if ( 1 === dop.gender ) { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-female-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-female-thumbnail.png' ); ?>)">
 								<# } else if ( 2 === dop.gender ) { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-male-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-male-thumbnail.png' ); ?>)">
 								<# } else { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-neutral-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-neutral-thumbnail.png' ); ?>)">
 								<# } #>
 									<a href="#" title="Import Person"><span class="wpmolicon icon-download"></span></a>
 								</div>
@@ -130,11 +138,11 @@
 								<# if ( ! _.isNull( composer.profile_path ) ) { #>
 								<div class="person-picture" style="background-image:url({{ 'https://image.tmdb.org/t/p/w185' + composer.profile_path || '' }})">
 								<# } else if ( 1 === composer.gender ) { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-female-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-female-thumbnail.png' ); ?>)">
 								<# } else if ( 2 === composer.gender ) { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-male-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-male-thumbnail.png' ); ?>)">
 								<# } else { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-neutral-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-neutral-thumbnail.png' ); ?>)">
 								<# } #>
 									<a href="#" title="Import Person"><span class="wpmolicon icon-download"></span></a>
 								</div>
@@ -157,11 +165,11 @@
 								<# if ( ! _.isNull( author.profile_path ) ) { #>
 								<div class="person-picture" style="background-image:url({{ 'https://image.tmdb.org/t/p/w185' + author.profile_path || '' }})">
 								<# } else if ( 1 === author.gender ) { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-female-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-female-thumbnail.png' ); ?>)">
 								<# } else if ( 2 === author.gender ) { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-male-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-male-thumbnail.png' ); ?>)">
 								<# } else { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-neutral-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-neutral-thumbnail.png' ); ?>)">
 								<# } #>
 									<a href="#" title="Import Person"><span class="wpmolicon icon-download"></span></a>
 								</div>
@@ -184,11 +192,11 @@
 								<# if ( ! _.isNull( writer.profile_path ) ) { #>
 								<div class="person-picture" style="background-image:url({{ 'https://image.tmdb.org/t/p/w185' + writer.profile_path || '' }})">
 								<# } else if ( 1 === writer.gender ) { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-female-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-female-thumbnail.png' ); ?>)">
 								<# } else if ( 2 === writer.gender ) { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-male-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-male-thumbnail.png' ); ?>)">
 								<# } else { #>
-								<div class="person-picture" style="background-image:url(/wp-content/plugins/wpmovielibrary/public/assets/img/actor-neutral-thumbnail.png)">
+								<div class="person-picture" style="background-image:url(<?php echo esc_url( WPMOLY_URL . 'public/assets/img/actor-neutral-thumbnail.png' ); ?>)">
 								<# } #>
 									<a href="#" title="Import Person"><span class="wpmolicon icon-download"></span></a>
 								</div>

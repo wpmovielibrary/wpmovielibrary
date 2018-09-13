@@ -720,8 +720,6 @@ wpmoly.editor = wpmoly.editor || {};
 			this.render();
 		},
 
-
-
 		/**
 		 * Toggle edit mode.
 		 *

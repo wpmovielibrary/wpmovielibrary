@@ -967,6 +967,12 @@ class L10n {
 			'view_attachment'            => esc_html__( 'View Attachment', 'wpmovielibrary' ),
 			'upload_fail'                => esc_html__( 'Upload failed.', 'wpmovielibrary' ),
 			'upload_success'             => __( 'Media uploaded successfully. <a href="%s" target="_blank">View Media</a>.', 'wpmovielibrary' ),
+			'actor_does_not_exist'       => esc_html__( 'Actor "%s" is not (yet) part of your library.', 'wpmovielibrary' ),
+			'collection_does_not_exist'  => esc_html__( 'You don’t have any collection for "%s" yet.', 'wpmovielibrary' ),
+			'genre_does_not_exist'       => esc_html__( 'No "%s" genre is part of your library (yet).', 'wpmovielibrary' ),
+			'new_actor'                  => esc_html__( 'New actor.' ),
+			'new_genre'                  => esc_html__( 'New genre.' ),
+			'new_collection'             => esc_html__( 'New collection.' ),
 		);
 
 		wp_localize_script( 'wpmoly-movie-browser', 'wpmolyEditorL10n', $localized_movie );
