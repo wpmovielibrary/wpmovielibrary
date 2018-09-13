@@ -592,6 +592,9 @@ wpmoly.editor = wpmoly.editor || {};
 					}
 
 					var archive_pages = this.settings.get( wpmolyApiSettings.option_prefix + 'archive_pages' ) || {};
+					if ( _.isArray( archive_pages ) ) {
+						archive_pages = _.object( archive_pages );
+					}
 
 					archive_pages[ type ] = page_id;
 

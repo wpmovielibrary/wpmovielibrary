@@ -462,6 +462,10 @@ class Library {
 	public function pre_update_archive_pages( $new_pages, $current_pages ) {
 
 		$archive_pages = $current_pages;
+		if ( ! is_array( $archive_pages ) ) {
+			$archive_pages = array();
+		}
+
 		foreach ( $new_pages as $page_type => $page_id ) {
 			$archive_pages[ $page_type ] = $page_id;
 		}

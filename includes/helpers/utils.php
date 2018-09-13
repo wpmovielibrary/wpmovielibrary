@@ -701,7 +701,7 @@ function is_movie_meta_key( $key ) {
 
 	$key = unprefix_movie_meta_key( $key, false );
 
-	return array_key_exists( $key, $registered );
+	return array_key_exists( $key, (array) $registered );
 }
 
 /**
@@ -745,7 +745,7 @@ function is_archive_page( $post_id ) {
 
 	$pages = get_option( '_wpmoly_archive_pages', array() );
 
-	return in_array( $post_id, $pages, true );
+	return in_array( $post_id, (array) $pages, true );
 }
 
 /**
@@ -761,7 +761,7 @@ function get_archive_page_type( $post_id ) {
 
 	if ( is_archive_page( $post_id ) ) {
 		$pages = get_option( '_wpmoly_archive_pages', array() );
-		return array_search( $post_id, $pages );
+		return array_search( $post_id, (array) $pages );
 	}
 
 	return false;
