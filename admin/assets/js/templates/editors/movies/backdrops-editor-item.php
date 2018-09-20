@@ -14,6 +14,6 @@
                   <div class="upload-progress"><div class="progress-bar"></div></div>
                   <div class="upload-dropzone"></div>
                 </div>
-                <div class="backdrop-language">{{ data.lang || '<?php esc_html_e( 'No Language.', 'wpmovielibrary' ); ?>' }}</div>
+                <div class="backdrop-language">{{ wpmolyEditorL10n.native_languages[ data.lang ] || data.lang || '<?php esc_html_e( 'No Language.', 'wpmovielibrary' ); ?>' }}</div>
                 <div class="backdrop-size">{{{ ( data.width || '' ) + '&times;' + ( data.height || '' ) }}}</div>
                 <# } #>

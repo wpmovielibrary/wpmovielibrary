@@ -3716,7 +3716,7 @@ wpmoly.editor = wpmoly.editor || {};
 					this.$el.addClass( 'uploading' );
 				}
 
-				this.$el.attr( 'data-language', options.iso_639_1 );
+				this.$el.attr( 'data-language', options.lang );
 				this.$el.attr( 'data-size', options.size );
 				this.$el.attr( 'data-ratio', ( options.ratio > 1 ? 'landscape' : 'portrait' ) );
 
@@ -4298,6 +4298,7 @@ wpmoly.editor = wpmoly.editor || {};
 						width  : this.attachment.get( 'media_details' ).width,
 						height : this.attachment.get( 'media_details' ).height,
 						ratio  : this.attachment.get( 'media_details' ).width / this.attachment.get( 'media_details' ).height,
+						lang   : this.model.get( 'iso_639_1' ),
 					};
 				} else {
 					options = {
@@ -4525,8 +4526,6 @@ wpmoly.editor = wpmoly.editor || {};
 					var backdrop = _.first( snapshot.images.backdrops );
 					options.backdrop = ! _.isUndefined( backdrop ) ? 'https://image.tmdb.org/t/p/original' + backdrop.file_path : options.backdrop.sizes.large.url;
 				}
-
-				//console.log( options );
 
 				return options;
 			},
