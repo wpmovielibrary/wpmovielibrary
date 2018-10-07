@@ -9,39 +9,39 @@ var TMDb = window.tmdb = {
 
 	collections : {},
 
-  root : 'https://api.themoviedb.org',
+	root : 'https://api.themoviedb.org',
 
-  version : 3,
+	version : 3,
 
 	/**
 	 * API Settings.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	settings : {},
 
-  /**
-   * Initialize the API client.
-   *
-   * @since 3.0.0
-   */
-  init : function( options ) {
+	/**
+	 * Initialize the API client.
+	 *
+	 * @since 3.0.0
+	 */
+	init : function( options ) {
 
-    var options = options || {},
-       settings = _.pick( window.tmdbApiSettings || {}, 'adult', 'api_key', 'api_key', 'country', 'language' );
+		var options = options || {},
+		   settings = _.pick( window.tmdbApiSettings || {}, 'adult', 'api_key', 'api_key', 'country', 'language' );
 
-    TMDb.settings = _.defaults( window.tmdbApiSettings || {}, _.extend( {
-      adult               : true,
-      alternative_country : '',
-      api_key             : '',
-      country             : 'US',
-      language            : 'en',
-    }, options || {} ) );
+		TMDb.settings = _.defaults( window.tmdbApiSettings || {}, _.extend( {
+			adult               : true,
+			alternative_country : '',
+			api_key             : '',
+			country             : 'US',
+			language            : 'en',
+		}, options || {} ) );
 
-    if ( _.isEmpty( TMDb.settings.api_key ) ) {
-      TMDb.root = 'https://api.wpmovielibrary.com';
-    }
-  },
+		if ( _.isEmpty( TMDb.settings.api_key ) ) {
+			TMDb.root = 'https://api.wpmovielibrary.com';
+		}
+	},
 
 };
 
@@ -51,40 +51,63 @@ TMDb.init();
 
 	'use strict';
 
-  var Base = {
+	var Base = {
 
-    parameters : {
-      api_key : {
-        type     : 'string',
-        default  : TMDb.settings.api_key,
-        required : ! _.isEmpty( TMDb.settings.api_key ),
-        pattern  : /[a-z0-9]{32}/i,
-      },
-      language : {
-        type     : 'string',
-        default  : TMDb.settings.language,
-        required : false,
-        pattern  : /^[a-z]{2}$|^[a-z]{2}-[A-Z]{2}$/i,
-      },
-      include_image_language : {
-        type     : 'string',
-        default  : 'null',
-        required : false,
-        pattern  : /[^,(?! )]+/g,
-      },
-      append_to_response : {
-        type     : 'string',
-        default  : '',
-        required : false,
-        pattern  : /[^,(?! )]+/g,
-      },
-      query : {
-        type     : 'string',
-        default  : '',
-        required : true,
-        pattern  : /\w+/,
-      },
-    },
+		parameters : {
+			api_key : {
+				type     : 'string',
+				default  : TMDb.settings.api_key,
+				required : ! _.isEmpty( TMDb.settings.api_key ),
+				pattern  : /[a-z0-9]{32}/i,
+			},
+			append_to_response : {
+				type     : 'string',
+				default  : '',
+				required : false,
+				pattern  : /[^,(?! )]+/g,
+			},
+			include_adult : {
+				type     : 'boolean',
+				default  : TMDb.settings.adult,
+				required : false,
+			},
+			include_image_language : {
+				type     : 'string',
+				default  : 'null',
+				required : false,
+				pattern  : /[^,(?! )]+/g,
+			},
+			language : {
+				type     : 'string',
+				default  : TMDb.settings.language,
+				required : false,
+				pattern  : /^[a-z]{2}$|^[a-z]{2}-[A-Z]{2}$/i,
+			},
+			page : {
+				type     : 'string',
+				default  : '1',
+				required : false,
+				pattern  : /^[0-9]+$/g,
+			},
+			primary_release_year : {
+				type     : 'string',
+				default  : 'null',
+				required : false,
+				pattern  : /^[1-2][0-9]{3}$/g,
+			},
+			query : {
+				type     : 'string',
+				default  : '',
+				required : true,
+				pattern  : /\w+/,
+			},
+			year : {
+				type     : 'string',
+				default  : 'null',
+				required : false,
+				pattern  : /^[1-2][0-9]{3}$/g,
+			},
+		},
 
 		/**
 		 * Iterate through supported parameters to build a proper API query using
@@ -133,7 +156,7 @@ TMDb.init();
 		/**
 		 * Generate a constructed url.
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @return string
 		 */
@@ -142,19 +165,19 @@ TMDb.init();
 			return TMDb.root + '/' + TMDb.version + '/' + ( _.isFunction( this.base ) ? this.base() : this.base );
 		},
 
-  };
+	};
 
 	/**
 	 * API Base Model Object.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	var BaseModel = Backbone.Model.extend({
 
 		/**
 		 * Models shouldn't be allowed to destroy themselves.
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @return bool
 		 */
@@ -166,7 +189,7 @@ TMDb.init();
 		/**
 		 * Models shouldn't be saved.
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @return bool
 		 */
@@ -199,7 +222,7 @@ TMDb.init();
 	/**
 	 * API Base Collection Object.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	var BaseCollection = Backbone.Collection.extend({
 
@@ -255,12 +278,12 @@ TMDb.init();
 
 	});
 
-  /**
-   * Extend BaseModel and BaseCollection prototypes to support custom URL method
-   * and automatic parameters handling.
-   */
-  _.extend( BaseModel.prototype, Base );
-  _.extend( BaseCollection.prototype, Base );
+	/**
+	 * Extend BaseModel and BaseCollection prototypes to support custom URL method
+	 * and automatic parameters handling.
+	 */
+	_.extend( BaseModel.prototype, Base );
+	_.extend( BaseCollection.prototype, Base );
 
 	/**
 	 * Movie Alternative Titles Collection.
@@ -272,12 +295,12 @@ TMDb.init();
 	 */
 	TMDb.collections.MovieAlternativeTitles = BaseCollection.extend({
 
-    parameters : [ 'api_key', 'country' ],
+		parameters : [ 'api_key', 'country' ],
 
 		/**
 		 * Initialize the Model.
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @param {object} attributes Model attributes.
 		 * @param {object} options    Model options.
@@ -316,7 +339,7 @@ TMDb.init();
 		/**
 		* Generate a constructed url.
 		*
-		* @since 1.0.0
+		* @since 3.0.0
 		*
 		* @return string
 		*/
@@ -337,12 +360,12 @@ TMDb.init();
 	 */
 	TMDb.collections.MovieCredits = BaseCollection.extend({
 
-    parameters : [ 'api_key' ],
+		parameters : [ 'api_key' ],
 
 		/**
 		 * Initialize the Model.
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @param {object} attributes Model attributes.
 		 * @param {object} options    Model options.
@@ -463,7 +486,7 @@ TMDb.init();
 		/**
 		* Generate a constructed url.
 		*
-		* @since 1.0.0
+		* @since 3.0.0
 		*
 		* @return string
 		*/
@@ -484,12 +507,12 @@ TMDb.init();
 	 */
 	TMDb.models.MovieExternalIDs = BaseModel.extend({
 
-    parameters : [ 'api_key' ],
+		parameters : [ 'api_key' ],
 
 		/**
 		 * Initialize the Model.
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @param {object} attributes Model attributes.
 		 * @param {object} options    Model options.
@@ -506,7 +529,7 @@ TMDb.init();
 		/**
 		* Generate a constructed url.
 		*
-		* @since 1.0.0
+		* @since 3.0.0
 		*
 		* @return string
 		*/
@@ -517,7 +540,7 @@ TMDb.init();
 
 	});
 
-  /**
+	/**
 	 * Movie Images Collection.
 	 *
 	 * @since 3.0.0
@@ -527,12 +550,12 @@ TMDb.init();
 	 */
 	TMDb.collections.MovieImages = BaseCollection.extend({
 
-    parameters : [ 'api_key', 'language', 'include_image_language' ],
+		parameters : [ 'api_key', 'language', 'include_image_language' ],
 
 		/**
 		 * Initialize the Model.
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @param {object} attributes Model attributes.
 		 * @param {object} options    Model options.
@@ -670,7 +693,7 @@ TMDb.init();
 		/**
 		* Generate a constructed url.
 		*
-		* @since 1.0.0
+		* @since 3.0.0
 		*
 		* @return string
 		*/
@@ -691,12 +714,12 @@ TMDb.init();
 	 */
 	TMDb.collections.MovieReleaseDates = BaseCollection.extend({
 
-    parameters : [ 'api_key' ],
+		parameters : [ 'api_key' ],
 
 		/**
 		 * Initialize the Model.
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @param {object} attributes Model attributes.
 		 * @param {object} options    Model options.
@@ -763,7 +786,7 @@ TMDb.init();
 		/**
 		* Generate a constructed url.
 		*
-		* @since 1.0.0
+		* @since 3.0.0
 		*
 		* @return string
 		*/
@@ -784,12 +807,12 @@ TMDb.init();
 	 */
 	TMDb.collections.MovieVideos = BaseCollection.extend({
 
-    parameters : [ 'api_key', 'language' ],
+		parameters : [ 'api_key', 'language' ],
 
 		/**
 		 * Initialize the Model.
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @param {object} attributes Model attributes.
 		 * @param {object} options    Model options.
@@ -806,7 +829,7 @@ TMDb.init();
 		/**
 		* Generate a constructed url.
 		*
-		* @since 1.0.0
+		* @since 3.0.0
 		*
 		* @return string
 		*/
@@ -827,12 +850,12 @@ TMDb.init();
 	 */
 	TMDb.Movie = TMDb.models.Movie = BaseModel.extend({
 
-    parameters : [ 'api_key', 'append_to_response', 'language', 'include_image_language' ],
+		parameters : [ 'api_key', 'append_to_response', 'language', 'include_image_language' ],
 
 		/**
 		 * Initialize the Model.
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @param {object} attributes Model attributes.
 		 * @param {object} options    Model options.
@@ -951,7 +974,7 @@ TMDb.init();
 		/**
 		* Generate endpoing URL.
 		*
-		* @since 1.0.0
+		* @since 3.0.0
 		*
 		* @return string
 		*/
@@ -974,7 +997,7 @@ TMDb.init();
 
 		base : 'search/movie',
 
-    parameters : [ 'api_key', 'language', 'query' ],
+		parameters : [ 'adult', 'api_key', 'language', 'primary_release_year', 'query', 'year' ],
 
 	});
 

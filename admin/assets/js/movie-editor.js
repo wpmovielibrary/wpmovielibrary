@@ -966,7 +966,7 @@ wpmoly.editor = wpmoly.editor || {};
 						self.trigger( 'import:failed', xhr, status, response );
 					}, this );
 
-					movie.fetchAll();
+					movie.fetchAll( { data : this._prepareQueryData() } );
 
 					return this;
 				},
@@ -1019,13 +1019,9 @@ wpmoly.editor = wpmoly.editor || {};
 					var collection = self.results;
 
 					collection.fetch({
-						data : {
-							query : this.get( 'query' ),
-						},
+						data : self._prepareQueryData(),
 						beforeSend : function( xhr, options ) {
-
 							collection.reset();
-
 							self.trigger( 'search:start', xhr, options );
 						},
 						complete : function( xhr, status ) {
@@ -1084,6 +1080,37 @@ wpmoly.editor = wpmoly.editor || {};
 					   person = query[2];
 
 					return this;
+				},
+
+				/**
+				 * Prepare query data parameters to include settings.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return array
+				 */
+				_prepareQueryData : function() {
+
+					var data = {
+						query    : this.get( 'query' ),
+						language : this.settings.get( 'language' ),
+					};
+
+					var settings = this.settings.toJSON();
+
+					if ( ! _.isEmpty( settings.year ) ) {
+						data.year = settings.year;
+					}
+
+					if ( ! _.isEmpty( settings.primary_year ) ) {
+						data.primary_release_year = settings.primary_year;
+					}
+
+					if ( ! _.isEmpty( settings.adult ) ) {
+						data.include_adult = settings.adult;
+					}
+
+					return data;
 				},
 
 				/**
