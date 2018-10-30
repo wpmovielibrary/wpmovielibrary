@@ -172,7 +172,7 @@ TMDb.init();
 	 *
 	 * @since 3.0.0
 	 */
-	var BaseModel = Backbone.Model.extend({
+	var BaseModel = wp.api.WPApiBaseModel.extend({
 
 		/**
 		 * Models shouldn't be allowed to destroy themselves.
@@ -224,7 +224,7 @@ TMDb.init();
 	 *
 	 * @since 3.0.0
 	 */
-	var BaseCollection = Backbone.Collection.extend({
+	var BaseCollection = wp.api.WPApiBaseCollection.extend({
 
 		/**
 		 * Parse xhr response.
@@ -242,19 +242,31 @@ TMDb.init();
 
 			if ( ! _.isUndefined( response.results ) ) {
 
-				this.totalPages   = parseInt( response.total_pages, 10 ) || 1;
-				this.totalObjects = parseInt( response.total_results, 10 ) || response.results.length;
-
-				if ( _.isUndefined( this.currentPage ) ) {
-					this.currentPage = 1;
-				} else {
-					this.currentPage++;
-				}
+				this.state.totalPages   = parseInt( response.total_pages, 10 ) || 1;
+				this.state.totalObjects = parseInt( response.total_results, 10 ) || response.results.length;
+				this.state.currentPage  = parseInt( response.page, 10 ) || 1;
 
 				models = response.results;
 			}
 
 			return models;
+		},
+
+		/**
+		 * Reset.
+		 *
+		 * @param {array} models.
+		 * @param {*}     options.
+		 *
+		 * @returns {array}.
+		 */
+		reset : function( models, options ) {
+
+			this.state.currentPage  = 1;
+			this.state.totalObjects = 0;
+			this.state.totalPages   = 1;
+
+			return wp.api.WPApiBaseCollection.prototype.reset.apply( this, arguments );
 		},
 
 		/**
@@ -268,12 +280,10 @@ TMDb.init();
 		 */
 		sync : function( method, model, options ) {
 
-			var options = options || {};
-
 			// Filter paramater list.
-			options.data = this.prepareParameters( options.data || {} );
+			_.extend( options.data || {}, this.prepareParameters( options.data || {} ) );
 
-			return Backbone.sync( method, model, options );
+			return wp.api.WPApiBaseCollection.prototype.sync.apply( this, arguments );
 		},
 
 	});

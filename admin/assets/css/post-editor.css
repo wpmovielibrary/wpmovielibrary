@@ -1145,7 +1145,7 @@
 	line-height: 48px;
 	min-height: 48px;
 	margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 42px;
 	text-align: center;
   width: 100%;
 }
@@ -1324,6 +1324,17 @@
 	height: 32px;
 	line-height: 32px;
 	width: 32px;
+}
+
+.post-editor.movie-editor .editor-section.search-section .search-results .results-pagination .button.first,
+.post-editor.movie-editor .editor-section.search-section .search-results .results-pagination .button.last,
+.post-editor.movie-editor .editor-section.search-section .search-results .results-pagination .button.next,
+.post-editor.movie-editor .editor-section.search-section .search-results .results-pagination .button.previous {
+	line-height: 30px;
+}
+
+.post-editor.movie-editor .editor-section.search-section .search-results .results-pagination .button.active {
+	color: #124964;
 }
 
 .post-editor.movie-editor .editor-section.search-section .search-results .results-pagination .button.number {

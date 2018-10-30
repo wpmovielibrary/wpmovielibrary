@@ -1195,11 +1195,6 @@ wpmoly.editor = wpmoly.editor || {};
 					this.set( { query : '' } );
 
 					if ( this.results ) {
-						this.results.state = {
-							currentPage   : 1,
-							totalObjects  : 0,
-							totalPages    : 1,
-						};
 						this.results.reset();
 					}
 
@@ -2785,7 +2780,7 @@ wpmoly.editor = wpmoly.editor || {};
 				browse : function( event ) {
 
 					var $target = this.$( event.currentTarget ),
-					page = $target.attr( 'data-value' );
+					       page = $target.attr( 'data-value' );
 
 					this.controller.browse( page );
 
