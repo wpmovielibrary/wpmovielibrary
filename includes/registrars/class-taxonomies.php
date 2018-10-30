@@ -220,10 +220,11 @@ class Taxonomies {
 		if ( ! has_archives_page( $taxonomy ) ) {
 			$permalinks = get_option( 'wpmoly_permalinks', array() );
 			if ( ! empty( $permalinks[ $taxonomy ] ) ) {
-				$termlink = $permalinks[ $taxonomy ];
+				$termlink = $permalinks[ $taxonomy ] . $term->slug;
 			}
 		} else {
-			$termlink = trailingslashit( get_taxonomy_archive_link( $taxonomy ) . $term->slug );
+			$baselink = trailingslashit( get_taxonomy_archive_link( $taxonomy ) );
+			$termlink = trailingslashit( $baselink . $term->slug );
 		}
 
 		return $termlink;

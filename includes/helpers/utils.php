@@ -831,8 +831,11 @@ function get_archives_page_id( $type = '' ) {
 function get_archives_page( $type = '' ) {
 
 	$post_id = get_archives_page_id( $type );
+	if ( false !== $post_id ) {
+		return get_post( $post_id );
+	}
 
-	return get_post( $post_id );
+	return null;
 }
 
 /**
@@ -847,8 +850,11 @@ function get_archives_page( $type = '' ) {
 function has_archives_page( $type = '' ) {
 
 	$page = get_archives_page( $type );
+	if ( is_null( $page ) ) {
+		return false;
+	}
 
-	return ! is_null( $page );
+	return true;
 }
 
 /**

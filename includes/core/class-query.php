@@ -222,10 +222,8 @@ class Query {
 		}
 
 		// Check for duplicate post name and clean duplicate slashes
-		if ( false !== stripos( $permalink, '%postname%' ) && false !== stripos( $permalink, $post->post_name ) ) {
-			$permalink = str_replace( array( '%movie%', '%postname%' ), '', $permalink );
-			$permalink = preg_replace( '/([^:])(\/{2,})/', '$1/', $permalink );
-		}
+		$permalink = preg_replace( '/' . $post->post_name . '\/?$/', '', $permalink );
+		$permalink = preg_replace( '/([^:])(\/{2,})/', '$1/', $permalink );
 
 		return $this->replace_tags( $permalink, $post );
 	}

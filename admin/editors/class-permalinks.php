@@ -446,15 +446,7 @@ class Permalinks {
 		foreach ( $this->defaults as $name => $permalink ) {
 			if ( ! empty( $new_permalinks[ $name ] ) ) {
 				if ( 'custom' == $new_permalinks[ $name ] && ! empty( $new_permalinks[ "custom_{$name}" ] ) ) {
-					$permalink = $new_permalinks[ "custom_{$name}" ];
-					$permalink = str_replace( array(
-						'%postname%',
-						'%movie%',
-						'%actor%',
-						'%collection%',
-						'%genre%',
-					), '', $permalink );
-					$permalink = preg_replace( '/([^:])(\/{2,})/', '$1/', $permalink );
+					$permalink = preg_replace( '/([^:])(\/{2,})/', '$1/', $new_permalinks[ "custom_{$name}" ] );
 				} else {
 					$permalink = $new_permalinks[ $name ];
 				}
@@ -763,7 +755,11 @@ class Permalinks {
 
 			$rule1 = trim( str_replace( home_url(), '', get_permalink( $archive_page ) ), '/' );
 			$rule2 = trim( $movies, '/' );
-			$rule  = "(movies|$rule2|$rule1)";
+			if ( 'movies' !== $rule2 ) {
+				$rule2 = "movies|$rule2";
+			}
+
+			$rule = "($rule2|$rule1)";
 
 			// Remove default archive rules.
 			foreach ( $rules as $r => $v ) {

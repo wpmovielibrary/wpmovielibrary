@@ -295,7 +295,7 @@ class Library {
 			return $content;
 		}
 
-		$type = get_query_var( get_archive_page_type( $post_id ) );
+		$type = get_archive_page_type( $post_id );
 		if ( ! empty( $type ) ) {
 
 			/**
