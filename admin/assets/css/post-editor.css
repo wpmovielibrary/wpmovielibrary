@@ -1189,6 +1189,12 @@
 	color: #3190c6;
 }
 
+.post-editor.movie-editor .editor-section.search-section .search-form .search-tip {
+	color: #666;
+	margin: 48px auto 0 auto;
+	max-width: 480px;
+}
+
 .post-editor.movie-editor .editor-section.search-section .search-form .search-filters {
 	display: none;
 	margin: 48px auto;

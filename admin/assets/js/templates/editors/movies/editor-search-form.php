@@ -1,6 +1,6 @@
 <?php
 /**
- * Movies Editor Search Template
+ * Movies Editor Search Form Template
  *
  * @since 3.0.0
  */
@@ -14,6 +14,9 @@
 				<button type="button" class="button reset" data-action="reset"><span class="wpmolicon icon-no"></span></button>
 			</div>
 			<button type="button" class="button advanced" data-action="advanced-search"><span class="wpmolicon icon-filter"></span> <?php esc_html_e( 'Advanced Search', 'wpmovielibrary' ); ?></button>
+			<div class="search-tip">
+				<p><?php _e( '<strong>Pro Tip:</strong> You can search movies by title, IMDb ID or TMDb ID. If your search query contains a number be sure to use quotes (search for "300" instead of 300) to avoid confusion. <code>title:</code>, <code>imdb:</code>, <code>tmdb:</code> and <code>id:</code> prefixes are also supported.', 'wpmovielibrary' ); ?></p>
+			</div>
 			<div class="search-filters">
 				<div class="search-filter">
 					<div class="field date-field">

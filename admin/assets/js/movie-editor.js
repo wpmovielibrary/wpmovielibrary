@@ -983,9 +983,13 @@ wpmoly.editor = wpmoly.editor || {};
 
 					this.set( { query : query }, { silent : true } );
 
-					if ( /tt(\d+)/i.test( query ) || /(\d+)/.test( query ) ) {
+					if ( /^(tt)?(\d+)$/i.test( query ) || /^(id|imdb|tmdb):(.*)$/i.test( query ) ) {
+						this.set( 'query', query.replace( /^(id|imdb|tmdb):/, '' ) );
 						return this._searchById();
-					} else if ( /(actor|director):(.*)/i.test( query ) ) {
+					} else if ( /^(title):(.*)$/i.test( query ) ) {
+						this.set( 'query', query.replace( 'title:', '' ) );
+						return this._searchByTitle();
+					} else if ( /^(actor|director):(.*)$/i.test( query ) ) {
 						return this._searchByPerson();
 					} else {
 						return this._searchByTitle();
