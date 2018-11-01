@@ -942,13 +942,8 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				import : function( movie_id ) {
 
-					var movie_id = parseInt( movie_id );
-					if ( ! movie_id ) {
-						return false;
-					}
-
 					var self = this,
-					movie = new TMDb.Movie( { id : movie_id } );
+					   movie = new TMDb.Movie( { id : movie_id } );
 
 					movie.on( 'fetch:start', function( xhr, options ) {
 						self.trigger( 'import:start', xhr, options );
@@ -988,9 +983,7 @@ wpmoly.editor = wpmoly.editor || {};
 
 					this.set( { query : query }, { silent : true } );
 
-					if ( /tt(\d+)/i.test( query ) ) {
-						return this._searchByIMDbId();
-					} else if ( /(\d+)/.test( query ) ) {
+					if ( /tt(\d+)/i.test( query ) || /(\d+)/.test( query ) ) {
 						return this._searchById();
 					} else if ( /(actor|director):(.*)/i.test( query ) ) {
 						return this._searchByPerson();
@@ -1039,21 +1032,7 @@ wpmoly.editor = wpmoly.editor || {};
 				},
 
 				/**
-				 * Search movies based on IMDb ID.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				_searchByIMDbId : function() {
-
-					var result = new TMDb.Movie( { tmdb_id : id } );
-
-					return this;
-				},
-
-				/**
-				 * Search movies based on TMDb ID.
+				 * Search movies based on TMDb or IMDb ID.
 				 *
 				 * @since 3.0.0
 				 *
@@ -1061,9 +1040,7 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				_searchById : function() {
 
-					var result = new TMDb.Movie( { id : id } );
-
-					return this;
+					return this.import( this.get( 'query' ) );
 				},
 
 				/**
@@ -1091,12 +1068,16 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				_prepareQueryData : function() {
 
-					var data = {
-						query    : this.get( 'query' ),
-						language : this.settings.get( 'language' ),
-					};
+					var data = {},
+					settings = this.settings.toJSON();
 
-					var settings = this.settings.toJSON();
+					if ( ! _.isEmpty( this.get( 'query' ) ) ) {
+						data.query = this.get( 'query' );
+					}
+
+					if ( ! _.isEmpty( settings.language ) ) {
+						data.language = settings.language;
+					}
 
 					if ( ! _.isEmpty( settings.year ) ) {
 						data.year = settings.year;

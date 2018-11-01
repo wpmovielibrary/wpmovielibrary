@@ -209,12 +209,12 @@ TMDb.init();
 		 */
 		sync : function( method, model, options ) {
 
-			var options = options || {};
-
 			// Filter paramater list.
-			options.data = this.prepareParameters( options.data || {} );
+			_.extend( options || {}, {
+				data : this.prepareParameters( options.data || {} ),
+			} );
 
-			return Backbone.sync( method, model, options );
+			return wp.api.WPApiBaseModel.prototype.sync.apply( this, arguments );
 		},
 
 	});
@@ -281,7 +281,9 @@ TMDb.init();
 		sync : function( method, model, options ) {
 
 			// Filter paramater list.
-			_.extend( options.data || {}, this.prepareParameters( options.data || {} ) );
+			_.extend( options || {}, {
+				data : this.prepareParameters( options.data || {} ),
+			} );
 
 			return wp.api.WPApiBaseCollection.prototype.sync.apply( this, arguments );
 		},
@@ -691,13 +693,7 @@ TMDb.init();
 						error.apply( this, arguments );
 					}
 				},
-			}).done( function( model, status, xhr ) {
-				parent.trigger( 'fetch:success', model, status, xhr );
-			} ).fail( function( xhr, status, error ) {
-				parent.trigger( 'fetch:error', xhr, status, error );
-			} ).always( function( model, status, xhr ) {
-				parent.trigger( 'fetch:stop', model, status, xhr );
-			} );
+			});
 		},
 
 		/**
@@ -966,7 +962,13 @@ TMDb.init();
 						self.unset( 'videos' );
 					}
 
-					self.images.fetchAll();
+					self.images.fetch().done( function( model, status, xhr ) {
+						self.trigger( 'fetch:success', model, status, xhr );
+					} ).fail( function( xhr, status, error ) {
+						self.trigger( 'fetch:error', xhr, status, error );
+					} ).always( function( model, status, xhr ) {
+						self.trigger( 'fetch:stop', model, status, xhr );
+					} );
 
 					if ( success ) {
 						success.apply( this, arguments );
