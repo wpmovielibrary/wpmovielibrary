@@ -606,6 +606,8 @@ final class wpMovieLibrary {
 
 		add_action( 'init', array( $registrar, 'register' ) );
 
+		add_filter( 'wpmoly/filter/post_type/movie', array( $registrar, 'movie_standard_taxonomies' ) );
+
 		/**
 		 * Fires after post types are registered.
 		 *
@@ -640,6 +642,9 @@ final class wpMovieLibrary {
 		$registrar = new registrars\Taxonomies;
 
 		add_action( 'init', array( $registrar, 'register' ) );
+
+		add_filter( 'wpmoly/filter/editor/blocks', array( $registrar, 'register_category_editor_block' ) );
+		add_filter( 'wpmoly/filter/editor/blocks', array( $registrar, 'register_post_tag_editor_block' ) );
 
 		/**
 		 * Fires after taxonomies are registered.
@@ -1010,8 +1015,10 @@ final class wpMovieLibrary {
 		add_filter( 'rest_prepare_grid',                 array( $rest_api, 'prepare_grid_for_response' ), 10, 3 );
 		add_filter( 'rest_prepare_movie',                array( $rest_api, 'prepare_movie_for_response' ), 10, 3 );
 		add_filter( 'rest_prepare_actor',                array( $rest_api, 'prepare_actor_for_response' ), 10, 3 );
+		add_filter( 'rest_prepare_category',             array( $rest_api, 'prepare_term_for_response' ), 10, 3 );
 		add_filter( 'rest_prepare_collection',           array( $rest_api, 'prepare_collection_for_response' ), 10, 3 );
 		add_filter( 'rest_prepare_genre',                array( $rest_api, 'prepare_genre_for_response' ), 10, 3 );
+		add_filter( 'rest_prepare_post_tag',             array( $rest_api, 'prepare_term_for_response' ), 10, 3 );
 
 		$prefix = prefix_movie_meta_key( '' );
 		add_filter( "sanitize_post_meta_{$prefix}format_for_movie",    '\wpmoly\rest\sanitize_movie_details', 10, 1 );

@@ -172,30 +172,65 @@ class Taxonomies {
 	}
 
 	/**
-	 * Add support for standard taxonomies to movies.
-	 *
-	 * Depending on user settings, movies can used with standard Post Tag and
-	 * Categories.
+	 * Add 'Categories' Block to movies editor.
 	 *
 	 * @since 3.0.0
 	 *
 	 * @access public
 	 *
-	 * @param array $args 'movie' Custom Post Type parameters.
+	 * @param array $blocks Block list.
 	 *
 	 * @return array
 	 */
-	public function movie_standard_taxonomies( $args ) {
+	public function register_category_editor_block( $blocks ) {
 
 		if ( wpmoly_o( 'enable-categories' ) ) {
-			$args['taxonomies'][] = 'category';
+			$blocks['movie-categories'] = array(
+				'dashboard_type' => 'editor',
+				'object_type'    => 'post',
+				'object_subtype' => 'movie',
+				'args'           => array(
+					'name'        => __( 'Post Categories Block', 'wpmovielibrary' ),
+					'title'       => __( 'Categories', 'wpmovielibrary' ),
+					'description' => __( 'Post Block to quickly manage categories', 'wpmovielibrary' ),
+					'controller'  => 'CategoriesBlock',
+					'template'    => 'editors/blocks/posts/categories.php',
+				),
+			);
 		}
+
+		return $blocks;
+	}
+
+	/**
+	 * Add 'Tags' Block to movies editor.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param array $blocks Block list.
+	 *
+	 * @return array
+	 */
+	public function register_post_tag_editor_block( $blocks ) {
 
 		if ( wpmoly_o( 'enable-tags' ) ) {
-			$args['taxonomies'][] = 'post_tag';
+			$blocks['movie-tags'] = array(
+				'dashboard_type' => 'editor',
+				'object_type'    => 'post',
+				'object_subtype' => 'movie',
+				'args'           => array(
+					'name'        => __( 'Post Tags Block', 'wpmovielibrary' ),
+					'title'       => __( 'Tags', 'wpmovielibrary' ),
+					'description' => __( 'Post Block to quickly manage tags', 'wpmovielibrary' ),
+					'controller'  => 'TagsBlock',
+					'template'    => 'editors/blocks/posts/tags.php',
+				),
+			);
 		}
 
-		return $args;
+		return $blocks;
 	}
 
 	/**

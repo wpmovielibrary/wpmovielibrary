@@ -765,8 +765,12 @@ class API {
 	public function prepare_term_for_response( $response, $term, $request ) {
 
 		if ( 'edit' === $request['context'] ) {
-			$response->data['edit_link'] = admin_url( 'admin.php?page=wpmovielibrary-' . $term->taxonomy . 's&id=' . $term->term_id. '&action=edit' );
-			$response->data['old_edit_link'] = get_edit_term_link( $term->term_id, $term->taxonomy );
+			if ( in_array( $term->taxonomy, array( 'actor', 'collection', 'genre' ), true ) ) {
+				$response->data['edit_link'] = admin_url( 'admin.php?page=wpmovielibrary-' . $term->taxonomy . 's&id=' . $term->term_id. '&action=edit' );
+				$response->data['old_edit_link'] = get_edit_term_link( $term->term_id, $term->taxonomy );
+			} else {
+				$response->data['edit_link'] = get_edit_term_link( $term->term_id, $term->taxonomy );
+			}
 		}
 
 		return $response;

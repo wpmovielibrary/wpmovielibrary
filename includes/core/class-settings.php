@@ -394,6 +394,42 @@ class Settings {
 				'show_in_rest'      => true,
 			),
 
+			'categories' => array(
+				'type'        => 'group',
+				'title'       => __( 'Categories', 'wpmovielibrary' ),
+				'description' => __( 'Categories settings.', 'wpmovielibrary' ),
+				'page'        => 'content',
+			),
+			'enable_categories' => array(
+				'type'              => 'boolean',
+				'title'             => __( 'Enable Categories', 'wpmovielibrary' ),
+				'label'             => __( 'Make WordPress standard categories available for movies.', 'wpmovielibrary' ),
+				'description'       => __( '.', 'wpmovielibrary' ),
+				'default'           => false,
+				'group'             => 'categories',
+				'sanitize_callback' => '\wpmoly\rest\sanitize_boolean_value',
+				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
+				'show_in_rest'      => true,
+			),
+
+			'tags' => array(
+				'type'        => 'group',
+				'title'       => __( 'Post Tags', 'wpmovielibrary' ),
+				'description' => __( 'Post Tags settings.', 'wpmovielibrary' ),
+				'page'        => 'content',
+			),
+			'enable_tags' => array(
+				'type'              => 'boolean',
+				'title'             => __( 'Enable Post Tags', 'wpmovielibrary' ),
+				'label'             => __( 'Make WordPress standard post tags available for movies.', 'wpmovielibrary' ),
+				'description'       => __( '.', 'wpmovielibrary' ),
+				'default'           => false,
+				'group'             => 'tags',
+				'sanitize_callback' => '\wpmoly\rest\sanitize_boolean_value',
+				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
+				'show_in_rest'      => true,
+			),
+
 			'images' => array(
 				'type'        => 'page',
 				'title'       => __( 'Images', 'wpmovielibrary' ),

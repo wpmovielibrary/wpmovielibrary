@@ -1640,6 +1640,33 @@
 }
 
 /*
+ * Post Categories Block.
+ */
+
+.editor-block.post-tags-editor-block .term-list .term-item,
+.editor-block.post-categories-editor-block .term-list .term-item {
+	width: auto !important;
+}
+
+.editor-block.post-tags-editor-block .term-list .term-item .svg-icon,
+.editor-block.post-categories-editor-block .term-list .term-item .svg-icon {
+	display: inline-block;
+	margin: -2px 4px 0 0;
+	opacity: .75;
+	vertical-align: middle;
+}
+
+.editor-block.post-tags-editor-block .term-list .term-item .svg-icon > *,
+.editor-block.post-categories-editor-block .term-list .term-item .svg-icon > * {
+	fill: #373e48;
+}
+
+.editor-block.post-tags-editor-block .term-list .term-item .term-name,
+.editor-block.post-categories-editor-block .term-list .term-item .term-name {
+	display: inline-block !important;
+}
+
+/*
  * Grid Parameters Block.
  */
 

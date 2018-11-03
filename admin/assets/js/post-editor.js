@@ -259,7 +259,9 @@ wpmoly.editor = wpmoly.editor || {};
 		 */
 		initialize : function( attributes, options ) {
 
-			if ( ! this.post || ! this.term || ! this.terms ) {
+			this.post = PostEditor.editor.controller.post;
+
+			if ( ! this.term || ! this.terms ) {
 				return this;
 			}
 
@@ -277,6 +279,24 @@ wpmoly.editor = wpmoly.editor || {};
 					context  : 'edit',
 				},
 			});
+
+			this.on( 'update:terms', this.assignTerms, this );
+		},
+
+		/**
+		 * Save assigned terms.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param {mixed} term_ids Term IDs.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		assignTerms : function( term_ids ) {
+
+			this.post.save( { [ this.taxonomy ] : term_ids || [] }, { patch : true, silent : true } );
+
+			return this;
 		},
 
 		/**
@@ -335,6 +355,33 @@ wpmoly.editor = wpmoly.editor || {};
 		},
 
 		/**
+		 * Handle terms list manual changes.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param {array} names List of term names.
+		 *
+		 * @return Return itself to allow chaining.
+		 */
+		updateTerms : function( names ) {
+
+			var terms = [];
+
+			_.each( names || [], function( name ) {
+				var existing = this.terms.where( { name : name } );
+				if ( existing.length ) {
+					terms = _.union( terms, existing );
+				} else {
+					terms.push( { name : name } );
+				}
+			}, this );
+
+			this.terms.set( terms );
+
+			return this;
+		},
+
+		/**
 		 * Create a new term.
 		 *
 		 * @since 3.0.0
@@ -348,6 +395,68 @@ wpmoly.editor = wpmoly.editor || {};
 			var model = new this.term( { name : term.get( 'name' ) } );
 
 			return model.save( null, { patch : true } );
+		},
+
+	});
+
+	/**
+	 * PostEditor 'Categories' Block Controller.
+	 *
+	 * @since 3.0.0
+	 */
+	PostEditor.controller.CategoriesBlock = PostEditor.controller.TaxonomyBlock.extend({
+
+		taxonomy : 'categories',
+
+		/**
+		 * Initialize the Controller.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param {object} attributes Controller attributes.
+		 * @param {object} options    Controller options.
+		 */
+		initialize : function( attributes, options ) {
+
+			this.post = PostEditor.editor.controller.post;
+
+			this.term  = wp.api.models.Category;
+			this.terms = new wp.api.collections.Categories;
+
+			PostEditor.controller.TaxonomyBlock.prototype.initialize.apply( this, arguments );
+
+			this.listenTo( this.post, 'saved', this.save );
+		},
+
+	});
+
+	/**
+	 * PostEditor 'Tags' Block Controller.
+	 *
+	 * @since 3.0.0
+	 */
+	PostEditor.controller.TagsBlock = PostEditor.controller.TaxonomyBlock.extend({
+
+		taxonomy : 'tags',
+
+		/**
+		 * Initialize the Controller.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param {object} attributes Controller attributes.
+		 * @param {object} options    Controller options.
+		 */
+		initialize : function( attributes, options ) {
+
+			this.post = PostEditor.editor.controller.post;
+
+			this.term  = wp.api.models.Tag;
+			this.terms = new wp.api.collections.Tags;
+
+			PostEditor.controller.TaxonomyBlock.prototype.initialize.apply( this, arguments );
+
+			this.listenTo( this.post, 'saved', this.save );
 		},
 
 	});
@@ -769,6 +878,72 @@ wpmoly.editor = wpmoly.editor || {};
 		},
 
 	}),
+
+	/**
+	 * PostEditor 'Categories' Block View.
+	 *
+	 * @since 3.0.0
+	 */
+	PostEditor.view.CategoriesBlock = PostEditor.view.TaxonomyBlock.extend({
+
+		events : function() {
+			return _.extend( PostEditor.view.TaxonomyBlock.prototype.events.call( this, arguments ) || {}, {
+				'change [data-field]' : 'change',
+			} );
+		},
+
+		template : wp.template( 'wpmoly-post-editor-categories' ),
+
+		/**
+		 * Update terms.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		change : function() {
+
+			var names = this.$( '[data-field]' ).val();
+
+			this.controller.updateTerms( names );
+
+			return this;
+		},
+
+	});
+
+	/**
+	 * PostEditor 'Tags' Block View.
+	 *
+	 * @since 3.0.0
+	 */
+	PostEditor.view.TagsBlock = PostEditor.view.TaxonomyBlock.extend({
+
+		events : function() {
+			return _.extend( PostEditor.view.TaxonomyBlock.prototype.events.call( this, arguments ) || {}, {
+				'change [data-field]' : 'change',
+			} );
+		},
+
+		template : wp.template( 'wpmoly-post-editor-tags' ),
+
+		/**
+		 * Update terms.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		change : function() {
+
+			var names = this.$( '[data-field]' ).val();
+
+			this.controller.updateTerms( names );
+
+			return this;
+		},
+
+	});
 
 	PostEditor.view.Headline = wp.Backbone.View.extend({
 

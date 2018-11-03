@@ -288,6 +288,8 @@ class Assets {
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-movies' ) ||
 			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-grids' ) ) {
+				$this->enqueue_template( 'post-editor-categories' );
+				$this->enqueue_template( 'post-editor-tags' );
 				$this->enqueue_template( 'post-editor-submit' );
 				$this->enqueue_template( 'post-editor-discover' );
 				$this->enqueue_template( 'post-editor-add-new' );
@@ -601,6 +603,8 @@ class Assets {
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-movies' ) ||
 			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-grids' ) ) {
+				$this->register_template( 'post-editor-categories',  'admin/assets/js/templates/editors/posts/blocks/categories.php' );
+				$this->register_template( 'post-editor-tags',        'admin/assets/js/templates/editors/posts/blocks/tags.php' );
 				$this->register_template( 'post-editor-submit',      'admin/assets/js/templates/editors/posts/blocks/submit.php' );
 				$this->register_template( 'post-editor-discover',    'admin/assets/js/templates/editors/posts/blocks/discover.php' );
 				$this->register_template( 'post-editor-add-new',     'admin/assets/js/templates/editors/posts/blocks/add-new.php' );

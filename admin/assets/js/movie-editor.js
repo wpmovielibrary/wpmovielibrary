@@ -276,24 +276,6 @@ wpmoly.editor = wpmoly.editor || {};
 
 					this.listenTo( this.post, 'saved',  this.save );
 					this.listenTo( this.meta, 'change', this.importTerms );
-
-					this.on( 'update:terms', this.assign, this );
-				},
-
-				/**
-				 * Assign terms to post.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @param {array} term_ids List of Term IDs.
-				 *
-				 * @return Return itself to allow chaining.
-				 */
-				assign : function( term_ids ) {
-
-					MovieEditor.editor.controller.assignTerms( this.taxonomy, term_ids || [] );
-
-					return this;
 				},
 
 				/**
@@ -484,24 +466,6 @@ wpmoly.editor = wpmoly.editor || {};
 
 					this.listenTo( this.post, 'saved',  this.save );
 					this.listenTo( this.meta, 'change', this.importTerms );
-
-					this.on( 'update:terms', this.assign, this );
-				},
-
-				/**
-				 * Assign terms to post.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @param {array} term_ids List of Term IDs.
-				 *
-				 * @return Return itself to allow chaining.
-				 */
-				assign : function( term_ids ) {
-
-					MovieEditor.editor.controller.assignTerms( this.taxonomy, term_ids || [] );
-
-					return this;
 				},
 
 				/**
@@ -702,24 +666,6 @@ wpmoly.editor = wpmoly.editor || {};
 
 					this.listenTo( this.post, 'saved', this.save );
 					this.listenTo( this.meta, 'change', this.importTerms );
-
-					this.on( 'update:terms', this.assign, this );
-				},
-
-				/**
-				 * Assign terms to post.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @param {array} term_ids List of Term IDs.
-				 *
-				 * @return Return itself to allow chaining.
-				 */
-				assign : function( term_ids ) {
-
-					MovieEditor.editor.controller.assignTerms( this.taxonomy, term_ids || [] );
-
-					return this;
 				},
 
 				/**
@@ -1734,23 +1680,6 @@ wpmoly.editor = wpmoly.editor || {};
 
 					this.listenTo( this.snapshot, 'change',      this.updateMeta );
 					this.listenTo( this.post,     'change:meta', this.updateMeta );
-				},
-
-				/**
-				 * Save assigned terms.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @param {object} taxonomy Taxonomy slug.
-				 * @param {mixed}  term_ids Term IDs.
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				assignTerms : function( taxonomy, term_ids ) {
-
-					this.post.save( { [ taxonomy ] : term_ids || [] }, { patch : true, silent : true } );
-
-					return this;
 				},
 
 				/**

@@ -146,4 +146,31 @@ class Post_Types {
 		}
 	}
 
+	/**
+	 * Add support for standard taxonomies to movies.
+	 *
+	 * Depending on user settings, movies can used with standard Post Tag and
+	 * Categories.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param array $args 'movie' Custom Post Type parameters.
+	 *
+	 * @return array
+	 */
+	public function movie_standard_taxonomies( $args ) {
+
+		if ( wpmoly_o( 'enable-categories' ) ) {
+			$args['taxonomies'][] = 'category';
+		}
+
+		if ( wpmoly_o( 'enable-tags' ) ) {
+			$args['taxonomies'][] = 'post_tag';
+		}
+
+		return $args;
+	}
+
 }
