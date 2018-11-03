@@ -8,8 +8,6 @@
 
 				<div class="editor-menu">
 					<button class="button" type="button keyboard" data-action="edit"><span class="wpmolicon icon-keyboard"></span></button>
-					<button class="button" type="button refresh" data-action="reload"><span class="wpmolicon icon-refresh"></span></button>
-					<button class="button" type="button help" data-action="help"><span class="wpmolicon icon-help-circled-o"></span></button>
 				</div>
 				<div class="editor-content">
 					<div class="panel panel-casting">

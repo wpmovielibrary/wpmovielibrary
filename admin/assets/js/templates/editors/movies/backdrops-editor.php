@@ -10,8 +10,6 @@
 				<div class="editor-menu">
 					<button type="button" class="button download" data-action="download"><span class="wpmolicon icon-download"></span></button>
 					<button type="button" class="button upload" data-action="upload"><span class="wpmolicon icon-upload"></span></button>
-					<!--<button class="button" type="button refresh" data-action="reload"><span class="wpmolicon icon-refresh"></span></button>-->
-					<button type="button" class="button help" data-action="help"><span class="wpmolicon icon-help-circled-o"></span></button>
 				</div>
 				<div class="editor-content editor-content-download clearfix">
 					<div class="panel left"></div>
