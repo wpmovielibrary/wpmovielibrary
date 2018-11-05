@@ -34,17 +34,17 @@ wpmoly.editor = wpmoly.editor || {};
 
 		settings.fetch();
 
-		// Set editor controllers.
-		var search = new MovieEditor.controller.Search,
-		   posters = new MovieEditor.controller.PostersEditor( [], { post : post, node : node } ),
-		 backdrops = new MovieEditor.controller.BackdropsEditor( [], { post : post, node : node } );
-
 		// Snapshot and Meta shortcut.
 		var meta = new MovieEditor.model.Meta( [], {
 			defaults : node.defaults,
 			model    : post,
 		} );
 		snapshot = node.snapshot = new MovieEditor.model.Snapshot( [], { model : post } );
+
+		// Set editor controllers.
+		var search = new MovieEditor.controller.Search,
+		   posters = new MovieEditor.controller.PostersEditor( [], { post : post, meta : meta, node : node } ),
+		 backdrops = new MovieEditor.controller.BackdropsEditor( [], { post : post, meta : meta, node : node } );
 
 		// Set editor controller.
 		var controller = new MovieEditor.controller.Editor( [], {
@@ -130,6 +130,11 @@ wpmoly.editor = wpmoly.editor || {};
 			view : view,
 
 		};
+
+		// Debug.
+		_.map( editor, function( model, name ) {
+			wpmoly.observe( model, { name : name } );
+		} );
 
 		return editor;
 	};
@@ -1151,6 +1156,8 @@ wpmoly.editor = wpmoly.editor || {};
 					this.controller = options.controller;
 
 					this.setUploaderParameters();
+
+					this.listenTo( this.controller.node, 'change:id', this.setUploaderParameters );
 				},
 
 				/**
@@ -1417,6 +1424,7 @@ wpmoly.editor = wpmoly.editor || {};
 
 					this.post = options.post;
 					this.node = options.node;
+					this.meta = options.meta;
 
 					this.attachments = new wp.api.collections.Media;
 				},
@@ -1459,13 +1467,15 @@ wpmoly.editor = wpmoly.editor || {};
 						meta : {},
 					};
 
-					attributes.meta[ this.type + '_related_tmdb_id' ] = this.node.get( 'tmdb_id' );
+					attributes.meta[ this.type + '_related_tmdb_id' ] = this.meta.get( 'tmdb_id' );
 
 					if ( _.has( this.controller, 'settings' ) ) {
-						var node = this.node,
-						replace = function( s ) {
+						var meta = this.meta,
+						 replace = function( s ) {
+							// replace year.
+							s = s.replace( '{year}', meta.has( 'release_date' ) ? ( new Date( meta.get( 'release_date' ) ).getFullYear() ) || '' : '' );
 							// Sorcery. Replace {property} with node.get( property ), if any.
-							return s.replace( /{([a-z_]+)}/gi, function( m, p, d ) { return node.has( p ) ? node.get( p ) || m : m; } );
+							return s.replace( /{([a-z_]+)}/gi, function( m, p, d ) { return meta.has( p ) ? meta.get( p ) || m : m; } );
 						};
 
 						attributes.title       = replace( this.controller.settings.get( wpmolyApiSettings.option_prefix + 'movie_' + this.type + '_title' ) || '' );
@@ -1738,7 +1748,7 @@ wpmoly.editor = wpmoly.editor || {};
 					}, this );
 
 					// Update TMDb ID.
-					if ( _.isEmpty( meta.tmdb_id ) && snapshot.has( 'id' ) ) {
+					if ( snapshot.has( 'id' ) ) {
 						meta.tmdb_id = snapshot.get( 'id' );
 					}
 
@@ -3233,7 +3243,7 @@ wpmoly.editor = wpmoly.editor || {};
 				this.uploadParameters = _.extend( params || {}, {
 					post_data : {
 						meta_input : {
-							_wpmoly_backdrop_related_tmdb_id : this.controller.node.get( 'tmdb_id' ),
+							_wpmoly_backdrop_related_tmdb_id : this.controller.meta.get( 'tmdb_id' ),
 						},
 					},
 				} );
@@ -3279,7 +3289,7 @@ wpmoly.editor = wpmoly.editor || {};
 				this.uploadParameters = _.extend( params || {}, {
 					post_data : {
 						meta_input : {
-							_wpmoly_poster_related_tmdb_id : this.controller.node.get( 'tmdb_id' ),
+							_wpmoly_poster_related_tmdb_id : this.controller.meta.get( 'tmdb_id' ),
 						},
 					},
 				} );
