@@ -1149,7 +1149,7 @@
 
 .post-editor.movie-editor .editor-section.search-section .search-loading .dust {
 	background-color: #373e48;
-	background-image: url(/wp-content/plugins/wpmovielibrary/admin/assets/img/dust.svg);
+	background-image: url(../img/dust.svg);
 	background-repeat: repeat;
 	bottom: 0;
 	filter: blur(2px);

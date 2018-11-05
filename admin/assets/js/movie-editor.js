@@ -3156,10 +3156,10 @@ wpmoly.editor = wpmoly.editor || {};
 					var options = options || {};
 
 					this.controller = options.controller;
+					this.post  = this.controller.post;
 					this.model = this.controller.snapshot;
 
-					this.listenTo( this.model, 'request',    this.loading );
-					this.listenTo( this.model, 'sync error', this.loaded );
+					this.listenTo( this.post,  'sync error', this.loaded );
 					this.listenTo( this.model, 'change',     this.render );
 				},
 
@@ -3173,6 +3173,7 @@ wpmoly.editor = wpmoly.editor || {};
 				update : function() {
 
 					this.controller.updateSnapshot();
+					this.loading();
 
 					return this;
 				},
