@@ -451,6 +451,7 @@ class Assets {
 		$this->add_admin_js( 'tmdb',      'tmdb.js',          array( 'jquery', 'underscore', 'wp-backbone' ), '1.0.0' );
 		$this->add_admin_js( 'selectize', 'selectize.min.js', array( 'jquery' ), '0.12.4' );
 		$this->add_public_js( 'underscore-string', 'underscore.string.min.js', array( 'underscore' ) );
+		$this->add_public_js( 'sprintf-js',        'sprintf-js.min.js', array( 'underscore' ) );
 
 		// Base
 		$this->add_public_js( 'utils', 'utils.js',  array( 'wpmoly-underscore-string', 'wpmoly-toasts' ) );
@@ -497,6 +498,7 @@ class Assets {
 
 		// Vendor
 		$this->add_public_js( 'underscore-string', 'underscore.string.min.js', array( 'underscore' ) );
+		$this->add_public_js( 'sprintf-js',        'sprintf-js.min.js', array( 'underscore' ) );
 
 		// Base
 		$this->add_public_js( 'utils', 'utils.js',  array( 'wpmoly-underscore-string' ) );
