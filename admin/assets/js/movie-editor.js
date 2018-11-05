@@ -832,6 +832,8 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				initialize : function( attributes, options ) {
 
+					this.result = new Backbone.Model;
+
 					this.settings = new Backbone.Model( {
 						year         : '',
 						primary_year : '',
@@ -894,7 +896,10 @@ wpmoly.editor = wpmoly.editor || {};
 				import : function( movie_id ) {
 
 					var self = this,
+					  result = this.results.get( movie_id ),
 					   movie = new TMDb.Movie( { id : movie_id } );
+
+					this.result.set( result.toJSON() );
 
 					movie.on( 'fetch:start', function( xhr, options ) {
 						self.trigger( 'import:start', xhr, options );
@@ -2838,6 +2843,46 @@ wpmoly.editor = wpmoly.editor || {};
 
 			}),
 
+			SearchLoading : wpmoly.Backbone.View.extend({
+
+				className : 'search-loading',
+
+				template : wp.template( 'wpmoly-movie-editor-search-loading' ),
+
+				/**
+				 * Initialize the View.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {object} options Options.
+				 */
+				initialize : function( options ) {
+
+					var options = options || {};
+
+					this.controller = options.controller;
+
+					this.listenTo( this.controller.result, 'change', this.render );
+				},
+
+				/**
+				 * Prepare rendering options.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return {object}
+				 */
+				prepare : function( movie_id ) {
+
+					var options = {
+						backdrop : this.controller.result.get( 'backdrop_path' ),
+					};
+
+					return options;
+				},
+
+			}),
+
 			/**
 			 * MovieEditor 'SearchForm' Block View.
 			 *
@@ -3013,6 +3058,9 @@ wpmoly.editor = wpmoly.editor || {};
 
 					this.controller = options.controller;
 
+					this.listenTo( this.controller, 'import:start', this.loading );
+					this.listenTo( this.controller, 'import:done',  this.loaded );
+
 					this.setRegions();
 				},
 
@@ -3029,6 +3077,10 @@ wpmoly.editor = wpmoly.editor || {};
 						controller : this.controller,
 					};
 
+					if ( ! this.downloading ) {
+						this.downloading = new MovieEditor.view.SearchLoading( options );
+					}
+
 					if ( ! this.form ) {
 						this.form = new MovieEditor.view.SearchForm( options );
 					}
@@ -3037,8 +3089,39 @@ wpmoly.editor = wpmoly.editor || {};
 						this.results = new MovieEditor.view.SearchResults( options );
 					}
 
+					this.views.add( this.downloading );
 					this.views.add( this.form );
 					this.views.add( this.results );
+
+					return this;
+				},
+
+				/**
+				 * Show loading animation.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				loading : function() {
+
+					this.$el.addClass( 'loading' );
+					console.log( this.$el );
+
+					return this;
+				},
+
+				/**
+				 * Hide loading animation.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				loaded : function() {
+
+					this.$el.removeClass( 'loading' );
+					console.log( this.$el );
 
 					return this;
 				},

@@ -308,8 +308,8 @@ class Assets {
 				$this->enqueue_template( 'movie-editor' );
 				$this->enqueue_template( 'movie-editor-menu' );
 				$this->enqueue_template( 'movie-editor-preview' );
+				$this->enqueue_template( 'movie-editor-search-loading' );
 				$this->enqueue_template( 'movie-editor-search-form' );
-				$this->enqueue_template( 'movie-editor-search-result' );
 				$this->enqueue_template( 'movie-editor-search-results' );
 				$this->enqueue_template( 'movie-editor-snapshot' );
 				$this->enqueue_template( 'movie-editor-actors' );
@@ -626,8 +626,8 @@ class Assets {
 				$this->register_template( 'movie-editor',                    'admin/assets/js/templates/editors/movies/editor.php' );
 				$this->register_template( 'movie-editor-menu',               'admin/assets/js/templates/editors/movies/editor-menu.php' );
 				$this->register_template( 'movie-editor-preview',            'admin/assets/js/templates/editors/movies/editor-preview.php');
+				$this->register_template( 'movie-editor-search-loading',     'admin/assets/js/templates/editors/movies/editor-search-loading.php' );
 				$this->register_template( 'movie-editor-search-form',        'admin/assets/js/templates/editors/movies/editor-search-form.php' );
-				$this->register_template( 'movie-editor-search-result',      'admin/assets/js/templates/editors/movies/editor-search-result.php' );
 				$this->register_template( 'movie-editor-search-results',     'admin/assets/js/templates/editors/movies/editor-search-results.php' );
 				$this->register_template( 'movie-editor-snapshot',           'admin/assets/js/templates/editors/movies/editor-snapshot.php' );
 				$this->register_template( 'movie-editor-actors',             'admin/assets/js/templates/editors/movies/blocks/actors.php' );

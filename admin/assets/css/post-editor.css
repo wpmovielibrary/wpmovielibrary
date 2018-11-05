@@ -1130,6 +1130,46 @@
 	display: block;
 }
 
+.post-editor.movie-editor .editor-section.search-section .search-loading {
+	background-color: #373e48;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	border-radius: 3px;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+	display: none;
+	height: 420px;
+	position: relative;
+	width: 100%;
+}
+
+.post-editor.movie-editor .editor-section.search-section .loading .search-loading {
+	display: block;
+}
+
+.post-editor.movie-editor .editor-section.search-section .search-loading .dust {
+	background-color: #373e48;
+	background-image: url(/wp-content/plugins/wpmovielibrary/admin/assets/img/dust.svg);
+	background-repeat: repeat;
+	bottom: 0;
+	filter: blur(2px);
+	left: 0;
+	mix-blend-mode: overlay;
+	opacity: .75;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.post-editor.movie-editor .editor-section.search-section .search-loading p {
+	bottom: 64px;
+	color: #fff;
+	font-size: 15px;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+}
+
 .post-editor.movie-editor .editor-section.search-section .search-form {
 	padding: 20px;
 	text-align: center;
