@@ -529,10 +529,14 @@
 }
 
 .wpmoly.movie-headbox .headbox-header .headbox-hgroup .movie-title {
+	background: #fff;
 	color: #373e48;
 	display: inline-block;
 	font-size: 32px;
 	font-weight: 600;
+	line-height: 24px;
+	margin: 0 -18px -8px;
+	padding: 12px 16px;
 	text-transform: uppercase;
 }
 

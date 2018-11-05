@@ -334,6 +334,7 @@ class Assets {
 				$this->enqueue_template( 'movie-modal' );
 				$this->enqueue_template( 'movie-modal-preview' );
 				$this->enqueue_template( 'movie-modal-editor' );
+				$this->enqueue_template( 'movie-modal-editor-images' );
 			}
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-grids' ) ) {
@@ -651,6 +652,7 @@ class Assets {
 				$this->register_template( 'movie-modal',                     'admin/assets/js/templates/editors/movies/modal.php' );
 				$this->register_template( 'movie-modal-preview',             'admin/assets/js/templates/editors/movies/modal-preview.php' );
 				$this->register_template( 'movie-modal-editor',              'admin/assets/js/templates/editors/movies/modal-editor.php' );
+				$this->register_template( 'movie-modal-editor-images',       'admin/assets/js/templates/editors/movies/modal-editor-images.php' );
 			}
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-grids' ) ) {

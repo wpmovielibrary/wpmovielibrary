@@ -336,13 +336,46 @@ wpmoly.browser = wpmoly.browser || {};
 				},
 
 				/**
-				 * Update preview mode.
+				 * Update collection index.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return {int}
+				 */
+				updateIndex : function() {
+
+					var post = this.posts.get( this.get( 'id' ) ),
+					   index = this.posts.indexOf( post );
+
+					this.set( { index : index } );
+
+					return index;
+				},
+
+				/**
+				 * Update current node.
 				 *
 				 * @since 3.0.0
 				 *
 				 * @return Returns itself to allow chaining.
 				 */
-				updatePreview : function() {
+				loadPost : function() {
+
+					var post = this.posts.get( this.get( 'id' ) );
+
+					this.post.set( post.toJSON() );
+
+					return this;
+				},
+
+				/**
+				 * Update current node.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				loadNode : function() {
 
 					var node = this.node;
 
@@ -369,10 +402,20 @@ wpmoly.browser = wpmoly.browser || {};
 						},
 					});
 
-					var post = this.posts.get( this.get( 'id' ) ),
-					   index = this.posts.indexOf( post );
+					return this;
+				},
 
-					this.set( { index : index } );
+				/**
+				 * Update preview mode.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				updatePreview : function() {
+
+					this.updateIndex();
+					this.loadNode();
 
 					return this;
 				},
@@ -386,11 +429,9 @@ wpmoly.browser = wpmoly.browser || {};
 				 */
 				updateEditor : function() {
 
-					var post = this.posts.get( this.get( 'id' ) ),
-					   index = this.posts.indexOf( post );
-
-					this.set( { index : index } );
-					this.post.set( post.toJSON() );
+					this.updateIndex();
+					this.loadPost();
+					this.loadNode();
 
 					return this;
 				},
@@ -753,15 +794,11 @@ wpmoly.browser = wpmoly.browser || {};
 		 */
 		view : _.extend( PostBrowser.view, {
 
-			ModalEditor : wpmoly.Backbone.View.extend({
+			ModalEditorImages : wpmoly.Backbone.View.extend({
 
-				className : 'movie-modal-editor',
+				className : 'movie-editor-images-inner',
 
-				template : wp.template( 'wpmoly-movie-modal-editor' ),
-
-				events : {
-					'change [data-field]' : 'change',
-				},
+				template : wp.template( 'wpmoly-movie-modal-editor-images' ),
 
 				/**
 				 * Initialize the View.
@@ -772,46 +809,19 @@ wpmoly.browser = wpmoly.browser || {};
 				 */
 				initialize : function( options ) {
 
-					_.bindAll( this, 'adjust' );
+						_.bindAll( this, 'adjust' );
 
 					var options = options || {};
 
 					this.on( 'rendered', this.adjust, this );
-					this.on( 'rendered', this.selectize, this );
 
-					this.post       = options.post;
+					this.node       = options.node;
 					this.controller = options.controller;
 
-					this.listenTo( this.controller, 'change:id',   this.render );
-					this.listenTo( this.controller, 'change:mode', this.render );
+					this.listenTo( this.node, 'change:posters',   this.render );
+					this.listenTo( this.node, 'change:backdrops', this.render );
 
 					$( window ).off( 'resize.movie-modal-editor' ).on( 'resize.movie-modal-editor', _.debounce( this.adjust, 50 ) );
-				},
-
-				/**
-				 * Update movie meta/details.
-				 *
-				 * @since 1.0.0
-				 *
-				 * @param {object} event JS 'change' event.
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				change : function( event ) {
-
-					var $target = this.$( event.currentTarget ),
-					      field = $target.attr( 'data-field' ),
-					      value = $target.val();
-
-					if ( _.isArray( value ) ) {
-						value = value.join( ',' );
-					}
-
-					( attrs = {} )[ wpmolyApiSettings.movie_prefix + field ] = value;
-
-					this.controller.save( { meta : attrs } );
-
-					return this;
 				},
 
 				/**
@@ -941,6 +951,107 @@ wpmoly.browser = wpmoly.browser || {};
 				 */
 				prepare : function() {
 
+					var node = this.node.toJSON(),
+					 options = {
+						backdrops : node.backdrops,
+						posters   : node.posters,
+					};
+
+					return options;
+				},
+
+			}),
+
+			ModalEditor : wpmoly.Backbone.View.extend({
+
+				className : 'movie-modal-editor',
+
+				template : wp.template( 'wpmoly-movie-modal-editor' ),
+
+				events : {
+					'change [data-field]' : 'change',
+				},
+
+				/**
+				 * Initialize the View.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param {object} options Options.
+				 */
+				initialize : function( options ) {
+
+					var options = options || {};
+
+					this.on( 'rendered', this.selectize, this );
+
+					this.post       = options.post;
+					this.controller = options.controller;
+
+					this.listenTo( this.controller, 'change:id',   this.render );
+					this.listenTo( this.controller, 'change:mode', this.render );
+
+					this.setRegions();
+				},
+
+				/**
+				 * Set subviews.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				setRegions : function() {
+
+					var options = {
+						node       : this.controller.node,
+						controller : this.controller,
+					};
+
+					if ( ! this.images ) {
+						this.images = new MovieBrowser.view.ModalEditorImages( options );
+					}
+
+					this.views.add( '.movie-editor-images', this.images, { silent : true } );
+
+					return this;
+				},
+
+				/**
+				 * Update movie meta/details.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param {object} event JS 'change' event.
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				change : function( event ) {
+
+					var $target = this.$( event.currentTarget ),
+					      field = $target.attr( 'data-field' ),
+					      value = $target.val();
+
+					if ( _.isArray( value ) ) {
+						value = value.join( ',' );
+					}
+
+					( attrs = {} )[ wpmolyApiSettings.movie_prefix + field ] = value;
+
+					this.controller.save( { meta : attrs } );
+
+					return this;
+				},
+
+				/**
+				 * Prepare rendering options.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @return {object}
+				 */
+				prepare : function() {
+
 					var meta = this.post.getMetas(),
 					 options = {
 						has_previous : this.controller.hasPrevious(),
@@ -991,8 +1102,8 @@ wpmoly.browser = wpmoly.browser || {};
 
 					var node = this.node.toJSON(),
 					  options = _.extend( node || {}, {
-						poster       : ! _.isUndefined( node.poster )   ? node.poster.sizes.large.url   : '',
-						backdrop     : ! _.isUndefined( node.backdrop ) ? node.backdrop.sizes.large.url : '',
+						poster       : ! _.isUndefined( node.poster )   ? node.poster.sizes.original.url   : '',
+						backdrop     : ! _.isUndefined( node.backdrop ) ? node.backdrop.sizes.original.url : '',
 						has_previous : this.controller.hasPrevious(),
 						has_next     : this.controller.hasNext(),
 					} );
