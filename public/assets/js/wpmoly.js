@@ -1,7 +1,7 @@
 /**
  * WPSeriesLibrary instance runner.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @package WPSeriesLibrary
  */
@@ -42,11 +42,11 @@
 						if ( country ) {
 							options.render = {
 								item : function( item, escape ) {
-									console.log( item );
+									wpmoly.debug( item );
 									return '<div><span class="flag flag-"></span></div>';
 								},
 								option : function( item, escape ) {
-									console.log( item );
+									wpmoly.debug( item );
 									return '<div><span class="flag flag-"></span></div>';
 								},
 							};
@@ -100,12 +100,47 @@
 
 		},
 
-		_n : function( string, number ) {
+		/**
+		 * Observe a Backbone Model to log any event for debug purpose.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param {object} model Model to observe.
+		 */
+		observe : function( model, options ) {
+
+			if ( ! _.isFunction( model.on ) ) {
+				return false;
+			}
+
+			model.on( 'all', function() {
+				var event = _.first( arguments ),
+				   params = _.rest( arguments );
+
+				if ( options.name ) {
+					event = options.name + ':' + event;
+				}
+
+				console.debug( event, params );
+			} );
+		},
+
+		/**
+		 * Translate singular or plural form based on the supplied number.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param {array} text   Array containing texts to be used if the number is singular or plural.
+		 * @param {int}   number Number to compare against to use either the singular or plural form.
+		 *
+		 * @return {string}
+		 */
+		_n : function( text, number ) {
 
 			var number = number || '',
-			    string = string || '';
+			      text = text || '';
 
-			return s.sprintf( ( 1 === number || 1 === parseInt( number ) ) ? string[0] : string[1], number );
+			return s.sprintf( ( 1 === number || 1 === parseInt( number ) ) ? text[0] : text[1], number );
 		},
 
 		/**
@@ -116,7 +151,7 @@
 		* If text is an xhr response, parse response and use data to build the
 		* notification message.
 		*
-		* @since 1.0.0
+		* @since 3.0.0
 		*
 		* @param {string} text    Notification message.
 		* @param {object} options Notification options.
@@ -157,7 +192,7 @@
 				message = text;
 			} else {
 				console.trace();
-				console.log( '[wpmovielibrary]: notification failed.', text, options );
+				console.warn( '[wpmovielibrary]: notification failed.', text, options );
 				return false;
 			}
 
@@ -168,6 +203,9 @@
 
 			if ( ! _.isUndefined( window.toasts ) ) {
 				switch ( type ) {
+					case 'debug':
+						toasts.fry( message, options );
+						break;
 					case 'success':
 						toasts.bake( message, options );
 						break;
@@ -184,6 +222,9 @@
 				}
 			} else {
 				switch ( type ) {
+					case 'debug':
+						console.debug( message, options );
+						break;
 					case 'info':
 						console.info( message, options );
 						break;
@@ -202,9 +243,26 @@
 		},
 
 		/**
+		* Debug.
+		*
+		* @since 3.0.0
+		*
+		* @param {string} message Debug message.
+		* @param {object} options Debug options.
+		*
+		* @return {mixed}
+		*/
+		debug : function( message, options ) {
+
+			var options = _.extend( options || {}, { type : 'debug' } );
+
+			return wpmoly.notify( message, options );
+		},
+
+		/**
 		* Notify success.
 		*
-		* @since 1.0.0
+		* @since 3.0.0
 		*
 		* @param {string} message Notification message.
 		* @param {object} options Notification options.
@@ -221,7 +279,7 @@
 		/**
 		* Notify info.
 		*
-		* @since 1.0.0
+		* @since 3.0.0
 		*
 		* @param {string} message Notification message.
 		* @param {object} options Notification options.
@@ -238,7 +296,7 @@
 		/**
 		* Notify warnings.
 		*
-		* @since 1.0.0
+		* @since 3.0.0
 		*
 		* @param {string} message Notification message.
 		* @param {object} options Notification options.
@@ -255,7 +313,7 @@
 		/**
 		* Notify errors.
 		*
-		* @since 1.0.0
+		* @since 3.0.0
 		*
 		* @param {string} message Notification message.
 		* @param {object} options Notification options.
@@ -273,7 +331,7 @@
 	/**
 	 * You can go our own way! You can call it another lonely day…
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @return Returns itself to allow chaining.
 	 */
