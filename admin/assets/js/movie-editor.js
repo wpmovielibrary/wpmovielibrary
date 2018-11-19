@@ -1267,7 +1267,7 @@ wpmoly.editor = wpmoly.editor || {};
 					image.onload = function( event ) {
 
 						var data = image.getAsDataURL(),
-						file = new mOxie.File( null, data );
+						    file = new mOxie.File( null, data );
 
 						file.name = s.trim( model.get( 'file_path' ), '/' );
 
@@ -1689,7 +1689,17 @@ wpmoly.editor = wpmoly.editor || {};
 					} );
 
 					this.listenTo( this.search, 'import:done', function( attributes ) {
+
 						this.snapshot.save( attributes || [] );
+
+						if ( true === this.settings.get( wpmolyApiSettings.option_prefix + 'auto_import_movie_backdrops' ) ) {
+							this.backdrops.importBackdrop();
+						}
+
+						if ( true === this.settings.get( wpmolyApiSettings.option_prefix + 'auto_import_movie_posters' ) ) {
+							this.posters.importPoster();
+						}
+
 						this.set( { mode : 'preview' } );
 					} );
 
@@ -3320,6 +3330,13 @@ wpmoly.editor = wpmoly.editor || {};
 
 			types : 'backdrops',
 
+			/**
+			 * Set default uploader parameters.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
 			setUploaderParameters : function() {
 
 				var params = MovieEditor.controller.ImagesUploader.prototype.setUploaderParameters.call( this, arguments );
@@ -3358,6 +3375,23 @@ wpmoly.editor = wpmoly.editor || {};
 				this.uploader = new MovieEditor.controller.BackdropsUploader( [], { controller : this } );
 			},
 
+			/**
+			 * Import default backdrop.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			importBackdrop : function() {
+
+				var model = new Backbone.Model({
+					file_path : this.controller.snapshot.get( 'backdrop_path' ),
+				});
+
+				this.uploader.loadFile( model );
+
+				return this;
+			},
 		}),
 
 		PostersUploader : MovieEditor.controller.ImagesUploader.extend({
@@ -3366,6 +3400,13 @@ wpmoly.editor = wpmoly.editor || {};
 
 			types : 'posters',
 
+			/**
+			 * Set default uploader parameters.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
 			setUploaderParameters : function() {
 
 				var params = MovieEditor.controller.ImagesUploader.prototype.setUploaderParameters.call( this, arguments );
@@ -3402,7 +3443,27 @@ wpmoly.editor = wpmoly.editor || {};
 				MovieEditor.controller.ImagesEditor.prototype.initialize.apply( this, arguments );
 
 				this.uploader = new MovieEditor.controller.PostersUploader( [], { controller : this } );
+
+				this.on( 'import:poster', console.log, this );
 			},
+
+			/**
+			 * Import default poster.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			 importPoster : function() {
+
+				var model = new Backbone.Model({
+ 					file_path : this.controller.snapshot.get( 'poster_path' ),
+ 				});
+
+ 				this.uploader.loadFile( model );
+
+ 				return this;
+ 			},
 
 		}),
 
