@@ -797,7 +797,39 @@ wpmoly.editor = wpmoly.editor || {};
 			 *
 			 * @since 3.0.0
 			 */
-			SubmitBlock : PostEditor.controller.SubmitBlock.extend({
+			MenuBlock : PostEditor.controller.SubmitBlock.extend({
+
+				/**
+				 * Change editor mode.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {string} mode Editor mode.
+				 *
+				 * @return xhr
+				 */
+				setMode : function( mode ) {
+
+					if ( 'editor' === mode ) {
+						window.location.href = MovieEditor.editor.controller.post.get( 'old_edit_link' );
+					} else {
+						MovieEditor.editor.controller.set( { mode : mode } );
+					}
+
+					return this;
+				},
+
+				/**
+				 * Get editor mode.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return xhr
+				 */
+				getMode : function() {
+
+					return MovieEditor.editor.controller.get( 'mode' );
+				},
 
 				/**
 				 * Update the node.
@@ -2591,18 +2623,19 @@ wpmoly.editor = wpmoly.editor || {};
 			}),
 
 			/**
-			 * MovieEditor 'Menu' Block View.
+			 * MovieEditor 'Submit' Block View.
 			 *
-			 * @since 3.0.0
+			 * @since 1.0.0
 			 */
-			Menu : wpmoly.Backbone.View.extend({
+			MenuBlock : PostEditor.view.SubmitBlock.extend({
 
-				className : 'editor-menu-inner',
+				template : wp.template( 'wpmoly-movie-editor-submit' ),
 
-				template : wp.template( 'wpmoly-movie-editor-menu' ),
-
-				events : {
-					'click [data-mode]' : 'changeMode',
+				events : function() {
+					return _.extend( PostEditor.view.SubmitBlock.prototype.events.call( this, arguments ) || {}, {
+						'click [data-mode]'          : 'changeMode',
+						'click [data-action="menu"]' : 'toggleMenu',
+					} );
 				},
 
 				/**
@@ -2614,11 +2647,9 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				initialize : function( options ) {
 
-					var options = options || {};
+					PostEditor.view.SubmitBlock.prototype.initialize.apply( this, arguments );
 
-					this.controller = options.controller;
-
-					this.listenTo( this.controller, 'change:mode', this.render );
+					this.listenTo( PostEditor.editor.controller, 'change:mode', this.render );
 				},
 
 				/**
@@ -2633,9 +2664,56 @@ wpmoly.editor = wpmoly.editor || {};
 				changeMode : function( event ) {
 
 					var $target = this.$( event.currentTarget ),
-					mode = $target.attr( 'data-mode' );
+					       mode = $target.attr( 'data-mode' );
 
-					this.controller.set( { mode : mode } );
+					this.controller.setMode( mode );
+					this.closeMenu();
+
+					return this;
+				},
+
+				/**
+				 * Toggle block menu.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				toggleMenu : function() {
+
+					if ( ! this.$( '.dropdown-menu' ).hasClass( 'active' ) ) {
+						this.openMenu();
+					} else {
+						this.closeMenu();
+					}
+
+					return this;
+				},
+
+				/**
+				 * Open block menu.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				openMenu : function() {
+
+					this.$( '.dropdown-menu' ).addClass( 'active' );
+
+					return this;
+				},
+
+				/**
+				 * Close block menu.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				closeMenu : function() {
+
+					this.$( '.dropdown-menu' ).removeClass( 'active' );
 
 					return this;
 				},
@@ -2649,17 +2727,11 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				prepare : function() {
 
-					var options = {
-						mode    : this.controller.get( 'mode' ),
-						refresh : true,
-					};
+					var options = _.pick( this.controller.post.toJSON(), [ 'old_edit_link' ] );
 
-					var snapshot = this.controller.snapshot;
-					if ( _.isEmpty( _.omit( snapshot.toJSON() || {}, 'post_id' ) ) ) {
-						options.refresh = false;
-					} else if ( ! _.isUndefined( snapshot.get( '_snapshot_date' ) ) ) {
-						options.snapshot_date = new Date( snapshot.get( '_snapshot_date' ) );
-					}
+					_.extend( options, {
+						mode : this.controller.getMode(),
+					} );
 
 					return options;
 				},
@@ -4951,10 +5023,6 @@ wpmoly.editor = wpmoly.editor || {};
 					controller : this.controller,
 				};
 
-				if ( ! this.menu ) {
-					this.menu = new MovieEditor.view.Menu( options );
-				}
-
 				if ( ! this.preview ) {
 					this.preview = new MovieEditor.view.Preview( options );
 				}
@@ -4967,7 +5035,6 @@ wpmoly.editor = wpmoly.editor || {};
 					this.snapshot = new MovieEditor.view.Snapshot( options );
 				}
 
-				this.views.set( '#wpmoly-movie-menu',     this.menu );
 				this.views.set( '#wpmoly-movie-preview',  this.preview );
 				this.views.set( '#wpmoly-movie-search',   this.search );
 				this.views.set( '#wpmoly-movie-snapshot', this.snapshot );

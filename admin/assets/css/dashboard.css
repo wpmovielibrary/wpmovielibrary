@@ -92,10 +92,10 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
 	box-shadow: 0 0 0;
 	color: #686d77;
 	font-size: 14px;
-	height: 24px;
-	line-height: 24px;
+	height: 20px;
+	line-height: 20px;
 	padding: 0;
-	width: 24px;
+	width: 20px;
 }
 
 .wpmoly-sidebar .button:hover,
@@ -107,14 +107,14 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
 	box-shadow: 0 0 0;
 }
 
-.wpmoly-sidebar .button.home {
+/*.wpmoly-sidebar .button.home {
 	left: 10px;
 	position: absolute;
-}
+}*/
 
 .wpmoly-sidebar .button.settings {
 	position: absolute;
-	right: 10px;
+	left: 15px;
 }
 
 .wpmoly-sidebar .dashboard-block,

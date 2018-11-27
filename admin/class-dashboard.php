@@ -429,7 +429,7 @@ class Dashboard {
 					'name'        => __( 'Movie Submit Block', 'wpmovielibrary' ),
 					'title'       => __( 'Submit Movie', 'wpmovielibrary' ),
 					'description' => __( 'Movie Block to save, delete or update Movie.', 'wpmovielibrary' ),
-					'controller'  => 'SubmitBlock',
+					'controller'  => 'MenuBlock',
 					'template'    => 'editors/blocks/posts/submit.php',
 				),
 			),

@@ -450,7 +450,7 @@
 	border: 0;
 	box-shadow: 0 0 0;
 	display: none;
-	margin: 24px 0 0;
+	margin: 2px 0 0;
 	padding: 0;
 }
 
@@ -1121,7 +1121,7 @@
 	border: 0;
 	box-shadow: 0 0 0;
 	display: none;
-	margin-top: 30px;
+	margin: 128px 0 0;
 	padding: 0;
 	position: relative;
 }
@@ -1406,7 +1406,7 @@
 .post-editor.movie-editor .editor-section.snapshot-section {
 	border: 1px solid #e5e5e5;
 	display: none;
-	margin: 24px 0 0;
+	margin: 0;
 	padding: 0;
 	position: relative;
 }
@@ -1600,10 +1600,10 @@
 
 .editor-block.submit-post-editor-block .button {
 	position: absolute;
-	top: 12px;
+	top: 14px;
 }
 
-.editor-block.submit-post-editor-block .button.settings {
+.editor-block.submit-post-editor-block .button.menu {
 	left: 16px;
 	right: auto;
 }
@@ -1629,20 +1629,21 @@
 
 .editor-block.submit-post-editor-block .confirm,
 .editor-block.submit-post-editor-block .spinner,
-.editor-block.submit-post-editor-block.loading .button.save .wpmolicon,
-.editor-block.submit-post-editor-block.trashing .button.trash .wpmolicon,
+.editor-block.submit-post-editor-block.loading .button.save .svg-icon,
+.editor-block.submit-post-editor-block.trashing .button.trash .svg-icon,
 .editor-block.submit-post-editor-block.confirmation-asked .content {
 	display: none;
 }
 
 .editor-block.submit-post-editor-block.loading .button.save .spinner,
 .editor-block.submit-post-editor-block.trashing .button.trash .spinner {
+	background-image: url(../img/spinner.svg);
 	display: block;
 	margin: 0;
 	opacity: 1;
 	position: absolute;
-	right: 2px;
-	top: 2px;
+	right: 0;
+	top: 0;
 	visibility: visible;
 }
 
@@ -1810,6 +1811,84 @@
 /*
  * Movie Editor Block.
  */
+
+.editor-block.submit-post-editor-block .button.menu {
+	height: 48px;
+	position: absolute;
+	top: 0;
+	transform: none;
+	width: 48px;
+}
+
+.editor-block.submit-post-editor-block .button .svg-icon path {
+	fill: #686d77;
+}
+
+.editor-block.submit-post-editor-block .button:hover .svg-icon path {
+	fill: #444;
+}
+
+.editor-block.submit-post-editor-block .dropdown-menu {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
+	display: none;
+	left: -1px;
+	padding: 10px 15px;
+	position: absolute;
+	top: 48px;
+	width: calc( 100% - 30px );
+	z-index: 1;
+}
+
+.editor-block.submit-post-editor-block .dropdown-menu.active {
+	display: block;
+}
+
+.editor-block.submit-post-editor-block .dropdown-menu::after,
+.editor-block.submit-post-editor-block .dropdown-menu::before {
+	border: 10px solid transparent;
+	content: '';
+	left: 20px;
+	position: absolute;
+}
+
+.editor-block.submit-post-editor-block .dropdown-menu::after {
+	border-bottom-color: #fff;
+	top: -18px;
+}
+
+.editor-block.submit-post-editor-block .dropdown-menu::before {
+	border-bottom-color: #eaeaea;
+	top: -20px;
+}
+
+.editor-block.submit-post-editor-block .dropdown-menu .separator {
+	background: #e5e5e5;
+	height: 1px;
+	margin: 5px -15px;
+}
+
+.editor-block.submit-post-editor-block .dropdown-menu .button {
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
+	height: 32px;
+	position: static;
+	text-align: left;
+	transform: none;
+	width: 100%;
+}
+
+.editor-block.submit-post-editor-block .dropdown-menu .button .svg-icon {
+	margin: 0 15px 0 5px;
+	vertical-align: top;
+}
+
+.editor-block.submit-post-editor-block .dropdown-menu .button:hover .svg-icon path,
+.editor-block.submit-post-editor-block .dropdown-menu .button.active .svg-icon path {
+	fill: #3190c6;
+}
 
 .editor-block.movie-editor-block .selectize-input {
 	display: block;

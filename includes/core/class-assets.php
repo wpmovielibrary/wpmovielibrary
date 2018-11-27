@@ -320,6 +320,7 @@ class Assets {
 				$this->enqueue_template( 'movie-editor-details' );
 				$this->enqueue_template( 'movie-editor-genres' );
 				$this->enqueue_template( 'movie-editor-languages' );
+				$this->enqueue_template( 'movie-editor-submit' );
 				$this->enqueue_template( 'movie-meta-editor' );
 				$this->enqueue_template( 'movie-credits-editor' );
 				$this->enqueue_template( 'movie-backdrops-editor' );
@@ -638,6 +639,7 @@ class Assets {
 				$this->register_template( 'movie-editor-details',            'admin/assets/js/templates/editors/movies/blocks/details.php' );
 				$this->register_template( 'movie-editor-genres',             'admin/assets/js/templates/editors/movies/blocks/genres.php' );
 				$this->register_template( 'movie-editor-languages',          'admin/assets/js/templates/editors/movies/blocks/languages.php' );
+				$this->register_template( 'movie-editor-submit',             'admin/assets/js/templates/editors/movies/blocks/submit.php' );
 				$this->register_template( 'movie-meta-editor',               'admin/assets/js/templates/editors/movies/meta-editor.php' );
 				$this->register_template( 'movie-credits-editor',            'admin/assets/js/templates/editors/movies/credits-editor.php' );
 				$this->register_template( 'movie-backdrops-editor',          'admin/assets/js/templates/editors/movies/backdrops-editor.php' );
@@ -699,6 +701,7 @@ class Assets {
 				$this->register_template( 'term-editor-add-new',     'admin/assets/js/templates/editors/terms/blocks/add-new.php' );
 				$this->register_template( 'term-editor-rename',      'admin/assets/js/templates/editors/terms/blocks/rename.php' );
 		 		$this->register_template( 'term-editor-submit',      'admin/assets/js/templates/editors/terms/blocks/submit.php' );
+
 				$this->register_template( 'term-browser-menu',       'admin/assets/js/templates/editors/terms/menu.php' );
 				$this->register_template( 'term-browser',            'admin/assets/js/templates/editors/terms/browser.php' );
 				$this->register_template( 'term-browser-item',       'admin/assets/js/templates/editors/terms/browser-item.php' );
