@@ -247,6 +247,11 @@ wpmoly.editor = wpmoly.editor || {};
 	 */
 	TermEditor.controller.Editor = Backbone.Model.extend({
 
+		defaults : {
+			mode      : 'preview',
+			thumbnail : 'defaults',
+		},
+
 		/**
 		 * Initialize the Controller.
 		 *
@@ -318,7 +323,6 @@ wpmoly.editor = wpmoly.editor || {};
 
 			this.node.set( key, value, options );
 
-			console.log( wpmolyApiSettings[ this.taxonomy + '_prefix' ] + key );
 			this.term.setMeta( wpmolyApiSettings[ this.taxonomy + '_prefix' ] + key, value );
 		},
 
@@ -333,6 +337,10 @@ wpmoly.editor = wpmoly.editor || {};
 
 			var atts = {},
 					term = this.term;
+
+			_.extend( atts, term.changed, {
+				description : term.get( 'description' ),
+			} );
 
 			atts.meta = term.getMetas();
 
@@ -490,18 +498,36 @@ wpmoly.editor = wpmoly.editor || {};
 	});
 
 	/**
-	 * TermEditor Editor View.
+	 * TermEditor Editor Thumbnail controller.
 	 *
 	 * @since 3.0.0
 	 */
-	TermEditor.view.Editor = wpmoly.Backbone.View.extend({
+	TermEditor.controller.ThumbnailEditor = Backbone.Model.extend({
+
+		taxonomy : 'actor',
+
+	});
+
+	/**
+	 * TermEditor Thumbnail Editor View.
+	 *
+	 * @since 3.0.0
+	 */
+	TermEditor.view.MetaEditor = wpmoly.Backbone.View.extend({
+
+		className : 'editor-section-inner',
 
 		events : function() {
 			return {
-				'click [data-action="change-thumbnail"]' : 'selectThumbnail',
-				'click [data-action="remove-thumbnail"]' : 'removeThumbnail',
+				'click [data-action="change-thumbnail"]'  : 'selectThumbnail',
+				'click [data-action="remove-thumbnail"]'  : 'removeThumbnail',
+				'click [data-action="edit-description"]'  : 'editDescription',
+				'click [data-action="close-description"]' : 'closeDescription',
+				'change [data-field="description"]'       : 'updateDescription',
 			};
 		},
+
+		template : wp.template( 'wpmoly-term-meta-editor' ),
 
 		/**
 		 * Initialize the View.
@@ -517,20 +543,6 @@ wpmoly.editor = wpmoly.editor || {};
 			this.controller = options.controller;
 
 			this.listenTo( this.controller.term, 'change',  this.render );
-		},
-
-		/**
-		 * Prepare rendering options.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @return {object}
-		 */
-		prepare : function() {
-
-			var options = this.controller.term.toJSON() || {};
-
-			return options;
 		},
 
 		/**
@@ -561,6 +573,283 @@ wpmoly.editor = wpmoly.editor || {};
 			return this;
 		},
 
+		/**
+		 * Edit term description.
+	 	 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		editDescription : function() {
+
+			this.controller.set( { mode : 'edit' } );
+
+			return this;
+		},
+
+		/**
+		 * Stop editing term description.
+	 	 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		closeDescription : function() {
+
+			this.controller.set( { mode : 'preview' } );
+
+			return this;
+		},
+
+		/**
+		 * Update term description.
+	 	 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		updateDescription : function() {
+
+			var value = this.$( '[data-field="description"]' ).val();
+
+			this.controller.term.set( { description : value } );
+
+			return this;
+		},
+
+		/**
+		 * Prepare rendering options.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return {object}
+		 */
+		prepare : function() {
+
+			var options = this.controller.term.toJSON() || {};
+
+			return options;
+		},
+
+	});
+
+	/**
+	 * TermEditor Thumbnail Editor Default Picture Picker View.
+	 *
+	 * @since 3.0.0
+	 */
+	TermEditor.view.ThumbnailPicker = wpmoly.Backbone.View.extend({
+
+		className : 'editor-content-inner',
+
+		template : wp.template( 'wpmoly-term-thumbnail-picker' ),
+
+	});
+
+	/**
+	 * TermEditor Thumbnail Editor Picture Downloader View.
+	 *
+	 * @since 3.0.0
+	 */
+	/*TermEditor.view.ThumbnailDownloader = wpmoly.Backbone.View.extend({
+
+		className : 'editor-content-inner',
+
+		template : wp.template( 'wpmoly-term-thumbnail-downloader' ),
+
+	});*/
+
+	/**
+	 * TermEditor Thumbnail Editor Picture Uploader View.
+	 *
+	 * @since 3.0.0
+	 */
+	TermEditor.view.ThumbnailUploader = wpmoly.Backbone.View.extend({
+
+		className : 'editor-content-inner',
+
+		template : wp.template( 'wpmoly-term-thumbnail-uploader' ),
+
+	});
+
+	/**
+	 * TermEditor Thumbnail Editor View.
+	 *
+	 * @since 3.0.0
+	 */
+	TermEditor.view.ThumbnailEditor = wpmoly.Backbone.View.extend({
+
+		className : 'term-pictures term-thumbnails mode-picker',
+
+		template : wp.template( 'wpmoly-term-thumbnail-editor' ),
+
+		events : {
+			'click [data-action="picker"]'  : 'switchTab',
+			'click [data-action="download"]' : 'switchTab',
+			'click [data-action="upload"]'   : 'switchTab',
+		},
+
+		/**
+		 * Initialize the View.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} options Options.
+		 */
+		initialize : function( options ) {
+
+			var options = options || {};
+
+			this.controller = options.controller;
+
+			this.listenTo( this.controller.term, 'change',  this.render );
+
+			this.setRegions();
+		},
+
+		/**
+		 * Set subviews.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		setRegions : function() {
+
+			var options = {
+				controller : this.controller,
+			};
+
+			if ( ! this.picker ) {
+				this.picker = new TermEditor.view.ThumbnailPicker( options );
+			}
+
+			if ( ! this.downloader ) {
+				this.downloader = new TermEditor.view.ThumbnailDownloader( options );
+			}
+
+			if ( ! this.uploader ) {
+				this.uploader = new TermEditor.view.ThumbnailUploader( options );
+			}
+
+			this.views.set( '.editor-content-picker',     this.picker );
+			this.views.set( '.editor-content-downloader', this.downloader );
+			this.views.set( '.editor-content-uploader',   this.uploader );
+
+			return this;
+		},
+
+		/**
+		 * Switch content tabs.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param {object} JS 'click' event.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		switchTab : function( event ) {
+
+			var $target = this.$( event.currentTarget ),
+			        tab = $target.attr( 'data-action' );
+
+			this.$el.removeClass( function ( i, c ) {
+				return ( c.match(/(^|\s)mode-\S+/g) || [] ).join( ' ' );
+			} ).addClass( 'mode-' + tab );
+
+			return this;
+		},
+
+	});
+
+	/**
+	 * TermEditor Editor View.
+	 *
+	 * @since 3.0.0
+	 */
+	TermEditor.view.Editor = wpmoly.Backbone.View.extend({
+
+		className : 'editor-section-inner',
+
+		template : wp.template( 'wpmoly-term-editor' ),
+
+		/**
+		 * Initialize the View.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} options Options.
+		 */
+		initialize : function( options ) {
+
+			var options = options || {};
+
+			this.controller = options.controller;
+
+			this.listenTo( this.controller,      'change:mode', this.setMode );
+			this.listenTo( this.controller.term, 'change',  this.render );
+
+			this.setRegions();
+		},
+
+		/**
+		 * Set subviews.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		setRegions : function() {
+
+			var options = {
+				controller : this.controller,
+			};
+
+			if ( ! this.meta ) {
+				this.meta = new TermEditor.view.MetaEditor( options );
+			}
+
+			if ( ! this.thumbnail ) {
+				this.thumbnail = new TermEditor.view.ThumbnailEditor( options );
+			}
+
+			this.views.set( '#wpmoly-term-preview',   this.meta );
+			this.views.set( '#wpmoly-term-thumbnail', this.thumbnail );
+
+			return this;
+		},
+
+		/**
+		 * Change editor mode.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		setMode : function() {
+
+			this.$el.removeClass( 'mode-' + this.controller.previous( 'mode' ) );
+			this.$el.addClass( 'mode-' + this.controller.get( 'mode' ) );
+
+			return this;
+		},
+
+		/**
+		 * Render the View.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		render : function() {
+
+			wpmoly.Backbone.View.prototype.render.apply( this, arguments );
+
+			this.setMode();
+
+			return this;
+		},
+
 	});
 
 	/**
@@ -577,11 +866,25 @@ wpmoly.editor = wpmoly.editor || {};
 		},
 
 		/**
+		 * Initialize the View.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} options Options.
+		 */
+		initialize : function( options ) {
+
+			this.controller = options.controller;
+
+			this.render();
+		},
+
+		/**
 		 * Toggle edit/preview block modes.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @return Return itself to allow chaining.
+		 * @return Returns itself to allow chaining.
 		 */
 		edit : function() {
 

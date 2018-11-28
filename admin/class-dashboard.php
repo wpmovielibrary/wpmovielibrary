@@ -693,6 +693,18 @@ class Dashboard {
 					'template'    => 'editors/blocks/terms/rename.php',
 				),
 			),
+			'actor-related-person' => array(
+				'dashboard_type' => 'editor',
+				'object_type'    => 'term',
+				'object_subtype' => 'actor',
+				'args'           => array(
+					'name'        => __( 'Actor Related Person Block', 'wpmovielibrary' ),
+					'title'       => __( 'Related Person', 'wpmovielibrary' ),
+					'description' => __( 'Actor Related Person Block.', 'wpmovielibrary' ),
+					'controller'  => 'RelatedPersonBlock',
+					'template'    => 'editors/blocks/actors/related-person.php',
+				),
+			),
 
 			// Collections Browser Blocks
 			'discover-collections' => array(

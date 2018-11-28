@@ -6,11 +6,17 @@
 .term-editor .editor-section {
 	background: #fff;
 	border: 1px solid #e5e5e5;
-	border-top: 0;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-	margin: -1px 0 0 0;
+	margin: -1px auto 0;
+	max-width: 740px;
 	min-height: 128px;
 	padding: 30px;
+}
+
+.term-editor .editor-section .section-description {
+	font-size: 13px;
+	font-style: italic;
+	margin: 0 auto 48px;
 }
 
 .term-editor .editor-section .editor-menu {
@@ -24,7 +30,6 @@
 	border: 1px solid #e5e5e5;
 	border-bottom-color: #fff;
 	border-radius: 2px 2px 0 0;
-	color: #aaa;
 	height: 24px !important;
 	line-height: 24px !important;
 	margin-bottom: -1px;
@@ -34,61 +39,137 @@
 	width: 42px;
 }
 
-/*
- * Term Editor Menu Section.
- */
+.term-editor .editor-section .editor-menu .svg-icon {
+	height: 18px;
+	margin-top: 2px;
+	width: 18px;
+}
 
-.term-editor .editor-section.editor-menu {
-	border: 1px solid #e5e5e5;
+.term-editor .editor-section .editor-menu .svg-icon path {
+	fill: #aaa;
+}
+
+.term-editor .editor-section .editor-menu button:hover .svg-icon path {
+	fill: #0073aa;
+}
+
+.term-editor .editor-section .editor-content {
 	display: none;
-	height: 48px;
-	margin: 40px auto 0;
-	min-height: auto;
-	padding: 0;
-}
-
-.term-editor .editor-section.editor-menu .button {
-	box-shadow: 0 0 0;
-	border: 0;
-	border-right: 1px solid #efefef;
-	float: left;
-	height: 48px;
-	transform: none;
-	width: 48px;
-}
-
-.term-editor .editor-section.editor-menu button[disabled="disabled"].button {
-	background: transparent !important;
-	border-color: #e5e5e5 !important;
-	color: #ddd !important;
 }
 
 /**
- * Browser Section.
+ * Preview Section.
  */
 
-.term-editor .editor-section.browser-section {
+.term-editor .editor-section.preview-section {
 	background: transparent;
 	border: 0;
 	box-shadow: 0 0 0;
-	display: none;
-	margin: 0 auto;
+	margin: 0 auto 64px;
+	max-width: 800px;
 	padding: 0;
 }
 
-.term-editor .editor-section.browser-section .grid .grid-menu.settings-menu {
-	display: none;
-}
-
 /**
- * Explorer Section.
+ * Thumbnail Section.
  */
 
-.term-editor .editor-section.explorer-section {
-	border-top: 1px solid #e5e5e5;
-	display: none;
-	margin: 40px auto 0;
+.term-editor .editor-section .term-thumbnails.mode-picker .editor-content-picker,
+.term-editor .editor-section .term-thumbnails.mode-download .editor-content-downloader,
+.term-editor .editor-section .term-thumbnails.mode-upload .editor-content-uploader {
+	display: block;
 }
+
+.term-editor .editor-section .term-thumbnails.mode-picker .editor-menu .button.picker .svg-icon path,
+.term-editor .editor-section .term-thumbnails.mode-download .editor-menu .button.download .svg-icon path,
+.term-editor .editor-section .term-thumbnails.mode-upload .editor-menu .button.upload .svg-icon path {
+	fill: #0073aa;
+}
+
+.term-editor .editor-section .term-thumbnails .editor-content p {
+	font-size: 13px;
+	font-style: italic;
+}
+
+.term-editor .editor-section .term-thumbnails .editor-content-inner {
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+}
+
+.term-editor .editor-section .term-thumbnails .image.picture {
+  flex: 0 0 20%;
+  display: flex;
+  margin: 5px;
+}
+
+.term-editor .editor-section .term-thumbnails .image.picture::before {
+  content: '';
+  display: table;
+  padding-top: 100%;
+}
+
+.term-editor .editor-section .term-thumbnails .image.picture .picture-thumbnail {
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+	border-radius: 3px;
+  flex-grow: 1;
+	overflow: hidden;
+	position: relative;
+}
+
+.term-editor .editor-section .term-thumbnails .image.picture .download-picture {
+  align-items: center;
+	background: #373e48;
+	display: none;
+	height: 100%;
+  justify-content: center;
+	opacity: 0;
+	position: absolute;
+	width: 100%;
+}
+
+.term-editor .editor-section .term-thumbnails .image.picture:hover .download-picture {
+	display: flex;
+	opacity: .85;
+}
+
+.term-editor .editor-section .term-thumbnails .image.picture .button .svg-icon path {
+	fill: #fff;
+}
+
+
+
+
+
+/*.term-editor .editor-section .term-thumbnails .editor-content-inner {
+	display: flex;
+}
+
+.term-editor .editor-section .term-thumbnails .image.picture {
+	flex: 0 0 auto;
+	margin: 0 5px;
+	position: relative;
+	width: calc( 20% - 10px );
+}
+
+.term-editor .editor-section .term-thumbnails .image.picture::after {
+	content: '';
+	padding-bottom: 100%;
+	position: absolute;
+}
+
+.term-editor .editor-section .term-thumbnails .picture-thumbnail {
+
+}
+
+.term-editor .editor-section .term-thumbnails .download-picture {
+
+}
+
+.term-editor .editor-section .term-thumbnails .button {
+
+}*/
+
 
 /*
  * Blocks.
@@ -332,4 +413,57 @@
 
 .term-editor .term-headbox .headbox-content .headbox-description {
 	margin: 15px 0;
+}
+
+.term-editor .term-headbox .headbox-content .headbox-description .field .button.edit .svg-icon {
+	height: 16px;
+	width: 16px;
+}
+
+.term-editor .term-headbox .headbox-content .headbox-description .field .button.edit .svg-icon path {
+	fill: #888;
+}
+
+.term-editor .term-headbox .headbox-content .headbox-description .field .button.edit:hover .svg-icon path {
+	fill: #3190c6;
+}
+
+.term-editor .term-headbox .headbox-content .headbox-description .field .value {
+	text-align: justify;
+}
+
+.term-editor .term-headbox .headbox-content .headbox-description .field .field-control {
+	position: relative;
+}
+
+.term-editor .term-headbox .headbox-content .headbox-description .field .field-control textarea {
+	height: 64px;
+	line-height: 24px;
+	width: 100%;
+}
+
+.term-editor .term-headbox .headbox-content .headbox-description .field .field-control .button.close {
+	opacity: .5;
+	padding: 8px;
+	position: absolute;
+	right: 4px;
+	top: 0;
+}
+
+.term-editor .term-headbox .headbox-content .headbox-description .field .field-control .button.close:hover {
+	opacity: .8;
+}
+
+.term-editor .term-headbox .headbox-content .headbox-description .field .field-control .button.close .svg-icon {
+	height: 12px;
+	width: 12px;
+}
+
+.term-editor .term-headbox .headbox-content .headbox-description .field .field-control,
+.term-editor.mode-edit .term-headbox .headbox-content .headbox-description .field .value {
+	display: none;
+}
+
+.term-editor.mode-edit .term-headbox .headbox-content .headbox-description .field .field-control {
+	display: block;
 }

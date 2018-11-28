@@ -1002,6 +1002,8 @@ class L10n {
 				__( 'You have a total of <strong>%s</strong> actors.', 'wpmovielibrary' ),
 			),
 			'add_new_term'     => esc_html__( 'Create a new actor. You can customize it later.', 'wpmovielibrary' ),
+			'about_tmdb_id'    => esc_html__( 'You can set a TMDb ID to actors to download available pictures.' ),
+			'tmdb_id'          => esc_html__( 'TMDb ID' ),
 			'name'             => esc_html__( 'Name' ),
 			'create_term'      => esc_html__( 'Create Actor', 'wpmovielibrary' ),
 			'delete_term'      => esc_html__( 'Delete actor?', 'wpmovielibrary' ),

@@ -4213,8 +4213,8 @@ wpmoly.editor = wpmoly.editor || {};
 
 			events : function() {
 				return _.extend( MovieEditor.view.EditorSection.prototype.events.call( this, arguments ) || {}, {
-					'click [data-action="download"]' : 'downloadImage',
-					'click [data-action="upload"]'   : 'uploadImage',
+					'click [data-action="download"]' : 'switchTab',
+					'click [data-action="upload"]'   : 'switchTab',
 				} );
 			},
 
@@ -4237,29 +4237,22 @@ wpmoly.editor = wpmoly.editor || {};
 			},
 
 			/**
-			 * Download image locally before uploading.
+			 * Switch content tabs.
 			 *
 			 * @since 3.0.0
 			 *
-			 * @return Returns itself to allow chaining.
-			 */
-			downloadImage : function() {
-
-				this.$el.addClass( 'mode-download' ).removeClass( 'mode-upload' );
-
-				return this;
-			},
-
-			/**
-			 * Upload image.
-			 *
-			 * @since 3.0.0
+			 * @param {object} JS 'click' event.
 			 *
 			 * @return Returns itself to allow chaining.
 			 */
-			uploadImage : function() {
+			switchTab : function( event ) {
 
-				this.$el.addClass( 'mode-upload' ).removeClass( 'mode-download' );
+				var $target = this.$( event.currentTarget ),
+				        tab = $target.attr( 'data-action' );
+
+				this.$el.removeClass( function ( i, c ) {
+					return ( c.match(/(^|\s)mode-\S+/g) || [] ).join( ' ' );
+				} ).addClass( 'mode-' + tab );
 
 				return this;
 			},

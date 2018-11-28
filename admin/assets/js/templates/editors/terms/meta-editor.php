@@ -1,6 +1,6 @@
 <?php
 /**
- * Actor Editor Main Template
+ * Term Meta Editor Main Template
  *
  * @since 3.0.0
  */

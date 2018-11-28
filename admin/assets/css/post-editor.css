@@ -836,8 +836,8 @@
 	display: none;
 }
 
-/*.post-editor.movie-editor .movie-posters.mode-download .editor-menu .button.download,
-.post-editor.movie-editor .movie-backdrops.mode-download .editor-menu .button.download,*/
+.post-editor.movie-editor .movie-posters.mode-download .editor-menu .button.download,
+.post-editor.movie-editor .movie-backdrops.mode-download .editor-menu .button.download,
 .post-editor.movie-editor .movie-posters.mode-upload .editor-menu .button.upload,
 .post-editor.movie-editor .movie-backdrops.mode-upload .editor-menu .button.upload {
 	color: #0073aa;
