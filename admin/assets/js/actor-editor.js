@@ -26,7 +26,8 @@ wpmoly.editor = wpmoly.editor || {};
 
 		// Set editor models.
 		var term = new wp.api.models.Actors( { id : term_id } ),
-		    node = new wpmoly.api.models.Actor( { id : term_id } );
+		    node = new wpmoly.api.models.Actor( { id : term_id } ),
+		snapshot = node.snapshot = new ActorEditor.model.Snapshot( [], { model : term } );
 
 		var controller = new TermEditor.controller.Editor( [], {
 			term : term,
@@ -83,7 +84,115 @@ wpmoly.editor = wpmoly.editor || {};
 
 	var ActorEditor = wpmoly.editor.actor = _.extend( TermEditor, {
 
+		model : {
+
+			Snapshot : Backbone.Model.extend({
+
+				/**
+				 * Initialize the Model.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {object} attributes Controller attributes.
+				 * @param {object} options    Controller options.
+				 */
+				initialize : function( attributes, options ) {
+
+					this.model = options.model;
+				},
+
+				/**
+				 * Save Snapshot.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Return itself to allow chaining.
+				 */
+				save : function( snapshot, options ) {
+
+					if ( _.isUndefined( snapshot ) || _.isUndefined( snapshot.id ) ) {
+						var snapshot = this.toJSON();
+					}
+
+					if ( _.isUndefined( snapshot.id ) ) {
+						return false;
+					}
+
+					snapshot._snapshot_date = ( new Date ).toISOString().substr( 0, 19 ) + '+00:00';
+
+					this.set( snapshot );
+
+					var attributes = {
+						meta : {},
+					};
+
+					attributes.meta[ wpmolyApiSettings.actor_prefix + 'snapshot' ] = JSON.stringify( snapshot );
+
+					return this.model.save( attributes, _.extend( { patch : true }, options || {} ) );
+				},
+
+			}),
+
+		},
+
 		controller : _.extend( TermEditor.controller, {
+
+			/**
+			 * ActorEditor Editor controller.
+			 *
+			 * @since 3.0.0
+			 */
+			Editor : TermEditor.controller.Editor.extend({
+
+				taxonomy : 'actor',
+
+				/**
+				 * Initialize the Controller.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {object} attributes Controller attributes.
+				 * @param {object} options    Controller options.
+				 */
+				initialize : function( attributes, options ) {
+
+					var options = options || {};
+
+					this.node = options.node;
+					this.term = options.term;
+
+					this.person = new TMDb.Person;
+
+					this.listenTo( this.term, 'error',   this.error );
+					this.listenTo( this.term, 'saved',   this.saved );
+					this.listenTo( this.term, 'trashed', this.quit );
+
+					this.listenTo( this.term, 'change:meta', this.fetchPerson );
+				},
+
+				/**
+				 * Fetch related person data.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+		 	 	 */
+				fetchPerson : function() {
+
+					var tmdb_id = this.term.getMeta( wpmolyApiSettings.actor_prefix + 'tmdb_id' );
+
+					if ( ! _.isEmpty( tmdb_id ) ) {
+						this.person.fetch({
+							data : {
+								tmdb_id : tmdb_id,
+							}
+						});
+					}
+
+					return this;
+				},
+
+			}),
 
 			/**
 			 * ActorEditor 'Submit' Block Controller.
@@ -130,7 +239,23 @@ wpmoly.editor = wpmoly.editor || {};
 
 					this.term = ActorEditor.editor.controller.term;
 
+					this.listenTo( this.term, 'change:meta', this.changeTMDbID );
+
 					this.on( 'change:tmdb_id', this.updateTMDbID, this );
+				},
+
+				/**
+				 * Set TMDb ID.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+		 	 	 */
+				changeTMDbID : function() {
+
+					this.set( { tmdb_id : this.term.getMeta( wpmolyApiSettings.actor_prefix + 'tmdb_id' ) } );
+
+					return this;
 				},
 
 				/**
@@ -178,6 +303,22 @@ wpmoly.editor = wpmoly.editor || {};
 				template : wp.template( 'wpmoly-actor-related-person' ),
 
 				/**
+				 * Initialize the View.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param {object} options Options.
+				 */
+				initialize : function( options ) {
+
+					this.controller = options.controller;
+
+					this.listenTo( this.controller, 'change:tmdb_id', this.render );
+
+					this.render();
+				},
+
+				/**
 				 * Update TMDb ID.
 				 *
 				 * @since 3.0.0
@@ -191,6 +332,20 @@ wpmoly.editor = wpmoly.editor || {};
 					this.controller.set( { tmdb_id : parseInt( tmdb_id ) || null } );
 
 					return this;
+				},
+
+				/**
+				 * Prepare rendering options.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @return {object}
+				 */
+				prepare : function() {
+
+					var options = this.controller.toJSON();
+
+					return options;
 				},
 
 			}),
@@ -243,7 +398,7 @@ wpmoly.editor = wpmoly.editor || {};
 
 					this.controller = options.controller;
 
-					this.listenTo( this.controller.term, 'change:meta', this.render );
+					//this.listenTo( this.controller.term, 'change:meta', this.render );
 				},
 
 			})
@@ -277,7 +432,6 @@ wpmoly.editor = wpmoly.editor || {};
 		}
 
 		wp.api.loadPromise.done( function() {
-			console.log( '::' );
 			ActorEditor.loadEditor();
 			TermEditor.loadSidebar();
 		} );

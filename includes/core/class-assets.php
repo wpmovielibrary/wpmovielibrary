@@ -493,7 +493,7 @@ class Assets {
 
 		// Terms editor.
 		$this->add_admin_js( 'term-editor',       'term-editor.js',       array( 'wpmoly-core', 'wpmoly-api', 'wpmoly-grids' ) );
-		$this->add_admin_js( 'actor-editor',      'actor-editor.js',      array( 'wpmoly-term-editor', 'wp-plupload', 'plupload-handlers' ) );
+		$this->add_admin_js( 'actor-editor',      'actor-editor.js',      array( 'wpmoly-term-editor', 'wpmoly-tmdb', 'wp-plupload', 'plupload-handlers' ) );
 		$this->add_admin_js( 'collection-editor', 'collection-editor.js', array( 'wpmoly-term-editor', 'wp-plupload', 'plupload-handlers' ) );
 		$this->add_admin_js( 'genre-editor',      'genre-editor.js',      array( 'wpmoly-term-editor', 'wp-plupload', 'plupload-handlers' ) );
 	}

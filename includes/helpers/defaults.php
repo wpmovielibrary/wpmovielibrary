@@ -99,7 +99,7 @@ function get_registered_term_meta( $meta_name = '' ) {
 			'show_in_rest' => true,
 		),
 		'thumbnail' => array(
-			'type'         => 'integer',
+			'type'         => 'string',
 			'taxonomy'     => array( 'actor', 'collection', 'genre' ),
 			'description'  => __( 'Term default thumbnail.', 'wpmovielibrary' ),
 			'show_in_rest' => true,

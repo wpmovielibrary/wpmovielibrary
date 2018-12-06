@@ -8,12 +8,7 @@
 
 		<div data-headbox="{{ data.id }}" data-theme="default" class="wpmoly term-headbox actor-headbox theme-default">
 			<div class="headbox-header">
-				<div class="headbox-thumbnail" style="<# if ( ! _.isEmpty( data.thumbnail ) ) { #>background-image:url({{ data.thumbnail }});<# } #>">
-					<div class="thumbnail-menu">
-						<button class="button edit" data-action="change-thumbnail">{{ 'svg:icon:edit' }}</button>
-						<button class="button remove" data-action="remove-thumbnail">{{ 'svg:icon:trash' }}</button>
-					</div>
-				</div>
+				<div class="headbox-thumbnail" style="<# if ( ! _.isEmpty( data.thumbnail ) ) { #>background-image:url({{ data.thumbnail }});<# } #>"></div>
 			</div>
 			<div class="headbox-content clearfix">
 				<div class="headbox-titles">

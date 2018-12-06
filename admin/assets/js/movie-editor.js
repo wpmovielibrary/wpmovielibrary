@@ -38,7 +38,7 @@ wpmoly.editor = wpmoly.editor || {};
 		var meta = new MovieEditor.model.Meta( [], {
 			defaults : node.defaults,
 			model    : post,
-		} );
+		} ),
 		snapshot = node.snapshot = new MovieEditor.model.Snapshot( [], { model : post } );
 
 		// Set editor controllers.

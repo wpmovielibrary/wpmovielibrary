@@ -358,7 +358,7 @@ wpmoly.editor = wpmoly.editor || {};
 				},
 			};
 
-			return term.save( atts, options );
+			return term.save( _.omit( atts, 'thumbnail' ), options );
 		},
 
 		/**
@@ -427,13 +427,13 @@ wpmoly.editor = wpmoly.editor || {};
 		},
 
 		/**
-		 * Select Collection thumbnail.
+		 * Select a media.
 		 *
 		 * @since 3.0.0
 		 *
 		 * @return Returns itself to allow chaining.
 		 */
-		selectThumbnail : function() {
+		selectMedia : function() {
 
 			if ( this.frame ) {
 				return this.frame.open();
@@ -458,23 +458,52 @@ wpmoly.editor = wpmoly.editor || {};
 		},
 
 		/**
-		 * Select Genre thumbnail.
+		 * Set selected media as thumbnail.
 		 *
 		 * @since 3.0.0
 		 *
 		 * @return Returns itself to allow chaining.
 		 */
-		setThumbnail : function() {
+		setMediaAsThumbnail : function() {
 
 			// Grab the selected attachment.
 			var attachment = this.frame.state().get( 'selection' ).first();
-
-			this.setMeta( 'custom_thumbnail', attachment.id );
 
 			this.term.set( { thumbnail : attachment.get( 'sizes' ).medium.url } );
 
 			// Close frame.
 			this.frame.close();
+
+			return this;
+		},
+
+		/**
+		 * Select Genre thumbnail.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param {mixed}  Thumbnail ID or slug.
+		 * @param {string} Thumbnail URL.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		setThumbnail : function( media, url ) {
+
+			if ( _.isNumber( media ) ) {
+				this.setMetas({
+					custom_thumbnail : media,
+					thumbnail        : 0,
+				});
+			} else if ( _.isString( media ) ) {
+				this.setMetas({
+					custom_thumbnail : 0,
+					thumbnail        : media,
+				});
+			}
+
+			if (  ! _.isEmpty( url ) ) {
+				this.term.set( { thumbnail : url } );
+			}
 
 			return this;
 		},
@@ -488,23 +517,15 @@ wpmoly.editor = wpmoly.editor || {};
 		 */
 		removeThumbnail : function() {
 
-			this.setMeta( 'custom_thumbnail', 0 );
+			this.setMeta({
+				custom_thumbnail : 0,
+				thumbnail        : null,
+			});
 
-			this.term.set( { thumbnail : null } );
+			this.term.set( { thumbnail : 0 } );
 
 			return this;
 		},
-
-	});
-
-	/**
-	 * TermEditor Editor Thumbnail controller.
-	 *
-	 * @since 3.0.0
-	 */
-	TermEditor.controller.ThumbnailEditor = Backbone.Model.extend({
-
-		taxonomy : 'actor',
 
 	});
 
@@ -643,6 +664,42 @@ wpmoly.editor = wpmoly.editor || {};
 		className : 'editor-content-inner',
 
 		template : wp.template( 'wpmoly-term-thumbnail-picker' ),
+
+		events : {
+			'click [data-action="set-as"]' : 'setThumbnail',
+		},
+
+		/**
+		 * Initialize the View.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} options Options.
+		 */
+		initialize : function( options ) {
+
+			var options = options || {};
+
+			this.controller = options.controller;
+		},
+
+		/**
+		 * Set term thumbnail.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		setThumbnail : function( event ) {
+
+			var $target = this.$( event.currentTarget ),
+			  thumbnail = $target.attr( 'data-thumbnail' ),
+				    value = $target.attr( 'data-value' );
+
+			this.controller.setThumbnail( value, thumbnail );
+
+			return this;
+		},
 
 	});
 
