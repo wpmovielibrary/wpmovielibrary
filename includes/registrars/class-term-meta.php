@@ -44,6 +44,7 @@ class Term_Meta {
 				'type'              => 'string',
 				'taxonomy'          => '',
 				'description'       => '',
+				'default'           => '',
 				'single'            => true,
 				'sanitize_callback' => null,
 				'auth_callback'     => array( $this, 'auth_callback' ),
@@ -51,9 +52,17 @@ class Term_Meta {
 
 			foreach ( (array) $args['taxonomy'] as $taxonomy ) {
 
-				// Some meta should not be visible, although they may be editable.
-				if ( ! empty( $args['protected'] ) ) {
-					$args['show_in_rest'] = false;
+				$rest_args = array(
+					'type'        => $args['type'],
+					'description' => $args['description'],
+					'default'     => $args['default'],
+					'single'      => $args['single'],
+				);
+
+				if ( isset( $args['show_in_rest'] ) && is_array( $args['show_in_rest'] ) ) {
+					$args['show_in_rest'] = wp_parse_args( $args['show_in_rest'], $rest_args );
+				} else {
+					$args['show_in_rest'] = $rest_args;
 				}
 
 				// Meta key.

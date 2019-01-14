@@ -1982,6 +1982,7 @@
 	margin: 4px 0;
 	text-align: center;
 	text-decoration: none;
+	word-break: break-all;
 }
 
 .editor-block.movie-editor-block .term-list .term-item .term-name:hover {

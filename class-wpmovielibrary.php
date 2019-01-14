@@ -348,7 +348,9 @@ final class wpMovieLibrary {
 		require_once WPMOLY_PATH . 'includes/rest-api/sanitize.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/class-api.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/fields/class-post-meta-fields.php';
+		require_once WPMOLY_PATH . 'includes/rest-api/fields/class-term-meta-fields.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-terms.php';
+		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-terms-controller.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-actors.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-collections.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-genres.php';
@@ -695,6 +697,7 @@ final class wpMovieLibrary {
 		$registrar = new registrars\Post_Meta;
 
 		add_action( 'init', array( $registrar, 'register' ) );
+		add_action( 'updated_postmeta', array( $registrar, 'update_post_thumbnail_id' ), 10, 4 );
 
 		/**
 		 * Fires after post meta are registered.

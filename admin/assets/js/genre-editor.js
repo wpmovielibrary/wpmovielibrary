@@ -71,6 +71,11 @@ wpmoly.editor = wpmoly.editor || {};
 
 		};
 
+		// Debug.
+		_.map( editor, function( model, name ) {
+			wpmoly.observe( model, { name : name } );
+		} );
+
 		return editor;
 	};
 
@@ -79,6 +84,38 @@ wpmoly.editor = wpmoly.editor || {};
 	var GenreEditor = wpmoly.editor.genre = _.extend( TermEditor, {
 
 		controller : _.extend( TermEditor.controller, {
+
+			/**
+			 * GenreEditor Editor controller.
+			 *
+			 * @since 3.0.0
+			 */
+			Editor : TermEditor.controller.Editor.extend({
+
+				taxonomy : 'genre',
+
+				/**
+				 * Initialize the Controller.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {object} attributes Controller attributes.
+				 * @param {object} options    Controller options.
+				 */
+				initialize : function( attributes, options ) {
+
+					var options = options || {};
+
+					this.node = options.node;
+					this.term = options.term;
+					this.snapshot = options.snapshot;
+
+					this.listenTo( this.term, 'error',   this.error );
+					this.listenTo( this.term, 'saved',   this.saved );
+					this.listenTo( this.term, 'trashed', this.quit );
+				},
+
+			}),
 
 			/**
 			 * GenreEditor 'Submit' Block Controller.
@@ -100,17 +137,6 @@ wpmoly.editor = wpmoly.editor || {};
 				},
 			}),
 
-			/**
-			 * GenreEditor Editor controller.
-			 *
-			 * @since 3.0.0
-			 */
-			Editor : TermEditor.controller.Editor.extend({
-
-				taxonomy : 'genre',
-
-			}),
-
 		} ),
 
 		view : _.extend( TermEditor.view, {
@@ -120,11 +146,31 @@ wpmoly.editor = wpmoly.editor || {};
 			 *
 			 * @since 3.0.0
 			 */
-			Editor : TermEditor.view.Editor.extend({
+			/*Editor : TermEditor.view.Editor.extend({
 
 				template : wp.template( 'wpmoly-genre-editor' ),
 
+			}),*/
+
+			/**
+			 * GenreEditor Thumbnail Editor Default Picture Picker View.
+			 *
+			 * @since 3.0.0
+			 */
+			ThumbnailPicker : TermEditor.view.ThumbnailPicker.extend({
+
+				className : 'editor-content-inner',
+
+				template : wp.template( 'wpmoly-genre-thumbnail-picker' ),
+
 			}),
+
+			/**
+			 * GenreEditor Thumbnail Editor Picture Downloader View.
+			 *
+			 * @since 3.0.0
+			 */
+			ThumbnailDownloader : wpmoly.Backbone.View.extend({}),
 
 		} ),
 

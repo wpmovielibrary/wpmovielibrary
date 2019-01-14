@@ -6,7 +6,7 @@
  */
 ?>
 
-		<div class="section-description">
+		<!--<div class="section-description">
 			<p><?php esc_html_e( 'Select a thumbnail from the default list. If a TMDb ID is set for this actor you can search for corresponding pictures, if any. You can also upload your own custom thumbnail.', 'wpmovielibrary' ); ?></p>
 		</div>
 
@@ -14,7 +14,7 @@
 			<button type="button" class="button picker" data-action="picker">{{ 'svg:icon:picture' }}</button>
 			<button type="button" class="button download" data-action="download">{{ 'svg:icon:download' }}</button>
 			<button type="button" class="button upload" data-action="upload">{{ 'svg:icon:upload' }}</button>
-		</div>
+		</div>-->
 
 		<div class="editor-content editor-content-picker"></div>
 

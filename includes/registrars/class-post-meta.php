@@ -76,6 +76,23 @@ class Post_Meta {
 	}
 
 	/**
+	 * Update movie thumbnail.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int    $meta_id    ID of updated metadata entry.
+	 * @param int    $object_id  Object ID.
+	 * @param string $meta_key   Meta key.
+	 * @param mixed  $meta_value Meta value.
+	 */
+	public function update_post_thumbnail_id( $meta_id, $object_id, $meta_key, $meta_value ) {
+
+		if ( $meta_key === prefix_movie_meta_key( 'poster_id' ) ) {
+			update_post_meta( $object_id, '_thumbnail_id', $meta_value );
+		}
+	}
+
+	/**
 	 * Default sanitization callback.
 	 *
 	 * @since 3.0.0

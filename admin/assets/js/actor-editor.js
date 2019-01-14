@@ -32,6 +32,7 @@ wpmoly.editor = wpmoly.editor || {};
 		var controller = new TermEditor.controller.Editor( [], {
 			term : term,
 			node : node,
+			snapshot : snapshot,
 		} );
 
 		// Set editor view.
@@ -46,6 +47,9 @@ wpmoly.editor = wpmoly.editor || {};
 		term.once( 'sync', function() {
 			// Hide loading animation.
 			$parent.removeClass( 'loading' );
+			// Set snapshot.
+			snapshot.set( term.get( 'snapshot' ) || {} );
+			// Render the editor.
 			view.render();
 		} );
 
@@ -118,6 +122,10 @@ wpmoly.editor = wpmoly.editor || {};
 						return false;
 					}
 
+					var options = _.extend( options || {}, {
+						silent : true,
+					} );
+
 					snapshot._snapshot_date = ( new Date ).toISOString().substr( 0, 19 ) + '+00:00';
 
 					this.set( snapshot );
@@ -160,36 +168,11 @@ wpmoly.editor = wpmoly.editor || {};
 
 					this.node = options.node;
 					this.term = options.term;
-
-					this.person = new TMDb.Person;
+					this.snapshot = options.snapshot;
 
 					this.listenTo( this.term, 'error',   this.error );
 					this.listenTo( this.term, 'saved',   this.saved );
 					this.listenTo( this.term, 'trashed', this.quit );
-
-					this.listenTo( this.term, 'change:meta', this.fetchPerson );
-				},
-
-				/**
-				 * Fetch related person data.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-		 	 	 */
-				fetchPerson : function() {
-
-					var tmdb_id = this.term.getMeta( wpmolyApiSettings.actor_prefix + 'tmdb_id' );
-
-					if ( ! _.isEmpty( tmdb_id ) ) {
-						this.person.fetch({
-							data : {
-								tmdb_id : tmdb_id,
-							}
-						});
-					}
-
-					return this;
 				},
 
 			}),
@@ -238,10 +221,35 @@ wpmoly.editor = wpmoly.editor || {};
 					var options = options || {};
 
 					this.term = ActorEditor.editor.controller.term;
+					this.node = ActorEditor.editor.controller.node;
+					this.snapshot = this.node.snapshot;
 
 					this.listenTo( this.term, 'change:meta', this.changeTMDbID );
 
 					this.on( 'change:tmdb_id', this.updateTMDbID, this );
+				},
+
+				fetchPerson : function() {
+
+					var tmdb_id = this.get( 'tmdb_id' );
+					if ( ! _.isNumber( tmdb_id ) ) {
+						return this;
+					}
+
+					var person = new TMDb.Person( { id : tmdb_id } ),
+					  snapshot = this.snapshot;
+
+					person.fetchAll({
+						success : function() {
+							snapshot.save( person.toJSON() );
+							wpmoly.success( wpmolyEditorL10n.snapshot_updated );
+						},
+						error : function( xhr, status, response ) {
+							wpmoly.error( xhr, { destroy : false } );
+						},
+					});
+
+					return this;
 				},
 
 				/**
@@ -272,17 +280,6 @@ wpmoly.editor = wpmoly.editor || {};
 
 			}),
 
-			/**
-			 * ActorEditor Editor controller.
-			 *
-			 * @since 3.0.0
-			 */
-			/*Editor : TermEditor.controller.Editor.extend({
-
-				taxonomy : 'actor',
-
-			}),*/
-
 		} ),
 
 		view : _.extend( TermEditor.view, {
@@ -297,6 +294,7 @@ wpmoly.editor = wpmoly.editor || {};
 				events : function() {
 					return _.extend( TermEditor.view.Block.prototype.events.call( this, arguments ) || {}, {
 						'change [data-value="new-tmdb-id"]' : 'updateTMDbID',
+						'click [data-action="fetch-person"]' : 'fetchPerson',
 					} );
 				},
 
@@ -335,6 +333,20 @@ wpmoly.editor = wpmoly.editor || {};
 				},
 
 				/**
+				 * Find Person corresponding to submitted TMDb ID.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+		 	 	 */
+				fetchPerson : function() {
+
+					this.controller.fetchPerson();
+
+					return this;
+				},
+
+				/**
 				 * Prepare rendering options.
 				 *
 				 * @since 1.0.0
@@ -343,7 +355,10 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				prepare : function() {
 
-					var options = this.controller.toJSON();
+					var options = {
+						tmdb_id  : this.controller.get( 'tmdb_id' ),
+						snapshot : this.controller.node.snapshot.toJSON(),
+					};
 
 					return options;
 				},
@@ -398,10 +413,27 @@ wpmoly.editor = wpmoly.editor || {};
 
 					this.controller = options.controller;
 
-					//this.listenTo( this.controller.term, 'change:meta', this.render );
+					this.listenTo( this.controller.term,     'change:meta', this.render );
+					this.listenTo( this.controller.snapshot, 'change:images', this.render );
 				},
 
-			})
+				/**
+				 * Prepare rendering options.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @return {object}
+				 */
+				prepare : function() {
+
+					var options = {
+						thumbnails : this.controller.snapshot.get( 'images' ) || {},
+					};
+
+					return options;
+				},
+
+			}),
 
 		} ),
 

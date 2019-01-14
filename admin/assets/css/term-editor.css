@@ -98,7 +98,7 @@
 }
 
 .term-editor .editor-section .term-thumbnails .image.picture {
-  flex: 0 0 20%;
+  flex: 0 0 calc( 20% - 10px );
   display: flex;
   margin: 5px;
 }

@@ -1357,7 +1357,7 @@ TMDb.init();
 			 options = options || {};
 
 			options.data = _.extend( options.data || {}, {
-				append_to_response : 'external_ids,combined_credits',
+				append_to_response : 'combined_credits,external_ids,images,tagged_images',
 			} );
 
 			var before = options.before,
@@ -1391,7 +1391,15 @@ TMDb.init();
 						self.unset( 'combined_credits' );
 					}
 
-					self.images.fetch().done( function( model, status, xhr ) {
+					if ( ! _.isUndefined( model.get( 'images' ) ) && _.has( model.get( 'images' ), 'profiles' ) ) {
+						self.images.add( model.get( 'images' ).profiles );
+					}
+
+					if ( ! _.isUndefined( model.get( 'tagged_images' ) ) && _.has( model.get( 'tagged_images' ), 'results' ) ) {
+						self.taggedimages.add( model.get( 'tagged_images' ).results );
+					}
+
+					/*self.images.fetch().done( function( model, status, xhr ) {
 						self.trigger( 'fetch:success', model, status, xhr );
 					} ).fail( function( xhr, status, error ) {
 						self.trigger( 'fetch:error', xhr, status, error );
@@ -1405,7 +1413,7 @@ TMDb.init();
 						self.trigger( 'fetch:error', xhr, status, error );
 					} ).always( function( model, status, xhr ) {
 						self.trigger( 'fetch:stop', model, status, xhr );
-					} );
+					} );*/
 
 					if ( success ) {
 						success.apply( this, arguments );

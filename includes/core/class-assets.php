@@ -402,12 +402,26 @@ class Assets {
 			}
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-collections' ) ) {
+				$this->enqueue_template( 'term-editor' );
+				$this->enqueue_template( 'term-meta-editor' );
+				$this->enqueue_template( 'term-thumbnail-editor' );
+				$this->enqueue_template( 'term-thumbnail-downloader' );
+				$this->enqueue_template( 'term-thumbnail-uploader' );
 				$this->enqueue_template( 'collection-editor' );
+				$this->enqueue_template( 'collection-thumbnail-picker' );
+				$this->enqueue_template( 'collection-thumbnail-downloader' );
+				$this->enqueue_template( 'collection-thumbnail-uploader' );
+				$this->enqueue_template( 'collection-related-person' );
 			}
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-genres' ) ) {
+				$this->enqueue_template( 'term-editor' );
+				$this->enqueue_template( 'term-meta-editor' );
+				$this->enqueue_template( 'term-thumbnail-editor' );
+				$this->enqueue_template( 'term-thumbnail-downloader' );
+				$this->enqueue_template( 'term-thumbnail-uploader' );
 				$this->enqueue_template( 'genre-editor' );
-				$this->enqueue_template( 'genre-editor-menu' );
+				$this->enqueue_template( 'genre-thumbnail-picker' );
 			}
 		}
 	}
@@ -728,18 +742,17 @@ class Assets {
 				$this->register_template( 'actor-thumbnail-downloader', 'admin/assets/js/templates/editors/actors/thumbnail-downloader.php' );
 				$this->register_template( 'actor-thumbnail-uploader',   'admin/assets/js/templates/editors/actors/thumbnail-uploader.php' );
 				$this->register_template( 'actor-related-person',       'admin/assets/js/templates/editors/actors/blocks/related-person.php' );
-				//$this->register_template( 'actor-editor',                    'admin/assets/js/templates/editors/actors/editor.php' );
-				//$this->register_template( 'actor-editor-menu',               'admin/assets/js/templates/editors/actors/editor-menu.php' );
 			}
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-collections' ) ) {
-				//$this->register_template( 'collection-editor',                    'admin/assets/js/templates/editors/collections/editor.php' );
-				//$this->register_template( 'collection-editor-menu',               'admin/assets/js/templates/editors/collections/editor-menu.php' );
+				$this->register_template( 'collection-thumbnail-picker',     'admin/assets/js/templates/editors/collections/thumbnail-picker.php' );
+				$this->register_template( 'collection-thumbnail-downloader', 'admin/assets/js/templates/editors/collections/thumbnail-downloader.php' );
+				$this->register_template( 'collection-thumbnail-uploader',   'admin/assets/js/templates/editors/collections/thumbnail-uploader.php' );
+				$this->register_template( 'collection-related-person',       'admin/assets/js/templates/editors/collections/blocks/related-person.php' );
 			}
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-genres' ) ) {
-				//$this->register_template( 'genre-editor',          'admin/assets/js/templates/editors/genres/editor.php' );
-				//$this->register_template( 'genre-editor-menu',     'admin/assets/js/templates/editors/genres/editor-menu.php' );
+				$this->register_template( 'genre-thumbnail-picker',     'admin/assets/js/templates/editors/genres/thumbnail-picker.php' );
 			}
 		}
 	}

@@ -389,7 +389,8 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				createTerm : function( term ) {
 
-					var model = new this.term,
+					var self = this,
+					   model = new self.term,
 					attributes = {
 						name : term.get( 'name' ),
 						meta : {},
@@ -399,17 +400,29 @@ wpmoly.editor = wpmoly.editor || {};
 					      actor = _.find( credits.cast || {}, { name : term.get( 'name' ) } );
 
 					if ( ! _.isUndefined( actor ) ) {
-						attributes.meta.tmdb_id = actor.tmdb_id;
-						attributes.meta.gender  = actor.gender;
+						var thumbnail = 'neutral';
+						if ( '1' == actor.gender ) {
+							thumbnail = 'female';
+						} else if ( '2' == actor.gender ) {
+							thumbnail = 'male';
+						}
+						attributes.meta[ wpmolyApiSettings.actor_prefix + 'thumbnail' ] = thumbnail;
+						attributes.meta[ wpmolyApiSettings.actor_prefix + 'tmdb_id' ]   = actor.tmdb_id;
+						attributes.meta[ wpmolyApiSettings.actor_prefix + 'gender' ]    = actor.gender;
 					}
 
 					var options = {
 						error : function( model, response, options ) {
-
+							// If term already exists, update metadata.
+							if ( _.has( response.responseJSON, 'code' ) && 'term_exists' === response.responseJSON.code ) {
+								var m = new self.term( { id : response.responseJSON.data.term_id } );
+								// Safety: don't overwrite name though.
+								m.save( { meta : model.getMetas() || {} } , { patch : true } );
+							}
 						},
 					};
 
-					return model.save( attributes, options );
+					return model.save( attributes, _.extend( options || {}, { patch : true } ) );
 				},
 
 			}),
@@ -556,17 +569,22 @@ wpmoly.editor = wpmoly.editor || {};
 					   director = _.find( credits.crew || {}, { job : 'Director', name : term.get( 'name' ) } );
 
 					if ( ! _.isUndefined( director ) ) {
-						attributes.meta.tmdb_id = director.tmdb_id;
-						attributes.meta.gender  = director.gender;
+						attributes.meta[ wpmolyApiSettings.genre_prefix + 'tmdb_id' ] = director.tmdb_id;
+						attributes.meta[ wpmolyApiSettings.genre_prefix + 'gender' ]  = director.gender;
 					}
 
 					var options = {
 						error : function( model, response, options ) {
-
+							// If term already exists, update metadata.
+							if ( _.has( response.responseJSON, 'code' ) && 'term_exists' === response.responseJSON.code ) {
+								var m = new self.term( { id : response.responseJSON.data.term_id } );
+								// Safety: don't overwrite name though.
+								m.save( { meta : model.getMetas() || {} } , { patch : true } );
+							}
 						},
 					};
 
-					return model.save( attributes, options );
+					return model.save( attributes, _.extend( options || {}, { patch : true } ) );
 				},
 
 			}),
@@ -755,16 +773,21 @@ wpmoly.editor = wpmoly.editor || {};
 					     genre = _.find( genres, { name : term.get( 'name' ) } );
 
 					if ( ! _.isUndefined( genre ) ) {
-						attributes.meta.tmdb_id = genre.id;
+						attributes.meta[ wpmolyApiSettings.genre_prefix + 'tmdb_id' ] = genre.id;
 					}
 
 					var options = {
 						error : function( model, response, options ) {
-
+							// If term already exists, update metadata.
+							if ( _.has( response.responseJSON, 'code' ) && 'term_exists' === response.responseJSON.code ) {
+								var m = new self.term( { id : response.responseJSON.data.term_id } );
+								// Safety: don't overwrite name though.
+								m.save( { meta : model.getMetas() || {} } , { patch : true } );
+							}
 						},
 					};
 
-					return model.save( attributes, options );
+					return model.save( attributes, _.extend( options || {}, { patch : true } ) );
 				},
 
 			}),

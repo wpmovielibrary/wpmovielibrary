@@ -38,16 +38,7 @@ function get_registered_meta( $object_type = null ) {
  */
 function get_registered_post_meta( $meta_name = '' ) {
 
-	/**
-	 * Filter default post meta.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @param array $registered_meta Registered  Meta.
-	 */
-	$post_meta = apply_filters( 'wpmoly/filter/default/post/meta', array() );
-
-	$post_meta  = (array) $post_meta;
+	$post_meta  = (array) get_default_posts_meta();
 	$grid_meta  = (array) get_registered_grid_meta();
 	$page_meta  = (array) get_registered_page_meta();
 	$movie_meta = (array) get_registered_movie_meta();
@@ -76,13 +67,13 @@ function get_registered_post_meta( $meta_name = '' ) {
 }
 
 /**
- * Define supported post meta.
+ * Define common posts meta.
  *
  * @since 3.0.0
  *
  * @return array
  */
-function get_registered_term_meta( $meta_name = '' ) {
+function get_default_posts_meta() {
 
 	/**
 	 * Filter default post meta.
@@ -91,35 +82,26 @@ function get_registered_term_meta( $meta_name = '' ) {
 	 *
 	 * @param array $registered_meta Registered  Meta.
 	 */
-	$term_meta = apply_filters( 'wpmoly/filter/default/term/meta', array(
-		'custom_thumbnail' => array(
-			'type'         => 'integer',
-			'taxonomy'     => array( 'actor', 'collection', 'genre' ),
-			'description'  => __( 'Term custom thumbnail attachment ID.', 'wpmovielibrary' ),
-			'show_in_rest' => true,
-		),
-		'thumbnail' => array(
-			'type'         => 'string',
-			'taxonomy'     => array( 'actor', 'collection', 'genre' ),
-			'description'  => __( 'Term default thumbnail.', 'wpmovielibrary' ),
-			'show_in_rest' => true,
-			'default'      => '',
-		),
+	$post_meta = apply_filters( 'wpmoly/filter/default/post/meta', array() );
 
-		'tmdb_id' => array(
-			'type'         => 'integer',
-			'taxonomy'     => array( 'actor', 'collection', 'genre' ),
-			'description'  => __( 'Term related TMDb ID.', 'wpmovielibrary' ),
-			'show_in_rest' => true,
-		),
-	) );
+	return $post_meta;
+}
 
-	$term_meta  = (array) $term_meta;
+/**
+ * Define supported post meta.
+ *
+ * @since 3.0.0
+ *
+ * @return array
+ */
+function get_registered_term_meta( $meta_name = '' ) {
+
+	$term_meta       = (array) get_default_terms_meta();
 	$actor_meta      = (array) get_registered_actor_meta();
 	$collection_meta = (array) get_registered_collection_meta();
 	$genre_meta      = (array) get_registered_genre_meta();
 
-	$registered_meta = $term_meta;// + $actor_meta + $collection_meta + $genre_meta;
+	$registered_meta = $term_meta + $actor_meta + $collection_meta + $genre_meta;
 
 	/**
 	 * Filter default meta.
@@ -142,6 +124,47 @@ function get_registered_term_meta( $meta_name = '' ) {
 }
 
 /**
+ * Define common terms meta.
+ *
+ * @since 3.0.0
+ *
+ * @return array
+ */
+function get_default_terms_meta() {
+
+	/**
+	 * Filter default post meta.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $registered_meta Registered  Meta.
+	 */
+	$term_meta = apply_filters( 'wpmoly/filter/default/term/meta', array(
+		'custom_thumbnail' => array(
+			'type'         => 'integer',
+			'taxonomy'     => array( 'actor', 'collection', 'genre' ),
+			'description'  => __( 'Term custom thumbnail attachment ID.', 'wpmovielibrary' ),
+			'show_in_rest' => true,
+		),
+		'thumbnail' => array(
+			'type'         => 'string',
+			'taxonomy'     => array( 'actor', 'collection', 'genre' ),
+			'description'  => __( 'Term default thumbnail.', 'wpmovielibrary' ),
+			'show_in_rest' => true,
+			'default'      => '',
+		),
+		'tmdb_id' => array(
+			'type'         => 'integer',
+			'taxonomy'     => array( 'actor', 'collection', 'genre' ),
+			'description'  => __( 'Term related TMDb ID.', 'wpmovielibrary' ),
+			'show_in_rest' => true,
+		),
+	) );
+
+	return $term_meta;
+}
+
+/**
  * Define supported actor term meta.
  *
  * @since 3.0.0
@@ -150,7 +173,19 @@ function get_registered_term_meta( $meta_name = '' ) {
  */
 function get_registered_actor_meta( $meta_name = '' ) {
 
-	$registered_meta = array();
+	$default_meta = get_default_terms_meta();
+
+	$registered_meta = array(
+		'snapshot' => array(
+			'type'         => 'string',
+			'taxonomy'     => array( 'actor', 'collection' ),
+			'description'  => __( 'Person Snapshot.', 'wpmovielibrary' ),
+			'protected'    => true,
+			'show_in_rest' => array(
+				'context'    => array( 'edit' ),
+			),
+		),
+	);
 
 	/**
 	 * Filter default actor meta.
@@ -159,7 +194,7 @@ function get_registered_actor_meta( $meta_name = '' ) {
 	 *
 	 * @param array $registered_meta Registered  Meta.
 	 */
-	$registered_meta = apply_filters( 'wpmoly/filter/registered/actor/meta', (array) $registered_meta );
+	$registered_meta = apply_filters( 'wpmoly/filter/registered/actor/meta', $default_meta + $registered_meta );
 
 	if ( empty( $meta_name ) ) {
 		return $registered_meta;
@@ -181,7 +216,19 @@ function get_registered_actor_meta( $meta_name = '' ) {
  */
 function get_registered_collection_meta( $meta_name = '' ) {
 
-	$registered_meta = array();
+	$default_meta = get_default_terms_meta();
+
+	$registered_meta = array(
+		'snapshot' => array(
+			'type'         => 'string',
+			'taxonomy'     => array( 'actor', 'collection' ),
+			'description'  => __( 'Person Snapshot.', 'wpmovielibrary' ),
+			'protected'    => true,
+			'show_in_rest' => array(
+				'context'    => array( 'edit' ),
+			),
+		),
+	);
 
 	/**
 	 * Filter default collection meta.
@@ -190,7 +237,7 @@ function get_registered_collection_meta( $meta_name = '' ) {
 	 *
 	 * @param array $registered_meta Registered  Meta.
 	 */
-	$registered_meta = apply_filters( 'wpmoly/filter/registered/collection/meta', (array) $registered_meta );
+	$registered_meta = apply_filters( 'wpmoly/filter/registered/collection/meta', $default_meta + $registered_meta );
 
 	if ( empty( $meta_name ) ) {
 		return $registered_meta;
@@ -212,6 +259,8 @@ function get_registered_collection_meta( $meta_name = '' ) {
  */
 function get_registered_genre_meta( $meta_name = '' ) {
 
+	$default_meta = get_default_terms_meta();
+
 	$registered_meta = array();
 
 	/**
@@ -221,7 +270,7 @@ function get_registered_genre_meta( $meta_name = '' ) {
 	 *
 	 * @param array $registered_meta Registered  Meta.
 	 */
-	$registered_meta = apply_filters( 'wpmoly/filter/registered/genre/meta', (array) $registered_meta );
+	$registered_meta = apply_filters( 'wpmoly/filter/registered/genre/meta', $default_meta + $registered_meta );
 
 	if ( empty( $meta_name ) ) {
 		return $registered_meta;
@@ -242,6 +291,8 @@ function get_registered_genre_meta( $meta_name = '' ) {
  * @return array
  */
 function get_registered_grid_meta( $meta_name = '' ) {
+
+	$default_meta = get_default_posts_meta();
 
 	$registered_meta = array(
 		'type' => array(
@@ -337,7 +388,7 @@ function get_registered_grid_meta( $meta_name = '' ) {
 	 *
 	 * @param array $registered_meta Registered  Meta.
 	 */
-	$registered_meta = apply_filters( 'wpmoly/filter/registered/grid/meta', (array) $registered_meta );
+	$registered_meta = apply_filters( 'wpmoly/filter/registered/grid/meta', $default_meta + $registered_meta );
 
 	if ( empty( $meta_name ) ) {
 		return $registered_meta;
@@ -359,6 +410,8 @@ function get_registered_grid_meta( $meta_name = '' ) {
  */
 function get_registered_page_meta( $meta_name = '' ) {
 
+	$default_meta = get_default_posts_meta();
+
 	$registered_meta = array(
 		'grid_id' => array(
 			'type'         => 'integer',
@@ -375,7 +428,7 @@ function get_registered_page_meta( $meta_name = '' ) {
 	 *
 	 * @param array $registered_meta Registered  Meta.
 	 */
-	$registered_meta = apply_filters( 'wpmoly/filter/registered/page/meta', (array) $registered_meta );
+	$registered_meta = apply_filters( 'wpmoly/filter/registered/page/meta', $default_meta + $registered_meta );
 
 	if ( empty( $meta_name ) ) {
 		return $registered_meta;
@@ -396,6 +449,8 @@ function get_registered_page_meta( $meta_name = '' ) {
  * @return array
  */
 function get_registered_movie_meta( $meta_name = '' ) {
+
+	$default_meta = get_default_posts_meta();
 
 	$registered_meta = array(
 		// Meta.
@@ -736,7 +791,7 @@ function get_registered_movie_meta( $meta_name = '' ) {
 	 *
 	 * @param array $registered_meta Registered  Meta.
 	 */
-	$registered_meta = apply_filters( 'wpmoly/filter/registered/movie/meta', (array) $registered_meta );
+	$registered_meta = apply_filters( 'wpmoly/filter/registered/movie/meta', $default_meta + $registered_meta );
 
 	if ( empty( $meta_name ) ) {
 		return $registered_meta;
@@ -757,6 +812,8 @@ function get_registered_movie_meta( $meta_name = '' ) {
  * @return array
  */
 function get_registered_attachment_meta( $meta_name = '' ) {
+
+	$default_meta = get_default_posts_meta();
 
 	$registered_meta = array(
 		'backdrop_related_tmdb_id' => array(
@@ -789,7 +846,7 @@ function get_registered_attachment_meta( $meta_name = '' ) {
 	 *
 	 * @param array $registered_meta Registered  Meta.
 	 */
-	$registered_meta = apply_filters( 'wpmoly/filter/registered/attachment/meta', (array) $registered_meta );
+	$registered_meta = apply_filters( 'wpmoly/filter/registered/attachment/meta', $default_meta + $registered_meta );
 
 	if ( empty( $meta_name ) ) {
 		return $registered_meta;

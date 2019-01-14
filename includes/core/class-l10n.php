@@ -1001,6 +1001,7 @@ class L10n {
 				__( 'You have a total of <strong>%s</strong> actor.', 'wpmovielibrary' ),
 				__( 'You have a total of <strong>%s</strong> actors.', 'wpmovielibrary' ),
 			),
+			'snapshot_updated' => esc_html__( 'Snapshot updated!', 'wpmovielibrary' ),
 			'add_new_term'     => esc_html__( 'Create a new actor. You can customize it later.', 'wpmovielibrary' ),
 			'about_tmdb_id'    => esc_html__( 'You can set a TMDb ID to actors to download available pictures.' ),
 			'tmdb_id'          => esc_html__( 'TMDb ID' ),

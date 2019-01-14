@@ -166,6 +166,56 @@ function get_actor( $actor ) {
 }
 
 /**
+ * Return an actor metadata.
+ *
+ * @since 3.0.0
+ *
+ * @param int     $actor_id Actor ID, object or array
+ * @param string  $key      Actor Meta key to return.
+ * @param boolean $single   Whether to return a single value
+ *
+ * @return Actor|boolean
+ */
+function get_actor_meta( $actor_id, $key = '', $single = true ) {
+
+	$key = (string) $key;
+	$value = '';
+
+	$term = get_term( (int) $actor_id );
+	if ( ! isset( $term->taxonomy ) || 'actor' !== $term->taxonomy ) {
+		return $value;
+	}
+
+	if ( ! empty( $key ) ) {
+
+		/**
+		 * Filter the actor meta key.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $key Meta key.
+		 */
+		$key = prefix_actor_meta_key( $key );
+		$value = get_term_meta( $actor_id, $key, $single );
+	} else {
+
+		$values = array();
+
+		$meta = get_post_meta( $actor_id );
+		foreach ( $meta as $key => $value ) {
+			if ( is_actor_meta_key( $key ) ) {
+				$values[ unprefix_actor_meta_key( $key, false ) ] = maybe_unserialize( $value[0] );
+			}
+		}
+
+		$value = $values;
+		//print_r( $value );
+	}
+
+	return $value;
+}
+
+/**
  * Return a collection object.
  *
  * @since 3.0.0

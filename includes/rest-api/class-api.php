@@ -584,7 +584,23 @@ class API {
 
 		$response = $this->prepare_term_for_response( $response, $term, $request );
 
-		if ( 'edit' !== $request['context'] ) {
+		$meta = helpers\get_registered_actor_meta();
+
+		// Some meta should not be visible, although they may be editable.
+		$protected = wp_filter_object_list( $meta, array( 'protected' => true ) );
+		foreach ( $protected as $key => $value ) {
+			$meta_key = prefix_actor_meta_key( $key );
+			if ( isset( $response->data['meta'][ $meta_key ] ) ) {
+				unset( $response->data['meta'][ $meta_key ] );
+			}
+		}
+
+		if ( 'edit' === $request['context'] ) {
+			$snapshot = get_actor_meta( $term->term_id, 'snapshot' );
+			if ( ! empty( $snapshot ) ) {
+				$response->data['snapshot'] = json_decode( $snapshot );
+			}
+		} elseif ( isset( $response->data['meta'] ) ) {
 			foreach ( $response->data['meta'] as $key => $value ) {
 				unset( $response->data['meta'][ $key ] );
 				$response->data['meta'][ unprefix_actor_meta_key( $key, false ) ] = $value;
