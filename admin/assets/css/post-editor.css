@@ -511,6 +511,24 @@
 	width: 100%;
 }
 
+.wpmoly.movie-headbox .headbox-header .headbox-backdrop.loading,
+.wpmoly.movie-headbox .headbox-header .headbox-poster.loading {
+	filter: blur(0px);
+}
+
+.wpmoly.movie-headbox .headbox-header .headbox-backdrop.loading::after,
+.wpmoly.movie-headbox .headbox-header .headbox-poster.loading::after {
+	background-color: rgba(0, 115, 170, 0.3);
+	background-image: url(../../../public/assets/img/loading-white.svg);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 42px 42px;
+	content: '';
+	height: 100%;
+	position: absolute;
+	width: 100%;
+}
+
 .wpmoly.movie-headbox .headbox-header .headbox-hbar {
 	background: #fff;
 	bottom: -100px;

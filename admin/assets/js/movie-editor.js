@@ -1490,6 +1490,24 @@ wpmoly.editor = wpmoly.editor || {};
 				},
 
 				/**
+				 * Mirror uploader events.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				mirrorEvents : function() {
+
+					if ( ! this.uploader ) {
+						return this;
+					}
+
+					this.uploader.on( 'all', function() {
+						Backbone.Model.prototype.trigger.apply( this, arguments );
+					}, this );
+				},
+
+				/**
 					* Load attachments.
 					*
 					* @since 3.0.0
@@ -1867,6 +1885,22 @@ wpmoly.editor = wpmoly.editor || {};
 					}
 
 					this.meta.set( meta );
+
+					return this;
+				},
+
+				/**
+				 * Set post featured image.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {int} id
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				setFeaturedPoster : function( id ) {
+
+					this.post.save( { featured_media : id }, { patch : true } );
 
 					return this;
 				},
@@ -3456,18 +3490,20 @@ wpmoly.editor = wpmoly.editor || {};
 			types : 'backdrops',
 
 			/**
-				* Initialize the Controller.
-				*
-				* @since 3.0.0
-				*
-				* @param {object} attributes Controller attributes.
-				* @param {object} options    Controller options.
-				*/
+			 * Initialize the Controller.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param {object} attributes Controller attributes.
+			 * @param {object} options    Controller options.
+			 */
 			initialize : function( attributes, options ) {
 
 				MovieEditor.controller.ImagesEditor.prototype.initialize.apply( this, arguments );
 
 				this.uploader = new MovieEditor.controller.BackdropsUploader( [], { controller : this } );
+
+				this.mirrorEvents();
 			},
 
 			/**
@@ -3539,7 +3575,7 @@ wpmoly.editor = wpmoly.editor || {};
 
 				this.uploader = new MovieEditor.controller.PostersUploader( [], { controller : this } );
 
-				this.on( 'import:poster', console.log, this );
+				this.mirrorEvents();
 			},
 
 			/**
@@ -3555,10 +3591,29 @@ wpmoly.editor = wpmoly.editor || {};
  					file_path : this.controller.snapshot.get( 'poster_path' ),
  				});
 
+				this.uploader.once( 'upload:stop', this.setFeaturedPoster, this );
+
  				this.uploader.loadFile( model );
 
  				return this;
  			},
+
+			/**
+			 * Set poster as featured image.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param {object} uploader
+			 * @param {object} file
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			setFeaturedPoster : function( uploader, file ) {
+
+				this.controller.setFeaturedPoster( file.attachment.get( 'id' ) );
+
+				return this;
+			},
 
 		}),
 
@@ -4622,10 +4677,72 @@ wpmoly.editor = wpmoly.editor || {};
 
 				this.controller = options.controller;
 
+				this.listenTo( this.controller.posters, 'download:start',   this.loadingPoster );
+				this.listenTo( this.controller.posters, 'upload:stop',      this.loadedPoster );
+				this.listenTo( this.controller.backdrops, 'upload:stop',    this.loadingBackdrop );
+				this.listenTo( this.controller.backdrops, 'download:start', this.loadedBackdrop );
+
 				this.listenTo( this.controller.node,     'sync',   this.render );
 				this.listenTo( this.controller.meta,     'change', this.render );
 				this.listenTo( this.controller.snapshot, 'change', this.render );
 			},
+
+			/**
+			 * Show poster loading animation.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			loadingPoster : function() {
+
+				this.$( '.headbox-poster' ).addClass( 'loading' );
+
+				return this;
+			},
+
+			/**
+			 * Hide poster loading animation.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			loadedPoster : function() {
+
+				this.$( '.headbox-poster' ).removeClass( 'loading' );
+
+				return this;
+			},
+
+			/**
+			 * Show backdrop loading animation.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			loadingBackdrop: function() {
+
+				this.$( '.headbox-backdrop' ).addClass( 'loading' );
+
+				return this;
+			},
+
+			/**
+			 * Hide backdrop loading animation.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			loadedBackdrop : function() {
+
+				this.$( '.headbox-backdrop' ).removeClass( 'loading' );
+
+				return this;
+			},
+
 
 			/**
 			 * Update node meta.
