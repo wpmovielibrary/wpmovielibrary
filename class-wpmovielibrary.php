@@ -347,11 +347,15 @@ final class wpMovieLibrary {
 		require_once WPMOLY_PATH . 'includes/rest-api/validate.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/sanitize.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/class-api.php';
+		require_once WPMOLY_PATH . 'includes/rest-api/fields/class-post-meta-fields.php';
+		require_once WPMOLY_PATH . 'includes/rest-api/fields/class-term-meta-fields.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-terms.php';
+		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-terms-controller.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-actors.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-collections.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-genres.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-posts.php';
+		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-posts-controller.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-grids.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-pages.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-movies.php';
