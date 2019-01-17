@@ -12,7 +12,7 @@
 
 namespace wpmoly\registrars;
 
-use wpmoly\helpers;
+use wpmoly\utils;
 
 /**
  * Register the plugin term meta.
@@ -33,12 +33,12 @@ class Term_Meta {
 	 */
 	public function register() {
 
-		$term_meta = helpers\get_registered_term_meta();
-		if ( empty( $term_meta ) ) {
+		$taxonomies_meta = utils\get_registered_taxonomies_meta();
+		if ( empty( $taxonomies_meta ) ) {
 			return false;
 		}
 
-		foreach ( $term_meta as $slug => $params ) {
+		foreach ( $taxonomies_meta as $slug => $params ) {
 
 			$args = wp_parse_args( $params, array(
 				'type'              => 'string',
@@ -66,7 +66,7 @@ class Term_Meta {
 				}
 
 				// Meta key.
-				$meta_key = call_user_func( "prefix_{$taxonomy}_meta_key", $slug );
+				$meta_key = call_user_func( "\wpmoly\utils\\{$taxonomy}\prefix", $slug );
 
 				register_term_meta( $taxonomy, $meta_key, $args );
 			}

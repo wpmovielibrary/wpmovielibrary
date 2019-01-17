@@ -8,7 +8,7 @@
  * @package wpMovieLibrary
  */
 
-namespace wpmoly\helpers;
+namespace wpmoly\utils;
 
 /**
  * Generate basic movie meta permalink.
@@ -27,7 +27,7 @@ function generate_movie_meta_url( $meta, $value ) {
 
 	$value = sanitize_title_with_dashes( $value );
 
-	$url = get_movie_archive_link() . $meta . '/' . $value;
+	$url = trailingslashit( movie\get_archive_link() ) . $meta . '/' . $value;
 
 	/**
 	 * Filter a movie meta URL.
@@ -426,7 +426,7 @@ function get_movie_language_url( $language, $options = array() ) {
 		'variant'  => 'spoken_languages',
 	) );
 
-	if ( ! $options['language'] instanceof \wpmoly\helpers\Language ) {
+	if ( ! $options['language'] instanceof \wpmoly\utils\Language ) {
 		return $language;
 	}
 
@@ -837,7 +837,7 @@ function get_movie_production_companies_url( $production_company, $options = arr
  */
 function get_movie_production_countries_url( $production_country, $options = array() ) {
 
-	if ( ! $production_country instanceof \wpmoly\helpers\Country ) {
+	if ( ! $production_country instanceof \wpmoly\utils\Country ) {
 		return $production_country;
 	}
 

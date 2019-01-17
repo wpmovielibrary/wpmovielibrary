@@ -10,7 +10,7 @@
 
 namespace wpmoly\rest\endpoints;
 
-use wpmoly\helpers;
+use wpmoly\utils;
 use wpmoly\rest\fields;
 use WP_Term_Query;
 use WP_REST_Server;

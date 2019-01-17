@@ -10,6 +10,8 @@
 
 namespace wpmoly\core;
 
+use wpmoly\utils;
+
 /**
  *
  *
@@ -883,7 +885,7 @@ class Settings {
 				'show_in_rest',
 			) );
 
-			register_setting( 'wpmoly', prefix_settings_option_name( $name ), $args );
+			register_setting( 'wpmoly', utils\settings\prefix( $name ), $args );
 		}
 
 		/**
@@ -906,7 +908,7 @@ class Settings {
 				'show_in_rest',
 			) );
 
-			register_setting( 'wpmoly', prefix_settings_option_name( $name ), $args );
+			register_setting( 'wpmoly', utils\settings\prefix( $name ), $args );
 		}
 	}
 
@@ -1057,7 +1059,7 @@ class Settings {
 			return $this->settings[ $key ];
 		}
 
-		$name = prefix_settings_option_name( $key );
+		$name = utils\settings\prefix( $key );
 		$value = get_option( $name, $default );
 
 		$option = $this->get_setting_field( $key );

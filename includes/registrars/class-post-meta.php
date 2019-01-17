@@ -12,7 +12,7 @@
 
 namespace wpmoly\registrars;
 
-use wpmoly\helpers;
+use wpmoly\utils;
 
 /**
  * Register the plugin post meta.
@@ -33,7 +33,7 @@ class Post_Meta {
 	 */
 	public function register() {
 
-		$post_meta = helpers\get_registered_post_meta();
+		$post_meta = utils\get_registered_post_meta();
 		if ( empty( $post_meta ) ) {
 			return false;
 		}
@@ -66,7 +66,7 @@ class Post_Meta {
 				}
 
 				// Meta key.
-				$meta_key = call_user_func( "prefix_{$post_type}_meta_key", $slug );
+				$meta_key = call_user_func( "\wpmoly\utils\\{$post_type}\prefix", $slug );
 
 				// Register meta to post types.
 				register_post_meta( $post_type, $meta_key, $args );
@@ -87,7 +87,7 @@ class Post_Meta {
 	 */
 	public function update_post_thumbnail_id( $meta_id, $object_id, $meta_key, $meta_value ) {
 
-		if ( $meta_key === prefix_movie_meta_key( 'poster_id' ) ) {
+		if ( $meta_key === utils\movie\prefix( 'poster_id' ) ) {
 			update_post_meta( $object_id, '_thumbnail_id', $meta_value );
 		}
 	}

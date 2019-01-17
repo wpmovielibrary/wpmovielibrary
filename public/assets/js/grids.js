@@ -39,7 +39,7 @@ window.wpmoly = window.wpmoly || {};
 		    query = new Grids.model.Query;
 
 		// Set grid controller.
-		var controller = controller = new Grids.controller.Grid({
+		var controller = new Grids.controller.Grid({
 			context : options.context || 'view',
 			post_id : parseInt( post_id ),
 			widget  : widget,
@@ -66,7 +66,7 @@ window.wpmoly = window.wpmoly || {};
 		model.fetch({
 			data : {
 				context : options.context || 'view',
-			}
+			},
 		});
 
 		/**

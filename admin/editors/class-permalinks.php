@@ -10,6 +10,8 @@
 
 namespace wpmoly\admin\editors;
 
+use wpmoly\utils;
+
 /**
  * Handle the plugin's URL rewriting settings.
  *
@@ -80,7 +82,7 @@ class Permalinks {
 		$rules = get_option( 'rewrite_rules' );
 		$enabled = ! empty( $rules );
 
-		$metabox = wpmoly_get_template( 'permalink-settings.php' );
+		$metabox = utils\get_template( 'permalink-settings.php' );
 		$metabox->set_data( array(
 			'settings'   => $this->settings,
 			'permalinks' => $this->permalinks,
@@ -391,22 +393,22 @@ class Permalinks {
 			),
 		);
 
-		if ( has_movie_archives_page() ) {
+		if ( utils\movie\has_archives_page() ) {
 			$settings['movie-permalinks']['fields']['movies']['disabled'] = true;
-			$settings['movie-permalinks']['fields']['movies']['description'] .= '<p><em>' . sprintf( __( 'An archive page has already been set for movies archives. This page will replace the default WordPress archive display and therefore use the page permalink. You can modify this by <a href="%s" target="_blank">editing the page</a> post name.', 'wpmovielibrary' ), esc_url( admin_url( 'post.php?post=' . get_movie_archives_page_id() . '&amp;action=edit' ) ) ) . '</em></p>';
+			$settings['movie-permalinks']['fields']['movies']['description'] .= '<p><em>' . sprintf( __( 'An archive page has already been set for movies archives. This page will replace the default WordPress archive display and therefore use the page permalink. You can modify this by <a href="%s" target="_blank">editing the page</a> post name.', 'wpmovielibrary' ), esc_url( admin_url( 'post.php?post=' . utils\movie\get_archives_page_id() . '&amp;action=edit' ) ) ) . '</em></p>';
 		}
 
-		if ( ! has_actor_archives_page() ) {
+		if ( ! utils\actor\has_archives_page() ) {
 			$settings['actor-permalinks']['fields']['actors']['disabled'] = true;
 			$settings['actor-permalinks']['fields']['actors']['description'] .= '<p><em>' . sprintf( __( 'You don’t have any archive page set for actors yet, which makes this setting meaningless. Define an archive page by <a href="%1$s">creating a standard WordPress page</a> and set it as archive in the relevant Metabox. <a href="%2$s">Learn more about archive pages</a>.', 'wpmovielibrary' ), esc_url( admin_url( 'post-new.php?post_type=page' ) ), esc_url( '#' ) ) . '</em></p>';
 		}
 
-		if ( ! has_genre_archives_page() ) {
+		if ( ! utils\genre\has_archives_page() ) {
 			$settings['genre-permalinks']['fields']['genres']['disabled'] = true;
 			$settings['genre-permalinks']['fields']['genres']['description'] .= '<p><em>' . sprintf( __( 'You don’t have any archive page set for genres yet, which makes this setting meaningless. Define an archive page by <a href="%1$s">creating a standard WordPress page</a> and set it as archive in the relevant Metabox. <a href="%2$s">Learn more about archive pages</a>.', 'wpmovielibrary' ), esc_url( admin_url( 'post-new.php?post_type=page' ) ), esc_url( '#' ) ) . '</em></p>';
 		}
 
-		if ( ! has_collection_archives_page() ) {
+		if ( ! utils\collection\has_archives_page() ) {
 			$settings['collection-permalinks']['fields']['collections']['disabled'] = true;
 			$settings['collection-permalinks']['fields']['collections']['description'] .= '<p><em>' . sprintf( __( 'You don’t have any archive page set for collections yet, which makes this setting meaningless. Define an archive page by <a href="%1$s">creating a standard WordPress page</a> and set it as archive in the relevant Metabox. <a href="%2$s">Learn more about archive pages</a>.', 'wpmovielibrary' ), esc_url( admin_url( 'post-new.php?post_type=page' ) ), esc_url( '#' ) ) . '</em></p>';
 		}
@@ -741,14 +743,14 @@ class Permalinks {
 
 		$movies = isset( $this->permalinks['movies'] ) ? $this->permalinks['movies'] : 'movies';
 
-		if ( ! has_movie_archives_page() ) {
+		if ( ! utils\movie\has_archives_page() ) {
 			// Default: no archive page set
 			$query = 'index.php?post_type=movie';
 			$rule  = trim( $movies, '/' );
 			$index = 1;
 		} else {
 			// Existing archive page
-			$archive_page = get_movie_archives_page_id();
+			$archive_page = utils\movie\get_archives_page_id();
 
 			$index = 2;
 			$query = sprintf( 'index.php?page_id=%d', $archive_page );
@@ -836,17 +838,17 @@ class Permalinks {
 				continue;
 			}
 
-			if ( ! has_archives_page( $taxonomy->name ) ) {
+			if ( ! utils\has_archives_page( $taxonomy->name ) ) {
 				continue;
 			}
 
-			$archive_page = get_archives_page_id( $taxonomy->name );
+			$archive_page = utils\get_archives_page_id( $taxonomy->name );
 
 			$index = 2;
 			$query = sprintf( 'index.php?page_id=%d', $archive_page );
 
 			$rule1 = $taxonomy->rewrite['slug'];
-			$rule2 = trim( get_taxonomy_archive_link( $taxonomy->name, 'relative' ), '/' );
+			$rule2 = trim( utils\get_taxonomy_archive_link( $taxonomy->name, 'relative' ), '/' );
 			$rule  = "($rule2|$rule1)";
 
 			foreach ( $rules as $r => $v ) {
@@ -863,6 +865,7 @@ class Permalinks {
 		}
 
 		$rules = array_merge( $new_rules, $rules );
+		//print_r( $rules ); die();
 
 		return $rules;
 	}

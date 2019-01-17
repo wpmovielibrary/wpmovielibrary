@@ -10,6 +10,8 @@
 
 namespace wpmoly\core;
 
+use wpmoly\utils;
+
 /**
  *
  *
@@ -281,14 +283,14 @@ class Query {
 		switch ( $tag ) {
 			case '%imdb_id%':
 			case '%tmdb_id%':
-				$value = get_movie_meta( $post->ID, str_replace( '%', '', $tag ), true );
+				$value = utils\movie\get_meta( $post->ID, str_replace( '%', '', $tag ), true );
 				break;
 			case '%release_year%':
-				$value = get_movie_meta( $post->ID, 'release_date', true );
+				$value = utils\movie\get_meta( $post->ID, 'release_date', true );
 				$value = date( 'Y', strtotime( $value ) );
 				break;
 			case '%release_monthnum%':
-				$value = get_movie_meta( $post->ID, 'release_date', true );
+				$value = utils\movie\get_meta( $post->ID, 'release_date', true );
 				$value = date( 'm', strtotime( $value ) );
 				break;
 			case '%year%':
@@ -346,7 +348,7 @@ class Query {
 			$args['author__in'] = array();
 
 			// Meta key.
-			$key = prefix_movie_meta_key( $key );
+			$key = utils\movie\prefix( $key );
 
 			/**
 			 * Filter meta value.
@@ -393,7 +395,7 @@ class Query {
 		}
 
 		// Meta key.
-		$key = prefix_movie_meta_key( $key );
+		$key = utils\movie\prefix( $key );
 
 		/**
 		 * Filter meta value.
@@ -469,7 +471,7 @@ class Query {
 		}
 
 		// Meta key.
-		$key = prefix_movie_meta_key( $key );
+		$key = utils\movie\prefix( $key );
 
 		/**
 		 * Filter meta value.
@@ -634,7 +636,7 @@ class Query {
 	public function filter_alphabetical_movies_preset_param( $query_vars = array() ) {
 
 		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key' => prefix_movie_meta_key( 'title' ),
+			'meta_key' => utils\movie\prefix( 'title' ),
 			'orderby'  => 'meta_value',
 			'order'    => 'asc',
 		) );
@@ -656,7 +658,7 @@ class Query {
 	public function filter_unalphabetical_movies_preset_param( $query_vars = array() ) {
 
 		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key' => prefix_movie_meta_key( 'title' ),
+			'meta_key' => utils\movie\prefix( 'title' ),
 			'orderby'  => 'meta_value',
 			'order'    => 'desc',
 		) );
@@ -678,18 +680,18 @@ class Query {
 	public function filter_current_year_movies_preset_param( $query_vars = array() ) {
 
 		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key'   => prefix_movie_meta_key( 'release_date' ),
+			'meta_key'   => utils\movie\prefix( 'release_date' ),
 			'meta_type'  => 'date',
 			'meta_query' => array(
 				'relation' => 'AND',
 				array(
-					'key'     => prefix_movie_meta_key( 'release_date' ),
+					'key'     => utils\movie\prefix( 'release_date' ),
 					'type'    => 'date',
 					'value'   => sprintf( '%d-01-01', date( 'Y' ) ),
 					'compare' => '>=',
 				),
 				array(
-					'key'     => prefix_movie_meta_key( 'release_date' ),
+					'key'     => utils\movie\prefix( 'release_date' ),
 					'type'    => 'date',
 					'value'   => sprintf( '%d-12-31', date( 'Y' ) ),
 					'compare' => '<=',
@@ -716,18 +718,18 @@ class Query {
 	public function filter_last_year_movies_preset_param( $query_vars = array() ) {
 
 		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key'   => prefix_movie_meta_key( 'release_date' ),
+			'meta_key'   => utils\movie\prefix( 'release_date' ),
 			'meta_type'  => 'date',
 			'meta_query' => array(
 				'relation' => 'AND',
 				array(
-					'key'     => prefix_movie_meta_key( 'release_date' ),
+					'key'     => utils\movie\prefix( 'release_date' ),
 					'type'    => 'date',
 					'value'   => sprintf( '%d-01-01', date( 'Y' ) - 1 ),
 					'compare' => '>=',
 				),
 				array(
-					'key'     => prefix_movie_meta_key( 'release_date' ),
+					'key'     => utils\movie\prefix( 'release_date' ),
 					'type'    => 'date',
 					'value'   => sprintf( '%d-12-31', date( 'Y' ) - 1 ),
 					'compare' => '<=',
@@ -796,7 +798,7 @@ class Query {
 	public function filter_last_released_movies_preset_param( $query_vars = array() ) {
 
 		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key'  => prefix_movie_meta_key( 'release_date' ),
+			'meta_key'  => utils\movie\prefix( 'release_date' ),
 			'meta_type' => 'date',
 			'orderby'   => 'meta_value',
 			'order'     => 'desc',
@@ -819,7 +821,7 @@ class Query {
 	public function filter_first_released_movies_preset_param( $query_vars = array() ) {
 
 		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key'  => prefix_movie_meta_key( 'release_date' ),
+			'meta_key'  => utils\movie\prefix( 'release_date' ),
 			'meta_type' => 'date',
 			'orderby'   => 'meta_value',
 			'order'     => 'asc',
@@ -842,7 +844,7 @@ class Query {
 	public function filter_incoming_movies_preset_param( $query_vars = array() ) {
 
 		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key'     => prefix_movie_meta_key( 'release_date' ),
+			'meta_key'     => utils\movie\prefix( 'release_date' ),
 			'meta_type'    => 'date',
 			'meta_value'   => sprintf( '%d-01-01', date( 'Y' ) + 1 ),
 			'meta_compare' => '>=',
@@ -867,7 +869,7 @@ class Query {
 	public function filter_most_rated_movies_preset_param( $query_vars = array() ) {
 
 		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key'     => prefix_movie_meta_key( 'rating' ),
+			'meta_key'     => utils\movie\prefix( 'rating' ),
 			//'meta_value'   => 0.0
 			//'meta_compare' => '>',
 			'orderby'      => 'meta_value_num',
@@ -891,7 +893,7 @@ class Query {
 	public function filter_least_rated_movies_preset_param( $query_vars = array() ) {
 
 		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key'     => prefix_movie_meta_key( 'rating' ),
+			'meta_key'     => utils\movie\prefix( 'rating' ),
 			//'meta_value'   => 0.0
 			//'meta_compare' => '>',
 			'orderby'      => 'meta_value_num',
@@ -961,7 +963,7 @@ class Query {
 	 */
 	public function filter_adult_query_var( $query_var ) {
 
-		$query_var = _is_bool( $query_var ) ? 'true' : 'false';
+		$query_var = utils\is_bool( $query_var ) ? 'true' : 'false';
 
 		return $query_var;
 	}
@@ -1514,7 +1516,7 @@ class Query {
 		}
 
 		// Meta key.
-		$meta_key = prefix_movie_meta_key( $supported[ $type ] );
+		$meta_key = utils\movie\prefix( $supported[ $type ] );
 
 		/**
 		 * Filter cache option name.

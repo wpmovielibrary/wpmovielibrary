@@ -11,6 +11,7 @@
 namespace wpmoly\templates;
 
 use WP_Error;
+use wpmoly\utils;
 
 /**
  * Headbox Template class.
@@ -50,7 +51,7 @@ class Headbox extends Front {
 	public function __construct( $headbox ) {
 
 		if ( is_int( $headbox ) ) {
-			$headbox = get_headbox( $headbox );
+			$headbox = utils\get_headbox( $headbox );
 			if ( empty( $headbox->post ) || empty( $headbox->term ) ) {
 				return null;
 			}

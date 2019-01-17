@@ -11,6 +11,7 @@
 namespace wpmoly\templates;
 
 use WP_Error;
+use wpmoly\utils;
 
 /**
  * General Template class.
@@ -128,7 +129,7 @@ abstract class Template {
 			return null;
 		}
 
-		$icons = get_template_default_icons();
+		$icons = utils\get_template_default_icons();
 
 		$icon = array_pop( $icon );
 		if ( empty( $icons[ $icon ] ) || empty( $icons[ $icon ]['paths'] ) ) {

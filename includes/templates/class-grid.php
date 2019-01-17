@@ -11,6 +11,7 @@
 namespace wpmoly\templates;
 
 use WP_Error;
+use wpmoly\utils;
 
 /**
  * Grid Template class.
@@ -50,7 +51,7 @@ class Grid extends Front {
 	public function __construct( $grid ) {
 
 		if ( is_int( $grid ) ) {
-			$grid = get_grid( $grid );
+			$grid = utils\grid\get( $grid );
 			if ( empty( $grid->post ) ) {
 				return null;
 			}

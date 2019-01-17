@@ -10,6 +10,8 @@
 
 namespace wpmoly\widgets;
 
+use wpmoly\utils;
+
 /**
  * Statistics Widget class.
  *
@@ -70,10 +72,10 @@ class Statistics extends Widget {
 
 		// Get archive urls
 		$urls = array(
-			'total'       => get_movie_archive_link(),
-			'collections' => get_collection_archive_link(),
-			'genres'      => get_genre_archive_link(),
-			'actors'      => get_actor_archive_link(),
+			'total'       => utils\movie\get_archive_link(),
+			'collections' => utils\collection\get_archive_link(),
+			'genres'      => utils\genre\get_archive_link(),
+			'actors'      => utils\actor\get_archive_link(),
 		);
 
 		// Prepare links

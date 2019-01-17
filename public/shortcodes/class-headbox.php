@@ -11,6 +11,7 @@
 namespace wpmoly\shortcodes;
 
 use wpmoly\templates\Front as Template;
+use wpmoly\utils;
 
 /**
  * General Shortcode class.
@@ -122,7 +123,7 @@ class Headbox extends Shortcode {
 			return false;
 		}
 
-		$this->headbox = get_headbox( $this->node );
+		$this->headbox = utils\get_headbox( $this->node );
 		if ( ! $this->headbox ) {
 			return false;
 		}
@@ -130,7 +131,7 @@ class Headbox extends Shortcode {
 		$this->headbox->set( $this->attributes );
 
 		// Set Template
-		$this->template = get_headbox_template( $this->headbox );
+		$this->template = utils\get_headbox_template( $this->headbox );
 	}
 
 	/**
@@ -147,11 +148,11 @@ class Headbox extends Shortcode {
 	public function run() {
 
 		if ( ! $this->node || is_null( $this->template ) ) {
-			$this->template = wpmoly_get_template( 'notice.php' );
+			$this->template = utils\get_template( 'notice.php' );
 			$this->template->set_data( array(
 				'type'    => 'info',
 				'icon'    => 'wpmolicon icon-info',
-				'message' => sprintf( __( 'It seems this item does not have any metadata available yet; %s?', 'wpmovielibrary' ), sprintf( '<a href="%s">%s</a>', get_edit_post_link(), __( 'care to add some', 'wpmovielibrary' ) ) ),
+				'message' => sprintf( __( 'It seems this item does not have any metadata available yet; %s?', 'wpmovielibrary' ), sprintf( '<a href="%s">%s</a>', get_edit_post_link( $this->attributes['id'] ), __( 'care to add some', 'wpmovielibrary' ) ) ),
 				'note'    => __( 'This notice is private; only you and other administrators can see it.', 'wpmovielibrary' ),
 			) );
 			return $this;
@@ -180,7 +181,7 @@ class Headbox extends Shortcode {
 	 */
 	private function get_node() {
 
-		$function = 'get_' . $this->attributes['type'];
+		$function = "\wpmoly\utils\\{$this->attributes['type']}\get";
 		if ( ! function_exists( $function ) ) {
 			return false;
 		}

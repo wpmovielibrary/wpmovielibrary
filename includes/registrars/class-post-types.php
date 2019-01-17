@@ -12,6 +12,8 @@
 
 namespace wpmoly\registrars;
 
+use wpmoly\utils;
+
 /**
  * Register the plugin custom post types and custom post statuses.
  *
@@ -32,6 +34,33 @@ class Post_Types {
 	public function __construct() {
 
 		$this->post_types = array(
+			'grid' => array(
+				'labels' => array(
+					'name'               => __( 'Grids', 'wpmovielibrary' ),
+					'singular_name'      => __( 'Grid', 'wpmovielibrary' ),
+					'add_new'            => __( 'Add New', 'wpmovielibrary' ),
+					'add_new_item'       => __( 'Add New Grid', 'wpmovielibrary' ),
+					'edit_item'          => __( 'Edit Grid', 'wpmovielibrary' ),
+					'new_item'           => __( 'New Grid', 'wpmovielibrary' ),
+					'all_items'          => __( 'All Grids', 'wpmovielibrary' ),
+					'view_item'          => __( 'View Grid', 'wpmovielibrary' ),
+					'search_items'       => __( 'Search Grids', 'wpmovielibrary' ),
+					'not_found'          => __( 'No grids found', 'wpmovielibrary' ),
+					'not_found_in_trash' => __( 'No grids found in Trash', 'wpmovielibrary' ),
+					'parent_item_colon'  => '',
+					'menu_name'          => __( 'Grids', 'wpmovielibrary' ),
+				),
+				'rewrite'            => false,
+				'public'             => true,
+				'publicly_queryable' => true,
+				'show_ui'            => true,
+				'show_in_rest'       => true,
+				'rest_base'          => 'grids',
+				'show_in_menu'       => false,
+				'has_archive'        => false,
+				'supports'           => array( 'title', 'custom-fields' ),
+				'rest_controller_class' => '\wpmoly\rest\endpoints\Posts_Controller',
+			),
 			'movie' => array(
 				'labels' => array(
 					'name'               => __( 'Movies', 'wpmovielibrary' ),
@@ -62,33 +91,6 @@ class Post_Types {
 				'rest_controller_class' => '\wpmoly\rest\endpoints\Posts_Controller',
 				'menu_position'      => 2,
 				'menu_icon'          => 'dashicons-wpmoly',
-			),
-			'grid' => array(
-				'labels' => array(
-					'name'               => __( 'Grids', 'wpmovielibrary' ),
-					'singular_name'      => __( 'Grid', 'wpmovielibrary' ),
-					'add_new'            => __( 'Add New', 'wpmovielibrary' ),
-					'add_new_item'       => __( 'Add New Grid', 'wpmovielibrary' ),
-					'edit_item'          => __( 'Edit Grid', 'wpmovielibrary' ),
-					'new_item'           => __( 'New Grid', 'wpmovielibrary' ),
-					'all_items'          => __( 'All Grids', 'wpmovielibrary' ),
-					'view_item'          => __( 'View Grid', 'wpmovielibrary' ),
-					'search_items'       => __( 'Search Grids', 'wpmovielibrary' ),
-					'not_found'          => __( 'No grids found', 'wpmovielibrary' ),
-					'not_found_in_trash' => __( 'No grids found in Trash', 'wpmovielibrary' ),
-					'parent_item_colon'  => '',
-					'menu_name'          => __( 'Grids', 'wpmovielibrary' ),
-				),
-				'rewrite'            => false,
-				'public'             => true,
-				'publicly_queryable' => true,
-				'show_ui'            => true,
-				'show_in_rest'       => true,
-				'rest_base'          => 'grids',
-				'show_in_menu'       => false,
-				'has_archive'        => false,
-				'supports'           => array( 'title', 'custom-fields' ),
-				'rest_controller_class' => '\wpmoly\rest\endpoints\Posts_Controller',
 			),
 		);
 	}
@@ -162,11 +164,11 @@ class Post_Types {
 	 */
 	public function movie_standard_taxonomies( $args ) {
 
-		if ( wpmoly_o( 'enable-categories' ) ) {
+		if ( utils\o( 'enable-categories' ) ) {
 			$args['taxonomies'][] = 'category';
 		}
 
-		if ( wpmoly_o( 'enable-tags' ) ) {
+		if ( utils\o( 'enable-tags' ) ) {
 			$args['taxonomies'][] = 'post_tag';
 		}
 

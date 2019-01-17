@@ -1,5 +1,5 @@
 /**
- * Define some helpers.
+ * Define some utility functions.
  *
  * @since 1.0.0
  *

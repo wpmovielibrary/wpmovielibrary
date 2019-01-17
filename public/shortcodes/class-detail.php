@@ -11,7 +11,7 @@
 namespace wpmoly\shortcodes;
 
 use wpmoly\templates\Front as Template;
-use wpmoly\helpers;
+use wpmoly\utils;
 
 /**
  * Detail Shortcode class.
@@ -73,12 +73,12 @@ class Detail extends Metadata {
 		'icon' => array(
 			'default' => true,
 			'values'  => null,
-			'filter'  => '_is_boolval',
+			'filter'  => '\wpmoly\utils\is_bool',
 		),
 		'text' => array(
 			'default' => true,
 			'values'  => null,
-			'filter'  => '_is_boolval',
+			'filter'  => '\wpmoly\utils\is_bool',
 		),
 	);
 
@@ -144,7 +144,7 @@ class Detail extends Metadata {
 		$post_id = $this->get_movie_id();
 
 		// Get value
-		$value = get_movie_meta( $post_id, $key, true );
+		$value = utils\movie\get_meta( $post_id, $key, true );
 		if ( empty( $value ) ) {
 			/**
 			 * Filter empty detail value.
@@ -156,7 +156,7 @@ class Detail extends Metadata {
 			 */
 			$value = apply_filters( "wpmoly/shortcode/format/{$key}/empty/value", $value, $format );
 			if ( empty( $value ) ) {
-				/** This filter is documented in includes/helpers/formatting.php **/
+				/** This filter is documented in includes/utils/formatting.php **/
 				$value = apply_filters( 'wpmoly/filter/detail/empty/value', '&mdash;' );
 			}
 
@@ -176,8 +176,8 @@ class Detail extends Metadata {
 		}
 
 		$options = array(
-			'show_icon' => _is_bool( $this->attributes['icon'] ),
-			'show_text' => _is_bool( $this->attributes['text'] ),
+			'show_icon' => utils\is_bool( $this->attributes['icon'] ),
+			'show_text' => utils\is_bool( $this->attributes['text'] ),
 		);
 
 		/**
@@ -211,7 +211,7 @@ class Detail extends Metadata {
 		$key    = $this->attributes['key'];
 
 		// Get label
-		$metadata = helpers\get_registered_movie_meta( $key );
+		$metadata = utils\get_registered_movie_meta( $key );
 		if ( ! empty( $metadata['description'] ) ) {
 			$label = $metadata['description'];
 		}

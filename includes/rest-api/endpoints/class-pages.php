@@ -10,7 +10,7 @@
 
 namespace wpmoly\rest\endpoints;
 
-use wpmoly\helpers;
+use wpmoly\utils;
 use wpmoly\rest\fields;
 use WP_REST_Server;
 use WP_REST_Posts_Controller;
@@ -108,7 +108,7 @@ class Pages extends WP_REST_Posts_Controller {
 		if ( ! empty( $schema['properties'] ) ) {
 			foreach ( $schema['properties'] as $name => $args ) {
 
-				$meta_key = prefix_page_meta_key( $name );
+				$meta_key = utils\page\prefix( $name );
 				$meta_value = get_post_meta( $post->ID, $meta_key, true );
 
 				$data[ $name ] = $this->prepare_value_for_response( $meta_value, $request, $args );
@@ -198,7 +198,7 @@ class Pages extends WP_REST_Posts_Controller {
 			),
 		);
 
-		$registered = helpers\get_registered_page_meta();
+		$registered = utils\get_registered_page_meta();
 		foreach ( $registered as $slug => $args ) {
 
 			$args['schema']['type']        = isset( $args['type'] ) ? $args['type'] : 'string';

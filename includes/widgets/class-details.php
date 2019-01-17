@@ -10,7 +10,7 @@
 
 namespace wpmoly\widgets;
 
-use wpmoly\helpers;
+use wpmoly\utils;
 
 /**
  * Details Widget class.
@@ -66,7 +66,7 @@ class Details extends Widget {
 	protected function build() {
 
 		$detail  = $this->get_attr( 'detail' );
-		$metadata = helpers\get_registered_movie_meta( $detail );
+		$metadata = utils\get_registered_movie_meta( $detail );
 		if ( ! empty( $metadata['show_in_rest']['enum'] ) ) {
 			$details = $metadata['show_in_rest']['enum'];
 			unset( $details['none'] );
@@ -114,7 +114,7 @@ class Details extends Widget {
 		$details = array();
 		$metadata = array( 'format', 'language', 'media', 'rating', 'status', 'subtitles' );
 		foreach ( $metadata as $detail ) {
-			$meta = helpers\get_registered_movie_meta( $detail );
+			$meta = utils\get_registered_movie_meta( $detail );
 			if ( ! empty( $meta['show_in_rest']['label'] ) ) {
 				$details[ $detail ] = $meta['show_in_rest']['label'];
 			}

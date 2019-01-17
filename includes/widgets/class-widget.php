@@ -11,6 +11,7 @@
 namespace wpmoly\widgets;
 
 use WP_Widget;
+use wpmoly\utils;
 
 /**
  * Abstract Widget class.
@@ -206,7 +207,7 @@ abstract class Widget extends WP_Widget {
 		);
 		$this->classname = implode( ' ', $classname );
 
-		$template = get_widget_template( $this->id_base );
+		$template = utils\get_widget_template( $this->id_base );
 		$template->set_data( array(
 			'widget' => $this,
 			'data'   => $this->data,
@@ -259,7 +260,7 @@ abstract class Widget extends WP_Widget {
 		$this->set_defaults();
 		$this->build_form();
 
-		$template = get_widget_template( $this->id_base );
+		$template = utils\get_widget_template( $this->id_base );
 		$template->set_data( array(
 			'widget' => $this,
 			'data'   => $this->formdata,

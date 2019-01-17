@@ -10,6 +10,8 @@
 
 namespace wpmoly\core;
 
+use wpmoly\utils;
+
 /**
  * .
  *
@@ -1015,7 +1017,7 @@ class Assets {
 		/** This filter is defined in includes/core/class-assets.php */
 		$handle = apply_filters( 'wpmoly/filter/assets/handle', $handle );
 
-		$wpmoly_templates[ $handle ] = wpmoly_get_js_template( $src );
+		$wpmoly_templates[ $handle ] = utils\get_js_template( $src );
 	}
 
 	/**

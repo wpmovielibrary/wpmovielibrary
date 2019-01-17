@@ -8,7 +8,7 @@
  * @package wpMovieLibrary
  */
 
-namespace wpmoly\helpers;
+namespace wpmoly\utils;
 
 use \wpmoly\core\L10n;
 
@@ -22,8 +22,8 @@ use \wpmoly\core\L10n;
 function get_registered_meta( $object_type = null ) {
 
 	$meta = array();
-	if ( ! is_null( $object_type ) && function_exists( "\wpmoly\helpers\get_registered_{$object_type}_meta" ) ) {
-		$meta = call_user_func( "\wpmoly\helpers\get_registered_{$object_type}_meta" );
+	if ( ! is_null( $object_type ) && function_exists( "\wpmoly\utils\get_registered_{$object_type}_meta" ) ) {
+		$meta = call_user_func( "\wpmoly\utils\get_registered_{$object_type}_meta" );
 	}
 
 	return $meta;
@@ -38,20 +38,21 @@ function get_registered_meta( $object_type = null ) {
  */
 function get_registered_post_meta( $meta_name = '' ) {
 
-	$post_meta  = (array) get_default_posts_meta();
-	$grid_meta  = (array) get_registered_grid_meta();
-	$page_meta  = (array) get_registered_page_meta();
-	$movie_meta = (array) get_registered_movie_meta();
-	$attachment_meta = (array) get_registered_attachment_meta();
+	$post_meta = (array) get_default_posts_meta();
 
-	$registered_meta = $post_meta + $grid_meta + $page_meta + $movie_meta + $attachment_meta;
+	$attachment_meta = (array) get_registered_attachment_meta();
+	$grid_meta       = (array) get_registered_grid_meta();
+	$movie_meta      = (array) get_registered_movie_meta();
+	$page_meta       = (array) get_registered_page_meta();
+
+	$registered_meta = $post_meta + $attachment_meta + $grid_meta + $movie_meta + $page_meta;
 
 	/**
 	 * Filter default meta.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $registered_meta Registered  Meta.
+	 * @param array $registered_meta Registered Post Meta.
 	 */
 	$registered_meta = apply_filters( 'wpmoly/filter/registered/post/meta', (array) $registered_meta );
 
@@ -80,7 +81,7 @@ function get_default_posts_meta() {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $registered_meta Registered  Meta.
+	 * @param array $registered_meta Registered Posts Meta.
 	 */
 	$post_meta = apply_filters( 'wpmoly/filter/default/post/meta', array() );
 
@@ -88,29 +89,30 @@ function get_default_posts_meta() {
 }
 
 /**
- * Define supported post meta.
+ * Define supported taxonomies meta.
  *
  * @since 3.0.0
  *
  * @return array
  */
-function get_registered_term_meta( $meta_name = '' ) {
+function get_registered_taxonomies_meta( $meta_name = '' ) {
 
-	$term_meta       = (array) get_default_terms_meta();
+	$terms_meta = (array) get_default_terms_meta();
+
 	$actor_meta      = (array) get_registered_actor_meta();
 	$collection_meta = (array) get_registered_collection_meta();
 	$genre_meta      = (array) get_registered_genre_meta();
 
-	$registered_meta = $term_meta + $actor_meta + $collection_meta + $genre_meta;
+	$registered_meta = $terms_meta + $actor_meta + $collection_meta + $genre_meta;
 
 	/**
 	 * Filter default meta.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $registered_meta Registered  Meta.
+	 * @param array $registered_meta Registered Term Meta.
 	 */
-	$registered_meta = apply_filters( 'wpmoly/filter/registered/term/meta', (array) $registered_meta );
+	$registered_meta = apply_filters( 'wpmoly/filter/registered/taxonomies/meta', (array) $registered_meta );
 
 	if ( empty( $meta_name ) ) {
 		return $registered_meta;
@@ -137,7 +139,7 @@ function get_default_terms_meta() {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $registered_meta Registered  Meta.
+	 * @param array $registered_meta Registered Terms Meta.
 	 */
 	$term_meta = apply_filters( 'wpmoly/filter/default/term/meta', array(
 		'custom_thumbnail' => array(
@@ -192,7 +194,7 @@ function get_registered_actor_meta( $meta_name = '' ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $registered_meta Registered  Meta.
+	 * @param array $registered_meta Registered Actor Meta.
 	 */
 	$registered_meta = apply_filters( 'wpmoly/filter/registered/actor/meta', $default_meta + $registered_meta );
 
@@ -235,7 +237,7 @@ function get_registered_collection_meta( $meta_name = '' ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $registered_meta Registered  Meta.
+	 * @param array $registered_meta Registered Collection Meta.
 	 */
 	$registered_meta = apply_filters( 'wpmoly/filter/registered/collection/meta', $default_meta + $registered_meta );
 
@@ -268,9 +270,64 @@ function get_registered_genre_meta( $meta_name = '' ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $registered_meta Registered  Meta.
+	 * @param array $registered_meta Registered Genre Meta.
 	 */
 	$registered_meta = apply_filters( 'wpmoly/filter/registered/genre/meta', $default_meta + $registered_meta );
+
+	if ( empty( $meta_name ) ) {
+		return $registered_meta;
+	}
+
+	if ( empty( $registered_meta[ $meta_name ] ) ) {
+		return array();
+	}
+
+	return $registered_meta[ $meta_name ];
+}
+
+/**
+ * Define supported attachment post meta.
+ *
+ * @since 3.0.0
+ *
+ * @return array
+ */
+function get_registered_attachment_meta( $meta_name = '' ) {
+
+	$default_meta = get_default_posts_meta();
+
+	$registered_meta = array(
+		'backdrop_related_tmdb_id' => array(
+			'type'         => 'integer',
+			'post_type'    => array( 'attachment' ),
+			'description'  => __( 'Backdrop related TMDb ID', 'wpmovielibrary' ),
+			'protected'    => true,
+			'show_in_rest' => true,
+		),
+		'image_related_tmdb_id' => array(
+			'type'         => 'integer',
+			'post_type'    => array( 'attachment' ),
+			'description'  => __( 'Backdrop related TMDb ID (Legacy)', 'wpmovielibrary' ),
+			'protected'    => true,
+			'show_in_rest' => true,
+		),
+		'poster_related_tmdb_id' => array(
+			'type'         => 'integer',
+			'post_type'    => array( 'attachment' ),
+			'description'  => __( 'Poster related TMDb ID', 'wpmovielibrary' ),
+			'protected'    => true,
+			'show_in_rest' => true,
+		),
+	);
+
+	/**
+	 * Filter default  meta.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $registered_meta Registered Attachment Meta.
+	 */
+	$registered_meta = apply_filters( 'wpmoly/filter/registered/attachment/meta', $default_meta + $registered_meta );
 
 	if ( empty( $meta_name ) ) {
 		return $registered_meta;
@@ -386,49 +443,9 @@ function get_registered_grid_meta( $meta_name = '' ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $registered_meta Registered  Meta.
+	 * @param array $registered_meta Registered Grid Meta.
 	 */
 	$registered_meta = apply_filters( 'wpmoly/filter/registered/grid/meta', $default_meta + $registered_meta );
-
-	if ( empty( $meta_name ) ) {
-		return $registered_meta;
-	}
-
-	if ( empty( $registered_meta[ $meta_name ] ) ) {
-		return array();
-	}
-
-	return $registered_meta[ $meta_name ];
-}
-
-/**
- * Define supported page post meta.
- *
- * @since 3.0.0
- *
- * @return array
- */
-function get_registered_page_meta( $meta_name = '' ) {
-
-	$default_meta = get_default_posts_meta();
-
-	$registered_meta = array(
-		'grid_id' => array(
-			'type'         => 'integer',
-			'post_type'    => array( 'page' ),
-			'description'  => __( 'Archive Page Grid ID', 'wpmovielibrary' ),
-			'show_in_rest' => true,
-		),
-	);
-
-	/**
-	 * Filter default  meta.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @param array $registered_meta Registered  Meta.
-	 */
-	$registered_meta = apply_filters( 'wpmoly/filter/registered/page/meta', $default_meta + $registered_meta );
 
 	if ( empty( $meta_name ) ) {
 		return $registered_meta;
@@ -789,7 +806,7 @@ function get_registered_movie_meta( $meta_name = '' ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $registered_meta Registered  Meta.
+	 * @param array $registered_meta Registered Movie Meta.
 	 */
 	$registered_meta = apply_filters( 'wpmoly/filter/registered/movie/meta', $default_meta + $registered_meta );
 
@@ -805,36 +822,21 @@ function get_registered_movie_meta( $meta_name = '' ) {
 }
 
 /**
- * Define supported attachment post meta.
+ * Define supported page post meta.
  *
  * @since 3.0.0
  *
  * @return array
  */
-function get_registered_attachment_meta( $meta_name = '' ) {
+function get_registered_page_meta( $meta_name = '' ) {
 
 	$default_meta = get_default_posts_meta();
 
 	$registered_meta = array(
-		'backdrop_related_tmdb_id' => array(
+		'grid_id' => array(
 			'type'         => 'integer',
-			'post_type'    => array( 'attachment' ),
-			'description'  => __( 'Backdrop related TMDb ID', 'wpmovielibrary' ),
-			'protected'    => true,
-			'show_in_rest' => true,
-		),
-		'image_related_tmdb_id' => array(
-			'type'         => 'integer',
-			'post_type'    => array( 'attachment' ),
-			'description'  => __( 'Backdrop related TMDb ID (Legacy)', 'wpmovielibrary' ),
-			'protected'    => true,
-			'show_in_rest' => true,
-		),
-		'poster_related_tmdb_id' => array(
-			'type'         => 'integer',
-			'post_type'    => array( 'attachment' ),
-			'description'  => __( 'Poster related TMDb ID', 'wpmovielibrary' ),
-			'protected'    => true,
+			'post_type'    => array( 'page' ),
+			'description'  => __( 'Archive Page Grid ID', 'wpmovielibrary' ),
 			'show_in_rest' => true,
 		),
 	);
@@ -844,9 +846,9 @@ function get_registered_attachment_meta( $meta_name = '' ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $registered_meta Registered  Meta.
+	 * @param array $registered_meta Registered Page Meta.
 	 */
-	$registered_meta = apply_filters( 'wpmoly/filter/registered/attachment/meta', $default_meta + $registered_meta );
+	$registered_meta = apply_filters( 'wpmoly/filter/registered/page/meta', $default_meta + $registered_meta );
 
 	if ( empty( $meta_name ) ) {
 		return $registered_meta;

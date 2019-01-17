@@ -559,7 +559,8 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				createTerm : function( term ) {
 
-					var model = new this.term,
+					var self = this,
+					   model = new self.term,
 					attributes = {
 						name : term.get( 'name' ),
 						meta : {},
@@ -763,7 +764,8 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				createTerm : function( term ) {
 
-					var model = new this.term,
+					var self = this,
+					   model = new self.term,
 					attributes = {
 						name : term.get( 'name' ),
 						meta : {},

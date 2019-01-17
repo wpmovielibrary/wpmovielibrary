@@ -88,7 +88,7 @@ abstract class Taxonomy extends Node {
 	 */
 	public function init() {
 
-		$this->prefix = call_user_func( "prefix_{$this->taxonomy}_meta_key", '' );
+		$this->prefix = call_user_func( "\wpmoly\utils\\{$this->taxonomy}\prefix", '' );
 	}
 
 	/**

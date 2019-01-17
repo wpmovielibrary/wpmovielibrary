@@ -11,7 +11,7 @@
 namespace wpmoly\nodes\posts;
 
 use wpmoly\nodes\Node;
-use wpmoly\helpers;
+use wpmoly\utils;
 
 /**
  * Handle grids.
@@ -144,9 +144,9 @@ class Grid extends Node {
 	 */
 	public function init() {
 
-		$registered = helpers\get_registered_grid_meta();
+		$registered = utils\get_registered_grid_meta();
 		foreach ( $registered as $name => $args ) {
-			$value = get_grid_meta( $this->id, $name );
+			$value = utils\grid\get_meta( $this->id, $name );
 			if ( empty( $value ) && ! empty( $args['default'] ) ) {
 				$value = $args['default'];
 			}
@@ -159,7 +159,7 @@ class Grid extends Node {
 			return false;
 		}
 
-		$meta_key = prefix_movie_meta_key( $preset );
+		$meta_key = utils\movie\prefix( $preset );
 		$meta_value = get_query_var( $meta_key );
 		if ( empty( $meta_value ) ) {
 			return false;

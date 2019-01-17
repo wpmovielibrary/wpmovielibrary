@@ -10,7 +10,7 @@
 
 namespace wpmoly\rest\endpoints;
 
-use wpmoly\helpers;
+use wpmoly\utils;
 use WP_Error;
 use WP_REST_Server;
 use WP_REST_Posts_Controller;
@@ -310,7 +310,7 @@ abstract class Posts extends WP_REST_Posts_Controller {
 			),
 		);
 
-		$registered = helpers\get_registered_meta( $this->post_type );
+		$registered = utils\get_registered_meta( $this->post_type );
 		foreach ( $registered as $slug => $args ) {
 
 			$args['schema']['type']        = isset( $args['type'] ) ? $args['type'] : 'string';

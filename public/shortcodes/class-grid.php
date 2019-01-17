@@ -10,6 +10,8 @@
 
 namespace wpmoly\shortcodes;
 
+use wpmoly\utils;
+
 /**
  * General Shortcode class.
  *
@@ -128,10 +130,10 @@ class Grid extends Shortcode {
 	 */
 	public function run() {
 
-		$grid = get_grid( $this->attributes['id'] );
+		$grid = utils\grid\get( $this->attributes['id'] );
 		$grid->set_mode( $this->attributes['mode'] );
 
-		$this->template = get_grid_template( $grid );
+		$this->template = utils\grid\get_template( $grid );
 
 		return $this;
 	}

@@ -12,6 +12,7 @@ namespace wpmoly\shortcodes;
 
 use wpmoly\nodes\Nodes;
 use wpmoly\templates\Front as Template;
+use wpmoly\utils;
 
 /**
  * Movie Images Shortcode class.
@@ -73,7 +74,7 @@ class Images extends Shortcode {
 		'featured' => array(
 			'default' => true,
 			'values'  => null,
-			'filter'  => '_is_bool',
+			'filter'  => '\wpmoly\utils\is_bool',
 		),
 	);
 
@@ -153,7 +154,7 @@ class Images extends Shortcode {
 
 		// Get Movie.
 		$post_id = $this->get_movie_id();
-		$this->movie = get_movie( $post_id );
+		$this->movie = utils\movie\get( $post_id );
 
 		$callback = $this->attributes['type'];
 		$this->$callback();

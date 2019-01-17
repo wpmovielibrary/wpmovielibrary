@@ -77,7 +77,7 @@ class Library {
 	public function admin_bar_menu( $wp_admin_bar ) {
 
 		$post_id = get_the_ID();
-		if ( ! $post_id || ! is_archive_page( $post_id ) ) {
+		if ( ! $post_id || ! utils\is_archive_page( $post_id ) ) {
 			return false;
 		}
 
@@ -114,7 +114,7 @@ class Library {
 	 */
 	public function add_movies_to_frontpage( $query ) {
 
-		if ( ! wpmoly_is_o( 'add_movies_to_frontpage' ) ) {
+		if ( ! utils\is_o( 'add_movies_to_frontpage' ) ) {
 			return false;
 		}
 
@@ -146,8 +146,8 @@ class Library {
 			return $content;
 		}
 
-		$movie = get_movie( $post_id );
-		$headbox = get_headbox( $movie );
+		$movie = utils\movie\get( $post_id );
+		$headbox = utils\get_headbox( $movie );
 
 		if ( is_single() ) {
 			$headbox->set_theme( 'extended' );
@@ -155,7 +155,7 @@ class Library {
 			$headbox->set_theme( 'default' );
 		}
 
-		$template = get_movie_headbox_template( $headbox );
+		$template = utils\movie\get_headbox_template( $headbox );
 
 		return $template->render() . $content;
 	}
@@ -174,12 +174,12 @@ class Library {
 	 */
 	public function set_archive_page_title( $post_title, $post ) {
 
-		if ( is_admin() || ! is_archive_page( $post->ID ) ) {
+		if ( is_admin() || ! utils\is_archive_page( $post->ID ) ) {
 			return $post_title;
 		}
 
 		$adapt = get_post_meta( $post->ID, '_wpmoly_adapt_page_title', true );
-		if ( ! _is_bool( $adapt ) ) {
+		if ( ! utils\is_bool( $adapt ) ) {
 			return $post_title;
 		}
 
@@ -215,12 +215,12 @@ class Library {
 
 		global $wp_query;
 
-		if ( is_admin() || ! is_archive_page( $post_id ) || ! in_the_loop() ) {
+		if ( is_admin() || ! utils\is_archive_page( $post_id ) || ! in_the_loop() ) {
 			return $post_title;
 		}
 
 		$adapt = get_post_meta( $post_id, '_wpmoly_adapt_post_title', true );
-		if ( ! _is_bool( $adapt ) ) {
+		if ( ! utils\is_bool( $adapt ) ) {
 			return $post_title;
 		}
 
@@ -258,7 +258,7 @@ class Library {
 	 */
 	public function filter_archive_title( $title, $post_id, $context ) {
 
-		$type = get_archive_page_type( $post_id );
+		$type = utils\get_archive_page_type( $post_id );
 		$name = get_query_var( $type );
 		if ( empty( $name ) ) {
 			return $title;
@@ -291,13 +291,16 @@ class Library {
 	public function set_archive_page_content( $content ) {
 
 		$post_id = get_the_ID();
-		if ( is_admin() || ! is_archive_page( $post_id ) ) {
+		if ( is_admin() || ! utils\is_archive_page( $post_id ) ) {
 			return $content;
 		}
 
-		$type = get_archive_page_type( $post_id );
-		if ( ! empty( $type ) ) {
+		$type = utils\get_archive_page_type( $post_id );
+		if ( empty( $type ) || ( ! post_type_exists( $type ) && ! taxonomy_exists( $type ) ) ) {
+			return $content;
+		}
 
+		if ( taxonomy_exists( $type ) ) {
 			/**
 			 * Filter taxonomy archive page content.
 			 *
@@ -308,18 +311,28 @@ class Library {
 			 * @param string $type    Archive page type.
 			 */
 			$content = apply_filters( 'wpmoly/filter/taxonomy/archive/page/content', $content, $post_id, $type );
-		} else {
-
+		} else if ( post_type_exists( $type ) ) {
 			/**
-			 * Filter movie archive page content.
+			 * Filter post archive page content.
 			 *
 			 * @since 3.0.0
 			 *
 			 * @param string $content Current post content.
 			 * @param int    $post_id Current Post ID.
+			 * @param string $type    Archive page type.
 			 */
-			$content = apply_filters( 'wpmoly/filter/movie/archive/page/content', $content, $post_id );
+			$content = apply_filters( 'wpmoly/filter/post/archive/page/content', $content, $post_id, $type );
 		}
+
+		/**
+		 * Filter archive page content.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $content Current content.
+		 * @param int    $post_id Current Post ID.
+		 */
+		$content = apply_filters( "wpmoly/filter/{$type}/archive/page/content", $content, $post_id );
 
 		return $content;
 	}
@@ -341,11 +354,6 @@ class Library {
 	 */
 	public function filter_taxonomy_archive_page_content( $content, $post_id, $type ) {
 
-		$show = get_post_meta( $post_id, '_wpmoly_single_terms', true );
-		if ( ! _is_bool( $show ) ) {
-			return $content;
-		}
-
 		$pre_content = '';
 
 		$name = get_query_var( $type );
@@ -353,16 +361,22 @@ class Library {
 		if ( $term ) {
 
 			$name = $term->name;
+			$node = call_user_func( "\wpmoly\utils\\{$term->taxonomy}\get", $term );
 
 			$theme = get_post_meta( $post_id, '_wpmoly_headbox_theme', true );
-			$headbox = get_term_headbox( $term );
+			$headbox = utils\get_term_headbox( $node );
 			$headbox->set_theme( $theme );
 
-			$headbox_template = get_headbox_template( $headbox );
+			$headbox_template = utils\get_headbox_template( $headbox );
 			$pre_content = $headbox_template->render();
 		}
 
-		$archive_page_id = get_archives_page_id( 'movie' );
+		if ( $term ) {
+			$archive_page_id = utils\get_archives_page_id( 'movie' );
+		} else {
+			$archive_page_id = utils\get_archives_page_id( $type );
+		}
+
 		if ( ! $archive_page_id ) {
 			return $pre_content;
 		}
@@ -372,12 +386,17 @@ class Library {
 			return $pre_content;
 		}
 
-		$grid = get_grid( (int) $grid_id );
-		$grid->set_preset( array(
-			$type => $name,
-		) );
+		$grid = utils\grid\get( (int) $grid_id );
 
-		$grid_template = get_grid_template( $grid );
+		if ( empty( $name ) ) {
+			$grid->set_type( $type );
+		} else {
+			$grid->set_preset( array(
+				$type => $name,
+			) );
+		}
+
+		$grid_template = utils\grid\get_template( $grid );
 
 		$pre_content .= $grid_template->render() . $content;
 
@@ -408,17 +427,17 @@ class Library {
 			return $pre_content;
 		}
 
-		$grid = get_grid( (int) $grid_id );
+		$grid = utils\grid\get( (int) $grid_id );
 
 		$preset = get_query_var( 'preset' );
 		if ( ! empty( $preset ) ) {
-			$preset = prefix_meta_key( $preset, '', true );
+			$preset = utils\prefix_meta_key( $preset, '', true );
 			$grid->set_preset( array(
 				$preset => get_query_var( $preset ),
 			) );
 		}
 
-		$grid_template = get_grid_template( $grid );
+		$grid_template = utils\grid\get_template( $grid );
 
 		$pre_content = $grid_template->render() . $pre_content;
 

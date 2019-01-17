@@ -10,6 +10,8 @@
 
 namespace wpmoly\rest\endpoints;
 
+use wpmoly\utils;
+
 /**
  * Core class to access grids via the REST API.
  *
@@ -51,6 +53,6 @@ class Grids extends Posts {
 	 */
 	public function get_meta( $post_id ) {
 
-		return get_grid_meta( $post_id );
+		return utils\grid\get_meta( $post_id );
 	}
 }

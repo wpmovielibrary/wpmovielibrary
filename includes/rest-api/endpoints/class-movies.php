@@ -10,7 +10,7 @@
 
 namespace wpmoly\rest\endpoints;
 
-use wpmoly\helpers;
+use wpmoly\utils;
 use WP_Error;
 use WP_REST_Server;
 
@@ -66,7 +66,7 @@ class Movies extends Posts {
 		$fields = (array) $request['fields'];
 
 		if ( ! empty( $schema['properties']['year'] ) && $this->is_requested_field( 'year', $fields ) ) {
-			$year = get_movie_meta( $post->ID, 'release_date' );
+			$year = utils\movie\get_meta( $post->ID, 'release_date' );
 			if ( ! empty( $year ) ) {
 				$year = date( 'Y', strtotime( $year ) );
 			}
@@ -120,7 +120,7 @@ class Movies extends Posts {
 
 		$schema = parent::get_item_schema();
 
-		$meta = helpers\get_registered_movie_meta();
+		$meta = utils\get_registered_movie_meta();
 
 		// Some meta should not be visible, although they may be editable.
 		$protected = wp_filter_object_list( $meta, array( 'protected' => true ) );
@@ -190,7 +190,7 @@ class Movies extends Posts {
 	 */
 	protected function get_poster( $post, $request ) {
 
-		$movie = get_movie( $post );
+		$movie = utils\movie\get( $post );
 
 		return $movie->get_poster();
 	}
@@ -209,7 +209,7 @@ class Movies extends Posts {
 	 */
 	protected function get_posters( $post, $request ) {
 
-		$movie = get_movie( $post );
+		$movie = utils\movie\get( $post );
 		$posters = $movie->get_posters();
 
 		return (array) $posters->items;
@@ -229,7 +229,7 @@ class Movies extends Posts {
 	 */
 	protected function get_backdrop( $post, $request ) {
 
-		$movie = get_movie( $post );
+		$movie = utils\movie\get( $post );
 
 		return $movie->get_backdrop();
 	}
@@ -248,7 +248,7 @@ class Movies extends Posts {
 	 */
 	protected function get_backdrops( $post, $request ) {
 
-		$movie = get_movie( $post );
+		$movie = utils\movie\get( $post );
 		$backdrops = $movie->get_backdrops();
 
 		return (array) $backdrops->items;
@@ -265,6 +265,6 @@ class Movies extends Posts {
 	 */
 	public function get_meta( $post_id ) {
 
-		return get_movie_meta( $post_id );
+		return utils\movie\get_meta( $post_id );
 	}
 }

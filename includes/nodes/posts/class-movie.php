@@ -10,6 +10,7 @@
 
 namespace wpmoly\nodes\posts;
 
+use wpmoly\utils;
 use wpmoly\nodes\Node;
 use wpmoly\nodes\Nodes;
 use wpmoly\nodes\images;
@@ -128,7 +129,7 @@ class Movie extends Node {
 		$this->backdrops->loaded = false;
 		$this->posters->loaded   = false;
 
-		$this->prefix = prefix_movie_meta_key( '' );
+		$this->prefix = utils\movie\prefix( '' );
 	}
 
 	/**
@@ -336,7 +337,7 @@ class Movie extends Node {
 		}
 
 		if ( 'selected' === $variant ) {
-			$selected = get_movie_meta( $this->id, 'backdrop_id' );
+			$selected = utils\movie\get_meta( $this->id, 'backdrop_id' );
 			if ( empty( $selected ) ) {
 				$variant = 'first';
 			}
@@ -392,7 +393,7 @@ class Movie extends Node {
 		}
 
 		if ( 'selected' === $variant ) {
-			$selected = get_movie_meta( $this->id, 'poster_id' );
+			$selected = utils\movie\get_meta( $this->id, 'poster_id' );
 			if ( empty( $selected ) ) {
 				$variant = 'featured';
 			}

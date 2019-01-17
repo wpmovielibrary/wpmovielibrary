@@ -13,7 +13,7 @@ namespace wpmoly\rest;
 use WP_Error;
 use WP_Taxonomy;
 use WP_Post_Type;
-use wpmoly\helpers;
+use wpmoly\utils;
 
 /**
  * Handle the custom WordPress Rest API endpoints.
@@ -172,7 +172,7 @@ class API {
 	public function add_page_query_params( $args, $request ) {
 
 		if ( isset( $request['grid_id'] ) && 'edit' == $request['context'] ) {
-			$args['meta_key']   = prefix_grid_meta_key( 'id' );
+			$args['meta_key']   = utils\grid\prefix( 'id' );
 			$args['meta_value'] = absint( $request['grid_id'] );
 		}
 
@@ -339,7 +339,7 @@ class API {
 
 		$gender = $request['meta']['gender'];
 		if ( ! empty( $genders[ $gender ] ) ) {
-			update_term_meta( $term->term_id, prefix_actor_meta_key( 'thumbnail' ), $genders[ $gender ] );
+			update_term_meta( $term->term_id, utils\actor\prefix( 'thumbnail' ), $genders[ $gender ] );
 		}
 	}
 
@@ -360,7 +360,7 @@ class API {
 			return false;
 		}
 
-		update_term_meta( $term->term_id, prefix_collection_meta_key( 'thumbnail' ), substr( strtoupper( $term->name ), 0, 1 ) );
+		update_term_meta( $term->term_id, utils\collection\prefix( 'thumbnail' ), substr( strtoupper( $term->name ), 0, 1 ) );
 	}
 
 	/**
@@ -405,7 +405,7 @@ class API {
 
 		$tmdb_id = $request['meta']['tmdb_id'];
 		if ( ! empty( $default_genres[ $tmdb_id ] ) ) {
-			update_term_meta( $term->term_id, prefix_genre_meta_key( 'thumbnail' ), $default_genres[ $tmdb_id ] );
+			update_term_meta( $term->term_id, utils\genre\prefix( 'thumbnail' ), $default_genres[ $tmdb_id ] );
 		}
 	}
 
@@ -493,7 +493,7 @@ class API {
 
 			foreach ( $supported as $param => $key ) {
 
-				$meta_key = prefix_movie_meta_key( $key );
+				$meta_key = utils\movie\prefix( $key );
 
 				if ( ! empty( $metadata[ $meta_key ] ) ) {
 
@@ -584,26 +584,26 @@ class API {
 
 		$response = $this->prepare_term_for_response( $response, $term, $request );
 
-		$meta = helpers\get_registered_actor_meta();
+		$meta = utils\get_registered_actor_meta();
 
 		// Some meta should not be visible, although they may be editable.
 		$protected = wp_filter_object_list( $meta, array( 'protected' => true ) );
 		foreach ( $protected as $key => $value ) {
-			$meta_key = prefix_actor_meta_key( $key );
+			$meta_key = utils\actor\prefix( $key );
 			if ( isset( $response->data['meta'][ $meta_key ] ) ) {
 				unset( $response->data['meta'][ $meta_key ] );
 			}
 		}
 
 		if ( 'edit' === $request['context'] ) {
-			$snapshot = get_actor_meta( $term->term_id, 'snapshot' );
+			$snapshot = utils\actor\get_meta( $term->term_id, 'snapshot' );
 			if ( ! empty( $snapshot ) ) {
 				$response->data['snapshot'] = json_decode( $snapshot );
 			}
 		} elseif ( isset( $response->data['meta'] ) ) {
 			foreach ( $response->data['meta'] as $key => $value ) {
 				unset( $response->data['meta'][ $key ] );
-				$response->data['meta'][ unprefix_actor_meta_key( $key, false ) ] = $value;
+				$response->data['meta'][ utils\actor\unprefix( $key, false ) ] = $value;
 			}
 		}
 
@@ -630,7 +630,7 @@ class API {
 		if ( 'edit' !== $request['context'] ) {
 			foreach ( $response->data['meta'] as $key => $value ) {
 				unset( $response->data['meta'][ $key ] );
-				$response->data['meta'][ unprefix_collection_meta_key( $key, false ) ] = $value;
+				$response->data['meta'][ utils\collection\unprefix( $key, false ) ] = $value;
 			}
 		}
 
@@ -657,7 +657,7 @@ class API {
 		if ( 'edit' !== $request['context'] ) {
 			foreach ( $response->data['meta'] as $key => $value ) {
 				unset( $response->data['meta'][ $key ] );
-				$response->data['meta'][ unprefix_genre_meta_key( $key, false ) ] = $value;
+				$response->data['meta'][ utils\genre\unprefix( $key, false ) ] = $value;
 			}
 		}
 
@@ -686,7 +686,7 @@ class API {
 		if ( 'edit' !== $request['context'] ) {
 			foreach ( $response->data['meta'] as $key => $value ) {
 				unset( $response->data['meta'][ $key ] );
-				$response->data['meta'][ unprefix_grid_meta_key( $key, false ) ] = $value;
+				$response->data['meta'][ utils\grid\unprefix( $key, false ) ] = $value;
 			}
 		}
 
@@ -712,26 +712,26 @@ class API {
 
 		$response = $this->prepare_post_for_response( $response, $post, $request );
 
-		$meta = helpers\get_registered_movie_meta();
+		$meta = utils\get_registered_movie_meta();
 
 		// Some meta should not be visible, although they may be editable.
 		$protected = wp_filter_object_list( $meta, array( 'protected' => true ) );
 		foreach ( $protected as $key => $value ) {
-			$meta_key = prefix_movie_meta_key( $key );
+			$meta_key = utils\movie\prefix( $key );
 			if ( isset( $response->data['meta'][ $meta_key ] ) ) {
 				unset( $response->data['meta'][ $meta_key ] );
 			}
 		}
 
 		if ( 'edit' === $request['context'] ) {
-			$snapshot = get_movie_meta( $post->ID, 'snapshot' );
+			$snapshot = utils\movie\get_meta( $post->ID, 'snapshot' );
 			if ( ! empty( $snapshot ) ) {
 				$response->data['snapshot'] = json_decode( $snapshot );
 			}
 		} elseif ( isset( $response->data['meta'] ) ) {
 			foreach ( $response->data['meta'] as $key => $value ) {
 				unset( $response->data['meta'][ $key ] );
-				$response->data['meta'][ unprefix_movie_meta_key( $key, false ) ] = $value;
+				$response->data['meta'][ utils\movie\unprefix( $key, false ) ] = $value;
 			}
 		}
 
@@ -809,7 +809,7 @@ class API {
 
 		if ( isset( $object['type'] ) && 'movie' === $object['type'] ) {
 
-			$movie = get_movie( $object['id'] );
+			$movie = utils\movie\get( $object['id'] );
 
 			return $movie->get_poster();
 		}
@@ -834,19 +834,19 @@ class API {
 
 		if ( isset( $object['taxonomy'] ) && 'actor' === $object['taxonomy'] ) {
 
-			$term = get_actor( $object['id'] );
+			$term = utils\actor\get( $object['id'] );
 
 			return $term->get_thumbnail();
 
 		} elseif ( isset( $object['taxonomy'] ) && 'collection' === $object['taxonomy'] ) {
 
-			$term = get_collection( $object['id'] );
+			$term = utils\collection\get( $object['id'] );
 
 			return $term->get_thumbnail();
 
 		} elseif ( isset( $object['taxonomy'] ) && 'genre' === $object['taxonomy'] ) {
 
-			$term = get_genre( $object['id'] );
+			$term = utils\genre\get( $object['id'] );
 
 			return $term->get_thumbnail();
 

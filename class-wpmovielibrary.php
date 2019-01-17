@@ -10,6 +10,7 @@
 
 use wpmoly\core;
 use wpmoly\rest;
+use wpmoly\utils;
 use wpmoly\registrars;
 use wpmoly\Dashboard;
 use wpmoly\Library;
@@ -93,7 +94,7 @@ final class wpMovieLibrary {
 		add_action( 'wpmoly/run', array( &$this, 'translate' ) );
 
 		// Load required files.
-		add_action( 'wpmoly/run', array( &$this, 'require_helper_files' ) );
+		add_action( 'wpmoly/run', array( &$this, 'require_util_files' ) );
 		add_action( 'wpmoly/run', array( &$this, 'require_core_files' ) );
 		add_action( 'wpmoly/run', array( &$this, 'require_registrar_files' ) );
 		add_action( 'wpmoly/run', array( &$this, 'require_template_files' ) );
@@ -117,7 +118,7 @@ final class wpMovieLibrary {
 		add_action( 'wpmoly/core/loaded', array( &$this, 'localize' ) );
 
 		// Register Helpers.
-		add_action( 'wpmoly/helpers/loaded', array( &$this, 'register_helper_filters' ) );
+		add_action( 'wpmoly/utils/loaded', array( &$this, 'register_util_filters' ) );
 
 		// Register Query.
 		add_action( 'wpmoly/core/loaded',      array( &$this, 'register_settings' ) );
@@ -250,7 +251,7 @@ final class wpMovieLibrary {
 	 *
 	 * @access public
 	 */
-	public function require_helper_files() {
+	public function require_util_files() {
 
 		/**
 		 * Fires before loading helper files.
@@ -259,15 +260,23 @@ final class wpMovieLibrary {
 		 *
 		 * @param wpMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
-		do_action_ref_array( 'wpmoly/helpers/load', array( &$this ) );
+		do_action_ref_array( 'wpmoly/utils/load', array( &$this ) );
 
-		require_once WPMOLY_PATH . 'includes/helpers/defaults.php';
-		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
-		require_once WPMOLY_PATH . 'includes/helpers/templates.php';
-		require_once WPMOLY_PATH . 'includes/helpers/permalinks.php';
-		require_once WPMOLY_PATH . 'includes/helpers/formatting.php';
-		require_once WPMOLY_PATH . 'includes/helpers/class-country.php';
-		require_once WPMOLY_PATH . 'includes/helpers/class-language.php';
+		require_once WPMOLY_PATH . 'includes/utils/defaults.php';
+		require_once WPMOLY_PATH . 'includes/utils/utils.php';
+		require_once WPMOLY_PATH . 'includes/utils/actor-utils.php';
+		require_once WPMOLY_PATH . 'includes/utils/attachment-utils.php';
+		require_once WPMOLY_PATH . 'includes/utils/collection-utils.php';
+		require_once WPMOLY_PATH . 'includes/utils/genre-utils.php';
+		require_once WPMOLY_PATH . 'includes/utils/grid-utils.php';
+		require_once WPMOLY_PATH . 'includes/utils/movie-utils.php';
+		require_once WPMOLY_PATH . 'includes/utils/page-utils.php';
+		require_once WPMOLY_PATH . 'includes/utils/settings-utils.php';
+		require_once WPMOLY_PATH . 'includes/utils/templates.php';
+		require_once WPMOLY_PATH . 'includes/utils/permalinks.php';
+		require_once WPMOLY_PATH . 'includes/utils/formatting.php';
+		require_once WPMOLY_PATH . 'includes/utils/class-country.php';
+		require_once WPMOLY_PATH . 'includes/utils/class-language.php';
 
 		/**
 		 * Fires after helper files are loaded.
@@ -276,7 +285,7 @@ final class wpMovieLibrary {
 		 *
 		 * @param wpMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
-		do_action_ref_array( 'wpmoly/helpers/loaded', array( &$this ) );
+		do_action_ref_array( 'wpmoly/utils/loaded', array( &$this ) );
 	}
 
 	/**
@@ -697,7 +706,7 @@ final class wpMovieLibrary {
 		$registrar = new registrars\Post_Meta;
 
 		add_action( 'init', array( $registrar, 'register' ) );
-		add_action( 'updated_postmeta', array( $registrar, 'update_post_thumbnail_id' ), 10, 4 );
+		add_action( 'update_postmeta', array( $registrar, 'update_post_thumbnail_id' ), 10, 4 );
 
 		/**
 		 * Fires after post meta are registered.
@@ -754,70 +763,70 @@ final class wpMovieLibrary {
 	 *
 	 * @param wpMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
 	 */
-	public function register_helper_filters( $wpmovielibrary ) {
+	public function register_util_filters( $wpmovielibrary ) {
 
 		// Option names prefix
-		add_filter( 'wpmoly/filter/settings/option/name',   'prefix_settings_option_name', 15, 1 );
-		add_filter( 'wpmoly/unfilter/settings/option/name', 'unprefix_settings_option_name', 15, 1 );
+		add_filter( 'wpmoly/filter/settings/option/name',   '\wpmoly\utils\settings\prefix', 15, 1 );
+		add_filter( 'wpmoly/unfilter/settings/option/name', '\wpmoly\utils\settings\unprefix', 15, 1 );
 
 		// Meta Formatting
-		add_filter( 'wpmoly/filter/the/movie/actors',               '\wpmoly\helpers\format_movie_cast',                 15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/adult',                '\wpmoly\helpers\format_movie_adult',                15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/author',               '\wpmoly\helpers\format_movie_author',               15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/budget',               '\wpmoly\helpers\format_movie_budget',               15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/cast',                 '\wpmoly\helpers\format_movie_cast',                 15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/certification',        '\wpmoly\helpers\format_movie_certification',        15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/composer',             '\wpmoly\helpers\format_movie_composer',             15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/director',             '\wpmoly\helpers\format_movie_director',             15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/format',               '\wpmoly\helpers\format_movie_format',               15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/genres',               '\wpmoly\helpers\format_movie_genres',               15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/homepage',             '\wpmoly\helpers\format_movie_homepage',             15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/imdb_id',              '\wpmoly\helpers\format_movie_imdb_id',              15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/language',             '\wpmoly\helpers\format_movie_language',             15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/local_release_date',   '\wpmoly\helpers\format_movie_local_release_date',   15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/media',                '\wpmoly\helpers\format_movie_media',                15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/photography',          '\wpmoly\helpers\format_movie_photography',          15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/production_countries', '\wpmoly\helpers\format_movie_production_countries', 15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/production_companies', '\wpmoly\helpers\format_movie_production_companies', 15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/producer',             '\wpmoly\helpers\format_movie_producer',             15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/rating',               '\wpmoly\helpers\format_movie_rating',               15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/release_date',         '\wpmoly\helpers\format_movie_release_date',         15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/revenue',              '\wpmoly\helpers\format_movie_revenue',              15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/runtime',              '\wpmoly\helpers\format_movie_runtime',              15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/spoken_languages',     '\wpmoly\helpers\format_movie_spoken_languages',     15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/status',               '\wpmoly\helpers\format_movie_status',               15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/subtitles',            '\wpmoly\helpers\format_movie_subtitles',            15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/tmdb_id',              '\wpmoly\helpers\format_movie_tmdb_id',              15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/writer',               '\wpmoly\helpers\format_movie_writer',               15, 2 );
-		add_filter( 'wpmoly/filter/the/movie/year',                 '\wpmoly\helpers\format_movie_year',                 15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/actors',               '\wpmoly\utils\format\movie_cast',                 15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/adult',                '\wpmoly\utils\format\movie_adult',                15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/author',               '\wpmoly\utils\format\movie_author',               15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/budget',               '\wpmoly\utils\format\movie_budget',               15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/cast',                 '\wpmoly\utils\format\movie_cast',                 15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/certification',        '\wpmoly\utils\format\movie_certification',        15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/composer',             '\wpmoly\utils\format\movie_composer',             15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/director',             '\wpmoly\utils\format\movie_director',             15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/format',               '\wpmoly\utils\format\movie_format',               15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/genres',               '\wpmoly\utils\format\movie_genres',               15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/homepage',             '\wpmoly\utils\format\movie_homepage',             15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/imdb_id',              '\wpmoly\utils\format\movie_imdb_id',              15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/language',             '\wpmoly\utils\format\movie_language',             15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/local_release_date',   '\wpmoly\utils\format\movie_local_release_date',   15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/media',                '\wpmoly\utils\format\movie_media',                15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/photography',          '\wpmoly\utils\format\movie_photography',          15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/production_countries', '\wpmoly\utils\format\movie_production_countries', 15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/production_companies', '\wpmoly\utils\format\movie_production_companies', 15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/producer',             '\wpmoly\utils\format\movie_producer',             15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/rating',               '\wpmoly\utils\format\movie_rating',               15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/release_date',         '\wpmoly\utils\format\movie_release_date',         15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/revenue',              '\wpmoly\utils\format\movie_revenue',              15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/runtime',              '\wpmoly\utils\format\movie_runtime',              15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/spoken_languages',     '\wpmoly\utils\format\movie_spoken_languages',     15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/status',               '\wpmoly\utils\format\movie_status',               15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/subtitles',            '\wpmoly\utils\format\movie_subtitles',            15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/tmdb_id',              '\wpmoly\utils\format\movie_tmdb_id',              15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/writer',               '\wpmoly\utils\format\movie_writer',               15, 2 );
+		add_filter( 'wpmoly/filter/the/movie/year',                 '\wpmoly\utils\format\movie_year',                 15, 2 );
 
 		// Meta Permalinks
-		add_filter( 'wpmoly/filter/meta/adult/url',                '\wpmoly\helpers\get_movie_adult_url',                15, 2 );
-		add_filter( 'wpmoly/filter/meta/author/url',               '\wpmoly\helpers\get_movie_author_url',               15, 2 );
-		add_filter( 'wpmoly/filter/meta/budget/url',               '\wpmoly\helpers\get_movie_budget_url',               15, 2 );
-		add_filter( 'wpmoly/filter/meta/certification/url',        '\wpmoly\helpers\get_movie_certification_url',        15, 2 );
-		add_filter( 'wpmoly/filter/meta/composer/url',             '\wpmoly\helpers\get_movie_composer_url',             15, 2 );
-		add_filter( 'wpmoly/filter/meta/homepage/url',             '\wpmoly\helpers\get_movie_homepage_url',             15, 2 );
-		add_filter( 'wpmoly/filter/meta/imdb_id/url',              '\wpmoly\helpers\get_movie_imdb_id_url',              15, 2 );
-		add_filter( 'wpmoly/filter/meta/local_release_date/url',   '\wpmoly\helpers\get_movie_release_date_url',         15, 2 );
-		add_filter( 'wpmoly/filter/meta/photography/url',          '\wpmoly\helpers\get_movie_photography_url',          15, 2 );
-		add_filter( 'wpmoly/filter/meta/producer/url',             '\wpmoly\helpers\get_movie_producer_url',             15, 2 );
-		add_filter( 'wpmoly/filter/meta/production_companies/url', '\wpmoly\helpers\get_movie_production_companies_url', 15, 2 );
-		add_filter( 'wpmoly/filter/meta/production_countries/url', '\wpmoly\helpers\get_movie_production_countries_url', 15, 2 );
-		add_filter( 'wpmoly/filter/meta/release_date/url',         '\wpmoly\helpers\get_movie_release_date_url',         15, 2 );
-		add_filter( 'wpmoly/filter/meta/revenue/url',              '\wpmoly\helpers\get_movie_revenue_url',              15, 2 );
-		add_filter( 'wpmoly/filter/meta/spoken_languages/url',     '\wpmoly\helpers\get_movie_spoken_languages_url',     15, 2 );
-		add_filter( 'wpmoly/filter/meta/tmdb_id/url',              '\wpmoly\helpers\get_movie_tmdb_id_url',              15, 2 );
-		add_filter( 'wpmoly/filter/meta/writer/url',               '\wpmoly\helpers\get_movie_writer_url',               15, 2 );
-		add_filter( 'wpmoly/filter/meta/year/url',                 '\wpmoly\helpers\get_movie_year_url',                 15, 2 );
+		add_filter( 'wpmoly/filter/meta/adult/url',                '\wpmoly\utils\get_movie_adult_url',                15, 2 );
+		add_filter( 'wpmoly/filter/meta/author/url',               '\wpmoly\utils\get_movie_author_url',               15, 2 );
+		add_filter( 'wpmoly/filter/meta/budget/url',               '\wpmoly\utils\get_movie_budget_url',               15, 2 );
+		add_filter( 'wpmoly/filter/meta/certification/url',        '\wpmoly\utils\get_movie_certification_url',        15, 2 );
+		add_filter( 'wpmoly/filter/meta/composer/url',             '\wpmoly\utils\get_movie_composer_url',             15, 2 );
+		add_filter( 'wpmoly/filter/meta/homepage/url',             '\wpmoly\utils\get_movie_homepage_url',             15, 2 );
+		add_filter( 'wpmoly/filter/meta/imdb_id/url',              '\wpmoly\utils\get_movie_imdb_id_url',              15, 2 );
+		add_filter( 'wpmoly/filter/meta/local_release_date/url',   '\wpmoly\utils\get_movie_release_date_url',         15, 2 );
+		add_filter( 'wpmoly/filter/meta/photography/url',          '\wpmoly\utils\get_movie_photography_url',          15, 2 );
+		add_filter( 'wpmoly/filter/meta/producer/url',             '\wpmoly\utils\get_movie_producer_url',             15, 2 );
+		add_filter( 'wpmoly/filter/meta/production_companies/url', '\wpmoly\utils\get_movie_production_companies_url', 15, 2 );
+		add_filter( 'wpmoly/filter/meta/production_countries/url', '\wpmoly\utils\get_movie_production_countries_url', 15, 2 );
+		add_filter( 'wpmoly/filter/meta/release_date/url',         '\wpmoly\utils\get_movie_release_date_url',         15, 2 );
+		add_filter( 'wpmoly/filter/meta/revenue/url',              '\wpmoly\utils\get_movie_revenue_url',              15, 2 );
+		add_filter( 'wpmoly/filter/meta/spoken_languages/url',     '\wpmoly\utils\get_movie_spoken_languages_url',     15, 2 );
+		add_filter( 'wpmoly/filter/meta/tmdb_id/url',              '\wpmoly\utils\get_movie_tmdb_id_url',              15, 2 );
+		add_filter( 'wpmoly/filter/meta/writer/url',               '\wpmoly\utils\get_movie_writer_url',               15, 2 );
+		add_filter( 'wpmoly/filter/meta/year/url',                 '\wpmoly\utils\get_movie_year_url',                 15, 2 );
 
 		// Details Permalinks
-		add_filter( 'wpmoly/filter/detail/format/url',           '\wpmoly\helpers\get_movie_format_url',    15, 2 );
-		add_filter( 'wpmoly/filter/detail/language/url',         '\wpmoly\helpers\get_movie_language_url',  15, 2 );
-		add_filter( 'wpmoly/filter/detail/media/url',            '\wpmoly\helpers\get_movie_media_url',     15, 2 );
-		add_filter( 'wpmoly/filter/detail/rating/url',           '\wpmoly\helpers\get_movie_rating_url',    15, 2 );
-		add_filter( 'wpmoly/filter/detail/status/url',           '\wpmoly\helpers\get_movie_status_url',    15, 2 );
-		add_filter( 'wpmoly/filter/detail/subtitles/url',        '\wpmoly\helpers\get_movie_subtitles_url', 15, 2 );
+		add_filter( 'wpmoly/filter/detail/format/url',           '\wpmoly\utils\get_movie_format_url',    15, 2 );
+		add_filter( 'wpmoly/filter/detail/language/url',         '\wpmoly\utils\get_movie_language_url',  15, 2 );
+		add_filter( 'wpmoly/filter/detail/media/url',            '\wpmoly\utils\get_movie_media_url',     15, 2 );
+		add_filter( 'wpmoly/filter/detail/rating/url',           '\wpmoly\utils\get_movie_rating_url',    15, 2 );
+		add_filter( 'wpmoly/filter/detail/status/url',           '\wpmoly\utils\get_movie_status_url',    15, 2 );
+		add_filter( 'wpmoly/filter/detail/subtitles/url',        '\wpmoly\utils\get_movie_subtitles_url', 15, 2 );
 	}
 
 	/**
@@ -1023,7 +1032,7 @@ final class wpMovieLibrary {
 		add_filter( 'rest_prepare_genre',                array( $rest_api, 'prepare_genre_for_response' ), 10, 3 );
 		add_filter( 'rest_prepare_post_tag',             array( $rest_api, 'prepare_term_for_response' ), 10, 3 );
 
-		$prefix = prefix_movie_meta_key( '' );
+		$prefix = utils\movie\prefix( '' );
 		add_filter( "sanitize_post_meta_{$prefix}format_for_movie",    '\wpmoly\rest\sanitize_movie_details', 10, 1 );
 		add_filter( "sanitize_post_meta_{$prefix}language_for_movie",  '\wpmoly\rest\sanitize_movie_details', 10, 1 );
 		add_filter( "sanitize_post_meta_{$prefix}media_for_movie",     '\wpmoly\rest\sanitize_movie_details', 10, 1 );
@@ -1200,35 +1209,35 @@ final class wpMovieLibrary {
 	public function register_shortcode_filters( $wpmovielibrary ) {
 
 		// Meta Formatting
-		add_filter( 'wpmoly/shortcode/format/adult/value',                '\wpmoly\helpers\format_movie_adult',                15, 2 );
-		add_filter( 'wpmoly/shortcode/format/author/value',               '\wpmoly\helpers\format_movie_author',               15, 2 );
-		add_filter( 'wpmoly/shortcode/format/budget/value',               '\wpmoly\helpers\format_movie_budget',               15, 2 );
-		add_filter( 'wpmoly/shortcode/format/certification/value',        '\wpmoly\helpers\format_movie_certification',        15, 2 );
-		add_filter( 'wpmoly/shortcode/format/composer/value',             '\wpmoly\helpers\format_movie_composer',             15, 2 );
-		add_filter( 'wpmoly/shortcode/format/director/value',             '\wpmoly\helpers\format_movie_director',             15, 2 );
-		add_filter( 'wpmoly/shortcode/format/homepage/value',             '\wpmoly\helpers\format_movie_homepage',             15, 2 );
-		add_filter( 'wpmoly/shortcode/format/cast/value',                 '\wpmoly\helpers\format_movie_cast',                 15, 2 );
-		add_filter( 'wpmoly/shortcode/format/genres/value',               '\wpmoly\helpers\format_movie_genres',               15, 2 );
-		add_filter( 'wpmoly/shortcode/format/imdb_id/value',              '\wpmoly\helpers\format_movie_imdb_id',              15, 2 );
-		add_filter( 'wpmoly/shortcode/format/local_release_date/value',   '\wpmoly\helpers\format_movie_local_release_date',   15, 2 );
-		add_filter( 'wpmoly/shortcode/format/photography/value',          '\wpmoly\helpers\format_movie_photography',          15, 2 );
-		add_filter( 'wpmoly/shortcode/format/production_countries/value', '\wpmoly\helpers\format_movie_production_countries', 15, 2 );
-		add_filter( 'wpmoly/shortcode/format/production_companies/value', '\wpmoly\helpers\format_movie_production_companies', 15, 2 );
-		add_filter( 'wpmoly/shortcode/format/producer/value',             '\wpmoly\helpers\format_movie_producer',             15, 2 );
-		add_filter( 'wpmoly/shortcode/format/release_date/value',         '\wpmoly\helpers\format_movie_release_date',         15, 2 );
-		add_filter( 'wpmoly/shortcode/format/revenue/value',              '\wpmoly\helpers\format_movie_revenue',              15, 2 );
-		add_filter( 'wpmoly/shortcode/format/runtime/value',              '\wpmoly\helpers\format_movie_runtime',              15, 2 );
-		add_filter( 'wpmoly/shortcode/format/spoken_languages/value',     '\wpmoly\helpers\format_movie_spoken_languages',     15, 2 );
-		add_filter( 'wpmoly/shortcode/format/tmdb_id/value',              '\wpmoly\helpers\format_movie_tmdb_id',              15, 2 );
-		add_filter( 'wpmoly/shortcode/format/writer/value',               '\wpmoly\helpers\format_movie_writer',               15, 2 );
+		add_filter( 'wpmoly/shortcode/format/adult/value',                '\wpmoly\utils\format\movie_adult',                15, 2 );
+		add_filter( 'wpmoly/shortcode/format/author/value',               '\wpmoly\utils\format\movie_author',               15, 2 );
+		add_filter( 'wpmoly/shortcode/format/budget/value',               '\wpmoly\utils\format\movie_budget',               15, 2 );
+		add_filter( 'wpmoly/shortcode/format/certification/value',        '\wpmoly\utils\format\movie_certification',        15, 2 );
+		add_filter( 'wpmoly/shortcode/format/composer/value',             '\wpmoly\utils\format\movie_composer',             15, 2 );
+		add_filter( 'wpmoly/shortcode/format/director/value',             '\wpmoly\utils\format\movie_director',             15, 2 );
+		add_filter( 'wpmoly/shortcode/format/homepage/value',             '\wpmoly\utils\format\movie_homepage',             15, 2 );
+		add_filter( 'wpmoly/shortcode/format/cast/value',                 '\wpmoly\utils\format\movie_cast',                 15, 2 );
+		add_filter( 'wpmoly/shortcode/format/genres/value',               '\wpmoly\utils\format\movie_genres',               15, 2 );
+		add_filter( 'wpmoly/shortcode/format/imdb_id/value',              '\wpmoly\utils\format\movie_imdb_id',              15, 2 );
+		add_filter( 'wpmoly/shortcode/format/local_release_date/value',   '\wpmoly\utils\format\movie_local_release_date',   15, 2 );
+		add_filter( 'wpmoly/shortcode/format/photography/value',          '\wpmoly\utils\format\movie_photography',          15, 2 );
+		add_filter( 'wpmoly/shortcode/format/production_countries/value', '\wpmoly\utils\format\movie_production_countries', 15, 2 );
+		add_filter( 'wpmoly/shortcode/format/production_companies/value', '\wpmoly\utils\format\movie_production_companies', 15, 2 );
+		add_filter( 'wpmoly/shortcode/format/producer/value',             '\wpmoly\utils\format\movie_producer',             15, 2 );
+		add_filter( 'wpmoly/shortcode/format/release_date/value',         '\wpmoly\utils\format\movie_release_date',         15, 2 );
+		add_filter( 'wpmoly/shortcode/format/revenue/value',              '\wpmoly\utils\format\movie_revenue',              15, 2 );
+		add_filter( 'wpmoly/shortcode/format/runtime/value',              '\wpmoly\utils\format\movie_runtime',              15, 2 );
+		add_filter( 'wpmoly/shortcode/format/spoken_languages/value',     '\wpmoly\utils\format\movie_spoken_languages',     15, 2 );
+		add_filter( 'wpmoly/shortcode/format/tmdb_id/value',              '\wpmoly\utils\format\movie_tmdb_id',              15, 2 );
+		add_filter( 'wpmoly/shortcode/format/writer/value',               '\wpmoly\utils\format\movie_writer',               15, 2 );
 
 		// Details Formatting
-		add_filter( 'wpmoly/shortcode/format/format/value',               '\wpmoly\helpers\format_movie_format',             15, 2 );
-		add_filter( 'wpmoly/shortcode/format/language/value',             '\wpmoly\helpers\format_movie_language',           15, 2 );
-		add_filter( 'wpmoly/shortcode/format/media/value',                '\wpmoly\helpers\format_movie_media',              15, 2 );
-		add_filter( 'wpmoly/shortcode/format/rating/value',               '\wpmoly\helpers\format_movie_rating',             15, 2 );
-		add_filter( 'wpmoly/shortcode/format/status/value',               '\wpmoly\helpers\format_movie_status',             15, 2 );
-		add_filter( 'wpmoly/shortcode/format/subtitles/value',            '\wpmoly\helpers\format_movie_subtitles',          15, 2 );
+		add_filter( 'wpmoly/shortcode/format/format/value',               '\wpmoly\utils\format\movie_format',             15, 2 );
+		add_filter( 'wpmoly/shortcode/format/language/value',             '\wpmoly\utils\format\movie_language',           15, 2 );
+		add_filter( 'wpmoly/shortcode/format/media/value',                '\wpmoly\utils\format\movie_media',              15, 2 );
+		add_filter( 'wpmoly/shortcode/format/rating/value',               '\wpmoly\utils\format\movie_rating',             15, 2 );
+		add_filter( 'wpmoly/shortcode/format/status/value',               '\wpmoly\utils\format\movie_status',             15, 2 );
+		add_filter( 'wpmoly/shortcode/format/subtitles/value',            '\wpmoly\utils\format\movie_subtitles',          15, 2 );
 	}
 
 	/**
@@ -1293,12 +1302,12 @@ final class wpMovieLibrary {
 	public function register_widget_filters( $wpmovielibrary ) {
 
 		// Details Formatting
-		add_filter( 'wpmoly/widget/format/format/value',    '\wpmoly\helpers\format_movie_format',    15, 2 );
-		add_filter( 'wpmoly/widget/format/language/value',  '\wpmoly\helpers\format_movie_language',  15, 2 );
-		add_filter( 'wpmoly/widget/format/media/value',     '\wpmoly\helpers\format_movie_media',     15, 2 );
-		add_filter( 'wpmoly/widget/format/rating/value',    '\wpmoly\helpers\format_movie_rating',    15, 2 );
-		add_filter( 'wpmoly/widget/format/status/value',    '\wpmoly\helpers\format_movie_status',    15, 2 );
-		add_filter( 'wpmoly/widget/format/subtitles/value', '\wpmoly\helpers\format_movie_subtitles', 15, 2 );
+		add_filter( 'wpmoly/widget/format/format/value',    '\wpmoly\utils\format\movie_format',    15, 2 );
+		add_filter( 'wpmoly/widget/format/language/value',  '\wpmoly\utils\format\movie_language',  15, 2 );
+		add_filter( 'wpmoly/widget/format/media/value',     '\wpmoly\utils\format\movie_media',     15, 2 );
+		add_filter( 'wpmoly/widget/format/rating/value',    '\wpmoly\utils\format\movie_rating',    15, 2 );
+		add_filter( 'wpmoly/widget/format/status/value',    '\wpmoly\utils\format\movie_status',    15, 2 );
+		add_filter( 'wpmoly/widget/format/subtitles/value', '\wpmoly\utils\format\movie_subtitles', 15, 2 );
 	}
 
 	/**

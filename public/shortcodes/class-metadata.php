@@ -11,7 +11,7 @@
 namespace wpmoly\shortcodes;
 
 use wpmoly\templates\Front as Template;
-use wpmoly\helpers;
+use wpmoly\utils;
 
 /**
  * General Shortcode class.
@@ -185,7 +185,7 @@ class Metadata extends Shortcode {
 		$post_id = $this->get_movie_id();
 
 		// Get value
-		$value = get_movie_meta( $post_id, $key, true );
+		$value = utils\movie\get_meta( $post_id, $key, true );
 		if ( empty( $value ) ) {
 			/**
 			 * Filter empty meta value.
@@ -197,7 +197,7 @@ class Metadata extends Shortcode {
 			 */
 			$value = apply_filters( "wpmoly/shortcode/format/{$key}/empty/value", $value, $format );
 			if ( empty( $value ) ) {
-				/** This filter is documented in includes/helpers/formatting.php **/
+				/** This filter is documented in includes/utils/formatting.php **/
 				$value = apply_filters( 'wpmoly/filter/meta/empty/value', '&mdash;' );
 			}
 
@@ -265,7 +265,7 @@ class Metadata extends Shortcode {
 		$key  = $this->attributes['key'];
 
 		// Get label
-		$metadata = helpers\get_registered_movie_meta( $key );
+		$metadata = utils\get_registered_movie_meta( $key );
 		$label = ! empty( $metadata['description'] ) ? $metadata['description'] : '';
 
 		// Set template data

@@ -12,6 +12,8 @@
 
 namespace wpmoly\registrars;
 
+use wpmoly\utils;
+
 /**
  * Register the plugin custom taxonomies.
  *
@@ -187,7 +189,7 @@ class Taxonomies {
 	 */
 	public function register_category_editor_block( $blocks ) {
 
-		if ( wpmoly_o( 'enable-categories' ) ) {
+		if ( utils\o( 'enable-categories' ) ) {
 			$blocks['movie-categories'] = array(
 				'dashboard_type' => 'editor',
 				'object_type'    => 'post',
@@ -218,7 +220,7 @@ class Taxonomies {
 	 */
 	public function register_post_tag_editor_block( $blocks ) {
 
-		if ( wpmoly_o( 'enable-tags' ) ) {
+		if ( utils\o( 'enable-tags' ) ) {
 			$blocks['movie-tags'] = array(
 				'dashboard_type' => 'editor',
 				'object_type'    => 'post',
@@ -255,13 +257,13 @@ class Taxonomies {
 			return $termlink;
 		}
 
-		if ( ! has_archives_page( $taxonomy ) ) {
+		if ( ! utils\has_archives_page( $taxonomy ) ) {
 			$permalinks = get_option( 'wpmoly_permalinks', array() );
 			if ( ! empty( $permalinks[ $taxonomy ] ) ) {
 				$termlink = $permalinks[ $taxonomy ] . $term->slug;
 			}
 		} else {
-			$baselink = trailingslashit( get_taxonomy_archive_link( $taxonomy ) );
+			$baselink = trailingslashit( utils\get_taxonomy_archive_link( $taxonomy ) );
 			$termlink = trailingslashit( $baselink . $term->slug );
 		}
 

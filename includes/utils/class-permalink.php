@@ -8,7 +8,7 @@
  * @package wpMovieLibrary
  */
 
-namespace wpmoly\helpers;
+namespace wpmoly\utils;
 
 /**
  * Handle custom permalinks.

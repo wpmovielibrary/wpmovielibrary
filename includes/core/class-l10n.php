@@ -11,7 +11,7 @@
 namespace wpmoly\core;
 
 use wpmoly\nodes;
-use wpmoly\helpers;
+use wpmoly\utils;
 
 /**
  * Loads and defines the localization files for this plugin.
@@ -741,13 +741,13 @@ class L10n {
 			'nonce'             => wp_create_nonce( 'wpmoly_rest' ),
 			'verbose'           => ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ),
 			'versionString'     => 'wpmoly/v1/',
-			'actor_prefix'      => prefix_actor_meta_key( '' ),
-			'collection_prefix' => prefix_collection_meta_key( '' ),
-			'genre_prefix'      => prefix_genre_meta_key( '' ),
-			'grid_prefix'       => prefix_grid_meta_key( '' ),
-			'movie_prefix'      => prefix_movie_meta_key( '' ),
-			'option_prefix'     => prefix_settings_option_name( '' ),
-			'page_prefix'       => prefix_page_meta_key( '' ),
+			'actor_prefix'      => utils\actor\prefix( '' ),
+			'collection_prefix' => utils\collection\prefix( '' ),
+			'genre_prefix'      => utils\genre\prefix( '' ),
+			'grid_prefix'       => utils\grid\prefix( '' ),
+			'movie_prefix'      => utils\movie\prefix( '' ),
+			'option_prefix'     => utils\settings\prefix( '' ),
+			'page_prefix'       => utils\page\prefix( '' ),
 		);
 
 		wp_localize_script( 'wpmoly-api', 'wpmolyApiSettings', $localized );
@@ -775,11 +775,11 @@ class L10n {
 	private function localize_admin_scripts() {
 
 		wp_localize_script( 'wpmoly-tmdb', 'tmdbApiSettings', array(
-			'api_key'             => wpmoly_o( 'api-key', '' ),
-			'language'            => wpmoly_o( 'api-language', 'en-US' ),
-			'country'             => wpmoly_o( 'api-country', 'US' ),
-			'alternative_country' => wpmoly_o( 'api-alternative-country', 'US' ),
-			'adult'               => wpmoly_o( 'api-adult', true ),
+			'api_key'             => utils\o( 'api-key', '' ),
+			'language'            => utils\o( 'api-language', 'en-US' ),
+			'country'             => utils\o( 'api-country', 'US' ),
+			'alternative_country' => utils\o( 'api-alternative-country', 'US' ),
+			'adult'               => utils\o( 'api-adult', true ),
 			'mapping' => array(
 				'Movie'       => 'Movie',
 				'SearchMovie' => 'Movies',

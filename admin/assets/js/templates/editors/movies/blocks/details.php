@@ -5,9 +5,9 @@
  * @since 3.0.0
  */
 
- use \wpmoly\helpers;
+ use \wpmoly\utils;
 
- $meta = helpers\get_registered_movie_meta();
+ $meta = utils\get_registered_movie_meta();
 ?>
 
               <p class="description"><?php esc_html_e( '.', 'wpmovielibrary' ); ?></p>

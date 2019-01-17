@@ -10,6 +10,8 @@
 
 namespace wpmoly\widgets;
 
+use wpmoly\utils;
+
 /**
  * Grid Widget class.
  *
@@ -70,11 +72,11 @@ class Grid extends Widget {
 		$this->data['title'] = $before_title . $widget_title . $after_title;
 		$this->data['description'] = $this->get_attr( 'description' );
 
-		$grid = get_grid( (int) $this->get_attr( 'grid_id' ) );
+		$grid = utils\grid\get( (int) $this->get_attr( 'grid_id' ) );
 		$grid->is_widget = true;
 		$grid->init();
 
-		$template = get_grid_template( $grid );
+		$template = utils\grid\get_template( $grid );
 
 		$this->data['grid'] = $template->render( 'always', false );
 	}
