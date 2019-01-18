@@ -652,21 +652,15 @@ class L10n {
 	 */
 	public function localize_post_types( $post_types = array() ) {
 
-		if ( ! empty( $post_types['movie'] ) ) {
+		global $pagenow;
 
-			$permalinks = get_option( 'wpmoly_permalinks', array() );
-			if ( ! empty( $permalinks['movie'] ) ) {
-				$post_types['movie']['rewrite']['slug'] = trim( $permalinks['movie'], '/' );
-			}
+		// Don't do this while flushing rewrite rules.
+		if ( 'options-permalink.php' === $pagenow ) {
+			return $post_types;
+		}
 
-			$movies = array_search( 'movie', (array) get_option( '_wpmoly_archive_pages', array() ) );
-			if ( ! $movies ) {
-				if ( ! empty( $permalinks['movies'] ) ) {
-					$post_types['movie']['has_archive'] = trim( $permalinks['movies'], '/' );
-				}
-			} else {
-				$post_types['movie']['has_archive'] = trim( str_replace( home_url(), '', get_permalink( $movies ) ), '/' );
-			}
+		if ( ! empty( $post_types['movie'] ) && utils\movie\has_archives_page() ) {
+			$post_types['movie']['has_archive'] = utils\movie\get_archive_link( 'relative' );
 		}
 
 		return $post_types;
@@ -683,18 +677,9 @@ class L10n {
 	 */
 	public function localize_taxonomies( $taxonomies = array() ) {
 
-		$permalinks = (array) get_option( 'wpmoly_permalinks', array() );
-		$archives   = (array) get_option( '_wpmoly_archive_pages', array() );
-
 		foreach ( $taxonomies as $slug => $taxonomy ) {
-
-			$archive = array_search( $slug, $archives );
-			if ( ! $archive ) {
-				if ( ! empty( $permalinks[ $slug ] ) ) {
-					$taxonomies[ $slug ]['rewrite']['slug'] = trim( $permalinks[ $slug ], '/' );
-				}
-			} else {
-				$taxonomies[ $slug ]['rewrite']['slug'] = str_replace( home_url(), '', get_permalink( $archive ) );
+			if ( ! empty( $post_types['movie'] ) && utils\has_archives_page( $slug ) ) {
+				$taxonomies[ $slug ]['rewrite']['slug'] = utils\get_taxonomy_archive_link( $slug, 'relative' );
 			}
 		}
 

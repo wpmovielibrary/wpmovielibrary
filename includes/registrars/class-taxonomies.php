@@ -61,7 +61,10 @@ class Taxonomies {
 					'rest_controller_class' => '\wpmoly\rest\endpoints\Terms_Controller',
 				),
 				'post_type' => array( 'movie' ),
-				'archive'   => 'actors',
+				'rest_base' => 'actors',
+				'rewrite'   => array(
+					'slug' => _x( 'actor', 'slug', 'wpmovielibrary' ),
+				),
 			),
 			'collection' => array(
 				'args'  => array(
@@ -89,7 +92,10 @@ class Taxonomies {
 					'rest_controller_class' => '\wpmoly\rest\endpoints\Terms_Controller',
 				),
 				'post_type' => array( 'movie' ),
-				'archive'   => 'collections',
+				'rest_base' => 'collections',
+				'rewrite'   => array(
+					'slug' => _x( 'collection', 'slug', 'wpmovielibrary' ),
+				),
 			),
 			'genre' => array(
 				'slug'  => 'genre',
@@ -118,7 +124,10 @@ class Taxonomies {
 					'rest_controller_class' => '\wpmoly\rest\endpoints\Terms_Controller',
 				),
 				'post_type' => array( 'movie' ),
-				'archive'   => 'genres',
+				'rest_base' => 'genres',
+				'rewrite'   => array(
+					'slug' => _x( 'genre', 'slug', 'wpmovielibrary' ),
+				),
 			),
 		);
 	}
@@ -164,10 +173,8 @@ class Taxonomies {
 				'query_var'             => true,
 				'sort'                  => true,
 				'show_in_rest'          => true,
-				'rest_base'             => ! empty( $taxonomy['archive'] ) ? $taxonomy['archive'] : $slug,
-				'rewrite'               => array(
-					'slug' => $taxonomy['archive'],
-				),
+				'rest_base'             => ! empty( $taxonomy['rest_base'] ) ? $taxonomy['rest_base'] : $slug,
+				'rewrite'               => ! empty( $taxonomy['rewrite'] ) ? $taxonomy['rewrite'] : array( 'slug' => $slug ),
 			), $args );
 
 			foreach ( $taxonomy['post_type'] as $post_type ) {
@@ -257,12 +264,7 @@ class Taxonomies {
 			return $termlink;
 		}
 
-		if ( ! utils\has_archives_page( $taxonomy ) ) {
-			$permalinks = get_option( 'wpmoly_permalinks', array() );
-			if ( ! empty( $permalinks[ $taxonomy ] ) ) {
-				$termlink = $permalinks[ $taxonomy ] . $term->slug;
-			}
-		} else {
+		if ( utils\has_archives_page( $taxonomy ) ) {
 			$baselink = trailingslashit( utils\get_taxonomy_archive_link( $taxonomy ) );
 			$termlink = trailingslashit( $baselink . $term->slug );
 		}

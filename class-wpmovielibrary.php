@@ -117,6 +117,9 @@ final class wpMovieLibrary {
 		// Localize.
 		add_action( 'wpmoly/core/loaded', array( &$this, 'localize' ) );
 
+		// Register Rewrite Rules.
+		add_action( 'wpmoly/core/loaded', array( &$this, 'register_rewrite_rules' ) );
+
 		// Register Helpers.
 		add_action( 'wpmoly/utils/loaded', array( &$this, 'register_util_filters' ) );
 
@@ -196,6 +199,7 @@ final class wpMovieLibrary {
 
 		require_once WPMOLY_PATH . 'includes/core/class-assets.php';
 		require_once WPMOLY_PATH . 'includes/core/class-l10n.php';
+		require_once WPMOLY_PATH . 'includes/core/class-rewrite-rules.php';
 		require_once WPMOLY_PATH . 'includes/core/class-settings.php';
 		require_once WPMOLY_PATH . 'includes/core/class-query.php';
 
@@ -438,7 +442,6 @@ final class wpMovieLibrary {
 		 */
 		do_action_ref_array( 'wpmoly/editors/load', array( &$this ) );
 
-		require_once WPMOLY_PATH . 'admin/editors/class-permalinks.php';
 		require_once WPMOLY_PATH . 'admin/editors/class-posts.php';
 		require_once WPMOLY_PATH . 'admin/editors/class-terms.php';
 
@@ -591,6 +594,42 @@ final class wpMovieLibrary {
 		 * @param L10n           &$l10n The L10n instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/localized', array( &$this, &$l10n ) );
+	}
+
+	/**
+	 * Register the plugin's custom rewrite rules.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param wpMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
+	 */
+	public function register_rewrite_rules( $wpmovielibrary ) {
+
+		/**
+		 * Fires before registering rewrite rules.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param wpMovieLibrary &$this The Plugin instance (passed by reference).
+		 */
+		do_action_ref_array( 'wpmoly/rewrite_rules/register', array( &$this ) );
+
+		// Rewrite Rules Settings
+		$rewrite_rules = new core\Rewrite_Rules;
+		add_filter( 'rewrite_rules_array', array( $rewrite_rules, 'register' ) );
+
+		/**
+		 * Fires after rewrite rules are registered.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param wpMovieLibrary &$this      The Plugin instance (passed by reference).
+		 * @param Post_Types     &$registrar The Post Types registrar instance (passed by reference).
+		 */
+		do_action_ref_array( 'wpmoly/rewrite_rules/registered', array( &$this, &$registrar ) );
+
 	}
 
 	/**
@@ -888,7 +927,6 @@ final class wpMovieLibrary {
 		$query = core\Query::get_instance();
 		add_filter( 'init',           array( $query, 'add_rewrite_tags' ) );
 		add_filter( 'query_vars',     array( $query, 'add_query_vars' ) );
-		add_filter( 'post_type_link', array( $query, 'replace_movie_link_tags' ), 10, 4 );
 		add_filter( 'posts_where',    array( $query, 'filter_movies_by_letter' ), 10, 2 );
 		add_filter( 'pre_get_posts',  array( $query, 'filter_movies_by_preset' ), 10, 1 );
 
@@ -1080,7 +1118,6 @@ final class wpMovieLibrary {
 		add_action( 'wpmoly/editors/loaded', array( $dashboard, 'register_dashboard' ) );
 		add_action( 'wpmoly/editors/loaded', array( $dashboard, 'register_post_editor' ) );
 		add_action( 'wpmoly/editors/loaded', array( $dashboard, 'register_term_editor' ) );
-		add_action( 'wpmoly/editors/loaded', array( $dashboard, 'register_permalinks_editor' ) );
 
 		/**
 		 * Fires after dashboard is registered.

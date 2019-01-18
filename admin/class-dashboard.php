@@ -138,28 +138,6 @@ class Dashboard {
 	}
 
 	/**
-	 * Register the Permalinks Editor.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access public
-	 */
-	public function register_permalinks_editor() {
-
-		// Permalink Settings
-		$permalinks = new editors\Permalinks;
-		add_action( 'load-options-permalink.php', array( $permalinks, 'register' ) );
-		add_action( 'load-options-permalink.php', array( $permalinks, 'update' ) );
-
-		add_filter( 'rewrite_rules_array', array( $permalinks, 'set_movie_archives_rewrite_rules' ) );
-		add_filter( 'rewrite_rules_array', array( $permalinks, 'set_taxonomy_archives_rewrite_rules' ) );
-
-		add_action( 'admin_notices',                      array( $permalinks, 'register_notice' ) );
-		add_action( 'generate_rewrite_rules',             array( $permalinks, 'delete_notice' ) );
-		add_action( 'wpmoly/action/update/archive_pages', array( $permalinks, 'set_notice' ) );
-	}
-
-	/**
 	 * Plugged on the 'admin_menu' action hook.
 	 *
 	 * Register the backstage library page.

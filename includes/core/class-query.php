@@ -194,43 +194,6 @@ class Query {
 	}
 
 	/**
-	 * Replace custom rewrite tags in post links.
-	 *
-	 * WordPress automatically appends the post's name at the end of the
-	 * permalink, meaning we have to check for the presence of a %postname%
-	 * or %movie% tag in the permalink that could be present if we're dealing
-	 * with custom permalink structures and remove it. This may result in
-	 * duplicate slashes that we need to clean while we're at it.
-	 *
-	 * This markers should be stripped automatically when saving permalink
-	 * structures, but we're still better off checking to avoid malformed
-	 * URLs.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access public
-	 *
-	 * @param string  $permalink
-	 * @param object  $post      WP_Post instance
-	 * @param boolean $leavename
-	 * @param boolean $sample
-	 *
-	 * @return string
-	 */
-	public function replace_movie_link_tags( $permalink, $post, $leavename, $sample ) {
-
-		if ( $sample || 'movie' != $post->post_type ) {
-			return $permalink;
-		}
-
-		// Check for duplicate post name and clean duplicate slashes
-		$permalink = preg_replace( '/' . $post->post_name . '\/?$/', '', $permalink );
-		$permalink = preg_replace( '/([^:])(\/{2,})/', '$1/', $permalink );
-
-		return $this->replace_tags( $permalink, $post );
-	}
-
-	/**
 	 * Replace custom rewrite tags in permalinks.
 	 *
 	 * @since 3.0.0

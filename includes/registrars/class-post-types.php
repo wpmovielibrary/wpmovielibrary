@@ -78,7 +78,7 @@ class Post_Types {
 					'menu_name'          => __( 'Movies', 'wpmovielibrary' ),
 				),
 				'rewrite' => array(
-					'slug' => 'movie',
+					'slug' => _x( 'movie', 'slug', 'wpmovielibrary' ),
 				),
 				'public'             => true,
 				'publicly_queryable' => true,
@@ -86,7 +86,7 @@ class Post_Types {
 				'show_in_rest'       => true,
 				'rest_base'          => 'movies',
 				'show_in_menu'       => false,
-				'has_archive'        => 'movie',
+				'has_archive'        => _x( 'movies', 'slug', 'wpmovielibrary' ),
 				'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
 				'rest_controller_class' => '\wpmoly\rest\endpoints\Posts_Controller',
 				'menu_position'      => 2,

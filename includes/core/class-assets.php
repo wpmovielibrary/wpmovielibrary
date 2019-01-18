@@ -165,11 +165,6 @@ class Assets {
 				}
 			}
 		}
-
-		if ( 'options-permalink.php' == $hook_suffix ) {
-			$this->enqueue_script( 'metaboxes' );
-			$this->enqueue_script( 'permalinks-editor' );
-		}
 	}
 
 	/**
@@ -236,11 +231,6 @@ class Assets {
 					$this->enqueue_style( 'term-browser' );
 				}
 			}
-		}
-
-		if ( 'options-permalink.php' == $hook_suffix ) {
-			$this->enqueue_style( 'metaboxes' );
-			$this->enqueue_style( 'permalinks-editor' );
 		}
 	}
 
@@ -486,10 +476,9 @@ class Assets {
 		$this->add_public_js( 'api',   'api.js',    array( 'jquery', 'wpmoly-underscore-string', 'wp-backbone', 'wp-api', 'wpmoly-utils' ) );
 
 		// Runners
-		$this->add_public_js( 'grids',            'grids.js',              array( 'wpmoly-core', 'wpmoly-api' ) );
-		$this->add_admin_js( 'dashboard',         'dashboard.js',          array( 'wpmoly-core', 'wpmoly-api' ) );
-		$this->add_admin_js( 'metaboxes',         'metaboxes.js',          array( 'wpmoly-core' ) );
-		$this->add_admin_js( 'permalinks-editor', 'permalinks-editor.js',  array( 'wpmoly-core' ) );
+		$this->add_public_js( 'grids',    'grids.js',     array( 'wpmoly-core', 'wpmoly-api' ) );
+		$this->add_admin_js( 'dashboard', 'dashboard.js', array( 'wpmoly-core', 'wpmoly-api' ) );
+		$this->add_admin_js( 'metaboxes', 'metaboxes.js', array( 'wpmoly-core' ) );
 
 		// Posts browser.
 		$this->add_admin_js( 'post-browser',  'post-browser.js',  array( 'wpmoly-core', 'wpmoly-api' ) );
@@ -562,10 +551,6 @@ class Assets {
 
 		// Dashboard.
 		$this->add_admin_css( 'dashboard', 'dashboard.css' );
-
-		// Editors.
-		$this->add_admin_css( 'metaboxes',          'metaboxes.css' );
-		$this->add_admin_css( 'permalinks-editor',  'permalinks-editor.css' );
 
 		// Posts.
 		$this->add_admin_css( 'post-browser', 'post-browser.css' );

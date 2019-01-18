@@ -255,7 +255,7 @@ function get_archive_page_type( $post_id ) {
 function get_taxonomy_archive_link( $type = '', $format = 'absolute' ) {
 
 	if ( ! has_archives_page( $type ) ) {
-		return '';
+		return false;
 	}
 
 	$page_id = get_archives_page_id( $type );
