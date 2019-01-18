@@ -513,3 +513,180 @@ function prepare_movie_meta_values( $type, $items, $context = 'edit', $options =
 
 	return $items;
 }
+
+/**
+ * Prepare person adult for REST API Response.
+ *
+ * @since 3.0.0
+ *
+ * @param  string $adult   Person adult.
+ * @param  string $context REST API Request context, 'view' or 'edit'. Default is 'edit'.
+ *
+ * @return mixed
+ */
+function prepare_person_adult( $adult, $context = 'edit' ) {
+
+	return prepare_person_meta_value( 'adult', $adult, $context );
+}
+
+/**
+ * Prepare person aliases for REST API Response.
+ *
+ * @since 3.0.0
+ *
+ * @param  string $also_known_as Person aliases.
+ * @param  string $context       REST API Request context, 'view' or 'edit'. Default is 'edit'.
+ *
+ * @return mixed
+ */
+function prepare_person_also_known_as( $also_known_as, $context = 'edit' ) {
+
+	return prepare_movie_meta_values( 'also_known_as', $also_known_as, $context );
+}
+
+/**
+ * Prepare person birthday for REST API Response.
+ *
+ * @since 3.0.0
+ *
+ * @param  string $birthday Person birthday.
+ * @param  string $context  REST API Request context, 'view' or 'edit'. Default is 'edit'.
+ *
+ * @return mixed
+ */
+function prepare_person_birthday( $birthday, $context = 'edit' ) {
+
+	return prepare_person_meta_value( 'birthday', $birthday, $context );
+}
+
+/**
+ * Prepare person deathday for REST API Response.
+ *
+ * @since 3.0.0
+ *
+ * @param  string $deathday Person deathday.
+ * @param  string $context  REST API Request context, 'view' or 'edit'. Default is 'edit'.
+ *
+ * @return mixed
+ */
+function prepare_person_deathday( $deathday, $context = 'edit' ) {
+
+	return prepare_person_meta_value( 'deathday', $deathday, $context );
+}
+
+/**
+ * Prepare person homepage for REST API Response.
+ *
+ * @since 3.0.0
+ *
+ * @param  string $homepage Person homepage.
+ * @param  string $context  REST API Request context, 'view' or 'edit'. Default is 'edit'.
+ *
+ * @return mixed
+ */
+function prepare_person_homepage( $homepage, $context = 'edit' ) {
+
+	return prepare_person_meta_value( 'homepage', $homepage, $context );
+}
+
+/**
+ * Prepare person IMDb ID for REST API Response.
+ *
+ * @since 3.0.0
+ *
+ * @param  string $imdb_id Person IMDb ID.
+ * @param  string $context REST API Request context, 'view' or 'edit'. Default is 'edit'.
+ *
+ * @return mixed
+ */
+function prepare_person_imdb_id( $imdb_id, $context = 'edit' ) {
+
+	return prepare_person_meta_value( 'imdb_id', $imdb_id, $context );
+}
+
+/**
+ * Prepare person TMDb ID for REST API Response.
+ *
+ * @since 3.0.0
+ *
+ * @param  string $tmdb_id Person TMDb ID.
+ * @param  string $context REST API Request context, 'view' or 'edit'. Default is 'edit'.
+ *
+ * @return mixed
+ */
+function prepare_person_tmdb_id( $tmdb_id, $context = 'edit' ) {
+
+	return prepare_person_meta_value( 'tmdb_id', $tmdb_id, $context );
+}
+
+/**
+ * Prepare a specific item for REST API Response.
+ *
+ * @since 3.0.0
+ *
+ * @param  string $type    Item type.
+ * @param  string $item    Item.
+ * @param  string $context REST API Request context.
+ *
+ * @return mixed
+ */
+function prepare_person_meta_value( $type, $item, $context = 'edit', $options = array() ) {
+
+	if ( 'view' === $context ) {
+		/** This filter is documented in includes/nodes/posts/class-person.php */
+		$item = apply_filters( "wpmoly/filter/the/person/{$type}", $item );
+	} elseif ( 'embed' === $context ) {
+
+		add_filter( "wpmoly/filter/meta/empty/{$type}/value", '__return_null' );
+
+		$options = wp_parse_args( $options, array(
+			'is_link' => false,
+		) );
+
+		/** This filter is documented in includes/nodes/posts/class-person.php */
+		$item = apply_filters( "wpmoly/filter/the/person/{$type}", $item, $options );
+
+		remove_filter( "wpmoly/filter/meta/empty/{$type}/value", '__return_null' );
+	}
+
+	return $item;
+}
+
+/**
+ * Prepare a list of items for REST API Response.
+ *
+ * @since 3.0.0
+ *
+ * @param  string $type    Item type.
+ * @param  string $items   List of items.
+ * @param  string $context REST API Request context.
+ *
+ * @return mixed
+ */
+function prepare_person_meta_values( $type, $items, $context = 'edit', $options = array() ) {
+
+	if ( 'view' === $context ) {
+		/** This filter is documented in includes/nodes/posts/class-person.php */
+		$items = apply_filters( "wpmoly/filter/the/person/{$type}", $items, $options );
+	} elseif ( 'embed' === $context ) {
+
+		add_filter( "wpmoly/filter/meta/empty/{$type}/value", '__return_null' );
+
+		$options = wp_parse_args( $options, array(
+			'is_link' => false,
+		) );
+
+		/** This filter is documented in includes/nodes/posts/class-person.php */
+		$items = apply_filters( "wpmoly/filter/the/person/{$type}", $items, $options );
+
+		remove_filter( "wpmoly/filter/meta/empty/{$type}/value", '__return_null' );
+	} elseif ( 'edit' === $context ) {
+		if ( is_string( $items ) ) {
+			$items = explode( ',', $items );
+		}
+		$items = array_map( 'trim', (array) $items );
+		$items = array_filter( $items );
+	}
+
+	return $items;
+}

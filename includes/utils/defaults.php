@@ -860,3 +860,111 @@ function get_registered_page_meta( $meta_name = '' ) {
 
 	return $registered_meta[ $meta_name ];
 }
+
+/**
+ * Define supported person post meta.
+ *
+ * @since 3.0.0
+ *
+ * @return array
+ */
+function get_registered_person_meta( $meta_name = '' ) {
+
+	$default_meta = get_default_posts_meta();
+
+	$registered_meta = array(
+		'adult' => array(
+			'type'         => 'boolean',
+			'post_type'    => array( 'person' ),
+			'description'  => __( 'Adult', 'wpmovielibrary' ),
+			'show_in_rest' => array(
+				'prepare_callback' => '\wpmoly\rest\prepare_person_adult',
+			),
+		),
+		'also_known_as' => array(
+			'type'         => 'string',
+			'post_type'    => array( 'person' ),
+			'description'  => __( 'Also known as', 'wpmovielibrary' ),
+			'show_in_rest' => array(
+				'prepare_callback' => '\wpmoly\rest\prepare_person_also_known_as',
+			),
+		),
+		'biography' => array(
+			'type'         => 'string',
+			'post_type'    => array( 'person' ),
+			'description'  => __( 'Biography', 'wpmovielibrary' ),
+			'show_in_rest' => true,
+		),
+		'birthday' => array(
+			'type'         => 'string',
+			'post_type'    => array( 'person' ),
+			'description'  => __( 'Date of birth', 'wpmovielibrary' ),
+			'show_in_rest' => array(
+				'prepare_callback' => '\wpmoly\rest\prepare_person_birthday',
+			),
+		),
+		'deathday' => array(
+			'type'         => 'string',
+			'post_type'    => array( 'person' ),
+			'description'  => __( 'Date of death', 'wpmovielibrary' ),
+			'show_in_rest' => array(
+				'prepare_callback' => '\wpmoly\rest\prepare_person_deathday',
+			),
+		),
+		'homepage' => array(
+			'type'         => 'string',
+			'post_type'    => array( 'person' ),
+			'description'  => __( 'Homepage', 'wpmovielibrary' ),
+			'show_in_rest' => array(
+				'prepare_callback' => '\wpmoly\rest\prepare_person_homepage',
+			),
+		),
+		'imdb_id' => array(
+			'type'         => 'string',
+			'post_type'    => array( 'person' ),
+			'description'  => __( 'IMDb ID', 'wpmovielibrary' ),
+			'show_in_rest' => array(
+				'prepare_callback' => '\wpmoly\rest\prepare_person_imdb_id',
+			),
+		),
+		'name' => array(
+			'type'         => 'string',
+			'post_type'    => array( 'person' ),
+			'description'  => __( 'Name', 'wpmovielibrary' ),
+			'show_in_rest' => true,
+		),
+		'place_of_birth' => array(
+			'type'         => 'string',
+			'post_type'    => array( 'person' ),
+			'description'  => __( 'Place of birth', 'wpmovielibrary' ),
+			'show_in_rest' => true,
+		),
+		'tmdb_id' => array(
+			'type'         => 'integer',
+			'post_type'    => array( 'person' ),
+			'description'  => __( 'TMDb ID', 'wpmovielibrary' ),
+			'show_in_rest' => array(
+				'prepare_callback' => '\wpmoly\rest\prepare_person_tmdb_id',
+			),
+		),
+	);
+
+	/**
+	 * Filter default person meta.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $registered_meta Registered Person Meta.
+	 */
+	$registered_meta = apply_filters( 'wpmoly/filter/registered/person/meta', $default_meta + $registered_meta );
+
+	if ( empty( $meta_name ) ) {
+		return $registered_meta;
+	}
+
+	if ( empty( $registered_meta[ $meta_name ] ) ) {
+		return array();
+	}
+
+	return $registered_meta[ $meta_name ];
+}

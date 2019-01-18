@@ -92,6 +92,37 @@ class Post_Types {
 				'menu_position'      => 2,
 				'menu_icon'          => 'dashicons-wpmoly',
 			),
+			'person' => array(
+				'labels' => array(
+					'name'               => __( 'Persons', 'wpmovielibrary' ),
+					'singular_name'      => __( 'Person', 'wpmovielibrary' ),
+					'add_new'            => __( 'Add New', 'wpmovielibrary' ),
+					'add_new_item'       => __( 'Add New Person', 'wpmovielibrary' ),
+					'edit_item'          => __( 'Edit Person', 'wpmovielibrary' ),
+					'new_item'           => __( 'New Person', 'wpmovielibrary' ),
+					'all_items'          => __( 'All Persons', 'wpmovielibrary' ),
+					'view_item'          => __( 'View Person', 'wpmovielibrary' ),
+					'search_items'       => __( 'Search Persons', 'wpmovielibrary' ),
+					'not_found'          => __( 'No persons found', 'wpmovielibrary' ),
+					'not_found_in_trash' => __( 'No persons found in Trash', 'wpmovielibrary' ),
+					'parent_item_colon'  => '',
+					'menu_name'          => __( 'Persons', 'wpmovielibrary' ),
+				),
+				'rewrite' => array(
+					'slug' => _x( 'person', 'slug', 'wpmovielibrary' ),
+				),
+				'public'             => true,
+				'publicly_queryable' => true,
+				'show_ui'            => true,
+				'show_in_rest'       => true,
+				'rest_base'          => 'persons',
+				'show_in_menu'       => false,
+				'has_archive'        => _x( 'persons', 'slug', 'wpmovielibrary' ),
+				'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
+				'rest_controller_class' => '\wpmoly\rest\endpoints\Posts_Controller',
+				'menu_position'      => 2,
+				'menu_icon'          => 'dashicons-wpmoly',
+			),
 		);
 	}
 

@@ -275,6 +275,7 @@ final class wpMovieLibrary {
 		require_once WPMOLY_PATH . 'includes/utils/grid-utils.php';
 		require_once WPMOLY_PATH . 'includes/utils/movie-utils.php';
 		require_once WPMOLY_PATH . 'includes/utils/page-utils.php';
+		require_once WPMOLY_PATH . 'includes/utils/person-utils.php';
 		require_once WPMOLY_PATH . 'includes/utils/settings-utils.php';
 		require_once WPMOLY_PATH . 'includes/utils/templates.php';
 		require_once WPMOLY_PATH . 'includes/utils/permalinks.php';
