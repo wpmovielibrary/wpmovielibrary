@@ -109,6 +109,7 @@ class API {
 			'wpmoly\rest\endpoints\Genres',
 			'wpmoly\rest\endpoints\Grids',
 			'wpmoly\rest\endpoints\Movies',
+			'wpmoly\rest\endpoints\Persons',
 			'wpmoly\rest\endpoints\Pages',
 			'wpmoly\rest\endpoints\Settings',
 			'wpmoly\rest\endpoints\TMDb',
@@ -140,6 +141,17 @@ class API {
 			'update_callback' => null,
 			'schema'          => array(
 				'description' => __( 'The object featured poster.' ),
+				'type'        => 'object',
+				'context'     => array( 'view', 'edit' ),
+			),
+		) );
+
+		// Persons thumbnails
+		register_rest_field( array( 'person' ), 'picture', array(
+			'get_callback'    => array( $this, 'get_post_thumbnail' ),
+			'update_callback' => null,
+			'schema'          => array(
+				'description' => __( 'The object featured picture.' ),
 				'type'        => 'object',
 				'context'     => array( 'view', 'edit' ),
 			),
@@ -307,6 +319,10 @@ class API {
 
 		if ( ! empty( $request['meta']['image_related_tmdb_id'] ) ) {
 			update_post_meta( $attachment['ID'], '_wpmoly_image_related_tmdb_id', $request['meta']['image_related_tmdb_id'] );
+		}
+
+		if ( ! empty( $request['meta']['picture_related_tmdb_id'] ) ) {
+			update_post_meta( $attachment['ID'], '_wpmoly_picture_related_tmdb_id', $request['meta']['picture_related_tmdb_id'] );
 		}
 
 		if ( ! empty( $request['meta']['poster_related_tmdb_id'] ) ) {
@@ -708,6 +724,51 @@ class API {
 	 *
 	 * @return array
 	 */
+	public function prepare_person_for_response( $response, $post, $request ) {
+
+		$response = $this->prepare_post_for_response( $response, $post, $request );
+
+		$meta = utils\get_registered_person_meta();
+
+		// Some meta should not be visible, although they may be editable.
+		$protected = wp_filter_object_list( $meta, array( 'protected' => true ) );
+		foreach ( $protected as $key => $value ) {
+			$meta_key = utils\person\prefix( $key );
+			if ( isset( $response->data['meta'][ $meta_key ] ) ) {
+				unset( $response->data['meta'][ $meta_key ] );
+			}
+		}
+
+		if ( 'edit' === $request['context'] ) {
+			$snapshot = utils\person\get_meta( $post->ID, 'snapshot' );
+			if ( ! empty( $snapshot ) ) {
+				$response->data['snapshot'] = json_decode( $snapshot );
+			}
+		} elseif ( isset( $response->data['meta'] ) ) {
+			foreach ( $response->data['meta'] as $key => $value ) {
+				unset( $response->data['meta'][ $key ] );
+				$response->data['meta'][ utils\person\unprefix( $key, false ) ] = $value;
+			}
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Filter the movie post data for REST API response.
+	 *
+	 * @TODO Allow rendered content when specifically requested.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param WP_REST_Response $response The response object.
+	 * @param WP_Post          $post     Post object.
+	 * @param WP_REST_Request  $request  Request object.
+	 *
+	 * @return array
+	 */
 	public function prepare_movie_for_response( $response, $post, $request ) {
 
 		$response = $this->prepare_post_for_response( $response, $post, $request );
@@ -808,10 +869,11 @@ class API {
 	public function get_post_thumbnail( $object, $field_name, $request ) {
 
 		if ( isset( $object['type'] ) && 'movie' === $object['type'] ) {
-
 			$movie = utils\movie\get( $object['id'] );
-
 			return $movie->get_poster();
+		} else if ( isset( $object['type'] ) && 'person' === $object['type'] ) {
+			$person = utils\person\get( $object['id'] );
+			return $person->get_picture();
 		}
 
 		return null;

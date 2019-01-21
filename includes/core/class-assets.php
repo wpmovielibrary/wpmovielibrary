@@ -130,6 +130,16 @@ class Assets {
 				}
 			}
 
+			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-persons' ) ) {
+				if ( ! empty( $_GET['id'] ) && ! empty( $_GET['action'] ) ) {
+					wp_enqueue_media();
+					wp_enqueue_script( 'media-grid' );
+					$this->enqueue_script( 'person-editor' );
+				} else {
+					$this->enqueue_script( 'person-browser' );
+				}
+			}
+
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-grids' ) ) {
 				if ( ! empty( $_GET['id'] ) && ! empty( $_GET['action'] ) ) {
 					$this->enqueue_script( 'grid-editor' );
@@ -212,6 +222,7 @@ class Assets {
 			$this->enqueue_style( 'dashboard' );
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-movies' ) ||
+			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-persons' ) ||
 			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-grids' ) ) {
 				if ( ! empty( $_GET['id'] ) && ! empty( $_GET['action'] ) ) {
 					$this->enqueue_style( 'post-editor' );
@@ -279,6 +290,7 @@ class Assets {
 			$this->enqueue_template( 'settings-group' );
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-movies' ) ||
+			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-persons' ) ||
 			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-grids' ) ) {
 				$this->enqueue_template( 'post-editor-categories' );
 				$this->enqueue_template( 'post-editor-tags' );
@@ -328,6 +340,28 @@ class Assets {
 				$this->enqueue_template( 'movie-modal-preview' );
 				$this->enqueue_template( 'movie-modal-editor' );
 				$this->enqueue_template( 'movie-modal-editor-images' );
+			}
+
+			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-persons' ) ) {
+				$this->enqueue_template( 'person-editor' );
+				$this->enqueue_template( 'person-editor-menu' );
+				$this->enqueue_template( 'person-editor-preview' );
+				$this->enqueue_template( 'person-editor-search-loading' );
+				$this->enqueue_template( 'person-editor-search-form' );
+				$this->enqueue_template( 'person-editor-search-results' );
+				$this->enqueue_template( 'person-editor-snapshot' );
+				$this->enqueue_template( 'person-editor-submit' );
+				$this->enqueue_template( 'person-meta-editor' );
+				$this->enqueue_template( 'person-credits-editor' );
+				$this->enqueue_template( 'person-backdrops-editor' );
+				$this->enqueue_template( 'person-backdrops-editor-menu' );
+				$this->enqueue_template( 'person-backdrops-editor-item' );
+				$this->enqueue_template( 'person-backdrops-editor-uploader' );
+				$this->enqueue_template( 'person-pictures-editor' );
+				$this->enqueue_template( 'person-pictures-editor-menu' );
+				$this->enqueue_template( 'person-pictures-editor-item' );
+				$this->enqueue_template( 'person-pictures-editor-uploader' );
+				$this->enqueue_template( 'person-browser-item' );
 			}
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-grids' ) ) {
@@ -481,14 +515,16 @@ class Assets {
 		$this->add_admin_js( 'metaboxes', 'metaboxes.js', array( 'wpmoly-core' ) );
 
 		// Posts browser.
-		$this->add_admin_js( 'post-browser',  'post-browser.js',  array( 'wpmoly-core', 'wpmoly-api' ) );
-		$this->add_admin_js( 'movie-browser', 'movie-browser.js', array( 'wpmoly-post-browser' ) );
-		$this->add_admin_js( 'grid-browser',  'grid-browser.js',  array( 'wpmoly-post-browser' ) );
+		$this->add_admin_js( 'post-browser',   'post-browser.js',  array( 'wpmoly-core', 'wpmoly-api' ) );
+		$this->add_admin_js( 'movie-browser',  'movie-browser.js', array( 'wpmoly-post-browser' ) );
+		$this->add_admin_js( 'person-browser', 'person-browser.js', array( 'wpmoly-post-browser' ) );
+		$this->add_admin_js( 'grid-browser',   'grid-browser.js',  array( 'wpmoly-post-browser' ) );
 
 		// Posts editor.
-		$this->add_admin_js( 'post-editor',  'post-editor.js',  array( 'wpmoly-core', 'wpmoly-api' ) );
-		$this->add_admin_js( 'movie-editor', 'movie-editor.js', array( 'wpmoly-post-editor', 'wpmoly-tmdb', 'wp-plupload', 'plupload-handlers' ) );
-		$this->add_admin_js( 'grid-editor',  'grid-editor.js',  array( 'wpmoly-post-editor', 'wpmoly-grids', 'wpmoly-metaboxes' ) );
+		$this->add_admin_js( 'post-editor',   'post-editor.js',  array( 'wpmoly-core', 'wpmoly-api' ) );
+		$this->add_admin_js( 'movie-editor',  'movie-editor.js', array( 'wpmoly-post-editor', 'wpmoly-tmdb', 'wp-plupload', 'plupload-handlers' ) );
+		$this->add_admin_js( 'person-editor', 'person-editor.js', array( 'wpmoly-post-editor', 'wpmoly-tmdb', 'wp-plupload', 'plupload-handlers' ) );
+		$this->add_admin_js( 'grid-editor',   'grid-editor.js',  array( 'wpmoly-post-editor', 'wpmoly-grids', 'wpmoly-metaboxes' ) );
 
 		// Terms browser.
 		$this->add_admin_js( 'term-browser',       'term-browser.js',       array( 'wpmoly-core', 'wpmoly-api' ) );
@@ -554,7 +590,7 @@ class Assets {
 
 		// Posts.
 		$this->add_admin_css( 'post-browser', 'post-browser.css' );
-		$this->add_admin_css( 'post-editor',  'post-editor.css', array( 'wpmoly-metaboxes' ) );
+		$this->add_admin_css( 'post-editor',  'post-editor.css' );
 
 		// Terms.
 		$this->add_admin_css( 'term-browser', 'term-browser.css' );
@@ -616,6 +652,7 @@ class Assets {
 			$this->register_template( 'settings-group',  'admin/assets/js/templates/dashboard/settings-group.php' );
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-movies' ) ||
+			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-persons' ) ||
 			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-grids' ) ) {
 				$this->register_template( 'post-editor-categories',  'admin/assets/js/templates/editors/posts/blocks/categories.php' );
 				$this->register_template( 'post-editor-tags',        'admin/assets/js/templates/editors/posts/blocks/tags.php' );
@@ -665,6 +702,28 @@ class Assets {
 				$this->register_template( 'movie-modal-preview',             'admin/assets/js/templates/editors/movies/modal-preview.php' );
 				$this->register_template( 'movie-modal-editor',              'admin/assets/js/templates/editors/movies/modal-editor.php' );
 				$this->register_template( 'movie-modal-editor-images',       'admin/assets/js/templates/editors/movies/modal-editor-images.php' );
+			}
+
+			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-persons' ) ) {
+				$this->register_template( 'person-editor',                    'admin/assets/js/templates/editors/persons/editor.php' );
+				$this->register_template( 'person-editor-menu',               'admin/assets/js/templates/editors/persons/editor-menu.php' );
+				$this->register_template( 'person-editor-preview',            'admin/assets/js/templates/editors/persons/editor-preview.php');
+				$this->register_template( 'person-editor-search-loading',     'admin/assets/js/templates/editors/persons/editor-search-loading.php' );
+				$this->register_template( 'person-editor-search-form',        'admin/assets/js/templates/editors/persons/editor-search-form.php' );
+				$this->register_template( 'person-editor-search-results',     'admin/assets/js/templates/editors/persons/editor-search-results.php' );
+				$this->register_template( 'person-editor-snapshot',           'admin/assets/js/templates/editors/persons/editor-snapshot.php' );
+				$this->register_template( 'person-editor-submit',             'admin/assets/js/templates/editors/persons/blocks/submit.php' );
+				$this->register_template( 'person-meta-editor',               'admin/assets/js/templates/editors/persons/meta-editor.php' );
+				$this->register_template( 'person-credits-editor',            'admin/assets/js/templates/editors/persons/credits-editor.php' );
+				$this->register_template( 'person-backdrops-editor',          'admin/assets/js/templates/editors/persons/backdrops-editor.php' );
+				$this->register_template( 'person-backdrops-editor-menu',     'admin/assets/js/templates/editors/persons/backdrops-editor-menu.php' );
+				$this->register_template( 'person-backdrops-editor-item',     'admin/assets/js/templates/editors/persons/backdrops-editor-item.php' );
+				$this->register_template( 'person-backdrops-editor-uploader', 'admin/assets/js/templates/editors/persons/backdrops-editor-uploader.php' );
+				$this->register_template( 'person-pictures-editor',           'admin/assets/js/templates/editors/persons/pictures-editor.php' );
+				$this->register_template( 'person-pictures-editor-menu',      'admin/assets/js/templates/editors/persons/pictures-editor-menu.php' );
+				$this->register_template( 'person-pictures-editor-item',      'admin/assets/js/templates/editors/persons/pictures-editor-item.php' );
+				$this->register_template( 'person-pictures-editor-uploader',  'admin/assets/js/templates/editors/persons/pictures-editor-uploader.php' );
+				$this->register_template( 'person-browser-item',              'admin/assets/js/templates/editors/persons/browser-item.php' );
 			}
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-grids' ) ) {

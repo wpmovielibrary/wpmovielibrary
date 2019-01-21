@@ -118,9 +118,9 @@ class Dashboard {
 	public function register_term_editor() {
 
 		$term_editor = new editors\Terms;
-		add_action( 'wpmoly/dashboard/block/discover-actors/build', array( $term_editor, 'set_actor_browser_discover_block_data' ) );
+		add_action( 'wpmoly/dashboard/block/discover-actors/build',      array( $term_editor, 'set_actor_browser_discover_block_data' ) );
 		add_action( 'wpmoly/dashboard/block/discover-collections/build', array( $term_editor, 'set_collection_browser_discover_block_data' ) );
-		add_action( 'wpmoly/dashboard/block/discover-genres/build', array( $term_editor, 'set_genre_browser_discover_block_data' ) );
+		add_action( 'wpmoly/dashboard/block/discover-genres/build',      array( $term_editor, 'set_genre_browser_discover_block_data' ) );
 	}
 
 	/**
@@ -133,8 +133,9 @@ class Dashboard {
 	public function register_post_editor() {
 
 		$post_editor = new editors\Posts;
-		add_action( 'wpmoly/dashboard/block/discover-grids/build', array( $post_editor, 'set_grid_editor_discover_block_data' ) );
-		add_action( 'wpmoly/dashboard/block/discover-movies/build', array( $post_editor, 'set_movie_editor_discover_block_data' ) );
+		add_action( 'wpmoly/dashboard/block/discover-grids/build',   array( $post_editor, 'set_grid_editor_discover_block_data' ) );
+		add_action( 'wpmoly/dashboard/block/discover-movies/build',  array( $post_editor, 'set_movie_editor_discover_block_data' ) );
+		add_action( 'wpmoly/dashboard/block/discover-persons/build', array( $post_editor, 'set_person_editor_discover_block_data' ) );
 	}
 
 	/**
@@ -164,6 +165,13 @@ class Dashboard {
 				'menu_title' => esc_html__( 'Grids', 'wpmovielibrary' ),
 				'capability' => 'edit_others_posts',
 				'object_type' => 'grid',
+			),
+			'persons' => array(
+				'edit_title' => esc_html__( 'Edit Person', 'wpmovielibrary' ),
+				'page_title' => esc_html__( 'Edit Persons', 'wpmovielibrary' ),
+				'menu_title' => esc_html__( 'Persons', 'wpmovielibrary' ),
+				'capability' => 'edit_posts',
+				'object_type' => 'person',
 			),
 			'actors' => array(
 				'edit_title' => esc_html__( 'Edit Actor', 'wpmovielibrary' ),
@@ -247,11 +255,13 @@ class Dashboard {
 
 			$old_editors = array(
 				'movie-browser'      => admin_url( 'edit.php?post_type=movie' ),
+				'person-browser'     => admin_url( 'edit.php?post_type=person' ),
 				'grid-browser'       => admin_url( 'edit.php?post_type=grid' ),
 				'actor-browser'      => admin_url( 'edit-tags.php?taxonomy=actor' ),
 				'collection-browser' => admin_url( 'edit-tags.php?taxonomy=collection' ),
 				'genre-browser'      => admin_url( 'edit-tags.php?taxonomy=genre' ),
 				'movie-editor'       => admin_url( 'edit.php?post_type=movie&post=' . $object_id ),
+				'person-editor'      => admin_url( 'edit.php?post_type=person&post=' . $object_id ),
 				'grid-editor'        => admin_url( 'edit.php?post_type=grid&post=' . $object_id ),
 				'actor-editor'       => admin_url( 'edit-tags.php?taxonomy=actor&term=' . $object_id ),
 				'collection-editor'  => admin_url( 'edit-tags.php?taxonomy=collection&term=' . $object_id ),
@@ -517,6 +527,82 @@ class Dashboard {
 					'description' => __( 'Movie Block to quickly manage production companies', 'wpmovielibrary' ),
 					'controller'  => 'CompaniesBlock',
 					'template'    => 'editors/blocks/movies/companies.php',
+				),
+			),
+
+			// Person Browser Blocks.
+			'discover-persons' => array(
+				'dashboard_type' => 'browser',
+				'object_type'    => 'post',
+				'object_subtype' => 'person',
+				'args'           => array(
+					'name'        => __( 'Discover Persons', 'wpmovielibrary' ),
+					'title'       => __( 'Person Library', 'wpmovielibrary' ),
+					'description' => __( 'Discover your person library', 'wpmovielibrary' ),
+					'controller'  => 'BrowserBlock',
+					'template'    => 'editors/blocks/posts/discover.php',
+				),
+			),
+			'add-new-person' => array(
+				'dashboard_type' => 'browser',
+				'object_type'    => 'post',
+				'object_subtype' => 'person',
+				'args'           => array(
+					'name'        => __( 'Add New Person', 'wpmovielibrary' ),
+					'title'       => __( 'Add New', 'wpmovielibrary' ),
+					'description' => __( 'Add a new person to the library.', 'wpmovielibrary' ),
+					'controller'  => 'AddNewBlock',
+					'template'    => 'editors/blocks/posts/add-new.php',
+				),
+			),
+			'person-drafts' => array(
+				'dashboard_type' => 'browser',
+				'object_type'    => 'post',
+				'object_subtype' => 'person',
+				'args'           => array(
+					'name'        => __( 'Person Drafts', 'wpmovielibrary' ),
+					'title'       => __( 'Drafts', 'wpmovielibrary' ),
+					'description' => __( '', 'wpmovielibrary' ),
+					'controller'  => 'DraftsBlock',
+					'template'    => 'editors/blocks/posts/drafts.php',
+				),
+			),
+			'person-trash' => array(
+				'dashboard_type' => 'browser',
+				'object_type'    => 'post',
+				'object_subtype' => 'person',
+				'args'           => array(
+					'name'        => __( 'Person Trash', 'wpmovielibrary' ),
+					'title'       => __( 'Trash', 'wpmovielibrary' ),
+					'description' => __( 'Move persons to the trash.', 'wpmovielibrary' ),
+					'controller'  => 'TrashBlock',
+					'template'    => 'editors/blocks/posts/trash.php',
+				),
+			),
+
+			// Person Editor Blocks.
+			'submit-person' => array(
+				'dashboard_type' => 'editor',
+				'object_type'    => 'post',
+				'object_subtype' => 'person',
+				'args'           => array(
+					'name'        => __( 'Person Submit Block', 'wpmovielibrary' ),
+					'title'       => __( 'Submit Person', 'wpmovielibrary' ),
+					'description' => __( 'Person Block to save, delete or update Person.', 'wpmovielibrary' ),
+					'controller'  => 'MenuBlock',
+					'template'    => 'editors/blocks/posts/submit.php',
+				),
+			),
+			'rename-person' => array(
+				'dashboard_type' => 'editor',
+				'object_type'    => 'post',
+				'object_subtype' => 'person',
+				'args'           => array(
+					'name'        => __( 'Person Title Block', 'wpmovielibrary' ),
+					'title'       => __( 'Rename Person', 'wpmovielibrary' ),
+					'description' => __( 'Person Block to change person title.', 'wpmovielibrary' ),
+					'controller'  => 'RenameBlock',
+					'template'    => 'editors/blocks/posts/rename.php',
 				),
 			),
 
@@ -854,20 +940,23 @@ class Dashboard {
 
 		$data = array();
 
-		$grids  = wp_count_posts( 'grid' );
-		$movies = wp_count_posts( 'movie' );
-		$actors = wp_count_terms( 'actor' );
-		$genres = wp_count_terms( 'genre' );
+		$grids   = wp_count_posts( 'grid' );
+		$movies  = wp_count_posts( 'movie' );
+		$persons = wp_count_posts( 'person' );
+		$actors  = wp_count_terms( 'actor' );
+		$genres  = wp_count_terms( 'genre' );
 
-		$data['grids_url']  = admin_url( 'admin.php?page=wpmovielibrary-grids' );
-		$data['movies_url'] = admin_url( 'admin.php?page=wpmovielibrary-movies' );
-		$data['actors_url'] = admin_url( 'admin.php?page=wpmovielibrary-actors' );
-		$data['genres_url'] = admin_url( 'admin.php?page=wpmovielibrary-genres' );
+		$data['grids_url']   = admin_url( 'admin.php?page=wpmovielibrary-grids' );
+		$data['movies_url']  = admin_url( 'admin.php?page=wpmovielibrary-movies' );
+		$data['persons_url'] = admin_url( 'admin.php?page=wpmovielibrary-persons' );
+		$data['actors_url']  = admin_url( 'admin.php?page=wpmovielibrary-actors' );
+		$data['genres_url']  = admin_url( 'admin.php?page=wpmovielibrary-genres' );
 
-		$data['grids']  = isset( $grids->publish ) ? (int) $grids->publish : 0;
-		$data['movies'] = isset( $movies->publish ) ? (int) $movies->publish : 0;
-		$data['actors'] = ! is_wp_error( $actors ) ? (int) $actors : 0;
-		$data['genres'] = ! is_wp_error( $genres ) ? (int) $genres : 0;
+		$data['grids']   = isset( $grids->publish ) ? (int) $grids->publish : 0;
+		$data['movies']  = isset( $movies->publish ) ? (int) $movies->publish : 0;
+		$data['persons'] = isset( $persons->publish ) ? (int) $persons->publish : 0;
+		$data['actors']  = ! is_wp_error( $actors ) ? (int) $actors : 0;
+		$data['genres']  = ! is_wp_error( $genres ) ? (int) $genres : 0;
 
 		$license = wpmovielibrary()->settings->get( 'license_key', '' );
 		if ( empty( $license ) ) {

@@ -315,11 +315,14 @@ final class wpMovieLibrary {
 		require_once WPMOLY_PATH . 'includes/nodes/class-node.php';
 		require_once WPMOLY_PATH . 'includes/nodes/images/class-image.php';
 		require_once WPMOLY_PATH . 'includes/nodes/images/class-backdrop.php';
+		require_once WPMOLY_PATH . 'includes/nodes/images/class-picture.php';
 		require_once WPMOLY_PATH . 'includes/nodes/images/class-poster.php';
 		require_once WPMOLY_PATH . 'includes/nodes/images/class-default-image.php';
 		require_once WPMOLY_PATH . 'includes/nodes/images/class-default-backdrop.php';
+		require_once WPMOLY_PATH . 'includes/nodes/images/class-default-picture.php';
 		require_once WPMOLY_PATH . 'includes/nodes/images/class-default-poster.php';
 		require_once WPMOLY_PATH . 'includes/nodes/posts/class-movie.php';
+		require_once WPMOLY_PATH . 'includes/nodes/posts/class-person.php';
 		require_once WPMOLY_PATH . 'includes/nodes/posts/class-grid.php';
 		require_once WPMOLY_PATH . 'includes/nodes/taxonomies/class-taxonomy.php';
 		require_once WPMOLY_PATH . 'includes/nodes/taxonomies/class-actor.php';
@@ -372,6 +375,7 @@ final class wpMovieLibrary {
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-posts-controller.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-grids.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-pages.php';
+		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-persons.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-movies.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-settings.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/endpoints/class-tmdb.php';
@@ -1065,6 +1069,7 @@ final class wpMovieLibrary {
 		add_filter( 'rest_genre_collection_params',      array( $rest_api, 'register_collection_params' ), 10, 2 );
 		add_filter( 'rest_prepare_grid',                 array( $rest_api, 'prepare_grid_for_response' ), 10, 3 );
 		add_filter( 'rest_prepare_movie',                array( $rest_api, 'prepare_movie_for_response' ), 10, 3 );
+		add_filter( 'rest_prepare_person',               array( $rest_api, 'prepare_person_for_response' ), 10, 3 );
 		add_filter( 'rest_prepare_actor',                array( $rest_api, 'prepare_actor_for_response' ), 10, 3 );
 		add_filter( 'rest_prepare_category',             array( $rest_api, 'prepare_term_for_response' ), 10, 3 );
 		add_filter( 'rest_prepare_collection',           array( $rest_api, 'prepare_collection_for_response' ), 10, 3 );

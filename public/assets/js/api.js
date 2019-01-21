@@ -49,6 +49,8 @@ var API = wpmoly.api = {
 	wp.api.loadPromise.done( function() {
 		wp.api.models.Movies.prototype.setMetas      = setMetas;
 		wp.api.models.Movies.prototype.setMeta       = setMeta;
+		wp.api.models.Persons.prototype.setMetas     = setMetas;
+		wp.api.models.Persons.prototype.setMeta      = setMeta;
 		wp.api.models.Grids.prototype.setMetas       = setMetas;
 		wp.api.models.Grids.prototype.setMeta        = setMeta;
 		wp.api.models.Actors.prototype.setMetas      = setMetas;
@@ -224,6 +226,16 @@ var API = wpmoly.api = {
 	 * @param {object} options
 	 */
 	API.models.MoviesCount = BaseModel.extend( { base : 'movies/count' } );
+
+	/**
+	 * 'PersonsCount' API Model.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param {object} attributes
+	 * @param {object} options
+	 */
+	API.models.PersonsCount = BaseModel.extend( { base : 'persons/count' } );
 
 	/**
 	 * 'SettingsSchema' API Collection.
@@ -432,6 +444,52 @@ var API = wpmoly.api = {
 		url : function() {
 
 			return API.root + API.version + 'movie/' + this.get( 'id' );
+		},
+
+	});
+
+	/**
+	 * 'Person' API Model.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param {object} attributes
+	 * @param {object} options
+	 */
+	API.Person = API.models.Person = BaseModel.extend({
+
+		defaults : {
+			adult          : '',
+			also_known_as  : '',
+			biography      : '',
+			birthday       : '',
+			deathday       : '',
+			homepage       : '',
+			imdb_id        : '',
+			name           : '',
+			place_of_birth : '',
+			tmdb_id        : 0,
+		},
+
+		/**
+		 * List of supported methods.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @var {array}
+		 */
+		methods : [ 'GET', 'POST', 'PUT', 'PATCH' ],
+
+		/**
+		* Generate a constructed url.
+		*
+		* @since 1.0.0
+		*
+		* @return string
+		*/
+		url : function() {
+
+			return API.root + API.version + 'person/' + this.get( 'id' );
 		},
 
 	});
@@ -659,6 +717,39 @@ var API = wpmoly.api = {
 			BaseCollection.prototype.initialize.call( this, attributes, options );
 		},
 
-	} );
+	});
+
+	/**
+	 * 'Persons' API Collection.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param {object} attributes
+	 * @param {object} options
+	 */
+	API.Persons = API.collections.Persons = BaseCollection.extend({
+
+		base : 'persons',
+
+		model : API.Person,
+
+		/**
+		 * Initialize the Model.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} attributes Model attributes.
+		 * @param {object} options    Model options.
+		 */
+		initialize : function( attributes, options ) {
+
+			var options = options || {};
+
+			this.counts = new API.models.PersonsCount( [], { parent : this } );
+
+			BaseCollection.prototype.initialize.call( this, attributes, options );
+		},
+
+	});
 
 })( _, Backbone, wp );

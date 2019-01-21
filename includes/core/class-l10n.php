@@ -663,6 +663,10 @@ class L10n {
 			$post_types['movie']['has_archive'] = utils\movie\get_archive_link( 'relative' );
 		}
 
+		if ( ! empty( $post_types['person'] ) && utils\person\has_archives_page() ) {
+			$post_types['person']['has_archive'] = utils\person\get_archive_link( 'relative' );
+		}
+
 		return $post_types;
 	}
 
@@ -678,7 +682,7 @@ class L10n {
 	public function localize_taxonomies( $taxonomies = array() ) {
 
 		foreach ( $taxonomies as $slug => $taxonomy ) {
-			if ( ! empty( $post_types['movie'] ) && utils\has_archives_page( $slug ) ) {
+			if ( utils\has_archives_page( $slug ) ) {
 				$taxonomies[ $slug ]['rewrite']['slug'] = utils\get_taxonomy_archive_link( $slug, 'relative' );
 			}
 		}
@@ -947,7 +951,7 @@ class L10n {
 			'use_as_custom_posters'      => esc_html__( 'Use as custom poster(s)', 'wpmovielibrary' ),
 			'use_as_custom_backdrops'    => esc_html__( 'Use as custom backdrop(s)', 'wpmovielibrary' ),
 			'setting_as_poster'          => esc_html__( 'Setting selected image as poster...', 'wpmovielibrary' ),
-			'setting_as_backdrop'        => esc_html__( 'Setting selected image as poster...', 'wpmovielibrary' ),
+			'setting_as_backdrop'        => esc_html__( 'Setting selected image as backdrop...', 'wpmovielibrary' ),
 			'poster_updated'             => esc_html__( 'Poster updated!', 'wpmovielibrary' ),
 			'backdrop_updated'           => esc_html__( 'Backdrop updated!', 'wpmovielibrary' ),
 			'removing_poster'            => esc_html__( 'Removing selected poster...', 'wpmovielibrary' ),
@@ -971,6 +975,72 @@ class L10n {
 
 		wp_localize_script( 'wpmoly-movie-browser', 'wpmolyEditorL10n', $localized_movie );
 		wp_localize_script( 'wpmoly-movie-editor',  'wpmolyEditorL10n', $localized_movie );
+
+		$localized_person = $localized + array(
+			'n_total_post' => array(
+				__( 'You have a total of <strong>%s</strong> person.', 'wpmovielibrary' ),
+				__( 'You have a total of <strong>%s</strong> persons.', 'wpmovielibrary' ),
+			),
+			'n_draft_post' => array(
+				esc_html__( '%s person draft found.', 'wpmovielibrary' ),
+				esc_html__( '%s person drafts found.', 'wpmovielibrary' ),
+			),
+			'n_post_in_trash' => array(
+				esc_html__( '%s person found in trash.', 'wpmovielibrary' ),
+				esc_html__( '%s persons found in trash.', 'wpmovielibrary' ),
+			),
+			'n_days_ago' => array(
+				__( '<strong>%s</strong> day ago', 'wpmovielibrary' ),
+				__( '<strong>%s</strong> days ago', 'wpmovielibrary' ),
+			),
+			'moments_ago'        => esc_html__( 'Moments ago', 'wpmovielibrary' ),
+			'trash_post_warning' => esc_html__( 'Be careful: deleted movies can not be restored!', 'wpmovielibrary' ),
+			'no_post_in_trash'   => esc_html__( 'No person found in trash.', 'wpmovielibrary' ),
+			'about_delete_posts' => esc_html__( 'Your are about to completely delete all movies in the trash. This can not be undone!', 'wpmovielibrary' ),
+			'move_post_to_trash' => esc_html__( 'Move person to trash', 'wpmovielibrary' ),
+			'publish_post'     => esc_html__( 'Publish person', 'wpmovielibrary' ),
+			'delete_post'      => esc_html__( 'Delete person', 'wpmovielibrary' ),
+			'existing_post'    => esc_html__( 'A person already exists with this title.', 'wpmovielibrary' ),
+			'post_udpated'     => esc_html__( 'Person updated!', 'wpmovielibrary' ),
+			'post_trashed'     => esc_html__( 'Person trashed. Redirecting...', 'wpmovielibrary' ),
+			'edit_link'        => esc_url_raw( admin_url( 'admin.php?page=wpmovielibrary-movies' ) ),
+			'old_edit_link'    => esc_url_raw( admin_url( 'edit.php?post_type=person' ) ),
+			'back_to_edit'     => esc_html__( 'Back the person list', 'wpmovielibrary' ),
+			'edit_label'       => esc_html__( 'Person Browser', 'wpmovielibrary' ),
+			'old_edit_label'   => esc_html__( 'Classic Browser', 'wpmovielibrary' ),
+			'preview_label'    => esc_html__( 'Preview', 'wpmovielibrary' ),
+			'download_label'   => esc_html__( 'Import Metadata', 'wpmovielibrary' ),
+			'snapshot_label'   => esc_html__( 'Refresh Snapshot', 'wpmovielibrary' ),
+			'old_editor_label' => esc_html__( 'Classic Editor', 'wpmovielibrary' ),
+			'search_posts'     => esc_html__( 'Search movies', 'wpmovielibrary' ),
+			'post_title'       => esc_html__( 'Title' ),
+			'about_new_post'   => esc_html__( 'Create a new person. You can customize it later.', 'wpmovielibrary' ),
+			'create_post'      => esc_html__( 'Create Person', 'wpmovielibrary' ),
+			'post_created'     => esc_html__( 'New person added!', 'wpmovielibrary' ),
+			'new_title'        => esc_html__( 'New Title', 'wpmovielibrary' ),
+			'update_title'     => esc_html__( 'Update Title', 'wpmovielibrary' ),
+			'about_new_title'  => esc_html__( 'Change the current person title. This only affects the post\'s title.', 'wpmovielibrary' ),
+			'snapshot_updated'    => esc_html__( 'Snapshot updated!', 'wpmovielibrary' ),
+
+			'custom_pictures'         => esc_html__( 'Custom pictures', 'wpmovielibrary' ),
+			'custom_backdrops'        => esc_html__( 'Custom backdrops', 'wpmovielibrary' ),
+			'use_as_custom_pictures'  => esc_html__( 'Use as custom picture(s)', 'wpmovielibrary' ),
+			'use_as_custom_backdrops' => esc_html__( 'Use as custom backdrop(s)', 'wpmovielibrary' ),
+			'setting_as_picture'      => esc_html__( 'Setting selected image as picture...', 'wpmovielibrary' ),
+			'setting_as_backdrop'     => esc_html__( 'Setting selected image as backdrop...', 'wpmovielibrary' ),
+			'picture_updated'         => esc_html__( 'Picture updated!', 'wpmovielibrary' ),
+			'backdrop_updated'        => esc_html__( 'Backdrop updated!', 'wpmovielibrary' ),
+			'removing_picture'        => esc_html__( 'Removing selected picture...', 'wpmovielibrary' ),
+			'removing_backdrop'       => esc_html__( 'Removing selected backdrop...', 'wpmovielibrary' ),
+			'picture_removed'         => esc_html__( 'Picture has been removed from the collection. Media remains in the library.', 'wpmovielibrary' ),
+			'backdrop_removed'        => esc_html__( 'Backdrop has been removed from the collection. Media remains in the library.', 'wpmovielibrary' ),
+			'view_attachment'         => esc_html__( 'View Attachment', 'wpmovielibrary' ),
+			'upload_fail'             => esc_html__( 'Upload failed.', 'wpmovielibrary' ),
+			'upload_success'          => __( 'Media uploaded successfully. <a href="%s" target="_blank">View Media</a>.', 'wpmovielibrary' ),
+		);
+
+		wp_localize_script( 'wpmoly-person-browser', 'wpmolyEditorL10n', $localized_person );
+		wp_localize_script( 'wpmoly-person-editor',  'wpmolyEditorL10n', $localized_person );
 
 		$localized = array(
 			'open_search'  => esc_html__( 'Open search menu', 'wpmovielibrary' ),

@@ -25,21 +25,13 @@ class Posts {
 	 *
 	 * @since 3.0.0
 	 *
+	 * @access public
+	 *
 	 * @param Block $block Block instance.
 	 */
 	public function set_grid_editor_discover_block_data( $block ) {
 
-		$counts = (array) wp_count_posts( 'grid' );
-		if ( is_wp_error( $counts ) ) {
-			return false;
-		}
-
-		$block->set_data( array(
-			'counts' => array_map( 'intval', $counts ),
-			'counts' => array_filter( $counts ),
-			'total'  => array_sum( $counts ),
-			'edit'   => admin_url( 'edit.php?post_type=grid' ),
-		) );
+		$this->set_post_editor_discover_block_data( 'grid', $block );
 	}
 
 	/**
@@ -47,11 +39,46 @@ class Posts {
 	 *
 	 * @since 3.0.0
 	 *
+	 * @access public
+	 *
 	 * @param Block $block Block instance.
 	 */
 	public function set_movie_editor_discover_block_data( $block ) {
 
-		$counts = (array) wp_count_posts( 'movie' );
+		$this->set_post_editor_discover_block_data( 'movie', $block );
+	}
+
+	/**
+	 * Set Person Editor 'Discover' Block data.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param Block $block Block instance.
+	 */
+	public function set_person_editor_discover_block_data( $block ) {
+
+		$this->set_post_editor_discover_block_data( 'person', $block );
+	}
+
+	/**
+	 * Set Post Editor 'Discover' Block data.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @param string $post_type Post type.
+	 * @param Block  $block     Block instance.
+	 */
+	private function set_post_editor_discover_block_data( $post_type, $block ) {
+
+		if ( ! post_type_exists( $post_type ) ) {
+			return false;
+		}
+
+		$counts = (array) wp_count_posts( $post_type );
 		if ( is_wp_error( $counts ) ) {
 			return false;
 		}
@@ -60,7 +87,7 @@ class Posts {
 			'counts' => array_map( 'intval', $counts ),
 			'counts' => array_filter( $counts ),
 			'total'  => array_sum( $counts ),
-			'edit'   => admin_url( 'edit.php?post_type=movie' ),
+			'edit'   => admin_url( "edit.php?post_type={$post_type}" ),
 		) );
 	}
 

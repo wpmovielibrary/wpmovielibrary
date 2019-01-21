@@ -3339,8 +3339,6 @@ wpmoly.editor = wpmoly.editor || {};
 					return this;
 				},
 
-
-
 				/**
 				 * Show loading animation.
 				 *

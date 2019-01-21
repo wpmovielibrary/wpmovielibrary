@@ -2,7 +2,7 @@
 /**
  * The file that defines the person utils functions.
  *
- * @link https://wpmovielibrary.com
+ * @link https://wppersonlibrary.com
  * @since 3.0.0
  *
  * @package wpMovieLibrary
@@ -57,12 +57,12 @@ function get_meta( $person_id, $key = '', $single = true ) {
 		 * @param string $key Meta key.
 		 */
 		$key = prefix( $key );
-		$value = get_post_meta( $movie_id, $key, $single );
+		$value = get_post_meta( $person_id, $key, $single );
 	} else {
 
 		$values = array();
 
-		$meta = get_post_meta( $movie_id );
+		$meta = get_post_meta( $person_id );
 		foreach ( $meta as $key => $value ) {
 			if ( is_meta_key( $key ) ) {
 				$values[ unprefix( $key, false ) ] = maybe_unserialize( $value[0] );
@@ -76,7 +76,7 @@ function get_meta( $person_id, $key = '', $single = true ) {
 }
 
 /**
- * Prefix movie meta keys.
+ * Prefix person meta keys.
  *
  * @since 3.0.0
  *
@@ -87,11 +87,11 @@ function get_meta( $person_id, $key = '', $single = true ) {
  */
 function prefix( $key, $strip_hyphens = true ) {
 
-	return utils\prefix_meta_key( $key, '_wpmoly_movie_', $strip_hyphens );
+	return utils\prefix_meta_key( $key, '_wpmoly_person_', $strip_hyphens );
 }
 
 /**
- * Remove prefix from movie meta keys.
+ * Remove prefix from person meta keys.
  *
  * @since 3.0.0
  *
@@ -102,11 +102,11 @@ function prefix( $key, $strip_hyphens = true ) {
  */
 function unprefix( $key, $strip_underscores = true ) {
 
-	return utils\unprefix_meta_key( $key, '_wpmoly_movie_', $strip_underscores );
+	return utils\unprefix_meta_key( $key, '_wpmoly_person_', $strip_underscores );
 }
 
 /**
- * Determine if the submitted meta key is a movie related meta key.
+ * Determine if the submitted meta key is a person related meta key.
  *
  * @since 3.0.0
  *
@@ -116,7 +116,7 @@ function unprefix( $key, $strip_underscores = true ) {
  */
 function is_meta_key( $key ) {
 
-	$registered = utils\get_registered_movie_meta();
+	$registered = utils\get_registered_person_meta();
 
 	$key = unprefix( $key, false );
 
@@ -124,7 +124,7 @@ function is_meta_key( $key ) {
 }
 
 /**
- * Retrieve movies archive page link.
+ * Retrieve persons archive page link.
  *
  * @since 3.0.0
  *
@@ -134,7 +134,7 @@ function is_meta_key( $key ) {
  */
 function get_archive_link( $format = 'absolute' ) {
 
-	$link = get_post_type_archive_link( 'movie' );
+	$link = get_post_type_archive_link( 'person' );
 	if ( 'relative' == $format ) {
 		$link = str_replace( home_url(), '', $link );
 	}
@@ -143,7 +143,7 @@ function get_archive_link( $format = 'absolute' ) {
 }
 
 /**
- * Retrieve 'movie' post type archive page ID.
+ * Retrieve 'person' post type archive page ID.
  *
  * @since 3.0.0
  *
@@ -151,11 +151,11 @@ function get_archive_link( $format = 'absolute' ) {
  */
 function get_archives_page_id() {
 
-	return utils\get_archives_page_id( 'movie' );
+	return utils\get_archives_page_id( 'person' );
 }
 
 /**
- * Get 'movie' post type archive page if any.
+ * Get 'person' post type archive page if any.
  *
  * @since 3.0.0
  *
@@ -169,7 +169,7 @@ function get_archives_page() {
 }
 
 /**
- * Check if there is an archive page set for 'movie' post type.
+ * Check if there is an archive page set for 'person' post type.
  *
  * @since 3.0.0
  *

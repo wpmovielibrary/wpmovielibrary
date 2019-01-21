@@ -466,21 +466,24 @@
 	padding: 0;
 }
 
-.post-editor.movie-editor .movie-headbox {
+.post-editor.movie-editor .movie-headbox,
+.post-editor.person-editor .person-headbox {
 	border: 0;
 	box-shadow: 0 0 0;
 	margin: 0 auto;
 	min-width: 720px;
 }
 
-.wpmoly.movie-headbox .headbox-header {
+.wpmoly.movie-headbox .headbox-header,
+.wpmoly.person-headbox .headbox-header {
 	background-color: #373e48;
 	min-height: 480px;
 	overflow: hidden;
 	position: relative;
 }
 
-.wpmoly.movie-headbox .headbox-header .headbox-backdrop {
+.wpmoly.movie-headbox .headbox-header .headbox-backdrop,
+.wpmoly.person-headbox .headbox-header .headbox-backdrop {
 	background-color: #373e48;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -494,7 +497,8 @@
 	top: 0;
 }
 
-.wpmoly.movie-headbox .headbox-header .headbox-poster {
+.wpmoly.movie-headbox .headbox-header .headbox-poster,
+.wpmoly.person-headbox .headbox-header .headbox-picture {
 	--width: 240px;
 	background-color: #373e48;
 	background-position: center center;
@@ -529,7 +533,8 @@
 	width: 100%;
 }
 
-.wpmoly.movie-headbox .headbox-header .headbox-hbar {
+.wpmoly.movie-headbox .headbox-header .headbox-hbar,
+.wpmoly.person-headbox .headbox-header .headbox-hbar {
 	background: #fff;
 	bottom: -100px;
 	height: 200px;
@@ -1523,6 +1528,14 @@
 
 .post-editor.movie-editor .editor-section.snapshot-section .snapshot-details .key {
 	color: red;
+}
+
+/*
+ * Person Editor.
+ */
+
+.post-editor.movie-editor {
+	min-width: 720px;
 }
 
 /*
