@@ -1,6 +1,6 @@
 <?php
 /**
- * Movies Editor Search Results Template
+ * Person Editor Search Results Template
  *
  * @since 3.0.0
  */
@@ -8,14 +8,13 @@
 
 			<# _.each( data.results, function( model ) { #>
 			<div class="search-result">
-				<div class="result-thumbnail"<# if ( ! _.isNull( model.poster_path ) ) { #> style="background-image:url({{ 'https://image.tmdb.org/t/p/w185' + model.poster_path }})"<# } #>>
+				<div class="result-thumbnail"<# if ( ! _.isNull( model.profile_path ) ) { #> style="background-image:url({{ 'https://image.tmdb.org/t/p/w185' + model.profile_path }})"<# } #>>
 					<div class="result-menu">
-						<button type="button" class="button queue" data-action="enqueue" data-movie-id="{{ model.id }}"><span class="wpmolicon icon-edit"></span></button>
-						<button type="button" class="button import" data-action="import" data-movie-id="{{ model.id }}"><span class="wpmolicon icon-download"></span></button>
+						<!--<button type="button" class="button queue" data-action="enqueue" data-person-id="{{ model.id }}"><span class="wpmolicon icon-edit"></span></button>-->
+						<button type="button" class="button import" data-action="import" data-person-id="{{ model.id }}"><span class="wpmolicon icon-download"></span></button>
 					</div>
 				</div>
-				<div class="result-year">{{ new Date( model.release_date ).getFullYear() }}</div>
-				<div class="result-title"><a href="https://themoviedb.org/movie/{{ model.id }}" target="_blank" title="\"{{ model.title }}\" on TheMovieDB.org">{{ model.title }}</a></div>
+				<div class="result-name"><a href="https://themoviedb.org/person/{{ model.id }}" target="_blank" title="\"{{ model.name }}\" on TheMovieDB.org">{{ model.name }}</a></div>
 			</div>
 			<# } ); #>
 

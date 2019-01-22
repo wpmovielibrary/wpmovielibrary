@@ -1062,11 +1062,11 @@ final class wpMovieLibrary {
 		add_filter( 'rest_insert_actor',                 array( $rest_api, 'update_actor_thumbnail' ), 10, 3 );
 		add_filter( 'rest_insert_collection',            array( $rest_api, 'update_collection_thumbnail' ), 10, 3 );
 		add_filter( 'rest_insert_genre',                 array( $rest_api, 'update_genre_thumbnail' ), 10, 3 );
-		add_filter( 'rest_page_collection_params',       array( $rest_api, 'register_collection_params' ), 10, 2 );
-		add_filter( 'rest_movie_collection_params',      array( $rest_api, 'register_collection_params' ), 10, 2 );
-		add_filter( 'rest_actor_collection_params',      array( $rest_api, 'register_collection_params' ), 10, 2 );
-		add_filter( 'rest_collection_collection_params', array( $rest_api, 'register_collection_params' ), 10, 2 );
-		add_filter( 'rest_genre_collection_params',      array( $rest_api, 'register_collection_params' ), 10, 2 );
+		add_filter( 'rest_page_collection_params',       array( $rest_api, 'register_page_collection_params' ), 10, 2 );
+		add_filter( 'rest_movie_collection_params',      array( $rest_api, 'register_movie_collection_params' ), 10, 2 );
+		add_filter( 'rest_actor_collection_params',      array( $rest_api, 'register_term_collection_params' ), 10, 2 );
+		add_filter( 'rest_collection_collection_params', array( $rest_api, 'register_term_collection_params' ), 10, 2 );
+		add_filter( 'rest_genre_collection_params',      array( $rest_api, 'register_term_collection_params' ), 10, 2 );
 		add_filter( 'rest_prepare_grid',                 array( $rest_api, 'prepare_grid_for_response' ), 10, 3 );
 		add_filter( 'rest_prepare_movie',                array( $rest_api, 'prepare_movie_for_response' ), 10, 3 );
 		add_filter( 'rest_prepare_person',               array( $rest_api, 'prepare_person_for_response' ), 10, 3 );

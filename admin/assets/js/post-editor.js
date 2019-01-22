@@ -945,45 +945,6 @@ wpmoly.editor = wpmoly.editor || {};
 
 	});
 
-	PostEditor.view.Headline = wp.Backbone.View.extend({
-
-		template : wp.template( 'wpmoly-post-editor-headline' ),
-
-		/**
-		 * Initialize the View.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param {object} options Options.
-		 */
-		initialize : function( options ) {
-
-			var options = options || {};
-
-			this.controller = options.controller;
-
-			this.listenTo( this.controller.post, 'change:title', this.render );
-		},
-
-		/**
-		 * Prepare rendering options.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @return {object}
-		 */
-		prepare : function() {
-
-			var post = this.controller.post.toJSON() || {},
-			 options = {
-				 title : post.title || '',
-			};
-
-			return options;
-		},
-
-	});
-
 	/**
 	 * PostEditor Sidebar View.
 	 *

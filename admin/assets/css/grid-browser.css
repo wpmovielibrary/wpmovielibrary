@@ -1,0 +1,33 @@
+
+/*
+ * Grid Browser Content.
+ */
+
+.post-browser.grid-browser .post-browser-content .post .post-thumbnail:before {
+	bottom: 24px;
+	color: #fff;
+	font-family: "wpmovielibrary";
+	font-size: 72px;
+	height: 72px;
+	line-height: 72px;
+	opacity: .25;
+	position: absolute;
+	right: 24px;
+	width: 72px;
+}
+
+.post-browser.grid-browser .post-browser-content .post.type-empty .post-thumbnail:before {
+	content: '\e82e';
+}
+
+.post-browser.grid-browser .post-browser-content .post.type-actor .post-thumbnail:before {
+	content: '\e824';
+}
+
+.post-browser.grid-browser .post-browser-content .post.type-genre .post-thumbnail:before {
+	content: '\e835';
+}
+
+.post-browser.grid-browser .post-browser-content .post.type-movie .post-thumbnail:before {
+	content: '\e82b';
+}

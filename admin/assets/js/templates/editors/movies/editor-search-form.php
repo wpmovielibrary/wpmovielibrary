@@ -38,7 +38,7 @@
 					<div class="field select-field">
 						<div class="field-label"><?php esc_html_e( 'Language', 'wpmovielibrary' ); ?></div>
 						<div class="field-control">
-							<select data-field="subtitles" data-selectize="1" data-setting="language">
+							<select data-selectize="1" data-setting="language">
 								<option value=""></option>
 <?php foreach( L10n::$supported_languages as $code => $name ) : ?>
 								<option value="<?php echo esc_attr( $code ); ?>"<# if ( '<?php echo esc_attr( $code ); ?>' === data.language ) { #> selected="selected"<# } #>><?php echo esc_html( $name ); ?></option>

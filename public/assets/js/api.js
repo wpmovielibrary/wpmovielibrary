@@ -464,6 +464,7 @@ var API = wpmoly.api = {
 			biography      : '',
 			birthday       : '',
 			deathday       : '',
+			gender         : 0,
 			homepage       : '',
 			imdb_id        : '',
 			name           : '',

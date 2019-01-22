@@ -58,12 +58,12 @@
 								</div>
 							</div>
 						</div>
-						<div id="movie-imdb-id-field" class="field text-field hidden">
+						<div id="movie-imdb-id-field" class="field text-field {{ data.imdb_id.status + '-field' || 'empty-field' }}">
 							<div class="field-label"><?php esc_html_e( 'IMDb Id', 'wpmovielibrary' ); ?></div>
 							<div class="field-value">
 								<span class="value">{{{ data.imdb_id.node || data.imdb_id.snapshot || data.imdb_id.meta || '−' }}}</span>
 								<div class="field-control">
-									<input type="number" min="0" id="movie-imdb-id" data-field="imdb_id" value="{{ data.imdb_id.meta || data.imdb_id.snapshot || data.imdb_id.default || '' }}" />
+									<input type="text" id="movie-imdb-id" data-field="imdb_id" value="{{ data.imdb_id.meta || data.imdb_id.snapshot || data.imdb_id.default || '' }}" />
 								</div>
 							</div>
 						</div>

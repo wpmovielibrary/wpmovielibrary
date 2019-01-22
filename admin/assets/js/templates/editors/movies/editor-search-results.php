@@ -10,7 +10,7 @@
 			<div class="search-result">
 				<div class="result-thumbnail"<# if ( ! _.isNull( model.poster_path ) ) { #> style="background-image:url({{ 'https://image.tmdb.org/t/p/w185' + model.poster_path }})"<# } #>>
 					<div class="result-menu">
-						<button type="button" class="button queue" data-action="enqueue" data-movie-id="{{ model.id }}"><span class="wpmolicon icon-edit"></span></button>
+						<!--<button type="button" class="button queue" data-action="enqueue" data-movie-id="{{ model.id }}"><span class="wpmolicon icon-edit"></span></button>-->
 						<button type="button" class="button import" data-action="import" data-movie-id="{{ model.id }}"><span class="wpmolicon icon-download"></span></button>
 					</div>
 				</div>

@@ -3247,7 +3247,6 @@ wpmoly.editor = wpmoly.editor || {};
 				loading : function() {
 
 					this.$el.addClass( 'loading' );
-					console.log( this.$el );
 
 					return this;
 				},
@@ -3262,7 +3261,6 @@ wpmoly.editor = wpmoly.editor || {};
 				loaded : function() {
 
 					this.$el.removeClass( 'loading' );
-					console.log( this.$el );
 
 					return this;
 				},

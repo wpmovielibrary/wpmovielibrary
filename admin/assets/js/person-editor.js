@@ -324,8 +324,6 @@ wpmoly.editor = wpmoly.editor || {};
 					this.result = new Backbone.Model;
 
 					this.settings = new Backbone.Model( {
-						year         : '',
-						primary_year : '',
 						language     : TMDb.settings.language,
 						adult        : '',
 					} );
@@ -386,9 +384,11 @@ wpmoly.editor = wpmoly.editor || {};
 
 					var self = this,
 					  result = this.results.get( person_id ),
-					   person = new TMDb.Person( { id : person_id } );
+					  person = new TMDb.Person( { id : person_id } );
 
 					this.result.set( result.toJSON() );
+
+					person.on( 'all', console.debug );
 
 					person.on( 'fetch:start', function( xhr, options ) {
 						self.trigger( 'import:start', xhr, options );
@@ -1713,8 +1713,15 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				prepare : function( person_id ) {
 
+					var movies = this.controller.result.get( 'known_for' ) || [],
+					  backdrop;
+
+					if ( movies.length ) {
+						backdrop = _.first( movies ).backdrop_path;
+					}
+
 					var options = {
-						backdrop : this.controller.result.get( 'backdrop_path' ),
+						backdrop : backdrop,
 					};
 
 					return options;
@@ -1945,7 +1952,6 @@ wpmoly.editor = wpmoly.editor || {};
 				loading : function() {
 
 					this.$el.addClass( 'loading' );
-					console.log( this.$el );
 
 					return this;
 				},
@@ -1960,7 +1966,6 @@ wpmoly.editor = wpmoly.editor || {};
 				loaded : function() {
 
 					this.$el.removeClass( 'loading' );
-					console.log( this.$el );
 
 					return this;
 				},
@@ -3521,6 +3526,8 @@ wpmoly.editor = wpmoly.editor || {};
 					options.backdrop = ! _.isUndefined( backdrop ) ? 'https://image.tmdb.org/t/p/original' + backdrop.file_path : options.backdrop.sizes.large.url;
 				}
 
+				console.log( snapshot );
+
 				return options;
 			},
 
@@ -3859,16 +3866,16 @@ wpmoly.editor = wpmoly.editor || {};
 				}
 
 				if ( ! this.search ) {
-					//this.search = new PersonEditor.view.Search( { controller : this.controller.search } );
+					this.search = new PersonEditor.view.Search( { controller : this.controller.search } );
 				}
 
 				if ( ! this.snapshot ) {
-					//this.snapshot = new PersonEditor.view.Snapshot( options );
+					this.snapshot = new PersonEditor.view.Snapshot( options );
 				}
 
 				this.views.set( '#wpmoly-person-preview',  this.preview );
-				//this.views.set( '#wpmoly-person-search',   this.search );
-				//this.views.set( '#wpmoly-person-snapshot', this.snapshot );
+				this.views.set( '#wpmoly-person-search',   this.search );
+				this.views.set( '#wpmoly-person-snapshot', this.snapshot );
 
 				return this;
 			},

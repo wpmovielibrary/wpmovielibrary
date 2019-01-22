@@ -969,15 +969,10 @@ wpmoly.editor = wpmoly.editor || {};
 						controller : this.controller,
 					};
 
-					if ( ! this.headline ) {
-						this.headline = new GridEditor.view.Headline( options );
-					}
-
 					if ( ! this.meta ) {
 						this.meta = new GridEditor.view.MetaEditor( options );
 					}
 
-					this.views.set( '#wpmoly-grid-headline', this.headline );
 					this.views.set( '#wpmoly-grid-meta',     this.meta );
 
 					return this;

@@ -904,7 +904,7 @@ TMDb.init();
 			 options = options || {};
 
 			options.data = _.extend( options.data || {}, {
-				append_to_response : 'external_ids,alternative_titles,credits,release_dates,videos',
+				append_to_response : 'external_ids,alternative_titles,credits,images,release_dates,videos',
 			} );
 
 			var before = options.before,
@@ -953,13 +953,13 @@ TMDb.init();
 						self.unset( 'videos' );
 					}
 
-					self.images.fetch().done( function( model, status, xhr ) {
-						self.trigger( 'fetch:success', model, status, xhr );
-					} ).fail( function( xhr, status, error ) {
-						self.trigger( 'fetch:error', xhr, status, error );
-					} ).always( function( model, status, xhr ) {
-						self.trigger( 'fetch:stop', model, status, xhr );
-					} );
+					/**
+					 * Images have to be queried separately due to append_to_response
+					 * returning paginated results instead of the full images list.
+					 */
+					self.images.fetchAll();
+
+					self.trigger( 'fetch:success', model, response, options );
 
 					if ( success ) {
 						success.apply( this, arguments );
@@ -1357,7 +1357,7 @@ TMDb.init();
 			 options = options || {};
 
 			options.data = _.extend( options.data || {}, {
-				append_to_response : 'combined_credits,external_ids,images,tagged_images',
+				append_to_response : 'combined_credits,external_ids',
 			} );
 
 			var before = options.before,
@@ -1391,29 +1391,34 @@ TMDb.init();
 						self.unset( 'combined_credits' );
 					}
 
-					if ( ! _.isUndefined( model.get( 'images' ) ) && _.has( model.get( 'images' ), 'profiles' ) ) {
-						self.images.add( model.get( 'images' ).profiles );
-					}
-
-					if ( ! _.isUndefined( model.get( 'tagged_images' ) ) && _.has( model.get( 'tagged_images' ), 'results' ) ) {
-						self.taggedimages.add( model.get( 'tagged_images' ).results );
-					}
-
-					/*self.images.fetch().done( function( model, status, xhr ) {
-						self.trigger( 'fetch:success', model, status, xhr );
+					/**
+					 * Images (and tagged images) have to be queried separately due to
+					 * append_to_response returning paginated results instead of the full
+					 * images list.
+					 */
+					self.images.fetch().done( function( model, status, xhr ) {
+						self.trigger( 'fetch:images:success', model, status, xhr );
+						if ( ! _.isUndefined( model.images ) && _.has( model.images, 'profiles' ) ) {
+							self.images.add( model.images.profiles );
+						}
 					} ).fail( function( xhr, status, error ) {
-						self.trigger( 'fetch:error', xhr, status, error );
+						self.trigger( 'fetch:images:error', xhr, status, error );
 					} ).always( function( model, status, xhr ) {
-						self.trigger( 'fetch:stop', model, status, xhr );
+						self.trigger( 'fetch:images:stop', model, status, xhr );
 					} );
 
 					self.taggedimages.fetch().done( function( model, status, xhr ) {
-						self.trigger( 'fetch:success', model, status, xhr );
+						self.trigger( 'fetch:taggedimages:success', model, status, xhr );
+						if ( ! _.isUndefined( model.tagged_images ) && _.has( model.tagged_images, 'results' ) ) {
+							self.taggedimages.add( model.tagged_images.results );
+						}
 					} ).fail( function( xhr, status, error ) {
-						self.trigger( 'fetch:error', xhr, status, error );
+						self.trigger( 'fetch:taggedimages:error', xhr, status, error );
 					} ).always( function( model, status, xhr ) {
-						self.trigger( 'fetch:stop', model, status, xhr );
-					} );*/
+						self.trigger( 'fetch:taggedimages:stop', model, status, xhr );
+					} );
+
+					self.trigger( 'fetch:success', model, response, options );
 
 					if ( success ) {
 						success.apply( this, arguments );

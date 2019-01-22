@@ -97,6 +97,37 @@ class Taxonomies {
 					'slug' => _x( 'collection', 'slug', 'wpmovielibrary' ),
 				),
 			),
+			'departement' => array(
+				'args'  => array(
+					'labels' => array(
+						'name'                       => __( 'Departements', 'wpmovielibrary' ),
+						'add_new_item'               => __( 'New Departement', 'wpmovielibrary' ),
+						'search_items'               => __( 'Search Departements', 'wpmovielibrary' ),
+						'popular_items'              => __( 'Popular Departements', 'wpmovielibrary' ),
+						'all_items'                  => __( 'All Departements', 'wpmovielibrary' ),
+						'parent_item'                => __( 'Parent Departement', 'wpmovielibrary' ),
+						'parent_item_colon'          => __( 'Parent Departement:', 'wpmovielibrary' ),
+						'edit_item'                  => __( 'Edit Departement', 'wpmovielibrary' ),
+						'view_item'                  => __( 'View Departement', 'wpmovielibrary' ),
+						'update_item'                => __( 'Update Departement', 'wpmovielibrary' ),
+						'add_new_item'               => __( 'Add New Departement', 'wpmovielibrary' ),
+						'new_item_name'              => __( 'New Departement Name', 'wpmovielibrary' ),
+						'separate_items_with_commas' => __( 'Separate departements with commas', 'wpmovielibrary' ),
+						'add_or_remove_items'        => __( 'Add or remove departements', 'wpmovielibrary' ),
+						'choose_from_most_used'      => __( 'Choose from the most used departements', 'wpmovielibrary' ),
+						'not_found'                  => __( 'No departements found.', 'wpmovielibrary' ),
+						'no_terms'                   => __( 'No departements', 'wpmovielibrary' ),
+						'items_list_navigation'      => __( 'Departements list navigation', 'wpmovielibrary' ),
+						'items_list'                 => __( 'Departements list', 'wpmovielibrary' ),
+					),
+					'rest_controller_class' => '\wpmoly\rest\endpoints\Terms_Controller',
+				),
+				'post_type' => array( 'person' ),
+				'rest_base' => 'departements',
+				'rewrite'   => array(
+					'slug' => _x( 'departement', 'slug', 'wpmovielibrary' ),
+				),
+			),
 			'genre' => array(
 				'slug'  => 'genre',
 				'args'  => array(

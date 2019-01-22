@@ -221,13 +221,27 @@ class Assets {
 			$this->enqueue_style( 'selectize' );
 			$this->enqueue_style( 'dashboard' );
 
-			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-movies' ) ||
-			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-persons' ) ||
-			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-grids' ) ) {
+			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-movies' ) ) {
 				if ( ! empty( $_GET['id'] ) && ! empty( $_GET['action'] ) ) {
-					$this->enqueue_style( 'post-editor' );
+					$this->enqueue_style( 'movie-editor' );
 				} else {
-					$this->enqueue_style( 'post-browser' );
+					$this->enqueue_style( 'movie-browser' );
+				}
+			}
+
+			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-persons' ) ) {
+				if ( ! empty( $_GET['id'] ) && ! empty( $_GET['action'] ) ) {
+					$this->enqueue_style( 'person-editor' );
+				} else {
+					$this->enqueue_style( 'person-browser' );
+				}
+			}
+
+			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-grids' ) ) {
+				if ( ! empty( $_GET['id'] ) && ! empty( $_GET['action'] ) ) {
+					$this->enqueue_style( 'grid-editor' );
+				} else {
+					$this->enqueue_style( 'grid-browser' );
 				}
 			}
 
@@ -589,8 +603,15 @@ class Assets {
 		$this->add_admin_css( 'dashboard', 'dashboard.css' );
 
 		// Posts.
-		$this->add_admin_css( 'post-browser', 'post-browser.css' );
-		$this->add_admin_css( 'post-editor',  'post-editor.css' );
+		$this->add_admin_css( 'post-browser',   'post-browser.css' );
+		$this->add_admin_css( 'movie-browser',  'movie-browser.css',  array( 'wpmoly-post-browser' ) );
+		$this->add_admin_css( 'person-browser', 'person-browser.css', array( 'wpmoly-post-browser' ) );
+		$this->add_admin_css( 'grid-browser',   'grid-browser.css',   array( 'wpmoly-post-browser' ) );
+
+		$this->add_admin_css( 'post-editor',   'post-editor.css' );
+		$this->add_admin_css( 'movie-editor',  'movie-editor.css',  array( 'wpmoly-post-editor' ) );
+		$this->add_admin_css( 'person-editor', 'person-editor.css', array( 'wpmoly-post-editor' ) );
+		$this->add_admin_css( 'grid-editor',   'grid-editor.css',   array( 'wpmoly-post-editor' ) );
 
 		// Terms.
 		$this->add_admin_css( 'term-browser', 'term-browser.css' );

@@ -911,6 +911,20 @@ function get_registered_person_meta( $meta_name = '' ) {
 				'prepare_callback' => '\wpmoly\rest\prepare_person_deathday',
 			),
 		),
+		'gender' => array(
+			'type'         => 'integer',
+			'post_type'    => array( 'person' ),
+			'description'  => __( 'Gender', 'wpmovielibrary' ),
+			'show_in_rest' => array(
+				'prepare_callback' => '\wpmoly\rest\prepare_person_gender',
+				'enum' => array(
+					0 => __( 'Unknown', 'wpmovielibrary' ),
+					1 => __( 'Female', 'wpmovielibrary' ),
+					2 => __( 'Male', 'wpmovielibrary' ),
+				),
+				'default' => 0,
+			),
+		),
 		'homepage' => array(
 			'type'         => 'string',
 			'post_type'    => array( 'person' ),

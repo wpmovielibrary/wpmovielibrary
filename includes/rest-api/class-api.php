@@ -426,123 +426,135 @@ class API {
 	}
 
 	/**
-	 * Register custom REST API collection params.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access public
-	 *
-	 * @param array $query_params JSON Schema-formatted collection parameters.
-	 * @param mixed $object       WP_Post_Type or WP_Taxonomy object.
-	 *
-	 * @return array
-	 */
-	public function register_collection_params( $query_params, $object ) {
-
-		if ( $object instanceof WP_Post_Type ) {
-			return $this->register_post_collection_params( $query_params, $object );
-		} elseif ( $object instanceof WP_Taxonomy ) {
-			return $this->register_term_collection_params( $query_params, $object );
-		}
-
-		return $query_params;
-	}
-
-	/**
 	 * Register custom REST API post collection params.
 	 *
 	 * Add support for letter and meta filtering, presets, fields selection.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @access private
+	 * @access public
 	 *
 	 * @param array        $query_params JSON Schema-formatted collection parameters.
 	 * @param WP_Post_Type $post_type    Post Type object.
 	 *
 	 * @return array
 	 */
-	private function register_post_collection_params( $query_params, $post_type ) {
+	public function register_post_collection_params( $query_params, $post_type ) {
 
-		if ( 'movie' === $post_type->name ) {
+		// Support grid presets.
+		$query_params['preset'] = array(
+			'description' => __( 'Limit result set using presets.', 'wpmovielibrary' ),
+			'type'        => 'string',
+			'default'     => 'custom',
+			//'sanitize_callback' => '',
+		);
 
-			$supported = $this->supported_parameters;
+		// Filter movies by first letter.
+		$query_params['letter'] = array(
+			'description' => __( 'Filter movies by letter.', 'wpmovielibrary' ),
+			'type'        => 'string',
+			'default'     => '',
+			'enum'        => array( '' ) + str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' ),
+		);
 
-			// Support grid presets.
-			$query_params['preset'] = array(
-				'description' => __( 'Limit result set using presets.', 'wpmovielibrary' ),
-				'type'        => 'string',
-				'default'     => 'custom',
-				//'sanitize_callback' => '',
-			);
+		// Avoid loading all available meta.
+		$query_params['fields'] = array(
+			'description' => __( 'Limit result meta set to specific fields.', 'wpmovielibrary' ),
+			'type'        => 'array',
+			'default'     => array( 'title', 'genres', 'director', 'rating', 'release_date', 'runtime', 'year' ),
+			'items'       => array(
+				'type' => 'string',
+			),
+			//'sanitize_callback' => '',
+		);
 
-			// Filter movies by first letter.
-			$query_params['letter'] = array(
-				'description' => __( 'Filter movies by letter.', 'wpmovielibrary' ),
-				'type'        => 'string',
-				'default'     => '',
-				'enum'        => array( '' ) + str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' ),
-			);
+		// Authors are WordPress users; we want to be able to use
+		// that option to match movies authors.
+		if ( ! empty( $query_params['author']['items']['type'] ) ) {
+			$query_params['author']['description'] = __( 'Limit result set to posts assigned to specific authors. Use integers to match WordPress users, strings to match movies authors.', 'wpmovielibrary' );
+			$query_params['author']['items']['type'] = 'string';
+		}
 
-			// Avoid loading all available meta.
-			$query_params['fields'] = array(
-				'description' => __( 'Limit result meta set to specific fields.', 'wpmovielibrary' ),
-				'type'        => 'array',
-				'default'     => array( 'title', 'genres', 'director', 'rating', 'release_date', 'runtime', 'year' ),
-				'items'       => array(
-					'type' => 'string',
-				),
-				//'sanitize_callback' => '',
-			);
+		return $query_params;
+	}
 
-			// Authors are WordPress users; we want to be able to use
-			// that option to match movies authors.
-			if ( ! empty( $query_params['author']['items']['type'] ) ) {
+	/**
+	 * Register custom REST API movie collection params.
+	 *
+	 * Add support for letter and meta filtering, presets, fields selection.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param array        $query_params JSON Schema-formatted collection parameters.
+	 * @param WP_Post_Type $post_type    Post Type object.
+	 *
+	 * @return array
+	 */
+	public function register_movie_collection_params( $query_params, $post_type ) {
 
-				unset( $supported['author'] );
+		$query_params = $this->register_post_collection_params( $query_params, $post_type );
 
-				$query_params['author']['description'] = __( 'Limit result set to posts assigned to specific authors. Use integers to match WordPress users, strings to match movies authors.', 'wpmovielibrary' );
-				$query_params['author']['items']['type'] = 'string';
-			}
+		$supported = $this->supported_parameters;
 
-			$metadata = get_registered_meta_keys( 'post', 'movie' );
+		// Authors are WordPress users; we want to be able to use
+		// that option to match movies authors.
+		if ( ! empty( $query_params['author']['items']['type'] ) ) {
+			unset( $supported['author'] );
+		}
 
-			foreach ( $supported as $param => $key ) {
+		$metadata = get_registered_meta_keys( 'post', 'movie' );
 
-				$meta_key = utils\movie\prefix( $key );
+		foreach ( $supported as $param => $key ) {
 
-				if ( ! empty( $metadata[ $meta_key ] ) ) {
+			$meta_key = utils\movie\prefix( $key );
 
-					$meta = $metadata[ $meta_key ];
-					if ( ! empty( $meta['show_in_rest']['schema'] ) ) {
-						$meta = $meta['show_in_rest']['schema'];
-					}
+			if ( ! empty( $metadata[ $meta_key ] ) ) {
 
-					$args = array(
-						'description' => $meta['description'],
-						'type'        => $meta['type'],
-					);
-
-					if ( ! empty( $meta['enum'] ) ) {
-						$args['enum'] = $meta['enum'];
-					}
-
-					if ( ! empty( $meta['default'] ) ) {
-						$args['default'] = $meta['default'];
-					}
-
-					$query_params[ $param ] = $args;
+				$meta = $metadata[ $meta_key ];
+				if ( ! empty( $meta['show_in_rest']['schema'] ) ) {
+					$meta = $meta['show_in_rest']['schema'];
 				}
+
+				$args = array(
+					'description' => $meta['description'],
+					'type'        => $meta['type'],
+				);
+
+				if ( ! empty( $meta['enum'] ) ) {
+					$args['enum'] = $meta['enum'];
+				}
+
+				if ( ! empty( $meta['default'] ) ) {
+					$args['default'] = $meta['default'];
+				}
+
+				$query_params[ $param ] = $args;
 			}
+		}
 
-		} elseif ( 'page' === $post_type->name ) {
+		return $query_params;
+	}
 
-			$query_params['grid_id'] = array(
-				'description' => __( 'Limit result set to page related to a specific grid.', 'wpmovielibrary' ),
-				'type'        => 'integer',
-			);
+	/**
+	 * Register custom REST API page collection params.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param array        $query_params JSON Schema-formatted collection parameters.
+	 * @param WP_Post_Type $post_type    Post Type object.
+	 *
+	 * @return array
+	 */
+	public function register_page_collection_params( $query_params, $post_type ) {
 
-		} // End if().
+		$query_params['grid_id'] = array(
+			'description' => __( 'Limit result set to page related to a specific grid.', 'wpmovielibrary' ),
+			'type'        => 'integer',
+		);
 
 		return $query_params;
 	}
@@ -554,16 +566,16 @@ class API {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @access private
+	 * @access public
 	 *
 	 * @param array       $query_params JSON Schema-formatted collection parameters.
 	 * @param WP_Taxonomy $taxonomy     Taxonomy object.
 	 *
 	 * @return array
 	 */
-	private function register_term_collection_params( $query_params, $taxonomy ) {
+	public function register_term_collection_params( $query_params, $taxonomy ) {
 
-		if ( in_array( $taxonomy->name, array( 'actor', 'collection', 'genre' ) ) ) {
+		if ( isset( $taxonomy->name ) && in_array( $taxonomy->name, array( 'actor', 'collection', 'genre' ) ) ) {
 
 			// Support grid presets.
 			$query_params['preset'] = array(
