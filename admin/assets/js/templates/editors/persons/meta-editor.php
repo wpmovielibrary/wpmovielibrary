@@ -6,14 +6,14 @@
  */
 ?>
 
-			<# console.log( data ); #>
+			<# //console.log( data ); #>
 			<div class="headbox-header">
-				<div class="headbox-backdrop" style="background-image:url(https://image.tmdb.org/t/p/original/xu9zaAevzQ5nnrsXN6JcahLnG4i.jpg)"></div>
+				<div class="headbox-backdrop" style="background-image:url({{ data.backdrop }})"></div>
 				<div class="headbox-hbar"></div>
-				<div class="headbox-picture" style="background-image:url(https://image.tmdb.org/t/p/original/jdRmHrG0TWXGhs4tO6TJNSoL25T.jpg)"></div>
+				<div class="headbox-picture" style="background-image:url({{ data.picture }})"></div>
 				<div class="headbox-hgroup">
-					<div class="movie-name">Matthew McConaughey</div>
-					<div class="movie-departement"><span class="label"><?php esc_html_e( 'Known for', 'wpmovielibrary' ); ?></span> Acting</div>
+					<div class="person-name">{{{ data.name.node || data.name.snapshot || data.name.meta || '<?php esc_html_e( 'Unamed', 'wpmovielibrary' ); ?>' }}}</div>
+					<div class="person-department"><span class="label"><?php esc_html_e( 'Known for', 'wpmovielibrary' ); ?></span> {{{ data.department.node || data.department.snapshot || data.department.meta || '−' }}}</div>
 				</div>
 			</div>
 			<div class="headbox-content">
@@ -60,7 +60,7 @@
 						</div>
 					</div>
 					<div class="panel right">
-						<div id="person-name-field" class="field half-field text-field {{ data.name.status + '-field' || 'empty-field' }}">
+						<div id="person-name-field" class="field text-field {{ data.name.status + '-field' || 'empty-field' }}">
 							<div class="field-label"><?php esc_html_e( 'Name', 'wpmovielibrary' ); ?></div>
 							<div class="field-value">
 								<span class="value">{{{ data.name.node || data.name.snapshot || data.name.meta || '−' }}}</span>
@@ -69,7 +69,7 @@
 								</div>
 							</div>
 						</div>
-						<div id="person-also-known-as-field" class="field half-field text-field {{ data.also_known_as.status + '-field' || 'empty-field' }}">
+						<div id="person-also-known-as-field" class="field text-field {{ data.also_known_as.status + '-field' || 'empty-field' }}">
 							<div class="field-label"><?php esc_html_e( 'Also known as', 'wpmovielibrary' ); ?></div>
 							<div class="field-value">
 								<span class="value">{{{ data.also_known_as.node || data.also_known_as.snapshot || data.also_known_as.meta || '−' }}}</span>
@@ -96,16 +96,7 @@
 								</div>
 							</div>
 						</div>
-						<div id="person-gender-field" class="field half-field text-field {{ data.gender.status + '-field' || 'empty-field' }}">
-							<div class="field-label"><?php esc_html_e( 'Gender', 'wpmovielibrary' ); ?></div>
-							<div class="field-value">
-								<span class="value">{{{ data.gender.node || data.gender.snapshot || data.gender.meta || '−' }}}</span>
-								<div class="field-control">
-									<input type="text" id="person-gender" data-field="gender" value="{{ data.gender.meta || data.gender.snapshot || data.gender.default || '' }}" />
-								</div>
-							</div>
-						</div>
-						<div id="person-place-of-birth-field" class="field half-field text-field {{ data.place_of_birth.status + '-field' || 'empty-field' }}">
+						<div id="person-place-of-birth-field" class="field text-field {{ data.place_of_birth.status + '-field' || 'empty-field' }}">
 							<div class="field-label"><?php esc_html_e( 'Place of birth', 'wpmovielibrary' ); ?></div>
 							<div class="field-value">
 								<span class="value">{{{ data.place_of_birth.node || data.place_of_birth.snapshot || data.place_of_birth.meta || '−' }}}</span>

@@ -44,8 +44,9 @@ function get_registered_post_meta( $meta_name = '' ) {
 	$grid_meta       = (array) get_registered_grid_meta();
 	$movie_meta      = (array) get_registered_movie_meta();
 	$page_meta       = (array) get_registered_page_meta();
+	$person_meta     = (array) get_registered_person_meta();
 
-	$registered_meta = $post_meta + $attachment_meta + $grid_meta + $movie_meta + $page_meta;
+	$registered_meta = $post_meta + $attachment_meta + $grid_meta + $movie_meta + $page_meta + $person_meta;
 
 	/**
 	 * Filter default meta.
@@ -83,7 +84,42 @@ function get_default_posts_meta() {
 	 *
 	 * @param array $registered_meta Registered Posts Meta.
 	 */
-	$post_meta = apply_filters( 'wpmoly/filter/default/post/meta', array() );
+	$post_meta = apply_filters( 'wpmoly/filter/default/post/meta', array(
+		'adult' => array(
+			'type'         => 'string',
+			'post_type'    => array( 'movie', 'person' ),
+			'description'  => __( 'Adult', 'wpmovielibrary' ),
+			'show_in_rest' => array(
+				'prepare_callback' => '\wpmoly\rest\prepare_movie_adult',
+			),
+		),
+		'homepage' => array(
+			'type'         => 'string',
+			'post_type'    => array( 'movie', 'person' ),
+			'description'  => __( 'Homepage', 'wpmovielibrary' ),
+			'format'       => 'uri',
+			'show_in_rest' => array(
+				'prepare_callback' => '\wpmoly\rest\prepare_movie_homepage',
+			),
+		),
+		'imdb_id' => array(
+			'type'          => 'string',
+			'post_type'    => array( 'movie', 'person' ),
+			'description'  => __( 'IMDb Id', 'wpmovielibrary' ),
+			'show_in_rest' => array(
+				'prepare_callback' => '\wpmoly\rest\prepare_movie_imdb_id',
+			),
+		),
+		'snapshot' => array(
+			'type'         => 'string',
+			'post_type'    => array( 'movie', 'person' ),
+			'description'  => __( 'Snapshot.', 'wpmovielibrary' ),
+			'protected'    => true,
+			'show_in_rest' => array(
+				'context'    => array( 'edit' ),
+			),
+		),
+	) );
 
 	return $post_meta;
 }
@@ -471,14 +507,6 @@ function get_registered_movie_meta( $meta_name = '' ) {
 
 	$registered_meta = array(
 		// Meta.
-		'adult' => array(
-			'type'         => 'string',
-			'post_type'    => array( 'movie' ),
-			'description'  => __( 'Adult', 'wpmovielibrary' ),
-			'show_in_rest' => array(
-				'prepare_callback' => '\wpmoly\rest\prepare_movie_adult',
-			),
-		),
 		'author' => array(
 			'type'         => 'string',
 			'post_type'    => array( 'movie' ),
@@ -533,23 +561,6 @@ function get_registered_movie_meta( $meta_name = '' ) {
 			'description'  => __( 'Genres', 'wpmovielibrary' ),
 			'show_in_rest' => array(
 				'prepare_callback' => '\wpmoly\rest\prepare_movie_genres',
-			),
-		),
-		'homepage' => array(
-			'type'         => 'string',
-			'post_type'    => array( 'movie' ),
-			'description'  => __( 'Homepage', 'wpmovielibrary' ),
-			'format'       => 'uri',
-			'show_in_rest' => array(
-				'prepare_callback' => '\wpmoly\rest\prepare_movie_homepage',
-			),
-		),
-		'imdb_id' => array(
-			'type'          => 'string',
-			'post_type'    => array( 'movie' ),
-			'description'  => __( 'IMDb Id', 'wpmovielibrary' ),
-			'show_in_rest' => array(
-				'prepare_callback' => '\wpmoly\rest\prepare_movie_imdb_id',
 			),
 		),
 		'local_release_date' => array(
@@ -786,15 +797,6 @@ function get_registered_movie_meta( $meta_name = '' ) {
 				'context'    => array( 'edit' ),
 			),
 		),
-		'snapshot' => array(
-			'type'         => 'string',
-			'post_type'    => array( 'movie' ),
-			'description'  => __( 'Movie Snapshot.', 'wpmovielibrary' ),
-			'protected'    => true,
-			'show_in_rest' => array(
-				'context'    => array( 'edit' ),
-			),
-		),
 	);
 
 	foreach ( $registered_meta as $name => $args ) {
@@ -959,6 +961,24 @@ function get_registered_person_meta( $meta_name = '' ) {
 			'description'  => __( 'TMDb ID', 'wpmovielibrary' ),
 			'show_in_rest' => array(
 				'prepare_callback' => '\wpmoly\rest\prepare_person_tmdb_id',
+			),
+		),
+		'backdrop_id' => array(
+			'type'         => 'integer',
+			'post_type'    => array( 'person' ),
+			'description'  => __( 'Person Backdrop Attachment ID.', 'wpmovielibrary' ),
+			'protected'    => true,
+			'show_in_rest' => array(
+				'context'    => array( 'edit' ),
+			),
+		),
+		'picture_id' => array(
+			'type'         => 'integer',
+			'post_type'    => array( 'person' ),
+			'description'  => __( 'Person Picture Attachment ID.', 'wpmovielibrary' ),
+			'protected'    => true,
+			'show_in_rest' => array(
+				'context'    => array( 'edit' ),
 			),
 		),
 	);

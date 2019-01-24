@@ -110,7 +110,7 @@
 	width: calc( 100% - 320px );
 }
 
-.wpmoly.person-headbox .headbox-header .headbox-hgroup .movie-name {
+.wpmoly.person-headbox .headbox-header .headbox-hgroup .person-name {
 	background: #fff;
 	color: #373e48;
 	display: inline-block;
@@ -122,14 +122,14 @@
 	text-transform: uppercase;
 }
 
-.wpmoly.person-headbox .headbox-header .headbox-hgroup .movie-departement {
+.wpmoly.person-headbox .headbox-header .headbox-hgroup .person-department {
 	color: #373e48;
 	font-size: 16px;
 	font-weight: 400;
 	margin-top: 4px;
 }
 
-.post-editor.person-editor .person-headbox .headbox-header .headbox-hgroup .movie-departement .label {
+.post-editor.person-editor .person-headbox .headbox-header .headbox-hgroup .person-department .label {
 	color: #686d77;
 	font-size: 10px;
 	font-weight: 600;
@@ -253,6 +253,298 @@
 
 .post-editor.person-editor .person-headbox.mode-edit .headbox-content .panel.left .field-control .selectize-input {
 	width: calc( 100% - 32px );
+}
+
+/*
+ * Movie Editor Images Section.
+ */
+
+.post-editor.person-editor .person-pictures .editor-content,
+.post-editor.person-editor .person-backdrops .editor-content {
+	padding: 40px 20px;
+}
+
+.post-editor.person-editor .person-pictures.mode-download .editor-content-upload,
+.post-editor.person-editor .person-backdrops.mode-download .editor-content-upload,
+.post-editor.person-editor .person-pictures.mode-upload .editor-content-download,
+.post-editor.person-editor .person-backdrops.mode-upload .editor-content-download {
+	display: none;
+}
+
+.post-editor.person-editor .person-pictures.mode-download .editor-menu .button.download,
+.post-editor.person-editor .person-backdrops.mode-download .editor-menu .button.download,
+.post-editor.person-editor .person-pictures.mode-upload .editor-menu .button.upload,
+.post-editor.person-editor .person-backdrops.mode-upload .editor-menu .button.upload {
+	color: #0073aa;
+}
+
+.post-editor.person-editor .person-pictures .editor-content .panel,
+.post-editor.person-editor .person-backdrops .editor-content .panel {
+	position: relative;
+}
+
+.post-editor.person-editor .person-pictures .filter-field .selectize-input,
+.post-editor.person-editor .person-backdrops .filter-field .selectize-input {
+	width: 90%;
+}
+
+.post-editor.person-editor .person-pictures .picture {
+	--width: 128px;
+}
+
+.post-editor.person-editor .person-backdrops .backdrop {
+	--width: 222px;
+}
+
+.post-editor.person-editor .person-pictures .picture,
+.post-editor.person-editor .person-backdrops .backdrop {
+	display: inline-block;
+	margin: 0 5px 20px;
+	position: relative;
+	vertical-align: top;
+	width: var( --width );
+	z-index: 1;
+}
+
+.post-editor.person-editor .person-pictures .picture.bad-ratio,
+.post-editor.person-editor .person-backdrops .backdrop.bad-ratio {
+
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail {
+	height: calc( var( --width ) * 1.5 );
+}
+
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail {
+	height: calc( var( --width ) / 1.7 );
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail {
+	background-color: #373e48;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	border-radius: 2px;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, .2);
+	margin-bottom: 8px;
+	opacity: .5;
+	position: relative;
+	width: var( --width );
+}
+
+.post-editor.person-editor .person-pictures .picture.has-attachment .picture-thumbnail,
+.post-editor.person-editor .person-backdrops .backdrop.has-attachment .backdrop-thumbnail {
+	opacity: 1;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .button,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .button {
+	color: #fff;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .download-picture,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .download-backdrop,
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .open-picture,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .open-backdrop,
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .set-as-picture,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .set-as-backdrop,
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .remove-picture,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .remove-backdrop,
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .download-picture,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .download-backdrop {
+	display: none;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .open-picture,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .open-backdrop,
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .download-picture,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .download-backdrop {
+	background: rgba(0, 115, 170, 0.3);
+	height: 100%;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .set-as-picture,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .set-as-backdrop {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .remove-picture,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .remove-backdrop {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .bad-ratio,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .bad-ratio {
+	bottom: 10px;
+	position: absolute;
+	right: 10px;
+}
+
+.post-editor.person-editor .person-pictures .picture:hover .picture-thumbnail,
+.post-editor.person-editor .person-backdrops .backdrop:hover .backdrop-thumbnail {
+	opacity: 1;
+}
+
+.post-editor.person-editor .person-pictures .picture:hover .picture-thumbnail .download-picture,
+.post-editor.person-editor .person-backdrops .backdrop:hover .backdrop-thumbnail .download-backdrop,
+.post-editor.person-editor .person-pictures .picture:hover .picture-thumbnail .open-picture,
+.post-editor.person-editor .person-backdrops .backdrop:hover .backdrop-thumbnail .open-backdrop,
+.post-editor.person-editor .person-pictures .picture:hover .picture-thumbnail .set-as-picture,
+.post-editor.person-editor .person-backdrops .backdrop:hover .backdrop-thumbnail .set-as-backdrop,
+.post-editor.person-editor .person-pictures .picture:hover .picture-thumbnail .remove-picture,
+.post-editor.person-editor .person-backdrops .backdrop:hover .backdrop-thumbnail .remove-backdrop,
+.post-editor.person-editor .person-pictures .picture:hover .picture-thumbnail .download-picture,
+.post-editor.person-editor .person-backdrops .backdrop:hover .backdrop-thumbnail .download-backdrop {
+	display: block;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .download-picture .button,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .download-backdrop .button,
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .open-picture .button,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .open-backdrop .button {
+	left: calc( 50% - 12px );
+	height: 24px;
+	line-height: 24px;
+	position: absolute;
+	text-align: center;
+	top: calc( 50% - 12px );
+	width: 24px;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .upload-progress,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .upload-progress,
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .download-progress,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .download-progress {
+	background: rgba(255, 255, 255, .6);
+	bottom: 0;
+	display: none;
+	height: 6px;
+	position: absolute;
+	width: 100%;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .upload-progress::after,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .upload-progress::after,
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .download-progress::after,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .download-progress::after {
+	content: '';
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #fff;
+	-webkit-animation: progress 2s ease infinite;
+	animation: progress 2s ease infinite;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .upload-progress,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .upload-progress {
+	bottom: 6px;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .download-progress,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .download-progress {
+	bottom: 0;
+}
+
+.post-editor.person-editor .person-pictures .picture.uploading .picture-thumbnail,
+.post-editor.person-editor .person-backdrops .backdrop.uploading .backdrop-thumbnail {
+	opacity: 1;
+}
+
+.post-editor.person-editor .person-pictures .picture.uploading .picture-thumbnail .download-picture,
+.post-editor.person-editor .person-backdrops .backdrop.uploading .backdrop-thumbnail .download-backdrop,
+.post-editor.person-editor .person-pictures .picture.uploading .picture-thumbnail .set-as-picture,
+.post-editor.person-editor .person-backdrops .backdrop.uploading .backdrop-thumbnail .set-as-backdrop,
+.post-editor.person-editor .person-pictures .picture.uploading .picture-thumbnail .open-picture,
+.post-editor.person-editor .person-backdrops .backdrop.uploading .backdrop-thumbnail .open-backdrop {
+	display: none;
+}
+
+.post-editor.person-editor .person-pictures .picture.uploading .picture-thumbnail .upload-progress,
+.post-editor.person-editor .person-backdrops .backdrop.uploading .backdrop-thumbnail .upload-progress,
+.post-editor.person-editor .person-pictures .picture.uploading .picture-thumbnail .download-progress,
+.post-editor.person-editor .person-backdrops .backdrop.uploading .backdrop-thumbnail .download-progress {
+	display: block;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .upload-progress .progress-bar,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .upload-progress .progress-bar,
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .download-progress .progress-bar,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .download-progress .progress-bar {
+	height: 100%;
+	position: relative;
+	width: 0;
+	z-index: 1;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .upload-progress .progress-bar,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .upload-progress .progress-bar {
+	background: #a2ce51;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail .download-progress .progress-bar,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail .download-progress .progress-bar {
+	background: #0073aa;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-size,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-size {
+	color: #373e48;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 12px;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-language,
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-language {
+	color: #686d77;
+	float: right;
+	font-size: 12px;
+	line-height: 12px;
+}
+
+.post-editor.person-editor .person-pictures .pictures-uploader .uploader-dropzone,
+.post-editor.person-editor .person-backdrops .backdrops-uploader .uploader-dropzone {
+	background: #0073aa;
+	bottom: -20px;
+	left: -10px;
+	opacity: 0;
+	position: absolute;
+	right: -20px;
+	top: -20px;
+	z-index: 0;
+}
+
+.post-editor.person-editor .person-pictures .pictures-uploader .uploader-dropzone.drag-over,
+.post-editor.person-editor .person-backdrops .backdrops-uploader .uploader-dropzone.drag-over {
+	opacity: 1;
+	z-index: 2;
+}
+
+.post-editor.person-editor .person-pictures .picture.uploader-browser .picture-thumbnail,
+.post-editor.person-editor .person-backdrops .backdrop.uploader-browser .backdrop-thumbnail {
+	background-color: #a2ce51;
+	opacity: 1;
+}
+
+.post-editor.person-editor .person-pictures .picture.uploader-browser:hover .picture-thumbnail,
+.post-editor.person-editor .person-backdrops .backdrop.uploader-browser:hover .backdrop-thumbnail {
+	opacity: .9;
+}
+
+.post-editor.person-editor .person-pictures .picture.uploader-browser .picture-thumbnail .button,
+.post-editor.person-editor .person-backdrops .backdrop.uploader-browser .backdrop-thumbnail .button {
+	left: calc( 50% - 24px );
+	position: absolute;
+	top: calc( 50% - 24px );
 }
 
 /*
@@ -444,7 +736,7 @@
 }
 
 .post-editor.person-editor .editor-section.search-section .search-results .search-result .result-thumbnail {
-	background-image: url(../../../public/assets/img/poster-small.jpg);
+	background-image: url(../../../public/assets/img/picture-small.jpg);
 	background-color: #373e48;
 	background-position: center center;
 	background-repeat: no-repeat;

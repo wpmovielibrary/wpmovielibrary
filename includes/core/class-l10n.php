@@ -737,6 +737,7 @@ class L10n {
 			'movie_prefix'      => utils\movie\prefix( '' ),
 			'option_prefix'     => utils\settings\prefix( '' ),
 			'page_prefix'       => utils\page\prefix( '' ),
+			'person_prefix'     => utils\person\prefix( '' ),
 		);
 
 		wp_localize_script( 'wpmoly-api', 'wpmolyApiSettings', $localized );

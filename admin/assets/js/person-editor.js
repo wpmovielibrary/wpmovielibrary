@@ -43,7 +43,7 @@ wpmoly.editor = wpmoly.editor || {};
 
 		// Set editor controllers.
 		var search = new PersonEditor.controller.Search,
-		   pictures = new PersonEditor.controller.PicturesEditor( [], { post : post, meta : meta, node : node } ),
+		  pictures = new PersonEditor.controller.PicturesEditor( [], { post : post, meta : meta, node : node } ),
 		 backdrops = new PersonEditor.controller.BackdropsEditor( [], { post : post, meta : meta, node : node } );
 
 		// Set editor controller.
@@ -58,7 +58,7 @@ wpmoly.editor = wpmoly.editor || {};
 			backdrops : backdrops,
 		} );
 
-		pictures.controller   = controller;
+		pictures.controller  = controller;
 		backdrops.controller = controller;
 
 		// Set editor view.
@@ -404,6 +404,14 @@ wpmoly.editor = wpmoly.editor || {};
 
 					person.on( 'fetch:error', function( xhr, status, response ) {
 						self.trigger( 'import:failed', xhr, status, response );
+					}, this );
+
+					person.on( 'fetch:images:success', function( model, status, xhr ) {
+						self.trigger( 'import:images:done', model, status, xhr );
+					}, this );
+
+					person.on( 'fetch:taggedimages:success', function( model, status, xhr ) {
+						self.trigger( 'import:taggedimages:done', model, status, xhr );
 					}, this );
 
 					person.fetchAll( { data : this._prepareQueryData() } );
@@ -1166,7 +1174,7 @@ wpmoly.editor = wpmoly.editor || {};
 					this.pictures   = options.pictures;
 					this.backdrops = options.backdrops;
 
-					this.listenTo( this.post,     'saved', this.saveNode );
+					//this.listenTo( this.post,     'saved', this.saveNode );
 					this.listenTo( this.post,     'error', this.error );
 					this.listenTo( this.node,     'error', this.error );
 					this.listenTo( this.snapshot, 'error', this.error );
@@ -1178,18 +1186,30 @@ wpmoly.editor = wpmoly.editor || {};
 					} );
 
 					this.listenTo( this.search, 'import:done', function( attributes ) {
-
 						this.snapshot.save( attributes || [] );
+						this.set( { mode : 'preview' } );
+					} );
 
+					this.listenTo( this.search, 'import:taggedimages:done', function( response ) {
+						if ( _.has( response, 'results' ) ) {
+							this.snapshot.save( _.extend( this.snapshot.toJSON(), {
+								taggedimages : response.results || [],
+							} ) );
+						}
 						if ( true === this.settings.get( wpmolyApiSettings.option_prefix + 'auto_import_person_backdrops' ) ) {
 							this.backdrops.importBackdrop();
 						}
+					} );
 
+					this.listenTo( this.search, 'import:images:done', function( response ) {
+						if ( _.has( response, 'profiles' ) ) {
+							this.snapshot.save( _.extend( this.snapshot.toJSON(), {
+								images : response.profiles || [],
+							} ) );
+						}
 						if ( true === this.settings.get( wpmolyApiSettings.option_prefix + 'auto_import_person_pictures' ) ) {
 							this.pictures.importPicture();
 						}
-
-						this.set( { mode : 'preview' } );
 					} );
 
 					this.listenTo( this.snapshot, 'change',      this.updateMeta );
@@ -1234,8 +1254,7 @@ wpmoly.editor = wpmoly.editor || {};
 					var meta = {},
 					snapshot = this.snapshot;
 
-					// Avoid confusion with 'status' detail.
-					_.each( _.omit( this.post.getMetas(), 'status' ) || [], function( value, key ) {
+					_.each( this.post.getMetas() || [], function( value, key ) {
 
 						var key = key.replace( wpmolyApiSettings.person_prefix, '' );
 
@@ -2291,7 +2310,7 @@ wpmoly.editor = wpmoly.editor || {};
 			 importPicture : function() {
 
 				var model = new Backbone.Model({
- 					file_path : this.controller.snapshot.get( 'picture_path' ),
+ 					file_path : this.controller.snapshot.get( 'profile_path' ),
  				});
 
 				this.uploader.once( 'upload:stop', this.setFeaturedPicture, this );
@@ -3158,11 +3177,39 @@ wpmoly.editor = wpmoly.editor || {};
 			 */
 			initialize : function( options ) {
 
+				var options = options || {};
+
+				this.controller = options.controller;
+
 				this.type      = 'backdrop';
 				this.types     = 'backdrops';
 				this.imageView = PersonEditor.view.Backdrop;
 
-				PersonEditor.view.ImagesEditorContent.prototype.initialize.apply( this, arguments );
+				this.listenTo( this.controller.snapshot, 'change:taggedimages', this.render );
+			},
+
+			/**
+			 * .
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param {object} collection
+			 * @param {object} options
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			addItems : function( collection, options ) {
+
+				var images = this.controller.snapshot.get( 'taggedimages' ) || {};
+				_.each( images || [], function( image ) {
+					var view = new this.imageView({
+						model      : new Backbone.Model( image ),
+						controller : this.controller,
+					});
+					this.views.add( view );
+				}, this );
+
+				return this;
 			},
 
 		}),
@@ -3313,6 +3360,30 @@ wpmoly.editor = wpmoly.editor || {};
 				this.imageView = PersonEditor.view.Picture;
 
 				PersonEditor.view.ImagesEditorContent.prototype.initialize.apply( this, arguments );
+			},
+
+			/**
+			 * .
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param {object} collection
+			 * @param {object} options
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			addItems : function( collection, options ) {
+
+				var images = this.controller.snapshot.get( 'images' ) || {};
+				_.each( images || [], function( image ) {
+					var view = new this.imageView({
+						model      : new Backbone.Model( image ),
+						controller : this.controller,
+					});
+					this.views.add( view );
+				}, this );
+
+				return this;
 			},
 
 		}),
@@ -3504,29 +3575,28 @@ wpmoly.editor = wpmoly.editor || {};
 					options[ key ] = option;
 				}, this );
 
-				/*if ( ! _.isNull( meta.release_date ) ) {
-					options.year = new Date( meta.release_date ).getFullYear();
-				} else if ( ! _.isNull( snapshot.release_date ) ) {
-					options.year = new Date( snapshot.release_date ).getFullYear();
-				} else {
-					options.year = null;
-				}*/
-
 				if ( _.has( node.picture || {}, 'id' ) && _.isNumber( node.picture.id ) ) {
 					options.picture = node.picture.sizes.medium.url;
-				} else if ( _.has( snapshot.images || {}, 'pictures' ) ) {
-					var picture = _.first( snapshot.images.pictures );
-					options.picture = ! _.isUndefined( picture ) ? 'https://image.tmdb.org/t/p/w185' + picture.file_path : options.picture.sizes.medium.url;
+				} else if ( _.has( snapshot, 'images' ) ) {
+					var picture = _.first( snapshot.images );
+					options.picture = ! _.isUndefined( picture ) ? 'https://image.tmdb.org/t/p/h632' + picture.file_path : node.picture.sizes.medium.url;
 				}
 
 				if ( _.has( node.backdrop || {}, 'id' ) && _.isNumber( node.backdrop.id ) ) {
 					options.backdrop = node.backdrop.sizes.large.url;
-				} else if ( _.has( snapshot.images || {}, 'backdrops' ) ) {
-					var backdrop = _.first( snapshot.images.backdrops );
-					options.backdrop = ! _.isUndefined( backdrop ) ? 'https://image.tmdb.org/t/p/original' + backdrop.file_path : options.backdrop.sizes.large.url;
+				} else if ( _.has( snapshot, 'taggedimages' ) ) {
+					var backdrop = _.first( snapshot.taggedimages );
+					options.backdrop = ! _.isUndefined( backdrop ) ? 'https://image.tmdb.org/t/p/original' + backdrop.file_path : node.backdrop.sizes.large.url;
 				}
 
-				console.log( snapshot );
+				// Use taxonomy.
+				options.department = {
+					meta     : '',
+					node     : '',
+					snapshot : '',
+					default  : '',
+					status   : '',
+				};
 
 				return options;
 			},
@@ -3771,17 +3841,17 @@ wpmoly.editor = wpmoly.editor || {};
 				}
 
 				if ( ! this.backdrops ) {
-					//this.backdrops = new PersonEditor.view.BackdropsEditor( options );
+					this.backdrops = new PersonEditor.view.BackdropsEditor( options );
 				}
 
 				if ( ! this.pictures ) {
-					//this.pictures = new PersonEditor.view.PicturesEditor( options );
+					this.pictures = new PersonEditor.view.PicturesEditor( options );
 				}
 
 				this.views.set( '#wpmoly-person-meta',      this.meta );
 				//this.views.set( '#wpmoly-person-credits',   this.credits );
-				//this.views.set( '#wpmoly-person-backdrops', this.backdrops );
-				//this.views.set( '#wpmoly-person-pictures',   this.pictures );
+				this.views.set( '#wpmoly-person-backdrops', this.backdrops );
+				this.views.set( '#wpmoly-person-pictures',  this.pictures );
 
 				return this;
 			},

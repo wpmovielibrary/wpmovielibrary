@@ -1,6 +1,6 @@
 <?php
 /**
- * Movies Posters Editor Template
+ * Persons Pictures Editor Template
  *
  * @since 3.0.0
  */
@@ -18,7 +18,7 @@
 				<div class="editor-content editor-content-upload clearfix">
 					<div class="panel left">
 						<div class="panel-title"><?php esc_html_e( 'Custom Posters', 'wpmovielibrary' ); ?></div>
-						<div class="panel-description"><?php esc_html_e( 'You can select existing images or upload new images to be used as posters. For better consistancy try using portait images (2/3 or 0.66 ratio).', 'wpmovielibrary' ); ?></div>
+						<div class="panel-description"><?php esc_html_e( 'You can select existing images or upload new images to be used as pictures. For better consistancy try using portait images (2/3 or 0.66 ratio).', 'wpmovielibrary' ); ?></div>
 					</div>
 					<div class="panel right"></div>
 				</div>
