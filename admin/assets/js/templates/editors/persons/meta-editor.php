@@ -74,7 +74,11 @@
 							<div class="field-value">
 								<span class="value">{{{ data.also_known_as.node || data.also_known_as.snapshot || data.also_known_as.meta || '−' }}}</span>
 								<div class="field-control">
-									<input type="text" id="person-also-known-as" data-field="also_known_as" value="{{ data.also_known_as.meta || data.also_known_as.snapshot || data.also_known_as.default || '' }}" />
+									<select id="person-also-known-as" data-field="also_known_as" multiple="multiple" data-selectize="1" data-selectize-create="1" data-selectize-plugins="remove_button">
+									<# _.each( ( _.isString( data.also_known_as.meta ) ? data.also_known_as.meta.split( ',' ) : data.also_known_as.meta ) || _.isString( data.also_known_as.snapshot ? data.also_known_as.snapshot.split( ',' ) : data.also_known_as.snapshot ), function( alias ) { #>
+										<option value="{{ s.trim( alias ) }}" selected="selected">{{ s.trim( alias ) }}</option>
+									<# } ); #>
+									</select>
 								</div>
 							</div>
 						</div>

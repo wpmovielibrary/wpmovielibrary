@@ -949,7 +949,7 @@ wpmoly.browser = wpmoly.browser || {};
 
 			var title = this.$( '[data-value="new-post-title"]' ).val().trim();
 
-			this.$( '#add-new-post' ).prop( 'disabled', ( 2 >= title.length ) );
+			this.$( '#add-new-post' ).prop( 'disabled', ( 1 >= title.length ) );
 
 			return this;
 		},
@@ -972,10 +972,6 @@ wpmoly.browser = wpmoly.browser || {};
 			}
 
 			var title = this.$( '[data-value="new-post-title"]' ).val().trim();
-
-			if ( 3 > title.length ) {
-				return this;
-			}
 
 			this.$( '#add-new-post' ).prop( 'disabled', true );
 			this.$( '[data-value="new-post-title"]' ).val( '' );

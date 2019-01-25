@@ -25,6 +25,9 @@
  */
 
 .post-editor.grid-editor .editor-section {
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
 	margin: 0;
 	padding: 0;
 }
@@ -32,10 +35,6 @@
 /*
  * Grid Editor Preview Section.
  */
-
-.post-editor.grid-editor .preview-section {
-	padding-top: 20px;
-}
 
 .post-editor.grid-editor .preview-section .wpmoly.grid {
 	overflow: hidden;

@@ -23,7 +23,7 @@
 					</ul>
 				</div>
 				<div class="snapshot-details-panel formatted-panel">
-					<pre>{{{ JSON.highlight( data.snapshot ) }}}</pre>
+					<pre>{{{ JSON.stringify( data.snapshot ) }}}</pre>
 				</div>
 				<div class="snapshot-details-panel raw-panel">
 					<pre>{{ data.snapshot.toSource() }}</pre>

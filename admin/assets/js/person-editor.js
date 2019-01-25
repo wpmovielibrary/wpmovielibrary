@@ -96,7 +96,7 @@ wpmoly.editor = wpmoly.editor || {};
 		post.once( 'sync', function() {
 			if ( _.isEmpty( post.get( 'snapshot' ) ) ) {
 				controller.set( { mode : 'download' } );
-				search.set( { query : ( post.get( 'name' ) || {} ).raw || '' } );
+				search.set( { query : ( post.get( 'title' ) || {} ).raw || '' } );
 			}
 		} );
 
@@ -1228,6 +1228,8 @@ wpmoly.editor = wpmoly.editor || {};
 					var person = new TMDb.Person( { id : this.snapshot.get( 'id' ) } ),
 					 snapshot = this.snapshot;
 
+ 					person.on( 'all', console.debug );
+
 					person.on( 'fetch:success', function() {
 						snapshot.save( person.toJSON() );
 						wpmoly.success( wpmolyEditorL10n.snapshot_updated );
@@ -2024,6 +2026,8 @@ wpmoly.editor = wpmoly.editor || {};
 
 					this.listenTo( this.post,  'sync error', this.loaded );
 					this.listenTo( this.model, 'change',     this.render );
+
+					this.on( 'rendered', this.renderJSON, this );
 				},
 
 				/**
@@ -2109,6 +2113,25 @@ wpmoly.editor = wpmoly.editor || {};
 					options.days = Math.floor( days / 86400000 );
 
 					return options;
+				},
+
+				/**
+				 * Render JSON to be collapsable.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				renderJSON : function() {
+
+					var json = this.controller.snapshot.toJSON() || {},
+					    html = JSON.render( json, {
+						level : 1,
+					} );
+
+					this.$( '.snapshot-details-panel.formatted-panel' ).html( html );
+
+					return this;
 				},
 
 			}),
@@ -3576,10 +3599,10 @@ wpmoly.editor = wpmoly.editor || {};
 				}, this );
 
 				if ( _.has( node.picture || {}, 'id' ) && _.isNumber( node.picture.id ) ) {
-					options.picture = node.picture.sizes.medium.url;
+					options.picture = node.picture.sizes.large.url;
 				} else if ( _.has( snapshot, 'images' ) ) {
 					var picture = _.first( snapshot.images );
-					options.picture = ! _.isUndefined( picture ) ? 'https://image.tmdb.org/t/p/h632' + picture.file_path : node.picture.sizes.medium.url;
+					options.picture = ! _.isUndefined( picture ) ? 'https://image.tmdb.org/t/p/h632' + picture.file_path : node.picture.sizes.large.url;
 				}
 
 				if ( _.has( node.backdrop || {}, 'id' ) && _.isNumber( node.backdrop.id ) ) {

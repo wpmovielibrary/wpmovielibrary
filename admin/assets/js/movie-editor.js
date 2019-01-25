@@ -970,6 +970,10 @@ wpmoly.editor = wpmoly.editor || {};
 						self.trigger( 'import:done', movie.toJSON(), status, xhr );
 					}, this );
 
+					movie.on( 'fetch:images:success', function( model, status, xhr ) {
+						self.trigger( 'import:images:done', model, status, xhr );
+					}, this );
+
 					movie.on( 'fetch:error', function( xhr, status, response ) {
 						self.trigger( 'import:failed', xhr, status, response );
 					}, this );
@@ -1764,8 +1768,13 @@ wpmoly.editor = wpmoly.editor || {};
 					} );
 
 					this.listenTo( this.search, 'import:done', function( attributes ) {
-
 						this.snapshot.save( attributes || [] );
+						this.set( { mode : 'preview' } );
+					} );
+
+					this.listenTo( this.search, 'import:images:done', function( model ) {
+
+						this.snapshot.save( this.snapshot.toJSON() || {} );
 
 						if ( true === this.settings.get( wpmolyApiSettings.option_prefix + 'auto_import_movie_backdrops' ) ) {
 							this.backdrops.importBackdrop();
@@ -1775,7 +1784,6 @@ wpmoly.editor = wpmoly.editor || {};
 							this.posters.importPoster();
 						}
 
-						this.set( { mode : 'preview' } );
 					} );
 
 					this.listenTo( this.snapshot, 'change',      this.updateMeta );
@@ -1797,6 +1805,10 @@ wpmoly.editor = wpmoly.editor || {};
 					movie.on( 'fetch:success', function() {
 						snapshot.save( movie.toJSON() );
 						wpmoly.success( wpmolyEditorL10n.snapshot_updated );
+					}, this );
+
+					movie.on( 'fetch:images:success', function() {
+						snapshot.save( movie.toJSON() );
 					}, this );
 
 					movie.on( 'fetch:error', function( xhr, status, response ) {
@@ -3300,6 +3312,8 @@ wpmoly.editor = wpmoly.editor || {};
 
 					this.listenTo( this.post,  'sync error', this.loaded );
 					this.listenTo( this.model, 'change',     this.render );
+
+					this.on( 'rendered', this.renderJSON, this );
 				},
 
 				/**
@@ -3385,6 +3399,25 @@ wpmoly.editor = wpmoly.editor || {};
 					options.days = Math.floor( days / 86400000 );
 
 					return options;
+				},
+
+				/**
+				 * Render JSON to be collapsable.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				renderJSON : function() {
+
+					var json = this.controller.snapshot.toJSON() || {},
+					    html = JSON.render( json, {
+						level : 1,
+					} );
+
+					this.$( '.snapshot-details-panel.formatted-panel' ).html( html );
+
+					return this;
 				},
 
 			}),
@@ -4675,10 +4708,10 @@ wpmoly.editor = wpmoly.editor || {};
 
 				this.controller = options.controller;
 
-				this.listenTo( this.controller.posters, 'download:start',   this.loadingPoster );
-				this.listenTo( this.controller.posters, 'upload:stop',      this.loadedPoster );
-				this.listenTo( this.controller.backdrops, 'upload:stop',    this.loadingBackdrop );
-				this.listenTo( this.controller.backdrops, 'download:start', this.loadedBackdrop );
+				this.listenTo( this.controller.posters,   'download:start', this.loadingPoster );
+				this.listenTo( this.controller.posters,   'upload:stop',    this.loadedPoster );
+				this.listenTo( this.controller.backdrops, 'download:start', this.loadingBackdrop );
+				this.listenTo( this.controller.backdrops, 'upload:stop',    this.loadedBackdrop );
 
 				this.listenTo( this.controller.node,     'sync',   this.render );
 				this.listenTo( this.controller.meta,     'change', this.render );
@@ -4811,14 +4844,14 @@ wpmoly.editor = wpmoly.editor || {};
 					options.poster = node.poster.sizes.medium.url;
 				} else if ( _.has( snapshot.images || {}, 'posters' ) ) {
 					var poster = _.first( snapshot.images.posters );
-					options.poster = ! _.isUndefined( poster ) ? 'https://image.tmdb.org/t/p/w185' + poster.file_path : options.poster.sizes.medium.url;
+					options.poster = ! _.isUndefined( poster ) ? 'https://image.tmdb.org/t/p/w185' + poster.file_path : _.isUndefined( options.poster ) ? options.poster.sizes.medium.url : '';
 				}
 
 				if ( _.has( node.backdrop || {}, 'id' ) && _.isNumber( node.backdrop.id ) ) {
 					options.backdrop = node.backdrop.sizes.large.url;
 				} else if ( _.has( snapshot.images || {}, 'backdrops' ) ) {
 					var backdrop = _.first( snapshot.images.backdrops );
-					options.backdrop = ! _.isUndefined( backdrop ) ? 'https://image.tmdb.org/t/p/original' + backdrop.file_path : options.backdrop.sizes.large.url;
+					options.backdrop = ! _.isUndefined( backdrop ) ? 'https://image.tmdb.org/t/p/original' + backdrop.file_path : _.isUndefined( options.backdrop ) ? options.backdrop.sizes.large.url : '';
 				}
 
 				return options;

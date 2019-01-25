@@ -682,7 +682,7 @@ TMDb.init();
 					}
 				},
 				success : function( model, response, options ) {
-					parent.trigger( 'fetch:images:success', model, response, xhr );
+					parent.trigger( 'fetch:images:success', model, response, options );
 					if ( success ) {
 						success.apply( this, arguments );
 					}
@@ -744,18 +744,6 @@ TMDb.init();
 
 			BaseCollection.prototype.initialize.call( this, attributes, options );
 		},
-
-		/**
-		 * Update collections.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param {object} response
-		 * @param {object} options
-		 *
-		 * @return {array}
-		 */
-		//update : function() {},
 
 		/**
 		 * Parse xhr response.
@@ -904,7 +892,7 @@ TMDb.init();
 			 options = options || {};
 
 			options.data = _.extend( options.data || {}, {
-				append_to_response : 'external_ids,alternative_titles,credits,images,release_dates,videos',
+				append_to_response : 'external_ids,alternative_titles,credits,release_dates,videos',
 			} );
 
 			var before = options.before,
@@ -955,7 +943,7 @@ TMDb.init();
 
 					/**
 					 * Images have to be queried separately due to append_to_response
-					 * returning paginated results instead of the full images list.
+					 * interfering with language parameter.
 					 */
 					self.images.fetchAll();
 
@@ -1357,7 +1345,7 @@ TMDb.init();
 			 options = options || {};
 
 			options.data = _.extend( options.data || {}, {
-				append_to_response : 'combined_credits,external_ids',
+				append_to_response : 'combined_credits,external_ids,images,tagged_images',
 			} );
 
 			var before = options.before,
@@ -1391,32 +1379,13 @@ TMDb.init();
 						self.unset( 'combined_credits' );
 					}
 
-					/**
-					 * Images (and tagged images) have to be queried separately due to
-					 * append_to_response returning paginated results instead of the full
-					 * images list.
-					 */
-					self.images.fetch().done( function( model, status, xhr ) {
-						self.trigger( 'fetch:images:success', model, status, xhr );
-						if ( ! _.isUndefined( model.images ) && _.has( model.images, 'profiles' ) ) {
-							self.images.add( model.images.profiles );
-						}
-					} ).fail( function( xhr, status, error ) {
-						self.trigger( 'fetch:images:error', xhr, status, error );
-					} ).always( function( model, status, xhr ) {
-						self.trigger( 'fetch:images:stop', model, status, xhr );
-					} );
+					if ( ! _.isUndefined( model.get( 'images' ) ) && _.has( model.get( 'images' ), 'profiles' ) ) {
+						self.images.add( model.get( 'images' ).profiles );
+					}
 
-					self.taggedimages.fetch().done( function( model, status, xhr ) {
-						self.trigger( 'fetch:taggedimages:success', model, status, xhr );
-						if ( ! _.isUndefined( model.tagged_images ) && _.has( model.tagged_images, 'results' ) ) {
-							self.taggedimages.add( model.tagged_images.results );
-						}
-					} ).fail( function( xhr, status, error ) {
-						self.trigger( 'fetch:taggedimages:error', xhr, status, error );
-					} ).always( function( model, status, xhr ) {
-						self.trigger( 'fetch:taggedimages:stop', model, status, xhr );
-					} );
+					if ( ! _.isUndefined( model.get( 'tagged_images' ) ) && _.has( model.get( 'tagged_images' ), 'results' ) ) {
+						self.taggedimages.add( model.get( 'tagged_images' ).results );
+					}
 
 					self.trigger( 'fetch:success', model, response, options );
 
@@ -1425,8 +1394,6 @@ TMDb.init();
 					}
 				},
 				error : function( xhr, status, response ) {
-
-					console.log( response, status, xhr );
 					self.trigger( 'fetch:error', xhr, status, response );
 					if ( error ) {
 						error.apply( this, arguments );
