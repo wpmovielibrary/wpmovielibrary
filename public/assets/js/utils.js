@@ -26,6 +26,28 @@
 	};
 
 	/**
+	 * Render JSON into collapsible, themeable HTML.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param {object} json JSON.
+	 *
+	 * @return string
+	 */
+	JSON.render = JSON.render || function( json, options ) {
+
+		if ( ! renderjson ) {
+			return json;
+		}
+
+		var options = options || {};
+
+		renderjson.set_show_to_level( options.level || 0 );
+
+		return renderjson( json );
+	};
+
+	/**
 	 * JSON syntax highlighting.
 	 *
 	 * @since 3.0.0
