@@ -517,9 +517,10 @@ class Assets {
 		$this->add_admin_js( 'selectize', 'selectize.min.js', array( 'jquery' ), '0.12.4' );
 		$this->add_public_js( 'underscore-string', 'underscore.string.min.js', array( 'underscore' ) );
 		$this->add_public_js( 'sprintf-js',        'sprintf-js.min.js', array( 'underscore' ) );
+		$this->add_public_js( 'renderjson-js',     'renderjson.min.js' );
 
 		// Base
-		$this->add_public_js( 'utils', 'utils.js',  array( 'wpmoly-underscore-string', 'wpmoly-toasts' ) );
+		$this->add_public_js( 'utils', 'utils.js',  array( 'wpmoly-underscore-string', 'wpmoly-renderjson-js', 'wpmoly-toasts' ) );
 		$this->add_public_js( 'core',  'wpmoly.js', array( 'jquery', 'wpmoly-underscore-string', 'wp-backbone', 'wp-api', 'wpmoly-utils' ) );
 		$this->add_public_js( 'api',   'api.js',    array( 'jquery', 'wpmoly-underscore-string', 'wp-backbone', 'wp-api', 'wpmoly-utils' ) );
 
@@ -602,6 +603,9 @@ class Assets {
 		// Dashboard.
 		$this->add_admin_css( 'dashboard', 'dashboard.css' );
 
+		// Editors.
+		$this->add_admin_css( 'metaboxes', 'metaboxes.css' );
+
 		// Posts.
 		$this->add_admin_css( 'post-browser',   'post-browser.css' );
 		$this->add_admin_css( 'movie-browser',  'movie-browser.css',  array( 'wpmoly-post-browser' ) );
@@ -611,7 +615,7 @@ class Assets {
 		$this->add_admin_css( 'post-editor',   'post-editor.css' );
 		$this->add_admin_css( 'movie-editor',  'movie-editor.css',  array( 'wpmoly-post-editor' ) );
 		$this->add_admin_css( 'person-editor', 'person-editor.css', array( 'wpmoly-post-editor' ) );
-		$this->add_admin_css( 'grid-editor',   'grid-editor.css',   array( 'wpmoly-post-editor' ) );
+		$this->add_admin_css( 'grid-editor',   'grid-editor.css',   array( 'wpmoly-post-editor', 'wpmoly-metaboxes' ) );
 
 		// Terms.
 		$this->add_admin_css( 'term-browser', 'term-browser.css' );
