@@ -33,6 +33,7 @@ class Library {
 	public function __construct() {
 
 		add_action( 'pre_get_posts', array( &$this, 'add_movies_to_frontpage' ) );
+		add_action( 'pre_get_posts', array( &$this, 'add_persons_to_frontpage' ) );
 
 		add_filter( 'wpmoly/filter/archive/page/wp_title',   array( &$this, 'filter_archive_title' ), 10, 3 );
 		add_filter( 'wpmoly/filter/archive/page/post_title', array( &$this, 'filter_archive_title' ), 10, 3 );
@@ -125,6 +126,29 @@ class Library {
 	}
 
 	/**
+	 * Try to include persons to the blog frontpage.
+	 *
+	 * This won't work on themes using custom hacky templates.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param WP_Query $query
+	 */
+	public function add_persons_to_frontpage( $query ) {
+
+		if ( ! utils\is_o( 'add_persons_to_frontpage' ) ) {
+			return false;
+		}
+
+		if ( $query->is_main_query() && $query->is_home() ) {
+			$post_types = array_merge( (array) $query->get( 'post_type' ), array( 'person' ) );
+			$query->set( 'post_type', $post_types );
+		}
+	}
+
+	/**
 	 * Show the movie Headbox before post content.
 	 *
 	 * @TODO support custom integration of the Headbox inside post content.
@@ -156,6 +180,42 @@ class Library {
 		}
 
 		$template = utils\movie\get_headbox_template( $headbox );
+
+		return $template->render() . $content;
+	}
+
+	/**
+	 * Show the person Headbox before post content.
+	 *
+	 * @TODO support custom integration of the Headbox inside post content.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param string $content The Post content.
+	 */
+	public function set_person_post_content( $content = '' ) {
+
+		if ( 'person' != get_post_type() ) {
+			return $content;
+		}
+
+		$post_id = get_the_ID();
+		if ( ! $post_id ) {
+			return $content;
+		}
+
+		$person = utils\person\get( $post_id );
+		$headbox = utils\get_headbox( $person );
+
+		if ( is_single() ) {
+			$headbox->set_theme( 'extended' );
+		} elseif ( is_archive() || is_search() ) {
+			$headbox->set_theme( 'default' );
+		}
+
+		$template = utils\person\get_headbox_template( $headbox );
 
 		return $template->render() . $content;
 	}

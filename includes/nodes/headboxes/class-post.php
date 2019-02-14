@@ -41,6 +41,10 @@ class Post extends Headbox {
 				$this->id    = absint( $node->id );
 				$this->movie = $node;
 				$this->type  = 'movie';
+			} elseif ( $node instanceof posts\Person ) {
+				$this->id     = absint( $node->id );
+				$this->person = $node;
+				$this->type   = 'person';
 			} else {
 				$this->id   = absint( $node->id );
 				$this->post = $node->post;
@@ -72,6 +76,13 @@ class Post extends Headbox {
 					'allocine'   => __( 'Allocine', 'wpmovielibrary' ),
 					'allocine-2' => __( 'Allocine v2', 'wpmovielibrary' ),
 					'imdb-2'     => __( 'IMDb v2', 'wpmovielibrary' ),
+				),
+			),
+			'person' => array(
+				'label'  => __( 'Person', 'wpmovielibrary' ),
+				'themes' => array(
+					'default'  => __( 'Default', 'wpmovielibrary' ),
+					'extended' => __( 'Extended', 'wpmovielibrary' ),
 				),
 			),
 		);

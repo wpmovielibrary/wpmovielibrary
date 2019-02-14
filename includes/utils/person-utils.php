@@ -181,3 +181,19 @@ function has_archives_page() {
 
 	return ! is_null( $page );
 }
+
+/**
+ * Get a Person Headbox template.
+ *
+ * Simple alias for get_headbox_template().
+ *
+ * @since 3.0.0
+ *
+ * @param int $person Person ID, object or array
+ *
+ * @return \wpmoly\templates\Headbox
+ */
+function get_headbox_template( $person ) {
+
+	return utils\get_headbox_template( $person );
+}
