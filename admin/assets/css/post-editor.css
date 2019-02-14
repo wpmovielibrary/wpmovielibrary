@@ -15,9 +15,11 @@
 
 .post-editor .editor-section .editor-menu {
 	border-bottom: 1px solid #e5e5e5;
+	display: flex;
+	justify-content: right;
 	margin: -20px -30px 10px;
 	padding: 0 50px;
-	text-align: right;
+	/*text-align: right;*/
 }
 
 .post-editor .editor-section .editor-menu button {
@@ -27,11 +29,16 @@
 	color: #aaa;
 	height: 24px !important;
 	line-height: 24px !important;
-	margin-bottom: -1px;
+	margin: 0 2px -1px;
 	padding: 0;
 	position: static;
 	transform: none;
 	width: 42px;
+}
+
+.post-editor .editor-section .editor-menu button svg {
+	height: 16px;
+	width: 16px;
 }
 
 .editor-block-block .block-menu button:active span {
@@ -57,13 +64,18 @@
 	margin-left: 274px;
 }
 
-.post-editor .editor-content .panel-title {
+.post-editor .editor-content .panel-title,
+.post-editor .editor-content .panel-subtitle {
 	color: #373e48;
 	font-size: 16px;
 	font-weight: 600;
 	text-transform: uppercase;
 	margin-bottom: 10px;
 	padding: 10px;
+}
+
+.post-editor .editor-content .panel-subtitle {
+	font-size: 12px;
 }
 
 .post-editor .editor-content .panel-description {

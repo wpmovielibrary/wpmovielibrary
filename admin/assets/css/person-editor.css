@@ -256,6 +256,155 @@
 }
 
 /*
+ * Person Editor Credits Section.
+ */
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-item {
+	display: inline-block;
+	margin: 0 5px 20px;
+	vertical-align: top;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-item {
+	width: 126px;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-item .credit-poster {
+	background-color: #373e48;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	border-radius: 3px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+	opacity: .5;
+	position: relative;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-item .credit-poster {
+	--width: 126px;
+	height: 190px;
+	height: calc( var( --width ) * 1.5 );
+	position: relative;
+	width: 126px;
+	width: var( --width );
+}
+
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-item.has-person .credit-poster,
+.post-editor.person-editor .person-credits .editor-content .panel .credit-item:hover .credit-poster {
+	opacity: 1;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-poster::before {
+	content: '';
+	height: 100%;
+	position: absolute;
+	width: 100%;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-poster .button {
+	color: #fff;
+	display: none;
+	height: 100%;
+	position: relative;
+	width: 100%;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-poster .button svg {
+	height: 24px;
+	left: calc( 50% - 12px );
+	position: absolute;
+	top: calc( 50% - 12px );
+	width: 24px;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-poster .button svg path {
+	fill: #fff;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-item:hover .credit-poster::before {
+	background: rgba(0, 115, 170, 0.3);
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-item:hover .credit-poster .button {
+	display: block;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-year {
+	float: right;
+	font-size: 10px;
+	font-weight: 600;
+	margin-top: 9px;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-title {
+	margin-top: 8px;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-title a {
+	color: #686d77;
+	display: block;
+	font-size: 13px;
+	font-weight: 600;
+	overflow: hidden;
+	text-decoration: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-title a:hover {
+	color: #0073aa;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-character,
+.post-editor.person-editor .person-credits .editor-content .panel .credit-job {
+	color: #666;
+	font-size: 11px;
+	font-weight: 400;
+	text-transform: capitalize;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .panel-section {
+	display: inline-block;
+	margin-bottom: 20px;
+	vertical-align: top;
+	width: 100%;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .panel-section.half-section {
+	width: 49%;
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .panel-section .section-title {
+	color: #686d77;
+	font-size: 14px;
+	font-weight: 600;
+	text-transform: uppercase;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+.post-editor.person-editor .person-credits .values,
+.post-editor.person-editor .person-credits .value,
+.post-editor.person-editor .person-credits.mode-edit .person {
+	display: none !important;
+}
+
+.post-editor.person-editor .person-credits textarea {
+	min-height: 128px;
+	width: 100%;
+}
+
+.post-editor.person-editor .person-credits textarea:focus {
+	box-shadow: 0 0 0 2px #e0eff6;
+}
+
+.post-editor.person-editor .person-credits.mode-edit .values,
+.post-editor.person-editor .person-credits.mode-edit .value {
+	display: block !important;
+}
+
+/*
  * Movie Editor Images Section.
  */
 

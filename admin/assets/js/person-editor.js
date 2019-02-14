@@ -3696,29 +3696,22 @@ wpmoly.editor = wpmoly.editor || {};
 			 */
 			prepare : function() {
 
+				// Ignore TV Shows for now.
 				var credits = this.controller.snapshot.get( 'credits' ) || {},
-				options = {
-					/*actors      : [],
-					authors     : [],
-					composers   : [],
-					directors   : [],
-					photography : [],
-					producers   : [],
-					writers     : [],*/
+				    options = {
+					cast : _.sortBy( _.where( credits.cast || {}, { media_type : 'movie' } ), 'release_date' ).reverse(),
+					crew : _.sortBy( _.where( credits.crew || {}, { media_type : 'movie' } ), 'release_date' ).reverse(),
 				};
 
-				if ( credits.crew ) {
-					/*options.authors     = _.where( credits.crew, { job : 'Author' } );
-					options.composers   = _.where( credits.crew, { job : 'Original Music Composer' } );
-					options.directors   = _.where( credits.crew, { job : 'Director' } );
-					options.photography = _.where( credits.crew, { job : 'Director of Photography' } );
-					options.producers   = _.where( credits.crew, { job : 'Producer' } );
-					options.writers     = _.where( credits.crew, { job : 'Novel' } );*/
-				}
+				_.each( options.cast, function( credit ) {
+					credit.year = ! _.isEmpty( credit.release_date ) ? ( new Date( credit.release_date ) ).getFullYear() : '';
+				} );
 
-				if ( credits.cast ) {
-					//options.actors = credits.cast;
-				}
+				_.each( options.crew, function( credit ) {
+					credit.year = ! _.isEmpty( credit.release_date ) ? ( new Date( credit.release_date ) ).getFullYear() : '';
+				} );
+
+				console.log( options );
 
 				return options;
 			},
@@ -3860,7 +3853,7 @@ wpmoly.editor = wpmoly.editor || {};
 				}
 
 				if ( ! this.credits ) {
-					//this.credits = new PersonEditor.view.CreditsEditor( options );
+					this.credits = new PersonEditor.view.CreditsEditor( options );
 				}
 
 				if ( ! this.backdrops ) {
@@ -3872,7 +3865,7 @@ wpmoly.editor = wpmoly.editor || {};
 				}
 
 				this.views.set( '#wpmoly-person-meta',      this.meta );
-				//this.views.set( '#wpmoly-person-credits',   this.credits );
+				this.views.set( '#wpmoly-person-credits',   this.credits );
 				this.views.set( '#wpmoly-person-backdrops', this.backdrops );
 				this.views.set( '#wpmoly-person-pictures',  this.pictures );
 
