@@ -327,10 +327,12 @@ class Movie extends Node {
 	 * @access public
 	 *
 	 * @param string $variant Backdrop variant.
+	 * @param string $size    Backdrop size.
+	 * @param string $output  Output format.
 	 *
 	 * @return Backdrop|Default_Backdrop
 	 */
-	public function get_backdrop( $variant = 'selected' ) {
+	public function get_backdrop( $variant = 'selected', $size = 'medium', $output = 'raw' ) {
 
 		if ( ! $this->backdrops->has_items() && ! $this->backdrops->loaded ) {
 			$this->load_backdrops();
@@ -366,6 +368,12 @@ class Movie extends Node {
 			$backdrop = images\Default_Backdrop::get_instance();
 		}
 
+		if ( 'html' === $output ) {
+			$backdrop = $backdrop->render( $size, 'html' );
+		} else if ( 'raw' === $output ) {
+			$backdrop = $backdrop->render( $size, 'raw' );
+		}
+
 		return $backdrop;
 	}
 
@@ -383,10 +391,12 @@ class Movie extends Node {
 	 * @access public
 	 *
 	 * @param string $variant Poster variant.
+	 * @param string $size    Poster size.
+	 * @param string $output  Output format.
 	 *
 	 * @return Poster|Default_Poster
 	 */
-	public function get_poster( $variant = 'selected' ) {
+	public function get_poster( $variant = 'selected', $size = 'medium', $output = 'raw' ) {
 
 		if ( ! $this->posters->has_items() && ! $this->posters->loaded ) {
 			$this->load_posters();
@@ -428,6 +438,12 @@ class Movie extends Node {
 
 		if ( ! $poster instanceof images\Poster ) {
 			$poster = images\Default_Poster::get_instance();
+		}
+
+		if ( 'html' === $output ) {
+			$poster = $poster->render( $size, 'html' );
+		} else if ( 'raw' === $output ) {
+			$poster = $poster->render( $size, 'raw' );
 		}
 
 		return $poster;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Define the DefaultPoster class.
+ * Define the Default Poster class.
  *
  * @link https://wpmovielibrary.com
  * @since 3.0.0
@@ -18,7 +18,40 @@ namespace wpmoly\nodes\images;
  *
  * @author Charlie Merland <charlie@caercam.org>
  */
-class Default_Poster extends Default_Image {
+class Default_Poster extends Image {
+
+	/**
+	 * Default Poster instance.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access private
+	 *
+	 * @var Default_Poster
+	 */
+	private static $instance;
+
+	/**
+	 * Get a Default Poster instance.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @return Default_Poster
+	 */
+	final public static function get_instance( $unused = null ) {
+
+		if ( isset( self::$instance ) ) {
+			return self::$instance;
+		}
+
+		self::$instance = new static;
+
+		return self::$instance;
+	}
 
 	/**
 	 * Set a handful of useful values for different sizes of the image.

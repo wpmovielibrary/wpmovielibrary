@@ -110,6 +110,14 @@ function get_default_posts_meta() {
 				'prepare_callback' => '\wpmoly\rest\prepare_movie_imdb_id',
 			),
 		),
+		'tmdb_id' => array(
+			'type'         => 'integer',
+			'post_type'    => array( 'movie', 'person' ),
+			'description'  => __( 'TMDb Id', 'wpmovielibrary' ),
+			'show_in_rest' => array(
+				'prepare_callback' => '\wpmoly\rest\prepare_movie_tmdb_id',
+			),
+		),
 		'snapshot' => array(
 			'type'         => 'string',
 			'post_type'    => array( 'movie', 'person' ),
@@ -661,14 +669,6 @@ function get_registered_movie_meta( $meta_name = '' ) {
 			'post_type'    => array( 'movie' ),
 			'description'  => __( 'Title', 'wpmovielibrary' ),
 			'show_in_rest' => true,
-		),
-		'tmdb_id' => array(
-			'type'         => 'integer',
-			'post_type'    => array( 'movie' ),
-			'description'  => __( 'TMDb Id', 'wpmovielibrary' ),
-			'show_in_rest' => array(
-				'prepare_callback' => '\wpmoly\rest\prepare_movie_tmdb_id',
-			),
 		),
 		'writer' => array(
 			'type'         => 'string',

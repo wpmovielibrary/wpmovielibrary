@@ -13,11 +13,11 @@
 	<div data-headbox="<?php echo $headbox->id; ?>" data-theme="extended" class="wpmoly headbox post-headbox movie-headbox theme-extended">
 		<div class="headbox-header">
 			<div class="headbox-backdrop-container">
-				<div class="headbox-backdrop" style="background-image:url(<?php echo $movie->get_backdrop( 'random' )->render( 'medium', 'raw' ); ?>);"></div>
+				<div class="headbox-backdrop" style="background-image:url(<?php echo $movie->get_backdrop( 'random' ); ?>);"></div>
 				<div class="headbox-poster-shadow"></div>
 				<div class="headbox-angle"></div>
 			</div>
-			<div class="headbox-poster" style="background-image:url(<?php echo $movie->get_poster()->render( 'medium', 'raw' ); ?>);"></div>
+			<div class="headbox-poster" style="background-image:url(<?php echo $movie->get_poster(); ?>);"></div>
 			<div class="headbox-rating"><span class="wpmolicon icon-star"></span><?php echo $movie->get_rating(); ?></div>
 			<div class="headbox-titles">
 				<div class="movie-title"><a href="<?php the_permalink( $movie->id ); ?>"><?php $movie->the_title(); ?></a></div>

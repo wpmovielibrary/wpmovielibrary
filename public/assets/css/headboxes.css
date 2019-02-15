@@ -8,7 +8,7 @@
 }
 
 /*
- * Headbox Basic themes.
+ * Movie Headbox Basic themes.
  */
 
 .wpmoly.movie-headbox.theme-extended,
@@ -239,7 +239,7 @@
 }
 
 /*
- * Headbox 'Extended' theme.
+ * Movie Headbox 'Extended' theme.
  */
 
 .wpmoly.movie-headbox.theme-extended .headbox-rating {
@@ -282,7 +282,7 @@
 }
 
 /*
- * Headbox 'Default' theme.
+ * Movie Headbox 'Default' theme.
  */
 
 .wpmoly.movie-headbox.theme-default .headbox-content .headbox-metadata .movie-overview {
@@ -341,7 +341,7 @@
 }
 
 /*
- * Headbox 'Vintage' theme.
+ * Movie Headbox 'Vintage' theme.
  */
 
 .wpmoly.movie-headbox.theme-vintage {
@@ -545,7 +545,7 @@
 }
 
 /*
- * Headbox 'Allocine' theme.
+ * Movie Headbox 'Allocine' theme.
  */
 
 .wpmoly.movie-headbox.theme-allocine {
@@ -855,7 +855,7 @@
 }
 
 /*
- * Headbox 'Allocine v2' theme.
+ * Movie Headbox 'Allocine v2' theme.
  */
 
 .wpmoly.movie-headbox.theme-allocine-2 {
@@ -1141,7 +1141,7 @@
 }
 
 /*
- * Headbox 'IMDb' theme.
+ * Movie Headbox 'IMDb' theme.
  */
 
 .wpmoly.movie-headbox.theme-imdb-2 {
@@ -1372,6 +1372,157 @@
 }
 
 /*
+ * Person Headbox
+ */
+
+.wpmoly.person-headbox {
+	margin: 32px auto;
+	position: relative;
+}
+
+/*
+ * Person Headbox Basic themes.
+ */
+
+.wpmoly.person-headbox.theme-extended,
+.wpmoly.person-headbox.theme-default {
+	box-shadow: 0 0px 1px rgba(0, 0, 0, .15),
+			0 1px 3px rgba(0, 0, 0, .15);
+}
+
+/*
+ * Person Headbox 'Extended' theme.
+ */
+
+.wpmoly.person-headbox.theme-extended {
+	display: flex;
+	justify-content: space-between;
+	max-height: 260px;
+}
+
+.wpmoly.person-headbox.theme-extended .headbox-header {
+	margin: -20px 0 0 16px;
+	width: 32%;
+}
+
+.wpmoly.person-headbox.theme-extended .headbox-picture {
+	border-radius: 3px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+	height: 300px;
+	margin: 0 auto;
+	max-width: 200px;
+	overflow: hidden;
+}
+
+.wpmoly.person-headbox.theme-extended .headbox-picture img {
+	height: auto;
+	max-width: 100%;
+	min-height: 240px;
+	min-width: 100%;
+	width: 100%;
+}
+
+.wpmoly.person-headbox.theme-extended .headbox-content {
+	margin: 32px 24px;
+	overflow: hidden;
+	padding: 0;
+	width: calc( 67% - 56px );
+}
+
+.wpmoly.person-headbox.theme-extended .headbox-titles {
+
+}
+
+.wpmoly.person-headbox.theme-extended .headbox-titles .person-name {
+	font-size: 20px;
+	font-weight: 400;
+	text-transform: uppercase;
+}
+
+.wpmoly.person-headbox.theme-extended .headbox-titles .person-name a {
+	color: #373e48;
+	text-decoration: none;
+}
+
+.wpmoly.person-headbox.theme-extended .headbox-titles .person-name a:hover {
+	color: #0073aa;
+}
+
+.wpmoly.person-headbox.theme-extended .headbox-content {
+
+}
+
+.wpmoly.person-headbox.theme-extended .headbox-footer {
+
+}
+
+/*
+ * Person Headbox 'Default' theme.
+ */
+
+.wpmoly.person-headbox.theme-default {
+	display: flex;
+	justify-content: space-between;
+	max-height: 260px;
+}
+
+.wpmoly.person-headbox.theme-default .headbox-header {
+	margin: -20px 0 0 16px;
+	width: 32%;
+}
+
+.wpmoly.person-headbox.theme-default .headbox-picture {
+	border-radius: 3px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+	height: 300px;
+	margin: 0 auto;
+	max-width: 200px;
+	overflow: hidden;
+}
+
+.wpmoly.person-headbox.theme-default .headbox-picture img {
+	height: auto;
+	max-width: 100%;
+	min-height: 240px;
+	min-width: 100%;
+	width: 100%;
+}
+
+.wpmoly.person-headbox.theme-default .headbox-content {
+	margin: 32px 24px;
+	overflow: hidden;
+	padding: 0;
+	width: calc( 67% - 56px );
+}
+
+.wpmoly.person-headbox.theme-default .headbox-titles {
+
+}
+
+.wpmoly.person-headbox.theme-default .headbox-titles .person-name {
+	font-size: 20px;
+	font-weight: 400;
+	text-transform: uppercase;
+}
+
+.wpmoly.person-headbox.theme-default .headbox-titles .person-name a {
+	color: #373e48;
+	text-decoration: none;
+}
+
+.wpmoly.person-headbox.theme-default .headbox-titles .person-name a:hover {
+	color: #0073aa;
+}
+
+.wpmoly.person-headbox.theme-default .headbox-content {
+
+}
+
+.wpmoly.person-headbox.theme-default .headbox-footer {
+
+}
+
+/*
  * Terms Headbox
  */
 
@@ -1447,10 +1598,19 @@
 }
 
 .wpmoly.term-headbox .headbox-content .headbox-title {
-	font-size: 32px;
-	font-weight: 300;
+	font-size: 24px;
+	font-weight: 400;
 	margin: 0;
 	padding: 0;
+}
+
+.wpmoly.term-headbox .headbox-content .headbox-title a {
+	color: #373e48;
+	text-decoration: none;
+}
+
+.wpmoly.term-headbox .headbox-content .headbox-title a:hover {
+	color: #0073aa;
 }
 
 .wpmoly.term-headbox .headbox-content .headbox-subtitle {

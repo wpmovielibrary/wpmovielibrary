@@ -317,7 +317,6 @@ final class wpMovieLibrary {
 		require_once WPMOLY_PATH . 'includes/nodes/images/class-backdrop.php';
 		require_once WPMOLY_PATH . 'includes/nodes/images/class-picture.php';
 		require_once WPMOLY_PATH . 'includes/nodes/images/class-poster.php';
-		require_once WPMOLY_PATH . 'includes/nodes/images/class-default-image.php';
 		require_once WPMOLY_PATH . 'includes/nodes/images/class-default-backdrop.php';
 		require_once WPMOLY_PATH . 'includes/nodes/images/class-default-picture.php';
 		require_once WPMOLY_PATH . 'includes/nodes/images/class-default-poster.php';
@@ -1164,6 +1163,7 @@ final class wpMovieLibrary {
 
 		// Post content and title.
 		add_filter( 'the_content',       array( $library, 'set_movie_post_content' ) );
+		add_filter( 'the_content',       array( $library, 'set_person_post_content' ) );
 		add_filter( 'the_content',       array( $library, 'set_archive_page_content' ), 10, 1 );
 		add_filter( 'single_post_title', array( $library, 'set_archive_page_title' ), 10, 2 );
 		add_filter( 'the_title',         array( $library, 'set_archive_page_post_title' ), 10, 2 );

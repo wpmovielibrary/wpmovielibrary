@@ -22,7 +22,7 @@
 		</div>
 		<div class="headbox-content">
 			<div data-panel="overview" class="headbox-panel overview active">
-				<div class="headbox-poster"><?php $movie->get_poster()->render( 'medium', 'html' ); ?></div>
+				<div class="headbox-poster"><?php $movie->get_poster(); ?></div>
 				<div class="headbox-meta">
 					<div class="meta field release">
 						<span class="meta field title"><?php _e( 'Release date', 'wpmovielibrary' ); ?></span>

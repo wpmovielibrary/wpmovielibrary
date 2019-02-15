@@ -1,6 +1,6 @@
 <?php
 /**
- * Define the DefaultBackdrop class.
+ * Define the Default Backdrop class.
  *
  * @link https://wpmovielibrary.com
  * @since 3.0.0
@@ -18,7 +18,40 @@ namespace wpmoly\nodes\images;
  *
  * @author Charlie Merland <charlie@caercam.org>
  */
-class Default_Backdrop extends Default_Image {
+class Default_Backdrop extends Image {
+
+	/**
+	 * Default Backdrop instance.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access private
+	 *
+	 * @var Default_Backdrop
+	 */
+	private static $instance;
+
+	/**
+	 * Get a Default Backdrop instance.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @return Default_Backdrop
+	 */
+	final public static function get_instance( $unused = null ) {
+
+		if ( isset( self::$instance ) ) {
+			return self::$instance;
+		}
+
+		self::$instance = new static;
+
+		return self::$instance;
+	}
 
 	/**
 	 * Set a handful of useful values for different sizes of the image.

@@ -278,10 +278,6 @@ window.wpmoly = window.wpmoly || {};
 				return this;
 			}
 
-			if ( _.has( this.changed, 'order' ) ) {
-				this.set( { orderby : 'name' }, { silent : true } );
-			}
-
 			this.set( { preset : '' }, { silent : true } );
 
 			return this;
@@ -309,6 +305,19 @@ window.wpmoly = window.wpmoly || {};
 			this.setDefaults();
 
 			this.listenTo( this.grid, 'change:type', this.reset );
+
+			this.listenTo( this.query, 'change:order', this.resetQuery );
+		},
+
+		resetQuery : function() {
+
+			if ( this.isPost() ) {
+				this.query.set( { orderby : 'title' }, { silent : true } );
+			} else if ( this.isTaxonomy() ) {
+				this.query.set( { orderby : 'name' }, { silent : true } );
+			}
+
+			return this;
 		},
 
 		/**

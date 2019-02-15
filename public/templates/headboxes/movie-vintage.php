@@ -11,7 +11,7 @@
  */
 
 ?>
-	<div data-headbox="<?php echo $headbox->id; ?>" data-theme="vintage" class="wpmoly headbox post-headbox movie-headbox theme-vintage" style="background-image:url(<?php $movie->get_poster()->render( 'large', 'raw' ); ?>)">
+	<div data-headbox="<?php echo $headbox->id; ?>" data-theme="vintage" class="wpmoly headbox post-headbox movie-headbox theme-vintage" style="background-image:url(<?php $movie->get_poster(); ?>)">
 		<div class="headbox-header">
 			<div class="headbox-rating"><span class="wpmolicon icon-star"></span><?php echo $movie->get( 'rating' ); ?></div>
 			<div class="headbox-titles">

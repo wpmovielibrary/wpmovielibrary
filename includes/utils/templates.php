@@ -151,6 +151,16 @@ function get_template_default_icons() {
 				'm 6,14 v -2 h 8 v 2 z',
 			),
 		),
+		'list' => array(
+			'paths' => array(
+				'M 2,2 H 6 V 6 H 2 Z',
+				'm 2,8 h 4 v 4 H 2 Z',
+				'm 2,14 h 4 v 4 H 2 Z',
+				'M 8,2 H 18 V 6 H 8 Z',
+				'm 8,8 h 10 v 4 H 8 Z',
+				'm 8,14 h 10 v 4 H 8 Z',
+			),
+		),
 		'maximize' => array(
 			'paths' => array(
 				'm 2,2 v 8 H 3 V 3 h 14 v 14 h -7 v 1 h 8 V 2 Z m 0,10 v 6 H 8 V 17 12 H 3 Z m 1,1 h 4 v 4 H 3 Z',

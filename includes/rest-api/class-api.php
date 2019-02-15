@@ -72,6 +72,7 @@ class API {
 			'runtime'       => 'runtime',
 			'my_status'     => 'status',
 			'my_subtitles'  => 'subtitles',
+			'tmdb_id'       => 'tmdb_id',
 			'writer'        => 'writer',
 		) );
 
@@ -882,10 +883,10 @@ class API {
 
 		if ( isset( $object['type'] ) && 'movie' === $object['type'] ) {
 			$movie = utils\movie\get( $object['id'] );
-			return $movie->get_poster();
+			return $movie->get_poster( 'selected', null, 'object' );
 		} else if ( isset( $object['type'] ) && 'person' === $object['type'] ) {
 			$person = utils\person\get( $object['id'] );
-			return $person->get_picture();
+			return $person->get_picture( 'selected', null, 'object' );
 		}
 
 		return null;

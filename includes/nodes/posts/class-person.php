@@ -293,10 +293,12 @@ class Person extends Node {
 	 * @access public
 	 *
 	 * @param string $variant Backdrop variant.
+	 * @param string $size    Backdrop size.
+	 * @param string $output  Output format.
 	 *
 	 * @return Backdrop|Default_Backdrop
 	 */
-	public function get_backdrop( $variant = 'selected' ) {
+	public function get_backdrop( $variant = 'selected', $size = 'medium', $output = 'raw' ) {
 
 		if ( ! $this->backdrops->has_items() && ! $this->backdrops->loaded ) {
 			$this->load_backdrops();
@@ -332,6 +334,12 @@ class Person extends Node {
 			$backdrop = images\Default_Backdrop::get_instance();
 		}
 
+		if ( 'html' === $output ) {
+			$backdrop = $backdrop->render( $size, 'html' );
+		} else if ( 'raw' === $output ) {
+			$backdrop = $backdrop->render( $size, 'raw' );
+		}
+
 		return $backdrop;
 	}
 
@@ -349,10 +357,12 @@ class Person extends Node {
 	 * @access public
 	 *
 	 * @param string $variant Picture variant.
+	 * @param string $size    Picture size.
+	 * @param string $output  Output format.
 	 *
 	 * @return Picture|Default_Picture
 	 */
-	public function get_picture( $variant = 'selected' ) {
+	public function get_picture( $variant = 'selected', $size = 'medium', $output = 'raw' ) {
 
 		if ( ! $this->pictures->has_items() && ! $this->pictures->loaded ) {
 			$this->load_pictures();
@@ -394,6 +404,12 @@ class Person extends Node {
 
 		if ( ! $picture instanceof images\Picture ) {
 			$picture = images\Default_Picture::get_instance();
+		}
+
+		if ( 'html' === $output ) {
+			$picture = $picture->render( $size, 'html' );
+		} else if ( 'raw' === $output ) {
+			$picture = $picture->render( $size, 'raw' );
 		}
 
 		return $picture;

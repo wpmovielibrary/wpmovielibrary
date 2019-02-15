@@ -192,7 +192,7 @@ class Movies extends Posts {
 
 		$movie = utils\movie\get( $post );
 
-		return $movie->get_poster();
+		return $movie->get_poster( 'selected', null, 'object' );
 	}
 
 	/**
@@ -231,7 +231,7 @@ class Movies extends Posts {
 
 		$movie = utils\movie\get( $post );
 
-		return $movie->get_backdrop();
+		return $movie->get_backdrop( 'selected', null, 'object' );
 	}
 
 	/**

@@ -192,7 +192,7 @@ class Persons extends Posts {
 
 		$person = utils\person\get( $post );
 
-		return $person->get_picture();
+		return $person->get_picture( 'selected', null, 'object' );
 	}
 
 	/**
@@ -231,7 +231,7 @@ class Persons extends Posts {
 
 		$person = utils\person\get( $post );
 
-		return $person->get_backdrop();
+		return $person->get_backdrop( 'selected', null, 'object' );
 	}
 
 	/**
