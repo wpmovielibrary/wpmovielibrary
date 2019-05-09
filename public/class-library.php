@@ -232,9 +232,13 @@ class Library {
 	 *
 	 * @return string
 	 */
-	public function set_archive_page_title( $post_title, $post ) {
+	public function set_archive_page_title( $post_title, $post = null ) {
 
-		if ( is_admin() || ! utils\is_archive_page( $post->ID ) ) {
+		if ( is_admin() || empty( $post->ID ) ) {
+			return $post_title;
+		}
+
+		if ( ! utils\is_archive_page( $post->ID ) ) {
 			return $post_title;
 		}
 

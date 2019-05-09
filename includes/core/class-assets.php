@@ -367,6 +367,7 @@ class Assets {
 				$this->enqueue_template( 'person-editor-submit' );
 				$this->enqueue_template( 'person-meta-editor' );
 				$this->enqueue_template( 'person-credits-editor' );
+				$this->enqueue_template( 'person-credits-editor-item' );
 				$this->enqueue_template( 'person-backdrops-editor' );
 				$this->enqueue_template( 'person-backdrops-editor-menu' );
 				$this->enqueue_template( 'person-backdrops-editor-item' );
@@ -740,6 +741,7 @@ class Assets {
 				$this->register_template( 'person-editor-submit',             'admin/assets/js/templates/editors/persons/blocks/submit.php' );
 				$this->register_template( 'person-meta-editor',               'admin/assets/js/templates/editors/persons/meta-editor.php' );
 				$this->register_template( 'person-credits-editor',            'admin/assets/js/templates/editors/persons/credits-editor.php' );
+				$this->register_template( 'person-credits-editor-item',       'admin/assets/js/templates/editors/persons/credits-editor-item.php' );
 				$this->register_template( 'person-backdrops-editor',          'admin/assets/js/templates/editors/persons/backdrops-editor.php' );
 				$this->register_template( 'person-backdrops-editor-menu',     'admin/assets/js/templates/editors/persons/backdrops-editor-menu.php' );
 				$this->register_template( 'person-backdrops-editor-item',     'admin/assets/js/templates/editors/persons/backdrops-editor-item.php' );

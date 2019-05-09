@@ -1171,7 +1171,7 @@ wpmoly.editor = wpmoly.editor || {};
 					this.meta      = options.meta;
 					this.post      = options.post;
 					this.node      = options.node;
-					this.pictures   = options.pictures;
+					this.pictures  = options.pictures;
 					this.backdrops = options.backdrops;
 
 					//this.listenTo( this.post,     'saved', this.saveNode );
@@ -1277,50 +1277,6 @@ wpmoly.editor = wpmoly.editor || {};
 						meta.tmdb_id = snapshot.get( 'id' );
 					}
 
-					// Update credits.
-					/*if ( _.has( snapshot.get( 'credits' ) || {}, 'crew' ) ) {
-						meta.author      = ! _.isEmpty( meta.author ) ?      meta.author :      _.pluck( _.where( snapshot.get( 'credits' ).crew, { job : 'Author' } ), 'name' );
-						meta.composer    = ! _.isEmpty( meta.composer ) ?    meta.composer :    _.pluck( _.where( snapshot.get( 'credits' ).crew, { job : 'Original Music Composer' } ), 'name' );
-						meta.director    = ! _.isEmpty( meta.director ) ?    meta.director :    _.pluck( _.where( snapshot.get( 'credits' ).crew, { job : 'Director' } ), 'name' );
-						meta.photography = ! _.isEmpty( meta.photography ) ? meta.photography : _.pluck( _.where( snapshot.get( 'credits' ).crew, { job : 'Director of Photography' } ), 'name' );
-						meta.producer    = ! _.isEmpty( meta.producer ) ?    meta.producer :    _.pluck( _.where( snapshot.get( 'credits' ).crew, { job : 'Producer' } ), 'name' );
-						meta.writer      = ! _.isEmpty( meta.writer ) ?      meta.writer :      _.pluck( _.where( snapshot.get( 'credits' ).crew, { job : 'Novel' } ), 'name' );
-					}*/
-
-					// Update cast.
-					/*if ( _.has( snapshot.get( 'credits' ) || {}, 'cast' ) ) {
-						meta.cast = ! _.isEmpty( meta.cast ) ? meta.cast : _.pluck( snapshot.get( 'credits' ).cast, 'name' );
-					}*/
-
-					/**
-					 * Loop through release types. Check for theatrical, limited theatrical,
-					 * digital, physical, TV and premiere release. Use the corresponding
-					 * release date, but use the first available certification value.
-					 */
-					/*var language = this.settings.get( wpmolyApiSettings.option_prefix + 'api_country' ),
-					    releases = _.find( snapshot.get( 'release_dates' ), { iso_3166_1 : language } );
-					if ( ! _.isUndefined( releases ) ) {
-						var release_date = '',
-						   certification = '';
-						_.every( [ 3, 2, 4 ,5, 6, 1 ], function( type ) {
-							var release = _.find( releases.release_dates, { type : type } );
-							if ( _.isUndefined( release ) ) {
-								// Continue.
-								return true;
-							}
-							// Use first available certification.
-							if ( _.isEmpty( certification ) && ! _.isEmpty( release.certification ) ) {
-								meta.certification = release.certification;
-							}
-							// Set local release date.
-							if ( ! _.isEmpty( release.release_date ) ) {
-								meta.local_release_date = new Date( release.release_date ).toISOString().slice( 0, 10 );
-								// Break.
-								return false;
-							}
-						} );
-					}*/
-
 					this.meta.set( meta );
 
 					return this;
@@ -1338,6 +1294,33 @@ wpmoly.editor = wpmoly.editor || {};
 				setFeaturedPicture : function( id ) {
 
 					this.post.save( { featured_media : id }, { patch : true } );
+
+					return this;
+				},
+
+				/**
+				 * Import a new movie.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {int} tmdb_id
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				importMovie : function( tmdb_id ) {
+
+					var credits = this.snapshot.get( 'credits' ),
+					      movie = _.findWhere( _.union( credits.cast, credits.crew ), { tmdb_id : parseInt( tmdb_id ) } );
+
+					if ( movie ) {
+						movie = new wp.api.models.Movies({
+							title : movie.title,
+							meta : {
+								tmdb_id : movie.tmdb_id,
+							},
+						});
+						movie.save();
+					}
 
 					return this;
 				},
@@ -3438,6 +3421,112 @@ wpmoly.editor = wpmoly.editor || {};
 
 		}),
 
+		/**
+		 * Credits Editor item.
+		 *
+		 * @since 3.0.0
+		 */
+		CreditsEditorItem : wpmoly.Backbone.View.extend({
+
+			className : 'credit-item',
+
+			template : wp.template( 'wpmoly-person-credits-editor-item' ),
+
+			events : function() {
+				return _.extend( PersonEditor.view.EditorSection.prototype.events.call( this, arguments ) || {}, {
+					'click [data-action="import"]' : 'import',
+				} );
+			},
+
+			/**
+			 * Initialize the View.
+			 *
+			 * @since 3.0.0
+			 */
+			initialize : function( options ) {
+
+				var options = options || {};
+
+				this.controller = options.controller;
+			},
+
+			/**
+			 * Import item.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param {object} JS 'click' Event.
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			import : function( event ) {
+
+				var $target = this.$( event.currentTarget ),
+				    tmdb_id = $target.attr( 'data-tmdb-id' );
+
+				this.controller.importMovie( tmdb_id );
+
+				return this;
+			},
+
+			/**
+			 * Prepare rendering options.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @return {object}
+			 */
+			prepare : function() {
+
+				var options = this.model.toJSON();
+
+				options.year = ! _.isEmpty( options.release_date ) ? ( new Date( options.release_date ) ).getFullYear() : '';
+
+				return options;
+			},
+
+		}),
+
+		/**
+		 * Credits Editor Section.
+		 *
+		 * @since 3.0.0
+		 */
+		CreditsEditorSection : wpmoly.Backbone.View.extend({
+
+			/**
+			 * Initialize the View.
+			 *
+			 * @since 3.0.0
+			 */
+			initialize : function( options ) {
+
+				var options = options || {};
+
+				this.controller = options.controller;
+
+				this.listenTo( this.controller.node,     'sync',   this.render );
+				this.listenTo( this.controller.meta,     'change', this.render );
+				this.listenTo( this.controller.snapshot, 'change', this.render );
+			},
+
+			/**
+			 * Render the view.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			render : function() {
+
+				wpmoly.Backbone.View.prototype.render.apply( this, arguments );
+
+				this.addItems();
+
+				return this;
+			}
+		}),
+
 	} );
 
 	_.extend( PersonEditor.view, {
@@ -3626,6 +3715,68 @@ wpmoly.editor = wpmoly.editor || {};
 
 		}),
 
+		CastEditor : PersonEditor.view.CreditsEditorSection.extend({
+
+			/**
+			 * .
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param {object} collection
+			 * @param {object} options
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			addItems : function( collection, options ) {
+
+				// Ignore TV Shows for now.
+				var credits = this.controller.snapshot.get( 'credits' ) || {},
+						credits = _.sortBy( _.where( credits.cast || {}, { media_type : 'movie' } ), 'release_date' ).reverse();
+
+				_.each( credits || [], function( credit ) {
+					var view = new PersonEditor.view.CreditsEditorItem({
+						model      : new Backbone.Model( credit ),
+						controller : this.controller,
+					});
+					this.views.add( view );
+				}, this );
+
+				return this;
+			},
+
+		}),
+
+		CrewEditor : PersonEditor.view.CreditsEditorSection.extend({
+
+			/**
+			 * .
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param {object} collection
+			 * @param {object} options
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			addItems : function( collection, options ) {
+
+				// Ignore TV Shows for now.
+				var credits = this.controller.snapshot.get( 'credits' ) || {},
+						credits = _.sortBy( _.where( credits.crew || {}, { media_type : 'movie' } ), 'release_date' ).reverse();
+
+				_.each( credits || [], function( credit ) {
+					var view = new PersonEditor.view.CreditsEditorItem({
+						model      : new Backbone.Model( credit ),
+						controller : this.controller,
+					});
+					this.views.add( view );
+				}, this );
+
+				return this;
+			},
+
+		}),
+
 		/**
 		 * PersonEditor 'Credits Editor' Block View.
 		 *
@@ -3639,7 +3790,8 @@ wpmoly.editor = wpmoly.editor || {};
 
 			events : function() {
 				return _.extend( PersonEditor.view.EditorSection.prototype.events.call( this, arguments ) || {}, {
-					'change [data-field]' : 'change',
+					'change [data-field]'            : 'change',
+					//'click [data-action="download"]' : 'import',
 				} );
 			},
 
@@ -3658,9 +3810,7 @@ wpmoly.editor = wpmoly.editor || {};
 
 				this.controller = options.controller;
 
-				this.listenTo( this.controller.node,     'sync',   this.render );
-				this.listenTo( this.controller.meta,     'change', this.render );
-				this.listenTo( this.controller.snapshot, 'change', this.render );
+				this.setRegions();
 			},
 
 			/**
@@ -3688,32 +3838,30 @@ wpmoly.editor = wpmoly.editor || {};
 			},
 
 			/**
-			 * Prepare rendering options.
+			 * Set subviews.
 			 *
 			 * @since 3.0.0
 			 *
-			 * @return {object}
+			 * @return Returns itself to allow chaining.
 			 */
-			prepare : function() {
+			setRegions : function() {
 
-				// Ignore TV Shows for now.
-				var credits = this.controller.snapshot.get( 'credits' ) || {},
-				    options = {
-					cast : _.sortBy( _.where( credits.cast || {}, { media_type : 'movie' } ), 'release_date' ).reverse(),
-					crew : _.sortBy( _.where( credits.crew || {}, { media_type : 'movie' } ), 'release_date' ).reverse(),
+				var options = {
+					controller : this.controller,
 				};
 
-				_.each( options.cast, function( credit ) {
-					credit.year = ! _.isEmpty( credit.release_date ) ? ( new Date( credit.release_date ) ).getFullYear() : '';
-				} );
+				if ( ! this.cast ) {
+					this.cast = new PersonEditor.view.CastEditor( options );
+				}
 
-				_.each( options.crew, function( credit ) {
-					credit.year = ! _.isEmpty( credit.release_date ) ? ( new Date( credit.release_date ) ).getFullYear() : '';
-				} );
+				if ( ! this.crew ) {
+					this.crew = new PersonEditor.view.CrewEditor( options );
+				}
 
-				console.log( options );
+				this.views.set( '.cast-items', this.cast );
+				this.views.set( '.crew-items', this.crew );
 
-				return options;
+				return this;
 			},
 
 		}),
