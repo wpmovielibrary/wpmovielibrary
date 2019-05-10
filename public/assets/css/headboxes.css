@@ -1448,8 +1448,19 @@
 	color: #0073aa;
 }
 
-.wpmoly.person-headbox.theme-extended .headbox-content {
+.wpmoly.person-headbox.theme-extended .person-birthday,
+.wpmoly.person-headbox.theme-extended .person-place-of-birth {
+	color: #373e48;
+	display: inline-block;;
+	font-size: .75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+}
 
+.wpmoly.person-headbox.theme-extended .person-biography {
+	font-size: 1rem;
+	margin-top: .5rem;
+	text-align: justify;
 }
 
 .wpmoly.person-headbox.theme-extended .headbox-footer {
@@ -1514,8 +1525,19 @@
 	color: #0073aa;
 }
 
-.wpmoly.person-headbox.theme-default .headbox-content {
+.wpmoly.person-headbox.theme-default .person-birthday,
+.wpmoly.person-headbox.theme-default .person-place-of-birth {
+	color: #373e48;
+	display: inline-block;;
+	font-size: .75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+}
 
+.wpmoly.person-headbox.theme-default .person-biography {
+	font-size: 1rem;
+	margin-top: .5rem;
+	text-align: justify;
 }
 
 .wpmoly.person-headbox.theme-default .headbox-footer {

@@ -21,7 +21,11 @@
 		<div class="headbox-content">
 			<div class="headbox-titles">
 				<div class="person-name"><a href="<?php the_permalink( $person->id ); ?>"><?php $person->the_name(); ?></a></div>
-				<?php $person->the_departement(); ?>
+				<div class="person-department"><?php $person->the_department(); ?></div>
+			</div>
+			<div class="person-bio">
+				<div class="person-birthday"><?php printf( __( 'Born %s', 'wpmovielibrary' ), $person->get_the_birthday() ); ?></div>
+				<div class="person-place-of-birth"><?php printf( __( 'In %s', 'wpmovielibrary' ), $person->get_the_place_of_birth() ); ?></div>
 			</div>
 		</div>
 		<div class="headbox-footer"></div>
