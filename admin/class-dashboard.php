@@ -89,9 +89,10 @@ class Dashboard {
 	public function register_assets() {
 
 		$assets = core\Assets::get_instance();
-		add_action( 'admin_enqueue_scripts', array( $assets, 'enqueue_admin_styles' ), 95 );
-		add_action( 'admin_enqueue_scripts', array( $assets, 'enqueue_admin_scripts' ), 95 );
-		add_action( 'admin_footer',          array( $assets, 'enqueue_admin_templates' ), 95 );
+		add_action( 'admin_enqueue_scripts',       array( $assets, 'enqueue_admin_styles' ), 95 );
+		add_action( 'admin_enqueue_scripts',       array( $assets, 'enqueue_admin_scripts' ), 95 );
+		add_action( 'admin_footer',                array( $assets, 'enqueue_admin_templates' ), 95 );
+		add_action( 'enqueue_block_editor_assets', array( $assets, 'enqueue_block_editor_scripts' ), 95 );
 	}
 
 	/**
@@ -136,6 +137,7 @@ class Dashboard {
 		add_action( 'wpmoly/dashboard/block/discover-grids/build',   array( $post_editor, 'set_grid_editor_discover_block_data' ) );
 		add_action( 'wpmoly/dashboard/block/discover-movies/build',  array( $post_editor, 'set_movie_editor_discover_block_data' ) );
 		add_action( 'wpmoly/dashboard/block/discover-persons/build', array( $post_editor, 'set_person_editor_discover_block_data' ) );
+		add_action( 'edit_form_after_title',                         array( $this, 'add_classic_editor_switch_button' ) );
 	}
 
 	/**
@@ -971,7 +973,7 @@ class Dashboard {
 	}
 
 	/**
-	 * Set Dashboard 'RAting' Block data.
+	 * Set Dashboard 'Rating' Block data.
 	 *
 	 * @since 3.0.0
 	 *
@@ -997,6 +999,33 @@ class Dashboard {
 			'contact_url' => 'https://wpmovielibrary.com/support',
 			'hire_url'    => 'https://wpmovielibrary.com/hire-us',
 		) );
+	}
+
+	/**
+	 * Add a swtich button to the classic editor.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param $post WP_Post Post object.
+	 */
+	public function add_classic_editor_switch_button( $post ) {
+
+		// Exit if Gutenberg are active.
+		if ( did_action( 'enqueue_block_editor_assets' ) ) {
+			return;
+		}
+
+		$post_type = get_post_type( $post );
+		if ( ! in_array( $post_type, array( 'grid', 'movie', 'person' ), true ) ) {
+			return false;
+		}
+?>
+		<div id="wpmoly-editor-switch" class="wpmoly editor-switch">
+			<a href="<?php echo esc_url_raw( admin_url( 'admin.php?page=wpmovielibrary-' . $post_type . 's&id=' . $post_id . '&action=edit' ) ); ?>" class="wpmoly editor-switch-button"><?php _e( 'Edit with wpMovieLibrary', 'wpmovielibrary' ); ?></a>
+		</div>
+<?php
 	}
 
 }

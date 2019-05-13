@@ -799,6 +799,16 @@ class L10n {
 
 		wp_localize_script( 'wpmoly-core', 'wpmolyL10n', $localized );
 
+		$post_id   = get_the_ID();
+		$post_type = get_post_type( $post_id );
+		if ( in_array( $post_type, array( 'grid', 'movie', 'person' ), true ) ) {
+			$localized = array(
+				'edit_with_wpmoly' => esc_html__( 'Edit with wpMovieLibrary' ),
+				'edit_link' => esc_url_raw( admin_url( 'admin.php?page=wpmovielibrary-' . $post_type . 's&id=' . $post_id . '&action=edit' ) ),
+			);
+			wp_localize_script( 'wpmoly-gutenberg', 'wpmolyBlockEditorL10n', $localized );
+		}
+
 		$localized = array(
 			'open_search'  => esc_html__( 'Open search menu', 'wpmovielibrary' ),
 			'close_search' => esc_html__( 'Close the search', 'wpmovielibrary' ),

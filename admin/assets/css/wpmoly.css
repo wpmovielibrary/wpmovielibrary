@@ -80,6 +80,45 @@
 	background-size: 18px;
 }
 
+.wpmoly.editor-switch {
+	margin: 8px 0 0;
+}
+
+.block-editor .wpmoly.editor-switch {
+	margin: 0 8px;
+}
+
+.wpmoly.editor-switch .editor-switch-button {
+	background: #373e48;
+	border: 1px solid #373e48;
+	border-radius: 2px;
+	color: #eee;
+	display: inline-block;
+	padding: 8px 12px 8px 42px;
+	position: relative;
+	text-decoration: none;
+}
+
+.wpmoly.editor-switch .editor-switch-button::before {
+	content: '\e801';
+	font-family: 'wpmovielibrary' !important;
+	font-size: 20px;
+	left: 12px;
+	position: absolute;
+}
+
+.wpmoly.editor-switch .editor-switch-button:hover {
+	background: #0073aa;
+	border: 1px solid #0073aa;
+	color: #fff;
+}
+
+.wpmoly.editor-switch .editor-switch-button:focus,
+.wpmoly.editor-switch .editor-switch-button:active {
+	border: 1px solid #007388;
+	box-shadow: 0 0 0;
+}
+
 .wpmoly .field {
 	margin: 0 0 15px 0;
 	padding: 0;

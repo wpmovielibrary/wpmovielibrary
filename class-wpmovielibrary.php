@@ -112,6 +112,7 @@ final class wpMovieLibrary {
 		add_action( 'wpmoly/registrars/loaded', array( &$this, 'register_post_meta' ) );
 		add_action( 'wpmoly/registrars/loaded', array( &$this, 'register_term_meta' ) );
 
+		// Taxonomies filters.
 		add_action( 'wpmoly/taxonomies/registered', array( &$this, 'register_taxonomy_filters' ), 10, 2 );
 
 		// Localize.

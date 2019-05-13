@@ -194,6 +194,24 @@ class Assets {
 	}
 
 	/**
+	 * Enqueue Gutenberg editor scripts.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 */
+	public function enqueue_block_editor_scripts() {
+
+		if ( ! is_admin() ) {
+			return false;
+		}
+
+		$this->register_block_editor_scripts();
+
+		$this->enqueue_script( 'gutenberg' );
+	}
+
+	/**
 	 * Enqueue stylesheets.
 	 *
 	 * @since 3.0.0
@@ -576,6 +594,18 @@ class Assets {
 		// Runners
 		$this->add_public_js( 'grids',     'grids.js',     array( 'wpmoly-core', 'wpmoly-api' ) );
 		$this->add_public_js( 'headboxes', 'headboxes.js', array( 'wpmoly-core' ) );
+	}
+
+	/**
+	 * Register Gutenberg editor scripts.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 */
+	private function register_block_editor_scripts() {
+
+		$this->add_admin_js( 'gutenberg', 'gutenberg.js', array( 'wpmoly-core' ) );
 	}
 
 	/**
