@@ -1169,6 +1169,9 @@ final class wpMovieLibrary {
 		add_filter( 'single_post_title', array( $library, 'set_archive_page_title' ), 10, 2 );
 		add_filter( 'the_title',         array( $library, 'set_archive_page_post_title' ), 10, 2 );
 
+		// Edit links.
+		add_filter( 'get_edit_post_link', array( $library, 'set_edit_post_link' ), 10, 3 );
+
 		/**
 		 * Fires after library is registered.
 		 *

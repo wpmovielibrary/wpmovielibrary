@@ -1023,7 +1023,7 @@ class Dashboard {
 		}
 ?>
 		<div id="wpmoly-editor-switch" class="wpmoly editor-switch">
-			<a href="<?php echo esc_url_raw( admin_url( 'admin.php?page=wpmovielibrary-' . $post_type . 's&id=' . $post_id . '&action=edit' ) ); ?>" class="wpmoly editor-switch-button"><?php _e( 'Edit with wpMovieLibrary', 'wpmovielibrary' ); ?></a>
+			<a href="<?php echo esc_url_raw( admin_url( 'admin.php?page=wpmovielibrary-' . $post_type . 's&id=' . $post->ID . '&action=edit' ) ); ?>" class="wpmoly editor-switch-button"><?php _e( 'Edit with wpMovieLibrary', 'wpmovielibrary' ); ?></a>
 		</div>
 <?php
 	}

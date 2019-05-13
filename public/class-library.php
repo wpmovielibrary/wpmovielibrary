@@ -555,4 +555,33 @@ class Library {
 
 		return $archive_pages;
 	}
+
+	/**
+	 * Replace edit post links.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $link    The edit link.
+	 * @param int    $post_id Post ID.
+	 * @param string $context The link context.
+	 *
+	 * @return string
+	 */
+	public function set_edit_post_link( $link, $post_id, $context ) {
+
+		$post_type = get_post_type( $post_id );
+		if ( ! in_array( $post_type, array( 'grid', 'movie', 'person' ), true ) ) {
+			return $link;
+		}
+
+		$link = 'admin.php?page=wpmovielibrary-' . $post_type . 's&id=' . $post_id . '&action=edit';
+
+		if ( 'display' === $context ) {
+			$link = str_replace( '&', '&amp;', $link );
+		}
+
+		$link = admin_url( $link );
+
+		return $link;
+	}
 }
