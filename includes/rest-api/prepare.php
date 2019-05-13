@@ -575,6 +575,21 @@ function prepare_person_deathday( $deathday, $context = 'edit' ) {
 }
 
 /**
+ * Prepare person gender for REST API Response.
+ *
+ * @since 3.0.0
+ *
+ * @param  string $gender Person gender.
+ * @param  string $context  REST API Request context, 'view' or 'edit'. Default is 'edit'.
+ *
+ * @return mixed
+ */
+function prepare_person_gender( $gender, $context = 'edit' ) {
+
+	return prepare_person_meta_value( 'gender', $gender, $context );
+}
+
+/**
  * Prepare person homepage for REST API Response.
  *
  * @since 3.0.0
