@@ -192,6 +192,12 @@ function get_default_terms_meta() {
 			'description'  => __( 'Term custom thumbnail attachment ID.', 'wpmovielibrary' ),
 			'show_in_rest' => true,
 		),
+		'related_person_id' => array(
+			'type'         => 'integer',
+			'taxonomy'     => array( 'actor', 'collection' ),
+			'description'  => __( 'Related Person ID', 'wpmovielibrary' ),
+			'show_in_rest' => true,
+		),
 		'thumbnail' => array(
 			'type'         => 'string',
 			'taxonomy'     => array( 'actor', 'collection', 'genre' ),
@@ -670,6 +676,14 @@ function get_registered_movie_meta( $meta_name = '' ) {
 			'description'  => __( 'Title', 'wpmovielibrary' ),
 			'show_in_rest' => true,
 		),
+		/*'tmdb_id' => array(
+			'type'         => 'integer',
+			'post_type'    => array( 'movie' ),
+			'description'  => __( 'TMDb ID', 'wpmovielibrary' ),
+			'show_in_rest' => array(
+				'prepare_callback' => '\wpmoly\rest\prepare_movie_tmdb_id',
+			),
+		),*/
 		'writer' => array(
 			'type'         => 'string',
 			'post_type'    => array( 'movie' ),

@@ -205,7 +205,7 @@ wpmoly.editor = wpmoly.editor || {};
 			RelatedPersonBlock : Backbone.Model.extend({
 
 				defaults : {
-					tmdb_id : null,
+					related_person_id : null,
 				},
 
 				/**
@@ -224,58 +224,53 @@ wpmoly.editor = wpmoly.editor || {};
 					this.node = ActorEditor.editor.controller.node;
 					this.snapshot = this.node.snapshot;
 
-					this.listenTo( this.term, 'change:meta', this.changeTMDbID );
+					this.listenTo( this.term, 'change:meta', this.changePerson );
 
-					this.on( 'change:tmdb_id', this.updateTMDbID, this );
+					this.on( 'change:related_person_id', this.updatePerson, this );
 				},
 
-				fetchPerson : function() {
+				/**
+				 * Set related person ID.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				changePerson : function() {
 
-					var tmdb_id = this.get( 'tmdb_id' );
-					if ( ! _.isNumber( tmdb_id ) ) {
-						return this;
-					}
+					this.set( { related_person_id : this.term.getMeta( wpmolyApiSettings.actor_prefix + 'related_person_id' ) } );
 
-					var person = new TMDb.Person( { id : tmdb_id } ),
-					  snapshot = this.snapshot;
+					return this;
+				},
 
-					person.fetchAll({
-						success : function() {
-							snapshot.save( person.toJSON() );
-							wpmoly.success( wpmolyEditorL10n.snapshot_updated );
-						},
-						error : function( xhr, status, response ) {
-							wpmoly.error( xhr, { destroy : false } );
-						},
+				/**
+				 * Update related person ID.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				updatePerson : function() {
+
+					return this.term.setMeta( wpmolyApiSettings.actor_prefix + 'related_person_id', this.get( 'related_person_id' ) );
+				},
+
+				/**
+				 * Save related person ID.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				savePerson : function() {
+
+					this.term.save({
+						meta : this.term.getMetas(),
+					}, {
+						patch : true,
 					});
 
 					return this;
-				},
-
-				/**
-				 * Set TMDb ID.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-		 	 	 */
-				changeTMDbID : function() {
-
-					this.set( { tmdb_id : this.term.getMeta( wpmolyApiSettings.actor_prefix + 'tmdb_id' ) } );
-
-					return this;
-				},
-
-				/**
-				 * Update TMDb ID.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-		 	 	 */
-				updateTMDbID : function() {
-
-					return this.term.setMeta( wpmolyApiSettings.actor_prefix + 'tmdb_id', this.get( 'tmdb_id' ) );
 				},
 
 			}),
@@ -293,8 +288,8 @@ wpmoly.editor = wpmoly.editor || {};
 
 				events : function() {
 					return _.extend( TermEditor.view.Block.prototype.events.call( this, arguments ) || {}, {
-						'change [data-value="new-tmdb-id"]' : 'updateTMDbID',
-						'click [data-action="fetch-person"]' : 'fetchPerson',
+						'change [data-field="person"]'      : 'changePerson',
+						'click [data-action="save-person"]' : 'savePerson',
 					} );
 				},
 
@@ -311,37 +306,39 @@ wpmoly.editor = wpmoly.editor || {};
 
 					this.controller = options.controller;
 
-					this.listenTo( this.controller, 'change:tmdb_id', this.render );
+					this.listenTo( this.controller, 'change:related_person_id', this.render );
+
+					this.on( 'rendered', this.selectize, this );
 
 					this.render();
 				},
 
 				/**
-				 * Update TMDb ID.
+				 * Update related person ID.
 				 *
 				 * @since 3.0.0
 				 *
 				 * @return Returns itself to allow chaining.
 		 	 	 */
-				updateTMDbID : function() {
+				changePerson : function() {
 
-					var tmdb_id = this.$( '[data-value="new-tmdb-id"]' ).val();
+					var person_id = this.$( '[data-field="person"]' ).val();
 
-					this.controller.set( { tmdb_id : parseInt( tmdb_id ) || null } );
+					this.controller.set( { related_person_id : parseInt( person_id ) || null } );
 
 					return this;
 				},
 
 				/**
-				 * Find Person corresponding to submitted TMDb ID.
+				 * Save related person ID.
 				 *
 				 * @since 3.0.0
 				 *
 				 * @return Returns itself to allow chaining.
-		 	 	 */
-				fetchPerson : function() {
+				 */
+				savePerson : function() {
 
-					this.controller.fetchPerson();
+					this.controller.savePerson();
 
 					return this;
 				},
@@ -356,8 +353,7 @@ wpmoly.editor = wpmoly.editor || {};
 				prepare : function() {
 
 					var options = {
-						tmdb_id  : this.controller.get( 'tmdb_id' ),
-						snapshot : this.controller.node.snapshot.toJSON(),
+						person : this.controller.get( 'related_person_id' ) || 0,
 					};
 
 					return options;
