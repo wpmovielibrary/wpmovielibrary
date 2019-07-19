@@ -30,6 +30,7 @@
 								<button type="button" class="button download" data-mode="download">{{ 'svg:icon:download' }}{{ wpmolyEditorL10n.download_label }}</button>
 								<button type="button" class="button snapshot" data-mode="snapshot">{{ 'svg:icon:snapshot' }}{{ wpmolyEditorL10n.snapshot_label }}</button>
 								<div class="separator"></div>
+								<button type="button" class="button view" data-mode="view">{{ 'svg:icon:movie' }}{{ wpmolyEditorL10n.view_label }}</button>
 								<button type="button" class="button editor" data-mode="editor">{{ 'svg:icon:edit-post' }}{{ wpmolyEditorL10n.old_editor_label }}</button>
 							</div>
 							<button type="button" class="button trash" data-action="trash">{{ 'svg:icon:trash' }}<span class="spinner"></span></button>

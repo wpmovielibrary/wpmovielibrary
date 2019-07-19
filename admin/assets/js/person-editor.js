@@ -269,6 +269,8 @@ wpmoly.editor = wpmoly.editor || {};
 
 					if ( 'editor' === mode ) {
 						window.location.href = PersonEditor.editor.controller.post.get( 'old_edit_link' );
+					} else if ( 'view' === mode ) {
+						window.location.href = PersonEditor.editor.controller.post.get( 'link' );
 					} else {
 						PersonEditor.editor.controller.set( { mode : mode } );
 					}
