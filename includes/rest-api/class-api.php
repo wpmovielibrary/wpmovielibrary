@@ -278,6 +278,10 @@ class API {
 			return $args;
 		}
 
+		if ( ! empty( $request['letter'] ) ) {
+			$args['letter'] = $request['letter'];
+		}
+
 		if ( ! empty( $request['preset'] ) ) {
 
 			$preset = str_replace( "-{$taxonomy->rest_base}", '', $request['preset'] );
@@ -584,6 +588,14 @@ class API {
 				'type'        => 'string',
 				'default'     => 'custom',
 				//'sanitize_callback' => '',
+			);
+
+			// Filter movies by first letter.
+			$query_params['letter'] = array(
+				'description' => __( 'Limit result set using letter.', 'wpmovielibrary' ),
+				'type'        => 'string',
+				'default'     => '',
+				'enum'        => array( '' ) + str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' ),
 			);
 
 			// Support term_order orderby parameter.

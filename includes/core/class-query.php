@@ -1520,10 +1520,10 @@ class Query {
 	}
 
 	/**
-	 * Filter movies by letter.
+	 * Filter posts by letter.
 	 *
 	 * Add a new WHERE clause to the current query to limit selection to the
-	 * movies with a title starting with a specific letter.
+	 * posts with a title starting with a specific letter.
 	 *
 	 * @since 3.0.0
 	 *
@@ -1534,9 +1534,13 @@ class Query {
 	 *
 	 * @return string
 	 */
-	public function filter_movies_by_letter( $where, $query ) {
+	public function filter_posts_by_letter( $where, $query ) {
 
 		global $wpdb;
+
+		if ( ! in_array( $query->get( 'post_type' ), array( 'movie', 'person' ), true ) ) {
+			return $where;
+		}
 
 		$letter = $query->get( 'letter' );
 		if ( ! empty( $letter ) ) {
@@ -1544,6 +1548,35 @@ class Query {
 		}
 
 		return $where;
+	}
+
+	/**
+	 * Filter terms using presets.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param array $pieces     Array of query SQL clauses.
+	 * @param array $taxonomies An array of taxonomy names.
+	 * @param array $args       An array of term query arguments.
+	 *
+	 * @return string
+	 */
+	public function filter_terms_by_letter( $pieces, $taxonomies, $args ) {
+
+		global $wpdb;
+
+		if ( ! in_array( 'actor', (array) $taxonomies, true ) || ! in_array( 'collection', (array) $taxonomies, true ) || ! in_array( 'genre', (array) $taxonomies, true ) ) {
+			return $pieces;
+		}
+
+		if ( ! empty( $args['letter'] ) ) {
+			$where = "t.name LIKE '" . $wpdb->esc_like( strtoupper( $args['letter'] ) ) . "%'";
+			$pieces['where'] = ! empty( $pieces['where'] ) ? $pieces['where'] . ' AND ' . $where : $where;
+		}
+
+		return $pieces;
 	}
 
 	/**

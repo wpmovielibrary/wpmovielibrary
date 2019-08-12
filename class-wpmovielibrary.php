@@ -932,8 +932,10 @@ final class wpMovieLibrary {
 		$query = core\Query::get_instance();
 		add_filter( 'init',           array( $query, 'add_rewrite_tags' ) );
 		add_filter( 'query_vars',     array( $query, 'add_query_vars' ) );
-		add_filter( 'posts_where',    array( $query, 'filter_movies_by_letter' ), 10, 2 );
 		add_filter( 'pre_get_posts',  array( $query, 'filter_movies_by_preset' ), 10, 1 );
+
+		add_filter( 'posts_where',    array( $query, 'filter_posts_by_letter' ), 10, 2 );
+		add_filter( 'terms_clauses',  array( $query, 'filter_terms_by_letter' ), 10, 3 );
 
 		/**
 		 * Fires after query is registered.
