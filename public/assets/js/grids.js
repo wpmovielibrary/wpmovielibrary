@@ -442,18 +442,21 @@ window.wpmoly = window.wpmoly || {};
 		 *
 		 * @return Returns itself to allow chaining.
 		 */
-		fetch : function() {
+		fetch : function( data ) {
 
 			if ( _.isUndefined( this.collection ) ) {
 				this.setCollection();
 			}
 
-			var data = this.query.toJSON() || {},
+			var data = _.extend( this.query.toJSON() || {}, data || {} ) || {},
 			    rows = 'list' === this.grid.get( 'list' ) ? this.grid.get( 'list_rows' ) : this.grid.get( 'rows' ),
 			 columns = 'list' === this.grid.get( 'list' ) ? this.grid.get( 'list_columns' ) : this.grid.get( 'columns' );
+
 			if ( ! data.per_page ) {
 				data.per_page = Math.round( rows * columns ) || 20;
 			}
+
+			console.log( data );
 
 			this.collection.fetch( { data : data } );
 
@@ -513,7 +516,7 @@ window.wpmoly = window.wpmoly || {};
 				page : page,
 			} );
 
-			this.collection.fetch( { data : data } );
+			this.fetch( data );
 
 			return page;
 		},
