@@ -307,8 +307,38 @@ window.wpmoly = window.wpmoly || {};
 			this.setDefaults();
 
 			this.listenTo( this.grid, 'change:type', this.reset );
+			this.listenTo( this.grid, 'change:mode', this.resetTheme );
 
 			this.listenTo( this.query, 'change:order', this.resetQuery );
+		},
+
+		/**
+		 * Reset Grid.
+		 *
+		 * @since 3.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		reset : function() {
+
+			this.setCollection();
+			this.setDefaults();
+
+			this.fetch();
+		},
+
+		/**
+		 * Reset Grid Theme.
+		 *
+		 * @since 3.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		resetTheme : function() {
+
+			this.grid.set( { theme : 'default' } );
+
+			return this;
 		},
 
 		/**
@@ -599,14 +629,6 @@ window.wpmoly = window.wpmoly || {};
 		isPost : function() {
 
 			return _.contains( [ 'movie' ], this.grid.get( 'type' ) );
-		},
-
-		reset : function() {
-
-			this.setCollection();
-			this.setDefaults();
-
-			this.fetch();
 		},
 
 	});

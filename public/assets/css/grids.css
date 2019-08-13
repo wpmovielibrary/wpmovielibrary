@@ -403,7 +403,7 @@
 	white-space: nowrap;
 }
 
-.wpmoly.grid.theme-default .grid-content .item.movie .movie-title a,
+.wpmoly.grid.theme-default .grid-content .item .item-title a,
 .wpmoly.grid.theme-default .grid-content .item .item-name a {
 	color: #2f5066;
 	font-size: 0.9em;
