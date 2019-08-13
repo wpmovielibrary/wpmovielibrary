@@ -1397,7 +1397,7 @@
 .wpmoly.person-headbox.theme-extended {
 	display: flex;
 	justify-content: space-between;
-	max-height: 260px;
+	/*max-height: 260px;*/
 }
 
 .wpmoly.person-headbox.theme-extended .headbox-header {
