@@ -649,7 +649,7 @@ class Settings {
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
 			),
-			/*'enable_persons_headbox' => array(
+			'enable_person_headbox' => array(
 				'type'              => 'boolean',
 				'title'             => __( 'Persons', 'wpmovielibrary' ),
 				'label'             => __( 'Enable persons headboxes.', 'wpmovielibrary' ),
@@ -659,8 +659,8 @@ class Settings {
 				'sanitize_callback' => '\wpmoly\rest\sanitize_boolean_value',
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
-			),*/
-			'enable_actors_headbox' => array(
+			),
+			'enable_actor_headbox' => array(
 				'type'              => 'boolean',
 				'title'             => __( 'Actors', 'wpmovielibrary' ),
 				'label'             => __( 'Enable actors headboxes.', 'wpmovielibrary' ),
@@ -671,7 +671,7 @@ class Settings {
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
 			),
-			'enable_genres_headbox' => array(
+			'enable_genre_headbox' => array(
 				'type'              => 'boolean',
 				'title'             => __( 'Genres', 'wpmovielibrary' ),
 				'label'             => __( 'Enable genres headboxes.', 'wpmovielibrary' ),

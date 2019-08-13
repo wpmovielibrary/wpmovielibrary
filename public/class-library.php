@@ -162,7 +162,7 @@ class Library {
 	 */
 	public function set_movie_post_content( $content = '' ) {
 
-		if ( 'movie' != get_post_type() ) {
+		if ( 'movie' != get_post_type() || ! utils\is_o( 'enable_movie_headbox' ) ) {
 			return $content;
 		}
 
@@ -198,7 +198,7 @@ class Library {
 	 */
 	public function set_person_post_content( $content = '' ) {
 
-		if ( 'person' != get_post_type() ) {
+		if ( 'person' != get_post_type() || ! utils\is_o( 'enable_person_headbox' ) ) {
 			return $content;
 		}
 
@@ -423,7 +423,8 @@ class Library {
 
 		$name = get_query_var( $type );
 		$term = get_term_by( 'slug', $name, $type );
-		if ( $term ) {
+
+		if ( $term && utils\is_o( "enable_{$type}_headbox" ) ) {
 
 			$name = $term->name;
 			$node = call_user_func( "\wpmoly\utils\\{$term->taxonomy}\get", $term );
