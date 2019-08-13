@@ -36,8 +36,28 @@
  * Grid Editor Preview Section.
  */
 
-.post-editor.grid-editor .preview-section .wpmoly.grid {
+.post-editor.grid-editor .preview-section {
+	min-height: 36rem;
 	overflow: hidden;
+	padding: 0 .325rem;
+	position: relative;
+}
+
+.post-editor.grid-editor .preview-section::after {
+	background: #f1f1f1;
+	background: -moz-linear-gradient(0deg, #f1f1f1 0%, rgba(255,255,255,0) 100%);
+	background: -webkit-linear-gradient(0deg, #f1f1f1 0%, rgba(255,255,255,0) 100%);
+	background: linear-gradient(0deg, #f1f1f1 0%, rgba(255,255,255,0) 100%);
+	bottom: 0;
+	content: '';
+	left: -.325rem;
+	height: 12rem;
+	position: absolute;
+	right: -.325rem;
+}
+
+.post-editor.grid-editor .preview-section .wpmoly.grid {
+	/*overflow: hidden;*/
 }
 
 .post-editor.grid-editor .preview-section .grid-menu {
@@ -47,7 +67,7 @@
 .post-editor.grid-editor .preview-section .grid-content {
 	height: 560px;
 	margin-right: -15px;
-	overflow: hidden;
+	/*overflow: hidden;*/
 	position: relative;
 }
 
