@@ -50,6 +50,8 @@ window.wpmoly = window.wpmoly || {};
 			query : query,
 		});
 
+		query.controller = controller;
+
 		// Set grid view.
 		var view = new Grids.view.Grid({
 			el         : grid,
@@ -244,7 +246,7 @@ window.wpmoly = window.wpmoly || {};
 	Grids.model.Query = Backbone.Model.extend({
 
 		defaults : {
-			fields : [ 'genres', 'poster', 'rating', 'runtime', 'title', 'year' ],
+			fields : [ 'genres', 'name', 'picture', 'poster', 'rating', 'runtime', 'title', 'year' ],
 		},
 
 		/**
@@ -309,6 +311,13 @@ window.wpmoly = window.wpmoly || {};
 			this.listenTo( this.query, 'change:order', this.resetQuery );
 		},
 
+		/**
+		 * Reset Query.
+		 *
+		 * @since 3.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
 		resetQuery : function() {
 
 			if ( this.isPost() ) {
@@ -373,6 +382,7 @@ window.wpmoly = window.wpmoly || {};
 			var type = this.grid.get( 'type' ),
 			collections = {
 				movie      : wpmoly.api.collections.Movies,
+				person     : wpmoly.api.collections.Persons,
 				actor      : wp.api.collections.Actors,
 				collection : wp.api.collections.Collections,
 				genre      : wp.api.collections.Genres,
@@ -449,14 +459,12 @@ window.wpmoly = window.wpmoly || {};
 			}
 
 			var data = _.extend( this.query.toJSON() || {}, data || {} ) || {},
-			    rows = 'list' === this.grid.get( 'list' ) ? this.grid.get( 'list_rows' ) : this.grid.get( 'rows' ),
-			 columns = 'list' === this.grid.get( 'list' ) ? this.grid.get( 'list_columns' ) : this.grid.get( 'columns' );
+			    rows = 'list' === this.grid.get( 'mode' ) ? this.grid.get( 'list_rows' ) : this.grid.get( 'rows' ),
+			 columns = 'list' === this.grid.get( 'mode' ) ? this.grid.get( 'list_columns' ) : this.grid.get( 'columns' );
 
 			if ( ! data.per_page ) {
 				data.per_page = Math.round( rows * columns ) || 20;
 			}
-
-			console.log( data );
 
 			this.collection.fetch( { data : data } );
 
@@ -1036,8 +1044,8 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		adjust : function() {
 
-			var  ratio = this.controller.isPost() ? 1.5 : 1.25;
-			innerWidth = this.$el.innerWidth();
+			/*var  ratio = this.controller.isPost() ? 1.5 : 1.25;
+			innerWidth = this.$el.innerWidth();*/
 
 			if ( 'list' === this.controller.grid.get( 'mode' ) ) {
 				var columns = this.controller.grid.get( 'list_columns' );
@@ -1045,24 +1053,24 @@ window.wpmoly = window.wpmoly || {};
 				var columns = this.controller.grid.get( 'columns' );
 			}
 
-			var width = Math.floor( ( innerWidth / columns ) - 8 );
+			/*var width = Math.floor( ( innerWidth / columns ) - 8 );
 			if ( 200 < width ) {
 				columns = Math.ceil( innerWidth / 200 );
 				width = Math.floor( ( innerWidth / columns ) - 8 );
 			}
 
-			var height = Math.floor( width * ratio );
+			var height = Math.floor( width * ratio );*/
 
 			this.$el.attr( 'data-columns', columns );
 
-			this.$( '.item' ).css({
+			/*this.$( '.item' ).css({
 				width : width,
 			});
 
 			this.$( '.item-thumbnail' ).css({
 				width  : width,
 				height : height,
-			});
+			});*/
 
 			return this;
 		},
@@ -1090,6 +1098,7 @@ window.wpmoly = window.wpmoly || {};
 
 			// Change Theme.
 			this.listenTo( this.grid, 'change:theme', this.changeTheme );
+			this.listenTo( this.grid, 'change:mode',  this.changeMode );
 
 			// Prepare $el.
 			this.on( 'prepare', this.setClassName );
@@ -1136,6 +1145,25 @@ window.wpmoly = window.wpmoly || {};
 			this.$el.removeClass( 'theme-' + model.previous( 'theme' ) );
 
 			this.$el.addClass( 'theme-' + model.get( 'theme' ) );
+
+			return this;
+		},
+
+		/**
+		 * Update the grid classes on mode change.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} model
+		 * @param {object} options
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		changeMode : function( model, options ) {
+
+			this.$el.removeClass( 'mode-' + model.previous( 'mode' ) );
+
+			this.$el.addClass( 'mode-' + model.get( 'mode' ) );
 
 			return this;
 		},

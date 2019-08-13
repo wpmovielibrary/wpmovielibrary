@@ -14,5 +14,5 @@
 					<div class="item-title post-title movie-title"><a href="{{ data.permalink }}">{{{ data.title }}}</a></div>
 					<div class="item-genres post-genres movie-genres">{{{ data.genres }}}</div>
 					<div class="item-runtime post-runtime movie-runtime">{{{ data.rating }}}</div>
-					<div class="item-readmore"><a href="{{ data.permalink }}">+</a></div>
 				</div>
+				<div class="item-readmore"><a href="{{ data.permalink }}">+</a></div>

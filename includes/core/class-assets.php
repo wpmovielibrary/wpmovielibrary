@@ -417,6 +417,8 @@ class Assets {
 				$this->enqueue_template( 'grid-movie-grid-variant-1' );
 				$this->enqueue_template( 'grid-movie-grid-variant-2' );
 				$this->enqueue_template( 'grid-movie-list' );
+				$this->enqueue_template( 'grid-person-grid' );
+				$this->enqueue_template( 'grid-person-list' );
 				$this->enqueue_template( 'grid-actor-grid' );
 				$this->enqueue_template( 'grid-actor-list' );
 				$this->enqueue_template( 'grid-collection-grid' );
@@ -436,6 +438,7 @@ class Assets {
 				$this->enqueue_template( 'grid-error' );
 				$this->enqueue_template( 'grid-empty' );
 				$this->enqueue_template( 'grid-movie-grid' );
+				$this->enqueue_template( 'grid-person-grid' );
 
 				$this->enqueue_template( 'term-editor-add-new' );
 				$this->enqueue_template( 'term-editor-discover' );
@@ -509,6 +512,8 @@ class Assets {
 		$this->enqueue_template( 'grid-movie-grid-variant-1' );
 		$this->enqueue_template( 'grid-movie-grid-variant-2' );
 		$this->enqueue_template( 'grid-movie-list' );
+		$this->enqueue_template( 'grid-person-grid' );
+		$this->enqueue_template( 'grid-person-list' );
 		$this->enqueue_template( 'grid-actor-grid' );
 		$this->enqueue_template( 'grid-actor-list' );
 		$this->enqueue_template( 'grid-collection-grid' );
@@ -803,6 +808,8 @@ class Assets {
 				$this->register_template( 'grid-movie-grid-variant-1', 'public/assets/js/templates/grid/content/movie-grid-variant-1.php' );
 				$this->register_template( 'grid-movie-grid-variant-2', 'public/assets/js/templates/grid/content/movie-grid-variant-2.php' );
 				$this->register_template( 'grid-movie-list',           'public/assets/js/templates/grid/content/movie-list.php' );
+				$this->register_template( 'grid-person-grid',          'public/assets/js/templates/grid/content/person-grid.php' );
+				$this->register_template( 'grid-person-list',          'public/assets/js/templates/grid/content/person-list.php' );
 				$this->register_template( 'grid-actor-grid',           'public/assets/js/templates/grid/content/actor-grid.php' );
 				$this->register_template( 'grid-actor-list',           'public/assets/js/templates/grid/content/actor-list.php' );
 				$this->register_template( 'grid-collection-grid',      'public/assets/js/templates/grid/content/collection-grid.php' );
@@ -822,6 +829,7 @@ class Assets {
 				$this->register_template( 'grid-error',              'public/assets/js/templates/grid/content/error.php' );
 				$this->register_template( 'grid-empty',              'public/assets/js/templates/grid/content/empty.php' );
 				$this->register_template( 'grid-movie-grid',         'public/assets/js/templates/grid/content/movie-grid.php' );
+				$this->register_template( 'grid-person-grid',        'public/assets/js/templates/grid/content/person-grid.php' );
 
 				$this->register_template( 'term-editor',               'admin/assets/js/templates/editors/terms/editor.php' );
 				$this->register_template( 'term-meta-editor',          'admin/assets/js/templates/editors/terms/meta-editor.php' );
@@ -882,6 +890,8 @@ class Assets {
 		$this->register_template( 'grid-movie-grid-variant-1', 'public/assets/js/templates/grid/content/movie-grid-variant-1.php' );
 		$this->register_template( 'grid-movie-grid-variant-2', 'public/assets/js/templates/grid/content/movie-grid-variant-2.php' );
 		$this->register_template( 'grid-movie-list',           'public/assets/js/templates/grid/content/movie-list.php' );
+		$this->register_template( 'grid-person-grid',          'public/assets/js/templates/grid/content/person-grid.php' );
+		$this->register_template( 'grid-person-list',          'public/assets/js/templates/grid/content/person-list.php' );
 		$this->register_template( 'grid-actor-grid',           'public/assets/js/templates/grid/content/actor-grid.php' );
 		$this->register_template( 'grid-actor-list',           'public/assets/js/templates/grid/content/actor-list.php' );
 		$this->register_template( 'grid-collection-grid',      'public/assets/js/templates/grid/content/collection-grid.php' );

@@ -153,7 +153,7 @@ wpmoly.editor = wpmoly.editor || {};
 					this.listenTo( this.post, 'error',   this.error );
 					this.listenTo( this.post, 'saved',   this.saved );
 					this.listenTo( this.post, 'trashed', this.quit );
-					this.listenTo( this.post, 'change:meta',  this.updatePreview );
+					this.listenTo( this.post, 'change:meta', this.updatePreview );
 				},
 
 				/**
@@ -180,6 +180,7 @@ wpmoly.editor = wpmoly.editor || {};
 					} );
 
 					this.preview.set( atts );
+					this.preview.controller.reset();
 
 					return this;
 				},
@@ -973,7 +974,7 @@ wpmoly.editor = wpmoly.editor || {};
 						this.meta = new GridEditor.view.MetaEditor( options );
 					}
 
-					this.views.set( '#wpmoly-grid-meta',     this.meta );
+					this.views.set( '#wpmoly-grid-meta', this.meta );
 
 					return this;
 				},

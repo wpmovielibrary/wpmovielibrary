@@ -65,6 +65,15 @@
 									<input type="radio" data-field="preset" name="grid-preset" id="least-rated-movies-preset" value="least_rated"<# if ( 'least_rated' === data.preset ) { #> checked="checked"<# } #> />
 									<label for="least-rated-movies-preset"><img src="<?php echo esc_url( WPMOLY_URL . 'admin/assets/img/least-rated-movies.png' ); ?>" alt="" ><span class="value-title"><?php esc_html_e( 'Least Rated Movies', 'wpmovielibrary' ); ?></span></label>
 								</div>
+<# } else if ( 'person' === data.type ) { #>
+								<div class="field-value">
+									<input type="radio" data-field="preset" name="grid-preset" id="alphabetical-persons-preset" value="alphabetical"<# if ( 'alphabetical' === data.preset ) { #> checked="checked"<# } #> />
+									<label for="alphabetical-persons-preset"><img src="<?php echo esc_url( WPMOLY_URL . 'admin/assets/img/alphabetical-movies.png' ); ?>" alt="" ><span class="value-title"><?php esc_html_e( 'Alphabetical Persons', 'wpmovielibrary' ); ?></span></label>
+								</div>
+								<div class="field-value">
+									<input type="radio" data-field="preset" name="grid-preset" id="unalphabetical-persons-preset" value="unalphabetical"<# if ( 'unalphabetical' === data.preset ) { #> checked="checked"<# } #> />
+									<label for="unalphabetical-persons-preset"><img src="<?php echo esc_url( WPMOLY_URL . 'admin/assets/img/unalphabetical-movies.png' ); ?>" alt="" ><span class="value-title"><?php esc_html_e( 'Unalphabetical Persons', 'wpmovielibrary' ); ?></span></label>
+								</div>
 <# } else if ( 'actor' === data.type ) { #>
 								<div class="field-value">
 									<input type="radio" data-field="preset" name="grid-preset" id="alphabetical-actors-preset" value="alphabetical"<# if ( 'alphabetical' === data.preset ) { #> checked="checked"<# } #> />
@@ -84,10 +93,10 @@
 									<label for="unalphabetical-genres-preset"><img src="<?php echo esc_url( WPMOLY_URL . 'admin/assets/img/unalphabetical-movies.png' ); ?>" alt="" ><span class="value-title"><?php esc_html_e( 'Unalphabetical Genres', 'wpmovielibrary' ); ?></span></label>
 								</div>
 <# } #>
-								<div class="field-value">
+								<!--<div class="field-value">
 									<input type="radio" data-field="preset" name="grid-preset" id="custom-preset" value="custom"<# if ( 'custom' === data.preset ) { #> checked="checked"<# } #> />
 									<label for="custom-preset"><img src="<?php echo esc_url( WPMOLY_URL . 'admin/assets/img/custom.png' ); ?>" alt="" ><span class="value-title"><?php esc_html_e( 'Custom', 'wpmovielibrary' ); ?></span></label>
-								</div>
+								</div>-->
 							</div>
 						</div>
 					</div>

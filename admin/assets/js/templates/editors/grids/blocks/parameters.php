@@ -54,6 +54,42 @@
 								</div>
 							</div>
 						</div>
+						<div class="grid-type<# if ( 'person' === data.type ) { #> active<# if ( 'person' === data.defaults.type ) { #> default<# } } #>">
+							<div class="type-name">
+								<a data-action="set-type" data-value="person"><?php esc_html_e( 'Persons', 'wpmovielibrary' ); ?></a>
+								<# if ( 'person' === data.type ) { #><span class="wpmolicon icon-yes-alt2"></span><# } else { #><span class="wpmolicon icon-down-chevron"></span><# } #>
+							</div>
+							<div class="grid-modes">
+								<div class="grid-mode<# if ( 'grid' === data.mode ) { #> active<# if ( 'grid' === data.defaults.mode ) { #> default<# } } #>">
+									<div class="mode-name">
+										<a data-action="set-mode" data-value="grid"><?php esc_html_e( 'Grid', 'wpmovielibrary' ); ?></a>
+										<# if ( 'grid' === data.mode ) { #><span class="wpmolicon icon-yes-alt2"></span><# } else { #><span class="wpmolicon icon-down-chevron"></span><# } #>
+									</div>
+									<div class="grid-themes">
+										<div class="grid-theme<# if ( 'default' === data.theme ) { #> active<# if ( 'default' === data.defaults.theme ) { #> default<# } } #>">
+											<div class="theme-name">
+												<a data-action="set-theme" data-value="default"><?php esc_html_e( 'Default', 'wpmovielibrary' ); ?></a>
+												<# if ( 'default' === data.theme ) { #><span class="wpmolicon icon-yes-alt2"></span><# } #>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="grid-mode<# if ( 'list' === data.mode ) { #> active<# if ( 'list' === data.defaults.mode ) { #> default<# } } #>">
+									<div class="mode-name">
+										<a data-action="set-mode" data-value="list"><?php esc_html_e( 'List', 'wpmovielibrary' ); ?></a>
+										<# if ( 'list' === data.mode ) { #><span class="wpmolicon icon-yes-alt2"></span><# } else { #><span class="wpmolicon icon-down-chevron"></span><# } #>
+									</div>
+									<div class="grid-themes">
+										<div class="grid-theme<# if ( 'default' === data.theme ) { #> active<# if ( 'default' === data.defaults.theme ) { #> default<# } } #>">
+											<div class="theme-name">
+												<a data-action="set-theme" data-value="default"><?php esc_html_e( 'Default', 'wpmovielibrary' ); ?></a>
+												<# if ( 'default' === data.theme ) { #><span class="wpmolicon icon-yes-alt2"></span><# } #>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 						<div class="grid-type<# if ( 'actor' === data.type ) { #> active<# if ( 'actor' === data.defaults.type ) { #> default<# } } #>">
 							<div class="type-name">
 								<a data-action="set-type" data-value="actor"><?php esc_html_e( 'Actors', 'wpmovielibrary' ); ?></a>
