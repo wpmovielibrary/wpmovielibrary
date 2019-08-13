@@ -154,7 +154,7 @@
 	overflow: hidden;
 	padding: 0 14px;
 	position: relative;
-	width: auto;
+	width: calc( 100% - 30px );
 	z-index: 1;
 }
 .selectize-control.multi .selectize-input.has-items {
