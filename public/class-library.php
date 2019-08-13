@@ -39,7 +39,8 @@ class Library {
 		add_filter( 'wpmoly/filter/archive/page/post_title', array( &$this, 'filter_archive_title' ), 10, 3 );
 
 		add_filter( 'wpmoly/filter/taxonomy/archive/page/content', array( &$this, 'filter_taxonomy_archive_page_content' ), 10, 3 );
-		add_filter( 'wpmoly/filter/movie/archive/page/content',    array( &$this, 'filter_movie_archive_page_content' ), 10, 2 );
+		add_filter( 'wpmoly/filter/movie/archive/page/content',    array( &$this, 'filter_post_archive_page_content' ), 10, 2 );
+		add_filter( 'wpmoly/filter/person/archive/page/content',   array( &$this, 'filter_post_archive_page_content' ), 10, 2 );
 
 		add_filter( 'pre_update_option',                       array( &$this, 'pre_update_option' ), 10, 3 );
 		add_filter( 'pre_update_option__wpmoly_archive_pages', array( &$this, 'pre_update_archive_pages' ), 10, 2 );
@@ -482,7 +483,7 @@ class Library {
 	 *
 	 * @return string
 	 */
-	public function filter_movie_archive_page_content( $content, $post_id ) {
+	public function filter_post_archive_page_content( $content, $post_id ) {
 
 		$pre_content = '';
 

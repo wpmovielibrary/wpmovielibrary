@@ -836,6 +836,11 @@ class Settings {
 								'type'        => 'integer',
 								'context'     => array( 'edit' ),
 							),
+							'person'      => array(
+								'description' => __( 'Persons custom archive page ID.', 'wpmovielibrary' ),
+								'type'        => 'integer',
+								'context'     => array( 'edit' ),
+							),
 						),
 					),
 				),

@@ -14,6 +14,7 @@
 										<select id="archive-type" data-value="archive-type" data-selectize="1" placeholder="<?php esc_html_e( 'Select a Type', 'wpmovielibrary' ); ?>">
 											<option value=""></option>
 											<option value="movie"<# if ( 'movie' === data.current_type ) { #> selected="selected"<# } #>><?php esc_html_e( 'Movies', 'wpmovielibrary' ); ?></option>
+											<option value="person"<# if ( 'person' === data.current_type ) { #> selected="selected"<# } #>><?php esc_html_e( 'Persons', 'wpmovielibrary' ); ?></option>
 											<option value="genre"<# if ( 'genre' === data.current_type ) { #> selected="selected"<# } #>><?php esc_html_e( 'Genres', 'wpmovielibrary' ); ?></option>
 											<option value="actor"<# if ( 'actor' === data.current_type ) { #> selected="selected"<# } #>><?php esc_html_e( 'Actors', 'wpmovielibrary' ); ?></option>
 										</select>
