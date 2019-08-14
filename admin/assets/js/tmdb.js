@@ -941,17 +941,18 @@ TMDb.init();
 						self.unset( 'videos' );
 					}
 
+					self.once( 'fetch:images:complete', function() {
+						self.trigger( 'fetch:success', model, response, options );
+						if ( success ) {
+							success.apply( this, arguments );
+						}
+					} );
+
 					/**
 					 * Images have to be queried separately due to append_to_response
 					 * interfering with language parameter.
 					 */
 					self.images.fetchAll();
-
-					self.trigger( 'fetch:success', model, response, options );
-
-					if ( success ) {
-						success.apply( this, arguments );
-					}
 				},
 				error : function( xhr, status, response ) {
 					self.trigger( 'fetch:error', xhr, status, response );

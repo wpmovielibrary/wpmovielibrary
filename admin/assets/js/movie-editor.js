@@ -1779,11 +1779,11 @@ wpmoly.editor = wpmoly.editor || {};
 						this.snapshot.save( this.snapshot.toJSON() || {} );
 
 						if ( true === this.settings.get( wpmolyApiSettings.option_prefix + 'auto_import_movie_backdrops' ) ) {
-							this.backdrops.importBackdrop();
+							this.backdrops.importBackdrop( model.backdrops.first() || {} );
 						}
 
 						if ( true === this.settings.get( wpmolyApiSettings.option_prefix + 'auto_import_movie_posters' ) ) {
-							this.posters.importPoster();
+							this.posters.importPoster( model.posters.first() || {} );
 						}
 
 					} );
@@ -3544,13 +3544,11 @@ wpmoly.editor = wpmoly.editor || {};
 			 *
 			 * @since 3.0.0
 			 *
+			 * @param {object} model Backdrop Model.
+			 *
 			 * @return Returns itself to allow chaining.
 			 */
-			importBackdrop : function() {
-
-				var model = new Backbone.Model({
-					file_path : this.controller.snapshot.get( 'backdrop_path' ),
-				});
+			importBackdrop : function( model ) {
 
 				this.uploader.loadFile( model );
 
@@ -3616,13 +3614,11 @@ wpmoly.editor = wpmoly.editor || {};
 			 *
 			 * @since 3.0.0
 			 *
+			 * @param {object} model Poster Model.
+			 *
 			 * @return Returns itself to allow chaining.
 			 */
-			 importPoster : function() {
-
-				var model = new Backbone.Model({
- 					file_path : this.controller.snapshot.get( 'poster_path' ),
- 				});
+			 importPoster : function( model ) {
 
 				this.uploader.once( 'upload:stop', this.setFeaturedPoster, this );
 
@@ -4846,14 +4842,14 @@ wpmoly.editor = wpmoly.editor || {};
 					options.poster = node.poster.sizes.medium.url;
 				} else if ( _.has( snapshot.images || {}, 'posters' ) ) {
 					var poster = _.first( snapshot.images.posters );
-					options.poster = ! _.isUndefined( poster ) ? 'https://image.tmdb.org/t/p/w185' + poster.file_path : _.isUndefined( options.poster ) ? options.poster.sizes.medium.url : '';
+					options.poster = ! _.isUndefined( poster ) ? 'https://image.tmdb.org/t/p/w185' + poster.file_path : ! _.isUndefined( options.poster ) ? options.poster.sizes.medium.url : '';
 				}
 
 				if ( _.has( node.backdrop || {}, 'id' ) && _.isNumber( node.backdrop.id ) ) {
 					options.backdrop = node.backdrop.sizes.large.url;
 				} else if ( _.has( snapshot.images || {}, 'backdrops' ) ) {
 					var backdrop = _.first( snapshot.images.backdrops );
-					options.backdrop = ! _.isUndefined( backdrop ) ? 'https://image.tmdb.org/t/p/original' + backdrop.file_path : _.isUndefined( options.backdrop ) ? options.backdrop.sizes.large.url : '';
+					options.backdrop = ! _.isUndefined( backdrop ) ? 'https://image.tmdb.org/t/p/original' + backdrop.file_path : ! _.isUndefined( options.backdrop ) ? options.backdrop.sizes.large.url : '';
 				}
 
 				return options;
