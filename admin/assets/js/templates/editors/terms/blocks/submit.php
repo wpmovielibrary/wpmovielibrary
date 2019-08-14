@@ -14,6 +14,5 @@
 						<div class="content">
 							<a href="{{ data.old_edit_link }}" class="button settings" title="{{ wpmolyEditorL10n.old_editor_label }}">{{ 'svg:icon:edit-post' }}</a>
 							<button type="button" class="button trash" data-action="trash">{{ 'svg:icon:trash' }}<span class="spinner"></span></button>
-							<button type="button" class="button save" data-action="save">{{ 'svg:icon:save' }}<span class="spinner"></span>
-							</button>
+							<button type="button" class="button save" data-action="save">{{ 'svg:icon:save' }}<span class="spinner"></span></button>
 						</div>

@@ -844,8 +844,8 @@ class API {
 		$response->data['content']['rendered'] = '';
 
 		if ( 'edit' === $request['context'] ) {
-			$response->data['edit_link'] = admin_url( 'admin.php?page=wpmovielibrary-' . $post->post_type . 's&id=' . $post->ID . '&action=edit' );
-			$response->data['old_edit_link'] = get_edit_post_link( $post->ID, false );
+			$response->data['edit_link'] = get_edit_post_link( $post->ID, false );
+			$response->data['old_edit_link'] = admin_url( 'post.php?post=' . $post->ID . '&action=edit' );
 		}
 
 		return $response;
@@ -868,8 +868,8 @@ class API {
 
 		if ( 'edit' === $request['context'] ) {
 			if ( in_array( $term->taxonomy, array( 'actor', 'collection', 'genre' ), true ) ) {
-				$response->data['edit_link'] = admin_url( 'admin.php?page=wpmovielibrary-' . $term->taxonomy . 's&id=' . $term->term_id. '&action=edit' );
-				$response->data['old_edit_link'] = get_edit_term_link( $term->term_id, $term->taxonomy );
+				$response->data['edit_link'] = get_edit_term_link( $term->term_id, $term->taxonomy );
+				$response->data['old_edit_link'] = admin_url( 'term.php?taxonomy=' . $term->taxonomy . '&tag_ID=' . $term->term_id );
 			} else {
 				$response->data['edit_link'] = get_edit_term_link( $term->term_id, $term->taxonomy );
 			}

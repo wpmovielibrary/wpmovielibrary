@@ -1159,6 +1159,7 @@
 	border: 0;
 	box-shadow: 0 0 0;
 	height: 32px;
+	line-height: 32px;
 	position: static;
 	text-align: left;
 	transform: none;
@@ -1166,7 +1167,7 @@
 }
 
 .editor-block.submit-post-editor-block .dropdown-menu .button .svg-icon {
-	margin: 0 15px 0 5px;
+	margin: 6px 16px 6px 6px;
 	vertical-align: top;
 }
 

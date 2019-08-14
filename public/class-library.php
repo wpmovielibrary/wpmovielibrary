@@ -586,4 +586,29 @@ class Library {
 
 		return $link;
 	}
+
+	/**
+	 * Replace edit term links.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $location    The edit link.
+	 * @param int    $term_id     Term ID.
+	 * @param string $taxonomy    Taxonomy name.
+	 * @param string $object_type The object type (eg. the post type).
+	 *
+	 * @return string
+	 */
+	public function set_edit_term_link( $location, $term_id, $taxonomy, $object_type ) {
+
+		if ( ! in_array( $taxonomy, array( 'actor', 'collection', 'genre' ), true ) ) {
+			return $location;
+		}
+
+		$location = 'admin.php?page=wpmovielibrary-' . $taxonomy . 's&id=' . $term_id . '&action=edit';
+
+		$location = admin_url( $location );
+
+		return $location;
+	}
 }

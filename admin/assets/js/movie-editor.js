@@ -2800,7 +2800,7 @@ wpmoly.editor = wpmoly.editor || {};
 				 */
 				prepare : function() {
 
-					var options = _.pick( this.controller.post.toJSON(), [ 'old_edit_link' ] );
+					var options = _.pick( this.controller.post.toJSON(), [ 'link', 'old_edit_link' ] );
 
 					_.extend( options, {
 						mode : this.controller.getMode(),

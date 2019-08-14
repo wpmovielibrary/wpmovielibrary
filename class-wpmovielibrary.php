@@ -1173,6 +1173,7 @@ final class wpMovieLibrary {
 
 		// Edit links.
 		add_filter( 'get_edit_post_link', array( $library, 'set_edit_post_link' ), 10, 3 );
+		add_filter( 'get_edit_term_link', array( $library, 'set_edit_term_link' ), 10, 4 );
 
 		/**
 		 * Fires after library is registered.
