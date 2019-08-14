@@ -104,6 +104,11 @@ wpmoly.editor = wpmoly.editor || {};
 
 		};
 
+		// Debug.
+		_.map( editor, function( model, name ) {
+			wpmoly.observe( model, { name : name } );
+		} );
+
 		return editor;
 	};
 
@@ -1031,7 +1036,8 @@ wpmoly.editor = wpmoly.editor || {};
 
 			events : function() {
 				return _.extend( GridEditor.view.EditorSection.prototype.events || {}, {
-					'change [data-field]' : 'change',
+					'change [data-field]'    : 'change',
+					'click [data-tab].tab a' : 'switchTab',
 				} );
 			},
 
@@ -1048,7 +1054,8 @@ wpmoly.editor = wpmoly.editor || {};
 
 				this.controller = options.controller;
 
-				this.listenTo( this.controller.post, 'sync', this.render );
+				this.listenTo( this.controller.post, 'change:meta', this.render );
+				//this.listenTo( this.controller.post, 'sync', this.render );
 			},
 
 			/**
@@ -1067,6 +1074,28 @@ wpmoly.editor = wpmoly.editor || {};
 				      value = $target.val();
 
 				this.controller.setMeta( field, value );
+
+				return this;
+			},
+
+			/**
+			 * Switch between tabs
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param {object} event JS 'click' Event.
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			switchTab : function( event ) {
+
+				var $target = this.$( event.currentTarget ),
+				        tab = $target.parents( '.tab' ).attr( 'data-tab' );
+
+				this.currentTab = tab;
+
+				this.$( '.tab, .panel' ).removeClass( 'active' );
+				this.$( '[data-tab="' + this.currentTab + '"]' ).addClass( 'active' );
 
 				return this;
 			},
@@ -1105,7 +1134,11 @@ wpmoly.editor = wpmoly.editor || {};
 
 				GridEditor.view.EditorSection.prototype.render.apply( this, arguments );
 
-				wpmoly.metaboxes.add( this.el );
+				if ( ! this.currentTab ) {
+					this.currentTab = this.$( '.tab' ).first().attr( 'data-tab' );
+				}
+
+				this.$( '[data-tab="' + this.currentTab + '"]' ).addClass( 'active' );
 
 				return this;
 			},

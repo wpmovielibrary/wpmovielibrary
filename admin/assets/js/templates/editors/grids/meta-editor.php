@@ -8,13 +8,13 @@
 
 			<div class="wpmoly-metabox-menu">
 				<ul>
-					<li class="tab active"><a class="navigate" href="#wpmoly-grid-presets"><?php esc_html_e( 'Presets', 'wpmovielibrary' ); ?></a></li>
-					<li class="tab"><a class="navigate" href="#wpmoly-grid-appearance"><?php esc_html_e( 'Appearance', 'wpmovielibrary' ); ?></a></li>
-					<li class="tab"><a class="navigate" href="#wpmoly-grid-settings"><?php esc_html_e( 'Settings', 'wpmovielibrary' ); ?></a></li>
+					<li class="tab" data-tab="presets"><a class="navigate"><?php esc_html_e( 'Presets', 'wpmovielibrary' ); ?></a></li>
+					<li class="tab" data-tab="appearance"><a class="navigate"><?php esc_html_e( 'Appearance', 'wpmovielibrary' ); ?></a></li>
+					<li class="tab" data-tab="settings"><a class="navigate"><?php esc_html_e( 'Settings', 'wpmovielibrary' ); ?></a></li>
 				</ul>
 			</div>
 			<div class="wpmoly-metabox-content">
-				<div id="wpmoly-grid-presets" class="panel active">
+				<div id="wpmoly-grid-presets" data-tab="presets" class="panel">
 					<div id="wpmoly-grid-preset" class="field radio-image-field">
 						<div class="field-label"><?php esc_html_e( 'Preset', 'wpmovielibrary' ); ?></div>
 						<div class="field-description"><?php esc_html_e( 'Select a preset for the grid. Presets are predefined list of parameters used to query grid items dynamically, but can be overriden by visitor or URLs.', 'wpmovielibrary' ); ?></div>
@@ -101,7 +101,7 @@
 						</div>
 					</div>
 				</div>
-				<div id="wpmoly-grid-appearance" class="panel">
+				<div id="wpmoly-grid-appearance" data-tab="appearance" class="panel">
 <# if ( 'grid' === data.mode ) { #>
 					<div id="wpmoly-grid-columns" class="field text-field half-field">
 						<div class="field-label"><?php esc_html_e( 'Columns', 'wpmovielibrary' ); ?></div>
@@ -134,7 +134,7 @@
 					</div>
 <# } #>
 				</div>
-				<div id="wpmoly-grid-settings" class="panel">
+				<div id="wpmoly-grid-settings" data-tab="settings" class="panel">
 					<div id="wpmoly-grid-enable-pagination" class="field checkbox-field">
 						<div class="field-label"><?php esc_html_e( 'Enable Pagination', 'wpmovielibrary' ); ?></div>
 						<div class="field-description"><?php esc_html_e( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading.', 'wpmovielibrary' ); ?></div>

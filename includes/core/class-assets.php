@@ -551,7 +551,6 @@ class Assets {
 		// Runners
 		$this->add_public_js( 'grids',    'grids.js',     array( 'wpmoly-core', 'wpmoly-api' ) );
 		$this->add_admin_js( 'dashboard', 'dashboard.js', array( 'wpmoly-core', 'wpmoly-api' ) );
-		$this->add_admin_js( 'metaboxes', 'metaboxes.js', array( 'wpmoly-core' ) );
 
 		// Posts browser.
 		$this->add_admin_js( 'post-browser',   'post-browser.js',  array( 'wpmoly-core', 'wpmoly-api' ) );
@@ -563,7 +562,7 @@ class Assets {
 		$this->add_admin_js( 'post-editor',   'post-editor.js',  array( 'wpmoly-core', 'wpmoly-api' ) );
 		$this->add_admin_js( 'movie-editor',  'movie-editor.js', array( 'wpmoly-post-editor', 'wpmoly-tmdb', 'wp-plupload', 'plupload-handlers' ) );
 		$this->add_admin_js( 'person-editor', 'person-editor.js', array( 'wpmoly-post-editor', 'wpmoly-tmdb', 'wp-plupload', 'plupload-handlers' ) );
-		$this->add_admin_js( 'grid-editor',   'grid-editor.js',  array( 'wpmoly-post-editor', 'wpmoly-grids', 'wpmoly-metaboxes' ) );
+		$this->add_admin_js( 'grid-editor',   'grid-editor.js',  array( 'wpmoly-post-editor', 'wpmoly-grids' ) );
 
 		// Terms browser.
 		$this->add_admin_js( 'term-browser',       'term-browser.js',       array( 'wpmoly-core', 'wpmoly-api' ) );
@@ -639,9 +638,6 @@ class Assets {
 		// Dashboard.
 		$this->add_admin_css( 'dashboard', 'dashboard.css' );
 
-		// Editors.
-		$this->add_admin_css( 'metaboxes', 'metaboxes.css' );
-
 		// Posts.
 		$this->add_admin_css( 'post-browser',   'post-browser.css' );
 		$this->add_admin_css( 'movie-browser',  'movie-browser.css',  array( 'wpmoly-post-browser' ) );
@@ -651,7 +647,7 @@ class Assets {
 		$this->add_admin_css( 'post-editor',   'post-editor.css' );
 		$this->add_admin_css( 'movie-editor',  'movie-editor.css',  array( 'wpmoly-post-editor' ) );
 		$this->add_admin_css( 'person-editor', 'person-editor.css', array( 'wpmoly-post-editor' ) );
-		$this->add_admin_css( 'grid-editor',   'grid-editor.css',   array( 'wpmoly-post-editor', 'wpmoly-metaboxes' ) );
+		$this->add_admin_css( 'grid-editor',   'grid-editor.css',   array( 'wpmoly-post-editor' ) );
 
 		// Terms.
 		$this->add_admin_css( 'term-browser', 'term-browser.css' );
