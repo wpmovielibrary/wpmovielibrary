@@ -601,6 +601,8 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			);
 			$args = wp_parse_args( $args, $defaults );
 
+			$args['baseurl'] = trailingslashit( $args['baseurl'] );
+
 			$args['type'] = '';
 			if ( '' != $args['meta'] && '' != $args['value'] ) {
 				$args['type'] = 'meta';
