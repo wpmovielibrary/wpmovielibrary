@@ -112,10 +112,10 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			if ( '' == $data || '' == $type )
 				return false;
 
-			if ( false !== strpos( $data, 'id:' ) )
-				$response = self::get_movie_by_id( str_replace( 'id:', '', $data ), $lang, $_id );
-			else
+			if ( 'title' == $type )
 				$response = self::get_movie_by_title( $data, $lang, $_id );
+			else if ( 'id' == $type )
+				$response = self::get_movie_by_id( $data, $lang, $_id );
 
 			wpmoly_ajax_response( $response );
 		}
