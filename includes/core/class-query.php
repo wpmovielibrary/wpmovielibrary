@@ -1567,7 +1567,7 @@ class Query {
 
 		global $wpdb;
 
-		if ( ! in_array( 'actor', (array) $taxonomies, true ) || ! in_array( 'collection', (array) $taxonomies, true ) || ! in_array( 'genre', (array) $taxonomies, true ) ) {
+		if ( ! in_array( 'actor', (array) $taxonomies, true ) && ! in_array( 'collection', (array) $taxonomies, true ) && ! in_array( 'genre', (array) $taxonomies, true ) ) {
 			return $pieces;
 		}
 

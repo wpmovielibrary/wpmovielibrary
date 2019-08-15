@@ -206,6 +206,8 @@ class API {
 	 */
 	public function add_post_query_params( $args, $request ) {
 
+		$post_type = $args['post_type'];
+
 		// Preset should be overriden by custom order request.
 		// We have to use $_REQUEST instead of $request to ignore defaults.
 		if ( ! empty( $request['preset'] ) && ! ( empty( $_REQUEST['order'] ) || empty( $_REQUEST['orderby'] ) ) ) {
@@ -214,10 +216,10 @@ class API {
 
 		if ( ! empty( $request['preset'] ) ) {
 
-			$preset = str_replace( '-movies', '', $request['preset'] );
+			$preset = str_replace( "-{$post_type}s", '', $request['preset'] );
 
 			/** This filter is documented in includes/core/class-query.php */
-			$args = apply_filters( "wpmoly/filter/query/movies/{$preset}/preset/param", $args );
+			$args = apply_filters( "wpmoly/filter/query/{$post_type}s/{$preset}/preset/param", $args );
 		}
 
 		if ( ! empty( $request['letter'] ) ) {

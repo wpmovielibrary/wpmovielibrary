@@ -1057,6 +1057,7 @@ final class wpMovieLibrary {
 		add_action( 'rest_api_init',                     array( $rest_api, 'register_fields' ) );
 		add_filter( 'rest_page_query',                   array( $rest_api, 'add_page_query_params' ), 10, 2 );
 		add_filter( 'rest_movie_query',                  array( $rest_api, 'add_post_query_params' ), 10, 2 );
+		add_filter( 'rest_person_query',                 array( $rest_api, 'add_post_query_params' ), 10, 2 );
 		add_filter( 'rest_actor_query',                  array( $rest_api, 'add_term_query_params' ), 10, 2 );
 		add_filter( 'rest_collection_query',             array( $rest_api, 'add_term_query_params' ), 10, 2 );
 		add_filter( 'rest_genre_query',                  array( $rest_api, 'add_term_query_params' ), 10, 2 );
