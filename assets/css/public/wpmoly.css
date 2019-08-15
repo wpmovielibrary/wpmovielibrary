@@ -95,13 +95,24 @@
 
 #wpmoly-movie-grid-menu,
 #wpmoly-movie-grid-menu-2 {
+	align-items: center;
 	background: #fff;
 	border: 1px solid #ddd;
 	border-radius: 4px;
+	display: flex;
+	flex-wrap: wrap;
 	font-size: 1em;
+}
+
+#wpmoly-movie-grid-menu {
+	justify-content: center;
 	margin: 1em 0.5em;
 	padding: 0.5em 1em;
 	text-align: center;
+}
+
+#wpmoly-movie-grid-menu-2 {
+	margin: 1em 0.5em;
 }
 
 #wpmoly-movie-grid-menu a,
@@ -109,17 +120,34 @@
 	text-decoration: none !important;
 }
 
+#wpmoly-movie-grid-menu-2 a {
+	display: block;
+	padding: 0 .5rem;
+}
+
 #wpmoly-movie-grid-menu span,
 #wpmoly-movie-grid-menu-2 span {
 	line-height: 1.25em;
 }
 
+#wpmoly-movie-grid-menu-2 span {
+	position: relative;
+	top: 2px;
+	vertical-align: baseline;
+}
+
 #wpmoly-movie-grid-menu .wpmoly.grid.menu.item,
 #wpmoly-movie-grid-menu-2 .wpmoly.grid.menu.item {
 	border-left: 1px solid #ddd;
-	display: inline-block;
-	margin: 0;
-	padding: 0.15rem 0.5rem;
+}
+
+#wpmoly-movie-grid-menu .wpmoly.grid.menu.item {
+	margin: .25rem 0;
+	padding: 0 .5rem;
+}
+
+#wpmoly-movie-grid-menu-2 .wpmoly.grid.menu.item {
+	
 }
 
 #wpmoly-movie-grid-menu .wpmoly.grid.menu.item:first-child,
@@ -284,7 +312,7 @@
  ***************************************************/
 
 #wpmoly-movie-grid-menu-2 {
-	max-height: 32px;
+	/*max-height: 32px;*/
 	position: relative;
 	text-align: left;
 }
