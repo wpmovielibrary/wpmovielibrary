@@ -10,14 +10,6 @@
     redux.field_objects = redux.field_objects || {};
     redux.field_objects.color_gradient = redux.field_objects.color_gradient || {};
 
-    $( document ).ready(
-        function() {
-            //        setTimeout(function () {
-            //            redux.field_objects.color.init();
-            //        }, 1000);
-        }
-    );
-
     redux.field_objects.color_gradient.init = function( selector ) {
 
         if ( !selector ) {
@@ -49,7 +41,7 @@
                             el.find( '#' + e.target.getAttribute( 'data-id' ) + '-transparency' ).removeAttr( 'checked' );
                         },
                         clear: function( e, ui ) {
-                            $( this ).val( ui.color.toString() );
+                            $( this ).val( '' );
                             redux_change( $( this ).parent().find( '.redux-color-init' ) );
                         }
                     }
