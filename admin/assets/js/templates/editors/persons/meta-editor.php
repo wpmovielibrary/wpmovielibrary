@@ -6,7 +6,6 @@
  */
 ?>
 
-			<# //console.log( data ); #>
 			<div class="headbox-header">
 				<div class="headbox-backdrop" style="background-image:url({{ data.backdrop }})"></div>
 				<div class="headbox-hbar"></div>
@@ -18,9 +17,10 @@
 			</div>
 			<div class="headbox-content">
 				<div class="editor-menu">
-					<button class="button" type="button keyboard" data-action="edit"><span class="wpmolicon icon-keyboard"></span></button>
+					<button type="button" class="button keyboard" data-action="edit"><span class="wpmolicon icon-keyboard"></span></button>
+					<button type="button" class="button toggle" data-action="toggle"><span class="wpmolicon icon-up-open"></span></button>
 				</div>
-				<div class="editor-content clearfix">
+				<div class="editor-content active">
 					<div class="panel left">
 						<div id="person-tmdb-id-field" class="field text-field hidden">
 							<div class="field-label"><?php esc_html_e( 'TMDb ID', 'wpmovielibrary' ); ?></div>

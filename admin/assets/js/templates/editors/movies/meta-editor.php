@@ -18,9 +18,10 @@
 			</div>
 			<div class="headbox-content">
 				<div class="editor-menu">
-					<button class="button" type="button keyboard" data-action="edit"><span class="wpmolicon icon-keyboard"></span></button>
+					<button type="button" class="button keyboard" data-action="edit"><span class="wpmolicon icon-keyboard"></span></button>
+					<button type="button" class="button toggle" data-action="toggle"><span class="wpmolicon icon-up-open"></span></button>
 				</div>
-				<div class="editor-content clearfix">
+				<div class="editor-content active">
 					<div class="panel left">
 						<div id="movie-runtime-field" class="field text-field {{ data.runtime.status + '-field' || 'empty-field' }}">
 							<div class="field-label"><?php esc_html_e( 'Runtime', 'wpmovielibrary' ); ?></div>

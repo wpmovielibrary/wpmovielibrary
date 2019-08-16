@@ -7,9 +7,10 @@
 ?>
 
 				<div class="editor-menu">
-					<button class="button" type="button keyboard" data-action="edit"><span class="wpmolicon icon-keyboard"></span></button>
+					<button type="button" class="button keyboard" data-action="edit"><span class="wpmolicon icon-keyboard"></span></button>
+					<button type="button" class="button toggle" data-action="toggle"><span class="wpmolicon icon-up-open"></span></button>
 				</div>
-				<div class="editor-content">
+				<div class="editor-content active">
 					<div class="panel panel-casting">
 						<div class="panel-title"><?php esc_html_e( 'Casting', 'wpmovielibrary' ); ?></div>
 						<div class="values">

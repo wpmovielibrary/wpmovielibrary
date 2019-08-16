@@ -2131,6 +2131,7 @@ wpmoly.editor = wpmoly.editor || {};
 				events : function() {
 					return {
 						'click [data-action="edit"]'   : 'edit',
+						'click [data-action="toggle"]' : 'toggle',
 						'click [data-action="reload"]' : 'reload',
 					};
 				},
@@ -2157,6 +2158,31 @@ wpmoly.editor = wpmoly.editor || {};
 				edit : function() {
 
 					this.$el.toggleClass( 'mode-preview mode-edit' );
+
+					return this;
+				},
+
+				/**
+				 * Show/hide editor section.
+				 *
+				 * @since 3.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				toggle : function() {
+
+					var $icon = this.$( '[data-action="toggle"] .wpmolicon' ),
+					 $content = this.$( '.editor-content' );
+
+					if ( $content.hasClass( 'active' ) ) {
+						$content.slideUp();
+						$content.removeClass( 'active' );
+						$icon.removeClass( 'icon-up-open' ).addClass( 'icon-down-open' );
+					} else {
+						$content.slideDown();
+						$content.addClass( 'active' );
+						$icon.removeClass( 'icon-down-open' ).addClass( 'icon-up-open' );
+					}
 
 					return this;
 				},

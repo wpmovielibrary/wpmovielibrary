@@ -10,8 +10,9 @@
 				<div class="editor-menu">
 					<!--<button class="button" type="button movies" data-action="movies"><?php esc_html_e( 'Movies', 'wpmovielibrary' ); ?></button>
 					<button class="button" type="button tv-shows" data-action="tv-shows"><?php esc_html_e( 'TV Shows', 'wpmovielibrary' ); ?></button>-->
+					<button type="button" class="button toggle" data-action="toggle"><span class="wpmolicon icon-up-open"></span></button>
 				</div>
-				<div class="editor-content">
+				<div class="editor-content active">
 					<div class="panel">
 						<div class="panel-title"><?php esc_html_e( 'Credits', 'wpmovielibrary' ); ?></div>
 						<div class="panel-subtitle"><?php esc_html_e( 'Cast', 'wpmovielibrary' ); ?></div>
