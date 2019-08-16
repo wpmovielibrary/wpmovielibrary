@@ -9,14 +9,15 @@
 			<div class="post-thumbnail movie-poster" style="background-image:url({{ data.poster.sizes.medium.url }})">
 			<div class="edit-menu">
 			<# if ( 'publish' === data.post_status ) { #>
+				<a href="{{ data.edit_link }}"></a>
 				<button type="button" class="button trash" data-action="trash-post" title="<?php esc_html_e( 'Move to the trash', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-trash"></span></button>
 				<div class="confirm">
 					<p><?php esc_html_e( 'Move to trash?', 'wpmovielibrary' ); ?></p>
 					<button type="button" class="button delete" data-action="confirm-trash-post"><?php esc_html_e( 'Yes' ); ?></button>
 					<button type="button" class="button dismiss" data-action="dismiss" title="<?php esc_html_e( 'Dismiss' ); ?>"><span class="wpmolicon icon-no"></span></button>
 				</div>
-				<a href="{{ data.edit_link }}" class="button edit"><span class="wpmolicon icon-edit"></span></a>
-				<button type="button" class="button preview" data-action="preview-movie"><span class="wpmolicon icon-series"></span></button>
+				<button type="button" class="button edit" data-action="preview-movie"><span class="wpmolicon icon-edit"></span></button>
+				<!--<button type="button" class="button preview" data-action="preview-movie"><span class="wpmolicon icon-series"></span></button>-->
 				<button type="button" class="button status {{ data.status }}" data-action="edit-status"><span class="wpmolicon icon-circle-thin"></span></button>
 				<button type="button" class="button rating" data-action="edit-rating"><span class="wpmolicon icon-star-empty"></span></button>
 			<# } else if ( 'draft' === data.post_status ) { #>
@@ -54,7 +55,7 @@
 				<button type="button" class="button apply" data-action="update-status"><?php esc_html_e( 'Apply', 'wpmovielibrary' ); ?></button>
 			</div>
 		</div>
-		<!--<div class="movie-year">{{ data.year }}</div>-->
+		<div class="movie-year">{{ data.year }}</div>
 		<div class="post-title movie-title"><a href="{{ data.edit_link }}">{{{ data.title }}}</a></div>
 		<!--<div class="movie-genres">{{ data.genres }}</div>
 		<div class="movie-runtime"><# if ( data.runtime ) { #>{{ data.runtime }}min<# } #></div>-->

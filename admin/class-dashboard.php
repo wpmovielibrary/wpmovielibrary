@@ -161,19 +161,19 @@ class Dashboard {
 				'capability' => 'edit_posts',
 				'object_type' => 'movie',
 			),
-			'grids' => array(
-				'edit_title' => esc_html__( 'Edit Grid', 'wpmovielibrary' ),
-				'page_title' => esc_html__( 'Edit Grids', 'wpmovielibrary' ),
-				'menu_title' => esc_html__( 'Grids', 'wpmovielibrary' ),
-				'capability' => 'edit_others_posts',
-				'object_type' => 'grid',
-			),
 			'persons' => array(
 				'edit_title' => esc_html__( 'Edit Person', 'wpmovielibrary' ),
 				'page_title' => esc_html__( 'Edit Persons', 'wpmovielibrary' ),
 				'menu_title' => esc_html__( 'Persons', 'wpmovielibrary' ),
 				'capability' => 'edit_posts',
 				'object_type' => 'person',
+			),
+			'grids' => array(
+				'edit_title' => esc_html__( 'Edit Grid', 'wpmovielibrary' ),
+				'page_title' => esc_html__( 'Edit Grids', 'wpmovielibrary' ),
+				'menu_title' => esc_html__( 'Grids', 'wpmovielibrary' ),
+				'capability' => 'edit_others_posts',
+				'object_type' => 'grid',
 			),
 			'actors' => array(
 				'edit_title' => esc_html__( 'Edit Actor', 'wpmovielibrary' ),

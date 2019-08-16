@@ -1605,6 +1605,10 @@ wpmoly.browser = wpmoly.browser || {};
 						options.genres = options.genres.join( ', ' );
 					}
 
+					if ( _.has( options.meta, wpmolyApiSettings.movie_prefix + 'release_date' ) ) {
+						options.year = new Date( options.meta[ wpmolyApiSettings.movie_prefix + 'release_date' ] ).getFullYear()
+					}
+
 					if ( _.has( options.title, 'rendered' ) ) {
 						options.title = options.title.rendered;
 					} else if ( _.isEmpty( options.title ) ) {

@@ -46,8 +46,8 @@
 }
 
 .post-browser.movie-browser .movie-browser-content .movie .movie-poster a {
-	height: auto;
-	width: auto;
+	/*height: auto;
+	width: auto;*/
 }
 
 .post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu,

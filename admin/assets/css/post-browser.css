@@ -209,6 +209,7 @@
 }
 
 .post-browser .post-browser-content .post .post-thumbnail a {
+	box-shadow: 0 0 0;
 	display: block;
 	height: 100%;
 	position: relative;
