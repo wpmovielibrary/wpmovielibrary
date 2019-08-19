@@ -815,8 +815,8 @@ class L10n {
 		}
 
 		$localized = array(
-			'open_search'  => esc_html__( 'Open search menu', 'wpmovielibrary' ),
 			'close_search' => esc_html__( 'Close the search', 'wpmovielibrary' ),
+			'old_browser'  => __( 'Feeling lost? Use the <a href="%s">old posts browser</a>.', 'wpmovielibrary' ),
 			'n_published'  => array(
 				esc_html__( '%s published', 'wpmovielibrary' ),
 				esc_html__( '%s published', 'wpmovielibrary' ),
@@ -923,6 +923,7 @@ class L10n {
 			'about_delete_posts' => esc_html__( 'Your are about to completely delete all movies in the trash. This can not be undone!', 'wpmovielibrary' ),
 			'move_post_to_trash' => esc_html__( 'Move movie to trash', 'wpmovielibrary' ),
 			'publish_post'     => esc_html__( 'Publish movie', 'wpmovielibrary' ),
+			'restore_post'     => esc_html__( 'Restore movie', 'wpmovielibrary' ),
 			'delete_post'      => esc_html__( 'Delete movie', 'wpmovielibrary' ),
 			'existing_post'    => esc_html__( 'A movie already exists with this title.', 'wpmovielibrary' ),
 			'post_udpated'     => esc_html__( 'Movie updated!', 'wpmovielibrary' ),
@@ -1022,6 +1023,7 @@ class L10n {
 			'about_delete_posts' => esc_html__( 'Your are about to completely delete all movies in the trash. This can not be undone!', 'wpmovielibrary' ),
 			'move_post_to_trash' => esc_html__( 'Move person to trash', 'wpmovielibrary' ),
 			'publish_post'     => esc_html__( 'Publish person', 'wpmovielibrary' ),
+			'restore_post'     => esc_html__( 'Restore person', 'wpmovielibrary' ),
 			'delete_post'      => esc_html__( 'Delete person', 'wpmovielibrary' ),
 			'existing_post'    => esc_html__( 'A person already exists with this title.', 'wpmovielibrary' ),
 			'post_udpated'     => esc_html__( 'Person updated!', 'wpmovielibrary' ),
@@ -1067,8 +1069,8 @@ class L10n {
 		wp_localize_script( 'wpmoly-person-editor',  'wpmolyEditorL10n', $localized_person );
 
 		$localized = array(
-			'open_search'  => esc_html__( 'Open search menu', 'wpmovielibrary' ),
 			'close_search' => esc_html__( 'Close the search', 'wpmovielibrary' ),
+			'old_browser'  => __( 'Feeling lost? Use the <a href="%s">old terms browser</a>.', 'wpmovielibrary' ),
 		);
 
 		$localized_actor = $localized + array(

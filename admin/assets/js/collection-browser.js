@@ -107,17 +107,6 @@ wpmoly.browser = wpmoly.browser || {};
 	});
 
 	/**
-	 * CollectionBrowser Menu View.
-	 *
-	 * @since 1.0.0
-	 */
-	CollectionBrowser.view.BrowserMenu = TermBrowser.view.BrowserMenu.extend({
-
-		className : 'term-browser-menu collection-browser-menu',
-
-	});
-
-	/**
 	 * CollectionBrowser Pagination Menu View.
 	 *
 	 * @since 1.0.0

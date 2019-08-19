@@ -1,9 +1,13 @@
 /*
- * Term Browser.
- */
+- * Term Browser Heading.
+- */
 
-.term-browser {
-	
+.wpmoly-browser-heading {
+	margin-bottom: 10px;
+}
+
+.wpmoly-browser-heading .wp-heading-inline {
+	font-weight: 300;
 }
 
 /*
@@ -35,61 +39,12 @@
 	width: 32px;
 }
 
-.term-browser .term-browser-menu .button.search {
-	float: right;
-}
-
-.term-browser .term-browser-menu .button:hover,
-.term-browser .term-browser-menu .button.active {
-	background: transparent;
-	box-shadow: 0 0 0;
-	color: #0073aa;
-	transform: none;
-}
-
-.term-browser .term-browser-menu .terms-search {
-	background: #fff;
-	bottom: 0;
-	display: none;
-	left: 0;
-	position: absolute;
-	right: 0;
-	top: 0;
-}
-
-.term-browser .term-browser-menu.search-opened .terms-search {
-	display: block;
-}
-
-.term-browser .term-browser-menu .terms-search .button.close {
-	position: absolute;
-	right: 12px;
-}
-
-.term-browser .term-browser-menu .terms-search .button.search {
-	position: absolute;
-	left: 8px;
-}
-
-.term-browser .term-browser-menu .terms-search .search-input {
-	background: #fff;
-	border: 0;
-	box-shadow: 0 0 0;
-	height: 100%;
-	left: 48px;
-	margin: 0;
-	padding: 0;
-	position: absolute;
-	right: 48px;
-	width: calc( 100% - 96px );
-}
-
 /*
  * Term Browser Content.
  */
 
 .term-browser .term-browser-content {
-	margin: 20px -6px;
+	margin: 0 -6px 20px;
 	min-height: 240px;
 	position: relative;
 }
@@ -374,14 +329,43 @@
  * Discover Widget.
  */
 
-.term-discover-block .terms-list {
-	column-count: 2;
-	column-gap: 10px;
-	margin: 10px 0;
-	padding: 0;
+.discover-terms-editor-block .terms-search {
+	margin-top: 1rem;
+	position: relative;
 }
 
-.term-discover-block .terms-list a.active {
-	font-weight: 600;
-	text-decoration: none;
+.discover-terms-editor-block .terms-search .search-input {
+
+}
+
+.discover-terms-editor-block .terms-search .button.close,
+.discover-terms-editor-block .terms-search .button.search {
+	color: #888;
+	line-height: 32px;
+	height: 32px;
+	position: absolute;
+	right: 1px;
+	top: 1px;
+	width: 32px;
+}
+
+.discover-terms-editor-block .terms-search .button.close:hover,
+.discover-terms-editor-block .terms-search .button.search:hover {
+	color: #00a0d2;
+}
+
+.discover-terms-editor-block .terms-search .button.close,
+.discover-terms-editor-block.searching .terms-search .button.search {
+	display: none;
+}
+
+.discover-terms-editor-block.searching .terms-search .button.close,
+.discover-terms-editor-block .terms-search .button.search {
+	display: block;
+}
+
+.discover-terms-editor-block .classic-terms-browser {
+	font-size: 11px;
+	margin: 0;
+	text-align: center;
 }

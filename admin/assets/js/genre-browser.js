@@ -107,28 +107,6 @@ wpmoly.browser = wpmoly.browser || {};
 	});
 
 	/**
-	 * GenreBrowser Menu View.
-	 *
-	 * @since 1.0.0
-	 */
-	GenreBrowser.view.BrowserMenu = TermBrowser.view.BrowserMenu.extend({
-
-		className : 'term-browser-menu genre-browser-menu',
-
-		prepare : function() {
-
-			var options = {
-				edit_link     : wpmolyEditorL10n.edit_link,
-				old_edit_link : wpmolyEditorL10n.old_edit_link,
-				search_terms  : wpmolyEditorL10n.search_terms,
-			};
-
-			return options;
-		},
-
-	});
-
-	/**
 	 * GenreBrowser Pagination Menu View.
 	 *
 	 * @since 1.0.0

@@ -953,7 +953,7 @@ wpmoly.browser = wpmoly.browser || {};
 			options.current = PostBrowser.browser.controller.get( 'status' ) || 'publish';
 
 			var list = [],
-			    text = wpmoly._n( wpmolyEditorL10n.n_total_post, options.total );
+			    text = wpmoly._n( wpmolyEditorL10n.n_total_post, s.numberFormat( options.total, 0, wpmolyL10n.d_separator, wpmolyL10n.o_separator ) );
 
 			if ( options.publish ) {
 				list.push( '<a href="#" data-action="filter" data-value="publish">' + wpmoly._n( wpmolyEditorL10n.n_published, options.publish ) + '</a></li>' );

@@ -475,7 +475,10 @@ wpmoly.browser = wpmoly.browser || {};
 
 		events : function() {
 			return _.extend( Dashboard.view.Block.prototype.events || {}, {
-				'click [data-action="filter"]' : 'filter',
+				'click [data-action="start-search"]'   : 'startSearch',
+				'click [data-action="close-search"]'   : 'closeSearch',
+				'keypress [data-value="search-query"]' : 'startSearch',
+				'click [data-action="filter"]'         : 'filterTerms',
 			} );
 		},
 
@@ -496,6 +499,53 @@ wpmoly.browser = wpmoly.browser || {};
 		},
 
 		/**
+		 * Start search.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} event JS 'click' event.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		startSearch : function( event ) {
+
+			if ( 'keypress' === event.type && ( 13 !== ( event.which || event.charCode || event.keyCode ) ) ) {
+				return this;
+			} else {
+				event.preventDefault();
+			}
+
+			var query = this.$( '[data-value="search-query"]' ).val();
+
+			this.$el.addClass( 'searching' );
+
+			TermBrowser.browser.controller.searchTerms( query );
+
+			return this;
+		},
+
+		/**
+		 * Reset search.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} event JS 'click' event.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		closeSearch : function( event ) {
+
+			event.preventDefault();
+
+			this.$el.removeClass( 'searching' );
+			this.$( '[data-value="search-query"]' ).val( '' );
+
+			TermBrowser.browser.controller.reset();
+
+			return this;
+		},
+
+		/**
 		 * Switch term status.
 		 *
 		 * @since 1.0.0
@@ -504,7 +554,7 @@ wpmoly.browser = wpmoly.browser || {};
 		 *
 		 * @return Returns itself to allow chaining.
 		 */
-		filter : function( event ) {
+		filterTerms : function( event ) {
 
 			event.preventDefault();
 
@@ -525,10 +575,11 @@ wpmoly.browser = wpmoly.browser || {};
 		 */
 		prepare : function() {
 
-			var counts = this.controller.counts.toJSON(),
-			   options = {
-				total_terms : wpmoly._n( wpmolyEditorL10n.n_total_terms, s.numberFormat( _.sum( counts ), 0, wpmolyL10n.d_separator, wpmolyL10n.o_separator ) ),
-			};
+			var options = this.controller.counts.toJSON();
+
+			options.total = _.sum( options );
+
+			options.text = wpmoly._n( wpmolyEditorL10n.n_total_terms, s.numberFormat( options.total, 0, wpmolyL10n.d_separator, wpmolyL10n.o_separator ) );
 
 			return options;
 		},
@@ -612,106 +663,6 @@ wpmoly.browser = wpmoly.browser || {};
 	 * @since 1.0.0
 	 */
 	TermBrowser.view.Sidebar = wp.Backbone.View;
-
-	/**
-	 * TermBrowser Menu View.
-	 *
-	 * @since 1.0.0
-	 */
-	TermBrowser.view.BrowserMenu = wp.Backbone.View.extend({
-
-		className : 'term-browser-menu',
-
-		template : wp.template( 'wpmoly-term-browser-menu' ),
-
-		events : {
-			'click [data-action="open-search"]'    : 'openSearch',
-			'click [data-action="start-search"]'   : 'startSearch',
-			'click [data-action="close-search"]'   : 'closeSearch',
-			'keypress [data-value="search-query"]' : 'startSearch',
-		},
-
-		/**
-		 * Initialize the View.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param {object} options Options.
-		 */
-		initialize : function( options ) {
-
-			var options = options || {};
-
-			this.controller = options.controller;
-		},
-
-		/**
-		 * Open the search menu.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param {object} event JS 'click' event.
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		openSearch : function( event ) {
-
-			event.preventDefault();
-
-			this.$el.removeClass( 'opened' );
-			this.$el.addClass( 'search-opened' );
-			this.$( '.search-input' ).focus();
-
-			return this;
-		},
-
-		/**
-		 * Open the search menu.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param {object} event JS 'click' event.
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		startSearch : function( event ) {
-
-			if ( 'keypress' === event.type && ( 13 !== ( event.which || event.charCode || event.keyCode ) ) ) {
-				return this;
-			} else {
-				event.preventDefault();
-			}
-
-			var query = this.$( '[data-value="search-query"]' ).val();
-
-			this.controller.searchTerms( query );
-
-			return this;
-		},
-
-		/**
-		 * Open the search menu.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param {object} event JS 'click' event.
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		closeSearch : function( event ) {
-
-			event.preventDefault();
-
-			this.$el.removeClass( 'opened' );
-			this.$el.removeClass( 'search-opened' );
-			this.$( '[data-value="search-query"]' ).val( '' );
-
-			this.controller.reset();
-
-			return this;
-		},
-
-	});
 
 	/**
 	 * TermBrowser Pagination Menu View.
@@ -1073,10 +1024,6 @@ wpmoly.browser = wpmoly.browser || {};
 				controller : this.controller,
 			};
 
-			if ( ! this.menu ) {
-				this.menu = new TermBrowser.view.BrowserMenu( options );
-			}
-
 			if ( ! this.content ) {
 				this.content = new TermBrowser.view.BrowserContent( options );
 			}
@@ -1085,7 +1032,6 @@ wpmoly.browser = wpmoly.browser || {};
 				this.pagination = new TermBrowser.view.BrowserPagination( options );
 			}
 
-			this.views.add( this.menu );
 			this.views.add( this.content );
 			this.views.add( this.pagination );
 
