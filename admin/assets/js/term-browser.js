@@ -579,7 +579,7 @@ wpmoly.browser = wpmoly.browser || {};
 
 			options.total = _.sum( options );
 
-			options.text = wpmoly._n( wpmolyEditorL10n.n_total_terms, s.numberFormat( options.total, 0, wpmolyL10n.d_separator, wpmolyL10n.o_separator ) );
+			options.text = wpmoly._n( wpmolyEditorL10n.n_total_terms, s.numberFormat( parseInt( options.total ), 0, wpmolyL10n.d_separator, wpmolyL10n.o_separator ) );
 
 			return options;
 		},
