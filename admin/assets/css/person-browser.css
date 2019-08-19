@@ -3,24 +3,6 @@
  * Person Browser Content.
  */
 
-.post-browser.person-browser .person-browser-content {
-	margin: 20px -8px;
-	min-height: 240px;
-	position: relative;
-}
-
-.post-browser.person-browser .person-browser-content.loading .loader {
-	background-image: url(../../../public/assets/img/loading.svg);
-	background-position: center 96px;
-	background-repeat: no-repeat;
-	bottom: 0;
-	left: 0;
-	position: absolute;
-	right: 0;
-	top: 0;
-	z-index: 1;
-}
-
 .post-browser.person-browser .person-browser-content .person {
 	display: inline-block;
 	margin: 6px 8px 16px;
@@ -31,10 +13,6 @@
 	opacity: .25;
 }
 
-/*.post-browser.person-browser .person-browser-content .person:hover {
-	opacity: .9;
-}*/
-
 .post-browser.person-browser .person-browser-content .person .person-picture {
 	/*background-color: #373e48;*/
 	background-position: center center;
@@ -43,11 +21,6 @@
 	border-radius: 3px;
 	overflow: visible;
 	position: relative;
-}
-
-.post-browser.person-browser .person-browser-content .person .person-picture a {
-	/*height: auto;
-	width: auto;*/
 }
 
 .post-browser.person-browser .person-browser-content .person .person-picture .edit-menu {

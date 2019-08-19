@@ -25,6 +25,8 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
  */
 
 .wpmoly-container {
+	display: flex;
+	flex-wrap: wrap;
 	margin: 0 auto;
 	padding: 30px;
 }
@@ -60,8 +62,9 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
 }
 
 .wpmoly-content {
-	float: left;
-	margin: 0 610px 0 0;
+	/*float: left;
+	margin: 0 610px 0 0;*/
+	margin: 0 30px 0 0;
 	padding: 0;
 	position: relative;
 	width: calc( 100% - 610px );
@@ -80,8 +83,8 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
 	column-gap: 20px;
 	margin: 0;
 	padding: 0;
-	position: absolute;
-	right: 30px;
+	/*position: absolute;
+	right: 30px;*/
 	width: 580px;
 }
 
@@ -675,16 +678,6 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
 	display: block !important;
 }
 
-
-
-
-
-
-
-
-
-
-
 @media screen and (max-width:1860px) {
 
 	.wpmoly-sidebar {
@@ -699,7 +692,7 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
 	}
 
 	.wpmoly-content {
-		margin: 0 310px 0 0;
+		/*margin: 0 310px 0 0;*/
 		width: calc( 100% - 310px );
 	}
 }
@@ -759,6 +752,10 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
 
 @media screen and (max-width:768px) {
 
+	.wpmoly-container {
+		flex-direction: column-reverse;
+	}
+
 	.wpmoly-sidebar {
 		column-count: 2;
 		column-gap: 20px;
@@ -789,5 +786,7 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
 	.wpmoly-sidebar .editor-block {
 		display: block;
 		margin-bottom: 20px !important;
+		margin-left: auto;
+		margin-right: auto;
 	}
 }

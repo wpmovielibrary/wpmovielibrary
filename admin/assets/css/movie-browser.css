@@ -3,24 +3,6 @@
  * Movie Browser Content.
  */
 
-.post-browser.movie-browser .movie-browser-content {
-	margin: 20px -8px;
-	min-height: 240px;
-	position: relative;
-}
-
-.post-browser.movie-browser .movie-browser-content.loading .loader {
-	background-image: url(../../../public/assets/img/loading.svg);
-	background-position: center 96px;
-	background-repeat: no-repeat;
-	bottom: 0;
-	left: 0;
-	position: absolute;
-	right: 0;
-	top: 0;
-	z-index: 1;
-}
-
 .post-browser.movie-browser .movie-browser-content .movie {
 	display: inline-block;
 	margin: 6px 8px 16px;
@@ -31,10 +13,6 @@
 	opacity: .25;
 }
 
-/*.post-browser.movie-browser .movie-browser-content .movie:hover {
-	opacity: .9;
-}*/
-
 .post-browser.movie-browser .movie-browser-content .movie .movie-poster {
 	/*background-color: #373e48;*/
 	background-position: center center;
@@ -43,11 +21,6 @@
 	border-radius: 3px;
 	overflow: visible;
 	position: relative;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster a {
-	/*height: auto;
-	width: auto;*/
 }
 
 .post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu,
@@ -690,8 +663,6 @@
 	width: 18.6%;
 }
 
-
-
 .movie-modal-content .movie-editor-meta {
 	border-left: 1px solid #e5e5e5;
 	border-right: 1px solid #e5e5e5;
@@ -749,32 +720,6 @@
 
 .movie-modal-content .movie-editor-details .field-control .selectize-input {
 	width: calc( 100% - 28px ) !important;
-}
-
-/*
- * Discover Widget.
- */
-
-.discover-movies-editor-block .links-list,
-.discover-movies-editor-block .posts-list {
-	margin: 10px 0;
-	padding: 0;
-}
-
-.discover-movies-editor-block .links-list {
-	border-top: 1px solid #f2f2f2;
-	margin-top: 15px;
-	padding-top: 15px;
-}
-
-.discover-movies-editor-block .posts-list {
-	column-count: 2;
-	column-gap: 10px;
-}
-
-.discover-movies-editor-block .posts-list .list-item.active a {
-	font-weight: 600;
-	text-decoration: none;
 }
 
 @media screen and (max-width:1280px) {

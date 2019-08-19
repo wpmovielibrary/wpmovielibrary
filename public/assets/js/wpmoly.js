@@ -1,9 +1,9 @@
 /**
- * WPSeriesLibrary instance runner.
+ * wpMovieLibrary instance runner.
  *
  * @since 3.0.0
  *
- * @package WPSeriesLibrary
+ * @package wpMovieLibrary
  */
 
 (function() {

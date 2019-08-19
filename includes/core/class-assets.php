@@ -115,6 +115,8 @@ class Assets {
 
 		$this->register_admin_scripts();
 
+		$this->enqueue_script( 'admin' );
+
 		if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary' ) ) {
 
 			$this->enqueue_script( 'selectize' );
@@ -544,6 +546,7 @@ class Assets {
 		$this->add_public_js( 'renderjson-js',     'renderjson.min.js' );
 
 		// Base
+		$this->add_admin_js( 'admin', 'admin.js',  array( 'jquery' ) );
 		$this->add_public_js( 'utils', 'utils.js',  array( 'wpmoly-underscore-string', 'wpmoly-renderjson-js', 'wpmoly-toasts' ) );
 		$this->add_public_js( 'core',  'wpmoly.js', array( 'jquery', 'wpmoly-underscore-string', 'wp-backbone', 'wp-api', 'wpmoly-utils' ) );
 		$this->add_public_js( 'api',   'api.js',    array( 'jquery', 'wpmoly-underscore-string', 'wp-backbone', 'wp-api', 'wpmoly-utils' ) );

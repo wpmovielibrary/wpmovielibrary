@@ -179,17 +179,6 @@ wpmoly.browser = wpmoly.browser || {};
 		view : _.extend( PostBrowser.view, {
 
 			/**
-			 * GridBrowser Menu View.
-			 *
-			 * @since 1.0.0
-			 */
-			BrowserMenu : PostBrowser.view.BrowserMenu.extend({
-
-				className : 'post-browser-menu grid-browser-menu',
-
-			}),
-
-			/**
 			 * GridBrowser Pagination Menu View.
 			 *
 			 * @since 1.0.0

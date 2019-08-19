@@ -312,17 +312,6 @@ wpmoly.browser = wpmoly.browser || {};
 		view : _.extend( PostBrowser.view, {
 
 			/**
-			 * PersonBrowser Browser Menu View.
-			 *
-			 * @since 1.0.0
-			 */
-			BrowserMenu : PostBrowser.view.BrowserMenu.extend({
-
-				className : 'post-browser-menu person-browser-menu',
-
-			}),
-
-			/**
 			 * PersonBrowser Pagination Menu View.
 			 *
 			 * @since 1.0.0

@@ -19,12 +19,25 @@
 }
 
 /**
+ * Widgets.
+ */
+
+.wpmoly-widget-title {
+	display: block;
+}
+
+/**
  * UI.
  */
 
 .wpmoly,
 .wpmoly > * {
 	font-size: 14px !important;
+}
+
+.wpmoly a:focus {
+	box-shadow: 0 0 0;
+	color: #00a0d2;
 }
 
 .wpmoly .button {

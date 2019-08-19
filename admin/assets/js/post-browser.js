@@ -839,7 +839,10 @@ wpmoly.browser = wpmoly.browser || {};
 
 		events : function() {
 			return _.extend( Dashboard.view.Block.prototype.events || {}, {
-				'click [data-action="filter"]' : 'filter',
+				'click [data-action="start-search"]'   : 'startSearch',
+				'click [data-action="close-search"]'   : 'closeSearch',
+				'keypress [data-value="search-query"]' : 'startSearch',
+				'click [data-action="filter"]'         : 'filterPosts',
 			} );
 		},
 
@@ -861,6 +864,53 @@ wpmoly.browser = wpmoly.browser || {};
 		},
 
 		/**
+		 * Start search.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} event JS 'click' event.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		startSearch : function( event ) {
+
+			if ( 'keypress' === event.type && ( 13 !== ( event.which || event.charCode || event.keyCode ) ) ) {
+				return this;
+			} else {
+				event.preventDefault();
+			}
+
+			var query = this.$( '[data-value="search-query"]' ).val();
+
+			this.$el.addClass( 'searching' );
+
+			PostBrowser.browser.controller.searchPosts( query );
+
+			return this;
+		},
+
+		/**
+		 * Reset search.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} event JS 'click' event.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		closeSearch : function( event ) {
+
+			event.preventDefault();
+
+			this.$el.removeClass( 'searching' );
+			this.$( '[data-value="search-query"]' ).val( '' );
+
+			PostBrowser.browser.controller.reset();
+
+			return this;
+		},
+
+		/**
 		 * Switch post status.
 		 *
 		 * @since 1.0.0
@@ -869,7 +919,7 @@ wpmoly.browser = wpmoly.browser || {};
 		 *
 		 * @return Returns itself to allow chaining.
 		 */
-		filter : function( event ) {
+		filterPosts : function( event ) {
 
 			event.preventDefault();
 
@@ -901,6 +951,51 @@ wpmoly.browser = wpmoly.browser || {};
 			} );
 
 			options.current = PostBrowser.browser.controller.get( 'status' ) || 'publish';
+
+			var list = [],
+			    text = wpmoly._n( wpmolyEditorL10n.n_total_post, options.total );
+
+			if ( options.publish ) {
+				list.push( '<a href="#" data-action="filter" data-value="publish">' + wpmoly._n( wpmolyEditorL10n.n_published, options.publish ) + '</a></li>' );
+			}
+
+			if ( options.draft && options.draft > 0 ) {
+				list.push( '<a href="#" data-action="filter" data-value="draft">' + wpmoly._n( wpmolyEditorL10n.n_draft, options.draft ) + '</a></li>' );
+			} else {
+				if ( options.publish ) {
+					list.push( wpmolyEditorL10n.no_draft.toLowerCase() );
+				} else {
+					list.push( wpmolyEditorL10n.no_draft );
+				}
+			}
+
+			if ( options.trash && options.trash > 0 ) {
+				list.push( '<a href="#" data-action="filter" data-value="trash">' + wpmoly._n( wpmolyEditorL10n.n_trashed, options.trash ) + '</a></li>' );
+			} else {
+				if ( options.publish || options.draft ) {
+					list.push( wpmolyEditorL10n.no_trash.toLowerCase() );
+				} else {
+					list.push( wpmolyEditorL10n.no_trash );
+				}
+			}
+
+			if ( options.future ) {
+				list.push( '<a href="#" data-action="filter" data-value="future">' + wpmoly._n( wpmolyEditorL10n.n_future, options.future ) + '</a></li>' );
+			}
+
+			if ( options.pending ) {
+				list.push( '<a href="#" data-action="filter" data-value="pending">' + wpmoly._n( wpmolyEditorL10n.n_pending, options.pending ) + '</a></li>' );
+			}
+
+			if ( options.private ) {
+				list.push( '<a href="#" data-action="filter" data-value="private">' + wpmoly._n( wpmolyEditorL10n.n_private, options.private ) + '</a></li>' );
+			}
+
+			if ( options.autodraft ) {
+				list.push( '<a href="#" data-action="filter" data-value="auto-draft">' + wpmoly._n( wpmolyEditorL10n.n_autodraft, options.autodraft ) + '</a></li>' );
+			}
+
+			options.text = text + ' ' + list.join( ', ' ) + '.';
 
 			return options;
 		},
@@ -1558,106 +1653,6 @@ wpmoly.browser = wpmoly.browser || {};
 	PostBrowser.view.Sidebar = wp.Backbone.View;
 
 	/**
-	 * PostBrowser Menu View.
-	 *
-	 * @since 1.0.0
-	 */
-	PostBrowser.view.BrowserMenu = wpmoly.Backbone.View.extend({
-
-		className : 'post-browser-menu',
-
-		template : wp.template( 'wpmoly-post-browser-menu' ),
-
-		events : {
-			'click [data-action="open-search"]'    : 'openSearch',
-			'click [data-action="start-search"]'   : 'startSearch',
-			'click [data-action="close-search"]'   : 'closeSearch',
-			'keypress [data-value="search-query"]' : 'startSearch',
-		},
-
-		/**
-		 * Initialize the View.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param {object} options Options.
-		 */
-		initialize : function( options ) {
-
-			var options = options || {};
-
-			this.controller = options.controller;
-		},
-
-		/**
-		 * Open the search menu.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param {object} event JS 'click' event.
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		openSearch : function( event ) {
-
-			event.preventDefault();
-
-			this.$el.removeClass( 'opened' );
-			this.$el.addClass( 'search-opened' );
-			this.$( '.search-input' ).focus();
-
-			return this;
-		},
-
-		/**
-		 * Open the search menu.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param {object} event JS 'click' event.
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		startSearch : function( event ) {
-
-			if ( 'keypress' === event.type && ( 13 !== ( event.which || event.charCode || event.keyCode ) ) ) {
-				return this;
-			} else {
-				event.preventDefault();
-			}
-
-			var query = this.$( '[data-value="search-query"]' ).val();
-
-			this.controller.searchPosts( query );
-
-			return this;
-		},
-
-		/**
-		 * Open the search menu.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param {object} event JS 'click' event.
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		closeSearch : function( event ) {
-
-			event.preventDefault();
-
-			this.$el.removeClass( 'opened' );
-			this.$el.removeClass( 'search-opened' );
-			this.$( '[data-value="search-query"]' ).val( '' );
-
-			this.controller.reset();
-
-			return this;
-		},
-
-	});
-
-	/**
 	 * PostBrowser Pagination Menu View.
 	 *
 	 * @since 1.0.0
@@ -2094,10 +2089,6 @@ wpmoly.browser = wpmoly.browser || {};
 				controller : this.controller,
 			};
 
-			if ( ! this.menu ) {
-				this.menu = new PostBrowser.view.BrowserMenu( options );
-			}
-
 			if ( ! this.content ) {
 				this.content = new PostBrowser.view.BrowserContent( options );
 			}
@@ -2106,7 +2097,6 @@ wpmoly.browser = wpmoly.browser || {};
 				this.pagination = new PostBrowser.view.BrowserPagination( options );
 			}
 
-			this.views.add( this.menu );
 			this.views.add( this.content );
 			this.views.add( this.pagination );
 

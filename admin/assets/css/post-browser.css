@@ -1,7 +1,18 @@
+/*
+- * Post Browser Heading.
+- */
+
+.wpmoly-browser-heading {
+	margin-bottom: 10px;
+}
+
+.wpmoly-browser-heading .wp-heading-inline {
+	font-weight: 300;
+}
 
 /*
- * Post Browser Menu.
- */
+- * Post Browser Menu.
+- */
 
 .post-browser .post-browser-menu {
 	background: #fff;
@@ -28,61 +39,12 @@
 	width: 32px;
 }
 
-.post-browser .post-browser-menu .button.search {
-	float: right;
-}
-
-.post-browser .post-browser-menu .button:hover,
-.post-browser .post-browser-menu .button.active {
-	background: transparent;
-	box-shadow: 0 0 0;
-	color: #0073aa;
-	transform: none;
-}
-
-.post-browser .post-browser-menu .posts-search {
-	background: #fff;
-	bottom: 0;
-	display: none;
-	left: 0;
-	position: absolute;
-	right: 0;
-	top: 0;
-}
-
-.post-browser .post-browser-menu.search-opened .posts-search {
-	display: block;
-}
-
-.post-browser .post-browser-menu .posts-search .button.close {
-	position: absolute;
-	right: 12px;
-}
-
-.post-browser .post-browser-menu .posts-search .button.search {
-	position: absolute;
-	left: 8px;
-}
-
-.post-browser .post-browser-menu .posts-search .search-input {
-	background: #fff;
-	border: 0;
-	box-shadow: 0 0 0;
-	height: 100%;
-	left: 48px;
-	margin: 0;
-	padding: 0;
-	position: absolute;
-	right: 48px;
-	width: calc( 100% - 96px );
-}
-
 /*
  * Post Browser Content.
  */
 
 .post-browser .post-browser-content {
-	margin: 20px -6px;
+	margin: 0 -6px 20px;
 	min-height: 240px;
 	position: relative;
 }
@@ -367,6 +329,51 @@
 	position: static;
 }
 
+/**
+ * Discover Widget.
+ */
+
+.discover-posts-editor-block .posts-search {
+	margin-top: 1rem;
+	position: relative;
+}
+
+.discover-posts-editor-block .posts-search .search-input {
+
+}
+
+.discover-posts-editor-block .posts-search .button.close,
+.discover-posts-editor-block .posts-search .button.search {
+	color: #888;
+	line-height: 32px;
+	height: 32px;
+	position: absolute;
+	right: 1px;
+	top: 1px;
+	width: 32px;
+}
+
+.discover-posts-editor-block .posts-search .button.close:hover,
+.discover-posts-editor-block .posts-search .button.search:hover {
+	color: #00a0d2;
+}
+
+.discover-posts-editor-block .posts-search .button.close,
+.discover-posts-editor-block.searching .posts-search .button.search {
+	display: none;
+}
+
+.discover-posts-editor-block.searching .posts-search .button.close,
+.discover-posts-editor-block .posts-search .button.search {
+	display: block;
+}
+
+.discover-posts-editor-block .classic-posts-browser {
+	font-size: 11px;
+	margin: 0;
+	text-align: center;
+}
+
 /*
  * Drafts/Trash Widgets.
  */
@@ -533,8 +540,8 @@
 .post-drafts-editor-block .posts-list .list-item .confirm .button {
 	color: #fff;
 	float: right;
-	font-size: 12px;
-	margin: 2px 4px;
+	font-size: 10px;
+	margin: 5px;
 	opacity: 1;
 	position: static;
 	text-transform: uppercase;

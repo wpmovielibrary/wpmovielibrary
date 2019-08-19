@@ -107,6 +107,9 @@ class Dashboard {
 		add_action( 'wpmoly/dashboard/block/discover/build', array( &$this, 'set_dashboard_discover_block_data' ) );
 		add_action( 'wpmoly/dashboard/block/rating/build',   array( &$this, 'set_dashboard_rating_block_data' ) );
 		add_action( 'wpmoly/dashboard/block/support/build',  array( &$this, 'set_dashboard_support_block_data' ) );
+
+		add_action( 'wpmoly/dashboard/before/movie/browser/content',  array( &$this, 'add_movie_browser_headline' ) );
+		add_action( 'wpmoly/dashboard/before/person/browser/content', array( &$this, 'add_person_browser_headline' ) );
 	}
 
 	/**
@@ -999,6 +1002,32 @@ class Dashboard {
 			'contact_url' => 'https://wpmovielibrary.com/support',
 			'hire_url'    => 'https://wpmovielibrary.com/hire-us',
 		) );
+	}
+
+	/**
+	 * Add movie browser headline.
+	 *
+	 * @since 3.0.0
+	 */
+	public function add_movie_browser_headline() {
+
+		echo '<div class="wpmoly-browser-heading">';
+		echo '<h1 class="wp-heading-inline">' . esc_html__( 'My Movies', 'wpmovielibrary' ) . '</h1>';
+		//echo '<a href="' . '#' . '" class="page-title-action aria-button-if-js" role="button" aria-expanded="false">' . esc_html__( 'Import', 'wpmovielibrary' ) . '</a>';
+		echo '</div>';
+	}
+
+	/**
+	 * Add person browser headline.
+	 *
+	 * @since 3.0.0
+	 */
+	public function add_person_browser_headline() {
+
+		echo '<div class="wpmoly-browser-heading">';
+		echo '<h1 class="wp-heading-inline">' . esc_html__( 'Persons', 'wpmovielibrary' ) . '</h1>';
+		//echo '<a href="' . '#' . '" class="page-title-action aria-button-if-js" role="button" aria-expanded="false">' . esc_html__( 'Import', 'wpmovielibrary' ) . '</a>';
+		echo '</div>';
 	}
 
 	/**

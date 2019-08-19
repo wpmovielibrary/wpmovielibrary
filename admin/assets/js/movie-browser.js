@@ -1426,17 +1426,6 @@ wpmoly.browser = wpmoly.browser || {};
 			}),
 
 			/**
-			 * MovieBrowser Browser Menu View.
-			 *
-			 * @since 1.0.0
-			 */
-			BrowserMenu : PostBrowser.view.BrowserMenu.extend({
-
-				className : 'post-browser-menu movie-browser-menu',
-
-			}),
-
-			/**
 			 * MovieBrowser Pagination Menu View.
 			 *
 			 * @since 1.0.0

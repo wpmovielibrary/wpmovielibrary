@@ -764,6 +764,11 @@ class L10n {
 	 */
 	private function localize_admin_scripts() {
 
+		wp_localize_script( 'wpmoly-admin', 'wpmolyL10n', array(
+			'open_library' => esc_html__( 'Open Library', 'wpmovielibrary' ),
+			'edit_link'    => esc_url_raw( admin_url( 'admin.php?page=wpmovielibrary-%ss' ) ),
+		) );
+
 		wp_localize_script( 'wpmoly-tmdb', 'tmdbApiSettings', array(
 			'api_key'             => utils\o( 'api-key', '' ),
 			'language'            => utils\o( 'api-language', 'en-US' ),
@@ -863,6 +868,8 @@ class L10n {
 				esc_html__( '%s grid found in trash.', 'wpmovielibrary' ),
 				esc_html__( '%s grids found in trash.', 'wpmovielibrary' ),
 			),
+			'no_draft'           => esc_html__( 'No draft', 'wpmovielibrary' ),
+			'no_trash'           => esc_html__( 'No trashed', 'wpmovielibrary' ),
 			'trash_post_warning' => esc_html__( 'Be careful: deleted grids can not be restored!', 'wpmovielibrary' ),
 			'no_post_in_trash' => esc_html__( 'No grid found in trash.', 'wpmovielibrary' ),
 			'about_delete_posts' => esc_html__( 'Your are about to completely delete all grids in the trash. This can not be undone!', 'wpmovielibrary' ),
@@ -908,6 +915,8 @@ class L10n {
 				__( '<strong>%s</strong> day ago', 'wpmovielibrary' ),
 				__( '<strong>%s</strong> days ago', 'wpmovielibrary' ),
 			),
+			'no_draft'           => esc_html__( 'No draft', 'wpmovielibrary' ),
+			'no_trash'           => esc_html__( 'No trashed', 'wpmovielibrary' ),
 			'moments_ago'        => esc_html__( 'Moments ago', 'wpmovielibrary' ),
 			'trash_post_warning' => esc_html__( 'Be careful: deleted movies can not be restored!', 'wpmovielibrary' ),
 			'no_post_in_trash'   => esc_html__( 'No movie found in trash.', 'wpmovielibrary' ),
@@ -1005,6 +1014,8 @@ class L10n {
 				__( '<strong>%s</strong> day ago', 'wpmovielibrary' ),
 				__( '<strong>%s</strong> days ago', 'wpmovielibrary' ),
 			),
+			'no_draft'           => esc_html__( 'No draft', 'wpmovielibrary' ),
+			'no_trash'           => esc_html__( 'No trashed', 'wpmovielibrary' ),
 			'moments_ago'        => esc_html__( 'Moments ago', 'wpmovielibrary' ),
 			'trash_post_warning' => esc_html__( 'Be careful: deleted movies can not be restored!', 'wpmovielibrary' ),
 			'no_post_in_trash'   => esc_html__( 'No person found in trash.', 'wpmovielibrary' ),
