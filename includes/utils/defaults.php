@@ -694,7 +694,7 @@ function get_registered_movie_meta( $meta_name = '' ) {
 		),
 		// Details.
 		'format' => array(
-			'type'         => 'string',
+			'type'         => 'array',
 			'post_type'    => array( 'movie' ),
 			'description'  => __( 'A list of format the movie is available in.', 'wpmovielibrary' ),
 			'show_in_rest' => array(
@@ -704,25 +704,23 @@ function get_registered_movie_meta( $meta_name = '' ) {
 					'sd' => __( 'SD', 'wpmovielibrary' ),
 					'hd' => __( 'HD', 'wpmovielibrary' ),
 				),
-				/*'items'   => 'string',
-				'default' => array(),*/
-				'default' => '',
+				'items'   => 'string',
+				'default' => array(),
 			),
 		),
 		'language' => array(
-			'type'         => 'string',
+			'type'         => 'array',
 			'post_type'    => array( 'movie' ),
 			'description'  => __( 'A list of language this movie is available in.', 'wpmovielibrary' ),
 			'show_in_rest' => array(
 				'prepare_callback' => '\wpmoly\rest\prepare_movie_language',
 				'enum'  => L10n::$supported_languages,
-				/*'items'   => 'string',
-				'default' => array(),*/
-				'default' => '',
+				'items'   => 'string',
+				'default' => array(),
 			),
 		),
 		'media' => array(
-			'type'         => 'string',
+			'type'         => 'array',
 			'post_type'    => array( 'movie' ),
 			'description'  => __( 'A list of media this movie is available in.', 'wpmovielibrary' ),
 			'show_in_rest' => array(
@@ -736,9 +734,8 @@ function get_registered_movie_meta( $meta_name = '' ) {
 					'cinema'  => __( 'Cinema', 'wpmovielibrary' ),
 					'other'   => __( 'Other', 'wpmovielibrary' ),
 				),
-				/*'items'   => 'string',
-				'default' => array(),*/
-				'default' => '',
+				'items'   => 'string',
+				'default' => array(),
 			),
 		),
 		'rating' => array(
@@ -780,7 +777,7 @@ function get_registered_movie_meta( $meta_name = '' ) {
 			),
 		),
 		'subtitles' => array(
-			'type'         => 'string',
+			'type'         => 'array',
 			'post_type'    => array( 'movie' ),
 			'description'  => __( 'A list of subtitles this movie is available in.', 'wpmovielibrary' ),
 			'show_in_rest' => array(
@@ -788,9 +785,8 @@ function get_registered_movie_meta( $meta_name = '' ) {
 				'enum'  => array_merge( array(
 					'none' => __( 'None', 'wpmovielibrary' ),
 				), L10n::$supported_languages ),
-				/*'items'   => 'string',
-				'default' => array(),*/
-				'default' => '',
+				'items'   => 'string',
+				'default' => array(),
 			),
 		),
 		'backdrop_id' => array(
@@ -809,6 +805,16 @@ function get_registered_movie_meta( $meta_name = '' ) {
 			'protected'    => true,
 			'show_in_rest' => array(
 				'context'    => array( 'edit' ),
+			),
+		),
+		'related_persons' => array(
+			'type'         => 'array',
+			'post_type'    => array( 'movie' ),
+			'description'  => __( 'Related Persons', 'wpmovielibrary' ),
+			'protected'    => true,
+			'show_in_rest' => array(
+				'context'    => array( 'edit' ),
+				'items'      => 'integer',
 			),
 		),
 	);
@@ -990,6 +996,15 @@ function get_registered_person_meta( $meta_name = '' ) {
 			'type'         => 'integer',
 			'post_type'    => array( 'person' ),
 			'description'  => __( 'Person Picture Attachment ID.', 'wpmovielibrary' ),
+			'protected'    => true,
+			'show_in_rest' => array(
+				'context'    => array( 'edit' ),
+			),
+		),
+		'related_movies' => array(
+			'type'         => 'array',
+			'post_type'    => array( 'person' ),
+			'description'  => __( 'Related Movies', 'wpmovielibrary' ),
 			'protected'    => true,
 			'show_in_rest' => array(
 				'context'    => array( 'edit' ),

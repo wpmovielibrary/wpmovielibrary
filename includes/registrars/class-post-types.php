@@ -59,7 +59,7 @@ class Post_Types {
 				'show_in_menu'       => false,
 				'has_archive'        => false,
 				'supports'           => array( 'title', 'custom-fields' ),
-				'rest_controller_class' => '\wpmoly\rest\endpoints\Posts_Controller',
+				//'rest_controller_class' => '\wpmoly\rest\endpoints\Posts_Controller',
 			),
 			'movie' => array(
 				'labels' => array(
@@ -88,7 +88,7 @@ class Post_Types {
 				'show_in_menu'       => false,
 				'has_archive'        => _x( 'movies', 'slug', 'wpmovielibrary' ),
 				'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
-				'rest_controller_class' => '\wpmoly\rest\endpoints\Posts_Controller',
+				//'rest_controller_class' => '\wpmoly\rest\endpoints\Posts_Controller',
 				'menu_position'      => 2,
 				'menu_icon'          => 'dashicons-wpmoly',
 			),
@@ -119,7 +119,7 @@ class Post_Types {
 				'show_in_menu'       => false,
 				'has_archive'        => _x( 'persons', 'slug', 'wpmovielibrary' ),
 				'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
-				'rest_controller_class' => '\wpmoly\rest\endpoints\Posts_Controller',
+				//'rest_controller_class' => '\wpmoly\rest\endpoints\Posts_Controller',
 				'menu_position'      => 2,
 				'menu_icon'          => 'dashicons-wpmoly',
 			),

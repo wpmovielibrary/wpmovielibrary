@@ -751,51 +751,6 @@ class API {
 	 *
 	 * @return array
 	 */
-	public function prepare_person_for_response( $response, $post, $request ) {
-
-		$response = $this->prepare_post_for_response( $response, $post, $request );
-
-		$meta = utils\get_registered_person_meta();
-
-		// Some meta should not be visible, although they may be editable.
-		$protected = wp_filter_object_list( $meta, array( 'protected' => true ) );
-		foreach ( $protected as $key => $value ) {
-			$meta_key = utils\person\prefix( $key );
-			if ( isset( $response->data['meta'][ $meta_key ] ) ) {
-				unset( $response->data['meta'][ $meta_key ] );
-			}
-		}
-
-		if ( 'edit' === $request['context'] ) {
-			$snapshot = utils\person\get_meta( $post->ID, 'snapshot' );
-			if ( ! empty( $snapshot ) ) {
-				$response->data['snapshot'] = json_decode( $snapshot );
-			}
-		} elseif ( isset( $response->data['meta'] ) ) {
-			foreach ( $response->data['meta'] as $key => $value ) {
-				unset( $response->data['meta'][ $key ] );
-				$response->data['meta'][ utils\person\unprefix( $key, false ) ] = $value;
-			}
-		}
-
-		return $response;
-	}
-
-	/**
-	 * Filter the movie post data for REST API response.
-	 *
-	 * @TODO Allow rendered content when specifically requested.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access public
-	 *
-	 * @param WP_REST_Response $response The response object.
-	 * @param WP_Post          $post     Post object.
-	 * @param WP_REST_Request  $request  Request object.
-	 *
-	 * @return array
-	 */
 	public function prepare_movie_for_response( $response, $post, $request ) {
 
 		$response = $this->prepare_post_for_response( $response, $post, $request );
@@ -816,10 +771,65 @@ class API {
 			if ( ! empty( $snapshot ) ) {
 				$response->data['snapshot'] = json_decode( $snapshot );
 			}
+
+			$persons = utils\movie\get_meta( $post->ID, 'related_persons' );
+			if ( ! empty( $persons ) ) {
+				$response->data['persons'] = $persons;
+			}
 		} elseif ( isset( $response->data['meta'] ) ) {
 			foreach ( $response->data['meta'] as $key => $value ) {
 				unset( $response->data['meta'][ $key ] );
 				$response->data['meta'][ utils\movie\unprefix( $key, false ) ] = $value;
+			}
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Filter the person post data for REST API response.
+	 *
+	 * @TODO Allow rendered content when specifically requested.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param WP_REST_Response $response The response object.
+	 * @param WP_Post          $post     Post object.
+	 * @param WP_REST_Request  $request  Request object.
+	 *
+	 * @return array
+	 */
+	public function prepare_person_for_response( $response, $post, $request ) {
+
+		$response = $this->prepare_post_for_response( $response, $post, $request );
+
+		$meta = utils\get_registered_person_meta();
+
+		// Some meta should not be visible, although they may be editable.
+		$protected = wp_filter_object_list( $meta, array( 'protected' => true ) );
+		foreach ( $protected as $key => $value ) {
+			$meta_key = utils\person\prefix( $key );
+			if ( isset( $response->data['meta'][ $meta_key ] ) ) {
+				unset( $response->data['meta'][ $meta_key ] );
+			}
+		}
+
+		if ( 'edit' === $request['context'] ) {
+			$snapshot = utils\person\get_meta( $post->ID, 'snapshot' );
+			if ( ! empty( $snapshot ) ) {
+				$response->data['snapshot'] = json_decode( $snapshot );
+			}
+
+			$movies = utils\person\get_meta( $post->ID, 'related_movies' );
+			if ( ! empty( $movies ) ) {
+				$response->data['movies'] = $movies;
+			}
+		} elseif ( isset( $response->data['meta'] ) ) {
+			foreach ( $response->data['meta'] as $key => $value ) {
+				unset( $response->data['meta'][ $key ] );
+				$response->data['meta'][ utils\person\unprefix( $key, false ) ] = $value;
 			}
 		}
 

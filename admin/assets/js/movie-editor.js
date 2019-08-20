@@ -186,10 +186,9 @@ wpmoly.editor = wpmoly.editor || {};
 
 					_.each( meta, function( value, key ) {
 
-						if ( _.isArray( value ) ) {
+						var details = [ 'format', 'language', 'media', 'subtitles' ]
+						if ( ! _.has( details, key ) && _.isArray( value ) ) {
 							value = value.join( ', ' );
-						} else if ( _.isObject( value ) ) {
-							value = JSON.stringify( value );
 						}
 
 						if ( _.isEmpty( value ) && _.has( this.defaults, key ) ) {
