@@ -297,19 +297,22 @@
  */
 
 .toasts {
-	bottom: auto;
-	left: auto;
-	max-width: 94%;
-	min-width: 616px;
-	right: 12px;
-	top: 46px;
+	bottom: 15px;
+	left: 160px;
+	max-width: 90%;
+	right: 610px;
+	top: auto;
 	width: auto;
 }
 
 .toast {
-	border-radius: 48px;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+	border-radius: 4px;
 	height: auto;
+	margin: 15px auto 0;
+	max-width: none;
 	min-height: 32px;
+	width: calc( 100% - 42px );
 }
 
 .toast .toast-icon {
@@ -323,6 +326,10 @@
 
 .toast.inverted .toast-content {
 	margin-left: 42px;
+}
+
+.toast .toast-content {
+	white-space: normal;
 }
 
 .toast .toast-content code {
@@ -436,6 +443,6 @@
 
 @media screen and (max-width:1860px) {
 	.toasts {
-		min-width: 316px;
+		right: 310px;
 	}
 }
