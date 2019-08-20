@@ -917,6 +917,7 @@ class L10n {
 			),
 			'no_draft'           => esc_html__( 'No draft', 'wpmovielibrary' ),
 			'no_trash'           => esc_html__( 'No trashed', 'wpmovielibrary' ),
+			'missing_snapshot'   => __( '<strong>Snapshot missing!</strong> Most likely this means the movie was imported using an old version of wpMovieLibrary. Just <a href="%s">refresh the snapshot</a> and all will be fine.', 'wpmovielibrary' ),
 			'moments_ago'        => esc_html__( 'Moments ago', 'wpmovielibrary' ),
 			'trash_post_warning' => esc_html__( 'Be careful: deleted movies can not be restored!', 'wpmovielibrary' ),
 			'no_post_in_trash'   => esc_html__( 'No movie found in trash.', 'wpmovielibrary' ),

@@ -95,8 +95,14 @@ wpmoly.editor = wpmoly.editor || {};
 		// Switch to search mode if no snapshot is found.
 		post.once( 'sync', function() {
 			if ( _.isEmpty( post.get( 'snapshot' ) ) ) {
-				controller.set( { mode : 'download' } );
-				search.set( { query : ( post.get( 'title' ) || {} ).raw || '' } );
+				var tmdb_id = post.getMeta( wpmolyApiSettings.movie_prefix + 'tmdb_id' );
+				if ( ! tmdb_id ) {
+					controller.set( { mode : 'download' } );
+					search.set( { query : ( post.get( 'title' ) || {} ).raw || '' } );
+				} else {
+					snapshot.set( { id : tmdb_id } );
+					wpmoly.warning( wpmolyEditorL10n.missing_snapshot.replace( '%s', 'javascript:document.querySelector(\'[data-mode=snapshot]\').click()' ), { destroy : false } );
+				}
 			}
 		} );
 
