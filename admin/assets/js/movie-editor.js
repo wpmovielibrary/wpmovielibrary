@@ -30,7 +30,8 @@ wpmoly.editor = wpmoly.editor || {};
 		// Set editor models.
 		var post = new wp.api.models.Movies( { id : post_id } ),
 		    node = new wpmoly.api.models.Movie( { id : post_id } ),
-		settings = new wp.api.models.Settings;
+		settings = new wp.api.models.Settings,
+		 persons = new wp.api.collections.Persons;
 
 		settings.fetch();
 
@@ -51,6 +52,7 @@ wpmoly.editor = wpmoly.editor || {};
 			settings  : settings,
 			search    : search,
 			snapshot  : snapshot,
+			persons   : persons,
 			meta      : meta,
 			post      : post,
 			node      : node,
@@ -87,9 +89,15 @@ wpmoly.editor = wpmoly.editor || {};
 			view.render();
 		} );
 
-		// Load node.
+		// Load node and persons.
 		post.on( 'sync', function() {
+
 			node.fetch( { data : { context : 'embed' } } );
+
+			var related_persons = post.get( 'persons' );
+			if ( ! _.isEmpty( related_persons ) ) {
+				persons.fetch( { data : { include : related_persons, context : 'edit' } } );
+			}
 		} );
 
 		// Switch to search mode if no snapshot is found.
@@ -1757,6 +1765,7 @@ wpmoly.editor = wpmoly.editor || {};
 					this.settings  = options.settings;
 					this.search    = options.search;
 					this.snapshot  = options.snapshot;
+					this.persons   = options.persons;
 					this.meta      = options.meta;
 					this.post      = options.post;
 					this.node      = options.node;
@@ -1766,6 +1775,7 @@ wpmoly.editor = wpmoly.editor || {};
 					this.listenTo( this.post,     'saved', this.saveNode );
 					this.listenTo( this.post,     'error', this.error );
 					this.listenTo( this.node,     'error', this.error );
+					this.listenTo( this.persons,  'error', this.error );
 					this.listenTo( this.snapshot, 'error', this.error );
 					this.listenTo( this.search,   'error', this.error );
 					this.listenTo( this.search,   'import:failed', this.error );
@@ -4922,6 +4932,7 @@ wpmoly.editor = wpmoly.editor || {};
 
 				this.listenTo( this.controller.node,     'sync',   this.render );
 				this.listenTo( this.controller.meta,     'change', this.render );
+				this.listenTo( this.controller.persons,  'change', this.render );
 				this.listenTo( this.controller.snapshot, 'change', this.render );
 			},
 
@@ -4959,7 +4970,8 @@ wpmoly.editor = wpmoly.editor || {};
 			prepare : function() {
 
 				var credits = this.controller.snapshot.get( 'credits' ) || {},
-				options = {
+				    persons = this.controller.persons,
+				    options = {
 					actors      : [],
 					authors     : [],
 					composers   : [],
@@ -4967,6 +4979,7 @@ wpmoly.editor = wpmoly.editor || {};
 					photography : [],
 					producers   : [],
 					writers     : [],
+					persons     : [],
 				};
 
 				if ( credits.crew ) {
@@ -4981,6 +4994,15 @@ wpmoly.editor = wpmoly.editor || {};
 				if ( credits.cast ) {
 					options.actors = credits.cast;
 				}
+
+				persons.each( function( person ) {
+					options.persons.push({
+						id        : person.get( 'id' ),
+						edit_link : person.get( 'edit_link' ),
+						tmdb_id   : person.getMeta( wpmolyApiSettings.person_prefix + 'tmdb_id' ),
+						name      : person.getMeta( wpmolyApiSettings.person_prefix + 'name' ),
+					});
+				} );
 
 				return options;
 			},

@@ -293,6 +293,7 @@
 	border-radius: 3px;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
 	opacity: .5;
+	overflow: hidden;
 	position: relative;
 }
 
@@ -317,7 +318,8 @@
 	opacity: 1;
 }
 
-.post-editor.movie-editor .movie-credits .editor-content .panel .person-picture a {
+.post-editor.movie-editor .movie-credits .editor-content .panel .person-picture a,
+.post-editor.movie-editor .movie-credits .editor-content .panel .person-picture .person-menu {
 	color: #fff;
 	display: none;
 	height: 100%;
@@ -325,16 +327,21 @@
 	width: 100%;
 }
 
-.post-editor.movie-editor .movie-credits .editor-content .panel .person-picture a .wpmolicon {
-	height: 24px;
-	left: calc( 50% - 12px );
+.post-editor.movie-editor .movie-credits .editor-content .panel .person-picture .button {
+	color: #fff;
+	left: calc( 50% - 24px );
 	position: absolute;
-	top: calc( 50% - 12px );
-	width: 24px;
+	top: calc( 50% - 24px );
 }
 
 .post-editor.movie-editor .movie-credits .editor-content .panel .person:hover .person-picture a {
-	background: rgba(0, 115, 170, 0.3);
+	background: rgba(0, 115, 170, 0.5);
+	display: block;
+	mix-blend-mode: screen;
+}
+
+.post-editor.movie-editor .movie-credits .editor-content .panel .person:hover .person-picture .person-menu {
+	background: rgba(0, 115, 170, 0.5);
 	display: block;
 }
 
