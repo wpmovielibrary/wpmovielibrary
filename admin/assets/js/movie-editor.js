@@ -194,12 +194,13 @@ wpmoly.editor = wpmoly.editor || {};
 
 					_.each( meta, function( value, key ) {
 
-						var details = [ 'format', 'language', 'media', 'subtitles' ]
-						if ( ! _.has( details, key ) && _.isArray( value ) ) {
-							value = value.join( ', ' );
+						var details = [ 'format', 'language', 'media', 'subtitles' ];
+						if ( ! _.contains( details, key ) ) {
+							value = _.isArray( value ) ? value.join( ', ' ) : value;
 						}
 
-						if ( _.isEmpty( value ) && _.has( this.defaults, key ) ) {
+						// Apply defaults, if any.
+						if ( _.has( this.defaults, key ) && ( ( _.isNumber( value ) && ! value ) || ( ! _.isNumber( value ) && _.isEmpty( value ) ) ) ) {
 							value = this.defaults[ key ];
 						}
 

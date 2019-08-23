@@ -676,14 +676,6 @@ function get_registered_movie_meta( $meta_name = '' ) {
 			'description'  => __( 'Title', 'wpmovielibrary' ),
 			'show_in_rest' => true,
 		),
-		/*'tmdb_id' => array(
-			'type'         => 'integer',
-			'post_type'    => array( 'movie' ),
-			'description'  => __( 'TMDb ID', 'wpmovielibrary' ),
-			'show_in_rest' => array(
-				'prepare_callback' => '\wpmoly\rest\prepare_movie_tmdb_id',
-			),
-		),*/
 		'writer' => array(
 			'type'         => 'string',
 			'post_type'    => array( 'movie' ),
@@ -974,14 +966,6 @@ function get_registered_person_meta( $meta_name = '' ) {
 			'post_type'    => array( 'person' ),
 			'description'  => __( 'Place of birth', 'wpmovielibrary' ),
 			'show_in_rest' => true,
-		),
-		'tmdb_id' => array(
-			'type'         => 'integer',
-			'post_type'    => array( 'person' ),
-			'description'  => __( 'TMDb ID', 'wpmovielibrary' ),
-			'show_in_rest' => array(
-				'prepare_callback' => '\wpmoly\rest\prepare_person_tmdb_id',
-			),
 		),
 		'backdrop_id' => array(
 			'type'         => 'integer',

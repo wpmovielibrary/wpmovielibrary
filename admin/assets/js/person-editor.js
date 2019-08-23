@@ -186,7 +186,8 @@ wpmoly.editor = wpmoly.editor || {};
 							value = JSON.stringify( value );
 						}
 
-						if ( _.isEmpty( value ) && _.has( this.defaults, key ) ) {
+						// Apply defaults, if any.
+						if ( _.has( this.defaults, key ) && ( ( _.isNumber( value ) && ! value ) || ( ! _.isNumber( value ) && _.isEmpty( value ) ) ) ) {
 							value = this.defaults[ key ];
 						}
 
@@ -389,8 +390,6 @@ wpmoly.editor = wpmoly.editor || {};
 					  person = new TMDb.Person( { id : person_id } );
 
 					this.result.set( result.toJSON() );
-
-					person.on( 'all', console.debug );
 
 					person.on( 'fetch:start', function( xhr, options ) {
 						self.trigger( 'import:start', xhr, options );
@@ -1229,8 +1228,6 @@ wpmoly.editor = wpmoly.editor || {};
 
 					var person = new TMDb.Person( { id : this.snapshot.get( 'id' ) } ),
 					 snapshot = this.snapshot;
-
- 					person.on( 'all', console.debug );
 
 					person.on( 'fetch:success', function() {
 						snapshot.save( person.toJSON() );
