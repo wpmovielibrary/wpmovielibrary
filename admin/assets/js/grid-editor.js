@@ -1032,7 +1032,7 @@ wpmoly.editor = wpmoly.editor || {};
 		 */
 		MetaEditor : GridEditor.view.EditorSection.extend({
 
-			className : 'wpmoly-metabox wpmoly-tabbed-metabox',
+			className : 'metabox',
 
 			template : wp.template( 'wpmoly-grid-meta-editor' ),
 

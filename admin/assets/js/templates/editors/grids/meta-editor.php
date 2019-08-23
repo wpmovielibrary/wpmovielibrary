@@ -6,14 +6,14 @@
  */
 ?>
 
-			<div class="wpmoly-metabox-menu">
+			<div class="metabox-menu">
 				<ul>
 					<li class="tab" data-tab="presets"><a class="navigate"><?php esc_html_e( 'Presets', 'wpmovielibrary' ); ?></a></li>
 					<li class="tab" data-tab="appearance"><a class="navigate"><?php esc_html_e( 'Appearance', 'wpmovielibrary' ); ?></a></li>
 					<li class="tab" data-tab="settings"><a class="navigate"><?php esc_html_e( 'Settings', 'wpmovielibrary' ); ?></a></li>
 				</ul>
 			</div>
-			<div class="wpmoly-metabox-content">
+			<div class="metabox-content">
 				<div id="wpmoly-grid-presets" data-tab="presets" class="panel">
 					<div id="wpmoly-grid-preset" class="field radio-image-field">
 						<div class="field-label"><?php esc_html_e( 'Preset', 'wpmovielibrary' ); ?></div>

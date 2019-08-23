@@ -1,7 +1,7 @@
 
 /*
- * Grid Editor.
- */
+* Grid Editor.
+*/
 
 .post-editor.grid-editor {
 	min-width: 720px;
@@ -21,8 +21,8 @@
 }
 
 /*
- * Grid Editor Sections.
- */
+* Grid Editor Sections.
+*/
 
 .post-editor.grid-editor .editor-section {
 	background: transparent;
@@ -33,8 +33,8 @@
 }
 
 /*
- * Grid Editor Preview Section.
- */
+* Grid Editor Preview Section.
+*/
 
 .post-editor.grid-editor .preview-section {
 	min-height: 36rem;
@@ -90,12 +90,94 @@
 }
 
 /*
- * Grid Editor Meta Section.
- */
+* Grid Editor Meta Section.
+*/
 
 .post-editor.grid-editor .meta-section {
 	margin-top: 30px;
 	padding: 0;
+}
+
+.post-editor.grid-editor .metabox {
+	position: relative;
+}
+
+.post-editor.grid-editor .metabox .metabox-menu {
+	float: left;
+	margin-top: 4px;
+	position: relative;
+	width: 180px;
+}
+
+.post-editor.grid-editor .metabox .metabox-menu {
+	list-style: none;
+}
+
+.post-editor.grid-editor .metabox .metabox-menu .tab a {
+	border: 1px solid transparent;
+	box-shadow: 0 0 0;
+	cursor: pointer;
+	display: block;
+	height: 42px;
+	line-height: 42px;
+	margin-right: -1px;
+	padding: 0 20px;
+	text-decoration: none;
+}
+
+.post-editor.grid-editor .metabox .metabox-menu .tab.active a {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	border-right: 1px solid #fff;
+	box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.post-editor.grid-editor .metabox .metabox-content {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	float: left;
+	padding: 10px 30px;
+	width: calc( 100% - 242px );
+}
+
+.post-editor.grid-editor .metabox .metabox-content .panel {
+	display: none;
+}
+
+.post-editor.grid-editor .metabox .metabox-content .panel.active {
+	display: block;
+}
+
+.post-editor.grid-editor .metabox .metabox-content .panel h4 {
+	border-bottom: 1px solid #e5e5e5;
+	padding: 0 4px 6px 4px;
+}
+
+@media all and (max-width:960px) {
+
+	.post-editor.grid-editor .metabox .metabox-menu {
+		width: 150px;
+	}
+
+	.post-editor.grid-editor .metabox .metabox-content {
+		width: calc( 100% - 212px );
+	}
+}
+
+@media all and (max-width:640px) {
+
+	.post-editor.grid-editor .metabox .metabox-menu {
+		width: 48px;
+	}
+
+	.post-editor.grid-editor .metabox .metabox-menu .tab .title {
+		display: none;
+	}
+
+	.post-editor.grid-editor .metabox .metabox-content {
+		width: calc( 100% - 110px );
+	}
 }
 
 .post-editor.grid-editor .panel {
@@ -250,8 +332,8 @@
 }
 
 /*
- * Grid Parameters Block.
- */
+* Grid Parameters Block.
+*/
 
 .editor-block.grid-parameters-block {
 	background: transparent;
