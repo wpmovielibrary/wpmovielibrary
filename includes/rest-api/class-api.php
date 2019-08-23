@@ -953,4 +953,39 @@ class API {
 
 		return null;
 	}
+
+	/**
+	 * Filters whether to update post metadata.
+	 *
+	 * This is necessary because of REST API checking old meta values with an
+	 * enforced string type, where
+	 *
+	 * @since 3.0
+	 *
+	 * @param null|bool $check      Whether to allow updating metadata for the given type.
+	 * @param int       $object_id  Object ID.
+	 * @param string    $meta_key   Meta key.
+	 * @param mixed     $meta_value Meta value. Must be serializable if non-scalar.
+	 * @param mixed     $prev_value Optional. If specified, only update existing
+	 *                              metadata entries with the specified value.
+	 *                              Otherwise, update all entries.
+	 */
+	public function update_post_metadata( $check, $object_id, $meta_key, $meta_value, $prev_value ) {
+
+		if ( ! is_null( $check ) || ( defined( 'REST_REQUEST' ) && true !== REST_REQUEST ) ) {
+			return $check;
+		}
+
+		// Compare existing value to new value if no prev value given and the key exists only once.
+		if ( empty( $prev_value ) ) {
+			$old_value = get_metadata( 'post', $object_id, $meta_key );
+			if ( count( $old_value ) == 1 ) {
+				if ( $old_value[0] === $meta_value ) {
+					return true;
+				}
+			}
+		}
+
+		return $check;
+	}
 }

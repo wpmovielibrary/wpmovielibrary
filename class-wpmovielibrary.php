@@ -1074,6 +1074,7 @@ final class wpMovieLibrary {
 		add_filter( 'rest_prepare_collection',           array( $rest_api, 'prepare_collection_for_response' ), 10, 3 );
 		add_filter( 'rest_prepare_genre',                array( $rest_api, 'prepare_genre_for_response' ), 10, 3 );
 		add_filter( 'rest_prepare_post_tag',             array( $rest_api, 'prepare_term_for_response' ), 10, 3 );
+		add_filter( 'update_post_metadata',              array( $rest_api, 'update_post_metadata' ), 10, 5 );
 
 		$prefix = utils\movie\prefix( '' );
 		add_filter( "sanitize_post_meta_{$prefix}format_for_movie",    '\wpmoly\rest\sanitize_movie_details', 10, 1 );
