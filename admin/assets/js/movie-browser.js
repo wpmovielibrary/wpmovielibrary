@@ -968,8 +968,10 @@ wpmoly.browser = wpmoly.browser || {};
 
 				template : wp.template( 'wpmoly-movie-modal-editor' ),
 
-				events : {
-					'change [data-field]' : 'change',
+				events : function() {
+					return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
+						'change [data-field]' : 'change',
+					} );
 				},
 
 				/**
@@ -1137,13 +1139,15 @@ wpmoly.browser = wpmoly.browser || {};
 
 				template : wp.template( 'wpmoly-movie-modal' ),
 
-				events : {
-					'click .movie-modal-backdrop' : 'close',
-					'click [data-action="browse-previous"]' : 'previousMovie',
-					'click [data-action="browse-next"]'     : 'nextMovie',
-					'click [data-action="close-modal"]'     : 'closeModal',
-					'click [data-action="edit-movie"]'      : 'editMode',
-					'click [data-action="preview-movie"]'   : 'previewMode',
+				events : function() {
+					return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
+						'click .movie-modal-backdrop' : 'close',
+						'click [data-action="browse-previous"]' : 'previousMovie',
+						'click [data-action="browse-next"]'     : 'nextMovie',
+						'click [data-action="close-modal"]'     : 'closeModal',
+						'click [data-action="edit-movie"]'      : 'editMode',
+						'click [data-action="preview-movie"]'   : 'previewMode',
+					} );
 				},
 
 				/**

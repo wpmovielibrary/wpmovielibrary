@@ -2003,7 +2003,7 @@ wpmoly.editor = wpmoly.editor || {};
 			ActorsBlock : PostEditor.view.TaxonomyBlock.extend({
 
 				events : function() {
-					return _.extend( PostEditor.view.TaxonomyBlock.prototype.events.call( this, arguments ) || {}, {
+					return _.extend( {}, _.result( PostEditor.view.TaxonomyBlock.prototype, 'events' ), {
 						'click [data-action="synchronize"]' : 'synchronize',
 						'change [data-field]' : 'change',
 					} );
@@ -2189,7 +2189,7 @@ wpmoly.editor = wpmoly.editor || {};
 			CollectionsBlock : PostEditor.view.TaxonomyBlock.extend({
 
 				events : function() {
-					return _.extend( PostEditor.view.TaxonomyBlock.prototype.events.call( this, arguments ) || {}, {
+					return _.extend( {}, _.result( PostEditor.view.TaxonomyBlock.prototype, 'events' ), {
 						'click [data-action="synchronize"]' : 'synchronize',
 						'change [data-field]' : 'change',
 					} );
@@ -2254,7 +2254,7 @@ wpmoly.editor = wpmoly.editor || {};
 			CompaniesBlock : PostEditor.view.TaxonomyBlock.extend({
 
 				events : function() {
-					return _.extend( PostEditor.view.TaxonomyBlock.prototype.events.call( this, arguments ) || {}, {
+					return _.extend( {}, _.result( PostEditor.view.TaxonomyBlock.prototype, 'events' ), {
 						'change [data-field]' : 'change',
 					} );
 				},
@@ -2342,7 +2342,7 @@ wpmoly.editor = wpmoly.editor || {};
 			CountriesBlock : PostEditor.view.TaxonomyBlock.extend({
 
 				events : function() {
-					return _.extend( PostEditor.view.TaxonomyBlock.prototype.events.call( this, arguments ) || {}, {
+					return _.extend( {}, _.result( PostEditor.view.TaxonomyBlock.prototype, 'events' ), {
 						'change [data-field]' : 'change',
 					} );
 				},
@@ -2442,7 +2442,7 @@ wpmoly.editor = wpmoly.editor || {};
 			DetailsBlock : Dashboard.view.Block.extend({
 
 				events : function() {
-					return _.extend( Dashboard.view.Block.prototype.events.call( this, arguments ) || {}, {
+					return _.extend( {}, _.result( Dashboard.view.Block.prototype, 'events' ), {
 						'change [data-field]'                  : 'change',
 						'click [data-action="update-details"]' : 'update',
 					} );
@@ -2567,7 +2567,7 @@ wpmoly.editor = wpmoly.editor || {};
 			GenresBlock : PostEditor.view.TaxonomyBlock.extend({
 
 				events : function() {
-					return _.extend( PostEditor.view.TaxonomyBlock.prototype.events.call( this, arguments ) || {}, {
+					return _.extend( {}, _.result( PostEditor.view.TaxonomyBlock.prototype, 'events' ), {
 						'click [data-action="synchronize"]' : 'synchronize',
 						'change [data-field]' : 'change',
 					} );
@@ -2618,7 +2618,7 @@ wpmoly.editor = wpmoly.editor || {};
 			LanguagesBlock : PostEditor.view.TaxonomyBlock.extend({
 
 				events : function() {
-					return _.extend( PostEditor.view.TaxonomyBlock.prototype.events.call( this, arguments ) || {}, {
+					return _.extend( {}, _.result( PostEditor.view.TaxonomyBlock.prototype, 'events' ), {
 						'change [data-field]' : 'change',
 					} );
 				},
@@ -2721,7 +2721,7 @@ wpmoly.editor = wpmoly.editor || {};
 				template : wp.template( 'wpmoly-movie-editor-submit' ),
 
 				events : function() {
-					return _.extend( PostEditor.view.SubmitBlock.prototype.events.call( this, arguments ) || {}, {
+					return _.extend( {}, _.result( PostEditor.view.SubmitBlock.prototype, 'events' ), {
 						'click [data-mode]'          : 'changeMode',
 						'click [data-action="menu"]' : 'toggleMenu',
 					} );
@@ -2838,13 +2838,15 @@ wpmoly.editor = wpmoly.editor || {};
 
 				template : wp.template( 'wpmoly-movie-editor-search-results' ),
 
-				events : {
-					'click [data-action="jump-to"]'  : 'browse',
-					'click [data-action="first"]'    : 'first',
-					'click [data-action="last"]'     : 'last',
-					'click [data-action="next"]'     : 'next',
-					'click [data-action="previous"]' : 'previous',
-					'click [data-action="import"]'   : 'import',
+				events : function() {
+					return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
+						'click [data-action="jump-to"]'  : 'browse',
+						'click [data-action="first"]'    : 'first',
+						'click [data-action="last"]'     : 'last',
+						'click [data-action="next"]'     : 'next',
+						'click [data-action="previous"]' : 'previous',
+						'click [data-action="import"]'   : 'import',
+					} );
 				},
 
 				/**
@@ -3065,13 +3067,15 @@ wpmoly.editor = wpmoly.editor || {};
 
 				template : wp.template( 'wpmoly-movie-editor-search-form' ),
 
-				events : {
-					'keypress [data-value="search-query"]'  : 'toggleSearch',
-					'keypress [data-value="search-query"]'  : 'toggleSearch',
-					'click [data-action="advanced-search"]' : 'advancedSearch',
-					'click [data-action="search"]'          : 'startSearch',
-					'click [data-action="reset"]'           : 'resetSearch',
-					'change [data-setting]'                 : 'changeSetting',
+				events : function() {
+					return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
+						'keypress [data-value="search-query"]'  : 'toggleSearch',
+						'keypress [data-value="search-query"]'  : 'toggleSearch',
+						'click [data-action="advanced-search"]' : 'advancedSearch',
+						'click [data-action="search"]'          : 'startSearch',
+						'click [data-action="reset"]'           : 'resetSearch',
+						'change [data-setting]'                 : 'changeSetting',
+					} );
 				},
 
 				/**
@@ -3308,9 +3312,11 @@ wpmoly.editor = wpmoly.editor || {};
 
 				template : wp.template( 'wpmoly-movie-editor-snapshot' ),
 
-				events : {
-					'click [data-action="update-snapshot"]' : 'update',
-					'click [data-tab]'                      : 'changeTab',
+				events : function() {
+					return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
+						'click [data-action="update-snapshot"]' : 'update',
+						'click [data-tab]'                      : 'changeTab',
+					} );
 				},
 
 				/**
@@ -3448,11 +3454,11 @@ wpmoly.editor = wpmoly.editor || {};
 			EditorSection : wpmoly.Backbone.View.extend({
 
 				events : function() {
-					return {
+					return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
 						'click [data-action="edit"]'   : 'edit',
 						'click [data-action="toggle"]' : 'toggle',
 						'click [data-action="reload"]' : 'reload',
-					};
+					} );
 				},
 
 				/**
@@ -3694,11 +3700,13 @@ wpmoly.editor = wpmoly.editor || {};
 
 		Image : wpmoly.Backbone.View.extend({
 
-			events : {
-				'click [data-action="download"]' : 'downloadImage',
-				'click [data-action="remove"]'   : 'removeImage',
-				'click [data-action="set-as"]'   : 'setAsImage',
-				'click [data-action="open"]'     : 'openImage',
+			events : function() {
+				return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
+					'click [data-action="download"]' : 'downloadImage',
+					'click [data-action="remove"]'   : 'removeImage',
+					'click [data-action="set-as"]'   : 'setAsImage',
+					'click [data-action="open"]'     : 'openImage',
+				} );
 			},
 
 			/**
@@ -4039,10 +4047,12 @@ wpmoly.editor = wpmoly.editor || {};
 
 		ImagesEditorMenu : wpmoly.Backbone.View.extend({
 
-			events : {
-				'change [data-filter="language"]' : 'filterByLanguage',
-				'change [data-filter="ratio"]'    : 'filterByRatio',
-				'change [data-filter="size"]'     : 'filterBySize',
+			events : function() {
+				return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
+					'change [data-filter="language"]' : 'filterByLanguage',
+					'change [data-filter="ratio"]'    : 'filterByRatio',
+					'change [data-filter="size"]'     : 'filterBySize',
+				} );
 			},
 
 			/**
@@ -4197,8 +4207,10 @@ wpmoly.editor = wpmoly.editor || {};
 
 		ImagesEditorUploader : MovieEditor.view.EditorSection.extend({
 
-			events : {
-				'click [data-action="select-image"]' : 'select',
+			events : function() {
+				return _.extend( {}, _.result( MovieEditor.view.EditorSection.prototype, 'events' ), {
+					'click [data-action="select-image"]' : 'select',
+				} );
 			},
 
 			/**
@@ -4361,7 +4373,7 @@ wpmoly.editor = wpmoly.editor || {};
 		ImagesEditor : MovieEditor.view.EditorSection.extend({
 
 			events : function() {
-				return _.extend( MovieEditor.view.EditorSection.prototype.events.call( this, arguments ) || {}, {
+				return _.extend( {}, _.result( MovieEditor.view.EditorSection.prototype, 'events' ), {
 					'click [data-action="download"]' : 'switchTab',
 					'click [data-action="upload"]'   : 'switchTab',
 				} );
@@ -4728,7 +4740,7 @@ wpmoly.editor = wpmoly.editor || {};
 			template : wp.template( 'wpmoly-movie-meta-editor' ),
 
 			events : function() {
-				return _.extend( MovieEditor.view.EditorSection.prototype.events.call( this, arguments ) || {}, {
+				return _.extend( {}, _.result( MovieEditor.view.EditorSection.prototype, 'events' ), {
 					'change [data-field]' : 'change',
 				} );
 			},
@@ -4911,7 +4923,7 @@ wpmoly.editor = wpmoly.editor || {};
 			template : wp.template( 'wpmoly-movie-credits-editor' ),
 
 			events : function() {
-				return _.extend( MovieEditor.view.EditorSection.prototype.events.call( this, arguments ) || {}, {
+				return _.extend( {}, _.result( MovieEditor.view.EditorSection.prototype, 'events' ), {
 					'change [data-field]' : 'change',
 				} );
 			},

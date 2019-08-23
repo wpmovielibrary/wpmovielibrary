@@ -539,13 +539,13 @@ wpmoly.editor = wpmoly.editor || {};
 		className : 'editor-section-inner',
 
 		events : function() {
-			return {
+			return _.extend( {}, _.result( wpmoly.Backbone.View, 'events' ), {
 				'click [data-action="change-thumbnail"]'  : 'selectThumbnail',
 				'click [data-action="remove-thumbnail"]'  : 'removeThumbnail',
 				'click [data-action="edit-description"]'  : 'editDescription',
 				'click [data-action="close-description"]' : 'closeDescription',
 				'change [data-field="description"]'       : 'updateDescription',
-			};
+			} );
 		},
 
 		template : wp.template( 'wpmoly-term-meta-editor' ),
@@ -665,8 +665,10 @@ wpmoly.editor = wpmoly.editor || {};
 
 		template : wp.template( 'wpmoly-term-thumbnail-picker' ),
 
-		events : {
-			'click [data-action="set-as"]' : 'setThumbnail',
+		events : function() {
+			return _.extend( {}, _.result( wpmoly.Backbone.View, 'events' ), {
+				'click [data-action="set-as"]' : 'setThumbnail',
+			} );
 		},
 
 		/**
@@ -740,10 +742,12 @@ wpmoly.editor = wpmoly.editor || {};
 
 		template : wp.template( 'wpmoly-term-thumbnail-editor' ),
 
-		events : {
-			'click [data-action="picker"]'  : 'switchTab',
-			'click [data-action="download"]' : 'switchTab',
-			'click [data-action="upload"]'   : 'switchTab',
+		events : function() {
+			return _.extend( {}, _.result( wpmoly.Backbone.View, 'events' ), {
+				'click [data-action="picker"]'   : 'switchTab',
+				'click [data-action="download"]' : 'switchTab',
+				'click [data-action="upload"]'   : 'switchTab',
+			} );
 		},
 
 		/**
@@ -917,7 +921,7 @@ wpmoly.editor = wpmoly.editor || {};
 	TermEditor.view.Block = Dashboard.view.Block.extend({
 
 		events : function() {
-			return _.extend( Dashboard.view.Block.prototype.events.call( this, arguments ) || {}, {
+			return _.extend( {}, _.result( Dashboard.view.Block.prototype, 'events' ), {
 				'click [data-action="edit"]' : 'edit',
 			} );
 		},
@@ -960,7 +964,7 @@ wpmoly.editor = wpmoly.editor || {};
 	TermEditor.view.SubmitBlock = TermEditor.view.Block.extend({
 
 		events : function() {
-			return _.extend( TermEditor.view.Block.prototype.events.call( this, arguments ) || {}, {
+			return _.extend( {}, _.result( TermEditor.view.Block.prototype, 'events' ), {
 				'click [data-action="save"]'          : 'save',
 				'click [data-action="trash"]'         : 'trash',
 				'click [data-action="dismiss"]'       : 'dismiss',

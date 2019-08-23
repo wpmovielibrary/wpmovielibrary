@@ -6,7 +6,6 @@
  */
 ?>
 
-			<# console.log( data ); #>
 			<div class="post-thumbnail person-picture" style="background-image:url({{ data.picture.sizes.medium.url }})">
 			<div class="edit-menu">
 			<# if ( 'publish' === data.post_status ) { #>

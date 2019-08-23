@@ -292,7 +292,7 @@ wpmoly.editor = wpmoly.editor || {};
 			RelatedPersonBlock : TermEditor.view.Block.extend({
 
 				events : function() {
-					return _.extend( TermEditor.view.Block.prototype.events.call( this, arguments ) || {}, {
+					return _.extend( {}, _.result( TermEditor.view.Block.prototype, 'events' ), {
 						'change [data-value="new-tmdb-id"]' : 'updateTMDbID',
 						'click [data-action="fetch-person"]' : 'fetchPerson',
 					} );

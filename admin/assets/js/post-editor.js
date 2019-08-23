@@ -498,7 +498,7 @@ wpmoly.editor = wpmoly.editor || {};
 	PostEditor.view.SubmitBlock = PostEditor.view.Block.extend({
 
 		events : function() {
-			return _.extend( PostEditor.view.Block.prototype.events.call( this, arguments ) || {}, {
+			return _.extend( {}, _.result( PostEditor.view.Block.prototype, 'events' ), {
 				'click [data-action="save"]'          : 'save',
 				'click [data-action="trash"]'         : 'trash',
 				'click [data-action="dismiss"]'       : 'dismiss',

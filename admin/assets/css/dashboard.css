@@ -145,9 +145,9 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
 .wpmoly-sidebar .dashboard-block.collapsed,
 .wpmoly-sidebar .editor-block.collapsed {
 	background: #fff;
-	min-height: 50px;
+	/*min-height: 50px;*/
 	opacity: .5;
-	padding: 0 20px;
+	/*padding: 0 20px;*/
 }
 
 .wpmoly-sidebar .dashboard-block.collapsed:hover,
@@ -157,12 +157,12 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
 
 .wpmoly-sidebar .dashboard-block .button.arrow,
 .wpmoly-sidebar .editor-block .button.arrow {
-	display: none;
+	/*display: none;*/
 	font-size: 14px;
 	left: auto;
 	position: absolute;
-	right: 10px;
-	top: 10px;
+	right: 12px;
+	top: 12px;
 }
 
 .wpmoly-sidebar .dashboard-block .button.arrow:hover,
@@ -184,7 +184,8 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
 }
 
 .wpmoly-sidebar .dashboard-block.collapsed .license-alert,
-.wpmoly-sidebar .dashboard-block.collapsed .block-content {
+.wpmoly-sidebar .dashboard-block.collapsed .block-content,
+.wpmoly-sidebar .editor-block.collapsed .block-content {
 	display: none;
 }
 

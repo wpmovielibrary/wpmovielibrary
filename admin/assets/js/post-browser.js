@@ -838,7 +838,7 @@ wpmoly.browser = wpmoly.browser || {};
 	PostBrowser.view.BrowserBlock = Dashboard.view.Block.extend({
 
 		events : function() {
-			return _.extend( Dashboard.view.Block.prototype.events || {}, {
+			return _.extend( {}, _.result( Dashboard.view.Block.prototype, 'events' ), {
 				'click [data-action="start-search"]'   : 'startSearch',
 				'click [data-action="close-search"]'   : 'closeSearch',
 				'keypress [data-value="search-query"]' : 'startSearch',
@@ -1010,7 +1010,7 @@ wpmoly.browser = wpmoly.browser || {};
 	PostBrowser.view.AddNewBlock = Dashboard.view.Block.extend({
 
 		events : function() {
-			return _.extend( Dashboard.view.Block.prototype.events || {}, {
+			return _.extend( {}, _.result( Dashboard.view.Block.prototype, 'events' ), {
 				'input [data-value="new-post-title"]' : 'change',
 				'click [data-action="add-new-post"]'  : 'create',
 				'keypress [data-value="new-post-title"]' : 'create',
@@ -1089,9 +1089,11 @@ wpmoly.browser = wpmoly.browser || {};
 
 		className : 'list-item',
 
-		events : {
-			'click [data-action="restore-post"]' : 'restorePost',
-			'click [data-action="trash-post"]'   : 'trashPost',
+		events : function() {
+			return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
+				'click [data-action="restore-post"]' : 'restorePost',
+				'click [data-action="trash-post"]'   : 'trashPost',
+			} );
 		},
 
 		template : wp.template( 'wpmoly-post-editor-drafts-item' ),
@@ -1184,7 +1186,7 @@ wpmoly.browser = wpmoly.browser || {};
 	PostBrowser.view.DraftsBlock = Dashboard.view.Block.extend({
 
 		events : function() {
-			return _.extend( Dashboard.view.Block.prototype.events || {}, {
+			return _.extend( {}, _.result( Dashboard.view.Block.prototype, 'events' ), {
 				'click [data-action="dismiss"]'             : 'dismiss',
 				'click [data-action="trash-posts"]'         : 'trashPosts',
 				'click [data-action="confirm-trash-posts"]' : 'confirmTrashPosts',
@@ -1356,11 +1358,13 @@ wpmoly.browser = wpmoly.browser || {};
 
 		className : 'list-item',
 
-		events : {
-			'click [data-action="dismiss"]'            : 'dismiss',
-			'click [data-action="restore-post"]'       : 'restorePost',
-			'click [data-action="trash-post"]'         : 'trashPost',
-			'click [data-action="confirm-trash-post"]' : 'confirmTrashPost',
+		events : function() {
+			return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
+				'click [data-action="dismiss"]'            : 'dismiss',
+				'click [data-action="restore-post"]'       : 'restorePost',
+				'click [data-action="trash-post"]'         : 'trashPost',
+				'click [data-action="confirm-trash-post"]' : 'confirmTrashPost',
+			} );
 		},
 
 		template : wp.template( 'wpmoly-post-editor-trash-item' ),
@@ -1483,7 +1487,7 @@ wpmoly.browser = wpmoly.browser || {};
 	PostBrowser.view.TrashBlock = Dashboard.view.Block.extend({
 
 		events : function() {
-			return _.extend( Dashboard.view.Block.prototype.events || {}, {
+			return _.extend( {}, _.result( Dashboard.view.Block.prototype, 'events' ), {
 				'click [data-action="dismiss"]'             : 'dismiss',
 				'click [data-action="trash-posts"]'         : 'trashPosts',
 				'click [data-action="confirm-trash-posts"]' : 'confirmTrashPosts',
@@ -1761,14 +1765,16 @@ wpmoly.browser = wpmoly.browser || {};
 
 		template : wp.template( 'wpmoly-post-browser-item' ),
 
-		events : {
-			'click [data-action="dismiss"]'             : 'dismiss',
-			'click [data-action="draft-post"]'          : 'draftPost',
-			'click [data-action="restore-post"]'        : 'restorePost',
-			'click [data-action="trash-post"]'          : 'trashPost',
-			'click [data-action="delete-post"]'         : 'deletePost',
-			'click [data-action="confirm-trash-post"]'  : 'confirmTrashPost',
-			'click [data-action="confirm-delete-post"]' : 'confirmDeletePost',
+		events : function() {
+			return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
+				'click [data-action="dismiss"]'             : 'dismiss',
+				'click [data-action="draft-post"]'          : 'draftPost',
+				'click [data-action="restore-post"]'        : 'restorePost',
+				'click [data-action="trash-post"]'          : 'trashPost',
+				'click [data-action="delete-post"]'         : 'deletePost',
+				'click [data-action="confirm-trash-post"]'  : 'confirmTrashPost',
+				'click [data-action="confirm-delete-post"]' : 'confirmDeletePost',
+			} );
 		},
 
 		/**

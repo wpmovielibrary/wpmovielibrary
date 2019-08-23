@@ -637,7 +637,7 @@ wpmoly.editor = wpmoly.editor || {};
 			ParametersBlock : Dashboard.view.Block.extend({
 
 				events : function() {
-					return _.extend( Dashboard.view.Block.prototype.events || {}, {
+					return _.extend( {}, _.result( Dashboard.view.Block.prototype, 'events' ), {
 						'click [data-action="set-type"]'  : 'setType',
 						'click [data-action="set-mode"]'  : 'setMode',
 						'click [data-action="set-theme"]' : 'setTheme',
@@ -768,7 +768,7 @@ wpmoly.editor = wpmoly.editor || {};
 			ArchivesBlock : Dashboard.view.Block.extend({
 
 				events : function() {
-					return _.extend( Dashboard.view.Block.prototype.events || {}, {
+					return _.extend( {}, _.result( Dashboard.view.Block.prototype, 'events' ), {
 						'change [data-value="archive-type"]'   : 'change',
 						'change [data-value="archive-page"]'   : 'change',
 						'click [data-action="update-setting"]' : 'update',
@@ -932,8 +932,10 @@ wpmoly.editor = wpmoly.editor || {};
 
 				template : wp.template( 'wpmoly-grid-editor' ),
 
-				events : {
-					'click .preview-section a' : 'preventDefault',
+				events : function() {
+					return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
+						'click .preview-section a' : 'preventDefault',
+					} );
 				},
 
 				/**
@@ -1035,7 +1037,7 @@ wpmoly.editor = wpmoly.editor || {};
 			template : wp.template( 'wpmoly-grid-meta-editor' ),
 
 			events : function() {
-				return _.extend( GridEditor.view.EditorSection.prototype.events || {}, {
+				return _.extend( {}, _.result( GridEditor.view.EditorSection.prototype, 'events' ), {
 					'change [data-field]'    : 'change',
 					'click [data-tab].tab a' : 'switchTab',
 				} );

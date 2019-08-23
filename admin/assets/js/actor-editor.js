@@ -287,7 +287,7 @@ wpmoly.editor = wpmoly.editor || {};
 			RelatedPersonBlock : TermEditor.view.Block.extend({
 
 				events : function() {
-					return _.extend( TermEditor.view.Block.prototype.events.call( this, arguments ) || {}, {
+					return _.extend( {}, _.result( TermEditor.view.Block.prototype, 'events' ), {
 						'change [data-field="person"]'      : 'changePerson',
 						'click [data-action="save-person"]' : 'savePerson',
 					} );

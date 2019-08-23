@@ -1392,7 +1392,7 @@ wpmoly.editor = wpmoly.editor || {};
 				template : wp.template( 'wpmoly-person-editor-submit' ),
 
 				events : function() {
-					return _.extend( PostEditor.view.SubmitBlock.prototype.events.call( this, arguments ) || {}, {
+					return _.extend( {}, _.result( PostEditor.view.SubmitBlock.prototype, 'events' ), {
 						'click [data-mode]'          : 'changeMode',
 						'click [data-action="menu"]' : 'toggleMenu',
 					} );
@@ -2126,11 +2126,11 @@ wpmoly.editor = wpmoly.editor || {};
 			EditorSection : wpmoly.Backbone.View.extend({
 
 				events : function() {
-					return {
+					return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
 						'click [data-action="edit"]'   : 'edit',
 						'click [data-action="toggle"]' : 'toggle',
 						'click [data-action="reload"]' : 'reload',
-					};
+					} );
 				},
 
 				/**
@@ -3043,7 +3043,7 @@ wpmoly.editor = wpmoly.editor || {};
 		ImagesEditor : PersonEditor.view.EditorSection.extend({
 
 			events : function() {
-				return _.extend( PersonEditor.view.EditorSection.prototype.events.call( this, arguments ) || {}, {
+				return _.extend( {}, _.result( PersonEditor.view.EditorSection.prototype, 'events' ), {
 					'click [data-action="download"]' : 'switchTab',
 					'click [data-action="upload"]'   : 'switchTab',
 				} );
@@ -3458,7 +3458,7 @@ wpmoly.editor = wpmoly.editor || {};
 			template : wp.template( 'wpmoly-person-credits-editor-item' ),
 
 			events : function() {
-				return _.extend( PersonEditor.view.EditorSection.prototype.events.call( this, arguments ) || {}, {
+				return _.extend( {}, _.result( PersonEditor.view.EditorSection.prototype, 'events' ), {
 					'click [data-action="import"]' : 'import',
 				} );
 			},
@@ -3568,7 +3568,7 @@ wpmoly.editor = wpmoly.editor || {};
 			template : wp.template( 'wpmoly-person-meta-editor' ),
 
 			events : function() {
-				return _.extend( PersonEditor.view.EditorSection.prototype.events.call( this, arguments ) || {}, {
+				return _.extend( {}, _.result( PersonEditor.view.EditorSection.prototype, 'events' ), {
 					'change [data-field]' : 'change',
 				} );
 			},
@@ -3814,7 +3814,7 @@ wpmoly.editor = wpmoly.editor || {};
 			template : wp.template( 'wpmoly-person-credits-editor' ),
 
 			events : function() {
-				return _.extend( PersonEditor.view.EditorSection.prototype.events.call( this, arguments ) || {}, {
+				return _.extend( {}, _.result( PersonEditor.view.EditorSection.prototype, 'events' ), {
 					'change [data-field]'            : 'change',
 					//'click [data-action="download"]' : 'import',
 				} );

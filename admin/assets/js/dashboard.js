@@ -483,10 +483,10 @@ wpmoly = window.wpmoly || {};
 	Dashboard.view.Block = wpmoly.Backbone.View.extend({
 
 		events : function() {
-			return {
+			return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
 				'click [data-action="open"]'  : 'open',
 				'click [data-action="close"]' : 'close',
-			};
+			} );
 		},
 
 		/**

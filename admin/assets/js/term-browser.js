@@ -474,7 +474,7 @@ wpmoly.browser = wpmoly.browser || {};
 	TermBrowser.view.BrowserBlock = Dashboard.view.Block.extend({
 
 		events : function() {
-			return _.extend( Dashboard.view.Block.prototype.events || {}, {
+			return _.extend( {}, _.result( Dashboard.view.Block.prototype, 'events' ), {
 				'click [data-action="start-search"]'   : 'startSearch',
 				'click [data-action="close-search"]'   : 'closeSearch',
 				'keypress [data-value="search-query"]' : 'startSearch',
@@ -594,7 +594,7 @@ wpmoly.browser = wpmoly.browser || {};
 	TermBrowser.view.AddNewBlock = Dashboard.view.Block.extend({
 
 		events : function() {
-			return _.extend( Dashboard.view.Block.prototype.events || {}, {
+			return _.extend( {}, _.result( Dashboard.view.Block.prototype, 'events' ), {
 				'input [data-value="new-term-name"]' : 'change',
 				'click [data-action="add-new-term"]' : 'create',
 			} );
@@ -675,10 +675,12 @@ wpmoly.browser = wpmoly.browser || {};
 
 		template : wp.template( 'wpmoly-term-browser-pagination' ),
 
-		events : {
-			'click [data-action="previous-page"]' : 'previousPage',
-			'click [data-action="next-page"]'     : 'nextPage',
-			'change [data-action="jump-to"]'      : 'jumpTo',
+		events : function() {
+			return _.extend( {}, _.result( wp.Backbone.View, 'events' ), {
+				'click [data-action="previous-page"]' : 'previousPage',
+				'click [data-action="next-page"]'     : 'nextPage',
+				'change [data-action="jump-to"]'      : 'jumpTo',
+			} );
 		},
 
 		/**
@@ -773,10 +775,12 @@ wpmoly.browser = wpmoly.browser || {};
 
 		template : wp.template( 'wpmoly-term-browser-item' ),
 
-		events : {
-			'click [data-action="dismiss"]'              : 'dismiss',
-			'click [data-action="delete-term"]'         : 'deleteTerm',
-			'click [data-action="confirm-delete-term"]' : 'confirmDeleteTerm',
+		events : function() {
+			return _.extend( {}, _.result( wp.Backbone.View, 'events' ), {
+				'click [data-action="dismiss"]'              : 'dismiss',
+				'click [data-action="delete-term"]'         : 'deleteTerm',
+				'click [data-action="confirm-delete-term"]' : 'confirmDeleteTerm',
+			} );
 		},
 
 		/**
