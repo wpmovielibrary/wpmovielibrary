@@ -1445,25 +1445,20 @@ wpmoly.browser = wpmoly.browser || {};
 			 *
 			 * @since 1.0.0
 			 */
-			BrowserItem : PostBrowser.view.BrowserItem.extend({
+			Movie : PostBrowser.view.BrowserItem.extend({
 
 				className : 'post movie',
 
 				template : wp.template( 'wpmoly-movie-browser-item' ),
 
-				events : {
-					'click [data-action="dismiss"]'             : 'dismiss',
-					'click [data-action="preview-movie"]'       : 'previewMovie',
-					'click [data-action="edit-status"]'         : 'editStatus',
-					'click [data-action="edit-rating"]'         : 'editRating',
-					'click [data-action="update-status"]'       : 'updateStatus',
-					'click [data-action="update-rating"]'       : 'updateRating',
-					'click [data-action="draft-post"]'          : 'draftPost',
-					'click [data-action="restore-post"]'        : 'restorePost',
-					'click [data-action="trash-post"]'          : 'trashPost',
-					'click [data-action="delete-post"]'         : 'deletePost',
-					'click [data-action="confirm-trash-post"]'  : 'confirmTrashPost',
-					'click [data-action="confirm-delete-post"]' : 'confirmDeletePost',
+				events : function() {
+					return _.extend( {}, _.result( PostBrowser.view.BrowserItem.prototype, 'events' ), {
+						'click [data-action="preview-movie"]'       : 'previewMovie',
+						'click [data-action="edit-status"]'         : 'editStatus',
+						'click [data-action="edit-rating"]'         : 'editRating',
+						'click [data-action="update-status"]'       : 'updateStatus',
+						'click [data-action="update-rating"]'       : 'updateRating',
+					} );
 				},
 
 				/**
@@ -1679,7 +1674,7 @@ wpmoly.browser = wpmoly.browser || {};
 				 */
 				addItem : function( model ) {
 
-					this.views.add( new MovieBrowser.view.BrowserItem({
+					this.views.add( new MovieBrowser.view.Movie({
 						controller : this.controller,
 						model      : model,
 					}) );
