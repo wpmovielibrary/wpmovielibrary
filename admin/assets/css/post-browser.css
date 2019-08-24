@@ -98,6 +98,7 @@
 	width: 40px;
 }
 
+.post-browser .post-browser-content .post .post-thumbnail .button.edit,
 .post-browser .post-browser-content .post .post-thumbnail .button.unpublish,
 .post-browser .post-browser-content .post .post-thumbnail .button.restore {
 	left: 5px;

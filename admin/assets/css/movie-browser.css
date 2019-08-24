@@ -64,26 +64,9 @@
 	position: absolute;
 }
 
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.edit,
 .post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status .button.dismiss,
 .post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-rating .button.dismiss {
 	color: #fff;
-	left: auto;
-	right: 0;
-	top: 0;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.edit,
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.restore {
-	bottom: auto;
-	left: 0;
-	right: auto;
-	top: 0;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.trash,
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.delete {
-	bottom: auto;
 	left: auto;
 	right: 0;
 	top: 0;
