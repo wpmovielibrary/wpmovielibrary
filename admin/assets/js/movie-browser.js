@@ -1453,6 +1453,7 @@ wpmoly.browser = wpmoly.browser || {};
 
 				events : function() {
 					return _.extend( {}, _.result( PostBrowser.view.BrowserItem.prototype, 'events' ), {
+						'contextmenu .post-thumbnail'               : 'openContextMenu',
 						'click [data-action="preview-movie"]'       : 'previewMovie',
 						'click [data-action="edit-status"]'         : 'editStatus',
 						'click [data-action="edit-rating"]'         : 'editRating',
@@ -1473,11 +1474,43 @@ wpmoly.browser = wpmoly.browser || {};
 					var options = options || {};
 
 					this.controller = options.controller;
+					this.parent     = options.parent;
 
 					this.on( 'render',   this.dismiss, this );
 					this.on( 'rendered', this.selectize, this );
 
 					this.listenTo( this.model, 'change', this.render );
+				},
+
+				/**
+				 * Open Context Menu.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {object} JS 'contextmenu' Event.
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				openContextMenu : function( event ) {
+
+					// Get mouse position.
+					var position = {
+						x : event.clientX,
+						y : event.clientY,
+					};
+
+					// Stop default and propagation.
+					event.preventDefault();
+					event.stopPropagation();
+
+					// Set menu model.
+					this.parent.menu.model.set( this.model.toJSON() );
+
+					// Open menu.
+					this.parent.menu.open();
+					this.parent.menu.setPosition( position );
+
+					return this;
 				},
 
 				/**
@@ -1609,6 +1642,154 @@ wpmoly.browser = wpmoly.browser || {};
 			}),
 
 			/**
+			 * MovieBrowser Context Menu View.
+			 *
+			 * @since 1.0.0
+			 */
+			BrowserContextMenu : wpmoly.Backbone.View.extend({
+
+				className : 'wpmoly post-browser-context-menu movie-browser-context-menu',
+
+				template : wp.template( 'wpmoly-movie-browser-context-menu' ),
+
+				events : function() {
+					return _.extend( {}, _.result( PostBrowser.view.BrowserItem.prototype, 'events' ), {
+						'click [data-action]' : 'doStuff',
+						'click'               : 'stopPropagation',
+						'contextmenu'         : 'stopPropagation',
+					} );
+				},
+
+				/**
+				 * Initialize the View.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param {object} options Options.
+				 */
+				initialize : function( options ) {
+
+					var options = options || {};
+
+					this.model  = new Backbone.Model;
+					this.parent = options.parent;
+				},
+
+				/**
+				 * Stop event propagation to avoid impromptusly closing the menu.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {object} JS 'click' or 'contextmenu' Event.
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				stopPropagation : function( event ) {
+
+					event.stopPropagation();
+
+					return this;
+				},
+
+				/**
+				 * Do stuff.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {object} JS 'click' Event.
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				doStuff : function( event ) {
+
+					event.stopPropagation();
+
+					console.log( event );
+
+					return this;
+				},
+
+				/**
+				 * Open Context Menu.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				open : function() {
+
+					var self = this;
+
+					// Add view to DOM.
+					$( 'body' ).append( self.render().$el );
+
+					// Bind closing events.
+					$( 'body' ).on( 'click', _.bind( self.close, self ) );
+					$( 'body' ).on( 'contextmenu', _.bind( self.close, self ) );
+
+					return this;
+				},
+
+				/**
+				 * Close Context Menu.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				close : function() {
+
+					// Remove view.
+					this.remove();
+
+					// Clean Model.
+					this.model.clear();
+
+					// Unbind events.
+					$( 'body' ).off( 'click', this.close );
+					$( 'body' ).off( 'contextmenu', this.close );
+
+					return this;
+				},
+
+				/**
+				 * Position Context Menu from click event position.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {object} position Context Menu position.
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				setPosition : function( position ) {
+
+					var position = position || {};
+
+					this.$el.css({
+						left : position.x || 0,
+						top  : position.y || 0,
+					})
+
+					return this;
+				},
+
+				/**
+				 * Prepare rendering options.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return {object}
+				 */
+				prepare : function() {
+
+					var options = this.model.toJSON();
+
+					return options;
+				},
+
+			}),
+
+			/**
 			 * MovieBrowser Content View.
 			 *
 			 * @since 1.0.0
@@ -1643,6 +1824,9 @@ wpmoly.browser = wpmoly.browser || {};
 					this.listenTo( this.posts, 'sync',   _.debounce( this.adjust, 50 ) );
 
 					$( window ).off( 'resize.movie-browser-content' ).on( 'resize.movie-browser-content', _.debounce( this.adjust, 50 ) );
+
+					// Initialize Context Menu.
+					this.menu = new PostBrowser.view.BrowserContextMenu( { parent : this } );
 				},
 
 				/**
@@ -1676,6 +1860,7 @@ wpmoly.browser = wpmoly.browser || {};
 
 					this.views.add( new MovieBrowser.view.Movie({
 						controller : this.controller,
+						parent     : this,
 						model      : model,
 					}) );
 

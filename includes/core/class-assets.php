@@ -369,6 +369,7 @@ class Assets {
 				$this->enqueue_template( 'movie-posters-editor-menu' );
 				$this->enqueue_template( 'movie-posters-editor-item' );
 				$this->enqueue_template( 'movie-posters-editor-uploader' );
+				$this->enqueue_template( 'movie-browser-context-menu' );
 				$this->enqueue_template( 'movie-browser-item' );
 				$this->enqueue_template( 'movie-modal' );
 				$this->enqueue_template( 'movie-modal-preview' );
@@ -757,6 +758,7 @@ class Assets {
 				$this->register_template( 'movie-posters-editor-menu',       'admin/assets/js/templates/editors/movies/posters-editor-menu.php' );
 				$this->register_template( 'movie-posters-editor-item',       'admin/assets/js/templates/editors/movies/posters-editor-item.php' );
 				$this->register_template( 'movie-posters-editor-uploader',   'admin/assets/js/templates/editors/movies/posters-editor-uploader.php' );
+				$this->register_template( 'movie-browser-context-menu',      'admin/assets/js/templates/editors/movies/browser-context-menu.php' );
 				$this->register_template( 'movie-browser-item',              'admin/assets/js/templates/editors/movies/browser-item.php' );
 				$this->register_template( 'movie-modal',                     'admin/assets/js/templates/editors/movies/modal.php' );
 				$this->register_template( 'movie-modal-preview',             'admin/assets/js/templates/editors/movies/modal-preview.php' );
