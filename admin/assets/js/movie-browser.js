@@ -1329,6 +1329,12 @@ wpmoly.browser = wpmoly.browser || {};
 						return this;
 					}
 
+					// Close when Esc key is pressed.
+					if ( 27 === event.which ) {
+						this.closeModal();
+						event.stopImmediatePropagation();
+					}
+
 					// Previous item when left or 'p' key is pressed.
 					if ( 37 === event.which || 80 === event.which ) {
 						this.previousMovie();
@@ -1453,12 +1459,7 @@ wpmoly.browser = wpmoly.browser || {};
 
 				events : function() {
 					return _.extend( {}, _.result( PostBrowser.view.BrowserItem.prototype, 'events' ), {
-						'contextmenu .post-thumbnail'               : 'openContextMenu',
-						'click [data-action="preview-movie"]'       : 'previewMovie',
-						'click [data-action="edit-status"]'         : 'editStatus',
-						'click [data-action="edit-rating"]'         : 'editRating',
-						'click [data-action="update-status"]'       : 'updateStatus',
-						'click [data-action="update-rating"]'       : 'updateRating',
+						'contextmenu .post-thumbnail' : 'openContextMenu',
 					} );
 				},
 
@@ -1493,66 +1494,16 @@ wpmoly.browser = wpmoly.browser || {};
 				 */
 				openContextMenu : function( event ) {
 
+					// Stop default.
+					event.preventDefault();
+
 					// Get mouse position.
 					var position = {
 						x : event.pageX,
 						y : event.pageY,
 					};
 
-					// Stop default and propagation.
-					event.preventDefault();
-					event.stopPropagation();
-
-					// Set menu model.
-					this.parent.menu.model.set( this.model.toJSON() );
-
-					// Open menu.
-					this.parent.menu.open();
-					this.parent.menu.setPosition( position );
-
-					return this;
-				},
-
-				/**
-				 * .
-				 *
-				 * @since 1.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				previewMovie : function() {
-
-					this.controller.openModal( this.model.get( 'id' ) );
-
-					return this;
-				},
-
-				/**
-				 * .
-				 *
-				 * @since 1.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				editStatus : function() {
-
-					this.dismiss();
-					this.$el.addClass( 'edit-status' );
-
-					return this;
-				},
-
-				/**
-				 * .
-				 *
-				 * @since 1.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				editRating : function() {
-
-					this.dismiss();
-					this.$el.addClass( 'edit-rating' );
+					this.controller.trigger( 'open:context:menu', this.model, position );
 
 					return this;
 				},
@@ -1654,9 +1605,10 @@ wpmoly.browser = wpmoly.browser || {};
 
 				events : function() {
 					return _.extend( {}, _.result( PostBrowser.view.BrowserItem.prototype, 'events' ), {
-						'click'               : 'stopPropagation',
-						'contextmenu'         : 'stopPropagation',
-						'click [data-action]' : 'doStuff',
+						'click'                         : 'stopPropagation',
+						'contextmenu'                   : 'stopPropagation',
+						'click [data-action="preview"]' : 'previewMovie',
+						'click [data-action="update"]'  : 'update',
 					} );
 				},
 
@@ -1671,8 +1623,8 @@ wpmoly.browser = wpmoly.browser || {};
 
 					var options = options || {};
 
-					this.model  = new Backbone.Model;
-					this.parent = options.parent;
+					this.model      = options.model;
+					this.controller = options.controller;
 				},
 
 				/**
@@ -1692,7 +1644,23 @@ wpmoly.browser = wpmoly.browser || {};
 				},
 
 				/**
-				 * Do stuff.
+				 * Preview Movie.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				previewMovie : function() {
+
+					this.controller.openModal( this.model.get( 'id' ) );
+
+					this.close();
+
+					return this;
+				},
+
+				/**
+				 * Update details.
 				 *
 				 * @since 3.0.0
 				 *
@@ -1700,11 +1668,13 @@ wpmoly.browser = wpmoly.browser || {};
 				 *
 				 * @return Returns itself to allow chaining.
 				 */
-				doStuff : function( event ) {
+				update : function( event ) {
 
-					event.stopPropagation();
+					var $target = this.$( event.currentTarget ),
+					      field = $target.attr( 'data-field' ),
+								value = $target.attr( 'data-value' );
 
-					console.log( event );
+					$target.toggleClass( 'active' );
 
 					return this;
 				},
@@ -1720,12 +1690,15 @@ wpmoly.browser = wpmoly.browser || {};
 
 					var self = this;
 
+					// Avoid losing events when closing.
+					self.delegateEvents();
+
 					// Add view to DOM.
 					$( 'body' ).append( self.render().$el );
 
 					// Bind closing events.
-					$( 'body' ).on( 'click', _.bind( self.close, self ) );
-					$( window ).on( 'resize', _.bind( self.close, self ) );
+					$( 'body' ).one( 'click', _.bind( self.close, self ) );
+					$( window ).one( 'resize', _.bind( self.close, self ) );
 
 					return this;
 				},
@@ -1744,10 +1717,6 @@ wpmoly.browser = wpmoly.browser || {};
 
 					// Clean Model.
 					this.model.clear();
-
-					// Unbind events.
-					$( 'body' ).off( 'click', this.close );
-					$( window ).off( 'resize', this.close );
 
 					return this;
 				},
@@ -1787,7 +1756,15 @@ wpmoly.browser = wpmoly.browser || {};
 				 */
 				prepare : function() {
 
-					var options = this.model.toJSON();
+					var meta = this.model.get( 'meta' ) || {},
+					 options = {
+						media     : meta[ wpmolyApiSettings.movie_prefix + 'media' ] || [],
+						status    : meta[ wpmolyApiSettings.movie_prefix + 'status' ] || '',
+						rating    : meta[ wpmolyApiSettings.movie_prefix + 'rating' ] || '',
+						format    : meta[ wpmolyApiSettings.movie_prefix + 'format' ] || [],
+						subtitles : meta[ wpmolyApiSettings.movie_prefix + 'subtitles' ] || [],
+						languages : meta[ wpmolyApiSettings.movie_prefix + 'language' ] || [],
+					};
 
 					return options;
 				},
@@ -1828,10 +1805,9 @@ wpmoly.browser = wpmoly.browser || {};
 					this.listenTo( this.posts, 'change', _.debounce( this.adjust, 50 ) );
 					this.listenTo( this.posts, 'sync',   _.debounce( this.adjust, 50 ) );
 
-					$( window ).off( 'resize.movie-browser-content' ).on( 'resize.movie-browser-content', _.debounce( this.adjust, 50 ) );
+					this.listenTo( this.controller, 'open:context:menu', this.openContextMenu );
 
-					// Initialize Context Menu.
-					this.menu = new PostBrowser.view.BrowserContextMenu( { parent : this } );
+					$( window ).off( 'resize.movie-browser-content' ).on( 'resize.movie-browser-content', _.debounce( this.adjust, 50 ) );
 				},
 
 				/**
@@ -1848,6 +1824,25 @@ wpmoly.browser = wpmoly.browser || {};
 					_.each( this.posts.models, this.addItem, this );
 
 					_.delay( this.adjust, 50 );
+
+					return this;
+				},
+
+				openContextMenu : function( model, position ) {
+
+					if ( this.menu ) {
+						this.menu.close();
+					}
+
+					// Initialize Context Menu.
+					this.menu = new PostBrowser.view.BrowserContextMenu({
+						model      : model,
+						controller : this.controller,
+					});
+
+					// Open menu.
+					this.menu.open();
+					this.menu.setPosition( position );
 
 					return this;
 				},

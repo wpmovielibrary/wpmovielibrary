@@ -30,6 +30,7 @@
 	bottom: 0;
 	border-radius: 3px;
 	left: 0;
+	mix-blend-mode: screen;
 	position: absolute;
 	right: 0;
 	top: 0;

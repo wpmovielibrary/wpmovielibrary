@@ -256,7 +256,7 @@
 
 .post-browser-context-menu {
 	position: absolute;
-	z-index: 9999;
+	z-index: 99999;
 }
 
 .post-browser-context-menu .context-menu-content {
@@ -264,6 +264,7 @@
 	border-radius: 2px;
 	box-shadow: 0 2px 15px rgba( 0, 0, 0, .5 );
 	padding: 5px 0;
+	position: relative;
 	width: 200px;
 }
 
@@ -274,6 +275,14 @@
 	flex-wrap: wrap;
 	padding: 5px 15px;
 	position: relative;
+}
+
+.post-browser-context-menu .context-menu-item.unpublish-item:hover {
+	color: #ee7200;
+}
+
+.post-browser-context-menu .context-menu-item.trash-item:hover {
+	color: #dc3232;
 }
 
 .post-browser-context-menu .context-menu-item:hover {
@@ -311,7 +320,7 @@
 	display: none;
 	position: absolute;
 	right: -200px;
-	top: 0;
+	top: -5px;
 	z-index: -1;
 }
 
@@ -326,6 +335,8 @@
 
 .post-browser-context-menu .context-menu-item .context-sub-menu-content {
 	border-radius: 0 2px 2px 0;
+	max-height: 380px;
+	overflow: auto;
 }
 
 .post-browser-context-menu.sub-menu-left .context-menu-item .context-sub-menu-content {
