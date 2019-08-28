@@ -164,9 +164,11 @@ wpmoly.editor = wpmoly.editor || {};
 			return post.save( [], {
 				beforeSend : function( xhr, options ) {
 					post.trigger( 'saving', xhr, options );
+					wpmoly.info( wpmolyEditorL10n.saving_changes );
 				},
 				success : function( model, response, options ) {
 					post.trigger( 'saved', model, response, options );
+					wpmoly.success( wpmolyEditorL10n.post_udpated );
 				},
 				error : function( model, response, options ) {
 					post.trigger( 'notsaved', model, response, options );
@@ -198,6 +200,20 @@ wpmoly.editor = wpmoly.editor || {};
 					post.trigger( 'nottrashed', model, response, options );
 				},
 			});
+		},
+
+		/**
+		 * Post updated!
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Return itself to allow chaining.
+		 */
+		saved : function() {
+
+			wpmoly.success( wpmolyEditorL10n.post_udpated );
+
+			return this;
 		},
 
 	});

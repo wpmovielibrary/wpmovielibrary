@@ -194,7 +194,7 @@ wpmoly.editor = wpmoly.editor || {};
 
 					_.each( meta, function( value, key ) {
 
-						var details = [ 'format', 'language', 'media', 'subtitles' ];
+						var details = [ 'format', 'language', 'media', 'related_persons', 'subtitles' ];
 						if ( ! _.contains( details, key ) ) {
 							value = _.isArray( value ) ? value.join( ', ' ) : value;
 						}
@@ -293,7 +293,7 @@ wpmoly.editor = wpmoly.editor || {};
 
 					PostEditor.controller.TaxonomyBlock.prototype.initialize.apply( this, arguments );
 
-					this.listenTo( this.post, 'saved',  this.save );
+					this.listenTo( this.post, 'saved',  this.saved );
 					this.listenTo( this.meta, 'change', this.importTerms );
 				},
 
@@ -1959,9 +1959,11 @@ wpmoly.editor = wpmoly.editor || {};
 						wait  : true,
 						beforeSend : function( xhr, options ) {
 							post.trigger( 'saving', xhr, options );
+							wpmoly.info( wpmolyEditorL10n.saving_changes );
 						},
 						success : function( model, response, options ) {
 							post.trigger( 'saved', model, response, options );
+							wpmoly.success( wpmolyEditorL10n.post_udpated );
 						},
 						error : function( model, response, options ) {
 							post.trigger( 'notsaved', model, response, options );

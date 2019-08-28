@@ -156,7 +156,6 @@ wpmoly.editor = wpmoly.editor || {};
 					this.post = options.post;
 
 					this.listenTo( this.post, 'error',   this.error );
-					this.listenTo( this.post, 'saved',   this.saved );
 					this.listenTo( this.post, 'trashed', this.quit );
 					this.listenTo( this.post, 'change:meta', this.updatePreview );
 				},
@@ -267,9 +266,11 @@ wpmoly.editor = wpmoly.editor || {};
 						wait  : true,
 						beforeSend : function( xhr, options ) {
 							post.trigger( 'saving', xhr, options );
+							wpmoly.info( wpmolyEditorL10n.saving_changes );
 						},
 						success : function( model, response, options ) {
 							post.trigger( 'saved', model, response, options );
+							wpmoly.success( wpmolyEditorL10n.post_udpated );
 						},
 						error : function( model, response, options ) {
 							post.trigger( 'notsaved', model, response, options );
@@ -277,20 +278,6 @@ wpmoly.editor = wpmoly.editor || {};
 					};
 
 					return post.save( atts, options );
-				},
-
-				/**
-				 * Notify successful saving.
-				 *
-				 * @since 1.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				saved : function() {
-
-					wpmoly.success( wpmolyEditorL10n.post_udpated );
-
-					return this;
 				},
 
 				/**

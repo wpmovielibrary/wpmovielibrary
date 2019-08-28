@@ -1346,9 +1346,11 @@ wpmoly.editor = wpmoly.editor || {};
 						wait  : true,
 						beforeSend : function( xhr, options ) {
 							post.trigger( 'saving', xhr, options );
+							wpmoly.info( wpmolyEditorL10n.saving_changes );
 						},
 						success : function( model, response, options ) {
 							post.trigger( 'saved', model, response, options );
+							wpmoly.success( wpmolyEditorL10n.post_udpated );
 						},
 						error : function( model, response, options ) {
 							post.trigger( 'notsaved', model, response, options );

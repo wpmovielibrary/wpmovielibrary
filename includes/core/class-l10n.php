@@ -845,6 +845,7 @@ class L10n {
 				esc_html__( '%s auto-draft', 'wpmovielibrary' ),
 				esc_html__( '%s auto-draft(s)', 'wpmovielibrary' ),
 			),
+			'saving_changes' => esc_html__( 'Saving changes…', 'wpmovielibrary' ),
 			'empty_trash' => esc_html__( 'Empty Trash' ),
 			'start_editing' => esc_html__( 'Start editing?', 'wpmovielibrary' ),
 			'trash_drafts' => esc_html__( 'Trash Drafts', 'wpmovielibrary' ),
@@ -1072,6 +1073,7 @@ class L10n {
 		$localized = array(
 			'close_search' => esc_html__( 'Close the search', 'wpmovielibrary' ),
 			'old_browser'  => __( 'Feeling lost? Use the <a href="%s">old terms browser</a>.', 'wpmovielibrary' ),
+			'saving_changes' => esc_html__( 'Saving changes…', 'wpmovielibrary' ),
 		);
 
 		$localized_actor = $localized + array(
@@ -1105,6 +1107,7 @@ class L10n {
 			'no_description'        => esc_html__( 'No description set for actor "%s".', 'wpmovielibrary' ),
 			'fetch_person'          => esc_html__( 'Fetch person data', 'wpmovielibrary' ),
 			'save_person'           => esc_html__( 'Save related person', 'wpmovielibrary' ),
+			'term_udpated'          => esc_html__( 'Actor updated!', 'wpmovielibrary' ),
 		);
 
 		wp_localize_script( 'wpmoly-actor-browser', 'wpmolyEditorL10n', $localized_actor );
@@ -1135,6 +1138,7 @@ class L10n {
 			'select_thumbnail' => esc_html__( 'Select Thumbnail', 'wpmovielibrary' ),
 			'use_as_thumbnail' => esc_html__( 'Use as colection thumbnail', 'wpmovielibrary' ),
 			'no_description'   => esc_html__( 'No description set for colection "%s".', 'wpmovielibrary' ),
+			'term_udpated'     => esc_html__( 'Collection updated!', 'wpmovielibrary' ),
 		);
 
 		wp_localize_script( 'wpmoly-collection-browser', 'wpmolyEditorL10n', $localized_collection );
@@ -1165,6 +1169,7 @@ class L10n {
 			'select_thumbnail' => esc_html__( 'Select Thumbnail', 'wpmovielibrary' ),
 			'use_as_thumbnail' => esc_html__( 'Use as genre thumbnail', 'wpmovielibrary' ),
 			'no_description'   => esc_html__( 'No description set for genre "%s".', 'wpmovielibrary' ),
+			'term_udpated'     => esc_html__( 'Genre updated!', 'wpmovielibrary' ),
 		);
 
 		wp_localize_script( 'wpmoly-genre-browser', 'wpmolyEditorL10n', $localized_genre );

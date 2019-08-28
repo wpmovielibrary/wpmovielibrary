@@ -164,9 +164,11 @@ wpmoly.editor = wpmoly.editor || {};
 			return term.save( [], {
 				beforeSend : function( xhr, options ) {
 					term.trigger( 'saving', xhr, options );
+					wpmoly.info( wpmolyEditorL10n.saving_changes );
 				},
 				success : function( model, response, options ) {
 					term.trigger( 'saved', model, response, options );
+					wpmoly.success( wpmolyEditorL10n.term_udpated );
 				},
 				error : function( model, response, options ) {
 					term.trigger( 'notsaved', model, response, options );
