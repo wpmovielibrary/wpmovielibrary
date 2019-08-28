@@ -1495,8 +1495,8 @@ wpmoly.browser = wpmoly.browser || {};
 
 					// Get mouse position.
 					var position = {
-						x : event.clientX,
-						y : event.clientY,
+						x : event.pageX,
+						y : event.pageY,
 					};
 
 					// Stop default and propagation.
@@ -1654,9 +1654,9 @@ wpmoly.browser = wpmoly.browser || {};
 
 				events : function() {
 					return _.extend( {}, _.result( PostBrowser.view.BrowserItem.prototype, 'events' ), {
-						'click [data-action]' : 'doStuff',
 						'click'               : 'stopPropagation',
 						'contextmenu'         : 'stopPropagation',
+						'click [data-action]' : 'doStuff',
 					} );
 				},
 
@@ -1725,7 +1725,7 @@ wpmoly.browser = wpmoly.browser || {};
 
 					// Bind closing events.
 					$( 'body' ).on( 'click', _.bind( self.close, self ) );
-					$( 'body' ).on( 'contextmenu', _.bind( self.close, self ) );
+					$( window ).on( 'resize', _.bind( self.close, self ) );
 
 					return this;
 				},
@@ -1747,7 +1747,7 @@ wpmoly.browser = wpmoly.browser || {};
 
 					// Unbind events.
 					$( 'body' ).off( 'click', this.close );
-					$( 'body' ).off( 'contextmenu', this.close );
+					$( window ).off( 'resize', this.close );
 
 					return this;
 				},
@@ -1763,12 +1763,17 @@ wpmoly.browser = wpmoly.browser || {};
 				 */
 				setPosition : function( position ) {
 
-					var position = position || {};
+					var position = position || {},
+					   overflowX = ( window.innerWidth <= ( position.x + 400 ) ),
+					   overflowY = ( window.innerHeight <= ( position.y + this.$el.height() ) );
 
 					this.$el.css({
 						left : position.x || 0,
-						top  : position.y || 0,
-					})
+						top  : ( overflowY ? ( position.y - this.$el.height() ) : position.y ) || 0,
+					});
+
+					this.$el.toggleClass( 'sub-menu-left', overflowX );
+					this.$el.toggleClass( 'sub-menu-bottom', overflowY );
 
 					return this;
 				},

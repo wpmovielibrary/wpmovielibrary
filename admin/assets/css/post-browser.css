@@ -315,12 +315,21 @@
 	z-index: -1;
 }
 
+.post-browser-context-menu.sub-menu-left .context-menu-item .context-menu-sub-menu {
+	left: -200px;
+	right: auto;
+}
+
 .post-browser-context-menu .context-menu-item:hover .context-menu-sub-menu {
 	display: block;
 }
 
 .post-browser-context-menu .context-menu-item .context-sub-menu-content {
 	border-radius: 0 2px 2px 0;
+}
+
+.post-browser-context-menu.sub-menu-left .context-menu-item .context-sub-menu-content {
+	border-radius: 2px 0 0 2px;
 }
 
 .post-browser-context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item {
