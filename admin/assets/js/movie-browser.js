@@ -60,6 +60,11 @@ wpmoly.browser = wpmoly.browser || {};
 
 		};
 
+		// Debug.
+		_.map( browser, function( model, name ) {
+			wpmoly.observe( model, { name : name } );
+		} );
+
 		return browser;
 	};
 
@@ -598,6 +603,39 @@ wpmoly.browser = wpmoly.browser || {};
 					MovieBrowser.modal.load( id );
 
 					MovieBrowser.modal.open();
+				},
+
+				/**
+				 * Update post metadata.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {int} id
+				 * @param {string} key
+				 * @param {array} value
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				updatePostMeta : function( id, key, value ) {
+
+					if ( ! this.posts.has( id ) ) {
+						return this;
+					}
+
+					var post = this.posts.get( id ),
+					    meta = {};
+
+					var details = [ 'format', 'language', 'media', 'subtitles' ];
+					if ( ! _.contains( details, key ) ) {
+						value = _.isArray( value ) ? _.first( value ) : value;
+					}
+
+					if ( value.length ) {
+						meta[ wpmolyApiSettings.movie_prefix + key ] = value;
+						post.save( { meta : meta }, { patch : true/*, silent : true*/ } );
+					}
+
+					return this;
 				},
 
 				/**
@@ -1608,7 +1646,7 @@ wpmoly.browser = wpmoly.browser || {};
 						'click'                         : 'stopPropagation',
 						'contextmenu'                   : 'stopPropagation',
 						'click [data-action="preview"]' : 'previewMovie',
-						'click [data-action="update"]'  : 'update',
+						'change [data-field]'           : 'update',
 					} );
 				},
 
@@ -1672,9 +1710,14 @@ wpmoly.browser = wpmoly.browser || {};
 
 					var $target = this.$( event.currentTarget ),
 					      field = $target.attr( 'data-field' ),
-								value = $target.attr( 'data-value' );
+							 fields = this.$( '[data-field="' + field + '"]:checked' ),
+							 values = [];
 
-					$target.toggleClass( 'active' );
+					_.each( fields, function( field ) {
+						values.push( this.$( field ).val() );
+					}, this );
+
+					this.controller.updatePostMeta( this.model.get( 'id' ), field, values );
 
 					return this;
 				},
@@ -1714,9 +1757,6 @@ wpmoly.browser = wpmoly.browser || {};
 
 					// Remove view.
 					this.remove();
-
-					// Clean Model.
-					this.model.clear();
 
 					return this;
 				},

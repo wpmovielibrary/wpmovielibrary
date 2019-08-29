@@ -348,16 +348,35 @@
 	color: #444;
 }
 
-.post-browser-context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item.active {
-	background: #f2f2f2;
-	font-weight: 500;
-}
-
 .post-browser-context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item:hover {
 	background: #f2f2f2;
 	color: #00a0d2;
 }
 
+.post-browser-context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item.active {
+	background: #f2f2f2;
+	font-weight: 500;
+}
+
+.post-browser-context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item input {
+	display: none;
+}
+
+.post-browser-context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item label {
+	align-items: center;
+	display: flex;
+	margin: -5px -15px;
+	padding: 5px 15px;
+	width: 100%;
+}
+
+.post-browser-context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item input + label .wpmolicon {
+	display: none;
+}
+
+.post-browser-context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item input:checked + label .wpmolicon {
+	display: block;
+}
 
 
 /*

@@ -28,9 +28,12 @@ $meta = utils\get_registered_movie_meta();
 					<div class="context-menu-sub-menu">
 						<div class="context-menu-content context-sub-menu-content">
 <?php foreach ( $meta['media']['show_in_rest']['enum'] as $key => $value ) : ?>
-							<div class="context-menu-item<# if ( _.contains( data.media, '<?php echo esc_attr( $key ); ?>' ) ) { #> active<# } #>" data-action="update" data-field="media" data-value="<?php echo esc_attr( $key ); ?>">
-								<div class="context-menu-icon"><# if ( _.contains( data.media, '<?php echo esc_attr( $key ); ?>' ) ) { #><span class="wpmolicon icon-yes"></span><# } #></div>
-								<div class="context-menu-text"><?php echo esc_html( $value ); ?></div>
+							<div class="context-menu-item">
+								<input type="checkbox" class="hidden" id="media-<?php echo esc_attr( $key ); ?>" data-field="media" name="media[]" value="<?php echo esc_attr( $key ); ?>"<# if ( _.contains( data.media, '<?php echo esc_attr( $key ); ?>' ) ) { #> checked="checked"<# } #> />
+								<label for="media-<?php echo esc_attr( $key ); ?>">
+									<div class="context-menu-icon"><span class="wpmolicon icon-yes-alt2"></span></div>
+									<div class="context-menu-text"><?php echo esc_html( $value ); ?></div>
+								</label>
 							</div>
 <?php endforeach; ?>
 						</div>
@@ -43,9 +46,12 @@ $meta = utils\get_registered_movie_meta();
 					<div class="context-menu-sub-menu">
 						<div class="context-menu-content context-sub-menu-content">
 <?php foreach ( $meta['status']['show_in_rest']['enum'] as $key => $value ) : ?>
-							<div class="context-menu-item<# if ( '<?php echo esc_attr( $key ); ?>' === data.status ) { #> active<# } #>" data-action="update" data-field="status" data-value="<?php echo esc_attr( $key ); ?>">
-								<div class="context-menu-icon"><# if ( '<?php echo esc_attr( $key ); ?>' === data.status ) { #><span class="wpmolicon icon-yes"></span><# } #></div>
-								<div class="context-menu-text"><?php echo esc_html( $value ); ?></div>
+							<div class="context-menu-item">
+								<input type="radio" id="status-<?php echo esc_attr( $key ); ?>" data-field="status" name="status[]" value="<?php echo esc_attr( $key ); ?>"<# if ( '<?php echo esc_attr( $key ); ?>' === data.status ) { #> checked="checked"<# } #> />
+								<label for="status-<?php echo esc_attr( $key ); ?>">
+									<div class="context-menu-icon"><span class="wpmolicon icon-yes-alt2"></span></div>
+									<div class="context-menu-text"><?php echo esc_html( $value ); ?></div>
+								</label>
 							</div>
 <?php endforeach; ?>
 						</div>
@@ -58,9 +64,12 @@ $meta = utils\get_registered_movie_meta();
 					<div class="context-menu-sub-menu">
 						<div class="context-menu-content context-sub-menu-content">
 <?php foreach ( $meta['rating']['show_in_rest']['enum'] as $key => $value ) : ?>
-							<div class="context-menu-item<# if ( '<?php echo esc_attr( $key ); ?>' === data.rating ) { #> active<# } #>" data-action="update" data-field="rating" data-value="<?php echo esc_attr( $key ); ?>">
-								<div class="context-menu-icon"><# if ( '<?php echo esc_attr( $key ); ?>' === data.rating ) { #><span class="wpmolicon icon-yes"></span><# } #></div>
-								<div class="context-menu-text"><?php echo esc_html( $value ); ?></div>
+							<div class="context-menu-item">
+								<input type="radio" id="rating-<?php echo esc_attr( $key ); ?>" data-field="rating" name="rating[]" value="<?php echo esc_attr( $key ); ?>"<# if ( '<?php echo esc_attr( $key ); ?>' === data.rating ) { #> checked="checked"<# } #> />
+								<label for="rating-<?php echo esc_attr( $key ); ?>">
+									<div class="context-menu-icon"><span class="wpmolicon icon-yes-alt2"></span></div>
+									<div class="context-menu-text"><?php echo esc_html( $value ); ?></div>
+								</label>
 							</div>
 <?php endforeach; ?>
 						</div>
@@ -73,9 +82,12 @@ $meta = utils\get_registered_movie_meta();
 					<div class="context-menu-sub-menu">
 						<div class="context-menu-content context-sub-menu-content">
 <?php foreach ( $meta['format']['show_in_rest']['enum'] as $key => $value ) : ?>
-							<div class="context-menu-item<# if ( _.contains( data.format, '<?php echo esc_attr( $key ); ?>' ) ) { #> active<# } #>" data-action="update" data-field="format" data-value="<?php echo esc_attr( $key ); ?>">
-								<div class="context-menu-icon"><# if ( _.contains( data.format, '<?php echo esc_attr( $key ); ?>' ) ) { #><span class="wpmolicon icon-yes"></span><# } #></div>
-								<div class="context-menu-text"><?php echo esc_html( $value ); ?></div>
+							<div class="context-menu-item">
+								<input type="checkbox" class="hidden" id="format-<?php echo esc_attr( $key ); ?>" data-field="format" name="format[]" value="<?php echo esc_attr( $key ); ?>"<# if ( _.contains( data.format, '<?php echo esc_attr( $key ); ?>' ) ) { #> checked="checked"<# } #> />
+								<label for="format-<?php echo esc_attr( $key ); ?>">
+									<div class="context-menu-icon"><span class="wpmolicon icon-yes-alt2"></span></div>
+									<div class="context-menu-text"><?php echo esc_html( $value ); ?></div>
+								</label>
 							</div>
 <?php endforeach; ?>
 						</div>
@@ -88,9 +100,12 @@ $meta = utils\get_registered_movie_meta();
 					<div class="context-menu-sub-menu">
 						<div class="context-menu-content context-sub-menu-content">
 <?php foreach ( $meta['subtitles']['show_in_rest']['enum'] as $key => $value ) : ?>
-							<div class="context-menu-item<# if ( _.contains( data.subtitles, '<?php echo esc_attr( $key ); ?>' ) ) { #> active<# } #>" data-action="update" data-field="subtitles" data-value="<?php echo esc_attr( $key ); ?>">
-								<div class="context-menu-icon"><# if ( _.contains( data.subtitles, '<?php echo esc_attr( $key ); ?>' ) ) { #><span class="wpmolicon icon-yes"></span><# } #></div>
-								<div class="context-menu-text"><?php echo esc_html( $value ); ?></div>
+							<div class="context-menu-item">
+								<input type="checkbox" class="hidden" id="subtitles-<?php echo esc_attr( $key ); ?>" data-field="subtitles" name="subtitles[]" value="<?php echo esc_attr( $key ); ?>"<# if ( _.contains( data.subtitles, '<?php echo esc_attr( $key ); ?>' ) ) { #> checked="checked"<# } #> />
+								<label for="subtitles-<?php echo esc_attr( $key ); ?>">
+									<div class="context-menu-icon"><span class="wpmolicon icon-yes-alt2"></span></div>
+									<div class="context-menu-text"><?php echo esc_html( $value ); ?></div>
+								</label>
 							</div>
 <?php endforeach; ?>
 						</div>
@@ -103,9 +118,12 @@ $meta = utils\get_registered_movie_meta();
 					<div class="context-menu-sub-menu">
 						<div class="context-menu-content context-sub-menu-content">
 <?php foreach ( $meta['language']['show_in_rest']['enum'] as $key => $value ) : ?>
-							<div class="context-menu-item<# if ( _.contains( data.language, '<?php echo esc_attr( $key ); ?>' ) ) { #> active<# } #>" data-action="update" data-field="language" data-value="<?php echo esc_attr( $key ); ?>">
-								<div class="context-menu-icon"><# if ( _.contains( data.language, '<?php echo esc_attr( $key ); ?>' ) ) { #><span class="wpmolicon icon-yes"></span><# } #></div>
-								<div class="context-menu-text"><?php echo esc_html( $value ); ?></div>
+							<div class="context-menu-item">
+								<input type="checkbox" class="hidden" id="language-<?php echo esc_attr( $key ); ?>" data-field="language" name="language[]" value="<?php echo esc_attr( $key ); ?>"<# if ( _.contains( data.language, '<?php echo esc_attr( $key ); ?>' ) ) { #> checked="checked"<# } #> />
+								<label for="language-<?php echo esc_attr( $key ); ?>">
+									<div class="context-menu-icon"><span class="wpmolicon icon-yes-alt2"></span></div>
+									<div class="context-menu-text"><?php echo esc_html( $value ); ?></div>
+								</label>
 							</div>
 <?php endforeach; ?>
 						</div>
