@@ -1774,6 +1774,7 @@ wpmoly.browser = wpmoly.browser || {};
 				'click [data-action="delete-post"]'         : 'deletePost',
 				'click [data-action="confirm-trash-post"]'  : 'confirmTrashPost',
 				'click [data-action="confirm-delete-post"]' : 'confirmDeletePost',
+				'contextmenu .post-thumbnail'               : 'openContextMenu',
 			} );
 		},
 
@@ -1791,6 +1792,32 @@ wpmoly.browser = wpmoly.browser || {};
 			this.on( 'rendered', this.adjust, this );
 
 			this.controller = options.controller;
+			this.parent     = options.parent;
+		},
+
+		/**
+		 * Open Context Menu.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param {object} JS 'contextmenu' Event.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		openContextMenu : function( event ) {
+
+			// Stop default.
+			event.preventDefault();
+
+			// Get mouse position.
+			var position = {
+				x : event.pageX,
+				y : event.pageY,
+			};
+
+			this.parent.trigger( 'open:context:menu', this.model, position );
+
+			return this;
 		},
 
 		/**
@@ -1960,6 +1987,206 @@ wpmoly.browser = wpmoly.browser || {};
 	});
 
 	/**
+	 * MovieBrowser Context Menu View.
+	 *
+	 * @since 3.0.0
+	 */
+	PostBrowser.view.BrowserContextMenu = wpmoly.Backbone.View.extend({
+
+		className : 'post-browser-context-menu',
+
+		template : wp.template( 'wpmoly-post-browser-context-menu' ),
+
+		events : function() {
+			return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
+				'click'                         : 'stopPropagation',
+				'contextmenu'                   : 'stopPropagation',
+				'click [data-action="draft"]'   : 'draftPost',
+				'click [data-action="restore"]' : 'restorePost',
+				'click [data-action="trash"]'   : 'trashPost',
+				'click [data-action="delete"]'  : 'deletePost',
+			} );
+		},
+
+		/**
+		 * Initialize the View.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} options Options.
+		 */
+		initialize : function( options ) {
+
+			var options = options || {};
+
+			this.model      = options.model;
+			this.controller = options.controller;
+		},
+
+		/**
+		 * Stop event propagation to avoid impromptusly closing the menu.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param {object} JS 'click' or 'contextmenu' Event.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		stopPropagation : function( event ) {
+
+			event.stopPropagation();
+
+			return this;
+		},
+
+		/**
+		 * Move post to the draft.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		draftPost : function() {
+
+			this.controller.draftPost( this.model.get( 'id' ) );
+
+			this.close();
+
+			return this;
+		},
+
+		/**
+		 * Restore post.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		restorePost : function() {
+
+			this.controller.restorePost( this.model.get( 'id' ) );
+
+			this.close();
+
+			return this;
+		},
+
+		/**
+		 * Move post to the trash.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		trashPost : function() {
+
+			this.controller.trashPost( this.model.get( 'id' ) );
+
+			this.close();
+
+			return this;
+		},
+
+		/**
+		 * Move post to the trash.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		deletePost : function() {
+
+			this.controller.deletePost( this.model.get( 'id' ) );
+
+			this.close();
+
+			return this;
+		},
+
+		/**
+		 * Open Context Menu.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		open : function() {
+
+			var self = this;
+
+			// Avoid losing events when closing.
+			self.delegateEvents();
+
+			// Add view to DOM.
+			$( 'body' ).append( self.render().$el );
+
+			// Bind closing events.
+			$( 'body' ).one( 'click', _.bind( self.close, self ) );
+			$( window ).one( 'resize', _.bind( self.close, self ) );
+
+			return this;
+		},
+
+		/**
+		 * Close Context Menu.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		close : function() {
+
+			// Remove view.
+			this.remove();
+
+			return this;
+		},
+
+		/**
+		 * Position Context Menu from click event position.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param {object} position Context Menu position.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		setPosition : function( position ) {
+
+			var position = position || {},
+				 overflowX = ( window.innerWidth <= ( position.x + 400 ) ),
+				 overflowY = ( window.innerHeight <= ( position.y + this.$el.height() ) );
+
+			this.$el.css({
+				left : position.x || 0,
+				top  : ( overflowY ? ( position.y - this.$el.height() ) : position.y ) || 0,
+			});
+
+			this.$el.toggleClass( 'sub-menu-left', overflowX );
+			this.$el.toggleClass( 'sub-menu-bottom', overflowY );
+
+			return this;
+		},
+
+		/**
+		 * Prepare rendering options.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return {object}
+		 */
+		prepare : function() {
+
+			var options = {
+				post : this.model.toJSON() || {},
+			};
+
+			return options;
+		},
+
+	});
+
+	/**
 	 * PostBrowser Content View.
 	 *
 	 * @since 1.0.0
@@ -1989,6 +2216,39 @@ wpmoly.browser = wpmoly.browser || {};
 			this.listenTo( this.posts, 'sync',    this.loaded );
 			this.listenTo( this.posts, 'error',   this.loaded );
 			this.listenTo( this.posts, 'destroy', this.loaded );
+
+			this.on( 'open:context:menu', this.openContextMenu );
+
+			$( window ).off( 'resize.movie-browser-content' ).on( 'resize.movie-browser-content', _.debounce( this.adjust, 50 ) );
+		},
+
+		/**
+		 * Open Context Menu.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param {object} model
+		 * @param {object} position
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		openContextMenu : function( model, position ) {
+
+			if ( this.menu ) {
+				this.menu.close();
+			}
+
+			// Initialize Context Menu.
+			this.menu = new PostBrowser.view.BrowserContextMenu({
+				model      : model,
+				controller : this.controller,
+			});
+
+			// Open menu.
+			this.menu.open();
+			this.menu.setPosition( position );
+
+			return this;
 		},
 
 		/**
@@ -2020,6 +2280,7 @@ wpmoly.browser = wpmoly.browser || {};
 
 			this.views.add( new PostBrowser.view.BrowserItem({
 				controller : this.controller,
+				parent     : this,
 				model      : model,
 			}) );
 

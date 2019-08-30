@@ -21,7 +21,7 @@ wpmoly.browser = wpmoly.browser || {};
 			posts : posts,
 		});
 
-		var view = new MovieBrowser.view.Browser({
+		var view = new MovieBrowser.view.MovieBrowser({
 			el         : browser,
 			controller : controller,
 		});
@@ -36,7 +36,7 @@ wpmoly.browser = wpmoly.browser || {};
 		// Load movies.
 		posts.fetch({
 			data : {
-				_fields  : 'title,id,type,meta,poster,edit_link',
+				_fields  : 'title,id,type,meta,poster,edit_link,status',
 				context  : 'edit',
 				per_page : 20,
 			},
@@ -1498,7 +1498,7 @@ wpmoly.browser = wpmoly.browser || {};
 			 *
 			 * @since 1.0.0
 			 */
-			BrowserPagination : PostBrowser.view.BrowserPagination.extend({
+			MovieBrowserPagination : PostBrowser.view.BrowserPagination.extend({
 
 				className : 'post-browser-menu post-browser-pagination movie-browser-menu movie-browser-pagination',
 
@@ -1509,16 +1509,14 @@ wpmoly.browser = wpmoly.browser || {};
 			 *
 			 * @since 1.0.0
 			 */
-			Movie : PostBrowser.view.BrowserItem.extend({
+			MovieBrowserItem : PostBrowser.view.BrowserItem.extend({
 
 				className : 'post movie',
 
 				template : wp.template( 'wpmoly-movie-browser-item' ),
 
 				events : function() {
-					return _.extend( {}, _.result( PostBrowser.view.BrowserItem.prototype, 'events' ), {
-						'contextmenu .post-thumbnail' : 'openContextMenu',
-					} );
+					return _.extend( {}, _.result( PostBrowser.view.BrowserItem.prototype, 'events' ), {} );
 				},
 
 				/**
@@ -1530,92 +1528,12 @@ wpmoly.browser = wpmoly.browser || {};
 				 */
 				initialize : function( options ) {
 
-					var options = options || {};
-
-					this.controller = options.controller;
-					this.parent     = options.parent;
+					PostBrowser.view.BrowserItem.prototype.initialize.apply( this, arguments );
 
 					this.on( 'render',   this.dismiss, this );
 					this.on( 'rendered', this.selectize, this );
 
 					this.listenTo( this.model, 'change', this.render );
-				},
-
-				/**
-				 * Open Context Menu.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @param {object} JS 'contextmenu' Event.
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				openContextMenu : function( event ) {
-
-					// Stop default.
-					event.preventDefault();
-
-					// Get mouse position.
-					var position = {
-						x : event.pageX,
-						y : event.pageY,
-					};
-
-					this.controller.trigger( 'open:context:menu', this.model, position );
-
-					return this;
-				},
-
-				/**
-				 * .
-				 *
-				 * @since 1.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				updateStatus : function() {
-
-					var status = this.$( '[data-value="status"]' ).val();
-
-					this.model.save( { status : status }, {
-						patch : true,
-						wait  : true,
-					} );
-
-					return this;
-				},
-
-				/**
-				 * .
-				 *
-				 * @since 1.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				updateRating : function() {
-
-					var rating = this.$( '[data-value="rating"]' ).val();
-
-					this.model.save( { rating : rating }, {
-						patch : true,
-						wait  : true,
-					} );
-
-					return this;
-				},
-
-				/**
-				 * .
-				 *
-				 * @since 1.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				dismiss : function() {
-
-					this.$el.removeClass( 'edit-status edit-rating confirmation-asked' );
-
-					return this;
 				},
 
 				/**
@@ -1655,52 +1573,18 @@ wpmoly.browser = wpmoly.browser || {};
 			 *
 			 * @since 1.0.0
 			 */
-			BrowserContextMenu : wpmoly.Backbone.View.extend({
+			MovieBrowserContextMenu : PostBrowser.view.BrowserContextMenu.extend({
 
 				className : 'wpmoly post-browser-context-menu movie-browser-context-menu',
 
 				template : wp.template( 'wpmoly-movie-browser-context-menu' ),
 
 				events : function() {
-					return _.extend( {}, _.result( PostBrowser.view.BrowserItem.prototype, 'events' ), {
-						'click'                         : 'stopPropagation',
-						'contextmenu'                   : 'stopPropagation',
+					return _.extend( {}, _.result( PostBrowser.view.BrowserContextMenu.prototype, 'events' ), {
 						'click [data-action="preview"]' : 'previewMovie',
 						'click [data-action="edit"]'    : 'editMovie',
-						'click [data-action="trash"]'   : 'trashMovie',
 						'change [data-field]'           : 'update',
 					} );
-				},
-
-				/**
-				 * Initialize the View.
-				 *
-				 * @since 1.0.0
-				 *
-				 * @param {object} options Options.
-				 */
-				initialize : function( options ) {
-
-					var options = options || {};
-
-					this.model      = options.model;
-					this.controller = options.controller;
-				},
-
-				/**
-				 * Stop event propagation to avoid impromptusly closing the menu.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @param {object} JS 'click' or 'contextmenu' Event.
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				stopPropagation : function( event ) {
-
-					event.stopPropagation();
-
-					return this;
 				},
 
 				/**
@@ -1742,22 +1626,6 @@ wpmoly.browser = wpmoly.browser || {};
 				},
 
 				/**
-				 * Move movie to the trash.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				trashMovie : function() {
-
-					this.controller.trashPost( this.model.get( 'id' ) );
-
-					this.close();
-
-					return this;
-				},
-
-				/**
 				 * Update details.
 				 *
 				 * @since 3.0.0
@@ -1783,71 +1651,6 @@ wpmoly.browser = wpmoly.browser || {};
 				},
 
 				/**
-				 * Open Context Menu.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				open : function() {
-
-					var self = this;
-
-					// Avoid losing events when closing.
-					self.delegateEvents();
-
-					// Add view to DOM.
-					$( 'body' ).append( self.render().$el );
-
-					// Bind closing events.
-					$( 'body' ).one( 'click', _.bind( self.close, self ) );
-					$( window ).one( 'resize', _.bind( self.close, self ) );
-
-					return this;
-				},
-
-				/**
-				 * Close Context Menu.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				close : function() {
-
-					// Remove view.
-					this.remove();
-
-					return this;
-				},
-
-				/**
-				 * Position Context Menu from click event position.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @param {object} position Context Menu position.
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				setPosition : function( position ) {
-
-					var position = position || {},
-					   overflowX = ( window.innerWidth <= ( position.x + 400 ) ),
-					   overflowY = ( window.innerHeight <= ( position.y + this.$el.height() ) );
-
-					this.$el.css({
-						left : position.x || 0,
-						top  : ( overflowY ? ( position.y - this.$el.height() ) : position.y ) || 0,
-					});
-
-					this.$el.toggleClass( 'sub-menu-left', overflowX );
-					this.$el.toggleClass( 'sub-menu-bottom', overflowY );
-
-					return this;
-				},
-
-				/**
 				 * Prepare rendering options.
 				 *
 				 * @since 3.0.0
@@ -1858,6 +1661,7 @@ wpmoly.browser = wpmoly.browser || {};
 
 					var meta = this.model.get( 'meta' ) || {},
 					 options = {
+						post      : this.model.toJSON() || {},
 						media     : meta[ wpmolyApiSettings.movie_prefix + 'media' ] || [],
 						status    : meta[ wpmolyApiSettings.movie_prefix + 'status' ] || '',
 						rating    : meta[ wpmolyApiSettings.movie_prefix + 'rating' ] || '',
@@ -1876,7 +1680,7 @@ wpmoly.browser = wpmoly.browser || {};
 			 *
 			 * @since 1.0.0
 			 */
-			BrowserContent : PostBrowser.view.BrowserContent.extend({
+			MovieBrowserContent : PostBrowser.view.BrowserContent.extend({
 
 				className : 'post-browser-content movie-browser-content',
 
@@ -1889,45 +1693,24 @@ wpmoly.browser = wpmoly.browser || {};
 				 */
 				initialize : function( options ) {
 
-					var options = options || {};
+					PostBrowser.view.BrowserContent.prototype.initialize.apply( this, arguments );
 
 					_.bindAll( this, 'adjust' );
 
-					this.controller = options.controller;
-					this.posts      = this.controller.posts;
-
-					this.listenTo( this.posts, 'request', this.loading );
-					this.listenTo( this.posts, 'update',  this.update );
-					this.listenTo( this.posts, 'sync',    this.loaded );
-					this.listenTo( this.posts, 'error',   this.loaded );
-					this.listenTo( this.posts, 'destroy', this.loaded );
-
 					this.listenTo( this.posts, 'change', _.debounce( this.adjust, 50 ) );
 					this.listenTo( this.posts, 'sync',   _.debounce( this.adjust, 50 ) );
-
-					this.listenTo( this.controller, 'open:context:menu', this.openContextMenu );
-
-					$( window ).off( 'resize.movie-browser-content' ).on( 'resize.movie-browser-content', _.debounce( this.adjust, 50 ) );
 				},
 
 				/**
-				 * Update grid views.
+				 * Open Context Menu.
 				 *
-				 * @since 1.0.0
+				 * @since 3.0.0
+				 *
+				 * @param {object} model
+				 * @param {object} position
 				 *
 				 * @return Returns itself to allow chaining.
 				 */
-				update : function() {
-
-					this.views.remove();
-
-					_.each( this.posts.models, this.addItem, this );
-
-					_.delay( this.adjust, 50 );
-
-					return this;
-				},
-
 				openContextMenu : function( model, position ) {
 
 					if ( this.menu ) {
@@ -1935,7 +1718,7 @@ wpmoly.browser = wpmoly.browser || {};
 					}
 
 					// Initialize Context Menu.
-					this.menu = new PostBrowser.view.BrowserContextMenu({
+					this.menu = new PostBrowser.view.MovieBrowserContextMenu({
 						model      : model,
 						controller : this.controller,
 					});
@@ -1948,17 +1731,17 @@ wpmoly.browser = wpmoly.browser || {};
 				},
 
 				/**
-				 * Add new grid item view.
+				 * Add new post item view.
 				 *
 				 * @since 1.0.0
 				 *
-				 * @param {object} model Grid model.
+				 * @param {object} model Post model.
 				 *
 				 * @return Returns itself to allow chaining.
 				 */
 				addItem : function( model ) {
 
-					this.views.add( new MovieBrowser.view.Movie({
+					this.views.add( new PostBrowser.view.MovieBrowserItem({
 						controller : this.controller,
 						parent     : this,
 						model      : model,
@@ -1998,7 +1781,44 @@ wpmoly.browser = wpmoly.browser || {};
 				},
 
 			}),
-		} ),
+
+			/**
+			 * PostBrowser Browser View.
+			 *
+			 * @since 1.0.0
+			 */
+			MovieBrowser : PostBrowser.view.Browser.extend({
+
+				/**
+				 * Set subviews.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				setRegions : function() {
+
+					var options = {
+						controller : this.controller,
+					};
+
+					if ( ! this.content ) {
+						this.content = new PostBrowser.view.MovieBrowserContent( options );
+					}
+
+					if ( ! this.pagination ) {
+						this.pagination = new PostBrowser.view.MovieBrowserPagination( options );
+					}
+
+					this.views.add( this.content );
+					this.views.add( this.pagination );
+
+					return this;
+				},
+
+			}),
+
+		}),
 
 		/**
 		 * Create movie modal instance.

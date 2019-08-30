@@ -338,7 +338,8 @@ class Assets {
 				$this->enqueue_template( 'post-editor-rename' );
 				$this->enqueue_template( 'post-editor-headline' );
 				$this->enqueue_template( 'post-browser' );
-				$this->enqueue_template( 'post-browser-menu' );
+				$this->enqueue_template( 'post-browser-context-menu' );
+				$this->enqueue_template( 'post-browser-item' );
 				$this->enqueue_template( 'post-browser-pagination' );
 			}
 
@@ -715,20 +716,21 @@ class Assets {
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-movies' ) ||
 			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-persons' ) ||
 			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-grids' ) ) {
-				$this->register_template( 'post-editor-categories',  'admin/assets/js/templates/editors/posts/blocks/categories.php' );
-				$this->register_template( 'post-editor-tags',        'admin/assets/js/templates/editors/posts/blocks/tags.php' );
-				$this->register_template( 'post-editor-submit',      'admin/assets/js/templates/editors/posts/blocks/submit.php' );
-				$this->register_template( 'post-editor-discover',    'admin/assets/js/templates/editors/posts/blocks/discover.php' );
-				$this->register_template( 'post-editor-add-new',     'admin/assets/js/templates/editors/posts/blocks/add-new.php' );
-				$this->register_template( 'post-editor-drafts',      'admin/assets/js/templates/editors/posts/blocks/drafts.php' );
-				$this->register_template( 'post-editor-drafts-item', 'admin/assets/js/templates/editors/posts/blocks/drafts-item.php' );
-				$this->register_template( 'post-editor-trash',       'admin/assets/js/templates/editors/posts/blocks/trash.php' );
-				$this->register_template( 'post-editor-trash-item',  'admin/assets/js/templates/editors/posts/blocks/trash-item.php' );
-				$this->register_template( 'post-editor-rename',      'admin/assets/js/templates/editors/posts/blocks/rename.php' );
-				$this->register_template( 'post-editor-headline',    'admin/assets/js/templates/editors/posts/headline.php' );
-				$this->register_template( 'post-browser',            'admin/assets/js/templates/editors/posts/browser.php' );
-				$this->register_template( 'post-browser-menu',       'admin/assets/js/templates/editors/posts/menu.php' );
-				$this->register_template( 'post-browser-pagination', 'admin/assets/js/templates/editors/posts/pagination.php' );
+				$this->register_template( 'post-editor-categories',    'admin/assets/js/templates/editors/posts/blocks/categories.php' );
+				$this->register_template( 'post-editor-tags',          'admin/assets/js/templates/editors/posts/blocks/tags.php' );
+				$this->register_template( 'post-editor-submit',        'admin/assets/js/templates/editors/posts/blocks/submit.php' );
+				$this->register_template( 'post-editor-discover',      'admin/assets/js/templates/editors/posts/blocks/discover.php' );
+				$this->register_template( 'post-editor-add-new',       'admin/assets/js/templates/editors/posts/blocks/add-new.php' );
+				$this->register_template( 'post-editor-drafts',        'admin/assets/js/templates/editors/posts/blocks/drafts.php' );
+				$this->register_template( 'post-editor-drafts-item',   'admin/assets/js/templates/editors/posts/blocks/drafts-item.php' );
+				$this->register_template( 'post-editor-trash',         'admin/assets/js/templates/editors/posts/blocks/trash.php' );
+				$this->register_template( 'post-editor-trash-item',    'admin/assets/js/templates/editors/posts/blocks/trash-item.php' );
+				$this->register_template( 'post-editor-rename',        'admin/assets/js/templates/editors/posts/blocks/rename.php' );
+				$this->register_template( 'post-editor-headline',      'admin/assets/js/templates/editors/posts/headline.php' );
+				$this->register_template( 'post-browser',              'admin/assets/js/templates/editors/posts/browser.php' );
+				$this->register_template( 'post-browser-context-menu', 'admin/assets/js/templates/editors/posts/browser-context-menu.php' );
+				$this->register_template( 'post-browser-item',         'admin/assets/js/templates/editors/posts/browser-item.php' );
+				$this->register_template( 'post-browser-pagination',   'admin/assets/js/templates/editors/posts/pagination.php' );
 			}
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-movies' ) ) {

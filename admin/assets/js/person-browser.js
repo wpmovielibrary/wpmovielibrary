@@ -21,7 +21,7 @@ wpmoly.browser = wpmoly.browser || {};
 			posts : posts,
 		});
 
-		var view = new PersonBrowser.view.Browser({
+		var view = new PersonBrowser.view.PersonBrowser({
 			el         : browser,
 			controller : controller,
 		});
@@ -36,7 +36,7 @@ wpmoly.browser = wpmoly.browser || {};
 		// Load persons.
 		posts.fetch({
 			data : {
-				_fields  : 'title,id,type,meta,picture,edit_link',
+				_fields  : 'title,id,type,meta,picture,edit_link,status',
 				context  : 'edit',
 				per_page : 20,
 			},
@@ -316,7 +316,7 @@ wpmoly.browser = wpmoly.browser || {};
 			 *
 			 * @since 1.0.0
 			 */
-			BrowserPagination : PostBrowser.view.BrowserPagination.extend({
+			PersonBrowserPagination : PostBrowser.view.BrowserPagination.extend({
 
 				className : 'post-browser-menu post-browser-pagination person-browser-menu person-browser-pagination',
 
@@ -327,16 +327,14 @@ wpmoly.browser = wpmoly.browser || {};
 			 *
 			 * @since 1.0.0
 			 */
-			Person : PostBrowser.view.BrowserItem.extend({
+			PersonBrowserItem : PostBrowser.view.BrowserItem.extend({
 
 				className : 'post person',
 
 				template : wp.template( 'wpmoly-person-browser-item' ),
 
 				events : function() {
-					return _.extend( {}, _.result( PostBrowser.view.BrowserItem.prototype, 'events' ), {
-						'click [data-action="preview-person"]' : 'previewPerson',
-					} );
+					return _.extend( {}, _.result( PostBrowser.view.BrowserItem.prototype, 'events' ), {} );
 				},
 
 				/**
@@ -348,42 +346,12 @@ wpmoly.browser = wpmoly.browser || {};
 				 */
 				initialize : function( options ) {
 
-					var options = options || {};
-
-					this.controller = options.controller;
+					PostBrowser.view.BrowserItem.prototype.initialize.apply( this, arguments );
 
 					this.on( 'render',   this.dismiss, this );
 					this.on( 'rendered', this.selectize, this );
 
 					this.listenTo( this.model, 'change', this.render );
-				},
-
-				/**
-				 * .
-				 *
-				 * @since 1.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				previewPerson : function() {
-
-					this.controller.openModal( this.model.get( 'id' ) );
-
-					return this;
-				},
-
-				/**
-				 * .
-				 *
-				 * @since 1.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				dismiss : function() {
-
-					this.$el.removeClass( 'confirmation-asked' );
-
-					return this;
 				},
 
 				/**
@@ -415,7 +383,7 @@ wpmoly.browser = wpmoly.browser || {};
 			 *
 			 * @since 1.0.0
 			 */
-			BrowserContent : PostBrowser.view.BrowserContent.extend({
+			PersonBrowserContent : PostBrowser.view.BrowserContent.extend({
 
 				className : 'post-browser-content person-browser-content',
 
@@ -428,41 +396,12 @@ wpmoly.browser = wpmoly.browser || {};
 				 */
 				initialize : function( options ) {
 
-					var options = options || {};
+					PostBrowser.view.BrowserContent.prototype.initialize.apply( this, arguments );
 
 					_.bindAll( this, 'adjust' );
 
-					this.controller = options.controller;
-					this.posts      = this.controller.posts;
-
-					this.listenTo( this.posts, 'request', this.loading );
-					this.listenTo( this.posts, 'update',  this.update );
-					this.listenTo( this.posts, 'sync',    this.loaded );
-					this.listenTo( this.posts, 'error',   this.loaded );
-					this.listenTo( this.posts, 'destroy', this.loaded );
-
 					this.listenTo( this.posts, 'change', _.debounce( this.adjust, 50 ) );
 					this.listenTo( this.posts, 'sync',   _.debounce( this.adjust, 50 ) );
-
-					$( window ).off( 'resize.person-browser-content' ).on( 'resize.person-browser-content', _.debounce( this.adjust, 50 ) );
-				},
-
-				/**
-				 * Update grid views.
-				 *
-				 * @since 1.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				update : function() {
-
-					this.views.remove();
-
-					_.each( this.posts.models, this.addItem, this );
-
-					_.delay( this.adjust, 50 );
-
-					return this;
 				},
 
 				/**
@@ -476,8 +415,9 @@ wpmoly.browser = wpmoly.browser || {};
 				 */
 				addItem : function( model ) {
 
-					this.views.add( new PersonBrowser.view.Person({
+					this.views.add( new PersonBrowser.view.PersonBrowserItem({
 						controller : this.controller,
+						parent     : this,
 						model      : model,
 					}) );
 
@@ -515,6 +455,43 @@ wpmoly.browser = wpmoly.browser || {};
 				},
 
 			}),
+
+			/**
+			 * PostBrowser Browser View.
+			 *
+			 * @since 1.0.0
+			 */
+			PersonBrowser : PostBrowser.view.Browser.extend({
+
+				/**
+				 * Set subviews.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				setRegions : function() {
+
+					var options = {
+						controller : this.controller,
+					};
+
+					if ( ! this.content ) {
+						this.content = new PostBrowser.view.PersonBrowserContent( options );
+					}
+
+					if ( ! this.pagination ) {
+						this.pagination = new PostBrowser.view.BrowserPagination( options );
+					}
+
+					this.views.add( this.content );
+					this.views.add( this.pagination );
+
+					return this;
+				},
+
+			}),
+
 		} ),
 
 		/**
