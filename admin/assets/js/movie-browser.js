@@ -132,10 +132,46 @@ wpmoly.browser = wpmoly.browser || {};
 			 *
 			 * @since 1.0.0
 			 *
+			 * @param {string} mode
+			 *
 			 * @return Returns itself to allow chaining.
 			 */
-			open : function() {
+			open : function( mode ) {
 
+				if ( 'edit' === mode ) {
+					controller.edit();
+				} else {
+					controller.preview();
+				}
+
+				return modal;
+			},
+
+			/**
+			 * Open Modal in preview mode.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			preview : function() {
+
+				controller.preview();
+				controller.open();
+
+				return modal;
+			},
+
+			/**
+			 * Open Modal in edit mode.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			edit : function() {
+
+				controller.edit();
 				controller.open();
 
 				return modal;
@@ -588,22 +624,6 @@ wpmoly.browser = wpmoly.browser || {};
 			}),
 
 			Browser : PostBrowser.controller.Browser.extend({
-
-				/**
-				 * Open movie modal.
-				 *
-				 * @since 1.0.0
-				 *
-				 * @param {int} id Post ID.
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				openModal : function( id ) {
-
-					MovieBrowser.modal.load( id );
-
-					MovieBrowser.modal.open();
-				},
 
 				/**
 				 * Update post metadata.
@@ -1646,6 +1666,8 @@ wpmoly.browser = wpmoly.browser || {};
 						'click'                         : 'stopPropagation',
 						'contextmenu'                   : 'stopPropagation',
 						'click [data-action="preview"]' : 'previewMovie',
+						'click [data-action="edit"]'    : 'editMovie',
+						'click [data-action="trash"]'   : 'trashMovie',
 						'change [data-field]'           : 'update',
 					} );
 				},
@@ -1684,13 +1706,51 @@ wpmoly.browser = wpmoly.browser || {};
 				/**
 				 * Preview Movie.
 				 *
+				 * Open movie modal in 'preview' mode.
+				 *
 				 * @since 3.0.0
 				 *
 				 * @return Returns itself to allow chaining.
 				 */
 				previewMovie : function() {
 
-					this.controller.openModal( this.model.get( 'id' ) );
+					MovieBrowser.modal.load( this.model.get( 'id' ) );
+					MovieBrowser.modal.preview();
+
+					this.close();
+
+					return this;
+				},
+
+				/**
+				 * Edit Movie.
+				 *
+				 * Open movie modal in 'edit' mode.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				editMovie : function() {
+
+					MovieBrowser.modal.load( this.model.get( 'id' ) );
+					MovieBrowser.modal.edit();
+
+					this.close();
+
+					return this;
+				},
+
+				/**
+				 * Move movie to the trash.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				trashMovie : function() {
+
+					this.controller.trashPost( this.model.get( 'id' ) );
 
 					this.close();
 

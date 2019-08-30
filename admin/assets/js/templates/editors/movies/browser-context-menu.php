@@ -130,10 +130,6 @@ $meta = utils\get_registered_movie_meta();
 					</div>
 				</div>
 				<div class="context-menu-item context-menu-separator"></div>
-				<div class="context-menu-item unpublish-item" data-action="unpublish">
-					<div class="context-menu-icon"><span class="wpmolicon icon-unpublish"></span></div>
-					<div class="context-menu-text"><?php esc_html_e( 'Unpublish', 'wpmovielibray' ); ?></div>
-				</div>
 				<div class="context-menu-item trash-item" data-action="trash">
 					<div class="context-menu-icon"><span class="wpmolicon icon-trash"></span></div>
 					<div class="context-menu-text"><?php esc_html_e( 'Delete', 'wpmovielibray' ); ?></div>
