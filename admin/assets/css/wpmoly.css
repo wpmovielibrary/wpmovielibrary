@@ -280,6 +280,22 @@
 }
 
 /**
+ * At a glance.
+ */
+
+#dashboard_right_now .grid-count::before {
+	content: "\f489";
+}
+
+#dashboard_right_now .movie-count::before {
+	content: "\f126";
+}
+
+#dashboard_right_now .person-count::before {
+	content: "\f307";
+}
+
+/**
  * WPFooter
  */
 

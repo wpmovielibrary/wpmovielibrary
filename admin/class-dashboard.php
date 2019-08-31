@@ -75,6 +75,7 @@ class Dashboard {
 	public function __construct() {
 
 		add_filter( 'admin_menu', array( &$this, 'admin_menu' ), 9 );
+		add_filter( 'dashboard_glance_items', array( &$this, 'dashboard_glance_items' ) );
 
 		$this->editing = $this->is_editing();
 	}
@@ -237,6 +238,29 @@ class Dashboard {
 				$this->subpage_hooks[ $slug ] = $hook_name;
 			}
 		}
+	}
+
+	/**
+	 * Custom content for 'At a Glance' Dashboard Widget.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param array $items
+	 *
+	 * @return array
+	 */
+	public function dashboard_glance_items( $items ) {
+
+		$grids   = wp_count_posts( 'grid' );
+		$movies  = wp_count_posts( 'movie' );
+		$persons = wp_count_posts( 'person' );
+		$items[] = sprintf( '<a class="movie-count" href="%s">%s</a>', admin_url( '/admin.php?page=wpmovielibrary-movies' ), sprintf( _n( '%d movie', '%d movies', $movies->publish, 'wpmovielibrary' ), $movies->publish ) );
+		$items[] = sprintf( '<a class="person-count" href="%s">%s</a>', admin_url( '/admin.php?page=wpmovielibrary-persons' ), sprintf( _n( '%d person', '%d persons', $persons->publish, 'wpmovielibrary' ), $persons->publish ) );
+		$items[] = sprintf( '<a class="grid-count" href="%s">%s</a>', admin_url( '/admin.php?page=wpmovielibrary-grids' ), sprintf( _n( '%d grid', '%d grids', $grids->publish, 'wpmovielibrary' ), $grids->publish ) );
+
+		return $items;
 	}
 
 	/**
