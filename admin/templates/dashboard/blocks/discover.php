@@ -20,7 +20,7 @@
 ?>
 
 					<div id="dashboard-<?php echo esc_attr( $id ); ?>-block" class="dashboard-block discover-block">
-						<button type="button" class="button arrow" data-action="close"><span class="wpmolicon icon-up-chevron"></span></button>
+						<button type="button" class="button arrow" data-action="collapse"><span class="wpmolicon icon-up-chevron"></span></button>
 						<?php if ( 'missing' === $license ) : ?>
 						<div class="no-license-alert license-alert">
 							<p><?php printf( __( '<strong>Warning!</strong> You haven\'t have registered your license key. <a href="%s">Do it now</a>?', 'wpmovielibrary' ), esc_url( $license_url ) ); ?></p>

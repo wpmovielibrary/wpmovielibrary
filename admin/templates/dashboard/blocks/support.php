@@ -12,7 +12,7 @@
 ?>
 
 					<div id="dashboard-<?php echo esc_attr( $id ); ?>-block" class="dashboard-block support-block">
-						<button type="button" class="button arrow" data-action="close"><span class="wpmolicon icon-up-chevron"></span></button>
+						<button type="button" class="button arrow" data-action="collapse"><span class="wpmolicon icon-up-chevron"></span></button>
 						<h3 class="block-title"><?php echo esc_html( $title ); ?></h3>
 						<div class="block-content">
 							<p><?php printf( __( 'Need some help to run your library? <a href="%s" target="_blank">Get in touch</a>!', 'wpmovielibrary' ), esc_url( $contact_url ) ); ?></p>
