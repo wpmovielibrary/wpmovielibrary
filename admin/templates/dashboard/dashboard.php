@@ -14,30 +14,44 @@
 					/**
 					 * @since 3.0.0
 					 */
-					do_action( "wpmoly/dashboard/before/{$dashboard_mode}/content" );
+					do_action( "wpmoly/dashboard/before/{$dashboard_mode}" );
 				?>
 				<div id="wpmoly-<?php echo esc_attr( $dashboard_mode ); ?>-content" class="wpmoly-content">
 					<?php
-						/**
-						 * @since 3.0.0
-						 */
-						do_action( "wpmoly/dashboard/before/{$object_type}/{$dashboard_mode}/content" );
+						if ( ! empty( $object_type ) ) {
+							/**
+							 * @since 3.0.0
+							 */
+							do_action( "wpmoly/dashboard/before/{$object_type}/{$dashboard_mode}/content" );
+						} else {
+							/**
+							 * @since 3.0.0
+							 */
+							do_action( "wpmoly/dashboard/before/{$dashboard_mode}/content" );
+						}
 					?>
 					<div id="wpmoly-<?php echo esc_attr( $page ); ?>">
 						<noscript><?php echo $noscript; ?></noscript>
 					</div>
 					<?php
-						/**
-						 * @since 3.0.0
-						  */
-						do_action( "wpmoly/dashboard/after/{$object_type}/{$dashboard_mode}/content" );
+						if ( ! empty( $object_type ) ) {
+							/**
+							 * @since 3.0.0
+							 */
+							do_action( "wpmoly/dashboard/after/{$object_type}/{$dashboard_mode}/content" );
+						} else {
+							/**
+							 * @since 3.0.0
+							 */
+							do_action( "wpmoly/dashboard/after/{$dashboard_mode}/content" );
+						}
 					?>
 				</div>
 				<?php
 					/**
 					 * @since 3.0.0
 					  */
-					do_action( "wpmoly/dashboard/after/{$dashboard_mode}/content" );
+					do_action( "wpmoly/dashboard/after/{$dashboard_mode}" );
 				?>
 				<div id="wpmoly-<?php echo esc_attr( $dashboard_mode ); ?>-sidebar" class="wpmoly-sidebar">
 					<?php
