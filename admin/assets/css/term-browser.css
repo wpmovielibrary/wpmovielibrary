@@ -64,8 +64,8 @@
 .term-browser .term-browser-content .term {
 	display: inline-block;
 	margin: 6px 8px 16px;
-	max-width: 200px;
-	width: calc( 20% - 16px );
+	max-width: 140px;
+	width: calc( 15% - 16px );
 }
 
 .term-browser .term-browser-content.loading .term {
