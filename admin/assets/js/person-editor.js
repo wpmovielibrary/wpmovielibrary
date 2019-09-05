@@ -54,7 +54,7 @@ wpmoly.editor = wpmoly.editor || {};
 			meta      : meta,
 			post      : post,
 			node      : node,
-			pictures   : pictures,
+			pictures  : pictures,
 			backdrops : backdrops,
 		} );
 
@@ -81,8 +81,8 @@ wpmoly.editor = wpmoly.editor || {};
 			// Set snapshot.
 			snapshot.set( post.get( 'snapshot' ) || {} );
 			// Load media.
-			controller.backdrops.loadAttachments();
-			controller.pictures.loadAttachments();
+			controller.backdrops.load();
+			controller.pictures.load();
 			// Render the editor.
 			view.render();
 		} );
@@ -624,522 +624,6 @@ wpmoly.editor = wpmoly.editor || {};
 
 			}),
 
-			ImagesUploader : Backbone.Model.extend({
-
-				/**
-					* Initialize the Controller.
-					*
-					* @since 3.0.0
-					*
-					* @param {object} attributes Controller attributes.
-					* @param {object} options    Controller options.
-					*/
-				initialize : function( attributes, options ) {
-
-					var options = options || {};
-
-					this.controller = options.controller;
-
-					this.setUploaderParameters();
-
-					this.listenTo( this.controller.node, 'change:id', this.setUploaderParameters );
-				},
-
-				/**
-				 * Set uploader parameters.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @return {object}
-				 */
-				setUploaderParameters : function() {
-
-					this.uploadParameters = {
-						params : {
-							post_id : this.controller.post.get( 'id' ),
-						},
-						plupload : {
-							multi_selection : false,
-							filters : [{
-								extensions : 'jpg,jpeg,png,gif',
-							}],
-						},
-					};
-
-					return this.uploadParameters;
-				},
-
-				/**
-					* Create new PlUpload uploader instance.
-					*
-					* @since 3.0.0
-					*
-					* @param {object} options Uploader options.
-					*
-					* @return Returns itself to allow chaining.
-					*/
-				setUploader : function( options ) {
-
-					var self = this,
-					uploader = new wp.Uploader( _.extend( options || {}, this.uploadParameters ) );
-
-					$( uploader ).on( 'uploader:ready', _.bind( this.bindEvents, this ) );
-
-					this.uploader = uploader;
-
-					return this;
-				},
-
-				/**
-					* Bind uploader events.
-					*
-					* @since    1.0.0
-					*/
-				bindEvents : function() {
-
-					var uploader = this.uploader.uploader;
-
-					uploader.bind( 'FilesAdded',   _.bind( this.uploadStart, this ) );
-					uploader.bind( 'UploadFile',   _.bind( this.uploadFile, this ) );
-					uploader.bind( 'FileUploaded', _.bind( this.FileUploaded, this ) );
-					uploader.bind( 'Error',        _.bind( this.uploadError, this ) );
-
-				},
-
-				/**
-					* Load file from URL.
-					*
-					* @since 3.0.0
-					*
-					* @param {object} model File model.
-					*
-					* @return   Returns itself to allow chaining.
-					*/
-				loadFile : function( model ) {
-
-					var self = this,
-					   image = new mOxie.Image(),
-					uploader = this.uploader.uploader;
-
-					this.trigger( 'download:start', model );
-
-					/**
-						* Download progress.
-						*
-						* @since 3.0.0
-						*
-						* @param {object} event
-						*/
-					image.onprogress = function( event ) {
-
-						var progress = event.loaded / event.total * 100;
-
-						self.trigger( 'download:progress', model, progress );
-					};
-
-					/**
-						* Upload downloaded file.
-						*
-						* @since 3.0.0
-						*
-						* @param {object} event
-						*/
-					image.onload = function( event ) {
-
-						var data = image.getAsDataURL(),
-						    file = new mOxie.File( null, data );
-
-						file.name = s.trim( model.get( 'file_path' ), '/' );
-
-						uploader.addFile( file );
-					};
-
-					/**
-						* Download end.
-						*
-						* @since 3.0.0
-						*
-						* @param {object} event
-						*/
-					image.onloadend = function( event ) {
-
-						self.trigger( 'download:stop', model );
-					};
-
-					image.load( 'https://image.tmdb.org/t/p/original' + model.get( 'file_path' ) );
-
-					return this;
-
-				},
-
-				/**
-					* Trigger an event when a file is added to the upload queue.
-					*
-					* @since    1.0.0
-					*
-					* @param    object    uploader Uploader instance.
-					* @param    object    files Currently queued files.
-					*
-					* @return   Returns itself to allow chaining.
-					*/
-				uploadStart : function( uploader, files ) {
-
-					this.trigger( 'upload:start', uploader, files );
-
-					return this;
-				},
-
-				/**
-					* Upload started, bind event on percent change.
-					*
-					* @since    1.0.0
-					*
-					* @param    object    uploader Uploader instance.
-					* @param    object    file Currently uploaded file.
-					*
-					* @return   Returns itself to allow chaining.
-					*/
-				uploadFile : function( uploader, file ) {
-
-					file.attachment.on( 'change:percent', function( model, value ) {
-						this.trigger( 'upload:progress', uploader, file );
-					}, this );
-
-					return this;
-				},
-
-				/**
-					* Upload done, update controllers.
-					*
-					* @since    1.0.0
-					*
-					* @param    object    uploader Uploader instance.
-					* @param    object    file Currently uploaded file.
-					*
-					* @return   Returns itself to allow chaining.
-					*/
-				FileUploaded : function( uploader, file ) {
-
-					if ( _.isUndefined( file.attachment ) || _.isUndefined( file.attachment.get( 'meta' ) ) ) {
-
-						wpmoly.error( wpmolyEditorL10n.upload_fail );
-
-						this.trigger( 'upload:failed', uploader, files );
-
-						return this;
-					}
-
-					wpmoly.success( s.sprintf( wpmolyEditorL10n.upload_success, ( file.attachment.get( 'editLink' ) || '#' ) ) );
-
-					this.trigger( 'upload:stop', uploader, file );
-
-					this.controller.addAttachment( file.attachment );
-
-					return this;
-				},
-
-				/**
-					* Trigger an event when an upload failed.
-					*
-					* @since    1.0.0
-					*
-					* @param    object    uploader Uploader instance.
-					* @param    object    file Currently uploaded file.
-					*
-					* @return   Returns itself to allow chaining.
-					*/
-				uploadError : function( uploader, file ) {
-
-					var errorCode = Math.abs( file.code ).toString(),
-					errorMap = {
-						'4'   : pluploadL10n.upload_failed,
-						'601' : pluploadL10n.invalid_filetype,
-						'700' : pluploadL10n.not_an_image,
-						'702' : pluploadL10n.image_dimensions_exceeded,
-						'100' : pluploadL10n.upload_failed,
-						'300' : pluploadL10n.io_error,
-						'200' : pluploadL10n.http_error,
-						'400' : pluploadL10n.security_error,
-						'600' : function( file ) {
-							return pluploadL10n.file_exceeds_size_limit.replace( '%s', file.name );
-						},
-					};
-
-					wpmoly.error( errorMap[ errorCode ] );
-
-					this.resetUploader( uploader, file );
-
-					return this;
-				},
-
-				/**
-					* Set uploader mode to default and remove any queued file.
-					*
-					* @since    1.0.0
-					*
-					* @param    object    uploader Uploader instance.
-					* @param    object    files Currently uploaded files.
-					*
-					* @return   Returns itself to allow chaining.
-					*/
-				resetUploader : function( uploader, files ) {
-
-					_.each( uploader.files, function( file ) {
-						_.delay( _.bind( uploader.removeFile, uploader ), 50, file );
-					} );
-
-					return this;
-				},
-
-			}),
-
-			ImagesEditor : Backbone.Model.extend({
-
-				/**
-					* Initialize the Controller.
-					*
-					* @since 3.0.0
-					*
-					* @param {object} attributes Controller attributes.
-					* @param {object} options    Controller options.
-					*/
-				initialize : function( attributes, options ) {
-
-					var options = options || {};
-
-					this.post = options.post;
-					this.node = options.node;
-					this.meta = options.meta;
-
-					this.attachments = new wp.api.collections.Media;
-				},
-
-				/**
-				 * Mirror uploader events.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				mirrorEvents : function() {
-
-					if ( ! this.uploader ) {
-						return this;
-					}
-
-					this.uploader.on( 'all', function() {
-						Backbone.Model.prototype.trigger.apply( this, arguments );
-					}, this );
-				},
-
-				/**
-					* Load attachments.
-					*
-					* @since 3.0.0
-					*
-					* @return Returns itself to allow chaining.
-					*/
-				loadAttachments : function() {
-
-					var images = _.pluck( this.node.get( this.types ), 'id' );
-					if ( ! _.isEmpty( images ) ) {
-						this.attachments.fetch({
-							data : {
-								include : images,
-							},
-						});
-					}
-
-					return this;
-				},
-
-				/**
-					* Add new attachment to the collection.
-					*
-					* @since 3.0.0
-					*
-					* @param {object} attachment
-					*
-					* @return Returns itself to allow chaining.
-					*/
-				addAttachment : function( attachment ) {
-
-					var attachment = new wp.api.models.Media( { id : attachment.id } ),
-					    attributes = {
-						post : this.post.get( 'id' ),
-						meta : {},
-					};
-
-					attributes.meta[ this.type + '_related_tmdb_id' ] = this.meta.get( 'tmdb_id' );
-
-					if ( _.has( this.controller, 'settings' ) ) {
-						var meta = this.meta,
-						 replace = function( s ) {
-							// replace year.
-							s = s.replace( '{year}', meta.has( 'release_date' ) ? ( new Date( meta.get( 'release_date' ) ).getFullYear() ) || '' : '' );
-							// Sorcery. Replace {property} with node.get( property ), if any.
-							return s.replace( /{([a-z_]+)}/gi, function( m, p, d ) { return meta.has( p ) ? meta.get( p ) || m : m; } );
-						};
-
-						attributes.title       = replace( this.controller.settings.get( wpmolyApiSettings.option_prefix + 'person_' + this.type + '_title' ) || '' );
-						attributes.caption     = replace( this.controller.settings.get( wpmolyApiSettings.option_prefix + 'person_' + this.type + '_description' ) || '' );
-						attributes.alt_text    = replace( this.controller.settings.get( wpmolyApiSettings.option_prefix + 'person_' + this.type + '_title' ) || '' );
-						attributes.description = replace( this.controller.settings.get( wpmolyApiSettings.option_prefix + 'person_' + this.type + '_description' ) || '' );
-					}
-
-					var self = this;
-
-					// Save related TMDb ID.
-					attachment.save( attributes, {
-						patch : true,
-						wait  : true,
-					});
-
-					var images = this.node.get( this.types ) || [];
-
-					images.push({
-						id    : attachment.get( 'id' ),
-						sizes : attachment.get( 'sizes' ) || {},
-					});
-
-					var list = {};
-					list[ this.types ] = images;
-
-					this.node.set( list );
-
-					this.loadAttachments();
-
-					return this;
-				},
-
-				/**
-					* Download Image.
-					*
-					* @since 3.0.0
-					*
-					* @param {object} model Image model.
-					*
-					* @return Returns itself to allow chaining.
-					*/
-				downloadImage : function( model ) {
-
-					this.uploader.loadFile( model );
-
-					return this;
-				},
-
-				/**
-					* Remove Image.
-					*
-					* @since 3.0.0
-					*
-					* @param {object} attachment Image attachment.
-					*
-					* @return Returns itself to allow chaining.
-					*/
-				removeImage : function( attachment ) {
-
-					var self = this,
-					    data = {
-						post : null,
-						meta : {},
-					},
-					 options = {
-						patch : true,
-						beforeSend : function() {
-							wpmoly.warning( wpmolyEditorL10n[ 'removing_' + self.type ] );
-						},
-						success : function() {
-
-							wpmoly.success( wpmolyEditorL10n[ self.type + '_removed' ] );
-
-							var images = _.reject( self.node.get( self.types ) || [], function( image ) {
-								return image.id === attachment.get( 'id' );
-							}, self );
-
-							var list = {};
-							list[ self.types ] = images;
-
-							self.node.set( list );
-
-							self.loadAttachments();
-						},
-						error : function( model, xhr, options ) {
-							wpmoly.error( xhr, { destroy : false } );
-						},
-					};
-
-					data.meta[ this.type + '_related_tmdb_id' ] = null;
-
-					attachment.save( data, options );
-
-					return this;
-				},
-
-				/**
-					* Remove Image.
-					*
-					* @since 3.0.0
-					*
-					* @param {object} model Image model.
-					*
-					* @return Returns itself to allow chaining.
-					*/
-				setAsImage : function( model ) {
-
-					var data = {},
-					    self = this,
-					 options = {
-						patch : true,
-						beforeSend : function() {
-							wpmoly.info( wpmolyEditorL10n[ 'setting_as_' + self.type ] );
-						},
-						success : function() {
-							wpmoly.success( wpmolyEditorL10n[ self.type + '_updated' ] );
-						},
-						error : function( model, xhr, options ) {
-							wpmoly.error( xhr, { destroy : false } );
-						},
-					};
-
-					data[ this.type + '_id' ] = model.get( 'id' );
-
-					this.controller.meta.save( data, options );
-
-					return this;
-				},
-
-				/**
-					* Edit Image.
-					*
-					* @since 3.0.0
-					*
-					* @param {object} attachment Attachment model.
-					*
-					* @return Returns itself to allow chaining.
-					*/
-				editImage : function( attachment ) {
-
-					var attachment = new wp.media.model.Attachment( { id : attachment.get( 'id' ) } );
-
-					if ( ! this.frame ) {
-						this.frame = wp.media({
-							uploader : false,
-							modal    : true,
-							frame    : 'manage',
-						});
-					}
-
-					var self = this;
-					attachment.fetch().done(function() {
-						self.frame.openEditAttachmentModal( attachment );
-					});
-
-					return this;
-				},
-
-			}),
-
 			/**
 			 * Editor controller.
 			 *
@@ -1175,7 +659,6 @@ wpmoly.editor = wpmoly.editor || {};
 					this.pictures  = options.pictures;
 					this.backdrops = options.backdrops;
 
-					//this.listenTo( this.post,     'saved', this.saveNode );
 					this.listenTo( this.post,     'error', this.error );
 					this.listenTo( this.node,     'error', this.error );
 					this.listenTo( this.snapshot, 'error', this.error );
@@ -1186,35 +669,29 @@ wpmoly.editor = wpmoly.editor || {};
 						this.search.reset();
 					} );
 
-					this.listenTo( this.search, 'import:done', function( attributes ) {
-						this.snapshot.save( attributes || [] );
-						this.set( { mode : 'preview' } );
-					} );
-
-					this.listenTo( this.search, 'import:taggedimages:done', function( response ) {
-						if ( _.has( response, 'results' ) ) {
-							this.snapshot.save( _.extend( this.snapshot.toJSON(), {
-								taggedimages : response.results || [],
-							} ) );
-						}
-						if ( true === this.settings.get( wpmolyApiSettings.option_prefix + 'auto_import_person_backdrops' ) ) {
-							this.backdrops.importBackdrop();
-						}
-					} );
-
-					this.listenTo( this.search, 'import:images:done', function( response ) {
-						if ( _.has( response, 'profiles' ) ) {
-							this.snapshot.save( _.extend( this.snapshot.toJSON(), {
-								images : response.profiles || [],
-							} ) );
-						}
-						if ( true === this.settings.get( wpmolyApiSettings.option_prefix + 'auto_import_person_pictures' ) ) {
-							this.pictures.importPicture();
-						}
-					} );
+					this.listenTo( this.search, 'import:done', this.saveSnapshot );
+					this.listenTo( this.search, 'import:done', this.importImages );
 
 					this.listenTo( this.snapshot, 'change',      this.updateMeta );
 					this.listenTo( this.post,     'change:meta', this.updateMeta );
+				},
+
+				/**
+				 * Save snapshot.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {object} attributes
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				saveSnapshot : function( attributes ) {
+
+					this.snapshot.save( attributes || [] );
+
+					this.set( { mode : 'preview' } );
+
+					return this;
 				},
 
 				/**
@@ -1227,7 +704,7 @@ wpmoly.editor = wpmoly.editor || {};
 				updateSnapshot : function() {
 
 					var person = new TMDb.Person( { id : this.snapshot.get( 'id' ) } ),
-					 snapshot = this.snapshot;
+					  snapshot = this.snapshot;
 
 					person.on( 'fetch:success', function() {
 						snapshot.save( person.toJSON() );
@@ -1277,6 +754,28 @@ wpmoly.editor = wpmoly.editor || {};
 					}
 
 					this.meta.set( meta );
+
+					return this;
+				},
+
+				/**
+				 * Import Person Images.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {object} model
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				importImages : function( model ) {
+
+					if ( true === this.settings.get( wpmolyApiSettings.option_prefix + 'auto_import_person_backdrops' ) ) {
+						this.backdrops.download( _.first( model.taggedimages ) || {} );
+					}
+
+					if ( true === this.settings.get( wpmolyApiSettings.option_prefix + 'auto_import_person_pictures' ) ) {
+						this.pictures.download( _.first( model.images ) || {} );
+					}
 
 					return this;
 				},
@@ -2210,10 +1709,6 @@ wpmoly.editor = wpmoly.editor || {};
 
 		BackdropsUploader : PersonEditor.controller.ImagesUploader.extend({
 
-			type : 'backdrop',
-
-			types : 'backdrops',
-
 			/**
 			 * Set default uploader parameters.
 			 *
@@ -2223,9 +1718,9 @@ wpmoly.editor = wpmoly.editor || {};
 			 */
 			setUploaderParameters : function() {
 
-				var params = PersonEditor.controller.ImagesUploader.prototype.setUploaderParameters.call( this, arguments );
+				var defaults = this.defaultUploadParameters();
 
-				this.uploadParameters = _.extend( params || {}, {
+				this.uploadParameters = _.extend( defaults, {
 					post_data : {
 						meta_input : {
 							_wpmoly_backdrop_related_tmdb_id : this.controller.meta.get( 'tmdb_id' ),
@@ -2238,7 +1733,137 @@ wpmoly.editor = wpmoly.editor || {};
 
 		}),
 
-		BackdropsEditor : PersonEditor.controller.ImagesEditor.extend({
+		PicturesUploader : PersonEditor.controller.ImagesUploader.extend({
+
+			/**
+			 * Set default uploader parameters.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			setUploaderParameters : function() {
+
+				var defaults = this.defaultUploadParameters();
+
+				this.uploadParameters = _.extend( defaults, {
+					post_data : {
+						meta_input : {
+							_wpmoly_poster_related_tmdb_id : this.controller.meta.get( 'tmdb_id' ),
+						},
+					},
+				} );
+
+				return this.uploadParameters;
+			},
+
+		}),
+
+		PersonImagesEditor : PersonEditor.controller.ImagesEditor.extend({
+
+			/**
+			 * Initialize the Controller.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param {object} attributes Controller attributes.
+			 * @param {object} options    Controller options.
+			 */
+			initialize : function( attributes, options ) {
+
+				PersonEditor.controller.ImagesEditor.prototype.initialize.apply( this, arguments );
+
+				var options = options || {};
+
+				this.node = options.node;
+				this.meta = options.meta;
+			},
+
+			/**
+				* Load attachments.
+				*
+				* @since 3.0.0
+				*
+				* @return Returns itself to allow chaining.
+				*/
+			load : function( images ) {
+
+				var images = _.pluck( this.node.get( this.types ), 'id' );
+
+				return this.loadAttachments( images || [] );
+			},
+
+			/**
+			 * Import default image.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param {object} model Backdrop Model.
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			download : function( model ) {
+
+				this.downloadImage( new Backbone.Model( model ) );
+
+				return this;
+			},
+
+			/**
+				* Add new attachment to the collection.
+				*
+				* @since 3.0.0
+				*
+				* @param {object} attachment
+				*
+				* @return Returns itself to allow chaining.
+				*/
+			addAttachment : function( attachment ) {
+
+
+
+				return this;
+			},
+
+			/**
+				* Remove Image.
+				*
+				* @since 3.0.0
+				*
+				* @param {object} attachment Image attachment.
+				*
+				* @return Returns itself to allow chaining.
+				*/
+			removeImage : function( attachment ) {
+
+
+
+				return this;
+			},
+
+			/**
+				* Set Image As...
+				*
+				* @since 3.0.0
+				*
+				* @param {object} model Image model.
+				*
+				* @return Returns itself to allow chaining.
+				*/
+			setAsImage : function( model ) {
+
+
+
+				return this;
+			},
+
+		}),
+
+	} );
+
+	_.extend( PersonEditor.controller, {
+
+		BackdropsEditor : PersonEditor.controller.PersonImagesEditor.extend({
 
 			type : 'backdrop',
 
@@ -2254,63 +1879,16 @@ wpmoly.editor = wpmoly.editor || {};
 			 */
 			initialize : function( attributes, options ) {
 
-				PersonEditor.controller.ImagesEditor.prototype.initialize.apply( this, arguments );
+				PersonEditor.controller.PersonImagesEditor.prototype.initialize.apply( this, arguments );
 
 				this.uploader = new PersonEditor.controller.BackdropsUploader( [], { controller : this } );
 
 				this.mirrorEvents();
 			},
 
-			/**
-			 * Import default backdrop.
-			 *
-			 * @since 3.0.0
-			 *
-			 * @return Returns itself to allow chaining.
-			 */
-			importBackdrop : function() {
-
-				var model = new Backbone.Model({
-					file_path : this.controller.snapshot.get( 'backdrop_path' ),
-				});
-
-				this.uploader.loadFile( model );
-
-				return this;
-			},
 		}),
 
-		PicturesUploader : PersonEditor.controller.ImagesUploader.extend({
-
-			type : 'picture',
-
-			types : 'pictures',
-
-			/**
-			 * Set default uploader parameters.
-			 *
-			 * @since 3.0.0
-			 *
-			 * @return Returns itself to allow chaining.
-			 */
-			setUploaderParameters : function() {
-
-				var params = PersonEditor.controller.ImagesUploader.prototype.setUploaderParameters.call( this, arguments );
-
-				this.uploadParameters = _.extend( params || {}, {
-					post_data : {
-						meta_input : {
-							_wpmoly_picture_related_tmdb_id : this.controller.meta.get( 'tmdb_id' ),
-						},
-					},
-				} );
-
-				return this.uploadParameters;
-			},
-
-		}),
-
-		PicturesEditor : PersonEditor.controller.ImagesEditor.extend({
+		PicturesEditor : PersonEditor.controller.PersonImagesEditor.extend({
 
 			type : 'picture',
 
@@ -2326,7 +1904,7 @@ wpmoly.editor = wpmoly.editor || {};
 				*/
 			initialize : function( attributes, options ) {
 
-				PersonEditor.controller.ImagesEditor.prototype.initialize.apply( this, arguments );
+				PersonEditor.controller.PersonImagesEditor.prototype.initialize.apply( this, arguments );
 
 				this.uploader = new PersonEditor.controller.PicturesUploader( [], { controller : this } );
 
@@ -2340,15 +1918,11 @@ wpmoly.editor = wpmoly.editor || {};
 			 *
 			 * @return Returns itself to allow chaining.
 			 */
-			 importPicture : function() {
-
-				var model = new Backbone.Model({
- 					file_path : this.controller.snapshot.get( 'profile_path' ),
- 				});
+			 download : function( model ) {
 
 				this.uploader.once( 'upload:stop', this.setFeaturedPicture, this );
 
- 				this.uploader.loadFile( model );
+ 				this.downloadImage( new Backbone.Model( model ) );
 
  				return this;
  			},
@@ -3715,10 +3289,10 @@ wpmoly.editor = wpmoly.editor || {};
 				}, this );
 
 				if ( _.has( node.picture || {}, 'id' ) && _.isNumber( node.picture.id ) ) {
-					options.picture = node.picture.sizes.large.url;
+					options.picture = node.picture.sizes.original.url;
 				} else if ( _.has( snapshot, 'images' ) ) {
 					var picture = _.first( snapshot.images );
-					options.picture = ! _.isUndefined( picture ) ? 'https://image.tmdb.org/t/p/h632' + picture.file_path : node.picture.sizes.large.url;
+					options.picture = ! _.isUndefined( picture ) ? 'https://image.tmdb.org/t/p/h632' + picture.file_path : node.picture.sizes.original.url;
 				}
 
 				if ( _.has( node.backdrop || {}, 'id' ) && _.isNumber( node.backdrop.id ) ) {

@@ -484,8 +484,7 @@ wpmoly = window.wpmoly || {};
 
 		events : function() {
 			return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
-				'click [data-action="open"]'  : 'open',
-				'click [data-action="close"]' : 'close',
+				'click [data-action="collapse"]' : 'collapse',
 			} );
 		},
 
@@ -502,6 +501,22 @@ wpmoly = window.wpmoly || {};
 		},
 
 		/**
+		 * Toggle the Block.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		collapse : function() {
+
+			if ( this.$el.hasClass( 'collapsed' ) ) {
+				this.open();
+			} else {
+				this.close();
+			}
+		},
+
+		/**
 		 * Open the Block.
 		 *
 		 * @since 1.0.0
@@ -511,7 +526,6 @@ wpmoly = window.wpmoly || {};
 		open : function() {
 
 			this.$el.removeClass( 'collapsed' );
-			this.$( '.button' ).attr( 'data-action', 'close' );
 			this.$( '.button .wpmolicon' ).addClass( 'icon-up-chevron' );
 			this.$( '.button .wpmolicon' ).removeClass( 'icon-down-chevron' );
 
@@ -528,7 +542,6 @@ wpmoly = window.wpmoly || {};
 		close : function() {
 
 			this.$el.addClass( 'collapsed' );
-			this.$( '.button' ).attr( 'data-action', 'open' );
 			this.$( '.button .wpmolicon' ).addClass( 'icon-down-chevron' );
 			this.$( '.button .wpmolicon' ).removeClass( 'icon-up-chevron' );
 

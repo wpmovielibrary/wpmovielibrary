@@ -151,7 +151,7 @@ wpmoly.editor = wpmoly.editor || {};
 		},
 
 		/**
-		 * Update the node.
+		 * Update the post.
 		 *
 		 * @since 1.0.0
 		 *
@@ -473,6 +473,502 @@ wpmoly.editor = wpmoly.editor || {};
 			PostEditor.controller.TaxonomyBlock.prototype.initialize.apply( this, arguments );
 
 			this.listenTo( this.post, 'saved', this.save );
+		},
+
+	});
+
+	PostEditor.controller.ImagesUploader = Backbone.Model.extend({
+
+		/**
+			* Initialize the Controller.
+			*
+			* @since 3.0.0
+			*
+			* @param {object} attributes Controller attributes.
+			* @param {object} options    Controller options.
+			*/
+		initialize : function( attributes, options ) {
+
+			var options = options || {};
+
+			this.controller = options.controller;
+
+			this.setUploaderParameters();
+
+			this.listenTo( this.controller.post, 'change:id', this.setUploaderParameters );
+		},
+
+		/**
+		 * Default uploader parameters.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return {object}
+		 */
+		defaultUploadParameters : function() {
+
+			return {
+				params : {
+					post_id : this.controller.post.get( 'id' ),
+				},
+				plupload : {
+					multi_selection : false,
+					filters : [{
+						extensions : 'jpg,jpeg,png,gif',
+					}],
+				},
+			};
+		},
+
+		/**
+		 * Set uploader parameters.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return {object}
+		 */
+		setUploaderParameters : function( params ) {
+
+			this.uploadParameters = _.extend( this.defaultUploadParameters(), params || {} );
+
+			return this.uploadParameters;
+		},
+
+		/**
+			* Create new PlUpload uploader instance.
+			*
+			* @since 3.0.0
+			*
+			* @param {object} options Uploader options.
+			*
+			* @return Returns itself to allow chaining.
+			*/
+		setUploader : function( options ) {
+
+			var self = this,
+			uploader = new wp.Uploader( _.extend( options || {}, this.uploadParameters ) );
+
+			$( uploader ).on( 'uploader:ready', _.bind( this.bindEvents, this ) );
+
+			this.uploader = uploader;
+
+			return this;
+		},
+
+		/**
+			* Bind uploader events.
+			*
+			* @since    1.0.0
+			*/
+		bindEvents : function() {
+
+			var uploader = this.uploader.uploader;
+
+			uploader.bind( 'FilesAdded',   _.bind( this.uploadStart, this ) );
+			uploader.bind( 'UploadFile',   _.bind( this.uploadFile, this ) );
+			uploader.bind( 'FileUploaded', _.bind( this.FileUploaded, this ) );
+			uploader.bind( 'Error',        _.bind( this.uploadError, this ) );
+
+		},
+
+		/**
+			* Load file from URL.
+			*
+			* @since 3.0.0
+			*
+			* @param {object} model File model.
+			*
+			* @return   Returns itself to allow chaining.
+			*/
+		loadFile : function( model ) {
+
+			var self = this,
+				 image = new mOxie.Image(),
+			uploader = this.uploader.uploader;
+
+			this.trigger( 'download:start', model );
+
+			/**
+				* Download progress.
+				*
+				* @since 3.0.0
+				*
+				* @param {object} event
+				*/
+			image.onprogress = function( event ) {
+
+				var progress = event.loaded / event.total * 100;
+
+				self.trigger( 'download:progress', model, progress );
+			};
+
+			/**
+				* Upload downloaded file.
+				*
+				* @since 3.0.0
+				*
+				* @param {object} event
+				*/
+			image.onload = function( event ) {
+
+				var data = image.getAsDataURL(),
+						file = new mOxie.File( null, data );
+
+				file.name = s.trim( model.get( 'file_path' ), '/' );
+
+				uploader.addFile( file );
+			};
+
+			/**
+				* Download end.
+				*
+				* @since 3.0.0
+				*
+				* @param {object} event
+				*/
+			image.onloadend = function( event ) {
+
+				self.trigger( 'download:stop', model );
+			};
+
+			image.load( 'https://image.tmdb.org/t/p/original' + model.get( 'file_path' ) );
+
+			return this;
+
+		},
+
+		/**
+			* Trigger an event when a file is added to the upload queue.
+			*
+			* @since    1.0.0
+			*
+			* @param    object    uploader Uploader instance.
+			* @param    object    files Currently queued files.
+			*
+			* @return   Returns itself to allow chaining.
+			*/
+		uploadStart : function( uploader, files ) {
+
+			this.trigger( 'upload:start', uploader, files );
+
+			return this;
+		},
+
+		/**
+			* Upload started, bind event on percent change.
+			*
+			* @since    1.0.0
+			*
+			* @param    object    uploader Uploader instance.
+			* @param    object    file Currently uploaded file.
+			*
+			* @return   Returns itself to allow chaining.
+			*/
+		uploadFile : function( uploader, file ) {
+
+			file.attachment.on( 'change:percent', function( model, value ) {
+				this.trigger( 'upload:progress', uploader, file );
+			}, this );
+
+			return this;
+		},
+
+		/**
+			* Upload done, update controllers.
+			*
+			* @since    1.0.0
+			*
+			* @param    object    uploader Uploader instance.
+			* @param    object    file Currently uploaded file.
+			*
+			* @return   Returns itself to allow chaining.
+			*/
+		FileUploaded : function( uploader, file ) {
+
+			if ( _.isUndefined( file.attachment ) || _.isUndefined( file.attachment.get( 'meta' ) ) ) {
+
+				wpmoly.error( wpmolyEditorL10n.upload_fail );
+
+				this.trigger( 'upload:failed', uploader, files );
+
+				return this;
+			}
+
+			wpmoly.success( s.sprintf( wpmolyEditorL10n.upload_success, ( file.attachment.get( 'editLink' ) || '#' ) ) );
+
+			this.trigger( 'upload:stop', uploader, file );
+
+			this.controller.addAttachment( file.attachment );
+
+			return this;
+		},
+
+		/**
+			* Trigger an event when an upload failed.
+			*
+			* @since    1.0.0
+			*
+			* @param    object    uploader Uploader instance.
+			* @param    object    file Currently uploaded file.
+			*
+			* @return   Returns itself to allow chaining.
+			*/
+		uploadError : function( uploader, file ) {
+
+			var errorCode = Math.abs( file.code ).toString(),
+			errorMap = {
+				'4'   : pluploadL10n.upload_failed,
+				'601' : pluploadL10n.invalid_filetype,
+				'700' : pluploadL10n.not_an_image,
+				'702' : pluploadL10n.image_dimensions_exceeded,
+				'100' : pluploadL10n.upload_failed,
+				'300' : pluploadL10n.io_error,
+				'200' : pluploadL10n.http_error,
+				'400' : pluploadL10n.security_error,
+				'600' : function( file ) {
+					return pluploadL10n.file_exceeds_size_limit.replace( '%s', file.name );
+				},
+			};
+
+			wpmoly.error( errorMap[ errorCode ] );
+
+			this.resetUploader( uploader, file );
+
+			return this;
+		},
+
+		/**
+			* Set uploader mode to default and remove any queued file.
+			*
+			* @since    1.0.0
+			*
+			* @param    object    uploader Uploader instance.
+			* @param    object    files Currently uploaded files.
+			*
+			* @return   Returns itself to allow chaining.
+			*/
+		resetUploader : function( uploader, files ) {
+
+			_.each( uploader.files, function( file ) {
+				_.delay( _.bind( uploader.removeFile, uploader ), 50, file );
+			} );
+
+			return this;
+		},
+
+	});
+
+	PostEditor.controller.ImagesEditor = Backbone.Model.extend({
+
+		/**
+			* Initialize the Controller.
+			*
+			* @since 3.0.0
+			*
+			* @param {object} attributes Controller attributes.
+			* @param {object} options    Controller options.
+			*/
+		initialize : function( attributes, options ) {
+
+			var options = options || {};
+
+			this.post = options.post;
+
+			this.attachments = new wp.api.collections.Media;
+
+			this.uploader = new PostEditor.controller.ImagesUploader( [], { controller : this } );
+
+			this.mirrorEvents();
+		},
+
+		/**
+		 * Mirror uploader events.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		mirrorEvents : function() {
+
+			if ( ! this.uploader ) {
+				return this;
+			}
+
+			this.uploader.on( 'all', function() {
+				Backbone.Model.prototype.trigger.apply( this, arguments );
+			}, this );
+		},
+
+		/**
+			* Load attachments.
+			*
+			* @since 3.0.0
+			*
+			* @return Returns itself to allow chaining.
+			*/
+		loadAttachments : function( images ) {
+
+			if ( ! _.isEmpty( images ) ) {
+				this.attachments.fetch({
+					data : {
+						include : images,
+					},
+				});
+			}
+
+			return this;
+		},
+
+		/**
+			* Add new attachment to the collection.
+			*
+			* @since 3.0.0
+			*
+			* @param {object} attachment
+			*
+			* @return Returns itself to allow chaining.
+			*/
+		addAttachment : function( attachment ) {
+
+			/*var attachment = new wp.api.models.Media( { id : attachment.id } ),
+					attributes = {
+				post : this.post.get( 'id' ),
+				meta : {},
+			};
+
+			attributes.meta[ this.type + '_related_tmdb_id' ] = this.meta.get( 'tmdb_id' );
+
+			if ( _.has( this.controller, 'settings' ) ) {
+				var meta = this.meta,
+				 replace = function( s ) {
+					// replace year.
+					s = s.replace( '{year}', meta.has( 'release_date' ) ? ( new Date( meta.get( 'release_date' ) ).getFullYear() ) || '' : '' );
+					// Sorcery. Replace {property} with node.get( property ), if any.
+					return s.replace( /{([a-z_]+)}/gi, function( m, p, d ) { return meta.has( p ) ? meta.get( p ) || m : m; } );
+				};
+
+				attributes.title       = replace( this.controller.settings.get( wpmolyApiSettings.option_prefix + 'movie_' + this.type + '_title' ) || '' );
+				attributes.caption     = replace( this.controller.settings.get( wpmolyApiSettings.option_prefix + 'movie_' + this.type + '_description' ) || '' );
+				attributes.alt_text    = replace( this.controller.settings.get( wpmolyApiSettings.option_prefix + 'movie_' + this.type + '_title' ) || '' );
+				attributes.description = replace( this.controller.settings.get( wpmolyApiSettings.option_prefix + 'movie_' + this.type + '_description' ) || '' );
+			}
+
+			var self = this;
+
+			// Save related TMDb ID.
+			attachment.save( attributes, {
+				patch : true,
+				wait  : true,
+			});
+
+			var images = this.node.get( this.types ) || [];
+
+			images.push({
+				id    : attachment.get( 'id' ),
+				sizes : attachment.get( 'sizes' ) || {},
+			});
+
+			var list = {};
+			list[ this.types ] = images;
+
+			this.node.set( list );
+
+			this.loadAttachments();*/
+
+			return this;
+		},
+
+		/**
+			* Download Image.
+			*
+			* @since 3.0.0
+			*
+			* @param {object} model Image model.
+			*
+			* @return Returns itself to allow chaining.
+			*/
+		downloadImage : function( model ) {
+
+			this.uploader.loadFile( model );
+
+			return this;
+		},
+
+		/**
+			* Remove Image.
+			*
+			* @since 3.0.0
+			*
+			* @param {object} attachment Image attachment.
+			*
+			* @return Returns itself to allow chaining.
+			*/
+		removeImage : function( attachment ) {
+
+			/*var self = this,
+					data = {
+				post : null,
+				meta : {},
+			},
+			 options = {
+				patch : true,
+				beforeSend : function() {
+					wpmoly.warning( wpmolyEditorL10n[ 'removing_' + self.type ] );
+				},
+				success : function() {
+
+					wpmoly.success( wpmolyEditorL10n[ self.type + '_removed' ] );
+
+					var images = _.reject( self.node.get( self.types ) || [], function( image ) {
+						return image.id === attachment.get( 'id' );
+					}, self );
+
+					var list = {};
+					list[ self.types ] = images;
+
+					self.node.set( list );
+
+					self.loadAttachments();
+				},
+				error : function( model, xhr, options ) {
+					wpmoly.error( xhr, { destroy : false } );
+				},
+			};
+
+			data.meta[ this.type + '_related_tmdb_id' ] = null;
+
+			attachment.save( data, options );*/
+
+			return this;
+		},
+
+		/**
+			* Edit Image.
+			*
+			* @since 3.0.0
+			*
+			* @param {object} attachment Attachment model.
+			*
+			* @return Returns itself to allow chaining.
+			*/
+		editImage : function( attachment ) {
+
+			var attachment = new wp.media.model.Attachment( { id : attachment.get( 'id' ) } );
+
+			if ( ! this.frame ) {
+				this.frame = wp.media({
+					uploader : false,
+					modal    : true,
+					frame    : 'manage',
+				});
+			}
+
+			var self = this;
+			attachment.fetch().done(function() {
+				self.frame.openEditAttachmentModal( attachment );
+			});
+
+			return this;
 		},
 
 	});

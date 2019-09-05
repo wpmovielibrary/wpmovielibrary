@@ -198,7 +198,7 @@ class Settings {
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
 			),
-			/*'add_persons_to_frontpage' => array(
+			'add_persons_to_frontpage' => array(
 				'type'              => 'boolean',
 				'title'             => __( 'Persons', 'wpmovielibrary' ),
 				'label'             => __( 'Show persons on the front page.', 'wpmovielibrary' ),
@@ -208,7 +208,7 @@ class Settings {
 				'sanitize_callback' => '\wpmoly\rest\sanitize_boolean_value',
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
-			),*/
+			),
 
 			'add_to_search' => array(
 				'type'              => 'boolean',
@@ -232,7 +232,7 @@ class Settings {
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
 			),
-			/*'add_persons_to_search' => array(
+			'add_persons_to_search' => array(
 				'type'              => 'boolean',
 				'title'             => __( 'Persons', 'wpmovielibrary' ),
 				'label'             => __( 'Include persons to search results.', 'wpmovielibrary' ),
@@ -242,7 +242,7 @@ class Settings {
 				'sanitize_callback' => '\wpmoly\rest\sanitize_boolean_value',
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
-			),*/
+			),
 
 			'replace_excerpt' => array(
 				'type'              => 'boolean',
@@ -313,7 +313,7 @@ class Settings {
 				'description' => __( 'Content settings.', 'wpmovielibrary' ),
 			),
 
-			/*'persons' => array(
+			'persons' => array(
 				'type'        => 'group',
 				'title'       => __( 'Persons', 'wpmovielibrary' ),
 				'description' => __( 'Persons settings.', 'wpmovielibrary' ),
@@ -329,7 +329,7 @@ class Settings {
 				'sanitize_callback' => '\wpmoly\rest\sanitize_boolean_value',
 				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
 				'show_in_rest'      => true,
-			),*/
+			),
 
 			'actors' => array(
 				'type'        => 'group',
@@ -556,8 +556,60 @@ class Settings {
 				'validate_callback' => '\wpmoly\rest\expect_string_value',
 				'show_in_rest'      => true,
 			),
+			'auto_import_person_backdrops' => array(
+				'type'              => 'boolean',
+				'title'             => __( 'Person backdrops', 'wpmovielibrary' ),
+				'label'             => __( 'Automatically import backdrops with new person.', 'wpmovielibrary' ),
+				'description'       => __( 'When adding a new person, the plugin will automatically download the available backdrops. Default is <code>true</code>.', 'wpmovielibrary' ),
+				'default'           => true,
+				'group'             => 'backdrops',
+				'sanitize_callback' => '\wpmoly\rest\sanitize_boolean_value',
+				'validate_callback' => '\wpmoly\rest\expect_boolean_value',
+				'show_in_rest'      => true,
+			),
+			'person_backdrop_size' => array(
+				'type'              => 'string',
+				'title'             => __( 'Person backdrops size', 'wpmovielibrary' ),
+				'label'             => __( 'Default person backdrop size.', 'wpmovielibrary' ),
+				'default'           => 'original',
+				'options'           => array(
+					'medium'   => __( 'Medium', 'wpmovielibrary' ),
+					'large'    => __( 'Large', 'wpmovielibrary' ),
+					'full'     => __( 'Full ', 'wpmovielibrary' ),
+					'original' => __( 'Original', 'wpmovielibrary' ),
+				),
+				'parent'            => 'auto_import_person_backdrops',
+				'group'             => 'backdrops',
+				'sanitize_callback' => '\wpmoly\rest\sanitize_movie_backdrop_size',
+				'validate_callback' => '\wpmoly\rest\validate_movie_backdrop_size',
+				'show_in_rest'      => true,
+			),
+			'person_backdrop_title' => array(
+				'type'              => 'string',
+				'title'             => __( 'Person backdrops title', 'wpmovielibrary' ),
+				'label'             => __( 'Default person backdrop title.', 'wpmovielibrary' ),
+				'description'       => __( 'Title set for every imported person backdrop.', 'wpmovielibrary' ),
+				'default'           => sprintf( '%s "{name}"', __( 'Backdrop for', 'wpmovielibrary' ) ),
+				'parent'            => 'auto_import_person_backdrops',
+				'group'             => 'backdrops',
+				'sanitize_callback' => '\wpmoly\rest\sanitize_movie_backdrop_title',
+				'validate_callback' => '\wpmoly\rest\expect_string_value',
+				'show_in_rest'      => true,
+			),
+			'person_backdrop_description' => array(
+				'type'              => 'string',
+				'title'             => __( 'Person backdrops description', 'wpmovielibrary' ),
+				'label'             => __( 'Default person backdrop description.', 'wpmovielibrary' ),
+				'description'       => __( 'Description set for every imported person backdrop.', 'wpmovielibrary' ),
+				'default'           => __( 'All right reserved.', 'wpmovielibrary' ),
+				'parent'            => 'auto_import_person_backdrops',
+				'group'             => 'backdrops',
+				'sanitize_callback' => '\wpmoly\rest\sanitize_movie_backdrop_description',
+				'validate_callback' => '\wpmoly\rest\expect_string_value',
+				'show_in_rest'      => true,
+			),
 
-			/*'pictures' => array(
+			'pictures' => array(
 				'type'        => 'group',
 				'title'       => __( 'Pictures', 'wpmovielibrary' ),
 				'description' => __( 'Pictures settings.', 'wpmovielibrary' ),
@@ -595,7 +647,7 @@ class Settings {
 				'title'             => __( 'Pictures title', 'wpmovielibrary' ),
 				'label'             => __( 'Default pictures title.', 'wpmovielibrary' ),
 				'description'       => __( 'Title set for every imported picture.', 'wpmovielibrary' ),
-				'default'           => sprintf( '%s "{title}"', __( 'Image of', 'wpmovielibrary' ) ),
+				'default'           => sprintf( '%s "{name}"', __( 'Picture of', 'wpmovielibrary' ) ),
 				'parent'            => 'auto_import_pictures',
 				'group'             => 'pictures',
 				'sanitize_callback' => '\wpmoly\rest\sanitize_picture_title',
@@ -607,13 +659,13 @@ class Settings {
 				'title'             => __( 'Pictures description', 'wpmovielibrary' ),
 				'label'             => __( 'Default pictures description.', 'wpmovielibrary' ),
 				'description'       => __( 'Description set for every imported picture.', 'wpmovielibrary' ),
-				'default'           => sprintf( '© {year} {production} − %s', __( 'All right reserved.', 'wpmovielibrary' ) ),
+				'default'           => __( 'All right reserved.', 'wpmovielibrary' ),
 				'parent'            => 'auto_import_pictures',
 				'group'             => 'pictures',
 				'sanitize_callback' => '\wpmoly\rest\sanitize_picture_description',
 				'validate_callback' => '\wpmoly\rest\expect_string_value',
 				'show_in_rest'      => true,
-			),*/
+			),
 
 			'appearance' => array(
 				'type'        => 'page',
