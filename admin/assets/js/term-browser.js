@@ -845,24 +845,6 @@ wpmoly.browser = wpmoly.browser || {};
 		},
 
 		/**
-		 * Adjust thumbnail height to keep ratio.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		resize : function() {
-
-			if ( ! this.height ) {
-				this.height = this.$el.width();
-			}
-
-			this.$( '.term-thumbnail' ).css( { height : this.height } );
-
-			return this;
-		},
-
-		/**
 		 * Prepare rendering options.
 		 *
 		 * @since 1.0.0
@@ -874,22 +856,6 @@ wpmoly.browser = wpmoly.browser || {};
 			var options = this.model.toJSON();
 
 			return options;
-		},
-
-		/**
-		 * Render the View.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		render : function() {
-
-			wp.Backbone.View.prototype.render.apply( this, arguments );
-
-			_.delay( _.bind( this.resize, this ), 50 );
-
-			return this;
 		},
 
 	});

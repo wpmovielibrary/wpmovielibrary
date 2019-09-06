@@ -1685,23 +1685,6 @@ wpmoly.browser = wpmoly.browser || {};
 				className : 'post-browser-content movie-browser-content',
 
 				/**
-				 * Initialize the View.
-				 *
-				 * @since 1.0.0
-				 *
-				 * @param {object} options Options.
-				 */
-				initialize : function( options ) {
-
-					PostBrowser.view.BrowserContent.prototype.initialize.apply( this, arguments );
-
-					_.bindAll( this, 'adjust' );
-
-					this.listenTo( this.posts, 'change', _.debounce( this.adjust, 50 ) );
-					this.listenTo( this.posts, 'sync',   _.debounce( this.adjust, 50 ) );
-				},
-
-				/**
 				 * Open Context Menu.
 				 *
 				 * @since 3.0.0
@@ -1746,36 +1729,6 @@ wpmoly.browser = wpmoly.browser || {};
 						parent     : this,
 						model      : model,
 					}) );
-
-					return this;
-				},
-
-				/**
-				 * Adjust items size.
-				 *
-				 * @since 1.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				adjust : function() {
-
-					var innerWidth = this.$el.innerWidth();
-					if ( $( 'body' ).hasClass( 'modal-open' ) ) {
-						innerWidth = innerWidth - 16;
-					}
-
-					var columns = Math.ceil( innerWidth / 180 ),
-					      width = Math.floor( ( innerWidth / columns ) - 16 ),
-					     height = Math.floor( width * 1.5 );
-
-					this.$( '.movie' ).css({
-						width : width,
-					});
-
-					this.$( '.movie-poster' ).css({
-						width  : width,
-						height : height,
-					});
 
 					return this;
 				},

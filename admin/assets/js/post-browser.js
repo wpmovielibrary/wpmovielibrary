@@ -1789,8 +1789,6 @@ wpmoly.browser = wpmoly.browser || {};
 
 			var options = options || {};
 
-			this.on( 'rendered', this.adjust, this );
-
 			this.controller = options.controller;
 			this.parent     = options.parent;
 		},
@@ -1965,23 +1963,6 @@ wpmoly.browser = wpmoly.browser || {};
 			var options = this.model.toJSON();
 
 			return options;
-		},
-
-		/**
-		 * Adjust View.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		adjust : function() {
-
-			_.delay( _.bind( this.resize, this ), 50 );
-
-			this.$el.addClass( 'type-empty' );
-			this.$el.addClass( 'status-' + this.model.get( 'status' ) );
-
-			return this;
 		},
 
 	});
@@ -2218,8 +2199,6 @@ wpmoly.browser = wpmoly.browser || {};
 			this.listenTo( this.posts, 'destroy', this.loaded );
 
 			this.on( 'open:context:menu', this.openContextMenu );
-
-			$( window ).off( 'resize.movie-browser-content' ).on( 'resize.movie-browser-content', _.debounce( this.adjust, 50 ) );
 		},
 
 		/**

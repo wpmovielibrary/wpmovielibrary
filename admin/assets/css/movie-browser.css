@@ -3,54 +3,8 @@
  * Movie Browser Content.
  */
 
-.post-browser.movie-browser .movie-browser-content .movie {
-	display: inline-block;
-	margin: 6px 8px 16px;
-	vertical-align: top;
-}
-
-.post-browser.movie-browser .movie-browser-content.loading .movie {
-	opacity: .25;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster {
-	/*background-color: #373e48;*/
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	border-radius: 3px;
-	overflow: visible;
-	position: relative;
-	transform: translateZ(0);
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu {
-	background: rgba(35, 62, 101, 0.8);
-	bottom: 0;
-	border-radius: 3px;
-	left: 0;
-	mix-blend-mode: screen;
-	position: absolute;
-	right: 0;
-	top: 0;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu {
-	display: none;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster:hover .edit-menu {
-	display: block;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button {
-	background: transparent;
-	box-shadow: 0 0 0;
-	border: 0;
-	border-radius: 0;
-	color: #fff;
-	opacity: 1;
-	position: absolute;
+.movie-browser .movie-browser-content .movie .movie-poster {
+	padding-top: 150%;
 }
 
 .post-browser.movie-browser .movie-browser-content .movie .movie-title {

@@ -21,7 +21,7 @@ wpmoly.browser = wpmoly.browser || {};
 			posts : posts,
 		} );
 
-		var view = new GridBrowser.view.Browser({
+		var view = new GridBrowser.view.GridBrowser({
 			el         : browser,
 			controller : controller,
 		});
@@ -183,7 +183,7 @@ wpmoly.browser = wpmoly.browser || {};
 			 *
 			 * @since 1.0.0
 			 */
-			BrowserPagination : PostBrowser.view.BrowserPagination.extend({
+			GridBrowserPagination : PostBrowser.view.BrowserPagination.extend({
 
 				className : 'post-browser-menu post-browser-pagination grid-browser-menu grid-browser-pagination',
 
@@ -194,11 +194,29 @@ wpmoly.browser = wpmoly.browser || {};
 			 *
 			 * @since 1.0.0
 			 */
-			BrowserItem : PostBrowser.view.BrowserItem.extend({
+			GridBrowserItem : PostBrowser.view.BrowserItem.extend({
 
 				className : 'post grid',
 
 				template : wp.template( 'wpmoly-grid-browser-item' ),
+
+				/**
+				 * Render the View.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				render : function() {
+
+					PostBrowser.view.BrowserItem.prototype.render.apply( this, arguments );
+
+					var type = this.model.getMeta( wpmolyApiSettings.grid_prefix + 'type' ) || 'empty';
+
+					this.$el.addClass( 'type-' + type  );
+
+					return this;
+				},
 
 			}),
 
@@ -207,11 +225,68 @@ wpmoly.browser = wpmoly.browser || {};
 			 *
 			 * @since 1.0.0
 			 */
-			BrowserContent : PostBrowser.view.BrowserContent.extend({
+			GridBrowserContent : PostBrowser.view.BrowserContent.extend({
 
 				className : 'post-browser-content grid-browser-content',
 
+				/**
+				 * Add new post item view.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param {object} model Post model.
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				addItem : function( model ) {
+
+					this.views.add( new PostBrowser.view.GridBrowserItem({
+						controller : this.controller,
+						parent     : this,
+						model      : model,
+					}) );
+
+					return this;
+				},
+
 			}),
+
+			/**
+			 * GridBrowser View.
+			 *
+			 * @since 1.0.0
+			 */
+			GridBrowser : PostBrowser.view.Browser.extend({
+
+				/**
+				 * Set subviews.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				setRegions : function() {
+
+					var options = {
+						controller : this.controller,
+					};
+
+					if ( ! this.content ) {
+						this.content = new PostBrowser.view.GridBrowserContent( options );
+					}
+
+					if ( ! this.pagination ) {
+						this.pagination = new PostBrowser.view.GridBrowserPagination( options );
+					}
+
+					this.views.add( this.content );
+					this.views.add( this.pagination );
+
+					return this;
+				},
+
+			}),
+
 		} ),
 
 		/**
