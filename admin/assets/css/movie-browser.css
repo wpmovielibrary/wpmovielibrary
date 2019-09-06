@@ -21,6 +21,7 @@
 	border-radius: 3px;
 	overflow: visible;
 	position: relative;
+	transform: translateZ(0);
 }
 
 .post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu {
