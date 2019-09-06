@@ -23,9 +23,7 @@
 	position: relative;
 }
 
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu,
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status,
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-rating {
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu {
 	background: rgba(35, 62, 101, 0.8);
 	bottom: 0;
 	border-radius: 3px;
@@ -36,130 +34,22 @@
 	top: 0;
 }
 
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu,
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status,
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-rating,
-.post-browser.movie-browser .movie-browser-content .movie.edit-status .movie-poster:hover .edit-menu,
-.post-browser.movie-browser .movie-browser-content .movie.edit-rating .movie-poster:hover .edit-menu {
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu {
 	display: none;
 }
 
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster:hover .edit-menu,
-.post-browser.movie-browser .movie-browser-content .movie.edit-status .movie-poster .edit-status,
-.post-browser.movie-browser .movie-browser-content .movie.edit-rating .movie-poster .edit-rating {
+.post-browser.movie-browser .movie-browser-content .movie .movie-poster:hover .edit-menu {
 	display: block;
 }
 
 .post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button {
-	opacity: 1;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button,
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status .button.dismiss,
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-rating .button.dismiss {
 	background: transparent;
 	box-shadow: 0 0 0;
 	border: 0;
 	border-radius: 0;
 	color: #fff;
+	opacity: 1;
 	position: absolute;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status .button.dismiss,
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-rating .button.dismiss {
-	color: #fff;
-	left: auto;
-	right: 0;
-	top: 0;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.preview {
-	color: #0073aa;
-	background: #fff;
-	border-radius: 50%;
-	left: calc( 50% - 20px );
-	right: auto;
-	top: calc( 50% - 20px );
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.rating,
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.status {
-	top: auto;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.rating {
-	bottom: 0;
-	color: #e0bd00;
-	display: none;
-	left: auto;
-	right: 0;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.status {
-	bottom: 0;
-	color: #aaa;
-	display: none;
-	left: 0;
-	right: auto;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.status.available {
-	color: #3de000;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.status.unavailable {
-	color: #e00020;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.status.loaned {
-	color: #e0bd00;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-menu .button.status.scheduled {
-	color: #00b1e0;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-rating input,
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status select,
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-rating .button.apply,
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status .button.apply {
-	background: #fff;
-	border: 1px solid #fff;
-	border-radius: 3px;
-	font-size: 16px;
-	font-weight: 300;
-	height: 42px;
-	left: 10%;
-	position: absolute;
-	text-align: center;
-	top: calc( 50% - 16px );
-	width: 80%;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status .selectize-control {
-	left: 10%;
-	position: absolute;
-	top: calc( 50% - 25px );
-	width: 80%;
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status .selectize-input {
-	border-radius: 3px;
-	min-width: auto;
-	width: calc( 100% - 30px );
-}
-
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-status .button.apply,
-.post-browser.movie-browser .movie-browser-content .movie .movie-poster .edit-rating .button.apply {
-	bottom: 6%;
-	color: #373e48;
-	font-size: 12px;
-	font-weight: 500;
-	height: 32px;
-	line-height: 32px;
-	padding: 0;
-	text-transform: uppercase;
-	top: auto;
 }
 
 .post-browser.movie-browser .movie-browser-content .movie .movie-title {
