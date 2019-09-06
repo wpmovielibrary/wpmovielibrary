@@ -3245,7 +3245,7 @@ wpmoly.editor = wpmoly.editor || {};
 
 				this.node.set( list );
 
-				this.loadAttachments();
+				this.load();
 
 				return this;
 			},

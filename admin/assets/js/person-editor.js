@@ -1820,7 +1820,48 @@ wpmoly.editor = wpmoly.editor || {};
 				*/
 			addAttachment : function( attachment ) {
 
+				var attachment = new wp.api.models.Media( { id : attachment.id } ),
+						attributes = {
+					post : this.post.get( 'id' ),
+					meta : {},
+				};
 
+				attributes.meta[ this.type + '_related_tmdb_id' ] = this.meta.get( 'tmdb_id' );
+
+				if ( _.has( this.controller, 'settings' ) ) {
+					var meta = this.meta,
+					 replace = function( s ) {
+						// Sorcery. Replace {property} with node.get( property ), if any.
+						return s.replace( /{([a-z_]+)}/gi, function( m, p, d ) { return meta.has( p ) ? meta.get( p ) || m : m; } );
+					};
+
+					attributes.title       = replace( this.controller.settings.get( wpmolyApiSettings.option_prefix + 'person_' + this.type + '_title' ) || '' );
+					attributes.caption     = replace( this.controller.settings.get( wpmolyApiSettings.option_prefix + 'person_' + this.type + '_description' ) || '' );
+					attributes.alt_text    = replace( this.controller.settings.get( wpmolyApiSettings.option_prefix + 'person_' + this.type + '_title' ) || '' );
+					attributes.description = replace( this.controller.settings.get( wpmolyApiSettings.option_prefix + 'person_' + this.type + '_description' ) || '' );
+				}
+
+				var self = this;
+
+				// Save related TMDb ID.
+				attachment.save( attributes, {
+					patch : true,
+					wait  : true,
+				});
+
+				var images = this.node.get( this.types ) || [];
+
+				images.push({
+					id    : attachment.get( 'id' ),
+					sizes : attachment.get( 'sizes' ) || {},
+				});
+
+				var list = {};
+				list[ this.types ] = images;
+
+				this.node.set( list );
+
+				this.load();
 
 				return this;
 			},
@@ -1836,7 +1877,39 @@ wpmoly.editor = wpmoly.editor || {};
 				*/
 			removeImage : function( attachment ) {
 
+				var self = this,
+						data = {
+					post : null,
+					meta : {},
+				},
+				 options = {
+					patch : true,
+					beforeSend : function() {
+						wpmoly.warning( wpmolyEditorL10n[ 'removing_' + self.type ] );
+					},
+					success : function() {
 
+						wpmoly.success( wpmolyEditorL10n[ self.type + '_removed' ] );
+
+						var images = _.reject( self.node.get( self.types ) || [], function( image ) {
+							return image.id === attachment.get( 'id' );
+						}, self );
+
+						var list = {};
+						list[ self.types ] = images;
+
+						self.node.set( list );
+
+						self.loadAttachments();
+					},
+					error : function( model, xhr, options ) {
+						wpmoly.error( xhr, { destroy : false } );
+					},
+				};
+
+				data.meta[ this.type + '_related_tmdb_id' ] = null;
+
+				attachment.save( data, options );
 
 				return this;
 			},
