@@ -56,9 +56,9 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 	bottom: 0;
-	filter: blur(2px);
 	left: 0;
-	opacity: .5;
+	mix-blend-mode: soft-light;
+	opacity: .75;
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -161,23 +161,24 @@
 }
 
 .wpmoly.movie-headbox .headbox-content .panel.left {
-	float: left;
 	width: 244px;
 }
 
 .wpmoly.movie-headbox .headbox-content .panel.right {
-	margin-left: 274px;
+	display: flex;
+	flex-wrap: wrap;
+	padding-left: 30px;
+	width: calc( 100% - 274px );
 }
 
 .wpmoly.movie-headbox .headbox-content .panel .field {
 	margin: 0 0 15px 0;
 	padding: 0;
+	width: 100%;
 }
 
 .wpmoly.movie-headbox .headbox-content .panel .field.half-field {
-	display: inline-block;
-	vertical-align: top;
-	width: 49%;
+	width: 50%;
 }
 
 .wpmoly.movie-headbox .headbox-content .panel .field .field-label {
@@ -245,14 +246,14 @@
 }
 
 .post-editor.movie-editor .movie-headbox.mode-edit .headbox-content .panel.right {
-	margin: 0 -24px 0 274px;
+	margin: 0 -24px 0 0;
 }
 
 .post-editor.movie-editor .movie-headbox.mode-edit .headbox-content .field-control textarea {
 	line-height: 24px;
 	min-height: 128px;
 	padding: 12px;
-	width: calc( 100% - 42px );
+	width: calc( 100% - 40px );
 }
 
 .post-editor.movie-editor .movie-headbox.mode-edit .headbox-content .field-control .selectize-input {
@@ -260,7 +261,7 @@
 }
 
 .post-editor.movie-editor .movie-headbox.mode-edit .headbox-content .field-control .selectize-input.has-items {
-	width: calc( 100% - 54px );
+	width: calc( 100% - 52px );
 }
 
 .post-editor.movie-editor .movie-headbox.mode-edit .headbox-content .panel.left .field-control .selectize-input {
@@ -271,18 +272,15 @@
  * Movie Editor Credits Section.
  */
 
-.post-editor.movie-editor .movie-credits .editor-content .panel .person {
-	display: inline-block;
-	margin: 0 5px 20px;
-	vertical-align: top;
+.post-editor.movie-editor .movie-credits .editor-content .panel .persons-list {
+	display: grid;
+	grid-gap: 10px;
+	grid-row-gap: 25px;
+	grid-template-columns: repeat( 6, minmax( 0, 1fr ) );
 }
 
-.post-editor.movie-editor .movie-credits .editor-content .panel .person.cast-member {
-	width: 126px;
-}
-
-.post-editor.movie-editor .movie-credits .editor-content .panel .person.crew-member {
-	width: 100px;
+.post-editor.movie-editor .movie-credits .editor-content .panel .half-section .persons-list {
+	grid-template-columns: repeat( 4, minmax( 0, 1fr ) );
 }
 
 .post-editor.movie-editor .movie-credits .editor-content .panel .person .person-picture {
@@ -292,25 +290,13 @@
 	background-size: cover;
 	border-radius: 3px;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+	height: auto;
+	margin-bottom: 8px;
 	opacity: .5;
-	overflow: hidden;
+	padding-top: 125%;
 	position: relative;
-}
-
-.post-editor.movie-editor .movie-credits .editor-content .panel .person.cast-member .person-picture {
-	--width: 126px;
-	height: 190px;
-	height: calc( var( --width ) * 1.25 );
-	width: 126px;
-	width: var( --width );
-}
-
-.post-editor.movie-editor .movie-credits .editor-content .panel .person.crew-member .person-picture {
-	--width: 100px;
-	height: 125px;
-	height: calc( var( --width ) * 1.25 );
-	width: 100px;
-	width: var( --width );
+	transform: translateZ(0);
+	width: 100%;
 }
 
 .post-editor.movie-editor .movie-credits .editor-content .panel .person.has-person .person-picture,
@@ -323,7 +309,8 @@
 	color: #fff;
 	display: none;
 	height: 100%;
-	position: relative;
+	position: absolute;
+	top: 0;
 	width: 100%;
 }
 
@@ -417,11 +404,6 @@
  * Movie Editor Images Section.
  */
 
-.post-editor.movie-editor .movie-posters .editor-content,
-.post-editor.movie-editor .movie-backdrops .editor-content {
-	padding: 40px 20px;
-}
-
 .post-editor.movie-editor .movie-posters.mode-download .editor-content-upload,
 .post-editor.movie-editor .movie-backdrops.mode-download .editor-content-upload,
 .post-editor.movie-editor .movie-posters.mode-upload .editor-content-download,
@@ -443,38 +425,39 @@
 
 .post-editor.movie-editor .movie-posters .filter-field .selectize-input,
 .post-editor.movie-editor .movie-backdrops .filter-field .selectize-input {
-	width: 90%;
+	width: calc( 100% - 30px );
 }
 
-.post-editor.movie-editor .movie-posters .poster {
-	--width: 128px;
+.post-editor.movie-editor .movie-posters .editor-content .panel .images-editor-content,
+.post-editor.movie-editor .movie-backdrops .editor-content .panel .images-editor-content,
+.post-editor.movie-editor .movie-posters .editor-content .panel .uploader-container,
+.post-editor.movie-editor .movie-backdrops .editor-content .panel .uploader-container {
+	display: grid;
+	grid-gap: 10px;
+	grid-row-gap: 25px;
+	grid-template-columns: repeat( 4, minmax( 0, 1fr ) );
+	margin: 40px 0px 20px 40px;
 }
 
-.post-editor.movie-editor .movie-backdrops .backdrop {
-	--width: 222px;
+.post-editor.movie-editor .movie-posters .editor-content .panel .images-editor-content,
+.post-editor.movie-editor .movie-posters .editor-content .panel .uploader-container {
+	grid-template-columns: repeat( 4, minmax( 0, 1fr ) );
 }
 
-.post-editor.movie-editor .movie-posters .poster,
-.post-editor.movie-editor .movie-backdrops .backdrop {
-	display: inline-block;
-	margin: 0 5px 20px;
-	position: relative;
-	vertical-align: top;
-	width: var( --width );
-	z-index: 1;
+.post-editor.movie-editor .movie-backdrops .editor-content .panel .images-editor-content,
+.post-editor.movie-editor .movie-backdrops .editor-content .panel .uploader-container {
+	grid-template-columns: repeat( 3, minmax( 0, 1fr ) );
+}
+
+.post-editor.movie-editor .movie-posters .editor-content .panel .images-editor-content p,
+.post-editor.movie-editor .movie-backdrops .editor-content .panel .images-editor-content p {
+	font-style: italic;
+	margin: 80px 20px;
 }
 
 .post-editor.movie-editor .movie-posters .poster.bad-ratio,
 .post-editor.movie-editor .movie-backdrops .backdrop.bad-ratio {
 
-}
-
-.post-editor.movie-editor .movie-posters .poster .poster-thumbnail {
-	height: calc( var( --width ) * 1.5 );
-}
-
-.post-editor.movie-editor .movie-backdrops .backdrop .backdrop-thumbnail {
-	height: calc( var( --width ) / 1.7 );
 }
 
 .post-editor.movie-editor .movie-posters .poster .poster-thumbnail,
@@ -485,10 +468,21 @@
 	background-size: cover;
 	border-radius: 2px;
 	box-shadow: 0 2px 2px rgba(0, 0, 0, .2);
+	height: auto;
 	margin-bottom: 8px;
 	opacity: .5;
+	padding-top: 100%;
 	position: relative;
-	width: var( --width );
+	transform: translateZ(0);
+	width: 100%;
+}
+
+.post-editor.movie-editor .movie-posters .poster .poster-thumbnail {
+	padding-top: 150%;
+}
+
+.post-editor.movie-editor .movie-backdrops .backdrop .backdrop-thumbnail {
+	padding-top: 56%;
 }
 
 .post-editor.movie-editor .movie-posters .poster.has-attachment .poster-thumbnail,

@@ -149,23 +149,24 @@
 }
 
 .wpmoly.person-headbox .headbox-content .panel.left {
-	float: left;
 	width: 244px;
 }
 
 .wpmoly.person-headbox .headbox-content .panel.right {
-	margin-left: 274px;
+	display: flex;
+	flex-wrap: wrap;
+	padding-left: 30px;
+	width: calc( 100% - 274px );
 }
 
 .wpmoly.person-headbox .headbox-content .panel .field {
 	margin: 0 0 15px 0;
 	padding: 0;
+	width: 100%;
 }
 
 .wpmoly.person-headbox .headbox-content .panel .field.half-field {
-	display: inline-block;
-	vertical-align: top;
-	width: 49%;
+	width: 50%;
 }
 
 .wpmoly.person-headbox .headbox-content .panel .field .field-label {
@@ -233,14 +234,14 @@
 }
 
 .post-editor.person-editor .person-headbox.mode-edit .headbox-content .panel.right {
-	margin: 0 -24px 0 274px;
+	margin: 0 -24px 0 0;
 }
 
 .post-editor.person-editor .person-headbox.mode-edit .headbox-content .field-control textarea {
 	line-height: 24px;
 	min-height: 128px;
 	padding: 12px;
-	width: calc( 100% - 42px );
+	width: calc( 100% - 30px );
 }
 
 .post-editor.person-editor .person-headbox.mode-edit .headbox-content .field-control .selectize-input {
@@ -248,7 +249,7 @@
 }
 
 .post-editor.person-editor .person-headbox.mode-edit .headbox-content .field-control .selectize-input.has-items {
-	width: calc( 100% - 54px );
+	width: calc( 100% - 42px );
 }
 
 .post-editor.person-editor .person-headbox.mode-edit .headbox-content .panel.left .field-control .selectize-input {
@@ -259,7 +260,30 @@
  * Person Editor Credits Section.
  */
 
-.post-editor.person-editor .person-credits .editor-content .panel .credit-item {
+.post-editor.person-editor .person-credits .editor-content .panel .credits-list {
+	display: grid;
+	grid-gap: 10px;
+	grid-row-gap: 25px;
+	grid-template-columns: repeat( 6, minmax( 0, 1fr ) );
+}
+
+.post-editor.person-editor .person-credits .editor-content .panel .credit-item .credit-poster {
+	background-color: #373e48;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	border-radius: 3px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+	height: auto;
+	margin-bottom: 8px;
+	opacity: .5;
+	padding-top: 150%;
+	position: relative;
+	transform: translateZ(0);
+	width: 100%;
+}
+
+/*.post-editor.person-editor .person-credits .editor-content .panel .credit-item {
 	display: inline-block;
 	margin: 0 5px 20px;
 	vertical-align: top;
@@ -287,7 +311,7 @@
 	position: relative;
 	width: 126px;
 	width: var( --width );
-}
+}*/
 
 
 .post-editor.person-editor .person-credits .editor-content .panel .credit-item.has-person .credit-poster,
@@ -295,27 +319,22 @@
 	opacity: 1;
 }
 
-.post-editor.person-editor .person-credits .editor-content .panel .credit-poster::before {
-	content: '';
+.post-editor.person-editor .person-credits .editor-content .panel .credit-poster a {
+	color: #fff;
+	display: none;
 	height: 100%;
 	position: absolute;
+	top: 0;
 	width: 100%;
 }
 
 .post-editor.person-editor .person-credits .editor-content .panel .credit-poster .button {
-	color: #fff;
 	display: none;
-	height: 100%;
-	position: relative;
-	width: 100%;
-}
-
-.post-editor.person-editor .person-credits .editor-content .panel .credit-poster .button svg {
-	height: 24px;
-	left: calc( 50% - 12px );
+	height: 48px;
+	left: calc( 50% - 24px );
 	position: absolute;
-	top: calc( 50% - 12px );
-	width: 24px;
+	top: calc( 50% - 24px );
+	width: 48px;
 }
 
 .post-editor.person-editor .person-credits .editor-content .panel .credit-poster .button svg path {
@@ -408,11 +427,6 @@
  * Movie Editor Images Section.
  */
 
-.post-editor.person-editor .person-pictures .editor-content,
-.post-editor.person-editor .person-backdrops .editor-content {
-	padding: 40px 20px;
-}
-
 .post-editor.person-editor .person-pictures.mode-download .editor-content-upload,
 .post-editor.person-editor .person-backdrops.mode-download .editor-content-upload,
 .post-editor.person-editor .person-pictures.mode-upload .editor-content-download,
@@ -434,38 +448,39 @@
 
 .post-editor.person-editor .person-pictures .filter-field .selectize-input,
 .post-editor.person-editor .person-backdrops .filter-field .selectize-input {
-	width: 90%;
+	width: calc( 100% - 30px );
 }
 
-.post-editor.person-editor .person-pictures .picture {
-	--width: 128px;
+.post-editor.person-editor .person-pictures .editor-content .panel .images-editor-content,
+.post-editor.person-editor .person-backdrops .editor-content .panel .images-editor-content,
+.post-editor.person-editor .person-pictures .editor-content .panel .uploader-container,
+.post-editor.person-editor .person-backdrops .editor-content .panel .uploader-container {
+	display: grid;
+	grid-gap: 10px;
+	grid-row-gap: 25px;
+	grid-template-columns: repeat( 4, minmax( 0, 1fr ) );
+	margin: 40px 0px 20px 40px;
 }
 
-.post-editor.person-editor .person-backdrops .backdrop {
-	--width: 222px;
+.post-editor.person-editor .person-pictures .editor-content .panel .images-editor-content,
+.post-editor.person-editor .person-pictures .editor-content .panel .uploader-container {
+	grid-template-columns: repeat( 4, minmax( 0, 1fr ) );
 }
 
-.post-editor.person-editor .person-pictures .picture,
-.post-editor.person-editor .person-backdrops .backdrop {
-	display: inline-block;
-	margin: 0 5px 20px;
-	position: relative;
-	vertical-align: top;
-	width: var( --width );
-	z-index: 1;
+.post-editor.person-editor .person-backdrops .editor-content .panel .images-editor-content,
+.post-editor.person-editor .person-backdrops .editor-content .panel .uploader-container {
+	grid-template-columns: repeat( 3, minmax( 0, 1fr ) );
+}
+
+.post-editor.person-editor .person-pictures .editor-content .panel .images-editor-content p,
+.post-editor.person-editor .person-backdrops .editor-content .panel .images-editor-content p {
+	font-style: italic;
+	margin: 80px 20px;
 }
 
 .post-editor.person-editor .person-pictures .picture.bad-ratio,
 .post-editor.person-editor .person-backdrops .backdrop.bad-ratio {
 
-}
-
-.post-editor.person-editor .person-pictures .picture .picture-thumbnail {
-	height: calc( var( --width ) * 1.5 );
-}
-
-.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail {
-	height: calc( var( --width ) / 1.7 );
 }
 
 .post-editor.person-editor .person-pictures .picture .picture-thumbnail,
@@ -476,10 +491,21 @@
 	background-size: cover;
 	border-radius: 2px;
 	box-shadow: 0 2px 2px rgba(0, 0, 0, .2);
+	height: auto;
 	margin-bottom: 8px;
 	opacity: .5;
+	padding-top: 100%;
 	position: relative;
-	width: var( --width );
+	transform: translateZ(0);
+	width: 100%;
+}
+
+.post-editor.person-editor .person-pictures .picture .picture-thumbnail {
+	padding-top: 125%;
+}
+
+.post-editor.person-editor .person-backdrops .backdrop .backdrop-thumbnail {
+	padding-top: 56%;
 }
 
 .post-editor.person-editor .person-pictures .picture.has-attachment .picture-thumbnail,

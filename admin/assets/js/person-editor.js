@@ -2880,14 +2880,18 @@ wpmoly.editor = wpmoly.editor || {};
 			 */
 			addItems : function( collection, options ) {
 
-				var images = this.controller.snapshot.get( 'taggedimages' ) || {};
-				_.each( images || [], function( image ) {
-					var view = new this.imageView({
-						model      : new Backbone.Model( image ),
-						controller : this.controller,
-					});
-					this.views.add( view );
-				}, this );
+				var images = this.controller.snapshot.get( 'taggedimages' ) || [];
+				if ( images.length ) {
+					_.each( images, function( image ) {
+						var view = new this.imageView({
+							model      : new Backbone.Model( image ),
+							controller : this.controller,
+						});
+						this.views.add( view );
+					}, this );
+				} else {
+					this.$el.html( '<p>' + wpmolyEditorL10n.no_backdrop_available + '</p>' );
+				}
 
 				return this;
 			},
@@ -3054,14 +3058,18 @@ wpmoly.editor = wpmoly.editor || {};
 			 */
 			addItems : function( collection, options ) {
 
-				var images = this.controller.snapshot.get( 'images' ) || {};
-				_.each( images || [], function( image ) {
-					var view = new this.imageView({
-						model      : new Backbone.Model( image ),
-						controller : this.controller,
-					});
-					this.views.add( view );
-				}, this );
+				var images = this.controller.snapshot.get( 'images' ) || [];
+				if ( images.length ) {
+					_.each( images, function( image ) {
+						var view = new this.imageView({
+							model      : new Backbone.Model( image ),
+							controller : this.controller,
+						});
+						this.views.add( view );
+					}, this );
+				} else {
+					this.$el.html( '<p>' + wpmolyEditorL10n.no_poster_available + '</p>' );
+				}
 
 				return this;
 			},
@@ -3391,6 +3399,8 @@ wpmoly.editor = wpmoly.editor || {};
 
 		CastEditor : PersonEditor.view.CreditsEditorSection.extend({
 
+			className : 'credits-list',
+
 			/**
 			 * .
 			 *
@@ -3421,6 +3431,8 @@ wpmoly.editor = wpmoly.editor || {};
 		}),
 
 		CrewEditor : PersonEditor.view.CreditsEditorSection.extend({
+
+			className : 'credits-list',
 
 			/**
 			 * .

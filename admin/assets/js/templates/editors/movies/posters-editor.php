@@ -13,11 +13,11 @@
 					<button type="button" class="button toggle" data-action="toggle"><span class="wpmolicon icon-up-open"></span></button>
 				</div>
 				<div class="editor-content active">
-					<div class="editor-subcontent editor-content-download clearfix">
+					<div class="editor-content-panels editor-content-download">
 						<div class="panel left"></div>
 						<div class="panel right"></div>
 					</div>
-					<div class="editor-subcontent editor-content-upload clearfix">
+					<div class="editor-content-panels editor-content-upload">
 						<div class="panel left">
 							<div class="panel-title"><?php esc_html_e( 'Custom Posters', 'wpmovielibrary' ); ?></div>
 							<div class="panel-description"><?php esc_html_e( 'You can select existing images or upload new images to be used as posters. For better consistancy try using portait images (2/3 or 0.66 ratio).', 'wpmovielibrary' ); ?></div>

@@ -55,13 +55,17 @@
 	padding: 15px 20px;
 }
 
+.post-editor .editor-content-panels {
+	display: flex;
+	flex-wrap: wrap;
+}
+
 .post-editor .editor-content .panel.left {
-	float: left;
-	width: 244px;
+	width: 220px;
 }
 
 .post-editor .editor-content .panel.right {
-	margin-left: 274px;
+	width: calc( 100% - 220px );
 }
 
 .post-editor .editor-content .panel-title,
@@ -127,6 +131,14 @@
 .post-editor .field.changed-field .field-control textarea,
 .post-editor .field.changed-field .field-control .selectize-input {
 	border-color: #ce8251;
+}
+
+.post-editor .field.changed-field .field-control .selectize-input.focus,
+.post-editor .field.changed-field .field-control input[type="text"]:focus,
+.post-editor .field.changed-field .field-control input[type="date"]:focus,
+.post-editor .field.changed-field .field-control input[type="number"]:focus,
+.post-editor .field.changed-field .field-control textarea:focus {
+	box-shadow: 0 0 0 2px #ffdac2 !important;
 }
 
 .post-editor .field.saved-field .field-value {

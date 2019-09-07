@@ -274,6 +274,7 @@
 .wpmoly.grid .grid-content-inner {
 	display: grid;
 	grid-gap: .75rem;
+	grid-row-gap: 1.5rem;
 	min-height: 8em;
 	padding: 1em 0;
 }
@@ -349,9 +350,17 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 	height: auto;
-	padding-top: 150%;
+	padding-top: 110%;
 	position: relative;
 	width: 100%;
+}
+
+.wpmoly.grid .grid-content .item .item-picture {
+	padding-top: 125%;
+}
+
+.wpmoly.grid .grid-content .item .item-poster {
+	padding-top: 150%;
 }
 
 .wpmoly.grid .grid-content .item .item-poster a,
@@ -381,9 +390,31 @@
  */
 
 .wpmoly.grid.theme-default .grid-content .item .item-poster,
+.wpmoly.grid.theme-default .grid-content .item .item-picture,
 .wpmoly.grid.theme-default .grid-content .item .item-thumbnail {
 	border-radius: .25rem;
 	box-shadow: 0 .125em .125em #bbb;
+	transform: translateZ(0);
+}
+
+.wpmoly.grid.theme-default .grid-content .item .item-poster a,
+.wpmoly.grid.theme-default .grid-content .item .item-picture a,
+.wpmoly.grid.theme-default .grid-content .item .item-thumbnail a {
+	border-radius: .25rem;
+	box-shadow: 0 0 0;
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	text-decoration: none;
+	top: 0;
+	right: 0;
+}
+
+.wpmoly.grid.theme-default .grid-content .item .item-poster a:hover,
+.wpmoly.grid.theme-default .grid-content .item .item-picture a:hover,
+.wpmoly.grid.theme-default .grid-content .item .item-thumbnail a:hover {
+	background: rgba(35, 62, 101, 0.8);
+	mix-blend-mode: screen;
 }
 
 .wpmoly.grid.theme-default .grid-content .item.movie .movie-title,
