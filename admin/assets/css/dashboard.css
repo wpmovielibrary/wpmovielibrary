@@ -244,6 +244,107 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
 }
 
 /**
+ * Context Menu.
+ */
+
+.wpmoly.context-menu {
+	position: absolute;
+	z-index: 99999;
+}
+
+.wpmoly.context-menu .context-menu-content {
+	background: #fff;
+	border-radius: 2px;
+	box-shadow: 0 2px 15px rgba( 0, 0, 0, .5 );
+	padding: 5px 0;
+	position: relative;
+	width: 200px;
+}
+
+.wpmoly.context-menu .context-menu-item {
+	align-items: center;
+	cursor: pointer;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 5px 15px;
+	position: relative;
+}
+
+.wpmoly.context-menu .context-menu-item:hover {
+	background: #f2f2f2;
+	color: #00a0d2;
+}
+
+.wpmoly.context-menu .context-menu-item.context-menu-separator {
+	background: #e5e5e5;
+	height: 1px;
+	margin: 5px 0;
+	padding: 0;
+}
+
+.wpmoly.context-menu .context-menu-item .context-menu-icon {
+	height: 24px;
+	margin-right: 6px;
+	width: 24px;
+}
+
+.wpmoly.context-menu .context-menu-item .context-menu-icon .wpmolicon,
+.wpmoly.context-menu .context-menu-item .context-menu-icon .dashicons {
+	display: block;
+	margin: 2px 0 0;
+}
+
+.wpmoly.context-menu .context-menu-item .context-menu-text {
+	flex-grow: 1;
+}
+
+.wpmoly.context-menu .context-menu-item .context-menu-text + .context-menu-icon {
+	margin: 0 -5px 0;
+}
+
+.wpmoly.context-menu .context-menu-item .context-menu-sub-menu {
+	display: none;
+	position: absolute;
+	right: -200px;
+	top: -5px;
+	z-index: -1;
+}
+
+.wpmoly.context-menu.sub-menu-left .context-menu-item .context-menu-sub-menu {
+	left: -200px;
+	right: auto;
+}
+
+.wpmoly.context-menu .context-menu-item:hover .context-menu-sub-menu {
+	display: block;
+}
+
+.wpmoly.context-menu .context-menu-item .context-sub-menu-content {
+	border-radius: 0 2px 2px 0;
+	max-height: 380px;
+	overflow: auto;
+}
+
+.wpmoly.context-menu.sub-menu-left .context-menu-item .context-sub-menu-content {
+	border-radius: 2px 0 0 2px;
+}
+
+.wpmoly.context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item {
+	background: transparent;
+	color: #444;
+}
+
+.wpmoly.context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item:hover {
+	background: #f2f2f2;
+	color: #00a0d2;
+}
+
+.wpmoly.context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item.active {
+	background: #f2f2f2;
+	font-weight: 500;
+}
+
+/**
  * Dashboard Settings
  */
 

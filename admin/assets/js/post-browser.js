@@ -1972,16 +1972,14 @@ wpmoly.browser = wpmoly.browser || {};
 	 *
 	 * @since 3.0.0
 	 */
-	PostBrowser.view.BrowserContextMenu = wpmoly.Backbone.View.extend({
+	PostBrowser.view.BrowserContextMenu = Dashboard.view.ContextMenu.extend({
 
-		className : 'post-browser-context-menu',
+		className : 'wpmoly context-menu post-browser-context-menu',
 
 		template : wp.template( 'wpmoly-post-browser-context-menu' ),
 
 		events : function() {
 			return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
-				'click'                         : 'stopPropagation',
-				'contextmenu'                   : 'stopPropagation',
 				'click [data-action="draft"]'   : 'draftPost',
 				'click [data-action="restore"]' : 'restorePost',
 				'click [data-action="trash"]'   : 'trashPost',
@@ -2080,71 +2078,6 @@ wpmoly.browser = wpmoly.browser || {};
 			this.controller.deletePost( this.model.get( 'id' ) );
 
 			this.close();
-
-			return this;
-		},
-
-		/**
-		 * Open Context Menu.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		open : function() {
-
-			var self = this;
-
-			// Avoid losing events when closing.
-			self.delegateEvents();
-
-			// Add view to DOM.
-			$( 'body' ).append( self.render().$el );
-
-			// Bind closing events.
-			$( 'body' ).one( 'click', _.bind( self.close, self ) );
-			$( window ).one( 'resize', _.bind( self.close, self ) );
-
-			return this;
-		},
-
-		/**
-		 * Close Context Menu.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		close : function() {
-
-			// Remove view.
-			this.remove();
-
-			return this;
-		},
-
-		/**
-		 * Position Context Menu from click event position.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param {object} position Context Menu position.
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		setPosition : function( position ) {
-
-			var position = position || {},
-				 overflowX = ( window.innerWidth <= ( position.x + 400 ) ),
-				 overflowY = ( window.innerHeight <= ( position.y + this.$el.height() ) );
-
-			this.$el.css({
-				left : position.x || 0,
-				top  : ( overflowY ? ( position.y - this.$el.height() ) : position.y ) || 0,
-			});
-
-			this.$el.toggleClass( 'sub-menu-left', overflowX );
-			this.$el.toggleClass( 'sub-menu-bottom', overflowY );
 
 			return this;
 		},

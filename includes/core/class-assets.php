@@ -322,6 +322,7 @@ class Assets {
 			$this->enqueue_template( 'settings-menu' );
 			$this->enqueue_template( 'settings-field' );
 			$this->enqueue_template( 'settings-group' );
+			$this->enqueue_template( 'context-menu' );
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-movies' ) ||
 			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-persons' ) ||
@@ -712,6 +713,8 @@ class Assets {
 			$this->register_template( 'settings-menu',   'admin/assets/js/templates/dashboard/settings-menu.php' );
 			$this->register_template( 'settings-field',  'admin/assets/js/templates/dashboard/settings-field.php' );
 			$this->register_template( 'settings-group',  'admin/assets/js/templates/dashboard/settings-group.php' );
+
+			$this->register_template( 'context-menu',    'admin/assets/js/templates/dashboard/context-menu.php' );
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-movies' ) ||
 			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-persons' ) ||

@@ -575,6 +575,108 @@ wpmoly = window.wpmoly || {};
 	});
 
 	/**
+	 * Dashboard Context Menu View.
+	 *
+	 * @since 3.0.0
+	 */
+	Dashboard.view.ContextMenu = wpmoly.Backbone.View.extend({
+
+		className : 'wpmoly context-menu',
+
+		template : wp.template( 'wpmoly-context-menu' ),
+
+		events : function() {
+			return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
+				'click'       : 'stopPropagation',
+				'contextmenu' : 'stopPropagation',
+			} );
+		},
+
+		/**
+		 * Stop event propagation to avoid impromptusly closing the menu.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param {object} JS 'click' or 'contextmenu' Event.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		stopPropagation : function( event ) {
+
+			event.stopPropagation();
+
+			return this;
+		},
+
+		/**
+		 * Open Context Menu.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		open : function() {
+
+			var self = this;
+
+			// Avoid losing events when closing.
+			self.delegateEvents();
+
+			// Add view to DOM.
+			$( 'body' ).append( self.render().$el );
+
+			// Bind closing events.
+			$( 'body' ).one( 'click', _.bind( self.close, self ) );
+			$( 'body' ).one( 'keydown', _.bind( self.close, self ) );
+			$( window ).one( 'resize', _.bind( self.close, self ) );
+
+			return this;
+		},
+
+		/**
+		 * Close Context Menu.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		close : function() {
+
+			// Remove view.
+			this.remove();
+
+			return this;
+		},
+
+		/**
+		 * Position Context Menu from click event position.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param {object} position Context Menu position.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		setPosition : function( position ) {
+
+			var position = position || {},
+				 overflowX = ( window.innerWidth <= ( position.x + 400 ) ),
+				 overflowY = ( window.innerHeight <= ( position.y + this.$el.height() ) );
+
+			this.$el.css({
+				left : position.x || 0,
+				top  : ( overflowY ? ( position.y - this.$el.height() ) : position.y ) || 0,
+			});
+
+			this.$el.toggleClass( 'sub-menu-left', overflowX );
+			this.$el.toggleClass( 'sub-menu-bottom', overflowY );
+
+			return this;
+		},
+
+	});
+
+	/**
 	 * Dashboard Sidebar View.
 	 *
 	 * @since 1.0.0

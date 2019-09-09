@@ -3117,6 +3117,7 @@ wpmoly.editor = wpmoly.editor || {};
 			events : function() {
 				return _.extend( {}, _.result( PersonEditor.view.EditorSection.prototype, 'events' ), {
 					'click [data-action="import"]' : 'import',
+					'contextmenu .credit-poster'   : 'openContextMenu',
 				} );
 			},
 
@@ -3130,6 +3131,32 @@ wpmoly.editor = wpmoly.editor || {};
 				var options = options || {};
 
 				this.controller = options.controller;
+				this.parent     = options.parent;
+			},
+
+			/**
+			 * Open Context Menu.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param {object} JS 'contextmenu' Event.
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			openContextMenu : function( event ) {
+
+				// Stop default.
+				event.preventDefault();
+
+				// Get mouse position.
+				var position = {
+					x : event.pageX,
+					y : event.pageY,
+				};
+
+				this.parent.trigger( 'open:context:menu', this.model, position );
+
+				return this;
 			},
 
 			/**
@@ -3190,6 +3217,37 @@ wpmoly.editor = wpmoly.editor || {};
 				this.listenTo( this.controller.node,     'sync',   this.render );
 				this.listenTo( this.controller.meta,     'change', this.render );
 				this.listenTo( this.controller.snapshot, 'change', this.render );
+
+				this.on( 'open:context:menu', this.openContextMenu );
+			},
+
+			/**
+			 * Open Context Menu.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param {object} model
+			 * @param {object} position
+			 *
+			 * @return Returns itself to allow chaining.
+			 */
+			openContextMenu : function( model, position ) {
+
+				if ( this.menu ) {
+					this.menu.close();
+				}
+
+				// Initialize Context Menu.
+				this.menu = new Dashboard.view.ContextMenu({
+					model      : model,
+					controller : this.controller,
+				});
+
+				// Open menu.
+				this.menu.open();
+				this.menu.setPosition( position );
+
+				return this;
 			},
 
 			/**
@@ -3420,6 +3478,7 @@ wpmoly.editor = wpmoly.editor || {};
 				_.each( credits || [], function( credit ) {
 					var view = new PersonEditor.view.CreditsEditorItem({
 						model      : new Backbone.Model( credit ),
+						parent     : this,
 						controller : this.controller,
 					});
 					this.views.add( view );

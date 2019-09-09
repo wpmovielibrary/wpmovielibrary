@@ -1575,7 +1575,7 @@ wpmoly.browser = wpmoly.browser || {};
 			 */
 			MovieBrowserContextMenu : PostBrowser.view.BrowserContextMenu.extend({
 
-				className : 'wpmoly post-browser-context-menu movie-browser-context-menu',
+				className : 'wpmoly context-menu post-browser-context-menu movie-browser-context-menu',
 
 				template : wp.template( 'wpmoly-movie-browser-context-menu' ),
 
