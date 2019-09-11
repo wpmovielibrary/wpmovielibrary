@@ -659,16 +659,19 @@ wpmoly = window.wpmoly || {};
 		 */
 		setPosition : function( position ) {
 
+			this.$el.addClass( 'active' );
+
 			var position = position || {},
-				 overflowX = ( window.innerWidth <= ( position.x + 400 ) ),
-				 overflowY = ( window.innerHeight <= ( position.y + this.$el.height() ) );
+			   overflowX = ( window.innerWidth <= ( position.x + 200 ) ),
+			suboverflowX = ( window.innerWidth <= ( position.x + 400 ) ),
+			   overflowY = ( window.innerHeight <= ( position.y + this.$el.height() ) );
 
 			this.$el.css({
-				left : position.x || 0,
-				top  : ( overflowY ? ( position.y - this.$el.height() ) : position.y ) || 0,
+				left : ( overflowX ? ( position.x - this.$el.innerWidth() ) : position.x ) || 0,
+				top  : ( overflowY ? ( position.y - this.$el.innerHeight() ) : position.y ) || 0,
 			});
 
-			this.$el.toggleClass( 'sub-menu-left', overflowX );
+			this.$el.toggleClass( 'sub-menu-left', suboverflowX );
 			this.$el.toggleClass( 'sub-menu-bottom', overflowY );
 
 			return this;

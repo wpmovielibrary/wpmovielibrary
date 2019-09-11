@@ -316,6 +316,7 @@ class Assets {
 		$this->register_admin_templates();
 
 		$this->enqueue_template( 'toast' );
+		$this->enqueue_template( 'context-menu' );
 
 		if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary' ) ) {
 			$this->enqueue_template( 'settings-editor' );
@@ -541,16 +542,17 @@ class Assets {
 		}
 
 		// Vendor
-		$this->add_admin_js( 'toasts',    'toasts.min.js',    array( 'jquery', 'underscore', 'wp-backbone' ), '1.0.0' );
-		$this->add_admin_js( 'tmdb',      'tmdb.js',          array( 'jquery', 'underscore', 'wp-backbone' ), '1.0.0' );
-		$this->add_admin_js( 'selectize', 'selectize.min.js', array( 'jquery' ), '0.12.4' );
+		$this->add_admin_js( 'toasts',       'toasts.min.js',    array( 'jquery', 'underscore', 'wp-backbone' ), '1.0.0' );
+		$this->add_admin_js( 'context-menu', 'context-menu.js',  array( 'jquery', 'underscore', 'wp-backbone' ), '1.0.0' );
+		$this->add_admin_js( 'tmdb',         'tmdb.js',          array( 'jquery', 'underscore', 'wp-backbone' ), '1.0.0' );
+		$this->add_admin_js( 'selectize',    'selectize.min.js', array( 'jquery' ), '0.12.4' );
 		$this->add_public_js( 'underscore-string', 'underscore.string.min.js', array( 'underscore' ) );
 		$this->add_public_js( 'sprintf-js',        'sprintf-js.min.js', array( 'underscore' ) );
 		$this->add_public_js( 'renderjson-js',     'renderjson.min.js' );
 
 		// Base
 		$this->add_admin_js( 'admin', 'admin.js',  array( 'jquery' ) );
-		$this->add_public_js( 'utils', 'utils.js',  array( 'wpmoly-underscore-string', 'wpmoly-renderjson-js', 'wpmoly-toasts' ) );
+		$this->add_public_js( 'utils', 'utils.js',  array( 'wpmoly-underscore-string', 'wpmoly-renderjson-js', 'wpmoly-toasts', 'wpmoly-context-menu' ) );
 		$this->add_public_js( 'core',  'wpmoly.js', array( 'jquery', 'wpmoly-underscore-string', 'wp-backbone', 'wp-api', 'wpmoly-utils' ) );
 		$this->add_public_js( 'api',   'api.js',    array( 'jquery', 'wpmoly-underscore-string', 'wp-backbone', 'wp-api', 'wpmoly-utils' ) );
 
@@ -635,11 +637,12 @@ class Assets {
 		$this->add_public_font( 'font', 'wpmovielibrary/css/wpmovielibrary.css' );
 
 		// Vendor.
-		$this->add_admin_css( 'toasts',    'toasts.css',    array(), '1.0.0' );
-		$this->add_admin_css( 'selectize', 'selectize.css', array(), '0.12.4' );
+		$this->add_admin_css( 'toasts',       'toasts.css',       array(), '1.0.0' );
+		$this->add_admin_css( 'context-menu', 'context-menu.css', array(), '1.0.0' );
+		$this->add_admin_css( 'selectize',    'selectize.css',    array(), '0.12.4' );
 
 		// Base.
-		$this->add_admin_css( 'admin', 'wpmoly.css', array( 'wpmoly-toasts' ) );
+		$this->add_admin_css( 'admin', 'wpmoly.css', array( 'wpmoly-toasts', 'wpmoly-context-menu' ) );
 
 		// Dashboard.
 		$this->add_admin_css( 'dashboard', 'dashboard.css' );
@@ -706,15 +709,14 @@ class Assets {
 
 		global $hook_suffix;
 
-		$this->register_template( 'toast', 'admin/assets/js/templates/toast.php' );
+		$this->register_template( 'toast',        'admin/assets/js/templates/toast.php' );
+		$this->register_template( 'context-menu', 'admin/assets/js/templates/context-menu.php' );
 
 		if ( 'toplevel_page_wpmovielibrary' == $hook_suffix || false !== strpos( $hook_suffix, 'movies-library_page_wpmovielibrary' ) ) {
 			$this->register_template( 'settings-editor', 'admin/assets/js/templates/dashboard/settings-editor.php' );
 			$this->register_template( 'settings-menu',   'admin/assets/js/templates/dashboard/settings-menu.php' );
 			$this->register_template( 'settings-field',  'admin/assets/js/templates/dashboard/settings-field.php' );
 			$this->register_template( 'settings-group',  'admin/assets/js/templates/dashboard/settings-group.php' );
-
-			$this->register_template( 'context-menu',    'admin/assets/js/templates/dashboard/context-menu.php' );
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-movies' ) ||
 			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-persons' ) ||
