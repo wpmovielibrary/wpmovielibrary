@@ -268,9 +268,20 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
 	background: #fff;
 	border-radius: 2px;
 	box-shadow: 0 2px 15px rgba( 0, 0, 0, .5 );
-	padding: 5px 0;
+	margin: 0;
+	padding: 1px 0;
 	position: relative;
 	width: 200px;
+}
+
+.wpmoly.context-menu .context-menu-group {
+	margin: 5px 0;
+	padding: 0;
+}
+
+.wpmoly.context-menu .context-menu-group + .context-menu-group {
+	border-top: 1px solid #e5e5e5;
+	padding-top: 5px;
 }
 
 .wpmoly.context-menu .context-menu-item {
@@ -278,20 +289,14 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
 	cursor: pointer;
 	display: flex;
 	flex-wrap: wrap;
+	margin: 0;
 	padding: 5px 15px;
 	position: relative;
 }
 
 .wpmoly.context-menu .context-menu-item:hover {
-	background: #f2f2f2;
+	background: #fafafa;
 	color: #00a0d2;
-}
-
-.wpmoly.context-menu .context-menu-item.context-menu-separator {
-	background: #e5e5e5;
-	height: 1px;
-	margin: 5px 0;
-	padding: 0;
 }
 
 .wpmoly.context-menu .context-menu-item .context-menu-icon {

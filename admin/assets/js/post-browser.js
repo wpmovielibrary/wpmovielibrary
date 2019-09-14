@@ -414,6 +414,67 @@ wpmoly.browser = wpmoly.browser || {};
 		},
 
 		/**
+		 * Open Context Menu.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param {object} options Context menu options.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		openBrowserItemContextMenu : function( model, position ) {
+
+			if ( this.contextmenu ) {
+				this.contextmenu.close();
+			}
+
+			this.contextmenu = new contextMenu({
+				coordinates : position,
+			});
+
+			this.contextmenu.addGroup({
+				id        : 'edit',
+				position  : 0,
+			});
+
+			if ( 'publish' === model.get( 'status' ) ) {
+				this.contextmenu.getGroup( 'edit' ).addItem({
+					id    : 'trash',
+					icon  : 'dashicons dashicons-trash',
+					title : wpmolyEditorL10n.delete,
+				});
+			} else if ( 'draft' === model.get( 'status' ) ) {
+				this.contextmenu.getGroup( 'edit' ).addItems([
+					{
+						id    : 'restore',
+						icon  : 'wpmolicon icon-publish',
+						title : wpmolyEditorL10n.publish,
+					}, {
+						id    : 'trash',
+						icon  : 'dashicons dashicons-trash',
+						title : wpmolyEditorL10n.delete,
+					},
+				]);
+			} else if ( 'trash' === model.get( 'status' ) ) {
+				this.contextmenu.getGroup( 'edit' ).addItems([
+					{
+						id    : 'restore',
+						icon  : 'wpmolicon icon-restore',
+						title : wpmolyEditorL10n.set_as_draft,
+					}, {
+						id    : 'trash',
+						icon  : 'dashicons dashicons-trash',
+						title : wpmolyEditorL10n.delete_permanently,
+					},
+				]);
+			}
+
+			this.contextmenu.open();
+
+			return this.contextmenu;
+		},
+
+		/**
 		 * Reset content.
 		 *
 		 * @since 1.0.0
@@ -1813,7 +1874,7 @@ wpmoly.browser = wpmoly.browser || {};
 				y : event.pageY,
 			};
 
-			this.parent.trigger( 'open:context:menu', this.model, position );
+			this.controller.openBrowserItemContextMenu( this.model, position );
 
 			return this;
 		},
@@ -1968,139 +2029,6 @@ wpmoly.browser = wpmoly.browser || {};
 	});
 
 	/**
-	 * MovieBrowser Context Menu View.
-	 *
-	 * @since 3.0.0
-	 */
-	PostBrowser.view.BrowserContextMenu = Dashboard.view.ContextMenu.extend({
-
-		className : 'wpmoly context-menu post-browser-context-menu',
-
-		template : wp.template( 'wpmoly-post-browser-context-menu' ),
-
-		events : function() {
-			return _.extend( {}, _.result( wpmoly.Backbone.View.prototype, 'events' ), {
-				'click [data-action="draft"]'   : 'draftPost',
-				'click [data-action="restore"]' : 'restorePost',
-				'click [data-action="trash"]'   : 'trashPost',
-				'click [data-action="delete"]'  : 'deletePost',
-			} );
-		},
-
-		/**
-		 * Initialize the View.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param {object} options Options.
-		 */
-		initialize : function( options ) {
-
-			var options = options || {};
-
-			this.model      = options.model;
-			this.controller = options.controller;
-		},
-
-		/**
-		 * Stop event propagation to avoid impromptusly closing the menu.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param {object} JS 'click' or 'contextmenu' Event.
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		stopPropagation : function( event ) {
-
-			event.stopPropagation();
-
-			return this;
-		},
-
-		/**
-		 * Move post to the draft.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		draftPost : function() {
-
-			this.controller.draftPost( this.model.get( 'id' ) );
-
-			this.close();
-
-			return this;
-		},
-
-		/**
-		 * Restore post.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		restorePost : function() {
-
-			this.controller.restorePost( this.model.get( 'id' ) );
-
-			this.close();
-
-			return this;
-		},
-
-		/**
-		 * Move post to the trash.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		trashPost : function() {
-
-			this.controller.trashPost( this.model.get( 'id' ) );
-
-			this.close();
-
-			return this;
-		},
-
-		/**
-		 * Move post to the trash.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		deletePost : function() {
-
-			this.controller.deletePost( this.model.get( 'id' ) );
-
-			this.close();
-
-			return this;
-		},
-
-		/**
-		 * Prepare rendering options.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @return {object}
-		 */
-		prepare : function() {
-
-			var options = {
-				post : this.model.toJSON() || {},
-			};
-
-			return options;
-		},
-
-	});
-
-	/**
 	 * PostBrowser Content View.
 	 *
 	 * @since 1.0.0
@@ -2130,37 +2058,6 @@ wpmoly.browser = wpmoly.browser || {};
 			this.listenTo( this.posts, 'sync',    this.loaded );
 			this.listenTo( this.posts, 'error',   this.loaded );
 			this.listenTo( this.posts, 'destroy', this.loaded );
-
-			this.on( 'open:context:menu', this.openContextMenu );
-		},
-
-		/**
-		 * Open Context Menu.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param {object} model
-		 * @param {object} position
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		openContextMenu : function( model, position ) {
-
-			if ( this.menu ) {
-				this.menu.close();
-			}
-
-			// Initialize Context Menu.
-			this.menu = new PostBrowser.view.BrowserContextMenu({
-				model      : model,
-				controller : this.controller,
-			});
-
-			// Open menu.
-			this.menu.open();
-			this.menu.setPosition( position );
-
-			return this;
 		},
 
 		/**
