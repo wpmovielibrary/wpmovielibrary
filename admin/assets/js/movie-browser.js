@@ -17,7 +17,7 @@ wpmoly.browser = wpmoly.browser || {};
 
 		var posts = new wp.api.collections.Movies;
 
-		var controller = new MovieBrowser.controller.Browser( [], {
+		var controller = new MovieBrowser.controller.MovieBrowser( [], {
 			posts : posts,
 		});
 
@@ -623,7 +623,96 @@ wpmoly.browser = wpmoly.browser || {};
 
 			}),
 
-			Browser : PostBrowser.controller.Browser.extend({
+			MovieBrowser : PostBrowser.controller.Browser.extend({
+
+				/**
+				 * Open Context Menu.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {object} options Context menu options.
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				openBrowserItemContextMenu : function( model, position ) {
+
+					PostBrowser.controller.Browser.prototype.openBrowserItemContextMenu.apply( this, arguments );
+
+					this.contextmenu.addGroup({
+						id        : 'info',
+						//position  : 2,
+						items     : [
+							{
+								id    : 'preview',
+								icon  : 'dashicons dashicons-welcome-view-site',
+								title : wpmolyEditorL10n.preview_post,
+							}, {
+								id    : 'edit',
+								icon  : 'dashicons dashicons-edit',
+								title : wpmolyEditorL10n.edit_post,
+							},
+						]
+					});
+
+					this.contextmenu.addGroup({
+						id        : 'details',
+						//position  : 6,
+						items     : [
+							{
+								id    : 'media',
+								icon  : 'dashicons dashicons-editor-expand',
+								title : wpmolyEditorL10n.media,
+							}, {
+								id    : 'rating',
+								icon  : 'dashicons dashicons-star-half',
+								title : wpmolyEditorL10n.rating,
+							}, {
+								id    : 'status',
+								icon  : 'dashicons dashicons-marker',
+								title : wpmolyEditorL10n.status,
+							}, {
+								id    : 'format',
+								icon  : 'dashicons dashicons-media-video',
+								title : wpmolyEditorL10n.format,
+							}, {
+								id    : 'subtitles',
+								icon  : 'dashicons dashicons-editor-paragraph',
+								title : wpmolyEditorL10n.subtitles,
+							}, {
+								id    : 'language',
+								icon  : 'dashicons dashicons-translation',
+								title : wpmolyEditorL10n.language,
+							},
+						]
+					});
+
+					this.contextmenu.getGroup( 'details' ).getItems().each( function( item ) {
+						var item_id = item.get( 'id' ),
+						   group_id = item_id + '-list',
+							    items = [];
+
+						var items = [];
+						if ( _.has( wpmolyEditorL10n, item_id + '_values' ) ) {
+							_.each( wpmolyEditorL10n[ item_id + '_values' ], function( value, key ) {
+								items.push({
+									id         : item_id + '-' + key,
+									title      : value,
+									selectable : {
+										field : key,
+										value : value,
+									}
+								});
+							} );
+						}
+
+						item.addGroup({
+							id    : group_id,
+							items : items,
+						});
+					} );
+
+					return this.contextmenu;
+				},
 
 				/**
 				 * Update post metadata.
@@ -1569,113 +1658,6 @@ wpmoly.browser = wpmoly.browser || {};
 			}),
 
 			/**
-			 * MovieBrowser Context Menu View.
-			 *
-			 * @since 1.0.0
-			 */
-			MovieBrowserContextMenu : PostBrowser.view.BrowserContextMenu.extend({
-
-				className : 'wpmoly context-menu post-browser-context-menu movie-browser-context-menu',
-
-				template : wp.template( 'wpmoly-movie-browser-context-menu' ),
-
-				events : function() {
-					return _.extend( {}, _.result( PostBrowser.view.BrowserContextMenu.prototype, 'events' ), {
-						'click [data-action="preview"]' : 'previewMovie',
-						'click [data-action="edit"]'    : 'editMovie',
-						'change [data-field]'           : 'update',
-					} );
-				},
-
-				/**
-				 * Preview Movie.
-				 *
-				 * Open movie modal in 'preview' mode.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				previewMovie : function() {
-
-					MovieBrowser.modal.load( this.model.get( 'id' ) );
-					MovieBrowser.modal.preview();
-
-					this.close();
-
-					return this;
-				},
-
-				/**
-				 * Edit Movie.
-				 *
-				 * Open movie modal in 'edit' mode.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				editMovie : function() {
-
-					MovieBrowser.modal.load( this.model.get( 'id' ) );
-					MovieBrowser.modal.edit();
-
-					this.close();
-
-					return this;
-				},
-
-				/**
-				 * Update details.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @param {object} JS 'click' Event.
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				update : function( event ) {
-
-					var $target = this.$( event.currentTarget ),
-					      field = $target.attr( 'data-field' ),
-							 fields = this.$( '[data-field="' + field + '"]:checked' ),
-							 values = [];
-
-					_.each( fields, function( field ) {
-						values.push( this.$( field ).val() );
-					}, this );
-
-					this.controller.updatePostMeta( this.model.get( 'id' ), field, values );
-
-					return this;
-				},
-
-				/**
-				 * Prepare rendering options.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @return {object}
-				 */
-				prepare : function() {
-
-					var meta = this.model.get( 'meta' ) || {},
-					 options = {
-						post      : this.model.toJSON() || {},
-						media     : meta[ wpmolyApiSettings.movie_prefix + 'media' ] || [],
-						status    : meta[ wpmolyApiSettings.movie_prefix + 'status' ] || '',
-						rating    : meta[ wpmolyApiSettings.movie_prefix + 'rating' ] || '',
-						format    : meta[ wpmolyApiSettings.movie_prefix + 'format' ] || [],
-						subtitles : meta[ wpmolyApiSettings.movie_prefix + 'subtitles' ] || [],
-						languages : meta[ wpmolyApiSettings.movie_prefix + 'language' ] || [],
-					};
-
-					return options;
-				},
-
-			}),
-
-			/**
 			 * MovieBrowser Content View.
 			 *
 			 * @since 1.0.0
@@ -1683,35 +1665,6 @@ wpmoly.browser = wpmoly.browser || {};
 			MovieBrowserContent : PostBrowser.view.BrowserContent.extend({
 
 				className : 'post-browser-content movie-browser-content',
-
-				/**
-				 * Open Context Menu.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @param {object} model
-				 * @param {object} position
-				 *
-				 * @return Returns itself to allow chaining.
-				 */
-				openContextMenu : function( model, position ) {
-
-					if ( this.menu ) {
-						this.menu.close();
-					}
-
-					// Initialize Context Menu.
-					this.menu = new PostBrowser.view.MovieBrowserContextMenu({
-						model      : model,
-						controller : this.controller,
-					});
-
-					// Open menu.
-					this.menu.open();
-					this.menu.setPosition( position );
-
-					return this;
-				},
 
 				/**
 				 * Add new post item view.

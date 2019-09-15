@@ -147,10 +147,14 @@ wpmoly.browser = wpmoly.browser || {};
 			var options = options || {};
 
 			this.posts = options.posts;
+			this.contextmenu = new contextMenu;
 
 			this.on( 'change:status', this.filter, this );
 
 			this.listenTo( this.posts, 'error',  this.error );
+
+			this.listenTo( this.contextmenu, 'contextmenu:action', console.log );
+			this.listenTo( this.contextmenu, 'contextmenu:filter', console.log );
 		},
 
 		/**
@@ -428,13 +432,11 @@ wpmoly.browser = wpmoly.browser || {};
 				this.contextmenu.close();
 			}
 
-			this.contextmenu = new contextMenu({
-				coordinates : position,
-			});
+			this.contextmenu.setPosition( position.x, position.y );
 
 			this.contextmenu.addGroup({
 				id        : 'edit',
-				position  : 0,
+				position  : 10,
 			});
 
 			if ( 'publish' === model.get( 'status' ) ) {

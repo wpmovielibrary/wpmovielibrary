@@ -344,6 +344,18 @@ contextMenu = window.contextMenu;
 		},
 
 		/**
+		 * Get items collection.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return {object} Item instance.
+		 */
+		getItems : function() {
+
+			return this.items;
+		},
+
+		/**
 		 * Retrieve an item.
 		 *
 		 * @since 1.0.0
@@ -531,6 +543,9 @@ contextMenu = window.contextMenu;
 			$( 'body' ).append( self.render().$el );
 
 			// Bind closing events.
+			_.delay( function() {
+				$( 'body' ).one( 'contextmenu', _.bind( self.close, self ) );
+			}, 50 );
 			$( 'body' ).one( 'click', _.bind( self.close, self ) );
 			$( 'body' ).one( 'keydown', _.bind( self.close, self ) );
 			$( window ).one( 'resize', _.bind( self.close, self ) );
@@ -643,8 +658,8 @@ contextMenu = window.contextMenu;
 
 			this.groups = new contextMenuGroups;
 
-			this.on( 'contextmenu:action', console.log );
-			this.on( 'contextmenu:filter', console.log );
+			//this.on( 'contextmenu:action', console.log );
+			//this.on( 'contextmenu:filter', console.log );
 
 			return this;
 		},
@@ -751,7 +766,9 @@ contextMenu = window.contextMenu;
 		 */
 		close : function() {
 
-			this.menu.remove();
+			if ( this.menu ) {
+				this.menu.remove();
+			}
 
 			return this
 		},

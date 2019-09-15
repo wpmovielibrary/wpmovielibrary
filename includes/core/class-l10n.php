@@ -902,6 +902,8 @@ class L10n {
 		wp_localize_script( 'wpmoly-grid-browser', 'wpmolyEditorL10n', $localized_grid );
 		wp_localize_script( 'wpmoly-grid-editor',  'wpmolyEditorL10n', $localized_grid );
 
+		$meta = utils\get_registered_movie_meta();
+
 		$localized_movie = $localized + array(
 			'n_total_post' => array(
 				__( 'You have a total of <strong>%s</strong> movie.', 'wpmovielibrary' ),
@@ -930,6 +932,8 @@ class L10n {
 			'publish_post'     => esc_html__( 'Publish movie', 'wpmovielibrary' ),
 			'restore_post'     => esc_html__( 'Restore movie', 'wpmovielibrary' ),
 			'delete_post'      => esc_html__( 'Delete movie', 'wpmovielibrary' ),
+			'edit_post'        => esc_html__( 'Edit movie', 'wpmovielibrary' ),
+			'preview_post'     => esc_html__( 'Preview movie', 'wpmovielibrary' ),
 			'existing_post'    => esc_html__( 'A movie already exists with this title.', 'wpmovielibrary' ),
 			'post_udpated'     => esc_html__( 'Movie updated!', 'wpmovielibrary' ),
 			'post_trashed'     => esc_html__( 'Movie trashed. Redirecting...', 'wpmovielibrary' ),
@@ -1000,6 +1004,18 @@ class L10n {
 			'new_collection'             => esc_html__( 'New collection.' ),
 			'new_genre'                  => esc_html__( 'New genre.' ),
 			'new_tag'                    => esc_html__( 'New tag.' ),
+			'media'                      => esc_html__( 'Media', 'wpmovielibrary' ),
+			'status'                     => esc_html__( 'Status', 'wpmovielibrary' ),
+			'rating'                     => esc_html__( 'Rating', 'wpmovielibrary' ),
+			'format'                     => esc_html__( 'Format', 'wpmovielibrary' ),
+			'subtitles'                  => esc_html__( 'Subtitles', 'wpmovielibrary' ),
+			'language'                   => esc_html__( 'Language', 'wpmovielibrary' ),
+			'media_values'               => $meta['media']['show_in_rest']['enum'],
+			'status_values'              => $meta['status']['show_in_rest']['enum'],
+			'rating_values'              => $meta['rating']['show_in_rest']['enum'],
+			'format_values'              => $meta['format']['show_in_rest']['enum'],
+			'subtitles_values'           => $meta['subtitles']['show_in_rest']['enum'],
+			'language_values'            => $meta['language']['show_in_rest']['enum'],
 		);
 
 		wp_localize_script( 'wpmoly-movie-browser', 'wpmolyEditorL10n', $localized_movie );
