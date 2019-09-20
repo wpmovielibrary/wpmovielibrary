@@ -233,7 +233,10 @@ contextMenu = window.contextMenu;
 			icon       : '',
 			title      : '',
 			selectable : false,
+			multiple   : false,
 			selected   : false,
+			action     : '',
+			field      : '',
 			value      : '',
 			groups     : [],
 		},
@@ -267,7 +270,9 @@ contextMenu = window.contextMenu;
 			}
 
 			this.on( 'change', this.updateSelection, this );
-			this.on( 'action', this.controller.close, this );
+			this.on( 'action', function() {
+				this.controller.close();
+			}, this );
 
 			return this;
 		},
@@ -291,6 +296,9 @@ contextMenu = window.contextMenu;
 
 			if ( _.isTrue( model.changed.selected ) ) {
 				this.set( 'selectable', true );
+				if ( ! this.isMultiple() ) {
+					this.selection.reset();
+				}
 				this.selection.add( this );
 			} else {
 				this.selection.remove( this );
@@ -357,6 +365,34 @@ contextMenu = window.contextMenu;
 		isSelectable : function() {
 
 			return _.isTrue( this.get( 'selectable' ) );
+		},
+
+		/**
+		 * Is item multiple selectable?
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return {boolean}
+		 */
+		isMultiple : function() {
+
+			return _.isTrue( this.get( 'multiple' ) );
+		},
+
+		/**
+		 * Set item as multiple selectable.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {boolean} multiple
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		setMultiple : function( multiple ) {
+
+			this.set( 'multiple', _.isTrue( multiple ) );
+
+			return this;
 		},
 
 		/**
@@ -555,6 +591,12 @@ contextMenu = window.contextMenu;
 
 			this.listenTo( this.selection, 'update', function() {
 				this.trigger( 'selection', this.getSelection() );
+			} );
+
+			this.listenTo( this.selection, 'reset', function( collection, options ) {
+				_.map( options.previousModels, function( model ) {
+					model.setSelected( false );
+				}, this );
 			} );
 
 			return this;
@@ -787,7 +829,10 @@ contextMenu = window.contextMenu;
 					this.model.setSelected( true );
 				}
 			} else {
-				this.model.trigger( 'action', this.model.get( 'action' ) );
+				var item = this.model.toJSON(),
+				  action = this.model.get( 'action' );
+				this.model.trigger( 'action', action, item );
+				this.model.trigger( 'action:' + action, item );
 			}
 
 			return this;
@@ -1082,6 +1127,8 @@ contextMenu = window.contextMenu;
 			this.listenTo( this.controller.groups, 'add',    this.addGroup );
 			this.listenTo( this.controller.groups, 'remove', this.removeGroup );
 
+			//this.listenTo( this.controller.data, 'change', this.render );
+
 			return this;
 		},
 
@@ -1218,7 +1265,7 @@ contextMenu = window.contextMenu;
 		close : function() {
 
 			// Remove view.
-			this.remove();
+			this.controller.close();
 			$( '#context-menu-' + this.cid ).remove();
 
 			return this;
@@ -1291,7 +1338,7 @@ contextMenu = window.contextMenu;
 
 })( jQuery, _, Backbone );
 
-jQuery( document ).ready( function( $ ) {
+/*jQuery( document ).ready( function( $ ) {
 
 	testcontextmenu = window.testcontextmenu = {};
 
@@ -1384,4 +1431,4 @@ jQuery( document ).ready( function( $ ) {
 
 	} );
 
-} );
+} );*/
