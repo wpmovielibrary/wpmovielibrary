@@ -11,6 +11,217 @@ contextMenu = window.contextMenu;
 (function( $, _, Backbone ) {
 
 	/**
+	 * ContextMenu Controller.
+	 *
+	 * @since 1.0.0
+	 */
+	contextMenu = Backbone.Model.extend({
+
+		defaults : {
+			coordinates : {
+				x : 10,
+				y : 10,
+			},
+			groups : [],
+		},
+
+		/**
+		 * Initialize the controller.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} attributes
+		 * @param {object} options
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		initialize : function( attributes, options ) {
+
+			this.data = new Backbone.Model;
+
+			this.groups = new contextMenuGroups;
+
+			return this;
+		},
+
+		/**
+		 * Set model data.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} data
+		 * @param {object} options
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		setData : function( data, options ) {
+
+			if ( _.isFunction( data.toJSON ) ) {
+				data = data.toJSON();
+			}
+
+			this.data.set( data, options );
+
+			return this;
+		},
+
+		/**
+		 * Retrieve model data.
+		 *
+		 * If a key is passed, return the corresponding data, if nay. Return all data
+		 * otherwise.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {string} key
+		 *
+		 * @return {mixed}
+		 */
+		getData : function( key ) {
+
+			return this.data.has( key ) ? this.data.get( key ) : this.data;
+		},
+
+		/**
+		 * Position the menu.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {int} x Horizontal position.
+		 * @param {int} y Vertical position.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		setPosition : function( x, y ) {
+
+			this.set( 'coordinates', {
+				x : _.isNumber( x ) ? x : 0,
+				y : _.isNumber( y ) ? y : 0,
+			} );
+
+			return this;
+		},
+
+		/**
+		 * Add a list of group to the menu.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} groups List of group.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		addGroups : function( groups ) {
+
+			_.map( groups || [], this.addGroup, this );
+
+			return this;
+		},
+
+		/**
+		 * Add a group to the menu.
+		 *
+		 * If group.position is set, add the group at this position within
+		 * the collection.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} group Group attributes.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		addGroup : function( group ) {
+
+			var options = {};
+			if ( _.isNumber( group.position ) ) {
+				options.at = group.position;
+			}
+
+			var group = new contextMenuGroup( group, {
+				controller : this,
+			} );
+
+			this.groups.add( group, options );
+
+			return this;
+		},
+
+		/**
+		 * Retrieve a group of items.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {mixed} group Group ID, instance of attributes.
+		 *
+		 * @return {object} Group instance.
+		 */
+		getGroup : function( group ) {
+
+			return this.groups.get( group );
+		},
+
+		/**
+		 * Remove a group from the collection.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {mixed} group Group ID, instance or attributes.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		removeGroup : function( group ) {
+
+			this.groups.remove( group );
+
+			return this;
+		},
+
+		/**
+		 * Open the menu.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		open : function( options ) {
+
+			if ( this.menu ) {
+				this.close( options );
+			}
+
+			this.menu = new contextMenuView( { controller : this } );
+			this.menu.open();
+
+			return this;
+		},
+
+		/**
+		 * Close the menu.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		close : function( options ) {
+
+			var options = _.defaults( {
+				clear : false,
+			}, options );
+
+			if ( this.menu ) {
+				this.menu.remove();
+			}
+
+			if ( this.data && options.clear ) {
+				this.data.clear();
+			}
+
+			return this
+		},
+
+	});
+
+	/**
 	 * ContextMenu Item.
 	 *
 	 * @since 1.0.0
@@ -18,10 +229,13 @@ contextMenu = window.contextMenu;
 	var contextMenuItem = Backbone.Model.extend({
 
 		defaults : {
-			position : -1,
-			icon     : '',
-			title    : '',
-			groups   : [],
+			position   : -1,
+			icon       : '',
+			title      : '',
+			selectable : false,
+			selected   : false,
+			value      : '',
+			groups     : [],
 		},
 
 		/**
@@ -36,36 +250,51 @@ contextMenu = window.contextMenu;
 		 */
 		initialize : function( attributes, options ) {
 
+			var options = options || {};
+
+			this.controller = options.controller;
+
+			this.group     = options.group;
+			this.selection = this.group.selection;
+
 			this.groups = new contextMenuGroups;
-
-			this.mirrorEvents();
-
 			if ( attributes.groups ) {
 				this.addGroups( attributes.groups );
 			}
+
+			if ( attributes.selected && _.isTrue( attributes.selected ) ) {
+				this.selection.add( this );
+			}
+
+			this.on( 'change', this.updateSelection, this );
+			this.on( 'action', this.controller.close, this );
 
 			return this;
 		},
 
 		/**
-		 * Mirror group collection events.
+		 * Update group selection to include/exclude item.
 		 *
 		 * @since 1.0.0
 		 *
+		 * @param {object} model
+		 * @param {object} value
+		 * @param {object} options
+		 *
 		 * @return Returns itself to allow chaining.
 		 */
-		mirrorEvents : function() {
+		updateSelection : function( model, value, options ) {
 
-			var self = this,
-			  groups = self.groups;
+			if ( ! _.has( model.changed, 'selected' ) ) {
+				return this;
+			}
 
-			self.listenTo( groups, 'add', function( model, collection, options ) {
-				self.trigger( 'change', self, self.collection, options );
-			} );
-
-			self.listenTo( groups, 'update', function( collection, options ) {
-				self.trigger( 'change', self, self.collection, options );
-			} );
+			if ( _.isTrue( model.changed.selected ) ) {
+				this.set( 'selectable', true );
+				this.selection.add( this );
+			} else {
+				this.selection.remove( this );
+			}
 
 			return this;
 		},
@@ -119,6 +348,62 @@ contextMenu = window.contextMenu;
 		},
 
 		/**
+		 * Is item selectable?
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return {boolean}
+		 */
+		isSelectable : function() {
+
+			return _.isTrue( this.get( 'selectable' ) );
+		},
+
+		/**
+		 * Set item as selectable.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {boolean} selectable
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		setSelectable : function( selectable ) {
+
+			this.set( 'selectable', _.isTrue( selectable ) );
+
+			return this;
+		},
+
+		/**
+		 * Is item selected?
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return {boolean}
+		 */
+		isSelected : function() {
+
+			return _.isTrue( this.get( 'selected' ) );
+		},
+
+		/**
+		 * Set item as selected.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {boolean} selected
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		setSelected : function( selected ) {
+
+			this.set( 'selected', _.isTrue( selected ) );
+
+			return this;
+		},
+
+		/**
 		 * Add a list of groups.
 		 *
 		 * @since 1.0.0
@@ -149,6 +434,10 @@ contextMenu = window.contextMenu;
 			if ( _.isNumber( group.position ) ) {
 				options.at = group.position;
 			}
+
+			var group = new contextMenuGroup( group, {
+				controller : this,
+			} );
 
 			this.groups.add( group, options );
 
@@ -254,42 +543,37 @@ contextMenu = window.contextMenu;
 		 */
 		initialize : function( attributes, options ) {
 
-			this.items = new contextMenuItems;
+			var options = options || {};
 
-			this.mirrorEvents();
+			this.items      = new contextMenuItems;
+			this.selection  = new Backbone.Collection;
+			this.controller = options.controller;
 
 			if ( attributes.items ) {
 				this.addItems( attributes.items );
 			}
 
+			this.listenTo( this.selection, 'update', function() {
+				this.trigger( 'selection', this.getSelection() );
+			} );
+
 			return this;
 		},
 
 		/**
-		 * Mirror item collection events.
+		 * Retrieve group selected items.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @return Returns itself to allow chaining.
+		 * @return {array}
 		 */
-		mirrorEvents : function() {
+		getSelection : function() {
 
-			var self = this,
-			   items = self.items;
+			var selection = _.map( this.selection.toJSON() || {}, function( item ) {
+				return _.pick( item, 'field', 'value' );
+			}, this );
 
-			self.listenTo( items, 'update', function( collection, options ) {
-				self.trigger( 'update', self, options );
-			} );
-
-			self.listenTo( items, 'change', function( collection, options ) {
-				self.trigger( 'update', self, options );
-			} );
-
-			self.listenTo( items, 'sort', function( collection, options ) {
-				self.trigger( 'update', self, options );
-			} );
-
-			return this;
+			return selection;
 		},
 
 		/**
@@ -337,6 +621,11 @@ contextMenu = window.contextMenu;
 			if ( _.isNumber( item.position ) ) {
 				options.at = item.position;
 			}
+
+			var item = new contextMenuItem( item, {
+				group      : this,
+				controller : this.controller,
+			} );
 
 			this.items.add( item, options );
 
@@ -432,22 +721,346 @@ contextMenu = window.contextMenu;
 	});
 
 	/**
+	 * ContextMenuItem View.
+	 *
+	 * @since 1.0.0
+	 */
+	var contextMenuItemView = wp.Backbone.View.extend({
+
+		tagName : 'li',
+
+		className : 'context-menu-item',
+
+		template : wp.template( 'wpmoly-context-menu-item' ),
+
+		events : {
+			'click' : 'onClick',
+		},
+
+		viewsByCid : {},
+
+		/**
+		 * Initialize the View.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} options
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		initialize : function( options ) {
+
+			var options = options || {};
+
+			this.model      = options.model;
+			this.controller = options.controller;
+
+			this.listenTo( this.model.groups, 'add',    this.addGroup );
+			this.listenTo( this.model.groups, 'remove', this.removeGroup );
+
+			this.listenTo( this.model.selection, 'update', this.render );
+
+			return this;
+		},
+
+		/**
+		 * Item clicked.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} event JS 'click' Event.
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		onClick : function( event ) {
+
+			event.stopPropagation();
+
+			if ( this.$el.hasClass( 'has-groups' ) ) {
+				return this;
+			}
+
+			if ( this.model.isSelectable() ) {
+				if ( this.model.isSelected() ) {
+					this.model.setSelected( false );
+				} else {
+					this.model.setSelected( true );
+				}
+			} else {
+				this.model.trigger( 'action', this.model.get( 'action' ) );
+			}
+
+			return this;
+		},
+
+		/**
+		 * Add all group views.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		addGroups : function() {
+
+			if ( this.model.groups.length ) {
+				this.model.groups.map( this.addGroup, this );
+			}
+
+			return this;
+		},
+
+		/**
+		 * Add a new group view.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} model
+		 * @param {object} collection
+		 * @param {object} options
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		addGroup : function( model, collection, options ) {
+
+			var group = new contextMenuGroupView({
+				model      : model,
+			 	controller : this.controller,
+			});
+
+			this.viewsByCid[ model.id ] = group;
+
+			this.views.add( '.context-sub-menu-content', group );
+
+			return this;
+		},
+
+		/**
+		 * Remove all group views.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		removeGroups : function() {
+
+			if ( this.model.groups.length ) {
+				this.model.groups.map( this.removeGroup, this );
+			}
+
+			return this;
+		},
+
+		/**
+		 * Remove a group view.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} model
+		 * @param {object} collection
+		 * @param {object} options
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		removeGroup : function( model, collection, options ) {
+
+			var view = this.viewsByCid[ model.id ];
+
+			view.remove();
+			delete this.viewsByCid[ model.id ];
+
+			return this;
+		},
+
+		/**
+		 * Prepare rendering options.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		prepare : function() {
+
+			var options = this.model.toJSON() || {};
+
+			return options;
+		},
+
+		/**
+		 * Render the View.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		render : function() {
+
+			wp.Backbone.View.prototype.render.apply( this, arguments );
+
+			this.el.id = 'item-' + this.model.get( 'id' );
+
+			if ( ! this.model.isSelectable() ) {
+				this.$el.attr( 'data-item', this.model.get( 'id' ) );
+			}
+
+			if ( this.model.groups.length ) {
+				this.$el.addClass( 'has-groups' );
+			}
+
+			this.addGroups();
+
+			return this;
+		},
+
+	});
+
+	/**
+	 * ContextMenuGroup View.
+	 *
+	 * @since 1.0.0
+	 */
+	var contextMenuGroupView = wp.Backbone.View.extend({
+
+		tagName : 'ul',
+
+		className : 'context-menu-group',
+
+		viewsByCid : {},
+
+		/**
+		 * Initialize the View.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} options
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		initialize : function( options ) {
+
+			var options = options || {};
+
+			this.model      = options.model;
+			this.controller = options.controller;
+
+			this.listenTo( this.model.items, 'add',    this.addItem );
+			this.listenTo( this.model.items, 'remove', this.removeItem );
+
+			return this;
+		},
+
+		/**
+		 * Add all item views.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		addItems : function() {
+
+			if ( this.model.items.length ) {
+				this.model.items.map( this.addItem, this );
+			}
+
+			return this;
+		},
+
+		/**
+		 * Add a new item view.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} model
+		 * @param {object} collection
+		 * @param {object} options
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		addItem : function( model, collection, options ) {
+
+			var group = new contextMenuItemView({
+				model      : model,
+			 	controller : this.controller,
+			});
+
+			this.viewsByCid[ model.id ] = group;
+
+			this.views.add( group );
+
+			return this;
+		},
+
+		/**
+		 * Remove all item views.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		removeItems : function() {
+
+			if ( this.model.items.length ) {
+				this.model.items.map( this.removeItem, this );
+			}
+
+			return this;
+		},
+
+		/**
+		 * Remove an item view.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} model
+		 * @param {object} collection
+		 * @param {object} options
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		removeItem : function( model, collection, options ) {
+
+			var view = this.viewsByCid[ model.id ];
+
+			view.remove();
+			delete this.viewsByCid[ model.id ];
+
+			return this;
+		},
+
+		/**
+		 * Render the View.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		render : function() {
+
+			wp.Backbone.View.prototype.render.apply( this, arguments );
+
+			this.el.id = 'group-' + this.model.get( 'id' );
+
+			this.addItems();
+
+			return this;
+		},
+
+	});
+
+	/**
 	 * ContextMenu View.
 	 *
 	 * @since 1.0.0
 	 */
 	var contextMenuView = wp.Backbone.View.extend({
 
-		className : 'wpmoly context-menu',
-
-		template : wp.template( 'wpmoly-context-menu' ),
+		className : 'context-menu-content',
 
 		events : {
 			'click'               : 'stopPropagation',
 			'contextmenu'         : 'stopPropagation',
-			'click [data-item]'   : 'onClick',
-			'change [data-field]' : 'onChange',
 		},
+
+		viewsByCid : {},
 
 		/**
 		 * Initialize the View.
@@ -465,7 +1078,9 @@ contextMenu = window.contextMenu;
 			this.controller = options.controller;
 
 			this.listenTo( this.controller, 'change:coordinates', this.setPosition );
-			this.listenTo( this.controller.groups, 'update', this.render );
+
+			this.listenTo( this.controller.groups, 'add',    this.addGroup );
+			this.listenTo( this.controller.groups, 'remove', this.removeGroup );
 
 			return this;
 		},
@@ -487,40 +1102,79 @@ contextMenu = window.contextMenu;
 		},
 
 		/**
-		 * Item clicked.
+		 * Add all group views.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param {object} event JS 'click' Event.
-		 *
 		 * @return Returns itself to allow chaining.
 		 */
-		onClick : function( event ) {
+		addGroups : function() {
 
-			var $target = this.$( event.currentTarget ),
-			       item = $target.attr( 'data-item' );
-
-			this.controller.trigger( 'contextmenu:action', item );
+			if ( this.controller.groups.length ) {
+				this.controller.groups.map( this.addGroup, this );
+			}
 
 			return this;
 		},
 
 		/**
-		 * Item changed.
+		 * Add a new group view.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param {object} event JS 'change' Event.
+		 * @param {object} model
+		 * @param {object} collection
+		 * @param {object} options
 		 *
 		 * @return Returns itself to allow chaining.
 		 */
-		onChange : function( event ) {
+		addGroup : function( model, collection, options ) {
 
-			var $target = this.$( event.currentTarget ),
-			      field = $target.attr( 'data-field' ),
-						value = $target.val();
+			var group = new contextMenuGroupView({
+				model      : model,
+			 	controller : this.controller,
+			});
 
-			this.controller.trigger( 'contextmenu:filter', field, value );
+			this.viewsByCid[ model.id ] = group;
+
+			this.views.add( group );
+
+			return this;
+		},
+
+		/**
+		 * Remove all group views.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		removeGroups : function() {
+
+			if ( this.controller.groups.length ) {
+				this.controller.groups.map( this.removeGroup, this );
+			}
+
+			return this;
+		},
+
+		/**
+		 * Remove a group view.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param {object} model
+		 * @param {object} collection
+		 * @param {object} options
+		 *
+		 * @return Returns itself to allow chaining.
+		 */
+		removeGroup : function( model, collection, options ) {
+
+			var view = this.viewsByCid[ model.id ];
+
+			view.remove();
+			delete this.viewsByCid[ model.id ];
 
 			return this;
 		},
@@ -540,7 +1194,8 @@ contextMenu = window.contextMenu;
 			self.delegateEvents();
 
 			// Add view to DOM.
-			$( 'body' ).append( self.render().$el );
+			$( 'body' ).append( '<div id="context-menu-' + this.cid + '" class="wpmoly context-menu" />' );
+			$( '#context-menu-' + this.cid ).append( self.render().$el );
 
 			// Bind closing events.
 			_.delay( function() {
@@ -564,6 +1219,7 @@ contextMenu = window.contextMenu;
 
 			// Remove view.
 			this.remove();
+			$( '#context-menu-' + this.cid ).remove();
 
 			return this;
 		},
@@ -577,20 +1233,22 @@ contextMenu = window.contextMenu;
 		 */
 		setPosition : function() {
 
-			this.$el.addClass( 'active' );
+			var $contextMenu = $( '#context-menu-' + this.cid );
+
+			$contextMenu.addClass( 'active' );
 
 			var position = this.controller.get( 'coordinates' ) || {},
 			   overflowX = ( window.innerWidth <= ( position.x + 200 ) ),
 			suboverflowX = ( window.innerWidth <= ( position.x + 400 ) ),
-			   overflowY = ( window.innerHeight <= ( position.y + this.$el.height() ) );
+			   overflowY = ( window.innerHeight <= ( position.y + $contextMenu.height() ) );
 
-			this.$el.css({
-				left : ( overflowX ? ( position.x - this.$el.innerWidth() ) : position.x ) || 0,
-				top  : ( overflowY ? ( position.y - this.$el.innerHeight() ) : position.y ) || 0,
+			$contextMenu.css({
+				left : ( overflowX ? ( position.x - $contextMenu.innerWidth() ) : position.x ) || 0,
+				top  : ( overflowY ? ( position.y - $contextMenu.innerHeight() ) : position.y ) || 0,
 			});
 
-			this.$el.toggleClass( 'sub-menu-left', suboverflowX );
-			this.$el.toggleClass( 'sub-menu-bottom', overflowY );
+			$contextMenu.toggleClass( 'sub-menu-left', suboverflowX );
+			$contextMenu.toggleClass( 'sub-menu-bottom', overflowY );
 
 			return this;
 		},
@@ -624,153 +1282,9 @@ contextMenu = window.contextMenu;
 
 			_.delay( _.bind( this.setPosition, this ), 20 );
 
-			return this;
-		},
-
-	});
-
-	/**
-	 * ContextMenu Controller.
-	 *
-	 * @since 1.0.0
-	 */
-	contextMenu = Backbone.Model.extend({
-
-		defaults : {
-			coordinates : {
-				x : 10,
-				y : 10,
-			},
-			groups : [],
-		},
-
-		/**
-		 * Initialize the controller.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param {object} attributes
-		 * @param {object} options
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		initialize : function( attributes, options ) {
-
-			this.groups = new contextMenuGroups;
-
-			//this.on( 'contextmenu:action', console.log );
-			//this.on( 'contextmenu:filter', console.log );
+			this.addGroups();
 
 			return this;
-		},
-
-		/**
-		 * Position the menu.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param {int} x Horizontal position.
-		 * @param {int} y Vertical position.
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		setPosition : function( x, y ) {
-
-			this.set( 'coordinates', {
-				x : _.isNumber( x ) ? x : 0,
-				y : _.isNumber( y ) ? y : 0,
-			} );
-
-			return this;
-		},
-
-		/**
-		 * Add a list of group to the menu.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param {object} groups List of group.
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		addGroups : function( groups ) {
-
-			_.map( groups || [], this.addGroup, this );
-
-			return this;
-		},
-
-		/**
-		 * Add a group to the menu.
-		 *
-		 * If group.position is set, add the group at this position within
-		 * the collection.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param {object} group Group attributes.
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		addGroup : function( group ) {
-
-			var options = {};
-			if ( _.isNumber( group.position ) ) {
-				options.at = group.position;
-			}
-
-			this.groups.add( group, options );
-
-			return this;
-		},
-
-		/**
-		 * Retrieve a group of items.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param {mixed} group Group ID, instance of attributes.
-		 *
-		 * @return {object} Group instance.
-		 */
-		getGroup : function( group ) {
-
-			return this.groups.get( group );
-		},
-
-		/**
-		 * Open the menu.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		open : function() {
-
-			if ( this.menu ) {
-				this.close();
-			}
-
-			this.menu = new contextMenuView( { controller : this } );
-			this.menu.open();
-
-			return this;
-		},
-
-		/**
-		 * Close the menu.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @return Returns itself to allow chaining.
-		 */
-		close : function() {
-
-			if ( this.menu ) {
-				this.menu.remove();
-			}
-
-			return this
 		},
 
 	});
@@ -779,7 +1293,7 @@ contextMenu = window.contextMenu;
 
 jQuery( document ).ready( function( $ ) {
 
-	/*testcontextmenu = window.testcontextmenu = {};
+	testcontextmenu = window.testcontextmenu = {};
 
 	// Testing.
 	$( 'body' ).on( 'contextmenu', function( event ) {
@@ -827,18 +1341,17 @@ jQuery( document ).ready( function( $ ) {
 					id         : 'item-a-b-a-a',
 					icon       : '',
 					title      : 'Item A > B > A > A',
-					selectable : {
-						field : 'field-a-b-a-a',
-						value : 'MEH',
-					},
+					selectable : true,
+					field      : 'field-a-b-a-a',
+					value      : 'FOO',
 				}, {
 					id         : 'item-a-b-a-b',
 					icon       : '',
 					title      : 'Item A > B > A > B',
-					selectable : {
-						field : 'field-a-b-a-b',
-						value : 'MEH',
-					},
+					selectable : true,
+					selected   : true,
+					field      : 'field-a-b-a-b',
+					value      : 'BAR',
 				},
 			],
 		});
@@ -849,11 +1362,13 @@ jQuery( document ).ready( function( $ ) {
 			items    : [
 				{
 					id       : 'item-b-a',
+					action   : 'action-b-a',
 					icon     : 'dashicons dashicons-wordpress-alt',
 					title    : 'Item B > A',
 					position : 1,
 				}, {
 					id       : 'item-b-b',
+					action   : 'action-b-b',
 					icon     : 'dashicons dashicons-wordpress-alt',
 					title    : 'Item B > B',
 					position : 0,
@@ -861,8 +1376,12 @@ jQuery( document ).ready( function( $ ) {
 			],
 		});
 
+		testcontextmenu.getGroup( 'group-a' ).getItem( 'item-a-b' ).getGroup( 'group-a-b-a' ).on( 'selection', console.log );
+		testcontextmenu.getGroup( 'group-b' ).getItem( 'item-b-a' ).on( 'action', console.log );
+		testcontextmenu.getGroup( 'group-b' ).getItem( 'item-b-b' ).on( 'action', console.log );
+
 		testcontextmenu.open();
 
-	} );*/
+	} );
 
 } );

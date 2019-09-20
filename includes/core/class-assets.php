@@ -316,14 +316,13 @@ class Assets {
 		$this->register_admin_templates();
 
 		$this->enqueue_template( 'toast' );
-		$this->enqueue_template( 'context-menu' );
+		$this->enqueue_template( 'context-menu-item' );
 
 		if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary' ) ) {
 			$this->enqueue_template( 'settings-editor' );
 			$this->enqueue_template( 'settings-menu' );
 			$this->enqueue_template( 'settings-field' );
 			$this->enqueue_template( 'settings-group' );
-			$this->enqueue_template( 'context-menu' );
 
 			if ( false !== strpos( $hook_suffix, '_page_wpmovielibrary-movies' ) ||
 			     false !== strpos( $hook_suffix, '_page_wpmovielibrary-persons' ) ||
@@ -709,8 +708,8 @@ class Assets {
 
 		global $hook_suffix;
 
-		$this->register_template( 'toast',        'admin/assets/js/templates/toast.php' );
-		$this->register_template( 'context-menu', 'admin/assets/js/templates/context-menu.php' );
+		$this->register_template( 'toast',             'admin/assets/js/templates/toast.php' );
+		$this->register_template( 'context-menu-item', 'admin/assets/js/templates/context-menu-item.php' );
 
 		if ( 'toplevel_page_wpmovielibrary' == $hook_suffix || false !== strpos( $hook_suffix, 'movies-library_page_wpmovielibrary' ) ) {
 			$this->register_template( 'settings-editor', 'admin/assets/js/templates/dashboard/settings-editor.php' );

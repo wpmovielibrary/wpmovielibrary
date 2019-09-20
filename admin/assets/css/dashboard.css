@@ -361,6 +361,36 @@ body.wp-admin.toplevel_page_wpmovielibrary #wpbody-content {
 	font-weight: 500;
 }
 
+.wpmoly.context-menu .context-menu-item.unpublish-item:hover {
+	color: #ee7200;
+}
+
+.wpmoly.context-menu .context-menu-item.trash-item:hover {
+	color: #dc3232;
+}
+
+.wpmoly.context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item input {
+	display: none;
+}
+
+.wpmoly.context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item label {
+	align-items: center;
+	display: flex;
+	margin: -5px -15px;
+	padding: 5px 15px;
+	width: 100%;
+}
+
+.wpmoly.context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item input + label .wpmolicon,
+.wpmoly.context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item input + label .dashicons {
+	display: none;
+}
+
+.wpmoly.context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item input:checked + label .wpmolicon,
+.wpmoly.context-menu .context-menu-item:hover .context-sub-menu-content .context-menu-item input:checked + label .dashicons {
+	display: block;
+}
+
 /**
  * Dashboard Settings
  */
