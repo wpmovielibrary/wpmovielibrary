@@ -210,6 +210,7 @@ contextMenu = window.contextMenu;
 
 			if ( this.menu ) {
 				this.menu.remove();
+				delete this.menu;
 			}
 
 			if ( this.data && options.clear ) {
@@ -551,6 +552,8 @@ contextMenu = window.contextMenu;
 
 			this.on( 'change:position', this.sort, this );
 
+			this.on( 'update', this.sort, this );
+
 			return this;
 		},
 
@@ -757,6 +760,8 @@ contextMenu = window.contextMenu;
 
 			this.on( 'change:position', this.sort, this );
 
+			this.on( 'update', this.sort, this );
+
 			return this;
 		},
 
@@ -797,8 +802,8 @@ contextMenu = window.contextMenu;
 			this.model      = options.model;
 			this.controller = options.controller;
 
-			this.listenTo( this.model.groups, 'add',    this.addGroup );
-			this.listenTo( this.model.groups, 'remove', this.removeGroup );
+			this.listenTo( this.model.groups, 'update', this.render );
+			this.listenTo( this.model.groups, 'sort',   this.render );
 
 			this.listenTo( this.model.selection, 'update', this.render );
 
@@ -951,6 +956,7 @@ contextMenu = window.contextMenu;
 				this.$el.addClass( 'has-groups' );
 			}
 
+			this.views.remove();
 			this.addGroups();
 
 			return this;
@@ -1124,10 +1130,8 @@ contextMenu = window.contextMenu;
 
 			this.listenTo( this.controller, 'change:coordinates', this.setPosition );
 
-			this.listenTo( this.controller.groups, 'add',    this.addGroup );
-			this.listenTo( this.controller.groups, 'remove', this.removeGroup );
-
-			//this.listenTo( this.controller.data, 'change', this.render );
+			this.listenTo( this.controller.groups, 'update', this.render );
+			this.listenTo( this.controller.groups, 'sort',   this.render );
 
 			return this;
 		},
@@ -1329,6 +1333,7 @@ contextMenu = window.contextMenu;
 
 			_.delay( _.bind( this.setPosition, this ), 20 );
 
+			this.views.remove();
 			this.addGroups();
 
 			return this;

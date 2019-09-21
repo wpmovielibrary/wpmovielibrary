@@ -638,25 +638,38 @@ wpmoly.browser = wpmoly.browser || {};
 
 					PostBrowser.controller.Browser.prototype.openBrowserItemContextMenu.apply( this, arguments );
 
+					this.contextmenu.setData( model );
+
+					if ( 'publish' !== model.get( 'status' ) ) {
+						return this.contextmenu;
+					}
+
+					var self = this;
+
 					this.contextmenu.addGroup({
 						id        : 'info',
-						//position  : 2,
+						position  : 2,
 						items     : [
 							{
-								id    : 'preview',
-								icon  : 'dashicons dashicons-welcome-view-site',
-								title : wpmolyEditorL10n.preview_post,
+								id     : 'preview',
+								action : 'preview-movie',
+								icon   : 'dashicons dashicons-welcome-view-site',
+								title  : wpmolyEditorL10n.preview_post,
 							}, {
-								id    : 'edit',
-								icon  : 'dashicons dashicons-edit',
-								title : wpmolyEditorL10n.edit_post,
+								id     : 'edit',
+								action : 'edit-movie',
+								icon   : 'dashicons dashicons-edit',
+								title  : wpmolyEditorL10n.edit_post,
 							},
 						]
 					});
 
+					this.contextmenu.getGroup( 'info' ).getItem( 'edit' ).on( 'action:edit-movie', this.openMovieEditModal, this );
+					this.contextmenu.getGroup( 'info' ).getItem( 'preview' ).on( 'action:preview-movie', this.openMoviePreviewModal, this );
+
 					this.contextmenu.addGroup({
 						id        : 'details',
-						//position  : 6,
+						position  : 6,
 						items     : [
 							{
 								id    : 'media',
@@ -693,14 +706,19 @@ wpmoly.browser = wpmoly.browser || {};
 
 						var items = [];
 						if ( _.has( wpmolyEditorL10n, item_id + '_values' ) ) {
-							_.each( wpmolyEditorL10n[ item_id + '_values' ], function( value, key ) {
+							_.each( wpmolyEditorL10n[ item_id + '_values' ], function( title, slug ) {
+								var meta = model.getMeta( wpmolyApiSettings.movie_prefix + item_id );
+								if ( ! _.isArray( meta ) ) {
+									meta = [ meta ];
+								}
 								items.push({
-									id         : item_id + '-' + key,
-									title      : value,
-									selectable : {
-										field : key,
-										value : value,
-									}
+									id         : item_id + '-' + slug,
+									title      : title,
+									selectable : true,
+									multiple   : _.contains( [ 'media', 'format', 'subtitles', 'language' ], item_id ),
+									selected   : _.contains( meta, slug ),
+									field      : item_id,
+									value      : slug,
 								});
 							} );
 						}
@@ -709,9 +727,75 @@ wpmoly.browser = wpmoly.browser || {};
 							id    : group_id,
 							items : items,
 						});
+
+						item.getGroup( group_id ).on( 'selection', function( selection ) {
+							selection = _.groupBy( selection, function( item ) {
+								return item.field;
+							} );
+							_.each( selection, function( values, field ) {
+								self.updateDetail( field, _.pluck( values, 'value' ) );
+							}, this );
+						}, this );
 					} );
 
 					return this.contextmenu;
+				},
+
+				/**
+				 * Preview Movie.
+				 *
+				 * Open movie modal in 'preview' mode.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				openMoviePreviewModal : function() {
+
+					MovieBrowser.modal.load( this.contextmenu.getData( 'id' ) );
+					MovieBrowser.modal.preview();
+
+					return this;
+				},
+
+				/**
+				 * Edit Movie.
+				 *
+				 * Open movie modal in 'edit' mode.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				openMovieEditModal : function() {
+
+					MovieBrowser.modal.load( this.contextmenu.getData( 'id' ) );
+					MovieBrowser.modal.edit();
+
+					return this;
+				},
+
+				/**
+				 * Update movie details.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param {string} field
+				 * @param {array} value
+				 *
+				 * @return Returns itself to allow chaining.
+				 */
+				updateDetail : function( field, value ) {
+
+					if ( ! _.contains( [ 'media', 'rating', 'status', 'format', 'subtitles', 'language' ], field ) ) {
+						return this;
+					}
+
+					var id = this.contextmenu.getData( 'id' );
+
+					this.updatePostMeta( id, field, value );
+
+					return this;
 				},
 
 				/**
@@ -739,7 +823,7 @@ wpmoly.browser = wpmoly.browser || {};
 						value = _.isArray( value ) ? _.first( value ) : value;
 					}
 
-					if ( value.length ) {
+					if ( value ) {
 						meta[ wpmolyApiSettings.movie_prefix + key ] = value;
 						post.save( { meta : meta }, { patch : true/*, silent : true*/ } );
 					}

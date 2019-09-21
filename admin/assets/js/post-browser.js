@@ -152,9 +152,6 @@ wpmoly.browser = wpmoly.browser || {};
 			this.on( 'change:status', this.filter, this );
 
 			this.listenTo( this.posts, 'error',  this.error );
-
-			this.listenTo( this.contextmenu, 'contextmenu:action', console.log );
-			this.listenTo( this.contextmenu, 'contextmenu:filter', console.log );
 		},
 
 		/**
@@ -426,11 +423,9 @@ wpmoly.browser = wpmoly.browser || {};
 		 *
 		 * @return Returns itself to allow chaining.
 		 */
-		openBrowserItemContextMenu : function( model, position ) {
+		openBrowserItemContextMenu : function( model, position, options ) {
 
-			if ( this.contextmenu ) {
-				this.contextmenu.close();
-			}
+			this.contextmenu = new contextMenu;
 
 			this.contextmenu.setPosition( position.x, position.y );
 
@@ -441,34 +436,60 @@ wpmoly.browser = wpmoly.browser || {};
 
 			if ( 'publish' === model.get( 'status' ) ) {
 				this.contextmenu.getGroup( 'edit' ).addItem({
-					id    : 'trash',
-					icon  : 'dashicons dashicons-trash',
-					title : wpmolyEditorL10n.delete,
+					id     : 'trash',
+					action : 'trash',
+					icon   : 'dashicons dashicons-trash',
+					title  : wpmolyEditorL10n.delete,
 				});
 			} else if ( 'draft' === model.get( 'status' ) ) {
 				this.contextmenu.getGroup( 'edit' ).addItems([
 					{
-						id    : 'restore',
-						icon  : 'wpmolicon icon-publish',
-						title : wpmolyEditorL10n.publish,
+						id     : 'restore',
+						action : 'restore',
+						icon   : 'wpmolicon icon-publish',
+						title  : wpmolyEditorL10n.publish,
 					}, {
-						id    : 'trash',
-						icon  : 'dashicons dashicons-trash',
-						title : wpmolyEditorL10n.delete,
+						id     : 'trash',
+						action : 'trash',
+						icon   : 'dashicons dashicons-trash',
+						title  : wpmolyEditorL10n.delete,
 					},
 				]);
 			} else if ( 'trash' === model.get( 'status' ) ) {
 				this.contextmenu.getGroup( 'edit' ).addItems([
 					{
-						id    : 'restore',
-						icon  : 'wpmolicon icon-restore',
-						title : wpmolyEditorL10n.set_as_draft,
+						id     : 'restore',
+						action : 'draft',
+						icon   : 'wpmolicon icon-restore',
+						title  : wpmolyEditorL10n.set_as_draft,
 					}, {
-						id    : 'trash',
-						icon  : 'dashicons dashicons-trash',
-						title : wpmolyEditorL10n.delete_permanently,
+						id     : 'trash',
+						action : 'delete',
+						icon   : 'dashicons dashicons-trash',
+						title  : wpmolyEditorL10n.delete_permanently,
 					},
 				]);
+			}
+
+			var trash = this.contextmenu.getGroup( 'edit' ).getItem( 'trash' ),
+			  restore = this.contextmenu.getGroup( 'edit' ).getItem( 'restore' );
+
+			if ( ! _.isUndefined( restore ) ) {
+				restore.on( 'action:draft', function() {
+					this.draftPost( this.contextmenu.getData( 'id' ) );
+				}, this );
+				restore.on( 'action:restore', function() {
+					this.restorePost( this.contextmenu.getData( 'id' ) );
+				}, this );
+			}
+
+			if ( ! _.isUndefined( trash ) ) {
+				trash.on( 'action:trash', function() {
+					this.trashPost( this.contextmenu.getData( 'id' ) );
+				}, this );
+				trash.on( 'action:delete', function() {
+					this.deletePost( this.contextmenu.getData( 'id' ) );
+				}, this );
 			}
 
 			this.contextmenu.open();
