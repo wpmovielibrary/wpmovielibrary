@@ -1,7 +1,7 @@
 <?php
 /**
  * WPMovieLibrary Edit_Movies Class extension.
- * 
+ *
  * Edit Movies related methods. Handles Post List Tables, Quick and Bulk Edit
  * Forms, Meta and Details Metaboxes, Images and Posters WP Media Modals.
  *
@@ -31,7 +31,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Register callbacks for actions and filters
-		 * 
+		 *
 		 * @since    1.0
 		 */
 		public function register_hook_callbacks() {
@@ -76,14 +76,14 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
 		 *                        Scripts & Styles
-		 * 
+		 *
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Enqueue required media scripts and styles
-		 * 
+		 *
 		 * @since    2.0
-		 * 
+		 *
 		 * @param    string    $hook_suffix The current admin page.
 		 */
 		public function admin_enqueue_scripts( $hook_suffix ) {
@@ -104,7 +104,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
 		 *                             Callbacks
-		 * 
+		 *
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
@@ -148,11 +148,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Add message support for movies in Post Editor.
-		 * 
+		 *
 		 * @since    2.1.4
-		 * 
+		 *
 		 * @param    array    $messages Default Post update messages
-		 * 
+		 *
 		 * @return   array    Updated Post update messages
 		 */
 		public static function movie_updated_messages( $messages ) {
@@ -183,11 +183,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Add message support for movies in Post Editor bulk edit.
-		 * 
+		 *
 		 * @since    2.1.4
-		 * 
+		 *
 		 * @param    array    $messages Default Post bulk edit messages
-		 * 
+		 *
 		 * @return   array    Updated Post bulk edit messages
 		 */
 		public static function movie_bulk_updated_messages( $bulk_messages, $bulk_counts ) {
@@ -209,16 +209,16 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Add custom bulk action to edit.php
-		 * 
+		 *
 		 * This is needed as WordPress does not provide a way to add new
 		 * actions via filters, only remove existing actions.
-		 * 
+		 *
 		 * @since    2.1.4
 		 */
 		public static function bulk_admin_footer() {
 
 			global $post_type;
- 
+
 			$post_types = wpmoly_o( 'convert-post-types' );
 			if ( ! in_array( $post_type, $post_types ) )
 				return false;
@@ -235,11 +235,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Convert a Post (or Page) to Movie.
-		 * 
+		 *
 		 * This is used to convert regular posts and pages to movies to
 		 * avoid having to duplicate content of manually create/delete
 		 * contents to use WPMOLY features.
-		 * 
+		 *
 		 * @since    2.1.4
 		 */
 		public static function convert_post_type() {
@@ -266,11 +266,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Bulk Convert Posts (or Pages) to Movie.
-		 * 
+		 *
 		 * @since    2.1.4
-		 * 
+		 *
 		 * @param    array    List of Post IDs to update
-		 * 
+		 *
 		 * @return   WP_Error|bool    True on success, WP_Error if any post was not updated
 		 */
 		public static function bulk_convert_posts( $post_ids ) {
@@ -295,10 +295,10 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Handle Bulk Convert action.
-		 * 
+		 *
 		 * Intercept a custom 'bulk_convert_post_type' action in edit.php,
 		 * convert the concerned posts and redirects.
-		 * 
+		 *
 		 * @since    2.1.4
 		 */
 		public static function bulk_convert_post_type() {
@@ -320,15 +320,15 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			if ( isset( $_REQUEST['post'] ) )
 				$post_ids = array_map( 'intval', $_REQUEST['post'] );
-			
+
 			if ( empty( $post_ids ) )
 				return false;
-			
+
 			// this is based on wp-admin/edit.php
 			$sendback = remove_query_arg( array( 'exported', 'untrashed', 'deleted', 'ids' ), wp_get_referer() );
 			if ( ! $sendback )
 				$sendback = admin_url( "edit.php?post_type=$typenow" );
-			
+
 			$pagenum  = $wp_list_table->get_pagenum();
 			$sendback = add_query_arg( 'paged', $pagenum, $sendback );
 
@@ -343,7 +343,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			$sendback = add_query_arg( compact( 'updated', 'ids' ), $sendback );
 			$sendback = remove_query_arg( array( 'action', 'paged', 'mode', 'action2', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status',  'post', 'bulk_edit', 'post_view' ), $sendback );
-			
+
 			wp_safe_redirect( esc_url( $sendback ) );
 			exit();
 		}
@@ -351,18 +351,18 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
 		 *                     "All Movies" WP List Table
-		 * 
+		 *
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Add a custom column to Movies WP_List_Table list.
 		 * Insert a simple 'Poster' column to Movies list table to display
 		 * movies' poster set as featured image if available.
-		 * 
+		 *
 		 * @since    1.0
-		 * 
+		 *
 		 * @param    array    $defaults Default WP_List_Table header columns
-		 * 
+		 *
 		 * @return   array    Default columns with new poster column
 		 */
 		public static function movies_columns_head( $defaults ) {
@@ -388,9 +388,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/**
 		 * Add a custom column to Movies WP_List_Table list.
 		 * Insert movies' poster set as featured image if available.
-		 * 
+		 *
 		 * @since    1.0
-		 * 
+		 *
 		 * @param    string   $column_name The column name
 		 * @param    int      $post_id current movie's post ID
 		 */
@@ -428,11 +428,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/**
 		 * Add a custom column to Movies WP_List_Table list.
 		 * Insert movies' poster set as featured image if available.
-		 * 
+		 *
 		 * @since    2.0
-		 * 
+		 *
 		 * @param    array    $column_name The column name
-		 * 
+		 *
 		 * @return   array    $columns Updated the column name
 		 */
 		public static function movies_sortable_columns( $columns ) {
@@ -446,10 +446,10 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		}
 
 		/**
-		 * 
-		 * 
+		 *
+		 *
 		 * @since    2.0
-		 * 
+		 *
 		 * @param    object    $wp_query Current WP_Query instance
 		 */
 		public static function movies_sortable_columns_order( $wp_query ) {
@@ -469,9 +469,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/**
 		 * Add new fields to Movies' Quick Edit form in Movies Lists to edit
 		 * Movie Details directly from the list.
-		 * 
+		 *
 		 * @since    1.0
-		 * 
+		 *
 		 * @param    string    $column_name WP List Table Column name
 		 * @param    string    $post_type Post type
 		 */
@@ -485,9 +485,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Add new fields to Movies' Bulk Edit form in Movies Lists.
-		 * 
+		 *
 		 * @since    1.0
-		 * 
+		 *
 		 * @param    string    $column_name WP List Table Column name
 		 * @param    string    $post_type Post type
 		 */
@@ -501,9 +501,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Generic function to show WPMOLY Quick/Bulk Edit form.
-		 * 
+		 *
 		 * @since    1.0
-		 * 
+		 *
 		 * @param    string    $type Form type, 'quick' or 'bulk'.
 		 */
 		private static function quickbulk_edit( $type ) {
@@ -534,12 +534,12 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/**
 		 * Alter the Quick Edit link in Movies Lists to update the Movie Details
 		 * current values.
-		 * 
+		 *
 		 * @since    1.0
-		 * 
+		 *
 		 * @param    array     $actions List of current actions
 		 * @param    object    $post Current Post object
-		 * 
+		 *
 		 * @return   string    Edited Post Actions
 		 */
 		public static function expand_quick_edit_link( $actions, $post ) {
@@ -556,7 +556,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			foreach ( $_details as $i => $detail ) {
 				$data = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post->ID, 'meta' => $detail ) );
 				if ( is_array( $data ) && isset( $details[ $detail ]['multi'] ) && true == $details[ $detail ]['multi'] )
-					$data = '[' . implode( ',', array_map( create_function( '$d', 'return "\'" . $d . "\'";' ), $data ) ) . ']';
+					$data = '[' . implode( ',', array_map( function( $d ) {
+						return "\'" . $d . "\'";
+					}, $data ) ) . ']';
 				else
 					$data = "'{$data}'";
 				$_details[ $i ] = sprintf( "{$detail}: %s" , $data );
@@ -566,7 +568,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="';
 			$actions['inline hide-if-no-js'] .= esc_attr( __( 'Edit this item inline' ) ) . '" ';
-			$actions['inline hide-if-no-js'] .= " onclick=\"wpmoly_edit_movies.quick_edit({$_details}, '{$nonce}')\">"; 
+			$actions['inline hide-if-no-js'] .= " onclick=\"wpmoly_edit_movies.quick_edit({$_details}, '{$nonce}')\">";
 			$actions['inline hide-if-no-js'] .= __( 'Quick&nbsp;Edit' );
 			$actions['inline hide-if-no-js'] .= '</a>';
 
@@ -576,7 +578,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
 		 *                      Movie images Media Modal
-		 * 
+		 *
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
@@ -584,18 +586,18 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * an extended WP Media Modal to allow user to pick up which
 		 * images he wants to download from the current movie. Media Modals
 		 * are filled with the latest uploaded media, in order to avoid
-		 * this with restrict the selection in the Javascript part by 
+		 * this with restrict the selection in the Javascript part by
 		 * querying only the post's attachment. We also need the movie
 		 * TMDb ID, so we pass it as a search query.
-		 * 
+		 *
 		 * This method cleans up the options and add the TMDb ID to the
 		 * WP Query to bypass wp_ajax_query_attachments() filtering of
 		 * the query options.
-		 * 
+		 *
 		 * @since    1.0
-		 * 
+		 *
 		 * @param    array    $query List of options for the query
-		 * 
+		 *
 		 * @return   array    Filtered list of query options
 		 */
 		public static function load_images_dummy_query_args( $query ) {
@@ -622,12 +624,12 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * posts. If the query has a 'tmdb_id' field, images wanted, we
 		 * load them. If not, it's just a regular Post query, return the
 		 * Posts.
-		 * 
+		 *
 		 * @since    1.0
-		 * 
+		 *
 		 * @param    array    $posts Posts concerned by the hijack, should be only one
 		 * @param    array    $wp_query concerned WP_Query instance
-		 * 
+		 *
 		 * @return   array    Posts return by the query if we're not looking for movie images
 		 */
 		public static function the_posts_hijack( $posts, $wp_query ) {
@@ -654,12 +656,12 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Load the Movie Images and display a jsonified result.s
-		 * 
+		 *
 		 * @since    1.0
-		 * 
+		 *
 		 * @param    int      $tmdb_id Movie TMDb ID to fetch images
 		 * @param    array    $post Related Movie Post
-		 * 
+		 *
 		 * @return   array    Movie images
 		 */
 		public static function load_movie_images( $tmdb_id, $post ) {
@@ -672,12 +674,12 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Load the Movie Images and display a jsonified result.s
-		 * 
+		 *
 		 * @since    1.0
-		 * 
+		 *
 		 * @param    int      $tmdb_id Movie TMDb ID to fetch images
 		 * @param    array    $post Related Movie Post
-		 * 
+		 *
 		 * @return   array    Movie posters
 		 */
 		public static function load_movie_posters( $tmdb_id, $post ) {
@@ -692,14 +694,14 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
 		 *                             Metabox
-		 * 
+		 *
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Posts Metabox content callback.
-		 * 
+		 *
 		 * @since    2.1.4
-		 * 
+		 *
 		 * @param    object    Current Post object
 		 */
 		public static function metabox( $post, $args = array() ) {
@@ -713,9 +715,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Movie Metabox content callback.
-		 * 
+		 *
 		 * @since    2.1.4
-		 * 
+		 *
 		 * @param    object    $post Current Post object
 		 * @param    array     $args Metabox parameters
 		 */
@@ -743,9 +745,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Movie Metabox content callback.
-		 * 
+		 *
 		 * @since    2.0
-		 * 
+		 *
 		 * @param    object    $post Current Post object
 		 * @param    array     $args Metabox parameters
 		 */
@@ -782,7 +784,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					'icon'   => $panel['icon'],
 					'active' => $is_active ? ' active' : ''
 				);
-				$panels[ $id ] = array( 
+				$panels[ $id ] = array(
 					'active'  => $is_active ? ' active' : '',
 					'content' => call_user_func_array( $panel['callback'], array( $post->ID ) )
 				);
@@ -799,13 +801,13 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Movie Metabox Preview Panel.
-		 * 
+		 *
 		 * Display a Metabox panel to preview metadata.
-		 * 
+		 *
 		 * @since    2.0
-		 * 
+		 *
 		 * @param    int    Current Post ID
-		 * 
+		 *
 		 * @return   string    Panel HTML Markup
 		 */
 		private static function render_preview_panel( $post_id ) {
@@ -827,7 +829,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					'overview'       => '<span class="lipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut mattis fermentum eros, et rhoncus enim cursus vitae. Nullam interdum mi feugiat, tempor turpis ac, viverra lorem. Nunc placerat sapien ut vehicula iaculis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia augue pharetra orci porta, nec posuere lectus accumsan. Mauris porttitor posuere lacus, sit amet auctor nibh congue eu.</span>',
 					'director'       => '<span class="lipsum">Lorem ipsum</span>',
 					'cast'           => '<span class="lipsum">Lorem, ipsum, dolor, sit, amet, consectetur, adipiscing, elit, mattis, fermentum, eros, rhoncus, cursus, vitae</span>',
-					
+
 				);
 			else
 				foreach ( $metadata as $slug => $meta )
@@ -847,13 +849,13 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Movie Metabox Meta Panel.
-		 * 
+		 *
 		 * Display a Metabox panel to download movie metadata.
-		 * 
+		 *
 		 * @since    2.0
-		 * 
+		 *
 		 * @param    int    Current Post ID
-		 * 
+		 *
 		 * @return   string    Panel HTML Markup
 		 */
 		private static function render_meta_panel( $post_id ) {
@@ -876,13 +878,13 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Movie Metabox Details Panel.
-		 * 
+		 *
 		 * Display a Metabox panel to edit movie details.
-		 * 
+		 *
 		 * @since    2.0
-		 * 
+		 *
 		 * @param    int    Current Post ID
-		 * 
+		 *
 		 * @return   string    Panel HTML Markup
 		 */
 		private static function render_details_panel( $post_id ) {
@@ -923,13 +925,13 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Movie Images Metabox Panel.
-		 * 
+		 *
 		 * Display a Metabox panel to download movie images.
-		 * 
+		 *
 		 * @since    2.0
-		 * 
+		 *
 		 * @param    int    Current Post ID
-		 * 
+		 *
 		 * @return   string    Panel HTML Markup
 		 */
 		private static function render_images_panel( $post_id ) {
@@ -949,13 +951,13 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Movie Posters Metabox Panel.
-		 * 
+		 *
 		 * Display a Metabox panel to download movie posters.
-		 * 
+		 *
 		 * @since    2.0
-		 * 
+		 *
 		 * @param    int    Current Post ID
-		 * 
+		 *
 		 * @return   string    Panel HTML Markup
 		 */
 		private static function render_posters_panel( $post_id ) {
@@ -976,17 +978,17 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
 		 *                             Save data
-		 * 
+		 *
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Save movie details.
-		 * 
+		 *
 		 * @since    1.0
-		 * 
+		 *
 		 * @param    int      $post_id ID of the current Post
 		 * @param    array    $details Movie details: media, status, rating
-		 * 
+		 *
 		 * @return   int|object    WP_Error object is anything went
 		 *                                  wrong, true else
 		 */
@@ -1012,12 +1014,12 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Save movie metadata.
-		 * 
+		 *
 		 * @since    1.3
-		 * 
+		 *
 		 * @param    int      $post_id ID of the current Post
 		 * @param    array    $details Movie details: media, status, rating
-		 * 
+		 *
 		 * @return   int|object    WP_Error object is anything went wrong, true else
 		 */
 		public static function save_movie_meta( $post_id, $movie_meta, $clean = true ) {
@@ -1041,15 +1043,15 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/**
 		 * Filter the Movie Metadata submitted when saving a post to
 		 * avoid storing unexpected data to the database.
-		 * 
+		 *
 		 * The Metabox array makes a distinction between pure metadata
 		 * and crew data, so we filter them separately. If the data slug
 		 * is valid, the value is escaped and added to the return array.
-		 * 
+		 *
 		 * @since    1.0
-		 * 
+		 *
 		 * @param    array    $data The Movie Metadata to filter
-		 * 
+		 *
 		 * @return   array    The filtered Metadata
 		 */
 		private static function validate_meta( $data ) {
@@ -1090,11 +1092,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/**
 		 * Filter the Movie Details submitted when saving a post to
 		 * avoid storing unexpected data to the database.
-		 * 
+		 *
 		 * @since    2.1
-		 * 
+		 *
 		 * @param    array    $data The Movie Details to filter
-		 * 
+		 *
 		 * @return   array    The filtered Details
 		 */
 		private static function validate_details( $data ) {
@@ -1136,11 +1138,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Remove movie meta and taxonomies.
-		 * 
+		 *
 		 * @since    1.2
-		 * 
+		 *
 		 * @param    int      $post_id ID of the current Post
-		 * 
+		 *
 		 * @return   boolean  Always return true
 		 */
 		public static function empty_movie_meta( $post_id ) {
@@ -1153,21 +1155,21 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		/**
 		 * Save TMDb fetched data.
-		 * 
+		 *
 		 * Uses the 'save_post_movie' action hook to save the movie metadata
 		 * as a postmeta. This method is used in regular post creation as
-		 * well as in movie import. If no $movie_meta is passed, we're 
+		 * well as in movie import. If no $movie_meta is passed, we're
 		 * most likely creating a new movie, use $_REQUEST to get the data.
-		 * 
+		 *
 		 * Saves the movie details as well.
 		 *
 		 * @since    1.0
-		 * 
+		 *
 		 * @param    int        $post_ID ID of the current Post
 		 * @param    object     $post Post Object of the current Post
 		 * @param    boolean    $queue Queued movie?
 		 * @param    array      $movie_meta Movie Metadata to save with the post
-		 * 
+		 *
 		 * @return   int|WP_Error
 		 */
 		public static function save_movie( $post_ID, $post, $queue = false, $movie_meta = null ) {
@@ -1264,12 +1266,12 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * empty, bypass WordPress empty content safety to avoid losing
 		 * imported metadata. 'wp_insert_post_data' filter will later
 		 * update the post_title to the correct movie title.
-		 * 
+		 *
 		 * @since    2.0
-		 * 
+		 *
 		 * @param    bool     $maybe_empty Whether the post should be considered "empty".
 		 * @param    array    $postarr     Array of post data.
-		 * 
+		 *
 		 * @return   boolean
 		 */
 		public static function filter_empty_content( $maybe_empty, $postarr ) {
@@ -1286,12 +1288,12 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * database. If an empty movie title is detected, and metadata
 		 * contains a title, use it for post_title; if no movie title
 		 * can be found, just use (no title) for post_title.
-		 * 
+		 *
 		 * @since    2.0
-		 * 
+		 *
 		 * @param    array    $data    An array of slashed post data.
 		 * @param    array    $postarr An array of sanitized, but otherwise unmodified post data.
-		 * 
+		 *
 		 * @return   array    Updated $data
 		 */
 		public static function filter_empty_title( $data, $postarr ) {
@@ -1334,7 +1336,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * @since    1.0
 		 */
 		public function init() {}
-		
+
 	}
-	
+
 endif;

@@ -86,7 +86,9 @@ $wpmoly_admin_menu = array(
 			'capability'  => 'manage_categories',
 			'menu_slug'   => 'edit-tags.php?taxonomy=collection&post_type=movie',
 			'function'    => null,
-			'condition'   => create_function('', 'return wpmoly_o( "enable-collection" );'),
+			'condition'   => function() {
+				return wpmoly_o( "enable-collection" );
+			},
 			'hide'        => false,
 			'actions'     => array(),
 			'scripts'     => array(),
@@ -99,7 +101,9 @@ $wpmoly_admin_menu = array(
 			'capability'  => 'manage_categories',
 			'menu_slug'   => 'edit-tags.php?taxonomy=genre&post_type=movie',
 			'function'    => null,
-			'condition'   => create_function('', 'return wpmoly_o( "enable-genre" );'),
+			'condition'   => function() {
+				return wpmoly_o( "enable-genre" );
+			},
 			'hide'        => false,
 			'actions'     => array(),
 			'scripts'     => array(),
@@ -112,7 +116,9 @@ $wpmoly_admin_menu = array(
 			'capability'  => 'manage_categories',
 			'menu_slug'   => 'edit-tags.php?taxonomy=actor&post_type=movie',
 			'function'    => null,
-			'condition'   => create_function('', 'return wpmoly_o( "enable-actor" );'),
+			'condition'   => function() {
+				return wpmoly_o( "enable-actor" );
+			},
 			'hide'        => false,
 			'actions'     => array(),
 			'scripts'     => array(),
@@ -131,7 +137,7 @@ $wpmoly_admin_menu = array(
 				'load-{screen_hook}' => 'WPMOLY_Import::import_movie_list_add_options'
 			),
 			'scripts'     => array(
-				
+
 			),
 			'styles'      => array(
 				'importer' => array(
@@ -190,5 +196,3 @@ $wpmoly_admin_menu = array(
 	)
 
 );
-
-		
