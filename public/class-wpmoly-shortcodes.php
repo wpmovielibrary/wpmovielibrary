@@ -5,7 +5,7 @@
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
- * @link      http://www.caercam.org/
+ * @link      https://www.caercam.org/
  * @copyright 2016 Charlie MERLAND
  */
 
@@ -108,7 +108,7 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 
 				$notive = '';
 				if ( current_user_can( 'manage_options' ) )
-					$notive = sprintf( '<p><em>%s</em></p>', sprintf( __( 'The Movie Grid can not be used on regular Posts (<a href="%s">learn why</a>), please consider using a Page instead. This message is visible by logged in administrators only.', 'wpmovielibrary' ), esc_url( 'http://wpmovielibrary.com/documentation/shortcodes/movie_grid/' ) ) );
+					$notive = sprintf( '<p><em>%s</em></p>', sprintf( __( 'The Movie Grid can not be used on regular Posts (<a href="%s">learn why</a>), please consider using a Page instead. This message is visible by logged in administrators only.', 'wpmovielibrary' ), esc_url( 'https://wplibraries.com/documentation/shortcodes/movie_grid/' ) ) );
 
 				return $notive;
 			}

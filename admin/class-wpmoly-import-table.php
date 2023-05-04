@@ -5,7 +5,7 @@
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
- * @link      http://www.caercam.org/
+ * @link      https://www.caercam.org/
  * @copyright 2016 CaerCam.org
  */
 
@@ -94,7 +94,7 @@ class WPMOLY_Import_Table extends WPMOLY_List_Table {
 
 		$current = $this->get_pagenum();
 
-		$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+		$current_url = set_url_scheme( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
 
 		$current_url = remove_query_arg( array( 'hotkeys_highlight_last', 'hotkeys_highlight_first' ), $current_url );
 
@@ -547,7 +547,7 @@ class WPMOLY_Import_Table extends WPMOLY_List_Table {
 
 		list( $columns, $hidden, $sortable ) = $this->get_column_info();
 
-		$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+		$current_url = set_url_scheme( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
 		$current_url = remove_query_arg( 'paged', $current_url );
 
 		if ( isset( $_GET['orderby'] ) )

@@ -12,5 +12,5 @@
 		</li>
 	</ul>
 
-	<p><?php _e( 'If you need to upgrade your version of PHP you can ask your hosting company for assistance, and if you need help upgrading WordPress you can refer to <a href="http://codex.wordpress.org/Upgrading_WordPress">the Codex</a>.', 'wpmovielibrary' ); ?></p>
+	<p><?php _e( 'If you need to upgrade your version of PHP you can ask your hosting company for assistance, and if you need help upgrading WordPress you can refer to <a href="https://codex.wordpress.org/Upgrading_WordPress">the Codex</a>.', 'wpmovielibrary' ); ?></p>
 </div>

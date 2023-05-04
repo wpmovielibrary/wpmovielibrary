@@ -7,7 +7,7 @@
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
- * @link      http://www.caercam.org/
+ * @link      https://www.caercam.org/
  * @copyright 2016 CaerCam.org
  */
 
@@ -765,7 +765,7 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 		 * 
 		 * The permalink structure for meta query could interfere with
 		 * pages with three levels or hierarchy, ie. page with URLs like
-		 * http://domain/page_a/{matching_meta_or_detail}/page_c/,
+		 * https://domain/page_a/{matching_meta_or_detail}/page_c/,
 		 * resulting in page A being displayed instead of page C. Very
 		 * unlike, but still possible.
 		 *

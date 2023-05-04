@@ -212,18 +212,13 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 				'icon'  => 'wpmolicon icon-facebook'
 			);
 			$this->args['share_icons'][] = array(
-				'url'   => 'http://twitter.com/WPMovieLibrary',
+				'url'   => 'https://twitter.com/WPMovieLibrary',
 				'title' => 'Follow us on Twitter',
 				'icon'  => 'wpmolicon icon-twitter'
 			);
 			$this->args['share_icons'][] = array(
-				'url'   => 'https://plus.google.com/+Wpmovielibraryplugin',
-				'title' => 'Join our circle on Google+',
-				'icon'  => 'wpmolicon icon-googleplus'
-			);
-			$this->args['share_icons'][] = array(
-				'url'   => 'http://wpmovielibrary.com',
-				'title' => 'Find us on WPMovieLibrary.com',
+				'url'   => 'https://wplibraries.com',
+				'title' => 'Find us on wpLibraries.com',
 				'icon'  => 'wpmolicon icon-wordpress'
 			);
 		}

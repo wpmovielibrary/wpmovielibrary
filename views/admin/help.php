@@ -12,8 +12,8 @@
 		<p><?php _e( 'The following people took a part, active or not, in WPMOLY development:', 'wpmovielibrary' ) ?></p>
 
 		<ul>
-			<li><?php _e( '<a href="http://th0th.me/log/">th0th</a>, author of <a href="http://wordpress.org/plugins/th0ths-movie-collection/"><em>th0th\'s Movie Collection</em></a>, the plugin WPMOLY started as a fork of before becoming a complete new, homemade tool.', 'wpmovielibrary' ) ?></li>
-			<li><?php _e( '<a href="http://www.glamorous.be">Jonas De Smet</a>, author of <a href="https://github.com/glamorous/TMDb-PHP-API">TMDb-PHP-API</a> which WPMOLY is based on.', 'wpmovielibrary' ) ?></li>
+			<li><?php _e( '<a href="https://th0th.me/log/">th0th</a>, author of <a href="https://wordpress.org/plugins/th0ths-movie-collection/"><em>th0th\'s Movie Collection</em></a>, the plugin WPMOLY started as a fork of before becoming a complete new, homemade tool.', 'wpmovielibrary' ) ?></li>
+			<li><?php _e( '<a href="https://www.glamorous.be">Jonas De Smet</a>, author of <a href="https://github.com/glamorous/TMDb-PHP-API">TMDb-PHP-API</a> which WPMOLY is based on.', 'wpmovielibrary' ) ?></li>
 			<li><?php _e( '<a href="https://github.com/lesurfeur">Spiky (lesurfeur)</a>, very first user of WPMOLY, who provided nice ideas and productive feedback.', 'wpmovielibrary' ) ?>
 		</ul>
 

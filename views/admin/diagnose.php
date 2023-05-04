@@ -40,7 +40,7 @@ $icons = array(
 			</div>
 
 			<div class="diagnose-description">
-				<p><?php printf( __( 'This page lets you check on the compatibility of the plugin with your current installation and the incoming version 3.0. Learn more about version 3.0 and the diagnose tool on the plugin’s official website <a href="%s">here</a>.', 'wpmovielibrary' ), esc_url( 'http://wpmovielibrary.com' ) ); ?></p>
+				<p><?php printf( __( 'This page lets you check on the compatibility of the plugin with your current installation and the incoming version 3.0. Learn more about version 3.0 and the diagnose tool on the plugin’s official website <a href="%s">here</a>.', 'wpmovielibrary' ), esc_url( 'https://wplibraries.com' ) ); ?></p>
 <?php if ( ! is_int( $diagnose->get_last_saved() ) ) : ?>
 				<p></p>
 				<p><?php _e( 'It seems you never runned the diagnose before.', 'wpmovielibrary' ); ?> <?php printf( '<a href="%s">%s</a>', esc_url( admin_url( 'index.php?page=wpmovielibrary-diagnose&amp;diagnose=run' ) ), __( 'Do it now?', 'wpmovielibrary' ) ) ?></p>
@@ -53,8 +53,8 @@ if ( ! $diagnose->is_dismissed() ) :
 	if ( $diagnose->is_sent() ) : ?>
 				<h4><?php _e( 'Thank you!', 'wpmovielibrary' ); ?></h4>
 				<div class="survey-info">
-					<p><?php printf( __( 'Your data have been sent to our server for processing. Your secret key is <strong>%s</strong>. This key is personal and generated from the current home URL of your website and we have no way to use it to trace it back to your site. You can check on your data anytime at %s.', 'wpmovielibrary' ), md5( home_url( '/' ) ), sprintf( '<a href="%s">%s</a>', esc_url( 'https://www.wpmovielibrary.com/survey/?skey=' . md5( home_url( '/' ) ) ), 'wpmovielibrary.com/survey/?skey=your-secret-key' ) ); ?></p>
-					<p><?php printf( __( 'If you think the data you sent is outdated, you can update it in one single click: %s. We don’t provide a direct link to delete your data to ensure a minimum of consistency in the data, but you can request a deletion by droping us a mail at %s with your secret key and we’ll notify you once it’s done.', 'wpmovielibrary' ), sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'index.php?page=wpmovielibrary-diagnose&amp;survey=update' ) ), __( 'update results', 'wpmovielibrary' ) ), '<a href="' . esc_url( 'mailto:support@wpmovielibrary.com?subject=WPMovieLibrary Survey Removal Request&body=User "' . md5( home_url( '/' ) ) . '" requested its data to be removed from survey database.' ) . '">support@wpmovielibrary.com</a>' ); ?></p>
+					<p><?php printf( __( 'Your data have been sent to our server for processing. Your secret key is <strong>%s</strong>. This key is personal and generated from the current home URL of your website and we have no way to use it to trace it back to your site. You can check on your data anytime at %s.', 'wpmovielibrary' ), md5( home_url( '/' ) ), sprintf( '<a href="%s">%s</a>', esc_url( 'https://www.wplibraries.com/survey/?skey=' . md5( home_url( '/' ) ) ), 'wplibraries.com/survey/?skey=your-secret-key' ) ); ?></p>
+					<p><?php printf( __( 'If you think the data you sent is outdated, you can update it in one single click: %s. We don’t provide a direct link to delete your data to ensure a minimum of consistency in the data, but you can request a deletion by droping us a mail at %s with your secret key and we’ll notify you once it’s done.', 'wpmovielibrary' ), sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'index.php?page=wpmovielibrary-diagnose&amp;survey=update' ) ), __( 'update results', 'wpmovielibrary' ) ), '<a href="' . esc_url( 'mailto:support@wplibraries.com?subject=WPMovieLibrary Survey Removal Request&body=User "' . md5( home_url( '/' ) ) . '" requested its data to be removed from survey database.' ) . '">support@wplibraries.com</a>' ); ?></p>
 				</div>
 <?php
 	else :

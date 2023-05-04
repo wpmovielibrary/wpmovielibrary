@@ -8,7 +8,7 @@
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie.merland@gmail.com>
  * @license   GPL-3.0
- * @link      http://www.caercam.org/
+ * @link      https://www.caercam.org/
  * @copyright 2016 CaerCam.org
  */
 

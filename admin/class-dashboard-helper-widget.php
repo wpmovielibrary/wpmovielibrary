@@ -7,7 +7,7 @@
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
- * @link      http://www.caercam.org/
+ * @link      https://www.caercam.org/
  * @copyright 2016 CaerCam.org
  */
 
@@ -41,7 +41,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Helper_Widget' ) ) :
 			$links = array();
 			$list = array(
 				'support' => array(
-					'url'   => 'http://wordpress.org/support/plugin/wpmovielibrary',
+					'url'   => 'https://wordpress.org/support/plugin/wpmovielibrary',
 					'title' => __( 'Support', 'wpmovielibrary' ),
 					'icon'  => 'wpmolicon icon-help'
 				),
@@ -55,18 +55,18 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Helper_Widget' ) ) :
 					'title' => __( 'Contribute', 'wpmovielibrary' ),
 					'icon'  => 'wpmolicon icon-code'
 				),
-				'donate' => array(
-					'url'   => 'http://wpmovielibrary.com/contribute/#donate',
+				/*'donate' => array(
+					'url'   => 'https://wplibraries.com/contribute/#donate',
 					'title' => __( 'Donate', 'wpmovielibrary' ),
 					'icon'  => 'wpmolicon icon-heart'
 				),
 				'documentation' => array(
-					'url'   => 'http://wpmovielibrary.com/documentation/',
+					'url'   => 'https://wplibraries.com/documentation/',
 					'title' => __( 'Documentation', 'wpmovielibrary' ),
 					'icon'  => 'wpmolicon icon-doc'
-				),
+				),*/
 				'homepage' => array(
-					'url'   => 'http://wpmovielibrary.com/',
+					'url'   => 'https://wplibraries.com/',
 					'title' => __( 'Official website', 'wpmovielibrary' ),
 					'icon'  => 'wpmolicon icon-home'
 				)

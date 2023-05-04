@@ -5,7 +5,7 @@
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
- * @link      http://www.caercam.org/
+ * @link      https://www.caercam.org/
  * @copyright 2016 Charlie MERLAND
  */
 
@@ -202,7 +202,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				return $links;
 
 			$row_meta = array(
-				'docs'    => '<a href="' . esc_url( 'http://wpmovielibrary.com/documentation/' ) . '" title="' . esc_attr( __( 'View WPMovieLibrary Documentation', 'wpmovielibrary' ) ) . '">' . __( 'Documentation', 'wpmovielibrary' ) . '</a>',
+				//'docs'    => '<a href="' . esc_url( 'https://wplibraries.com/documentation/' ) . '" title="' . esc_attr( __( 'View WPMovieLibrary Documentation', 'wpmovielibrary' ) ) . '">' . __( 'Documentation', 'wpmovielibrary' ) . '</a>',
 				'apidocs' => '<a href="' . esc_url( 'https://wordpress.org/support/plugin/wpmovielibrary/' ) . '" title="' . esc_attr( __( 'Visit WPMovieLibrary Support Forum', 'wpmovielibrary' ) ) . '">' . __( 'Support', 'wpmovielibrary' ) . '</a>',
 			);
 
@@ -382,7 +382,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		/**
 		 * Highlight Admin submenu for related admin pages
 		 * 
-		 * @link     http://wordpress.org/support/topic/moving-taxonomy-ui-to-another-main-menu#post-2432769
+		 * @link     https://wordpress.org/support/topic/moving-taxonomy-ui-to-another-main-menu#post-2432769
 		 * 
 		 * @since    1.0
 		 * 

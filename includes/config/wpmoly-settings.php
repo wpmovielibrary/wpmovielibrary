@@ -5,7 +5,7 @@
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
- * @link      http://www.caercam.org/
+ * @link      https://www.caercam.org/
  * @copyright 2016 Charlie MERLAND
  */
 
@@ -59,7 +59,7 @@ $wpmoly_config = array(
 				'id'       => 'wpmoly-excerpt',
 				'type'     => 'switch',
 				'title'    => __( 'Replace excerpt by overview', 'wpmovielibrary' ),
-				'desc'     => __( 'Replace movie excerpts by the movie overview if available. <a href="http://codex.wordpress.org/Excerpt">Learn more about Excerpt</a>.', 'wpmovielibrary' ),
+				'desc'     => __( 'Replace movie excerpts by the movie overview if available. <a href="https://codex.wordpress.org/Excerpt">Learn more about Excerpt</a>.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1
@@ -259,7 +259,7 @@ $wpmoly_config = array(
 				'id'       => 'wpmoly-format-date',
 				'type'     => 'text',
 				'title'    => __( 'Release date format', 'wpmovielibrary' ),
-				'desc'     => __( 'Apply a custom date format to movies\' release dates. Leave empty to use the default API format. Check the <a href="http://codex.wordpress.org/Formatting_Date_and_Time">documentation on date and time formatting</a>.', 'wpmovielibrary' ),
+				'desc'     => __( 'Apply a custom date format to movies\' release dates. Leave empty to use the default API format. Check the <a href="https://codex.wordpress.org/Formatting_Date_and_Time">documentation on date and time formatting</a>.', 'wpmovielibrary' ),
 				'default'  => 'j F Y'
 			),
 
@@ -1147,7 +1147,7 @@ $wpmoly_config = array(
 				'id'       => 'wpmoly-rewrite-movie',
 				'type'     => 'text',
 				'title'    => __( 'Movies URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>http://yourblog/movies/fight-club</code>. You can use this field to translate URLs to your language.', 'wpmovielibrary' ),
+				'desc'     => __( 'URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>https://yourblog/movies/fight-club</code>. You can use this field to translate URLs to your language.', 'wpmovielibrary' ),
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
 				'default'  => 'movies',
 				'required' => array( 'wpmoly-rewrite-enable', "=", 1 ),
@@ -1159,7 +1159,7 @@ $wpmoly_config = array(
 				'id'       => 'wpmoly-rewrite-collection',
 				'type'     => 'text',
 				'title'    => __( 'Collections URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>http://yourblog/collection/david-fincher</code>. You can use this field to translate URLs to your language.', 'wpmovielibrary' ),
+				'desc'     => __( 'URL Rewrite Rule to apply on collections. Default is <code>collection</code>, resulting in URL like <code>https://yourblog/collection/david-fincher</code>. You can use this field to translate URLs to your language.', 'wpmovielibrary' ),
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
 				'default'  => 'collection',
 				'required' => array(
@@ -1174,7 +1174,7 @@ $wpmoly_config = array(
 				'id'       => 'wpmoly-rewrite-genre',
 				'type'     => 'text',
 				'title'    => __( 'Genres URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>http://yourblog/genre/thriller</code>. You can use this field to translate URLs to your language.', 'wpmovielibrary' ),
+				'desc'     => __( 'URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting in URL like <code>https://yourblog/genre/thriller</code>. You can use this field to translate URLs to your language.', 'wpmovielibrary' ),
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
 				'default'  => 'genre',
 				'required' => array(
@@ -1189,7 +1189,7 @@ $wpmoly_config = array(
 				'id'       => 'wpmoly-rewrite-actor',
 				'type'     => 'text',
 				'title'    => __( 'Actors URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can use this field to translate URLs to your language.', 'wpmovielibrary' ),
+				'desc'     => __( 'URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting in URL like <code>https://yourblog/actor/brad-pitt</code>. You can use this field to translate URLs to your language.', 'wpmovielibrary' ),
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
 				'default'  => 'actor',
 				'required' => array(
@@ -1204,7 +1204,7 @@ $wpmoly_config = array(
 				'id'       => 'wpmoly-rewrite-details',
 				'type'     => 'switch',
 				'title'    => __( 'Movie Details URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'Use localized URLs for Movie Details. Enable this to have URLs like <code>http://yourblog/films/disponible</code> for French rather than the default <code>http://yourblog/movies/available</code>.', 'wpmovielibrary' ),
+				'desc'     => __( 'Use localized URLs for Movie Details. Enable this to have URLs like <code>https://yourblog/films/disponible</code> for French rather than the default <code>https://yourblog/movies/available</code>.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
@@ -1381,7 +1381,7 @@ $wpmoly_config = array(
 				'id'       => 'wpmoly-enable-cache',
 				'type'     => 'switch',
 				'title'    => __( 'Enable Caching', 'wpmovielibrary' ),
-				'desc'     => __( 'If enabled, WPMovieLibrary will cache movie related data to prevent too frequent queries to the database. <strong>This feature is experimental!</strong> Enabling this could generate <strong>huge</strong> amounts of entries in your database. It is recommended to use this feature sparingly, ideally not in production. <a href="http://wpmovielibrary.com/documentation/performance">Learn more about caching</a>.', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, WPMovieLibrary will cache movie related data to prevent too frequent queries to the database. <strong>This feature is experimental!</strong> Enabling this could generate <strong>huge</strong> amounts of entries in your database. It is recommended to use this feature sparingly, ideally not in production. <a href="https://wplibraries.com/documentation/performance">Learn more about caching</a>.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0
@@ -1427,7 +1427,7 @@ $wpmoly_config = array(
 				'type'     => 'switch',
 				'title'    => __( 'Enable Legacy mode', 'wpmovielibrary' ),
 				'subtitle' => __( 'WPMovieLibrary 1.x compatibility mode', 'wpmovielibrary' ),
-				'description' => __( 'If enabled, WPMovieLibrary will automatically update all movies to the new metadata format introduced by version 1.3. Each time a metadata is access, the plugin will look for obsolete metadata and will update it if needed. Once all movies are updated the plugin will stop looking, but you should deactivate this anyway. <a href="http://wpmovielibrary.com/development/release-notes/#version-1.3">Learn more about this change</a>.', 'wpmovielibrary' ),
+				'description' => __( 'If enabled, WPMovieLibrary will automatically update all movies to the new metadata format introduced by version 1.3. Each time a metadata is access, the plugin will look for obsolete metadata and will update it if needed. Once all movies are updated the plugin will stop looking, but you should deactivate this anyway. <a href="https://wplibraries.com/development/release-notes/#version-1.3">Learn more about this change</a>.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0

@@ -7,7 +7,7 @@
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
- * @link      http://www.caercam.org/
+ * @link      https://www.caercam.org/
  * @copyright 2016 CaerCam.org
  */
 
@@ -261,7 +261,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * modified to return the uploaded attachment ID instead of HTML img
 		 * tag.
 		 * 
-		 * @see http://codex.wordpress.org/Function_Reference/media_sideload_image
+		 * @see https://codex.wordpress.org/Function_Reference/media_sideload_image
 		 * 
 		 * @since    1.0
 		 * 

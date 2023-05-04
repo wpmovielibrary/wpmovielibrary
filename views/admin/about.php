@@ -26,7 +26,7 @@
 					<p><?php _e( 'Furthermore, metadata have been completely reviewed to make you able to list all movies by a composer, a specific year or langague…', 'wpmovielibrary' ); ?></p>
 				</div>
 				<div class="col-2 last-feature">
-					<img src="http://wpmovielibrary.com/media/2.0/newheadbox.jpg" />
+					<img src="https://wplibraries.com/media/2.0/newheadbox.jpg" />
 				</div>
 			</div>
 
@@ -34,7 +34,7 @@
 
 			<div class="feature-section col two-col">
 				<div class="col-1">
-					<img src="http://wpmovielibrary.com/media/2.0/newmetabox.jpg" />
+					<img src="https://wplibraries.com/media/2.0/newmetabox.jpg" />
 				</div>
 				<div class="col-2 last-feature">
 					<h3><?php _e( 'Smooth metadata editing', 'wpmovielibrary' ); ?></h3>
@@ -50,7 +50,7 @@
 					<p><?php _e( 'WordPress Movie Library 2.0 introduces a highly requested feature that will be enhanced add extended in forthcoming versions: the Grid. Show all your movies in an alphabetically sorted grid view and browse through you library.', 'wpmovielibrary' ); ?></p>
 				</div>
 				<div class="col-2 last-feature">
-					<img src="http://wpmovielibrary.com/media/2.0/thegrid.jpg" />
+					<img src="https://wplibraries.com/media/2.0/thegrid.jpg" />
 				</div>
 			</div>
 
@@ -58,11 +58,11 @@
 
 			<div class="feature-section col two-col">
 				<div class="col-1">
-					<img src="http://wpmovielibrary.com/media/2.0/settingspanel.jpg" />
+					<img src="https://wplibraries.com/media/2.0/settingspanel.jpg" />
 				</div>
 				<div class="col-2 last-feature">
 					<h3><?php _e( 'You own the place', 'wpmovielibrary' ); ?></h3>
-					<p><?php printf( __( 'And therefore you should be able to tune your library as you please. That is now possible with the new Settings panel powered by the powerful <a href="%s">ReduxFramework</a>.', 'wpmovielibrary' ), 'http://reduxframework.com/' ); ?></p>
+					<p><?php printf( __( 'And therefore you should be able to tune your library as you please. That is now possible with the new Settings panel powered by the powerful <a href="%s">ReduxFramework</a>.', 'wpmovielibrary' ), 'https://reduxframework.com/' ); ?></p>
 				</div>
 			</div>
 
@@ -108,12 +108,12 @@
 
 			<div class="feature-section col two-col">
 				<div class="col-1">
-					<img src="http://wpmovielibrary.com/media/2.0/updatemovies.jpg" />
+					<img src="https://wplibraries.com/media/2.0/updatemovies.jpg" />
 				</div>
 				<div class="col-2 last-feature">
 					<h3><?php _e( 'WordPress Movie Library 1.x movies update', 'wpmovielibrary' ); ?></h3>
 					<p><?php _e( 'The movie metadata changes in WordPress Movie Library 2.0 require that you update all your movies to the new metadata format in order to access new features. You can use the builtin updater tool to update your movies in a few seconds.', 'wpmovielibrary' ); ?></p>
-					<p><?php printf( __( '<strong>Make backups of your data before updating your movies</strong>. You should always do this before updating a plugin to the next major release, but in this particular it is most recommended that you backup your site before anything. <a href="%s">Learn why</a>.', 'wpmovielibrary' ), 'http://wpmovielibrary.com/development/release-notes/#version-1.3' ); ?></p>
+					<p><?php printf( __( '<strong>Make backups of your data before updating your movies</strong>. You should always do this before updating a plugin to the next major release, but in this particular it is most recommended that you backup your site before anything. <a href="%s">Learn why</a>.', 'wpmovielibrary' ), 'https://wplibraries.com/development/release-notes/#version-1.3' ); ?></p>
 				</div>
 			</div>
 
@@ -123,7 +123,7 @@
 
 			<div class="feature-section">
 				<div>
-					<strong><?php _e( 'Lead developer', 'wpmovielibrary' ); ?></strong>: <a href="http://www.caercam.org/">Charlie MERLAND</a><br />
+					<strong><?php _e( 'Lead developer', 'wpmovielibrary' ); ?></strong>: <a href="https://www.caercam.org/">Charlie MERLAND</a><br />
 					<strong><?php _e( 'Faithful Contributors', 'wpmovielibrary' ); ?></strong>: lesurfeur, Ravavamouna, xdarkevil, zack06007, stargatehome, Fjellz, raicabogdan, mstashev, andyshears<br />
 					<strong><?php _e( 'German translation', 'wpmovielibrary' ); ?></strong>: Mario Winkler<br />
 				</div>

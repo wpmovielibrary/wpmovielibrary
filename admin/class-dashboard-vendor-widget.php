@@ -7,7 +7,7 @@
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
- * @link      http://www.caercam.org/
+ * @link      https://www.caercam.org/
  * @copyright 2016 CaerCam.org
  */
 
@@ -41,7 +41,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Vendor_Widget' ) ) :
 			$links = array();
 			$list = array(
 				'facebook' => array(
-					'url'   => 'http://facebook.com/wpmovielibrary',
+					'url'   => 'https://facebook.com/wpmovielibrary',
 					'title' => 'Facebook',
 					'icon'  => 'wpmolicon icon-facebook'
 				),
@@ -50,11 +50,11 @@ if ( ! class_exists( 'WPMOLY_Dashboard_Vendor_Widget' ) ) :
 					'title' => 'Twitter',
 					'icon'  => 'wpmolicon icon-twitter'
 				),
-				'google' => array(
+				/*'google' => array(
 					'url'   => 'https://www.google.com/+Wpmovielibraryplugin',
 					'title' => 'Google+',
 					'icon'  => 'wpmolicon icon-googleplus'
-				)
+				)*/
 			);
 
 			foreach ( $list as $slug => $data )

@@ -4,7 +4,7 @@
 									<?php _e( 'Use it, love it, rate it!', 'wpmovielibrary' ) ?>
 								</p>
 								<p class="rateme">
-									<a href="http://wordpress.org/support/view/plugin-reviews/wpmovielibrary?rate=5#postform" title="<?php _e( 'Give us five shiny stars!', 'wpmovielibrary' ) ?>">
+									<a href="https://wordpress.org/support/view/plugin-reviews/wpmovielibrary?rate=5#postform" title="<?php _e( 'Give us five shiny stars!', 'wpmovielibrary' ) ?>">
 										<span class="wpmolicon icon-star-filled"></span><span class="wpmolicon icon-star-filled"></span><span class="wpmolicon icon-star-filled"></span><span class="wpmolicon icon-star-filled"></span><span class="wpmolicon icon-star-filled"></span>
 									</a>
 								</p>

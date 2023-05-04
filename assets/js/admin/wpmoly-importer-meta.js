@@ -259,7 +259,7 @@ wpmoly = wpmoly || {};
 				$parent.find( '.poster' ).html( '<img src="' + data.poster + '" alt="' + data.meta.title + '" />' );
 				$parent.find( '.movie_title' ).text( data.meta.title );
 				$parent.find( '.movie_director' ).text( $( _post_id + '_meta_data_director' ).val() );
-				$parent.find( '.movie_tmdb_id' ).html( '<a href="http://www.themoviedb.org/movie/' + data._tmdb_id + '">' + data._tmdb_id + '</a>' );
+				$parent.find( '.movie_tmdb_id' ).html( '<a href="https://www.themoviedb.org/movie/' + data._tmdb_id + '">' + data._tmdb_id + '</a>' );
 
 				$( _post_id + '_meta_data' ).appendTo( '#meta_data' );
 				wpmoly_import_meta.update_ids( data._id );

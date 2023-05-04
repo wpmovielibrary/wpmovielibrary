@@ -10,7 +10,7 @@
 					<div class="welcome-panel-column-container">
 						<div class="welcome-panel-column">
 							<h4><?php _e( 'Get Started', 'wpmovielibrary' ); ?></h4>
-							<a class="button button-primary button-hero button-wpmoly" href="http://wpmovielibrary.com/documentation/"><?php _e( 'View the Documentation', 'wpmovielibrary' ); ?></a>
+							<!-- <a class="button button-primary button-hero button-wpmoly" href="https://wplibraries.com/documentation/"><?php _e( 'View the Documentation', 'wpmovielibrary' ); ?></a> -->
 							<p><?php printf( __( 'and you may want to look at the <a href="%s">plugin settings</a>.', 'wpmovielibrary' ), admin_url( 'admin.php?page=wpmovielibrary-settings' ) ) ?></p>
 						</div>
 
