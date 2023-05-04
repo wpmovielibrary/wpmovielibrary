@@ -392,7 +392,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			if ( isset( $submenu['wpmovielibrary'] ) )
 				foreach ( $submenu['wpmovielibrary'] as $item )
-					if ( htmlspecialchars_decode( $submenu_file ) == $item[ 2 ] )
+					if ( '' != $submenu_file && htmlspecialchars_decode( $submenu_file ) == $item[ 2 ] )
 						$submenu_file = htmlspecialchars_decode( $submenu_file );
 
 			if ( 'movie' != $current_screen->post_type )

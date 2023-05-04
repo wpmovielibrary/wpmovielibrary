@@ -809,8 +809,10 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$rating = 5.0;
 
 			$title = '';
-			if ( isset( $defaults['rating']['options'][ $rating ] ) )
-				$title = $defaults['rating']['options'][ $rating ];
+
+			$key = strval( $rating );
+			if ( isset( $defaults['rating']['options'][ $key ] ) )
+				$title = $defaults['rating']['options'][ $key ];
 
 			$_rating = preg_replace( '/([0-5])(\.|_)(0|5)/i', '$1-$3', $rating );
 
