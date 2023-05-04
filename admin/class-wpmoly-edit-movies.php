@@ -556,7 +556,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			foreach ( $_details as $i => $detail ) {
 				$data = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post->ID, 'meta' => $detail ) );
 				if ( is_array( $data ) && isset( $details[ $detail ]['multi'] ) && true == $details[ $detail ]['multi'] )
-					$data = '[' . implode( ',', array_map( create_function( '$d', 'return "\'" . $d . "\'";' ), $data ) ) . ']';
+					$data = '[' . implode( ',', array_map( function( $d ) {
+						return "'{$d}'";
+					}, $data ) ) . ']';
 				else
 					$data = "'{$data}'";
 				$_details[ $i ] = sprintf( "{$detail}: %s" , $data );
@@ -862,8 +864,10 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$languages = WPMOLY_Settings::get_supported_languages();
 			$metadata  = wpmoly_get_movie_meta( $post_id );
 			$metadata  = wpmoly_filter_empty_array( $metadata );
+			$empty    = (bool) ( isset( $metadata['_empty'] ) && 1 == $metadata['_empty'] );
 
 			$attributes = array(
+				'empty'     => $empty,
 				'languages' => $languages,
 				'metas'     => $metas,
 				'metadata'  => $metadata
