@@ -313,7 +313,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 
 		public static function get_country_standard_name( $country ) {
 
-			$countries = WPMOLY_Settings::get_supported_countries();
+			$countries = (array) WPMOLY_Settings::get_supported_countries();
 
 			if ( 2 == strlen( $country ) )
 				$code = strtoupper( $country );
@@ -328,7 +328,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 
 		public static function get_country_code( $country ) {
 
-			$countries = WPMOLY_Settings::get_supported_countries();
+			$countries = (array) WPMOLY_Settings::get_supported_countries();
 
 			$code = array_search( $country, $countries );
 			if ( false !== $code )
@@ -339,12 +339,12 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 
 		public static function get_language_standard_name( $language ) {
 
-			$languages = WPMOLY_Settings::get_available_languages();
+			$languages = (array) WPMOLY_Settings::get_available_languages();
 
 			if ( 2 == strlen( $language ) )
 				$code = strtolower( $language );
 			else
-				$code = array_search( $language, $languages['native'] );
+				$code = array_search( $language, (array) $languages['native'] );
 
 			if ( false !== $code )
 				$language = $languages['standard'][ $code ];
@@ -354,12 +354,12 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 
 		public static function get_language_native_name( $language ) {
 
-			$languages = WPMOLY_Settings::get_available_languages();
+			$languages = (array) WPMOLY_Settings::get_available_languages();
 
 			if ( 2 == strlen( $language ) )
 				$code = strtolower( $language );
 			else
-				$code = array_search( $language, $languages['native'] );
+				$code = array_search( $language, (array) $languages['native'] );
 
 			if ( false !== $code )
 				$language = $languages['native'][ $code ];

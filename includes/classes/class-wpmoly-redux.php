@@ -125,7 +125,7 @@ if ( ! class_exists( 'WPMOLY_Redux_Framework_config' ) ) {
 			// ACTUAL DECLARATION OF SECTIONS
 			$this->sections = array_merge(
 				$this->sections,
-				WPMOLY_Settings::get_default_settings()
+				(array) WPMOLY_Settings::get_default_settings()
 			);
 		}
 

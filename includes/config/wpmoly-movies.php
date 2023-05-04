@@ -82,7 +82,7 @@ $wpmoly_movie_details = array(
 		'title'    => __( 'Movie Language', 'wpmovielibrary' ),
 		'desc'     => __( 'Select a language for this movie', 'wpmovielibrary' ),
 		'icon'     => 'wpmolicon icon-lang',
-		'options'  => $wpmoly_supported_languages,
+		'options'  => (array) $wpmoly_supported_languages,
 		'default'  => '',
 		'multi'    => true,
 		'rewrite'  => array( 'lang' => __( 'lang', 'wpmovielibrary' ) )
@@ -94,7 +94,7 @@ $wpmoly_movie_details = array(
 		'title'    => __( 'Movie Subtitles', 'wpmovielibrary' ),
 		'desc'     => __( 'Select a subtitle for this movie', 'wpmovielibrary' ),
 		'icon'     => 'wpmolicon icon-subtitles',
-		'options'  => array_merge( array( 'none' => __( 'None', 'wpmovielibrary' ) ), $wpmoly_supported_languages ),
+		'options'  => array_merge( array( 'none' => __( 'None', 'wpmovielibrary' ) ), (array) $wpmoly_supported_languages ),
 		'default'  => 'none',
 		'multi'    => true,
 		'rewrite'  => array( 'subtitles' => __( 'subtitles', 'wpmovielibrary' ) )
