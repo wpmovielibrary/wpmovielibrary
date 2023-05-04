@@ -10,19 +10,19 @@
  * @package   WPMovieLibrary
  * @author    Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
- * @link      http://www.caercam.org/
+ * @link      https://www.caercam.org/
  * @copyright 2016 CaerCam.org
  *
  * @wordpress-plugin
  * Plugin Name: WPMovieLibrary
- * Plugin URI:  http://wpmovielibrary.com
+ * Plugin URI:  https://wplibraries.com
  * Description: A WordPress Plugin to manage a personnal library of movies.
- * Version:     2.1.4.7
+ * Version:     2.1.4.8
  * Author:      Charlie MERLAND
- * Author URI:  http://www.caercam.org/
+ * Author URI:  https://www.caercam.org/
  * Text Domain: wpmovielibrary
  * License:     GPL-3.0
- * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.txt
  * Domain Path: /languages
  * GitHub Plugin URI: https://github.com/wpmovielibrary/wpmovielibrary
  */
@@ -34,11 +34,11 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'WPMOLY_PLUGIN',                 plugin_basename( __FILE__ ) );
 define( 'WPMOLY_NAME',                   'WPMovieLibrary' );
-define( 'WPMOLY_VERSION',                '2.1.4.7' );
+define( 'WPMOLY_VERSION',                '2.1.4.8' );
 define( 'WPMOLY_SLUG',                   'wpmoly' );
 define( 'WPMOLY_URL',                    plugins_url( basename( __DIR__ ) ) );
 define( 'WPMOLY_PATH',                   plugin_dir_path( __FILE__ ) );
-define( 'WPMOLY_REQUIRED_PHP_VERSION',   '5.3' );
+define( 'WPMOLY_REQUIRED_PHP_VERSION',   '7.4' );
 define( 'WPMOLY_REQUIRED_WP_VERSION',    '4.2' );
 define( 'WPMOLY_DEFAULT_POSTER_URL',     plugins_url( basename( __DIR__ ) ) . '/assets/img/no_poster{size}.jpg' );
 define( 'WPMOLY_DEFAULT_POSTER_PATH',    WPMOLY_PATH . '/assets/img/no_poster{size}.jpg' );

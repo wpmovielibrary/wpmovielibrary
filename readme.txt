@@ -1,21 +1,21 @@
 === WPMovieLibrary ===
 Contributors: caercam
-Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 4.2
-Tested up to: 4.8.2
-Stable tag: 2.1.4.7
+Requires PHP: 7.4
+Tested up to: 6.2
+Stable tag: 2.1.4.8
 License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 WordPress Movie Library is an advanced movie library managing plugin to turn your WordPress Blog into a Movie Library.
 
 == Description ==
 
-The best way to manage your personnal movie library. Handle collections of movies, automatically fetch metadata, images and posters, create collections by mass importing lists of movie titles… [Demo: See what it looks like!](http://demo.wpmovielibrary.com/)
+The best way to manage your personnal movie library. Handle collections of movies, automatically fetch metadata, images and posters, create collections by mass importing lists of movie titles… [Demo: See what it looks like!](https://demo.wplibraries.com/)
 
 = Announcing WPMovieLibrary 3.0 =
-The plugin is under heavy work since late 2015 with a complete rewrite of the whole code in process. Be sure to check up frequently on the [official blog](http://wpmovielibrary.com/category/blog/) and social networks to see how developement is going!
+The plugin is under heavy work since late 2015 with a complete rewrite of the whole code in process. Be sure to check up frequently on the [official blog](https://blog.wplibraries.com/) and social networks to see how developement is going!
 
 = Simple yet powerfull =
 WPMovieLibrary uses WordPress simple but efficient techniques to provide you a really simple tool to change your classic WordPress Blog to an extended management software for your movie collection.
@@ -57,8 +57,7 @@ Developers and Translators can contribute to the source code on the [GitHub Repo
 
 = Links =
 
-*    [Official website](http://wpmovielibrary.com/)
-*    [Documentation](http://wpmovielibrary.com/documentation/)
+*    [Official website](https://wplibraries.com/)
 *    [Development](https://github.com/wpmovielibrary/wpmovielibrary/)
 
 == Installation ==
@@ -66,7 +65,7 @@ Developers and Translators can contribute to the source code on the [GitHub Repo
 = Minimum Requirements =
 
 * WordPress 4.2 or greater
-* PHP version 5.3 or greater (5.5 recommended)
+* PHP version 7.4 or greater (8.1 recommended)
 * MySQL version 5.0 or greater
 
 = Automatic installation =
@@ -92,7 +91,7 @@ You create/import movies like regular Posts/Pages. WPMovieLibrary provides vario
 Using WPMovieLibrary you will fetch all you need to know about a movie in a single click, metadata as well as images and posters.
 
 = What's the difference between "Metadata" and "Details"? =
-"Metadata" are generic data related to movies that are gathered from an external source, [TheMovieDB API](http://themoviedb.org): directors, actors, genres… "Details", on the other hand, are strictly personal and related to movies and most of all, you. How much you liked that movie (rating), how you own it / saw it (media), what's your copy current state (status), in which languages/subtitles did you saw it / do you own it, etc.
+"Metadata" are generic data related to movies that are gathered from an external source, [TheMovieDB API](https://www.themoviedb.org): directors, actors, genres… "Details", on the other hand, are strictly personal and related to movies and most of all, you. How much you liked that movie (rating), how you own it / saw it (media), what's your copy current state (status), in which languages/subtitles did you saw it / do you own it, etc.
 
 = How can I import metadata? =
 Create a new Movie, input the movie title in search field below the content editor, hit "Search". If your search brings multiple results you will be presented a list of possible matches, else all fields will be automatically filled and you movie's poster automatically imported.
@@ -137,6 +136,9 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 7. Import queue
 
 == Changelog ==
+
+= 2.1.4.8 =
+* Fix - Catch up with PHP and WordPress versions
 
 = 2.1.4.7 =
 * Fix - Previously badly fixed rating formatting bug
