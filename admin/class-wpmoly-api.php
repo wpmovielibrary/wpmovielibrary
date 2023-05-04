@@ -41,13 +41,6 @@ if ( ! class_exists( 'TMDb' ) ) :
 		protected $api_key = '';
 
 		/**
-		 * TMDb API scheme
-		 *
-		 * @var string
-		 */
-		protected $scheme = '';
-
-		/**
 		 * Dummy API?
 		 *
 		 * @var boolean
@@ -72,11 +65,10 @@ if ( ! class_exists( 'TMDb' ) ) :
 				self::getConfiguration();
 
 			$this->api_key  = wpmoly_o( 'api-key' );
-			$this->scheme   = wpmoly_o( 'api-scheme' );
 			$this->internal = wpmoly_o( 'api-internal' );
 
 			if ( '' == $this->api_key )
-				$this->internal = true;
+				$this->internal = false;
 		}
 
 		/**
@@ -315,7 +307,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		protected function _makeCall( $function, $params = null, $session_id = null, $method = 'get' ) {
 
 			$params = ( ! is_array( $params ) ) ? array() : $params;
-			$url = $this->scheme . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( array( 'api_key' => $this->api_key ), '', '&' );
+			$url = TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( array( 'api_key' => $this->api_key ), '', '&' );
 			$url .= ( ! is_null( $params ) && ! empty( $params ) ) ? '&' . http_build_query( $params, '', '&' ) : '';
 
 			if ( ! $this->internal ) {
