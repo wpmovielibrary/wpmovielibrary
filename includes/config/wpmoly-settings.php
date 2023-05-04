@@ -1461,7 +1461,7 @@ $wpmoly_config = array(
 				'type'     => 'switch',
 				'title'    => __( 'Personnal API Key', 'wpmovielibrary' ),
 				'subtitle' => __( 'Optional: use your own TMDb API key', 'wpmovielibrary' ),
-				'desc'     => __( 'A valid TMDb API key is required to fetch informations on the movies you add to WPMovieLibrary. Leave deactivated if you do not have a personnal API key. <a href="http://tmdb.caercam.org/">Learn more</a> about the API key or <a href="https://www.themoviedb.org/">get your own</a>.', 'wpmovielibrary' ) . ' ' . __( 'If you do not have an API key or do not want to use yours right now, WPMovieLibrary will use just its own.', 'wpmovielibrary' ),
+				'desc'     => __( 'A valid TMDb API key is required to fetch informations on the movies you add to WPMovieLibrary. Leave deactivated if you do not have a personnal API key. <a href="https://api.wplibraries.com/">Learn more</a> about the API key or <a href="https://www.themoviedb.org/">get your own</a>.', 'wpmovielibrary' ) . ' ' . __( 'If you do not have an API key or do not want to use yours right now, WPMovieLibrary will use just its own.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' )
                         ),
@@ -1472,7 +1472,7 @@ $wpmoly_config = array(
 				'type'     => 'text',
 				'title'    => __( 'API Key', 'wpmovielibrary' ),
 				'subtitle' => __( 'Set up your own API key', 'wpmovielibrary' ),
-				'desc'     => __( 'Using your own API key is a more privacy-safe choice as it will avoid WPMovieLibrary to filter queries sent to the API through its own relay server at tmdb.caercam.org. You will also be able to access statistics on your API usage in your TMDb user account.', 'wpmovielibrary' ), 
+				'desc'     => __( 'Using your own API key is a more privacy-safe choice as it will avoid WPMovieLibrary to filter queries sent to the API through its own relay server at api.wplibraries.com. You will also be able to access statistics on your API usage in your TMDb user account.', 'wpmovielibrary' ), 
 				'validate' => 'no_special_chars',
 				'validate_callback' => array( 'WPMOLY_TMDb', 'check_api_key' ),
 				'default'  => null,

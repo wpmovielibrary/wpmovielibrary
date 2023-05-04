@@ -23,8 +23,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 	class TMDb
 	{
 		const API_VERSION    = '3';
-		const API_URL        = '://api.themoviedb.org';
-		const API_RELAY_URL  = '://tmdb.caercam.org/api';
+		const API_URL        = 'https://api.themoviedb.org';
+		const API_RELAY_URL  = 'https://api.wplibraries.com/api';
 
 		/**
 		 * The TMDb-config
@@ -318,8 +318,8 @@ if ( ! class_exists( 'TMDb' ) ) :
 			$url = $this->scheme . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( array( 'api_key' => $this->api_key ), '', '&' );
 			$url .= ( ! is_null( $params ) && ! empty( $params ) ) ? '&' . http_build_query( $params, '', '&' ) : '';
 
-			if ( true === $this->internal ) {
-				$url = 'http' . TMDb::API_RELAY_URL . '/' . $function;
+			if ( ! $this->internal ) {
+				$url = TMDb::API_RELAY_URL . '/' . $function;
 				if ( isset( $params['query'] ) && '' != $params['query'] )
 					$url .= '/' . rawurlencode( $params['query'] );
 				if ( isset( $params['language'] ) && false !== $params['language'] )
