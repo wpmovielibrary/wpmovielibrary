@@ -127,7 +127,7 @@ wpmoly = wpmoly || {};
 					},
 					success: function( response ) {
 
-						if ( 'empty' == response.data.result ) {
+						if ( 'empty' == response.data?.result ) {
 							$( _post_id ).find( wpmoly_import_meta.movie_title ).after('<div class="import-error">' + response.data.message + '</div>');
 							$( _post_id ).find('.loading').removeClass('loading');
 						}

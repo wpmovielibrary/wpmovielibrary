@@ -218,7 +218,7 @@ var wpmoly_queue;
 								$( wpmoly_queue.progress_status ).hide();
 							}
 						},
-						complete: function() {
+						complete: function(r) {
 							$status.text( wpmoly_lang.imported );
 							wpmoly.update_nonce( 'import-queued-movies', r.responseJSON.nonce );
 						},
