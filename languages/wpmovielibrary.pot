@@ -1,19 +1,20 @@
 # Copyright (C) 2014 WPMovieLibrary
 # This file is distributed under the same license as the WPMovieLibrary package.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary 2.0-beta.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/wpmovielibrary\n"
-"POT-Creation-Date: 2015-04-04 09:18+0100\n"
+"POT-Creation-Date: 2023-05-04 23:36+0200\n"
 "PO-Revision-Date: 2015-04-04 09:18+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: WPMovieLibrary <support@wpmovielibrary.com>\n"
-"Language: English\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
@@ -59,8 +60,7 @@ msgid "Select bulk action"
 msgstr ""
 
 #: ../admin/class-wpmoly-list-table.php:418
-#: ../admin/class-wpmoly-import-table.php:420
-#: ../views/admin/import/import.php:48
+#: ../admin/class-wpmoly-import-table.php:420 ../views/admin/import/import.php:48
 msgid "Bulk Actions"
 msgstr ""
 
@@ -92,8 +92,7 @@ msgstr ""
 #: ../admin/class-wpmoly-list-table.php:1079
 #: ../admin/class-wpmoly-import-queue.php:105
 #: ../admin/class-wpmoly-import-table.php:93
-#: ../admin/class-wpmoly-import-table.php:528
-#: ../views/admin/import/import.php:55
+#: ../admin/class-wpmoly-import-table.php:528 ../views/admin/import/import.php:55
 #, php-format
 msgid "1 item"
 msgid_plural "%s items"
@@ -141,8 +140,7 @@ msgstr ""
 msgid "Select All"
 msgstr ""
 
-#: ../admin/class-wpmoly-metaboxes.php:53
-#: ../admin/class-wpmoly-metaboxes.php:96
+#: ../admin/class-wpmoly-metaboxes.php:53 ../admin/class-wpmoly-metaboxes.php:96
 msgid "WordPress Movie Library"
 msgstr ""
 
@@ -154,8 +152,7 @@ msgstr ""
 #: ../includes/config/wpmoly-settings.php:84
 #: ../includes/config/wpmoly-settings.php:1296
 #: ../includes/widgets/class-movies-widget.php:113
-#: ../public/class-wpmoly-headbox.php:181
-#: ../public/class-wpmoly-headbox.php:248
+#: ../public/class-wpmoly-headbox.php:181 ../public/class-wpmoly-headbox.php:248
 #: ../views/movies/headbox-allocine/tabs/details.php:61
 msgid "Metadata"
 msgstr ""
@@ -163,8 +160,7 @@ msgstr ""
 #: ../admin/class-wpmoly-metaboxes.php:73
 #: ../includes/config/wpmoly-settings.php:178
 #: ../includes/config/wpmoly-settings.php:1297
-#: ../public/class-wpmoly-headbox.php:185
-#: ../public/class-wpmoly-headbox.php:253
+#: ../public/class-wpmoly-headbox.php:185 ../public/class-wpmoly-headbox.php:253
 #: ../public/class-wpmoly-headbox-allocine.php:38
 #: ../views/movies/movie-imdb-headbox.php:85
 #: ../views/movies/headbox-allocine/tabs/details.php:24
@@ -175,8 +171,7 @@ msgstr ""
 #: ../includes/config/wpmoly-settings.php:338
 #: ../includes/config/wpmoly-settings.php:417
 #: ../includes/config/wpmoly-settings.php:1299
-#: ../public/class-wpmoly-headbox.php:193
-#: ../public/class-wpmoly-headbox.php:263
+#: ../public/class-wpmoly-headbox.php:193 ../public/class-wpmoly-headbox.php:263
 #: ../views/admin/settings/settings.php:14
 msgid "Images"
 msgstr ""
@@ -208,8 +203,7 @@ msgstr ""
 msgid "Movie \"%s\" already imported."
 msgstr ""
 
-#: ../admin/class-wpmoly-import.php:251
-#: ../admin/class-wpmoly-import-table.php:335
+#: ../admin/class-wpmoly-import.php:251 ../admin/class-wpmoly-import-table.php:335
 #: ../views/admin/dashboard-latest-movies/latest-movies.php:17
 #: ../views/admin/dashboard-most-rated-movies/most-rated-movies.php:17
 #: ../views/admin/dashboard/movie-modal.php:20
@@ -245,8 +239,8 @@ msgstr ""
 
 #: ../admin/class-wpmoly-media.php:100
 msgid ""
-"Movie Posters as featured images option is deactivated. Update your settings "
-"to activate this."
+"Movie Posters as featured images option is deactivated. Update your settings to "
+"activate this."
 msgstr ""
 
 #: ../admin/class-wpmoly-media.php:279
@@ -348,8 +342,7 @@ msgstr[1] ""
 #: ../admin/class-dashboard-stats-widget.php:121
 #, php-format
 msgid ""
-"All combined you have a total of %s in your library, regrouped in %s, %s and "
-"%s."
+"All combined you have a total of %s in your library, regrouped in %s, %s and %s."
 msgstr ""
 
 #: ../admin/class-wpmoly-edit-movies.php:120
@@ -396,8 +389,8 @@ msgstr ""
 #: ../admin/class-wpmoly-edit-movies.php:173
 #, php-format
 msgid ""
-"Movie scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s"
-"\">Preview movie</a>"
+"Movie scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" "
+"href=\"%2$s\">Preview movie</a>"
 msgstr ""
 
 #: ../admin/class-wpmoly-edit-movies.php:173
@@ -566,8 +559,7 @@ msgstr ""
 msgid "API Error: unknown server error, unable to perform request."
 msgstr ""
 
-#: ../admin/class-wpmoly-import-queue.php:105
-#: ../views/admin/import/import.php:55
+#: ../admin/class-wpmoly-import-queue.php:105 ../views/admin/import/import.php:55
 msgid "No item"
 msgstr ""
 
@@ -600,16 +592,13 @@ msgstr ""
 msgid "An error occured when trying to imported queued movie \"%s\": %s"
 msgstr ""
 
-#: ../admin/class-wpmoly-admin.php:79
-#: ../includes/config/wpmoly-settings.php:30
+#: ../admin/class-wpmoly-admin.php:79 ../includes/config/wpmoly-settings.php:30
 #: ../includes/config/wpmoly-admin-menu.php:20
 #: ../includes/widgets/class-movies-widget.php:35
 #: ../includes/widgets/class-movies-widget.php:172
 #: ../public/class-wpmoly-movies.php:82 ../public/class-wpmoly-movies.php:94
-#: ../public/class-wpmoly-archives.php:172
-#: ../public/class-wpmoly-archives.php:179
-#: ../public/class-wpmoly-archives.php:340
-#: ../public/class-wpmoly-archives.php:425
+#: ../public/class-wpmoly-archives.php:172 ../public/class-wpmoly-archives.php:179
+#: ../public/class-wpmoly-archives.php:340 ../public/class-wpmoly-archives.php:425
 #: ../views/admin/settings/settings.php:13
 msgid "Movies"
 msgstr ""
@@ -666,8 +655,7 @@ msgstr ""
 #: ../includes/widgets/class-movies-widget.php:111
 #: ../views/taxonomies-widget/taxonomies-admin.php:5
 #: ../views/statistics-widget/statistics-admin.php:5
-#: ../views/admin/import/import.php:59
-#: ../views/movies-widget/movies-admin.php:5
+#: ../views/admin/import/import.php:59 ../views/movies-widget/movies-admin.php:5
 #: ../views/details-widget/details-admin.php:5
 msgid "Title"
 msgstr ""
@@ -675,13 +663,11 @@ msgstr ""
 #: ../admin/class-wpmoly-import-table.php:44
 #: ../includes/config/wpmoly-settings.php:135
 #: ../includes/config/wpmoly-movies.php:232
-#: ../includes/config/wpmoly-movies.php:376
-#: ../views/admin/import/import.php:60
+#: ../includes/config/wpmoly-movies.php:376 ../views/admin/import/import.php:60
 msgid "Director"
 msgstr ""
 
-#: ../admin/class-wpmoly-import-table.php:45
-#: ../views/admin/import/import.php:61
+#: ../admin/class-wpmoly-import-table.php:45 ../views/admin/import/import.php:61
 msgid "Actions"
 msgstr ""
 
@@ -712,8 +698,7 @@ msgstr ""
 msgid "Enqueue Movie"
 msgstr ""
 
-#: ../admin/class-wpmoly-import-table.php:381
-#: ../views/admin/import/import.php:49
+#: ../admin/class-wpmoly-import-table.php:381 ../views/admin/import/import.php:49
 msgid "Delete Movie"
 msgstr ""
 
@@ -738,8 +723,7 @@ msgid "Configure"
 msgstr ""
 
 #: ../admin/class-wpmoly-api-wrapper.php:86
-msgid ""
-"Invalid API key - the key should be an alphanumerica 32 chars long string."
+msgid "Invalid API key - the key should be an alphanumerica 32 chars long string."
 msgstr ""
 
 #: ../admin/class-wpmoly-api-wrapper.php:91
@@ -938,8 +922,8 @@ msgstr ""
 
 #: ../includes/classes/class-wpmoly-l10n.php:423
 msgid ""
-"No movie could be found. You need to select a movie before importing images "
-"or posters."
+"No movie could be found. You need to select a movie before importing images or "
+"posters."
 msgstr ""
 
 #: ../includes/classes/class-wpmoly-l10n.php:424
@@ -1300,12 +1284,12 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:51
 msgid ""
-"If enabled, the standard WordPress Search will return every movie matching "
-"the search in addition to regular posts. Search will include all available "
-"meta fields. Examples: a search with keywork <code>Sean Penn</code> will add "
-"the movies <em>Into The Wild</em> and <em>The Secret Life of Walter Mitty</"
-"em> to the search results; a search with keywork <code>Taiwan</code> will "
-"add the movie <em>Life of Pi</em>."
+"If enabled, the standard WordPress Search will return every movie matching the "
+"search in addition to regular posts. Search will include all available meta "
+"fields. Examples: a search with keywork <code>Sean Penn</code> will add the "
+"movies <em>Into The Wild</em> and <em>The Secret Life of Walter Mitty</em> to "
+"the search results; a search with keywork <code>Taiwan</code> will add the "
+"movie <em>Life of Pi</em>."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:61
@@ -1338,8 +1322,8 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:93
 msgid ""
-"Metadata give you useful information about your movies: director, release "
-"date, runtime, prouction, actors, languages…"
+"Metadata give you useful information about your movies: director, release date, "
+"runtime, prouction, actors, languages…"
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:101
@@ -1403,10 +1387,8 @@ msgstr ""
 #: ../includes/config/wpmoly-admin-menu.php:98
 #: ../includes/config/wpmoly-movies.php:221
 #: ../includes/config/wpmoly-movies.php:379
-#: ../public/class-wpmoly-shortcodes.php:568
-#: ../public/class-wpmoly-genres.php:71
-#: ../public/class-wpmoly-archives.php:174
-#: ../public/class-wpmoly-archives.php:185
+#: ../public/class-wpmoly-shortcodes.php:568 ../public/class-wpmoly-genres.php:71
+#: ../public/class-wpmoly-archives.php:174 ../public/class-wpmoly-archives.php:185
 #: ../public/class-wpmoly-archives.php:342
 #: ../views/taxonomies-widget/taxonomies-admin.php:16
 #: ../views/movies/headbox-allocine/tabs/overview.php:46
@@ -1416,8 +1398,7 @@ msgstr ""
 #: ../includes/config/wpmoly-settings.php:139
 #: ../includes/config/wpmoly-settings.php:1295
 #: ../includes/config/wpmoly-movies.php:158
-#: ../includes/config/wpmoly-movies.php:380
-#: ../public/class-wpmoly-headbox.php:177
+#: ../includes/config/wpmoly-movies.php:380 ../public/class-wpmoly-headbox.php:177
 #: ../public/class-wpmoly-headbox.php:243
 #: ../views/movies/headbox-allocine/tabs/details.php:18
 msgid "Overview"
@@ -1495,12 +1476,10 @@ msgstr ""
 #: ../includes/config/wpmoly-admin-menu.php:110
 #: ../includes/config/wpmoly-admin-menu.php:111
 #: ../includes/config/wpmoly-movies.php:251
-#: ../includes/config/wpmoly-movies.php:392
-#: ../public/class-wpmoly-headbox.php:189
+#: ../includes/config/wpmoly-movies.php:392 ../public/class-wpmoly-headbox.php:189
 #: ../public/class-wpmoly-headbox.php:258 ../public/class-wpmoly-actors.php:72
 #: ../public/class-wpmoly-shortcodes.php:517
-#: ../public/class-wpmoly-archives.php:175
-#: ../public/class-wpmoly-archives.php:188
+#: ../public/class-wpmoly-archives.php:175 ../public/class-wpmoly-archives.php:188
 #: ../public/class-wpmoly-archives.php:343
 #: ../views/taxonomies-widget/taxonomies-admin.php:17
 msgid "Actors"
@@ -1562,8 +1541,8 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:187
 msgid ""
-"Details are a different way to manage your movies. You can specify and "
-"filter movies by rating, media, status, language, subtitles…"
+"Details are a different way to manage your movies. You can specify and filter "
+"movies by rating, media, status, language, subtitles…"
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:195
@@ -1580,8 +1559,8 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:210
 msgid ""
-"If enabled, movie details will appear in the form of icons rather than "
-"default colored labels."
+"If enabled, movie details will appear in the form of icons rather than default "
+"colored labels."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:223
@@ -1628,8 +1607,8 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:271
 msgid ""
-"Apply a custom time format to movies' runtimes. Leave empty to use the "
-"default API format."
+"Apply a custom time format to movies' runtimes. Leave empty to use the default "
+"API format."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:279
@@ -1658,11 +1637,11 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:295
 msgid ""
-"This section allows you to configure the post types convertor tool. This can "
-"be usefull to convert regular posts, pages and possibly other custom post "
-"types into movies to avoid duplicate contents or having to manually recreate "
-"already existing contents. Note that this will most likely affect your SEO "
-"as it will change Posts’ URLs."
+"This section allows you to configure the post types convertor tool. This can be "
+"usefull to convert regular posts, pages and possibly other custom post types "
+"into movies to avoid duplicate contents or having to manually recreate already "
+"existing contents. Note that this will most likely affect your SEO as it will "
+"change Posts’ URLs."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:306
@@ -1673,9 +1652,9 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:307
 msgid ""
-"Posts to Movies conversion is still experimental. Do not activate this "
-"unless you are sure of what you are doing, and make sure you have backups of "
-"your database before using this feature."
+"Posts to Movies conversion is still experimental. Do not activate this unless "
+"you are sure of what you are doing, and make sure you have backups of your "
+"database before using this feature."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:314
@@ -1708,10 +1687,9 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:357
 msgid ""
-"Using posters as movies thumbnails will automatically import new "
-"movies&rsquo; poster and set them as post featured image. This setting "
-"doesn’t affect movie import by list where posters are automatically saved "
-"and set as featured image."
+"Using posters as movies thumbnails will automatically import new movies&rsquo; "
+"poster and set them as post featured image. This setting doesn’t affect movie "
+"import by list where posters are automatically saved and set as featured image."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:367
@@ -1818,9 +1796,9 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:442
 msgid ""
-"Enable this if you want to delete all imported images along with movies. "
-"Handy if you have a great number of movies to delete and possibly dozens of "
-"images attached."
+"Enable this if you want to delete all imported images along with movies. Handy "
+"if you have a great number of movies to delete and possibly dozens of images "
+"attached."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:452
@@ -1884,8 +1862,7 @@ msgstr ""
 #: ../includes/config/wpmoly-admin-menu.php:84
 #: ../includes/config/wpmoly-admin-menu.php:85
 #: ../public/class-wpmoly-collections.php:72
-#: ../public/class-wpmoly-archives.php:173
-#: ../public/class-wpmoly-archives.php:182
+#: ../public/class-wpmoly-archives.php:173 ../public/class-wpmoly-archives.php:182
 #: ../public/class-wpmoly-archives.php:341
 #: ../views/taxonomies-widget/taxonomies-admin.php:15
 msgid "Collections"
@@ -1901,10 +1878,10 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:535
 msgid ""
-"Enable Collections Custom Taxonomy. Collections work for movies as "
-"Categories work for Posts: a hierarchical taxonomy to group your movies "
-"coherently. The default behavior is to use Collections to group movies by "
-"director, but you can use them differently at your will."
+"Enable Collections Custom Taxonomy. Collections work for movies as Categories "
+"work for Posts: a hierarchical taxonomy to group your movies coherently. The "
+"default behavior is to use Collections to group movies by director, but you can "
+"use them differently at your will."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:545
@@ -1913,9 +1890,9 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:546
 msgid ""
-"Automatically add custom taxonomies when adding/importing movies. If "
-"enabled, each added/imported movie will be automatically added to the "
-"collection corresponding to its director(s)."
+"Automatically add custom taxonomies when adding/importing movies. If enabled, "
+"each added/imported movie will be automatically added to the collection "
+"corresponding to its director(s)."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:558
@@ -1924,8 +1901,8 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:559
 msgid ""
-"<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to "
-"use collection taxonomy."
+"<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to use "
+"collection taxonomy."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:571
@@ -1946,8 +1923,8 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:595
 msgid ""
-"Enable Genres Custom Taxonomy. Genres work for movies as Tags work for "
-"Posts: a non-hierarchical taxonomy to improve movies management."
+"Enable Genres Custom Taxonomy. Genres work for movies as Tags work for Posts: a "
+"non-hierarchical taxonomy to improve movies management."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:605
@@ -1964,8 +1941,8 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:619
 msgid ""
-"<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to "
-"use genre taxonomy."
+"<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to use "
+"genre taxonomy."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:631
@@ -1986,10 +1963,10 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:655
 msgid ""
-"Enable Actors Custom Taxonomy. Actors work for movies as Tags work for "
-"Posts: a non-hierarchical taxonomy to improve movies management. "
-"WPMovieLibrary stores Actors in a custom order, the most important actors "
-"appearing in the top of the list, then the supporting roles, and so on."
+"Enable Actors Custom Taxonomy. Actors work for movies as Tags work for Posts: a "
+"non-hierarchical taxonomy to improve movies management. WPMovieLibrary stores "
+"Actors in a custom order, the most important actors appearing in the top of the "
+"list, then the supporting roles, and so on."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:665
@@ -2006,11 +1983,11 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:679
 msgid ""
-"Limit the number of actors per movie. This is useful if you're dealing with "
-"big libraries and don't want to have massive lists of actors created. "
-"Limiting the Actors will result in keeping only the most famous/important "
-"actors as taxonomies, while the complete list of actors will remained stored "
-"as a regular metadata. Set to 0 to disable."
+"Limit the number of actors per movie. This is useful if you're dealing with big "
+"libraries and don't want to have massive lists of actors created. Limiting the "
+"Actors will result in keeping only the most famous/important actors as "
+"taxonomies, while the complete list of actors will remained stored as a regular "
+"metadata. Set to 0 to disable."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:690
@@ -2019,8 +1996,8 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:691
 msgid ""
-"<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to "
-"use actor taxonomy."
+"<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to use "
+"actor taxonomy."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:703
@@ -2048,8 +2025,7 @@ msgid "Movie Archives page settings"
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:728
-msgid ""
-"This section allow you to define a custom page to use for movie archives."
+msgid "This section allow you to define a custom page to use for movie archives."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:747
@@ -2099,8 +2075,7 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:783
 msgid ""
-"If enabled, add an alphabetical menu and sorting options before the movies "
-"list."
+"If enabled, add an alphabetical menu and sorting options before the movies list."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:793
@@ -2171,8 +2146,8 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:848
 msgid ""
-"Limit the number of movies per page to be listed. Can be useful if your "
-"dealing with massive numbers of movies."
+"Limit the number of movies per page to be listed. Can be useful if your dealing "
+"with massive numbers of movies."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:856
@@ -2190,9 +2165,9 @@ msgstr ""
 #: ../includes/config/wpmoly-settings.php:874
 msgid ""
 "If enabled, allows movies-per-page value to be modified on frontend. The "
-"sorting menu will show an input where visitors can change the movies-per-"
-"page value to display more or less movies. It is recommended to set a limit "
-"above if this feature is to be activated."
+"sorting menu will show an input where visitors can change the movies-per-page "
+"value to display more or less movies. It is recommended to set a limit above if "
+"this feature is to be activated."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:884
@@ -2203,9 +2178,8 @@ msgstr ""
 msgid ""
 "If enabled, allows the grid sorting to be modified on frontend. The sorting "
 "menu will show a list of possible sortings (rating, release date, title, …) "
-"that visitors can select to sort the grid. <strong>This feature is "
-"experimental!</strong> Be sure to test it thoroughly before enabling it "
-"publicly."
+"that visitors can select to sort the grid. <strong>This feature is experimental!"
+"</strong> Be sure to test it thoroughly before enabling it publicly."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:896
@@ -2251,14 +2225,13 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:956
 msgid ""
-"If enabled, taxonomy archives page’s title and post title will be rewritten "
-"to feature currently browsed letter."
+"If enabled, taxonomy archives page’s title and post title will be rewritten to "
+"feature currently browsed letter."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:967
 msgid ""
-"If enabled, add an alphabetical menu and sorting options before the terms "
-"list."
+"If enabled, add an alphabetical menu and sorting options before the terms list."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:977
@@ -2304,8 +2277,8 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1025
 msgid ""
-"Limit the number of terms per page to be listed. Can be useful if your "
-"dealing with massive numbers of terms."
+"Limit the number of terms per page to be listed. Can be useful if your dealing "
+"with massive numbers of terms."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1034
@@ -2314,10 +2287,10 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1035
 msgid ""
-"If enabled, allows terms-per-page value to be modified on frontend. The "
-"sorting menu will show an input where visitors can change the terms-per-page "
-"value to display more or less terms. It is recommended to set a limit above "
-"if this feature is to be activated."
+"If enabled, allows terms-per-page value to be modified on frontend. The sorting "
+"menu will show an input where visitors can change the terms-per-page value to "
+"display more or less terms. It is recommended to set a limit above if this "
+"feature is to be activated."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1047
@@ -2353,8 +2326,8 @@ msgstr ""
 #: ../includes/config/wpmoly-settings.php:1076
 #, php-format
 msgid ""
-"How production countries should be appear in your movies. Default is "
-"<code>Flag + translation</code> showing something like <code>%s</code>."
+"How production countries should be appear in your movies. Default is <code>Flag "
+"+ translation</code> showing something like <code>%s</code>."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1076
@@ -2411,9 +2384,9 @@ msgstr ""
 #: ../includes/config/wpmoly-settings.php:1138
 msgid ""
 "Although it can be very tempting to customize your URLs, <strong>beware</"
-"strong>: you probably shouldn't modify this more than once if your site "
-"relies on search engines; changing URLs too often will could badly affect "
-"your site’s referencing."
+"strong>: you probably shouldn't modify this more than once if your site relies "
+"on search engines; changing URLs too often will could badly affect your site’s "
+"referencing."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1149
@@ -2422,9 +2395,9 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1150
 msgid ""
-"URL Rewrite Rule to apply on movies. Default is <code>movies</code>, "
-"resulting in URL like <code>http://yourblog/movies/fight-club</code>. You "
-"can use this field to translate URLs to your language."
+"URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting "
+"in URL like <code>http://yourblog/movies/fight-club</code>. You can use this "
+"field to translate URLs to your language."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1161
@@ -2433,9 +2406,9 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1162
 msgid ""
-"URL Rewrite Rule to apply on collections. Default is <code>collection</"
-"code>, resulting in URL like <code>http://yourblog/collection/david-fincher</"
-"code>. You can use this field to translate URLs to your language."
+"URL Rewrite Rule to apply on collections. Default is <code>collection</code>, "
+"resulting in URL like <code>http://yourblog/collection/david-fincher</code>. "
+"You can use this field to translate URLs to your language."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1176
@@ -2444,9 +2417,9 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1177
 msgid ""
-"URL Rewrite Rule to apply on genres. Default is <code>genre</code>, "
-"resulting in URL like <code>http://yourblog/genre/thriller</code>. You can "
-"use this field to translate URLs to your language."
+"URL Rewrite Rule to apply on genres. Default is <code>genre</code>, resulting "
+"in URL like <code>http://yourblog/genre/thriller</code>. You can use this field "
+"to translate URLs to your language."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1191
@@ -2455,9 +2428,9 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1192
 msgid ""
-"URL Rewrite Rule to apply on actors. Default is <code>actor</code>, "
-"resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can "
-"use this field to translate URLs to your language."
+"URL Rewrite Rule to apply on actors. Default is <code>actor</code>, resulting "
+"in URL like <code>http://yourblog/actor/brad-pitt</code>. You can use this "
+"field to translate URLs to your language."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1223
@@ -2482,8 +2455,8 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1242
 msgid ""
-"If enabled, movies will use the Headbox introduced with version 2. Disable "
-"to show old metadata display from WPMovieLibrary 1.x instead."
+"If enabled, movies will use the Headbox introduced with version 2. Disable to "
+"show old metadata display from WPMovieLibrary 1.x instead."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1252
@@ -2496,9 +2469,9 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1269
 msgid ""
-"The Headbox Themes are still experimental: although they should work "
-"correctly they are not fully customisable and have spots for some "
-"unimplemented yet features such as actors images. Just so you know!"
+"The Headbox Themes are still experimental: although they should work correctly "
+"they are not fully customisable and have spots for some unimplemented yet "
+"features such as actors images. Just so you know!"
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1276
@@ -2588,9 +2561,9 @@ msgstr ""
 msgid ""
 "If enabled, WPMovieLibrary will cache movie related data to prevent too "
 "frequent queries to the database. <strong>This feature is experimental!</"
-"strong> Enabling this could generate <strong>huge</strong> amounts of "
-"entries in your database. It is recommended to use this feature sparingly, "
-"ideally not in production. <a href=\"http://wpmovielibrary.com/documentation/"
+"strong> Enabling this could generate <strong>huge</strong> amounts of entries "
+"in your database. It is recommended to use this feature sparingly, ideally not "
+"in production. <a href=\"http://wpmovielibrary.com/documentation/"
 "performance\">Learn more about caching</a>."
 msgstr ""
 
@@ -2608,8 +2581,7 @@ msgid "Caching Time"
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1408
-msgid ""
-"Time of validity for cached data, in seconds. Default is 3600 (one hour)"
+msgid "Time of validity for cached data, in seconds. Default is 3600 (one hour)"
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1420
@@ -2632,11 +2604,11 @@ msgstr ""
 #: ../includes/config/wpmoly-settings.php:1430
 msgid ""
 "If enabled, WPMovieLibrary will automatically update all movies to the new "
-"metadata format introduced by version 1.3. Each time a metadata is access, "
-"the plugin will look for obsolete metadata and will update it if needed. "
-"Once all movies are updated the plugin will stop looking, but you should "
-"deactivate this anyway. <a href=\"http://wpmovielibrary.com/development/"
-"release-notes/#version-1.3\">Learn more about this change</a>."
+"metadata format introduced by version 1.3. Each time a metadata is access, the "
+"plugin will look for obsolete metadata and will update it if needed. Once all "
+"movies are updated the plugin will stop looking, but you should deactivate this "
+"anyway. <a href=\"http://wpmovielibrary.com/development/release-notes/"
+"#version-1.3\">Learn more about this change</a>."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1440
@@ -2672,9 +2644,9 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1464
 msgid ""
-"A valid TMDb API key is required to fetch informations on the movies you add "
-"to WPMovieLibrary. Leave deactivated if you do not have a personnal API key. "
-"<a href=\"http://tmdb.caercam.org/\">Learn more</a> about the API key or <a "
+"A valid TMDb API key is required to fetch informations on the movies you add to "
+"WPMovieLibrary. Leave deactivated if you do not have a personnal API key. <a "
+"href=\"https://api.wplibraries.com/\">Learn more</a> about the API key or <a "
 "href=\"https://www.themoviedb.org/\">get your own</a>."
 msgstr ""
 
@@ -2695,9 +2667,9 @@ msgstr ""
 #: ../includes/config/wpmoly-settings.php:1475
 msgid ""
 "Using your own API key is a more privacy-safe choice as it will avoid "
-"WPMovieLibrary to filter queries sent to the API through its own relay "
-"server at tmdb.caercam.org. You will also be able to access statistics on "
-"your API usage in your TMDb user account."
+"WPMovieLibrary to filter queries sent to the API through its own relay server "
+"at api.wplibraries.com. You will also be able to access statistics on your API "
+"usage in your TMDb user account."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1487
@@ -2732,9 +2704,9 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1511
 msgid ""
-"Default country to use when fetching release informations from TMDb. Default "
-"is United States. This is mostly used to get movie certifications "
-"corresponding to your country."
+"Default country to use when fetching release informations from TMDb. Default is "
+"United States. This is mostly used to get movie certifications corresponding to "
+"your country."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1520
@@ -2743,9 +2715,9 @@ msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1521
 msgid ""
-"You can select an alternative country to use when fetching release "
-"informations from TMDb. If primary country leaves empty results, the "
-"alternative country will be used to fill the blank."
+"You can select an alternative country to use when fetching release informations "
+"from TMDb. If primary country leaves empty results, the alternative country "
+"will be used to fill the blank."
 msgstr ""
 
 #: ../includes/config/wpmoly-settings.php:1531
@@ -3248,8 +3220,7 @@ msgstr ""
 
 #: ../includes/functions/wpmoly-ajax-functions.php:81
 msgid ""
-"An error occured when trying to perform the request: invalid callback or "
-"data."
+"An error occured when trying to perform the request: invalid callback or data."
 msgstr ""
 
 #: ../includes/functions/wpmoly-ajax-functions.php:103
@@ -3266,8 +3237,7 @@ msgid "WPMovieLibrary Movies"
 msgstr ""
 
 #: ../includes/widgets/class-movies-widget.php:27
-msgid ""
-"Display a list of movies from a specific taxonomy, media, status, rating…"
+msgid "Display a list of movies from a specific taxonomy, media, status, rating…"
 msgstr ""
 
 #: ../includes/widgets/class-movies-widget.php:112
@@ -3336,8 +3306,7 @@ msgstr ""
 
 #: ../includes/widgets/class-taxonomies-widget.php:28
 msgid ""
-"Display a list of terms from a specific taxonomy: collections, genres or "
-"actors."
+"Display a list of terms from a specific taxonomy: collections, genres or actors."
 msgstr ""
 
 #: ../includes/widgets/class-taxonomies-widget.php:36
@@ -3475,9 +3444,9 @@ msgstr ""
 #: ../public/class-wpmoly-shortcodes.php:111
 #, php-format
 msgid ""
-"The Movie Grid can not be used on regular Posts (<a href=\"%s\">learn why</"
-"a>), please consider using a Page instead. This message is visible by logged "
-"in administrators only."
+"The Movie Grid can not be used on regular Posts (<a href=\"%s\">learn why</a>), "
+"please consider using a Page instead. This message is visible by logged in "
+"administrators only."
 msgstr ""
 
 #: ../public/class-wpmoly-collections.php:73
@@ -3794,8 +3763,8 @@ msgstr ""
 
 #: ../views/admin/requirements-error.php:15
 msgid ""
-"If you need to upgrade your version of PHP you can ask your hosting company "
-"for assistance, and if you need help upgrading WordPress you can refer to <a "
+"If you need to upgrade your version of PHP you can ask your hosting company for "
+"assistance, and if you need help upgrading WordPress you can refer to <a "
 "href=\"http://codex.wordpress.org/Upgrading_WordPress\">the Codex</a>."
 msgstr ""
 
@@ -3834,9 +3803,9 @@ msgstr ""
 
 #: ../views/admin/about.php:30
 msgid ""
-"Because your visitors and users want to know everything about your movies in "
-"a sight, the public movie information box has been remodeled to show you all "
-"you need to see in a single glimpse."
+"Because your visitors and users want to know everything about your movies in a "
+"sight, the public movie information box has been remodeled to show you all you "
+"need to see in a single glimpse."
 msgstr ""
 
 #: ../views/admin/about.php:31
@@ -3852,9 +3821,9 @@ msgstr ""
 #: ../views/admin/about.php:46
 msgid ""
 "Just as you want to find key information quickly, you do not want to spend "
-"hours editing your movies. The new metabox makes all the more easier for you "
-"to edit whatever information you want: metadata, details, images… The built-"
-"in preview tab gives you a nice glimpse of what you have collected so far."
+"hours editing your movies. The new metabox makes all the more easier for you to "
+"edit whatever information you want: metadata, details, images… The built-in "
+"preview tab gives you a nice glimpse of what you have collected so far."
 msgstr ""
 
 #: ../views/admin/about.php:54
@@ -3863,9 +3832,9 @@ msgstr ""
 
 #: ../views/admin/about.php:55
 msgid ""
-"WordPress Movie Library 2.0 introduces a highly requested feature that will "
-"be enhanced add extended in forthcoming versions: the Grid. Show all your "
-"movies in an alphabetically sorted grid view and browse through you library."
+"WordPress Movie Library 2.0 introduces a highly requested feature that will be "
+"enhanced add extended in forthcoming versions: the Grid. Show all your movies "
+"in an alphabetically sorted grid view and browse through you library."
 msgstr ""
 
 #: ../views/admin/about.php:69
@@ -3876,8 +3845,8 @@ msgstr ""
 #, php-format
 msgid ""
 "And therefore you should be able to tune your library as you please. That is "
-"now possible with the new Settings panel powered by the powerful <a href=\"%s"
-"\">ReduxFramework</a>."
+"now possible with the new Settings panel powered by the powerful <a "
+"href=\"%s\">ReduxFramework</a>."
 msgstr ""
 
 #: ../views/admin/about.php:76
@@ -3890,9 +3859,8 @@ msgstr ""
 
 #: ../views/admin/about.php:81
 msgid ""
-"You can now set multiple medias, languages or subtitles for movies you own "
-"on different format or language, or movies you saw in theater before buying "
-"DVDs."
+"You can now set multiple medias, languages or subtitles for movies you own on "
+"different format or language, or movies you saw in theater before buying DVDs."
 msgstr ""
 
 #: ../views/admin/about.php:84
@@ -3922,8 +3890,8 @@ msgstr ""
 
 #: ../views/admin/about.php:96
 msgid ""
-"You can now chose to include movies to your search results and search movies "
-"by meta along with other WordPress regular contents."
+"You can now chose to include movies to your search results and search movies by "
+"meta along with other WordPress regular contents."
 msgstr ""
 
 #: ../views/admin/about.php:99
@@ -3950,17 +3918,17 @@ msgstr ""
 msgid ""
 "The movie metadata changes in WordPress Movie Library 2.0 require that you "
 "update all your movies to the new metadata format in order to access new "
-"features. You can use the builtin updater tool to update your movies in a "
-"few seconds."
+"features. You can use the builtin updater tool to update your movies in a few "
+"seconds."
 msgstr ""
 
 #: ../views/admin/about.php:121
 #, php-format
 msgid ""
 "<strong>Make backups of your data before updating your movies</strong>. You "
-"should always do this before updating a plugin to the next major release, "
-"but in this particular it is most recommended that you backup your site "
-"before anything. <a href=\"%s\">Learn why</a>."
+"should always do this before updating a plugin to the next major release, but "
+"in this particular it is most recommended that you backup your site before "
+"anything. <a href=\"%s\">Learn why</a>."
 msgstr ""
 
 #: ../views/admin/about.php:131
@@ -3981,11 +3949,11 @@ msgstr ""
 
 #: ../views/admin/help.php:8
 msgid ""
-"WPMovieLibrary − shortened to WPMOLY − is a WordPress Plugin designed to "
-"handle a personnal library of movies. Using Custom Post Type you can add new "
-"movies, manage collections, write reviews and share your latest-seen/"
-"favorite movies. WPMOLY uses TMDb to gather movies' informations a store "
-"your movies as posts along with TMDb data and images."
+"WPMovieLibrary − shortened to WPMOLY − is a WordPress Plugin designed to handle "
+"a personnal library of movies. Using Custom Post Type you can add new movies, "
+"manage collections, write reviews and share your latest-seen/favorite movies. "
+"WPMOLY uses TMDb to gather movies' informations a store your movies as posts "
+"along with TMDb data and images."
 msgstr ""
 
 #: ../views/admin/help.php:12
@@ -3995,22 +3963,22 @@ msgstr ""
 #: ../views/admin/help.php:15
 msgid ""
 "<a href=\"http://th0th.me/log/\">th0th</a>, author of <a href=\"http://"
-"wordpress.org/plugins/th0ths-movie-collection/\"><em>th0th's Movie "
-"Collection</em></a>, the plugin WPMOLY started as a fork of before becoming "
-"a complete new, homemade tool."
+"wordpress.org/plugins/th0ths-movie-collection/\"><em>th0th's Movie Collection</"
+"em></a>, the plugin WPMOLY started as a fork of before becoming a complete new, "
+"homemade tool."
 msgstr ""
 
 #: ../views/admin/help.php:16
 msgid ""
-"<a href=\"http://www.glamorous.be\">Jonas De Smet</a>, author of <a href="
-"\"https://github.com/glamorous/TMDb-PHP-API\">TMDb-PHP-API</a> which WPMOLY "
-"is based on."
+"<a href=\"http://www.glamorous.be\">Jonas De Smet</a>, author of <a "
+"href=\"https://github.com/glamorous/TMDb-PHP-API\">TMDb-PHP-API</a> which "
+"WPMOLY is based on."
 msgstr ""
 
 #: ../views/admin/help.php:17
 msgid ""
-"<a href=\"https://github.com/lesurfeur\">Spiky (lesurfeur)</a>, very first "
-"user of WPMOLY, who provided nice ideas and productive feedback."
+"<a href=\"https://github.com/lesurfeur\">Spiky (lesurfeur)</a>, very first user "
+"of WPMOLY, who provided nice ideas and productive feedback."
 msgstr ""
 
 #: ../views/admin/update-movies.php:4
@@ -4056,9 +4024,9 @@ msgstr[1] ""
 #: ../views/admin/update-movies.php:108
 #, php-format
 msgid ""
-"You have a total of <strong>%s</strong> using a deprecated metadata format; "
-"you can use the present page to update your library to new format and access "
-"new features."
+"You have a total of <strong>%s</strong> using a deprecated metadata format; you "
+"can use the present page to update your library to new format and access new "
+"features."
 msgstr ""
 
 #: ../views/admin/update-movies.php:108
@@ -4071,8 +4039,8 @@ msgstr[1] ""
 #: ../views/admin/update-movies.php:109
 msgid ""
 "You can update all your movies at once, select a few movies manually (<span "
-"class=\"wpmolicon icon-yes\"></span> link) or update directly a specific "
-"movies (<span class=\"wpmolicon icon-update\"></span> link)."
+"class=\"wpmolicon icon-yes\"></span> link) or update directly a specific movies "
+"(<span class=\"wpmolicon icon-update\"></span> link)."
 msgstr ""
 
 #: ../views/admin/update-movies.php:116
@@ -4089,11 +4057,11 @@ msgstr ""
 
 #: ../views/admin/admin-notice.php:4
 msgid ""
-"You haven't specified a valid <acronym title=\"TheMovieDB\">TMDb</acronym> "
-"API key in your Settings; this is required for the plugin to search a get "
-"movies metadata. WPMovieLibrary will use an internal API key, but you may "
-"consider getting your own personnal one at <a href=\"https://www.themoviedb."
-"org/\">TMDb</a> to get better results."
+"You haven't specified a valid <acronym title=\"TheMovieDB\">TMDb</acronym> API "
+"key in your Settings; this is required for the plugin to search a get movies "
+"metadata. WPMovieLibrary will use an internal API key, but you may consider "
+"getting your own personnal one at <a href=\"https://www.themoviedb.org/\">TMDb</"
+"a> to get better results."
 msgstr ""
 
 #: ../views/admin/admin-notice.php:6
@@ -4106,8 +4074,8 @@ msgstr ""
 
 #: ../views/admin/admin-notice.php:13
 msgid ""
-"WPMovieLibrary couldn't find an archive page; this page is required to "
-"provide archives of your collections, genres and actors."
+"WPMovieLibrary couldn't find an archive page; this page is required to provide "
+"archives of your collections, genres and actors."
 msgstr ""
 
 #: ../views/admin/admin-notice.php:15
@@ -4117,24 +4085,24 @@ msgstr ""
 #: ../views/admin/admin-notice.php:22
 #, php-format
 msgid ""
-"<strong>WPMovieLibrary found deprecated movie metadata</strong>; since "
-"version 1.3 movies metadata are stored and managed differently to provide "
-"extended search and filtering features. Therefore, you will need to update "
-"your movies to the new standard format. <strong>Not doing so will produce "
-"bugs and random behaviours when using the plugin</strong>. Please proceed to "
-"<a href=\"%s\">update your movies</a> using the dedicated tool. <a href="
-"\"http://wpmovielibrary.com/development/release-notes/#version-1.3\">Learn "
-"more about this change</a>."
+"<strong>WPMovieLibrary found deprecated movie metadata</strong>; since version "
+"1.3 movies metadata are stored and managed differently to provide extended "
+"search and filtering features. Therefore, you will need to update your movies "
+"to the new standard format. <strong>Not doing so will produce bugs and random "
+"behaviours when using the plugin</strong>. Please proceed to <a "
+"href=\"%s\">update your movies</a> using the dedicated tool. <a href=\"http://"
+"wpmovielibrary.com/development/release-notes/#version-1.3\">Learn more about "
+"this change</a>."
 msgstr ""
 
 #: ../views/admin/admin-notice.php:28
 #, php-format
 msgid ""
-"Changes were made that affects the Permalinks. You should visit <a href=\"%s"
-"\">WordPress Permalink</a> page to update the Rewrite rules; you may "
-"experience errors when trying to load pages using the new URL if the "
-"structures are not update correctly. Tip: you don't need to change anything "
-"in the Permalink page: simply loading it will update the rules."
+"Changes were made that affects the Permalinks. You should visit <a "
+"href=\"%s\">WordPress Permalink</a> page to update the Rewrite rules; you may "
+"experience errors when trying to load pages using the new URL if the structures "
+"are not update correctly. Tip: you don't need to change anything in the "
+"Permalink page: simply loading it will update the rules."
 msgstr ""
 
 #: ../views/admin/admin-notice.php:35 ../views/admin/dashboard/welcome.php:4
@@ -4145,9 +4113,9 @@ msgstr ""
 #, php-format
 msgid ""
 "<strong>New</strong>: you can now use custom pages to display movies and "
-"taxonomies archives pages. Go to the new \"Archives\" tab in your <a href="
-"\"%s\">Settings panel</a> to set up your own pages, or let WPMovieLibrary <a "
-"href=\"%s\">create them</a> automatically."
+"taxonomies archives pages. Go to the new \"Archives\" tab in your <a "
+"href=\"%s\">Settings panel</a> to set up your own pages, or let WPMovieLibrary "
+"<a href=\"%s\">create them</a> automatically."
 msgstr ""
 
 #: ../views/admin/admin-notice.php:44
@@ -4156,9 +4124,9 @@ msgstr ""
 
 #: ../views/admin/admin-footer.php:2
 msgid ""
-"WPMovieLibrary uses the <a href=\"http://docs.themoviedb.apiary.io/\">TMDb "
-"API</a> but is not endorsed or certified by <a href=\"http://=www.themoviedb."
-"org/\">TMDb</a>."
+"WPMovieLibrary uses the <a href=\"http://docs.themoviedb.apiary.io/\">TMDb API</"
+"a> but is not endorsed or certified by <a href=\"http://=www.themoviedb.org/"
+"\">TMDb</a>."
 msgstr ""
 
 #: ../views/admin/add-custom-pages.php:4
@@ -4215,8 +4183,7 @@ msgstr ""
 msgid "No page set yet!"
 msgstr ""
 
-#: ../views/admin/add-custom-pages.php:92
-#: ../views/admin/add-custom-pages.php:96
+#: ../views/admin/add-custom-pages.php:92 ../views/admin/add-custom-pages.php:96
 msgid "Create Archives Pages"
 msgstr ""
 
@@ -4233,9 +4200,9 @@ msgstr ""
 #: ../views/admin/add-custom-pages.php:112
 msgid ""
 "Custom Archives Pages are used to replace WordPress’ default archives pages "
-"with more customized views. Taxonomies will appear as list, movies will "
-"appear in a poster grid. Both movie and taxonomy archives can be manipulated "
-"with an alphabetical menu and sorting options."
+"with more customized views. Taxonomies will appear as list, movies will appear "
+"in a poster grid. Both movie and taxonomy archives can be manipulated with an "
+"alphabetical menu and sorting options."
 msgstr ""
 
 #: ../views/admin/add-custom-pages.php:113
@@ -4381,8 +4348,7 @@ msgid ""
 "metadata order."
 msgstr ""
 
-#: ../views/admin/settings/settings.php:20
-#: ../views/admin/settings/settings.php:29
+#: ../views/admin/settings/settings.php:20 ../views/admin/settings/settings.php:29
 msgid "Maintenance"
 msgstr ""
 
@@ -4396,9 +4362,9 @@ msgstr ""
 
 #: ../views/admin/settings/settings.php:37
 msgid ""
-"<strong>Caution!</strong> Doing this you will erase permanently all your "
-"custom settings. Don&rsquo;t do this unless you are positively sure of what "
-"you&rsquo;re doing!"
+"<strong>Caution!</strong> Doing this you will erase permanently all your custom "
+"settings. Don&rsquo;t do this unless you are positively sure of what you&rsquo;"
+"re doing!"
 msgstr ""
 
 #: ../views/admin/settings/settings.php:39
@@ -4411,8 +4377,8 @@ msgstr ""
 
 #: ../views/admin/settings/settings.php:47
 msgid ""
-"Delete all temporarily stored data. This can solve issues like incomplete "
-"movie metadata repeatedly returned, outdated Widgets or Shortcodes display..."
+"Delete all temporarily stored data. This can solve issues like incomplete movie "
+"metadata repeatedly returned, outdated Widgets or Shortcodes display..."
 msgstr ""
 
 #: ../views/admin/settings/settings.php:49
@@ -4477,11 +4443,10 @@ msgstr ""
 
 #: ../views/admin/metabox/panels/panel-details.php:3
 msgid ""
-"Details are personal data related to your experience of the movie: which "
-"media do you own? In which language(s)/subtitle(s)? What is the current "
-"status of your copy? How much did you enjoy it? These data are not "
-"automatically fetched like metadata, they are here to make it easier for you "
-"to manage your library."
+"Details are personal data related to your experience of the movie: which media "
+"do you own? In which language(s)/subtitle(s)? What is the current status of "
+"your copy? How much did you enjoy it? These data are not automatically fetched "
+"like metadata, they are here to make it easier for you to manage your library."
 msgstr ""
 
 #: ../views/admin/metabox/panels/panel-meta.php:7
@@ -4514,8 +4479,8 @@ msgstr ""
 
 #: ../views/admin/dashboard/welcome.php:8
 msgid ""
-"Thank you for using WPMovieLibrary. We made this plugin for movie lovers! "
-"Here are a few links to get you started."
+"Thank you for using WPMovieLibrary. We made this plugin for movie lovers! Here "
+"are a few links to get you started."
 msgstr ""
 
 #: ../views/admin/dashboard/welcome.php:12
@@ -4557,8 +4522,7 @@ msgstr ""
 
 #: ../views/admin/dashboard/welcome.php:30
 #, php-format
-msgid ""
-"Create and manage <a href=\"%s\">Genres</a> and <a href=\"%s\">Actors</a>"
+msgid "Create and manage <a href=\"%s\">Genres</a> and <a href=\"%s\">Actors</a>"
 msgstr ""
 
 #: ../views/admin/import/import.php:2
@@ -4579,11 +4543,11 @@ msgstr ""
 
 #: ../views/admin/import/import.php:21
 msgid ""
-"Here are the movies you previously updated but didn’t save. You can save "
-"them, edit them individually or apply bulk actions. Posters are "
-"automatically saved and set as featured images, but images are not. Use the "
-"bulk action to import, but be aware that it can take some time if you select "
-"a lot of movies. Don’t forget to save your imports when you’re done!"
+"Here are the movies you previously updated but didn’t save. You can save them, "
+"edit them individually or apply bulk actions. Posters are automatically saved "
+"and set as featured images, but images are not. Use the bulk action to import, "
+"but be aware that it can take some time if you select a lot of movies. Don’t "
+"forget to save your imports when you’re done!"
 msgstr ""
 
 #: ../views/admin/import/import.php:33
@@ -4617,8 +4581,8 @@ msgstr ""
 #: ../views/admin/import/import.php:93
 msgid ""
 "Titles don’t have to be exact, but try to be specific to get better results."
-"<br /> Ex: interview with the vampire, Se7en, Twelve Monkeys, joe black, "
-"fight club, snatch, babel, inglourious basterds"
+"<br /> Ex: interview with the vampire, Se7en, Twelve Monkeys, joe black, fight "
+"club, snatch, babel, inglourious basterds"
 msgstr ""
 
 #: ../views/admin/import/import.php:96
