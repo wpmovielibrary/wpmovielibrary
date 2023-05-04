@@ -1,0 +1,440 @@
+/* WPMOLY Landing Page
+ ****************************************************/
+
+#wpmoly-welcome-panel .welcome-panel-column li .wpmolicon {
+	color: #999;
+	font-size: 1.25rem;
+	margin-right: 0.5em;
+	vertical-align: text-top;
+}
+
+#wpmoly-welcome-panel .welcome-panel-close .wpmolicon.icon-no-alt {
+	font-size: 1em;
+	color: #aaa;
+}
+
+#wpmoly-welcome-panel .welcome-panel-close:hover .wpmolicon.icon-no-alt {
+	color: #c00;
+}
+
+/*
+ * Custom Dashboard
+ */
+
+#wpmoly-home > h2 {
+	color: #444;
+	margin-left: 1em;
+}
+
+#wpmoly-home > h2 > small {
+	color: #888;
+	font-size: 0.85rem;
+	margin-left: 0.5rem;
+}
+
+#wpmoly-home > h2 > a {
+	color: #666;
+	position: relative;
+	text-decoration: none;
+	top: 0.25em;
+}
+
+#wpmoly-home > h2 > a:hover {
+	color: #888;
+}
+
+#wpmoly-home #dashboard-widgets {
+	width: 100% !important;
+}
+
+#wpmoly-home #dashboard-widgets .hndle {
+	padding-left: 24px;
+}
+
+#wpmoly-home #dashboard-widgets #postbox-container-1 {
+	float: left;
+	width: 72%;
+}
+
+#wpmoly-home #dashboard-widgets #postbox-container-2 {
+	float: right;
+	max-width: 420px;
+	width: 28%;
+}
+
+#wpmoly-home #dashboard-widgets #postbox-container-1 .main-config {
+	display: none;
+}
+
+#wpmoly-home #dashboard-widgets .postbox-container .ui-sortable-placeholder,
+#wpmoly-home #dashboard-widgets .postbox-container .ui-sortable-placeholder {
+	border: 3px dashed #ccc !important;
+	min-height: 72px;
+}
+
+#wpmoly_dashboard_stats_widget li,
+#wpmoly_dashboard_helper_widget li {
+	display: inline-block;
+	vertical-align: top;
+	width: 49%;
+}
+
+#wpmoly_dashboard_stats_widget li .wpmolicon,
+#wpmoly_dashboard_helper_widget li .wpmolicon {
+	color: #999;
+	font-size: 1.25rem;
+	margin-right: 0.25em;
+	vertical-align: text-top;
+}
+
+#wpmoly_dashboard_latest_movies_widget.no-style,
+#wpmoly_dashboard_most_rated_movies_widget.no-style {
+	background: rgba(0, 0, 0, 0);
+	border-color: rgba(0, 0, 0, 0);
+	box-shadow: 0 0 0;
+}
+
+#wpmoly_dashboard_latest_movies_widget .hndle,
+#wpmoly_dashboard_most_rated_movies_widget .hndle {
+	padding-left: 24px;
+}
+
+#wpmoly_dashboard_latest_movies_widget.no-style .inside,
+#wpmoly_dashboard_most_rated_movies_widget.no-style .inside {
+	margin-top: 0;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie {
+	display: inline-block;
+	height: 300px;
+	margin: 0.25%;
+	position: relative;
+	width: 202px;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie.stylized,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie.stylized {
+	background: #fff;
+	border-radius: 0.25em;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget.no-style .wpmoly-movie.stylized,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget.no-style .wpmoly-movie.stylized {
+	background: transparent;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie.with-year,
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie.with-rating,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie.with-year,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie.with-rating  {
+	margin: 0.75% 0.25%;
+	padding-bottom: 2.5em;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie img,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie img {
+	height: 100%;
+	width: 100%;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie.stylized img,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie.stylized img {
+	border-radius: 0.25em;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie:hover img,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie:hover img {
+	opacity: 0.95;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie.stylized:hover img,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie.stylized:hover img {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.85);
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-quickedit,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-quickedit {
+	background: transparent;
+	border-radius: 0.25em;
+	left: 0;
+	padding: 0.5em 0.5em 0em 0.5em;
+	position: absolute;
+	top: 0;
+	width: 1.5em;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-quickedit a,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-quickedit a {
+	color: #fff;
+	display: block;
+	margin-bottom: 0.5em;
+	opacity: 0;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie:hover .movie-quickedit,
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie:focus .movie-quickedit,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie:hover .movie-quickedit,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie:focus .movie-quickedit {
+	background: rgba(0, 0, 0, 0.4);
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie:hover .movie-quickedit a,
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie:focus .movie-quickedit a,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie:hover .movie-quickedit a,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie:focus .movie-quickedit a {
+	opacity: 0.75;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-quickedit a:hover,
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-quickedit a:focus,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-quickedit a:hover,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-quickedit a:focus {
+	opacity: 1.0;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-year,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-year {
+	color: #666;
+	display: inline-block;
+	padding: 0.25em 0 0 0.5em;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-year.hide-if-js.hide-if-no-js,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-year.hide-if-js.hide-if-no-js {
+	display: none;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-rating,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-rating {
+	float: right;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget #latest_movies_load_more,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget #most_rated_movies_load_more {
+	margin: 1.5em 0;
+	position: relative;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget #latest_movies_load_more .wpmolicon,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget #most_rated_movies_load_more .wpmolicon {
+	line-height: 1.5;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget #latest_movies_load_more .spinner,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget #most_rated_movies_load_more .spinner {
+	position: absolute;
+	display: block;
+	float: none;
+	left: 50%;
+	margin-left: -10px;
+	top: 1px;
+}
+
+#wpmoly_dashboard_quickaction_widget li {
+	display: inline-block;
+	height: 96px;
+	vertical-align: middle;
+	text-align: center;
+	width: 33%;
+}
+
+#wpmoly_dashboard_quickaction_widget li a {
+	display: inline-block;
+	height: 100%;
+	width: 100%;
+}
+
+#wpmoly_dashboard_quickaction_widget li a .wpmolicon {
+	display: block;
+	font-size: 42px;
+	height: 64px;
+	margin: 16px auto -16px auto;
+	width: 100%;
+}
+
+#wpmoly_dashboard_vendor_widget {
+	background: transparent url(../../img/bg.jpg) center top no-repeat;
+	background-size: cover;
+	color: #fff;
+	text-align: center;
+}
+
+#wpmoly_dashboard_vendor_widget .handlediv,
+#wpmoly_dashboard_vendor_widget .hndle {
+	display: none;
+}
+
+#wpmoly_dashboard_vendor_widget .title {
+	font-family: sans-serif;
+	font-size: 1.5em;
+	font-weight: 200;
+	text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+#wpmoly_dashboard_vendor_widget .title ,
+#wpmoly_dashboard_vendor_widget .joinus {
+	background: rgba(255,255,255,0.15);
+	padding: 0.25em 0;
+}
+
+#wpmoly_dashboard_vendor_widget .rateme {
+	margin: -0.75em 0 1.5em 0;
+}
+
+#wpmoly_dashboard_vendor_widget .rateme a {
+	color: rgba(255, 255, 255, 0.65);
+	text-shadow: 0px 0px 0.25em rgba(255, 255, 255, 0.4);
+}
+
+#wpmoly_dashboard_vendor_widget .rateme a:hover {
+	color: #fff;
+	text-shadow: 0px 0px 0.25em rgba(255, 255, 255, 0.6);
+}
+
+#wpmoly_dashboard_vendor_widget .rateme a .wpmolicon {
+	font-size: 2em;
+}
+
+#wpmoly_dashboard_vendor_widget .social li {
+	display: inline;
+	margin: 0 0.75em;
+}
+
+#wpmoly_dashboard_vendor_widget .social li a {
+	color: rgba(255, 255, 255, 0.65);
+}
+
+#wpmoly_dashboard_vendor_widget .social li a:hover {
+	color: #fff;
+	text-shadow: 0px 0px 0.25em rgba(255, 255, 255, 0.4);
+}
+
+#wpmoly_dashboard_vendor_widget .social li a .wpmolicon {
+	font-size: 1rem;
+}
+
+
+/*
+ * Showcase
+ */
+
+#wpmoly-movie-modal-bg {
+	background: rgba(0, 0, 0, 0.78);
+	bottom: 0;
+	display: none;
+	height: 100%;
+	position: fixed;
+	right: 0;
+	width: 100%;
+	z-index: 99999;
+}
+
+#wpmoly-movie-modal {
+	background: #000;
+	box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
+	height: 88%;
+	left: 160px;
+	margin: 16px;
+	position: absolute;
+	top: 32px;
+	width: 96%;
+	z-index: 100000;
+}
+
+#wpmoly-movie-modal-inner {
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	left: 0;
+	height: 100%;
+	opacity: 0.2;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+#wpmoly-movie-modal-close {
+	color: #fff;
+	opacity: 0.25;
+	position: absolute;
+	right: 1%;
+	text-decoration: none;
+	top: 2%;
+}
+
+#wpmoly-movie-modal-close:hover {
+	opacity: 0.85;
+}
+
+#wpmoly-movie-modal-poster {
+	display: inline-block;
+	height: 78%;
+	margin: 4% 0 0 4%;
+	width: 34%;
+}
+
+#wpmoly-movie-modal-poster img {
+	border: 1px solid #000;
+	border-radius: 0.25em;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.75);
+	height: 100%;
+	width: auto;
+}
+
+#wpmoly-movie-modal-content {
+	color: #fff;
+	display: inline-block;
+	margin: 4% 0 0 0;
+	text-shadow: 0 2px 1px #000;
+	vertical-align: top;
+	width: 56%;
+}
+
+#wpmoly-movie-modal-title {
+	color: #fff;
+	font-size: 36px;
+	font-weight: 100;
+	margin: 0 0 0.25em 0;
+}
+
+#wpmoly-movie-modal-meta {
+	color: #ddd;
+	font-size: 16px;
+	font-weight: 100;
+}
+
+#wpmoly-movie-modal-release_date,
+#wpmoly-movie-modal-runtime,
+#wpmoly-movie-modal-genres,
+#wpmoly-movie-modal-rating {
+	display: inline-block;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#wpmoly-movie-modal-overview,
+#wpmoly-movie-modal-overview p {
+	font-size: 15px;
+	line-height: 30px;
+	margin: 30px 0;
+	text-align: justify;
+}
+
+#wpmoly-movie-modal-links {
+	text-align: right;
+}
+
+#wpmoly-movie-modal .button {
+	border: 0;
+	box-shadow: 0 0 0;
+	height: 2.5em;
+	padding: 0.25em 2em;
+	text-shadow: 0 0 0;
+}
+
+#wpmoly-movie-modal .button .wpmolicon {
+	line-height: 1.25em;
+}

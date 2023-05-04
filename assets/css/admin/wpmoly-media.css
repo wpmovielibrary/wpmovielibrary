@@ -1,0 +1,143 @@
+
+/* WordPress 4.x */
+
+body.branch-4 .media-frame.movie-images .attachment {
+	width: 316px !important;
+}
+
+body.branch-4 .media-frame.movie-posters .attachment {
+	width: 170px !important;
+}
+
+/* Movie Grid hide */
+
+.media-frame.mode-grid {
+	display: none !important;
+}
+
+/* Modal */
+
+.media-frame.movie-images .media-frame-content,
+.media-frame.movie-posters .media-frame-content {
+	top: 60px !important;
+}
+
+.media-frame.movie-images .attachments-browser .attachments,
+.media-frame.movie-posters .attachments-browser .attachments {
+	top: 10px;
+}
+
+.media-frame.movie-images .attachments-browser.hide-sidebar .media-sidebar,
+.media-frame.movie-posters .attachments-browser.hide-sidebar .media-sidebar {
+	display: none;
+}
+
+.media-frame.movie-images .media-frame-router,
+.media-frame.movie-images .attachments-browser .media-toolbar,
+.media-frame.movie-images .attachment-details .setting,
+.media-frame.movie-images .attachment-details .uploaded,
+.media-frame.movie-images .attachment-details .edit-attachment,
+.media-frame.movie-images .attachment-details .delete-attachment,
+.media-frame.movie-posters .media-frame-router,
+.media-frame.movie-posters .attachments-browser .media-toolbar,
+.media-frame.movie-posters .attachment-details .setting,
+.media-frame.movie-posters .attachment-details .uploaded,
+.media-frame.movie-posters .attachment-details .edit-attachment,
+.media-frame.movie-posters .attachment-details .delete-attachment {
+	display: none;
+}
+
+.media-frame.movie-images .attachment-info .thumbnail,
+.media-frame.movie-images .attachment-info .thumbnail img {
+	height: auto;
+	margin: 0 auto;
+	max-height: 170px;
+	max-width: 300px !important;
+	width: 100%;
+}
+
+.media-frame.movie-images .attachment {
+	width: 300px !important;
+}
+
+.media-frame.movie-images .attachment-preview,
+.media-frame.movie-images .attachment-preview .thumbnail {
+	width: 300px !important;
+	height: 168px !important;
+}
+
+.media-frame.movie-images .landscape .thumbnail img {
+	width: 300px !important;
+	height: 168px !important;
+	max-height: none !important;
+}
+
+
+.media-frame.movie-posters .attachment-info .thumbnail,
+.media-frame.movie-posters .attachment-info .thumbnail img {
+	max-height: 230px;
+	max-width: 154px !important;
+	width: 100%;
+	height: auto;
+	margin: 0 auto;
+}
+
+.media-frame.movie-posters .attachment {
+	width: 154px !important;
+}
+
+.media-frame.movie-posters .attachment-preview,
+.media-frame.movie-posters .attachment-preview .thumbnail {
+	overflow: hidden;
+	height: 202px !important;
+	width: 138px !important;
+}
+
+.media-frame.movie-posters .portrait .thumbnail img {
+	max-width: 154px !important;
+	height: auto;
+}
+
+/* Progress Bar */
+
+#progressbar_bg {
+	background: rgba(255, 255, 255, 0.85);
+	display: none;
+	height: 100%;
+	left: 0;
+	position: absolute;
+	right: 300px;
+	top: 0;
+	z-index: 10;
+}
+
+#progressbar {
+	background: #eee;
+	border-radius: 6px;
+	display: none;
+	height: 5px;
+	left: 50%;
+	margin: 0 0 0 -180px;
+	max-width: 480px;
+	overflow: hidden;
+	position: absolute;
+	top: 50%;
+	width: 360px;
+}
+
+#progress {
+	background: #2EA2CC;
+	border-radius: 6px;
+	height: 5px;
+	position: absolute;
+}
+
+#progress_status {
+	color: #666;
+	left: 50%;
+	margin: 30px 0 0 -150px;
+	position: absolute;
+	text-align: center;
+	top: 50%;
+	width: 300px;
+}

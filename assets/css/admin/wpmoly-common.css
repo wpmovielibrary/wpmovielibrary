@@ -1,0 +1,204 @@
+
+/** WordPress 3.6 **/
+
+#toplevel_page_wpmovielibrary .wp-menu-image img {
+	width: 16px;
+	height: 16px;
+}
+
+/** About page **/
+
+.dashboard_page_wpmovielibrary-about .wpmoly.update-nag {
+	margin-top: 25px !important;
+}
+
+.dashboard_page_wpmovielibrary-about #features {
+	margin-top: 25px;
+}
+
+.wp-badge.wpmoly-badge {
+	background: url('../../img/header.jpg') no-repeat;
+	background-position: -184px -246px;
+	background-size: auto;
+	color: #fff;
+	height: 104px;
+	padding-top: 72px;
+}
+
+.wp-badge.wpmoly-badge .wpmolicon {
+	font-size: 64px;
+	height: 72px;
+	width: 128px;
+}
+
+/** General **/
+
+#wp-admin-bar-wpmovielibrary .wpmolicon {
+	font-family: 'wpmovielibrary';
+	font-size: 1rem;
+	position: relative;
+	top: -3px;
+	vertical-align: middle;
+}
+
+#wpadminbar  #wp-admin-bar-wpmovielibrary .ab-submenu > .active > a {
+	color: #e57e22;
+}
+
+#wp-toolbar #wp-admin-bar-wpmovielibrary > .ab-item > img,
+#wp-toolbar #wp-admin-bar-wpmovielibrary > .ab-item > img {
+	opacity: 0.75;
+}
+
+.widgets-holder-wrap .wpmoly-widget-title {
+	margin: 1.33em 0 0.25em 0;
+}
+
+#dashboard_right_now .movie-count::before {
+	content: "\f126";
+}
+
+[class^="wpmolicon icon-"],
+[class*=" wpmolicon icon-"] {
+	font-family: "wpmovielibrary" !important;
+}
+
+.wpmolicon {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	font-size: 20px;
+	line-height: 1;
+	font-family: "wpmovielibrary";
+	text-decoration: inherit;
+	font-weight: normal;
+	font-style: normal;
+	vertical-align: top;
+	text-align: center;
+	-webkit-transition: color .1s ease-in 0;
+	transition: color .1s ease-in 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.wpmolicon.icon-available:before {
+	content: "\e663";
+}
+.wpmolicon.icon-loaned:before {
+	content: "\e61f";
+}
+.icon-bluray:before {
+	content: "\e64f";
+}
+
+#toplevel_page_wpmovielibrary .wp-menu-image.dashicons-before:before {
+	content: "\e62c";
+	font-family: 'wpmovielibrary' !important;
+}
+
+/* Rating
+ ****************************************************/
+
+.column-wpmoly-rating {
+	width: 10em;
+}
+
+.column-wpmoly-rating .wpmoly-inline-edit-toggle,
+.column-wpmoly-rating .wpmoly-movie-rating {
+	display: inline-block;
+}
+
+.wpmoly-movie-editable-rating {
+	color: #ffa200;
+	display: inline-block;
+	position: relative;
+}
+
+/* WPMOLY Notice
+ ****************************************************/
+
+.wpmoly.update-nag {
+	border-color: #0099d5 !important;
+	margin: 45px 20px 8px 0 !important;
+	padding: 0.75em 1.5em !important;
+}
+
+#dismiss-custom-pages-notice {
+	float: right;
+	font-size: 12px;
+	padding: 0 8px;
+	text-decoration: none;
+}
+
+#dismiss-custom-pages-notice .wpmolicon {
+	font-size: 18px;
+	margin: 2px 0 -4px 0;
+}
+
+.no-js-alert {
+	background: #FFF;
+	border-left: 4px solid #DD3D36;
+	-webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+	padding: 0.25em 0.5em;
+}
+
+.wpmoly.updated,
+.wpmoly.update-nag {
+	display: block;
+	min-height: 3.75rem;
+	padding: 0 !important;
+}
+
+.wpmoly.updated .label,
+.wpmoly.update-nag .label {
+	background: #0099D5;
+	display: block;
+	float: left;
+	min-height: 4em;
+	width: 4em;
+}
+
+.wpmoly.updated .label .wpmolicon,
+.wpmoly.update-nag .label .wpmolicon {
+	color: #fff;
+	font-size: 2.5rem;
+	height: 2.5rem;
+	line-height: 3.5rem;
+	margin: 0 0.5rem;
+	text-shadow: 0 1px 0 #0053A4;
+	width: 2.5rem;
+}
+
+.wpmoly.updated .content,
+.wpmoly.update-nag .content {
+	padding: 0.75rem 1rem;
+	margin-left: 4em;
+	text-align: justify;
+	line-height: 1.5em;
+}
+
+.wpmoly.update-nag.warning {
+	border-color: #e57e22 !important;
+}
+
+.wpmoly.update-nag.warning .label {
+	background: #e57e22;
+}
+
+.wpmoly.update-nag.warning .label .wpmolicon {
+	text-shadow: 0 1px 0 #a55d1c;
+}
+
+.wpmoly.updated {
+	border-color: #7ad03a !important;
+}
+
+.wpmoly.updated .label {
+	background: #7ad03a;
+}
+
+.wpmoly.updated .label .wpmolicon {
+	text-shadow: 0 1px 0 #418a0a;
+}
+

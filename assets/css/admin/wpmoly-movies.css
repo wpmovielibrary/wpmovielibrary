@@ -1,0 +1,98 @@
+/* WPMOLY Movie List
+ ****************************************************/
+
+.column-wpmoly-poster {
+	width: 4em;
+}
+
+.wp-list-table .wpmoly-poster img {
+	border-radius: 2px;
+	height: 4em;
+	max-width: 4em;
+}
+
+.wp-list-table .wpmoly.shortcode.item.detail {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.visible-actors {
+	display: inline;
+}
+
+.hidden-actors {
+	display: none;
+}
+
+.more-actors {
+	font-style: italic;
+}
+
+.wpmoly-inline-edit-details {
+	background-color: #fff;
+	display: none;
+	margin-left: -1em;
+	margin-top: -2em;
+	padding: 0.5em 0;
+	position: relative;
+	z-index: 9;
+}
+
+.wpmoly-inline-edit-details.wpmoly-inline-edit-rating {
+	margin-left: 0;
+}
+
+.alt .wpmoly-inline-edit-details,
+.alternate .wpmoly-inline-edit-details {
+	background-color: #f9f9f9;
+}
+
+.wpmoly-inline-edit-details ul {
+	margin: 0;
+}
+
+.wpmoly-inline-edit-details .wpmolicon {
+	color: #aaa;
+	font-size: 1em;
+	margin: 3px 0 -3px 0;
+}
+
+.column-wpmoly-release_date,
+.column-wpmoly-status,
+.column-wpmoly-media {
+	position: relative;
+	width: 4em;
+}
+
+.column-wpmoly-rating {
+	text-align: center;
+	width: 9em;
+}
+
+td.column-wpmoly-status .wpmolicon,
+td.column-wpmoly-media .wpmolicon {
+	font-size: 1.5rem;
+}
+
+.inline-edit-col-wpmoly .inline-edit-group {
+	display: inline-block;
+	margin-bottom: 1.5em;
+	vertical-align: top;
+	width: 20%;
+}
+
+.inline-edit-col-wpmoly .inline-edit-group .title {
+	display: block;
+	float: none;
+	width: 95%;
+}
+
+.inline-edit-col-wpmoly .inline-edit-group select,
+.inline-edit-col-wpmoly .inline-edit-group input {
+	height: 2em;
+	width: 95%;
+}
+
+.inline-edit-col-wpmoly .inline-edit-group select[multiple="true"] {
+	height: 4em;
+}

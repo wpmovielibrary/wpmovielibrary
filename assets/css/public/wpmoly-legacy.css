@@ -1,0 +1,42 @@
+#wpmoly_details .movie-status-icon {
+	background: url(../../img/legacy/icon-status.png) left 2px no-repeat;
+	margin-left: -0.5em;
+	padding: 0.25em 0 0.25em 1.75em;
+}
+
+#wpmoly_details .movie-media-icon {
+	background: url(../../img/legacy/icon-media.png) left 2px no-repeat;
+	margin-left: -0.5em;
+	padding: 0.25em 0 0.25em 1.75em;
+}
+
+#wpmoly_details .movie-rating-icon {
+	background: url(../../img/legacy/icon-star-half.png) left 2px no-repeat;
+	margin-left: -0.5em;
+	padding: 0.25em 0 0.25em 1.75em;
+}
+
+.wpmoly-inline-edit-details {
+	margin-left: 0 !important;
+}
+
+.alt .wpmoly-inline-edit-details,
+.alternate .wpmoly-inline-edit-details {
+	background-color: #fcfcfc;
+}
+
+
+
+.row-actions .wpmolicon {
+	margin: 0;
+	vertical-align: bottom;
+}
+
+#wpmoly-home #wpmoly_dashboard_latest_movies_widget .wpmoly-movie .movie-quickedit a,
+#wpmoly-home #wpmoly_dashboard_most_rated_movies_widget .wpmoly-movie .movie-quickedit a {
+	margin-left: -0.35em;
+}
+
+#wpmoly-movie-modal .button .wpmolicon {
+	display: none;
+}

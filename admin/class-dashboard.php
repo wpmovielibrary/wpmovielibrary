@@ -1,1096 +1,412 @@
 <?php
 /**
- * The file that defines the dashboard class.
+ * WPMovieLibrary Dashboard Class extension.
+ * 
+ * Implement a simple custom Dashboard
  *
- * @link https://wpmovielibrary.com
- * @since 3.0.0
- *
- * @package wpMovieLibrary
+ * @package   WPMovieLibrary
+ * @author    Charlie MERLAND <charlie@caercam.org>
+ * @license   GPL-3.0
+ * @link      http://www.caercam.org/
+ * @copyright 2016 CaerCam.org
  */
 
-namespace wpmoly;
+if ( ! class_exists( 'WPMOLY_Dashboard' ) ) :
 
-use wpmoly\admin\editors;
-use wpmoly\admin\Library;
-use wpmoly\dashboard\Block;
-use wpmoly\templates\Admin;
-
-/**
- * The dashboard class.
- *
- * @since 3.0.0
- * @package wpMovieLibrary
- *
- * @author Charlie Merland <charlie@caercam.org>
- */
-class Dashboard {
-
-	/**
-	 * Editing page?
-	 *
-	 * @access private
-	 *
-	 * @var boolean
-	 */
-	private $editing = false;
-
-	/**
-	 * Current object ID.
-	 *
-	 * @access private
-	 *
-	 * @var int
-	 */
-	private $object_id = null;
-
-	/**
-	 * Menu subpage attributes.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access private
-	 *
-	 * @var array
-	 */
-	private $sub_pages = array();
-
-	/**
-	 * Menu subpage hooknames.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access private
-	 *
-	 * @var array
-	 */
-	private $subpage_hooks = array();
-
-	/**
-	 * Constructor.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access public
-	 */
-	public function __construct() {
-
-		add_filter( 'admin_menu', array( &$this, 'admin_menu' ), 9 );
-		add_filter( 'dashboard_glance_items', array( &$this, 'dashboard_glance_items' ) );
-
-		$this->editing = $this->is_editing();
-	}
-
-	/**
-	 * Register the plugin's assets.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access public
-	 */
-	public function register_assets() {
-
-		$assets = core\Assets::get_instance();
-		add_action( 'admin_enqueue_scripts',       array( $assets, 'enqueue_admin_styles' ), 95 );
-		add_action( 'admin_enqueue_scripts',       array( $assets, 'enqueue_admin_scripts' ), 95 );
-		add_action( 'admin_footer',                array( $assets, 'enqueue_admin_templates' ), 95 );
-		add_action( 'enqueue_block_editor_assets', array( $assets, 'enqueue_block_editor_scripts' ), 95 );
-	}
-
-	/**
-	 * Register the Post Editor.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access public
-	 */
-	public function register_dashboard() {
-
-		add_action( 'wpmoly/dashboard/block/discover/build', array( &$this, 'set_dashboard_discover_block_data' ) );
-		add_action( 'wpmoly/dashboard/block/rating/build',   array( &$this, 'set_dashboard_rating_block_data' ) );
-		add_action( 'wpmoly/dashboard/block/support/build',  array( &$this, 'set_dashboard_support_block_data' ) );
-
-		add_action( 'wpmoly/dashboard/before/grid/browser/content',       array( &$this, 'add_browser_headline' ) );
-		add_action( 'wpmoly/dashboard/before/movie/browser/content',      array( &$this, 'add_browser_headline' ) );
-		add_action( 'wpmoly/dashboard/before/person/browser/content',     array( &$this, 'add_browser_headline' ) );
-		add_action( 'wpmoly/dashboard/before/actor/browser/content',      array( &$this, 'add_browser_headline' ) );
-		add_action( 'wpmoly/dashboard/before/collection/browser/content', array( &$this, 'add_browser_headline' ) );
-		add_action( 'wpmoly/dashboard/before/genre/browser/content',      array( &$this, 'add_browser_headline' ) );
-	}
-
-	/**
-	 * Register the Term Editor.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access public
-	 */
-	public function register_term_editor() {
-
-		$term_editor = new editors\Terms;
-		add_action( 'wpmoly/dashboard/block/discover-actors/build',      array( $term_editor, 'set_actor_browser_discover_block_data' ) );
-		add_action( 'wpmoly/dashboard/block/discover-collections/build', array( $term_editor, 'set_collection_browser_discover_block_data' ) );
-		add_action( 'wpmoly/dashboard/block/discover-genres/build',      array( $term_editor, 'set_genre_browser_discover_block_data' ) );
-	}
-
-	/**
-	 * Register the Post Editor.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access public
-	 */
-	public function register_post_editor() {
-
-		$post_editor = new editors\Posts;
-		add_action( 'wpmoly/dashboard/block/discover-grids/build',   array( $post_editor, 'set_grid_editor_discover_block_data' ) );
-		add_action( 'wpmoly/dashboard/block/discover-movies/build',  array( $post_editor, 'set_movie_editor_discover_block_data' ) );
-		add_action( 'wpmoly/dashboard/block/discover-persons/build', array( $post_editor, 'set_person_editor_discover_block_data' ) );
-		add_action( 'edit_form_after_title',                         array( $this, 'add_classic_editor_switch_button' ) );
-	}
-
-	/**
-	 * Plugged on the 'admin_menu' action hook.
-	 *
-	 * Register the backstage library page.
-	 *
-	 * @since 3.0.0
-	 */
-	public function admin_menu() {
-
-		global $plugin_page;
-
-		add_menu_page( esc_html__( 'Movies Library' , 'wpmovielibrary' ), esc_html__( 'Movies Library' , 'wpmovielibrary' ), 'read', 'wpmovielibrary', array( $this, 'dashboard' ), 'dashicons-wpmoly', 2 );
-
-		$sub_pages = array(
-			'movies' => array(
-				'edit_title' => esc_html__( 'Edit Movie', 'wpmovielibrary' ),
-				'page_title' => esc_html__( 'Edit Movies', 'wpmovielibrary' ),
-				'menu_title' => esc_html__( 'Movies', 'wpmovielibrary' ),
-				'capability' => 'edit_posts',
-				'object_type' => 'movie',
-			),
-			'persons' => array(
-				'edit_title' => esc_html__( 'Edit Person', 'wpmovielibrary' ),
-				'page_title' => esc_html__( 'Edit Persons', 'wpmovielibrary' ),
-				'menu_title' => esc_html__( 'Persons', 'wpmovielibrary' ),
-				'capability' => 'edit_posts',
-				'object_type' => 'person',
-			),
-			'grids' => array(
-				'edit_title' => esc_html__( 'Edit Grid', 'wpmovielibrary' ),
-				'page_title' => esc_html__( 'Edit Grids', 'wpmovielibrary' ),
-				'menu_title' => esc_html__( 'Grids', 'wpmovielibrary' ),
-				'capability' => 'edit_others_posts',
-				'object_type' => 'grid',
-			),
-			'actors' => array(
-				'edit_title' => esc_html__( 'Edit Actor', 'wpmovielibrary' ),
-				'page_title' => esc_html__( 'Edit Actors', 'wpmovielibrary' ),
-				'menu_title' => esc_html__( 'Actors', 'wpmovielibrary' ),
-				'capability' => 'edit_others_posts',
-				'object_type' => 'actor',
-			),
-			'collections' => array(
-				'edit_title' => esc_html__( 'Edit Collection', 'wpmovielibrary' ),
-				'page_title' => esc_html__( 'Edit Collections', 'wpmovielibrary' ),
-				'menu_title' => esc_html__( 'Collections', 'wpmovielibrary' ),
-				'capability' => 'edit_others_posts',
-				'object_type' => 'collection',
-			),
-			'genres' => array(
-				'edit_title' => esc_html__( 'Edit Genre', 'wpmovielibrary' ),
-				'page_title' => esc_html__( 'Edit Genres', 'wpmovielibrary' ),
-				'menu_title' => esc_html__( 'Genres', 'wpmovielibrary' ),
-				'capability' => 'edit_others_posts',
-				'object_type' => 'genre',
-			),
-			'settings' => array(
-				'page_title' => esc_html__( 'Settings', 'wpmovielibrary' ),
-				'menu_title' => esc_html__( 'Settings', 'wpmovielibrary' ),
-				'capability' => 'manage_options',
-			),
-		);
+	class WPMOLY_Dashboard extends WPMOLY_Module {
 
 		/**
-		 * Filter the plugin's admin menu subpages list.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param array $sub_pages Default admin menu subpages list.
+		 * Dashboard Widgets.
+		 * 
+		 * @since    1.0
+		 * 
+		 * @var      array
 		 */
-		$this->sub_pages = apply_filters( 'wpmoly/filter/admin/menu/pages', $sub_pages );
-
-		foreach ( $this->sub_pages as $slug => $page ) {
-
-			$params = wp_parse_args( $page, array(
-				'page_title' => '',
-				'menu_title' => '',
-				'capability' => 'manage_options',
-				'callback'   => array( $this, 'dashboard' ),
-			) );
-
-			if ( 'wpmovielibrary-' . $slug === $plugin_page && $this->is_editing() ) {
-				$params['page_title'] = $params['edit_title'];
-			}
-
-			$hook_name = add_submenu_page( 'wpmovielibrary', $params['page_title'], $params['menu_title'], $params['capability'], 'wpmovielibrary-' . $slug, $params['callback'] );
-			if ( $hook_name ) {
-				$this->subpage_hooks[ $slug ] = $hook_name;
-			}
-		}
-	}
-
-	/**
-	 * Custom content for 'At a Glance' Dashboard Widget.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access public
-	 *
-	 * @param array $items
-	 *
-	 * @return array
-	 */
-	public function dashboard_glance_items( $items ) {
-
-		$grids   = wp_count_posts( 'grid' );
-		$movies  = wp_count_posts( 'movie' );
-		$persons = wp_count_posts( 'person' );
-		$items[] = sprintf( '<a class="movie-count" href="%s">%s</a>', admin_url( '/admin.php?page=wpmovielibrary-movies' ), sprintf( _n( '%d movie', '%d movies', $movies->publish, 'wpmovielibrary' ), $movies->publish ) );
-		$items[] = sprintf( '<a class="person-count" href="%s">%s</a>', admin_url( '/admin.php?page=wpmovielibrary-persons' ), sprintf( _n( '%d person', '%d persons', $persons->publish, 'wpmovielibrary' ), $persons->publish ) );
-		$items[] = sprintf( '<a class="grid-count" href="%s">%s</a>', admin_url( '/admin.php?page=wpmovielibrary-grids' ), sprintf( _n( '%d grid', '%d grids', $grids->publish, 'wpmovielibrary' ), $grids->publish ) );
-
-		return $items;
-	}
-
-	/**
-	 * Build the Dashboard view.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access public
-	 */
-	public function dashboard() {
-
-		$hook_name = current_action();
-		if ( 'settings' === array_search( $hook_name, $this->subpage_hooks, true ) ) {
-			$page = 'settings';
-		} elseif ( false !== $editor = array_search( $hook_name, $this->subpage_hooks, true ) ) {
-			$page = $editor;
-		} else {
-			$page = 'dashboard';
-		}
-
-		if ( ! empty( $editor ) ) {
-
-			$editor = $this->sub_pages[ $editor ];
-			$object_id = $this->object_id;
-
-			$old_editors = array(
-				'movie-browser'      => admin_url( 'edit.php?post_type=movie' ),
-				'person-browser'     => admin_url( 'edit.php?post_type=person' ),
-				'grid-browser'       => admin_url( 'edit.php?post_type=grid' ),
-				'actor-browser'      => admin_url( 'edit-tags.php?taxonomy=actor' ),
-				'collection-browser' => admin_url( 'edit-tags.php?taxonomy=collection' ),
-				'genre-browser'      => admin_url( 'edit-tags.php?taxonomy=genre' ),
-				'movie-editor'       => admin_url( 'edit.php?post_type=movie&post=' . $object_id ),
-				'person-editor'      => admin_url( 'edit.php?post_type=person&post=' . $object_id ),
-				'grid-editor'        => admin_url( 'edit.php?post_type=grid&post=' . $object_id ),
-				'actor-editor'       => admin_url( 'edit-tags.php?taxonomy=actor&term=' . $object_id ),
-				'collection-editor'  => admin_url( 'edit-tags.php?taxonomy=collection&term=' . $object_id ),
-				'genre-editor'       => admin_url( 'edit-tags.php?taxonomy=genre&term=' . $object_id ),
-			);
-
-			$object_type = $editor['object_type'];
-			if ( ! empty( $_GET['action'] ) && 'edit' === $_GET['action'] ) {
-				$dashboard_mode = 'editor';
-			} else {
-				$dashboard_mode = 'browser';
-			}
-
-			$page = "{$object_type}-{$dashboard_mode}";
-
-			$noscript = '';
-			if ( ! empty( $old_editors[ $page ] ) ) {
-				$noscript = sprintf( __( 'JavaScript is required for this feature to work. Use the <a href="%s">default editor</a>?', 'wpmovielibrary' ), esc_url( $old_editors[ $page ] ) );
-			}
-
-			$data = array(
-				'page'           => $page,
-				'dashboard_mode' => $dashboard_mode,
-				'object_type'    => $object_type,
-				'object_id'      => $object_id,
-				'noscript'       => $noscript,
-			);
-
-		} else {
-
-			$noscript = esc_html__( 'JavaScript is required for this feature to work.', 'wpmovielibrary' );
-
-			$data = array(
-				'page'           => $page,
-				'dashboard_mode' => 'dashboard',
-				'noscript'       => $noscript,
-			);
-		}
-
-		$template = new templates\Admin( 'dashboard/dashboard.php' );
-		$template->set_data( $data );
-		$template->render();
-	}
-
-	/**
-	 * Register Blocks.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access public
-	 */
-	public function register_blocks() {
+		protected $widgets = array();
 
 		/**
-		 * Filter the default editor blocks.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param array $blocks Default editor blocks list.
+		 * Dashboard allowed screen options.
+		 * 
+		 * @since    1.2
+		 * 
+		 * @var      array
 		 */
-		$blocks = apply_filters( 'wpmoly/filter/editor/blocks', array(
+		protected $allowed_options = array();
 
-			// Dashboard Blocks.
-			'discover' => array(
-				'args'           => array(
-					'name'        => __( 'Discover Block', 'wpmovielibrary' ),
-					'title'       => __( 'Welcome to your movie library!', 'wpmovielibrary' ),
-					'description' => __( 'A dashboard Block with some useful insights on your library usage.', 'wpmovielibrary' ),
-					'template'    => 'dashboard/blocks/discover.php',
-				),
-			),
-			'documentation' => array(
-				'args'           => array(
-					'name'        => __( 'Documentation Block', 'wpmovielibrary' ),
-					'title'       => __( 'Documentation', 'wpmovielibrary' ),
-					'description' => __( '', 'wpmovielibrary' ),
-					'template'    => 'dashboard/blocks/documentation.php',
-				),
-			),
-			'rating' => array(
-				'args'           => array(
-					'name'        => __( 'Rating Block', 'wpmovielibrary' ),
-					'title'       => __( 'Say it loud!', 'wpmovielibrary' ),
-					'description' => __( '', 'wpmovielibrary' ),
-					'template'    => 'dashboard/blocks/rating.php',
-				),
-			),
-			'support' => array(
-				'args'           => array(
-					'name'        => __( 'Support Block', 'wpmovielibrary' ),
-					'title'       => __( 'Can we help?', 'wpmovielibrary' ),
-					'description' => __( '', 'wpmovielibrary' ),
-					'template'    => 'dashboard/blocks/support.php',
-				),
-			),
+		/**
+		 * Constructor
+		 *
+		 * @since    1.0
+		 */
+		public function __construct() {
 
-			// Movie Browser Blocks.
-			'discover-movies' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'post',
-				'object_subtype' => 'movie',
-				'args'           => array(
-					'name'        => __( 'Discover Movies', 'wpmovielibrary' ),
-					'title'       => __( 'Movie Library', 'wpmovielibrary' ),
-					'description' => __( 'Discover your movie library', 'wpmovielibrary' ),
-					'controller'  => 'BrowserBlock',
-					'template'    => 'editors/blocks/posts/discover.php',
-				),
-			),
-			'add-new-movie' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'post',
-				'object_subtype' => 'movie',
-				'args'           => array(
-					'name'        => __( 'Add New Movie', 'wpmovielibrary' ),
-					'title'       => __( 'Add New', 'wpmovielibrary' ),
-					'description' => __( 'Add a new movie to the library.', 'wpmovielibrary' ),
-					'controller'  => 'AddNewBlock',
-					'template'    => 'editors/blocks/posts/add-new.php',
-				),
-			),
-			'movie-drafts' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'post',
-				'object_subtype' => 'movie',
-				'args'           => array(
-					'name'        => __( 'Movie Drafts', 'wpmovielibrary' ),
-					'title'       => __( 'Drafts', 'wpmovielibrary' ),
-					'description' => __( '', 'wpmovielibrary' ),
-					'controller'  => 'DraftsBlock',
-					'template'    => 'editors/blocks/posts/drafts.php',
-				),
-			),
-			'movie-trash' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'post',
-				'object_subtype' => 'movie',
-				'args'           => array(
-					'name'        => __( 'Movie Trash', 'wpmovielibrary' ),
-					'title'       => __( 'Trash', 'wpmovielibrary' ),
-					'description' => __( 'Move movies to the trash.', 'wpmovielibrary' ),
-					'controller'  => 'TrashBlock',
-					'template'    => 'editors/blocks/posts/trash.php',
-				),
-			),
-
-			// Movie Editor Blocks.
-			'submit-movie' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'movie',
-				'args'           => array(
-					'name'        => __( 'Movie Submit Block', 'wpmovielibrary' ),
-					'title'       => __( 'Submit Movie', 'wpmovielibrary' ),
-					'description' => __( 'Movie Block to save, delete or update Movie.', 'wpmovielibrary' ),
-					'controller'  => 'MenuBlock',
-					'template'    => 'editors/blocks/posts/submit.php',
-				),
-			),
-			'rename-movie' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'movie',
-				'args'           => array(
-					'name'        => __( 'Movie Title Block', 'wpmovielibrary' ),
-					'title'       => __( 'Rename Movie', 'wpmovielibrary' ),
-					'description' => __( 'Movie Block to change movie title.', 'wpmovielibrary' ),
-					'controller'  => 'RenameBlock',
-					'template'    => 'editors/blocks/posts/rename.php',
-				),
-			),
-			'movie-details' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'movie',
-				'args'           => array(
-					'name'        => __( 'Movie Details Block', 'wpmovielibrary' ),
-					'title'       => __( 'Details', 'wpmovielibrary' ),
-					'description' => __( 'Movie Block to save, delete or update Movie details.', 'wpmovielibrary' ),
-					'controller'  => 'DetailsBlock',
-					'template'    => 'editors/blocks/movies/details.php',
-				),
-			),
-			'movie-actors' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'movie',
-				'args'           => array(
-					'name'        => __( 'Movie Actors Block', 'wpmovielibrary' ),
-					'title'       => __( 'Actors', 'wpmovielibrary' ),
-					'description' => __( 'Movie Block to quickly manage actors', 'wpmovielibrary' ),
-					'controller'  => 'ActorsBlock',
-					'template'    => 'editors/blocks/movies/actors.php',
-				),
-			),
-			'movie-collections' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'movie',
-				'args'           => array(
-					'name'        => __( 'Movie Collections Block', 'wpmovielibrary' ),
-					'title'       => __( 'Collections', 'wpmovielibrary' ),
-					'description' => __( 'Movie Block to quickly manage collections', 'wpmovielibrary' ),
-					'controller'  => 'CollectionsBlock',
-					'template'    => 'editors/blocks/movies/collections.php',
-				),
-			),
-			'movie-genres' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'movie',
-				'args'           => array(
-					'name'        => __( 'Movie Genres Block', 'wpmovielibrary' ),
-					'title'       => __( 'Genres', 'wpmovielibrary' ),
-					'description' => __( 'Movie Block to quickly manage genres', 'wpmovielibrary' ),
-					'controller'  => 'GenresBlock',
-					'template'    => 'editors/blocks/movies/genres.php',
-				),
-			),
-			'movie-certifications' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'movie',
-				'args'           => array(
-					'name'        => __( 'Movie Certifications &amp; Release Dates Block', 'wpmovielibrary' ),
-					'title'       => __( 'Certifications &amp; Release Dates', 'wpmovielibrary' ),
-					'description' => __( 'Movie Block to quickly manage certifications and release dates', 'wpmovielibrary' ),
-					'controller'  => 'CertificationsBlock',
-					'template'    => 'editors/blocks/movies/certifications.php',
-				),
-			),
-			'movie-languages' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'movie',
-				'args'           => array(
-					'name'        => __( 'Movie Languages Block', 'wpmovielibrary' ),
-					'title'       => __( 'Spoken Languages', 'wpmovielibrary' ),
-					'description' => __( 'Movie Block to quickly manage languages', 'wpmovielibrary' ),
-					'controller'  => 'LanguagesBlock',
-					'template'    => 'editors/blocks/movies/languages.php',
-				),
-			),
-			'movie-production-countries' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'movie',
-				'args'           => array(
-					'name'        => __( 'Movie Production Countries Block', 'wpmovielibrary' ),
-					'title'       => __( 'Production Countries', 'wpmovielibrary' ),
-					'description' => __( 'Movie Block to quickly manage production countries', 'wpmovielibrary' ),
-					'controller'  => 'CountriesBlock',
-					'template'    => 'editors/blocks/movies/countries.php',
-				),
-			),
-			'movie-production-companies' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'movie',
-				'args'           => array(
-					'name'        => __( 'Movie Production Companies Block', 'wpmovielibrary' ),
-					'title'       => __( 'Production Companies', 'wpmovielibrary' ),
-					'description' => __( 'Movie Block to quickly manage production companies', 'wpmovielibrary' ),
-					'controller'  => 'CompaniesBlock',
-					'template'    => 'editors/blocks/movies/companies.php',
-				),
-			),
-
-			// Person Browser Blocks.
-			'discover-persons' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'post',
-				'object_subtype' => 'person',
-				'args'           => array(
-					'name'        => __( 'Discover Persons', 'wpmovielibrary' ),
-					'title'       => __( 'Person Library', 'wpmovielibrary' ),
-					'description' => __( 'Discover your person library', 'wpmovielibrary' ),
-					'controller'  => 'BrowserBlock',
-					'template'    => 'editors/blocks/posts/discover.php',
-				),
-			),
-			'add-new-person' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'post',
-				'object_subtype' => 'person',
-				'args'           => array(
-					'name'        => __( 'Add New Person', 'wpmovielibrary' ),
-					'title'       => __( 'Add New', 'wpmovielibrary' ),
-					'description' => __( 'Add a new person to the library.', 'wpmovielibrary' ),
-					'controller'  => 'AddNewBlock',
-					'template'    => 'editors/blocks/posts/add-new.php',
-				),
-			),
-			'person-drafts' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'post',
-				'object_subtype' => 'person',
-				'args'           => array(
-					'name'        => __( 'Person Drafts', 'wpmovielibrary' ),
-					'title'       => __( 'Drafts', 'wpmovielibrary' ),
-					'description' => __( '', 'wpmovielibrary' ),
-					'controller'  => 'DraftsBlock',
-					'template'    => 'editors/blocks/posts/drafts.php',
-				),
-			),
-			'person-trash' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'post',
-				'object_subtype' => 'person',
-				'args'           => array(
-					'name'        => __( 'Person Trash', 'wpmovielibrary' ),
-					'title'       => __( 'Trash', 'wpmovielibrary' ),
-					'description' => __( 'Move persons to the trash.', 'wpmovielibrary' ),
-					'controller'  => 'TrashBlock',
-					'template'    => 'editors/blocks/posts/trash.php',
-				),
-			),
-
-			// Person Editor Blocks.
-			'submit-person' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'person',
-				'args'           => array(
-					'name'        => __( 'Person Submit Block', 'wpmovielibrary' ),
-					'title'       => __( 'Submit Person', 'wpmovielibrary' ),
-					'description' => __( 'Person Block to save, delete or update Person.', 'wpmovielibrary' ),
-					'controller'  => 'MenuBlock',
-					'template'    => 'editors/blocks/posts/submit.php',
-				),
-			),
-			'rename-person' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'person',
-				'args'           => array(
-					'name'        => __( 'Person Title Block', 'wpmovielibrary' ),
-					'title'       => __( 'Rename Person', 'wpmovielibrary' ),
-					'description' => __( 'Person Block to change person title.', 'wpmovielibrary' ),
-					'controller'  => 'RenameBlock',
-					'template'    => 'editors/blocks/posts/rename.php',
-				),
-			),
-
-			// Grid Browser Blocks.
-			'discover-grids' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'post',
-				'object_subtype' => 'grid',
-				'args'           => array(
-					'name'        => __( 'Grid Browser', 'wpmovielibrary' ),
-					'title'       => __( 'Grid Browser', 'wpmovielibrary' ),
-					'description' => __( '', 'wpmovielibrary' ),
-					'controller'  => 'BrowserBlock',
-					'template'    => 'editors/blocks/posts/discover.php',
-				),
-			),
-			'add-new-grid' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'post',
-				'object_subtype' => 'grid',
-				'args'           => array(
-					'name'        => __( 'Add New Grid', 'wpmovielibrary' ),
-					'title'       => __( 'Add New', 'wpmovielibrary' ),
-					'description' => __( '', 'wpmovielibrary' ),
-					'controller'  => 'AddNewBlock',
-					'template'    => 'editors/blocks/posts/add-new.php',
-				),
-			),
-			'grid-drafts' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'post',
-				'object_subtype' => 'grid',
-				'args'           => array(
-					'name'        => __( 'Grid Drafts', 'wpmovielibrary' ),
-					'title'       => __( 'Drafts', 'wpmovielibrary' ),
-					'description' => __( '', 'wpmovielibrary' ),
-					'controller'  => 'DraftsBlock',
-					'template'    => 'editors/blocks/posts/drafts.php',
-				),
-			),
-			'grid-trash' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'post',
-				'object_subtype' => 'grid',
-				'args'           => array(
-					'name'        => __( 'Grid Trash', 'wpmovielibrary' ),
-					'title'       => __( 'Trash', 'wpmovielibrary' ),
-					'description' => __( 'Move movies to the trash.', 'wpmovielibrary' ),
-					'controller'  => 'TrashBlock',
-					'template'    => 'editors/blocks/posts/trash.php',
-				),
-			),
-
-			// Grid Editor Blocks.
-			'submit-grid' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'grid',
-				'args'           => array(
-					'name'        => __( 'Grid Submit Block', 'wpmovielibrary' ),
-					'title'       => __( 'Submit Grid', 'wpmovielibrary' ),
-					'description' => __( 'Grid Block to save, delete or update Grid.', 'wpmovielibrary' ),
-					'controller'  => 'SubmitBlock',
-					'template'    => 'editors/blocks/posts/submit.php',
-				),
-			),
-			'grid-parameters' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'grid',
-				'args'           => array(
-					'name'        => __( 'Grid Parameters Block', 'wpmovielibrary' ),
-					'title'       => __( 'Parameters', 'wpmovielibrary' ),
-					'description' => __( 'Grid Block to set grid parameters.', 'wpmovielibrary' ),
-					'controller'  => 'ParametersBlock',
-					'template'    => 'editors/blocks/grids/parameters.php',
-				),
-			),
-			'rename-grid' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'grid',
-				'args'           => array(
-					'name'        => __( 'Grid Title Block', 'wpmovielibrary' ),
-					'title'       => __( 'Rename Grid', 'wpmovielibrary' ),
-					'description' => __( 'Grid Block to change grid title.', 'wpmovielibrary' ),
-					'controller'  => 'RenameBlock',
-					'template'    => 'editors/blocks/posts/rename.php',
-				),
-			),
-			'grid-archives' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'post',
-				'object_subtype' => 'grid',
-				'args'           => array(
-					'name'        => __( 'Grid Archives Block', 'wpmovielibrary' ),
-					'title'       => __( 'Archives Grid', 'wpmovielibrary' ),
-					'description' => __( 'Grid Block to configure archives grid.', 'wpmovielibrary' ),
-					'controller'  => 'ArchivesBlock',
-					'template'    => 'editors/blocks/grids/archives.php',
-				),
-			),
-
-			// Actors Browser Blocks
-			'discover-actors' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'term',
-				'object_subtype' => 'actor',
-				'args'           => array(
-					'name'        => __( 'Actor Browser', 'wpmovielibrary' ),
-					'title'       => __( 'Actor Browser', 'wpmovielibrary' ),
-					'description' => __( '', 'wpmovielibrary' ),
-					'controller'  => 'BrowserBlock',
-					'template'    => 'editors/blocks/actors/discover.php',
-				),
-			),
-			'add-new-actor' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'term',
-				'object_subtype' => 'actor',
-				'args'           => array(
-					'name'        => __( 'Add New Actor', 'wpmovielibrary' ),
-					'title'       => __( 'Add New', 'wpmovielibrary' ),
-					'description' => __( '', 'wpmovielibrary' ),
-					'controller'  => 'AddNewBlock',
-					'template'    => 'editors/blocks/terms/add-new.php',
-				),
-			),
-
-			// Actors Editor Blocks
-			'submit-actor' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'term',
-				'object_subtype' => 'actor',
-				'args'           => array(
-					'name'        => __( 'Actor Submit Block', 'wpmovielibrary' ),
-					'title'       => __( 'Submit Actor', 'wpmovielibrary' ),
-					'description' => __( 'Actor Block to save, delete or update Actor.', 'wpmovielibrary' ),
-					'controller'  => 'SubmitBlock',
-					'template'    => 'editors/blocks/terms/submit.php',
-				),
-			),
-			'rename-actor' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'term',
-				'object_subtype' => 'actor',
-				'args'           => array(
-					'name'        => __( 'Actor name Block', 'wpmovielibrary' ),
-					'title'       => __( 'Rename Actor', 'wpmovielibrary' ),
-					'description' => __( 'Actor Editor Block to change actor name.', 'wpmovielibrary' ),
-					'controller'  => 'RenameBlock',
-					'template'    => 'editors/blocks/terms/rename.php',
-				),
-			),
-			'actor-related-person' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'term',
-				'object_subtype' => 'actor',
-				'args'           => array(
-					'name'        => __( 'Actor Related Person Block', 'wpmovielibrary' ),
-					'title'       => __( 'Related Person', 'wpmovielibrary' ),
-					'description' => __( 'Actor Related Person Block.', 'wpmovielibrary' ),
-					'controller'  => 'RelatedPersonBlock',
-					'template'    => 'editors/blocks/actors/related-person.php',
-				),
-			),
-
-			// Collections Browser Blocks
-			'discover-collections' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'term',
-				'object_subtype' => 'collection',
-				'args'           => array(
-					'name'        => __( 'Collection Browser', 'wpmovielibrary' ),
-					'title'       => __( 'Collection Browser', 'wpmovielibrary' ),
-					'description' => __( '', 'wpmovielibrary' ),
-					'controller'  => 'BrowserBlock',
-					'template'    => 'editors/blocks/collections/discover.php',
-				),
-			),
-			'add-new-collection' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'term',
-				'object_subtype' => 'collection',
-				'args'           => array(
-					'name'        => __( 'Add New Collection', 'wpmovielibrary' ),
-					'title'       => __( 'Add New', 'wpmovielibrary' ),
-					'description' => __( '', 'wpmovielibrary' ),
-					'controller'  => 'AddNewBlock',
-					'template'    => 'editors/blocks/terms/add-new.php',
-				),
-			),
-
-			// Collections Editor Blocks
-			'submit-collection' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'term',
-				'object_subtype' => 'collection',
-				'args'           => array(
-					'name'        => __( 'Collection Submit Block', 'wpmovielibrary' ),
-					'title'       => __( 'Submit Collection', 'wpmovielibrary' ),
-					'description' => __( 'Collection Block to save, delete or update Collection.', 'wpmovielibrary' ),
-					'controller'  => 'SubmitBlock',
-					'template'    => 'editors/blocks/terms/submit.php',
-				),
-			),
-			'rename-collection' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'term',
-				'object_subtype' => 'collection',
-				'args'           => array(
-					'name'        => __( 'Collection name Block', 'wpmovielibrary' ),
-					'title'       => __( 'Rename Collection', 'wpmovielibrary' ),
-					'description' => __( 'Collection Editor Block to change collection name.', 'wpmovielibrary' ),
-					'controller'  => 'RenameBlock',
-					'template'    => 'editors/blocks/terms/rename.php',
-				),
-			),
-
-			// Genres Browser Blocks
-			'discover-genres' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'term',
-				'object_subtype' => 'genre',
-				'args'           => array(
-					'name'        => __( 'Genre Browser', 'wpmovielibrary' ),
-					'title'       => __( 'Genre Browser', 'wpmovielibrary' ),
-					'description' => __( '', 'wpmovielibrary' ),
-					'controller'  => 'BrowserBlock',
-					'template'    => 'editors/blocks/genres/discover.php',
-				),
-			),
-			'add-new-genre' => array(
-				'dashboard_type' => 'browser',
-				'object_type'    => 'term',
-				'object_subtype' => 'genre',
-				'args'           => array(
-					'name'        => __( 'Add New Genre', 'wpmovielibrary' ),
-					'title'       => __( 'Add New', 'wpmovielibrary' ),
-					'description' => __( '', 'wpmovielibrary' ),
-					'controller'  => 'AddNewBlock',
-					'template'    => 'editors/blocks/terms/add-new.php',
-				),
-			),
-
-			// Genres Editor Blocks
-			'submit-genre' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'term',
-				'object_subtype' => 'genre',
-				'args'           => array(
-					'name'        => __( 'Genre Submit Block', 'wpmovielibrary' ),
-					'title'       => __( 'Submit Genre', 'wpmovielibrary' ),
-					'description' => __( 'Genre Block to save, delete or update Genre.', 'wpmovielibrary' ),
-					'controller'  => 'SubmitBlock',
-					'template'    => 'editors/blocks/terms/submit.php',
-				),
-			),
-			'rename-genre' => array(
-				'dashboard_type' => 'editor',
-				'object_type'    => 'term',
-				'object_subtype' => 'genre',
-				'args'           => array(
-					'name'        => __( 'Genre name Block', 'wpmovielibrary' ),
-					'title'       => __( 'Rename Genre', 'wpmovielibrary' ),
-					'description' => __( 'Genre Editor Block to change genre name.', 'wpmovielibrary' ),
-					'controller'  => 'RenameBlock',
-					'template'    => 'editors/blocks/terms/rename.php',
-				),
-			),
-
-		) );
-
-		foreach ( $blocks as $id => $block ) {
-			$this->register_block( $id, $block );
+			$this->init();
+			$this->register_hook_callbacks();
 		}
 
-	}
+		/**
+		 * Initializes variables
+		 *
+		 * @since    1.0
+		 */
+		public function init() {
 
-	/**
-	 * Register Blocks.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access private
-	 */
-	private function register_block( $id, $args ) {
+			global $wpmoly_dashboard_widgets;
 
-		$block = new Block( $id, array_merge( $args['args'], array(
-			'object_type'    => ! empty( $args['object_type'] ) ? $args['object_type'] : null,
-			'object_subtype' => ! empty( $args['object_subtype'] ) ? $args['object_subtype'] : null,
-		) ) );
+			$this->widgets = array();
+			$this->allowed_options = array( 'welcome_panel' );
 
-		$callback = array( $block, 'render' );
+			foreach ( $wpmoly_dashboard_widgets as $slug => $widget ) {
 
-		if ( ! empty( $args['dashboard_type'] ) ) {
-			if ( ! empty( $args['object_subtype'] ) ) {
-				add_action( "wpmoly/dashboard/{$args['object_subtype']}/{$args['dashboard_type']}/blocks", $callback );
-			} else {
-				add_action( "wpmoly/dashboard/{$args['dashboard_type']}/blocks", $callback );
+				$class = $this->filter_widget_classname( $widget['class'] );
+				$this->widgets[ $class ] = $class::get_instance();
+				$this->allowed_options[] = $slug;		
 			}
-		} else {
-			add_action( 'wpmoly/dashboard/blocks', $callback );
-		}
-	}
 
-	/**
-	 * Is current page an edit page?
-	 *
-	 * @since 3.0.0
-	 *
-	 * @return boolean
-	 */
-	private function is_editing() {
-
-		if ( empty( $_GET['id'] ) ) {
-			$this->object_id = null;
-			$this->editing = false;
-		} else {
-			$this->object_id = (int) $_GET['id'];
-			$this->editing = true;
 		}
 
-		return $this->editing;
-	}
+		/**
+		 * Register callbacks for actions and filters
+		 * 
+		 * @since    1.0
+		 */
+		public function register_hook_callbacks() {
 
-	/**
-	 * Set Dashboard 'Discover' Block data.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @param Block $block Block instance.
-	 */
-	public function set_dashboard_discover_block_data( $block ) {
+			add_filter( 'set-screen-option', array( $this, 'set_option' ), 10, 3 );
+			add_filter( 'screen_settings', array( $this, 'screen_options' ), 10, 2 );
+			add_filter( 'wpmoly_filter_widget_classname', array( $this, 'filter_widget_classname' ), 10, 1 );
 
-		$data = array();
-
-		$grids   = wp_count_posts( 'grid' );
-		$movies  = wp_count_posts( 'movie' );
-		$persons = wp_count_posts( 'person' );
-		$actors  = wp_count_terms( 'actor' );
-		$genres  = wp_count_terms( 'genre' );
-
-		$data['grids_url']   = admin_url( 'admin.php?page=wpmovielibrary-grids' );
-		$data['movies_url']  = admin_url( 'admin.php?page=wpmovielibrary-movies' );
-		$data['persons_url'] = admin_url( 'admin.php?page=wpmovielibrary-persons' );
-		$data['actors_url']  = admin_url( 'admin.php?page=wpmovielibrary-actors' );
-		$data['genres_url']  = admin_url( 'admin.php?page=wpmovielibrary-genres' );
-
-		$data['grids']   = isset( $grids->publish ) ? (int) $grids->publish : 0;
-		$data['movies']  = isset( $movies->publish ) ? (int) $movies->publish : 0;
-		$data['persons'] = isset( $persons->publish ) ? (int) $persons->publish : 0;
-		$data['actors']  = ! is_wp_error( $actors ) ? (int) $actors : 0;
-		$data['genres']  = ! is_wp_error( $genres ) ? (int) $genres : 0;
-
-		$license = wpmovielibrary()->settings->get( 'license_key', '' );
-		if ( empty( $license ) ) {
-			$data['license'] = 'missing';
-			$data['license_url'] = admin_url( 'admin.php?page=wpmovielibrary-settings#general' );
-		} else {
-			$data['license'] = 'valid';
-			$data['license_url'] = '#';
+			add_action( 'wp_ajax_wpmoly_save_screen_option', array( $this, 'wpmoly_save_screen_option_callback' ) );
+			add_action( 'wp_ajax_wpmoly_save_dashboard_widget_settings', __CLASS__ . '::wpmoly_save_dashboard_widget_settings_callback' );
+			add_action( 'wp_ajax_wpmoly_load_more_movies', __CLASS__ . '::wpmoly_load_more_movies_callback' );
 		}
 
-		$block->set_data( $data );
-	}
+		/**
+		 * AJAX Callback to update the plugin screen options.
+		 * 
+		 * 
+		 * 
+		 * @since    1.0
+		 */
+		public function wpmoly_save_screen_option_callback() {
 
-	/**
-	 * Set Dashboard 'Rating' Block data.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @param Block $block Block instance.
-	 */
-	public function set_dashboard_rating_block_data( $block ) {
+			check_ajax_referer( 'screen-options-nonce', 'screenoptionnonce' );
 
-		$block->set_data( array(
-			'testimony_url' => 'https://wpmovielibrary.com/testify',
-		) );
-	}
+			$screen_id = ( isset( $_POST['screenid'] ) && '' != $_POST['screenid'] ? $_POST['screenid'] : null );
+			$visible = ( isset( $_POST['visible'] ) && in_array( $_POST['visible'], array( '0', '1' ) ) ? $_POST['visible'] : '0' );
+			$option = ( isset( $_POST['option'] ) && '' != $_POST['option'] ? $_POST['option'] : null );
 
-	/**
-	 * Set Dashboard 'Support' Block data.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @param Block $block Block instance.
-	 */
-	public function set_dashboard_support_block_data( $block ) {
+			if ( is_null( $screen_id ) || is_null( $option ) || ! in_array( $option, $this->allowed_options ) )
+				wp_die( 0 );
 
-		$block->set_data( array(
-			'contact_url' => 'https://wpmovielibrary.com/support',
-			'hire_url'    => 'https://wpmovielibrary.com/hire-us',
-		) );
-	}
+			$update = self::save_screen_option( $option, $visible, $screen_id );
 
-	/**
-	 * Add post/term browser headline.
-	 *
-	 * @since 3.0.0
-	 */
-	public function add_browser_headline() {
-
-		$hook_name = current_action();
-		$heading = '';
-
-		if ( false !== strpos( $hook_name, 'grid' ) ) {
-			$heading = esc_html__( 'Grids', 'wpmovielibrary' );
-		} elseif ( false !== strpos( $hook_name, 'movie' ) ) {
-			$heading = esc_html__( 'Movies', 'wpmovielibrary' );
-		} elseif ( false !== strpos( $hook_name, 'person' ) ) {
-			$heading = esc_html__( 'Persons', 'wpmovielibrary' );
-		} elseif ( false !== strpos( $hook_name, 'actor' ) ) {
-			$heading = esc_html__( 'Actors', 'wpmovielibrary' );
-		} elseif ( false !== strpos( $hook_name, 'collection' ) ) {
-			$heading = esc_html__( 'Collections', 'wpmovielibrary' );
-		} elseif ( false !== strpos( $hook_name, 'genre' ) ) {
-			$heading = esc_html__( 'Genres', 'wpmovielibrary' );
+			wp_die( $update );
 		}
 
-		if ( empty( $heading ) ) {
-			return false;
+		/**
+		 * AJAX Callback to update the plugin Widgets settings.
+		 * 
+		 * 
+		 * 
+		 * @since    1.0
+		 */
+		public static function wpmoly_save_dashboard_widget_settings_callback() {
+
+			$widget = ( isset( $_POST['widget'] ) && '' != $_POST['widget'] ? $_POST['widget'] : null );
+			$setting = ( isset( $_POST['setting'] ) && '' != $_POST['setting'] ? $_POST['setting'] : null );
+			$value = ( isset( $_POST['value'] ) && '' != $_POST['value'] ? $_POST['value'] : null );
+
+			if ( is_null( $widget ) || is_null( $setting ) || is_null( $value ) || ! class_exists( $widget ) )
+				wp_die( 0 );
+
+			wpmoly_check_ajax_referer( 'save-' . strtolower( $widget ) );
+
+			$class = $widget::get_instance();
+			$update = self::save_widget_setting( $class->widget_id, $setting, $value );
+
+			WPMOLY_Utils::ajax_response( $update, array(), WPMOLY_Utils::create_nonce( 'save-' . strtolower( $widget ) ) );
 		}
 
-		echo '<div class="wpmoly-browser-heading">';
-		echo '<h1 class="wp-heading-inline">' . $heading . '</h1>';
-		//echo '<a href="' . '#' . '" class="page-title-action aria-button-if-js" role="button" aria-expanded="false">' . esc_html__( 'Import', 'wpmovielibrary' ) . '</a>';
-		echo '</div>';
+		/**
+		 * AJAX Callback to load more movies to the Widget.
+		 * 
+		 * @since    1.0
+		 */
+		public static function wpmoly_load_more_movies_callback() {
+
+			wpmoly_check_ajax_referer( 'load-more-widget-movies' );
+
+			$widget = ( isset( $_GET['widget'] ) && '' != $_GET['widget'] ? $_GET['widget'] : null );
+			$offset = ( isset( $_GET['offset'] ) && '' != $_GET['offset'] ? $_GET['offset'] : 0 );
+			$limit  = ( isset( $_GET['limit'] ) && '' != $_GET['limit'] ? $_GET['limit'] : null );
+
+			if ( is_null( $widget ) || ! class_exists( $widget ) )
+				wp_die( 0 );
+
+			$class = $widget::get_instance();
+			$class->get_widget_content( $limit, $offset );
+			wp_die();
+		}
+
+		/**
+		 * Save plugin Welcome Panel screen option.
+		 *
+		 * @since    1.0
+		 * 
+		 * @param    bool|int    $status Screen option value. Default false to skip.
+		 * @param    string      $option The option name.
+		 * @param    int         $value The number of rows to use.
+		 * 
+		 * @return   bool|string
+		 */
+		public function set_option( $status, $option, $value ) {
+
+			if ( in_array( $option, $this->allowed_options ) )
+				return $value;
+		}
+
+		/**
+		 * Show plugin Welcome panel screen option form.
+		 *
+		 * @since    1.0
+		 * 
+		 * @param    string    $status Screen settings markup.
+		 * @param    object    WP_Screen object.
+		 * 
+		 * @return   string    Updated screen settings
+		 */
+		public function screen_options( $status, $args ) {
+
+			if ( $args->base != 'toplevel_page_wpmovielibrary' )
+				return $status;
+
+			$user_id = get_current_user_id();
+			$hidden = get_user_option( 'metaboxhidden_' . $args->base );
+
+			if ( ! is_array( $hidden ) )
+				update_user_option( $user_id, 'metaboxhidden_' . $args->base, array(), true );
+
+			$return = array( '<h5>' . __( 'Show on screen', 'wpmovielibrary' ) . '</h5>' );
+			$return[] = $this->set_screen_option( 'welcome_panel', __( 'Welcome', 'wpmovielibrary' ), $status );
+
+			global $wpmoly_dashboard_widgets;
+			foreach ( $wpmoly_dashboard_widgets as $slug => $widget )
+				$return[] = $this->set_screen_option( $slug, $widget['title'], $status );
+
+			$return[] = get_submit_button( __( 'Apply', 'wpmovielibrary' ), 'button hide-if-js', 'screen-options-apply', false );
+
+			$return = implode( '', $return );
+
+			return $return;
+		}
+
+		/**
+		 * Generate and render screen option.
+		 *
+		 * @since    1.0
+		 * 
+		 * @param    string    $option Screen option ID.
+		 * @param    string    $title Screen option title.
+		 * @param    string    $status Screen setting markup.
+		 * 
+		 * @return   string    Updated screen settings
+		 */
+		private function set_screen_option( $option, $title, $status ) {
+
+			if ( ! in_array( $option, $this->allowed_options ) )
+				return $status;
+
+			$hidden = get_user_option( 'metaboxhidden_' . get_current_screen()->id );
+			$visible = ( in_array( 'wpmoly_dashboard_' . $option . '_widget', $hidden ) ? '0' : '1' );
+
+			$return = $status . '<label for="show_wpmoly_' . $option . '"><input id="show_wpmoly_' . $option . '" type="checkbox"' . checked( $visible, '1', false ) . ' />' . __( $title, 'wpmovielibrary' ) . '</label>';
+			
+			return $return;
+		}
+
+		/**
+		 * Save Widgets screen options. This is used to init the screen
+		 * options if they don't exist yet.
+		 *
+		 * @since    1.0
+		 * 
+		 * @return   array    List of hidden Widgets ID
+		 */
+		private static function save_screen_options() {
+
+			$edited  = false;;
+			$user_id = get_current_user_id();
+			$screen  = get_current_screen();
+			$hidden  = get_user_option( 'metaboxhidden_' . $screen->id );
+
+			return $hidden;
+		}
+
+		/**
+		 * Save a single Widget screen options.  This is used to save
+		 * the options through AJAX.
+		 *
+		 * @since    1.0
+		 * 
+		 * @param    string    $option Screen setting ID.
+		 * @param    string    $value Screen setting value.
+		 * @param    string    $value Screen ID.
+		 * 
+		 * @return   int       Update status for JSON: 1 on success, 0 on failure.
+		 */
+		private static function save_screen_option( $option, $value, $screen_id ) {
+
+			$user_id = get_current_user_id();
+			$hidden = get_user_option( 'metaboxhidden_' . $screen_id );
+			$hidden = ( is_array( $hidden ) ? $hidden : array() );
+			$option = 'wpmoly_dashboard_' . $option . '_widget';
+
+			$_option = array_search( $option, $hidden );
+
+			if ( '0' == $value && ! $_option )
+				$hidden[] = $option;
+			else if ( '0' == $value && ! isset( $hidden[ $_option ] ) )
+				$hidden[] = $option;
+			else if ( '1' == $value && isset( $hidden[ $_option ] ) )
+				unset( $hidden[ $_option ] );
+
+			$hidden = array_unique( $hidden );
+
+			$update = update_user_option( $user_id, 'metaboxhidden_' . $screen_id, $hidden, true );
+			$update = ( true === $update ? 1 : 0 );
+
+			return $update;
+		}
+
+		/**
+		 * Save a plugin Dashboard Widget setting.
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $widget_id Widget ID
+		 * @param    string    $setting Setting name
+		 * @param    string    $value Setting value
+		 * 
+		 * @return   boolean   Update status, success or failure
+		 */
+		private static function save_widget_setting( $widget_id, $setting, $value ) {
+
+			$settings = get_user_option( $widget_id . '_settings' );
+
+			if ( ! $settings ) {
+				update_user_option( get_current_user_id(), $widget_id . '_settings', array() );
+				$settings = $defaults;
+			}
+
+			$settings[ $setting ] = esc_attr( $value );
+			$update = update_user_option( get_current_user_id(), $widget_id . '_settings', $settings );
+
+			return $update;
+		}
+
+		/**
+		 * Render WPMOLY Dashboard Page.
+		 * 
+		 * Create a nice landing page for the plugin, displaying recent
+		 * movies and other stuff like a simple shortcut menu.
+		 * 
+		 * @since    1.0
+		 */
+		public static function dashboard() {
+
+			$hidden = self::save_screen_options();
+
+			if ( isset( $_GET['hide_wpmoly_api_key_notice'] ) && ( isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'hide-wpmoly-api-key-notice' ) ) )
+				WPMovieLibrary_Admin::show_api_key_notice();
+
+			if ( isset( $_GET['wpmoly_set_archive_page'] ) && ( isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpmoly-set-archive-page' ) ) )
+				WPMOLY_Utils::set_archive_page();
+
+			global $wpmoly_dashboard_widgets;
+			foreach ( $wpmoly_dashboard_widgets as $widget )
+				self::add_dashboard_widget( $widget );
+
+			echo self::render_admin_template( '/dashboard/dashboard.php', array( 'screen' => get_current_screen(), 'hidden' => $hidden ) );
+			echo self::render_admin_template( '/dashboard/movie-modal.php' );
+		}
+ 
+		/**
+		 * Adds a new widget to the Plugin's Dashboard.
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    array     $widget Widget data
+		 */
+		public static function add_dashboard_widget( $widget ) {
+
+			global $wp_dashboard_control_callbacks;
+
+			extract( $widget );
+
+			$class = apply_filters( 'wpmoly_filter_widget_classname', $class );
+			$widget_id = strtolower( $class );
+			$widget_name = __( $name, 'wpmovielibrary' );
+			$location = ( 'side' == $location ? 'side' : 'normal' );
+			$instance = new $class;
+			$callback = array( $instance, 'dashboard_widget' );
+			$callback_args = array( 'id' => $widget_id );
+			$control_callback = ( 'side' == $location ? null : array( $instance, 'dashboard_widget_handle' ) );
+
+			if ( ! is_null( $control_callback ) && current_user_can( 'edit_dashboard' ) && is_callable( $control_callback ) ) {
+
+				$wp_dashboard_control_callbacks[ $widget_id ] = $control_callback;
+				$widget_name = __( $widget_name, 'wpmovielibrary' );
+
+				if ( isset( $_GET['edit'] ) && $widget_id == $_GET['edit'] ) {
+					list( $url ) = explode( '#', add_query_arg( 'edit', false ), 2 );
+					$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( $url ) . '" class="edit-box close-box"><span class="hide-if-js">' . __( 'Cancel' ) . '</span><span class="hide-if-no-js">' . __( 'Close' ) . '</span></a></span>';
+					$callback = $control_callback;
+				}
+				else {
+					list( $url ) = explode( '#', add_query_arg( 'edit', $widget_id ), 2 );
+					$widget_name .= ' <span class="postbox-title-action"><a href="' . wp_nonce_url( "$url#$widget_id", "edit_$widget_id" ) . '" class="edit-box open-box">' . __( 'Configure' ) . '</a></span>';
+					$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( $url ) . '" class="edit-box close-box hide-if-no-js hide-if-js"><span class="hide-if-js">' . __( 'Cancel' ) . '</span><span class="hide-if-no-js">' . __( 'Close' ) . '</span></a></span>';
+				}
+			}
+
+			$screen = get_current_screen();
+			$priority = 'core';
+
+			add_meta_box( $widget_id, $widget_name, $callback, $screen, $location, $priority, $callback_args );
+
+		}
+
+		/**
+		 * Prepare Widgets Class Names
+		 *
+		 * @since    1.2
+		 *
+		 * @param    string    Default classname
+		 *
+		 * @param    string    Filter classname
+		 */
+		public function filter_widget_classname( $name ) {
+
+			return "WPMOLY_Dashboard_{$name}_Widget";
+		}
+
+		/**
+		 * Prepare sites to use the plugin during single or network-wide activation
+		 *
+		 * @since    1.0
+		 *
+		 * @param    bool    $network_wide
+		 */
+		public function activate( $network_wide ) {}
+
+		/**
+		 * Roll back activation procedures when de-activating the plugin
+		 *
+		 * @since    1.0
+		 */
+		public function deactivate() {}
+
 	}
 
-	/**
-	 * Add a swtich button to the classic editor.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access public
-	 *
-	 * @param $post WP_Post Post object.
-	 */
-	public function add_classic_editor_switch_button( $post ) {
-
-		// Exit if Gutenberg are active.
-		if ( did_action( 'enqueue_block_editor_assets' ) ) {
-			return;
-		}
-
-		$post_type = get_post_type( $post );
-		if ( ! in_array( $post_type, array( 'grid', 'movie', 'person' ), true ) ) {
-			return false;
-		}
-?>
-		<div id="wpmoly-editor-switch" class="wpmoly editor-switch">
-			<a href="<?php echo esc_url_raw( admin_url( 'admin.php?page=wpmovielibrary-' . $post_type . 's&id=' . $post->ID . '&action=edit' ) ); ?>" class="wpmoly editor-switch-button"><?php _e( 'Edit with wpMovieLibrary', 'wpmovielibrary' ); ?></a>
-		</div>
-<?php
-	}
-
-}
+endif;

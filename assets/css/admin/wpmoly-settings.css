@@ -1,0 +1,60 @@
+/** ReduxFramework **/
+
+#redux-header {
+	background-image: url('../../img/header.jpg') !important;
+	background-position: center 85% !important;
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
+}
+
+#wpmoly-sort-meta.redux-sorter-container h3,
+#wpmoly-sort-details.redux-sorter-container h3,
+#wpmoly-movie-archives-movies-meta.redux-sorter-container h3 {
+	border: 0;
+	margin: 0 0 0.5rem 0;
+	text-align: center;
+}
+
+#wpmoly-sort-meta.redux-sorter-container ul,
+#wpmoly-sort-details.redux-sorter-container ul,
+#wpmoly-movie-archives-movies-meta.redux-sorter-container ul {
+	background: transparent;
+	border: 0;
+	padding: 0;
+	width: 40%;
+}
+
+#wpmoly-sort-meta.redux-sorter-container li,
+#wpmoly-sort-details.redux-sorter-container li,
+#wpmoly-movie-archives-movies-meta.redux-sorter-container li {
+	border: 0;
+	color: #eee !important;
+	margin-bottom: 2px !important;
+}
+
+.redux-notice-field {
+	padding: 12px !important;
+}
+
+.redux-notice-field .redux-info-desc {
+	display: inline !important;
+}
+
+.redux-notice-field .redux-info-icon {
+	display: inline !important;
+	float: left !important;
+	margin-bottom: 15px !important;
+	margin-right: 20px !important;
+}
+
+.redux-field-container {
+	overflow: hidden;
+	position: relative;
+}
+
+.redux-field-container img.wpmoly-helper {
+	max-width: 270px;
+	position: absolute;
+	right: 0;
+	top: 4px;
+}

@@ -1,0 +1,162 @@
+/** Update Movies Page **/
+
+#dashboard-widgets #postbox-container-1 {
+	width: 70% !important;
+}
+
+#dashboard-widgets #postbox-container-2 {
+	width: 30% !important;
+}
+
+#wpmoly_dashboard_deprecated_movies .main {
+	max-height: 30em;
+	overflow-y: scroll;
+}
+
+.deprecated-movies,
+.updated-movies {
+	display: inline-block;
+	margin: 0.25em 0.25%;
+	padding: 0;
+	width: 49%;
+	vertical-align: top;
+}
+
+
+.deprecated-movies table,
+.updated-movies table {
+	width: 100%;
+}
+
+.deprecated-movies tbody tr {
+	box-shadow: 0 0 1px #ffba00 inset;
+}
+
+.updated-movies tbody tr {
+	box-shadow: 0 0 1px #7ad03a inset;
+}
+
+.deprecated-movies td.label,
+.updated-movies td.label {
+	vertical-align: top;
+	width: 30px;
+}
+
+.deprecated-movies td.label .wpmolicon,
+.updated-movies td.label .wpmolicon {
+	color: #fff;
+	height: 24px;
+	line-height: 25px;
+	margin-right: 6px;
+	padding: 4px;
+	width: 24px;
+}
+
+.deprecated-movies td.label .wpmolicon {
+	background: #ffba00;
+}
+
+.updated-movies td.label .wpmolicon {
+	background: #7ad03a;
+}
+
+.deprecated-movies .movie-title,
+.updated-movies .movie-title {
+	padding-top: 2px;
+}
+
+.deprecated-movies tbody tr.active {
+	box-shadow: 0px 0px 1px #0053a4 inset;
+	background: #eff7ff;
+}
+
+.deprecated-movies tbody tr.active td.label .wpmolicon {
+	background: #0099d5;
+}
+
+#wpmoly_dashboard_deprecated_movies_update_status {
+	background: url(../../img/bg.jpg) center top;
+	background-size: cover;
+}
+
+#wpmoly_dashboard_deprecated_movies_update_status .handlediv,
+#wpmoly_dashboard_deprecated_movies_update_status .hndle {
+	display: none;
+}
+
+#wpmoly_dashboard_deprecated_movies_update_status .main {
+	color: #fff;
+	padding-top: 2.5em;
+}
+
+#wpmoly_dashboard_deprecated_movies_update_status .main a {
+	color: #fff;
+	border-bottom: 1px dotted;
+}
+
+#wpmoly_dashboard_deprecated_movies_update_status .main a:hover {
+	color: #fff;
+	border-bottom: 1px solid #eee;
+}
+
+#update-movies-progressbar {
+	background: rgba(255, 255, 255, 0.25);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.15) inset;
+	height: 0.5em;
+	position: relative;
+	width: 100%;
+}
+
+#update-movies-progress {
+	background: rgba(255, 255, 255, 0.9);
+	box-shadow: 0 0 2px rgba(255, 255, 255, 0.9);
+	height: 100%;
+	position: absolute;
+	width: 0;
+}
+
+#update-movies-progressbar-text {
+	padding-bottom: 0.5em;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+}
+
+#update-movies-progressbar-text .value {
+	float: right;
+	font-family: 'Roboto', sans-serif;
+	font-size: 3.5em;
+	font-weight: 100;
+	margin-top: -0.75rem;
+}
+
+#update-movies-progressbar-text .text {
+	text-transform: lowercase;
+}
+
+#update-movies-log {
+	background: rgba(255, 255, 255, 0.25);
+	display: none;
+	font-size: 0.9em;
+	max-height: 10em;
+	overflow-y: scroll;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.update-movies-log-entry {
+	display: block;
+}
+
+#launch-update .wpmolicon {
+	line-height: 2.15em;
+	margin-right: 0.25em;
+}
+
+#missing-pages td,
+#existing-pages td {
+	border-top: 1px solid #aaa;
+	padding: 0.5em;
+}
+
+#missing-pages th,
+#existing-pages th {
+	padding: 0.5em;
+}

@@ -1,0 +1,234 @@
+
+.diagnose-wrap {
+	margin: 20px 20px 0 2px;
+}
+
+.diagnose-box {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.diagnose-header {
+	padding: 20px 20px 30px;
+}
+
+.diagnose-header .diagnose-info {
+	color: #888;
+	float: right;
+	margin: 15px 10px 0 0;
+	text-align: right;
+}
+
+.diagnose-header .diagnose-logo {
+	float: left;
+	margin: 0 15px 0 10px;
+}
+
+.diagnose-header .diagnose-title h1 {
+	font-size: 24px;
+	font-weight: 300;
+	margin: 15px 0 0;
+	padding: 0;
+}
+
+.diagnose-header .diagnose-subtitle {
+	margin: 0;
+}
+
+.diagnose-description {
+	border-bottom: 1px solid #eaeaea;
+	border-top: 1px solid #eaeaea;
+	padding: 40px;
+	text-align: center;
+}
+
+.diagnose-description p {
+	font-size: 18px;
+	font-weight: 300;
+	margin: 0;
+}
+
+.diagnose-survey {
+	background: #32373c;
+	color: #eee;
+	padding: 20px;
+}
+
+.diagnose-survey h2,
+.diagnose-survey h4 {
+	color: #fff;
+	font-size: 32px;
+	font-weight: 300;
+	text-align: center;
+}
+
+.diagnose-survey h4 {
+	font-size: 24px;
+}
+
+.diagnose-survey .survey-info {
+	font-size: 16px;
+}
+
+.diagnose-survey .survey-submit {
+	padding: 20px 0;
+	text-align: center;
+}
+
+.diagnose-survey .survey-submit .button {
+	background: #eee;
+	border: 0;
+	box-shadow: 0 0 0;
+	font-size: 24px;
+	font-weight: 300;
+	height: 48px;
+	padding: 12px 32px;
+}
+
+.diagnose-survey .survey-submit .button:hover {
+	background: #fff;
+}
+
+.diagnose-survey .survey-dismiss,
+.diagnose-survey .survey-dismiss a {
+	color: #eee;
+	font-size: 14px;
+}
+
+.diagnose-survey .survey-dismiss a:hover {
+	color: #fff;
+}
+
+.diagnose-survey .survey-dismissed {
+	text-align: center;
+}
+
+.diagnose-survey .survey-dismissed a {
+	color: #eee;
+}
+
+.diagnose-survey .survey-dismissed a:hover {
+	color: #fff;
+}
+
+.diagnose-content {
+	padding: 20px;
+}
+
+.diagnose-content .diagnose-separator {
+	padding: 40px 0;
+	text-align: center;
+}
+
+.diagnose-content .diagnose-separator h2 {
+	color: #444;
+	font-size: 32px;
+	font-weight: 300;
+	line-height: 32px;
+	margin: 0;
+	padding: 0;
+}
+
+.diagnose-content .diagnose-separator p {
+	color: #aaa;
+	font-size: 12px;
+	margin: 0;
+	padding: 0;
+}
+
+.diagnose-content .diagnose-left,
+.diagnose-content .diagnose-right {
+	display: inline-block;
+	vertical-align: top;
+	width: 49.5%;
+}
+
+.diagnose-content .diagnose-top-block {
+	border-bottom: 4px double #e5e5e5;
+	font-size: 16px;
+	padding: 15px 10px;
+	text-align: center;
+}
+
+.diagnose-content .diagnose-block {
+	margin-top: 20px;
+}
+
+.diagnose-content .diagnose-left .diagnose-block {
+	border-right: 1px solid #e5e5e5;
+	padding-right: 2%
+}
+
+.diagnose-content .diagnose-right .diagnose-block {
+	border-left: 1px solid #e5e5e5;
+	padding-left: 2%
+}
+
+.diagnose-content .diagnose-block .block-title {
+	border-bottom: 1px solid #e5e5e5;
+	font-size: 16px;
+	font-weight: 500;
+	padding: 5px 10px 15px;
+}
+
+.diagnose-content .diagnose-item {
+	border-bottom: 1px dashed #ccc;
+	margin: 5px 0;
+	padding: 5px 10px;
+}
+
+.diagnose-content .diagnose-item .dashicons {
+	float: left;
+	margin-right: 4px;
+}
+
+.diagnose-content .diagnose-item .item-value {
+	display: block;
+	float: none;
+	margin-right: 4px;
+}
+
+.diagnose-content .diagnose-item .item-title {
+	color: #666;
+	display: block;
+	font-weight: 600;
+}
+
+.diagnose-content .diagnose-item .item-description {
+	color: #888;
+	display: inline-block;
+	font-size: 12px;
+}
+
+.diagnose-content .diagnose-item.item-success {
+	border-bottom-color: #19bf00;
+}
+
+.diagnose-content .diagnose-item.item-warning {
+	border-bottom-color: #f90;
+}
+
+.diagnose-content .diagnose-item.item-error {
+	border-bottom-color: #f00;
+}
+
+.diagnose-content .diagnose-item.item-success .dashicons {
+	color: #19bf00;
+}
+
+.diagnose-content .diagnose-item.item-warning .dashicons {
+	color: #f90;
+}
+
+.diagnose-content .diagnose-item.item-error .dashicons {
+	color: #f00;
+}
+
+.diagnose-content .diagnose-item.item-null .dashicons {
+	color: #aaa;
+}
+
+.diagnose-footer {
+	padding: 20px;
+}

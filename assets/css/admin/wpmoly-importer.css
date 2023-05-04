@@ -1,0 +1,340 @@
+
+/* Tabs Settings */
+
+#wpmoly-tabs {
+	border-width: 0 !important;
+	display: inline-table;
+	position: relative;
+	width: 100%;
+}
+
+#wpmoly-tabs h4 {
+	margin: 0.25em 0;
+}
+
+#wpmoly-tabs h4 span {
+	background: #333;
+	border-radius: 1em;
+	color: #fff;
+	font-weight: bold;
+	font-size: 0.75em;
+	margin-left: 0.25em;
+	padding: 0.25em 0.5em;
+	position: relative;
+	top: -0.75em;
+}
+
+#wpmoly-tabs > ul > li > a {
+	outline: none;
+}
+
+#wpmoly-tabs h4 .ui-icon {
+	display: inline-block;
+	margin: 0.25em 0 -0.25em 0;
+}
+
+#wpmoly-tabs .update-nag {
+	padding: 1em 1.5em;
+	text-align: left;
+}
+
+#wpmoly-tabs .update-nag .ui-icon {
+	display: inline-block;
+	margin: 0.25em 0 -0.25em 0;
+}
+
+#wpmoly-tabs .form-table {
+	margin: 0;
+}
+
+#wpmoly-tabs p.submit {
+	text-align: right;
+}
+
+/* Tab menu */
+
+.wpmoly-tabs-nav {
+	background: #222;
+	margin-bottom: 0;
+}
+
+.wpmoly-tabs-nav > li {
+	display: inline-block;
+	margin: 0;
+}
+
+.wpmoly-tabs-nav > li.active a,
+.wpmoly-tabs-nav > li.active:hover a {
+	background: #2EA2CC;
+}
+
+.wpmoly-tabs-nav > li.active a,
+.wpmoly-tabs-nav > li.active:hover a  {
+	color: #fff;
+}
+
+.wpmoly-tabs-nav > li > a {
+	color: #ddd;
+	display: block;
+	margin: 0;
+	outline: none;
+	padding: 0.75em 1.5em;
+	text-decoration: none;
+}
+
+.wpmoly-tabs-nav > li > a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+.wpmoly-tabs-nav > li:hover {
+	background: #111;
+}
+
+.wpmoly-tabs-nav > li:hover a {
+	color : #2EA2CC;
+}
+
+.wpmoly-tabs-nav > li:hover h4 span {
+	background: #2EA2CC !important;
+	color: #222 !important;
+}
+
+/* Table */
+
+#wpmoly-tabs .wpmoly-tabs-panels {
+	background: #fff;
+	padding: 1em;
+}
+
+#wpmoly-tabs .wpmoly-tabs-panels .form-table.active {
+	display: block !important;
+}
+
+#wpmoly-tabs .wpmoly-tabs-panels h3 {
+	background: #fff;
+	display: none;
+	margin: 1em -0.75em;
+	padding: 0.5em 0.75em;
+}
+
+#wpmoly-tabs .wpmoly-tabs-panels h3:first-child {
+	margin-top: 0;
+}
+
+#wpmoly-tabs .wp-list-table a {
+	color: #21759B;
+}
+
+#wpmoly-tabs .wp-list-table .delete a {
+	color: #BC0B0B;
+}
+
+#wpmoly-tabs .wp-list-table a:hover,
+#wpmoly-tabs .wp-list-table a:focus {
+	color: #D54E21;
+}
+
+#wpmoly-tabs .wp-list-table .enqueue_movie.loading {
+	position: relative;
+}
+
+#wpmoly-tabs .wp-list-table .enqueue_movie.loading .wpmolicon {
+	opacity: 0;
+}
+
+#wpmoly-tabs .wp-list-table .enqueue_movie.loading .spinner {
+	display: block;
+	left: 8px;
+	position: absolute;
+	top: -7px;
+}
+
+#wpmoly-tabs .wp-list-table #poster {
+	width: 6em;
+}
+
+#wpmoly-tabs .wp-list-table #director {
+	max-width: 10em;
+}
+
+#wpmoly-tabs .wp-list-table .poster.loading {
+	background: url(../../img/loading.gif) 0 16px no-repeat;
+}
+
+#wpmoly-queued-list-header {
+	border: 1px solid #ddd;
+	border-bottom: 0;
+	margin-top: 0.5em;
+}
+
+#wpmoly-queued-list-header > div {
+	display: inline-block;
+	font-weight: bold;
+	padding: 0.75em 1em;
+}
+
+#wpmoly-tabs #wpmoly-queued-list {
+	border: 1px solid #ddd;
+	max-height: 32em;
+	max-height: 16em;
+	margin-top: 0;
+	overflow: auto;
+	padding-bottom: 1em;
+}
+
+#wpmoly-tabs #wpmoly-queued-list .row-actions {
+	padding: 0 !important;
+}
+
+#wpmoly-tabs #wpmoly-queued-list > li:nth-child(odd) {
+	background: #f2f2f2;
+}
+
+#wpmoly-tabs #wpmoly-queued-list > li > div {
+	display: inline-block;
+	padding: 1em;
+	width: auto;
+}
+
+#wpmoly-tabs #wpmoly-queued-list a {
+	text-decoration: none;
+}
+
+#wpmoly-tabs #wpmoly-queued-list .column-movietitle {
+	font-style: italic;
+}
+
+#wpmoly-tabs #wpmoly-queued-list .column-movietitle,
+#wpmoly-tabs #wpmoly-queued-list .column-director,
+#wpmoly-tabs #wpmoly-queued-list-header .column-movietitle,
+#wpmoly-tabs #wpmoly-queued-list-header .column-director {
+	width: 24%;
+}
+
+#wpmoly-tabs #wpmoly-queued-list .column-actions,
+#wpmoly-tabs #wpmoly-queued-list-header .column-actions {
+	float: right;
+	max-width: 6em !important;
+	text-align: center;
+}
+
+#wpmoly-tabs #wpmoly-queued-list .column-status,
+#wpmoly-tabs #wpmoly-queued-list-header .column-status {
+	float: right;
+	max-width: 10em !important;
+	text-align: center;
+}
+
+#wpmoly-tabs #wpmoly-queued-list .column-status {
+	font-size: 0.85em !important;
+	font-style: italic;
+	max-width: none !important;
+	padding: 1.1em 1.5em 1.1em 1.1em !important;
+	width: 12em !important;
+}
+
+#wpmoly-tabs #wpmoly-imported .movietitle .import-error {
+	background: #dedede;
+	padding: 0.25em 0.5em;
+	width: 100%;
+}
+
+#wpmoly-tabs #wpmoly-imported .movietitle .import-error p {
+	display: inline;
+	font-size: small;
+	margin-right: 0.25em;
+}
+
+#queue_progress_block {
+	visibility: hidden;
+}
+
+#queue_progress_block.visible {
+	visibility: visible;
+}
+
+#queue_status {
+	display: inline-block;
+	font-size: 0.9em;
+	margin-top: 6px;
+	vertical-align: top;
+}
+
+#queue_status_message {
+	display: none;
+	font-size: small;
+	font-style: italic;
+	margin: 6px 0px 0px 6px;
+	vertical-align: top;
+}
+
+#queue_progressbar {
+	background: #222;
+	border: 1px solid #222;
+	display: inline-block;
+	height: 16px;
+	margin: 6px 0 0 0;
+	overflow: hidden;
+	width: 160px;
+}
+
+#queue_progress {
+	background: #2EA2CC;
+	display: block;
+	height: 16px;
+	width: 0%;
+}
+
+#wpmoly_import_queued {
+	float: right;
+}
+
+#wpmoly_import_list {
+	height: 12em;
+	width: 100%;
+}
+
+.wpmoly-import-movie-select {
+	background: #222;
+}
+
+.wpmoly-import-movie-select .tmdb_select_movies {
+	max-height: 12em;
+	overflow-y: scroll;
+}
+
+.wpmoly-import-movie-select .tmdb_select_movie {
+	float: left;
+	font-size: 0.9em;
+	height: 12em;
+	width: 6em;
+}
+
+.wpmoly-import-movie-select .tmdb_select_movie img {
+	max-height: 8em;
+	max-width: 6em;
+}
+
+#wpmoly_imported .wp-list-table.movies {
+	position: relative;
+}
+
+#wpmoly_import .spinner,
+#wpmoly_imported .spinner,
+#wpmoly_import_queue .spinner {
+	float: none;
+	margin: 6px 0 0 -8px;
+}
+
+#wpmoly_import .spinner.spinning,
+#wpmoly_imported .spinner.spinning,
+#wpmoly_import_queue .spinner.spinning {
+	display: inline-block;
+	opacity: 1;
+	visibility: visible;
+}
+
+#wpmoly_import_queue .spinner {
+	margin-left: -2px;
+}

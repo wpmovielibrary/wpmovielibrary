@@ -1,0 +1,1302 @@
+
+.hide-if-no-js {
+	display: none !important;
+}
+
+[class^="wpmolicon icon-"],
+[class*=" wpmolicon icon-"],
+[class^="wpmolicon icon-"]:before,
+[class*=" wpmolicon icon-"]:before {
+	font-family: "wpmovielibrary" !important;
+}
+
+.wpmolicon {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	font-size: 20px;
+	line-height: 1;
+	font-family: "wpmovielibrary";
+	text-decoration: inherit;
+	font-weight: normal;
+	font-style: normal;
+	vertical-align: top;
+	text-align: center;
+	-webkit-transition: color .1s ease-in 0;
+	transition: color .1s ease-in 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.wpmolicon.icon-available:before {
+	content: "\e663";
+}
+.wpmolicon.icon-loaned:before {
+	content: "\e61f";
+}
+.icon-bluray:before {
+	content: "\e64f";
+}
+.icon-production_companies:before {
+	content: "\e639";
+}
+.icon-production_countries:before {
+	content: "\e63b";
+}
+.icon-spoken_languages:before {
+	content: "\e63a";
+}
+.icon-budget:before {
+	content: "\f155";
+}
+.icon-revenue:before {
+	content: "\f0d6";
+}
+.icon-release_date:before {
+	content: "\e642";
+}
+.icon-rating:before {
+	content: "\e622";
+}
+.icon-media:before {
+	content: "\e606";
+}
+
+#wp-admin-bar-wpmovielibrary .wpmolicon {
+	font-family: 'wpmovielibrary';
+	font-size: 1.25em;
+	margin-right: 0.25em;
+	opacity: 0.75;
+}
+
+/** Public Page
+ ***************************************************/
+
+.hentry.wpmoly_page.type-wpmoly_page .entry-header {
+	display: none;
+}
+
+.hentry.wpmoly_page .page-numbers {
+	text-align: center;
+}
+
+.hentry.wpmoly_page .page-numbers li {
+	display: inline-block;
+	margin: 0px 0.5em;
+}
+
+/** Movie Grid
+ ***************************************************/
+
+.wpmoly.grid {
+	display: block;
+	float: none;
+}
+
+#wpmoly-movie-grid-menu,
+#wpmoly-movie-grid-menu-2 {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 1em;
+	margin: 1em 0.5em;
+	padding: 0.5em 1em;
+	text-align: center;
+}
+
+#wpmoly-movie-grid-menu a,
+#wpmoly-movie-grid-menu-2 a {
+	text-decoration: none !important;
+}
+
+#wpmoly-movie-grid-menu span,
+#wpmoly-movie-grid-menu-2 span {
+	line-height: 1.25em;
+}
+
+#wpmoly-movie-grid-menu .wpmoly.grid.menu.item,
+#wpmoly-movie-grid-menu-2 .wpmoly.grid.menu.item {
+	border-left: 1px solid #ddd;
+	display: inline-block;
+	margin: 0;
+	padding: 0.15rem 0.5rem;
+}
+
+#wpmoly-movie-grid-menu .wpmoly.grid.menu.item:first-child,
+#wpmoly-movie-grid-menu-2 .wpmoly.grid.menu.item:first-child {
+	border-left: 0;
+}
+
+#wpmoly-movie-grid-menu .wpmoly.grid.menu.item.active,
+#wpmoly-movie-grid-menu-2 .wpmoly.grid.menu.item.active {
+	background: #ddd;
+	font-weight: bold;
+}
+
+#wpmoly-movie-grid-menu-2 .wpmoly.grid.menu.item select {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 4px 8px;
+	width: 100%;
+}
+
+#wpmoly-movie-grid-menu-2-sorting {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	box-shadow: 0 2px 2px #111;
+	display: none;
+	left: 18px;
+	max-width: 200px;
+	padding: 4px 8px;
+	position: absolute;
+	top: 40px;
+	width: 100%;
+	z-index: 9999;
+}
+
+#wpmoly-movie-grid-menu-2-sorting a {
+	background: #0074a2;
+	border-radius: 3px;
+	color: #fff;
+	display: block;
+	margin-top: 10px;
+	padding: 4px 8px;
+	text-align: center;
+}
+
+#wpmoly-movie-grid-menu-2-sorting a:hover {
+	opacity: 0.9;
+}
+
+#wpmoly-movie-grid {
+	margin: 1em 0.5em;
+}
+
+#wpmoly-movie-grid.grid {
+	text-align: center;
+}
+
+#wpmoly-movie-grid.archives > .wpmoly.block.headbox  {
+	margin-bottom: 1em;
+	margin-top: 1em;
+}
+
+#wpmoly-movie-grid > .movie {
+	display: inline-block;
+	margin: 0.2%;
+	vertical-align: top;
+}
+
+#wpmoly-movie-grid > .movie.with-title,
+#wpmoly-movie-grid > .movie.with-rating,
+#wpmoly-movie-grid > .movie.with-year {
+	margin-bottom: 1em;
+}
+
+#wpmoly-movie-grid.grid-col-8 > .movie {
+	width: 11.3%;
+}
+
+#wpmoly-movie-grid.grid-col-7 > .movie {
+	width: 13.33%;
+}
+
+#wpmoly-movie-grid.grid-col-6 > .movie {
+	width: 15.7%;
+}
+
+#wpmoly-movie-grid.grid-col-5 > .movie {
+	width: 19%;
+}
+
+#wpmoly-movie-grid.grid-col-4 > .movie {
+	width: 24%;
+}
+
+#wpmoly-movie-grid.grid-col-3 > .movie {
+	width: 32.25%;
+}
+
+#wpmoly-movie-grid.grid-col-2 > .movie {
+	width: 49%;
+}
+
+#wpmoly-movie-grid .wpmoly.movie.link {
+	display: inline;
+	text-align: left;
+	text-decoration: none;
+}
+
+#wpmoly-movie-grid .wpmoly.movie.poster {
+	
+}
+
+#wpmoly-movie-grid .wpmoly.movie.year {
+	font-size: small;
+}
+
+#wpmoly-movie-grid .wpmoly.movie.title {
+	font-size: 1em;
+	margin: 0.5em 0 0 0;
+	text-align: left;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+#wpmoly-movie-grid .wpmoly.movie.details-1 {
+	display: block;
+	font-size: 75%;
+	opacity: 0.75;
+}
+
+#wpmoly-movie-grid > .movie .wp-post-image {
+	border-radius: 3px;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+	height: 100%;
+	width: 100%;
+}
+
+#wpmoly-movies-pagination {
+	margin: 1em auto;
+	text-align: center;
+}
+
+#wpmoly-movies-pagination ul.page-numbers {
+	background: none repeat scroll 0% 0% #FFF;
+	border: 1px solid #DDD;
+	border-radius: 4px;
+	font-size: 1em;
+	margin: 1em 0.5em;
+	padding: 0.5em 1em;
+	text-align: center;
+}
+
+#wpmoly-movies-pagination ul.page-numbers li {
+	display: inline-block;
+	margin: 0;
+	padding: 0.25em 0.5em;
+}
+
+/** Taxonomy Archives menu
+ ***************************************************/
+
+#wpmoly-movie-grid-menu-2 {
+	max-height: 32px;
+	position: relative;
+	text-align: left;
+}
+
+#wpmoly-movie-grid-menu-item-count {
+	float: right;
+}
+
+#wpmoly-movie-grid-menu-item-count .wpmolicon {
+	color: #666;
+	position: relative;
+	top: 2px;
+}
+
+#wpmoly-movie-grid-menu-item-count input {
+	display: inline-block;
+	max-height: 24px;
+	max-width: 48px;
+	padding: 0px;
+	text-align: center;
+}
+
+/** Default Movie Headbox
+ ***************************************************/
+
+.wpmoly.headbox {
+	background-color: #333;
+	background-position: center -142px;
+	background-repeat: no-repeat;
+	background-size: 100% auto;
+	clear: both;
+	position: relative;
+}
+
+.wpmoly.headbox > * {
+	background-color: transparent;
+}
+
+.wpmoly.headbox.movie.poster {
+	background-color: rgba(0, 0, 0, 0.65);
+	border: 4px solid rgba(0, 0, 0, 0);
+	color: #ddd;
+	min-height: 148px;
+	padding: 8px 14px;
+}
+
+.wpmoly.headbox.movie.poster > *,
+.wpmoly.headbox.movie.poster .wpmoly.headbox.movie.details-2 > * {
+	background: transparent;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.wpmoly.headbox.movie.poster a {
+	color: #ddd;
+	text-decoration: none;
+}
+
+.wpmoly.headbox.movie.poster a:hover,
+.wpmoly.headbox.movie.poster a:focus {
+	color: #fff;
+	text-decoration: underline;
+}
+
+.wpmoly.headbox.movie.poster.content {
+	background: transparent;
+	padding: 4px 16px;
+}
+
+.wpmoly.headbox.movie.poster .wpmoly.headbox.movie.title {
+	color: #fff;
+	font-size: 22px;
+	margin: 10px 0 0 0;
+}
+
+.wpmoly.headbox.movie.poster .wpmoly.headbox.movie.subtitle {
+	color: #ddd;
+	font-size: 14px;
+	margin: 0;
+}
+
+.wpmoly.headbox.movie.poster .wpmoly.headbox.movie.details-1 {
+	display: block;
+	font-size: 12px;
+	margin: 0 0 2px 0;
+}
+
+.wpmoly.headbox.movie.details .wpmolicon {
+	margin-right: 4px;
+	position: relative;
+	top: 1px;
+}
+
+.wpmoly.headbox.movie.details .wpmolicon.circle-o {
+	color: rgba(255, 255, 255, 0.25);
+}
+
+.wpmoly.headbox.movie.details .wpmolicon.available {
+	color: #35ff5b;
+}
+
+.wpmoly.headbox.movie.details .wpmolicon.unavailable {
+	color: #ff3535;
+}
+
+.wpmoly.headbox.movie.details .wpmolicon.loaned {
+	color: #ffc335;
+}
+
+.wpmoly.headbox.movie.details .wpmolicon.scheduled {
+	color: #35aaff;
+}
+
+.wpmoly.headbox.movie.poster .wpmoly.headbox.movie.details-2 {
+	bottom: 8px;
+	left: 14px;
+	position: absolute;
+}
+
+.wpmoly.headbox.movie.details-2 {
+	font-size: 12px;
+}
+
+.wpmoly.headbox.movie.details-3 {
+	position: absolute;
+	right: 14px;
+	text-align: right;
+	top: 22px;
+}
+
+.wpmoly.headbox.movie.details-3 .wpmolicon.icon-star-filled,
+.wpmoly.headbox.movie.details-3 .wpmolicon.icon-star-half {
+	color: #ffc335;
+}
+
+.wpmoly.headbox.movie.details-3 .wpmolicon.icon-star-empty {
+	color: #75716a;
+}
+
+.wpmoly.headbox.movie.details-3 .starlined .wpmolicon.icon-star-filled:before {
+	content: "\e620";
+}
+
+.wpmoly.headbox.movie.details-3 .wpmolicon.icon-star-filled {
+	text-shadow: 0 0 2px rgba(255, 198, 0, 0.75);
+}
+
+.wpmoly.headbox.movie.details-3 .starlined .wpmolicon.icon-star-half {
+	position: relative;
+}
+
+.wpmoly.headbox.movie.details-3 .starlined .wpmolicon.icon-star-half:before {
+	color: #ffc335;
+	content: "\e620";
+	left: 0;
+	overflow: hidden;
+	position: absolute;
+	text-shadow: 0 0 2px rgba(255, 198, 0, 0.75);
+	top: 0;
+	width: 10px;
+}
+
+.wpmoly.headbox.movie.details-3 .starlined .wpmolicon.icon-star-half:after {
+	color: #75716a;
+	content: "\e620";
+}
+
+.wpmoly.headbox.movie.empty {
+	display: none;
+}
+
+.wpmoly.headbox.movie.menu {
+	bottom: 2px;
+	position: absolute;
+	right: 16px;
+}
+
+.wpmoly.headbox.movie.menu.hint {
+	color: rgba(255, 255, 255, 0.5);
+	font-size: 0.75rem;
+	height: 1.75em;
+	min-width: 12em;
+	position: absolute;
+	right: 0;
+	text-align: right;
+	top: -2.75em;
+}
+
+.wpmoly.headbox.movie.menu a {
+	margin: 0 2px;
+	position: relative;
+}
+
+.wpmoly.headbox.movie.menu a,
+.wpmoly.headbox.movie.menu a:hover,
+.wpmoly.headbox.movie.menu a:focus {
+	text-decoration: none !important;
+}
+
+.wpmoly.headbox.movie.menu a.active {
+	color: #fff;
+	text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+}
+
+.wpmoly.headbox.movie.menu a.active:after {
+	border: 8px solid transparent;
+	border-bottom-color: #fff;
+	bottom: -10px;
+	content: " ";
+	height: 0;
+	left: 4px;
+	position: absolute;
+	width: 0;
+}
+
+.wpmoly.headbox.movie.content {
+	border: 4px solid rgba(0, 0, 0, 0);
+	border-top: 0;
+	background: #fff;
+	float: none;
+	padding: 14px;
+	width: auto;
+}
+
+.wpmoly.headbox.movie.content > * {
+	background: transparent !important;
+}
+
+.wpmoly.headbox.movie.content.tab {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.wpmoly.headbox.movie.content.tab.title {
+	color: #333;
+	display: inline-block;
+	font-size: 16px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.wpmoly.headbox.movie.content.tab.title > .title {
+	
+}
+
+.wpmoly.headbox.movie.content.tab.title > .wpmolicon {
+	border-right: 2px solid #ddd;
+	color: #888;
+	margin-right: 10px;
+	padding-right: 14px;
+}
+
+.wpmoly.headbox.movie.content.overview p {
+	margin: 0 18px !important;
+	text-align: justify;
+}
+
+.wpmoly.headbox.movie.content.overview p .wpmolicon.icon-overview {
+	color: #ccc;
+	font-size: 32px;
+	height: 32px;
+	line-height: 32px;
+	margin: -4px 4px -6px 4px;
+	width: 32px;
+}
+
+.wpmoly.headbox.movie.meta.field.title,
+.wpmoly.headbox.movie.meta.field.value,
+.wpmoly.headbox.movie.details.field.title,
+.wpmoly.headbox.movie.details.field.value {
+	display: inline-block;
+	margin: 4px 0;
+}
+
+.wpmoly.headbox.movie.meta.field.title,
+.wpmoly.headbox.movie.details.field.title {
+	color: #666;
+	font-size: 14px;
+	padding-top: 2px;
+	text-align: right;
+	vertical-align: top;
+	width: 24%;
+}
+
+.wpmoly.headbox.movie.meta.field.title .wpmolicon,
+.wpmoly.headbox.movie.details.field.title .wpmolicon {
+	color: #aaa;
+	font-size: 14px;
+	position: relative;
+	top: 4px;
+}
+
+.wpmoly.headbox.movie.meta.field.value,
+.wpmoly.headbox.movie.details.field.value {
+	margin-left: 4%;
+	width: 70%;
+}
+
+.wpmoly.headbox.movie.details.field {
+	display: inline-block;
+	vertical-align: top;
+	width: 49%;
+}
+
+.wpmoly.headbox.movie.details.field.title {
+	width: 48%;
+}
+
+.wpmoly.headbox.movie.details.field.value {
+	margin-left: 2%;
+	width: 48%;
+}
+
+.wpmoly.headbox.movie.images > .thumbnail > .image {
+	margin: 0.75% 0.25% !important;
+	width: 30%;
+}
+
+.wpmoly.headbox.movie.title > span:not(.empty) + span,
+.wpmoly.headbox.movie.subtitle > span:not(.empty) + span,
+.wpmoly.headbox.movie.details-1 > span:not(.empty) + span,
+.wpmoly.headbox.movie.details-2 > span:not(.empty) + span,
+.wpmoly.headbox.movie.details-3 > span:not(.empty) + span {
+	border-left: 1px solid #888;
+	margin-left: 6px;
+	padding-left: 6px;
+}
+
+.wpmoly.headbox.movie.images .thumbnail {
+	border: 0;
+	box-shadow: 0 0 0;
+	border-radius: 0;
+}
+
+/** Allociné Movie Headbox
+ ***************************************************/
+
+.wpmoly.headbox.block.allocine {
+	background: #fff;
+	border: 1px solid #dbdbdb;
+	border-radius: 3px;
+	margin-bottom: 20px;
+	width: 100%;
+}
+
+.wpmoly.headbox.allocine > .wpmoly.headbox.movie {
+	padding: 8px 14px;
+}
+
+.wpmoly.headbox.block.allocine.position-top > .wpmoly.headbox.movie {
+	padding: 14px;
+}
+
+.wpmoly.headbox.block.allocine.position-top .wpmoly.headbox.allocine.movie.section.title {
+	display: none;
+}
+
+.wpmoly.headbox.allocine a {
+	color: #005ea8;
+	outline: none;
+}
+
+.wpmoly.headbox.allocine a:hover {
+	color: #c00;
+}
+
+.wpmoly.headbox.allocine .wpmoly.headbox {
+	background: transparent;
+}
+
+.wpmoly.headbox.allocine .wpmoly.headbox.movie.menu {
+	border-bottom: 1px solid #a6b2c8;
+	height: 31px;
+	margin: 0 8px 14px 0;
+	overflow: hidden;
+	padding: 0;
+	position: static;
+}
+
+.wpmoly.headbox.allocine .wpmoly.headbox.movie.menu ul {
+	border: 1px solid #a6b2c8;
+	border-radius: 3px 3px 0px 0px;
+	display: inline-block;
+	height: 30px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.wpmoly.headbox.allocine .wpmoly.headbox.movie.menu ul li {
+	border-left: 1px solid #a6b2c8;
+	display: inline-block;
+	float: left;
+	line-height: 30px;
+}
+
+.wpmoly.headbox.allocine .wpmoly.headbox.movie.menu ul li:first-child {
+	border-left: 0;
+}
+
+.wpmoly.headbox.allocine .wpmoly.headbox.movie.menu ul li:first-child a {
+	border-radius: 3px 0 0 0;
+	padding: 0 0 0 8px;
+}
+
+.wpmoly.headbox.allocine .wpmoly.headbox.movie.menu ul li:last-child a {
+	border-radius: 0 3px 0 0;
+}
+
+.wpmoly.headbox.allocine .wpmoly.headbox.movie.menu ul li a.active {
+	background: #fff;
+	color: #005ea8;
+	height: 31px;
+}
+
+.wpmoly.headbox.allocine .wpmoly.headbox.movie.menu ul li a.active .wpmolicon {
+	color: #005ea8;
+}
+
+.wpmoly.headbox.allocine .wpmoly.headbox.movie.menu ul li a {
+	background: -moz-linear-gradient(center top , #eef1f5, #e3e7ec);
+	display: block;
+	font-size: 12px;
+	font-weight: bold;
+	margin: 0;
+	padding: 0px 12px;
+	text-align: center;
+}
+
+.wpmoly.headbox.allocine .wpmoly.headbox.movie.menu ul li a:hover {
+	background: -moz-linear-gradient(center top , #e3e7ec, #eef1f5);
+}
+
+.wpmoly.headbox.allocine .wpmoly.headbox.movie.menu ul li .wpmolicon {
+	color: #b4b9c3;
+	font-size: 16px;
+	line-height: 31px;
+	margin-right: 8px;
+	opacity: 0.8;
+	text-shadow: 0 1px 0 #fff;
+}
+
+.wpmoly.headbox.allocine .wpmoly.headbox.movie.menu ul li:first-child .wpmolicon {
+	color: #005ea8;
+}
+
+.wpmoly.headbox.allocine .wpmoly.headbox.movie.content {
+	border: 0;
+	padding: 0;
+}
+
+.wpmoly.headbox.allocine.movie.poster {
+	background: #fff;
+	float: left;
+	margin: 0 14px 14px 0;
+	max-height: 220px;
+	overflow: hidden;
+	padding: 0;
+}
+
+.wpmoly.headbox.allocine.movie.poster img {
+	max-height: 220px;
+	width: auto;
+}
+
+.wpmoly.headbox.allocine.movie hr,
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta,
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section {
+	clear: none;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.title {
+	margin-top: 4px;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.title,
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.sub-title {
+	color: #c00;
+	font-family: 'Arial', 'Helvetica', sans-serif;
+	font-size: 22px !important;
+	font-weight: normal;
+	margin-bottom: 16px !important;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section h6 {
+	color: #666;
+	font-family: 'Arial', 'Helvetica', sans-serif;
+	font-size: 14px;
+	font-style: italic;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section.main,
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section.details {
+	font-size: 14px;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.label {
+	color: #888;
+	display: inline-block;
+	font-weight: normal;
+	min-width: 8em;
+	padding-right: 8px;
+	text-align: left;
+	text-shadow: 0 0;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.value .wpmoly-movie-rating {
+	color: #fc0;
+	display: inline-block;
+	position: relative;
+	top: 4px;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.value .not-rated {
+	display: inline-block;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.more {
+	margin-top: 8px;
+	overflow: hidden;
+	text-align: center;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.more a {
+	text-decoration: none;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.more a::before {
+	border-bottom: 1px dotted #a6b2c8;
+	content: '';
+	height: 0;
+	left: 0;
+	position: absolute;
+	top: 10px;
+	width: 100%;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.more a .wpmolicon {
+	background: #fff;
+	margin: 0 auto;
+	position: relative;
+	width: 42px;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.label,
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.value {
+	margin: 4px 0;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section.details {
+	clear: both;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection {
+	display: inline-block;
+	padding: 0;
+	vertical-align: top;
+	width: 49%;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection.full {
+	width: 100%;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection + .wpmoly.headbox.movie.subsection {
+	float: right;
+	margin-left: 1%;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection ul,
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection ul li {
+	list-style: none;
+	margin: 0;
+	padding: 2px 0;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection li:nth-child(odd) {
+	background: #efefee;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection .wpmoly.headbox.movie.meta.label {
+	color: #000;
+	font-size: 80%;
+	font-weight: bold;
+	line-height: 20px;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection .wpmoly.headbox.movie.meta.label,
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection .wpmoly.headbox.movie.meta.value {
+	display: inline-block;
+	margin: 0;
+	padding: 4px 0 4px 8px;
+	vertical-align: top;
+	width: 45%;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection.full .wpmoly.headbox.movie.meta.label {
+	width: 36%;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection.full .wpmoly.headbox.movie.meta.value {
+	white-space: normal;
+	width: 60%;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.subsection .wpmoly.headbox.movie.meta.value {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section .wpmoly.headbox.movie.meta.actor {
+	display: inline-block;
+	margin: 20px 0.7% 0 0.7%;
+	max-height: 240px;
+	text-align: center;
+	vertical-align: top;
+	width: 23%;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section .wpmoly.headbox.movie.meta.actor .wpmolicon {
+	color: #c9cfdd;
+	font-size: 64px;
+	height: 165px;
+	line-height: 180px;
+	text-shadow: 0px 1px 0px #fff, 0px -1px 0px #b4b9c3;
+	width: 100%;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section .wpmoly.headbox.movie.meta.actor .photo {
+	background: -moz-linear-gradient(center top , #e3e7ec, #eef1f5);
+	border: 1px solid #b4b9c3;
+	box-shadow: 1px 1px 0 #fff inset, -1px -1px 0 #e3e7ec inset;
+	height: 180px;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section .wpmoly.headbox.movie.meta.actor .name {
+	font-size: 12px;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section .wpmoly.headbox.movie.meta.actor.small {
+	max-height: 160px;
+	width: 12.2%;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section .wpmoly.headbox.movie.meta.actor.small .wpmolicon {
+	font-size: 36px;
+	height: 92px;
+	line-height: 92px;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section .wpmoly.headbox.movie.meta.actor.small .photo {
+	height: 100px;
+}
+
+.wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section.images img {
+	margin: 2px 0;
+}
+
+/** IMDb Movie Headbox
+ ***************************************************/
+
+.wpmoly.headbox.imdb {
+	background: #fff;
+}
+
+.wpmoly.headbox.imdb a {
+	color: #136cb2;
+}
+
+.wpmoly.headbox.imdb .wpmoly.headbox {
+	background: transparent;
+}
+
+.wpmoly.headbox.imdb.movie.poster {
+	background: #fff;
+	float: left;
+	max-height: 320px;
+	overflow: hidden;
+}
+
+.wpmoly.headbox.imdb.movie.poster img {
+	max-height: 300px;
+	width: auto;
+}
+
+.wpmoly.headbox.imdb.movie hr,
+.wpmoly.headbox.imdb.movie .wpmoly.headbox.movie.meta,
+.wpmoly.headbox.imdb.movie .wpmoly.headbox.movie.section {
+	clear: none;
+}
+
+.wpmoly.headbox.imdb.movie .wpmoly.headbox.movie.section {
+	border: 1px solid #dbdbdb;
+	border-radius: 8px;
+	margin: 15px 0;
+	padding: 18px;
+}
+
+.wpmoly.headbox.imdb.movie hr {
+	background: transparent;
+	border-top: 1px dotted #ccd;
+	margin: 12px 0px;
+}
+
+.wpmoly.headbox.imdb .wpmoly.headbox.movie.images > .thumbnail {
+	margin: 0;
+}
+
+.wpmoly.headbox.imdb .wpmoly.headbox.movie.images > .thumbnail > .image {
+	width: 24%;
+}
+
+.wpmoly.headbox.imdb.movie .wpmoly.headbox.movie.meta.title {
+	margin-top: 0;
+	padding-top: 8px;
+}
+
+.wpmoly.headbox.imdb.movie .wpmoly.headbox.movie.meta.sub-title {
+	color: #664700;
+}
+
+.wpmoly.headbox.imdb.movie .wpmoly.headbox.movie.meta.year {
+	font-size: small;
+}
+
+.wpmoly.headbox.imdb.movie .wpmoly.headbox.movie.meta.label {
+	color: #666;
+	font-weight: bold;
+	padding-right: 8px;
+}
+
+.wpmoly.headbox.imdb.movie .wpmoly.headbox.movie.meta.certification a {
+	border: 2px solid #bbb;
+	border-radius: 3px;
+	color: #bbb;
+	font-weight: bold;
+	padding: 2px 6px;
+	text-decoration: none;
+}
+
+/** Movie Meta & Details block
+ ***************************************************/
+
+.wpmoly.block.meta .wpmoly.meta.title.value,
+.wpmoly.block.meta .wpmoly.meta.original_title.value {
+	font-style: italic;
+}
+
+.wpmoly.block.details {
+	float: right;
+	min-width: 10em;
+	width: auto;
+}
+
+.wpmoly.block.details .wpmoly.detail > .wpmolicon {
+	font-size: 1.5rem;
+	height: 1.75rem;
+	line-height: 2rem;
+	width: 1.5rem;
+}
+
+.wpmoly.block.details .wpmoly.detail.rating > .wpmoly-movie-rating {
+	top: 2px;
+	position: relative;
+}
+
+.wpmoly.block.details .wpmoly.detail.rating .wpmolicon {
+	font-size: 1.25em !important;
+	line-height: 1.75rem;
+}
+
+.wpmoly.block.details > div {
+	display: inline-block;
+	margin: 0 0.25em;
+}
+
+.wpmoly.detail {
+	display: inline-block;
+}
+
+.wpmoly.detail.media,
+.wpmoly.detail.status {
+	/*width: 28px;
+	line-height: 28px;*/
+}
+
+.wpmoly-movie-media .wpmoly-movie-details-item,
+.wpmoly-movie-status .wpmoly-movie-details-item {
+	padding: 0.5em 1em 0.6em 1em;
+}
+
+.wpmoly-movie-media.dvd .wpmoly-movie-details-item {
+	background: #a7caf8;
+	color: #fff;
+	text-shadow: 0 1px 0 #77a0d6;
+}
+
+.wpmoly-movie-media.bluray .wpmoly-movie-details-item {
+	background: #5e62d6;
+	color: #fff;
+	text-shadow: 0 1px 0 #3a3da3;
+}
+
+.wpmoly-movie-media.vod .wpmoly-movie-details-item {
+	background: #cc5ed6;
+	color: #fff;
+	text-shadow: 0 1px 0 #752d7c;
+}
+
+.wpmoly-movie-media.cinema .wpmoly-movie-details-item {
+	background: #47b7cc;
+	color: #fff;
+	text-shadow: 0 1px 0 #237e8f;
+}
+
+.wpmoly-movie-media.vhs .wpmoly-movie-details-item {
+}
+
+.wpmoly-movie-media.other .wpmoly-movie-details-item {
+}
+
+.wpmoly-movie-status.available .wpmoly-movie-details-item {
+	background: #888;
+	color: #fff;
+	text-shadow: 0 1px 0 #333;
+}
+
+.wpmoly-movie-status.available .wpmoly-movie-details-item {
+	background: #7dd667;
+	color: #fff;
+	text-shadow: 0 1px 0 #4ea239;
+}
+
+.wpmoly-movie-status.loaned .wpmoly-movie-details-item {
+	background: #d67067;
+	color: #fff;
+	text-shadow: 0 1px 0 #a84137;
+}
+
+.wpmoly-movie-status.scheduled .wpmoly-movie-details-item {
+	
+}
+
+.wpmoly-movie-media.wpmoly_detail_icon,
+.wpmoly-movie-status.wpmoly_detail_icon,
+.wpmoly-movie-rating.wpmoly_detail_icon {
+	background-color: #e1e1e6;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 24px 24px;
+	border-radius: 0.35em;
+	display: inline-block;
+	height: 32px;
+	margin: 0 2px;
+	max-width: 32px;
+	min-width: 32px;
+	opacity: 0.75;
+	padding: 0.2em;
+	vertical-align: middle;
+}
+
+.wpmoly-movie-rating.wpmoly_detail_icon .movie_rating_display {
+	margin-top: 8px;
+	margin-left: 8px;
+}
+
+/** Shortcodes
+ ***************************************************/
+
+.wpmoly.shortcode.block .wpmoly.shortcode.item.title {
+	display: inline-block;
+	font-weight: bold;
+}
+
+.wpmoly.shortcode.block .wpmoly.shortcode.item.value {
+	display: block;
+	margin-left: 0.5em;
+}
+
+.wpmoly.shortcode.images.list {
+	list-style: none;
+	text-align: center;
+}
+
+.wpmoly.shortcode.images.list > .wpmoly.image {
+	display: inline-block;
+	margin: 2px 6px;
+}
+
+/** Movie Rating
+ ***************************************************/
+
+.wpmoly.detail.rating > * {
+	display: inline-block;
+}
+
+.wpmoly.detail.rating > .rating.label {
+	margin-left: 6px;
+	position: relative;
+	top: 2px;
+}
+
+/** Wigets
+ ***************************************************/
+
+.wpmoly-widget-description {
+	margin: 0.5em 0 !important;
+}
+
+/** Movies Widgets
+ ***************************************************/
+
+.widget .wpmoly.movies {
+	position: relative;
+}
+
+.widget .wpmoly.movies .wpmoly.movies {
+	margin: 0;
+	padding: 0;
+}
+
+.widget .wpmoly.movies .movie.title {
+	display: block;
+	font-weight: 600;
+	margin: 0.5em 0;
+	max-width: 150px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.widget .wpmoly.movies .wpmoly.link {
+	text-decoration: none;
+}
+
+.widget .wpmoly.movies > .wpmoly.movie > .wpmoly.movie {
+	display: inline-table;
+	margin-bottom: 6px;
+	max-width: 150px;
+	min-height: 122px;
+	min-width: 122px;
+	overflow: hidden;
+	position: relative;
+	text-align: center;
+	width: 49%;
+}
+
+.widget .wpmoly.movies .wpmoly.movie img {
+	height: 100%;
+	margin-bottom: 4px;
+	width: 100%;
+}
+
+.wpmoly.list.custom select {
+	background: #eee;
+	border: 1px solid #ccc;
+	border-radius: 0.3em;
+	color: #666;
+	outline: none;
+	padding: 0.5em 1em;
+	text-shadow: 0 1px 0 white;
+	width: 100%;
+}
+
+/** Themes compat
+ ***************************************************/
+
+.wpmoly.headbox.theme-twentyfourteen,
+.wpmoly.movies.grid.menu.theme-twentyfourteen {
+	margin-left: -30px !important;
+	margin-right: -30px !important;
+}
+
+.wpmoly.movies.archives.theme-twentyfourteen > .wpmoly.block.headbox {
+	margin-left: -38px !important;
+	margin-right: -38px !important;
+	padding: 8px 20px;
+}
+
+.wpmoly.headbox.theme-twentyfourteen > .wpmoly.headbox.movie.content {
+	border: 1px solid #e5e5e5;
+}
+
+.wpmoly.headbox.theme-twentytwelve > .wpmoly.headbox.movie.poster {
+	min-height: 164px;
+}
+
+.wpmoly.headbox.theme-twentytwelve .wpmoly.headbox.movie.title {
+	margin: 4px 0 0;
+}
+
+.wpmoly.headbox.theme-emerald {
+	clear: both;
+}
+
+#wpmoly-movie-grid-menu-2.wpmoly.movies.grid.menu.theme-twentyfifteen a {
+	border-bottom: 0 !important;
+	text-decoration: none;
+}
+
+#wpmoly-movie-grid-menu.wpmoly.movies.grid.menu.theme-twentyfifteen span,
+#wpmoly-movie-grid-menu-2.wpmoly.movies.grid.menu.theme-twentyfifteen span {
+	line-height: 1.5em !important;
+}
+
+/*#wpmoly-movie-grid-menu-2.wpmoly.movies.grid.menu.theme-twentyfourteen a {
+	height: 2em;
+	line-height: 2em;
+}
+
+#wpmoly-movie-grid-menu-2.wpmoly.movies.grid.menu.theme-twentyfourteen input {
+	height: 32px;
+	max-height: 32px;
+}*/
+
