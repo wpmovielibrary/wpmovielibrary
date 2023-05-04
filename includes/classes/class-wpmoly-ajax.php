@@ -57,6 +57,13 @@ if ( ! class_exists( 'WPMOLY_Ajax' ) ) :
 		 */
 		public $i18n = array();
 
+		/**
+		 * Nonce
+		 * 
+		 * @var    string
+		 */
+		public $nonce = null;
+
 		public function __construct( $args = array() ) {
 
 			$defaults = array(

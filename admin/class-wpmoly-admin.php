@@ -37,6 +37,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		protected $settings;
 		protected static $default_settings;
 
+		protected $modules;
+
 		/**
 		 * Constructor
 		 *

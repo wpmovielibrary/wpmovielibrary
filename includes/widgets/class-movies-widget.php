@@ -17,6 +17,17 @@
  */
 class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 
+	public $movies_by;
+	public $status;
+	public $media;
+	public $rating;
+	public $meta;
+	public $years;
+	public $languages;
+	public $companies;
+	public $countries;
+	public $certifications;
+
 	/**
 	 * Specifies the classname and description, instantiates the widget. No
 	 * stylesheets or JavaScript needed, localization loaded in public class.

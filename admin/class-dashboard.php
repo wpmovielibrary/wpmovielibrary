@@ -125,7 +125,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard' ) ) :
 			$class = $widget::get_instance();
 			$update = self::save_widget_setting( $class->widget_id, $setting, $value );
 
-			WPMOLY_Utils::ajax_response( $update, array(), WPMOLY_Utils::create_nonce( 'save-' . strtolower( $widget ) ) );
+			wpmoly_ajax_response( $update, array(), wpoly_create_nonce( 'save-' . strtolower( $widget ) ) );
 		}
 
 		/**
@@ -296,7 +296,7 @@ if ( ! class_exists( 'WPMOLY_Dashboard' ) ) :
 
 			if ( ! $settings ) {
 				update_user_option( get_current_user_id(), $widget_id . '_settings', array() );
-				$settings = $defaults;
+				$settings = array();
 			}
 
 			$settings[ $setting ] = esc_attr( $value );
@@ -317,11 +317,11 @@ if ( ! class_exists( 'WPMOLY_Dashboard' ) ) :
 
 			$hidden = self::save_screen_options();
 
-			if ( isset( $_GET['hide_wpmoly_api_key_notice'] ) && ( isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'hide-wpmoly-api-key-notice' ) ) )
-				WPMovieLibrary_Admin::show_api_key_notice();
+			// if ( isset( $_GET['hide_wpmoly_api_key_notice'] ) && ( isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'hide-wpmoly-api-key-notice' ) ) )
+			// 	WPMovieLibrary_Admin::show_api_key_notice();
 
-			if ( isset( $_GET['wpmoly_set_archive_page'] ) && ( isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpmoly-set-archive-page' ) ) )
-				WPMOLY_Utils::set_archive_page();
+			// if ( isset( $_GET['wpmoly_set_archive_page'] ) && ( isset( $_GET['_nonce'] ) || ! wp_verify_nonce( $_GET['_nonce'], 'wpmoly-set-archive-page' ) ) )
+			// 	WPMOLY_Utils::set_archive_page();
 
 			global $wpmoly_dashboard_widgets;
 			foreach ( $wpmoly_dashboard_widgets as $widget )

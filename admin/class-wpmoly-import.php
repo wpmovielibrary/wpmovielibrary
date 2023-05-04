@@ -195,7 +195,7 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		 *
 		 * @since    1.0
 		 * 
-		 * @param    array    $movies Array of movie titles to import
+		 * @param    string    $movies Array of movie titles to import
 		 * 
 		 * @return   mixed
 		 */

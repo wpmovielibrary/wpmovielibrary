@@ -68,7 +68,7 @@ function wpmoly_esc_like( $string ) {
 	if ( method_exists( 'wpdb', 'esc_like' ) )
 		$string = $wpdb->esc_like( $string );
 	else
-		$string = like_escape( $letter );
+		$string = like_escape( $string );
 
 	return $string;
 }

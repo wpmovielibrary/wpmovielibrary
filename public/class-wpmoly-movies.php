@@ -204,7 +204,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 *
 		 * @since    1.0
 		 * 
-		 * @param    int       $query the WP_Query Object object to alter
+		 * @param    WP_Query    $query the WP_Query Object object to alter
 		 *
 		 * @return   WP_Query    Query Object
 		 */
@@ -527,7 +527,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 */
 		public static function filter_archives_query( $wp_query ) {
 
-			if ( ! empty( $query->query_vars['suppress_filters'] ) )
+			if ( ! empty( $wp_query->query_vars['suppress_filters'] ) )
 				return $wp_query;
 
 			if ( ( ! is_category() || ( is_category() && '0' == wpmoly_o( 'enable-categories' ) ) ) && ( ! is_tag() || ( is_tag() && '0' == wpmoly_o( 'enable-tags' ) ) ) )

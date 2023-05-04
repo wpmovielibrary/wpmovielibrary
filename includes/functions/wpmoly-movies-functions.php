@@ -74,7 +74,7 @@ function wpmoly_get_movies( $args = null ) {
  * @return   array     Array of Post objects
  */
 function wpmoly_get_movies_by_detail( $detail, $value ) {
-	return WPMOLY_Movies::get_movies_by_meta( $meta, $value );
+	return WPMOLY_Movies::get_movies_by_meta( $detail, $value );
 }
 
 /**

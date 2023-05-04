@@ -18,6 +18,8 @@
  */
 class WPMOLY_Taxonomies_Widget extends WPMOLY_Widget {
 
+	public $taxonomies = array();
+
 	/**
 	 * Specifies the classname and description, instantiates the widget. No
 	 * stylesheets or JavaScript needed, localization loaded in public class.

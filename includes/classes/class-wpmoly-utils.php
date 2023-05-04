@@ -721,7 +721,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$base  = 'index.php?';
 				if ( $page )
 					$base .= 'page_id=' . $page . '&';
-				$base = home_url( "/${base}" );
+				$base = home_url( "/{$base}" );
 			} else {
 				$base = $args['baseurl'];
 			}
@@ -1303,7 +1303,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 					$t = get_taxonomy($taxonomy);
 					if ( isset($t->args) && is_array($t->args) && $args != array_merge($args, $t->args) ) {
 						unset($taxonomies[$index]);
-						$terms = array_merge($terms, self::get_clifford_ordered_object_terms($object_ids, $taxonomy, array_merge($args, $t->args)));
+						$terms = array_merge($terms, self::get_clifford_ordered_object_terms($terms, $object_ids, $taxonomy, array_merge($args, $t->args)));
 					}
 				}
 			} else {
@@ -1519,7 +1519,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 					$t = get_taxonomy( $taxonomy );
 					if ( isset( $t->args ) && is_array( $t->args ) && $args != array_merge( $args, $t->args ) ) {
 						unset( $taxonomies[ $index ] );
-						$terms = array_merge( $terms, self::get_ordered_object_terms( $object_ids, $taxonomy, array_merge( $args, $t->args ) ) );
+						$terms = array_merge( $terms, self::get_ordered_object_terms( $terms, $object_ids, $taxonomy, array_merge( $args, $t->args ) ) );
 					}
 				}
 			}

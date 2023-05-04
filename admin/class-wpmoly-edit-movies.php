@@ -627,10 +627,10 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * @since    1.0
 		 * 
-		 * @param    array    $posts Posts concerned by the hijack, should be only one
-		 * @param    array    $wp_query concerned WP_Query instance
+		 * @param    array       $posts Posts concerned by the hijack, should be only one
+		 * @param    WP_Query    $wp_query concerned WP_Query instance
 		 * 
-		 * @return   array    Posts return by the query if we're not looking for movie images
+		 * @return   array        Posts return by the query if we're not looking for movie images
 		 */
 		public static function the_posts_hijack( $posts, $wp_query ) {
 
@@ -793,7 +793,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$attributes = array(
 				'tabs'      => $tabs,
 				'panels'    => $panels,
-				'post_type' => ( 'movie' != get_post_type() ? get_post_type : null )
+				'post_type' => ( 'movie' != get_post_type() ? get_post_type() : null )
 			);
 
 			echo self::render_admin_template( 'metabox/metabox.php', $attributes );

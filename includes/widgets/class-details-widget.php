@@ -18,6 +18,8 @@
  */
 class WPMOLY_Details_Widget extends WPMOLY_Widget {
 
+	public $details = array();
+
 	/**
 	 * Specifies the classname and description, instantiates the widget. No
 	 * stylesheets or JavaScript needed, localization loaded in public class.
@@ -52,8 +54,6 @@ class WPMOLY_Details_Widget extends WPMOLY_Widget {
 				'std' => 0
 			)
 		);
-
-		$this->details = array();
 
 		$supported = WPMOLY_Settings::get_supported_movie_details();
 		foreach ( $supported as $slug => $detail )
