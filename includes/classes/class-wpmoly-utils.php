@@ -946,7 +946,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				$year = date_i18n( 'Y', strtotime( $year['name'] ) );
 
 				if ( ! isset( $used_years[ $year ] ) )
-					$used_years[ $year ] = array( 'name' => '', 'count' => '' );
+					$used_years[ $year ] = array( 'name' => '', 'count' => 0 );
 
 				$used_years[ $year ]['name'] = $year;
 				if ( $count )
@@ -1123,7 +1123,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 					$v = trim( $v );
 					if ( $v ) {
 						if ( ! isset( $used[ $v ] ) )
-							$used[ $v ] = array( 'name' => '', 'count' => '' );
+							$used[ $v ] = array( 'name' => '', 'count' => 0 );
 						$used[ $v ]['name'] = $v;
 						if ( $count )
 							$used[ $v ]['count']++;
