@@ -4,7 +4,7 @@ Tags: movie, movies, movie database, movie library, movie collection, cinema, mo
 Requires at least: 4.2
 Requires PHP: 7.4
 Tested up to: 6.2
-Stable tag: 2.1.4.8
+Stable tag: 2.1.4.9
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -66,7 +66,7 @@ Developers and Translators can contribute to the source code on the [GitHub Repo
 
 * WordPress 4.2 or greater
 * PHP version 7.4 or greater (8.1 recommended)
-* MySQL version 5.0 or greater
+* MySQL 8.0 or greater OR MariaDB 10.4 or greater
 
 = Automatic installation =
 
@@ -136,6 +136,10 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 7. Import queue
 
 == Changelog ==
+
+= 2.1.4.9 =
+* Fix - PHP notices
+* Fix - Collections not filling automatically in movie editor
 
 = 2.1.4.8 =
 * Fix - Catch up with PHP and WordPress versions
