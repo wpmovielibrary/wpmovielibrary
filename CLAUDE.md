@@ -96,6 +96,24 @@ public/
 - Taxonomies are stored as standard WordPress terms, not as post meta
 - Managed by `Post_Meta` class
 
+## Templating system
+
+Admin pages use a custom Blade-inspired template engine (`includes/class-template.php`). It is **not** a singleton — it is instantiated explicitly with a template directory and a cache directory.
+
+**Key directives supported:** `@extends`, `@section`, `@endsection`, `@yield`, `@include`, `@props`, `@if / @elseif / @else / @endif`, `@foreach / @endforeach`, `@for / @endfor`, `@while / @endwhile`, `{{ }}` (escaped output), `{!! !!}` (raw output), `{{-- --}}` (comments).
+
+**Cache behavior:**
+- `$cache = true` (production) — compiles templates to disk, executes via `include`
+- `$cache = false` (development) — compiles in memory, executes via `eval()` to avoid writing broken templates to disk
+
+**Usage:**
+```php
+$template = new Template( WPMOLY_PATH . 'admin/templates', WPMOLY_PATH . 'cache', WP_DEBUG ? false : true );
+echo $template->render( 'dashboard', [ 'movies' => $movies ] );
+```
+
+Templates use dot or slash notation: `'dashboard'`, `'partials/recently-added-movies'`. Never add `.php` extension manually.
+
 ## PHP code conventions
 
 - PHP 8.x, strict WordPress coding standards
