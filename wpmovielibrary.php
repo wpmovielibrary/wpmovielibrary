@@ -9,7 +9,7 @@
  * @copyright 2013-2026 Charlie MERLAND
  *
  * @wordpress-plugin
- * Plugin Name: WPMovieLibrary
+ * Plugin Name: wpMovieLibrary
  * Plugin URI:  https://wplibraries.com
  * Description: A WordPress Plugin to manage a personnal library of movies.
  * Version:     6.0.0
