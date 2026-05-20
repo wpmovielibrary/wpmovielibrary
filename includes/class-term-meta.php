@@ -81,9 +81,7 @@ class Term_Meta {
 
 		add_action( 'edited_term', [ &$this, 'save_meta_input' ] );
 
-		$this->term_meta = [
-			//
-		];
+		$this->term_meta = config( 'term-meta', [] );
 	}
 
 	/**

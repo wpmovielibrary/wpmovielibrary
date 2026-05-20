@@ -95,7 +95,7 @@ class Taxonomies {
 			foreach ( $groups as $group => $taxonomies ) {
 				foreach ( $taxonomies as $slug => $args ) {
 					$taxonomy_slug = "wpmoly_{$post_type}_{$slug}";
-					// crew and details are private by default
+					// only general taxonomies are public by default
 					if ( 'general' !== $group ) {
 						$args['public']             = $args['public'] ?? false;
 						$args['publicly_queryable'] = $args['publicly_queryable'] ?? false;

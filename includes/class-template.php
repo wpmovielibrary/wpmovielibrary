@@ -14,412 +14,412 @@ namespace WPMovieLibrary;
  * @since 6.0.0
  * @author Charlie Merland <charlie@caercam.org>
  */
-class Template
-{
-    /**
-     * Template directory.
-     *
-     * @since 6.0.0
-     * 
-     * @access private
-     *
-     * @var string
-     */
-    private string $templateDir;
+class Template {
 
-    /**
-     * Cache directory for compiled templates.
-     *
-     * @since 6.0.0
-     *
-     * @access private
-     *
-     * @var string
-     */
-    private string $cacheDir;
+	/**
+	 * Template directory.
+	 *
+	 * @since 6.0.0
+	 * 
+	 * @access private
+	 *
+	 * @var string
+	 */
+	private string $template_dir;
 
-    /**
-     * Whether to enable caching of compiled templates.
-     *
-     * @since 6.0.0
-     *
-     * @access private
-     *
-     * @var bool
-     */
-    private bool $cache;
+	/**
+	 * Cache directory for compiled templates.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @var string
+	 */
+	private string $cache_dir;
 
-    /**
-     * Collected Sections during the execution of a child template.
-     *
-     * @since 6.0.0
-     *
-     * @access private
-     *
-     * @var array
-     */
-    private array $sections = [];
+	/**
+	 * Whether to enable caching of compiled templates.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @var bool
+	 */
+	private bool $cache;
 
-    /**
-     * Section currently being captured.
-     *
-     * @since 6.0.0
-     *
-     * @access private
-     *
-     * @var string|null
-     */
-    private ?string $currentSection = null;
+	/**
+	 * Collected Sections during the execution of a child template.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @var array
+	 */
+	private array $sections = [];
 
-    /**
-     * Layout declared via @extends.
-     *
-     * @since 6.0.0
-     *
-     * @access private
-     *
-     * @var string|null
-     */
-    private ?string $layout = null;
+	/**
+	 * Section currently being captured.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @var string|null
+	 */
+	private ?string $current_section = null;
 
-    /**
-    * Constructor.
-    *
-    * @since 6.0.0
-    *
-    * @access public
-    *
-    * @param string $templateDir Directory where templates are located.
-    * @param string $cacheDir    Directory where compiled templates will be stored.
-    * @param bool   $cache       Whether to enable caching of compiled templates.
-    */
-    public function __construct( string $templateDir, string $cacheDir, bool $cache = true ) {
+	/**
+	 * Layout declared via @extends.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @var string|null
+	 */
+	private ?string $layout = null;
 
-        $this->templateDir = rtrim( $templateDir, '/' );
-        $this->cacheDir    = rtrim( $cacheDir, '/' );
-        $this->cache       = $cache;
+	/**
+	* Constructor.
+	*
+	* @since 6.0.0
+	*
+	* @access public
+	*
+	* @param string $template_dir Directory where templates are located.
+	* @param string $cache_dir	Directory where compiled templates will be stored.
+	* @param bool   $cache		Whether to enable caching of compiled templates.
+	*/
+	public function __construct( string $template_dir, string $cache_dir, bool $cache = true ) {
 
-        if ( ! is_dir( $this->cacheDir ) ) {
-            mkdir( $this->cacheDir, 0755, true );
-        }
-    }
+		$this->template_dir = rtrim( $template_dir, '/' );
+		$this->cache_dir	= rtrim( $cache_dir, '/' );
+		$this->cache		= $cache;
 
-    /**
-     * Compile and execute a template, returning the produced HTML.
-     * 
-     * Note: $data is passed to the template as local variables.
-     * For example, ['foo' => 'bar'] will make $foo available in the
-     * template with the value 'bar'.
-     * 
-     * @since 6.0.0
-     * 
-     * @access public
-     *
-     * @param string $name  Relative path without extension, e.g., 'admin/dashboard'
-     * @param array  $data  Variables injected into the template
-     * 
-     * @return string Rendered HTML output
-     */
-    public function render( string $name, array $data = [] ) {
+		if ( ! is_dir( $this->cache_dir ) ) {
+			mkdir( $this->cache_dir, 0755, true );
+		}
+	}
 
-        // Reset state for each root render
-        $this->sections       = [];
-        $this->currentSection = null;
-        $this->layout         = null;
+	/**
+	 * Compile and execute a template, returning the produced HTML.
+	 * 
+	 * Note: $data is passed to the template as local variables.
+	 * For example, ['foo' => 'bar'] will make $foo available in the
+	 * template with the value 'bar'.
+	 * 
+	 * @since 6.0.0
+	 * 
+	 * @access public
+	 *
+	 * @param string $name  Relative path without extension, e.g., 'admin/dashboard'
+	 * @param array  $data  Variables injected into the template
+	 * 
+	 * @return string Rendered HTML output
+	 */
+	public function render( string $name, array $data = [] ) {
 
-        $compiled = $this->compile( $name );
-        $output   = $this->execute( $compiled, $data );
+		// Reset state for each root render
+		$this->sections		= [];
+		$this->current_section = null;
+		$this->layout		  = null;
 
-        // If the template declares @extends, render the layout
-        if ( null !== $this->layout ) {
-            $layout         = $this->layout;
-            $this->layout   = null; // avoid infinite loop if layout also has @extends
-            $layoutCompiled = $this->compile( $layout );
-            $output         = $this->execute( $layoutCompiled, $data );
-        }
+		$compiled = $this->compile( $name );
+		$output   = $this->execute( $compiled, $data );
 
-        return $output;
-    }
+		// If the template declares @extends, render the layout
+		if ( null !== $this->layout ) {
+			$layout		  = $this->layout;
+			$this->layout	= null; // avoid infinite loop if layout also has @extends
+			$layout_compiled = $this->compile( $layout );
+			$output		  = $this->execute( $layout_compiled, $data );
+		}
 
-    /**
-     * Returns the path to the compiled file (from cache or recompiled if necessary).
-     * 
-     * @since 6.0.0
-     * 
-     * @access private
-     * 
-     * @param string $name Relative path of the template to compile, e.g., 'admin/dashboard'
-     * 
-     * @return array Path to the compiled PHP file ready for execution
-     */
-    private function compile( string $name ): array {
+		return $output;
+	}
 
-        $sourcePath = $this->resolvePath( $name );
+	/**
+	 * Returns the path to the compiled file (from cache or recompiled if necessary).
+	 * 
+	 * @since 6.0.0
+	 * 
+	 * @access private
+	 * 
+	 * @param string $name Relative path of the template to compile, e.g., 'admin/dashboard'
+	 * 
+	 * @return array Path to the compiled PHP file ready for execution
+	 */
+	private function compile( string $name ) {
 
-        if ( $this->cache ) {
-            $cachePath = $this->cachePath( $name );
-            if ( ! file_exists( $cachePath ) || filemtime( $sourcePath ) > filemtime( $cachePath ) ) {
-                file_put_contents( $cachePath, $this->applyDirectives( file_get_contents( $sourcePath ) ) );
-            }
-            return [ 'path' => $cachePath ];
-        }
+		$source_path = $this->resolve_path( $name );
 
-        return [ 'source' => $this->applyDirectives( file_get_contents( $sourcePath ) ) ];
-    }
+		if ( $this->cache ) {
+			$cache_path = $this->cache_path( $name );
+			if ( ! file_exists( $cache_path ) || filemtime( $source_path ) > filemtime( $cache_path ) ) {
+				file_put_contents( $cache_path, $this->apply_directives( file_get_contents( $source_path ) ) );
+			}
+			return [ 'path' => $cache_path ];
+		}
 
-    /**
-     * Apply Blade-like directives to the template source code, transforming it into pure PHP.
-     *
-     * @since 6.0.0
-     *
-     * @access private
-     *
-     * @param string $source The source code of the template to compile.
-     *
-     * @return string Compiled code ready for execution.
-     */
-    private function applyDirectives( string $source ) {
+		return [ 'source' => $this->apply_directives( file_get_contents( $source_path ) ) ];
+	}
 
-        // 1. Remove Blade comments {{-- ... --}}
-        $source = preg_replace('/\{\{--.*?--\}\}/s', '', $source );
+	/**
+	 * Apply Blade-like directives to the template source code, transforming it into pure PHP.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @param string $source The source code of the template to compile.
+	 *
+	 * @return string Compiled code ready for execution.
+	 */
+	private function apply_directives( string $source ) {
 
-        // 2. Layout directives
-        $source = preg_replace(
-            '/@extends\s*\(\s*[\'"](.+?)[\'"]\s*\)/',
-            '<?php $this->setLayout("$1" ); ?>',
-            $source
-        );
-        $source = preg_replace(
-            '/@section\s*\(\s*[\'"](.+?)[\'"]\s*\)/',
-            '<?php $this->startSection("$1" ); ?>',
-            $source
-        );
-        $source = preg_replace(
-            '/@endsection/',
-            '<?php $this->endSection(); ?>',
-            $source
-        );
+		// 1. Remove Blade comments {{-- ... --}}
+		$source = preg_replace('/\{\{--.*?--\}\}/s', '', $source );
 
-        // @yield with default value : @yield('title', 'Default Title')
-        $source = preg_replace(
-            '/@yield\s*\(\s*[\'"](.+?)[\'"]\s*,\s*(.+?)\s*\)/',
-            '<?php echo $this->yieldSection("$1", $2); ?>',
-            $source
-        );
-        // @yield without default value : @yield('title')
-        $source = preg_replace(
-            '/@yield\s*\(\s*[\'"](.+?)[\'"]\s*\)/',
-            '<?php echo $this->yieldSection("$1"); ?>',
-            $source
-        );
+		// 2. Layout directives
+		$source = preg_replace(
+			'/@extends\s*\(\s*[\'"](.+?)[\'"]\s*\)/',
+			'<?php $this->set_layout("$1" ); ?>',
+			$source
+		);
+		$source = preg_replace(
+			'/@section\s*\(\s*[\'"](.+?)[\'"]\s*\)/',
+			'<?php $this->start_section("$1" ); ?>',
+			$source
+		);
+		$source = preg_replace(
+			'/@endsection/',
+			'<?php $this->end_section(); ?>',
+			$source
+		);
 
-        // 3. @include — pass all local variables via get_defined_vars()
-        // @include with additional data : @include('partial', ['foo' => 'bar'])
-        $source = preg_replace(
-            '/@include\s*\(\s*[\'"](.+?)[\'"]\s*,\s*(\[.+?\])\s*\)/',
-            '<?php echo $this->renderInclude("$1", array_merge(get_defined_vars(), $2)); ?>',
-            $source
-        );
-        // @include simple : @include('partial')
-        $source = preg_replace(
-            '/@include\s*\(\s*[\'"](.+?)[\'"]\s*\)/',
-            '<?php echo $this->renderInclude("$1", get_defined_vars()); ?>',
-            $source
-        );
-        // @props for defining variables with defaults in included templates
-        $source = preg_replace_callback(
-            '/@props\s*\(\s*(\[.+?\])\s*\)/s',
-            fn(array $m): string => '<?php extract(array_merge(' . $m[1] . ', get_defined_vars()), EXTR_SKIP); ?>',
-            $source
-        );
+		// @yield with default value : @yield('title', 'Default Title')
+		$source = preg_replace(
+			'/@yield\s*\(\s*[\'"](.+?)[\'"]\s*,\s*(.+?)\s*\)/',
+			'<?php echo $this->yield_section("$1", $2); ?>',
+			$source
+		);
+		// @yield without default value : @yield('title')
+		$source = preg_replace(
+			'/@yield\s*\(\s*[\'"](.+?)[\'"]\s*\)/',
+			'<?php echo $this->yield_section("$1"); ?>',
+			$source
+		);
 
-        // 4. Conditions
-        $source = preg_replace( '/@if\s*\((.+?)\)/s',     '<?php if ( $1): ?>',     $source );
-        $source = preg_replace( '/@elseif\s*\((.+?)\)/s', '<?php elseif ( $1): ?>', $source );
-        $source = preg_replace( '/@else/',                '<?php else: ?>',         $source );
-        $source = preg_replace( '/@endif/',               '<?php endif; ?>',        $source );
+		// 3. @include — pass all local variables via get_defined_vars()
+		// @include with additional data : @include('partial', ['foo' => 'bar'])
+		$source = preg_replace(
+			'/@include\s*\(\s*[\'"](.+?)[\'"]\s*,\s*(\[.+?\])\s*\)/',
+			'<?php echo $this->render_include("$1", array_merge(get_defined_vars(), $2)); ?>',
+			$source
+		);
+		// @include simple : @include('partial')
+		$source = preg_replace(
+			'/@include\s*\(\s*[\'"](.+?)[\'"]\s*\)/',
+			'<?php echo $this->render_include("$1", get_defined_vars()); ?>',
+			$source
+		);
+		// @props for defining variables with defaults in included templates
+		$source = preg_replace_callback(
+			'/@props\s*\(\s*(\[.+?\])\s*\)/s',
+			fn(array $m): string => '<?php extract(array_merge(' . $m[1] . ', get_defined_vars()), EXTR_SKIP); ?>',
+			$source
+		);
 
-        // 5. Loops
-        $source = preg_replace( '/@foreach\s*\((.+?)\)/s', '<?php foreach ( $1): ?>', $source );
-        $source = preg_replace( '/@endforeach/',           '<?php endforeach; ?> ',   $source );
-        $source = preg_replace( '/@for\s*\((.+?)\)/s',     '<?php for ( $1): ?>',     $source );
-        $source = preg_replace( '/@endfor/',               '<?php endfor; ?>',        $source );
-        $source = preg_replace( '/@while\s*\((.+?)\)/s',   '<?php while ( $1): ?>',   $source );
-        $source = preg_replace( '/@endwhile/',             '<?php endwhile; ?>',      $source );
+		// 4. Conditions
+		$source = preg_replace( '/@if\s*\((.+?)\)/s',	 '<?php if ( $1): ?>',	 $source );
+		$source = preg_replace( '/@elseif\s*\((.+?)\)/s', '<?php elseif ( $1): ?>', $source );
+		$source = preg_replace( '/@else/',				'<?php else: ?>',		 $source );
+		$source = preg_replace( '/@endif/',			   '<?php endif; ?>',		$source );
 
-        // 6. Display — order is important: {!! before {{ to avoid conflicts
-        $source = preg_replace(
-            '/\{!!\s*(.+?)\s*!!\}/s',
-            '<?php echo $1; ?>',
-            $source
-        );
-        $source = preg_replace(
-            '/\{\{\s*(.+?)\s*\}\}/s',
-            '<?php echo htmlspecialchars((string)( $1), ENT_QUOTES, \'UTF-8\' ); ?>',
-            $source
-        );
+		// 5. Loops
+		$source = preg_replace( '/@foreach\s*\((.+?)\)/s', '<?php foreach ( $1): ?>', $source );
+		$source = preg_replace( '/@endforeach/',		   '<?php endforeach; ?> ',   $source );
+		$source = preg_replace( '/@for\s*\((.+?)\)/s',	 '<?php for ( $1): ?>',	 $source );
+		$source = preg_replace( '/@endfor/',			   '<?php endfor; ?>',		$source );
+		$source = preg_replace( '/@while\s*\((.+?)\)/s',   '<?php while ( $1): ?>',   $source );
+		$source = preg_replace( '/@endwhile/',			 '<?php endwhile; ?>',	  $source );
+
+		// 6. Display — order is important: {!! before {{ to avoid conflicts
+		$source = preg_replace(
+			'/\{!!\s*(.+?)\s*!!\}/s',
+			'<?php echo $1; ?>',
+			$source
+		);
+		$source = preg_replace(
+			'/\{\{\s*(.+?)\s*\}\}/s',
+			'<?php echo htmlspecialchars((string)( $1), ENT_QUOTES, \'UTF-8\' ); ?>',
+			$source
+		);
 
 
-        return $source;
-    }
+		return $source;
+	}
 
-    /**
-     * Executes a compiled template and returns the output.
-     * Uses include when cache is active (compiled to disk), eval() otherwise
-     * to avoid writing potentially broken templates to disk in development.
-     *
-     * @since 6.0.0
-     *
-     * @access private
-     *
-     * @param array|string $__compiled Compiled template — either ['path' => ...] or ['source' => ...]
-     * @param array $__data     Variables to extract into the template's scope.
-     *
-     * @return string The output generated by the template.
-     */
-    private function execute( array|string $__compiled, array $__data ): string
-    {
-        extract( $__data, EXTR_SKIP );
+	/**
+	 * Executes a compiled template and returns the output.
+	 * Uses include when cache is active (compiled to disk), eval() otherwise
+	 * to avoid writing potentially broken templates to disk in development.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @param array|string $__compiled Compiled template — either ['path' => ...] or ['source' => ...]
+	 * @param array $__data	 Variables to extract into the template's scope.
+	 *
+	 * @return string The output generated by the template.
+	 */
+	private function execute( array|string $__compiled, array $__data ) {
 
-        ob_start();
-        if ( isset( $__compiled['path'] ) ) {
-            include $__compiled['path'];
-        } else {
-            eval( '?>' . $__compiled['source'] );
-        }
+		extract( $__data, EXTR_SKIP );
 
-        return ob_get_clean();
-    }
+		ob_start();
+		if ( isset( $__compiled['path'] ) ) {
+			include $__compiled['path'];
+		} else {
+			eval( '?>' . $__compiled['source'] );
+		}
 
-    /**
-     * Variant of execute() for @include: minimal scope to prevent
-     * internal variables of execute() from leaking into the included template.
-     * 
-     * @since 6.0.0
-     * 
-     * @access private
-     * 
-     * @param string $__name Template name to include, e.g., 'admin/partial'
-     * @param array $__data Variables to extract into the included template's scope.
-     * 
-     * @return string The content generated by the included template.
-     */
-    private function renderInclude( string $__name, array $__data ) {
+		return ob_get_clean();
+	}
 
-        // Filter out any variables that could interfere with the template execution
-        $blacklist = [ 'compiled', 'data', 'blacklist', 'this' ];
-        foreach ( $blacklist as $key ) {
-            unset( $__data[ $key ] );
-        }
+	/**
+	 * Variant of execute() for @include: minimal scope to prevent
+	 * internal variables of execute() from leaking into the included template.
+	 * 
+	 * @since 6.0.0
+	 * 
+	 * @access private
+	 * 
+	 * @param string $__name Template name to include, e.g., 'admin/partial'
+	 * @param array $__data Variables to extract into the included template's scope.
+	 * 
+	 * @return string The content generated by the included template.
+	 */
+	private function render_include( string $__name, array $__data ) {
 
-        $compiled = $this->compile( $__name );
+		// Filter out any variables that could interfere with the template execution
+		$blacklist = [ 'compiled', 'data', 'blacklist', 'this' ];
+		foreach ( $blacklist as $key ) {
+			unset( $__data[ $key ] );
+		}
 
-        return $this->execute( $compiled, $__data );
-    }
+		$compiled = $this->compile( $__name );
 
-    /**
-     * Called by @extends in the compiled template
-     * 
-     * @since 6.0.0
-     * 
-     * @access public
-     * 
-     * @param string $name Layout template name, e.g., 'admin/layout'
-     */
-    public function setLayout( string $name ) {
+		return $this->execute( $compiled, $__data );
+	}
 
-        $this->layout = $name;
-    }
+	/**
+	 * Called by @extends in the compiled template
+	 * 
+	 * @since 6.0.0
+	 * 
+	 * @access public
+	 * 
+	 * @param string $name Layout template name, e.g., 'admin/layout'
+	 */
+	public function set_layout( string $name ) {
 
-    /**
-     * Called by @section — starts capturing content
-     * 
-     * @since 6.0.0
-     * 
-     * @access public
-     * 
-     * @param string $name Section name, e.g., 'content'
-     */
-    public function startSection( string $name ) {
+		$this->layout = $name;
+	}
 
-        $this->currentSection = $name;
-        ob_start();
-    }
+	/**
+	 * Called by @section — starts capturing content
+	 * 
+	 * @since 6.0.0
+	 * 
+	 * @access public
+	 * 
+	 * @param string $name Section name, e.g., 'content'
+	 */
+	public function start_section( string $name ) {
 
-    /**
-     * Called by @endsection — stops capturing and stores the section
-     * 
-     * @since 6.0.0
-     * 
-     * @access public
-     */
-    public function endSection() {
+		$this->current_section = $name;
+		ob_start();
+	}
 
-        if ( null === $this->currentSection ) {
-            throw new \RuntimeException( 'Template: @endsection without matching @section.' );
-        }
+	/**
+	 * Called by @endsection — stops capturing and stores the section
+	 * 
+	 * @since 6.0.0
+	 * 
+	 * @access public
+	 */
+	public function end_section() {
 
-        $this->sections[ $this->currentSection ] = ob_get_clean();
-        $this->currentSection = null;
-    }
+		if ( null === $this->current_section ) {
+			throw new \RuntimeException( 'Template: @endsection without matching @section.' );
+		}
 
-    /**
-     * Called by @yield in the layout — returns the section or the default value
-     * 
-     * @since 6.0.0
-     * 
-     * @access public
-     * 
-     * @param string $name Section name, e.g., 'content'
-     * @param string|null $default Default value if the section is not defined
-     * 
-     * @return string The content of the section or the default value
-     */
-    public function yieldSection( string $name, ?string $default = null ) {
+		$this->sections[ $this->current_section ] = ob_get_clean();
+		$this->current_section = null;
+	}
 
-        return $this->sections[ $name ] ?? $default ?? '';
-    }
+	/**
+	 * Called by @yield in the layout — returns the section or the default value
+	 * 
+	 * @since 6.0.0
+	 * 
+	 * @access public
+	 * 
+	 * @param string $name Section name, e.g., 'content'
+	 * @param string|null $default Default value if the section is not defined
+	 * 
+	 * @return string The content of the section or the default value
+	 */
+	public function yield_section( string $name, ?string $default = null ) {
 
-    /**
-     * Resolves the full path to a template file.
-     * 
-     * @since 6.0.0
-     * 
-     * @access private
-     * 
-     * @param string $name Template name, e.g., 'admin.dashboard'
-     * 
-     * @return string The full path to the template file
-     */
-    private function resolvePath( string $name ) {
+		return $this->sections[ $name ] ?? $default ?? '';
+	}
 
-        // Convert dot notation to directory separators, e.g., 'admin.dashboard' => 'admin/dashboard'
-        $name = str_replace( '.', '/', $name );
-        $path = realpath( $this->templateDir . '/' . $name . '.php' );
+	/**
+	 * Resolves the full path to a template file.
+	 * 
+	 * @since 6.0.0
+	 * 
+	 * @access private
+	 * 
+	 * @param string $name Template name, e.g., 'admin.dashboard'
+	 * 
+	 * @return string The full path to the template file
+	 */
+	private function resolve_path( string $name ) {
 
-        if ( false === $path || ! str_starts_with( $path, $this->templateDir ) ) {
-            throw new \RuntimeException( "Template: invalid path — {$name}" );
-        }
+		// Convert dot notation to directory separators, e.g., 'admin.dashboard' => 'admin/dashboard'
+		$name = str_replace( '.', '/', $name );
+		$path = realpath( $this->template_dir . '/' . $name . '.php' );
 
-        return $path;
-    }
+		if ( false === $path || ! str_starts_with( $path, $this->template_dir ) ) {
+			throw new \RuntimeException( "Template: invalid path — {$name}" );
+		}
 
-    /**
-     * Returns the path to the compiled file in the cache directory.
-     * 
-     * @since 6.0.0
-     * 
-     * @access private
-     * 
-     * @param string $name Template name, e.g., 'admin.dashboard'
-     * 
-     * @return string The full path to the compiled template file in the cache
-     */
-    private function cachePath( string $name ) {
+		return $path;
+	}
 
-        // Convert dot and slash notation to underscores, e.g., 'admin.dashboard' => 'admin_dashboard'
-        $name = str_replace( [ '.', '/' ], '_', $name );
+	/**
+	 * Returns the path to the compiled file in the cache directory.
+	 * 
+	 * @since 6.0.0
+	 * 
+	 * @access private
+	 * 
+	 * @param string $name Template name, e.g., 'admin.dashboard'
+	 * 
+	 * @return string The full path to the compiled template file in the cache
+	 */
+	private function cache_path( string $name ) {
 
-        return realpath( $this->cacheDir . '/' . $name . '.php' ) ?: $this->cacheDir . '/' . $name . '.php';
-    }
+		// Convert dot and slash notation to underscores, e.g., 'admin.dashboard' => 'admin_dashboard'
+		$name = str_replace( [ '.', '/' ], '_', $name );
+
+		return realpath( $this->cache_dir . '/' . $name . '.php' ) ?: $this->cache_dir . '/' . $name . '.php';
+	}
 }

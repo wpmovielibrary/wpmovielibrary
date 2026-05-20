@@ -1,221 +1,221 @@
 
 :root {
-  --wpmovielibrary-blue: #4083eb;
-  --wpmovielibrary-blue--rgb: 64, 131, 235;
-  --wpmovielibrary-gray: #f6f6fa;
-  --wpmovielibrary-gray--rgb: 246, 246, 250;
-  --wpmovielibrary-green: #2ed200;
-  --wpmovielibrary-green--rgb: 46, 210, 0;
-  --wpmovielibrary-orange: #fd6f38;
-  --wpmovielibrary-orange--rgb: 253, 111, 56;
-  --wpmovielibrary-red: #fd1a1a;
-  --wpmovielibrary-red--rgb: 253, 26, 26;
-  --wpmovielibrary-purple: #833eb0;
-  --wpmovielibrary-purple--rgb: 131, 62, 176;
-  --wpmovielibrary-purple-darker-10: #6f3e8f;
-  --wpmovielibrary-purple-darker-10--rgb: 111, 62, 143;
-  --wpmovielibrary-purple-darker-20: #4d3060;
-  --wpmovielibrary-purple-darker-20--rgb: 77, 48, 96;
+	--wpmovielibrary-blue: #4083eb;
+	--wpmovielibrary-blue--rgb: 64, 131, 235;
+	--wpmovielibrary-gray: #f6f6fa;
+	--wpmovielibrary-gray--rgb: 246, 246, 250;
+	--wpmovielibrary-green: #2ed200;
+	--wpmovielibrary-green--rgb: 46, 210, 0;
+	--wpmovielibrary-orange: #fd6f38;
+	--wpmovielibrary-orange--rgb: 253, 111, 56;
+	--wpmovielibrary-red: #fd1a1a;
+	--wpmovielibrary-red--rgb: 253, 26, 26;
+	--wpmovielibrary-purple: #833eb0;
+	--wpmovielibrary-purple--rgb: 131, 62, 176;
+	--wpmovielibrary-purple-darker-10: #6f3e8f;
+	--wpmovielibrary-purple-darker-10--rgb: 111, 62, 143;
+	--wpmovielibrary-purple-darker-20: #4d3060;
+	--wpmovielibrary-purple-darker-20--rgb: 77, 48, 96;
 }
 
 [x-cloak] {
-  display: none !important;
+	display: none !important;
 }
 
 .wpmovielibrary-dashboard #wpfooter {
-  display: none;
+	display: none;
 }
 
 #dashboard_right_now .movie-count::before {
-  content: "\f126";
+	content: "\f126";
 }
 
 #dashboard_right_now .series-count::before {
-  content: "\f236";
+	content: "\f236";
 }
 
 #dashboard_right_now .person-count::before {
-  content: "\f12e";
+	content: "\f12e";
 }
 
 body.js.edit-php.post-type-movie .wpmovielibrary-wrapper + .wrap,
 body.js.edit-php.post-type-person .wpmovielibrary-wrapper + .wrap,
 body.js.edit-php.post-type-series .wpmovielibrary-wrapper + .wrap {
-  display: none;
+	display: none;
 }
 
 #wpbody-content {
-  position: relative;
+	position: relative;
 }
 
 body.edit-php.post-type-movie #wpadminbar,
 body[class*="page_wpmovielibrary-importer"] #wpadminbar {
-  display: block !important;
+	display: block !important;
 }
 
 body.edit-php.post-type-movie #screen-meta,
 body.edit-php.post-type-movie #screen-meta-links {
-  display: none;
+	display: none;
 }
 
 [id^="wpmovielibrary-"] .components-base-control__field label {
-  margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 .wpmovielibrary-wrapper {
-  --wp-admin-theme-color: var(--wpmovielibrary-purple, #3858e9);
-  --wp-admin-theme-color--rgb: var(--wpmovielibrary-purple--rgb, 56, 88, 233);
-  --wp-admin-theme-color-darker-10: var(--wpmovielibrary-purple-darker-10, #2145e6);
-  --wp-admin-theme-color-darker-10--rgb: var(--wpmovielibrary-purple-darker-10--rgb, 33, 69, 230);
-  --wp-admin-theme-color-darker-20: var(--wpmovielibrary-purple-darker-20, #183ad6);
-  --wp-admin-theme-color-darker-20--rgb: var(--wpmovielibrary-purple-darker-20--rgb, 24, 58, 214);
-  background: var(--wpmovielibrary-gray);
-  left: -20px;
-  min-height: calc( 100vh - var(--wp-admin--admin-bar--height, 32px));
-  position: absolute;
-  right: 0;
-  top: 0px;
-  z-index: 1;
+	--wp-admin-theme-color: var(--wpmovielibrary-purple, #3858e9);
+	--wp-admin-theme-color--rgb: var(--wpmovielibrary-purple--rgb, 56, 88, 233);
+	--wp-admin-theme-color-darker-10: var(--wpmovielibrary-purple-darker-10, #2145e6);
+	--wp-admin-theme-color-darker-10--rgb: var(--wpmovielibrary-purple-darker-10--rgb, 33, 69, 230);
+	--wp-admin-theme-color-darker-20: var(--wpmovielibrary-purple-darker-20, #183ad6);
+	--wp-admin-theme-color-darker-20--rgb: var(--wpmovielibrary-purple-darker-20--rgb, 24, 58, 214);
+	background: var(--wpmovielibrary-gray);
+	left: -20px;
+	min-height: calc( 100vh - var(--wp-admin--admin-bar--height, 32px));
+	position: absolute;
+	right: 0;
+	top: 0px;
+	z-index: 1;
 }
 
 .wpmovielibrary-wrapper ~ #wpfooter {
-  display: none;
+	display: none;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-header {
-  align-items: flex-end;
-  /*background-color: rgb(223,83,0);*/
-  /*background-image: linear-gradient(45deg, rgba(223,83,0,1) 0%, rgba(255,164,99,1) 100%);*/
-  background-image: url(../images/header.jpg);
-  background-position: center 20%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-bottom: 4px solid var(--wpmovielibrary-orange);
-  display: flex;
-  height: 120px;
-  padding: 30px;
-  position: relative;
+	align-items: flex-end;
+	/*background-color: rgb(223,83,0);*/
+	/*background-image: linear-gradient(45deg, rgba(223,83,0,1) 0%, rgba(255,164,99,1) 100%);*/
+	background-image: url(../images/header.jpg);
+	background-position: center 20%;
+	background-repeat: no-repeat;
+	background-size: cover;
+	border-bottom: 4px solid var(--wpmovielibrary-orange);
+	display: flex;
+	height: 120px;
+	padding: 30px;
+	position: relative;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-header .wpmovielibrary-brand {
-  align-items: flex-end;
-  display: flex;
-  flex-direction: column;
+	align-items: flex-end;
+	display: flex;
+	flex-direction: column;
 }
 
 /*.wpmovielibrary-wrapper .wpmovielibrary-header .wpmovielibrary-brand::before {
-  background: linear-gradient( 45deg, rgba( 0, 0, 0, .25 ) 0%, rgba( 0, 0, 0, 0 ) 100% );
-  backdrop-filter: blur(6px) saturate(1.25);
-  bottom: 0;
-  content: '';
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
+	background: linear-gradient( 45deg, rgba( 0, 0, 0, .25 ) 0%, rgba( 0, 0, 0, 0 ) 100% );
+	backdrop-filter: blur(6px) saturate(1.25);
+	bottom: 0;
+	content: '';
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
 }*/
 
 .wpmovielibrary-wrapper .wpmovielibrary-header .wpmovielibrary-brand .wpmovielibrary-name {
-  color: #fff;
-  font-size: 20px;
-  font-weight: 500;
-  position: relative;
+	color: #fff;
+	font-size: 20px;
+	font-weight: 500;
+	position: relative;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-header .wpmovielibrary-brand .wpmovielibrary-version {
-  background: rgba(255, 255, 255, .5);
-  border-radius: 3px;
-  color: #342b64;
-  padding: 0px 6px;
-  font-size: 11px;
-  font-weight: 700;
-  margin-top: 4px;
-  position: relative;
+	background: rgba(255, 255, 255, .5);
+	border-radius: 3px;
+	color: #342b64;
+	padding: 0px 6px;
+	font-size: 11px;
+	font-weight: 700;
+	margin-top: 4px;
+	position: relative;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-menu {
-  background: var(--wpmovielibrary-purple-darker-20);
-  height: 52px;
+	background: var(--wpmovielibrary-purple-darker-20);
+	height: 52px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-menu ul {
-  align-items: center;
-  column-gap: 20px;
-  display: flex;
-  height: 100%;
-  margin: 0;
-  padding: 0 30px;
+	align-items: center;
+	column-gap: 20px;
+	display: flex;
+	height: 100%;
+	margin: 0;
+	padding: 0 30px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-menu ul li {
-  height: 100%;
-  margin: 0;
-  position: relative;
+	height: 100%;
+	margin: 0;
+	position: relative;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-menu ul li a {
-  align-items: center;
-  border-bottom: 4px solid var(--wpmovielibrary-purple-darker-20);
-  box-sizing: border-box;
-  color: #fff;
-  display: flex;
-  font-size: 14px;
-  font-weight: 500;
-  height: 100%;
-  opacity: .75;
-  text-decoration: none;
+	align-items: center;
+	border-bottom: 4px solid var(--wpmovielibrary-purple-darker-20);
+	box-sizing: border-box;
+	color: #fff;
+	display: flex;
+	font-size: 14px;
+	font-weight: 500;
+	height: 100%;
+	opacity: .75;
+	text-decoration: none;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-menu ul li a:hover {
-  opacity: 1;
+	opacity: 1;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-menu ul li a:hover,
 .wpmovielibrary-wrapper .wpmovielibrary-menu ul li.is-active a {
-  border-bottom-color: var(--wpmovielibrary-orange);
+	border-bottom-color: var(--wpmovielibrary-orange);
 }
 
 /*.wpmovielibrary-wrapper .wpmovielibrary-menu ul li.is-active::after {
-  content: '';
-  background: #df5300;
-  bottom: 0;
-  height: 4px;
-  left: 0;
-  position: absolute;
-  right: 0;
-  width: 100%;
+	content: '';
+	background: #df5300;
+	bottom: 0;
+	height: 4px;
+	left: 0;
+	position: absolute;
+	right: 0;
+	width: 100%;
 }*/
 
 .wpmovielibrary-wrapper .wpmovielibrary-menu ul li.is-active a {
-  opacity: 1;
+	opacity: 1;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content {
-  column-gap: 20px;
-  display: flex;
-  flex-direction: row;
-  padding: 30px;
+	column-gap: 20px;
+	display: flex;
+	flex-direction: row;
+	padding: 30px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar {
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  row-gap: 20px;
-  width: 220px;
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	row-gap: 20px;
+	width: 220px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar.is-wide {
-  min-width: 220px;
-  max-width: 360px;
-  width: 30%;
+	min-width: 220px;
+	max-width: 360px;
+	width: 30%;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels {
-  display: grid;
-  gap: 20px;
-  grid-auto-rows: min-content;
-  grid-template-columns: repeat( 12, 1fr );
-  flex-grow: 1;
+	display: grid;
+	gap: 20px;
+	grid-auto-rows: min-content;
+	grid-template-columns: repeat( 12, 1fr );
+	flex-grow: 1;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel.col-span-1 { grid-column: span 1 / span 1; }
@@ -235,154 +235,154 @@ body.edit-php.post-type-movie #screen-meta-links {
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel {
-  background: #fff;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.125);
-  display: flex;
-  flex-direction: column;
+	background: #fff;
+	border-radius: 6px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.125);
+	display: flex;
+	flex-direction: column;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-header,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-footer,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-header,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-footer {
-  align-items: center;
-  border-bottom: 1px solid #e5e5e5;
-  color: var(--wpmovielibrary-purple-darker-20);
-  display: flex;
-  flex-shrink: 0;
-  font-size: 14px;
-  font-weight: 600;
-  height: 50px;
-  padding: 0 25px;
-  position: relative;
-  text-transform: uppercase;
+	align-items: center;
+	border-bottom: 1px solid #e5e5e5;
+	color: var(--wpmovielibrary-purple-darker-20);
+	display: flex;
+	flex-shrink: 0;
+	font-size: 14px;
+	font-weight: 600;
+	height: 50px;
+	padding: 0 25px;
+	position: relative;
+	text-transform: uppercase;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-footer,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-footer {
-  justify-content: space-between;
-  height: 40px;
-  padding: 10px 25px;
+	justify-content: space-between;
+	height: 40px;
+	padding: 10px 25px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-footer .counter,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-footer .counter {
-  color: #666;
-  font-size: 11px;
-  font-weight: 500;
-  text-transform: none;
+	color: #666;
+	font-size: 11px;
+	font-weight: 500;
+	text-transform: none;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-footer .submit-action,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-footer .submit-action {
-  align-items: center;
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
+	align-items: center;
+	display: flex;
+	gap: 10px;
+	justify-content: flex-end;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-header .actions,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-footer .actions,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-header .actions,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-footer .actions {
-  align-items: center;
-  display: flex;
-  column-gap: 10px;
-  margin-left: auto;
-  text-transform: none;
+	align-items: center;
+	display: flex;
+	column-gap: 10px;
+	margin-left: auto;
+	text-transform: none;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-header .components-button-group,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-header .components-button-group {
-  margin-left: auto;
+	margin-left: auto;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-header button,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-header button {
-  align-items: center;
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  height: 30px;
-  justify-content: center;
-  margin-left: auto;
-  width: 30px;
+	align-items: center;
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 4px;
+	cursor: pointer;
+	display: flex;
+	height: 30px;
+	justify-content: center;
+	margin-left: auto;
+	width: 30px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-header button:focus,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-header button:focus {
-  border: 0 !important;
-  box-shadow: 0 0 0 !important;
-  outline: none !important;
+	border: 0 !important;
+	box-shadow: 0 0 0 !important;
+	outline: none !important;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-header button svg,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-header button svg {
-  fill: var(--wpmovielibrary-purple-darker-20);
-  flex-shrink: 0;
-  height: 20px;
-  width: 20px;
+	fill: var(--wpmovielibrary-purple-darker-20);
+	flex-shrink: 0;
+	height: 20px;
+	width: 20px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-header button.help-button svg,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-header button.help-button svg {
-  height: 20px;
-  width: 20px;
+	height: 20px;
+	width: 20px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-header button.settings-button svg,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-header button.settings-button svg {
-  height: 24px;
-  width: 24px;
+	height: 24px;
+	width: 24px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-header button:hover svg,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-header button:hover svg,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget .wpmovielibrary-widget-header button.is-pressed svg,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel .wpmovielibrary-panel-header button.is-pressed svg {
-  fill: var(--wpmovielibrary-purple-darker-10);
+	fill: var(--wpmovielibrary-purple-darker-10);
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-help,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-help {
-  background-color: var(--wpmovielibrary-purple-darker-10);
-  color: #fff;
-  font-weight: 500;
-  margin-top: -1px;
-  padding: 5px 25px;
-  position: relative;
+	background-color: var(--wpmovielibrary-purple-darker-10);
+	color: #fff;
+	font-weight: 500;
+	margin-top: -1px;
+	padding: 5px 25px;
+	position: relative;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-help::before,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-help::before {
-  content: '';
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 8px solid var(--wpmovielibrary-purple-darker-10);
-  height: 0;
-  right: 32px;
-  position: absolute;
-  top: -8px;
+	content: '';
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	border-bottom: 8px solid var(--wpmovielibrary-purple-darker-10);
+	height: 0;
+	right: 32px;
+	position: absolute;
+	top: -8px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-content,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-content {
-  flex-grow: 1;
-  padding: 15px 25px;
+	flex-grow: 1;
+	padding: 15px 25px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-content p,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-content p {
-  margin: 0;
+	margin: 0;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget-footer,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-footer {
-  border-bottom: 0;
-  border-top: 1px solid #e5e5e5;
+	border-bottom: 0;
+	border-top: 1px solid #e5e5e5;
 }
 
 /**
@@ -390,157 +390,157 @@ body.edit-php.post-type-movie #screen-meta-links {
  */
 
 .wpmovielibrary-wrapper .components-form-toggle.is-checked .components-form-toggle__track {
-  background-color: var(--wpmovielibrary-purple, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9)));
-  border-color: var(--wpmovielibrary-purple, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9)));
+	background-color: var(--wpmovielibrary-purple, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9)));
+	border-color: var(--wpmovielibrary-purple, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9)));
 }
 
 .wpmovielibrary-wrapper .components-button-group {
-  display: flex;
-  flex-direction: row;
-  gap: 6px;
+	display: flex;
+	flex-direction: row;
+	gap: 6px;
 }
 
 .wpmovielibrary-wrapper .components-button {
-  border-radius: 4px !important;
-  box-shadow: none !important;
+	border-radius: 4px !important;
+	box-shadow: none !important;
 }
 
 .wpmovielibrary-wrapper .button.is-loading {
-  cursor: wait;
-  opacity: 0.75;
+	cursor: wait;
+	opacity: 0.75;
 }
 
 .wpmovielibrary-wrapper .button.button-primary,
 .wpmovielibrary-wrapper .components-button.is-primary {
-  background: var(--wpmovielibrary-purple-darker-10, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9))) !important;
-  border-color: var(--wpmovielibrary-purple-darker-10, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9))) !important;
-  color: #fff !important;
+	background: var(--wpmovielibrary-purple-darker-10, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9))) !important;
+	border-color: var(--wpmovielibrary-purple-darker-10, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9))) !important;
+	color: #fff !important;
 }
 
 .wpmovielibrary-wrapper .button.button-primary:hover:not(:disabled),
 .wpmovielibrary-wrapper .components-button.is-primary:hover:not(:disabled) {
-  background: var(--wpmovielibrary-purple-darker-20, var(--wp-components-color-accent-darker-10, var(--wp-admin-theme-color-darker-10, #2145e6))) !important;
-  border-color: var(--wpmovielibrary-purple-darker-20, var(--wp-components-color-accent-darker-10, var(--wp-admin-theme-color-darker-10, #2145e6))) !important;
+	background: var(--wpmovielibrary-purple-darker-20, var(--wp-components-color-accent-darker-10, var(--wp-admin-theme-color-darker-10, #2145e6))) !important;
+	border-color: var(--wpmovielibrary-purple-darker-20, var(--wp-components-color-accent-darker-10, var(--wp-admin-theme-color-darker-10, #2145e6))) !important;
 }
 
 .wpmovielibrary-wrapper .button.button-primary:focus:not(:disabled),
 .wpmovielibrary-wrapper .components-button.is-primary:focus:not(:disabled) {
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--wpmovielibrary-purple-darker-20, var(--wp-components-color-accent-darker-10, var(--wp-admin-theme-color-darker-10, #2145e6))) !important;
+	box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--wpmovielibrary-purple-darker-20, var(--wp-components-color-accent-darker-10, var(--wp-admin-theme-color-darker-10, #2145e6))) !important;
 }
 
 .wpmovielibrary-wrapper .button.button-secondary,
 .wpmovielibrary-wrapper .components-button.is-secondary {
-  border: 1px solid var(--wpmovielibrary-purple-darker-10, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9))) !important;
+	border: 1px solid var(--wpmovielibrary-purple-darker-10, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9))) !important;
 }
 
 .wpmovielibrary-wrapper .button.button-secondary:hover:not(:disabled),
 .wpmovielibrary-wrapper .components-button.is-secondary:hover:not(:disabled) {
-  border-color: var(--wpmovielibrary-purple-darker-20, var(--wp-components-color-accent-darker-10, var(--wp-admin-theme-color-darker-10, #2145e6))) !important;
+	border-color: var(--wpmovielibrary-purple-darker-20, var(--wp-components-color-accent-darker-10, var(--wp-admin-theme-color-darker-10, #2145e6))) !important;
 }
 
 .wpmovielibrary-wrapper .button.button-secondary:focus:not(:disabled),
 .wpmovielibrary-wrapper .components-button.is-secondary:focus:not(:disabled) {
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px currentColor !important;
+	box-shadow: 0 0 0 2px #fff, 0 0 0 4px currentColor !important;
 }
 
 .components-form-token-field__input-container:focus {
-  border-color: var(--wpmovielibrary-purple, var(--wp-admin-theme-color)) !important;
-  box-shadow: 0 0 0 .5px var(--wpmovielibrary-purple, var(--wp-admin-theme-color)) !important;
+	border-color: var(--wpmovielibrary-purple, var(--wp-admin-theme-color)) !important;
+	box-shadow: 0 0 0 .5px var(--wpmovielibrary-purple, var(--wp-admin-theme-color)) !important;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-tag-input-wrapper {
-  border: 1px solid #e5e5e5;
-  border-radius: 4px;
-  min-height: 32px;
-  padding: 10px;
-  position: relative;
-  width: 100%;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	min-height: 32px;
+	padding: 10px;
+	position: relative;
+	width: 100%;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-tag-input-wrapper:focus-within {
-  border-radius: 4px 4px 0 0;
+	border-radius: 4px 4px 0 0;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-tag-input-wrapper .tag-input-item {
-  align-items: center;
-  background: var(--wpmovielibrary-purple-darker-10, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9))) !important;
-  border-color: var(--wpmovielibrary-purple-darker-10, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9))) !important;
-  border-radius: 4px;
-  color: #fff;
-  display: inline-flex;
-  flex-shrink: 0;
-  height: 24px;
-  margin: 2px;
-  padding: 2px 8px;
-  white-space: nowrap;
+	align-items: center;
+	background: var(--wpmovielibrary-purple-darker-10, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9))) !important;
+	border-color: var(--wpmovielibrary-purple-darker-10, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9))) !important;
+	border-radius: 4px;
+	color: #fff;
+	display: inline-flex;
+	flex-shrink: 0;
+	height: 24px;
+	margin: 2px;
+	padding: 2px 8px;
+	white-space: nowrap;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-tag-input-wrapper .tag-input-item span {}
 
 .wpmovielibrary-wrapper .wpmovielibrary-tag-input-wrapper .tag-input-item button {
-  background: transparent;
-  border: 0;
-  border-radius: 4px;
-  color: #fff;
-  cursor: pointer;
-  display: inline-flex;
-  font-size: 16px;
-  font-weight: 600;
-  height: 20px;
-  justify-content: center;
-  padding: 0;
-  margin-left: 6px;
+	background: transparent;
+	border: 0;
+	border-radius: 4px;
+	color: #fff;
+	cursor: pointer;
+	display: inline-flex;
+	font-size: 16px;
+	font-weight: 600;
+	height: 20px;
+	justify-content: center;
+	padding: 0;
+	margin-left: 6px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-tag-input-wrapper .wpmovielibrary-tag-input input {
-  border: 0;
-  box-shadow: none;
-  color: #666;
-  height: 32px;
-  text-overflow: ellipsis;
+	border: 0;
+	box-shadow: none;
+	color: #666;
+	height: 32px;
+	text-overflow: ellipsis;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-tag-input-wrapper .wpmovielibrary-tag-input input:active,
 .wpmovielibrary-wrapper .wpmovielibrary-tag-input-wrapper .wpmovielibrary-tag-input input:focus {
-  outline: none;
+	outline: none;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-tag-input-wrapper .wpmovielibrary-tag-input {
-  display: inline-flex;
+	display: inline-flex;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-tag-input-wrapper .wpmovielibrary-tag-input ul {
-  background: #fff;
-  border: 1px solid #e5e5e5;
-  border-radius: 0 0 4px 4px;
-  left: -1px;
-  margin: 0;
-  max-height: 200px;
-  overflow-y: auto;
-  padding: 4px 8px;
-  position: absolute;
-  right: -1px;
-  top: 52px;
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	border-radius: 0 0 4px 4px;
+	left: -1px;
+	margin: 0;
+	max-height: 200px;
+	overflow-y: auto;
+	padding: 4px 8px;
+	position: absolute;
+	right: -1px;
+	top: 52px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-tag-input-wrapper .wpmovielibrary-tag-input ul:empty {
-  display: none;
+	display: none;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-tag-input-wrapper .wpmovielibrary-tag-input ul li {
-  cursor: pointer;
-  margin: 0;
+	cursor: pointer;
+	margin: 0;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-tag-input-wrapper .wpmovielibrary-tag-input ul li div {
-  align-items: center;
-  display: flex;
-  min-height: 20px;
-  padding: 4px 6px;
+	align-items: center;
+	display: flex;
+	min-height: 20px;
+	padding: 4px 6px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-tag-input-wrapper .wpmovielibrary-tag-input ul li:hover div {
-  background: var(--wpmovielibrary-purple-darker-10, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9)));
-  border-radius: 4px;
-  color: #fff;
+	background: var(--wpmovielibrary-purple-darker-10, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9)));
+	border-radius: 4px;
+	color: #fff;
 }

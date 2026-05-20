@@ -4,55 +4,55 @@
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.library-widget {}
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.library-widget ul {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat( 2, 1fr );
-  list-style: none;
-  margin: 15px 0;
-  padding: 0;
+	display: grid;
+	gap: 10px;
+	grid-template-columns: repeat( 2, 1fr );
+	list-style: none;
+	margin: 15px 0;
+	padding: 0;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.library-widget ul li {
-  margin: 0;
+	margin: 0;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.library-widget ul li svg {
-  flexshrink: 0;
-  height: 20px;
-  opacity: .5;
-  width: 20px;
+	flexshrink: 0;
+	height: 20px;
+	opacity: .5;
+	width: 20px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.library-widget ul li a,
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.library-widget ul li span {
-  align-items: center;
-  column-gap: 10px;
-  display: flex;
+	align-items: center;
+	column-gap: 10px;
+	display: flex;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.library-widget ul li a {
-  color: var(--wpmovielibrary-purple);
-  font-weight: 500;
-  text-decoration: none;
+	color: var(--wpmovielibrary-purple);
+	font-weight: 500;
+	text-decoration: none;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.library-widget ul li a svg {
-  /*fill: var(--wpmovielibrary-orange);*/
-  opacity: .75;
+	/*fill: var(--wpmovielibrary-orange);*/
+	opacity: .75;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.library-widget ul li a:hover svg {
-  opacity: 1;
+	opacity: 1;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.library-widget p a {
-  color: var(--wpmovielibrary-purple);
-  font-weight: 500;
-  text-decoration: none;
+	color: var(--wpmovielibrary-purple);
+	font-weight: 500;
+	text-decoration: none;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.library-widget p a:hover {
-  color: var(--wpmovielibrary-purple-darker-10);
+	color: var(--wpmovielibrary-purple-darker-10);
 }
 
 /* Shortcuts Widget */
@@ -60,45 +60,45 @@
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.shortcuts-widget {}
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.shortcuts-widget ul {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat( 3, 1fr );
-  list-style: none;
-  margin: 0;
-  padding: 0;
+	display: grid;
+	gap: 10px;
+	grid-template-columns: repeat( 3, 1fr );
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.shortcuts-widget ul li {
-  margin: 0;
+	margin: 0;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.shortcuts-widget ul li a {
-  align-items: center;
-  border-radius: 4px;
-  box-sizing: border-box;
-  color: var(--wpmovielibrary-purple-darker-10);
-  display: flex;
-  flex-direction: column;
-  font-size: 11px;
-  font-weight: 600;
-  height: 100%;
-  justify-content: center;
-  line-height: 1;
-  padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  text-transform: uppercase;
+	align-items: center;
+	border-radius: 4px;
+	box-sizing: border-box;
+	color: var(--wpmovielibrary-purple-darker-10);
+	display: flex;
+	flex-direction: column;
+	font-size: 11px;
+	font-weight: 600;
+	height: 100%;
+	justify-content: center;
+	line-height: 1;
+	padding: 10px;
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.shortcuts-widget ul li a:hover {
-  background: var(--wpmovielibrary-purple-darker-10);
-  color: #fff;
+	background: var(--wpmovielibrary-purple-darker-10);
+	color: #fff;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.shortcuts-widget ul li a svg {
-  fill: currentColor;
-  height: 48px;
-  width: 48px;
+	fill: currentColor;
+	height: 48px;
+	width: 48px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.shortcuts-widget ul li a:hover {}
@@ -108,122 +108,122 @@
 /* Support Widget */
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.support-widget ul {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat( 2, 1fr );
-  list-style: none;
-  margin: 15px 0;
-  padding: 0;
+	display: grid;
+	gap: 10px;
+	grid-template-columns: repeat( 2, 1fr );
+	list-style: none;
+	margin: 15px 0;
+	padding: 0;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.support-widget ul li {
-  margin: 0;
+	margin: 0;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.support-widget ul li svg {
-  flexshrink: 0;
-  height: 20px;
-  opacity: .5;
-  width: 20px;
+	flexshrink: 0;
+	height: 20px;
+	opacity: .5;
+	width: 20px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.support-widget ul li a {
-  align-items: center;
-  color: var(--wpmovielibrary-purple);
-  column-gap: 10px;
-  display: flex;
-  font-weight: 500;
-  text-decoration: none;
+	align-items: center;
+	color: var(--wpmovielibrary-purple);
+	column-gap: 10px;
+	display: flex;
+	font-weight: 500;
+	text-decoration: none;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.support-widget ul li a svg {
-  /*fill: var(--wpmovielibrary-orange);*/
-  opacity: .75;
+	/*fill: var(--wpmovielibrary-orange);*/
+	opacity: .75;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.support-widget ul li a:hover {
-  color: var(--wpmovielibrary-purple-darker-10);
+	color: var(--wpmovielibrary-purple-darker-10);
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.support-widget ul li a:hover svg {
-  opacity: 1;
+	opacity: 1;
 }
 
 /* Rating Widget */
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.rating-widget {
-  background-color: rgb(223,83,0);
-  background-image: linear-gradient(45deg, rgba(77,48,96,1) 0%, rgba(223,83,0,1) 100%);
+	background-color: rgb(223,83,0);
+	background-image: linear-gradient(45deg, rgba(77,48,96,1) 0%, rgba(223,83,0,1) 100%);
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.rating-widget .wpmovielibrary-widget-header {
-  color: #fff;
-  border-bottom-color: rgba(255,255,255,.25);
+	color: #fff;
+	border-bottom-color: rgba(255,255,255,.25);
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.rating-widget .wpmovielibrary-widget-content {
-  color: #fff;
-  font-weight: 500;
+	color: #fff;
+	font-weight: 500;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.rating-widget .wpmovielibrary-widget-content p {
-  margin: 0;
+	margin: 0;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.rating-widget .wpmovielibrary-widget-content a {
-  align-items: center;
-  background: rgba(255,255,255,.25);
-  border: 1px solid rgba(255,255,255,.25);
-  column-gap: 5px;
-  display: inline-flex;
-  letter-spacing: 1px;
-  margin: 10px auto 0;
-  text-transform: uppercase;
+	align-items: center;
+	background: rgba(255,255,255,.25);
+	border: 1px solid rgba(255,255,255,.25);
+	column-gap: 5px;
+	display: inline-flex;
+	letter-spacing: 1px;
+	margin: 10px auto 0;
+	text-transform: uppercase;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.rating-widget .wpmovielibrary-widget-content a svg {
-  fill: #fff;
-  height: 16px;
-  width: 16px;
+	fill: #fff;
+	height: 16px;
+	width: 16px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.rating-widget .wpmovielibrary-widget-content a:hover {
-  background: #fff;
-  border-color: #fff;
-  color: var(--wpmovielibrary-orange);
+	background: #fff;
+	border-color: #fff;
+	color: var(--wpmovielibrary-orange);
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.rating-widget .wpmovielibrary-widget-content a:hover svg {
-  fill: var(--wpmovielibrary-orange);
+	fill: var(--wpmovielibrary-orange);
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.rating-widget .wpmovielibrary-widget-footer {
-  border-top-color: rgba(255,255,255,.25);
-  color: #fff;
-  font-size: 12px;
-  justify-content: space-between;
+	border-top-color: rgba(255,255,255,.25);
+	color: #fff;
+	font-size: 12px;
+	justify-content: space-between;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.rating-widget .wpmovielibrary-widget-footer ul {
-  align-items: center;
-  column-gap: 10px;
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+	align-items: center;
+	column-gap: 10px;
+	display: flex;
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.rating-widget .wpmovielibrary-widget-footer ul li {
-  margin: 0;
+	margin: 0;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.rating-widget .wpmovielibrary-widget-footer ul li a {
-  align-items: center;
-  display: flex;
+	align-items: center;
+	display: flex;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.rating-widget .wpmovielibrary-widget-footer ul li a svg {
-  fill: #fff;
-  height: 16px;
-  width: 16px;
+	fill: #fff;
+	height: 16px;
+	width: 16px;
 }

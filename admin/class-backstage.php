@@ -59,7 +59,7 @@ class Backstage {
 	 * 
 	 * @var Template
 	 */
-	private Template $templateEngine;
+	private Template $template_engine;
 
 	/**
 	 * Constructor.
@@ -102,9 +102,9 @@ class Backstage {
 
 		$this->load_dependencies();
 
-		$this->templateEngine = new Template(
-			templateDir: WPMOLY_PATH . 'admin/templates',
-			cacheDir: wp_upload_dir()['basedir'] . '/wpmovielibrary/cache',
+		$this->template_engine = new Template(
+			template_dir: WPMOLY_PATH . 'admin/templates',
+			cache_dir: wp_upload_dir()['basedir'] . '/wpmovielibrary/cache',
 			cache: false
 		);
 
@@ -113,6 +113,7 @@ class Backstage {
 
 		add_action( 'admin_menu', [ $this, 'menu' ] );
 		add_filter( 'dashboard_glance_items', [ $this, 'dashboard_glance_items' ] );
+		add_filter( 'admin_body_class', [ $this, 'body_class' ] );
 	}
 
 	/**
@@ -128,7 +129,7 @@ class Backstage {
 	}
 
 	/**
-	 * Enqueue admin-side scripts.
+	 * Enqueue admin-side styles.
 	 *
 	 * @since 6.0.0
 	 *
@@ -148,11 +149,13 @@ class Backstage {
 			wp_enqueue_style( 'wpmovielibrary-dashboard' );
 		} elseif ( 'library_page_wpmovielibrary-importer' === $hook_suffix ) {
 			wp_enqueue_style( 'wpmovielibrary-importer' );
+		} elseif ( 'library_page_wpmovielibrary-settings' === $hook_suffix ) {
+			wp_enqueue_style( 'wpmovielibrary-settings' );
 		}
 	}
 
 	/**
-	 * Enqueue admin-side styles.
+	 * Enqueue admin-side scripts.
 	 *
 	 * @since 6.0.0
 	 *
@@ -163,10 +166,14 @@ class Backstage {
 	public function enqueue_scripts( $hook_suffix ) {
 
 		$this->register_scripts();
+
+		if ( in_array( $hook_suffix, [ 'toplevel_page_wpmovielibrary', 'library_page_wpmovielibrary' ] ) ) {
+			wp_enqueue_script( 'wpmovielibrary-common' );
+		}
 	}
 
 	/**
-	 * Register admin-side scripts.
+	 * Register admin-side styles.
 	 *
 	 * @since 6.0.0
 	 *
@@ -177,21 +184,26 @@ class Backstage {
 		wp_register_style( 'wpmovielibrary-common', WPMOLY_URL . 'admin/assets/css/common.css', [], $this->version );
 		wp_register_style( 'wpmovielibrary-dashboard', WPMOLY_URL . 'admin/assets/css/dashboard.css', [ 'wpmovielibrary-common' ], $this->version );
 		wp_register_style( 'wpmovielibrary-importer', WPMOLY_URL . 'admin/assets/css/importer.css', [ 'wpmovielibrary-common' ], $this->version );
+		wp_register_style( 'wpmovielibrary-settings', WPMOLY_URL . 'admin/assets/css/settings.css', [ 'wpmovielibrary-common' ], $this->version );
 	}
 
 	/**
-	 * Register admin-side styles.
+	 * Register admin-side scripts.
 	 *
 	 * @since 6.0.0
 	 *
 	 * @access private
 	 */
-	private function register_scripts() {}
+	private function register_scripts() {
+
+		wp_register_script( 'wpmovielibrary-common', WPMOLY_URL . 'admin/assets/js/common.js', [], $this->version, true );
+	}
 
 	/**
 	 * Register the plugin dashboard page.
 	 *
-	 * @since 4.0
+	 * @since 6.0.0
+	 * 
 	 * @access public
 	 */
 	public function menu() {
@@ -200,16 +212,20 @@ class Backstage {
 			add_menu_page( __( 'My Library', 'wpmovielibrary' ), __( 'Library', 'wpmovielibrary' ), 'manage_options', 'wpmovielibrary', [ $this, 'dashboard' ], 'dashicons-video-alt3', 30 ),
 			add_submenu_page( 'wpmovielibrary', __( 'My Library', 'wpmovielibrary' ), __( 'My Library', 'wpmovielibrary' ), 'manage_options', 'wpmovielibrary', [ $this, 'dashboard' ], 0 ),
 			add_submenu_page( 'wpmovielibrary', __( 'Import Movies', 'wpmovielibrary' ), __( 'Import Movies', 'wpmovielibrary' ), 'manage_options', 'wpmovielibrary-importer', [ $this, 'importer' ], 50 ),
+			add_submenu_page( 'wpmovielibrary', __( 'Settings', 'wpmovielibrary' ), __( 'Settings', 'wpmovielibrary' ), 'manage_options', 'wpmovielibrary-settings', [ $this, 'settings' ], 100 ),
 		];
 	}
 
 	/**
 	 * Plugin dashboard page callback.
 	 *
-	 * @since 4.0
+	 * @since 6.0.0
+	 * 
 	 * @access public
+	 * 
+	 * @param string $page Optional. The current dashboard page, if any.
 	 */
-	public function dashboard() {
+	public function dashboard( string $page = '' ) {
 
 		$name = 'wpmovielibrary';
 		if ( ! empty( $page ) ) {
@@ -224,12 +240,12 @@ class Backstage {
 			'drafts'      => $movies_count['draft'] ?? 0,
 			'total'       => 0,
 		];
-		$totals['collections'] = wp_count_terms( 'collection' );
-		$totals['genres'] = wp_count_terms( 'genre' );
-		$totals['actors'] = wp_count_terms( 'actor' );
+		$totals['collections'] = wp_count_terms( 'wpmoly_movie_collection' );
+		$totals['genres'] = wp_count_terms( 'wpmoly_movie_genre' );
+		$totals['actors'] = wp_count_terms( 'wpmoly_movie_actor' );
 		$totals = array_map( 'intval', $totals );
 
-		echo $this->templateEngine->render( 'dashboard', [
+		echo $this->template_engine->render( 'dashboard', [
 			'plugin_page' => $name,
 			'hook_suffix' => get_current_screen()->id,
 			'totals' => $totals,
@@ -239,18 +255,19 @@ class Backstage {
 	/**
 	 * Plugin importer page callback.
 	 *
-	 * @since 4.0
+	 * @since 6.0.0
+	 * 
 	 * @access public
 	 */
 	public function importer() {
 
 		$movies_count = (array) wp_count_posts( 'movie' );
 		$totals = [
-			'imported' => $movies_count['import-draft'],
-			'queued' => $movies_count['import-queued'],
+			'imported' => $movies_count['import-draft'] ?? 0,
+			'queued' => $movies_count['import-queued'] ?? 0,
 		];
 
-		echo $this->templateEngine->render( 'importer', [
+		echo $this->template_engine->render( 'importer', [
 			'plugin_page' => 'wpmovielibrary-importer',
 			'hook_suffix' => get_current_screen()->id,
 			'totals' => $totals,
@@ -258,9 +275,25 @@ class Backstage {
 	}
 
 	/**
+	 * Plugin settings page callback.
+	 *
+	 * @since 6.0.0
+	 * 
+	 * @access public
+	 */
+	public function settings() {
+
+		echo $this->template_engine->render( 'settings', [
+			'plugin_page' => 'wpmovielibrary-settings',
+			'hook_suffix' => get_current_screen()->id,
+		] );
+	}
+
+	/**
 	 * Add custom body classes.
 	 *
-	 * @since 4.0
+	 * @since 6.0.0
+	 * 
 	 * @access public
 	 *
 	 * @param string $classes
@@ -282,7 +315,8 @@ class Backstage {
 	/**
 	 * Add a new item to the Right Now Dashboard Widget
 	 *
-	 * @since 1.0.1
+	 * @since 6.0.0
+	 * 
 	 * @access public
 	 *
 	 * @param array $items

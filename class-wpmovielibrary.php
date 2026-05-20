@@ -33,33 +33,33 @@ class WPMovieLibrary {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @access protected
+	 * @access private
 	 *
 	 * @var string
 	 */
-	protected $version = WPMOLY_VERSION;
+	private string $version = WPMOLY_VERSION;
 
 	/**
 	 * Front stage instance.
 	 *
 	 * @since 6.0.0
 	 *
-	 * @access protected
+	 * @access private
 	 *
 	 * @var Frontstage
 	 */
-	protected $frontstage = null;
+	private ?Frontstage $frontstage = null;
 
 	/**
 	 * Back stage instance.
 	 *
 	 * @since 6.0.0
 	 *
-	 * @access protected
+	 * @access private
 	 *
 	 * @var Backstage
 	 */
-	protected $backstage = null;
+	private ?Backstage $backstage = null;
 
 	/**
 	 * Constructor.
@@ -84,7 +84,7 @@ class WPMovieLibrary {
 	public static function get_instance() {
 
 		if ( ! is_object( self::$_instance ) ) {
-			self::$_instance = new static;
+			self::$_instance = new self;
 			self::$_instance->init();
 		}
 
@@ -103,25 +103,46 @@ class WPMovieLibrary {
 		// Actions.
 		add_action( 'plugins_loaded', [ &$this, 'run' ] );
 
-		add_action( 'wpmovielibrary/run', [ &$this, 'load_front_stage' ] );
-		add_action( 'wpmovielibrary/run', [ &$this, 'load_back_stage' ] );
+		add_action( 'wpmovielibrary/run', [ &$this, 'rehearsal' ] );
+		add_action( 'wpmovielibrary/run', [ &$this, 'background' ] );
+		add_action( 'wpmovielibrary/run', [ &$this, 'foreground' ] );
 
 		// Activation hook.
 		register_activation_hook( WPMOLY_PATH, [ &$this, 'plugin_activate' ] );
 	}
 
 	/**
-	 * Load public features.
+	 * Load features that should be available in both the admin and public
+	 * areas of the plugin.
 	 *
 	 * @since 6.0.0
 	 *
 	 * @access public
 	 */
-	public function load_front_stage() {
+	public function rehearsal() {
 
-		require_once WPMOLY_PATH . 'public/class-frontstage.php';
+		require_once WPMOLY_PATH . 'includes/helpers.php';
 
-		$this->frontstage = Frontstage::get_instance();
+		require_once WPMOLY_PATH . 'includes/class-post-types.php';
+		require_once WPMOLY_PATH . 'includes/class-post-statuses.php';
+		require_once WPMOLY_PATH . 'includes/class-post-meta.php';
+		require_once WPMOLY_PATH . 'includes/class-taxonomies.php';
+		require_once WPMOLY_PATH . 'includes/class-term-meta.php';
+
+		$post_types = Post_Types::get_instance();
+		add_action( 'init', [ $post_types, 'register' ] );
+
+		$post_statuses = Post_Statuses::get_instance();
+		add_action( 'init', [ $post_statuses, 'register' ] );
+
+		$post_meta = Post_Meta::get_instance();
+		add_action( 'init', [ $post_meta, 'register' ] );
+
+		$taxonomies = Taxonomies::get_instance();
+		add_action( 'init', [ $taxonomies, 'register' ] );
+
+		$term_meta = Term_Meta::get_instance();
+		add_action( 'init', [ $term_meta, 'register' ] );
 	}
 
 	/**
@@ -131,7 +152,7 @@ class WPMovieLibrary {
 	 *
 	 * @access public
 	 */
-	public function load_back_stage() {
+	public function background() {
 
 		if ( ! is_admin() ) {
 			return false;
@@ -140,6 +161,20 @@ class WPMovieLibrary {
 		require_once WPMOLY_PATH . 'admin/class-backstage.php';
 
 		$this->backstage = Backstage::get_instance();
+	}
+
+	/**
+	 * Load public features.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access public
+	 */
+	public function foreground() {
+
+		require_once WPMOLY_PATH . 'public/class-frontstage.php';
+
+		$this->frontstage = Frontstage::get_instance();
 	}
 
 	/**
@@ -152,7 +187,7 @@ class WPMovieLibrary {
 	public function plugin_activate() {
 
 		$db_version = get_option( 'WPMOLY_version' );
-		if ( version_compare( $db_version, $this->version ) ) {
+		if ( version_compare( $db_version, $this->version, '<' ) ) {
 			// Save new version.
 			update_option( 'WPMOLY_version', $this->version );
 		}

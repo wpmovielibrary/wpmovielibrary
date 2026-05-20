@@ -82,21 +82,6 @@ class Frontstage {
 
 		add_action( 'wp_enqueue_scripts',  [ &$this, 'enqueue_styles' ] );
 		add_action( 'wp_enqueue_scripts',  [ &$this, 'enqueue_scripts' ] );
-
-		$post_types = Post_Types::get_instance();
-		add_action( 'init', [ $post_types, 'register' ] );
-
-		$post_statuses = Post_Statuses::get_instance();
-		add_action( 'init', [ $post_statuses, 'register' ] );
-
-		$post_meta = Post_Meta::get_instance();
-		add_action( 'init', [ $post_meta, 'register' ] );
-
-		$taxonomies = Taxonomies::get_instance();
-		add_action( 'init', [ $taxonomies, 'register' ] );
-
-		$term_meta = Term_Meta::get_instance();
-		add_action( 'init', [ $term_meta, 'register' ] );
 	}
 
 	/**
@@ -108,13 +93,7 @@ class Frontstage {
 	 */
 	public function load_dependencies() {
 
-		require_once WPMOLY_PATH . 'includes/helpers.php';
-
-		require_once WPMOLY_PATH . 'includes/class-post-types.php';
-		require_once WPMOLY_PATH . 'includes/class-post-statuses.php';
-		require_once WPMOLY_PATH . 'includes/class-post-meta.php';
-		require_once WPMOLY_PATH . 'includes/class-taxonomies.php';
-		require_once WPMOLY_PATH . 'includes/class-term-meta.php';
+		//
 	}
 
 	/**
