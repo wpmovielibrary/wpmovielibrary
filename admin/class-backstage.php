@@ -229,7 +229,6 @@ class Backstage {
 				'imported'    => $movies_count['import-draft'] ?? 0,
 				'queued'      => $movies_count['import-queued'] ?? 0,
 				'drafts'      => $movies_count['draft'] ?? 0,
-				'total'       => 0,
 			];
 			$totals['collections'] = wp_count_terms( 'wpmoly_movie_collection', [ 'hide_empty' => false ] );
 			$totals['genres'] = wp_count_terms( 'wpmoly_movie_genre', [ 'hide_empty' => false ] );
@@ -296,6 +295,7 @@ class Backstage {
 	 * Plugin post indexes.
 	 *
 	 * @since 6.0.0
+	 *
 	 * @access public
 	 */
 	public function indexes() {
