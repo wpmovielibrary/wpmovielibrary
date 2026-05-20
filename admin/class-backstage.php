@@ -229,8 +229,6 @@ class Backstage {
 		$totals['actors'] = wp_count_terms( 'actor' );
 		$totals = array_map( 'intval', $totals );
 
-		print_r( $totals );
-
 		echo $this->templateEngine->render( 'dashboard', [
 			'plugin_page' => $name,
 			'hook_suffix' => get_current_screen()->id,
