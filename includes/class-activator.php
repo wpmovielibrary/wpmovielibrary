@@ -16,43 +16,47 @@ namespace WPMovieLibrary;
  */
 class Activator {
 
-    /**
-     * Run the activation tasks.
-     * 
-     * @since 6.0.0
-     * 
-     * @static
-     * @access public
-     */
-    public static function activate() {
+	/**
+	 * Run the activation tasks.
+	 * 
+	 * @since 6.0.0
+	 * 
+	 * @static
+	 * @access public
+	 */
+	public static function activate() {
 
-        self::seed_default_terms();
-        self::update_version();
-    }
+		self::seed_default_terms();
+		self::update_version();
+	}
 
-    /**
-     * Seed the default terms.
-     * 
-     * @since 6.0.0
-     * 
-     * @static
-     * @access private
-     */
-    private static function seed_default_terms() {
-        
-        //
-    }
+	/**
+	 * Seed the default terms.
+	 * 
+	 * @since 6.0.0
+	 * 
+	 * @static
+	 * @access private
+	 */
+	private static function seed_default_terms() {
+		
+		//
+	}
 
-    /**
-     * Update the plugin version.
-     * 
-     * @since 6.0.0
-     * 
-     * @static
-     * @access private
-     */
-    private static function update_version() {
+	/**
+	 * Update the plugin version.
+	 * 
+	 * @since 6.0.0
+	 * 
+	 * @static
+	 * @access private
+	 */
+	private static function update_version() {
 
-        update_option( 'wpmoly_version', WPMOLY_VERSION );
-    }
+		$db_version = get_option( 'WPMOLY_version' );
+		if ( version_compare( $db_version, WPMOLY_VERSION, '<' ) ) {
+			// Save new version.
+			update_option( 'WPMOLY_version', WPMOLY_VERSION );
+		}
+	}
 }

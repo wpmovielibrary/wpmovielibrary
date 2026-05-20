@@ -175,22 +175,6 @@ class WPMovieLibrary {
 	}
 
 	/**
-	 * Handle inital installation and upgrading of the plugin.
-	 *
-	 * @since 6.0.0
-	 *
-	 * @access public
-	 */
-	public function plugin_activate() {
-
-		$db_version = get_option( 'WPMOLY_version' );
-		if ( version_compare( $db_version, $this->version, '<' ) ) {
-			// Save new version.
-			update_option( 'WPMOLY_version', $this->version );
-		}
-	}
-
-	/**
 	 * Handle final aspects of plugin setup, such as adding action hooks.
 	 *
 	 * @since 6.0.0
