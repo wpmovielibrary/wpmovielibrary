@@ -126,20 +126,19 @@ class WPMovieLibrary {
 		require_once WPMOLY_PATH . 'includes/class-taxonomies.php';
 		require_once WPMOLY_PATH . 'includes/class-term-meta.php';
 
-		$post_types = Post_Types::get_instance();
-		add_action( 'init', [ $post_types, 'register' ] );
+		$registrars = [
+			Post_Types::class,
+			Post_Statuses::class,
+			Post_Meta::class,
+			Taxonomies::class,
+			Term_Meta::class,
+		];
 
-		$post_statuses = Post_Statuses::get_instance();
-		add_action( 'init', [ $post_statuses, 'register' ] );
-
-		$post_meta = Post_Meta::get_instance();
-		add_action( 'init', [ $post_meta, 'register' ] );
-
-		$taxonomies = Taxonomies::get_instance();
-		add_action( 'init', [ $taxonomies, 'register' ] );
-
-		$term_meta = Term_Meta::get_instance();
-		add_action( 'init', [ $term_meta, 'register' ] );
+		foreach ( $registrars as $registrar ) {
+			if ( class_exists( $registrar ) && method_exists( $registrar, 'get_instance' ) ) {
+				$registrar::get_instance();
+			}
+		}
 	}
 
 	/**
@@ -188,7 +187,7 @@ class WPMovieLibrary {
 		 *
 		 * @since 6.0.0
 		 *
-		 * @param object &$this Plugin class instance, passed by reference.
+		 * @param object $this Plugin class instance, passed by reference.
 		 */
 		do_action_ref_array( 'wpmovielibrary/run', [ $this ] );
 	}
