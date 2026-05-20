@@ -91,8 +91,8 @@ public/
 
 ### Post meta
 
-- All meta keys prefixed with `_wpmoly_` (underscore prefix hides them from native WordPress UI)
-- Core TMDb metadata: `_wpmoly_title`, `_wpmoly_year`, `_wpmoly_overview`, `_wpmoly_runtime`, `_wpmoly_rating`, `_wpmoly_tmdb_id`, `_wpmoly_imdb_id`, `_wpmoly_poster_path`, `_wpmoly_backdrop_path`
+- Meta keys follow the pattern `_{plugin_slug}_{post_type}_{key}` — e.g. `_wpmoly_movie_title`. The leading underscore hides them from native WordPress UI; the post-type segment is applied automatically by `Post_Meta` (see "Configuration files" below).
+- Core TMDb metadata: `_wpmoly_movie_title`, `_wpmoly_movie_year`, `_wpmoly_movie_overview`, `_wpmoly_movie_runtime`, `_wpmoly_movie_rating`, `_wpmoly_movie_tmdb_id`, `_wpmoly_movie_imdb_id`, `_wpmoly_movie_poster_path`, `_wpmoly_movie_backdrop_path`
 - Taxonomies are stored as standard WordPress terms, not as post meta
 - Managed by `Post_Meta` class
 
@@ -127,6 +127,7 @@ Templates use dot or slash notation: `'dashboard'`, `'partials/recently-added-mo
 - Dependencies loaded explicitly via `require_once` in `load_dependencies()`, no autoloader
 - No static utility methods, no helper functions — logic belongs in dedicated classes
 - **Exception:** `config()` in `includes/helpers.php` — a minimal global helper to read config files from `config/`. This is the only permitted procedural helper. Do not add others.
+- **Exception:** `Activator` (`includes/class-activator.php`) is intentionally a fully-static class, not a singleton. It is registered as a WordPress activation callback (`register_activation_hook( __FILE__, [ 'WPMovieLibrary\Activator', 'activate' ] )`), which requires a stable callable that doesn't depend on the regular plugin bootstrap order — `plugins_loaded` and our `wpmovielibrary/run` action don't fire during the activation request. All other classes must follow the singleton pattern.
 
 ### Configuration files
 
@@ -136,7 +137,7 @@ Plugin data (post types, taxonomies, post meta, post statuses) is defined in `co
 - `config/post-statuses.php`
 - `config/taxonomies.php`
 - `config/meta.php` — see meta config structure below
-- `config/defaults.php` — default taxonomy terms created on plugin activation (`rating`, `media`, `status`, `format`, `language`, `subtitles`). Used by `plugin_activate()` in `WPMovieLibrary` to seed the database via `wp_insert_term()`. Terms use slug as key and translated label as value.
+- `config/defaults.php` — default taxonomy terms created on plugin activation (`rating`, `media`, `status`, `format`, `language`, `subtitles`). Used by `Activator::seed_default_terms()` to seed the database via `wp_insert_term()`. Terms use slug as key and translated label as value.
 - `config/l10n.php` — ISO country and language tables (`countries.supported`, `countries.standard`, `languages.native`, `languages.supported`, `languages.standard`). Reserved for future `Country` and `Language` l10n classes — do not use directly in v6.0.0 code.
 
 Taxonomies use a three-level structure: `post_type → group → taxonomy_key → args`. Three groups are distinguished:
@@ -261,6 +262,15 @@ Use `config( 'taxonomies' )` or dot notation `config( 'meta.movie.director' )` t
 - Shortcodes
 - Settings/options panel beyond what is explicitly specified
 - Migration tools from previous versions
+
+### Text domains & i18n
+
+Two text domains are used by the plugin:
+
+- `wpmovielibrary` — the plugin's primary text domain, declared in the main plugin file's `Text Domain:` header. All UI strings, labels, and messages specific to the plugin use this domain via `__()`, `_e()`, `_x()`, `_n()`, etc.
+- `wpmovielibrary-iso` — used **only** for ISO-standard country and language names (see `config/l10n.php` and the language/subtitles tables in `config/defaults.php`). Kept separate so that ISO translations — which exist as community-maintained translation packs for many WordPress plugins — don't bloat the plugin's own `.po`/`.mo` files. There is no `.mo` shipped for this domain by default; calls fall through to the source strings (English) unless a translation pack is loaded.
+
+When adding new strings, default to `wpmovielibrary`. Use `wpmovielibrary-iso` only for ISO 3166 country names and ISO 639 language names.
 
 ## Future scope
 
