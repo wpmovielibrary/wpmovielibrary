@@ -90,8 +90,8 @@ class Template {
 	 * @access public
 	 *
 	 * @param string $template_dir Directory where templates are located.
-	 * @param string $cache_dir	Directory where compiled templates will be stored.
-	 * @param bool   $cache		Whether to enable caching of compiled templates.
+	 * @param string $cache_dir Directory where compiled templates will be stored.
+	 * @param bool   $cache Whether to enable caching of compiled templates.
 	 */
 	public function __construct( string $template_dir, string $cache_dir, bool $cache = true ) {
 
