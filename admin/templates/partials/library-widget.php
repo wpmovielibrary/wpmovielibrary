@@ -24,23 +24,24 @@
                 @if ( 0 < $totals['drafts'] ) </a> @else </span> @endif
             </li>
             <li>
-                @if ( 0 < $totals['queued'] ) <a href="{{ esc_url( admin_url( 'admin.php?page=wpmovielibrary-importer' ) ) }}"> @else <span> @endif
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Pro 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc.--><path d="M0 32H576V480H0V32zM128 288a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm32-128a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zM128 384a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm96-248H200v48h24H448h24V136H448 224zm0 96H200v48h24H448h24V232H448 224zm0 96H200v48h24H448h24V328H448 224z"/></svg>
-                @if ( 0 < $totals['queued'] )
-                @else
-                    {!! esc_html__('No queued movie.', 'wpmovielibrary') !!}
-                @endif
-                @if ( 0 < $totals['queued'] ) </a> @else </span> @endif
-            </li>
-            <li>
                 @if ( 0 < $totals['imported'] ) <a href="{{ esc_url( admin_url( 'admin.php?page=wpmovielibrary-importer' ) ) }}"> @else <span> @endif
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Pro 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc.--><path d="M144 480H0V336c0-62.7 40.1-116 96-135.8V192c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96v36c55.2 14.2 96 64.3 96 124V480H512 144zm79-167l80 80 17 17 17-17 80-80 17-17L400 262.1l-17 17-39 39V184 160H296v24V318.1l-39-39-17-17L206.1 296l17 17z"/></svg>
                 @if ( 0 < $totals['imported'] )
-                    {!! esc_html( sprintf( _n( '%s imported movie', '%s imported movies', $totals['imported'], 'wpmovielibrary' ), $totals['imported'] ) ) !!}</a>
+                    {!! esc_html( sprintf( _n( '%s import draft', '%s import drafts', $totals['imported'], 'wpmovielibrary' ), $totals['imported'] ) ) !!}</a>
                 @else
-                    {!! esc_html__('No imported movie.', 'wpmovielibrary') !!}
+                    {!! esc_html__('No import drafts.', 'wpmovielibrary') !!}
                 @endif
                 @if ( 0 < $totals['imported'] ) </a> @else </span> @endif
+            </li>
+            <li>
+                @if ( 0 < $totals['queued'] ) <a href="{{ esc_url( admin_url( 'admin.php?page=wpmovielibrary-importer' ) ) }}"> @else <span> @endif
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Pro 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc.--><path d="M0 32H576V480H0V32zM128 288a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm32-128a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zM128 384a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm96-248H200v48h24H448h24V136H448 224zm0 96H200v48h24H448h24V232H448 224zm0 96H200v48h24H448h24V328H448 224z"/></svg>
+                @if ( 0 < $totals['queued'] )
+                    {!! esc_html( sprintf( _n( '%s queued import', '%s queued imports', $totals['queued'], 'wpmovielibrary' ), $totals['queued'] ) ) !!}</a>
+                @else
+                    {!! esc_html__('No queued import.', 'wpmovielibrary') !!}
+                @endif
+                @if ( 0 < $totals['queued'] ) </a> @else </span> @endif
             </li>
         </ul>
         <p>{!! sprintf(
