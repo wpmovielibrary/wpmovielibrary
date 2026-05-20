@@ -79,9 +79,7 @@ class Taxonomies {
 	 */
 	private function init() {
 
-		$this->taxonomies = [
-			//
-		];
+		$this->taxonomies = config( 'taxonomies', [] );
 	}
 
 	/**

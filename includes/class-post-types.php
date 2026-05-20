@@ -79,9 +79,7 @@ class Post_Types {
 	 */
 	private function init() {
 
-		$this->post_types = [
-			//
-		];
+		$this->post_types = config( 'post-types', [] );
 	}
 
 	/**

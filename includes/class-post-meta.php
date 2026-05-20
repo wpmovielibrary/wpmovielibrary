@@ -83,9 +83,7 @@ class Post_Meta {
 		add_action( 'add_attachment',  [ &$this, 'save_meta_input' ] );
 		add_action( 'edit_attachment', [ &$this, 'save_meta_input' ] );
 
-		$this->post_meta = [
-			//
-		];
+		$this->post_meta = config( 'meta', [] );
 	}
 
 	/**
@@ -152,8 +150,12 @@ class Post_Meta {
 	 */
 	public function register() {
 
-		foreach ( $this->post_meta as $slug => $args ) {
-			register_post_meta( $args['post_type'], $slug, $args );
+		foreach ( $this->post_meta as $post_type => $metas ) {
+			foreach ( $metas as $key => $args ) {
+				$meta_key = "_wpmoly_{$post_type}_{$key}";
+				$args['post_type'] = [ $post_type ];
+				register_post_meta( $post_type, $meta_key, $args );
+			}
 		}
 	}
 }

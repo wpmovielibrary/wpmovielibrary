@@ -126,6 +126,82 @@ Templates use dot or slash notation: `'dashboard'`, `'partials/recently-added-mo
 - Constants: `WPMOLY_VERSION`, `WPMOLY_PATH`, `WPMOLY_URL`
 - Dependencies loaded explicitly via `require_once` in `load_dependencies()`, no autoloader
 - No static utility methods, no helper functions — logic belongs in dedicated classes
+- **Exception:** `config()` in `includes/helpers.php` — a minimal global helper to read config files from `config/`. This is the only permitted procedural helper. Do not add others.
+
+### Configuration files
+
+Plugin data (post types, taxonomies, post meta, post statuses) is defined in `config/` as plain PHP arrays returning data:
+
+- `config/post-types.php`
+- `config/post-statuses.php`
+- `config/taxonomies.php`
+- `config/meta.php` — see meta config structure below
+- `config/defaults.php` — default taxonomy terms created on plugin activation (`rating`, `media`, `status`, `format`, `language`, `subtitles`). Used by `plugin_activate()` in `WPMovieLibrary` to seed the database via `wp_insert_term()`. Terms use slug as key and translated label as value.
+- `config/l10n.php` — ISO country and language tables (`countries.supported`, `countries.standard`, `languages.native`, `languages.supported`, `languages.standard`). Reserved for future `Country` and `Language` l10n classes — do not use directly in v6.0.0 code.
+
+Taxonomies use a three-level structure: `post_type → group → taxonomy_key → args`. Three groups are distinguished:
+
+- `general` — content taxonomies populated from TMDb (`actor`, `genre`, `collection`). Marked `'editable' => false`.
+- `crew` — technical crew populated automatically from TMDb (`director`, `composer`, `editor`...). Marked `'editable' => false`, managed programmatically.
+- `details` — personal data entered manually in the movie editor block (`rating`, `media`, `status`...). Marked `'editable' => true`, exposed in the Gutenberg block UI.
+
+```php
+// config/taxonomies.php
+return [
+    'movie' => [
+        'general' => [
+            'actor'      => [ 'editable' => false, /* register_taxonomy args */ ],
+            'collection' => [ 'editable' => false, /* ... */ ],
+            'genre'      => [ 'editable' => false, /* ... */ ],
+        ],
+        'crew' => [
+            'director' => [ 'editable' => false, /* ... */ ],
+            // ...
+        ],
+        'details' => [
+            'rating' => [
+                'editable' => true,
+                'enum'     => [
+                    '0.0' => 'Not rated',
+                    '0.5' => 'Junk',
+                    // ...
+                ],
+                // ...
+            ],
+        ],
+    ],
+];
+```
+
+The `Taxonomies` class ignores the `editable` flag when registering — it is only used by the React movie editor block to determine which taxonomies to expose in its UI.
+
+**Naming convention:** taxonomy slugs are always singular — `actor`, `genre`, `director`, `spoken_language`, `production_country`, etc. Never use plural slugs for taxonomies, even when WordPress examples do.
+- `config/meta.php`
+
+Config files use a two-level structure for meta: `post_type → meta_key → args`. The `post_type` and meta key prefix are applied automatically by the `Post_Meta` class — do not include them in the config:
+
+```php
+// config/meta.php
+return [
+    'movie' => [
+        'director' => [
+            'type'         => 'string',
+            'description'  => 'Movie director(s)',
+            'single'       => true,
+            'show_in_rest' => [
+                'schema' => [
+                    'type'    => 'string',
+                    'context' => [ 'view', 'edit' ],
+                ],
+            ],
+        ],
+    ],
+];
+```
+
+`Post_Meta` builds the final meta key as `_{plugin_slug}_{post_type}_{key}` (e.g. `_wpmoly_movie_director`) and injects `post_type` automatically. Use `config( 'meta.movie.director' )` or `config( 'meta.movie.rating.enum' )` to read nested values.
+
+Use `config( 'taxonomies' )` or dot notation `config( 'meta.movie.director' )` to access nested values. Registrar classes (`Post_Types`, `Taxonomies`, `Post_Meta`) are thin — they load config and loop, nothing more.
 
 ## JavaScript code conventions
 
@@ -189,7 +265,36 @@ Templates use dot or slash notation: `'dashboard'`, `'partials/recently-added-mo
 - Settings/options panel beyond what is explicitly specified
 - Migration tools from previous versions
 
-## Language
+## Future scope
+
+These features are explicitly out of scope for v6.0.0 but should be considered when making architectural decisions. Do not implement unless explicitly asked.
+
+### Person management
+
+- Custom post type `person` — optional, created on demand for notable crew members
+- `term_meta` `person_id` on crew taxonomy terms to link a term to its `person` post when one exists
+- Allows tracing career trajectories across roles within the collection (e.g. Tom Stern as gaffer → chief lighting technician → director of photography on Eastwood films)
+
+### Formatting & l10n
+
+- `Formatting` class — handles display formatting of metadata values (permalinks, HTML output, empty value handling)
+- `L10n` classes — country and language resolution with ISO codes, localized names, flags
+- Facade pattern for both (`Formatting::director()`, `L10n::get_supported_languages()`)
+- These are tightly coupled to front-end display and have no role in v6.0.0
+
+### TV series, seasons & episodes
+
+- Historically a major user request
+- Likely requires additional custom post types (`tv_show`, `season`, `episode`) and taxonomies
+- TMDb API supports TV data via a separate endpoint (`/tv/`)
+- Architecture TBD — do not anticipate or scaffold
+
+### Front-end display
+
+- Filterable movie grids (candidate: SolidJS)
+- Archive page overrides
+- Shortcodes (legacy) or blocks (modern)
+- Depends on formatting and l10n being implemented first
 
 - All code, comments, docblocks and variable names in English
 - This file (`CLAUDE.md`) and commit messages in English

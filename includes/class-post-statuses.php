@@ -1,6 +1,6 @@
 <?php
 /**
- * Define the custom post meta plugin class.
+ * Define the custom post statuses plugin class.
  *
  * @link https://wplibraries.com
  * @package WPMovieLibrary
@@ -9,12 +9,12 @@
 namespace WPMovieLibrary;
 
 /**
- * Register the plugin's custom post meta.
+ * Register the plugin's custom post statuses.
  *
  * @since 6.0.0
  * @author Charlie Merland <charlie@caercam.org>
  */
-class Settings {
+class Post_Statuses {
 
 	/**
 	 * Static instance.
@@ -24,12 +24,12 @@ class Settings {
 	 * @static
 	 * @access private
 	 *
-	 * @var Settings
+	 * @var Post_Statuses
 	 */
 	private static $_instance = null;
 
 	/**
-	 * Settings parameters.
+	 * Post Statuses parameters.
 	 *
 	 * @since 6.0.0
 	 *
@@ -38,7 +38,7 @@ class Settings {
 	 *
 	 * @var array
 	 */
-	private array $settings = [];
+	private array $post_statuses = [];
 
 	/**
 	 * Constructor.
@@ -58,7 +58,7 @@ class Settings {
 	 * @static
 	 * @access public
 	 *
-	 * @return Settings
+	 * @return Post_Statuses
 	 */
 	public static function get_instance() {
 
@@ -79,17 +79,20 @@ class Settings {
 	 */
 	private function init() {
 
-		$this->settings = [
-			//
-		];
+		$this->post_statuses = config( 'post_statuses', [] );
 	}
 
 	/**
-	 * Register post meta.
-	 * 
+	 * Register custom Post Statuses.
+	 *
 	 * @since 6.0.0
 	 *
 	 * @access public
 	 */
-	public function register() {}
+	public function register() {
+
+		foreach ( $this->post_statuses as $slug => $args ) {
+			register_post_status( $slug, $args );
+		}
+	}
 }
