@@ -75,6 +75,7 @@ body.edit-php.post-type-movie #screen-meta-links {
   position: absolute;
   right: 0;
   top: 0px;
+  z-index: 1;
 }
 
 .wpmovielibrary-wrapper ~ #wpfooter {
