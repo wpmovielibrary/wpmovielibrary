@@ -77,7 +77,10 @@ class Post_Types {
 	 *
 	 * @access private
 	 */
-	private function init() {}
+	private function init() {
+
+		add_action( 'init', [ $this, 'register' ] );
+	}
 
 	/**
 	 * Register custom Post Types.

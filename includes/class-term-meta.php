@@ -79,6 +79,7 @@ class Term_Meta {
 	 */
 	private function init() {
 
+		add_action( 'init',        [ $this, 'register' ] );
 		add_action( 'edited_term', [ $this, 'save_meta_input' ] );
 	}
 
@@ -95,13 +96,11 @@ class Term_Meta {
 	 * @access public
 	 *
 	 * @param int $term_ID Term ID.
-	 *
-	 * @return array
 	 */
 	public function save_meta_input( $term_ID ) {
 
 		if ( ! isset( $_POST['meta_input'] ) ) {
-			return false;
+			return;
 		}
 
 		foreach ( $_POST['meta_input'] as $key => $value ) {
@@ -120,7 +119,7 @@ class Term_Meta {
 	 *
 	 * @param string $key Meta key. Optional.
 	 *
-	 * @return array
+	 * @return array|null
 	 */
 	public function get_registered_meta( $key = null ) {
 
