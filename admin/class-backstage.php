@@ -51,6 +51,17 @@ class Backstage {
 	private array $pages = [];
 
 	/**
+	 * Template engine instance.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @var Template
+	 */
+	private Template $template_engine;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 6.0.0
@@ -280,12 +291,15 @@ class Backstage {
 	 */
 	public function indexes() {
 
-		global $current_screen, $post_type, $post_type_object;
+		global $post_type;
 
-		$mode = $_GET['mode'] ?? '';
+		$mode = sanitize_key( $_GET['mode'] ?? '' );
 		if ( 'classic' === $mode ) {
 			return;
 		}
+
+		$current_screen = get_current_screen();
+		$post_type_object = get_post_type_object( $post_type );
 
 		if ( 'edit' === $current_screen->base && 'wpmovielibrary' === $current_screen->parent_base && in_array( $current_screen->post_type, [ 'movie' ] ) ) {
 
@@ -363,10 +377,16 @@ class Backstage {
 	 */
 	private function template() {
 
-		return new Template(
+		if ( isset( $this->template_engine ) ) {
+			return $this->template_engine;
+		}
+
+		$this->template_engine = new Template(
 			template_dir: WPMOLY_PATH . 'admin/templates',
 			cache_dir: wp_upload_dir()['basedir'] . '/wpmovielibrary/cache',
 			cache: false
 		);
+
+		return $this->template_engine;
 	}
 }
