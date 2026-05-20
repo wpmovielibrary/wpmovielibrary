@@ -118,10 +118,7 @@ class Backstage {
 	 *
 	 * @access public
 	 */
-	public function load_dependencies() {
-
-		require_once WPMOLY_PATH . 'includes/class-template.php';
-	}
+	public function load_dependencies() {}
 
 	/**
 	 * Enqueue admin-side styles.
@@ -392,6 +389,8 @@ class Backstage {
 		if ( isset( $this->template_engine ) ) {
 			return $this->template_engine;
 		}
+
+		require_once WPMOLY_PATH . 'includes/class-template.php';
 
 		$this->template_engine = new Template(
 			template_dir: WPMOLY_PATH . 'admin/templates',

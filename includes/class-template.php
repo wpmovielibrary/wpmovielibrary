@@ -83,6 +83,20 @@ class Template {
 	private ?string $layout = null;
 
 	/**
+	 * Memoized mtime of the most recently modified `*.php` in the
+	 * template directory tree, used to invalidate cached templates
+	 * when any partial or layout changes. Computed on first use and
+	 * reused for the lifetime of this Template instance.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @var int|null
+	 */
+	private ?int $latest_template_mtime = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 6.0.0
@@ -168,13 +182,49 @@ class Template {
 
 		if ( $this->cache ) {
 			$cache_path = $this->cache_path( $name );
-			if ( ! file_exists( $cache_path ) || filemtime( $source_path ) > filemtime( $cache_path ) ) {
+			// Compare the cache against the latest mtime of any template
+			// rather than just the source, so editing a partial or layout
+			// also invalidates parent caches.
+			if ( ! file_exists( $cache_path ) || $this->latest_template_mtime() > filemtime( $cache_path ) ) {
 				file_put_contents( $cache_path, $this->apply_directives( file_get_contents( $source_path ) ) );
 			}
 			return [ 'path' => $cache_path ];
 		}
 
 		return [ 'source' => $this->apply_directives( file_get_contents( $source_path ) ) ];
+	}
+
+	/**
+	 * Return the mtime of the most recently modified `*.php` in the
+	 * template directory tree. Memoized for the lifetime of this
+	 * Template instance.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @return int Unix timestamp, or 0 if no templates were found.
+	 */
+	private function latest_template_mtime() {
+
+		if ( null !== $this->latest_template_mtime ) {
+			return $this->latest_template_mtime;
+		}
+
+		$latest = 0;
+		$iterator = new \RecursiveIteratorIterator(
+			new \RecursiveDirectoryIterator( $this->template_dir, \FilesystemIterator::SKIP_DOTS )
+		);
+		foreach ( $iterator as $file ) {
+			if ( $file->isFile() && 'php' === $file->getExtension() ) {
+				$mtime = $file->getMTime();
+				if ( $mtime > $latest ) {
+					$latest = $mtime;
+				}
+			}
+		}
+
+		return $this->latest_template_mtime = $latest;
 	}
 
 	/**
