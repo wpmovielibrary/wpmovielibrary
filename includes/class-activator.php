@@ -18,54 +18,27 @@ class Activator {
 
 	/**
 	 * Run the activation tasks.
-	 * 
+	 *
+	 * Explicitly register post types and taxonomies so that
+	 * flush_rewrite_rules() can catch permalinks properly.
+	 *
 	 * @since 6.0.0
-	 * 
+	 *
 	 * @static
 	 * @access public
 	 */
 	public static function activate() {
 
-		self::seed_default_terms();
+		require_once WPMOLY_PATH . 'includes/helpers.php';
+		require_once WPMOLY_PATH . 'includes/class-post-types.php';
+		require_once WPMOLY_PATH . 'includes/class-taxonomies.php';
+
+		Post_Types::get_instance()->register();
+		Taxonomies::get_instance()->register();
+
 		self::update_version();
 
 		flush_rewrite_rules();
-	}
-
-	/**
-	 * Seed the default terms.
-	 *
-	 * Loaded explicitly because the activation hook fires before
-	 * `plugins_loaded`, so `rehearsal()` has not yet pulled in
-	 * `helpers.php` or registered the taxonomies.
-	 *
-	 * @since 6.0.0
-	 *
-	 * @static
-	 * @access private
-	 */
-	private static function seed_default_terms() {
-
-		require_once WPMOLY_PATH . 'includes/helpers.php';
-		require_once WPMOLY_PATH . 'includes/class-taxonomies.php';
-
-		Taxonomies::get_instance()->register();
-
-		$defaults = config( 'defaults', [] );
-
-		foreach ( $defaults as $taxonomy => $terms ) {
-			$taxonomy_slug = "wpmoly_movie_{$taxonomy}";
-			foreach ( $terms as $slug => $label ) {
-				$term_slug = sanitize_title( $slug );
-				if ( ! term_exists( $term_slug, $taxonomy_slug ) ) {
-					if ( 'rating' === $taxonomy ) {
-						wp_insert_term( $slug, $taxonomy_slug, [ 'slug' => $term_slug, 'description' => $label ] );
-					} else {
-						wp_insert_term( $label, $taxonomy_slug, [ 'slug' => $term_slug ] );
-					}
-				}
-			}
-		}
 	}
 
 	/**
