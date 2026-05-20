@@ -30,14 +30,37 @@ The v6.0.0 scope is deliberately limited to back-office features:
 ### Directory structure
 
 ```
+wpmovielibrary.php   # Plugin bootstrap — defines constants, loads class-library.php and Activator, registers activation hook, instantiates the main class
+includes/
+  class-library.php  # Main plugin class (Library) — bootstraps rehearsal/background/foreground
+  registrars/        # WordPress object registrars (one class per concern)
+    class-post-types.php
+    class-post-statuses.php
+    class-post-meta.php
+    class-taxonomies.php
+    class-term-meta.php
+  support/           # Stateless infrastructure shared across the plugin
+    class-activator.php
+    class-template.php
+    helpers.php
+config/              # Plain-PHP arrays defining post types, taxonomies, meta, statuses, defaults, l10n
 admin/
-  templates/       # Server-side PHP templates
+  class-backstage.php
+  templates/         # Server-side PHP templates (Blade-inspired engine)
+    partials/
+  assets/
+    css/
+    js/
+    images/
+public/
+  class-frontstage.php
+  templates/
   assets/
     css/
     js/
     images/
 blocks/
-  movie/           # Gutenberg block — built by @wordpress/scripts
+  movie/             # Gutenberg block — built by @wordpress/scripts
     block.json
     edit.js
     save.js
@@ -45,15 +68,12 @@ blocks/
     style.css
     editor.css
 src/
-  importer/        # Importer React app
-  shared/          # Shared hooks, components, utilities
+  importer/          # Importer React app
+  shared/            # Shared hooks, components, utilities
     hooks/
     components/
     utils/
-public/
-  assets/
-    css/
-    js/
+languages/           # .pot / .po / .mo files
 ```
 
 ### JavaScript entry points
@@ -98,7 +118,7 @@ public/
 
 ## Templating system
 
-Admin pages use a custom Blade-inspired template engine (`includes/class-template.php`). It is **not** a singleton — it is instantiated explicitly with a template directory and a cache directory.
+Admin pages use a custom Blade-inspired template engine (`includes/support/class-template.php`, class `WPMovieLibrary\Support\Template`). It is **not** a singleton — it is instantiated explicitly with a template directory and a cache directory.
 
 **Key directives supported:** `@extends`, `@section`, `@endsection`, `@yield`, `@include`, `@props`, `@if / @elseif / @else / @endif`, `@foreach / @endforeach`, `@for / @endfor`, `@while / @endwhile`, `{{ }}` (escaped output), `{!! !!}` (raw output), `{{-- --}}` (comments).
 
@@ -108,6 +128,8 @@ Admin pages use a custom Blade-inspired template engine (`includes/class-templat
 
 **Usage:**
 ```php
+use WPMovieLibrary\Support\Template;
+
 $template = new Template( WPMOLY_PATH . 'admin/templates', WPMOLY_PATH . 'cache', WP_DEBUG ? false : true );
 echo $template->render( 'dashboard', [ 'movies' => $movies ] );
 ```
@@ -117,17 +139,37 @@ Templates use dot or slash notation: `'dashboard'`, `'partials/recently-added-mo
 ## PHP code conventions
 
 - PHP 8.x, strict WordPress coding standards
-- Namespace `WPMovieLibrary` throughout
+- Root namespace `WPMovieLibrary` with grouped sub-namespaces (see below)
 - All classes follow the singleton pattern with `private __construct()`, `private static $_instance`, and `public static get_instance()` calling a `private init()`
-- Hooks are registered in `init()`, never in the constructor
+- Hooks are registered in `init()`, never in the constructor — registrar classes hook their own `register()` callback to the `init` action from their own `init()` method
 - Class files named `class-{name}.php`, one class per file
 - Docblocks on every class, method and property — include `@since`, `@access`, `@param`, `@return`; `@static` for static properties and methods
 - No procedural code outside of the main plugin file `wpmovielibrary.php`
 - Constants: `WPMOLY_VERSION`, `WPMOLY_PATH`, `WPMOLY_URL`
-- Dependencies loaded explicitly via `require_once` in `load_dependencies()`, no autoloader
+- Dependencies loaded explicitly via `require_once` in `load_dependencies()`, no autoloader. Heavyweight or feature-specific files may be lazily required at first use (e.g. the template engine is required from `Backstage::template()`) rather than at boot.
 - No static utility methods, no helper functions — logic belongs in dedicated classes
-- **Exception:** `config()` in `includes/helpers.php` — a minimal global helper to read config files from `config/`. This is the only permitted procedural helper. Do not add others.
-- **Exception:** `Activator` (`includes/class-activator.php`) is intentionally a fully-static class, not a singleton. It is registered as a WordPress activation callback (`register_activation_hook( __FILE__, [ 'WPMovieLibrary\Activator', 'activate' ] )`), which requires a stable callable that doesn't depend on the regular plugin bootstrap order — `plugins_loaded` and our `wpmovielibrary/run` action don't fire during the activation request. All other classes must follow the singleton pattern.
+- **Exception:** `config()` in `includes/support/helpers.php` (namespace `WPMovieLibrary\Support\Helpers`) — a minimal global helper to read config files from `config/`. This is the only permitted procedural helper. Do not add others.
+- **Exception:** `Activator` (`includes/support/class-activator.php`, namespace `WPMovieLibrary\Support`) is intentionally a fully-static class, not a singleton. It is registered as a WordPress activation callback (`register_activation_hook( __FILE__, [ 'WPMovieLibrary\Support\Activator', 'activate' ] )`), which requires a stable callable that doesn't depend on the regular plugin bootstrap order — `plugins_loaded` and our `wpmovielibrary/run` action don't fire during the activation request. All other classes must follow the singleton pattern.
+
+### Namespaces
+
+The plugin uses four namespaces, each tied to a directory:
+
+| Namespace | Directory | Members |
+|---|---|---|
+| `WPMovieLibrary` | `includes/`, `admin/`, `public/` | `WPMovieLibrary` (main), `Backstage`, `Frontstage` |
+| `WPMovieLibrary\Registrars` | `includes/registrars/` | `Post_Types`, `Post_Statuses`, `Post_Meta`, `Taxonomies`, `Term_Meta` |
+| `WPMovieLibrary\Support` | `includes/support/` | `Activator`, `Template` |
+| `WPMovieLibrary\Support\Helpers` | `includes/support/helpers.php` | `config()` (function, not a class) |
+
+Cross-namespace consumers import via `use` at the top of the file:
+
+```php
+use WPMovieLibrary\Support\Template;
+use function WPMovieLibrary\Support\Helpers\config;
+```
+
+Add new classes to the sub-namespace matching their role. Don't introduce new top-level namespaces without good reason.
 
 ### Configuration files
 
@@ -136,8 +178,9 @@ Plugin data (post types, taxonomies, post meta, post statuses) is defined in `co
 - `config/post-types.php`
 - `config/post-statuses.php`
 - `config/taxonomies.php`
-- `config/meta.php` — see meta config structure below
-- `config/defaults.php` — default taxonomy terms created on plugin activation (`rating`, `media`, `status`, `format`, `language`, `subtitles`). Used by `Activator::seed_default_terms()` to seed the database via `wp_insert_term()`. Terms use slug as key and translated label as value.
+- `config/post-meta.php` — see meta config structure below
+- `config/term-meta.php` — same shape as `post-meta.php`; currently empty
+- `config/defaults.php` — default taxonomy terms intended to populate the library on a fresh install (`rating`, `media`, `status`, `format`, `language`, `subtitles`). Terms use slug as key and translated label as value. Not consumed by any current code path — the seeding mechanism is intentionally deferred.
 - `config/l10n.php` — ISO country and language tables (`countries.supported`, `countries.standard`, `languages.native`, `languages.supported`, `languages.standard`). Reserved for future `Country` and `Language` l10n classes — do not use directly in v6.0.0 code.
 
 Taxonomies use a three-level structure: `post_type → group → taxonomy_key → args`. Three groups are distinguished:
@@ -174,12 +217,13 @@ return [
 **Naming convention:** taxonomy slugs are always singular — `actor`, `genre`, `director`, `spoken_language`, `production_country`, etc. Never use plural slugs for taxonomies, even when WordPress examples do.
 
 **Slug prefixing:** taxonomy slugs are prefixed automatically by the `Taxonomies` class at registration — do not include the prefix in config keys. The registered slug follows the pattern `wpmoly_{post_type}_{key}` (e.g. `wpmoly_movie_genre`, `wpmoly_movie_director`, `wpmoly_movie_rating`). Always use the prefixed slug when referencing taxonomies in code (`wp_count_terms`, `wp_get_object_terms`, `register_post_type` taxonomies array, etc.).
-- `config/meta.php`
+
+#### `config/post-meta.php`
 
 Config files use a two-level structure for meta: `post_type → meta_key → args`. The `post_type` and meta key prefix are applied automatically by the `Post_Meta` class — do not include them in the config:
 
 ```php
-// config/meta.php
+// config/post-meta.php
 return [
     'movie' => [
         'director' => [
@@ -197,9 +241,9 @@ return [
 ];
 ```
 
-`Post_Meta` builds the final meta key as `_{plugin_slug}_{post_type}_{key}` (e.g. `_wpmoly_movie_director`) and injects `post_type` automatically. Use `config( 'meta.movie.director' )` or `config( 'meta.movie.rating.enum' )` to read nested values.
+`Post_Meta` builds the final meta key as `_{plugin_slug}_{post_type}_{key}` (e.g. `_wpmoly_movie_director`) and injects `post_type` automatically. Use `config( 'post-meta.movie.director' )` or `config( 'post-meta.movie.rating.enum' )` to read nested values.
 
-Use `config( 'taxonomies' )` or dot notation `config( 'meta.movie.director' )` to access nested values. Registrar classes (`Post_Types`, `Taxonomies`, `Post_Meta`) are thin — they load config and loop, nothing more.
+Use `config( 'taxonomies' )` or dot notation `config( 'post-meta.movie.director' )` to access nested values. Registrar classes (`Post_Types`, `Post_Statuses`, `Post_Meta`, `Taxonomies`, `Term_Meta`) live under `WPMovieLibrary\Registrars` and are thin — they load config and loop, nothing more. Each one's `init()` hooks its `register()` callback to the `init` WordPress action, so the main plugin class only has to call `get_instance()` on each from `rehearsal()`.
 
 ## JavaScript code conventions
 

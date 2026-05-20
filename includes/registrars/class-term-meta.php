@@ -6,7 +6,9 @@
  * @package WPMovieLibrary
  */
 
-namespace WPMovieLibrary;
+namespace WPMovieLibrary\Registrars;
+
+use function WPMovieLibrary\Support\Helpers\config;
 
 /**
  * Register the plugin's custom term meta.

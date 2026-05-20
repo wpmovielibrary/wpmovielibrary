@@ -1,20 +1,22 @@
 <?php
 /**
- * Define the custom post statuses plugin class.
+ * Define the custom taxonomies plugin class.
  *
  * @link https://wplibraries.com
  * @package WPMovieLibrary
  */
 
-namespace WPMovieLibrary;
+namespace WPMovieLibrary\Registrars;
+
+use function WPMovieLibrary\Support\Helpers\config;
 
 /**
- * Register the plugin's custom post statuses.
+ * Register the plugin's custom taxonomies.
  *
  * @since 6.0.0
  * @author Charlie Merland <charlie@caercam.org>
  */
-class Post_Statuses {
+class Taxonomies {
 
 	/**
 	 * Static instance.
@@ -24,12 +26,12 @@ class Post_Statuses {
 	 * @static
 	 * @access private
 	 *
-	 * @var Post_Statuses
+	 * @var Taxonomies
 	 */
 	private static $_instance = null;
 
 	/**
-	 * Post Statuses parameters.
+	 * Taxonomies parameters.
 	 *
 	 * @since 6.0.0
 	 *
@@ -38,7 +40,7 @@ class Post_Statuses {
 	 *
 	 * @var array
 	 */
-	private array $post_statuses = [];
+	private array $taxonomies = [];
 
 	/**
 	 * Constructor.
@@ -58,7 +60,7 @@ class Post_Statuses {
 	 * @static
 	 * @access public
 	 *
-	 * @return Post_Statuses
+	 * @return Taxonomies
 	 */
 	public static function get_instance() {
 
@@ -74,7 +76,7 @@ class Post_Statuses {
 	 * Initialize.
 	 *
 	 * @since 6.0.0
-	 *
+	 * 
 	 * @access private
 	 */
 	private function init() {
@@ -83,7 +85,7 @@ class Post_Statuses {
 	}
 
 	/**
-	 * Register custom Post Statuses.
+	 * Register custom taxonomies.
 	 *
 	 * @since 6.0.0
 	 *
@@ -91,9 +93,21 @@ class Post_Statuses {
 	 */
 	public function register() {
 
-		$this->post_statuses = config( 'post-statuses', [] );
-		foreach ( $this->post_statuses as $slug => $args ) {
-			register_post_status( $slug, $args );
+		$this->taxonomies = config( 'taxonomies', [] );
+		foreach ( $this->taxonomies as $post_type => $groups ) {
+			foreach ( $groups as $group => $taxonomies ) {
+				foreach ( $taxonomies as $slug => $args ) {
+					$taxonomy_slug = "wpmoly_{$post_type}_{$slug}";
+					// only general taxonomies are public by default
+					if ( 'general' !== $group ) {
+						$args['public']             = $args['public'] ?? false;
+						$args['publicly_queryable'] = $args['publicly_queryable'] ?? false;
+						$args['show_ui']            = $args['show_ui'] ?? false;
+						$args['show_in_nav_menus']  = $args['show_in_nav_menus'] ?? false;
+					}
+					register_taxonomy( $taxonomy_slug, [ $post_type ], $args );
+				}
+			}
 		}
 	}
 }

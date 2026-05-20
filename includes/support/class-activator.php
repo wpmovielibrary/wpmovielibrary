@@ -6,7 +6,9 @@
  * @package WPMovieLibrary
  */
 
-namespace WPMovieLibrary;
+namespace WPMovieLibrary\Support;
+
+use WPMovieLibrary\Registrars;
 
 /**
  * Run the plugin activation tasks.
@@ -29,12 +31,12 @@ class Activator {
 	 */
 	public static function activate() {
 
-		require_once WPMOLY_PATH . 'includes/helpers.php';
-		require_once WPMOLY_PATH . 'includes/class-post-types.php';
-		require_once WPMOLY_PATH . 'includes/class-taxonomies.php';
+		require_once WPMOLY_PATH . 'includes/support/helpers.php';
+		require_once WPMOLY_PATH . 'includes/registrars/class-post-types.php';
+		require_once WPMOLY_PATH . 'includes/registrars/class-taxonomies.php';
 
-		Post_Types::get_instance()->register();
-		Taxonomies::get_instance()->register();
+		Registrars\Post_Types::get_instance()->register();
+		Registrars\Taxonomies::get_instance()->register();
 
 		self::update_version();
 

@@ -1,20 +1,22 @@
 <?php
 /**
- * Define the custom post types plugin class.
+ * Define the custom post statuses plugin class.
  *
  * @link https://wplibraries.com
  * @package WPMovieLibrary
  */
 
-namespace WPMovieLibrary;
+namespace WPMovieLibrary\Registrars;
+
+use function WPMovieLibrary\Support\Helpers\config;
 
 /**
- * Register the plugin's custom post types.
+ * Register the plugin's custom post statuses.
  *
  * @since 6.0.0
  * @author Charlie Merland <charlie@caercam.org>
  */
-class Post_Types {
+class Post_Statuses {
 
 	/**
 	 * Static instance.
@@ -24,12 +26,12 @@ class Post_Types {
 	 * @static
 	 * @access private
 	 *
-	 * @var Post_Types
+	 * @var Post_Statuses
 	 */
 	private static $_instance = null;
 
 	/**
-	 * Post Types parameters.
+	 * Post Statuses parameters.
 	 *
 	 * @since 6.0.0
 	 *
@@ -38,7 +40,7 @@ class Post_Types {
 	 *
 	 * @var array
 	 */
-	private array $post_types = [];
+	private array $post_statuses = [];
 
 	/**
 	 * Constructor.
@@ -58,7 +60,7 @@ class Post_Types {
 	 * @static
 	 * @access public
 	 *
-	 * @return Post_Types
+	 * @return Post_Statuses
 	 */
 	public static function get_instance() {
 
@@ -83,7 +85,7 @@ class Post_Types {
 	}
 
 	/**
-	 * Register custom Post Types.
+	 * Register custom Post Statuses.
 	 *
 	 * @since 6.0.0
 	 *
@@ -91,9 +93,9 @@ class Post_Types {
 	 */
 	public function register() {
 
-		$this->post_types = config( 'post-types', [] );
-		foreach ( $this->post_types as $slug => $args ) {
-			register_post_type( $slug, $args );
+		$this->post_statuses = config( 'post-statuses', [] );
+		foreach ( $this->post_statuses as $slug => $args ) {
+			register_post_status( $slug, $args );
 		}
 	}
 }

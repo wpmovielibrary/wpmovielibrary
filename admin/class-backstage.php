@@ -8,6 +8,9 @@
 
 namespace WPMovieLibrary;
 
+use WPMovieLibrary\Support\Template;
+use function WPMovieLibrary\Support\Helpers\config;
+
 /**
  * Load the plugin's admin features.
  *
@@ -390,7 +393,7 @@ class Backstage {
 			return $this->template_engine;
 		}
 
-		require_once WPMOLY_PATH . 'includes/class-template.php';
+		require_once WPMOLY_PATH . 'includes/support/class-template.php';
 
 		$this->template_engine = new Template(
 			template_dir: WPMOLY_PATH . 'admin/templates',

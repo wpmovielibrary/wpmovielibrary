@@ -1,20 +1,22 @@
 <?php
 /**
- * Define the custom taxonomies plugin class.
+ * Define the custom post types plugin class.
  *
  * @link https://wplibraries.com
  * @package WPMovieLibrary
  */
 
-namespace WPMovieLibrary;
+namespace WPMovieLibrary\Registrars;
+
+use function WPMovieLibrary\Support\Helpers\config;
 
 /**
- * Register the plugin's custom taxonomies.
+ * Register the plugin's custom post types.
  *
  * @since 6.0.0
  * @author Charlie Merland <charlie@caercam.org>
  */
-class Taxonomies {
+class Post_Types {
 
 	/**
 	 * Static instance.
@@ -24,12 +26,12 @@ class Taxonomies {
 	 * @static
 	 * @access private
 	 *
-	 * @var Taxonomies
+	 * @var Post_Types
 	 */
 	private static $_instance = null;
 
 	/**
-	 * Taxonomies parameters.
+	 * Post Types parameters.
 	 *
 	 * @since 6.0.0
 	 *
@@ -38,7 +40,7 @@ class Taxonomies {
 	 *
 	 * @var array
 	 */
-	private array $taxonomies = [];
+	private array $post_types = [];
 
 	/**
 	 * Constructor.
@@ -58,7 +60,7 @@ class Taxonomies {
 	 * @static
 	 * @access public
 	 *
-	 * @return Taxonomies
+	 * @return Post_Types
 	 */
 	public static function get_instance() {
 
@@ -74,7 +76,7 @@ class Taxonomies {
 	 * Initialize.
 	 *
 	 * @since 6.0.0
-	 * 
+	 *
 	 * @access private
 	 */
 	private function init() {
@@ -83,7 +85,7 @@ class Taxonomies {
 	}
 
 	/**
-	 * Register custom taxonomies.
+	 * Register custom Post Types.
 	 *
 	 * @since 6.0.0
 	 *
@@ -91,21 +93,9 @@ class Taxonomies {
 	 */
 	public function register() {
 
-		$this->taxonomies = config( 'taxonomies', [] );
-		foreach ( $this->taxonomies as $post_type => $groups ) {
-			foreach ( $groups as $group => $taxonomies ) {
-				foreach ( $taxonomies as $slug => $args ) {
-					$taxonomy_slug = "wpmoly_{$post_type}_{$slug}";
-					// only general taxonomies are public by default
-					if ( 'general' !== $group ) {
-						$args['public']             = $args['public'] ?? false;
-						$args['publicly_queryable'] = $args['publicly_queryable'] ?? false;
-						$args['show_ui']            = $args['show_ui'] ?? false;
-						$args['show_in_nav_menus']  = $args['show_in_nav_menus'] ?? false;
-					}
-					register_taxonomy( $taxonomy_slug, [ $post_type ], $args );
-				}
-			}
+		$this->post_types = config( 'post-types', [] );
+		foreach ( $this->post_types as $slug => $args ) {
+			register_post_type( $slug, $args );
 		}
 	}
 }

@@ -33,9 +33,9 @@ define( 'WPMOLY_VERSION', '6.0.0' );
 define( 'WPMOLY_PATH',    trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'WPMOLY_URL',     trailingslashit( plugin_dir_url( __FILE__ ) ) );
 
-require_once WPMOLY_PATH . 'class-wpmovielibrary.php';
-require_once WPMOLY_PATH . 'includes/class-activator.php';
+require_once WPMOLY_PATH . 'includes/class-library.php';
+require_once WPMOLY_PATH . 'includes/support/class-activator.php';
 
-register_activation_hook( __FILE__, [ 'WPMovieLibrary\Activator', 'activate' ] );
+register_activation_hook( __FILE__, [ 'WPMovieLibrary\Support\Activator', 'activate' ] );
 
-WPMovieLibrary::get_instance();
+Library::get_instance();

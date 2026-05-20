@@ -14,7 +14,7 @@ namespace WPMovieLibrary;
  * @since 6.0.0
  * @author Charlie Merland <charlie@caercam.org>
  */
-class WPMovieLibrary {
+class Library {
 
 	/**
 	 * Plugin instance.
@@ -24,7 +24,7 @@ class WPMovieLibrary {
 	 * @static
 	 * @access private
 	 *
-	 * @var WPMovieLibrary
+	 * @var Library
 	 */
 	private static $_instance = null;
 
@@ -79,7 +79,7 @@ class WPMovieLibrary {
 	 * @static
 	 * @access public
 	 *
-	 * @return WPMovieLibrary
+	 * @return Library
 	 */
 	public static function get_instance() {
 
@@ -118,26 +118,24 @@ class WPMovieLibrary {
 	 */
 	public function rehearsal() {
 
-		require_once WPMOLY_PATH . 'includes/helpers.php';
+		require_once WPMOLY_PATH . 'includes/support/helpers.php';
 
-		require_once WPMOLY_PATH . 'includes/class-post-types.php';
-		require_once WPMOLY_PATH . 'includes/class-post-statuses.php';
-		require_once WPMOLY_PATH . 'includes/class-post-meta.php';
-		require_once WPMOLY_PATH . 'includes/class-taxonomies.php';
-		require_once WPMOLY_PATH . 'includes/class-term-meta.php';
+		require_once WPMOLY_PATH . 'includes/registrars/class-post-types.php';
+		require_once WPMOLY_PATH . 'includes/registrars/class-post-statuses.php';
+		require_once WPMOLY_PATH . 'includes/registrars/class-post-meta.php';
+		require_once WPMOLY_PATH . 'includes/registrars/class-taxonomies.php';
+		require_once WPMOLY_PATH . 'includes/registrars/class-term-meta.php';
 
 		$registrars = [
-			Post_Types::class,
-			Post_Statuses::class,
-			Post_Meta::class,
-			Taxonomies::class,
-			Term_Meta::class,
+			Registrars\Post_Types::class,
+			Registrars\Post_Statuses::class,
+			Registrars\Post_Meta::class,
+			Registrars\Taxonomies::class,
+			Registrars\Term_Meta::class,
 		];
 
 		foreach ( $registrars as $registrar ) {
-			if ( class_exists( $registrar ) && method_exists( $registrar, 'get_instance' ) ) {
-				$registrar::get_instance();
-			}
+			$registrar::get_instance();
 		}
 	}
 

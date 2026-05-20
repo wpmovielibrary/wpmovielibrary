@@ -6,7 +6,7 @@
  * @package WPMovieLibrary
  */
 
-namespace WPMovieLibrary;
+namespace WPMovieLibrary\Support\Helpers;
 
 /**
  * Get a configuration value.
