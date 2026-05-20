@@ -77,10 +77,7 @@ class Post_Statuses {
 	 *
 	 * @access private
 	 */
-	private function init() {
-
-		$this->post_statuses = config( 'post-statuses', [] );
-	}
+	private function init() {}
 
 	/**
 	 * Register custom Post Statuses.
@@ -91,6 +88,7 @@ class Post_Statuses {
 	 */
 	public function register() {
 
+		$this->post_statuses = config( 'post-statuses', [] );
 		foreach ( $this->post_statuses as $slug => $args ) {
 			register_post_status( $slug, $args );
 		}

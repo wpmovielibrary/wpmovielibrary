@@ -80,8 +80,6 @@ class Term_Meta {
 	private function init() {
 
 		add_action( 'edited_term', [ $this, 'save_meta_input' ] );
-
-		$this->term_meta = config( 'term-meta', [] );
 	}
 
 	/**
@@ -144,6 +142,7 @@ class Term_Meta {
 	 */
 	public function register() {
 
+		$this->term_meta = config( 'term-meta', [] );
 		foreach ( $this->term_meta as $slug => $args ) {
 			$taxonomies = (array) $args['taxonomy'];
 			foreach ( $taxonomies as $taxonomy ) {

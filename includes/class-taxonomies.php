@@ -77,10 +77,7 @@ class Taxonomies {
 	 * 
 	 * @access private
 	 */
-	private function init() {
-
-		$this->taxonomies = config( 'taxonomies', [] );
-	}
+	private function init() {}
 
 	/**
 	 * Register custom taxonomies.
@@ -91,6 +88,7 @@ class Taxonomies {
 	 */
 	public function register() {
 
+		$this->taxonomies = config( 'taxonomies', [] );
 		foreach ( $this->taxonomies as $post_type => $groups ) {
 			foreach ( $groups as $group => $taxonomies ) {
 				foreach ( $taxonomies as $slug => $args ) {

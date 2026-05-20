@@ -77,10 +77,7 @@ class Post_Types {
 	 *
 	 * @access private
 	 */
-	private function init() {
-
-		$this->post_types = config( 'post-types', [] );
-	}
+	private function init() {}
 
 	/**
 	 * Register custom Post Types.
@@ -91,6 +88,7 @@ class Post_Types {
 	 */
 	public function register() {
 
+		$this->post_types = config( 'post-types', [] );
 		foreach ( $this->post_types as $slug => $args ) {
 			register_post_type( $slug, $args );
 		}

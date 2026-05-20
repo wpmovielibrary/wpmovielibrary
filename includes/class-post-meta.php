@@ -82,8 +82,6 @@ class Post_Meta {
 		add_action( 'save_post',       [ $this, 'save_meta_input' ] );
 		add_action( 'add_attachment',  [ $this, 'save_meta_input' ] );
 		add_action( 'edit_attachment', [ $this, 'save_meta_input' ] );
-
-		$this->post_meta = config( 'post-meta', [] );
 	}
 
 	/**
@@ -150,6 +148,7 @@ class Post_Meta {
 	 */
 	public function register() {
 
+		$this->post_meta = config( 'post-meta', [] );
 		foreach ( $this->post_meta as $post_type => $metas ) {
 			foreach ( $metas as $key => $args ) {
 				$meta_key = "_wpmoly_{$post_type}_{$key}";
