@@ -190,6 +190,17 @@ class Template {
 	 */
 	private function apply_directives( string $source ) {
 
+		// IMPORTANT — directive ordering invariants:
+		// - Comments (1) must run first so they aren't searched for directive markers.
+		// - `@elseif` (in 4) must be replaced before `@else`, otherwise the unanchored
+		//   `/@else/` would also match the `@else` substring inside `@elseif`.
+		// - `{!! !!}` (6) must run before `{{ }}`, otherwise the inner `{...}` of the
+		//   raw form would be picked up by the escaped form first.
+		// - Display rules (6) are deliberately last so directive replacements above
+		//   can rely on raw template text being intact in their captures.
+		// When adding a new directive, place it in the appropriate numbered block and
+		// re-check these invariants.
+
 		// 1. Remove Blade comments {{-- ... --}}
 		$source = preg_replace('/\{\{--.*?--\}\}/s', '', $source );
 
