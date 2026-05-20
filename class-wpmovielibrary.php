@@ -106,9 +106,6 @@ class WPMovieLibrary {
 		add_action( 'wpmovielibrary/run', [ &$this, 'rehearsal' ] );
 		add_action( 'wpmovielibrary/run', [ &$this, 'background' ] );
 		add_action( 'wpmovielibrary/run', [ &$this, 'foreground' ] );
-
-		// Activation hook.
-		register_activation_hook( WPMOLY_PATH, [ &$this, 'plugin_activate' ] );
 	}
 
 	/**
