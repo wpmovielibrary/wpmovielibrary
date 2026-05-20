@@ -223,18 +223,24 @@ class Backstage {
 	 */
 	public function dashboard() {
 
-		$movies_count = (array) wp_count_posts( 'movie' );
-		$totals = [
-			'movies'      => $movies_count['publish'] ?? 0,
-			'imported'    => $movies_count['import-draft'] ?? 0,
-			'queued'      => $movies_count['import-queued'] ?? 0,
-			'drafts'      => $movies_count['draft'] ?? 0,
-			'total'       => 0,
-		];
-		$totals['collections'] = wp_count_terms( 'wpmoly_movie_collection', [ 'hide_empty' => false ] );
-		$totals['genres'] = wp_count_terms( 'wpmoly_movie_genre', [ 'hide_empty' => false ] );
-		$totals['actors'] = wp_count_terms( 'wpmoly_movie_actor', [ 'hide_empty' => false ] );
-		$totals = array_map( 'intval', $totals );
+		$totals = get_transient( 'wpmovielibrary_dashboard_totals' );
+
+		if ( false === $totals ) {
+			$movies_count = (array) wp_count_posts( 'movie' );
+			$totals = [
+				'movies'      => $movies_count['publish'] ?? 0,
+				'imported'    => $movies_count['import-draft'] ?? 0,
+				'queued'      => $movies_count['import-queued'] ?? 0,
+				'drafts'      => $movies_count['draft'] ?? 0,
+				'total'       => 0,
+			];
+			$totals['collections'] = wp_count_terms( 'wpmoly_movie_collection', [ 'hide_empty' => false ] );
+			$totals['genres'] = wp_count_terms( 'wpmoly_movie_genre', [ 'hide_empty' => false ] );
+			$totals['actors'] = wp_count_terms( 'wpmoly_movie_actor', [ 'hide_empty' => false ] );
+			$totals = array_map( 'intval', $totals );
+
+			set_transient( 'wpmovielibrary_dashboard_totals', $totals, MINUTE_IN_SECONDS );
+		}
 
 		echo $this->template()->render( 'dashboard', [
 			'plugin_page' => 'wpmovielibrary',
@@ -253,11 +259,17 @@ class Backstage {
 	 */
 	public function importer() {
 
-		$movies_count = (array) wp_count_posts( 'movie' );
-		$totals = [
-			'imported' => $movies_count['import-draft'] ?? 0,
-			'queued' => $movies_count['import-queued'] ?? 0,
-		];
+		$totals = get_transient( 'wpmovielibrary_importer_totals' );
+
+		if ( false === $totals ) {
+			$movies_count = (array) wp_count_posts( 'movie' );
+			$totals = [
+				'imported' => $movies_count['import-draft'] ?? 0,
+				'queued' => $movies_count['import-queued'] ?? 0,
+			];
+
+			set_transient( 'wpmovielibrary_importer_totals', $totals, MINUTE_IN_SECONDS );
+		}
 
 		echo $this->template()->render( 'importer', [
 			'plugin_page' => 'wpmovielibrary-importer',
