@@ -79,9 +79,9 @@ class Post_Meta {
 	 */
 	private function init() {
 
-		add_action( 'save_post',       [ &$this, 'save_meta_input' ] );
-		add_action( 'add_attachment',  [ &$this, 'save_meta_input' ] );
-		add_action( 'edit_attachment', [ &$this, 'save_meta_input' ] );
+		add_action( 'save_post',       [ $this, 'save_meta_input' ] );
+		add_action( 'add_attachment',  [ $this, 'save_meta_input' ] );
+		add_action( 'edit_attachment', [ $this, 'save_meta_input' ] );
 
 		$this->post_meta = config( 'post-meta', [] );
 	}

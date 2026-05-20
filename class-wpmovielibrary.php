@@ -101,11 +101,11 @@ class WPMovieLibrary {
 	private function init() {
 
 		// Actions.
-		add_action( 'plugins_loaded', [ &$this, 'run' ] );
+		add_action( 'plugins_loaded', [ $this, 'run' ] );
 
-		add_action( 'wpmovielibrary/run', [ &$this, 'rehearsal' ] );
-		add_action( 'wpmovielibrary/run', [ &$this, 'background' ] );
-		add_action( 'wpmovielibrary/run', [ &$this, 'foreground' ] );
+		add_action( 'wpmovielibrary/run', [ $this, 'rehearsal' ] );
+		add_action( 'wpmovielibrary/run', [ $this, 'background' ] );
+		add_action( 'wpmovielibrary/run', [ $this, 'foreground' ] );
 	}
 
 	/**
@@ -190,7 +190,7 @@ class WPMovieLibrary {
 		 *
 		 * @param object &$this Plugin class instance, passed by reference.
 		 */
-		do_action_ref_array( 'wpmovielibrary/run', [ &$this ] );
+		do_action_ref_array( 'wpmovielibrary/run', [ $this ] );
 	}
 
 }

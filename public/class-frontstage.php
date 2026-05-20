@@ -80,8 +80,8 @@ class Frontstage {
 
 		$this->load_dependencies();
 
-		add_action( 'wp_enqueue_scripts',  [ &$this, 'enqueue_styles' ] );
-		add_action( 'wp_enqueue_scripts',  [ &$this, 'enqueue_scripts' ] );
+		add_action( 'wp_enqueue_scripts',  [ $this, 'enqueue_styles' ] );
+		add_action( 'wp_enqueue_scripts',  [ $this, 'enqueue_scripts' ] );
 	}
 
 	/**

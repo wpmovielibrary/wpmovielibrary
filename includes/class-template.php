@@ -83,24 +83,34 @@ class Template {
 	private ?string $layout = null;
 
 	/**
-	* Constructor.
-	*
-	* @since 6.0.0
-	*
-	* @access public
-	*
-	* @param string $template_dir Directory where templates are located.
-	* @param string $cache_dir	Directory where compiled templates will be stored.
-	* @param bool   $cache		Whether to enable caching of compiled templates.
-	*/
+	 * Constructor.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access public
+	 *
+	 * @param string $template_dir Directory where templates are located.
+	 * @param string $cache_dir	Directory where compiled templates will be stored.
+	 * @param bool   $cache		Whether to enable caching of compiled templates.
+	 */
 	public function __construct( string $template_dir, string $cache_dir, bool $cache = true ) {
 
 		$this->template_dir = rtrim( $template_dir, '/' );
-		$this->cache_dir	= rtrim( $cache_dir, '/' );
-		$this->cache		= $cache;
+		$this->cache_dir    = rtrim( $cache_dir, '/' );
+		$this->cache        = $cache;
 
 		if ( ! is_dir( $this->cache_dir ) ) {
-			mkdir( $this->cache_dir, 0755, true );
+			$created = mkdir( $this->cache_dir, 0755, true );
+			if ( ! $created ) {
+				add_action( 'admin_notices', function() {
+					echo '<div class="notice notice-error"><p>Template cache directory is not writable: ' . esc_html( $this->cache_dir ) . '</p></div>';
+				} );
+
+				error_log( 'Template cache directory is not writable: ' . $this->cache_dir );
+
+				// Disable caching to avoid errors
+				$this->cache = false;
+			}
 		}
 	}
 
@@ -123,19 +133,19 @@ class Template {
 	public function render( string $name, array $data = [] ) {
 
 		// Reset state for each root render
-		$this->sections		= [];
+		$this->sections        = [];
 		$this->current_section = null;
-		$this->layout		  = null;
+		$this->layout          = null;
 
 		$compiled = $this->compile( $name );
 		$output   = $this->execute( $compiled, $data );
 
 		// If the template declares @extends, render the layout
 		if ( null !== $this->layout ) {
-			$layout		  = $this->layout;
-			$this->layout	= null; // avoid infinite loop if layout also has @extends
+			$layout          = $this->layout;
+			$this->layout    = null; // avoid infinite loop if layout also has @extends
 			$layout_compiled = $this->compile( $layout );
-			$output		  = $this->execute( $layout_compiled, $data );
+			$output          = $this->execute( $layout_compiled, $data );
 		}
 
 		return $output;
@@ -234,18 +244,18 @@ class Template {
 		);
 
 		// 4. Conditions
-		$source = preg_replace( '/@if\s*\((.+?)\)/s',	 '<?php if ( $1): ?>',	 $source );
+		$source = preg_replace( '/@if\s*\((.+?)\)/s',     '<?php if ( $1): ?>',     $source );
 		$source = preg_replace( '/@elseif\s*\((.+?)\)/s', '<?php elseif ( $1): ?>', $source );
-		$source = preg_replace( '/@else/',				'<?php else: ?>',		 $source );
-		$source = preg_replace( '/@endif/',			   '<?php endif; ?>',		$source );
+		$source = preg_replace( '/@else/',                '<?php else: ?>',         $source );
+		$source = preg_replace( '/@endif/',               '<?php endif; ?>',        $source );
 
 		// 5. Loops
 		$source = preg_replace( '/@foreach\s*\((.+?)\)/s', '<?php foreach ( $1): ?>', $source );
-		$source = preg_replace( '/@endforeach/',		   '<?php endforeach; ?> ',   $source );
-		$source = preg_replace( '/@for\s*\((.+?)\)/s',	 '<?php for ( $1): ?>',	 $source );
-		$source = preg_replace( '/@endfor/',			   '<?php endfor; ?>',		$source );
+		$source = preg_replace( '/@endforeach/',           '<?php endforeach; ?> ',   $source );
+		$source = preg_replace( '/@for\s*\((.+?)\)/s',     '<?php for ( $1): ?>',     $source );
+		$source = preg_replace( '/@endfor/',               '<?php endfor; ?>',        $source );
 		$source = preg_replace( '/@while\s*\((.+?)\)/s',   '<?php while ( $1): ?>',   $source );
-		$source = preg_replace( '/@endwhile/',			 '<?php endwhile; ?>',	  $source );
+		$source = preg_replace( '/@endwhile/',             '<?php endwhile; ?>',      $source );
 
 		// 6. Display — order is important: {!! before {{ to avoid conflicts
 		$source = preg_replace(
@@ -307,7 +317,7 @@ class Template {
 	private function render_include( string $__name, array $__data ) {
 
 		// Filter out any variables that could interfere with the template execution
-		$blacklist = [ 'compiled', 'data', 'blacklist', 'this' ];
+		$blacklist = [ '__compiled', '__data', '__name' ];
 		foreach ( $blacklist as $key ) {
 			unset( $__data[ $key ] );
 		}

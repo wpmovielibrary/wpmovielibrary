@@ -79,7 +79,7 @@ class Term_Meta {
 	 */
 	private function init() {
 
-		add_action( 'edited_term', [ &$this, 'save_meta_input' ] );
+		add_action( 'edited_term', [ $this, 'save_meta_input' ] );
 
 		$this->term_meta = config( 'term-meta', [] );
 	}

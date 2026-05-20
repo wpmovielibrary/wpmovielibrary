@@ -13,7 +13,7 @@
 	<div class="wpmovielibrary-menu">
 		<ul>
 			<li class="<?php echo 'wpmovielibrary' === $plugin_page ? 'is-active' : ''; ?>"><a href="<?php echo esc_url( admin_url( 'admin.php?page=wpmovielibrary' ) ) ?>"><?php esc_html_e( 'My Library', 'wpmovielibrary' ); ?></a></li>
-			<li class="<?php echo 'edit.php' === $hook_suffix && 'movie' === $post_type ? 'is-active' : ''; ?>"><a href="<?php echo esc_url( admin_url( 'edit.php?post_type=movie' ) ); ?>"><?php esc_html_e( 'Movies', 'wpmovielibrary' ); ?></a></li>
+			<li class="<?php echo 'edit-movie' === $hook_suffix && 'movie' === $post_type ? 'is-active' : ''; ?>"><a href="<?php echo esc_url( admin_url( 'edit.php?post_type=movie' ) ); ?>"><?php esc_html_e( 'Movies', 'wpmovielibrary' ); ?></a></li>
 			<li class="<?php echo 'wpmovielibrary-importer' === $plugin_page ? 'is-active' : ''; ?>"><a href="<?php echo esc_url( admin_url( 'admin.php?page=wpmovielibrary-importer' ) ) ?>"><?php esc_html_e( 'Importer', 'wpmovielibrary' ); ?></a></li>
 			<li class="<?php echo 'wpmovielibrary-settings' === $plugin_page ? 'is-active' : ''; ?>"><a href="<?php echo esc_url( admin_url( 'admin.php?page=wpmovielibrary-settings' ) ) ?>"><?php esc_html_e( 'Settings', 'wpmovielibrary' ); ?></a></li>
 			<!-- <li class="<?php echo 'wpmovielibrary-help' === $plugin_page ? 'is-active' : ''; ?>"><a href="#"><?php esc_html_e( 'Help', 'wpmovielibrary' ); ?></a></li> -->
