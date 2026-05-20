@@ -79,7 +79,7 @@ class Post_Statuses {
 	 */
 	private function init() {
 
-		$this->post_statuses = config( 'post_statuses', [] );
+		$this->post_statuses = config( 'post-statuses', [] );
 	}
 
 	/**

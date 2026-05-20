@@ -22,8 +22,6 @@ return [
       'subtitles' => [], // use actor taxonomy as reference for args
     ],
     'general' => [
-      // original_language, origin_country,
-      // spoken_language, production_country, production_company
       'actor' => [
         'labels' => [
           'name'                       => _x( 'Actors', 'taxonomy general name', 'wpmovielibrary' ),
@@ -135,6 +133,10 @@ return [
           'slug' => _x( 'genres', 'genre taxonomy slug', 'wpmovielibrary' ),
         ],
       ],
+    ],
+    'technical' => [
+      // original_language, origin_country,
+      // spoken_language, production_country, production_company
     ],
   ],
 ];

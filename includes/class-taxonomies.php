@@ -91,8 +91,20 @@ class Taxonomies {
 	 */
 	public function register() {
 
-		foreach ( $this->taxonomies as $slug => $args ) {
-			register_taxonomy( $slug, $args['post_types'], $args );
+		foreach ( $this->taxonomies as $post_type => $groups ) {
+			foreach ( $groups as $group => $taxonomies ) {
+				foreach ( $taxonomies as $slug => $args ) {
+					$taxonomy_slug = "wpmoly_{$post_type}_{$slug}";
+					// crew and details are private by default
+					if ( 'general' !== $group ) {
+						$args['public']             = $args['public'] ?? false;
+						$args['publicly_queryable'] = $args['publicly_queryable'] ?? false;
+						$args['show_ui']            = $args['show_ui'] ?? false;
+						$args['show_in_nav_menus']  = $args['show_in_nav_menus'] ?? false;
+					}
+					register_taxonomy( $taxonomy_slug, [ $post_type ], $args );
+				}
+			}
 		}
 	}
 }

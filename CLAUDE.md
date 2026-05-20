@@ -141,41 +141,38 @@ Plugin data (post types, taxonomies, post meta, post statuses) is defined in `co
 
 Taxonomies use a three-level structure: `post_type → group → taxonomy_key → args`. Three groups are distinguished:
 
-- `general` — content taxonomies populated from TMDb (`actor`, `genre`, `collection`). Marked `'editable' => false`.
-- `crew` — technical crew populated automatically from TMDb (`director`, `composer`, `editor`...). Marked `'editable' => false`, managed programmatically.
-- `details` — personal data entered manually in the movie editor block (`rating`, `media`, `status`...). Marked `'editable' => true`, exposed in the Gutenberg block UI.
+- `general` — content taxonomies (`actor`, `genre`, `collection`). Public by default.
+- `crew` — technical crew (`director`, `composer`, `editor`...). Private by default — `public`, `publicly_queryable`, `show_ui`, `show_in_nav_menus` all default to `false`. Override explicitly in config if needed.
+- `details` — personal data (`rating`, `media`, `status`...). Private by default, same as `crew`.
+- `technical` − technical data (`spoken_language`, `production_country`...). Private by default.
+
+The `Taxonomies` class applies visibility automatically based on the group — no special flag needed in the config. Config values contain only standard `register_taxonomy()` args. Default terms for `details` taxonomies (`rating`, `media`, `status`, etc.) are defined in `config/defaults.php`, not in `config/taxonomies.php`.
 
 ```php
 // config/taxonomies.php
 return [
     'movie' => [
         'general' => [
-            'actor'      => [ 'editable' => false, /* register_taxonomy args */ ],
-            'collection' => [ 'editable' => false, /* ... */ ],
-            'genre'      => [ 'editable' => false, /* ... */ ],
+            'actor' => [
+                'hierarchical' => false,
+                'sort'         => true,
+                'show_in_rest' => true,
+                // ... standard register_taxonomy args
+            ],
         ],
         'crew' => [
-            'director' => [ 'editable' => false, /* ... */ ],
-            // ...
+            'director' => [], // private by default, use actor as reference for args
         ],
         'details' => [
-            'rating' => [
-                'editable' => true,
-                'enum'     => [
-                    '0.0' => 'Not rated',
-                    '0.5' => 'Junk',
-                    // ...
-                ],
-                // ...
-            ],
+            'rating' => [], // private by default, use actor as reference for args
         ],
     ],
 ];
 ```
 
-The `Taxonomies` class ignores the `editable` flag when registering — it is only used by the React movie editor block to determine which taxonomies to expose in its UI.
-
 **Naming convention:** taxonomy slugs are always singular — `actor`, `genre`, `director`, `spoken_language`, `production_country`, etc. Never use plural slugs for taxonomies, even when WordPress examples do.
+
+**Slug prefixing:** taxonomy slugs are prefixed automatically by the `Taxonomies` class at registration — do not include the prefix in config keys. The registered slug follows the pattern `wpmoly_{post_type}_{key}` (e.g. `wpmoly_movie_genre`, `wpmoly_movie_director`, `wpmoly_movie_rating`). Always use the prefixed slug when referencing taxonomies in code (`wp_count_terms`, `wp_get_object_terms`, `register_post_type` taxonomies array, etc.).
 - `config/meta.php`
 
 Config files use a two-level structure for meta: `post_type → meta_key → args`. The `post_type` and meta key prefix are applied automatically by the `Post_Meta` class — do not include them in the config:
