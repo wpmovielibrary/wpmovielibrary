@@ -491,6 +491,6 @@ class Template {
 		// Convert dot and slash notation to underscores, e.g., 'admin.dashboard' => 'admin_dashboard'
 		$name = str_replace( [ '.', '/' ], '_', $name );
 
-		return realpath( $this->cache_dir . '/' . $name . '.php' ) ?: $this->cache_dir . '/' . $name . '.php';
+		return realpath( $this->cache_dir . '/' . $name . '.php' ) ?: realpath( $this->cache_dir . '/' . $name . '.php' );
 	}
 }
