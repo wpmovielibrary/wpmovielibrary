@@ -210,7 +210,9 @@ class Backstage {
 			wp_enqueue_script( 'wpmovielibrary-common' );
 		}
 
-		if ( 'library_page_wpmovielibrary-settings' === $hook_suffix ) {
+		if ( 'toplevel_page_wpmovielibrary' === $hook_suffix ) {
+			wp_enqueue_script( 'wpmovielibrary-dashboard' );
+		} elseif ( 'library_page_wpmovielibrary-settings' === $hook_suffix ) {
 			wp_enqueue_script( 'wpmovielibrary-settings' );
 		}
 	}
@@ -241,6 +243,7 @@ class Backstage {
 	private function register_scripts() {
 
 		wp_register_script( 'wpmovielibrary-common', WPMOLY_URL . 'admin/assets/js/common.js', [], $this->version, true );
+		wp_register_script( 'wpmovielibrary-dashboard', WPMOLY_URL . 'admin/assets/js/dashboard.js', [], $this->version, true );
 		wp_register_script( 'wpmovielibrary-settings', WPMOLY_URL . 'admin/assets/js/settings.js', [], $this->version, true );
 	}
 
@@ -288,11 +291,45 @@ class Backstage {
 			set_transient( 'wpmovielibrary_dashboard_totals', $totals, MINUTE_IN_SECONDS );
 		}
 
+		// Movie panels data. Deliberately kept out of the totals transient:
+		// these lists have their own lifecycle and are cheap enough to query
+		// on each dashboard load for now.
+		$defaults = [
+			'post_type'      => 'movie',
+			'post_status'    => 'publish',
+			'posts_per_page' => 8,
+			'no_found_rows'  => true,
+			'fields'         => 'ids',
+		];
+
+		$rated = [
+			'meta_key'   => '_wpmoly_movie_rating',
+			'orderby'    => 'meta_value_num',
+			'meta_query' => [
+				[
+					'key'     => '_wpmoly_movie_rating',
+					'compare' => 'EXISTS',
+				],
+			],
+		];
+
+		$recently_added = new \WP_Query( array_merge( $defaults, [
+			'posts_per_page' => 10,
+			'orderby' => 'date',
+			'order'   => 'DESC',
+		] ) );
+
+		$most_rated = new \WP_Query( array_merge( $defaults, $rated, [ 'order' => 'DESC' ] ) );
+		$most_hated = new \WP_Query( array_merge( $defaults, $rated, [ 'order' => 'ASC' ] ) );
+
 		echo $this->template()->render( 'dashboard', [
 			'plugin_page' => 'wpmovielibrary',
 			'hook_suffix' => get_current_screen()->id,
 			'post_type'   => get_current_screen()->post_type ?? '',
 			'totals' => $totals,
+			'recently_added' => $recently_added->posts,
+			'most_rated'     => $most_rated->posts,
+			'most_hated'     => $most_hated->posts,
 		] );
 	}
 

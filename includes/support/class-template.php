@@ -330,6 +330,8 @@ class Template {
 			$source
 		);
 
+		// 7. PHP code blocks
+		$source = preg_replace( '/@php\s*(.+?)\s*@endphp/s', '<?php $1 ?>', $source );
 
 		return $source;
 	}

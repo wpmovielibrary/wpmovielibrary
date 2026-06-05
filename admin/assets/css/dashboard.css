@@ -1,4 +1,165 @@
 
+/* Movie Panels */
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-recently-added-movies .wpmovielibrary-panel-content,
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-most-rated-movies .wpmovielibrary-panel-content,
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-most-hated-movies .wpmovielibrary-panel-content {
+	display: flex;
+	gap: 12px;
+	overflow-x: auto;
+	padding: 12px;
+	position: relative;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-recently-added-movies .wpmovielibrary-panel-content .wpmovielibrary-panel-scroll-indicator,
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-most-rated-movies .wpmovielibrary-panel-content .wpmovielibrary-panel-scroll-indicator,
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-most-hated-movies .wpmovielibrary-panel-content .wpmovielibrary-panel-scroll-indicator {
+	background: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+	content: "";
+	height: 100%;
+	pointer-events: none;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 48px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-recently-added-movies .wpmovielibrary-panel-content .wpmovielibrary-panel-scroll-indicator-left,
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-most-rated-movies .wpmovielibrary-panel-content .wpmovielibrary-panel-scroll-indicator-left,
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-most-hated-movies .wpmovielibrary-panel-content .wpmovielibrary-panel-scroll-indicator-left {
+	background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+	content: "";
+	height: 100%;
+	pointer-events: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 48px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-recently-added-movies .wpmovielibrary-panel-content .wpmovielibrary-panel-scroll-wrapper,
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-most-rated-movies .wpmovielibrary-panel-content .wpmovielibrary-panel-scroll-wrapper,
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-most-hated-movies .wpmovielibrary-panel-content .wpmovielibrary-panel-scroll-wrapper {
+	display: flex;
+	gap: 12px;
+	overflow-x: auto;
+	padding: 8px;
+	position: relative;
+	scrollbar-width: none;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-recently-added-movies .wpmovielibrary-panel-content::after,
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-most-rated-movies .wpmovielibrary-panel-content::after,
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-most-hated-movies .wpmovielibrary-panel-content::after {
+	background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+	content: "";
+	height: 100%;
+	pointer-events: none;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 48px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-scroll-indicator {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	transition: opacity .2s ease, visibility .2s ease;
+	z-index: 1;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-scroll-indicator button {
+	align-items: center;
+	background: #fff;
+	border: 0;
+	border-radius: 50%;
+	color: var(--wpmovielibrary-purple-darker-20);
+	cursor: pointer;
+	display: flex;
+	height: 32px;
+	justify-content: center;
+	opacity: 0;
+	padding: 0;
+	pointer-events: auto;
+	transition: opacity .2s ease;
+	width: 32px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-content:hover .wpmovielibrary-panel-scroll-indicator button {
+	color: var(--wpmovielibrary-purple);
+	opacity: 1;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-content.is-scroll-start .wpmovielibrary-panel-scroll-indicator-left,
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-content.is-scroll-end .wpmovielibrary-panel-scroll-indicator-right {
+	opacity: 0;
+	visibility: hidden;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-content::after {
+	transition: opacity .2s ease;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-content.is-scroll-end::after {
+	opacity: 0;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-panel-empty {
+	color: #666;
+	font-size: 13px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-movie-card {
+	cursor: pointer;
+	border-radius: 4px;
+	display: block;
+	flex-shrink: 0;
+	position: relative;
+	text-decoration: none;
+	width: 128px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-movie-card .wpmovielibrary-movie-card-poster {
+	aspect-ratio: 2 / 3;
+	border-radius: 4px;
+	display: block;
+	height: auto;
+	object-fit: cover;
+	width: 100%;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-movie-card .wpmovielibrary-movie-card-poster.is-placeholder {
+	align-items: center;
+	background: var(--wpmovielibrary-gray);
+	display: flex;
+	justify-content: center;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-movie-card .wpmovielibrary-movie-card-poster.is-placeholder svg {
+	fill: var(--wpmovielibrary-purple-darker-20);
+	height: 32px;
+	opacity: .25;
+	width: 32px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-movie-card:hover .wpmovielibrary-movie-card-poster {
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-movie-card .wpmovielibrary-movie-card-rating {
+	background: rgba(var(--wpmovielibrary-orange--rgb), .85);
+	border-radius: 10px;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1;
+	padding: 4px 8px;
+	position: absolute;
+	right: 6px;
+	top: 6px;
+}
+
 /* Presnetation Widget */
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.library-widget {}
