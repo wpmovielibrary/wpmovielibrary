@@ -1,0 +1,214 @@
+
+/* Settings Sections */
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-settings .wpmovielibrary-settings-section {
+	margin: 10px 0 25px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-settings .wpmovielibrary-settings-section-header {
+	border-bottom: 1px solid rgba(var(--wpmovielibrary-purple--rgb), .25);
+	color: var(--wpmovielibrary-purple-darker-20);
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 1px;
+	padding: 0 0 10px;
+	text-transform: uppercase;
+}
+
+/* Settings Fields */
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-settings .wpmovielibrary-settings-section-fields {
+	display: grid;
+	grid-template-columns: 35% 65%;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-settings .wpmovielibrary-settings-field {
+	display: grid;
+	grid-column: 1 / -1;
+	grid-template-columns: subgrid;
+	padding: 20px 0;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-settings .wpmovielibrary-settings-field + .wpmovielibrary-settings-field {
+	border-top: 1px solid #e5e5e5;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-settings .wpmovielibrary-settings-field-label {
+	padding-right: 25px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-settings .wpmovielibrary-settings-field-label label {
+	color: var(--wpmovielibrary-purple-darker-20);
+	display: block;
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-settings .wpmovielibrary-settings-field-label .description {
+	color: #666;
+	font-size: 12px;
+	margin: 4px 0 0;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-settings .wpmovielibrary-settings-field-input {
+	align-content: start;
+}
+
+/* Searchable Selects */
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select {
+	width: 100%;
+	position: relative;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select.is-enhanced select {
+	display: none;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select .option-flag {
+	flex-shrink: 0;
+	font-size: 16px;
+	line-height: 1;
+	min-width: 20px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select .option-name {
+	flex-grow: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select .option-code {
+	color: #888;
+	font-size: 11px;
+	text-transform: uppercase;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select-toggle {
+	align-items: center;
+	background: #fff;
+	border: 1px solid #949494;
+	color: #2c3338;
+	column-gap: 8px;
+	cursor: pointer;
+	display: flex;
+	font-size: 14px;
+	line-height: 2;
+	max-width: 350px;
+	min-height: 40px;
+	padding: 0 30px 0 8px;
+	position: relative;
+	text-align: left;
+	width: 100%;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select-toggle::after {
+	border: 5px solid transparent;
+	border-top-color: #949494;
+	content: '';
+	height: 0;
+	position: absolute;
+	right: 10px;
+	top: calc(50% - 2px);
+	width: 0;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select-toggle:focus,
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select.is-open .wpmovielibrary-searchable-select-toggle {
+	border-color: var(--wpmovielibrary-purple);
+	box-shadow: 0 0 0 1px var(--wpmovielibrary-purple);
+	outline: none;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select-dropdown {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.125);
+	display: none;
+	font-size: 14px;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: calc(100% + 4px);
+	z-index: 10;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select.is-open .wpmovielibrary-searchable-select-dropdown {
+	display: block;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select-search {
+	border: 0;
+	border-bottom: 1px solid #e5e5e5;
+	border-radius: 4px 4px 0 0;
+	box-shadow: none;
+	box-sizing: border-box;
+	font-size: 14px;
+	line-height: 2;
+	min-height: 30px;
+	padding: 0 8px;
+	width: 100%;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select-search:focus {
+	border-bottom-color: #e5e5e5;
+	box-shadow: none;
+	outline: none;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select-options {
+	margin: 0;
+	max-height: 240px;
+	overflow-y: auto;
+	padding: 4px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select-options li {
+	align-items: center;
+	border-radius: 4px;
+	column-gap: 8px;
+	cursor: pointer;
+	display: flex;
+	margin: 0;
+	padding: 6px 8px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select-options li[aria-selected="true"] {
+	font-weight: 600;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select-options li:hover,
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select-options li.is-active {
+	background: var(--wpmovielibrary-purple-darker-10);
+	color: #fff;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select-options li:hover .option-code,
+.wpmovielibrary-wrapper .wpmovielibrary-searchable-select-options li.is-active .option-code {
+	color: rgba(255, 255, 255, 0.75);
+}
+
+/* Settings Footer */
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-settings .wpmovielibrary-panel-footer {
+	display: flex;
+	justify-content: space-between;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-settings .wpmovielibrary-panel-footer .wpmovielibrary-settings-notices {
+	width: 100%;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-settings .wpmovielibrary-panel-footer .wpmovielibrary-settings-notices .notice {
+	align-items: center;
+	display: flex;
+	margin: 0;
+	height: 40px;
+	padding: 0 12px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-settings .wpmovielibrary-panel-footer .wpmovielibrary-settings-actions {
+	flex-shrink: 0;
+}

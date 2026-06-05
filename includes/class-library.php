@@ -62,6 +62,17 @@ class Library {
 	private ?Backstage $backstage = null;
 
 	/**
+	 * Settings instance.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @var Settings
+	 */
+	private ?Settings $settings = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 6.0.0
@@ -153,8 +164,10 @@ class Library {
 		}
 
 		require_once WPMOLY_PATH . 'admin/class-backstage.php';
+		require_once WPMOLY_PATH . 'includes/class-settings.php';
 
 		$this->backstage = Backstage::get_instance();
+		$this->settings  = Settings::get_instance();
 	}
 
 	/**

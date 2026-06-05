@@ -20,6 +20,48 @@ use function WPMovieLibrary\Support\Helpers\config;
 class Backstage {
 
 	/**
+	 * Primary country associated with each supported language, used to
+	 * derive a flag emoji for language options on the settings page.
+	 *
+	 * Language codes are ISO 639-1, country codes are ISO 3166-1 alpha-2.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @var array
+	 */
+	private const LANGUAGE_COUNTRIES = [
+		'ar' => 'SA',
+		'bg' => 'BG',
+		'cn' => 'HK',
+		'cs' => 'CZ',
+		'da' => 'DK',
+		'de' => 'DE',
+		'el' => 'GR',
+		'en' => 'GB',
+		'es' => 'ES',
+		'fa' => 'IR',
+		'fi' => 'FI',
+		'fr' => 'FR',
+		'he' => 'IL',
+		'hi' => 'IN',
+		'hu' => 'HU',
+		'it' => 'IT',
+		'ja' => 'JP',
+		'ko' => 'KR',
+		'nl' => 'NL',
+		'no' => 'NO',
+		'pl' => 'PL',
+		'pt' => 'PT',
+		'ru' => 'RU',
+		'sv' => 'SE',
+		'tr' => 'TR',
+		'uk' => 'UA',
+		'zh' => 'CN',
+	];
+
+	/**
 	 * Plugin version.
 	 *
 	 * @since 6.0.0
@@ -167,6 +209,10 @@ class Backstage {
 		if ( in_array( $hook_suffix, [ 'toplevel_page_wpmovielibrary', 'library_page_wpmovielibrary' ] ) ) {
 			wp_enqueue_script( 'wpmovielibrary-common' );
 		}
+
+		if ( 'library_page_wpmovielibrary-settings' === $hook_suffix ) {
+			wp_enqueue_script( 'wpmovielibrary-settings' );
+		}
 	}
 
 	/**
@@ -195,6 +241,7 @@ class Backstage {
 	private function register_scripts() {
 
 		wp_register_script( 'wpmovielibrary-common', WPMOLY_URL . 'admin/assets/js/common.js', [], $this->version, true );
+		wp_register_script( 'wpmovielibrary-settings', WPMOLY_URL . 'admin/assets/js/settings.js', [], $this->version, true );
 	}
 
 	/**
@@ -287,11 +334,86 @@ class Backstage {
 	 */
 	public function settings() {
 
+		$settings = Settings::get_instance();
+
+		$tmdb_language = (string) $settings->get( 'tmdb.language', 'en' );
+		$tmdb_country  = (string) $settings->get( 'tmdb.country', 'US' );
+
+		// l10n config is normally reserved for future L10n classes, but is
+		// explicitly authorized here to populate the settings selects.
+		$l10n = (array) config( 'l10n', [] );
+
+		$languages = [];
+		foreach ( (array) ( $l10n['languages']['supported'] ?? [] ) as $code => $name ) {
+			$languages[ $code ] = [
+				'name' => $name,
+				'flag' => $this->flag_emoji( self::LANGUAGE_COUNTRIES[ $code ] ?? '' ),
+			];
+		}
+
+		$countries = [];
+		foreach ( (array) ( $l10n['countries']['supported'] ?? [] ) as $code => $name ) {
+			$countries[ $code ] = [
+				'name' => $name,
+				'flag' => $this->flag_emoji( $code ),
+			];
+		}
+
+		// Preserve previously saved values that fall outside the supported
+		// lists, so re-saving the form doesn't silently change them.
+		if ( '' !== $tmdb_language && ! isset( $languages[ $tmdb_language ] ) ) {
+			$languages[ $tmdb_language ] = [
+				'name' => $tmdb_language,
+				'flag' => '',
+			];
+		}
+		if ( '' !== $tmdb_country && ! isset( $countries[ $tmdb_country ] ) ) {
+			$countries[ $tmdb_country ] = [
+				'name' => $tmdb_country,
+				'flag' => $this->flag_emoji( $tmdb_country ),
+			];
+		}
+
 		echo $this->template()->render( 'settings', [
 			'plugin_page' => 'wpmovielibrary-settings',
 			'hook_suffix' => get_current_screen()->id,
 			'post_type'   => get_current_screen()->post_type ?? '',
+			'tmdb_api_key'  => (string) $settings->get( 'tmdb.api_key', '' ),
+			'tmdb_language' => $tmdb_language,
+			'tmdb_country'  => $tmdb_country,
+			'languages'     => $languages,
+			'countries'     => $countries,
+			'saved'         => ! empty( $_GET['updated'] ),
 		] );
+	}
+
+	/**
+	 * Convert an ISO 3166-1 alpha-2 country code to its flag emoji.
+	 *
+	 * Flag emojis are sequences of Regional Indicator Symbols: each letter
+	 * of the country code maps to a code point in the U+1F1E6–U+1F1FF range.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @param string $country ISO 3166-1 alpha-2 country code, e.g. 'FR'.
+	 *
+	 * @return string Flag emoji, or an empty string for invalid codes.
+	 */
+	private function flag_emoji( string $country ) {
+
+		$country = strtoupper( $country );
+		if ( ! preg_match( '/^[A-Z]{2}$/', $country ) ) {
+			return '';
+		}
+
+		$flag = '';
+		foreach ( str_split( $country ) as $letter ) {
+			$flag .= html_entity_decode( sprintf( '&#x%X;', 0x1F1E6 + ord( $letter ) - ord( 'A' ) ), ENT_NOQUOTES, 'UTF-8' );
+		}
+
+		return $flag;
 	}
 
 	/**
