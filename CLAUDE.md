@@ -46,6 +46,12 @@ includes/
 config/              # Plain-PHP arrays defining post types, taxonomies, meta, statuses, defaults, l10n
 admin/
   class-backstage.php
+  pages/             # Single-action page classes (one per admin page)
+    class-dashboard.php
+    class-settings.php
+    class-importer.php
+  traits/            # Shared traits for admin classes
+    trait-renderable.php
   templates/         # Server-side PHP templates (Blade-inspired engine)
     partials/
   assets/
@@ -149,6 +155,7 @@ Templates use dot or slash notation: `'dashboard'`, `'partials/recently-added-mo
 - Dependencies loaded explicitly via `require_once` in `load_dependencies()`, no autoloader. Heavyweight or feature-specific files may be lazily required at first use (e.g. the template engine is required from `Backstage::template()`) rather than at boot.
 - No static utility methods, no helper functions — logic belongs in dedicated classes
 - **Exception:** `config()` in `includes/support/helpers.php` (namespace `WPMovieLibrary\Support\Helpers`) — a minimal global helper to read config files from `config/`. This is the only permitted procedural helper. Do not add others.
+- **Exception:** admin page classes under `admin/pages/` (`Dashboard`, `Settings`, `Importer`, namespace `WPMovieLibrary\Admin`) follow a **single-action class** pattern, not the singleton pattern. Each one exposes a single public `__invoke()` method that collects the data for its page and renders the matching template; they hold no shared state and are instantiated on demand by `Backstage` (`( new Dashboard )()`), which keeps the WordPress menu callbacks (`Backstage::dashboard()`, `::settings()`, `::importer()`) as thin one-liners. The template-engine wiring shared by all three lives in the `Renderable` trait (`admin/traits/trait-renderable.php`, namespace `WPMovieLibrary\Admin`), which exposes a single `protected render( string $template, array $data = [] ) : void`; each page class does `use Renderable;` and calls `$this->render( ... )`. `Backstage` `require_once`s the trait and the three page files in `load_dependencies()` (trait first). Note the deliberate name collision: `WPMovieLibrary\Admin\Settings` (the settings page) consumes the unrelated business class `WPMovieLibrary\Settings` via the import alias `use WPMovieLibrary\Settings as SettingsManager;`.
 - **Exception:** `Activator` (`includes/support/class-activator.php`, namespace `WPMovieLibrary\Support`) is intentionally a fully-static class, not a singleton. It is registered as a WordPress activation callback (`register_activation_hook( __FILE__, [ 'WPMovieLibrary\Support\Activator', 'activate' ] )`), which requires a stable callable that doesn't depend on the regular plugin bootstrap order — `plugins_loaded` and our `wpmovielibrary/run` action don't fire during the activation request. All other classes must follow the singleton pattern.
 
 ### Namespaces
@@ -157,7 +164,8 @@ The plugin uses four namespaces, each tied to a directory:
 
 | Namespace | Directory | Members |
 |---|---|---|
-| `WPMovieLibrary` | `includes/`, `admin/`, `public/` | `WPMovieLibrary` (main), `Backstage`, `Frontstage` |
+| `WPMovieLibrary` | `includes/`, `admin/`, `public/` | `WPMovieLibrary` (main), `Backstage`, `Frontstage`, `Settings` |
+| `WPMovieLibrary\Admin` | `admin/pages/` | `Dashboard`, `Settings`, `Importer` (single-action page classes) |
 | `WPMovieLibrary\Registrars` | `includes/registrars/` | `Post_Types`, `Post_Statuses`, `Post_Meta`, `Taxonomies`, `Term_Meta` |
 | `WPMovieLibrary\Support` | `includes/support/` | `Activator`, `Template` |
 | `WPMovieLibrary\Support\Helpers` | `includes/support/helpers.php` | `config()` (function, not a class) |

@@ -160,6 +160,70 @@
 	top: 6px;
 }
 
+/* Taxonomy Panels */
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-my-genres .wpmovielibrary-panel-content,
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-my-collections .wpmovielibrary-panel-content,
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-my-actors .wpmovielibrary-panel-content {
+	display: grid;
+	gap: 12px;
+	grid-template-columns: repeat( auto-fill, minmax( 100px, 1fr ) );
+	padding: 12px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card {
+	display: block;
+	text-decoration: none;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card .wpmovielibrary-taxonomy-card-visual {
+	align-items: center;
+	aspect-ratio: 1 / 1;
+	background: var(--wpmovielibrary-gray);
+	border-radius: 4px;
+	color: var(--wpmovielibrary-purple-darker-20);
+	display: flex;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card:hover .wpmovielibrary-taxonomy-card-visual {
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+	color: var(--wpmovielibrary-purple);
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card .wpmovielibrary-taxonomy-card-visual svg {
+	height: 48px;
+	width: 48px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card .wpmovielibrary-taxonomy-card-visual svg.wpmovielibrary-taxonomy-card-letters {
+	height: 100%;
+	width: 100%;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card .wpmovielibrary-taxonomy-card-name {
+	color: var(--wpmovielibrary-purple-darker-20);
+	display: block;
+	font-size: 12px;
+	font-weight: 600;
+	margin-top: 6px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card:hover .wpmovielibrary-taxonomy-card-name {
+	color: var(--wpmovielibrary-purple);
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card .wpmovielibrary-taxonomy-card-count {
+	color: #666;
+	display: block;
+	font-size: 11px;
+	margin-top: 1px;
+}
+
 /* Presnetation Widget */
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.library-widget {}
