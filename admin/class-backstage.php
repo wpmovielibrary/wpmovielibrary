@@ -352,6 +352,12 @@ class Backstage {
 
 	/**
 	 * Get the template engine instance.
+	 * 
+	 * Render an index view injected into a native WordPress list screen
+	 * (e.g. /wp-admin/edit.php?post_type=movie) via the all_admin_notices hook.
+	 * Unlike dashboard/settings/importer, this is not a standalone admin page —
+	 * it overrides an existing WP screen and must stay in Backstage rather than
+	 * admin/pages/.
 	 *
 	 * @since 6.0.0
 	 *

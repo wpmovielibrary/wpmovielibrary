@@ -35,6 +35,11 @@ class Importer {
 			return;
 		}
 
-		$this->render( 'importer', [] );
+		// Only `plugin_page` is needed: the shared layout uses it to flag the
+		// active nav item. `hook_suffix`/`post_type` only drive the Movies tab
+		// highlight and must stay at their empty defaults here.
+		$this->render( 'importer', [
+			'plugin_page' => 'wpmovielibrary-importer',
+		] );
 	}
 }
