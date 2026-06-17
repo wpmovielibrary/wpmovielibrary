@@ -142,6 +142,17 @@ echo $template->render( 'dashboard', [ 'movies' => $movies ] );
 
 Templates use dot or slash notation: `'dashboard'`, `'partials/recently-added-movies'`. Never add `.php` extension manually.
 
+## Dashboard caching
+
+The dashboard uses two distinct transients with different lifecycles:
+
+- **`wpmovielibrary_dashboard_totals`** — cheap aggregate counts (`wp_count_posts`, `wp_count_terms`). Short-lived, **expiry-based** (`MINUTE_IN_SECONDS`). Never manually invalidated; staleness is bounded by the one-minute TTL.
+- **`wpmovielibrary_dashboard_taxonomy_stats`** — expensive per-term aggregation for the taxonomy panels (associated movie count, distinct genre count, average rating). Stored as a flat array indexed by `{taxonomy}_{term_id}`, each entry `[ 'movie_count' => int, 'genre_count' => int|null, 'avg_rating' => float|null ]` (`genre_count` is null for `genre` terms; `avg_rating` is null when no associated movie carries a rating). **Never expires** (`set_transient( …, 0 )`) — it is busted explicitly.
+
+The stats transient is invalidated by static callbacks in `WPMovieLibrary\Admin\Dashboard`, wired by `Dashboard::register_cache_invalidation()`. That method is called once from `Library::rehearsal()` (not the admin-only `background()`) so that REST-driven changes from the block editor and importer — which run outside `is_admin()` — also bust the cache. The callbacks are static, so the page class is never instantiated merely to register the hooks. The three invalidation hooks are `save_post_movie`, `deleted_post` (filtered to the `movie` post type) and `set_object_terms` (filtered to `wpmoly_movie_genre`, `wpmoly_movie_collection`, `wpmoly_movie_actor`).
+
+**Known limitation:** every single mutation drops the whole transient, so bulk imports thrash the cache. This is accepted for now — there is no suspension mechanism, and adding one is explicitly out of scope.
+
 ## PHP code conventions
 
 - PHP 8.x, strict WordPress coding standards

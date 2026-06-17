@@ -148,6 +148,16 @@ class Library {
 		foreach ( $registrars as $registrar ) {
 			$registrar::get_instance();
 		}
+
+		// Register the dashboard taxonomy statistics cache invalidation. Done
+		// here — always, not just in the admin — so movie saves and term changes
+		// performed over the REST API (block editor, importer) bust the cache
+		// too. The callbacks are static, so the page class is never instantiated
+		// just to wire the hooks.
+		require_once WPMOLY_PATH . 'admin/traits/trait-renderable.php';
+		require_once WPMOLY_PATH . 'admin/pages/class-dashboard.php';
+
+		Admin\Dashboard::register_cache_invalidation();
 	}
 
 	/**

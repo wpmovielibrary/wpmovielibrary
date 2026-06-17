@@ -167,34 +167,55 @@
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels #wpmovielibrary-my-actors .wpmovielibrary-panel-content {
 	display: grid;
 	gap: 12px;
-	grid-template-columns: repeat( auto-fill, minmax( 100px, 1fr ) );
+	grid-template-columns: repeat( auto-fill, minmax( 180px, 1fr ) );
+	max-height: 16rem;
+	overflow: auto;
 	padding: 12px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card {
-	display: block;
+	align-items: center;
+	background: var(--wpmovielibrary-gray);
+	border-radius: 4px;
+	display: flex;
+	gap: 12px;
+	line-height: 1;
+	padding: 6px;
 	text-decoration: none;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card > *,
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card:hover > * {
+	transition-property: border,background,color;
+	transition-duration: .05s;
+	transition-timing-function: ease-in-out;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card:hover {
+	background: var(--wpmovielibrary-purple);
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card .wpmovielibrary-taxonomy-card-visual {
 	align-items: center;
-	aspect-ratio: 1 / 1;
-	background: var(--wpmovielibrary-gray);
+	color: var(--wpmovielibrary-gray);
 	border-radius: 4px;
-	color: var(--wpmovielibrary-purple-darker-20);
+	background-color: var(--wpmovielibrary-purple);
 	display: flex;
+	flex-shrink: 0;
+	height: 56px;
 	justify-content: center;
 	overflow: hidden;
+	width: 56px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card:hover .wpmovielibrary-taxonomy-card-visual {
-	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-	color: var(--wpmovielibrary-purple);
+	background-color: var(--wpmovielibrary-purple-darker-20);
+	color: #fff;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card .wpmovielibrary-taxonomy-card-visual svg {
-	height: 48px;
-	width: 48px;
+	height: 32px;
+	width: 32px;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card .wpmovielibrary-taxonomy-card-visual svg.wpmovielibrary-taxonomy-card-letters {
@@ -202,29 +223,51 @@
 	width: 100%;
 }
 
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card .wpmovielibrary-taxonomy-card-body {
+	flex: 1;
+	min-width: 0;
+}
+
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card .wpmovielibrary-taxonomy-card-name {
-	color: var(--wpmovielibrary-purple-darker-20);
+	color: var(--wpmovielibrary-purple-darker-10);
 	display: block;
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: 600;
-	margin-top: 6px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card:hover .wpmovielibrary-taxonomy-card-name {
-	color: var(--wpmovielibrary-purple);
+	color: #fff;
 }
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card .wpmovielibrary-taxonomy-card-count {
 	color: #666;
 	display: block;
 	font-size: 11px;
-	margin-top: 1px;
+	margin-top: 6px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
-/* Presnetation Widget */
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card:hover .wpmovielibrary-taxonomy-card-count {
+	color: #fff;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card .wpmovielibrary-taxonomy-card-rating {
+	color: #888;
+	display: block;
+	font-size: 11px;
+	margin-top: 4px;
+}
+
+.wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-panels .wpmovielibrary-taxonomy-card:hover .wpmovielibrary-taxonomy-card-rating {
+	color: #fff;
+}
+
+/* Presentation Widget */
 
 .wpmovielibrary-wrapper .wpmovielibrary-content .wpmovielibrary-sidebar .wpmovielibrary-widget.library-widget {}
 
