@@ -41,6 +41,27 @@ class Dashboard {
 	private static string $stats_transient = 'wpmovielibrary_dashboard_taxonomy_stats';
 
 	/**
+	 * Progress bar shades.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @static
+	 * @access private
+	 *
+	 * @var string[]
+	 */
+	private static array $bar_shades = [
+		'#c9b8dd',
+		'#bea2d5',
+		'#b38ccc',
+		'#a876c4',
+		'#9c61bb',
+		'#914bb3',
+		'#8635aa',
+		'#7b1fa2',
+	];
+
+	/**
 	 * Render the dashboard page.
 	 *
 	 * @since 6.0.0
@@ -78,13 +99,20 @@ class Dashboard {
 			'fields'         => 'ids',
 		];
 
+		// Only genuinely rated movies take part in the best/worst rankings. A
+		// stored 0.0 is the "not rated" sentinel — not a score of zero — and an
+		// empty meta value casts to 0 as well, so a single numeric `> 0` clause
+		// rules out both. Without it the "Most Hated" panel, which sorts
+		// ascending, would be filled with unrated movies.
 		$rated = [
 			'meta_key'   => '_wpmoly_movie_rating',
 			'orderby'    => 'meta_value_num',
 			'meta_query' => [
 				[
 					'key'     => '_wpmoly_movie_rating',
-					'compare' => 'EXISTS',
+					'value'   => 0,
+					'compare' => '>',
+					'type'    => 'NUMERIC',
 				],
 			],
 		];
@@ -99,7 +127,8 @@ class Dashboard {
 		$most_hated = new \WP_Query( array_merge( $defaults, $rated, [ 'order' => 'ASC' ] ) );
 
 		// Taxonomy panels data. Terms have their own API — no WP_Query here.
-		$top_terms = [];
+		$top_terms  = [];
+		$max_counts = [];
 		foreach ( [ 'genre', 'collection', 'actor' ] as $taxonomy ) {
 			$terms = get_terms( [
 				'taxonomy'   => "wpmoly_movie_{$taxonomy}",
@@ -109,6 +138,10 @@ class Dashboard {
 				'hide_empty' => true,
 			] );
 			$top_terms[ $taxonomy ] = is_wp_error( $terms ) ? [] : $terms;
+
+			// Terms come back ordered by descending count, so the leader — the
+			// reference the progress bars are scaled against — is the first one.
+			$max_counts[ $taxonomy ] = empty( $top_terms[ $taxonomy ] ) ? 0 : (int) $top_terms[ $taxonomy ][0]->count;
 		}
 
 		$taxonomy_stats = $this->get_taxonomy_stats( array_merge(
@@ -116,6 +149,13 @@ class Dashboard {
 			$top_terms['collection'],
 			$top_terms['actor']
 		) );
+
+		// Bar colors, flattened into a single map: term IDs are unique across
+		// taxonomies, so one array indexed by term ID serves the three panels.
+		$term_colors = [];
+		foreach ( $top_terms as $taxonomy => $terms ) {
+			$term_colors += $this->get_term_colors( $terms, $max_counts[ $taxonomy ] );
+		}
 
 		$genre_icons = require_once WPMOLY_PATH . 'admin/includes/genre-icons.php';
 
@@ -130,9 +170,45 @@ class Dashboard {
 			'top_genres'      => $top_terms['genre'],
 			'top_collections' => $top_terms['collection'],
 			'top_actors'      => $top_terms['actor'],
+			'max_genre_count'      => $max_counts['genre'],
+			'max_collection_count' => $max_counts['collection'],
+			'max_actor_count'      => $max_counts['actor'],
+			// Library-wide term counts, reused from the totals transient rather
+			// than counted again: they are the very same wp_count_terms() calls.
+			'total_genres'      => $totals['genres'],
+			'total_collections' => $totals['collections'],
+			'total_actors'      => $totals['actors'],
 			'taxonomy_stats'  => $taxonomy_stats,
+			'term_colors'     => $term_colors,
 			'genre_icons'     => $genre_icons,
 		] );
+	}
+
+	/**
+	 * Map taxonomy terms to progress bar color.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @param \WP_Term[] $terms     Terms to pick a color for.
+	 * @param int        $max_count Count of the leading term of the ranking.
+	 *
+	 * @return array<int,string> Hexadecimal colors indexed by term ID.
+	 */
+	private function get_term_colors( array $terms, int $max_count ) : array {
+
+		$last   = count( self::$bar_shades ) - 1;
+		$colors = [];
+
+		foreach ( $terms as $term ) {
+			$ratio = 0 < $max_count ? (int) $term->count / $max_count : 1.0;
+			$index = (int) round( $ratio * $last );
+
+			$colors[ $term->term_id ] = self::$bar_shades[ max( 0, min( $last, $index ) ) ];
+		}
+
+		return $colors;
 	}
 
 	/**

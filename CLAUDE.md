@@ -153,6 +153,25 @@ The stats transient is invalidated by static callbacks in `WPMovieLibrary\Admin\
 
 **Known limitation:** every single mutation drops the whole transient, so bulk imports thrash the cache. This is accepted for now — there is no suspension mechanism, and adding one is explicitly out of scope.
 
+## Dashboard taxonomy panels
+
+The three taxonomy panels (`partials/my-collections`, `partials/my-genres`, `partials/my-actors`) render a scrollable leaderboard. Each panel is a `wpmovielibrary-panel wpmovielibrary-panel-leaderboard`, iterates its top terms into the shared `partials/taxonomy-row` partial, and closes with a `wpmovielibrary-panel-footer` holding a single "View all *n* …" link to `edit-tags.php?taxonomy=wpmoly_movie_{taxonomy}&post_type=movie`.
+
+`partials/taxonomy-row` `@props`: `term`, `rank`, `visual` (raw HTML), `variant`, `movie_count`, `genre_count`, `avg_rating`, `bar_width` (integer percentage), `bar_color` (hex).
+
+`variant` selects one of the two visual treatments, rendered as `is-{variant}` on the visual element:
+
+- `portrait` — hatched disc, a stand-in for the TMDb photo the plugin does not download yet. Used for the taxonomies denoting people: collections (monospace initials, `wpmovielibrary-taxonomy-row-initials`) and actors (a shared silhouette SVG). The hatch is shared by every row — there is deliberately no per-term color.
+- `icon` — solid purple rounded tile holding a monochrome glyph from `admin/includes/genre-icons.php`. Used for genres.
+
+Template variables provided by `Admin\Dashboard` on top of `top_{genres,collections,actors}`, `taxonomy_stats` and `genre_icons`:
+
+- `max_genre_count`, `max_collection_count`, `max_actor_count` — count of the leading term of each ranking. The templates derive each bar width from it as `round( $term->count / $max * 100 )`.
+- `total_genres`, `total_collections`, `total_actors` — library-wide `wp_count_terms()` results for the footer links, reused from the `wpmovielibrary_dashboard_totals` transient rather than counted again.
+- `term_colors` — bar fill color indexed by **term ID** (unique across taxonomies, hence a single flat map for the three panels). Computed by `Dashboard::get_term_colors()`, which places each term on the eight-step `Dashboard::$bar_shades` ramp (`#c9b8dd` → `#7b1fa2`, interpolated linearly in RGB) by the same count ratio that drives the bar width.
+
+Bar width and color are the only per-term values that cannot live in `dashboard.css`. They are passed as the `--wpmovielibrary-bar-width` / `--wpmovielibrary-bar-color` custom properties on the row element; every actual style rule stays in the stylesheet. Do not add other inline styles to the templates.
+
 ## PHP code conventions
 
 - PHP 8.x, strict WordPress coding standards

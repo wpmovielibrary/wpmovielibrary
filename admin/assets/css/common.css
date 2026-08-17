@@ -16,6 +16,12 @@
 	--wpmovielibrary-purple-darker-10--rgb: 111, 62, 143;
 	--wpmovielibrary-purple-darker-20: #4d3060;
 	--wpmovielibrary-purple-darker-20--rgb: 77, 48, 96;
+	--wpmovielibrary-purple-lighter-10: #c9b8dd;
+	--wpmovielibrary-purple-lighter-10--rgb: 201, 184, 221;
+	--wpmovielibrary-purple-lighter-20: #f0ebf6;
+	--wpmovielibrary-purple-lighter-20--rgb: 240, 235, 246;
+	--wpmovielibrary-purple-lighter-30: #faf7fd;
+	--wpmovielibrary-purple-lighter-30--rgb: 250, 247, 253;
 }
 
 [x-cloak] {
